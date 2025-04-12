@@ -486,7 +486,7 @@ private fun HTML.showCharacterEditor(
             method = FormMethod.post
             selectName(state, character)
             selectElement(state, "Race", RACE, state.sortRaces(races), character.race, true)
-            selectOneOf("Gender", GENDER, race.genders, character.gender)
+            selectFromOneOf("Gender", GENDER, race.genders, character.gender)
             selectOrigin(state, character, race)
             selectVitalStatus(state, character)
             showAge(state, character, race)

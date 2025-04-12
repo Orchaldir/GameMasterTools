@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectOneOf
+import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
@@ -45,11 +45,11 @@ fun FORM.editHead(
 private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
     h2 { +"Ears" }
 
-    selectOneOf("Type", combine(EAR, TYPE), raceAppearance.earsLayout, ears.getType(), true)
+    selectFromOneOf("Type", combine(EAR, TYPE), raceAppearance.earsLayout, ears.getType(), true)
 
     when (ears) {
         is NormalEars -> {
-            selectOneOf("Ear Shape", combine(EAR, SHAPE), raceAppearance.earShapes, ears.shape, true)
+            selectFromOneOf("Ear Shape", combine(EAR, SHAPE), raceAppearance.earShapes, ears.shape, true)
             selectValue("Ear Size", combine(EAR, SIZE), Size.entries, ears.size, true)
         }
 
@@ -64,7 +64,7 @@ private fun FORM.editBeard(
 ) {
     h2 { +"Beard" }
 
-    selectOneOf("Type", BEARD, raceAppearance.hair.beardTypes, beard.getType(), true)
+    selectFromOneOf("Type", BEARD, raceAppearance.hair.beardTypes, beard.getType(), true)
 
     when (beard) {
         NoBeard -> doNothing()
@@ -77,7 +77,7 @@ private fun FORM.editNormalBeard(
     culture: Culture,
     beard: NormalBeard,
 ) {
-    selectOneOf(
+    selectFromOneOf(
         "Style",
         combine(BEARD, STYLE),
         culture.appearanceStyle.beardStyles,
@@ -102,14 +102,14 @@ private fun HtmlBlockTag.selectGoateeStyle(
     culture: Culture,
     current: GoateeStyle,
 ) {
-    selectOneOf("Goatee", GOATEE_STYLE, culture.appearanceStyle.goateeStyles, current, true)
+    selectFromOneOf("Goatee", GOATEE_STYLE, culture.appearanceStyle.goateeStyles, current, true)
 }
 
 private fun HtmlBlockTag.selectMoustacheStyle(
     culture: Culture,
     current: MoustacheStyle,
 ) {
-    selectOneOf("Moustache", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles, current, true)
+    selectFromOneOf("Moustache", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles, current, true)
 }
 
 private fun FORM.editEyes(
@@ -118,7 +118,7 @@ private fun FORM.editEyes(
 ) {
     h2 { +"Eyes" }
 
-    selectOneOf("Layout", combine(EYE, LAYOUT), raceAppearance.eyesLayout, eyes.getType(), true)
+    selectFromOneOf("Layout", combine(EYE, LAYOUT), raceAppearance.eyesLayout, eyes.getType(), true)
 
     when (eyes) {
         is OneEye -> {
@@ -138,13 +138,13 @@ private fun FORM.editEye(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
-    selectOneOf("Eye Type", combine(EYE, TYPE), eyeOptions.eyeTypes, eye.getType(), true)
+    selectFromOneOf("Eye Type", combine(EYE, TYPE), eyeOptions.eyeTypes, eye.getType(), true)
 
     when (eye) {
         is NormalEye -> editNormalEye(eyeOptions, eye)
 
         is SimpleEye -> {
-            selectOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
+            selectFromOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
                 label = shape.name
                 value = shape.toString()
             }
@@ -158,8 +158,8 @@ fun HtmlBlockTag.editNormalEye(
     eye: NormalEye,
 ) {
     showDetails("Eye", true) {
-        selectOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true)
-        selectOneOf("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, eye.pupilShape, true)
+        selectFromOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true)
+        selectFromOneOf("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, eye.pupilShape, true)
         selectColor("Eye Color", combine(PUPIL, COLOR), eyeOptions.eyeColors, eye.pupilColor)
         selectColor("Sclera Color", combine(PUPIL, SCLERA), eyeOptions.scleraColors, eye.scleraColor)
     }
@@ -172,7 +172,7 @@ private fun FORM.editHair(
 ) {
     h2 { +"Hair" }
 
-    selectOneOf("Type", HAIR, raceAppearance.hair.hairTypes, hair.getType(), true)
+    selectFromOneOf("Type", HAIR, raceAppearance.hair.hairTypes, hair.getType(), true)
 
     when (hair) {
         NoHair -> doNothing()
@@ -185,7 +185,7 @@ private fun FORM.editNormalHair(
     culture: Culture,
     hair: NormalHair,
 ) {
-    selectOneOf(
+    selectFromOneOf(
         "Haircut",
         combine(HAIR, STYLE),
         culture.appearanceStyle.hairStyles,
@@ -196,7 +196,7 @@ private fun FORM.editNormalHair(
 
     when (hair.cut) {
         is Bun -> {
-            selectOneOf(
+            selectFromOneOf(
                 "Bun Style",
                 combine(BUN, STYLE),
                 culture.appearanceStyle.bunStyles,
@@ -207,7 +207,7 @@ private fun FORM.editNormalHair(
         }
 
         is LongHairCut -> {
-            selectOneOf(
+            selectFromOneOf(
                 "Long Hair Style",
                 combine(LONG, STYLE),
                 culture.appearanceStyle.longHairStyles,
@@ -218,14 +218,14 @@ private fun FORM.editNormalHair(
         }
 
         is Ponytail -> {
-            selectOneOf(
+            selectFromOneOf(
                 "Ponytail Style",
                 combine(PONYTAIL, STYLE),
                 culture.appearanceStyle.ponytailStyles,
                 hair.cut.style,
                 true,
             )
-            selectOneOf(
+            selectFromOneOf(
                 "Ponytail Position",
                 combine(PONYTAIL, POSITION),
                 culture.appearanceStyle.ponytailPositions,
@@ -235,7 +235,7 @@ private fun FORM.editNormalHair(
             selectHairLength(culture, hair.cut.length)
         }
 
-        is ShortHairCut -> selectOneOf(
+        is ShortHairCut -> selectFromOneOf(
             "Short Hair Style",
             combine(SHORT, STYLE),
             culture.appearanceStyle.shortHairStyles,
@@ -249,7 +249,7 @@ private fun FORM.selectHairLength(
     culture: Culture,
     length: HairLength,
 ) {
-    selectOneOf(
+    selectFromOneOf(
         "Length",
         combine(HAIR, LENGTH),
         culture.appearanceStyle.hairLengths,
@@ -266,7 +266,7 @@ private fun FORM.editMouth(
     h2 { +"Mouth" }
     val mouthOptions = raceAppearance.mouth
 
-    selectOneOf("Type", combine(MOUTH, TYPE), mouthOptions.mouthTypes, mouth.getType(), true)
+    selectFromOneOf("Type", combine(MOUTH, TYPE), mouthOptions.mouthTypes, mouth.getType(), true)
 
     when (mouth) {
         NoMouth -> doNothing()
@@ -282,13 +282,13 @@ private fun FORM.editMouth(
         }
 
         is Beak -> {
-            selectOneOf("Beak Shape", combine(BEAK, SHAPE), mouthOptions.beakShapes, mouth.shape, true)
-            selectOneOf("Beak Color", combine(BEAK, COLOR), mouthOptions.beakColors, mouth.color, true)
+            selectFromOneOf("Beak Shape", combine(BEAK, SHAPE), mouthOptions.beakShapes, mouth.shape, true)
+            selectFromOneOf("Beak Color", combine(BEAK, COLOR), mouthOptions.beakColors, mouth.color, true)
         }
 
         is Snout -> {
-            selectOneOf("Snout Shape", combine(SNOUT, SHAPE), mouthOptions.snoutShapes, mouth.shape, true)
-            selectOneOf("Snout Color", combine(SNOUT, COLOR), mouthOptions.snoutColors, mouth.color, true)
+            selectFromOneOf("Snout Shape", combine(SNOUT, SHAPE), mouthOptions.snoutShapes, mouth.shape, true)
+            selectFromOneOf("Snout Color", combine(SNOUT, COLOR), mouthOptions.snoutColors, mouth.color, true)
         }
     }
 }

@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectOneOf
+import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -42,7 +42,7 @@ fun FORM.editAppearance(
     character: Character,
     culture: Culture,
 ) {
-    selectOneOf(
+    selectFromOneOf(
         "Appearance Type",
         APPEARANCE,
         raceAppearance.appearanceTypes,
@@ -94,12 +94,12 @@ private fun FORM.editBody(
 private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
     h2 { +"Feet" }
 
-    selectOneOf("Type", FOOT, footOptions.footTypes, foot.getType(), true)
+    selectFromOneOf("Type", FOOT, footOptions.footTypes, foot.getType(), true)
 
     when (foot) {
         is ClawedFoot -> {
-            selectOneOf("Claw Size", combine(FOOT, CLAWS, SIZE), footOptions.clawSizes, foot.size, true)
-            selectOneOf("Claw Color", combine(FOOT, CLAWS, COLOR), footOptions.clawColors, foot.color, true)
+            selectFromOneOf("Claw Size", combine(FOOT, CLAWS, SIZE), footOptions.clawSizes, foot.size, true)
+            selectFromOneOf("Claw Color", combine(FOOT, CLAWS, COLOR), footOptions.clawColors, foot.color, true)
         }
 
         else -> doNothing()
@@ -115,14 +115,14 @@ private fun FORM.editTails(
 
     h2 { +"Tails" }
 
-    selectOneOf("Layout", combine(TAIL, LAYOUT), options.layouts, tails.getType(), true)
+    selectFromOneOf("Layout", combine(TAIL, LAYOUT), options.layouts, tails.getType(), true)
 
     when (tails) {
         NoTails -> doNothing()
         is SimpleTail -> {
             val colorOptions = options.getFeatureColorOptions(tails.shape)
 
-            selectOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
+            selectFromOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
             selectValue("Size", combine(TAIL, SIZE), Size.entries, tails.size, true)
             selectFeatureColor(state, colorOptions, tails.color, TAIL)
         }
@@ -137,7 +137,7 @@ private fun FORM.editWings(
 
     h2 { +"Wings" }
 
-    selectOneOf("Layout", combine(WING, LAYOUT), wingOptions.layouts, wings.getType(), true)
+    selectFromOneOf("Layout", combine(WING, LAYOUT), wingOptions.layouts, wings.getType(), true)
 
     when (wings) {
         NoWings -> doNothing()
@@ -173,7 +173,7 @@ private fun FORM.selectWingType(
     currentType: WingType,
     param: String,
 ) {
-    selectOneOf("Type", param, wingOptions.types, currentType, true)
+    selectFromOneOf("Type", param, wingOptions.types, currentType, true)
 }
 
 // parse

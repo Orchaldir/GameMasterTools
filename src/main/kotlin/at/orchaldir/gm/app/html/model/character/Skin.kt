@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.model.item.editColorItemPart
 import at.orchaldir.gm.app.html.model.item.parseColorItemPart
 import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectOneOf
+import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
@@ -52,7 +52,7 @@ private fun HtmlBlockTag.editSkinInternal(
     skin: Skin,
     param: String,
 ) {
-    selectOneOf("Type", combine(param, TYPE), options.skinTypes, skin.getType(), true)
+    selectFromOneOf("Type", combine(param, TYPE), options.skinTypes, skin.getType(), true)
 
     when (skin) {
         is ExoticSkin -> selectColor(
@@ -67,7 +67,7 @@ private fun HtmlBlockTag.editSkinInternal(
         is MaterialSkin -> editColorItemPart(state, skin.material, param)
 
         is NormalSkin -> {
-            selectOneOf(
+            selectFromOneOf(
                 "Color",
                 combine(param, COLOR),
                 options.normalColors,

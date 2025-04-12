@@ -37,7 +37,7 @@ fun HtmlBlockTag.selectColor(
     rarityMap: OneOf<Color>,
     current: Color,
 ) {
-    selectOneOf(labelText, selectId, rarityMap, current, true) { c ->
+    selectFromOneOf(labelText, selectId, rarityMap, current, true) { c ->
         label = c.name
         value = c.toString()
         style = "background-color:$c"
