@@ -16,7 +16,6 @@ import kotlinx.html.*
 
 // show
 
-
 fun HtmlBlockTag.showAppearanceStyle(style: AppearanceStyle) {
     h2 { +"Appearance" }
 
@@ -25,8 +24,14 @@ fun HtmlBlockTag.showAppearanceStyle(style: AppearanceStyle) {
     h3 { +"Beard" }
 
     showRarityMap("Beard Styles", style.beardStyles)
-    showRarityMap("Goatee Styles", style.goateeStyles)
-    showRarityMap("Moustache Styles", style.moustacheStyles)
+
+    if (style.hasGoatee()) {
+        showRarityMap("Goatee Styles", style.goateeStyles)
+    }
+
+    if (style.hasMoustache()) {
+        showRarityMap("Moustache Styles", style.moustacheStyles)
+    }
 
     h3 { +"Hair" }
 
@@ -49,8 +54,14 @@ fun HtmlBlockTag.editAppearanceOptions(style: AppearanceStyle) {
     h3 { +"Beard" }
 
     selectRarityMap("Beard Styles", combine(BEARD, STYLE), style.beardStyles)
-    selectRarityMap("Goatee Styles", GOATEE_STYLE, style.goateeStyles)
-    selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, style.moustacheStyles)
+
+    if (style.hasGoatee()) {
+        selectRarityMap("Goatee Styles", GOATEE_STYLE, style.goateeStyles)
+    }
+
+    if (style.hasMoustache()) {
+        selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, style.moustacheStyles)
+    }
 
     h3 { +"Hair" }
 

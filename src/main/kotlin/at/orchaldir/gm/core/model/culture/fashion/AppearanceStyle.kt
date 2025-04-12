@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.culture.fashion
 
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
+import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType.*
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.*
@@ -21,4 +22,12 @@ data class AppearanceStyle(
     val shortHairStyles: OneOf<ShortHairStyle> = OneOf(ShortHairStyle.entries),
     val hairLengths: OneOf<HairLength> = OneOf(HairLength.entries),
     val lipColors: OneOf<Color> = OneOf(Color.Black),
-)
+) {
+
+    fun hasMoustache() =
+        beardStyles.contains(Moustache) || beardStyles.contains(GoateeAndMoustache)
+
+    fun hasGoatee() =
+        beardStyles.contains(Goatee) || beardStyles.contains(GoateeAndMoustache)
+
+}
