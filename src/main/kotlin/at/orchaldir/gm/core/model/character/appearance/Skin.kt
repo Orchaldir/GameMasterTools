@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.character.appearance
 
 import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -47,7 +48,7 @@ data class Fur(val color: Color = Color.SaddleBrown) : Skin()
 
 @Serializable
 @SerialName("Material")
-data class MaterialSkin(val material: ColorItemPart) : Skin()
+data class MaterialSkin(val material: MaterialId) : Skin()
 
 @Serializable
 @SerialName("Normal")

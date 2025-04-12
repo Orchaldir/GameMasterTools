@@ -184,6 +184,22 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
     }
 }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectFromOneOf(
+    text: String,
+    selectId: String,
+    storage: Storage<ID, ELEMENT>,
+    values: OneOf<ID>,
+    current: ID,
+    update: Boolean = false,
+    getName: (ELEMENT) -> String,
+) {
+    selectFromOneOf(text, selectId, values, current, update) { id ->
+        val element = storage.getOrThrow(id)
+        label = getName(element)
+        value = id.value().toString()
+    }
+}
+
 fun <T> HtmlBlockTag.selectFromOneOf(
     label: String,
     selectId: String,
@@ -244,24 +260,6 @@ fun <T> HtmlBlockTag.selectFromOneOrNone(
                         }
                     }
                 }
-        }
-    }
-}
-
-fun <T> HtmlBlockTag.selectRarityMapWithNull(
-    enum: String,
-    selectId: String,
-    rarityMap: RarityMap<T?>,
-    values: Set<T>,
-    update: Boolean = false,
-) {
-    showDetails(enum, true) {
-        showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
-            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
-                label = rarity.toString()
-                value = "$currentValue-$rarity"
-                selected = rarity == currentRarity
-            }
         }
     }
 }

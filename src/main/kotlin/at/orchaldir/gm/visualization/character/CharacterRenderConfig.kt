@@ -34,7 +34,11 @@ data class CharacterRenderConfig(
         when (skin) {
             is ExoticSkin -> skin.color.toRender()
             is Fur -> skin.color.toRender()
-            is MaterialSkin -> skin.material.getColor(state).toRender()
+            is MaterialSkin -> state
+                .getMaterialStorage()
+                .getOrThrow(skin.material)
+                .color
+                .toRender()
             is NormalSkin -> skinColors[skin.color] ?: Color.Purple.toRender()
             is Scales -> skin.color.toRender()
         },

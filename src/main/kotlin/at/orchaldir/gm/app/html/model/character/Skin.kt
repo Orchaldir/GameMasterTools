@@ -1,11 +1,9 @@
 package at.orchaldir.gm.app.html.model.character
 
-import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.app.EXOTIC
-import at.orchaldir.gm.app.SKIN
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.item.editColorItemPart
 import at.orchaldir.gm.app.html.model.item.parseColorItemPart
+import at.orchaldir.gm.app.html.model.parseMaterialId
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.showDetails
@@ -64,7 +62,14 @@ private fun HtmlBlockTag.editSkinInternal(
 
         is Fur -> selectColor("Color", combine(param, EXOTIC, COLOR), options.furColors, skin.color)
 
-        is MaterialSkin -> editColorItemPart(state, skin.material, param)
+        is MaterialSkin -> selectFromOneOf(
+            "Material",
+            combine(param, MATERIAL),
+            state.getMaterialStorage(),
+            options.materials,
+            skin.material,
+            true
+        ) { material -> material.name }
 
         is NormalSkin -> {
             selectFromOneOf(
@@ -109,7 +114,7 @@ fun parseSkin(
             return Fur(parseExoticColor(parameters, config, options.furColors, param))
         }
 
-        SkinType.Material.toString() -> MaterialSkin(parseColorItemPart(parameters, param))
+        SkinType.Material.toString() -> MaterialSkin(parseMaterialId(parameters, combine(param, MATERIAL)))
 
         SkinType.Normal.toString() -> {
             val color = parseAppearanceOption(parameters, combine(param, COLOR), config, options.normalColors)

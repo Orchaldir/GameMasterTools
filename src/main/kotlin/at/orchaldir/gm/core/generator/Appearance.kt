@@ -260,13 +260,7 @@ fun generateSkin(config: AppearanceGeneratorConfig) = generateSkin(config, confi
 fun generateSkin(config: AppearanceGeneratorConfig, options: SkinOptions) = when (config.generate(options.skinTypes)) {
     SkinType.Exotic -> ExoticSkin(config.generate(options.exoticColors))
     SkinType.Fur -> Fur(config.generate(options.furColors))
-    SkinType.Material -> MaterialSkin(
-        ColorItemPart(
-            config.generate(options.materialIds),
-            config.generate(options.materialColors),
-        )
-    )
-
+    SkinType.Material -> MaterialSkin(config.generate(options.materials))
     SkinType.Normal -> NormalSkin(config.generate(options.normalColors))
     SkinType.Scales -> Scales(config.generate(options.scalesColors))
 }
