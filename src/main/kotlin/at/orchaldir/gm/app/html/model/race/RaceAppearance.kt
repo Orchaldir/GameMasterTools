@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.model.item.editColorItemPart
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.parseMaterialId
 import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
@@ -25,6 +26,7 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
+import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -243,6 +245,7 @@ private fun HtmlBlockTag.showWings(appearance: RaceAppearance) {
 // edit
 
 fun FORM.editRaceAppearance(
+    state: State,
     appearance: RaceAppearance,
     eyeOptions: EyeOptions,
 ) {
@@ -252,10 +255,10 @@ fun FORM.editRaceAppearance(
     editEyes(appearance, eyeOptions)
     editFeet(appearance)
     editHair(appearance)
-    editHorns(appearance)
+    editHorns(state, appearance)
     editMouth(appearance.mouth)
-    editSkin(appearance)
-    editTails(appearance)
+    editSkin(state, appearance)
+    editTails(state, appearance)
     editWings(appearance)
 }
 
@@ -320,7 +323,7 @@ private fun FORM.editHair(appearance: RaceAppearance) {
     }
 }
 
-private fun FORM.editHorns(appearance: RaceAppearance) {
+private fun FORM.editHorns(state: State, appearance: RaceAppearance) {
     h3 { +"Horns" }
 
     val options = appearance.horn
@@ -346,7 +349,7 @@ private fun FORM.editHorns(appearance: RaceAppearance) {
     }
 
     if (requiresNormalHorns || requiresCrown) {
-        editFeatureColor(options.colors, appearance.hair, combine(HORN, COLOR))
+        editFeatureColor(state, options.colors, appearance.hair, combine(HORN, COLOR))
     }
 }
 
@@ -367,13 +370,13 @@ private fun FORM.editMouth(mouthOptions: MouthOptions) {
     }
 }
 
-private fun FORM.editSkin(appearance: RaceAppearance) {
+private fun FORM.editSkin(state: State, appearance: RaceAppearance) {
     h3 { +"Skin" }
 
-    editSkinInternal(appearance.skin, SKIN)
+    editSkinInternal(state, appearance.skin, SKIN)
 }
 
-private fun HtmlBlockTag.editSkinInternal(options: SkinOptions, param: String) {
+private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, param: String) {
     selectRarityMap("Type", combine(param, TYPE), options.skinTypes, true)
 
     if (options.skinTypes.isAvailable(SkinType.Exotic)) {
@@ -390,7 +393,14 @@ private fun HtmlBlockTag.editSkinInternal(options: SkinOptions, param: String) {
     }
 
     if (options.skinTypes.isAvailable(SkinType.Material)) {
-        TODO()
+        selectRarityMap("Material Colors", combine(param, MATERIAL, COLOR), options.materialColors, true)
+        selectRarityMap(
+            "Material Ids",
+            combine(param, MATERIAL),
+            state.getMaterialStorage(),
+            options.materialIds,
+            true,
+        ) { element -> element.name }
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
@@ -407,7 +417,7 @@ private fun HtmlBlockTag.editSkinInternal(options: SkinOptions, param: String) {
     }
 }
 
-private fun FORM.editTails(appearance: RaceAppearance) {
+private fun FORM.editTails(state: State, appearance: RaceAppearance) {
     h3 { +"Tails" }
 
     val options = appearance.tail
@@ -419,13 +429,14 @@ private fun FORM.editTails(appearance: RaceAppearance) {
 
         options.simpleOptions.forEach { (shape, simpleOptions) ->
             showDetails("$shape Tail", true) {
-                editFeatureColor(simpleOptions, appearance.hair, combine(TAIL, shape.name))
+                editFeatureColor(state, simpleOptions, appearance.hair, combine(TAIL, shape.name))
             }
         }
     }
 }
 
 private fun HtmlBlockTag.editFeatureColor(
+    state: State,
     options: FeatureColorOptions,
     hairOptions: HairOptions,
     param: String,
@@ -444,7 +455,7 @@ private fun HtmlBlockTag.editFeatureColor(
 
     if (options.types == FeatureColorType.Overwrite) {
         showDetails("Skin", true) {
-            editSkinInternal(options.skin, param)
+            editSkinInternal(state, options.skin, param)
         }
     }
 }

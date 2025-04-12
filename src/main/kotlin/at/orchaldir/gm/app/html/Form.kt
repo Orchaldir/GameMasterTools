@@ -284,7 +284,7 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectRarityMap(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,
     storage: Storage<ID, ELEMENT>,
@@ -295,7 +295,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
     selectRarityMap(enum, selectId, storage, storage.getIds(), rarityMap, update, getName)
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,
     storage: Storage<ID, ELEMENT>,

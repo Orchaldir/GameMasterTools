@@ -214,7 +214,7 @@ private fun HTML.showEditor(
 
                 h2 { +"Options" }
 
-                editRaceAppearance(appearance, eyeOptions)
+                editRaceAppearance(state, appearance, eyeOptions)
 
                 button("Update", updateLink)
             }
