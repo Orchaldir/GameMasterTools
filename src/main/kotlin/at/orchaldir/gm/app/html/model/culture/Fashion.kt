@@ -21,6 +21,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -39,6 +40,8 @@ private fun HtmlBlockTag.showClothingStyle(
     state: State,
     style: ClothingStyle,
 ) {
+    h2 { +"Clothing" }
+
     showRarityMap("Clothing Sets", style.clothingSets)
     showRarityMap("Accessories", style.accessories, ACCESSORIES)
     EquipmentDataType.entries.forEach {
@@ -67,6 +70,8 @@ private fun HtmlBlockTag.editClothingStyle(
     state: State,
     style: ClothingStyle,
 ) {
+    h2 { +"Clothing" }
+
     selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets)
     selectRarityMap("Accessories", ACCESSORY_RARITY, style.accessories, false, ACCESSORIES)
     EquipmentDataType.entries.forEach {
