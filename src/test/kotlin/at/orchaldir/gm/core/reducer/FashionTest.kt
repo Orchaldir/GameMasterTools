@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.fashion.ClothingSet
-import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
+import at.orchaldir.gm.core.model.culture.fashion.Fashion
+import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf

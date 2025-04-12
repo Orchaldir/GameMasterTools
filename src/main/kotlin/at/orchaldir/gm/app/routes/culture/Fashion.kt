@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.routes
+package at.orchaldir.gm.app.routes.culture
 
 import at.orchaldir.gm.app.ACCESSORY_RARITY
 import at.orchaldir.gm.app.CLOTHING_SETS
@@ -9,9 +9,9 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.fashion.FASHION_TYPE
-import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
+import at.orchaldir.gm.core.model.culture.fashion.Fashion
+import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.selector.canDelete

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.fashion
+package at.orchaldir.gm.core.model.culture.fashion
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 

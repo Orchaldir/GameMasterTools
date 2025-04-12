@@ -2,6 +2,8 @@ package at.orchaldir.gm.app
 
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.*
+import at.orchaldir.gm.app.routes.culture.configureCultureRouting
+import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
 import at.orchaldir.gm.app.routes.item.configureEquipmentRouting

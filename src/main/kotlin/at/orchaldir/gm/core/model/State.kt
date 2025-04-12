@@ -13,9 +13,9 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.fashion.FASHION_TYPE
-import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
+import at.orchaldir.gm.core.model.culture.fashion.Fashion
+import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.font.FONT_TYPE
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
