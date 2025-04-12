@@ -17,3 +17,7 @@ fun State.getRaceAppearance(character: Character): RaceAppearance {
 fun State.getRaceAppearancesMadeOf(material: MaterialId) = getRaceAppearanceStorage()
     .getAll()
     .filter { it.contains(material) }
+
+fun State.countRaceAppearancesMadeOf(material: MaterialId) = getRaceAppearanceStorage()
+    .getAll()
+    .count { it.contains(material) }
