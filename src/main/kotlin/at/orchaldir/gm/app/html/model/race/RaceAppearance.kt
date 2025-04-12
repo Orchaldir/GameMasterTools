@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.character.selectCrownLength
 import at.orchaldir.gm.app.html.model.character.selectHornLength
 import at.orchaldir.gm.app.html.model.fieldFactor
+import at.orchaldir.gm.app.html.model.item.editColorItemPart
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.parseMaterialId
 import at.orchaldir.gm.app.parse.*
@@ -375,12 +376,21 @@ private fun FORM.editSkin(appearance: RaceAppearance) {
 private fun HtmlBlockTag.editSkinInternal(options: SkinOptions, param: String) {
     selectRarityMap("Type", combine(param, TYPE), options.skinTypes, true)
 
+    if (options.skinTypes.isAvailable(SkinType.Exotic)) {
+        selectRarityMap(
+            "Exotic Skin Colors",
+            combine(param, EXOTIC, COLOR),
+            options.exoticColors,
+            true,
+        )
+    }
+
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
         selectRarityMap("Fur Colors", combine(param, FUR, COLOR), options.furColors, true)
     }
 
-    if (options.skinTypes.isAvailable(SkinType.Scales)) {
-        selectRarityMap("Scale Colors", combine(param, SCALE, COLOR), options.scalesColors, true)
+    if (options.skinTypes.isAvailable(SkinType.Material)) {
+        TODO()
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
@@ -392,13 +402,8 @@ private fun HtmlBlockTag.editSkinInternal(options: SkinOptions, param: String) {
         )
     }
 
-    if (options.skinTypes.isAvailable(SkinType.Exotic)) {
-        selectRarityMap(
-            "Exotic Skin Colors",
-            combine(param, EXOTIC, COLOR),
-            options.exoticColors,
-            true,
-        )
+    if (options.skinTypes.isAvailable(SkinType.Scales)) {
+        selectRarityMap("Scale Colors", combine(param, SCALE, COLOR), options.scalesColors, true)
     }
 }
 
@@ -546,7 +551,7 @@ private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOption
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
     parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
     parseOneOf(parameters, combine(param, FUR, COLOR), Color::valueOf, setOf(DEFAULT_FUR_COLOR)),
-    parseOneOrNone(parameters, combine(param, MATERIAL, COLOR), Color::valueOf, setOf(DEFAULT_FUR_COLOR)),
+    parseOneOrNone(parameters, combine(param, MATERIAL, COLOR), Color::valueOf, emptySet()),
     parseOneOf(parameters, combine(param, MATERIAL), ::parseMaterialId, setOf(MaterialId(0))),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
     parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),
