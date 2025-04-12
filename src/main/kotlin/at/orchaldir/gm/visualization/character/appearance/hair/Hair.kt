@@ -37,6 +37,7 @@ fun visualizeHair(state: CharacterRenderState, head: Head) {
 
 private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
     when (hair.cut) {
+        is Bun -> doNothing()
         is LongHairCut -> visualizeLongHair(state, hair, hair.cut)
         is ShortHairCut -> visualizeShortHair(state, hair, hair.cut)
         is Ponytail -> visualizePonytail(state, hair, hair.cut)

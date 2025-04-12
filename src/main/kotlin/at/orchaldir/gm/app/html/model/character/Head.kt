@@ -193,6 +193,7 @@ private fun FORM.editNormalHair(
     selectColor("Color", combine(HAIR, COLOR), raceAppearance.hair.colors, hair.color)
 
     when (hair.cut) {
+        is Bun -> TODO()
         is LongHairCut -> {
             selectOneOf(
                 "Long Hair Style",
