@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.race.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -27,6 +28,8 @@ data class HornOptions(
     val crownFront: OneOf<Int> = OneOf(DEFAULT_CROWN_HORNS),
     val crownBack: OneOf<Int> = OneOf(DEFAULT_CROWN_HORNS),
 ) {
+
+    fun contains(material: MaterialId) = colors.contains(material)
 
     fun getSimpleLength(type: SimpleHornType) = scaleSimpleLength(type, simpleLength)
 }

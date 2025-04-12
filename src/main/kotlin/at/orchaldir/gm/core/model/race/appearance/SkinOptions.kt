@@ -20,4 +20,14 @@ data class SkinOptions(
     val materials: OneOf<MaterialId> = OneOf(MaterialId(0)),
     val normalColors: OneOf<SkinColor> = OneOf(SkinColor.entries),
     val scalesColors: OneOf<Color> = OneOf(DEFAULT_SCALE_COLOR),
-)
+) {
+
+    fun contains(material: MaterialId): Boolean {
+        if (skinTypes.contains(SkinType.Material)) {
+            return materials.contains(material)
+        }
+
+        return false
+    }
+
+}

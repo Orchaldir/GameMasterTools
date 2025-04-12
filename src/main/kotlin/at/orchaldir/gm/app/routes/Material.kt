@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
@@ -179,6 +180,7 @@ private fun HTML.showMaterialDetails(
 ) {
     val equipmentList = state.sortEquipmentList(state.getEquipmentMadeOf(material.id))
     val mountains = state.getMountainsContaining(material.id)
+    val raceAppearances = state.getRaceAppearancesMadeOf(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
     val backLink = call.application.href(MaterialRoutes.All())
@@ -187,11 +189,17 @@ private fun HTML.showMaterialDetails(
 
     simpleHtml("Material: ${material.name}") {
         showMaterial(material)
+
+        h2 { +"Usage" }
+
         showList("Equipment", equipmentList) { equipment ->
             link(call, equipment)
         }
         showList("Mountains", mountains) { mountain ->
             link(call, mountain)
+        }
+        showList("Race Appearances", raceAppearances) { appearance ->
+            link(call, appearance)
         }
         showList("Street Templates", streetTemplates) { template ->
             link(call, template)
