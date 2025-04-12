@@ -22,7 +22,7 @@
     "familyNames": 8
    },
    "fashion": {
-    "female": 0,
+    "female": 1,
     "genderless": 0,
     "male": 0
    },

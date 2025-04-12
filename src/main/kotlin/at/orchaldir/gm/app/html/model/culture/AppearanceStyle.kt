@@ -96,7 +96,7 @@ fun HtmlBlockTag.editAppearanceOptions(style: AppearanceStyle) {
         selectRarityMap("Ponytail Positions", combine(PONYTAIL, POSITION), style.ponytailPositions)
     }
 
-    if (style.hairStyles.contains(HairStyle.Bun)) {
+    if (style.hairStyles.contains(HairStyle.Short)) {
         selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), style.shortHairStyles)
     }
 
