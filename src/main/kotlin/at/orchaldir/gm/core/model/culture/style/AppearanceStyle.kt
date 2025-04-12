@@ -14,10 +14,11 @@ data class AppearanceStyle(
     val goateeStyles: OneOf<GoateeStyle> = OneOf(GoateeStyle.Goatee),
     val moustacheStyles: OneOf<MoustacheStyle> = OneOf(MoustacheStyle.Handlebar),
     val hairStyles: OneOf<HairStyle> = OneOf(HairStyle.entries),
-    val shortHairStyles: OneOf<ShortHairStyle> = OneOf(ShortHairStyle.entries),
+    val bunStyles: OneOf<BunStyle> = OneOf(BunStyle.entries),
     val longHairStyles: OneOf<LongHairStyle> = OneOf(LongHairStyle.entries),
     val ponytailStyles: OneOf<PonytailStyle> = OneOf(PonytailStyle.entries),
     val ponytailPositions: OneOf<PonytailPosition> = OneOf(PonytailPosition.entries),
+    val shortHairStyles: OneOf<ShortHairStyle> = OneOf(ShortHairStyle.entries),
     val hairLengths: OneOf<HairLength> = OneOf(HairLength.entries),
     val lipColors: OneOf<Color> = OneOf(Color.Black),
 )

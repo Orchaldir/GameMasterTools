@@ -144,16 +144,24 @@ private fun BODY.showAppearanceOptions(culture: Culture) {
     val appearanceStyle = culture.appearanceStyle
 
     h2 { +"Appearance Options" }
+
+    showRarityMap("Lip Colors", appearanceStyle.lipColors)
+
+    h3 { +"Beard" }
+
     showRarityMap("Beard Styles", appearanceStyle.beardStyles)
     showRarityMap("Goatee Styles", appearanceStyle.goateeStyles)
     showRarityMap("Moustache Styles", appearanceStyle.moustacheStyles)
+
+    h3 { +"Hair" }
+
     showRarityMap("Hair Styles", appearanceStyle.hairStyles)
-    showRarityMap("Short Hair Styles", appearanceStyle.shortHairStyles)
+    showRarityMap("Bun Styles", appearanceStyle.bunStyles)
     showRarityMap("Long Hair Styles", appearanceStyle.longHairStyles)
     showRarityMap("Ponytail Styles", appearanceStyle.ponytailStyles)
     showRarityMap("Ponytail Positions", appearanceStyle.ponytailPositions)
+    showRarityMap("Short Hair Styles", appearanceStyle.shortHairStyles)
     showRarityMap("Hair Lengths", appearanceStyle.hairLengths)
-    showRarityMap("Lip Colors", appearanceStyle.lipColors)
 }
 
 private fun BODY.showClothingOptions(
@@ -286,16 +294,23 @@ private fun FORM.editAppearanceOptions(culture: Culture) {
 
     val appearanceStyle = culture.appearanceStyle
 
+    selectRarityMap("Lip Colors", LIP_COLORS, appearanceStyle.lipColors)
+
+    h3 { +"Beard" }
+
     selectRarityMap("Beard Styles", combine(BEARD, STYLE), appearanceStyle.beardStyles)
     selectRarityMap("Goatee Styles", GOATEE_STYLE, appearanceStyle.goateeStyles)
     selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, appearanceStyle.moustacheStyles)
+
+    h3 { +"Hair" }
+
     selectRarityMap("Hair Styles", combine(HAIR, STYLE), appearanceStyle.hairStyles)
-    selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), appearanceStyle.shortHairStyles)
+    selectRarityMap("Bun Styles", combine(BUN, STYLE), appearanceStyle.bunStyles)
     selectRarityMap("Long Hair Styles", combine(LONG, HAIR, STYLE), appearanceStyle.longHairStyles)
     selectRarityMap("Ponytail Styles", combine(PONYTAIL, STYLE), appearanceStyle.ponytailStyles)
     selectRarityMap("Ponytail Positions", combine(PONYTAIL, POSITION), appearanceStyle.ponytailPositions)
+    selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), appearanceStyle.shortHairStyles)
     selectRarityMap("Hair Lengths", combine(HAIR, LENGTH), appearanceStyle.hairLengths)
-    selectRarityMap("Lip Colors", LIP_COLORS, appearanceStyle.lipColors)
 }
 
 private fun FORM.editClothingOptions(
@@ -346,10 +361,11 @@ fun parseCulture(
             parseOneOf(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
             parseOneOf(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
             parseOneOf(parameters, combine(HAIR, STYLE), HairStyle::valueOf),
-            parseOneOf(parameters, combine(SHORT, HAIR, STYLE), ShortHairStyle::valueOf),
+            parseOneOf(parameters, combine(BUN, STYLE), BunStyle::valueOf),
             parseOneOf(parameters, combine(LONG, HAIR, STYLE), LongHairStyle::valueOf),
             parseOneOf(parameters, combine(PONYTAIL, STYLE), PonytailStyle::valueOf),
             parseOneOf(parameters, combine(PONYTAIL, POSITION), PonytailPosition::valueOf),
+            parseOneOf(parameters, combine(SHORT, HAIR, STYLE), ShortHairStyle::valueOf),
             parseOneOf(parameters, combine(HAIR, LENGTH), HairLength::valueOf),
             parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),
