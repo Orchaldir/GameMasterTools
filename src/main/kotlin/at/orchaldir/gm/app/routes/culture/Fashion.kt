@@ -1,10 +1,8 @@
 package at.orchaldir.gm.app.routes.culture
 
-import at.orchaldir.gm.app.ACCESSORY_RARITY
-import at.orchaldir.gm.app.CLOTHING_SETS
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseFashion
+import at.orchaldir.gm.app.html.model.culture.*
 import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
@@ -12,11 +10,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
-import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
-import at.orchaldir.gm.core.selector.item.getEquipmentId
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -26,7 +21,6 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.FORM
 import kotlinx.html.HTML
 import kotlinx.html.form
 import mu.KotlinLogging
@@ -136,18 +130,7 @@ private fun HTML.showFashionDetails(
     val editLink = call.application.href(FashionRoutes.Edit(fashion.id))
 
     simpleHtml("Fashion: ${fashion.name}") {
-        field("Name", fashion.name)
-        showRarityMap("Clothing Sets", fashion.clothingSets)
-        showRarityMap("Accessories", fashion.accessories, ACCESSORIES)
-        EquipmentDataType.entries.forEach {
-            val options = fashion.getOptions(it)
-
-            if (options.isNotEmpty()) {
-                showRarityMap(it.name, options) { id ->
-                    link(call, state, id)
-                }
-            }
-        }
+        showFashion(call, state, fashion)
         showList("Cultures", state.getCultures(fashion.id)) { culture ->
             link(call, culture)
         }
@@ -169,27 +152,11 @@ private fun HTML.showFashionEditor(
 
     simpleHtml("Edit Fashion: ${fashion.name}") {
         form {
-            selectName(fashion.name)
-            selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)
-            selectRarityMap("Accessories", ACCESSORY_RARITY, fashion.accessories, false, ACCESSORIES)
-            EquipmentDataType.entries.forEach {
-                selectEquipmentType(state, fashion, it)
-            }
+            editFashion(fashion, state)
             button("Update", updateLink)
         }
         back(backLink)
     }
 }
 
-private fun FORM.selectEquipmentType(
-    state: State,
-    fashion: Fashion,
-    type: EquipmentDataType,
-) {
-    val items = state.getEquipmentId(type)
 
-    if (items.isNotEmpty()) {
-        val options = fashion.getOptions(type)
-        selectRarityMap(type.name, type.name, state.getEquipmentStorage(), items, options) { it.name }
-    }
-}
