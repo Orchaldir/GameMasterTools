@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.generator.*
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
@@ -29,6 +30,7 @@ import kotlinx.html.h2
 // edit
 
 fun FORM.editHead(
+    state: State,
     raceAppearance: RaceAppearance,
     culture: Culture,
     head: Head,
@@ -36,7 +38,7 @@ fun FORM.editHead(
     editEars(raceAppearance, head.ears)
     editEyes(raceAppearance, head.eyes)
     editHair(raceAppearance, culture, head.hair)
-    editHorns(raceAppearance, head.horns)
+    editHorns(state, raceAppearance, head.horns)
     editMouth(raceAppearance, culture, head.mouth)
 }
 

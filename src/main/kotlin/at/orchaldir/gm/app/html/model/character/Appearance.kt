@@ -53,16 +53,16 @@ fun FORM.editAppearance(
     when (appearance) {
         is HeadOnly -> {
             editHeight(state, character, appearance.height)
-            editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance.skin, appearance.skin)
+            editHead(state, raceAppearance, culture, appearance.head)
+            editSkin(state, raceAppearance.skin, appearance.skin)
         }
 
         is HumanoidBody -> {
             editHeight(state, character, appearance.height)
             editBody(raceAppearance, character, appearance.body)
-            editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance.skin, appearance.skin)
-            editTails(raceAppearance, appearance.tails)
+            editHead(state, raceAppearance, culture, appearance.head)
+            editSkin(state, raceAppearance.skin, appearance.skin)
+            editTails(state, raceAppearance, appearance.tails)
             editWings(raceAppearance, appearance.wings)
         }
 
@@ -107,6 +107,7 @@ private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
 }
 
 private fun FORM.editTails(
+    state: State,
     raceAppearance: RaceAppearance,
     tails: Tails,
 ) {
@@ -123,7 +124,7 @@ private fun FORM.editTails(
 
             selectOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
             selectValue("Size", combine(TAIL, SIZE), Size.entries, tails.size, true)
-            selectFeatureColor(colorOptions, tails.color, TAIL)
+            selectFeatureColor(state, colorOptions, tails.color, TAIL)
         }
     }
 }

@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.Side
@@ -257,10 +258,17 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
 fun generateSkin(config: AppearanceGeneratorConfig) = generateSkin(config, config.appearanceOptions.skin)
 
 fun generateSkin(config: AppearanceGeneratorConfig, options: SkinOptions) = when (config.generate(options.skinTypes)) {
+    SkinType.Exotic -> ExoticSkin(config.generate(options.exoticColors))
     SkinType.Fur -> Fur(config.generate(options.furColors))
+    SkinType.Material -> MaterialSkin(
+        ColorItemPart(
+            config.generate(options.materialIds),
+            config.generate(options.materialColors),
+        )
+    )
+
+    SkinType.Normal -> NormalSkin(config.generate(options.normalColors))
     SkinType.Scales -> Scales(config.generate(options.scalesColors))
-    SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
-    SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))
 }
 
 fun generateTails(config: AppearanceGeneratorConfig): Tails {

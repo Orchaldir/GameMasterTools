@@ -36,7 +36,7 @@ private fun visualizeNormalEars(
     size: Size,
     skin: Skin,
 ) {
-    val option = state.config.getOptions(skin)
+    val option = state.config.getOptions(state.state, skin)
 
     when (shape) {
         EarShape.PointedSideways -> visualizePointedSideways(state, size, option)

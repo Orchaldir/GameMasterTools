@@ -6,10 +6,8 @@ import at.orchaldir.gm.app.html.model.character.selectCrownLength
 import at.orchaldir.gm.app.html.model.character.selectHornLength
 import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOneOf
+import at.orchaldir.gm.app.html.model.parseMaterialId
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
@@ -26,6 +24,7 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -184,11 +183,11 @@ private fun HtmlBlockTag.showSkinInternal(options: SkinOptions) {
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
-        showRarityMap("Normal Skin Colors", options.normalSkinColors)
+        showRarityMap("Normal Skin Colors", options.normalColors)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Exotic)) {
-        showRarityMap("Exotic Skin Colors", options.exoticSkinColors)
+        showRarityMap("Exotic Skin Colors", options.exoticColors)
     }
 }
 
@@ -388,7 +387,7 @@ private fun HtmlBlockTag.editSkinInternal(options: SkinOptions, param: String) {
         selectRarityMap(
             "Normal Skin Colors",
             combine(param, NORMAL, COLOR),
-            options.normalSkinColors,
+            options.normalColors,
             true,
         )
     }
@@ -397,7 +396,7 @@ private fun HtmlBlockTag.editSkinInternal(options: SkinOptions, param: String) {
         selectRarityMap(
             "Exotic Skin Colors",
             combine(param, EXOTIC, COLOR),
-            options.exoticSkinColors,
+            options.exoticColors,
             true,
         )
     }
@@ -545,10 +544,12 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
 
 private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOptions(
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
-    parseOneOf(parameters, combine(param, FUR, COLOR), Color::valueOf, setOf(DEFAULT_FUR_COLOR)),
-    parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),
-    parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
     parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
+    parseOneOf(parameters, combine(param, FUR, COLOR), Color::valueOf, setOf(DEFAULT_FUR_COLOR)),
+    parseOneOrNone(parameters, combine(param, MATERIAL, COLOR), Color::valueOf, setOf(DEFAULT_FUR_COLOR)),
+    parseOneOf(parameters, combine(param, MATERIAL), ::parseMaterialId, setOf(MaterialId(0))),
+    parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
+    parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),
 )
 
 private fun parseTailOptions(parameters: Parameters): TailOptions {

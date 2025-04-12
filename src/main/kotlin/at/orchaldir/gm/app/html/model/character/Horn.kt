@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.parse.parseOrientation
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateHorn
 import at.orchaldir.gm.core.generator.generateHorns
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.doNothing
@@ -24,6 +25,7 @@ import kotlinx.html.h2
 // edit
 
 fun FORM.editHorns(
+    state: State,
     raceAppearance: RaceAppearance,
     horns: Horns,
 ) {
@@ -34,10 +36,10 @@ fun FORM.editHorns(
     selectOneOf("Type", combine(HORN, LAYOUT), options.layouts, horns.getType(), true)
     when (horns) {
         NoHorns -> doNothing()
-        is TwoHorns -> editHorn(options, horns.horn, HORN, "Horn")
+        is TwoHorns -> editHorn(state, options, horns.horn, HORN, "Horn")
         is DifferentHorns -> {
-            editHorn(options, horns.left, combine(HORN, LEFT), "Left Horn")
-            editHorn(options, horns.right, combine(HORN, RIGHT), "Right Horn")
+            editHorn(state, options, horns.left, combine(HORN, LEFT), "Left Horn")
+            editHorn(state, options, horns.right, combine(HORN, RIGHT), "Right Horn")
         }
 
         is CrownOfHorns -> {
@@ -57,12 +59,13 @@ fun FORM.editHorns(
             }
             selectCrownLength(horns.length)
             selectHornWidth(CROWN, horns.width)
-            selectFeatureColor(options.colors, horns.color, combine(CROWN, COLOR))
+            selectFeatureColor(state, options.colors, horns.color, combine(CROWN, COLOR))
         }
     }
 }
 
 private fun FORM.editHorn(
+    state: State,
     options: HornOptions,
     horn: Horn,
     param: String,
@@ -75,7 +78,7 @@ private fun FORM.editHorn(
             is SimpleHorn -> {
                 selectHornLength(param, horn.length)
                 selectOneOf("Simple Type", combine(param, SHAPE), options.simpleTypes, horn.simpleType, true)
-                selectFeatureColor(options.colors, horn.color, combine(param, COLOR))
+                selectFeatureColor(state, options.colors, horn.color, combine(param, COLOR))
             }
 
             is ComplexHorn -> {
@@ -84,7 +87,7 @@ private fun FORM.editHorn(
                 selectValue("Position", combine(param, POSITION), HornPosition.entries, horn.position, true)
                 selectOrientation(param, horn.orientationOffset, 90.0f)
                 editHornShape(horn.shape, param)
-                selectFeatureColor(options.colors, horn.color, combine(param, COLOR))
+                selectFeatureColor(state, options.colors, horn.color, combine(param, COLOR))
             }
         }
     }
