@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getRaces

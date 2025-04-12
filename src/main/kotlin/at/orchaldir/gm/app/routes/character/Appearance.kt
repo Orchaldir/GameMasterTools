@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
+import at.orchaldir.gm.core.selector.getFashion
 import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -95,7 +97,7 @@ private fun HTML.showAppearanceEditor(
 ) {
     val appearance = character.appearance
     val raceAppearance = state.getRaceAppearance(character)
-    val culture = state.getCultureStorage().getOrThrow(character.culture)
+    val style = state.getFashion(character)?.appearance
     val backLink = href(call, character.id)
     val previewLink = call.application.href(CharacterRoutes.Appearance.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Appearance.Update(character.id))
@@ -111,7 +113,7 @@ private fun HTML.showAppearanceEditor(
                 method = FormMethod.post
                 button("Random", generateLink)
 
-                editAppearance(state, raceAppearance, appearance, character, culture)
+                editAppearance(state, raceAppearance, appearance, character, style)
 
                 button("Update", updateLink)
             }
@@ -124,7 +126,7 @@ private fun HTML.showAppearanceEditor(
 }
 
 fun createGenerationConfig(state: State, character: Character): AppearanceGeneratorConfig {
-    val culture = state.getCultureStorage().getOrThrow(character.culture)
+    val fashion = state.getFashion(character)
     val race = state.getRaceStorage().getOrThrow(character.race)
 
     return AppearanceGeneratorConfig(
@@ -133,7 +135,7 @@ fun createGenerationConfig(state: State, character: Character): AppearanceGenera
         character.gender,
         race.height,
         state.getRaceAppearance(character),
-        culture.appearanceStyle
+        fashion?.appearance ?: AppearanceStyle(),
     )
 }
 

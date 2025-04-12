@@ -174,6 +174,17 @@ fun HtmlBlockTag.selectText(
 inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
     text: String,
     selectId: String,
+    optionalValues: OneOf<T>?,
+    current: T,
+    update: Boolean = false,
+) {
+    val values = optionalValues ?: OneOf(enumValues<T>().toSet())
+    selectFromOneOf(text, selectId, values, current, update)
+}
+
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
+    text: String,
+    selectId: String,
     values: OneOf<T>,
     current: T,
     update: Boolean = false,

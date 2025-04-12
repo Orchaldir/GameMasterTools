@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.selector.getFashion
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import kotlin.random.Random
@@ -28,8 +29,7 @@ data class EquipmentGenerator(
     companion object {
         fun create(state: State, characterId: CharacterId): EquipmentGenerator? {
             val character = state.getCharacterStorage().getOptional(characterId) ?: return null
-            val culture = state.getCultureStorage().getOptional(character.culture) ?: return null
-            val fashion = state.getFashionStorage().getOptional(culture.getFashion(character)) ?: return null
+            val fashion = state.getFashion(character) ?: return null
 
             return EquipmentGenerator(
                 RandomNumberGenerator(Random),

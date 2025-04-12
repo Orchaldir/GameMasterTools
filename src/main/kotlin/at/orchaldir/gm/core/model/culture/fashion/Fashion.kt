@@ -20,6 +20,7 @@ value class FashionId(val value: Int) : Id<FashionId> {
 data class Fashion(
     val id: FashionId,
     val name: String = "Fashion ${id.value}",
+    val appearance: AppearanceStyle = AppearanceStyle(),
     val clothing: ClothingStyle = ClothingStyle(),
 ) : ElementWithSimpleName<FashionId> {
 

@@ -1,16 +1,18 @@
 package at.orchaldir.gm.app.html.model.culture
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.ACCESSORY_RARITY
+import at.orchaldir.gm.app.CLOTHING_SETS
+import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.item.equipment.parseEquipmentId
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseOneOf
+import at.orchaldir.gm.app.parse.parseOneOrNone
+import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
-import at.orchaldir.gm.core.model.culture.name.*
-import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
@@ -18,7 +20,7 @@ import at.orchaldir.gm.core.selector.item.getEquipmentId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.*
+import kotlinx.html.HtmlBlockTag
 
 // show
 
@@ -28,6 +30,7 @@ fun HtmlBlockTag.showFashion(
     fashion: Fashion,
 ) {
     field("Name", fashion.name)
+    showAppearanceStyle(fashion.appearance)
     showClothingStyle(call, state, fashion.clothing)
 }
 
@@ -56,6 +59,7 @@ fun HtmlBlockTag.editFashion(
     state: State,
 ) {
     selectName(fashion.name)
+    editAppearanceOptions(fashion.appearance)
     editClothingStyle(state, fashion.clothing)
 }
 
@@ -93,6 +97,7 @@ fun parseFashionId(
 fun parseFashion(id: FashionId, parameters: Parameters) = Fashion(
     id,
     parameters.getOrFail(NAME),
+    parseAppearanceStyle(parameters),
     parseClothingStyle(parameters),
 )
 
