@@ -18,6 +18,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
@@ -154,28 +156,39 @@ private fun HTML.showGallery(
     call: ApplicationCall,
     state: State,
 ) {
-    val races = STORE.getState().getRaceAppearanceStorage()
+    val elements = STORE.getState().getRaceAppearanceStorage()
         .getAll()
         .sortedBy { it.name }
     val backLink = call.application.href(AppearanceRoutes())
 
     simpleHtml("Race Appearances") {
-        div("grid-container") {
-            races.forEach { race ->
-                val svg = getSvg(state, race)
-
-                div("grid-item") {
-                    a(href(call, race.id)) {
-                        div {
-                            +race.name
-                        }
-                        svg(svg, 100)
-                    }
-                }
-            }
+        showGallery(call, state, elements) { element ->
+            getSvg(state, element)
         }
 
         back(backLink)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showGallery(
+    call: ApplicationCall,
+    state: State,
+    elements: List<ELEMENT>,
+    getSvg: (ELEMENT) -> Svg,
+) {
+    div("grid-container") {
+        elements.forEach { element ->
+            val svg = getSvg(element)
+
+            div("grid-item") {
+                a(href(call, element.id())) {
+                    div {
+                        +element.name(state)
+                    }
+                    svg(svg, 100)
+                }
+            }
+        }
     }
 }
 
