@@ -55,42 +55,6 @@ fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showGallery(
-    call: ApplicationCall,
-    state: State,
-    elements: List<ELEMENT>,
-    getSvg: (ELEMENT) -> Svg,
-) = showGallery(
-    call,
-    elements,
-    { element -> element.id() },
-    { element -> element.name(state) },
-    getSvg,
-)
-
-fun <T, ID : Id<ID>> HtmlBlockTag.showGallery(
-    call: ApplicationCall,
-    elements: List<T>,
-    getId: (T) -> ID,
-    getName: (T) -> String,
-    getSvg: (T) -> Svg,
-) {
-    div("grid-container") {
-        elements.forEach { element ->
-            val svg = getSvg(element)
-
-            div("grid-item") {
-                a(href(call, getId(element))) {
-                    div {
-                        +getName(element)
-                    }
-                    svg(svg, 100)
-                }
-            }
-        }
-    }
-}
-
 fun HtmlBlockTag.field(name: String, value: Int) =
     field(name, value.toString())
 
