@@ -193,6 +193,17 @@ private fun FORM.editNormalHair(
     selectColor("Color", combine(HAIR, COLOR), raceAppearance.hair.colors, hair.color)
 
     when (hair.cut) {
+        is Bun -> {
+            selectOneOf(
+                "Bun Style",
+                combine(BUN, STYLE),
+                culture.appearanceStyle.bunStyles,
+                hair.cut.style,
+                true,
+            )
+            selectValue("Bun Size", combine(BUN, SIZE), Size.entries, hair.cut.size, true)
+        }
+
         is LongHairCut -> {
             selectOneOf(
                 "Long Hair Style",
@@ -413,13 +424,14 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
         HairType.Normal.toString() -> {
             return NormalHair(
                 when (parameters[combine(HAIR, STYLE)]) {
-                    HairStyle.Short.toString() -> ShortHairCut(
+                    HairStyle.Bun.toString() -> Bun(
                         parseAppearanceOption(
                             parameters,
-                            combine(SHORT, STYLE),
+                            combine(BUN, STYLE),
                             config,
-                            config.appearanceStyle.shortHairStyles,
+                            config.appearanceStyle.bunStyles,
                         ),
+                        parse(parameters, combine(BUN, SIZE), Size.Medium),
                     )
 
                     HairStyle.Long.toString() -> LongHairCut(
@@ -446,6 +458,15 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                             config.appearanceStyle.ponytailPositions,
                         ),
                         parseHairLength(parameters, config),
+                    )
+
+                    HairStyle.Short.toString() -> ShortHairCut(
+                        parseAppearanceOption(
+                            parameters,
+                            combine(SHORT, STYLE),
+                            config,
+                            config.appearanceStyle.shortHairStyles,
+                        ),
                     )
 
                     else -> generateHairCut(config)
