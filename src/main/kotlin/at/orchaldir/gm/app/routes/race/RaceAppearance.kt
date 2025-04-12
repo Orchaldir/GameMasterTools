@@ -170,28 +170,6 @@ private fun HTML.showGallery(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showGallery(
-    call: ApplicationCall,
-    state: State,
-    elements: List<ELEMENT>,
-    getSvg: (ELEMENT) -> Svg,
-) {
-    div("grid-container") {
-        elements.forEach { element ->
-            val svg = getSvg(element)
-
-            div("grid-item") {
-                a(href(call, element.id())) {
-                    div {
-                        +element.name(state)
-                    }
-                    svg(svg, 100)
-                }
-            }
-        }
-    }
-}
-
 private fun HTML.showDetails(
     call: ApplicationCall,
     state: State,

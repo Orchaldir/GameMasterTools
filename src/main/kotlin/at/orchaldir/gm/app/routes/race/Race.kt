@@ -208,23 +208,13 @@ private fun HTML.showGallery(
     simpleHtml("Races") {
         showSortLinks(call) { sort -> RaceRoutes.Gallery(sort) }
 
-        div("grid-container") {
-            races.forEach { race ->
-                val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toPermyriad() }
-                val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
-                val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
-                val paddedSize = calculatePaddedSize(CHARACTER_CONFIG, appearanceForAge)
-                val svg = visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearanceForAge, paddedSize)
+        showGallery(call, state, races) { race ->
+            val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toPermyriad() }
+            val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
+            val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
+            val paddedSize = calculatePaddedSize(CHARACTER_CONFIG, appearanceForAge)
 
-                div("grid-item") {
-                    a(href(call, race.id)) {
-                        div {
-                            +race.name
-                        }
-                        svg(svg, 100)
-                    }
-                }
-            }
+            visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearanceForAge, paddedSize)
         }
 
         back(backLink)

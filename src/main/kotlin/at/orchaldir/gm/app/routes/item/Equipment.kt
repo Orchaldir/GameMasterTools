@@ -193,22 +193,11 @@ private fun HTML.showGallery(
     val backLink = call.application.href(EquipmentRoutes())
 
     simpleHtml("Equipment") {
+        showGallery(call, state, equipmentList) { equipment ->
+            val equipped = EquipmentMap.from(equipment.data)
+            val appearance = createAppearance(equipment, height)
 
-        div("grid-container") {
-            equipmentList.forEach { equipment ->
-                val equipped = EquipmentMap.from(equipment.data)
-                val appearance = createAppearance(equipment, height)
-                val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
-
-                div("grid-item") {
-                    a(href(call, equipment.id)) {
-                        div {
-                            +equipment.name
-                        }
-                        svg(svg, 100)
-                    }
-                }
-            }
+            visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
         }
 
         back(backLink)
