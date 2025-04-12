@@ -63,7 +63,7 @@ fun FORM.editAppearance(
             editHead(state, raceAppearance, culture, appearance.head)
             editSkin(state, raceAppearance.skin, appearance.skin)
             editTails(state, raceAppearance, appearance.tails)
-            editWings(raceAppearance, appearance.wings)
+            editWings(state, raceAppearance, appearance.wings)
         }
 
         UndefinedAppearance -> doNothing()
@@ -130,6 +130,7 @@ private fun FORM.editTails(
 }
 
 private fun FORM.editWings(
+    state: State,
     raceAppearance: RaceAppearance,
     wings: Wings,
 ) {
@@ -142,29 +143,30 @@ private fun FORM.editWings(
     when (wings) {
         NoWings -> doNothing()
         is OneWing -> {
-            editWing(wingOptions, wings.wing, WING)
+            editWing(state, wingOptions, wings.wing, WING)
             selectValue("Wing Side", combine(WING, SIDE), Side.entries, wings.side, true)
         }
 
-        is TwoWings -> editWing(wingOptions, wings.wing, WING)
+        is TwoWings -> editWing(state, wingOptions, wings.wing, WING)
         is DifferentWings -> {
-            editWing(wingOptions, wings.left, combine(LEFT, WING))
-            editWing(wingOptions, wings.right, combine(RIGHT, WING))
+            editWing(state, wingOptions, wings.left, combine(LEFT, WING))
+            editWing(state, wingOptions, wings.right, combine(RIGHT, WING))
         }
     }
 }
 
 private fun FORM.editWing(
-    wingOptions: WingOptions,
+    state: State,
+    options: WingOptions,
     wing: Wing,
     param: String,
 ) {
-    selectWingType(wingOptions, wing.getType(), combine(param, TYPE))
+    selectWingType(options, wing.getType(), combine(param, TYPE))
 
     when (wing) {
-        is BatWing -> selectColor("Wing Color", combine(param, COLOR), wingOptions.batColors, wing.color)
-        is BirdWing -> selectColor("Wing Color", combine(param, COLOR), wingOptions.birdColors, wing.color)
-        is ButterflyWing -> selectColor("Wing Color", combine(param, COLOR), wingOptions.butterflyColors, wing.color)
+        is BatWing -> selectFeatureColor(state, options.batColors, wing.color, combine(param, COLOR))
+        is BirdWing -> selectColor("Wing Color", combine(param, COLOR), options.birdColors, wing.color)
+        is ButterflyWing -> selectColor("Wing Color", combine(param, COLOR), options.butterflyColors, wing.color)
     }
 }
 
@@ -290,7 +292,7 @@ private fun parseWing(
 
     return when (parameters[combine(param, TYPE)]) {
         WingType.Bat.toString() -> BatWing(
-            parseAppearanceColor(parameters, param, config, wingOptions.batColors),
+            parseFeatureColor(parameters, config, wingOptions.batColors, combine(param, COLOR))
         )
 
         WingType.Bird.toString() -> BirdWing(

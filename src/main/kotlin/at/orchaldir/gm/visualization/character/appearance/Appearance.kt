@@ -97,7 +97,7 @@ fun visualizeAppearance(
             visualizeBody(innerState, appearance.body, appearance.skin)
             visualizeHead(headState, appearance.head, appearance.skin)
             visualizeTails(innerState, appearance.tails, appearance.skin, appearance.head.hair)
-            visualizeWings(innerState, appearance.wings)
+            visualizeWings(innerState, appearance.wings, appearance.skin, appearance.head.hair)
         }
 
         UndefinedAppearance -> {

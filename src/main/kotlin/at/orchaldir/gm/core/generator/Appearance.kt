@@ -319,7 +319,7 @@ fun generateWing(config: AppearanceGeneratorConfig): Wing {
     val options = config.appearanceOptions.wing
 
     return when (config.generate(options.types)) {
-        WingType.Bat -> BatWing(config.generate(options.batColors))
+        WingType.Bat -> BatWing(generateFeatureColor(config, options.batColors))
         WingType.Bird -> BirdWing(config.generate(options.birdColors))
         WingType.Butterfly -> ButterflyWing(config.generate(options.butterflyColors))
     }

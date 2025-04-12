@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FeatureColorOptions(
-    val types: FeatureColorType = FeatureColorType.Overwrite,
+    val types: FeatureColorType = FeatureColorType.Skin,
     val skin: SkinOptions = SkinOptions(),
 ) {
 

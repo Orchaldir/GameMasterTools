@@ -62,7 +62,7 @@ fun HtmlBlockTag.showRaceAppearance(
     showMouth(appearance.mouth)
     showSkin(call, state, appearance)
     showTails(call, state, appearance)
-    showWings(appearance)
+    showWings(call, state, appearance)
 }
 
 private fun HtmlBlockTag.showEars(appearance: RaceAppearance) {
@@ -248,7 +248,11 @@ private fun HtmlBlockTag.showFeatureColor(
     }
 }
 
-private fun HtmlBlockTag.showWings(appearance: RaceAppearance) {
+private fun HtmlBlockTag.showWings(
+    call: ApplicationCall,
+    state: State,
+    appearance: RaceAppearance,
+) {
     h3 { +"Wings" }
 
     val options = appearance.wing
@@ -257,7 +261,7 @@ private fun HtmlBlockTag.showWings(appearance: RaceAppearance) {
     showRarityMap("Type", options.types)
 
     if (options.types.isAvailable(WingType.Bat)) {
-        showRarityMap("Bat Wing Color", options.batColors)
+        showFeatureColor(call, state, options.batColors)
     }
 
     if (options.types.isAvailable(WingType.Bird)) {
@@ -286,7 +290,7 @@ fun FORM.editRaceAppearance(
     editMouth(appearance.mouth)
     editSkin(state, appearance)
     editTails(state, appearance)
-    editWings(appearance)
+    editWings(state, appearance)
 }
 
 private fun FORM.editEars(appearance: RaceAppearance) {
@@ -486,7 +490,7 @@ private fun HtmlBlockTag.editFeatureColor(
     }
 }
 
-private fun FORM.editWings(appearance: RaceAppearance) {
+private fun FORM.editWings(state: State, appearance: RaceAppearance) {
     h3 { +"Wings" }
 
     val options = appearance.wing
@@ -495,7 +499,7 @@ private fun FORM.editWings(appearance: RaceAppearance) {
     selectRarityMap("Types", combine(WING, TYPE), options.types, true)
 
     if (options.types.isAvailable(WingType.Bat)) {
-        selectRarityMap("Bat Wing Colors", combine(WING, BAT, COLOR), options.batColors, true)
+        editFeatureColor(state, options.batColors, appearance.hair, combine(WING, BAT))
     }
 
     if (options.types.isAvailable(WingType.Bird)) {
@@ -613,7 +617,7 @@ private fun parseFeatureColor(parameters: Parameters, param: String) = FeatureCo
 private fun parseWingOptions(parameters: Parameters) = WingOptions(
     parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),
     parseOneOf(parameters, combine(WING, TYPE), WingType::valueOf),
-    parseOneOf(parameters, combine(WING, BAT, COLOR), Color::valueOf, setOf(DEFAULT_BAT_COLOR)),
+    parseFeatureColor(parameters, combine(WING, BAT)),
     parseOneOf(parameters, combine(WING, BIRD, COLOR), Color::valueOf, setOf(DEFAULT_BIRD_COLOR)),
     parseOneOf(parameters, combine(WING, BUTTERFLY, COLOR), Color::valueOf, setOf(DEFAULT_BUTTERFLY_COLOR)),
 )

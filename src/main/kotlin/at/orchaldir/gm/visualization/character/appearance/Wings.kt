@@ -1,5 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.character.appearance.Skin
+import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
@@ -7,24 +9,39 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun visualizeWings(state: CharacterRenderState, wings: Wings) = when (wings) {
+fun visualizeWings(
+    state: CharacterRenderState,
+    wings: Wings,
+    skin: Skin,
+    hair: Hair,
+) = when (wings) {
     NoWings -> doNothing()
-    is OneWing -> visualizeWing(state, wings.wing, wings.side)
+    is OneWing -> visualizeWing(state, wings.wing, wings.side, skin, hair)
     is TwoWings -> {
-        visualizeWing(state, wings.wing, Side.Left)
-        visualizeWing(state, wings.wing, Side.Right)
+        visualizeWing(state, wings.wing, Side.Left, skin, hair)
+        visualizeWing(state, wings.wing, Side.Right, skin, hair)
     }
 
     is DifferentWings -> {
-        visualizeWing(state, wings.left, Side.Left)
-        visualizeWing(state, wings.right, Side.Right)
+        visualizeWing(state, wings.left, Side.Left, skin, hair)
+        visualizeWing(state, wings.right, Side.Right, skin, hair)
     }
 }
 
-private fun visualizeWing(state: CharacterRenderState, wing: Wing, side: Side) = when (wing) {
-    is BatWing -> visualizeWing(state, side, wing.color, ::createLeftBatWing)
+private fun visualizeWing(
+    state: CharacterRenderState,
+    wing: Wing,
+    side: Side,
+    skin: Skin,
+    hair: Hair,
+) = when (wing) {
+    is BatWing -> {
+        val options = state.config.getFeatureOptions(state.state, wing.color, hair, skin)
+        visualizeWing(state, side, options, ::createLeftBatWing)
+    }
     is BirdWing -> visualizeWing(state, side, wing.color, ::createLeftBirdWing)
     is ButterflyWing -> visualizeWing(state, side, wing.color, ::createLeftButterflyWing)
 }
@@ -36,6 +53,16 @@ private fun visualizeWing(
     createLeftWing: (CharacterRenderState) -> Polygon2d,
 ) {
     val options = FillAndBorder(color.toRender(), state.config.line)
+
+    visualizeWing(state, side, options, createLeftWing)
+}
+
+private fun visualizeWing(
+    state: CharacterRenderState,
+    side: Side,
+    options: RenderOptions,
+    createLeftWing: (CharacterRenderState) -> Polygon2d,
+) {
     val layer = if (state.renderFront) {
         WING_LAYER
     } else {
