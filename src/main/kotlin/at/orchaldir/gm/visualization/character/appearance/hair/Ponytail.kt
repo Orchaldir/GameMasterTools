@@ -9,10 +9,8 @@ import at.orchaldir.gm.core.model.character.appearance.hair.PonytailStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailStyle.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
-import at.orchaldir.gm.visualization.renderRoundedBuilder
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
 fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: Ponytail) {
@@ -22,7 +20,7 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
     val y = Factor.fromPercentage(20)
     val length = state.config.getHairLength(state.aabb, ponytail.length)
 
-    visualizeBackSideOfHead(state, options)
+    visualizeBackSideOfHead(state, options, HAIR_LAYER + 1)
 
     val polygon = when (ponytail.position) {
         PonytailPosition.High -> getCenterPonytail(state, ponytail.style, length, y)

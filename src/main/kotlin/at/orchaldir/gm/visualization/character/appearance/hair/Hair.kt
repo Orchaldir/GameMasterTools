@@ -54,6 +54,7 @@ private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
 fun visualizeBackSideOfHead(
     state: CharacterRenderState,
     options: RenderOptions,
+    layer: Int,
 ) {
     val padding = state.config.head.hair.longPadding
     val width = FULL + padding * 2.0f
@@ -63,5 +64,5 @@ fun visualizeBackSideOfHead(
         .addMirroredPoints(state.aabb, width, FULL + padding)
         .addLeftPoint(state.aabb, CENTER, FULL + padding)
 
-    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(HAIR_LAYER + 1))
+    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(layer))
 }
