@@ -320,7 +320,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     update: Boolean = false,
     getName: (ELEMENT) -> String,
 ) {
-    showDetails(enum) {
+    showDetails(enum, true) {
         showMap(rarityMap.getRarityFor(ids)) { id, currentRarity ->
             val element = storage.getOrThrow(id)
             selectValue(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->

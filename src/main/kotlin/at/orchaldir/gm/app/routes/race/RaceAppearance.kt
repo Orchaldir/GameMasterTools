@@ -152,7 +152,7 @@ private fun HTML.showDetails(
             field("Name", appearance.name)
             h2 { +"Options" }
 
-            showRaceAppearance(appearance, eyeOptions)
+            showRaceAppearance(call, state, appearance, eyeOptions)
 
             h2 { +"Races" }
             showList(state.getRaces(appearance.id)) { race ->

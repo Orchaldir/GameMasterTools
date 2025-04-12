@@ -30,6 +30,7 @@ import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
+import io.ktor.server.application.*
 import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
@@ -46,6 +47,8 @@ private fun requiresNormalHorns(appearance: RaceAppearance) =
 // show
 
 fun HtmlBlockTag.showRaceAppearance(
+    call: ApplicationCall,
+    state: State,
     appearance: RaceAppearance,
     eyeOptions: EyeOptions,
 ) {
@@ -55,10 +58,10 @@ fun HtmlBlockTag.showRaceAppearance(
     showEyes(appearance, eyeOptions)
     showFeet(appearance)
     showHair(appearance)
-    showHorns(appearance)
+    showHorns(call, state, appearance)
     showMouth(appearance.mouth)
-    showSkin(appearance)
-    showTails(appearance)
+    showSkin(call, state, appearance)
+    showTails(call, state, appearance)
     showWings(appearance)
 }
 
@@ -115,7 +118,11 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     }
 }
 
-private fun HtmlBlockTag.showHorns(appearance: RaceAppearance) {
+private fun HtmlBlockTag.showHorns(
+    call: ApplicationCall,
+    state: State,
+    appearance: RaceAppearance,
+) {
     h3 { +"Horns" }
 
     showRarityMap("Layouts", appearance.horn.layouts)
@@ -144,7 +151,7 @@ private fun HtmlBlockTag.showHorns(appearance: RaceAppearance) {
     }
 
     if (requiresNormalHorns || requiresCrown) {
-        showFeatureColor(appearance.horn.colors)
+        showFeatureColor(call, state, appearance.horn.colors)
     }
 }
 
@@ -164,16 +171,38 @@ private fun HtmlBlockTag.showMouth(mouthOptions: MouthOptions) {
     }
 }
 
-private fun HtmlBlockTag.showSkin(appearance: RaceAppearance) {
+private fun HtmlBlockTag.showSkin(
+    call: ApplicationCall,
+    state: State,
+    appearance: RaceAppearance,
+) {
     h3 { +"Skin" }
 
     val options = appearance.skin
 
-    showSkinInternal(options)
+    showSkinInternal(call, state, options)
 }
 
-private fun HtmlBlockTag.showSkinInternal(options: SkinOptions) {
+private fun HtmlBlockTag.showSkinInternal(
+    call: ApplicationCall,
+    state: State,
+    options: SkinOptions,
+) {
     showRarityMap("Type", options.skinTypes)
+
+    if (options.skinTypes.isAvailable(SkinType.Exotic)) {
+        showRarityMap("Exotic Skin Colors", options.exoticColors)
+    }
+
+    if (options.skinTypes.isAvailable(SkinType.Normal)) {
+        showRarityMap("Normal Skin Colors", options.normalColors)
+    }
+
+    if (options.skinTypes.isAvailable(SkinType.Material)) {
+        showRarityMap("Materials", options.materials) { id ->
+            link(call, state, id)
+        }
+    }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
         showRarityMap("Fur Colors", options.furColors)
@@ -182,17 +211,13 @@ private fun HtmlBlockTag.showSkinInternal(options: SkinOptions) {
     if (options.skinTypes.isAvailable(SkinType.Scales)) {
         showRarityMap("Scale Colors", options.scalesColors)
     }
-
-    if (options.skinTypes.isAvailable(SkinType.Normal)) {
-        showRarityMap("Normal Skin Colors", options.normalColors)
-    }
-
-    if (options.skinTypes.isAvailable(SkinType.Exotic)) {
-        showRarityMap("Exotic Skin Colors", options.exoticColors)
-    }
 }
 
-private fun HtmlBlockTag.showTails(appearance: RaceAppearance) {
+private fun HtmlBlockTag.showTails(
+    call: ApplicationCall,
+    state: State,
+    appearance: RaceAppearance,
+) {
     h3 { +"Tails" }
 
     val options = appearance.tail
@@ -203,18 +228,22 @@ private fun HtmlBlockTag.showTails(appearance: RaceAppearance) {
         showRarityMap("Simple Shape", options.simpleShapes)
         options.simpleOptions.forEach { (shape, simpleOptions) ->
             showDetails("$shape Tail") {
-                showFeatureColor(simpleOptions)
+                showFeatureColor(call, state, simpleOptions)
             }
         }
     }
 }
 
-private fun HtmlBlockTag.showFeatureColor(options: FeatureColorOptions) {
+private fun HtmlBlockTag.showFeatureColor(
+    call: ApplicationCall,
+    state: State,
+    options: FeatureColorOptions,
+) {
     field("Color Type", options.types)
 
     if (options.types == FeatureColorType.Overwrite) {
         showDetails("Skin") {
-            showSkinInternal(options.skin)
+            showSkinInternal(call, state, options.skin)
         }
     }
 }
