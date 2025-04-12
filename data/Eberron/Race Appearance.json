@@ -57,7 +57,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
@@ -102,7 +102,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Lavender": "Common",
      "Silver": "Common"
     }
@@ -167,7 +167,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
@@ -209,7 +209,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Gray": "Common"
     }
    }
@@ -273,7 +273,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Green": "Common",
      "Olive": "Common"
     }
@@ -344,7 +344,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
@@ -405,7 +405,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Green": "Common",
      "Maroon": "Common",
      "Olive": "Common",
@@ -466,7 +466,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Gray": "Common"
     }
    },
@@ -625,7 +625,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
@@ -679,7 +679,7 @@
      "Red": "Common",
      "SaddleBrown": "Common"
     },
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Common",
@@ -747,7 +747,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Olive": "Common"
     }
    }
@@ -820,7 +820,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
