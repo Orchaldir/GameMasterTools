@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
+import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -60,19 +61,19 @@ class FashionTest {
         fun `Successfully update a fashion`() {
             val state =
                 State(listOf(Storage(Fashion(ID0)), Storage(Equipment(ITEM0, data = Dress()))))
-            val fashion = Fashion(
-                ID0,
+            val style = ClothingStyle(
                 clothingSets = OneOf(ClothingSet.Dress),
                 equipmentRarityMap = mapOf(
                     EquipmentDataType.Dress to OneOrNone(ITEM0),
                     EquipmentDataType.Hat to OneOrNone()
                 )
             )
-            val result = Fashion(
-                ID0,
+            val fashion = Fashion(ID0, clothing = style)
+            val resultStyle = ClothingStyle(
                 clothingSets = OneOf(ClothingSet.Dress),
                 equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0))
             )
+            val result = Fashion(ID0, clothing = resultStyle)
             val action = UpdateFashion(fashion)
 
             assertEquals(result, REDUCER.invoke(state, action).first.getFashionStorage().get(ID0))
@@ -88,7 +89,8 @@ class FashionTest {
         @Test
         fun `Cannot use unknown item templates`() {
             val state = State(Storage(Fashion(ID0)))
-            val fashion = Fashion(ID0, equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0)))
+            val style = ClothingStyle(equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0)))
+            val fashion = Fashion(ID0, clothing = style)
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -97,7 +99,8 @@ class FashionTest {
         @Test
         fun `Clothing set Dress requires at least 1 dress`() {
             val state = State(Storage(Fashion(ID0)))
-            val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.Dress))
+            val style = ClothingStyle(clothingSets = OneOf(ClothingSet.Dress))
+            val fashion = Fashion(ID0, clothing = style)
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -107,11 +110,11 @@ class FashionTest {
         fun `Equipment must have the correct type`() {
             val state =
                 State(listOf(Storage(Fashion(ID0)), Storage(Equipment(ITEM0, data = Hat()))))
-            val fashion = Fashion(
-                ID0,
+            val style = ClothingStyle(
                 clothingSets = OneOf(ClothingSet.Dress),
                 equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0))
             )
+            val fashion = Fashion(ID0, clothing = style)
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -159,11 +162,11 @@ class FashionTest {
                     Storage(Equipment(ITEM0, data = equipment))
                 )
             )
-            val fashion = Fashion(
-                ID0,
+            val style = ClothingStyle(
                 clothingSets = OneOf(set),
                 equipmentRarityMap = mapOf(type to OneOrNone(ITEM0))
             )
+            val fashion = Fashion(ID0, clothing = style)
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -186,11 +189,11 @@ class FashionTest {
                     ),
                 )
             )
-            val fashion = Fashion(
-                ID0,
+            val style = ClothingStyle(
                 clothingSets = OneOf(ClothingSet.Suit),
                 equipmentRarityMap = mapOf(type0 to OneOrNone(ITEM0), type1 to OneOrNone(ITEM1))
             )
+            val fashion = Fashion(ID0, clothing = style)
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
