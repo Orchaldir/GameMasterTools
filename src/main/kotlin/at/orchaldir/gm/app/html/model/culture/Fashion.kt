@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.item.equipment.MAIN_EQUIPMENT
 import at.orchaldir.gm.core.selector.item.getEquipmentId
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -44,12 +45,14 @@ private fun HtmlBlockTag.showClothingStyle(
 
     showRarityMap("Clothing Sets", style.clothingSets)
     showRarityMap("Accessories", style.accessories, ACCESSORIES)
-    EquipmentDataType.entries.forEach {
-        val options = style.getOptions(it)
+    EquipmentDataType.entries.forEach { type ->
+        if (MAIN_EQUIPMENT.contains(type) || style.accessories.isAvailable(type)) {
+            val options = style.getOptions(type)
 
-        if (options.isNotEmpty()) {
-            showRarityMap(it.name, options) { id ->
-                link(call, state, id)
+            if (options.isNotEmpty()) {
+                showRarityMap(type.name, options) { id ->
+                    link(call, state, id)
+                }
             }
         }
     }
@@ -74,8 +77,10 @@ private fun HtmlBlockTag.editClothingStyle(
 
     selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets)
     selectRarityMap("Accessories", ACCESSORY_RARITY, style.accessories, false, ACCESSORIES)
-    EquipmentDataType.entries.forEach {
-        selectEquipmentType(state, style, it)
+    EquipmentDataType.entries.forEach { type ->
+        if (MAIN_EQUIPMENT.contains(type) || style.accessories.isAvailable(type)) {
+            selectEquipmentType(state, style, type)
+        }
     }
 }
 

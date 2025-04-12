@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
 
 val ACCESSORIES = setOf(
     EquipmentDataType.Belt,
+    EquipmentDataType.Earring,
     EquipmentDataType.Footwear,
     EquipmentDataType.Glasses,
     EquipmentDataType.Gloves,
@@ -20,6 +21,7 @@ val ACCESSORIES = setOf(
     EquipmentDataType.Socks,
     EquipmentDataType.Tie,
 )
+val MAIN_EQUIPMENT = EquipmentDataType.entries - ACCESSORIES - EquipmentDataType.EyePatch
 
 enum class EquipmentDataType {
     Belt,
