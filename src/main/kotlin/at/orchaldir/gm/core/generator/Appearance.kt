@@ -170,14 +170,21 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
 
 fun generateHairCut(config: AppearanceGeneratorConfig): HairCut {
     return when (config.generate(config.appearanceStyle.hairStyles)) {
-        HairStyle.Bun -> TODO()
+        HairStyle.Bun -> Bun(
+            config.generate(config.appearanceStyle.bunStyles),
+            config.select(Size.entries),
+        )
         HairStyle.Long -> LongHairCut(
             config.generate(config.appearanceStyle.longHairStyles),
             config.generate(config.appearanceStyle.hairLengths),
         )
 
         HairStyle.Short -> ShortHairCut(config.generate(config.appearanceStyle.shortHairStyles))
-        HairStyle.Ponytail -> Ponytail()
+        HairStyle.Ponytail -> Ponytail(
+            config.generate(config.appearanceStyle.ponytailStyles),
+            config.generate(config.appearanceStyle.ponytailPositions),
+            config.generate(config.appearanceStyle.hairLengths),
+        )
     }
 }
 
