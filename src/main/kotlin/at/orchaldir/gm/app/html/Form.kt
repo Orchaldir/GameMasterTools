@@ -248,6 +248,24 @@ fun <T> HtmlBlockTag.selectFromOneOrNone(
     }
 }
 
+fun <T> HtmlBlockTag.selectRarityMapWithNull(
+    enum: String,
+    selectId: String,
+    rarityMap: RarityMap<T?>,
+    values: Set<T>,
+    update: Boolean = false,
+) {
+    showDetails(enum, true) {
+        showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
+            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+                label = rarity.toString()
+                value = "$currentValue-$rarity"
+                selected = rarity == currentRarity
+            }
+        }
+    }
+}
+
 fun <T> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,

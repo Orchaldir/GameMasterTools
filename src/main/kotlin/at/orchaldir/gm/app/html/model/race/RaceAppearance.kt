@@ -31,11 +31,13 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.utils.valueOfOrNull
 import io.ktor.http.*
 import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h3
+import kotlin.enums.EnumEntries
 
 private fun requiresHairColor(appearance: RaceAppearance) =
     appearance.hair.beardTypes.isAvailable(BeardType.Normal) ||
@@ -393,7 +395,13 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 
     if (options.skinTypes.isAvailable(SkinType.Material)) {
-        selectRarityMap("Material Colors", combine(param, MATERIAL, COLOR), options.materialColors, true)
+        selectRarityMapWithNull(
+            "Material Colors",
+            combine(param, MATERIAL, COLOR),
+            options.materialColors,
+            Color.entries.toSet() + null,
+            true,
+        )
         selectRarityMap(
             "Material Ids",
             combine(param, MATERIAL),
@@ -562,7 +570,7 @@ private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOption
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
     parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
     parseOneOf(parameters, combine(param, FUR, COLOR), Color::valueOf, setOf(DEFAULT_FUR_COLOR)),
-    parseOneOrNone(parameters, combine(param, MATERIAL, COLOR), Color::valueOf, emptySet()),
+    parseOneOf(parameters, combine(param, MATERIAL, COLOR), valueOfOrNull { Color.valueOf(it) }, setOf(null)),
     parseOneOf(parameters, combine(param, MATERIAL), ::parseMaterialId, setOf(MaterialId(0))),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
     parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),

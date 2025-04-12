@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils
 
+import kotlin.enums.EnumEntries
+
 fun doNothing() {
     // do nothing
 }
@@ -27,4 +29,12 @@ fun <T, U> List<T>.combine(other: List<U>): List<Pair<T, U>> {
     }
 
     return newList
+}
+
+fun <T> valueOfOrNull(withoutNull: (String) -> T): (String) -> T? = { name ->
+    if (name == "null") {
+        null
+    } else {
+        withoutNull(name)
+    }
 }

@@ -18,7 +18,7 @@ data class SkinOptions(
     val skinTypes: OneOf<SkinType> = OneOf(DEFAULT_SKIN_TYPE),
     val exoticColors: OneOf<Color> = OneOf(DEFAULT_EXOTIC_COLOR),
     val furColors: OneOf<Color> = OneOf(DEFAULT_FUR_COLOR),
-    val materialColors: OneOrNone<Color> = OneOrNone(),
+    val materialColors: OneOf<Color?> = OneOf(null),
     val materialIds: OneOf<MaterialId> = OneOf(MaterialId(0)),
     val normalColors: OneOf<SkinColor> = OneOf(SkinColor.entries),
     val scalesColors: OneOf<Color> = OneOf(DEFAULT_SCALE_COLOR),
