@@ -3,9 +3,15 @@ package at.orchaldir.gm.visualization.character.appearance.hair
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
+import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
+import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class HairConfig(
     val afroDiameter: Factor,
@@ -19,6 +25,7 @@ data class HairConfig(
     val braidWidth: Factor,
     val ponytailWidth: Factor,
     val ponytailWideWidth: Factor,
+    val bunRadius: SizeConfig<Factor>,
 ) {
     fun getLength(length: HairLength) = lengthMap.getOrDefault(length, FULL)
 
@@ -37,9 +44,24 @@ fun visualizeHair(state: CharacterRenderState, head: Head) {
 
 private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
     when (hair.cut) {
-        is Bun -> doNothing()
+        is Bun -> visualizeBun(state, hair, hair.cut)
         is LongHairCut -> visualizeLongHair(state, hair, hair.cut)
         is ShortHairCut -> visualizeShortHair(state, hair, hair.cut)
         is Ponytail -> visualizePonytail(state, hair, hair.cut)
     }
+}
+
+fun visualizeBackSideOfHead(
+    state: CharacterRenderState,
+    options: RenderOptions,
+) {
+    val padding = state.config.head.hair.longPadding
+    val width = FULL + padding * 2.0f
+    val builder = Polygon2dBuilder()
+        .addLeftPoint(state.aabb, CENTER, -padding)
+        .addMirroredPoints(state.aabb, width, -padding)
+        .addMirroredPoints(state.aabb, width, FULL + padding)
+        .addLeftPoint(state.aabb, CENTER, FULL + padding)
+
+    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(HAIR_LAYER + 1))
 }

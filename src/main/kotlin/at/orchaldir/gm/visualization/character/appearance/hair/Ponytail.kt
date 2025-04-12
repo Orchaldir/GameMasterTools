@@ -22,7 +22,7 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
     val y = Factor.fromPercentage(20)
     val length = state.config.getHairLength(state.aabb, ponytail.length)
 
-    visualizeHead(state, options)
+    visualizeBackSideOfHead(state, options)
 
     val polygon = when (ponytail.position) {
         PonytailPosition.High -> getCenterPonytail(state, ponytail.style, length, y)
@@ -45,21 +45,6 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
         val right = state.aabb.mirrorVertically(polygon)
         renderRoundedPolygon(state.renderer, options, right, layer)
     }
-}
-
-private fun visualizeHead(
-    state: CharacterRenderState,
-    options: RenderOptions,
-) {
-    val padding = state.config.head.hair.longPadding
-    val width = FULL + padding * 2.0f
-    val builder = Polygon2dBuilder()
-        .addLeftPoint(state.aabb, CENTER, -padding)
-        .addMirroredPoints(state.aabb, width, -padding)
-        .addMirroredPoints(state.aabb, width, FULL + padding)
-        .addLeftPoint(state.aabb, CENTER, FULL + padding)
-
-    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(HAIR_LAYER + 1))
 }
 
 private fun getCenterPonytail(
