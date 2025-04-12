@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectOneOf
+import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -42,7 +42,7 @@ fun FORM.editAppearance(
     character: Character,
     culture: Culture,
 ) {
-    selectOneOf(
+    selectFromOneOf(
         "Appearance Type",
         APPEARANCE,
         raceAppearance.appearanceTypes,
@@ -53,17 +53,17 @@ fun FORM.editAppearance(
     when (appearance) {
         is HeadOnly -> {
             editHeight(state, character, appearance.height)
-            editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance.skin, appearance.skin)
+            editHead(state, raceAppearance, culture, appearance.head)
+            editSkin(state, raceAppearance.skin, appearance.skin)
         }
 
         is HumanoidBody -> {
             editHeight(state, character, appearance.height)
             editBody(raceAppearance, character, appearance.body)
-            editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance.skin, appearance.skin)
-            editTails(raceAppearance, appearance.tails)
-            editWings(raceAppearance, appearance.wings)
+            editHead(state, raceAppearance, culture, appearance.head)
+            editSkin(state, raceAppearance.skin, appearance.skin)
+            editTails(state, raceAppearance, appearance.tails)
+            editWings(state, raceAppearance, appearance.wings)
         }
 
         UndefinedAppearance -> doNothing()
@@ -94,12 +94,12 @@ private fun FORM.editBody(
 private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
     h2 { +"Feet" }
 
-    selectOneOf("Type", FOOT, footOptions.footTypes, foot.getType(), true)
+    selectFromOneOf("Type", FOOT, footOptions.footTypes, foot.getType(), true)
 
     when (foot) {
         is ClawedFoot -> {
-            selectOneOf("Claw Size", combine(FOOT, CLAWS, SIZE), footOptions.clawSizes, foot.size, true)
-            selectOneOf("Claw Color", combine(FOOT, CLAWS, COLOR), footOptions.clawColors, foot.color, true)
+            selectFromOneOf("Claw Size", combine(FOOT, CLAWS, SIZE), footOptions.clawSizes, foot.size, true)
+            selectFromOneOf("Claw Color", combine(FOOT, CLAWS, COLOR), footOptions.clawColors, foot.color, true)
         }
 
         else -> doNothing()
@@ -107,6 +107,7 @@ private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
 }
 
 private fun FORM.editTails(
+    state: State,
     raceAppearance: RaceAppearance,
     tails: Tails,
 ) {
@@ -114,21 +115,22 @@ private fun FORM.editTails(
 
     h2 { +"Tails" }
 
-    selectOneOf("Layout", combine(TAIL, LAYOUT), options.layouts, tails.getType(), true)
+    selectFromOneOf("Layout", combine(TAIL, LAYOUT), options.layouts, tails.getType(), true)
 
     when (tails) {
         NoTails -> doNothing()
         is SimpleTail -> {
             val colorOptions = options.getFeatureColorOptions(tails.shape)
 
-            selectOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
+            selectFromOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
             selectValue("Size", combine(TAIL, SIZE), Size.entries, tails.size, true)
-            selectFeatureColor(colorOptions, tails.color, TAIL)
+            selectFeatureColor(state, colorOptions, tails.color, TAIL)
         }
     }
 }
 
 private fun FORM.editWings(
+    state: State,
     raceAppearance: RaceAppearance,
     wings: Wings,
 ) {
@@ -136,34 +138,35 @@ private fun FORM.editWings(
 
     h2 { +"Wings" }
 
-    selectOneOf("Layout", combine(WING, LAYOUT), wingOptions.layouts, wings.getType(), true)
+    selectFromOneOf("Layout", combine(WING, LAYOUT), wingOptions.layouts, wings.getType(), true)
 
     when (wings) {
         NoWings -> doNothing()
         is OneWing -> {
-            editWing(wingOptions, wings.wing, WING)
+            editWing(state, wingOptions, wings.wing, WING)
             selectValue("Wing Side", combine(WING, SIDE), Side.entries, wings.side, true)
         }
 
-        is TwoWings -> editWing(wingOptions, wings.wing, WING)
+        is TwoWings -> editWing(state, wingOptions, wings.wing, WING)
         is DifferentWings -> {
-            editWing(wingOptions, wings.left, combine(LEFT, WING))
-            editWing(wingOptions, wings.right, combine(RIGHT, WING))
+            editWing(state, wingOptions, wings.left, combine(LEFT, WING))
+            editWing(state, wingOptions, wings.right, combine(RIGHT, WING))
         }
     }
 }
 
 private fun FORM.editWing(
-    wingOptions: WingOptions,
+    state: State,
+    options: WingOptions,
     wing: Wing,
     param: String,
 ) {
-    selectWingType(wingOptions, wing.getType(), combine(param, TYPE))
+    selectWingType(options, wing.getType(), combine(param, TYPE))
 
     when (wing) {
-        is BatWing -> selectColor("Wing Color", combine(param, COLOR), wingOptions.batColors, wing.color)
-        is BirdWing -> selectColor("Wing Color", combine(param, COLOR), wingOptions.birdColors, wing.color)
-        is ButterflyWing -> selectColor("Wing Color", combine(param, COLOR), wingOptions.butterflyColors, wing.color)
+        is BatWing -> selectFeatureColor(state, options.batColors, wing.color, combine(param, COLOR))
+        is BirdWing -> selectColor("Wing Color", combine(param, COLOR), options.birdColors, wing.color)
+        is ButterflyWing -> selectColor("Wing Color", combine(param, COLOR), options.butterflyColors, wing.color)
     }
 }
 
@@ -172,7 +175,7 @@ private fun FORM.selectWingType(
     currentType: WingType,
     param: String,
 ) {
-    selectOneOf("Type", param, wingOptions.types, currentType, true)
+    selectFromOneOf("Type", param, wingOptions.types, currentType, true)
 }
 
 // parse
@@ -289,7 +292,7 @@ private fun parseWing(
 
     return when (parameters[combine(param, TYPE)]) {
         WingType.Bat.toString() -> BatWing(
-            parseAppearanceColor(parameters, param, config, wingOptions.batColors),
+            parseFeatureColor(parameters, config, wingOptions.batColors, combine(param, COLOR))
         )
 
         WingType.Bird.toString() -> BirdWing(

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
@@ -29,27 +30,35 @@ data class CharacterRenderConfig(
     fun getHairLength(aabb: AABB, length: HairLength) = body.getDistanceFromNeckToBottom(aabb) *
             head.hair.getLength(length)
 
-    fun getOptions(skin: Skin): RenderOptions = FillAndBorder(
+    fun getOptions(state: State, skin: Skin): RenderOptions = FillAndBorder(
         when (skin) {
             is ExoticSkin -> skin.color.toRender()
             is Fur -> skin.color.toRender()
+            is MaterialSkin -> state
+                .getMaterialStorage()
+                .getOrThrow(skin.material)
+                .color
+                .toRender()
+
             is NormalSkin -> skinColors[skin.color] ?: Color.Purple.toRender()
             is Scales -> skin.color.toRender()
-        }, line
+        },
+        line,
     )
 
     fun getFeatureOptions(
+        state: State,
         featureColor: FeatureColor,
         hair: Hair,
         skin: Skin,
     ) = when (featureColor) {
-        is OverwriteFeatureColor -> getOptions(featureColor.skin)
+        is OverwriteFeatureColor -> getOptions(state, featureColor.skin)
         ReuseHairColor -> when (hair) {
             NoHair -> error("Cannot reuse hair color without hair!")
             is NormalHair -> getLineOptions(hair.color)
         }
 
-        ReuseSkinColor -> getOptions(skin)
+        ReuseSkinColor -> getOptions(state, skin)
     }
 
     fun getLineOptions(color: Color) = FillAndBorder(color.toRender(), line)

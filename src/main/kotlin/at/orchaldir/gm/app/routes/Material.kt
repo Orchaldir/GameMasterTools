@@ -14,6 +14,8 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.countRaceAppearancesMadeOf
+import at.orchaldir.gm.core.selector.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
@@ -100,7 +102,7 @@ fun Application.configureMaterialRouting() {
 
             STORE.dispatch(DeleteMaterial(delete.id))
 
-            call.respondRedirect(call.application.href(MaterialRoutes()))
+            call.respondRedirect(call.application.href(MaterialRoutes.All()))
 
             STORE.getState().save()
         }
@@ -152,6 +154,7 @@ private fun HTML.showAllMaterials(
                 th { +"Category" }
                 th { +"Color" }
                 th { +"Equipment" }
+                th { +"Race App" }
                 th { +"Streets" }
                 th { +"Texts" }
             }
@@ -161,6 +164,7 @@ private fun HTML.showAllMaterials(
                     tdEnum(material.category)
                     td { showColor(material.color) }
                     tdSkipZero(state.countEquipment(material.id))
+                    tdSkipZero(state.countRaceAppearancesMadeOf(material.id))
                     tdSkipZero(state.countStreetTemplates(material.id))
                     tdSkipZero(state.countTexts(material.id))
                 }
@@ -179,19 +183,26 @@ private fun HTML.showMaterialDetails(
 ) {
     val equipmentList = state.sortEquipmentList(state.getEquipmentMadeOf(material.id))
     val mountains = state.getMountainsContaining(material.id)
+    val raceAppearances = state.getRaceAppearancesMadeOf(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
-    val backLink = call.application.href(MaterialRoutes())
+    val backLink = call.application.href(MaterialRoutes.All())
     val deleteLink = call.application.href(MaterialRoutes.Delete(material.id))
     val editLink = call.application.href(MaterialRoutes.Edit(material.id))
 
     simpleHtml("Material: ${material.name}") {
         showMaterial(material)
+
+        h2 { +"Usage" }
+
         showList("Equipment", equipmentList) { equipment ->
             link(call, equipment)
         }
         showList("Mountains", mountains) { mountain ->
             link(call, mountain)
+        }
+        showList("Race Appearances", raceAppearances) { appearance ->
+            link(call, appearance)
         }
         showList("Street Templates", streetTemplates) { template ->
             link(call, template)

@@ -139,7 +139,7 @@ fun visualizeBody(
     body: Body,
     skin: Skin,
 ) {
-    val options = state.config.getOptions(skin)
+    val options = state.config.getOptions(state.state, skin)
 
     visualizeArms(state, body, options)
     visualizeHands(state, body, options)

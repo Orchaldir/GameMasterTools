@@ -57,7 +57,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
@@ -102,7 +102,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Lavender": "Common",
      "Silver": "Common"
     }
@@ -167,7 +167,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
@@ -209,7 +209,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Gray": "Common"
     }
    }
@@ -273,7 +273,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Green": "Common",
      "Olive": "Common"
     }
@@ -344,7 +344,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
@@ -405,7 +405,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Green": "Common",
      "Maroon": "Common",
      "Olive": "Common",
@@ -457,17 +457,15 @@
      "Saiga": "Uncommon",
      "WaterBuffalo": "Common"
     },
-    "simpleLength": 8000,
-    "colors": {
-     "types": "Skin"
-    }
+    "simpleLength": 8000
    },
    "skin": {
     "skinTypes": {
-     "Exotic": "Common"
+     "Material": "Common"
     },
-    "exoticSkinColors": {
-     "Gray": "Common"
+    "materials": {
+     "30": "Uncommon",
+     "31": "Common"
     }
    },
    "tail": {
@@ -479,7 +477,6 @@
     },
     "simpleOptions": {
      "Rat": {
-      "types": "Skin"
      }
     }
    },
@@ -625,7 +622,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
@@ -668,6 +665,14 @@
      "Scales": "Uncommon",
      "Normal": "Common"
     },
+    "normalColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Common",
+     "Tan": "Common",
+     "Dark": "Common",
+     "VeryDark": "Common"
+    },
     "scalesColors": {
      "Blue": "Common",
      "Gold": "Common",
@@ -678,14 +683,6 @@
      "OrangeRed": "Common",
      "Red": "Common",
      "SaddleBrown": "Common"
-    },
-    "normalSkinColors": {
-     "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Common",
-     "Tan": "Common",
-     "Dark": "Common",
-     "VeryDark": "Common"
     }
    }
   },
@@ -747,7 +744,7 @@
     "skinTypes": {
      "Exotic": "Common"
     },
-    "exoticSkinColors": {
+    "exoticColors": {
      "Olive": "Common"
     }
    }
@@ -820,7 +817,7 @@
     }
    },
    "skin": {
-    "normalSkinColors": {
+    "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"

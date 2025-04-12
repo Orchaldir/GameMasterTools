@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.AppearanceType
 import at.orchaldir.gm.core.model.character.appearance.EarShape
 import at.orchaldir.gm.core.model.character.appearance.EarsLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Id
@@ -41,5 +42,9 @@ data class RaceAppearance(
 
     override fun id() = id
     override fun name() = name
+
+    fun contains(material: MaterialId) = skin.contains(material) ||
+            horn.contains(material) ||
+            tail.contains(material)
 
 }

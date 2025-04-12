@@ -33,6 +33,7 @@ fun HtmlBlockTag.editMaterial(material: Material) {
 
 // parse
 
+fun parseMaterialId(value: String) = MaterialId(value.toInt())
 fun parseMaterialId(parameters: Parameters, param: String) = MaterialId(parseInt(parameters, param))
 fun parseOptionalMaterialId(parameters: Parameters, param: String) =
     parseOptionalInt(parameters, param)?.let { MaterialId(it) }

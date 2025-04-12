@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character.appearance.wing
 
+import at.orchaldir.gm.core.model.character.appearance.FeatureColor
+import at.orchaldir.gm.core.model.character.appearance.ReuseSkinColor
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -28,7 +30,7 @@ sealed class Wing {
 @Serializable
 @SerialName("Bat")
 data class BatWing(
-    val color: Color = DEFAULT_BAT_COLOR,
+    val color: FeatureColor = ReuseSkinColor,
 ) : Wing()
 
 @Serializable

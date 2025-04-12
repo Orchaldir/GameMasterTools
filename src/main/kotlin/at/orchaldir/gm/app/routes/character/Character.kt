@@ -246,20 +246,10 @@ private fun HTML.showGallery(
     val backLink = call.application.href(CharacterRoutes.All())
 
     simpleHtml("Characters") {
+        showGallery(call, charactersWithSize) { (character, name, paddedSize) ->
+            val equipment = state.getEquipment(character)
 
-        div("grid-container") {
-            charactersWithSize.forEach { (character, name, paddedSize) ->
-                val equipment = state.getEquipment(character)
-                val svg =
-                    visualizeAppearance(state, CHARACTER_CONFIG, maxSize, character.appearance, paddedSize, equipment)
-
-                div("grid-item") {
-                    a(href(call, character.id)) {
-                        div { +name }
-                        svg(svg, 100)
-                    }
-                }
-            }
+            visualizeAppearance(state, CHARACTER_CONFIG, maxSize, character.appearance, paddedSize, equipment)
         }
 
         back(backLink)
@@ -486,7 +476,7 @@ private fun HTML.showCharacterEditor(
             method = FormMethod.post
             selectName(state, character)
             selectElement(state, "Race", RACE, state.sortRaces(races), character.race, true)
-            selectOneOf("Gender", GENDER, race.genders, character.gender)
+            selectFromOneOf("Gender", GENDER, race.genders, character.gender)
             selectOrigin(state, character, race)
             selectVitalStatus(state, character)
             showAge(state, character, race)

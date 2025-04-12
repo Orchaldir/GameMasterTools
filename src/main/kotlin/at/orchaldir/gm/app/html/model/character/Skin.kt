@@ -1,15 +1,14 @@
 package at.orchaldir.gm.app.html.model.character
 
-import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.app.EXOTIC
-import at.orchaldir.gm.app.SKIN
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseMaterialId
 import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectOneOf
+import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateSkin
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.appearance.SkinOptions
 import at.orchaldir.gm.core.model.util.Color
@@ -23,46 +22,58 @@ import kotlinx.html.style
 // edit
 
 fun HtmlBlockTag.editSkin(
+    state: State,
     options: SkinOptions,
     skin: Skin,
 ) {
     h2 { +"Skin" }
 
-    editSkinInternal(options, skin, SKIN)
+    editSkinInternal(state, options, skin, SKIN)
 }
 
 fun HtmlBlockTag.editSkin(
+    state: State,
     options: SkinOptions,
     skin: Skin,
     param: String,
 ) {
     showDetails("Skin") {
-        editSkinInternal(options, skin, param)
+        editSkinInternal(state, options, skin, param)
     }
 }
 
 private fun HtmlBlockTag.editSkinInternal(
+    state: State,
     options: SkinOptions,
     skin: Skin,
     param: String,
 ) {
-    selectOneOf("Type", combine(param, TYPE), options.skinTypes, skin.getType(), true)
+    selectFromOneOf("Type", combine(param, TYPE), options.skinTypes, skin.getType(), true)
 
     when (skin) {
-        is Fur -> selectColor("Color", combine(param, EXOTIC, COLOR), options.furColors, skin.color)
-        is Scales -> selectColor("Color", combine(param, EXOTIC, COLOR), options.scalesColors, skin.color)
         is ExoticSkin -> selectColor(
             "Color",
             combine(param, EXOTIC, COLOR),
-            options.exoticSkinColors,
+            options.exoticColors,
             skin.color
         )
 
+        is Fur -> selectColor("Color", combine(param, EXOTIC, COLOR), options.furColors, skin.color)
+
+        is MaterialSkin -> selectFromOneOf(
+            "Material",
+            combine(param, MATERIAL),
+            state.getMaterialStorage(),
+            options.materials,
+            skin.material,
+            true
+        ) { material -> material.name }
+
         is NormalSkin -> {
-            selectOneOf(
+            selectFromOneOf(
                 "Color",
                 combine(param, COLOR),
-                options.normalSkinColors,
+                options.normalColors,
                 skin.color,
                 true
             ) { skinColor ->
@@ -72,6 +83,8 @@ private fun HtmlBlockTag.editSkinInternal(
                 style = "background-color:${bgColor}"
             }
         }
+
+        is Scales -> selectColor("Color", combine(param, EXOTIC, COLOR), options.scalesColors, skin.color)
     }
 }
 
@@ -91,21 +104,23 @@ fun parseSkin(
 ): Skin {
 
     return when (parameters[combine(param, TYPE)]) {
+        SkinType.Exotic.toString() -> {
+            return ExoticSkin(parseExoticColor(parameters, config, options.exoticColors, param))
+        }
+
         SkinType.Fur.toString() -> {
             return Fur(parseExoticColor(parameters, config, options.furColors, param))
         }
 
-        SkinType.Scales.toString() -> {
-            return Scales(parseExoticColor(parameters, config, options.scalesColors, param))
-        }
-
-        SkinType.Exotic.toString() -> {
-            return ExoticSkin(parseExoticColor(parameters, config, options.exoticSkinColors, param))
-        }
+        SkinType.Material.toString() -> MaterialSkin(parseMaterialId(parameters, combine(param, MATERIAL)))
 
         SkinType.Normal.toString() -> {
-            val color = parseAppearanceOption(parameters, combine(param, COLOR), config, options.normalSkinColors)
+            val color = parseAppearanceOption(parameters, combine(param, COLOR), config, options.normalColors)
             return NormalSkin(color)
+        }
+
+        SkinType.Scales.toString() -> {
+            return Scales(parseExoticColor(parameters, config, options.scalesColors, param))
         }
 
         else -> generateSkin(config)

@@ -149,6 +149,18 @@
    "id": 29,
    "name": "Glass",
    "color": "SkyBlue"
+  },
+  "30": {
+   "id": 30,
+   "name": "Marble",
+   "category": "Stone",
+   "color": "LightGray"
+  },
+  "31": {
+   "id": 31,
+   "name": "Granite",
+   "category": "Stone",
+   "color": "Gray"
   }
  }
 }

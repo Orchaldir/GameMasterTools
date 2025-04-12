@@ -64,7 +64,7 @@ private fun FORM.selectEquipment(
             val text = bodySlots.joinToString(" & ")
 
             if (isFreeOrType) {
-                selectOneOrNone(
+                selectFromOneOrNone(
                     text,
                     bodySlots.joinToString("_"),
                     options,

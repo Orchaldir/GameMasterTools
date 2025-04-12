@@ -171,20 +171,36 @@ fun HtmlBlockTag.selectText(
 
 // rarity map
 
-inline fun <reified T : Enum<T>> HtmlBlockTag.selectOneOf(
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
     text: String,
     selectId: String,
     values: OneOf<T>,
     current: T,
     update: Boolean = false,
 ) {
-    selectOneOf(text, selectId, values, current, update) { v ->
+    selectFromOneOf(text, selectId, values, current, update) { v ->
         label = v.name
         value = v.toString()
     }
 }
 
-fun <T> HtmlBlockTag.selectOneOf(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectFromOneOf(
+    text: String,
+    selectId: String,
+    storage: Storage<ID, ELEMENT>,
+    values: OneOf<ID>,
+    current: ID,
+    update: Boolean = false,
+    getName: (ELEMENT) -> String,
+) {
+    selectFromOneOf(text, selectId, values, current, update) { id ->
+        val element = storage.getOrThrow(id)
+        label = getName(element)
+        value = id.value().toString()
+    }
+}
+
+fun <T> HtmlBlockTag.selectFromOneOf(
     label: String,
     selectId: String,
     values: OneOf<T>,
@@ -214,7 +230,7 @@ fun <T> HtmlBlockTag.selectOneOf(
     }
 }
 
-fun <T> HtmlBlockTag.selectOneOrNone(
+fun <T> HtmlBlockTag.selectFromOneOrNone(
     selectLabel: String,
     selectId: String,
     values: OneOrNone<T>,
@@ -284,7 +300,7 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectRarityMap(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,
     storage: Storage<ID, ELEMENT>,
@@ -295,7 +311,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
     selectRarityMap(enum, selectId, storage, storage.getIds(), rarityMap, update, getName)
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,
     storage: Storage<ID, ELEMENT>,
@@ -304,7 +320,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
     update: Boolean = false,
     getName: (ELEMENT) -> String,
 ) {
-    showDetails(enum) {
+    showDetails(enum, true) {
         showMap(rarityMap.getRarityFor(ids)) { id, currentRarity ->
             val element = storage.getOrThrow(id)
             selectValue(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->

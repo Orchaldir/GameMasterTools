@@ -210,20 +210,8 @@ private fun HTML.showGallery(
     val backLink = call.application.href(TextRoutes.All())
 
     simpleHtml("Texts") {
-
-        div("grid-container") {
-            texts.forEach { text ->
-                val svg = visualizeTextFormat(state, TEXT_CONFIG, text, size)
-
-                div("grid-item") {
-                    a(href(call, text.id)) {
-                        div {
-                            +text.getNameWithDate(state)
-                        }
-                        svg(svg, 100)
-                    }
-                }
-            }
+        showGallery(call, texts, { text -> text.getNameWithDate(state) }) { text ->
+            visualizeTextFormat(state, TEXT_CONFIG, text, size)
         }
 
         back(backLink)

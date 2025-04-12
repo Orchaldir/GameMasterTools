@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.appearance.FeatureColorOptions
 import io.ktor.http.*
@@ -12,12 +13,13 @@ import kotlinx.html.HtmlBlockTag
 // edit
 
 fun HtmlBlockTag.selectFeatureColor(
+    state: State,
     options: FeatureColorOptions,
     color: FeatureColor,
     param: String,
 ) {
     if (options.types == FeatureColorType.Overwrite && color is OverwriteFeatureColor) {
-        editSkin(options.skin, color.skin, param)
+        editSkin(state, options.skin, color.skin, param)
     }
 }
 

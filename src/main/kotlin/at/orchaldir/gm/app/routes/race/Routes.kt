@@ -43,6 +43,9 @@ class RaceRoutes {
 
     @Resource("/appearance")
     class AppearanceRoutes(val parent: RaceRoutes = RaceRoutes()) {
+        @Resource("gallery")
+        class Gallery(val parent: AppearanceRoutes = AppearanceRoutes())
+
         @Resource("details")
         class Details(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
 

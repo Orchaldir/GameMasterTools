@@ -257,10 +257,11 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
 fun generateSkin(config: AppearanceGeneratorConfig) = generateSkin(config, config.appearanceOptions.skin)
 
 fun generateSkin(config: AppearanceGeneratorConfig, options: SkinOptions) = when (config.generate(options.skinTypes)) {
+    SkinType.Exotic -> ExoticSkin(config.generate(options.exoticColors))
     SkinType.Fur -> Fur(config.generate(options.furColors))
+    SkinType.Material -> MaterialSkin(config.generate(options.materials))
+    SkinType.Normal -> NormalSkin(config.generate(options.normalColors))
     SkinType.Scales -> Scales(config.generate(options.scalesColors))
-    SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
-    SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))
 }
 
 fun generateTails(config: AppearanceGeneratorConfig): Tails {
@@ -317,7 +318,7 @@ fun generateWing(config: AppearanceGeneratorConfig): Wing {
     val options = config.appearanceOptions.wing
 
     return when (config.generate(options.types)) {
-        WingType.Bat -> BatWing(config.generate(options.batColors))
+        WingType.Bat -> BatWing(generateFeatureColor(config, options.batColors))
         WingType.Bird -> BirdWing(config.generate(options.birdColors))
         WingType.Butterfly -> ButterflyWing(config.generate(options.butterflyColors))
     }
