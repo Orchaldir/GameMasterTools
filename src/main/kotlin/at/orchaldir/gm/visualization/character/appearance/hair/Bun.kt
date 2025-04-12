@@ -10,15 +10,16 @@ import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
 fun visualizeBun(state: CharacterRenderState, hair: NormalHair, bun: Bun) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
-    val radius = state.aabb.convertHeight(config.head.hair.bunRadius.convert(bun.size))
+    val radiusFactor = config.head.hair.bunRadius.convert(bun.size)
+    val radius = state.aabb.convertHeight(radiusFactor)
     val renderer = state.getLayer(HAIR_LAYER - 1)
 
     visualizeBackSideOfHead(state, options, HAIR_LAYER)
 
     val center = when (bun.style) {
         BunStyle.High -> state.aabb.getPoint(CENTER, START)
-        BunStyle.Low -> state.aabb.getPoint(CENTER, END)
-        BunStyle.Twin -> state.aabb.getPoint(END, CENTER)
+        BunStyle.Low -> state.aabb.getPoint(CENTER, END - radiusFactor / 2.0f)
+        BunStyle.Twin -> state.aabb.getPoint(END, CENTER - radiusFactor / 2.0f)
     }
 
     renderer.renderCircle(center, radius, options)
