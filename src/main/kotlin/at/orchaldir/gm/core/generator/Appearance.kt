@@ -174,6 +174,7 @@ fun generateHairCut(config: AppearanceGeneratorConfig): HairCut {
             config.generate(config.appearanceStyle.bunStyles),
             config.select(Size.entries),
         )
+
         HairStyle.Long -> LongHairCut(
             config.generate(config.appearanceStyle.longHairStyles),
             config.generate(config.appearanceStyle.hairLengths),

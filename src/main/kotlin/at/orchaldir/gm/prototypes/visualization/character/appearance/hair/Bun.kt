@@ -2,9 +2,13 @@ package at.orchaldir.gm.prototypes.visualization.character.appearance.hair
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
-import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.hair.Bun
+import at.orchaldir.gm.core.model.character.appearance.hair.BunStyle
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
 import at.orchaldir.gm.core.model.character.appearance.mouth.FemaleMouth
 import at.orchaldir.gm.core.model.util.Color

@@ -203,6 +203,7 @@ private fun FORM.editNormalHair(
             )
             selectValue("Bun Size", combine(BUN, SIZE), Size.entries, hair.cut.size, true)
         }
+
         is LongHairCut -> {
             selectOneOf(
                 "Long Hair Style",
