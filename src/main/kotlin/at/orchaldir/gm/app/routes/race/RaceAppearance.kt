@@ -21,6 +21,7 @@ import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
+import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -43,6 +44,13 @@ fun Application.configureRaceAppearanceRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAll(call)
+            }
+        }
+        get<AppearanceRoutes.Gallery> { gallery ->
+            logger.info { "Show gallery" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showGallery(call, STORE.getState())
             }
         }
         get<AppearanceRoutes.Details> { details ->
@@ -123,16 +131,51 @@ fun Application.configureRaceAppearanceRouting() {
 }
 
 private fun HTML.showAll(call: ApplicationCall) {
-    val elements = STORE.getState().getRaceAppearanceStorage().getAll().sortedBy { it.name }
+    val elements = STORE.getState().getRaceAppearanceStorage()
+        .getAll()
+        .sortedBy { it.name }
     val createLink = call.application.href(AppearanceRoutes.New())
+    val galleryLink = call.application.href(AppearanceRoutes.Gallery())
 
     simpleHtml("Race Appearances") {
         field("Count", elements.size)
+        action(galleryLink, "Gallery")
+
         showList(elements) { element ->
             link(call, element)
         }
+
         action(createLink, "Add")
         back("/")
+    }
+}
+
+private fun HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+) {
+    val races = STORE.getState().getRaceAppearanceStorage()
+        .getAll()
+        .sortedBy { it.name }
+    val backLink = call.application.href(AppearanceRoutes())
+
+    simpleHtml("Race Appearances") {
+        div("grid-container") {
+            races.forEach { race ->
+                val svg = getSvg(state, race)
+
+                div("grid-item") {
+                    a(href(call, race.id)) {
+                        div {
+                            +race.name
+                        }
+                        svg(svg, 100)
+                    }
+                }
+            }
+        }
+
+        back(backLink)
     }
 }
 
@@ -223,6 +266,21 @@ private fun HTML.showEditor(
             showRandomExamples(state, appearance, 20, 20)
         })
     }
+}
+
+private fun getSvg(
+    state: State,
+    appearance: RaceAppearance,
+): Svg {
+    val generator = createGeneratorConfig(
+        state,
+        appearance,
+        AppearanceStyle(),
+        Gender.Male,
+        Distribution.fromMeters(1.0f, 0.0f),
+    )
+
+    return visualizeCharacter(state, CHARACTER_CONFIG, generator.generate())
 }
 
 fun createGeneratorConfig(
