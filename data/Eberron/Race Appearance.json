@@ -457,10 +457,7 @@
      "Saiga": "Uncommon",
      "WaterBuffalo": "Common"
     },
-    "simpleLength": 8000,
-    "colors": {
-     "types": "Skin"
-    }
+    "simpleLength": 8000
    },
    "skin": {
     "skinTypes": {
@@ -480,7 +477,6 @@
     },
     "simpleOptions": {
      "Rat": {
-      "types": "Skin"
      }
     }
    },
