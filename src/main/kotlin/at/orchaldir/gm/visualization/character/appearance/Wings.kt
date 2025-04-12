@@ -42,6 +42,7 @@ private fun visualizeWing(
         val options = state.config.getFeatureOptions(state.state, wing.color, hair, skin)
         visualizeWing(state, side, options, ::createLeftBatWing)
     }
+
     is BirdWing -> visualizeWing(state, side, wing.color, ::createLeftBirdWing)
     is ButterflyWing -> visualizeWing(state, side, wing.color, ::createLeftButterflyWing)
 }

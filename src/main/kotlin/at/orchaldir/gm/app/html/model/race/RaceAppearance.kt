@@ -7,7 +7,10 @@ import at.orchaldir.gm.app.html.model.character.selectHornLength
 import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.parseMaterialId
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
@@ -24,7 +27,10 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
-import at.orchaldir.gm.core.model.character.appearance.wing.*
+import at.orchaldir.gm.core.model.character.appearance.wing.DEFAULT_BIRD_COLOR
+import at.orchaldir.gm.core.model.character.appearance.wing.DEFAULT_BUTTERFLY_COLOR
+import at.orchaldir.gm.core.model.character.appearance.wing.WingType
+import at.orchaldir.gm.core.model.character.appearance.wing.WingsLayout
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color

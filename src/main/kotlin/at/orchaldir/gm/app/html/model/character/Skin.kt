@@ -1,8 +1,6 @@
 package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.model.item.editColorItemPart
-import at.orchaldir.gm.app.html.model.item.parseColorItemPart
 import at.orchaldir.gm.app.html.model.parseMaterialId
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectFromOneOf

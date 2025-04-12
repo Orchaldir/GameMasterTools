@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.model.race.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.wing.*
+import at.orchaldir.gm.core.model.character.appearance.wing.DEFAULT_BIRD_COLOR
+import at.orchaldir.gm.core.model.character.appearance.wing.DEFAULT_BUTTERFLY_COLOR
+import at.orchaldir.gm.core.model.character.appearance.wing.WingType
+import at.orchaldir.gm.core.model.character.appearance.wing.WingsLayout
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
 import kotlinx.serialization.Serializable

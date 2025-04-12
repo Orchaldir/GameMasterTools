@@ -1,7 +1,5 @@
 package at.orchaldir.gm.utils
 
-import kotlin.enums.EnumEntries
-
 fun doNothing() {
     // do nothing
 }
