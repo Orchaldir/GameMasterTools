@@ -171,10 +171,10 @@ fun HtmlBlockTag.selectText(
 
 // rarity map
 
-inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOptionalOneOf(
     text: String,
     selectId: String,
-    optionalValues: OneOf<T>?,
+    optionalValues: RarityMap<T>?,
     current: T,
     update: Boolean = false,
 ) {
@@ -185,7 +185,7 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
 inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
     text: String,
     selectId: String,
-    values: OneOf<T>,
+    values: RarityMap<T>,
     current: T,
     update: Boolean = false,
 ) {
@@ -199,7 +199,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectFromOneOf(
     text: String,
     selectId: String,
     storage: Storage<ID, ELEMENT>,
-    values: OneOf<ID>,
+    values: RarityMap<ID>,
     current: ID,
     update: Boolean = false,
     getName: (ELEMENT) -> String,
@@ -214,7 +214,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectFromOneOf(
 fun <T> HtmlBlockTag.selectFromOneOf(
     label: String,
     selectId: String,
-    values: OneOf<T>,
+    values: RarityMap<T>,
     current: T,
     update: Boolean = false,
     content: OPTION.(T) -> Unit,
@@ -244,7 +244,7 @@ fun <T> HtmlBlockTag.selectFromOneOf(
 fun <T> HtmlBlockTag.selectFromOneOrNone(
     selectLabel: String,
     selectId: String,
-    values: OneOrNone<T>,
+    values: RarityMap<T>,
     isUnselected: Boolean,
     update: Boolean = false,
     content: OPTION.(T) -> Unit,

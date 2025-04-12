@@ -67,6 +67,44 @@
      }
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Brelish - Female",
+   "appearance": {
+    "beardStyles": {
+     "Shaved": "Common"
+    },
+    "hairStyles": {
+     "Long": "Common",
+     "Ponytail": "Common",
+     "Short": "Common"
+    },
+    "lipColors": {
+     "Crimson": "Common",
+     "Red": "Common"
+    }
+   },
+   "clothing": {
+    "clothingSets": {
+     "Dress": "Common",
+     "PantsAndShirt": "Common"
+    },
+    "equipmentRarityMap": {
+     "Coat": {
+      "1": "Common"
+     },
+     "Dress": {
+      "2": "Common"
+     },
+     "Pants": {
+      "9": "Common"
+     },
+     "Shirt": {
+      "10": "Common"
+     }
+    }
+   }
   }
  }
 }

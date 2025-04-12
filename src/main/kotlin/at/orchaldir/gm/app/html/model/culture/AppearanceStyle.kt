@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.selectRarityMap
 import at.orchaldir.gm.app.html.showRarityMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseOneOf
+import at.orchaldir.gm.app.parse.parseOneOrNone
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
@@ -109,14 +110,14 @@ fun HtmlBlockTag.editAppearanceOptions(style: AppearanceStyle) {
 
 fun parseAppearanceStyle(parameters: Parameters) = AppearanceStyle(
     parseOneOf(parameters, combine(BEARD, STYLE), BeardStyleType::valueOf),
-    parseOneOf(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
-    parseOneOf(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
+    parseOneOrNone(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
+    parseOneOrNone(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
     parseOneOf(parameters, combine(HAIR, STYLE), HairStyle::valueOf),
-    parseOneOf(parameters, combine(BUN, STYLE), BunStyle::valueOf),
-    parseOneOf(parameters, combine(LONG, HAIR, STYLE), LongHairStyle::valueOf),
-    parseOneOf(parameters, combine(PONYTAIL, STYLE), PonytailStyle::valueOf),
-    parseOneOf(parameters, combine(PONYTAIL, POSITION), PonytailPosition::valueOf),
-    parseOneOf(parameters, combine(SHORT, HAIR, STYLE), ShortHairStyle::valueOf),
-    parseOneOf(parameters, combine(HAIR, LENGTH), HairLength::valueOf),
+    parseOneOrNone(parameters, combine(BUN, STYLE), BunStyle::valueOf),
+    parseOneOrNone(parameters, combine(LONG, HAIR, STYLE), LongHairStyle::valueOf),
+    parseOneOrNone(parameters, combine(PONYTAIL, STYLE), PonytailStyle::valueOf),
+    parseOneOrNone(parameters, combine(PONYTAIL, POSITION), PonytailPosition::valueOf),
+    parseOneOrNone(parameters, combine(SHORT, HAIR, STYLE), ShortHairStyle::valueOf),
+    parseOneOrNone(parameters, combine(HAIR, LENGTH), HairLength::valueOf),
     parseOneOf(parameters, LIP_COLORS, Color::valueOf),
 )

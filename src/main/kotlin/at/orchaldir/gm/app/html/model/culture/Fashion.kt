@@ -111,12 +111,17 @@ fun parseFashion(id: FashionId, parameters: Parameters) = Fashion(
     parseClothingStyle(parameters),
 )
 
-fun parseClothingStyle(parameters: Parameters) = ClothingStyle(
-    parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
-    parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentDataType::valueOf),
-    EquipmentDataType.entries
-        .associateWith { parseEquipmentMap(parameters, it) },
-)
+fun parseClothingStyle(parameters: Parameters): ClothingStyle {
+    val accessories = parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentDataType::valueOf)
+
+    return ClothingStyle(
+        parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
+        accessories,
+        EquipmentDataType.entries
+            .filter { type -> MAIN_EQUIPMENT.contains(type) || accessories.isAvailable(type) }
+            .associateWith { parseEquipmentMap(parameters, it) },
+    )
+}
 
 private fun parseEquipmentMap(parameters: Parameters, type: EquipmentDataType) =
     parseOneOrNone(parameters, type.name, ::parseEquipmentId)

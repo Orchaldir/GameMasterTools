@@ -24,10 +24,7 @@ import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.core.model.util.Side
-import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -313,12 +310,12 @@ fun parseAppearanceColor(
     parameters: Parameters,
     param: String,
     config: AppearanceGeneratorConfig,
-    colors: OneOf<Color>,
+    colors: RarityMap<Color>,
 ) = parseAppearanceOption(parameters, combine(param, COLOR), config, colors)
 
 inline fun <reified T : Enum<T>> parseAppearanceOption(
     parameters: Parameters,
     param: String,
     config: AppearanceGeneratorConfig,
-    values: OneOf<T>,
+    values: RarityMap<T>,
 ) = parse<T>(parameters, param) ?: config.generate(values)

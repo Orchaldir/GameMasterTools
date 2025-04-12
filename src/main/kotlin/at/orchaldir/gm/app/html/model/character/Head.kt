@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectFromOneOf
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.generator.*
@@ -80,7 +77,7 @@ private fun FORM.editNormalBeard(
     style: AppearanceStyle?,
     beard: NormalBeard,
 ) {
-    selectFromOneOf(
+    selectFromOptionalOneOf(
         "Style",
         combine(BEARD, STYLE),
         style?.beardStyles,
@@ -105,14 +102,14 @@ private fun HtmlBlockTag.selectGoateeStyle(
     style: AppearanceStyle?,
     current: GoateeStyle,
 ) {
-    selectFromOneOf("Goatee", GOATEE_STYLE, style?.goateeStyles, current, true)
+    selectFromOptionalOneOf("Goatee", GOATEE_STYLE, style?.goateeStyles, current, true)
 }
 
 private fun HtmlBlockTag.selectMoustacheStyle(
     style: AppearanceStyle?,
     current: MoustacheStyle,
 ) {
-    selectFromOneOf("Moustache", MOUSTACHE_STYLE, style?.moustacheStyles, current, true)
+    selectFromOptionalOneOf("Moustache", MOUSTACHE_STYLE, style?.moustacheStyles, current, true)
 }
 
 private fun FORM.editEyes(
@@ -188,7 +185,7 @@ private fun FORM.editNormalHair(
     style: AppearanceStyle?,
     hair: NormalHair,
 ) {
-    selectFromOneOf(
+    selectFromOptionalOneOf(
         "Haircut",
         combine(HAIR, STYLE),
         style?.hairStyles,
@@ -199,7 +196,7 @@ private fun FORM.editNormalHair(
 
     when (hair.cut) {
         is Bun -> {
-            selectFromOneOf(
+            selectFromOptionalOneOf(
                 "Bun Style",
                 combine(BUN, STYLE),
                 style?.bunStyles,
@@ -210,7 +207,7 @@ private fun FORM.editNormalHair(
         }
 
         is LongHairCut -> {
-            selectFromOneOf(
+            selectFromOptionalOneOf(
                 "Long Hair Style",
                 combine(LONG, STYLE),
                 style?.longHairStyles,
@@ -221,14 +218,14 @@ private fun FORM.editNormalHair(
         }
 
         is Ponytail -> {
-            selectFromOneOf(
+            selectFromOptionalOneOf(
                 "Ponytail Style",
                 combine(PONYTAIL, STYLE),
                 style?.ponytailStyles,
                 hair.cut.style,
                 true,
             )
-            selectFromOneOf(
+            selectFromOptionalOneOf(
                 "Ponytail Position",
                 combine(PONYTAIL, POSITION),
                 style?.ponytailPositions,
@@ -238,7 +235,7 @@ private fun FORM.editNormalHair(
             selectHairLength(style, hair.cut.length)
         }
 
-        is ShortHairCut -> selectFromOneOf(
+        is ShortHairCut -> selectFromOptionalOneOf(
             "Short Hair Style",
             combine(SHORT, STYLE),
             style?.shortHairStyles,
@@ -252,7 +249,7 @@ private fun FORM.selectHairLength(
     style: AppearanceStyle?,
     length: HairLength,
 ) {
-    selectFromOneOf(
+    selectFromOptionalOneOf(
         "Length",
         combine(HAIR, LENGTH),
         style?.hairLengths,
