@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.model.character.appearance.hair
 
+import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class HairStyle {
+    Bun,
     Long,
     Ponytail,
     Short,
@@ -13,12 +15,20 @@ enum class HairStyle {
 sealed class HairCut {
 
     fun getType() = when (this) {
+        is Bun -> HairStyle.Bun
         is LongHairCut -> HairStyle.Long
         is Ponytail -> HairStyle.Ponytail
         is ShortHairCut -> HairStyle.Short
     }
 
 }
+
+@Serializable
+@SerialName("Bun")
+data class Bun(
+    val style: BunStyle = BunStyle.High,
+    val size: Size = Size.Medium,
+) : HairCut()
 
 @Serializable
 @SerialName("Long")
