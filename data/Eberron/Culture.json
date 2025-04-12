@@ -21,6 +21,11 @@
     },
     "familyNames": 8
    },
+   "fashion": {
+    "female": 0,
+    "genderless": 0,
+    "male": 0
+   },
    "holidays": [
     5,
     10,

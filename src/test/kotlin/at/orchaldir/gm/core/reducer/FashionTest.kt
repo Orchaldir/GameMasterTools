@@ -45,7 +45,7 @@ class FashionTest {
 
         @Test
         fun `Cannot delete a fashion used by a culture`() {
-            val culture = Culture(CULTURE0, clothingStyles = GenderMap(ID0))
+            val culture = Culture(CULTURE0, fashion = GenderMap(ID0))
             val state = State(listOf(Storage(culture), Storage(Fashion(ID0))))
             val action = DeleteFashion(ID0)
 

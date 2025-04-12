@@ -23,6 +23,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.form
+import kotlinx.html.h2
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -131,6 +132,7 @@ private fun HTML.showFashionDetails(
 
     simpleHtml("Fashion: ${fashion.name}") {
         showFashion(call, state, fashion)
+        h2 { +"Usage" }
         showList("Cultures", state.getCultures(fashion.id)) { culture ->
             link(call, culture)
         }

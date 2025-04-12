@@ -139,7 +139,7 @@ private fun BODY.showClothingOptions(
     culture: Culture,
 ) {
     h2 { +"Fashion" }
-    showGenderMap(culture.clothingStyles) { gender, id ->
+    showGenderMap(culture.fashion) { gender, id ->
         optionalFieldLink(gender.toString(), call, state, id)
     }
 }
@@ -263,7 +263,7 @@ private fun FORM.editClothingOptions(
 ) {
     h2 { +"Fashion" }
 
-    showMap(culture.clothingStyles.getMap()) { gender, fashionId ->
+    showMap(culture.fashion.getMap()) { gender, fashionId ->
         field(gender.toString()) {
             val selectId = "$FASHION-$gender"
             select {

@@ -19,7 +19,7 @@ fun State.getCultures(calendar: CalendarId) = getCultureStorage().getAll()
     .filter { it.calendar == calendar }
 
 fun State.getCultures(fashion: FashionId) = getCultureStorage().getAll()
-    .filter { it.clothingStyles.contains(fashion) }
+    .filter { it.fashion.contains(fashion) }
 
 fun State.getCultures(holiday: HolidayId) = getCultureStorage().getAll()
     .filter { it.holidays.contains(holiday) }
