@@ -30,4 +30,8 @@ data class AppearanceStyle(
     fun hasGoatee() =
         beardStyles.contains(Goatee) || beardStyles.contains(GoateeAndMoustache)
 
+    fun hasLongHair() =
+        hairStyles.contains(HairStyle.Long) ||
+                hairStyles.contains(HairStyle.Ponytail)
+
 }

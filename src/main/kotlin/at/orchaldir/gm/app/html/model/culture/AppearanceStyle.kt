@@ -36,12 +36,27 @@ fun HtmlBlockTag.showAppearanceStyle(style: AppearanceStyle) {
     h3 { +"Hair" }
 
     showRarityMap("Hair Styles", style.hairStyles)
-    showRarityMap("Bun Styles", style.bunStyles)
-    showRarityMap("Long Hair Styles", style.longHairStyles)
-    showRarityMap("Ponytail Styles", style.ponytailStyles)
-    showRarityMap("Ponytail Positions", style.ponytailPositions)
-    showRarityMap("Short Hair Styles", style.shortHairStyles)
-    showRarityMap("Hair Lengths", style.hairLengths)
+
+    if (style.hairStyles.contains(HairStyle.Bun)) {
+        showRarityMap("Bun Styles", style.bunStyles)
+    }
+
+    if (style.hairStyles.contains(HairStyle.Long)) {
+        showRarityMap("Long Hair Styles", style.longHairStyles)
+    }
+
+    if (style.hairStyles.contains(HairStyle.Ponytail)) {
+        showRarityMap("Ponytail Styles", style.ponytailStyles)
+        showRarityMap("Ponytail Positions", style.ponytailPositions)
+    }
+
+    if (style.hairStyles.contains(HairStyle.Short)) {
+        showRarityMap("Short Hair Styles", style.shortHairStyles)
+    }
+
+    if (style.hasLongHair()) {
+        showRarityMap("Hair Lengths", style.hairLengths)
+    }
 }
 
 // edit
@@ -66,12 +81,27 @@ fun HtmlBlockTag.editAppearanceOptions(style: AppearanceStyle) {
     h3 { +"Hair" }
 
     selectRarityMap("Hair Styles", combine(HAIR, STYLE), style.hairStyles)
-    selectRarityMap("Bun Styles", combine(BUN, STYLE), style.bunStyles)
-    selectRarityMap("Long Hair Styles", combine(LONG, HAIR, STYLE), style.longHairStyles)
-    selectRarityMap("Ponytail Styles", combine(PONYTAIL, STYLE), style.ponytailStyles)
-    selectRarityMap("Ponytail Positions", combine(PONYTAIL, POSITION), style.ponytailPositions)
-    selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), style.shortHairStyles)
-    selectRarityMap("Hair Lengths", combine(HAIR, LENGTH), style.hairLengths)
+
+    if (style.hairStyles.contains(HairStyle.Bun)) {
+        selectRarityMap("Bun Styles", combine(BUN, STYLE), style.bunStyles)
+    }
+
+    if (style.hairStyles.contains(HairStyle.Long)) {
+        selectRarityMap("Long Hair Styles", combine(LONG, HAIR, STYLE), style.longHairStyles)
+    }
+
+    if (style.hairStyles.contains(HairStyle.Ponytail)) {
+        selectRarityMap("Ponytail Styles", combine(PONYTAIL, STYLE), style.ponytailStyles)
+        selectRarityMap("Ponytail Positions", combine(PONYTAIL, POSITION), style.ponytailPositions)
+    }
+
+    if (style.hairStyles.contains(HairStyle.Bun)) {
+        selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), style.shortHairStyles)
+    }
+
+    if (style.hasLongHair()) {
+        selectRarityMap("Hair Lengths", combine(HAIR, LENGTH), style.hairLengths)
+    }
 }
 
 
