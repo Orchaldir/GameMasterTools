@@ -22,7 +22,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
-import kotlinx.html.form
 import kotlinx.html.h2
 import mu.KotlinLogging
 
@@ -41,6 +40,9 @@ class FashionRoutes {
 
     @Resource("edit")
     class Edit(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
+
+    @Resource("preview")
+    class Preview(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
 
     @Resource("update")
     class Update(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
@@ -91,6 +93,15 @@ fun Application.configureFashionRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showFashionEditor(call, state, fashion)
+            }
+        }
+        post<FashionRoutes.Preview> { preview ->
+            logger.info { "Get preview for culture ${preview.id.value}" }
+
+            val fashion = parseFashion(preview.id, call.receiveParameters())
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showFashionEditor(call, STORE.getState(), fashion)
             }
         }
         post<FashionRoutes.Update> { update ->
@@ -150,14 +161,13 @@ private fun HTML.showFashionEditor(
     fashion: Fashion,
 ) {
     val backLink = href(call, fashion.id)
+    val previewLink = call.application.href(FashionRoutes.Preview(fashion.id))
     val updateLink = call.application.href(FashionRoutes.Update(fashion.id))
 
     simpleHtml("Edit Fashion: ${fashion.name}") {
-        form {
+        formWithPreview(previewLink, updateLink, backLink) {
             editFashion(fashion, state)
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

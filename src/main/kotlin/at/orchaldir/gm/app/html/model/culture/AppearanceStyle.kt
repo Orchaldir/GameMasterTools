@@ -69,7 +69,7 @@ fun HtmlBlockTag.editAppearanceOptions(style: AppearanceStyle) {
 
     h3 { +"Beard" }
 
-    selectRarityMap("Beard Styles", combine(BEARD, STYLE), style.beardStyles)
+    selectRarityMap("Beard Styles", combine(BEARD, STYLE), style.beardStyles, true)
 
     if (style.hasGoatee()) {
         selectRarityMap("Goatee Styles", GOATEE_STYLE, style.goateeStyles)
@@ -81,7 +81,7 @@ fun HtmlBlockTag.editAppearanceOptions(style: AppearanceStyle) {
 
     h3 { +"Hair" }
 
-    selectRarityMap("Hair Styles", combine(HAIR, STYLE), style.hairStyles)
+    selectRarityMap("Hair Styles", combine(HAIR, STYLE), style.hairStyles, true)
 
     if (style.hairStyles.contains(HairStyle.Bun)) {
         selectRarityMap("Bun Styles", combine(BUN, STYLE), style.bunStyles)

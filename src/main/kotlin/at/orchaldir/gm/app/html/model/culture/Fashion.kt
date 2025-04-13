@@ -75,8 +75,8 @@ private fun HtmlBlockTag.editClothingStyle(
 ) {
     h2 { +"Clothing" }
 
-    selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets)
-    selectRarityMap("Accessories", ACCESSORY_RARITY, style.accessories, false, ACCESSORIES)
+    selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets, true)
+    selectRarityMap("Accessories", ACCESSORY_RARITY, style.accessories, true, ACCESSORIES)
     EquipmentDataType.entries.forEach { type ->
         if (MAIN_EQUIPMENT.contains(type) || style.accessories.isAvailable(type)) {
             selectEquipmentType(state, style, type)
