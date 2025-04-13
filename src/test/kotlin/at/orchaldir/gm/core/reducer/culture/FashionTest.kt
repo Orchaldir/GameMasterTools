@@ -4,7 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -49,7 +51,29 @@ class FashionTest {
     }
 
     @Nested
-    inner class UpdateTest {
+    inner class UpdateAppearanceStyleTest {
+
+        @Test
+        fun `Some beard styles require at least 1 goatee`() {
+            val state = State(Storage(Fashion(FASHION_ID_0)))
+            val style = AppearanceStyle(
+                OneOf(BeardStyleType.Goatee),
+                OneOrNone(),
+            )
+            val fashion = Fashion(FASHION_ID_0, appearance = style)
+            val action = UpdateFashion(fashion)
+
+            assertIllegalArgument("Available beard styles requires at least 1 goatee!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+    }
+    @Nested
+    inner class UpdateClothingStyleTest {
 
         @Test
         fun `Successfully update a fashion`() {

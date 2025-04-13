@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -29,6 +30,8 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     val fashion = action.fashion
 
     state.getFashionStorage().require(fashion.id)
+
+    checkAppearanceStyle(fashion.appearance)
     checkClothingStyle(state, fashion.clothing)
 
     val cleanClothingStyle = fashion.clothing
@@ -36,6 +39,14 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     val clean = fashion.copy(clothing = cleanClothingStyle)
 
     noFollowUps(state.updateStorage(state.getFashionStorage().update(clean)))
+}
+
+private fun checkAppearanceStyle(
+    style: AppearanceStyle,
+) {
+    if (style.hasGoatee()) {
+        require(style.goateeStyles.isNotEmpty()) { "Available beard styles requires at least 1 goatee!" }
+    }
 }
 
 private fun checkClothingStyle(
