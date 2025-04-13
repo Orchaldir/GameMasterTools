@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
+import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
@@ -64,10 +65,7 @@ class FashionTest {
             val action = UpdateFashion(fashion)
 
             assertIllegalArgument("Available beard styles requires at least 1 goatee!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+                REDUCER.invoke(state, action)
             }
         }
 
@@ -82,10 +80,22 @@ class FashionTest {
             val action = UpdateFashion(fashion)
 
             assertIllegalArgument("Available beard styles requires at least 1 moustache!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Requires at least 1 long hair style`() {
+            val state = State(Storage(Fashion(FASHION_ID_0)))
+            val style = AppearanceStyle(
+                hairStyles = OneOf(HairStyle.Long),
+                longHairStyles = OneOrNone(),
+            )
+            val fashion = Fashion(FASHION_ID_0, appearance = style)
+            val action = UpdateFashion(fashion)
+
+            assertIllegalArgument("Requires at least 1 long hair style!") {
+                REDUCER.invoke(state, action)
             }
         }
 

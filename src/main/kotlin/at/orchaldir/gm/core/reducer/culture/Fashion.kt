@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
@@ -49,6 +50,9 @@ private fun checkAppearanceStyle(
     }
     if (style.hasMoustache()) {
         require(style.moustacheStyles.isNotEmpty()) { "Available beard styles requires at least 1 moustache!" }
+    }
+    if (style.hairStyles.contains(HairStyle.Long)) {
+        require(style.longHairStyles.isNotEmpty()) { "Requires at least 1 long hair style!" }
     }
 }
 
