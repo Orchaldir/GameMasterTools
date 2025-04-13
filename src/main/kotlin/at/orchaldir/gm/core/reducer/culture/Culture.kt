@@ -46,6 +46,10 @@ val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
     state.getCultureStorage().require(action.culture.id)
     state.getCalendarStorage().require(action.culture.calendar)
+    action.culture.fashion
+        .getValues()
+        .filterNotNull()
+        .forEach { state.getFashionStorage().require(it) }
     action.culture.namingConvention.getNameLists()
         .forEach { state.getNameListStorage().require(it) }
     val oldCulture = state.getCultureStorage().getOrThrow(action.culture.id)

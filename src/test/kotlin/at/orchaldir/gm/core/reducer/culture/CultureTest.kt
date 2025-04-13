@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -17,7 +18,12 @@ import kotlin.test.assertEquals
 
 class CultureTest {
     private val nameList = NameList(NAME_LIST_ID0)
-    private val STATE = State(listOf(Storage(Calendar(CALENDAR_ID_0)), Storage(Culture(CULTURE_ID_0))))
+    private val STATE = State(
+        listOf(
+            Storage(Calendar(CALENDAR_ID_0)),
+            Storage(Culture(CULTURE_ID_0)),
+        )
+    )
     private val STATE_WITH_NAMES = STATE.updateStorage(Storage(nameList))
 
     @Nested
@@ -61,6 +67,13 @@ class CultureTest {
             val action = UpdateCulture(Culture(CULTURE_ID_0, calendar = CALENDAR_ID_1))
 
             assertIllegalArgument("Requires unknown Calendar 1!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot update culture with unknown fashion`() {
+            val action = UpdateCulture(Culture(CULTURE_ID_0, fashion = GenderMap(FASHION_ID_0)))
+
+            assertIllegalArgument("Requires unknown Fashion 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
