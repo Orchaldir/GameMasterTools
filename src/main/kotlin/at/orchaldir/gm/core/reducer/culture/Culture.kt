@@ -50,6 +50,9 @@ val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
         .getValues()
         .filterNotNull()
         .forEach { state.getFashionStorage().require(it) }
+    action.culture.languages
+        .getValidValues()
+        .forEach { state.getLanguageStorage().require(it) }
     action.culture.namingConvention.getNameLists()
         .forEach { state.getNameListStorage().require(it) }
     val oldCulture = state.getCultureStorage().getOrThrow(action.culture.id)

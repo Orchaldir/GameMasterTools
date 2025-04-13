@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -74,6 +75,13 @@ class CultureTest {
             val action = UpdateCulture(Culture(CULTURE_ID_0, fashion = GenderMap(FASHION_ID_0)))
 
             assertIllegalArgument("Requires unknown Fashion 0!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot update culture with unknown language`() {
+            val action = UpdateCulture(Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_0)))
+
+            assertIllegalArgument("Requires unknown Language 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
