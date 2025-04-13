@@ -14,7 +14,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class CultureTest {
     private val nameList = NameList(NAME_LIST_ID0)
@@ -35,7 +34,7 @@ class CultureTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteCulture(CULTURE_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -43,7 +42,7 @@ class CultureTest {
             val action = DeleteCulture(CULTURE_ID_0)
             val state = STATE.updateStorage(Storage(listOf(Character(CharacterId(0), culture = CULTURE_ID_0))))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Culture 0 is used by characters") { REDUCER.invoke(state, action) }
         }
     }
 
@@ -54,21 +53,21 @@ class CultureTest {
         fun `Cannot update unknown id`() {
             val action = UpdateCulture(Culture(CULTURE_ID_0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot update culture with unknown calendar`() {
             val action = UpdateCulture(Culture(CULTURE_ID_0, calendar = CALENDAR_ID_1))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Calendar 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update culture with unknown name list`() {
             val action = UpdateCulture(Culture(CULTURE_ID_0, namingConvention = MononymConvention(NAME_LIST_ID0)))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Name List 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
