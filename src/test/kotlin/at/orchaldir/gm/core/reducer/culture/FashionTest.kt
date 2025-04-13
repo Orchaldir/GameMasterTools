@@ -85,6 +85,21 @@ class FashionTest {
         }
 
         @Test
+        fun `Requires at least 1 bun style`() {
+            val state = State(Storage(Fashion(FASHION_ID_0)))
+            val style = AppearanceStyle(
+                hairStyles = OneOf(HairStyle.Bun),
+                bunStyles = OneOrNone(),
+            )
+            val fashion = Fashion(FASHION_ID_0, appearance = style)
+            val action = UpdateFashion(fashion)
+
+            assertIllegalArgument("Requires at least 1 bun style!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
         fun `Requires at least 1 long hair style`() {
             val state = State(Storage(Fashion(FASHION_ID_0)))
             val style = AppearanceStyle(

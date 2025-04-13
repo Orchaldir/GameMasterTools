@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -51,8 +52,13 @@ private fun checkAppearanceStyle(
     if (style.hasMoustache()) {
         require(style.moustacheStyles.isNotEmpty()) { "Available beard styles requires at least 1 moustache!" }
     }
-    if (style.hairStyles.contains(HairStyle.Long)) {
-        require(style.longHairStyles.isNotEmpty()) { "Requires at least 1 long hair style!" }
+    checkHairStyle(style, HairStyle.Bun, style.bunStyles, "bun")
+    checkHairStyle(style, HairStyle.Long, style.longHairStyles, "long hair")
+}
+
+private fun <T> checkHairStyle(style: AppearanceStyle, hairStyle: HairStyle, list: OneOrNone<T>, text: String) {
+    if (style.hairStyles.contains(hairStyle)) {
+        require(list.isNotEmpty()) { "Requires at least 1 $text style!" }
     }
 }
 
