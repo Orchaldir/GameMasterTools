@@ -47,16 +47,20 @@ private fun checkAppearanceStyle(
     style: AppearanceStyle,
 ) {
     if (style.hasGoatee()) {
-        require(style.goateeStyles.isNotEmpty()) { "Available beard styles requires at least 1 goatee!" }
+        require(style.goateeStyles.isNotEmpty()) { "Available beard styles require at least 1 goatee!" }
     }
     if (style.hasMoustache()) {
-        require(style.moustacheStyles.isNotEmpty()) { "Available beard styles requires at least 1 moustache!" }
+        require(style.moustacheStyles.isNotEmpty()) { "Available beard styles require at least 1 moustache!" }
     }
     checkHairStyle(style, HairStyle.Bun, style.bunStyles, "bun style")
     checkHairStyle(style, HairStyle.Long, style.longHairStyles, "long hair style")
     checkHairStyle(style, HairStyle.Ponytail, style.ponytailStyles, "ponytail style")
     checkHairStyle(style, HairStyle.Ponytail, style.ponytailPositions, "ponytail position")
     checkHairStyle(style, HairStyle.Short, style.shortHairStyles, "short hair style")
+
+    if (style.hasLongHair()) {
+        require(style.hairLengths.isNotEmpty()) { "Available hair styles require at least 1 hair length!" }
+    }
 }
 
 private fun <T> checkHairStyle(style: AppearanceStyle, hairStyle: HairStyle, list: OneOrNone<T>, text: String) {

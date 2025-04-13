@@ -64,7 +64,7 @@ class FashionTest {
             val fashion = Fashion(FASHION_ID_0, appearance = style)
             val action = UpdateFashion(fashion)
 
-            assertIllegalArgument("Available beard styles requires at least 1 goatee!") {
+            assertIllegalArgument("Available beard styles require at least 1 goatee!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -79,7 +79,7 @@ class FashionTest {
             val fashion = Fashion(FASHION_ID_0, appearance = style)
             val action = UpdateFashion(fashion)
 
-            assertIllegalArgument("Available beard styles requires at least 1 moustache!") {
+            assertIllegalArgument("Available beard styles require at least 1 moustache!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -155,6 +155,21 @@ class FashionTest {
             val action = UpdateFashion(fashion)
 
             assertIllegalArgument("Requires at least 1 short hair style!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Requires at least 1 hair length`() {
+            val state = State(Storage(Fashion(FASHION_ID_0)))
+            val style = AppearanceStyle(
+                hairStyles = OneOf(HairStyle.Long),
+                hairLengths = OneOrNone(),
+            )
+            val fashion = Fashion(FASHION_ID_0, appearance = style)
+            val action = UpdateFashion(fashion)
+
+            assertIllegalArgument("Available hair styles require at least 1 hair length!") {
                 REDUCER.invoke(state, action)
             }
         }
