@@ -56,120 +56,98 @@ class FashionTest {
 
         @Test
         fun `Some beard styles require at least 1 goatee`() {
-            val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = AppearanceStyle(
-                OneOf(BeardStyleType.Goatee),
-                OneOrNone(),
+            assertAppearanceStyle(
+                AppearanceStyle(
+                    OneOf(BeardStyleType.Goatee),
+                    OneOrNone(),
+                ),
+                "Available beard styles require at least 1 goatee!"
             )
-            val fashion = Fashion(FASHION_ID_0, appearance = style)
-            val action = UpdateFashion(fashion)
-
-            assertIllegalArgument("Available beard styles require at least 1 goatee!") {
-                REDUCER.invoke(state, action)
-            }
         }
 
         @Test
         fun `Some beard styles require at least 1 moustache`() {
-            val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = AppearanceStyle(
-                OneOf(BeardStyleType.Moustache),
-                moustacheStyles = OneOrNone(),
+            assertAppearanceStyle(
+                AppearanceStyle(
+                    OneOf(BeardStyleType.Moustache),
+                    moustacheStyles = OneOrNone(),
+                ),
+                "Available beard styles require at least 1 moustache!"
             )
-            val fashion = Fashion(FASHION_ID_0, appearance = style)
-            val action = UpdateFashion(fashion)
-
-            assertIllegalArgument("Available beard styles require at least 1 moustache!") {
-                REDUCER.invoke(state, action)
-            }
         }
 
         @Test
         fun `Requires at least 1 bun style`() {
-            val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = AppearanceStyle(
-                hairStyles = OneOf(HairStyle.Bun),
-                bunStyles = OneOrNone(),
+            assertAppearanceStyle(
+                AppearanceStyle(
+                    hairStyles = OneOf(HairStyle.Bun),
+                    bunStyles = OneOrNone(),
+                ),
+                "Requires at least 1 bun style!"
             )
-            val fashion = Fashion(FASHION_ID_0, appearance = style)
-            val action = UpdateFashion(fashion)
-
-            assertIllegalArgument("Requires at least 1 bun style!") {
-                REDUCER.invoke(state, action)
-            }
         }
 
         @Test
         fun `Requires at least 1 long hair style`() {
-            val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = AppearanceStyle(
-                hairStyles = OneOf(HairStyle.Long),
-                longHairStyles = OneOrNone(),
+            assertAppearanceStyle(
+                AppearanceStyle(
+                    hairStyles = OneOf(HairStyle.Long),
+                    longHairStyles = OneOrNone(),
+                ),
+                "Requires at least 1 long hair style!"
             )
-            val fashion = Fashion(FASHION_ID_0, appearance = style)
-            val action = UpdateFashion(fashion)
-
-            assertIllegalArgument("Requires at least 1 long hair style!") {
-                REDUCER.invoke(state, action)
-            }
         }
 
         @Test
         fun `Requires at least 1 ponytail style`() {
-            val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = AppearanceStyle(
-                hairStyles = OneOf(HairStyle.Ponytail),
-                ponytailStyles = OneOrNone(),
+            assertAppearanceStyle(
+                AppearanceStyle(
+                    hairStyles = OneOf(HairStyle.Ponytail),
+                    ponytailStyles = OneOrNone(),
+                ),
+                "Requires at least 1 ponytail style!"
             )
-            val fashion = Fashion(FASHION_ID_0, appearance = style)
-            val action = UpdateFashion(fashion)
-
-            assertIllegalArgument("Requires at least 1 ponytail style!") {
-                REDUCER.invoke(state, action)
-            }
         }
 
         @Test
         fun `Requires at least 1 ponytail position`() {
-            val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = AppearanceStyle(
-                hairStyles = OneOf(HairStyle.Ponytail),
-                ponytailPositions = OneOrNone(),
+            assertAppearanceStyle(
+                AppearanceStyle(
+                    hairStyles = OneOf(HairStyle.Ponytail),
+                    ponytailPositions = OneOrNone(),
+                ),
+                "Requires at least 1 ponytail position!"
             )
-            val fashion = Fashion(FASHION_ID_0, appearance = style)
-            val action = UpdateFashion(fashion)
-
-            assertIllegalArgument("Requires at least 1 ponytail position!") {
-                REDUCER.invoke(state, action)
-            }
         }
 
         @Test
         fun `Requires at least 1 short style`() {
-            val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = AppearanceStyle(
-                hairStyles = OneOf(HairStyle.Short),
-                shortHairStyles = OneOrNone(),
+            assertAppearanceStyle(
+                AppearanceStyle(
+                    hairStyles = OneOf(HairStyle.Short),
+                    shortHairStyles = OneOrNone(),
+                ),
+                "Requires at least 1 short hair style!"
             )
-            val fashion = Fashion(FASHION_ID_0, appearance = style)
-            val action = UpdateFashion(fashion)
-
-            assertIllegalArgument("Requires at least 1 short hair style!") {
-                REDUCER.invoke(state, action)
-            }
         }
 
         @Test
         fun `Requires at least 1 hair length`() {
-            val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = AppearanceStyle(
-                hairStyles = OneOf(HairStyle.Long),
-                hairLengths = OneOrNone(),
+            assertAppearanceStyle(
+                AppearanceStyle(
+                    hairStyles = OneOf(HairStyle.Long),
+                    hairLengths = OneOrNone(),
+                ),
+                "Available hair styles require at least 1 hair length!"
             )
+        }
+
+        private fun assertAppearanceStyle(style: AppearanceStyle, message: String) {
+            val state = State(Storage(Fashion(FASHION_ID_0)))
             val fashion = Fashion(FASHION_ID_0, appearance = style)
             val action = UpdateFashion(fashion)
 
-            assertIllegalArgument("Available hair styles require at least 1 hair length!") {
+            assertIllegalArgument(message) {
                 REDUCER.invoke(state, action)
             }
         }
