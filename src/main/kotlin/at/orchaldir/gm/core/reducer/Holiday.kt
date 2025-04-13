@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.Month
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps

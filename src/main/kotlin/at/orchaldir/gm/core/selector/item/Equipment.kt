@@ -21,7 +21,7 @@ fun State.isAvailable(set: ClothingSet) = set.getTypes()
 
 fun State.isAvailable(type: EquipmentDataType) = getEquipmentStorage()
     .getAll()
-    .any() { it.data.isType(type) }
+    .any { it.data.isType(type) }
 
 fun State.getEquipmentOf(type: EquipmentDataType) = getEquipmentStorage().getAll()
     .filter { it.data.isType(type) }

@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

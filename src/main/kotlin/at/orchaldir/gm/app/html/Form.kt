@@ -2,7 +2,10 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

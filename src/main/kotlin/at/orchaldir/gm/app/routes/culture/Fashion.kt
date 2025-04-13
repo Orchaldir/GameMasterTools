@@ -2,7 +2,9 @@ package at.orchaldir.gm.app.routes.culture
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.culture.*
+import at.orchaldir.gm.app.html.model.culture.editFashion
+import at.orchaldir.gm.app.html.model.culture.parseFashion
+import at.orchaldir.gm.app.html.model.culture.showFashion
 import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion

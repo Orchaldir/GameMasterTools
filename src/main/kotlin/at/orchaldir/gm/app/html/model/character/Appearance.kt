@@ -18,13 +18,14 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
-import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
-import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
