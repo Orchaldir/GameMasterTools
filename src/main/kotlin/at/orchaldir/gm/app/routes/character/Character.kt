@@ -462,34 +462,40 @@ private fun HTML.showCharacterEditor(
     state: State,
     character: Character,
 ) {
-    val races = state.getExistingRaces(character.birthDate)
     val characterName = character.name(state)
-    val race = state.getRaceStorage().getOrThrow(character.race)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(CharacterRoutes.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Update(character.id))
 
     simpleHtml("Edit Character: $characterName") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            selectName(state, character)
-            selectElement(state, "Race", RACE, state.sortRaces(races), character.race, true)
-            selectFromOneOf("Gender", GENDER, race.genders, character.gender)
-            selectOrigin(state, character, race)
-            selectVitalStatus(state, character)
-            showAge(state, character, race)
-            selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
-            selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
-            h2 { +"Social" }
-            selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
-            editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
-            editPersonality(call, state, character.personality)
-            button("Update", updateLink)
+        formWithPreview(previewLink, updateLink, backLink) {
+            editCharacter(call, state, character)
         }
-        back(backLink)
     }
+}
+
+private fun FORM.editCharacter(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val races = state.getExistingRaces(character.birthDate)
+    val race = state.getRaceStorage().getOrThrow(character.race)
+
+    selectName(state, character)
+    selectElement(state, "Race", RACE, state.sortRaces(races), character.race, true)
+    selectFromOneOf("Gender", GENDER, race.genders, character.gender)
+    selectOrigin(state, character, race)
+    selectVitalStatus(state, character)
+    showAge(state, character, race)
+    selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
+    selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
+
+    h2 { +"Social" }
+
+    selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
+    editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
+    editPersonality(call, state, character.personality)
 }
 
 private fun FORM.selectOrigin(

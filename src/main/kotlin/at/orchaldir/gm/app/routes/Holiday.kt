@@ -186,16 +186,9 @@ private fun HTML.showHolidayEditor(
     val updateLink = call.application.href(HolidayRoutes.Update(holiday.id))
 
     simpleHtml("Edit Holiday: ${holiday.name}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editHoliday(state, holiday)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

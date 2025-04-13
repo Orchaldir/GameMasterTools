@@ -100,62 +100,15 @@ private fun HTML.showTerrainEditor(
     terrainType: TerrainType,
     terrainId: Int,
 ) {
-    val rivers = state.getRiverStorage().getAll()
-    val mountains = state.getMountainStorage().getAll()
     val backLink = href(call, town.id)
     val previewLink = call.application.href(TownRoutes.TerrainRoutes.Preview(town.id))
-    val createMountainLink = call.application.href(MountainRoutes.New())
-    val createRiverLink = call.application.href(RiverRoutes.New())
     val resizeLink = call.application.href(TownRoutes.TerrainRoutes.Resize(town.id))
 
     simpleHtml("Edit Terrain of Town ${town.name(state)}") {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
-                selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, terrainType, true) { type ->
-                    when (type) {
-                        TerrainType.Hill, TerrainType.Mountain -> mountains.isEmpty()
-                        TerrainType.Plain -> false
-                        TerrainType.River -> rivers.isEmpty()
-                    }
-                }
-                when (terrainType) {
-                    TerrainType.Hill, TerrainType.Mountain -> selectTerrain(
-                        "Mountain",
-                        mountains,
-                        terrainId,
-                    )
-
-                    TerrainType.Plain -> doNothing()
-                    TerrainType.River -> selectTerrain(
-                        "River",
-                        rivers,
-                        terrainId,
-                    )
-                }
-                action(createMountainLink, "Create new Mountain")
-                action(createRiverLink, "Create new River")
-                h2 { +"Update Terrain of Tile" }
-                p { +"Click on a tile to change it's terrain to the type above." }
-                h2 { +"Resize" }
-                field("Size", town.map.size.format())
-                val maxDelta = 100
-                selectInt(
-                    "Add/Remove Columns At Start",
-                    0,
-                    getMinWidthStart(town),
-                    maxDelta,
-                    1,
-                    combine(WIDTH, START)
-                )
-                selectInt("Add/Remove Columns At End", 0, getMinWidthEnd(town), maxDelta, 1, combine(WIDTH, END))
-                selectInt("Add/Remove Rows At Start", 0, getMinHeightStart(town), maxDelta, 1, combine(HEIGHT, START))
-                selectInt("Add/Remove Rows At End", 0, getMinHeightEnd(town), maxDelta, 1, combine(HEIGHT, END))
-                button("Resize", resizeLink)
+            formWithPreview(previewLink, resizeLink, backLink, "Resize") {
+                editTerrain(call, state, terrainType, terrainId, town)
             }
-            back(backLink)
         }, {
             svg(
                 visualizeTown(
@@ -168,6 +121,63 @@ private fun HTML.showTerrainEditor(
             )
         })
     }
+}
+
+private fun FORM.editTerrain(
+    call: ApplicationCall,
+    state: State,
+    terrainType: TerrainType,
+    terrainId: Int,
+    town: Town,
+) {
+    val createMountainLink = call.application.href(MountainRoutes.New())
+    val createRiverLink = call.application.href(RiverRoutes.New())
+    val rivers = state.getRiverStorage().getAll()
+    val mountains = state.getMountainStorage().getAll()
+
+    selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, terrainType, true) { type ->
+        when (type) {
+            TerrainType.Hill, TerrainType.Mountain -> mountains.isEmpty()
+            TerrainType.Plain -> false
+            TerrainType.River -> rivers.isEmpty()
+        }
+    }
+    when (terrainType) {
+        TerrainType.Hill, TerrainType.Mountain -> selectTerrain(
+            "Mountain",
+            mountains,
+            terrainId,
+        )
+
+        TerrainType.Plain -> doNothing()
+        TerrainType.River -> selectTerrain(
+            "River",
+            rivers,
+            terrainId,
+        )
+    }
+    action(createMountainLink, "Create new Mountain")
+    action(createRiverLink, "Create new River")
+
+    h2 { +"Update Terrain of Tile" }
+
+    p { +"Click on a tile to change it's terrain to the type above." }
+
+    h2 { +"Resize" }
+
+    field("Size", town.map.size.format())
+    val maxDelta = 100
+    selectInt(
+        "Add/Remove Columns At Start",
+        0,
+        getMinWidthStart(town),
+        maxDelta,
+        1,
+        combine(WIDTH, START)
+    )
+    selectInt("Add/Remove Columns At End", 0, getMinWidthEnd(town), maxDelta, 1, combine(WIDTH, END))
+    selectInt("Add/Remove Rows At Start", 0, getMinHeightStart(town), maxDelta, 1, combine(HEIGHT, START))
+    selectInt("Add/Remove Rows At End", 0, getMinHeightEnd(town), maxDelta, 1, combine(HEIGHT, END))
 }
 
 private fun <ID : Id<ID>> FORM.selectTerrain(

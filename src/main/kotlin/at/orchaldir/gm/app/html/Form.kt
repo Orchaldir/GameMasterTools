@@ -10,6 +10,26 @@ import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
 
+fun HtmlBlockTag.formWithPreview(
+    previewLink: String,
+    updateLink: String,
+    backLink: String,
+    updateText: String = "Update",
+    content: FORM.() -> Unit,
+) {
+    form {
+        id = "editor"
+        action = previewLink
+        method = FormMethod.post
+
+        content()
+
+        button(updateText, updateLink)
+    }
+
+    back(backLink)
+}
+
 fun FORM.button(text: String, updateLink: String, isDisabled: Boolean = false) {
     p {
         submitInput {

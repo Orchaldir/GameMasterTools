@@ -191,16 +191,11 @@ private fun HTML.showStreetTemplateEditor(
 
     simpleHtml("Edit street template: ${type.name}") {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
+            formWithPreview(previewLink, updateLink, backLink) {
                 selectName(type.name)
                 selectColor(type.color)
                 selectMaterialCost(call, state, type.materialCost)
-                button("Update", updateLink)
             }
-            back(backLink)
         }, {
             svg(visualizeStreetTemplate(type), 90)
         })

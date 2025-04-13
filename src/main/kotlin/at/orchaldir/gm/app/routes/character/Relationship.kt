@@ -94,41 +94,44 @@ private fun HTML.showRelationshipEditor(
     val updateLink = call.application.href(CharacterRoutes.Relationships.Update(character.id))
 
     simpleHtml("Edit Relationships: ${character.name(state)}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            field("New Target of Relationship") {
-                select {
-                    id = "other"
-                    name = "other"
-                    onChange = ON_CHANGE_SCRIPT
-                    option {
-                        label = ""
-                        value = ""
-                        selected = true
-                    }
-                    state.getOthersWithoutRelationship(character).forEach { other ->
-                        option {
-                            label = other.name(state)
-                            value = other.id.value.toString()
-                        }
-                    }
-                }
-            }
-            showMap("Relationships", character.relationships) { otherId, relationships ->
-                link(call, state, otherId)
-                showList(InterpersonalRelationship.entries) { relationship ->
-                    checkBoxInput {
-                        name = RELATIONSHIP_PARAM
-                        value = "${otherId.value}_$relationship"
-                        checked = relationships.contains(relationship)
-                        +relationship.toString()
-                    }
-                }
-            }
-            button("Update", updateLink)
+        formWithPreview(previewLink, updateLink, backLink) {
+            editRelationships(call, state, character)
         }
-        back(backLink)
+    }
+}
+
+private fun FORM.editRelationships(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    field("New Target of Relationship") {
+        select {
+            id = "other"
+            name = "other"
+            onChange = ON_CHANGE_SCRIPT
+            option {
+                label = ""
+                value = ""
+                selected = true
+            }
+            state.getOthersWithoutRelationship(character).forEach { other ->
+                option {
+                    label = other.name(state)
+                    value = other.id.value.toString()
+                }
+            }
+        }
+    }
+    showMap("Relationships", character.relationships) { otherId, relationships ->
+        link(call, state, otherId)
+        showList(InterpersonalRelationship.entries) { relationship ->
+            checkBoxInput {
+                name = RELATIONSHIP_PARAM
+                value = "${otherId.value}_$relationship"
+                checked = relationships.contains(relationship)
+                +relationship.toString()
+            }
+        }
     }
 }

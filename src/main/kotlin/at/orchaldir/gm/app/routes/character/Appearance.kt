@@ -107,17 +107,11 @@ private fun HTML.showAppearanceEditor(
 
     simpleHtml("Edit Appearance: ${character.name(state)}", true) {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
+            formWithPreview(previewLink, updateLink, backLink) {
                 button("Random", generateLink)
 
                 editAppearance(state, raceAppearance, appearance, character, style)
-
-                button("Update", updateLink)
             }
-            back(backLink)
         }, {
             svg(frontSvg, 80)
             svg(backSvg, 80)

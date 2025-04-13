@@ -213,16 +213,11 @@ private fun HTML.showTownEditor(
 
     simpleHtml("Edit Town: ${town.name(state)}") {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
+            formWithPreview(previewLink, updateLink, backLink) {
                 selectComplexName(state, town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)
                 selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
-                button("Update", updateLink)
             }
-            back(backLink)
         }, {
             svg(visualizeTownWithLinks(call, state, town), 90)
         })

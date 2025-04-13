@@ -287,21 +287,14 @@ private fun HTML.showTextEditor(
 
     simpleHtml("Edit Text: $name") {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
-
+            formWithPreview(previewLink, updateLink, backLink) {
                 selectComplexName(state, text.name)
                 editOrigin(state, text)
                 selectOptionalDate(state, "Date", text.date, DATE)
                 selectElement(state, "Language", LANGUAGE, languages, text.language, true)
                 editTextFormat(state, text.format, hasAuthor)
                 editTextContent(state, text.content)
-
-                button("Update", updateLink)
             }
-            back(backLink)
         }, {
             svg(svg, 50)
         })

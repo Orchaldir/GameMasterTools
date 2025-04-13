@@ -231,27 +231,20 @@ private fun HTML.showEditor(
     state: State,
     appearance: RaceAppearance,
 ) {
-    val eyeOptions = appearance.eye
     val backLink = call.application.href(AppearanceRoutes.Details(appearance.id))
     val previewLink = call.application.href(AppearanceRoutes.Preview(appearance.id))
     val updateLink = call.application.href(AppearanceRoutes.Update(appearance.id))
 
     simpleHtml("Edit Race Appearance: ${appearance.name}", true) {
-        split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
 
+        split({
+            formWithPreview(previewLink, updateLink, backLink) {
                 selectName(appearance.name)
 
                 h2 { +"Options" }
 
-                editRaceAppearance(state, appearance, eyeOptions)
-
-                button("Update", updateLink)
+                editRaceAppearance(state, appearance, appearance.eye)
             }
-            back(backLink)
         }, {
             showRandomExamples(state, appearance, 20, 20)
         })

@@ -248,16 +248,9 @@ private fun HTML.showEquipmentEditor(
 
     simpleHtml("Edit equipment: ${equipment.name}") {
         visualizeItem(state, equipment)
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editEquipment(state, equipment)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

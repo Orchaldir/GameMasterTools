@@ -222,28 +222,30 @@ private fun HTML.showArchitecturalStyleEditor(
     state: State,
     style: ArchitecturalStyle,
 ) {
-    val minDate = state.getEarliestBuilding(state.getBuildings(style.id))?.constructionDate
     val backLink = href(call, style.id)
     val previewLink = call.application.href(ArchitecturalStyleRoutes.Preview(style.id))
     val updateLink = call.application.href(ArchitecturalStyleRoutes.Update(style.id))
 
     simpleHtml("Edit Architectural Style: ${style.name}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            selectName(style.name)
-            selectOptionalYear(state, "Start", style.start, START, null, minDate)
-            selectOptionalYear(state, "End", style.end, END, style.start?.nextYear())
-            selectOptionalElement(
-                state,
-                "Revival Of",
-                REVIVAL,
-                state.getPossibleStylesForRevival(style),
-                style.revival,
-            )
-            button("Update", updateLink)
+        formWithPreview(previewLink, updateLink, backLink) {
+            editArchitecturalStyle(state, style)
         }
-        back(backLink)
     }
+}
+
+private fun FORM.editArchitecturalStyle(
+    state: State,
+    style: ArchitecturalStyle,
+) {
+    val minDate = state.getEarliestBuilding(state.getBuildings(style.id))?.constructionDate
+    selectName(style.name)
+    selectOptionalYear(state, "Start", style.start, START, null, minDate)
+    selectOptionalYear(state, "End", style.end, END, style.start?.nextYear())
+    selectOptionalElement(
+        state,
+        "Revival Of",
+        REVIVAL,
+        state.getPossibleStylesForRevival(style),
+        style.revival,
+    )
 }

@@ -220,15 +220,8 @@ private fun HTML.showOrganizationEditor(
     val updateLink = call.application.href(OrganizationRoutes.Update(organization.id))
 
     simpleHtml("Edit Organization: $name") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editOrganization(state, organization)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }

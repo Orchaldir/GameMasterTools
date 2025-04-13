@@ -306,16 +306,9 @@ private fun HTML.showRaceEditor(
 
     simpleHtml("Edit Race: ${race.name}", true) {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
-
+            formWithPreview(previewLink, updateLink, backLink) {
                 editRace(call, state, race)
-
-                button("Update", updateLink)
             }
-            back(backLink)
         }, {
             race.genders.getValidValues().forEach { gender ->
                 visualizeLifeStages(state, race, gender, 120)

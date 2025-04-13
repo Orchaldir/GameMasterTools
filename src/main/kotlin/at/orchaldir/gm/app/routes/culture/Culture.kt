@@ -204,15 +204,10 @@ private fun HTML.showCultureEditor(
     val updateLink = call.application.href(CultureRoutes.Update(culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editCulture(state, culture)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
+
+

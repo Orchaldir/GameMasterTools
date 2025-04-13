@@ -99,10 +99,7 @@ private fun HTML.showStreetEditor(
 
     simpleHtml("Edit Streets of Town ${town.name(state)}") {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
+            formWithPreview(previewLink, createLink, backLink, "Create new Street") {
                 selectElement(state, "Type", TYPE, state.getStreetTemplateStorage().getAll(), selectedType, true)
                 selectOptionalValue(
                     "Street",
@@ -115,8 +112,6 @@ private fun HTML.showStreetEditor(
                     value = street.id.value.toString()
                 }
             }
-            action(createLink, "Create new Street")
-            back(backLink)
         }, {
             svg(visualizeStreetEditor(call, state, town, selectedType, selectedStreetId), 90)
         })

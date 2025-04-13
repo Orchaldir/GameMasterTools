@@ -223,16 +223,11 @@ private fun HTML.showBusinessEditor(
     val updateLink = call.application.href(BusinessRoutes.Update(business.id))
 
     simpleHtml("Edit Business: ${business.name(state)}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
+        formWithPreview(previewLink, updateLink, backLink) {
             selectComplexName(state, business.name)
             selectOptionalDate(state, "Start", business.startDate(), DATE)
             selectCreator(state, business.founder, business.id, business.startDate(), "Founder")
             selectOwnership(state, business.ownership, business.startDate())
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
