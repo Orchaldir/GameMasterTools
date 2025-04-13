@@ -47,6 +47,9 @@ private fun checkAppearanceStyle(
     if (style.hasGoatee()) {
         require(style.goateeStyles.isNotEmpty()) { "Available beard styles requires at least 1 goatee!" }
     }
+    if (style.hasMoustache()) {
+        require(style.moustacheStyles.isNotEmpty()) { "Available beard styles requires at least 1 moustache!" }
+    }
 }
 
 private fun checkClothingStyle(

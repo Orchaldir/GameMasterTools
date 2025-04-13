@@ -71,6 +71,24 @@ class FashionTest {
             }
         }
 
+        @Test
+        fun `Some beard styles require at least 1 moustache`() {
+            val state = State(Storage(Fashion(FASHION_ID_0)))
+            val style = AppearanceStyle(
+                OneOf(BeardStyleType.Moustache),
+                moustacheStyles = OneOrNone(),
+            )
+            val fashion = Fashion(FASHION_ID_0, appearance = style)
+            val action = UpdateFashion(fashion)
+
+            assertIllegalArgument("Available beard styles requires at least 1 moustache!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
     }
     @Nested
     inner class UpdateClothingStyleTest {
