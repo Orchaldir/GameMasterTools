@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.MAIN_EQUIPMENT
 import at.orchaldir.gm.core.selector.item.getEquipmentId
+import at.orchaldir.gm.core.selector.item.isAvailable
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
@@ -75,8 +76,13 @@ private fun HtmlBlockTag.editClothingStyle(
 ) {
     h2 { +"Clothing" }
 
+    val availableAccessories = ACCESSORIES
+        .filter { state.isAvailable(it) }
+        .toSet()
+
     selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets, true)
-    selectRarityMap("Accessories", ACCESSORY_RARITY, style.accessories, true, ACCESSORIES)
+    selectRarityMap("Accessories", ACCESSORY_RARITY, style.accessories, true, availableAccessories)
+
     EquipmentDataType.entries.forEach { type ->
         if (MAIN_EQUIPMENT.contains(type) || style.accessories.isAvailable(type)) {
             selectEquipmentType(state, style, type)

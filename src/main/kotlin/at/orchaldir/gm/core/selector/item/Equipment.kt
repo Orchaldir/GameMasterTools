@@ -15,6 +15,10 @@ fun State.countEquipment(material: MaterialId) = getEquipmentStorage()
     .getAll()
     .count { it.data.contains(material) }
 
+fun State.isAvailable(type: EquipmentDataType) = getEquipmentStorage()
+    .getAll()
+    .any() { it.data.isType(type) }
+
 fun State.getEquipmentOf(type: EquipmentDataType) = getEquipmentStorage().getAll()
     .filter { it.data.isType(type) }
 
