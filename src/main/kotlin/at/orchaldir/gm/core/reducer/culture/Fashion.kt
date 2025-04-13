@@ -50,6 +50,13 @@ private fun checkClothingStyle(
         }
     }
 
+    checkCorrectType(style, state)
+}
+
+private fun checkCorrectType(
+    style: ClothingStyle,
+    state: State,
+) {
     EquipmentDataType.entries.forEach { type ->
         style.getOptions(type).getValidValues().forEach { id ->
             val equipment = state.getEquipmentStorage().getOrThrow(id)
