@@ -56,6 +56,7 @@ private fun checkAppearanceStyle(
     checkHairStyle(style, HairStyle.Long, style.longHairStyles, "long hair style")
     checkHairStyle(style, HairStyle.Ponytail, style.ponytailStyles, "ponytail style")
     checkHairStyle(style, HairStyle.Ponytail, style.ponytailPositions, "ponytail position")
+    checkHairStyle(style, HairStyle.Short, style.shortHairStyles, "short hair style")
 }
 
 private fun <T> checkHairStyle(style: AppearanceStyle, hairStyle: HairStyle, list: OneOrNone<T>, text: String) {
