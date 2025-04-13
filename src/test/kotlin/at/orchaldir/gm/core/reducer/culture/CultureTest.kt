@@ -1,16 +1,14 @@
 package at.orchaldir.gm.core.reducer.culture
 
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.name.NameList
-import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -18,40 +16,32 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val ID0 = CultureId(0)
-private val ID1 = CultureId(1)
-private val NL_ID0 = NameListId(0)
-private val CALENDAR0 = CalendarId(0)
-private val CALENDAR1 = CalendarId(1)
-private val C_ID0 = CharacterId(0)
-private val C_ID1 = CharacterId(1)
-private val NAMES0 = NameList(NL_ID0)
-private val STATE = State(listOf(Storage(Calendar(CALENDAR0)), Storage(Culture(ID0))))
-private val STATE_WITH_NAMES = STATE.updateStorage(Storage(NAMES0))
-
 class CultureTest {
+    private val nameList = NameList(NAME_LIST_ID0)
+    private val STATE = State(listOf(Storage(Calendar(CALENDAR_ID_0)), Storage(Culture(CULTURE_ID_0))))
+    private val STATE_WITH_NAMES = STATE.updateStorage(Storage(nameList))
 
     @Nested
     inner class DeleteTest {
 
         @Test
         fun `Can delete an existing language`() {
-            val action = DeleteCulture(ID0)
+            val action = DeleteCulture(CULTURE_ID_0)
 
             assertEquals(0, REDUCER.invoke(STATE, action).first.getCultureStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteCulture(ID0)
+            val action = DeleteCulture(CULTURE_ID_0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete, if used by a character`() {
-            val action = DeleteCulture(ID0)
-            val state = STATE.updateStorage(Storage(listOf(Character(CharacterId(0), culture = ID0))))
+            val action = DeleteCulture(CULTURE_ID_0)
+            val state = STATE.updateStorage(Storage(listOf(Character(CharacterId(0), culture = CULTURE_ID_0))))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -62,28 +52,28 @@ class CultureTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateCulture(Culture(ID0))
+            val action = UpdateCulture(Culture(CULTURE_ID_0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot update culture with unknown calendar`() {
-            val action = UpdateCulture(Culture(ID0, calendar = CALENDAR1))
+            val action = UpdateCulture(Culture(CULTURE_ID_0, calendar = CALENDAR_ID_1))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update culture with unknown name list`() {
-            val action = UpdateCulture(Culture(ID0, namingConvention = MononymConvention(NL_ID0)))
+            val action = UpdateCulture(Culture(CULTURE_ID_0, namingConvention = MononymConvention(NAME_LIST_ID0)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Can update culture with known name list`() {
-            val culture = Culture(ID0, namingConvention = MononymConvention(NL_ID0))
+            val culture = Culture(CULTURE_ID_0, namingConvention = MononymConvention(NAME_LIST_ID0))
             val action = UpdateCulture(culture)
 
             assertEquals(Storage(listOf(culture)), REDUCER.invoke(STATE_WITH_NAMES, action).first.getCultureStorage())
@@ -224,24 +214,24 @@ class CultureTest {
         private fun changeConvention(
             old: NamingConvention, new: NamingConvention, oldName: CharacterName, newName: CharacterName,
         ) {
-            val action = UpdateCulture(Culture(ID0, namingConvention = new))
-            val character0 = Character(C_ID0, oldName, culture = ID0)
-            val character1 = Character(C_ID1, Mononym("Z"), culture = ID1)
-            val result = Character(C_ID0, newName, culture = ID0)
+            val action = UpdateCulture(Culture(CULTURE_ID_0, namingConvention = new))
+            val character0 = Character(CHARACTER_ID_0, oldName, culture = CULTURE_ID_0)
+            val character1 = Character(CHARACTER_ID_1, Mononym("Z"), culture = CULTURE_ID_1)
+            val result = Character(CHARACTER_ID_0, newName, culture = CULTURE_ID_0)
             val state = State(
                 listOf(
-                    Storage(Calendar(CALENDAR0)),
+                    Storage(Calendar(CALENDAR_ID_0)),
                     Storage(listOf(character0, character1)),
-                    Storage(Culture(ID0, namingConvention = old)),
-                    Storage(NAMES0)
+                    Storage(Culture(CULTURE_ID_0, namingConvention = old)),
+                    Storage(nameList)
                 )
             )
 
             val newState = REDUCER.invoke(state, action)
 
             val storage = newState.first.getCharacterStorage()
-            assertEquals(result, storage.getOrThrow(C_ID0))
-            assertEquals(character1, storage.getOrThrow(C_ID1))
+            assertEquals(result, storage.getOrThrow(CHARACTER_ID_0))
+            assertEquals(character1, storage.getOrThrow(CHARACTER_ID_1))
         }
     }
 
