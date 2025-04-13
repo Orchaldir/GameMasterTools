@@ -78,6 +78,13 @@ class CultureTest {
         }
 
         @Test
+        fun `Cannot update culture with unknown holiday`() {
+            val action = UpdateCulture(Culture(CULTURE_ID_0, holidays = setOf(HOLIDAY_ID_0)))
+
+            assertIllegalArgument("Requires unknown Holiday 0!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Cannot update culture with unknown language`() {
             val action = UpdateCulture(Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_0)))
 

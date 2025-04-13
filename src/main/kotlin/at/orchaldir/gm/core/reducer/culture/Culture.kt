@@ -50,6 +50,7 @@ val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
         .getValues()
         .filterNotNull()
         .forEach { state.getFashionStorage().require(it) }
+    state.getHolidayStorage().require(action.culture.holidays)
     action.culture.languages
         .getValidValues()
         .forEach { state.getLanguageStorage().require(it) }
