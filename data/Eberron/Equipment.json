@@ -244,6 +244,20 @@
     }
    },
    "weight": 10
+  },
+  "15": {
+   "id": 15,
+   "name": "Skirt",
+   "data": {
+    "type": "Skirt",
+    "main": {
+     "fill": {
+      "type": "Solid",
+      "color": "Red"
+     }
+    }
+   },
+   "weight": 10
   }
  }
 }

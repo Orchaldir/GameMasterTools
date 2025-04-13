@@ -14,56 +14,35 @@
     },
     "hairStyles": {
      "Short": "Common"
+    },
+    "bunStyles": {
+    },
+    "longHairStyles": {
+    },
+    "ponytailStyles": {
+    },
+    "ponytailPositions": {
+    },
+    "hairLengths": {
     }
    },
    "clothing": {
     "clothingSets": {
-     "Dress": "Common",
      "PantsAndShirt": "Common",
      "Suit": "Common"
     },
     "equipmentRarityMap": {
-     "Belt": {
-      "0": "Common"
-     },
      "Coat": {
       "1": "Common"
      },
      "Dress": {
       "2": "Common"
      },
-     "Earring": {
-      "3": "Common"
-     },
-     "EyePatch": {
-      "4": "Common"
-     },
-     "Footwear": {
-      "5": "Common"
-     },
-     "Glasses": {
-      "6": "Common"
-     },
-     "Gloves": {
-      "7": "Common"
-     },
-     "Hat": {
-      "8": "Common"
-     },
-     "Necklace": {
-      "13": "Common"
-     },
      "Pants": {
       "9": "Common"
      },
      "Shirt": {
       "10": "Common"
-     },
-     "Socks": {
-      "11": "Common"
-     },
-     "Tie": {
-      "14": "Common"
      }
     }
    }
@@ -75,9 +54,17 @@
     "beardStyles": {
      "Shaved": "Common"
     },
+    "goateeStyles": {
+    },
+    "moustacheStyles": {
+    },
     "hairStyles": {
      "Long": "Common",
      "Ponytail": "Common"
+    },
+    "bunStyles": {
+    },
+    "shortHairStyles": {
     },
     "lipColors": {
      "Crimson": "Common",
@@ -87,7 +74,8 @@
    "clothing": {
     "clothingSets": {
      "Dress": "Common",
-     "PantsAndShirt": "Common"
+     "PantsAndShirt": "Uncommon",
+     "ShirtAndSkirt": "Common"
     },
     "equipmentRarityMap": {
      "Coat": {
@@ -101,6 +89,9 @@
      },
      "Shirt": {
       "10": "Common"
+     },
+     "Skirt": {
+      "15": "Common"
      }
     }
    }
