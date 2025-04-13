@@ -76,11 +76,15 @@ private fun HtmlBlockTag.editClothingStyle(
 ) {
     h2 { +"Clothing" }
 
+    val availableSets = ClothingSet
+        .entries
+        .filter { state.isAvailable(it) }
+        .toSet()
     val availableAccessories = ACCESSORIES
         .filter { state.isAvailable(it) }
         .toSet()
 
-    selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets, true)
+    selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets, true, availableSets)
     selectRarityMap("Accessories", ACCESSORY_RARITY, style.accessories, true, availableAccessories)
 
     EquipmentDataType.entries.forEach { type ->
