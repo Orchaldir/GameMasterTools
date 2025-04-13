@@ -1,14 +1,10 @@
 package at.orchaldir.gm.core.reducer.culture
 
-import at.orchaldir.gm.CULTURE_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_1
-import at.orchaldir.gm.FASHION_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -21,7 +17,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class FashionTest {
 
@@ -40,7 +35,7 @@ class FashionTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteFashion(FASHION_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Fashion 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -49,7 +44,7 @@ class FashionTest {
             val state = State(listOf(Storage(culture), Storage(Fashion(FASHION_ID_0))))
             val action = DeleteFashion(FASHION_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Fashion 0 is used") { REDUCER.invoke(state, action) }
         }
     }
 
@@ -82,17 +77,17 @@ class FashionTest {
         fun `Cannot update unknown fashion`() {
             val action = UpdateFashion(Fashion(FASHION_ID_0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Fashion 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
-        fun `Cannot use unknown item templates`() {
+        fun `Cannot use unknown equipment`() {
             val state = State(Storage(Fashion(FASHION_ID_0)))
             val style = ClothingStyle(equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(EQUIPMENT_ID_0)))
             val fashion = Fashion(FASHION_ID_0, clothing = style)
             val action = UpdateFashion(fashion)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Equipment 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -102,7 +97,7 @@ class FashionTest {
             val fashion = Fashion(FASHION_ID_0, clothing = style)
             val action = UpdateFashion(fashion)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Clothing set Dress requires at least one Dress!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -116,45 +111,88 @@ class FashionTest {
             val fashion = Fashion(FASHION_ID_0, clothing = style)
             val action = UpdateFashion(fashion)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Type Dress has item 0 of wrong type!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Clothing set PantsAndShirt requires at least 1 pants`() {
-            testSetWith2Items(ClothingSet.PantsAndShirt, EquipmentDataType.Shirt, Shirt())
+            testSetWith2Items(
+                ClothingSet.PantsAndShirt,
+                EquipmentDataType.Shirt,
+                Shirt(),
+                "Clothing set PantsAndShirt requires at least one Pants!"
+            )
         }
 
         @Test
         fun `Clothing set PantsAndShirt requires at least 1 shirt`() {
-            testSetWith2Items(ClothingSet.PantsAndShirt, EquipmentDataType.Pants, Pants())
+            testSetWith2Items(
+                ClothingSet.PantsAndShirt,
+                EquipmentDataType.Pants,
+                Pants(),
+                "Clothing set PantsAndShirt requires at least one Shirt!"
+            )
         }
 
         @Test
         fun `Clothing set ShirtAndSkirt requires at least 1 shirt`() {
-            testSetWith2Items(ClothingSet.ShirtAndSkirt, EquipmentDataType.Skirt, Skirt())
+            testSetWith2Items(
+                ClothingSet.ShirtAndSkirt,
+                EquipmentDataType.Skirt,
+                Skirt(),
+                "Clothing set ShirtAndSkirt requires at least one Shirt!"
+            )
         }
 
         @Test
         fun `Clothing set ShirtAndSkirt requires at least 1 skirt`() {
-            testSetWith2Items(ClothingSet.ShirtAndSkirt, EquipmentDataType.Shirt, Shirt())
+            testSetWith2Items(
+                ClothingSet.ShirtAndSkirt,
+                EquipmentDataType.Shirt,
+                Shirt(),
+                "Clothing set ShirtAndSkirt requires at least one Skirt!"
+            )
         }
 
         @Test
         fun `Clothing set Suit requires at least 1 Coat`() {
-            testSuit(EquipmentDataType.Pants, EquipmentDataType.Shirt, Pants(), Shirt())
+            testSuit(
+                EquipmentDataType.Pants,
+                EquipmentDataType.Shirt,
+                Pants(),
+                Shirt(),
+                "Clothing set Suit requires at least one Coat!"
+            )
         }
 
         @Test
         fun `Clothing set Suit requires at least 1 Pants`() {
-            testSuit(EquipmentDataType.Coat, EquipmentDataType.Shirt, Coat(), Shirt())
+            testSuit(
+                EquipmentDataType.Coat,
+                EquipmentDataType.Shirt,
+                Coat(),
+                Shirt(),
+                "Clothing set Suit requires at least one Pants!"
+            )
         }
 
         @Test
         fun `Clothing set Suit requires at least 1 Shirt`() {
-            testSuit(EquipmentDataType.Coat, EquipmentDataType.Pants, Coat(), Pants())
+            testSuit(
+                EquipmentDataType.Coat,
+                EquipmentDataType.Pants,
+                Coat(),
+                Pants(),
+                "Clothing set Suit requires at least one Shirt!"
+            )
         }
 
-        private fun testSetWith2Items(set: ClothingSet, type: EquipmentDataType, equipment: EquipmentData) {
+        private fun testSetWith2Items(
+            set: ClothingSet,
+            type: EquipmentDataType,
+            equipment: EquipmentData,
+            message: String,
+        ) {
             val state = State(
                 listOf(
                     Storage(Fashion(FASHION_ID_0)),
@@ -168,7 +206,7 @@ class FashionTest {
             val fashion = Fashion(FASHION_ID_0, clothing = style)
             val action = UpdateFashion(fashion)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument(message) { REDUCER.invoke(state, action) }
         }
 
         private fun testSuit(
@@ -176,6 +214,7 @@ class FashionTest {
             type1: EquipmentDataType,
             equipment0: EquipmentData,
             equipment1: EquipmentData,
+            message: String,
         ) {
             val state = State(
                 listOf(
@@ -195,7 +234,7 @@ class FashionTest {
             val fashion = Fashion(FASHION_ID_0, clothing = style)
             val action = UpdateFashion(fashion)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument(message) { REDUCER.invoke(state, action) }
         }
     }
 
