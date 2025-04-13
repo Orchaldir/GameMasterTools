@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

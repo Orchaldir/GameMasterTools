@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
