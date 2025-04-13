@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectFromOneOf
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.generator.*
@@ -16,10 +13,11 @@ import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.mouth.*
-import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -32,14 +30,14 @@ import kotlinx.html.h2
 fun FORM.editHead(
     state: State,
     raceAppearance: RaceAppearance,
-    culture: Culture,
+    style: AppearanceStyle?,
     head: Head,
 ) {
     editEars(raceAppearance, head.ears)
     editEyes(raceAppearance, head.eyes)
-    editHair(raceAppearance, culture, head.hair)
+    editHair(raceAppearance, style, head.hair)
     editHorns(state, raceAppearance, head.horns)
-    editMouth(raceAppearance, culture, head.mouth)
+    editMouth(raceAppearance, style, head.mouth)
 }
 
 private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
@@ -59,7 +57,7 @@ private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
 
 private fun FORM.editBeard(
     raceAppearance: RaceAppearance,
-    culture: Culture,
+    style: AppearanceStyle?,
     beard: Beard,
 ) {
     h2 { +"Beard" }
@@ -68,48 +66,48 @@ private fun FORM.editBeard(
 
     when (beard) {
         NoBeard -> doNothing()
-        is NormalBeard -> editNormalBeard(raceAppearance, culture, beard)
+        is NormalBeard -> editNormalBeard(raceAppearance, style, beard)
     }
 }
 
 private fun FORM.editNormalBeard(
     raceAppearance: RaceAppearance,
-    culture: Culture,
+    style: AppearanceStyle?,
     beard: NormalBeard,
 ) {
-    selectFromOneOf(
+    selectFromOptionalOneOf(
         "Style",
         combine(BEARD, STYLE),
-        culture.appearanceStyle.beardStyles,
+        style?.beardStyles,
         beard.style.getType(),
         true
     )
     selectColor("Color", combine(BEARD, COLOR), raceAppearance.hair.colors, beard.color)
 
     when (beard.style) {
-        is Goatee -> selectGoateeStyle(culture, beard.style.goateeStyle)
+        is Goatee -> selectGoateeStyle(style, beard.style.goateeStyle)
         is GoateeAndMoustache -> {
-            selectGoateeStyle(culture, beard.style.goateeStyle)
-            selectMoustacheStyle(culture, beard.style.moustacheStyle)
+            selectGoateeStyle(style, beard.style.goateeStyle)
+            selectMoustacheStyle(style, beard.style.moustacheStyle)
         }
 
-        is Moustache -> selectMoustacheStyle(culture, beard.style.moustacheStyle)
+        is Moustache -> selectMoustacheStyle(style, beard.style.moustacheStyle)
         ShavedBeard -> doNothing()
     }
 }
 
 private fun HtmlBlockTag.selectGoateeStyle(
-    culture: Culture,
+    style: AppearanceStyle?,
     current: GoateeStyle,
 ) {
-    selectFromOneOf("Goatee", GOATEE_STYLE, culture.appearanceStyle.goateeStyles, current, true)
+    selectFromOptionalOneOf("Goatee", GOATEE_STYLE, style?.goateeStyles, current, true)
 }
 
 private fun HtmlBlockTag.selectMoustacheStyle(
-    culture: Culture,
+    style: AppearanceStyle?,
     current: MoustacheStyle,
 ) {
-    selectFromOneOf("Moustache", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles, current, true)
+    selectFromOptionalOneOf("Moustache", MOUSTACHE_STYLE, style?.moustacheStyles, current, true)
 }
 
 private fun FORM.editEyes(
@@ -167,7 +165,7 @@ fun HtmlBlockTag.editNormalEye(
 
 private fun FORM.editHair(
     raceAppearance: RaceAppearance,
-    culture: Culture,
+    style: AppearanceStyle?,
     hair: Hair,
 ) {
     h2 { +"Hair" }
@@ -176,19 +174,19 @@ private fun FORM.editHair(
 
     when (hair) {
         NoHair -> doNothing()
-        is NormalHair -> editNormalHair(raceAppearance, culture, hair)
+        is NormalHair -> editNormalHair(raceAppearance, style, hair)
     }
 }
 
 private fun FORM.editNormalHair(
     raceAppearance: RaceAppearance,
-    culture: Culture,
+    style: AppearanceStyle?,
     hair: NormalHair,
 ) {
-    selectFromOneOf(
+    selectFromOptionalOneOf(
         "Haircut",
         combine(HAIR, STYLE),
-        culture.appearanceStyle.hairStyles,
+        style?.hairStyles,
         hair.cut.getType(),
         true,
     )
@@ -196,10 +194,10 @@ private fun FORM.editNormalHair(
 
     when (hair.cut) {
         is Bun -> {
-            selectFromOneOf(
+            selectFromOptionalOneOf(
                 "Bun Style",
                 combine(BUN, STYLE),
-                culture.appearanceStyle.bunStyles,
+                style?.bunStyles,
                 hair.cut.style,
                 true,
             )
@@ -207,38 +205,38 @@ private fun FORM.editNormalHair(
         }
 
         is LongHairCut -> {
-            selectFromOneOf(
+            selectFromOptionalOneOf(
                 "Long Hair Style",
                 combine(LONG, STYLE),
-                culture.appearanceStyle.longHairStyles,
+                style?.longHairStyles,
                 hair.cut.style,
                 true,
             )
-            selectHairLength(culture, hair.cut.length)
+            selectHairLength(style, hair.cut.length)
         }
 
         is Ponytail -> {
-            selectFromOneOf(
+            selectFromOptionalOneOf(
                 "Ponytail Style",
                 combine(PONYTAIL, STYLE),
-                culture.appearanceStyle.ponytailStyles,
+                style?.ponytailStyles,
                 hair.cut.style,
                 true,
             )
-            selectFromOneOf(
+            selectFromOptionalOneOf(
                 "Ponytail Position",
                 combine(PONYTAIL, POSITION),
-                culture.appearanceStyle.ponytailPositions,
+                style?.ponytailPositions,
                 hair.cut.position,
                 true,
             )
-            selectHairLength(culture, hair.cut.length)
+            selectHairLength(style, hair.cut.length)
         }
 
-        is ShortHairCut -> selectFromOneOf(
+        is ShortHairCut -> selectFromOptionalOneOf(
             "Short Hair Style",
             combine(SHORT, STYLE),
-            culture.appearanceStyle.shortHairStyles,
+            style?.shortHairStyles,
             hair.cut.style,
             true,
         )
@@ -246,13 +244,13 @@ private fun FORM.editNormalHair(
 }
 
 private fun FORM.selectHairLength(
-    culture: Culture,
+    style: AppearanceStyle?,
     length: HairLength,
 ) {
-    selectFromOneOf(
+    selectFromOptionalOneOf(
         "Length",
         combine(HAIR, LENGTH),
-        culture.appearanceStyle.hairLengths,
+        style?.hairLengths,
         length,
         true,
     )
@@ -260,7 +258,7 @@ private fun FORM.selectHairLength(
 
 private fun FORM.editMouth(
     raceAppearance: RaceAppearance,
-    culture: Culture,
+    style: AppearanceStyle?,
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
@@ -273,12 +271,13 @@ private fun FORM.editMouth(
 
         is NormalMouth -> {
             editSimpleMouth(mouth.width, mouth.teethColor)
-            editBeard(raceAppearance, culture, mouth.beard)
+            editBeard(raceAppearance, style, mouth.beard)
         }
 
         is FemaleMouth -> {
             editSimpleMouth(mouth.width, mouth.teethColor)
-            selectColor("Lip Color", combine(LIP, COLOR), culture.appearanceStyle.lipColors, mouth.color)
+            val colors = style?.lipColors ?: OneOf(Color.entries)
+            selectColor("Lip Color", combine(LIP, COLOR), colors, mouth.color)
         }
 
         is Beak -> {

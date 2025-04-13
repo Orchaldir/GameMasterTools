@@ -205,16 +205,9 @@ private fun HTML.showDomainEditor(
     val updateLink = call.application.href(DomainRoutes.Update(domain.id))
 
     simpleHtml("Edit Domain: $name") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editDomain(call, state, domain)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.core.action.CloneCulture
 import at.orchaldir.gm.core.action.CreateCulture
@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.culture.name.FamilyConvention
 import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.core.model.culture.name.isAnyGenonym
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -46,8 +46,14 @@ val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
     state.getCultureStorage().require(action.culture.id)
     state.getCalendarStorage().require(action.culture.calendar)
-    action.culture.namingConvention.getNameLists()
-        .forEach { state.getNameListStorage().require(it) }
+    state.getFashionStorage()
+        .require(action.culture.fashion.getValues().filterNotNull())
+    state.getHolidayStorage()
+        .require(action.culture.holidays)
+    state.getLanguageStorage()
+        .require(action.culture.languages.getValidValues())
+    state.getNameListStorage()
+        .require(action.culture.namingConvention.getNameLists())
     val oldCulture = state.getCultureStorage().getOrThrow(action.culture.id)
 
     if (requiresChangeToMononym(action.culture, oldCulture)) {

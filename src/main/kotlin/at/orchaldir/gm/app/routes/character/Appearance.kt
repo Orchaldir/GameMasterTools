@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
+import at.orchaldir.gm.core.selector.culture.getFashion
 import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -22,10 +24,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.FormMethod
 import kotlinx.html.HTML
-import kotlinx.html.form
-import kotlinx.html.id
 import mu.KotlinLogging
 import kotlin.random.Random
 
@@ -95,7 +94,7 @@ private fun HTML.showAppearanceEditor(
 ) {
     val appearance = character.appearance
     val raceAppearance = state.getRaceAppearance(character)
-    val culture = state.getCultureStorage().getOrThrow(character.culture)
+    val style = state.getFashion(character)?.appearance
     val backLink = href(call, character.id)
     val previewLink = call.application.href(CharacterRoutes.Appearance.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Appearance.Update(character.id))
@@ -105,17 +104,11 @@ private fun HTML.showAppearanceEditor(
 
     simpleHtml("Edit Appearance: ${character.name(state)}", true) {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
+            formWithPreview(previewLink, updateLink, backLink) {
                 button("Random", generateLink)
 
-                editAppearance(state, raceAppearance, appearance, character, culture)
-
-                button("Update", updateLink)
+                editAppearance(state, raceAppearance, appearance, character, style)
             }
-            back(backLink)
         }, {
             svg(frontSvg, 80)
             svg(backSvg, 80)
@@ -124,7 +117,7 @@ private fun HTML.showAppearanceEditor(
 }
 
 fun createGenerationConfig(state: State, character: Character): AppearanceGeneratorConfig {
-    val culture = state.getCultureStorage().getOrThrow(character.culture)
+    val fashion = state.getFashion(character)
     val race = state.getRaceStorage().getOrThrow(character.race)
 
     return AppearanceGeneratorConfig(
@@ -133,7 +126,7 @@ fun createGenerationConfig(state: State, character: Character): AppearanceGenera
         character.gender,
         race.height,
         state.getRaceAppearance(character),
-        culture.appearanceStyle
+        fashion?.appearance ?: AppearanceStyle(),
     )
 }
 

@@ -2,13 +2,36 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
+
+fun HtmlBlockTag.formWithPreview(
+    previewLink: String,
+    updateLink: String,
+    backLink: String,
+    updateText: String = "Update",
+    content: FORM.() -> Unit,
+) {
+    form {
+        id = "editor"
+        action = previewLink
+        method = FormMethod.post
+
+        content()
+
+        button(updateText, updateLink)
+    }
+
+    back(backLink)
+}
 
 fun FORM.button(text: String, updateLink: String, isDisabled: Boolean = false) {
     p {
@@ -171,10 +194,21 @@ fun HtmlBlockTag.selectText(
 
 // rarity map
 
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOptionalOneOf(
+    text: String,
+    selectId: String,
+    optionalValues: RarityMap<T>?,
+    current: T,
+    update: Boolean = false,
+) {
+    val values = optionalValues ?: OneOf(enumValues<T>().toSet())
+    selectFromOneOf(text, selectId, values, current, update)
+}
+
 inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
     text: String,
     selectId: String,
-    values: OneOf<T>,
+    values: RarityMap<T>,
     current: T,
     update: Boolean = false,
 ) {
@@ -188,7 +222,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectFromOneOf(
     text: String,
     selectId: String,
     storage: Storage<ID, ELEMENT>,
-    values: OneOf<ID>,
+    values: RarityMap<ID>,
     current: ID,
     update: Boolean = false,
     getName: (ELEMENT) -> String,
@@ -203,7 +237,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectFromOneOf(
 fun <T> HtmlBlockTag.selectFromOneOf(
     label: String,
     selectId: String,
-    values: OneOf<T>,
+    values: RarityMap<T>,
     current: T,
     update: Boolean = false,
     content: OPTION.(T) -> Unit,
@@ -233,7 +267,7 @@ fun <T> HtmlBlockTag.selectFromOneOf(
 fun <T> HtmlBlockTag.selectFromOneOrNone(
     selectLabel: String,
     selectId: String,
-    values: OneOrNone<T>,
+    values: RarityMap<T>,
     isUnselected: Boolean,
     update: Boolean = false,
     content: OPTION.(T) -> Unit,

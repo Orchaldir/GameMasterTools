@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.Appearance
-import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.canDelete
@@ -305,16 +305,9 @@ private fun HTML.showRaceEditor(
 
     simpleHtml("Edit Race: ${race.name}", true) {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
-
+            formWithPreview(previewLink, updateLink, backLink) {
                 editRace(call, state, race)
-
-                button("Update", updateLink)
             }
-            back(backLink)
         }, {
             race.genders.getValidValues().forEach { gender ->
                 visualizeLifeStages(state, race, gender, 120)

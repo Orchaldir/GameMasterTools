@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.calendar.CalendarOriginType.Improved
 import at.orchaldir.gm.core.model.time.calendar.CalendarOriginType.Original
 import at.orchaldir.gm.core.model.time.date.DisplayYear
-import at.orchaldir.gm.core.selector.getCultures
+import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.time.calendar.*
 import at.orchaldir.gm.core.selector.time.date.display

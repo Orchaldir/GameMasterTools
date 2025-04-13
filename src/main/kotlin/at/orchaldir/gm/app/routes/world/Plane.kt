@@ -206,16 +206,9 @@ private fun HTML.showPlaneEditor(
     val updateLink = call.application.href(PlaneRoutes.Update(plane.id))
 
     simpleHtml("Edit Plane: $name") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editPlane(state, plane)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

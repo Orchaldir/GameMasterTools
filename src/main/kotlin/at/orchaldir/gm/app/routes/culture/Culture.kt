@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.routes
+package at.orchaldir.gm.app.routes.culture
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.Rarity
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -204,15 +204,10 @@ private fun HTML.showCultureEditor(
     val updateLink = call.application.href(CultureRoutes.Update(culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editCulture(state, culture)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
+
+

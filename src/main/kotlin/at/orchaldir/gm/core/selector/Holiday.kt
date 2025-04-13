@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.holiday.HolidayOfGod
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.date.resolveDay
 

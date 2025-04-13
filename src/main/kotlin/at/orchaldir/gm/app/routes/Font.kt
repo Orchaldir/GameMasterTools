@@ -275,16 +275,10 @@ private fun HTML.showFontEditor(
     val updateLink = call.application.href(FontRoutes.Update(font.id))
 
     simpleHtml("Edit Font: ${font.name}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
+        formWithPreview(previewLink, updateLink, backLink) {
             selectName(font.name)
             selectOptionalDate(state, "Date", font.date, DATE)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

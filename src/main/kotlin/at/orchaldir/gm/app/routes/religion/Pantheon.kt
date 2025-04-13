@@ -212,16 +212,9 @@ private fun HTML.showPantheonEditor(
     val updateLink = call.application.href(PantheonRoutes.Update(pantheon.id))
 
     simpleHtml("Edit Pantheon: $name") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editPantheon(state, pantheon)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -14,6 +15,13 @@ fun State.canDelete(equipment: EquipmentId) = getCharacterStorage().getAll()
 fun State.countEquipment(material: MaterialId) = getEquipmentStorage()
     .getAll()
     .count { it.data.contains(material) }
+
+fun State.isAvailable(set: ClothingSet) = set.getTypes()
+    .all { isAvailable(it) }
+
+fun State.isAvailable(type: EquipmentDataType) = getEquipmentStorage()
+    .getAll()
+    .any { it.data.isType(type) }
 
 fun State.getEquipmentOf(type: EquipmentDataType) = getEquipmentStorage().getAll()
     .filter { it.data.isType(type) }

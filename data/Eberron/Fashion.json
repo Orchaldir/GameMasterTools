@@ -1,5 +1,100 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Brelish - Male",
+   "appearance": {
+    "moustacheStyles": {
+     "Handlebar": "Common",
+     "Pencil": "Common",
+     "Pyramid": "Common",
+     "Toothbrush": "Common",
+     "Walrus": "Common"
+    },
+    "hairStyles": {
+     "Short": "Common"
+    },
+    "bunStyles": {
+    },
+    "longHairStyles": {
+    },
+    "ponytailStyles": {
+    },
+    "ponytailPositions": {
+    },
+    "hairLengths": {
+    }
+   },
+   "clothing": {
+    "clothingSets": {
+     "PantsAndShirt": "Common",
+     "Suit": "Common"
+    },
+    "equipmentRarityMap": {
+     "Coat": {
+      "1": "Common"
+     },
+     "Dress": {
+      "2": "Common"
+     },
+     "Pants": {
+      "9": "Common"
+     },
+     "Shirt": {
+      "10": "Common"
+     }
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Brelish - Female",
+   "appearance": {
+    "beardStyles": {
+     "Shaved": "Common"
+    },
+    "goateeStyles": {
+    },
+    "moustacheStyles": {
+    },
+    "hairStyles": {
+     "Long": "Common",
+     "Ponytail": "Common"
+    },
+    "bunStyles": {
+    },
+    "shortHairStyles": {
+    },
+    "lipColors": {
+     "Crimson": "Common",
+     "Red": "Common"
+    }
+   },
+   "clothing": {
+    "clothingSets": {
+     "Dress": "Common",
+     "PantsAndShirt": "Uncommon",
+     "ShirtAndSkirt": "Common"
+    },
+    "equipmentRarityMap": {
+     "Coat": {
+      "1": "Common"
+     },
+     "Dress": {
+      "2": "Common"
+     },
+     "Pants": {
+      "9": "Common"
+     },
+     "Shirt": {
+      "10": "Common"
+     },
+     "Skirt": {
+      "15": "Common"
+     }
+    }
+   }
+  }
  }
 }

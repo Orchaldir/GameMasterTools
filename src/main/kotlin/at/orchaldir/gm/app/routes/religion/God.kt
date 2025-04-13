@@ -224,16 +224,9 @@ private fun HTML.showGodEditor(
     val updateLink = call.application.href(GodRoutes.Update(god.id))
 
     simpleHtml("Edit God: $name") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editGod(call, state, god)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

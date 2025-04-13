@@ -21,42 +21,10 @@
     },
     "familyNames": 8
    },
-   "appearanceStyle": {
-    "beardStyles": {
-     "Goatee": "Common",
-     "GoateeAndMoustache": "Common",
-     "Moustache": "Common",
-     "Shaved": "Common"
-    },
-    "goateeStyles": {
-     "ChinPuff": "Common",
-     "Goatee": "Common",
-     "LandingStrip": "Common",
-     "SoulPatch": "Common",
-     "VanDyke": "Common"
-    },
-    "moustacheStyles": {
-     "Handlebar": "Common",
-     "Pencil": "Common",
-     "Pyramid": "Common",
-     "Toothbrush": "Common",
-     "Walrus": "Common"
-    },
-    "ponytailPositions": {
-     "BothSides": "Rare",
-     "High": "Common",
-     "Left": "VeryRare",
-     "Low": "Common",
-     "Right": "VeryRare",
-     "Top": "Uncommon"
-    },
-    "hairLengths": {
-     "MidBack": "Uncommon",
-     "Waist": "Common",
-     "Classic": "Common",
-     "Knee": "Rare",
-     "Ankle": "VeryRare"
-    }
+   "fashion": {
+    "female": 1,
+    "genderless": 0,
+    "male": 0
    },
    "holidays": [
     5,
@@ -88,35 +56,6 @@
      "male": 6
     },
     "familyNames": 8
-   },
-   "appearanceStyle": {
-    "beardStyles": {
-     "Goatee": "Common",
-     "GoateeAndMoustache": "Common",
-     "Moustache": "Common",
-     "Shaved": "Common"
-    },
-    "goateeStyles": {
-     "ChinPuff": "Common",
-     "Goatee": "Common",
-     "LandingStrip": "Common",
-     "SoulPatch": "Common",
-     "VanDyke": "Common"
-    },
-    "moustacheStyles": {
-     "Handlebar": "Common",
-     "Pencil": "Common",
-     "Pyramid": "Common",
-     "Toothbrush": "Common",
-     "Walrus": "Common"
-    },
-    "shortHairStyles": {
-     "BuzzCut": "Common",
-     "MiddlePart": "Common",
-     "Shaved": "Common",
-     "SidePartLeft": "Common",
-     "SidePartRight": "Common"
-    }
    }
   },
   "2": {
@@ -130,35 +69,6 @@
     "21": "Uncommon",
     "22": "Common",
     "24": "Uncommon"
-   },
-   "appearanceStyle": {
-    "beardStyles": {
-     "Goatee": "Common",
-     "GoateeAndMoustache": "Common",
-     "Moustache": "Common",
-     "Shaved": "Common"
-    },
-    "goateeStyles": {
-     "ChinPuff": "Common",
-     "Goatee": "Common",
-     "LandingStrip": "Common",
-     "SoulPatch": "Common",
-     "VanDyke": "Common"
-    },
-    "moustacheStyles": {
-     "Handlebar": "Common",
-     "Pencil": "Common",
-     "Pyramid": "Common",
-     "Toothbrush": "Common",
-     "Walrus": "Common"
-    },
-    "shortHairStyles": {
-     "BuzzCut": "Common",
-     "MiddlePart": "Common",
-     "Shaved": "Common",
-     "SidePartLeft": "Common",
-     "SidePartRight": "Common"
-    }
    }
   }
  }

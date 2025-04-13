@@ -232,15 +232,9 @@ private fun HTML.showSpellEditor(
     val updateLink = call.application.href(SpellRoutes.Update(spell.id))
 
     simpleHtml("Edit Spell: $name") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
+        formWithPreview(previewLink, updateLink, backLink) {
             editSpell(state, spell)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

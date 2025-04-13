@@ -4,8 +4,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.fashion.ClothingSet
-import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
+import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.*
@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.selector.culture.getFashion
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import kotlin.random.Random
@@ -28,8 +29,7 @@ data class EquipmentGenerator(
     companion object {
         fun create(state: State, characterId: CharacterId): EquipmentGenerator? {
             val character = state.getCharacterStorage().getOptional(characterId) ?: return null
-            val culture = state.getCultureStorage().getOptional(character.culture) ?: return null
-            val fashion = state.getFashionStorage().getOptional(culture.getFashion(character)) ?: return null
+            val fashion = state.getFashion(character) ?: return null
 
             return EquipmentGenerator(
                 RandomNumberGenerator(Random),
@@ -43,7 +43,7 @@ data class EquipmentGenerator(
     fun generate(): EquipmentMap<EquipmentId> {
         val result = mutableMapOf<EquipmentId, EquipmentDataType>()
 
-        when (generate(fashion.clothingSets)) {
+        when (generate(fashion.clothing.clothingSets)) {
             ClothingSet.Dress -> generate(result, Dress)
             ClothingSet.PantsAndShirt -> generatePantsAndShirt(result)
             ClothingSet.ShirtAndSkirt -> generateShirtAndSkirt(result)
@@ -80,7 +80,7 @@ data class EquipmentGenerator(
     }
 
     private fun requiresAccessory(type: EquipmentDataType): Boolean {
-        val rarity = fashion.accessories.getRarity(type)
+        val rarity = fashion.clothing.accessories.getRarity(type)
 
         if (rarity == Rarity.Everyone) {
             return true
@@ -92,7 +92,7 @@ data class EquipmentGenerator(
     }
 
     private fun generate(result: MutableMap<EquipmentId, EquipmentDataType>, type: EquipmentDataType) {
-        val options = fashion.getOptions(type)
+        val options = fashion.clothing.getOptions(type)
         result[generate(options)] = type
     }
 

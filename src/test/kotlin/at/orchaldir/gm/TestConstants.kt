@@ -3,6 +3,7 @@ package at.orchaldir.gm
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.font.FontId
@@ -12,6 +13,7 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -48,10 +50,12 @@ val CHARACTER_ID_1 = CharacterId(1)
 val CHARACTER_ID_2 = CharacterId(2)
 val UNKNOWN_CHARACTER_ID = CharacterId(99)
 val CULTURE_ID_0 = CultureId(0)
+val CULTURE_ID_1 = CultureId(1)
 val DOMAIN_ID_0 = DomainId(0)
 val UNKNOWN_DOMAIN_ID = DomainId(99)
 val EQUIPMENT_ID_0 = EquipmentId(0)
 val EQUIPMENT_ID_1 = EquipmentId(1)
+val FASHION_ID_0 = FashionId(0)
 val FONT_ID_0 = FontId(0)
 val GOD_ID_0 = GodId(0)
 val UNKNOWN_GOD_ID = GodId(99)
@@ -66,6 +70,7 @@ val MATERIAL_ID_1 = MaterialId(1)
 val MOON_ID_0 = MoonId(0)
 val MOUNTAIN_ID_0 = MountainId(0)
 val MOUNTAIN_ID_1 = MountainId(1)
+val NAME_LIST_ID0 = NameListId(0)
 val ORGANIZATION_ID_0 = OrganizationId(0)
 val PANTHEON_ID_0 = PantheonId(0)
 val UNKNOWN_PANTHEON_ID = PantheonId(99)

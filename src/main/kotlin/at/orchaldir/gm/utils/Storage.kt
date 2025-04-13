@@ -73,6 +73,8 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
         require(contains(id)) { "Requires unknown ${getType()} ${id.value()}!" }
     }
 
+    fun require(ids: Collection<ID>) = ids.forEach { require(it) }
+
     fun require(id: ID, message: () -> String) {
         require(contains(id)) { message() }
     }

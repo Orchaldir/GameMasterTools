@@ -18,12 +18,12 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
-import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
@@ -40,7 +40,7 @@ fun FORM.editAppearance(
     raceAppearance: RaceAppearance,
     appearance: Appearance,
     character: Character,
-    culture: Culture,
+    style: AppearanceStyle?,
 ) {
     selectFromOneOf(
         "Appearance Type",
@@ -53,14 +53,14 @@ fun FORM.editAppearance(
     when (appearance) {
         is HeadOnly -> {
             editHeight(state, character, appearance.height)
-            editHead(state, raceAppearance, culture, appearance.head)
+            editHead(state, raceAppearance, style, appearance.head)
             editSkin(state, raceAppearance.skin, appearance.skin)
         }
 
         is HumanoidBody -> {
             editHeight(state, character, appearance.height)
             editBody(raceAppearance, character, appearance.body)
-            editHead(state, raceAppearance, culture, appearance.head)
+            editHead(state, raceAppearance, style, appearance.head)
             editSkin(state, raceAppearance.skin, appearance.skin)
             editTails(state, raceAppearance, appearance.tails)
             editWings(state, raceAppearance, appearance.wings)
@@ -311,12 +311,12 @@ fun parseAppearanceColor(
     parameters: Parameters,
     param: String,
     config: AppearanceGeneratorConfig,
-    colors: OneOf<Color>,
+    colors: RarityMap<Color>,
 ) = parseAppearanceOption(parameters, combine(param, COLOR), config, colors)
 
 inline fun <reified T : Enum<T>> parseAppearanceOption(
     parameters: Parameters,
     param: String,
     config: AppearanceGeneratorConfig,
-    values: OneOf<T>,
+    values: RarityMap<T>,
 ) = parse<T>(parameters, param) ?: config.generate(values)

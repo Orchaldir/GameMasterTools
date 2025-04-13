@@ -888,6 +888,25 @@
      "color": "Olive"
     }
    },
+   "equipmentMap": {
+    "map": {
+     "1": [
+      [
+       "Outer"
+      ]
+     ],
+     "9": [
+      [
+       "Bottom"
+      ]
+     ],
+     "10": [
+      [
+       "Top"
+      ]
+     ]
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",

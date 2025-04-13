@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.selector.getFashions
+import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
@@ -248,16 +248,9 @@ private fun HTML.showEquipmentEditor(
 
     simpleHtml("Edit equipment: ${equipment.name}") {
         visualizeItem(state, equipment)
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-
+        formWithPreview(previewLink, updateLink, backLink) {
             editEquipment(state, equipment)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

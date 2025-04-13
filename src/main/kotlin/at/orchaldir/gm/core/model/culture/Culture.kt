@@ -1,10 +1,9 @@
 package at.orchaldir.gm.core.model.culture
 
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.name.NamingConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
-import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
-import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -33,14 +32,13 @@ data class Culture(
     val calendar: CalendarId = CalendarId(0),
     val languages: SomeOf<LanguageId> = SomeOf(emptyMap()),
     val namingConvention: NamingConvention = NoNamingConvention,
-    val appearanceStyle: AppearanceStyle = AppearanceStyle(),
-    val clothingStyles: GenderMap<FashionId?> = GenderMap(null),
+    val fashion: GenderMap<FashionId?> = GenderMap(null),
     val holidays: Set<HolidayId> = emptySet(),
 ) : ElementWithSimpleName<CultureId> {
 
     override fun id() = id
     override fun name() = name
 
-    fun getFashion(character: Character) = clothingStyles.get(character.gender)
+    fun getFashion(character: Character) = fashion.get(character.gender)
 
 }

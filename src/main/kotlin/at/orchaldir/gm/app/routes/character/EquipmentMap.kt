@@ -21,10 +21,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.FormMethod
 import kotlinx.html.HTML
-import kotlinx.html.form
-import kotlinx.html.id
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -105,16 +102,10 @@ private fun HTML.showEquipmentMapEditor(
     simpleHtml("Edit Equipment of ${character.name(state)}") {
         svg(frontSvg, 20)
         svg(backSvg, 20)
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
+        formWithPreview(previewLink, updateLink, backLink) {
             button("Random", generateLink)
 
             editEquipmentMap(state, equipmentMap, fashion)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }

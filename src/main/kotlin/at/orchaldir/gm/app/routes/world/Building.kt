@@ -271,10 +271,7 @@ private fun HTML.showBuildingEditor(
 
     simpleHtml("Edit Building: ${building.name(state)}") {
         split({
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
+            formWithPreview(previewLink, updateLink, backLink) {
                 selectOptionalComplexName(state, building.name)
                 selectAddress(state, building)
                 selectOptionalDate(state, "Construction", building.constructionDate, DATE)
@@ -289,9 +286,7 @@ private fun HTML.showBuildingEditor(
                     building.style
                 )
                 selectBuildingPurpose(state, building)
-                button("Update", updateLink)
             }
-            back(backLink)
         }, {
             svg(visualizeBuilding(call, state, building), 90)
         })

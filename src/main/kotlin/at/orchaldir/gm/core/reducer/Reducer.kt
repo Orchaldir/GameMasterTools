@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.character.*
+import at.orchaldir.gm.core.reducer.culture.*
 import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
 import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.magic.MAGIC_REDUCER

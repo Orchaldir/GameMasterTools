@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.culture.countCultures
+import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.magic.countSpells
@@ -256,46 +258,48 @@ private fun HTML.showLanguageEditor(
     state: State,
     language: Language,
 ) {
-    val possibleInventors = state.getCharacterStorage().getAll()
-    val possibleParents = state.getPossibleParents(language.id)
-        .sortedBy { it.name }
-    val planes = state.sortPlanes()
     val backLink = href(call, language.id)
     val previewLink = call.application.href(LanguageRoutes.Preview(language.id))
     val updateLink = call.application.href(LanguageRoutes.Update(language.id))
 
     simpleHtml("Edit Language: ${language.name}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            selectName(language.name)
-            selectValue("Origin", ORIGIN, LanguageOriginType.entries, language.origin.getType(), true) {
-                when (it) {
-                    LanguageOriginType.Combined -> possibleParents.size < 2
-                    LanguageOriginType.Evolved -> possibleParents.isEmpty()
-                    LanguageOriginType.Invented -> possibleInventors.isEmpty()
-                    else -> false
-                }
-            }
-            when (val origin = language.origin) {
-                is CombinedLanguage -> {
-                    selectElements(state, LANGUAGES, possibleParents, origin.parents)
-                }
-
-                is EvolvedLanguage -> selectElement(state, "Parent", LANGUAGES, possibleParents, origin.parent)
-
-                is InventedLanguage -> {
-                    selectCreator(state, origin.inventor, language.id, origin.date, "Inventor")
-                    selectDate(state, "Date", origin.date, DATE)
-                }
-
-                is PlanarLanguage -> selectElement(state, "Plane", PLANE, planes, origin.plane)
-
-                else -> doNothing()
-            }
-            button("Update", updateLink)
+        formWithPreview(previewLink, updateLink, backLink) {
+            editLanguage(state, language)
         }
-        back(backLink)
+    }
+}
+
+private fun FORM.editLanguage(
+    state: State,
+    language: Language,
+) {
+    val possibleInventors = state.getCharacterStorage().getAll()
+    val possibleParents = state.getPossibleParents(language.id)
+        .sortedBy { it.name }
+    val planes = state.sortPlanes()
+    selectName(language.name)
+    selectValue("Origin", ORIGIN, LanguageOriginType.entries, language.origin.getType(), true) {
+        when (it) {
+            LanguageOriginType.Combined -> possibleParents.size < 2
+            LanguageOriginType.Evolved -> possibleParents.isEmpty()
+            LanguageOriginType.Invented -> possibleInventors.isEmpty()
+            else -> false
+        }
+    }
+    when (val origin = language.origin) {
+        is CombinedLanguage -> {
+            selectElements(state, LANGUAGES, possibleParents, origin.parents)
+        }
+
+        is EvolvedLanguage -> selectElement(state, "Parent", LANGUAGES, possibleParents, origin.parent)
+
+        is InventedLanguage -> {
+            selectCreator(state, origin.inventor, language.id, origin.date, "Inventor")
+            selectDate(state, "Date", origin.date, DATE)
+        }
+
+        is PlanarLanguage -> selectElement(state, "Plane", PLANE, planes, origin.plane)
+
+        else -> doNothing()
     }
 }
