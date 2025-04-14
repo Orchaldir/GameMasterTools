@@ -1,4 +1,4 @@
-package at.orchaldir.gm.prototypes.visualization.character.appearance
+package at.orchaldir.gm.prototypes.visualization.character.appearance.beard
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
@@ -40,7 +40,7 @@ fun main() {
 
     renderCharacterTable(
         State(),
-        "beard.svg",
+        "beard-short.svg",
         CHARACTER_CONFIG,
         addNamesToBeardStyle(beards),
         addNamesToEyes(eyes),
