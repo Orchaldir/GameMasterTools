@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.MOUTH_LAYER
 import at.orchaldir.gm.visualization.character.appearance.beard.visualizeBeard
 
 data class MouthConfig(
@@ -75,7 +76,7 @@ fun visualizeMaleMouth(
     val mouthAabb = AABB.fromCenter(center, Size2d(width, height))
     val option = NoBorder(Color.Black.toRender())
 
-    state.renderer.getLayer().renderRectangle(mouthAabb, option)
+    state.renderer.getLayer(MOUTH_LAYER).renderRectangle(mouthAabb, option)
 }
 
 private fun visualizeFemaleMouth(
@@ -99,6 +100,6 @@ private fun visualizeFemaleMouth(
     val cupidsBow = aabb.getPoint(CENTER, config.y - halfHeight * 0.5f)
     val polygon = Polygon2d(listOf(left, bottomLeft, bottomRight, right, topRight, cupidsBow, topLeft))
 
-    state.renderer.getLayer().renderPolygon(polygon, options)
+    state.renderer.getLayer(MOUTH_LAYER).renderPolygon(polygon, options)
 }
 
