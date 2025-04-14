@@ -13,6 +13,7 @@ data class BeardConfig(
     val smallThickness: Factor,
     val mediumThickness: Factor,
     val moustacheOffset: Factor,
+    val wideFullBeardWidth: Factor,
 )
 
 fun visualizeBeard(state: CharacterRenderState, head: Head, beard: Beard) {
