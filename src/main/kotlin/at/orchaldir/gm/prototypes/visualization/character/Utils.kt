@@ -92,6 +92,7 @@ fun <C, R> renderCharacterTable(
 fun addNamesToBeardStyle(values: List<BeardStyle>) = values.map {
     Pair(
         when (it) {
+            is FullBeard -> "${it.style} + Full Beard"
             is Goatee -> it.goateeStyle.name
             is GoateeAndMoustache -> "${it.goateeStyle.name} + ${it.moustacheStyle.name}"
             is Moustache -> "${it.moustacheStyle.name} Moustache"

@@ -85,6 +85,7 @@ private fun FORM.editNormalBeard(
     selectColor("Color", combine(BEARD, COLOR), raceAppearance.hair.colors, beard.color)
 
     when (beard.style) {
+        is FullBeard -> TODO()
         is Goatee -> selectGoateeStyle(style, beard.style.goateeStyle)
         is GoateeAndMoustache -> {
             selectGoateeStyle(style, beard.style.goateeStyle)
