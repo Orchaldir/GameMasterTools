@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class BeardStyleType {
-    Braided,
+    Full,
     Goatee,
     GoateeAndMoustache,
     Moustache,
@@ -17,7 +17,7 @@ enum class BeardStyleType {
 sealed class BeardStyle {
 
     fun getType() = when (this) {
-        is BraidedBeard -> BeardStyleType.Braided
+        is FullBeard -> BeardStyleType.Full
         is Goatee -> BeardStyleType.Goatee
         is GoateeAndMoustache -> BeardStyleType.GoateeAndMoustache
         is Moustache -> BeardStyleType.Moustache
@@ -27,10 +27,9 @@ sealed class BeardStyle {
 }
 
 @Serializable
-@SerialName("Braided")
-data class BraidedBeard(
-    val style: BraidedBeardStyle,
-    val width: Size = Size.Medium,
+@SerialName("Full")
+data class FullBeard(
+    val style: FullBeardStyle,
     val length: HairLength = HairLength.MidBack,
 ) : BeardStyle()
 
