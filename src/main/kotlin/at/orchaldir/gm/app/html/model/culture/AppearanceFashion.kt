@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.app.parse.parseOneOrNone
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
+import at.orchaldir.gm.core.model.character.appearance.beard.FullBeardStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.*
@@ -34,6 +35,11 @@ private fun HtmlBlockTag.showBeard(fashion: BeardFashion) {
     h3 { +"Beard" }
 
     showRarityMap("Beard Styles", fashion.beardStyles)
+
+    if (fashion.beardStyles.contains(BeardStyleType.Full)) {
+        showRarityMap("Beard Length", fashion.beardLength)
+        showRarityMap("Full Beard Styles", fashion.fullBeardStyles)
+    }
 
     if (fashion.hasGoatee()) {
         showRarityMap("Goatee Styles", fashion.goateeStyles)
@@ -87,12 +93,17 @@ private fun HtmlBlockTag.editBeard(fashion: BeardFashion) {
 
     selectRarityMap("Beard Styles", combine(BEARD, STYLE), fashion.beardStyles, true)
 
+    if (fashion.beardStyles.contains(BeardStyleType.Full)) {
+        selectRarityMap("Beard Length", combine(BEARD, LENGTH), fashion.beardLength)
+        selectRarityMap("Full Beard Styles", combine(FULL, STYLE), fashion.fullBeardStyles)
+    }
+
     if (fashion.hasGoatee()) {
-        selectRarityMap("Goatee Styles", GOATEE_STYLE, fashion.goateeStyles)
+        selectRarityMap("Goatee Styles", combine(GOATEE, STYLE), fashion.goateeStyles)
     }
 
     if (fashion.hasMoustache()) {
-        selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, fashion.moustacheStyles)
+        selectRarityMap("Moustache Styles", combine(MOUSTACHE, STYLE), fashion.moustacheStyles)
     }
 }
 
@@ -134,8 +145,10 @@ fun parseAppearanceStyle(parameters: Parameters) = AppearanceFashion(
 
 fun parseBeardFashion(parameters: Parameters) = BeardFashion(
     parseOneOf(parameters, combine(BEARD, STYLE), BeardStyleType::valueOf),
-    parseOneOrNone(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
-    parseOneOrNone(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
+    parseOneOrNone(parameters, combine(BEARD, LENGTH), HairLength::valueOf),
+    parseOneOrNone(parameters, combine(FULL, STYLE), FullBeardStyle::valueOf),
+    parseOneOrNone(parameters, combine(GOATEE, STYLE), GoateeStyle::valueOf),
+    parseOneOrNone(parameters, combine(MOUSTACHE, STYLE), MoustacheStyle::valueOf),
 )
 
 fun parseHairFashion(parameters: Parameters) = HairFashion(

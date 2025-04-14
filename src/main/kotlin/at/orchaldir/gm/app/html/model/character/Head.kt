@@ -103,14 +103,14 @@ private fun HtmlBlockTag.selectGoateeStyle(
     style: BeardFashion?,
     current: GoateeStyle,
 ) {
-    selectFromOptionalOneOf("Goatee", GOATEE_STYLE, style?.goateeStyles, current, true)
+    selectFromOptionalOneOf("Goatee", combine(GOATEE, STYLE), style?.goateeStyles, current, true)
 }
 
 private fun HtmlBlockTag.selectMoustacheStyle(
     style: BeardFashion?,
     current: MoustacheStyle,
 ) {
-    selectFromOptionalOneOf("Moustache", MOUSTACHE_STYLE, style?.moustacheStyles, current, true)
+    selectFromOptionalOneOf("Moustache", combine(MOUSTACHE, STYLE), style?.moustacheStyles, current, true)
 }
 
 private fun FORM.editEyes(
@@ -353,13 +353,13 @@ private fun parseMoustacheStyle(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     style: BeardFashion,
-) = parseAppearanceOption(parameters, MOUSTACHE_STYLE, config, style.moustacheStyles)
+) = parseAppearanceOption(parameters, combine(MOUSTACHE, STYLE), config, style.moustacheStyles)
 
 private fun parseGoateeStyle(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     style: BeardFashion,
-) = parseAppearanceOption(parameters, GOATEE_STYLE, config, style.goateeStyles)
+) = parseAppearanceOption(parameters, combine(GOATEE, STYLE), config, style.goateeStyles)
 
 private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig): Ears {
     return when (parameters[combine(EAR, TYPE)]) {
