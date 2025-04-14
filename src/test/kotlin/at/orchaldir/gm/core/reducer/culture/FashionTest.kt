@@ -7,10 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
-import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
-import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
-import at.orchaldir.gm.core.model.culture.fashion.Fashion
+import at.orchaldir.gm.core.model.culture.fashion.*
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
@@ -52,12 +49,12 @@ class FashionTest {
     }
 
     @Nested
-    inner class UpdateAppearanceStyleTest {
+    inner class UpdateBeardFashionTest {
 
         @Test
         fun `Some beard styles require at least 1 goatee`() {
-            assertAppearanceStyle(
-                AppearanceFashion(
+            assertBeardFashion(
+                BeardFashion(
                     OneOf(BeardStyleType.Goatee),
                     OneOrNone(),
                 ),
@@ -67,8 +64,8 @@ class FashionTest {
 
         @Test
         fun `Some beard styles require at least 1 moustache`() {
-            assertAppearanceStyle(
-                AppearanceFashion(
+            assertBeardFashion(
+                BeardFashion(
                     OneOf(BeardStyleType.Moustache),
                     moustacheStyles = OneOrNone(),
                 ),
@@ -76,11 +73,25 @@ class FashionTest {
             )
         }
 
+        private fun assertBeardFashion(beardFashion: BeardFashion, message: String) {
+            val state = State(Storage(Fashion(FASHION_ID_0)))
+            val fashion = Fashion(FASHION_ID_0, appearance = AppearanceFashion(beard = beardFashion))
+            val action = UpdateFashion(fashion)
+
+            assertIllegalArgument(message) {
+                REDUCER.invoke(state, action)
+            }
+        }
+    }
+
+    @Nested
+    inner class UpdateHairFashionTest {
+
         @Test
         fun `Requires at least 1 bun style`() {
-            assertAppearanceStyle(
-                AppearanceFashion(
-                    hairStyles = OneOf(HairStyle.Bun),
+            assertHairFashion(
+                HairFashion(
+                    OneOf(HairStyle.Bun),
                     bunStyles = OneOrNone(),
                 ),
                 "Requires at least 1 bun style!"
@@ -89,9 +100,9 @@ class FashionTest {
 
         @Test
         fun `Requires at least 1 long hair style`() {
-            assertAppearanceStyle(
-                AppearanceFashion(
-                    hairStyles = OneOf(HairStyle.Long),
+            assertHairFashion(
+                HairFashion(
+                    OneOf(HairStyle.Long),
                     longHairStyles = OneOrNone(),
                 ),
                 "Requires at least 1 long hair style!"
@@ -100,9 +111,9 @@ class FashionTest {
 
         @Test
         fun `Requires at least 1 ponytail style`() {
-            assertAppearanceStyle(
-                AppearanceFashion(
-                    hairStyles = OneOf(HairStyle.Ponytail),
+            assertHairFashion(
+                HairFashion(
+                    OneOf(HairStyle.Ponytail),
                     ponytailStyles = OneOrNone(),
                 ),
                 "Requires at least 1 ponytail style!"
@@ -111,9 +122,9 @@ class FashionTest {
 
         @Test
         fun `Requires at least 1 ponytail position`() {
-            assertAppearanceStyle(
-                AppearanceFashion(
-                    hairStyles = OneOf(HairStyle.Ponytail),
+            assertHairFashion(
+                HairFashion(
+                    OneOf(HairStyle.Ponytail),
                     ponytailPositions = OneOrNone(),
                 ),
                 "Requires at least 1 ponytail position!"
@@ -122,9 +133,9 @@ class FashionTest {
 
         @Test
         fun `Requires at least 1 short style`() {
-            assertAppearanceStyle(
-                AppearanceFashion(
-                    hairStyles = OneOf(HairStyle.Short),
+            assertHairFashion(
+                HairFashion(
+                    OneOf(HairStyle.Short),
                     shortHairStyles = OneOrNone(),
                 ),
                 "Requires at least 1 short hair style!"
@@ -133,18 +144,18 @@ class FashionTest {
 
         @Test
         fun `Requires at least 1 hair length`() {
-            assertAppearanceStyle(
-                AppearanceFashion(
-                    hairStyles = OneOf(HairStyle.Long),
+            assertHairFashion(
+                HairFashion(
+                    OneOf(HairStyle.Long),
                     hairLengths = OneOrNone(),
                 ),
                 "Available hair styles require at least 1 hair length!"
             )
         }
 
-        private fun assertAppearanceStyle(style: AppearanceFashion, message: String) {
+        private fun assertHairFashion(hairFashion: HairFashion, message: String) {
             val state = State(Storage(Fashion(FASHION_ID_0)))
-            val fashion = Fashion(FASHION_ID_0, appearance = style)
+            val fashion = Fashion(FASHION_ID_0, appearance = AppearanceFashion(hair = hairFashion))
             val action = UpdateFashion(fashion)
 
             assertIllegalArgument(message) {
