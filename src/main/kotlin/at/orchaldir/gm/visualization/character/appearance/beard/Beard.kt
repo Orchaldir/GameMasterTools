@@ -23,15 +23,15 @@ fun visualizeBeard(state: CharacterRenderState, head: Head, beard: Beard) {
 }
 
 private fun visualizeNormalBeard(state: CharacterRenderState, head: Head, beard: NormalBeard) {
-    when (beard.style) {
-        is FullBeard -> doNothing()
-        is Goatee -> visualizeGoatee(state, head, beard.style.goateeStyle, beard.color)
+    when (val style = beard.style) {
+        is FullBeard -> visualizeFullBeard(state, style.style, style.length, beard.color)
+        is Goatee -> visualizeGoatee(state, head, style.goateeStyle, beard.color)
         is GoateeAndMoustache -> {
-            visualizeGoatee(state, head, beard.style.goateeStyle, beard.color)
-            visualizeMoustache(state, head, beard.style.moustacheStyle, beard.color)
+            visualizeGoatee(state, head, style.goateeStyle, beard.color)
+            visualizeMoustache(state, head, style.moustacheStyle, beard.color)
         }
 
-        is Moustache -> visualizeMoustache(state, head, beard.style.moustacheStyle, beard.color)
+        is Moustache -> visualizeMoustache(state, head, style.moustacheStyle, beard.color)
         ShavedBeard -> doNothing()
     }
 }

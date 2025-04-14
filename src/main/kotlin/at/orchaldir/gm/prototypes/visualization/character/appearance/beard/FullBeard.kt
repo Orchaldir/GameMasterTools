@@ -2,9 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.character.appearance.beard
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.HeadOnly
-import at.orchaldir.gm.core.model.character.appearance.NormalEars
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.FullBeard
 import at.orchaldir.gm.core.model.character.appearance.beard.FullBeardStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.NormalBeard
@@ -32,7 +30,8 @@ fun main() {
 }
 
 private fun createAppearance(height: Distance, style: FullBeardStyle, length: HairLength) =
-    HeadOnly(
+    HumanoidBody(
+        Body(),
         Head(
             NormalEars(),
             TwoEyes(),
