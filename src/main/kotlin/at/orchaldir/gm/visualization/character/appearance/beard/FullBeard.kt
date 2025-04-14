@@ -33,12 +33,14 @@ private fun getFork(state: CharacterRenderState, distance: Distance, widthFactor
     val startY = HALF
     val center = state.aabb.getPoint(CENTER, FULL)
     val (left, right) = state.aabb.getMirroredPoints(widthFactor, FULL)
+    val (innerLeft, innerRight) = state.aabb.getMirroredPoints(widthFactor * HALF, FULL)
 
     return Polygon2dBuilder()
         .addLeftPoint(state.aabb, CENTER, startY)
         .addMirroredPoints(state.aabb, width, startY)
         .addMirroredPoints(state.aabb, width, END)
         .addPoints(left.addHeight(distance), right.addHeight(distance))
+        .addPoints(innerLeft.addHeight(distance), innerRight.addHeight(distance))
         .addLeftPoint(center)
         .build()
 }
@@ -62,12 +64,12 @@ private fun getTriangle(state: CharacterRenderState, distance: Distance): Polygo
     val padding = state.config.head.hair.longPadding
     val width = FULL + padding * 2.0f
     val startY = HALF
-    val center = state.aabb.getPoint(CENTER, FULL)
+    val (left, right) = state.aabb.getMirroredPoints(Factor.fromPercentage(30), FULL)
 
     return Polygon2dBuilder()
         .addLeftPoint(state.aabb, CENTER, startY)
         .addMirroredPoints(state.aabb, width, startY)
         .addMirroredPoints(state.aabb, width, END)
-        .addLeftPoint(center.addHeight(distance))
+        .addPoints(left.addHeight(distance), right.addHeight(distance))
         .build()
 }
