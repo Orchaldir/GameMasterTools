@@ -17,7 +17,8 @@ fun visualizeFullBeard(
     val options = state.config.getLineOptions(color)
     val distance = state.config.getHairLength(state.aabb, length)
     val polygon = when (style) {
-        FullBeardStyle.Forked -> getFork(state, distance)
+        FullBeardStyle.Forked -> getFork(state, distance, HALF)
+        FullBeardStyle.ForkedSide -> getFork(state, distance, FULL)
         FullBeardStyle.Rectangle -> getRectangle(state, distance, FULL)
         FullBeardStyle.Triangle -> getTriangle(state, distance)
         FullBeardStyle.Wide -> getRectangle(state, distance, state.config.head.beard.wideFullBeardWidth)
@@ -26,12 +27,12 @@ fun visualizeFullBeard(
     layer.renderRoundedPolygon(polygon, options)
 }
 
-private fun getFork(state: CharacterRenderState, distance: Distance): Polygon2d {
+private fun getFork(state: CharacterRenderState, distance: Distance, widthFactor: Factor): Polygon2d {
     val padding = state.config.head.hair.longPadding
     val width = FULL + padding * 2.0f
     val startY = HALF
     val center = state.aabb.getPoint(CENTER, FULL)
-    val (left, right) = state.aabb.getMirroredPoints(HALF, FULL)
+    val (left, right) = state.aabb.getMirroredPoints(widthFactor, FULL)
 
     return Polygon2dBuilder()
         .addLeftPoint(state.aabb, CENTER, startY)
