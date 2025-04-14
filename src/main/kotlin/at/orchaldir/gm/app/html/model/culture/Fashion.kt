@@ -21,7 +21,7 @@ fun HtmlBlockTag.showFashion(
 ) {
     field("Name", fashion.name)
     showAppearanceFashion(fashion.appearance)
-    showClothingStyle(call, state, fashion.clothing)
+    showClothingFashion(call, state, fashion.clothing)
 }
 
 // edit
@@ -32,7 +32,7 @@ fun HtmlBlockTag.editFashion(
 ) {
     selectName(fashion.name)
     editAppearanceFashion(fashion.appearance)
-    editClothingStyle(state, fashion.clothing)
+    editClothingFashion(state, fashion.clothing)
 }
 
 // parse
@@ -45,6 +45,6 @@ fun parseFashionId(
 fun parseFashion(id: FashionId, parameters: Parameters) = Fashion(
     id,
     parameters.getOrFail(NAME),
-    parseAppearanceStyle(parameters),
-    parseClothingStyle(parameters),
+    parseAppearanceFashion(parameters),
+    parseClothingFashion(parameters),
 )

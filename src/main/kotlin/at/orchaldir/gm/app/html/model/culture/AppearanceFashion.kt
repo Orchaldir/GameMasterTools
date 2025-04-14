@@ -137,7 +137,7 @@ private fun HtmlBlockTag.editHair(fashion: HairFashion) {
 
 // parse
 
-fun parseAppearanceStyle(parameters: Parameters) = AppearanceFashion(
+fun parseAppearanceFashion(parameters: Parameters) = AppearanceFashion(
     parseBeardFashion(parameters),
     parseHairFashion(parameters),
     parseOneOf(parameters, LIP_COLORS, Color::valueOf),

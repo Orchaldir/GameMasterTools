@@ -40,7 +40,7 @@ fun FORM.editAppearance(
     raceAppearance: RaceAppearance,
     appearance: Appearance,
     character: Character,
-    style: AppearanceFashion?,
+    fashion: AppearanceFashion?,
 ) {
     selectFromOneOf(
         "Appearance Type",
@@ -53,14 +53,14 @@ fun FORM.editAppearance(
     when (appearance) {
         is HeadOnly -> {
             editHeight(state, character, appearance.height)
-            editHead(state, raceAppearance, style, appearance.head)
+            editHead(state, raceAppearance, fashion, appearance.head)
             editSkin(state, raceAppearance.skin, appearance.skin)
         }
 
         is HumanoidBody -> {
             editHeight(state, character, appearance.height)
             editBody(raceAppearance, character, appearance.body)
-            editHead(state, raceAppearance, style, appearance.head)
+            editHead(state, raceAppearance, fashion, appearance.head)
             editSkin(state, raceAppearance.skin, appearance.skin)
             editTails(state, raceAppearance, appearance.tails)
             editWings(state, raceAppearance, appearance.wings)

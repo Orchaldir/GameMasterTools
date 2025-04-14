@@ -32,14 +32,14 @@ import kotlinx.html.h2
 fun FORM.editHead(
     state: State,
     raceAppearance: RaceAppearance,
-    style: AppearanceFashion?,
+    fashion: AppearanceFashion?,
     head: Head,
 ) {
     editEars(raceAppearance, head.ears)
     editEyes(raceAppearance, head.eyes)
-    editHair(raceAppearance, style, head.hair)
+    editHair(raceAppearance, fashion, head.hair)
     editHorns(state, raceAppearance, head.horns)
-    editMouth(raceAppearance, style, head.mouth)
+    editMouth(raceAppearance, fashion, head.mouth)
 }
 
 private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
@@ -333,11 +333,11 @@ fun parseHead(
 }
 
 private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {
-    val style = config.appearanceFashion.beard
+    val fashion = config.appearanceFashion.beard
 
     return when (parameters[BEARD]) {
         BeardType.None.toString() -> NoBeard
-        BeardType.Normal.toString() -> parseNormalBeard(parameters, config, style)
+        BeardType.Normal.toString() -> parseNormalBeard(parameters, config, fashion)
         else -> generateBeard(config, hair)
     }
 }
@@ -345,25 +345,25 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
 private fun parseNormalBeard(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-    style: BeardFashion,
+    fashion: BeardFashion,
 ) = NormalBeard(
     when (parameters[combine(BEARD, STYLE)]) {
         BeardStyleType.Full.toString() -> FullBeard(
-            parseAppearanceOption(parameters, combine(FULL, STYLE), config, style.fullBeardStyles),
-            parseAppearanceOption(parameters, combine(BEARD, LENGTH), config, style.beardLength),
+            parseAppearanceOption(parameters, combine(FULL, STYLE), config, fashion.fullBeardStyles),
+            parseAppearanceOption(parameters, combine(BEARD, LENGTH), config, fashion.beardLength),
         )
 
         BeardStyleType.Goatee.toString() -> Goatee(
-            parseGoateeStyle(parameters, config, style),
+            parseGoateeStyle(parameters, config, fashion),
         )
 
         BeardStyleType.GoateeAndMoustache.toString() -> GoateeAndMoustache(
-            parseMoustacheStyle(parameters, config, style),
-            parseGoateeStyle(parameters, config, style),
+            parseMoustacheStyle(parameters, config, fashion),
+            parseGoateeStyle(parameters, config, fashion),
         )
 
         BeardStyleType.Moustache.toString() -> Moustache(
-            parseMoustacheStyle(parameters, config, style),
+            parseMoustacheStyle(parameters, config, fashion),
         )
 
         BeardStyleType.Shaved.toString() -> ShavedBeard
@@ -376,14 +376,14 @@ private fun parseNormalBeard(
 private fun parseMoustacheStyle(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-    style: BeardFashion,
-) = parseAppearanceOption(parameters, combine(MOUSTACHE, STYLE), config, style.moustacheStyles)
+    fashion: BeardFashion,
+) = parseAppearanceOption(parameters, combine(MOUSTACHE, STYLE), config, fashion.moustacheStyles)
 
 private fun parseGoateeStyle(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-    style: BeardFashion,
-) = parseAppearanceOption(parameters, combine(GOATEE, STYLE), config, style.goateeStyles)
+    fashion: BeardFashion,
+) = parseAppearanceOption(parameters, combine(GOATEE, STYLE), config, fashion.goateeStyles)
 
 private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig): Ears {
     return when (parameters[combine(EAR, TYPE)]) {

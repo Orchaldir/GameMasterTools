@@ -24,18 +24,18 @@ import kotlinx.html.h2
 
 // show
 
-fun HtmlBlockTag.showClothingStyle(
+fun HtmlBlockTag.showClothingFashion(
     call: ApplicationCall,
     state: State,
-    style: ClothingFashion,
+    fashion: ClothingFashion,
 ) {
     h2 { +"Clothing" }
 
-    showRarityMap("Clothing Sets", style.clothingSets)
-    showRarityMap("Accessories", style.accessories, ACCESSORIES)
+    showRarityMap("Clothing Sets", fashion.clothingSets)
+    showRarityMap("Accessories", fashion.accessories, ACCESSORIES)
     EquipmentDataType.entries.forEach { type ->
-        if (MAIN_EQUIPMENT.contains(type) || style.accessories.isAvailable(type)) {
-            val options = style.getOptions(type)
+        if (MAIN_EQUIPMENT.contains(type) || fashion.accessories.isAvailable(type)) {
+            val options = fashion.getOptions(type)
 
             if (options.isNotEmpty()) {
                 showRarityMap(type.name, options) { id ->
@@ -48,9 +48,9 @@ fun HtmlBlockTag.showClothingStyle(
 
 // edit
 
-fun HtmlBlockTag.editClothingStyle(
+fun HtmlBlockTag.editClothingFashion(
     state: State,
-    style: ClothingFashion,
+    fashion: ClothingFashion,
 ) {
     h2 { +"Clothing" }
 
@@ -62,12 +62,12 @@ fun HtmlBlockTag.editClothingStyle(
         .filter { state.isAvailable(it) }
         .toSet()
 
-    selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets, true, availableSets)
-    selectRarityMap("Accessories", ACCESSORY_RARITY, style.accessories, true, availableAccessories)
+    selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets, true, availableSets)
+    selectRarityMap("Accessories", ACCESSORY_RARITY, fashion.accessories, true, availableAccessories)
 
     EquipmentDataType.entries.forEach { type ->
-        if (MAIN_EQUIPMENT.contains(type) || style.accessories.isAvailable(type)) {
-            selectEquipmentType(state, style, type)
+        if (MAIN_EQUIPMENT.contains(type) || fashion.accessories.isAvailable(type)) {
+            selectEquipmentType(state, fashion, type)
         }
     }
 }
@@ -87,7 +87,7 @@ private fun HtmlBlockTag.selectEquipmentType(
 
 // parse
 
-fun parseClothingStyle(parameters: Parameters): ClothingFashion {
+fun parseClothingFashion(parameters: Parameters): ClothingFashion {
     val accessories = parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentDataType::valueOf)
 
     return ClothingFashion(
