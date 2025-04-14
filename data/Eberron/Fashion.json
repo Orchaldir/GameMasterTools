@@ -6,6 +6,16 @@
    "name": "Brelish - Male",
    "appearance": {
     "beard": {
+     "beardStyles": {
+      "Goatee": "Common",
+      "GoateeAndMoustache": "Common",
+      "Moustache": "Common",
+      "Shaved": "Common"
+     },
+     "beardLength": {
+     },
+     "fullBeardStyles": {
+     },
      "moustacheStyles": {
       "Handlebar": "Common",
       "Pencil": "Common",
