@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
-import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.Side
@@ -27,7 +27,7 @@ data class AppearanceGeneratorConfig(
     val gender: Gender,
     val heightDistribution: Distribution<Distance>,
     val appearanceOptions: RaceAppearance,
-    val appearanceStyle: AppearanceStyle,
+    val appearanceFashion: AppearanceFashion,
 ) {
     fun generate(): Appearance {
         val skin = generateSkin(this)
@@ -89,20 +89,20 @@ fun generateHead(config: AppearanceGeneratorConfig): Head {
 
 fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
     val options = config.appearanceOptions
-    val styleOptions = config.appearanceStyle
+    val fashion = config.appearanceFashion.beard
 
     return when (config.generate(options.hair.beardTypes)) {
         BeardType.None -> NoBeard
         BeardType.Normal -> NormalBeard(
-            when (config.generate(styleOptions.beardStyles)) {
+            when (config.generate(fashion.beardStyles)) {
                 BeardStyleType.Full -> TODO()
-                BeardStyleType.Goatee -> Goatee(config.generate(styleOptions.goateeStyles))
+                BeardStyleType.Goatee -> Goatee(config.generate(fashion.goateeStyles))
                 BeardStyleType.GoateeAndMoustache -> GoateeAndMoustache(
-                    config.generate(styleOptions.moustacheStyles),
-                    config.generate(styleOptions.goateeStyles),
+                    config.generate(fashion.moustacheStyles),
+                    config.generate(fashion.goateeStyles),
                 )
 
-                BeardStyleType.Moustache -> Moustache(config.generate(styleOptions.moustacheStyles))
+                BeardStyleType.Moustache -> Moustache(config.generate(fashion.moustacheStyles))
                 BeardStyleType.Shaved -> ShavedBeard
             },
             when (hair) {
@@ -170,22 +170,24 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
 }
 
 fun generateHairCut(config: AppearanceGeneratorConfig): HairCut {
-    return when (config.generate(config.appearanceStyle.hairStyles)) {
+    val fashion = config.appearanceFashion.hair
+
+    return when (config.generate(fashion.hairStyles)) {
         HairStyle.Bun -> Bun(
-            config.generate(config.appearanceStyle.bunStyles),
+            config.generate(fashion.bunStyles),
             config.select(Size.entries),
         )
 
         HairStyle.Long -> LongHairCut(
-            config.generate(config.appearanceStyle.longHairStyles),
-            config.generate(config.appearanceStyle.hairLengths),
+            config.generate(fashion.longHairStyles),
+            config.generate(fashion.hairLengths),
         )
 
-        HairStyle.Short -> ShortHairCut(config.generate(config.appearanceStyle.shortHairStyles))
+        HairStyle.Short -> ShortHairCut(config.generate(fashion.shortHairStyles))
         HairStyle.Ponytail -> Ponytail(
-            config.generate(config.appearanceStyle.ponytailStyles),
-            config.generate(config.appearanceStyle.ponytailPositions),
-            config.generate(config.appearanceStyle.hairLengths),
+            config.generate(fashion.ponytailStyles),
+            config.generate(fashion.ponytailPositions),
+            config.generate(fashion.hairLengths),
         )
     }
 }
@@ -232,7 +234,7 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
             if (config.gender == Gender.Female) {
                 return FemaleMouth(
                     config.select(Size.entries),
-                    config.generate(config.appearanceStyle.lipColors),
+                    config.generate(config.appearanceFashion.lipColors),
                     TeethColor.White,
                 )
             }

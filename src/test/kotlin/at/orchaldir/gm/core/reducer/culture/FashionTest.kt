@@ -7,9 +7,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
-import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
+import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -57,7 +57,7 @@ class FashionTest {
         @Test
         fun `Some beard styles require at least 1 goatee`() {
             assertAppearanceStyle(
-                AppearanceStyle(
+                AppearanceFashion(
                     OneOf(BeardStyleType.Goatee),
                     OneOrNone(),
                 ),
@@ -68,7 +68,7 @@ class FashionTest {
         @Test
         fun `Some beard styles require at least 1 moustache`() {
             assertAppearanceStyle(
-                AppearanceStyle(
+                AppearanceFashion(
                     OneOf(BeardStyleType.Moustache),
                     moustacheStyles = OneOrNone(),
                 ),
@@ -79,7 +79,7 @@ class FashionTest {
         @Test
         fun `Requires at least 1 bun style`() {
             assertAppearanceStyle(
-                AppearanceStyle(
+                AppearanceFashion(
                     hairStyles = OneOf(HairStyle.Bun),
                     bunStyles = OneOrNone(),
                 ),
@@ -90,7 +90,7 @@ class FashionTest {
         @Test
         fun `Requires at least 1 long hair style`() {
             assertAppearanceStyle(
-                AppearanceStyle(
+                AppearanceFashion(
                     hairStyles = OneOf(HairStyle.Long),
                     longHairStyles = OneOrNone(),
                 ),
@@ -101,7 +101,7 @@ class FashionTest {
         @Test
         fun `Requires at least 1 ponytail style`() {
             assertAppearanceStyle(
-                AppearanceStyle(
+                AppearanceFashion(
                     hairStyles = OneOf(HairStyle.Ponytail),
                     ponytailStyles = OneOrNone(),
                 ),
@@ -112,7 +112,7 @@ class FashionTest {
         @Test
         fun `Requires at least 1 ponytail position`() {
             assertAppearanceStyle(
-                AppearanceStyle(
+                AppearanceFashion(
                     hairStyles = OneOf(HairStyle.Ponytail),
                     ponytailPositions = OneOrNone(),
                 ),
@@ -123,7 +123,7 @@ class FashionTest {
         @Test
         fun `Requires at least 1 short style`() {
             assertAppearanceStyle(
-                AppearanceStyle(
+                AppearanceFashion(
                     hairStyles = OneOf(HairStyle.Short),
                     shortHairStyles = OneOrNone(),
                 ),
@@ -134,7 +134,7 @@ class FashionTest {
         @Test
         fun `Requires at least 1 hair length`() {
             assertAppearanceStyle(
-                AppearanceStyle(
+                AppearanceFashion(
                     hairStyles = OneOf(HairStyle.Long),
                     hairLengths = OneOrNone(),
                 ),
@@ -142,7 +142,7 @@ class FashionTest {
             )
         }
 
-        private fun assertAppearanceStyle(style: AppearanceStyle, message: String) {
+        private fun assertAppearanceStyle(style: AppearanceFashion, message: String) {
             val state = State(Storage(Fashion(FASHION_ID_0)))
             val fashion = Fashion(FASHION_ID_0, appearance = style)
             val action = UpdateFashion(fashion)
@@ -161,7 +161,7 @@ class FashionTest {
         fun `Successfully update a fashion`() {
             val state =
                 State(listOf(Storage(Fashion(FASHION_ID_0)), Storage(Equipment(EQUIPMENT_ID_0, data = Dress()))))
-            val style = ClothingStyle(
+            val style = ClothingFashion(
                 clothingSets = OneOf(ClothingSet.Dress),
                 equipmentRarityMap = mapOf(
                     EquipmentDataType.Dress to OneOrNone(EQUIPMENT_ID_0),
@@ -169,7 +169,7 @@ class FashionTest {
                 )
             )
             val fashion = Fashion(FASHION_ID_0, clothing = style)
-            val resultStyle = ClothingStyle(
+            val resultStyle = ClothingFashion(
                 clothingSets = OneOf(ClothingSet.Dress),
                 equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(EQUIPMENT_ID_0))
             )
@@ -189,7 +189,8 @@ class FashionTest {
         @Test
         fun `Cannot use unknown equipment`() {
             val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = ClothingStyle(equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(EQUIPMENT_ID_0)))
+            val style =
+                ClothingFashion(equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(EQUIPMENT_ID_0)))
             val fashion = Fashion(FASHION_ID_0, clothing = style)
             val action = UpdateFashion(fashion)
 
@@ -199,7 +200,7 @@ class FashionTest {
         @Test
         fun `Clothing set Dress requires at least 1 dress`() {
             val state = State(Storage(Fashion(FASHION_ID_0)))
-            val style = ClothingStyle(clothingSets = OneOf(ClothingSet.Dress))
+            val style = ClothingFashion(clothingSets = OneOf(ClothingSet.Dress))
             val fashion = Fashion(FASHION_ID_0, clothing = style)
             val action = UpdateFashion(fashion)
 
@@ -210,7 +211,7 @@ class FashionTest {
         fun `Equipment must have the correct type`() {
             val state =
                 State(listOf(Storage(Fashion(FASHION_ID_0)), Storage(Equipment(EQUIPMENT_ID_0, data = Hat()))))
-            val style = ClothingStyle(
+            val style = ClothingFashion(
                 clothingSets = OneOf(ClothingSet.Dress),
                 equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(EQUIPMENT_ID_0))
             )
@@ -305,7 +306,7 @@ class FashionTest {
                     Storage(Equipment(EQUIPMENT_ID_0, data = equipment))
                 )
             )
-            val style = ClothingStyle(
+            val style = ClothingFashion(
                 clothingSets = OneOf(set),
                 equipmentRarityMap = mapOf(type to OneOrNone(EQUIPMENT_ID_0))
             )
@@ -333,7 +334,7 @@ class FashionTest {
                     ),
                 )
             )
-            val style = ClothingStyle(
+            val style = ClothingFashion(
                 clothingSets = OneOf(ClothingSet.Suit),
                 equipmentRarityMap = mapOf(type0 to OneOrNone(EQUIPMENT_ID_0), type1 to OneOrNone(EQUIPMENT_ID_1))
             )

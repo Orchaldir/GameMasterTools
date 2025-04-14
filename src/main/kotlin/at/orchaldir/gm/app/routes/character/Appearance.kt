@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.Appearance
-import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.selector.culture.getFashion
 import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -126,7 +126,7 @@ fun createGenerationConfig(state: State, character: Character): AppearanceGenera
         character.gender,
         race.height,
         state.getRaceAppearance(character),
-        fashion?.appearance ?: AppearanceStyle(),
+        fashion?.appearance ?: AppearanceFashion(),
     )
 }
 

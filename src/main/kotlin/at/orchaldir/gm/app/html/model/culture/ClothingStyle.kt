@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.parse.parseOneOrNone
 import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
-import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
+import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
 import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.MAIN_EQUIPMENT
@@ -27,7 +27,7 @@ import kotlinx.html.h2
 fun HtmlBlockTag.showClothingStyle(
     call: ApplicationCall,
     state: State,
-    style: ClothingStyle,
+    style: ClothingFashion,
 ) {
     h2 { +"Clothing" }
 
@@ -50,7 +50,7 @@ fun HtmlBlockTag.showClothingStyle(
 
 fun HtmlBlockTag.editClothingStyle(
     state: State,
-    style: ClothingStyle,
+    style: ClothingFashion,
 ) {
     h2 { +"Clothing" }
 
@@ -74,7 +74,7 @@ fun HtmlBlockTag.editClothingStyle(
 
 private fun HtmlBlockTag.selectEquipmentType(
     state: State,
-    style: ClothingStyle,
+    style: ClothingFashion,
     type: EquipmentDataType,
 ) {
     val items = state.getEquipmentId(type)
@@ -87,10 +87,10 @@ private fun HtmlBlockTag.selectEquipmentType(
 
 // parse
 
-fun parseClothingStyle(parameters: Parameters): ClothingStyle {
+fun parseClothingStyle(parameters: Parameters): ClothingFashion {
     val accessories = parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentDataType::valueOf)
 
-    return ClothingStyle(
+    return ClothingFashion(
         parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
         accessories,
         EquipmentDataType.entries

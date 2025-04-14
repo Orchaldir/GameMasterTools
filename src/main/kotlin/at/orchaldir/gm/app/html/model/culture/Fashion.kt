@@ -20,7 +20,7 @@ fun HtmlBlockTag.showFashion(
     fashion: Fashion,
 ) {
     field("Name", fashion.name)
-    showAppearanceStyle(fashion.appearance)
+    showAppearanceFashion(fashion.appearance)
     showClothingStyle(call, state, fashion.clothing)
 }
 
@@ -31,7 +31,7 @@ fun HtmlBlockTag.editFashion(
     state: State,
 ) {
     selectName(fashion.name)
-    editAppearanceOptions(fashion.appearance)
+    editAppearanceFashion(fashion.appearance)
     editClothingStyle(state, fashion.clothing)
 }
 

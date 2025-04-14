@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
-import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
@@ -40,7 +40,7 @@ fun FORM.editAppearance(
     raceAppearance: RaceAppearance,
     appearance: Appearance,
     character: Character,
-    style: AppearanceStyle?,
+    style: AppearanceFashion?,
 ) {
     selectFromOneOf(
         "Appearance Type",
