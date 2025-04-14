@@ -6,57 +6,47 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.beard.*
-import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle.VanDyke
-import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle.Handlebar
-import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
-import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
-import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
-import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle.SidePartLeft
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.Color.SaddleBrown
+import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.prototypes.visualization.character.addNamesToBeardStyle
-import at.orchaldir.gm.prototypes.visualization.character.addNamesToEyes
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
-    val beards = mutableListOf<BeardStyle>()
-
-    MoustacheStyle.entries.forEach { beards.add(Moustache(it)) }
-    GoateeStyle.entries.forEach { beards.add(Goatee(it)) }
-    beards.add(GoateeAndMoustache(Handlebar, VanDyke))
-
-    val eyes = mutableListOf<Eyes>()
-
-    Size.entries.forEach {
-        eyes.add(OneEye(size = it))
-    }
-    eyes.add(TwoEyes())
-
     renderCharacterTable(
         State(),
         "beard-short.svg",
         CHARACTER_CONFIG,
-        addNamesToBeardStyle(beards),
-        addNamesToEyes(eyes),
-    ) { distance, eyes, beard ->
-        Pair(createAppearance(distance, eyes, beard), EquipmentMap())
+        addNames(MoustacheStyle.entries + null),
+        addNames(GoateeStyle.entries + null),
+    ) { distance, goatee, moustache ->
+        Pair(createAppearance(distance, goatee, moustache), EquipmentMap())
     }
 }
 
-private fun createAppearance(distance: Distance, eyes: Eyes, style: BeardStyle) =
-    HeadOnly(
+private fun createAppearance(height: Distance, goatee: GoateeStyle?, moustache: MoustacheStyle?): HeadOnly {
+    val beard = if (goatee != null && moustache != null) {
+        GoateeAndMoustache(moustache, goatee)
+    } else if (goatee != null) {
+        Goatee(goatee)
+    } else if (moustache != null) {
+        Moustache(moustache)
+    } else {
+        ShavedBeard
+    }
+
+    return HeadOnly(
         Head(
             NormalEars(),
-            eyes,
-            NormalHair(ShortHairCut(SidePartLeft), Color.SaddleBrown),
+            TwoEyes(),
+            NoHair,
             NoHorns,
-            NormalMouth(NormalBeard(style, Color.SaddleBrown))
+            NormalMouth(NormalBeard(beard, SaddleBrown))
         ),
-        distance,
+        height,
     )
+}
