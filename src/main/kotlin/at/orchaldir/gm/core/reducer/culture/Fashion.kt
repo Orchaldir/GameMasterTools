@@ -51,6 +51,7 @@ private fun checkAppearanceStyle(
 private fun checkBeardFashion(fashion: BeardFashion) {
     if (fashion.beardStyles.contains(BeardStyleType.Full)) {
         require(fashion.fullBeardStyles.isNotEmpty()) { "Available beard styles require at least 1 full beard style!" }
+        require(fashion.beardLength.isNotEmpty()) { "Available beard styles require at least 1 beard length!" }
     }
     if (fashion.hasGoatee()) {
         require(fashion.goateeStyles.isNotEmpty()) { "Available beard styles require at least 1 goatee style!" }

@@ -84,6 +84,17 @@ class FashionTest {
             )
         }
 
+        @Test
+        fun `Some beard styles require at least 1 beard length`() {
+            assertBeardFashion(
+                BeardFashion(
+                    OneOf(BeardStyleType.Full),
+                    beardLength = OneOrNone(),
+                ),
+                "Available beard styles require at least 1 beard length!"
+            )
+        }
+
         private fun assertBeardFashion(beardFashion: BeardFashion, message: String) {
             val state = State(Storage(Fashion(FASHION_ID_0)))
             val fashion = Fashion(FASHION_ID_0, appearance = AppearanceFashion(beard = beardFashion))
