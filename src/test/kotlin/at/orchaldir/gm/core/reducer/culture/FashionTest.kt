@@ -56,9 +56,9 @@ class FashionTest {
             assertBeardFashion(
                 BeardFashion(
                     OneOf(BeardStyleType.Goatee),
-                    OneOrNone(),
+                    goateeStyles = OneOrNone(),
                 ),
-                "Available beard styles require at least 1 goatee!"
+                "Available beard styles require at least 1 goatee style!"
             )
         }
 
@@ -69,7 +69,18 @@ class FashionTest {
                     OneOf(BeardStyleType.Moustache),
                     moustacheStyles = OneOrNone(),
                 ),
-                "Available beard styles require at least 1 moustache!"
+                "Available beard styles require at least 1 moustache style!"
+            )
+        }
+
+        @Test
+        fun `A full beard requires at least 1 full beard style`() {
+            assertBeardFashion(
+                BeardFashion(
+                    OneOf(BeardStyleType.Full),
+                    fullBeardStyles = OneOrNone(),
+                ),
+                "Available beard styles require at least 1 full beard style!"
             )
         }
 

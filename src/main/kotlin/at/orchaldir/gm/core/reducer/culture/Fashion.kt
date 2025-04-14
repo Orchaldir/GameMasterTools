@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.culture.fashion.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
@@ -48,11 +49,14 @@ private fun checkAppearanceStyle(
 }
 
 private fun checkBeardFashion(fashion: BeardFashion) {
+    if (fashion.beardStyles.contains(BeardStyleType.Full)) {
+        require(fashion.fullBeardStyles.isNotEmpty()) { "Available beard styles require at least 1 full beard style!" }
+    }
     if (fashion.hasGoatee()) {
-        require(fashion.goateeStyles.isNotEmpty()) { "Available beard styles require at least 1 goatee!" }
+        require(fashion.goateeStyles.isNotEmpty()) { "Available beard styles require at least 1 goatee style!" }
     }
     if (fashion.hasMoustache()) {
-        require(fashion.moustacheStyles.isNotEmpty()) { "Available beard styles require at least 1 moustache!" }
+        require(fashion.moustacheStyles.isNotEmpty()) { "Available beard styles require at least 1 moustache style!" }
     }
 }
 
