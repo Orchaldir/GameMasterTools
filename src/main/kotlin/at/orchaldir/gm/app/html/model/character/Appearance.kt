@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
-import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
@@ -40,7 +40,7 @@ fun FORM.editAppearance(
     raceAppearance: RaceAppearance,
     appearance: Appearance,
     character: Character,
-    style: AppearanceStyle?,
+    fashion: AppearanceFashion?,
 ) {
     selectFromOneOf(
         "Appearance Type",
@@ -53,14 +53,14 @@ fun FORM.editAppearance(
     when (appearance) {
         is HeadOnly -> {
             editHeight(state, character, appearance.height)
-            editHead(state, raceAppearance, style, appearance.head)
+            editHead(state, raceAppearance, fashion, appearance.head)
             editSkin(state, raceAppearance.skin, appearance.skin)
         }
 
         is HumanoidBody -> {
             editHeight(state, character, appearance.height)
             editBody(raceAppearance, character, appearance.body)
-            editHead(state, raceAppearance, style, appearance.head)
+            editHead(state, raceAppearance, fashion, appearance.head)
             editSkin(state, raceAppearance.skin, appearance.skin)
             editTails(state, raceAppearance, appearance.tails)
             editWings(state, raceAppearance, appearance.wings)

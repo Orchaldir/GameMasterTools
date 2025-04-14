@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 private val EMPTY = OneOrNone<EquipmentId>()
 
 @Serializable
-data class ClothingStyle(
+data class ClothingFashion(
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
     val accessories: SomeOf<EquipmentDataType> = SomeOf(emptySet()),
     val equipmentRarityMap: Map<EquipmentDataType, OneOrNone<EquipmentId>> = emptyMap(),

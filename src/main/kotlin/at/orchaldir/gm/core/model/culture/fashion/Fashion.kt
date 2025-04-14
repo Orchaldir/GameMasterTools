@@ -20,8 +20,8 @@ value class FashionId(val value: Int) : Id<FashionId> {
 data class Fashion(
     val id: FashionId,
     val name: String = "Fashion ${id.value}",
-    val appearance: AppearanceStyle = AppearanceStyle(),
-    val clothing: ClothingStyle = ClothingStyle(),
+    val appearance: AppearanceFashion = AppearanceFashion(),
+    val clothing: ClothingFashion = ClothingFashion(),
 ) : ElementWithSimpleName<FashionId> {
 
     override fun id() = id

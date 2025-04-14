@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getRaces
@@ -216,7 +216,7 @@ private fun HtmlBlockTag.showRandomExamples(
     val generator = createGeneratorConfig(
         state,
         appearance,
-        AppearanceStyle(),
+        AppearanceFashion(),
         Gender.Male,
         Distribution.fromMeters(1.0f, 0.0f),
     )
@@ -259,7 +259,7 @@ private fun getSvg(
     val generator = createGeneratorConfig(
         state,
         appearance,
-        AppearanceStyle(),
+        AppearanceFashion(),
         Gender.Male,
         Distribution.fromMeters(1.0f, 0.0f),
     )
@@ -270,7 +270,7 @@ private fun getSvg(
 fun createGeneratorConfig(
     state: State,
     appearance: RaceAppearance,
-    appearanceStyle: AppearanceStyle,
+    appearanceFashion: AppearanceFashion,
     gender: Gender,
     height: Distribution<Distance>,
 ) = AppearanceGeneratorConfig(
@@ -279,5 +279,5 @@ fun createGeneratorConfig(
     gender,
     height,
     appearance,
-    appearanceStyle,
+    appearanceFashion,
 )

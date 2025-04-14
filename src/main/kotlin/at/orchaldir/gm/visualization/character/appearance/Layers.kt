@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance
 
 const val TEXT_LAYER = 100
+const val MOUTH_LAYER = 60
 const val ABOVE_EQUIPMENT_LAYER = 50
 const val OUTERWEAR_LAYER = 40
 const val TIE_LAYER = 35

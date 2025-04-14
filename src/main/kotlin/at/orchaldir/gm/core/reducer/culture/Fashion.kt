@@ -4,11 +4,9 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
-import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
-import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
-import at.orchaldir.gm.core.model.culture.fashion.ClothingStyle
-import at.orchaldir.gm.core.model.culture.fashion.Fashion
+import at.orchaldir.gm.core.model.culture.fashion.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.selector.culture.canDelete
@@ -44,34 +42,46 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
 }
 
 private fun checkAppearanceStyle(
-    style: AppearanceStyle,
+    style: AppearanceFashion,
 ) {
-    if (style.hasGoatee()) {
-        require(style.goateeStyles.isNotEmpty()) { "Available beard styles require at least 1 goatee!" }
-    }
-    if (style.hasMoustache()) {
-        require(style.moustacheStyles.isNotEmpty()) { "Available beard styles require at least 1 moustache!" }
-    }
-    checkHairStyle(style, HairStyle.Bun, style.bunStyles, "bun style")
-    checkHairStyle(style, HairStyle.Long, style.longHairStyles, "long hair style")
-    checkHairStyle(style, HairStyle.Ponytail, style.ponytailStyles, "ponytail style")
-    checkHairStyle(style, HairStyle.Ponytail, style.ponytailPositions, "ponytail position")
-    checkHairStyle(style, HairStyle.Short, style.shortHairStyles, "short hair style")
+    checkBeardFashion(style.beard)
+    checkHairFashion(style.hair)
+}
 
-    if (style.hasLongHair()) {
-        require(style.hairLengths.isNotEmpty()) { "Available hair styles require at least 1 hair length!" }
+private fun checkBeardFashion(fashion: BeardFashion) {
+    if (fashion.beardStyles.contains(BeardStyleType.Full)) {
+        require(fashion.fullBeardStyles.isNotEmpty()) { "Available beard styles require at least 1 full beard style!" }
+        require(fashion.beardLength.isNotEmpty()) { "Available beard styles require at least 1 beard length!" }
+    }
+    if (fashion.hasGoatee()) {
+        require(fashion.goateeStyles.isNotEmpty()) { "Available beard styles require at least 1 goatee style!" }
+    }
+    if (fashion.hasMoustache()) {
+        require(fashion.moustacheStyles.isNotEmpty()) { "Available beard styles require at least 1 moustache style!" }
     }
 }
 
-private fun <T> checkHairStyle(style: AppearanceStyle, hairStyle: HairStyle, list: OneOrNone<T>, text: String) {
-    if (style.hairStyles.contains(hairStyle)) {
+private fun checkHairFashion(fashion: HairFashion) {
+    checkHairStyle(fashion, HairStyle.Bun, fashion.bunStyles, "bun style")
+    checkHairStyle(fashion, HairStyle.Long, fashion.longHairStyles, "long hair style")
+    checkHairStyle(fashion, HairStyle.Ponytail, fashion.ponytailStyles, "ponytail style")
+    checkHairStyle(fashion, HairStyle.Ponytail, fashion.ponytailPositions, "ponytail position")
+    checkHairStyle(fashion, HairStyle.Short, fashion.shortHairStyles, "short hair style")
+
+    if (fashion.hasLongHair()) {
+        require(fashion.hairLengths.isNotEmpty()) { "Available hair styles require at least 1 hair length!" }
+    }
+}
+
+private fun <T> checkHairStyle(fashion: HairFashion, hairStyle: HairStyle, list: OneOrNone<T>, text: String) {
+    if (fashion.hairStyles.contains(hairStyle)) {
         require(list.isNotEmpty()) { "Requires at least 1 $text!" }
     }
 }
 
 private fun checkClothingStyle(
     state: State,
-    style: ClothingStyle,
+    style: ClothingFashion,
 ) {
     style.getAllEquipment().forEach { state.getEquipmentStorage().require(it) }
 
@@ -85,7 +95,7 @@ private fun checkClothingStyle(
 }
 
 private fun checkCorrectType(
-    style: ClothingStyle,
+    style: ClothingFashion,
     state: State,
 ) {
     EquipmentDataType.entries.forEach { type ->
@@ -96,6 +106,6 @@ private fun checkCorrectType(
     }
 }
 
-private fun check(style: ClothingStyle, set: ClothingSet, type: EquipmentDataType) {
+private fun check(style: ClothingFashion, set: ClothingSet, type: EquipmentDataType) {
     require(style.getOptions(type).isNotEmpty()) { "Clothing set $set requires at least one $type!" }
 }

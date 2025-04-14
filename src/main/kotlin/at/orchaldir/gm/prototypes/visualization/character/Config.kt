@@ -159,6 +159,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(5),
             fromPercentage(10),
             fromPercentage(1),
+            fromPercentage(150),
         ),
         EarConfig(
             withFactor(0.1f, 0.125f, 0.15f),

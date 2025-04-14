@@ -13,7 +13,9 @@ import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.mouth.*
-import at.orchaldir.gm.core.model.culture.fashion.AppearanceStyle
+import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
+import at.orchaldir.gm.core.model.culture.fashion.BeardFashion
+import at.orchaldir.gm.core.model.culture.fashion.HairFashion
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.util.Color
@@ -30,14 +32,14 @@ import kotlinx.html.h2
 fun FORM.editHead(
     state: State,
     raceAppearance: RaceAppearance,
-    style: AppearanceStyle?,
+    fashion: AppearanceFashion?,
     head: Head,
 ) {
     editEars(raceAppearance, head.ears)
     editEyes(raceAppearance, head.eyes)
-    editHair(raceAppearance, style, head.hair)
+    editHair(raceAppearance, fashion, head.hair)
     editHorns(state, raceAppearance, head.horns)
-    editMouth(raceAppearance, style, head.mouth)
+    editMouth(raceAppearance, fashion, head.mouth)
 }
 
 private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
@@ -57,7 +59,7 @@ private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
 
 private fun FORM.editBeard(
     raceAppearance: RaceAppearance,
-    style: AppearanceStyle?,
+    fashion: BeardFashion?,
     beard: Beard,
 ) {
     h2 { +"Beard" }
@@ -66,48 +68,65 @@ private fun FORM.editBeard(
 
     when (beard) {
         NoBeard -> doNothing()
-        is NormalBeard -> editNormalBeard(raceAppearance, style, beard)
+        is NormalBeard -> editNormalBeard(raceAppearance, fashion, beard)
     }
 }
 
 private fun FORM.editNormalBeard(
     raceAppearance: RaceAppearance,
-    style: AppearanceStyle?,
+    fashion: BeardFashion?,
     beard: NormalBeard,
 ) {
     selectFromOptionalOneOf(
         "Style",
         combine(BEARD, STYLE),
-        style?.beardStyles,
+        fashion?.beardStyles,
         beard.style.getType(),
         true
     )
     selectColor("Color", combine(BEARD, COLOR), raceAppearance.hair.colors, beard.color)
 
-    when (beard.style) {
-        is Goatee -> selectGoateeStyle(style, beard.style.goateeStyle)
-        is GoateeAndMoustache -> {
-            selectGoateeStyle(style, beard.style.goateeStyle)
-            selectMoustacheStyle(style, beard.style.moustacheStyle)
+    when (val style = beard.style) {
+        is FullBeard -> {
+            selectFromOptionalOneOf(
+                "Full Beard",
+                combine(FULL, STYLE),
+                fashion?.fullBeardStyles,
+                style.style,
+                true
+            )
+            selectFromOptionalOneOf(
+                "Beard Length",
+                combine(BEARD, LENGTH),
+                fashion?.beardLength,
+                style.length,
+                true
+            )
         }
 
-        is Moustache -> selectMoustacheStyle(style, beard.style.moustacheStyle)
+        is Goatee -> selectGoateeStyle(fashion, style.goateeStyle)
+        is GoateeAndMoustache -> {
+            selectGoateeStyle(fashion, style.goateeStyle)
+            selectMoustacheStyle(fashion, style.moustacheStyle)
+        }
+
+        is Moustache -> selectMoustacheStyle(fashion, style.moustacheStyle)
         ShavedBeard -> doNothing()
     }
 }
 
 private fun HtmlBlockTag.selectGoateeStyle(
-    style: AppearanceStyle?,
+    fashion: BeardFashion?,
     current: GoateeStyle,
 ) {
-    selectFromOptionalOneOf("Goatee", GOATEE_STYLE, style?.goateeStyles, current, true)
+    selectFromOptionalOneOf("Goatee", combine(GOATEE, STYLE), fashion?.goateeStyles, current, true)
 }
 
 private fun HtmlBlockTag.selectMoustacheStyle(
-    style: AppearanceStyle?,
+    fashion: BeardFashion?,
     current: MoustacheStyle,
 ) {
-    selectFromOptionalOneOf("Moustache", MOUSTACHE_STYLE, style?.moustacheStyles, current, true)
+    selectFromOptionalOneOf("Moustache", combine(MOUSTACHE, STYLE), fashion?.moustacheStyles, current, true)
 }
 
 private fun FORM.editEyes(
@@ -165,7 +184,7 @@ fun HtmlBlockTag.editNormalEye(
 
 private fun FORM.editHair(
     raceAppearance: RaceAppearance,
-    style: AppearanceStyle?,
+    fashion: AppearanceFashion?,
     hair: Hair,
 ) {
     h2 { +"Hair" }
@@ -174,83 +193,83 @@ private fun FORM.editHair(
 
     when (hair) {
         NoHair -> doNothing()
-        is NormalHair -> editNormalHair(raceAppearance, style, hair)
+        is NormalHair -> editNormalHair(raceAppearance, fashion?.hair, hair)
     }
 }
 
 private fun FORM.editNormalHair(
     raceAppearance: RaceAppearance,
-    style: AppearanceStyle?,
+    fashion: HairFashion?,
     hair: NormalHair,
 ) {
     selectFromOptionalOneOf(
         "Haircut",
         combine(HAIR, STYLE),
-        style?.hairStyles,
+        fashion?.hairStyles,
         hair.cut.getType(),
         true,
     )
     selectColor("Color", combine(HAIR, COLOR), raceAppearance.hair.colors, hair.color)
 
-    when (hair.cut) {
+    when (val cut = hair.cut) {
         is Bun -> {
             selectFromOptionalOneOf(
                 "Bun Style",
                 combine(BUN, STYLE),
-                style?.bunStyles,
-                hair.cut.style,
+                fashion?.bunStyles,
+                cut.style,
                 true,
             )
-            selectValue("Bun Size", combine(BUN, SIZE), Size.entries, hair.cut.size, true)
+            selectValue("Bun Size", combine(BUN, SIZE), Size.entries, cut.size, true)
         }
 
         is LongHairCut -> {
             selectFromOptionalOneOf(
                 "Long Hair Style",
                 combine(LONG, STYLE),
-                style?.longHairStyles,
-                hair.cut.style,
+                fashion?.longHairStyles,
+                cut.style,
                 true,
             )
-            selectHairLength(style, hair.cut.length)
+            selectHairLength(fashion, cut.length)
         }
 
         is Ponytail -> {
             selectFromOptionalOneOf(
                 "Ponytail Style",
                 combine(PONYTAIL, STYLE),
-                style?.ponytailStyles,
-                hair.cut.style,
+                fashion?.ponytailStyles,
+                cut.style,
                 true,
             )
             selectFromOptionalOneOf(
                 "Ponytail Position",
                 combine(PONYTAIL, POSITION),
-                style?.ponytailPositions,
-                hair.cut.position,
+                fashion?.ponytailPositions,
+                cut.position,
                 true,
             )
-            selectHairLength(style, hair.cut.length)
+            selectHairLength(fashion, cut.length)
         }
 
         is ShortHairCut -> selectFromOptionalOneOf(
             "Short Hair Style",
             combine(SHORT, STYLE),
-            style?.shortHairStyles,
-            hair.cut.style,
+            fashion?.shortHairStyles,
+            cut.style,
             true,
         )
     }
 }
 
 private fun FORM.selectHairLength(
-    style: AppearanceStyle?,
+    fashion: HairFashion?,
     length: HairLength,
 ) {
     selectFromOptionalOneOf(
         "Length",
         combine(HAIR, LENGTH),
-        style?.hairLengths,
+        fashion?.hairLengths,
         length,
         true,
     )
@@ -258,7 +277,7 @@ private fun FORM.selectHairLength(
 
 private fun FORM.editMouth(
     raceAppearance: RaceAppearance,
-    style: AppearanceStyle?,
+    fashion: AppearanceFashion?,
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
@@ -271,12 +290,12 @@ private fun FORM.editMouth(
 
         is NormalMouth -> {
             editSimpleMouth(mouth.width, mouth.teethColor)
-            editBeard(raceAppearance, style, mouth.beard)
+            editBeard(raceAppearance, fashion?.beard, mouth.beard)
         }
 
         is FemaleMouth -> {
             editSimpleMouth(mouth.width, mouth.teethColor)
-            val colors = style?.lipColors ?: OneOf(Color.entries)
+            val colors = fashion?.lipColors ?: OneOf(Color.entries)
             selectColor("Lip Color", combine(LIP, COLOR), colors, mouth.color)
         }
 
@@ -314,49 +333,57 @@ fun parseHead(
 }
 
 private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {
-    val style = config.appearanceStyle
+    val fashion = config.appearanceFashion.beard
 
     return when (parameters[BEARD]) {
         BeardType.None.toString() -> NoBeard
-        BeardType.Normal.toString() -> {
-            return NormalBeard(
-                when (parameters[combine(BEARD, STYLE)]) {
-                    BeardStyleType.Goatee.toString() -> {
-                        Goatee(parseGoateeStyle(parameters, config, style))
-                    }
-
-                    BeardStyleType.GoateeAndMoustache.toString() -> GoateeAndMoustache(
-                        parseMoustacheStyle(parameters, config, style),
-                        parseGoateeStyle(parameters, config, style),
-                    )
-
-                    BeardStyleType.Moustache.toString() -> Moustache(
-                        parseMoustacheStyle(parameters, config, style),
-                    )
-
-                    BeardStyleType.Shaved.toString() -> ShavedBeard
-
-                    else -> Goatee(GoateeStyle.Goatee)
-                },
-                parseAppearanceColor(parameters, BEARD, config, config.appearanceOptions.hair.colors),
-            )
-        }
-
+        BeardType.Normal.toString() -> parseNormalBeard(parameters, config, fashion)
         else -> generateBeard(config, hair)
     }
 }
 
+private fun parseNormalBeard(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    fashion: BeardFashion,
+) = NormalBeard(
+    when (parameters[combine(BEARD, STYLE)]) {
+        BeardStyleType.Full.toString() -> FullBeard(
+            parseAppearanceOption(parameters, combine(FULL, STYLE), config, fashion.fullBeardStyles),
+            parseAppearanceOption(parameters, combine(BEARD, LENGTH), config, fashion.beardLength),
+        )
+
+        BeardStyleType.Goatee.toString() -> Goatee(
+            parseGoateeStyle(parameters, config, fashion),
+        )
+
+        BeardStyleType.GoateeAndMoustache.toString() -> GoateeAndMoustache(
+            parseMoustacheStyle(parameters, config, fashion),
+            parseGoateeStyle(parameters, config, fashion),
+        )
+
+        BeardStyleType.Moustache.toString() -> Moustache(
+            parseMoustacheStyle(parameters, config, fashion),
+        )
+
+        BeardStyleType.Shaved.toString() -> ShavedBeard
+
+        else -> Goatee(GoateeStyle.Goatee)
+    },
+    parseAppearanceColor(parameters, BEARD, config, config.appearanceOptions.hair.colors),
+)
+
 private fun parseMoustacheStyle(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-    style: AppearanceStyle,
-) = parseAppearanceOption(parameters, MOUSTACHE_STYLE, config, style.moustacheStyles)
+    fashion: BeardFashion,
+) = parseAppearanceOption(parameters, combine(MOUSTACHE, STYLE), config, fashion.moustacheStyles)
 
 private fun parseGoateeStyle(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-    style: AppearanceStyle,
-) = parseAppearanceOption(parameters, GOATEE_STYLE, config, style.goateeStyles)
+    fashion: BeardFashion,
+) = parseAppearanceOption(parameters, combine(GOATEE, STYLE), config, fashion.goateeStyles)
 
 private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig): Ears {
     return when (parameters[combine(EAR, TYPE)]) {
@@ -420,6 +447,8 @@ private fun parseEyeShape(
 ) = parseAppearanceOption(parameters, combine(EYE, SHAPE), config, options.eyeShapes)
 
 private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig): Hair {
+    val fashion = config.appearanceFashion.hair
+
     return when (parameters[HAIR]) {
         HairType.None.toString() -> NoHair
         HairType.Normal.toString() -> {
@@ -430,7 +459,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                             parameters,
                             combine(BUN, STYLE),
                             config,
-                            config.appearanceStyle.bunStyles,
+                            fashion.bunStyles,
                         ),
                         parse(parameters, combine(BUN, SIZE), Size.Medium),
                     )
@@ -440,7 +469,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                             parameters,
                             combine(LONG, STYLE),
                             config,
-                            config.appearanceStyle.longHairStyles,
+                            fashion.longHairStyles,
                         ),
                         parseHairLength(parameters, config),
                     )
@@ -450,13 +479,13 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                             parameters,
                             combine(PONYTAIL, STYLE),
                             config,
-                            config.appearanceStyle.ponytailStyles,
+                            fashion.ponytailStyles,
                         ),
                         parseAppearanceOption(
                             parameters,
                             combine(PONYTAIL, POSITION),
                             config,
-                            config.appearanceStyle.ponytailPositions,
+                            fashion.ponytailPositions,
                         ),
                         parseHairLength(parameters, config),
                     )
@@ -466,7 +495,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                             parameters,
                             combine(SHORT, STYLE),
                             config,
-                            config.appearanceStyle.shortHairStyles,
+                            fashion.shortHairStyles,
                         ),
                     )
 
@@ -487,7 +516,7 @@ private fun parseHairLength(
     parameters,
     combine(HAIR, LENGTH),
     config,
-    config.appearanceStyle.hairLengths,
+    config.appearanceFashion.hair.hairLengths,
 )
 
 private fun parseMouth(
@@ -504,7 +533,7 @@ private fun parseMouth(
             if (character.gender == Gender.Female) {
                 return FemaleMouth(
                     parse(parameters, combine(MOUTH, WIDTH), Size.Medium),
-                    parseAppearanceColor(parameters, LIP, config, config.appearanceStyle.lipColors),
+                    parseAppearanceColor(parameters, LIP, config, config.appearanceFashion.lipColors),
                     parse(parameters, TEETH_COLOR, TeethColor.White),
                 )
             }
