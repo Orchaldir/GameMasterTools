@@ -244,7 +244,7 @@ fun FORM.editCharacter(
             SEXUALITY,
             SEXUAL_ORIENTATION_FOR_GENDERLESS,
             if (!SEXUAL_ORIENTATION_FOR_GENDERLESS.contains(character.sexuality)) {
-                SexualOrientation.Asexuality
+                SexualOrientation.Asexual
             } else {
                 character.sexuality
             },
@@ -380,7 +380,7 @@ fun parseCharacter(
         name = name,
         race = race,
         gender = parseGender(parameters),
-        sexuality = parse(parameters, SEXUALITY, SexualOrientation.Asexuality),
+        sexuality = parse(parameters, SEXUALITY, SexualOrientation.Asexual),
         origin = origin,
         birthDate = birthDate,
         vitalStatus = parseVitalStatus(parameters, state),

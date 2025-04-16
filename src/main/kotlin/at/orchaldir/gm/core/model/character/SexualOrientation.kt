@@ -2,21 +2,21 @@ package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.character.SexualOrientation.*
 
-val SEXUAL_ORIENTATION_FOR_GENDERLESS = setOf(Asexuality, Pansexuality, Demisexuality)
+val SEXUAL_ORIENTATION_FOR_GENDERLESS = setOf(Asexual, Pansexual, Demisexual)
 
 enum class SexualOrientation {
-    Asexuality,
+    Asexual,
 
     /**
      * Regardless of sex or gender.
      */
-    Pansexuality,
-    Bisexuality,
+    Pansexual,
+    Bisexual,
 
     /**
      * Attracted to someone after getting to know them for a certain period of time.
      */
-    Demisexuality,
-    Heterosexuality,
-    Homosexuality,
+    Demisexual,
+    Heterosexual,
+    Homosexual,
 }

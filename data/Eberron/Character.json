@@ -93,7 +93,7 @@
    },
    "race": 9,
    "gender": "Female",
-   "sexuality": "Homosexuality",
+   "sexuality": "Homosexual",
    "birthDate": {
     "type": "Day",
     "day": 324816
@@ -184,7 +184,7 @@
     "family": "d’Cannith"
    },
    "gender": "Female",
-   "sexuality": "Homosexuality",
+   "sexuality": "Homosexual",
    "birthDate": {
     "type": "Day",
     "day": 323904
