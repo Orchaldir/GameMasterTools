@@ -3,15 +3,8 @@ package at.orchaldir.gm.app.html.model.character
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.model.character.showEquipmentMap
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parseCharacter
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
-import at.orchaldir.gm.core.action.CreateCharacter
-import at.orchaldir.gm.core.action.DeleteCharacter
-import at.orchaldir.gm.core.action.UpdateCharacter
-import at.orchaldir.gm.core.generator.DateGenerator
-import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
@@ -20,30 +13,15 @@ import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.*
-import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
-import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortRaces
-import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.visualization.character.appearance.calculatePaddedSize
-import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
-import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
-import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
-import io.ktor.server.resources.post
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
-import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 
@@ -144,6 +122,8 @@ fun BODY.showSocial(
     showFamily(call, state, character)
 
     showPersonality(call, state, character.personality)
+
+    field("Sexuality", character.sexuality)
 
     showMap("Relationships", character.relationships) { other, relationships ->
         link(call, state, other)

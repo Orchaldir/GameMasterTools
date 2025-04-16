@@ -181,6 +181,7 @@ private fun HTML.showAllCharacters(
                 th { +"Name" }
                 th { +"Race" }
                 th { +"Gender" }
+                th { +"Sexuality" }
                 th { +"Culture" }
                 th { +"Belief" }
                 th { +"Birthdate" }
@@ -202,6 +203,7 @@ private fun HTML.showAllCharacters(
                     }
                     td { link(call, state, character.race) }
                     tdEnum(character.gender)
+                    tdEnum(character.sexuality)
                     td { link(call, state, character.culture) }
                     td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }

@@ -40,7 +40,7 @@ data class Character(
     val name: CharacterName = Mononym("Character ${id.value}"),
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Genderless,
-    val sexuality: SexualOrientation = SexualOrientation.Asexuality,
+    val sexuality: SexualOrientation = SexualOrientation.Heterosexuality,
     val origin: CharacterOrigin = UndefinedCharacterOrigin,
     val birthDate: Date = Year(0),
     val vitalStatus: VitalStatus = Alive,
