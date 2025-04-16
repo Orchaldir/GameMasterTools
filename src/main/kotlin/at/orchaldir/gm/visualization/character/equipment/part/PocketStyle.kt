@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.item.equipment.style.PocketStyle
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -36,16 +37,25 @@ fun visualizePocket(
     position: Point2d,
     width: Distance,
 ) {
-    val start = position.minusWidth(width / 2.0f)
+    val half = width / 2.0f
+    val start = position.minusWidth(half)
     val renderer = state.renderer.getLayer(ABOVE_EQUIPMENT_LAYER)
 
     when (style) {
         PocketStyle.Flaps -> {
-            val aabb = AABB(start, Size2d(width, width / 2.0f))
+            val aabb = AABB(start, Size2d(width, half))
 
             renderer.renderRectangle(aabb, options)
         }
-        PocketStyle.Jetted -> doNothing()
+
+        PocketStyle.Jetted -> {
+            val line = listOf(
+                position.minusWidth(half),
+                position.addWidth(half),
+            )
+
+            renderer.renderLine(line, state.config.line)
+        }
         PocketStyle.None -> doNothing()
         PocketStyle.Patch -> {
             val (topLeft, topRight, bottomRight, bottomLeft) = AABB(start, Size2d.square(width)).getCorners()
