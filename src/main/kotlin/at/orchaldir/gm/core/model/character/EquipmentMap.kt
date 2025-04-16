@@ -17,6 +17,9 @@ data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
         fun from(data: EquipmentData) =
             EquipmentMap(data, data.slots().getAllBodySlotCombinations().first())
 
+        fun from(list: List<EquipmentData>) =
+            EquipmentMap(list.associateWith { setOf(it.slots().getAllBodySlotCombinations().first()) })
+
         fun <T> fromSlotAsKeyMap(map: Map<BodySlot, T>) =
             EquipmentMap(map.entries.associate { Pair(it.value, setOf(setOf(it.key))) })
     }
@@ -36,7 +39,7 @@ data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
         slotSets.contains(slots)
     }.firstNotNullOfOrNull { it.key }
 
-    fun <U> convert(function: (T) -> U): EquipmentMap<U> = EquipmentMap<U>(
+    fun <U> convert(function: (T) -> U): EquipmentMap<U> = EquipmentMap(
         map.mapKeys { function(it.key) }
     )
 }

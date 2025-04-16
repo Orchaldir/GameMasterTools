@@ -7,10 +7,13 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.*
+import at.orchaldir.gm.visualization.character.appearance.BodyConfig
+import at.orchaldir.gm.visualization.character.appearance.addHip
+import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopPockets
 import at.orchaldir.gm.visualization.renderBuilder
 
 data class CoatConfig(
@@ -41,12 +44,13 @@ fun visualizeCoat(
     state: CharacterRenderState,
     body: Body,
     coat: Coat,
+    layer: Int,
 ) {
     val fill = coat.main.getFill(state.state)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
-    visualizeSleeves(state, options, body, coat.sleeveStyle, HIGHER_EQUIPMENT_LAYER)
-    visualizeCoatBody(state, options, body, coat)
+    visualizeSleeves(state, options, body, coat.sleeveStyle, layer)
+    visualizeCoatBody(state, options, body, coat, layer)
 
     if (state.renderFront) {
         val necklineHeight = state.config.equipment.neckline.getHeight(coat.necklineStyle)
@@ -56,7 +60,8 @@ fun visualizeCoat(
         val size = state.aabb.size.scale(torsoWidth, FULL)
         val aabb = AABB.fromCenter(state.aabb.getCenter(), size)
 
-        visualizeOpening(state, aabb, HALF, topY, bottomY, coat.openingStyle)
+        visualizeOpening(state, aabb, HALF, topY, bottomY, coat.openingStyle, layer)
+        visualizeTopPockets(state, options, coat.pocketStyle, layer)
     }
 }
 
@@ -65,13 +70,14 @@ private fun visualizeCoatBody(
     options: FillAndBorder,
     body: Body,
     coat: Coat,
+    layer: Int,
 ) {
     val paddedWidth = state.config.equipment.coat.getPaddedWidth()
     val builder = createCoatBottom(state, body, coat.length, paddedWidth)
     addTorso(state, body, builder, coat.necklineStyle.addTop(), paddedWidth)
     addNeckline(state, body, builder, coat.necklineStyle)
 
-    renderBuilder(state.renderer, builder, options, OUTERWEAR_LAYER)
+    renderBuilder(state.renderer, builder, options, layer)
 }
 
 fun createCoatBottom(

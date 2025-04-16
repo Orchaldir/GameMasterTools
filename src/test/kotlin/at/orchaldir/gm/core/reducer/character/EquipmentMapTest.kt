@@ -73,12 +73,12 @@ class EquipmentMapTest {
         )
         val equipmentMap = EquipmentMap(
             mapOf(
-                EQUIPMENT_ID_0 to setOf(setOf(BodySlot.Bottom, BodySlot.Top)),
-                EQUIPMENT_ID_1 to setOf(setOf(BodySlot.Top)),
+                EQUIPMENT_ID_0 to setOf(setOf(BodySlot.Bottom, BodySlot.InnerTop)),
+                EQUIPMENT_ID_1 to setOf(setOf(BodySlot.InnerTop)),
             )
         )
         val action = UpdateEquipmentOfCharacter(CHARACTER_ID_0, equipmentMap)
 
-        assertIllegalArgument("Body slot Top is occupied multiple times!") { REDUCER.invoke(state, action) }
+        assertIllegalArgument("Body slot InnerTop is occupied multiple times!") { REDUCER.invoke(state, action) }
     }
 }

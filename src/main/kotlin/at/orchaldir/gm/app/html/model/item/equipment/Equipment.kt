@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.model.item.parseFillItemPart
 import at.orchaldir.gm.app.html.model.item.showFillItemPart
 import at.orchaldir.gm.app.html.model.parseWeight
 import at.orchaldir.gm.app.html.model.selectWeight
-import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
@@ -17,16 +16,13 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
-import kotlinx.html.HtmlBlockTag
 
 // show
 
@@ -87,6 +83,8 @@ private fun BODY.showEquipmentData(
             field("Style", data.style)
             showFillItemPart(call, state, data.main, "Main")
         }
+
+        is SuitJacket -> showSuitJacket(call, state, data)
 
         is Tie -> {
             field("Style", data.style)
@@ -166,6 +164,8 @@ private fun FORM.editEquipmentData(
             editFillItemPart(state, data.main, MAIN, "Main")
         }
 
+        is SuitJacket -> editSuitJacket(state, data)
+
         is Tie -> {
             selectValue("Style", STYLE, TieStyle.entries, data.style, true)
             selectValue("Size", SIZE, Size.entries, data.size, true)
@@ -173,23 +173,6 @@ private fun FORM.editEquipmentData(
             editFillItemPart(state, data.knot, KNOT, "Knot")
         }
     }
-}
-
-fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
-    selectValue("Neckline Style", NECKLINE_STYLE, options, current, true)
-}
-
-fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
-    selectValue("Sleeve Style", SLEEVE_STYLE, options, current, true)
-}
-
-fun HtmlBlockTag.selectMaterial(
-    state: State,
-    materialId: MaterialId,
-    param: String = MATERIAL,
-    label: String = "Material",
-) {
-    selectElement(state, label, param, state.sortMaterial(), materialId, true)
 }
 
 // parse
@@ -248,26 +231,19 @@ fun parseEquipmentData(parameters: Parameters) =
             parseFillItemPart(parameters, MAIN),
         )
 
+        EquipmentDataType.SuitJacket -> parseSuitJacket(parameters)
+
         EquipmentDataType.Tie -> parseTie(parameters)
     }
 
 private fun parseShirt(parameters: Parameters): Shirt {
-    val neckline = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
+    val neckline = parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.None)
 
     return Shirt(
         neckline,
         parseSleeveStyle(parameters, neckline),
         parseFillItemPart(parameters, MAIN),
     )
-}
-
-fun parseSleeveStyle(
-    parameters: Parameters,
-    neckline: NecklineStyle,
-) = if (neckline.supportsSleeves()) {
-    parse(parameters, SLEEVE_STYLE, SleeveStyle.Long)
-} else {
-    SleeveStyle.None
 }
 
 private fun parseTie(parameters: Parameters) = Tie(

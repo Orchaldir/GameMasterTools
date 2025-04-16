@@ -301,7 +301,7 @@ class FashionTest {
                 EquipmentDataType.Shirt,
                 Pants(),
                 Shirt(),
-                "Clothing set Suit requires at least one Coat!"
+                "Clothing set Suit requires at least one SuitJacket!"
             )
         }
 

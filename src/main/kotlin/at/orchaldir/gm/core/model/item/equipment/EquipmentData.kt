@@ -38,12 +38,13 @@ enum class EquipmentDataType {
     Shirt,
     Skirt,
     Socks,
-    Tie;
+    Tie,
+    SuitJacket;
 
     fun slots(): Set<EquipmentSlot> = when (this) {
         Belt -> setOf(BeltSlot)
         Coat -> setOf(OuterSlot)
-        Dress -> setOf(BottomSlot, TopSlot)
+        Dress -> setOf(BottomSlot, InnerTopSlot)
         Earring -> setOf(EarSlot)
         EyePatch -> setOf(EyeSlot)
         Footwear -> setOf(FootSlot)
@@ -52,9 +53,10 @@ enum class EquipmentDataType {
         Hat -> setOf(HeadSlot)
         Necklace -> setOf(NeckSlot)
         Pants -> setOf(BottomSlot)
-        Shirt -> setOf(TopSlot)
+        Shirt -> setOf(InnerTopSlot)
         Skirt -> setOf(BottomSlot)
         Socks -> setOf(FootUnderwearSlot)
+        SuitJacket -> setOf(TopSlot)
         Tie -> setOf(NeckSlot)
     }
 }
@@ -77,6 +79,7 @@ sealed class EquipmentData : MadeFromParts {
         is Shirt -> EquipmentDataType.Shirt
         is Skirt -> EquipmentDataType.Skirt
         is Socks -> EquipmentDataType.Socks
+        is SuitJacket -> EquipmentDataType.SuitJacket
         is Tie -> EquipmentDataType.Tie
     }
 
@@ -103,6 +106,7 @@ data class Coat(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
+    val pocketStyle: PocketStyle = PocketStyle.None,
     val main: FillItemPart = FillItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
@@ -248,6 +252,19 @@ data class Socks(
     constructor(style: SocksStyle, color: Color) : this(style, FillItemPart(color))
 
     override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("SuitJacket")
+data class SuitJacket(
+    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val openingStyle: OpeningStyle = SingleBreasted(),
+    val pocketStyle: PocketStyle = PocketStyle.None,
+    val main: FillItemPart = FillItemPart(Color.SaddleBrown),
+) : EquipmentData() {
+
+    override fun parts() = openingStyle.parts() + main
 }
 
 @Serializable
