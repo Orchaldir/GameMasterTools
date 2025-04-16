@@ -4,26 +4,36 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.organization.getOrganizations
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getCurrentYear
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
+import io.ktor.server.util.*
 import kotlinx.html.*
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
+import kotlin.random.Random
 
 // show
 
@@ -228,6 +238,25 @@ fun FORM.editCharacter(
     selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
     editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     editPersonality(call, state, character.personality)
+    if (character.gender == Gender.Genderless) {
+        selectValue(
+            "Sexuality",
+            SEXUALITY,
+            SEXUAL_ORIENTATION_FOR_GENDERLESS,
+            if (!SEXUAL_ORIENTATION_FOR_GENDERLESS.contains(character.sexuality)) {
+                SexualOrientation.Asexuality
+            } else {
+                character.sexuality
+            },
+        )
+    } else {
+        selectValue(
+            "Sexuality",
+            SEXUALITY,
+            SexualOrientation.entries,
+            character.sexuality,
+        )
+    }
 }
 
 private fun FORM.selectOrigin(
@@ -316,5 +345,96 @@ private fun FORM.selectName(
     if (character.name is FamilyName) {
         selectText("Middle Name", character.name.middle ?: "", MIDDLE_NAME, 1)
         selectText("Family Name", character.name.family, FAMILY_NAME, 1)
+    }
+}
+
+// parse
+
+fun parseCharacterId(parameters: Parameters, param: String) = CharacterId(parseInt(parameters, param))
+fun parseCharacterId(value: String) = CharacterId(value.toInt())
+fun parseOptionalCharacterId(parameters: Parameters, param: String) =
+    parseOptionalInt(parameters, param)?.let { CharacterId(it) }
+
+fun parseCharacter(
+    state: State,
+    parameters: Parameters,
+    id: CharacterId,
+): Character {
+    val character = state.getCharacterStorage().getOrThrow(id)
+
+    val name = parseCharacterName(parameters)
+    val race = RaceId(parameters.getOrFail(RACE).toInt())
+    val culture = CultureId(parameters.getOrFail(CULTURE).toInt())
+    val origin = when (parse(parameters, ORIGIN, Undefined)) {
+        CharacterOriginType.Born -> {
+            val father = parseCharacterId(parameters, FATHER)
+            val mother = parseCharacterId(parameters, MOTHER)
+            Born(mother, father)
+        }
+
+        Undefined -> UndefinedCharacterOrigin
+    }
+    val birthDate = parseBirthday(parameters, state, race)
+
+    return character.copy(
+        name = name,
+        race = race,
+        gender = parseGender(parameters),
+        origin = origin,
+        birthDate = birthDate,
+        vitalStatus = parseVitalStatus(parameters, state),
+        culture = culture,
+        personality = parsePersonality(parameters),
+        housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
+        employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
+        beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
+    )
+}
+
+fun parseGender(parameters: Parameters) = Gender.valueOf(parameters.getOrFail(GENDER))
+
+private fun parseBirthday(
+    parameters: Parameters,
+    state: State,
+    raceId: RaceId,
+): Date {
+    val index = parameters[LIFE_STAGE]?.toIntOrNull()
+
+    if (index != null) {
+        val race = state.getRaceStorage().getOrThrow(raceId)
+        val minAge = if (index > 0) {
+            race.lifeStages.getAllLifeStages()[index - 1].maxAge
+        } else {
+            0
+        }
+        val maxAge = race.lifeStages.getAllLifeStages()[index].maxAge
+        val age = Random.nextInt(minAge, maxAge)
+
+        return Year(state.getCurrentYear().year - age)
+    }
+
+    return parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
+}
+
+private fun parseCharacterName(parameters: Parameters): CharacterName {
+    val given = parameters.getOrFail(GIVEN_NAME)
+
+    return when (parameters.getOrFail(NAME_TYPE)) {
+        "FamilyName" -> {
+            var middle = parameters[MIDDLE_NAME]
+
+            if (middle.isNullOrEmpty()) {
+                middle = null
+            }
+
+            FamilyName(
+                given,
+                middle,
+                parameters[FAMILY_NAME] ?: "Unknown"
+            )
+        }
+
+        "Genonym" -> Genonym(given)
+        else -> Mononym(given)
     }
 }

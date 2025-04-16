@@ -5,12 +5,12 @@ import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.character.parseGender
 import at.orchaldir.gm.app.html.model.editPersonality
 import at.orchaldir.gm.app.html.model.parsePersonality
 import at.orchaldir.gm.app.html.model.showCreated
 import at.orchaldir.gm.app.html.model.showPersonality
 import at.orchaldir.gm.app.parse.parseElements
-import at.orchaldir.gm.app.parse.parseGender
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
