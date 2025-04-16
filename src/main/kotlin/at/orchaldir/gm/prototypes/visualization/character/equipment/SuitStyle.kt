@@ -12,7 +12,9 @@ import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength.Hip
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Color.Blue
+import at.orchaldir.gm.core.model.util.Color.Gray
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -24,21 +26,15 @@ fun main() {
         State(),
         "suit-style.svg",
         CHARACTER_CONFIG,
+        addNames(NecklineStyle.DeepV),
         listOf(
-            createSingle(Size.Small),
             createSingle(Size.Medium),
-            createSingle(Size.Large),
             createDouble(Size.Small),
-            createDouble(Size.Medium),
-            createDouble(Size.Large),
-        ),
-        addNames(NecklineStyle.DeepV)
-    ) { distance, neckline, opening ->
+        )
+    ) { distance, opening, neckline ->
         Pair(createAppearance(distance), createSuite(neckline, opening))
     }
 }
-
-private fun createButton(size: Size) = ButtonColumn(Button(size), 4u)
 
 private fun createSingle(size: Size) = Pair("SingleBreasted - $size", SingleBreasted(ButtonColumn(Button(size), 4u)))
 
@@ -50,11 +46,13 @@ private fun createSuite(
     opening: OpeningStyle,
 ) = from(
     listOf(
-        Pants(),
+        Footwear(),
+        Pants(main = FillItemPart(Color.Silver)),
         Shirt(),
         SuitJacket(
-            neckline, SleeveStyle.Long, opening, main = FillItemPart(Blue)
-        )
+            neckline, SleeveStyle.Long, opening, main = FillItemPart(Gray)
+        ),
+        Tie(),
     )
 )
 
