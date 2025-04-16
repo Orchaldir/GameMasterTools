@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.model.character.appearance
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.character.showCurrentHeight
 import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectColor
@@ -8,7 +9,6 @@ import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.routes.character.showCurrentHeight
 import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
