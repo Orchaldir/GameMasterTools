@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.model.character
+package at.orchaldir.gm.app.html.model.character.appearance
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDistance

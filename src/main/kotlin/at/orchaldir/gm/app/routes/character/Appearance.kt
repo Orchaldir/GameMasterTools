@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.routes.character
 import at.orchaldir.gm.app.APPEARANCE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.character.editAppearance
-import at.orchaldir.gm.app.html.model.character.parseAppearance
+import at.orchaldir.gm.app.html.model.character.appearance.editAppearance
+import at.orchaldir.gm.app.html.model.character.appearance.parseAppearance
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
