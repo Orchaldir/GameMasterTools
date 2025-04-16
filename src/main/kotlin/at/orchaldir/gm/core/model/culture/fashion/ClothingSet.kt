@@ -12,6 +12,6 @@ enum class ClothingSet {
         Dress -> setOf(EquipmentDataType.Dress)
         PantsAndShirt -> setOf(EquipmentDataType.Pants, EquipmentDataType.Shirt)
         ShirtAndSkirt -> setOf(EquipmentDataType.Skirt, EquipmentDataType.Shirt)
-        Suit -> setOf(EquipmentDataType.Coat, EquipmentDataType.Pants, EquipmentDataType.Shirt)
+        Suit -> setOf(EquipmentDataType.Pants, EquipmentDataType.Shirt, EquipmentDataType.SuitJacket)
     }
 }
