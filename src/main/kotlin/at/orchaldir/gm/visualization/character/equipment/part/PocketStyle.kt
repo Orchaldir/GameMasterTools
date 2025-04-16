@@ -1,7 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.item.equipment.style.PocketStyle
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -11,7 +10,6 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 
 fun visualizeTopPockets(
     state: CharacterRenderState,
@@ -58,6 +56,7 @@ fun visualizePocket(
 
             renderer.renderLine(line, state.config.line)
         }
+
         PocketStyle.None -> doNothing()
         PocketStyle.Patch -> {
             val (topLeft, topRight, bottomRight, bottomLeft) = AABB(start, Size2d.square(width)).getCorners()

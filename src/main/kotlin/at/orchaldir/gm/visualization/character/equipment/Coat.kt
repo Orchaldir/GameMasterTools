@@ -7,7 +7,9 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.*
+import at.orchaldir.gm.visualization.character.appearance.BodyConfig
+import at.orchaldir.gm.visualization.character.appearance.addHip
+import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves

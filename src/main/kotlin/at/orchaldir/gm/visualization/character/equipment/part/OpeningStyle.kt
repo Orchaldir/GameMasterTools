@@ -9,7 +9,6 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 
 data class OpeningConfig(
     val buttonRadius: SizeConfig<Factor>,
