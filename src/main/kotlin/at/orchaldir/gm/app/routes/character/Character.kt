@@ -218,6 +218,7 @@ private fun HTML.showAllCharacters(
 
         showCauseOfDeath(characters)
         showGenderCount(characters)
+        showSexualOrientationCount(characters)
         showHousingStatusCount(characters)
     }
 }
