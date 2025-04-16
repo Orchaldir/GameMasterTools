@@ -52,6 +52,30 @@
     },
     "height": 1800000
    },
+   "equipmentMap": {
+    "map": {
+     "1": [
+      [
+       "Outer"
+      ]
+     ],
+     "9": [
+      [
+       "Bottom"
+      ]
+     ],
+     "10": [
+      [
+       "InnerTop"
+      ]
+     ],
+     "16": [
+      [
+       "Top"
+      ]
+     ]
+    }
+   },
    "beliefStatus": {
     "current": {
      "type": "Pantheon",
@@ -890,17 +914,17 @@
    },
    "equipmentMap": {
     "map": {
-     "1": [
-      [
-       "Outer"
-      ]
-     ],
      "9": [
       [
        "Bottom"
       ]
      ],
      "10": [
+      [
+       "InnerTop"
+      ]
+     ],
+     "16": [
       [
        "Top"
       ]

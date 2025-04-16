@@ -23,6 +23,7 @@
    "name": "Coat",
    "data": {
     "type": "Coat",
+    "length": "Knee",
     "openingStyle": {
      "type": "SingleBreasted",
      "buttons": {
@@ -34,6 +35,7 @@
       "count": 5
      }
     },
+    "pocketStyle": "Flaps",
     "main": {
      "material": 1
     }
@@ -254,6 +256,31 @@
      "fill": {
       "type": "Solid",
       "color": "Red"
+     }
+    }
+   },
+   "weight": 10
+  },
+  "16": {
+   "id": 16,
+   "name": "Suit Jacket",
+   "data": {
+    "type": "SuitJacket",
+    "necklineStyle": "DeepV",
+    "openingStyle": {
+     "type": "SingleBreasted",
+     "buttons": {
+      "button": {
+       "part": {
+       }
+      }
+     }
+    },
+    "pocketStyle": "Patch",
+    "main": {
+     "fill": {
+      "type": "Solid",
+      "color": "Gray"
      }
     }
    },
