@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.util.sortMaterial
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -87,6 +88,8 @@ private fun BODY.showEquipmentData(
             field("Style", data.style)
             showFillItemPart(call, state, data.main, "Main")
         }
+
+        is SuitJacket -> doNothing()
 
         is Tie -> {
             field("Style", data.style)
@@ -165,6 +168,8 @@ private fun FORM.editEquipmentData(
             selectValue("Style", STYLE, SocksStyle.entries, data.style, true)
             editFillItemPart(state, data.main, MAIN, "Main")
         }
+
+        is SuitJacket -> doNothing()
 
         is Tie -> {
             selectValue("Style", STYLE, TieStyle.entries, data.style, true)
@@ -247,6 +252,8 @@ fun parseEquipmentData(parameters: Parameters) =
             parse(parameters, STYLE, SocksStyle.Quarter),
             parseFillItemPart(parameters, MAIN),
         )
+
+        EquipmentDataType.SuitJacket -> TODO()
 
         EquipmentDataType.Tie -> parseTie(parameters)
     }
