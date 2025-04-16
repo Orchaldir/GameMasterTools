@@ -30,6 +30,7 @@ fun BODY.showCoat(
     field("Neckline Style", data.necklineStyle)
     field("Sleeve Style", data.sleeveStyle)
     showOpeningStyle(call, state, data.openingStyle)
+    field("Pocket Style", data.pocketStyle)
     showFillItemPart(call, state, data.main, "Main")
 }
 
@@ -74,12 +75,13 @@ fun FORM.editCoat(
     selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
     selectOpeningStyle(state, data.openingStyle)
+    selectPocketStyle(JacketPocketStyle.entries, data.pocketStyle)
     editFillItemPart(state, data.main, MAIN)
 }
 
 private fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
     showDetails("Opening Style", true) {
-        selectValue("Type", OPENING_STYLE, OpeningType.entries, openingStyle.getType(), true)
+        selectValue("Type", combine(OPENING, STYLE), OpeningType.entries, openingStyle.getType(), true)
 
         when (openingStyle) {
             NoOpening -> doNothing()
@@ -110,14 +112,15 @@ private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn)
 
 fun parseCoat(parameters: Parameters) = Coat(
     parse(parameters, LENGTH, OuterwearLength.Hip),
-    parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
-    parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
+    parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.DeepV),
+    parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseOpeningStyle(parameters),
+    parse(parameters, combine(POCKET, STYLE), JacketPocketStyle.None),
     parseFillItemPart(parameters, MAIN),
 )
 
 private fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
-    val type = parse(parameters, OPENING_STYLE, OpeningType.NoOpening)
+    val type = parse(parameters, combine(OPENING, STYLE), OpeningType.NoOpening)
 
     return when (type) {
         OpeningType.NoOpening -> NoOpening

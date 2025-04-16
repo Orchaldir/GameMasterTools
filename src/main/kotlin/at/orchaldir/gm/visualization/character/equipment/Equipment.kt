@@ -70,5 +70,6 @@ private fun SuitJacket.convert() = Coat(
     necklineStyle,
     sleeveStyle,
     openingStyle,
+    pocketStyle,
     main
 )

@@ -181,11 +181,15 @@ private fun FORM.editEquipmentData(
 }
 
 fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
-    selectValue("Neckline Style", NECKLINE_STYLE, options, current, true)
+    selectValue("Neckline Style", combine(NECKLINE, STYLE), options, current, true)
 }
 
 fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
-    selectValue("Sleeve Style", SLEEVE_STYLE, options, current, true)
+    selectValue("Sleeve Style", combine(SLEEVE, STYLE), options, current, true)
+}
+
+fun FORM.selectPocketStyle(options: Collection<JacketPocketStyle>, current: JacketPocketStyle) {
+    selectValue("Pocket Style", combine(POCKET, STYLE), options, current, true)
 }
 
 fun HtmlBlockTag.selectMaterial(
@@ -259,7 +263,7 @@ fun parseEquipmentData(parameters: Parameters) =
     }
 
 private fun parseShirt(parameters: Parameters): Shirt {
-    val neckline = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
+    val neckline = parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.None)
 
     return Shirt(
         neckline,
@@ -272,7 +276,7 @@ fun parseSleeveStyle(
     parameters: Parameters,
     neckline: NecklineStyle,
 ) = if (neckline.supportsSleeves()) {
-    parse(parameters, SLEEVE_STYLE, SleeveStyle.Long)
+    parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long)
 } else {
     SleeveStyle.None
 }
