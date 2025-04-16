@@ -380,6 +380,7 @@ fun parseCharacter(
         name = name,
         race = race,
         gender = parseGender(parameters),
+        sexuality = parse(parameters, SEXUALITY, SexualOrientation.Asexuality),
         origin = origin,
         birthDate = birthDate,
         vitalStatus = parseVitalStatus(parameters, state),
