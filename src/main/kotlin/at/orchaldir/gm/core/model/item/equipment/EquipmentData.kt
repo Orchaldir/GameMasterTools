@@ -44,7 +44,7 @@ enum class EquipmentDataType {
     fun slots(): Set<EquipmentSlot> = when (this) {
         Belt -> setOf(BeltSlot)
         Coat -> setOf(OuterSlot)
-        Dress -> setOf(BottomSlot, TopSlot)
+        Dress -> setOf(BottomSlot, InnerTopSlot)
         Earring -> setOf(EarSlot)
         EyePatch -> setOf(EyeSlot)
         Footwear -> setOf(FootSlot)
@@ -53,7 +53,7 @@ enum class EquipmentDataType {
         Hat -> setOf(HeadSlot)
         Necklace -> setOf(NeckSlot)
         Pants -> setOf(BottomSlot)
-        Shirt -> setOf(TopSlot)
+        Shirt -> setOf(InnerTopSlot)
         Skirt -> setOf(BottomSlot)
         Socks -> setOf(FootUnderwearSlot)
         SuitJacket -> setOf(TopSlot)
