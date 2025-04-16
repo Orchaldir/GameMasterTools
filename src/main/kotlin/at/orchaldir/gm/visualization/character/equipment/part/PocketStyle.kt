@@ -21,7 +21,8 @@ fun visualizeTopPockets(
         return
     }
 
-    val (left, right) = state.aabb.getMirroredPoints(fromPercentage(80), fromPercentage(80))
+    val y = fromPercentage(55)
+    val (left, right) = state.aabb.getMirroredPoints(fromPercentage(25), y)
     val width = state.aabb.convertWidth(fromPercentage(10))
 
     visualizePocket(state, options, style, left, width)
@@ -39,11 +40,15 @@ fun visualizePocket(
     val renderer = state.renderer.getLayer(ABOVE_EQUIPMENT_LAYER)
 
     when (style) {
-        PocketStyle.Flaps -> doNothing()
+        PocketStyle.Flaps -> {
+            val aabb = AABB(start, Size2d(width, width / 2.0f))
+
+            renderer.renderRectangle(aabb, options)
+        }
         PocketStyle.Jetted -> doNothing()
         PocketStyle.None -> doNothing()
         PocketStyle.Patch -> {
-            val (topLeft, topRight, bottomLeft, bottomRight) = AABB(start, Size2d.square(width)).getCorners()
+            val (topLeft, topRight, bottomRight, bottomLeft) = AABB(start, Size2d.square(width)).getCorners()
             val polygon = Polygon2dBuilder()
                 .addPoints(topLeft, topRight, true)
                 .addPoints(bottomLeft, bottomRight)
