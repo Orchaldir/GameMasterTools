@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment
 
+// Outer > X > Inner X > Under X
 enum class BodySlot {
     Belt,
     Bottom,
@@ -9,6 +10,7 @@ enum class BodySlot {
     FootUnderwear,
     Hand,
     Head,
+    InnerTop,
     Neck,
     Outer,
     RightEar,
