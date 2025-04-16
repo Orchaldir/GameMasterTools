@@ -24,6 +24,7 @@ fun visualizeOpening(
     topY: Factor,
     bottomY: Factor,
     openingStyle: OpeningStyle,
+    layer: Int,
 ) {
     when (openingStyle) {
         NoOpening -> doNothing()
@@ -32,12 +33,12 @@ fun visualizeOpening(
                 .convert(openingStyle.spaceBetweenColumns)
             val half = spaceBetweenColumns * 0.5f
 
-            visualizeButtons(state, aabb, x - half, topY, bottomY, openingStyle.buttons)
-            visualizeButtons(state, aabb, x + half, topY, bottomY, openingStyle.buttons)
+            visualizeButtons(state, aabb, x - half, topY, bottomY, openingStyle.buttons, layer)
+            visualizeButtons(state, aabb, x + half, topY, bottomY, openingStyle.buttons, layer)
         }
 
-        is SingleBreasted -> visualizeButtons(state, aabb, x, topY, bottomY, openingStyle.buttons)
-        is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, openingStyle)
+        is SingleBreasted -> visualizeButtons(state, aabb, x, topY, bottomY, openingStyle.buttons, layer)
+        is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, openingStyle, layer)
     }
 }
 
@@ -48,6 +49,7 @@ fun visualizeButtons(
     topY: Factor,
     bottomY: Factor,
     buttons: ButtonColumn,
+    layer: Int,
 ) {
     val color = buttons.button.part.getColor(state.state)
     val options = NoBorder(color.toRender())
@@ -55,11 +57,11 @@ fun visualizeButtons(
     val step = distance / buttons.count.toFloat()
     var y = topY + step * HALF
     val radius = aabb.convertHeight(state.config.equipment.opening.buttonRadius.convert(buttons.button.size))
-    val layer = state.renderer.getLayer(ABOVE_EQUIPMENT_LAYER)
+    val renderer = state.renderer.getLayer(layer)
 
     for (i in 0..<buttons.count.toInt()) {
         val center = aabb.getPoint(x, y)
-        layer.renderCircle(center, radius, options)
+        renderer.renderCircle(center, radius, options)
         y += step
     }
 }
@@ -71,6 +73,7 @@ fun visualizeZipper(
     topY: Factor,
     bottomY: Factor,
     zipper: Zipper,
+    layer: Int,
 ) {
     val width = aabb.convertHeight(state.config.equipment.opening.zipperWidth)
     val color = zipper.part.getColor(state.state)
@@ -78,5 +81,5 @@ fun visualizeZipper(
     val top = aabb.getPoint(x, topY)
     val bottom = aabb.getPoint(x, bottomY)
 
-    state.renderer.getLayer(ABOVE_EQUIPMENT_LAYER).renderLine(listOf(top, bottom), options)
+    state.renderer.getLayer(layer).renderLine(listOf(top, bottom), options)
 }
