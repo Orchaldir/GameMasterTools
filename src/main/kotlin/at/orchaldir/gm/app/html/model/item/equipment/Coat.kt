@@ -75,7 +75,7 @@ fun FORM.editCoat(
     selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
     selectOpeningStyle(state, data.openingStyle)
-    selectPocketStyle(JacketPocketStyle.entries, data.pocketStyle)
+    selectPocketStyle(PocketStyle.entries, data.pocketStyle)
     editFillItemPart(state, data.main, MAIN)
 }
 
@@ -115,7 +115,7 @@ fun parseCoat(parameters: Parameters) = Coat(
     parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.DeepV),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseOpeningStyle(parameters),
-    parse(parameters, combine(POCKET, STYLE), JacketPocketStyle.None),
+    parse(parameters, combine(POCKET, STYLE), PocketStyle.None),
     parseFillItemPart(parameters, MAIN),
 )
 

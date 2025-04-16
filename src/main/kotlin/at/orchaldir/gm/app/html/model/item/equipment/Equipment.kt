@@ -188,7 +188,7 @@ fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyl
     selectValue("Sleeve Style", combine(SLEEVE, STYLE), options, current, true)
 }
 
-fun FORM.selectPocketStyle(options: Collection<JacketPocketStyle>, current: JacketPocketStyle) {
+fun FORM.selectPocketStyle(options: Collection<PocketStyle>, current: PocketStyle) {
     selectValue("Pocket Style", combine(POCKET, STYLE), options, current, true)
 }
 

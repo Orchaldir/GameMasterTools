@@ -106,7 +106,7 @@ data class Coat(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
-    val pocketStyle: JacketPocketStyle = JacketPocketStyle.None,
+    val pocketStyle: PocketStyle = PocketStyle.None,
     val main: FillItemPart = FillItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
@@ -260,7 +260,7 @@ data class SuitJacket(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
-    val pocketStyle: JacketPocketStyle = JacketPocketStyle.None,
+    val pocketStyle: PocketStyle = PocketStyle.None,
     val main: FillItemPart = FillItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 

@@ -11,6 +11,7 @@ import at.orchaldir.gm.visualization.character.appearance.*
 import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopPockets
 import at.orchaldir.gm.visualization.renderBuilder
 
 data class CoatConfig(
@@ -57,6 +58,7 @@ fun visualizeCoat(
         val aabb = AABB.fromCenter(state.aabb.getCenter(), size)
 
         visualizeOpening(state, aabb, HALF, topY, bottomY, coat.openingStyle)
+        visualizeTopPockets(state, options, coat.pocketStyle)
     }
 }
 
