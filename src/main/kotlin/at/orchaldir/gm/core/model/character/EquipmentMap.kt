@@ -39,7 +39,7 @@ data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
         slotSets.contains(slots)
     }.firstNotNullOfOrNull { it.key }
 
-    fun <U> convert(function: (T) -> U): EquipmentMap<U> = EquipmentMap<U>(
+    fun <U> convert(function: (T) -> U): EquipmentMap<U> = EquipmentMap(
         map.mapKeys { function(it.key) }
     )
 }
