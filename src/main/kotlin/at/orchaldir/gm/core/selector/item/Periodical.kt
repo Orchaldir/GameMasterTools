@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.item
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
+import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 
@@ -27,3 +28,15 @@ fun State.getPeriodicals(calendar: CalendarId) = getPeriodicalStorage()
 fun State.getPeriodicals(language: LanguageId) = getPeriodicalStorage()
     .getAll()
     .filter { b -> b.language == language }
+
+fun State.getValidPublicationFrequencies(
+    calendarId: CalendarId,
+): List<PublicationFrequency> {
+    val calendar = getCalendarStorage().getOrThrow(calendarId)
+
+    return if (calendar.days.hasWeeks()) {
+        PublicationFrequency.entries
+    } else {
+        PublicationFrequency.entries - PublicationFrequency.Weekly
+    }
+}

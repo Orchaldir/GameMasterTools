@@ -17,6 +17,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.selector.item.getValidPublicationFrequencies
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
@@ -49,7 +51,15 @@ fun FORM.editPeriodical(
     selectOwnership(state, periodical.ownership, periodical.startDate())
     selectElement(state, "Language", LANGUAGE, state.getLanguageStorage().getAll(), periodical.language)
     selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), periodical.calendar, true)
-    selectValue("Frequency", FREQUENCY, PublicationFrequency.entries, periodical.frequency)
+    selectPublicationFrequency(state, periodical)
+}
+
+private fun FORM.selectPublicationFrequency(
+    state: State,
+    periodical: Periodical,
+) {
+    val frequencies = state.getValidPublicationFrequencies(periodical.calendar)
+    selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency)
 }
 
 // parse
