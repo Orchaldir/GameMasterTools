@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.model.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.model.character.editNormalEye
+import at.orchaldir.gm.app.html.model.character.appearance.editNormalEye
 import at.orchaldir.gm.app.html.model.item.*
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails

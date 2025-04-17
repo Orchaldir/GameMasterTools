@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Gender.Genderless
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
@@ -278,8 +279,56 @@ class CharacterTest {
         }
 
         @Nested
+        inner class SexualOrientationTest {
+            @Test
+            fun `All sexual orientations are valid for males`() {
+                assertValidSexualOrientations(Gender.Male, SexualOrientation.entries)
+            }
+
+            @Test
+            fun `All sexual orientations are valid for females`() {
+                assertValidSexualOrientations(Gender.Female, SexualOrientation.entries)
+            }
+
+            @Test
+            fun `Some sexual orientations are valid for genderless`() {
+                assertValidSexualOrientations(Genderless, SEXUAL_ORIENTATION_FOR_GENDERLESS)
+            }
+
+            @Test
+            fun `Some sexual orientations are invalid for genderless`() {
+                val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, gender = Genderless)))
+                val invalidList = SexualOrientation.entries - SEXUAL_ORIENTATION_FOR_GENDERLESS
+
+                invalidList.forEach { sexuality ->
+                    val character = Character(CHARACTER_ID_0, gender = Genderless, sexuality = sexuality)
+                    val action = UpdateCharacter(character)
+
+                    assertIllegalArgument("Sexual orientation $sexuality is invalid for gender Genderless!") {
+                        REDUCER.invoke(state, action)
+                    }
+                }
+            }
+
+            private fun assertValidSexualOrientations(
+                gender: Gender,
+                validList: Collection<SexualOrientation>,
+            ) {
+                val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, gender = gender)))
+
+                validList.forEach { sexuality ->
+                    val character = Character(CHARACTER_ID_0, gender = gender, sexuality = sexuality)
+                    val action = UpdateCharacter(character)
+
+                    val result = REDUCER.invoke(state, action).first
+
+                    assertEquals(character, result.getCharacterStorage().getOrThrow(CHARACTER_ID_0))
+                }
+            }
+        }
+
+        @Nested
         inner class BornTest {
-            private val UNKNOWN = CharacterId(3)
             private val state = STATE.updateStorage(
                 Storage(
                     listOf(
@@ -312,9 +361,10 @@ class CharacterTest {
 
             @Test
             fun `Unknown mother`() {
-                val action = UpdateCharacter(Character(CHARACTER_ID_0, origin = Born(UNKNOWN, CHARACTER_ID_1)))
+                val action =
+                    UpdateCharacter(Character(CHARACTER_ID_0, origin = Born(UNKNOWN_CHARACTER_ID, CHARACTER_ID_1)))
 
-                assertIllegalArgument("Cannot use an unknown mother 3!") { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Cannot use an unknown mother 99!") { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -326,9 +376,10 @@ class CharacterTest {
 
             @Test
             fun `Unknown father`() {
-                val action = UpdateCharacter(Character(CHARACTER_ID_0, origin = Born(CHARACTER_ID_2, UNKNOWN)))
+                val action =
+                    UpdateCharacter(Character(CHARACTER_ID_0, origin = Born(CHARACTER_ID_2, UNKNOWN_CHARACTER_ID)))
 
-                assertIllegalArgument("Cannot use an unknown father 3!") { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Cannot use an unknown father 99!") { REDUCER.invoke(state, action) }
             }
 
             @Test

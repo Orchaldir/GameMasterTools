@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html.model.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.character.selectCrownLength
-import at.orchaldir.gm.app.html.model.character.selectHornLength
+import at.orchaldir.gm.app.html.model.character.appearance.selectCrownLength
+import at.orchaldir.gm.app.html.model.character.appearance.selectHornLength
 import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.parseMaterialId

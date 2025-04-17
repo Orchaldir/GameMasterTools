@@ -95,7 +95,10 @@ fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
         BeardType.None -> NoBeard
         BeardType.Normal -> NormalBeard(
             when (config.generate(fashion.beardStyles)) {
-                BeardStyleType.Full -> TODO()
+                BeardStyleType.Full -> FullBeard(
+                    config.generate(fashion.fullBeardStyles),
+                    config.generate(fashion.beardLength),
+                )
                 BeardStyleType.Goatee -> Goatee(config.generate(fashion.goateeStyles))
                 BeardStyleType.GoateeAndMoustache -> GoateeAndMoustache(
                     config.generate(fashion.moustacheStyles),

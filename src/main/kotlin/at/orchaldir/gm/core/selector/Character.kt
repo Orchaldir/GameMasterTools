@@ -61,6 +61,10 @@ fun countEachGender(characters: Collection<Character>) = characters
     .groupingBy { it.gender }
     .eachCount()
 
+fun countEachSexualOrientation(characters: Collection<Character>) = characters
+    .groupingBy { it.sexuality }
+    .eachCount()
+
 fun countEachHousingStatus(characters: Collection<Character>) = characters
     .groupingBy { it.housingStatus.current.getType() }
     .eachCount()

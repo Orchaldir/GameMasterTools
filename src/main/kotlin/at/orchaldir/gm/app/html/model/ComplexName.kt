@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.character.parseCharacterId
 import at.orchaldir.gm.app.html.model.world.parseMoonId
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.app.parse.world.parseMountainId

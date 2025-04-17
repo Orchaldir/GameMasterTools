@@ -220,6 +220,8 @@ private fun HTML.showEquipmentDetails(
 
         showEquipment(call, state, equipment)
 
+        h2 { +"Usage" }
+
         showList("Equipped By", characters) { item ->
             link(call, state, item)
         }

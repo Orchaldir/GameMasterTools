@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.model.organization
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.character.parseOptionalCharacterId
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.parseHolidays
 import at.orchaldir.gm.app.html.model.time.showHolidays

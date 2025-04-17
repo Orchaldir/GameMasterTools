@@ -78,6 +78,9 @@ fun HtmlBlockTag.showDomainCount(
 fun HtmlBlockTag.showGenderCount(characters: Collection<Character>) =
     showCount("Genders", countEachGender(characters))
 
+fun HtmlBlockTag.showSexualOrientationCount(characters: Collection<Character>) =
+    showCount("Sexual Orientation", countEachSexualOrientation(characters))
+
 fun HtmlBlockTag.showJobCount(
     call: ApplicationCall,
     state: State,

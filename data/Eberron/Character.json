@@ -9,7 +9,6 @@
     "middle": null,
     "family": "ir’Blis"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 322954
@@ -93,6 +92,7 @@
    },
    "race": 9,
    "gender": "Female",
+   "sexuality": "Homosexual",
    "birthDate": {
     "type": "Day",
     "day": 324816
@@ -183,6 +183,7 @@
     "family": "d’Cannith"
    },
    "gender": "Female",
+   "sexuality": "Homosexual",
    "birthDate": {
     "type": "Day",
     "day": 323904
@@ -316,7 +317,6 @@
     "middle": null,
     "family": "Hul"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 319236
@@ -409,7 +409,6 @@
     "name": "Fylas"
    },
    "race": 6,
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 307454
@@ -686,7 +685,6 @@
     "middle": null,
     "family": "d’Deneith"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 324046
@@ -810,7 +808,6 @@
     "family": "d’Kundarak"
    },
    "race": 2,
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 840
@@ -853,7 +850,6 @@
     "family": "Sarkaas"
    },
    "race": 10,
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 969
