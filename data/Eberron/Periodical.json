@@ -17,6 +17,14 @@
     "name": "Sharn Inquisitive"
    },
    "language": 1
+  },
+  "2": {
+   "id": 2,
+   "name": {
+    "type": "Simple",
+    "name": "Aundairian Scroll"
+   },
+   "language": 1
   }
  }
 }

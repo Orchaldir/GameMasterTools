@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.selector.economy.countEachJob
 import at.orchaldir.gm.core.selector.item.countEachLanguage
 import at.orchaldir.gm.core.selector.item.countEachTextFormat
 import at.orchaldir.gm.core.selector.item.countEachTextOrigin
+import at.orchaldir.gm.core.selector.item.countPublicationFrequencies
 import at.orchaldir.gm.core.selector.magic.countEachLanguage
 import at.orchaldir.gm.core.selector.magic.countSpellOrigin
 import at.orchaldir.gm.core.selector.religion.countEachDomain
@@ -159,6 +160,9 @@ fun HtmlBlockTag.showPersonalityCountForGods(
     gods: Collection<God>,
     label: String = "Personality",
 ) = showCount(call, state, label, countEachPersonalityForGods(gods))
+
+fun HtmlBlockTag.showPublicationFrequencies(characters: Collection<Periodical>) =
+    showCount("Frequencies", countPublicationFrequencies(characters))
 
 fun HtmlBlockTag.showRaceCount(
     call: ApplicationCall,

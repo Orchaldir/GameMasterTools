@@ -175,6 +175,7 @@ private fun HTML.showAllPeriodicals(
         }
         showPeriodicalOwnershipCount(call, state, periodicals)
         showCreatorCount(call, state, periodicals, "Founders")
+        showPublicationFrequencies(periodicals)
         action(createLink, "Add")
         back("/")
     }
