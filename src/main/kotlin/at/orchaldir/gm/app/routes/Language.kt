@@ -14,7 +14,9 @@ import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.culture.getCultures
+import at.orchaldir.gm.core.selector.item.countPeriodicals
 import at.orchaldir.gm.core.selector.item.countTexts
+import at.orchaldir.gm.core.selector.item.getPeriodicals
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.magic.countSpells
 import at.orchaldir.gm.core.selector.magic.getSpells
@@ -150,6 +152,7 @@ private fun HTML.showAllLanguages(
                 th { +"Cultures" }
                 th { +"Languages" }
                 th { +"Spells" }
+                th { +"Periodicals" }
                 th { +"Texts" }
             }
             languages.forEach { language ->
@@ -160,6 +163,7 @@ private fun HTML.showAllLanguages(
                     tdSkipZero(state.countCultures(language.id))
                     tdSkipZero(state.countChildren(language.id))
                     tdSkipZero(state.countSpells(language.id))
+                    tdSkipZero(state.countPeriodicals(language.id))
                     tdSkipZero(state.countTexts(language.id))
                 }
             }
@@ -179,10 +183,11 @@ private fun HTML.showLanguageDetails(
     val deleteLink = call.application.href(LanguageRoutes.Delete(language.id))
     val editLink = call.application.href(LanguageRoutes.Edit(language.id))
     val children = state.getChildren(language.id)
-    val texts = state.getTexts(language.id)
     val characters = state.getCharacters(language.id)
     val cultures = state.getCultures(language.id)
+    val periodicals = state.getPeriodicals(language.id)
     val spells = state.getSpells(language.id)
+    val texts = state.getTexts(language.id)
 
     simpleHtml("Language: ${language.name}") {
         field("Name", language.name)
@@ -196,6 +201,9 @@ private fun HTML.showLanguageDetails(
         }
         showList("Cultures", cultures) { culture ->
             link(call, culture)
+        }
+        showList("Periodicals", periodicals) { periodical ->
+            link(call, state, periodical)
         }
         showList("Spells", spells) { spell ->
             link(call, state, spell)
