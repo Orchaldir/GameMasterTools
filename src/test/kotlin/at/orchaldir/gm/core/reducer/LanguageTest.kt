@@ -74,10 +74,7 @@ class LanguageTest {
             val action = DeleteLanguage(LANGUAGE_ID_1)
 
             assertIllegalArgument("Cannot delete language 1 that is used by a periodical!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+                REDUCER.invoke(state, action)
             }
         }
 

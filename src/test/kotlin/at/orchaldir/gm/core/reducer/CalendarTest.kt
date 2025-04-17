@@ -1,6 +1,10 @@
 package at.orchaldir.gm.core.reducer
 
+import at.orchaldir.gm.LANGUAGE_ID_1
+import at.orchaldir.gm.PERIODICAL_ID_0
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteCalendar
+import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
@@ -8,6 +12,8 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.item.periodical.Periodical
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -65,6 +71,17 @@ class CalendarTest {
             val action = DeleteCalendar(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete a calendar used by a periodical`() {
+            val periodical = Periodical(PERIODICAL_ID_0, language = LANGUAGE_ID_1)
+            val state = State(listOf(Storage(periodical), Storage(Calendar(ID0))))
+            val action = DeleteCalendar(ID0)
+
+            assertIllegalArgument("Calendar 0 is used") {
+                REDUCER.invoke(state, action)
+            }
         }
     }
 
