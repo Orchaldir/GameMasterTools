@@ -22,10 +22,7 @@ import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
 import at.orchaldir.gm.core.selector.magic.getSpellsCreatedBy
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
-import at.orchaldir.gm.core.selector.util.isCreator
-import at.orchaldir.gm.core.selector.util.sortBusinesses
-import at.orchaldir.gm.core.selector.util.sortGods
-import at.orchaldir.gm.core.selector.util.sortOrganizations
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.core.selector.world.getPrisonPlanesCreatedBy
@@ -87,12 +84,17 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
     showList("Businesses", state.getBusinessesFoundedBy(id)) { business ->
         link(call, state, business)
     }
+
     showList("Languages", state.getLanguagesInventedBy(id)) { language ->
         link(call, language)
     }
 
     showList("Organizations", state.getOrganizationsFoundedBy(id)) { organization ->
         link(call, state, organization)
+    }
+
+    showList("Periodicals", getCreatedBy(state.getPeriodicalStorage(), id)) { periodical ->
+        link(call, state, periodical)
     }
 
     showList("Prison Planes", state.getPrisonPlanesCreatedBy(id)) { plane ->
