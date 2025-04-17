@@ -99,6 +99,7 @@ fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
                     config.generate(fashion.fullBeardStyles),
                     config.generate(fashion.beardLength),
                 )
+
                 BeardStyleType.Goatee -> Goatee(config.generate(fashion.goateeStyles))
                 BeardStyleType.GoateeAndMoustache -> GoateeAndMoustache(
                     config.generate(fashion.moustacheStyles),

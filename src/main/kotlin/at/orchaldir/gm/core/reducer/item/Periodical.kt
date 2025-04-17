@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.action.CreatePeriodical
 import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.periodical.*
+import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
