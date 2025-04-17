@@ -61,6 +61,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
 
     state.getRaceStorage().require(character.race)
     state.getCultureStorage().require(character.culture)
+    checkSexualOrientation(character)
     checkOrigin(state, character)
     checkCauseOfDeath(state, character)
     checkBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
@@ -70,6 +71,14 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     val update = character.copy(languages = oldCharacter.languages)
 
     noFollowUps(state.updateStorage(state.getCharacterStorage().update(update)))
+}
+
+private fun checkSexualOrientation(character: Character) {
+    if (character.gender == Gender.Genderless) {
+        require(SEXUAL_ORIENTATION_FOR_GENDERLESS.contains(character.sexuality)) {
+            "Sexual orientation ${character.sexuality} is invalid for gender Genderless!"
+        }
+    }
 }
 
 private fun checkOrigin(

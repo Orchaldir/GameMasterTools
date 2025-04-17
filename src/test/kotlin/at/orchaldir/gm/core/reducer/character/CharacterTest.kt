@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Gender.Genderless
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
@@ -291,7 +292,25 @@ class CharacterTest {
 
             @Test
             fun `Some sexual orientations are valid for genderless`() {
-                assertValidSexualOrientations(Gender.Genderless, SEXUAL_ORIENTATION_FOR_GENDERLESS)
+                assertValidSexualOrientations(Genderless, SEXUAL_ORIENTATION_FOR_GENDERLESS)
+            }
+
+            @Test
+            fun `Some sexual orientations are invalid for genderless`() {
+                val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, gender = Genderless)))
+                val invalidList = SexualOrientation.entries - SEXUAL_ORIENTATION_FOR_GENDERLESS
+
+                invalidList.forEach { sexuality ->
+                    val character = Character(CHARACTER_ID_0, gender = Genderless, sexuality = sexuality)
+                    val action = UpdateCharacter(character)
+
+                    assertIllegalArgument("Sexual orientation $sexuality is invalid for gender Genderless!") {
+                        REDUCER.invoke(
+                            state,
+                            action
+                        )
+                    }
+                }
             }
 
             private fun assertValidSexualOrientations(
