@@ -281,10 +281,27 @@ class CharacterTest {
         inner class SexualOrientationTest {
             @Test
             fun `All sexual orientations are valid for males`() {
-                val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, gender = Gender.Male)))
+                assertValidSexualOrientations(Gender.Male, SexualOrientation.entries)
+            }
 
-                SexualOrientation.entries.forEach { sexuality ->
-                    val character = Character(CHARACTER_ID_0, gender = Gender.Male, sexuality = sexuality)
+            @Test
+            fun `All sexual orientations are valid for females`() {
+                assertValidSexualOrientations(Gender.Female, SexualOrientation.entries)
+            }
+
+            @Test
+            fun `Some sexual orientations are valid for genderless`() {
+                assertValidSexualOrientations(Gender.Genderless, SEXUAL_ORIENTATION_FOR_GENDERLESS)
+            }
+
+            private fun assertValidSexualOrientations(
+                gender: Gender,
+                validList: Collection<SexualOrientation>,
+            ) {
+                val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, gender = gender)))
+
+                validList.forEach { sexuality ->
+                    val character = Character(CHARACTER_ID_0, gender = gender, sexuality = sexuality)
                     val action = UpdateCharacter(character)
 
                     val result = REDUCER.invoke(state, action).first
