@@ -160,6 +160,7 @@ private fun HTML.showAllPeriodicals(
                 th { +"Founder" }
                 th { +"Owner" }
                 th { +"Language" }
+                th { +"Frequency" }
             }
             periodicals.forEach { periodical ->
                 tr {
@@ -168,6 +169,7 @@ private fun HTML.showAllPeriodicals(
                     td { showCreator(call, state, periodical.founder, false) }
                     td { showOwner(call, state, periodical.ownership.current, false) }
                     td { link(call, state, periodical.language) }
+                    tdEnum(periodical.frequency)
                 }
             }
         }

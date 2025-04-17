@@ -1,15 +1,22 @@
 package at.orchaldir.gm.app.html.model.item.periodical
 
+import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.FREQUENCY
 import at.orchaldir.gm.app.LANGUAGE
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseLanguageId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
+import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
@@ -26,6 +33,8 @@ fun BODY.showPeriodical(
     fieldCreator(call, state, periodical.founder, "Founder")
     showOwnership(call, state, periodical.ownership)
     fieldLink("Language", call, state, periodical.language)
+    fieldLink("Calendar", call, state, periodical.calendar)
+    field("Frequency", periodical.frequency)
 }
 
 // edit
@@ -39,6 +48,8 @@ fun FORM.editPeriodical(
     selectCreator(state, periodical.founder, periodical.id, periodical.startDate(), "Founder")
     selectOwnership(state, periodical.ownership, periodical.startDate())
     selectElement(state, "Language", LANGUAGE, state.getLanguageStorage().getAll(), periodical.language)
+    selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), periodical.calendar, true)
+    selectValue("Frequency", FREQUENCY, PublicationFrequency.entries, periodical.frequency)
 }
 
 // parse
@@ -57,5 +68,7 @@ fun parsePeriodical(parameters: Parameters, state: State, id: PeriodicalId): Per
         parseCreator(parameters),
         parseOwnership(parameters, state, startDate),
         parseLanguageId(parameters, LANGUAGE),
+        parseCalendarId(parameters, CALENDAR),
+        parse(parameters, FREQUENCY, PublicationFrequency.Daily),
     )
 }
