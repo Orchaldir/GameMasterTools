@@ -9,13 +9,15 @@ import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.culture.countCultures
+import at.orchaldir.gm.core.selector.item.countPeriodicals
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.utils.Id
 
-fun State.canDelete(language: LanguageId) = countTexts(language) == 0 &&
-        countCharacters(language) == 0 &&
+fun State.canDeleteLanguage(language: LanguageId) = countCharacters(language) == 0 &&
         countChildren(language) == 0 &&
-        countCultures(language) == 0
+        countCultures(language) == 0 &&
+        countPeriodicals(language) == 0 &&
+        countTexts(language) == 0
 
 fun State.countChildren(language: LanguageId) = getLanguageStorage()
     .getAll()

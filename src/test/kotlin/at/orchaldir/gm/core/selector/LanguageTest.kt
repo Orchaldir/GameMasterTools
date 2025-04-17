@@ -32,24 +32,24 @@ class LanguageTest {
         fun `Can delete unconnected language`() {
             val state = State(Storage(listOf(Language(ID0), Language(ID1))))
 
-            assertTrue(state.canDelete(ID0))
-            assertTrue(state.canDelete(ID1))
+            assertTrue(state.canDeleteLanguage(ID0))
+            assertTrue(state.canDeleteLanguage(ID1))
         }
 
         @Test
         fun `Cannot delete parent of evolved language`() {
             val state = State(Storage(listOf(Language(ID0), Language(ID1, origin = EvolvedLanguage(ID0)))))
 
-            assertFalse(state.canDelete(ID0))
-            assertTrue(state.canDelete(ID1))
+            assertFalse(state.canDeleteLanguage(ID0))
+            assertTrue(state.canDeleteLanguage(ID1))
         }
 
         @Test
         fun `Cannot delete parent of combined language`() {
             val state = State(Storage(listOf(Language(ID0), Language(ID1, origin = CombinedLanguage(setOf(ID0))))))
 
-            assertFalse(state.canDelete(ID0))
-            assertTrue(state.canDelete(ID1))
+            assertFalse(state.canDeleteLanguage(ID0))
+            assertTrue(state.canDeleteLanguage(ID1))
         }
 
         @Test
@@ -62,8 +62,8 @@ class LanguageTest {
                 )
             )
 
-            assertFalse(state.canDelete(ID0))
-            assertTrue(state.canDelete(ID1))
+            assertFalse(state.canDeleteLanguage(ID0))
+            assertTrue(state.canDeleteLanguage(ID1))
         }
 
         @Test
@@ -75,8 +75,8 @@ class LanguageTest {
                 )
             )
 
-            assertFalse(state.canDelete(ID0))
-            assertTrue(state.canDelete(ID1))
+            assertFalse(state.canDeleteLanguage(ID0))
+            assertTrue(state.canDeleteLanguage(ID1))
         }
     }
 

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
@@ -63,6 +64,20 @@ class LanguageTest {
 
             assertIllegalArgument("Cannot delete language 0 that is known by characters!") {
                 REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a language used by a periodical`() {
+            val periodical = Periodical(PERIODICAL_ID_0, language = LANGUAGE_ID_1)
+            val state = State(listOf(Storage(periodical), Storage(Language(LANGUAGE_ID_1))))
+            val action = DeleteLanguage(LANGUAGE_ID_1)
+
+            assertIllegalArgument("Cannot delete language 1 that is used by a periodical!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
             }
         }
 

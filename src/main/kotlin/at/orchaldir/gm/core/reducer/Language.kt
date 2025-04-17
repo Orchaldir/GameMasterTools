@@ -10,8 +10,12 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.selector.countCharacters
+import at.orchaldir.gm.core.selector.countChildren
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
+import at.orchaldir.gm.core.selector.item.countPeriodicals
+import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -25,13 +29,16 @@ val CREATE_LANGUAGE: Reducer<CreateLanguage, State> = { state, _ ->
 
 val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
     state.getLanguageStorage().require(action.id)
-    require(state.getChildren(action.id).isEmpty()) { "Cannot delete language ${action.id.value} with children!" }
-    require(
-        state.getCharacters(action.id).isEmpty()
-    ) { "Cannot delete language ${action.id.value} that is known by characters!" }
-    require(
-        state.getTexts(action.id).isEmpty()
-    ) { "Cannot delete language ${action.id.value} that is used by a text!" }
+    require(state.countCharacters(action.id) == 0) {
+        "Cannot delete language ${action.id.value} that is known by characters!"
+    }
+    require(state.countChildren(action.id) == 0) { "Cannot delete language ${action.id.value} with children!" }
+    require(state.countPeriodicals(action.id) == 0) {
+        "Cannot delete language ${action.id.value} that is used by a periodical!"
+    }
+    require(state.countTexts(action.id) == 0) {
+        "Cannot delete language ${action.id.value} that is used by a text!"
+    }
 
     noFollowUps(state.updateStorage(state.getLanguageStorage().remove(action.id)))
 }

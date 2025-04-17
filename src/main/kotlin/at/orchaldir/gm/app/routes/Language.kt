@@ -212,7 +212,7 @@ private fun HTML.showLanguageDetails(
             link(call, state, texts)
         }
         action(editLink, "Edit")
-        if (state.canDelete(language.id)) {
+        if (state.canDeleteLanguage(language.id)) {
             action(deleteLink, "Delete")
         }
         back(backLink)
