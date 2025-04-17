@@ -305,10 +305,7 @@ class CharacterTest {
                     val action = UpdateCharacter(character)
 
                     assertIllegalArgument("Sexual orientation $sexuality is invalid for gender Genderless!") {
-                        REDUCER.invoke(
-                            state,
-                            action
-                        )
+                        REDUCER.invoke(state, action)
                     }
                 }
             }
