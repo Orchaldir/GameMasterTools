@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
@@ -125,6 +126,9 @@ fun HtmlBlockTag.showBuildingOwnershipCount(call: ApplicationCall, state: State,
     showOwnerCount(call, state, collection.map { it.ownership })
 
 fun HtmlBlockTag.showBusinessOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Business>) =
+    showOwnerCount(call, state, collection.map { it.ownership })
+
+fun HtmlBlockTag.showPeriodicalOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Periodical>) =
     showOwnerCount(call, state, collection.map { it.ownership })
 
 fun HtmlBlockTag.showOwnerCount(
