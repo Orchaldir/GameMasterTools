@@ -12,11 +12,8 @@ import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.countCharacters
 import at.orchaldir.gm.core.selector.countChildren
-import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.item.countPeriodicals
 import at.orchaldir.gm.core.selector.item.countTexts
-import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
