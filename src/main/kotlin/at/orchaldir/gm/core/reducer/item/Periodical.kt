@@ -30,6 +30,7 @@ val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     val periodical = action.periodical
 
     state.getPeriodicalStorage().require(periodical.id)
+    state.getCalendarStorage().require(periodical.calendar)
     checkComplexName(state, periodical.name)
     checkDate(state, periodical.startDate(), "Founding")
     validateCreator(state, periodical.founder, periodical.id, periodical.startDate(), "Founder")

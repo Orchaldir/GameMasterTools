@@ -101,6 +101,13 @@ class PeriodicalTest {
         }
 
         @Test
+        fun `The calendar is unknown`() {
+            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, calendar = UNKNOWN_CALENDAR_ID))
+
+            assertIllegalArgument("Requires unknown Calendar 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Test Success`() {
             val periodical = Periodical(PERIODICAL_ID_0, SimpleName("Test"))
             val action = UpdatePeriodical(periodical)
