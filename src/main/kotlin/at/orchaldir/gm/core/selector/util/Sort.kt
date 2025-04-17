@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
@@ -236,6 +237,22 @@ fun State.sortMaterial(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name }
             SortMaterial.Equipment -> compareBy<Material> { getEquipmentMadeOf(it.id).size }.reversed()
+        }
+    )
+
+// periodicals
+
+fun State.sortPeriodicals(sort: SortPeriodical = SortPeriodical.Name) =
+    sortPeriodicals(getPeriodicalStorage().getAll(), sort)
+
+fun State.sortPeriodicals(
+    periodicals: Collection<Periodical>,
+    sort: SortPeriodical = SortPeriodical.Name,
+) = periodicals
+    .sortedWith(
+        when (sort) {
+            SortPeriodical.Name -> compareBy { it.name(this) }
+            SortPeriodical.Age -> getAgeComparator()
         }
     )
 

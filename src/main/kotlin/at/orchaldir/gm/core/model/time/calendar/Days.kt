@@ -15,6 +15,8 @@ sealed class Days {
         DayOfTheMonth -> DaysType.DayOfTheMonth
         is Weekdays -> DaysType.Weekdays
     }
+
+    fun hasWeeks() = this is Weekdays
 }
 
 @Serializable

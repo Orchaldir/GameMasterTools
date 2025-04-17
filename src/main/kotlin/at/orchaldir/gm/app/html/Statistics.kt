@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
@@ -19,6 +20,7 @@ import at.orchaldir.gm.core.selector.economy.countEachJob
 import at.orchaldir.gm.core.selector.item.countEachLanguage
 import at.orchaldir.gm.core.selector.item.countEachTextFormat
 import at.orchaldir.gm.core.selector.item.countEachTextOrigin
+import at.orchaldir.gm.core.selector.item.countPublicationFrequencies
 import at.orchaldir.gm.core.selector.magic.countEachLanguage
 import at.orchaldir.gm.core.selector.magic.countSpellOrigin
 import at.orchaldir.gm.core.selector.religion.countEachDomain
@@ -127,6 +129,9 @@ fun HtmlBlockTag.showBuildingOwnershipCount(call: ApplicationCall, state: State,
 fun HtmlBlockTag.showBusinessOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Business>) =
     showOwnerCount(call, state, collection.map { it.ownership })
 
+fun HtmlBlockTag.showPeriodicalOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Periodical>) =
+    showOwnerCount(call, state, collection.map { it.ownership })
+
 fun HtmlBlockTag.showOwnerCount(
     call: ApplicationCall,
     state: State,
@@ -155,6 +160,9 @@ fun HtmlBlockTag.showPersonalityCountForGods(
     gods: Collection<God>,
     label: String = "Personality",
 ) = showCount(call, state, label, countEachPersonalityForGods(gods))
+
+fun HtmlBlockTag.showPublicationFrequencies(characters: Collection<Periodical>) =
+    showCount("Frequencies", countPublicationFrequencies(characters))
 
 fun HtmlBlockTag.showRaceCount(
     call: ApplicationCall,

@@ -10,12 +10,14 @@ import at.orchaldir.gm.core.model.time.calendar.ImprovedCalendar
 import at.orchaldir.gm.core.model.time.calendar.OriginalCalendar
 import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.getHolidays
+import at.orchaldir.gm.core.selector.item.countPeriodicals
 import at.orchaldir.gm.utils.doNothing
 import kotlin.math.max
 
 fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty() &&
         getCultures(calendar).isEmpty() &&
-        getHolidays(calendar).isEmpty()
+        getHolidays(calendar).isEmpty() &&
+        countPeriodicals(calendar) == 0
 
 fun State.getChildren(calendar: CalendarId) = getCalendarStorage().getAll().filter {
     when (it.origin) {

@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarOriginType.Original
 import at.orchaldir.gm.core.model.time.date.DisplayYear
 import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.getHolidays
+import at.orchaldir.gm.core.selector.item.getPeriodicals
 import at.orchaldir.gm.core.selector.time.calendar.*
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.utils.doNothing
@@ -34,6 +35,7 @@ fun BODY.showCalendar(
 ) {
     val cultures = state.getCultures(calendar.id)
     val holidays = state.getHolidays(calendar.id)
+    val periodicals = state.getPeriodicals(calendar.id)
 
     showOrigin(call, state, calendar)
 
@@ -54,6 +56,9 @@ fun BODY.showCalendar(
         link(call, holiday)
         +": "
         +holiday.relativeDate.display(calendar)
+    }
+    showList("Periodicals", periodicals) { periodical ->
+        link(call, state, periodical)
     }
 
     showDateFormat(calendar.defaultFormat)

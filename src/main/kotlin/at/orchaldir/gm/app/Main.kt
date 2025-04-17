@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
 import at.orchaldir.gm.app.routes.item.configureEquipmentRouting
+import at.orchaldir.gm.app.routes.item.configurePeriodicalRouting
 import at.orchaldir.gm.app.routes.item.configureTextRouting
 import at.orchaldir.gm.app.routes.magic.configureSpellRouting
 import at.orchaldir.gm.app.routes.organization.configureOrganizationRouting
@@ -15,6 +16,8 @@ import at.orchaldir.gm.app.routes.race.configureRaceRouting
 import at.orchaldir.gm.app.routes.religion.configureDomainRouting
 import at.orchaldir.gm.app.routes.religion.configureGodRouting
 import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
+import at.orchaldir.gm.app.routes.time.configureCalendarRouting
+import at.orchaldir.gm.app.routes.time.configureTimeRouting
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.configureBuildingEditorRouting
 import at.orchaldir.gm.app.routes.world.town.configureStreetEditorRouting
@@ -76,6 +79,7 @@ fun Application.module() {
     configureNameListRouting()
     configureOrganizationRouting()
     configurePantheonRouting()
+    configurePeriodicalRouting()
     configurePersonalityRouting()
     configurePlaneRouting()
     configureRaceRouting()

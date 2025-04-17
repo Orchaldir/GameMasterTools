@@ -61,6 +61,11 @@ enum class SortPantheon {
     Believers,
 }
 
+enum class SortPeriodical {
+    Name,
+    Age,
+}
+
 enum class SortPlane {
     Name,
 }

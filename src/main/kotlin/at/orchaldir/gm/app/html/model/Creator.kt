@@ -2,12 +2,12 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.character.parseCharacterId
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId
 import at.orchaldir.gm.app.html.model.religion.parseGodId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.economy.parseBusinessId
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.html.model.character.parseCharacterId
 import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
@@ -22,10 +22,7 @@ import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
 import at.orchaldir.gm.core.selector.magic.getSpellsCreatedBy
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
-import at.orchaldir.gm.core.selector.util.isCreator
-import at.orchaldir.gm.core.selector.util.sortBusinesses
-import at.orchaldir.gm.core.selector.util.sortGods
-import at.orchaldir.gm.core.selector.util.sortOrganizations
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.core.selector.world.getPrisonPlanesCreatedBy
@@ -87,12 +84,17 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
     showList("Businesses", state.getBusinessesFoundedBy(id)) { business ->
         link(call, state, business)
     }
+
     showList("Languages", state.getLanguagesInventedBy(id)) { language ->
         link(call, language)
     }
 
     showList("Organizations", state.getOrganizationsFoundedBy(id)) { organization ->
         link(call, state, organization)
+    }
+
+    showList("Periodicals", getCreatedBy(state.getPeriodicalStorage(), id)) { periodical ->
+        link(call, state, periodical)
     }
 
     showList("Prison Planes", state.getPrisonPlanesCreatedBy(id)) { plane ->

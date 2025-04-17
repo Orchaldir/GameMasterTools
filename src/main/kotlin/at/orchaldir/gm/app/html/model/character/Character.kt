@@ -269,11 +269,11 @@ private fun FORM.selectOrigin(
         value = type.name
         disabled = when (type) {
             CharacterOriginType.Born -> !state.hasPossibleParents(character.id)
-            CharacterOriginType.Undefined -> false
+            Undefined -> false
         }
         selected = when (type) {
             CharacterOriginType.Born -> character.origin is Born
-            CharacterOriginType.Undefined -> character.origin is UndefinedCharacterOrigin
+            Undefined -> character.origin is UndefinedCharacterOrigin
         }
     }
     when (character.origin) {

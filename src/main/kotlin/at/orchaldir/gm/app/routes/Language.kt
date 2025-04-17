@@ -1,25 +1,25 @@
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.selectCreator
-import at.orchaldir.gm.app.html.model.selectDate
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.parse.parseLanguage
+import at.orchaldir.gm.app.html.model.displayOrigin
+import at.orchaldir.gm.app.html.model.editLanguage
+import at.orchaldir.gm.app.html.model.parseLanguage
+import at.orchaldir.gm.app.html.model.showLanguage
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.language.*
-import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.model.language.LANGUAGE_TYPE
+import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.selector.canDeleteLanguage
+import at.orchaldir.gm.core.selector.countCharacters
+import at.orchaldir.gm.core.selector.countChildren
 import at.orchaldir.gm.core.selector.culture.countCultures
-import at.orchaldir.gm.core.selector.culture.getCultures
+import at.orchaldir.gm.core.selector.item.countPeriodicals
 import at.orchaldir.gm.core.selector.item.countTexts
-import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.magic.countSpells
-import at.orchaldir.gm.core.selector.magic.getSpells
-import at.orchaldir.gm.core.selector.util.sortPlanes
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -150,6 +150,7 @@ private fun HTML.showAllLanguages(
                 th { +"Cultures" }
                 th { +"Languages" }
                 th { +"Spells" }
+                th { +"Periodicals" }
                 th { +"Texts" }
             }
             languages.forEach { language ->
@@ -160,6 +161,7 @@ private fun HTML.showAllLanguages(
                     tdSkipZero(state.countCultures(language.id))
                     tdSkipZero(state.countChildren(language.id))
                     tdSkipZero(state.countSpells(language.id))
+                    tdSkipZero(state.countPeriodicals(language.id))
                     tdSkipZero(state.countTexts(language.id))
                 }
             }
@@ -178,78 +180,16 @@ private fun HTML.showLanguageDetails(
     val backLink = call.application.href(LanguageRoutes())
     val deleteLink = call.application.href(LanguageRoutes.Delete(language.id))
     val editLink = call.application.href(LanguageRoutes.Edit(language.id))
-    val children = state.getChildren(language.id)
-    val texts = state.getTexts(language.id)
-    val characters = state.getCharacters(language.id)
-    val cultures = state.getCultures(language.id)
-    val spells = state.getSpells(language.id)
 
     simpleHtml("Language: ${language.name}") {
-        field("Name", language.name)
-        showOrigin(call, state, language)
-        showList("Child Languages", children) { language ->
-            link(call, language)
-        }
-        h2 { +"Usage" }
-        showList("Characters", characters) { character ->
-            link(call, state, character)
-        }
-        showList("Cultures", cultures) { culture ->
-            link(call, culture)
-        }
-        showList("Spells", spells) { spell ->
-            link(call, state, spell)
-        }
-        showList("Texts", texts) { texts ->
-            link(call, state, texts)
-        }
+        showLanguage(call, state, language)
+
         action(editLink, "Edit")
-        if (state.canDelete(language.id)) {
+
+        if (state.canDeleteLanguage(language.id)) {
             action(deleteLink, "Delete")
         }
         back(backLink)
-    }
-}
-
-private fun HtmlBlockTag.showOrigin(
-    call: ApplicationCall,
-    state: State,
-    language: Language,
-) {
-    field("Origin") {
-        displayOrigin(call, state, language)
-    }
-}
-
-private fun HtmlBlockTag.displayOrigin(
-    call: ApplicationCall,
-    state: State,
-    language: Language,
-) {
-    when (val origin = language.origin) {
-        is CombinedLanguage -> {
-            +"Combines "
-
-            showInlineList(origin.parents) { parent ->
-                link(call, state, parent)
-            }
-        }
-
-        is EvolvedLanguage -> {
-            +"Evolved from "
-            link(call, state, origin.parent)
-        }
-
-        is InventedLanguage -> {
-            +"Invented by "
-            showCreator(call, state, origin.inventor)
-        }
-
-        OriginalLanguage -> +"Original"
-        is PlanarLanguage -> {
-            +"Part of "
-            link(call, state, origin.plane)
-        }
     }
 }
 
@@ -266,40 +206,5 @@ private fun HTML.showLanguageEditor(
         formWithPreview(previewLink, updateLink, backLink) {
             editLanguage(state, language)
         }
-    }
-}
-
-private fun FORM.editLanguage(
-    state: State,
-    language: Language,
-) {
-    val possibleInventors = state.getCharacterStorage().getAll()
-    val possibleParents = state.getPossibleParents(language.id)
-        .sortedBy { it.name }
-    val planes = state.sortPlanes()
-    selectName(language.name)
-    selectValue("Origin", ORIGIN, LanguageOriginType.entries, language.origin.getType(), true) {
-        when (it) {
-            LanguageOriginType.Combined -> possibleParents.size < 2
-            LanguageOriginType.Evolved -> possibleParents.isEmpty()
-            LanguageOriginType.Invented -> possibleInventors.isEmpty()
-            else -> false
-        }
-    }
-    when (val origin = language.origin) {
-        is CombinedLanguage -> {
-            selectElements(state, LANGUAGES, possibleParents, origin.parents)
-        }
-
-        is EvolvedLanguage -> selectElement(state, "Parent", LANGUAGES, possibleParents, origin.parent)
-
-        is InventedLanguage -> {
-            selectCreator(state, origin.inventor, language.id, origin.date, "Inventor")
-            selectDate(state, "Date", origin.date, DATE)
-        }
-
-        is PlanarLanguage -> selectElement(state, "Plane", PLANE, planes, origin.plane)
-
-        else -> doNothing()
     }
 }
