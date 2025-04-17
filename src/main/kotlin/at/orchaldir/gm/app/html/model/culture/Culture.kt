@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.culture
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.parseLanguageId
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.model.time.parseHolidays
