@@ -1,5 +1,21 @@
 {
-  "version": 1,
-  "elements": {
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Simple",
+    "name": "Korranberg Chronicle"
+   },
+   "language": 1
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Simple",
+    "name": "Sharn Inquisitive"
+   },
+   "language": 1
   }
+ }
 }
