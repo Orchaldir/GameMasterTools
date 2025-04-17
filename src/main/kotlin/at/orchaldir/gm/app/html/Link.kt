@@ -15,6 +15,8 @@ import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
+import at.orchaldir.gm.app.routes.time.CalendarRoutes
+import at.orchaldir.gm.app.routes.time.TimeRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import at.orchaldir.gm.core.model.State

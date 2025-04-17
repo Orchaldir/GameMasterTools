@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.routes
+package at.orchaldir.gm.app.routes.time
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
