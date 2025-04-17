@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeletePeriodical
+import at.orchaldir.gm.core.selector.item.getValidPublicationFrequencies
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -35,7 +36,14 @@ val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     checkComplexName(state, periodical.name)
     checkDate(state, periodical.startDate(), "Founding")
     validateCreator(state, periodical.founder, periodical.id, periodical.startDate(), "Founder")
+    validateFrequency(state, periodical)
     checkOwnershipWithOptionalDate(state, periodical.ownership, periodical.startDate())
 
     noFollowUps(state.updateStorage(state.getPeriodicalStorage().update(periodical)))
+}
+
+private fun validateFrequency(state: State, periodical: Periodical) {
+    require(state.getValidPublicationFrequencies(periodical.calendar).contains(periodical.frequency)) {
+        "The Calendar ${periodical.calendar.value} doesn't support weeks!"
+    }
 }

@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.periodical.Periodical
+import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
+import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency.Weekly
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.name.NameWithReference
 import at.orchaldir.gm.core.model.name.ReferencedFullName
@@ -98,6 +100,13 @@ class PeriodicalTest {
             val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, calendar = UNKNOWN_CALENDAR_ID))
 
             assertIllegalArgument("Requires unknown Calendar 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The calendar doesn't support weeks`() {
+            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, frequency = Weekly))
+
+            assertIllegalArgument("The Calendar 0 doesn't support weeks!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
