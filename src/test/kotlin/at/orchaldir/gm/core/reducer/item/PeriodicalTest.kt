@@ -5,22 +5,15 @@ import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.Employed
-import at.orchaldir.gm.core.model.character.Unemployed
-import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.item.periodical.Periodical
-import at.orchaldir.gm.core.model.item.text.OriginalText
-import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.name.NameWithReference
 import at.orchaldir.gm.core.model.name.ReferencedFullName
 import at.orchaldir.gm.core.model.name.SimpleName
-import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.reducer.REDUCER
-import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -105,6 +98,13 @@ class PeriodicalTest {
             val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, calendar = UNKNOWN_CALENDAR_ID))
 
             assertIllegalArgument("Requires unknown Calendar 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The language is unknown`() {
+            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, language = UNKNOWN_LANGUAGE_ID))
+
+            assertIllegalArgument("Requires unknown Language 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
