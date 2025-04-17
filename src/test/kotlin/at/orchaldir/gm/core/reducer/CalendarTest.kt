@@ -34,7 +34,7 @@ class CalendarTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteCalendar(CALENDAR_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Calendar 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -49,7 +49,7 @@ class CalendarTest {
             )
             val action = DeleteCalendar(CALENDAR_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Calendar 0 is used") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -58,7 +58,7 @@ class CalendarTest {
             val state = State(listOf(Storage(culture), Storage(Calendar(CALENDAR_ID_0))))
             val action = DeleteCalendar(CALENDAR_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Calendar 0 is used") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -67,7 +67,7 @@ class CalendarTest {
             val state = State(listOf(Storage(holiday), Storage(Calendar(CALENDAR_ID_0))))
             val action = DeleteCalendar(CALENDAR_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Calendar 0 is used") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -89,7 +89,7 @@ class CalendarTest {
         fun `Cannot update unknown id`() {
             val action = UpdateCalendar(Calendar(CALENDAR_ID_0, months = validMonths))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Calendar 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -98,7 +98,7 @@ class CalendarTest {
             val action =
                 UpdateCalendar(Calendar(CALENDAR_ID_0, months = validMonths, origin = ImprovedCalendar(CALENDAR_ID_1)))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Parent calendar must exist!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -107,30 +107,30 @@ class CalendarTest {
             val action =
                 UpdateCalendar(Calendar(CALENDAR_ID_0, months = validMonths, origin = ImprovedCalendar(CALENDAR_ID_0)))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Calendar cannot be its own parent!") { REDUCER.invoke(state, action) }
         }
 
         @Nested
         inner class WeekdaysTest {
 
             @Test
-            fun `At least 2 months`() {
+            fun `At least 2 weekdays`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
                 val weekdays = Weekdays(listOf(WeekDay("a")))
                 val calendar = Calendar(CALENDAR_ID_0, days = weekdays, months = validMonths)
                 val action = UpdateCalendar(calendar)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Requires at least 2 weekdays") { REDUCER.invoke(state, action) }
             }
 
             @Test
-            fun `Months need unique names`() {
+            fun `Weekdays need unique names`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
                 val weekdays = Weekdays(listOf(WeekDay("a"), WeekDay("a")))
                 val calendar = Calendar(CALENDAR_ID_0, days = weekdays, months = validMonths)
                 val action = UpdateCalendar(calendar)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("The names of the weekdays need to be unique!") { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -154,7 +154,7 @@ class CalendarTest {
                 val calendar = Calendar(CALENDAR_ID_0, months = months)
                 val action = UpdateCalendar(calendar)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Requires at least 2 months") { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -164,7 +164,7 @@ class CalendarTest {
                 val calendar = Calendar(CALENDAR_ID_0, months = months)
                 val action = UpdateCalendar(calendar)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Requires at least 2 days per month") { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -174,7 +174,7 @@ class CalendarTest {
                 val calendar = Calendar(CALENDAR_ID_0, months = months)
                 val action = UpdateCalendar(calendar)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("The names of the months need to be unique!") { REDUCER.invoke(state, action) }
             }
         }
 
@@ -182,10 +182,10 @@ class CalendarTest {
         fun `Update would make holiday invalid`() {
             val holiday = Holiday(HOLIDAY_ID_0, calendar = CALENDAR_ID_0, relativeDate = DayInYear(0, 2))
             val state = State(listOf(Storage(holiday), Storage(Calendar(CALENDAR_ID_0))))
-            val calendar = Calendar(CALENDAR_ID_0, months = validMonths, origin = ImprovedCalendar(CALENDAR_ID_1))
+            val calendar = Calendar(CALENDAR_ID_0, months = validMonths)
             val action = UpdateCalendar(calendar)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Holiday is in an unknown month!") { REDUCER.invoke(state, action) }
         }
 
         @Test
