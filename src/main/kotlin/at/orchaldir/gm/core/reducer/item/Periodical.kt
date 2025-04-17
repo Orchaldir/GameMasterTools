@@ -5,7 +5,10 @@ import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.*
+import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeletePeriodical
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -24,8 +27,13 @@ val DELETE_PERIODICAL: Reducer<DeletePeriodical, State> = { state, action ->
 }
 
 val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
-    state.getPeriodicalStorage().require(action.periodical.id)
-    checkDate(state, action.periodical.startDate(), "Periodical")
+    val periodical = action.periodical
 
-    noFollowUps(state.updateStorage(state.getPeriodicalStorage().update(action.periodical)))
+    state.getPeriodicalStorage().require(periodical.id)
+    checkComplexName(state, periodical.name)
+    checkDate(state, periodical.startDate(), "Founding")
+    validateCreator(state, periodical.founder, periodical.id, periodical.startDate(), "Founder")
+    checkOwnershipWithOptionalDate(state, periodical.ownership, periodical.startDate())
+
+    noFollowUps(state.updateStorage(state.getPeriodicalStorage().update(periodical)))
 }
