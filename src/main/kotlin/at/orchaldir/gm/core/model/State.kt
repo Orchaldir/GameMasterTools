@@ -25,6 +25,9 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
+import at.orchaldir.gm.core.model.item.periodical.Periodical
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.text.TEXT_TYPE
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -94,6 +97,7 @@ val ELEMENTS =
         NAME_LIST_TYPE,
         ORGANIZATION_TYPE,
         PANTHEON_TYPE,
+        PERIODICAL_TYPE,
         PERSONALITY_TRAIT_TYPE,
         PLANE_TYPE,
         RACE_TYPE,
@@ -147,6 +151,7 @@ data class State(
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST_TYPE)
     fun getOrganizationStorage() = getStorage<OrganizationId, Organization>(ORGANIZATION_TYPE)
     fun getPantheonStorage() = getStorage<PantheonId, Pantheon>(PANTHEON_TYPE)
+    fun getPeriodicalStorage() = getStorage<PeriodicalId, Periodical>(PERIODICAL_TYPE)
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT_TYPE)
     fun getPlaneStorage() = getStorage<PlaneId, Plane>(PLANE_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
@@ -243,6 +248,7 @@ data class State(
         saveStorage(path, getNameListStorage())
         saveStorage(path, getOrganizationStorage())
         saveStorage(path, getPantheonStorage())
+        saveStorage(path, getPeriodicalStorage())
         saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getPlaneStorage())
         saveStorage(path, getRaceStorage())
@@ -278,6 +284,7 @@ fun createStorage(type: String) = when (type) {
     NAME_LIST_TYPE -> Storage(NameListId(0))
     ORGANIZATION_TYPE -> Storage(OrganizationId(0))
     PANTHEON_TYPE -> Storage(PantheonId(0))
+    PERIODICAL_TYPE -> Storage(PeriodicalId(0))
     PERSONALITY_TRAIT_TYPE -> Storage(PersonalityTraitId(0))
     PLANE_TYPE -> Storage(PlaneId(0))
     RACE_TYPE -> Storage(RaceId(0))
@@ -312,6 +319,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     NAME_LIST_TYPE -> loadStorage<NameListId, NameList>(path, NameListId(0))
     ORGANIZATION_TYPE -> loadStorage<OrganizationId, Organization>(path, OrganizationId(0))
     PANTHEON_TYPE -> loadStorage<PantheonId, Pantheon>(path, PantheonId(0))
+    PERIODICAL_TYPE -> loadStorage<PeriodicalId, Periodical>(path, PeriodicalId(0))
     PERSONALITY_TRAIT_TYPE -> loadStorage<PersonalityTraitId, PersonalityTrait>(
         path,
         PersonalityTraitId(0)
