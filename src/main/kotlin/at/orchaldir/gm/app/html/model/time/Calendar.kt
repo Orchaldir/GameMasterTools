@@ -122,7 +122,7 @@ private fun BODY.showEras(
     state: State,
     calendar: Calendar,
 ) {
-    field(call, state, "Start Date", calendar.getStartDate())
+    field(call, state, "Start Date", calendar.getStartDateInDefaultCalendar())
     field("Before Era", display(calendar, DisplayYear(0, 0)))
     field("Current Era", display(calendar, DisplayYear(1, 0)))
 }
@@ -230,7 +230,7 @@ private fun FORM.editEras(
 ) {
     editEra("Before", calendar.eras.before, BEFORE)
     editEra("Current", calendar.eras.first, CURRENT)
-    selectDate(state, "Start Date", calendar.getStartDate(), CURRENT)
+    selectDate(state, "Start Date", calendar.getStartDateInDefaultCalendar(), CURRENT)
 }
 
 private fun FORM.editEra(

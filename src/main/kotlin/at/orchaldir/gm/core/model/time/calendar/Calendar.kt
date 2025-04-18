@@ -41,25 +41,13 @@ data class Calendar(
 
     fun getMinDaysPerMonth() = months.getMinDaysPerMonth()
 
-    fun getStartDate() = eras.first.startDay
-
-    fun getOffsetInDays() = -eras.first.startDay.day
-
-    fun getOffsetInYears() = getOffsetInDays() / getDaysPerYear()
-
-    fun getOffsetInDecades() = getOffsetInYears() / 10
-
-    fun getOffsetInCenturies() = getOffsetInYears() / 100
+    fun getStartDateInDefaultCalendar() = eras.first.startDay
 
     // day
 
     fun getWeekDay(date: Day) = when (days) {
         DayOfTheMonth -> null
-        is Weekdays -> {
-            val day = date.day + getOffsetInDays()
-
-            day.modulo(days.weekDays.size)
-        }
+        is Weekdays -> date.day.modulo(days.weekDays.size)
     }
 
     // month
