@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.time.date.*
 
 fun Calendar.getStartDay(date: Date) = when (date) {
     is Day -> date
-    is Month -> TODO()
+    is Month -> getStartDayOfMonth(date)
     is Year -> getStartDayOfYear(date)
     is Decade -> getStartDayOfDecade(date)
     is Century -> getStartDayOfCentury(date)
@@ -15,13 +15,21 @@ fun Calendar.getStartDay(date: Date) = when (date) {
 
 fun Calendar.getStartDisplayDay(date: Date): DisplayDay = when (date) {
     is Day -> resolveDay(date)
-    is Month -> TODO()
+    is Month -> getStartDisplayDayOfMonth(date)
     is Year -> getStartDisplayDayOfYear(date)
     is Decade -> getStartDisplayDayOfDecade(date)
     is Century -> getStartDisplayDayOfCentury(date)
 }
 
 // month
+
+fun Calendar.getStartDayOfMonth(month: Month) = resolveDay(getStartDisplayDayOfMonth(month))
+
+fun Calendar.getStartDisplayDayOfMonth(month: Month) = getStartDisplayDayOfMonth(resolveMonth(month))
+
+fun Calendar.getStartDisplayDayOfMonth(month: DisplayMonth) = DisplayDay(month, 0, null)
+
+fun Calendar.getEndDayOfMonth(month: Month) = getStartDayOfMonth(month.nextMonth()).previousDay()
 
 fun Calendar.getStartOfMonth(day: Day) = getStartOfMonth(resolveDay(day))
 
@@ -58,7 +66,7 @@ fun Calendar.getEndDayOfYear(year: Year) = getStartDayOfYear(year.nextYear()).pr
 
 fun Calendar.getStartYear(date: Date): Year = when (date) {
     is Day -> resolveYear(resolveDay(date).month.year)
-    is Month -> TODO()
+    is Month -> resolveYear(resolveMonth(date).year)
     is Year -> date
     is Decade -> resolveYear(resolveDecade(date).startYear())
     is Century -> resolveYear(resolveCentury(date).startYear())
@@ -66,7 +74,7 @@ fun Calendar.getStartYear(date: Date): Year = when (date) {
 
 fun Calendar.getStartDisplayYear(date: Date): DisplayYear = when (date) {
     is Day -> resolveDay(date).month.year
-    is Month -> TODO()
+    is Month -> resolveMonth(date).year
     is Year -> resolveYear(date)
     is Decade -> resolveDecade(date).startYear()
     is Century -> resolveCentury(date).startYear()
