@@ -154,6 +154,7 @@ private fun HtmlBlockTag.selectDate(
     }
     when (displayDate) {
         is DisplayDay -> selectDay(param, calendar, displayDate, minDate)
+        is DisplayMonth -> selectMonth(param, calendar, displayDate, minDate)
         is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
         is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
         is DisplayCentury -> selectCentury(param, calendar, displayDate, minDate)
@@ -228,6 +229,19 @@ private fun HtmlBlockTag.selectYear(
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
 }
 
+private fun HtmlBlockTag.selectMonth(
+    param: String,
+    calendar: Calendar,
+    displayDate: DisplayMonth,
+    minDate: Date?,
+) {
+    val displayMinDay = minDate?.let { calendar.getStartDisplayDay(it) }
+
+    selectEraIndex(param, calendar, displayDate.year.eraIndex, displayMinDay?.month?.year)
+    selectYearIndex(param, displayDate.year, displayMinDay?.month?.year)
+    selectMonthIndex(param, calendar, displayDate, displayMinDay?.month)
+}
+
 fun FORM.selectDay(
     state: State,
     fieldLabel: String,
@@ -258,9 +272,9 @@ private fun HtmlBlockTag.selectDay(
 ) {
     val displayMinDay = minDate?.let { calendar.getStartDisplayDay(it) }
 
-    selectEraIndex(param, calendar, displayDate.year.eraIndex, displayMinDay?.year)
-    selectYearIndex(param, displayDate.year, displayMinDay?.year)
-    selectMonthIndex(param, calendar, displayDate, displayMinDay)
+    selectEraIndex(param, calendar, displayDate.month.year.eraIndex, displayMinDay?.month?.year)
+    selectYearIndex(param, displayDate.month.year, displayMinDay?.month?.year)
+    selectMonthIndex(param, calendar, displayDate.month, displayMinDay?.month)
     selectDayIndex(param, calendar, displayDate, displayMinDay)
 }
 
@@ -403,8 +417,8 @@ fun HtmlBlockTag.selectMonthIndex(
 private fun HtmlBlockTag.selectMonthIndex(
     param: String,
     calendar: Calendar,
-    day: DisplayDay,
-    minDay: DisplayDay? = null,
+    day: DisplayMonth,
+    minDay: DisplayMonth? = null,
 ) {
     val minIndex = if (minDay != null && day.year == minDay.year) {
         minDay.monthIndex
@@ -459,13 +473,13 @@ private fun HtmlBlockTag.selectDayIndex(
     day: DisplayDay,
     minDay: DisplayDay? = null,
 ) {
-    val minIndex = if (minDay != null && day.year == minDay.year && day.monthIndex == minDay.monthIndex) {
+    val minIndex = if (minDay != null && day.month == minDay.month) {
         minDay.dayIndex
     } else {
         0
     }
 
-    selectDayIndex(param, calendar, day.monthIndex, day.dayIndex, minIndex)
+    selectDayIndex(param, calendar, day.month.monthIndex, day.dayIndex, minIndex)
 }
 
 private fun HtmlBlockTag.selectDayIndex(
@@ -505,12 +519,7 @@ fun parseOptionalDate(
         return null
     }
 
-    return when (parse(parameters, combine(param, DATE), DateType.Year)) {
-        DateType.Day -> parseDay(parameters, calendar, param)
-        DateType.Year -> parseYear(parameters, calendar, param)
-        DateType.Decade -> parseDecade(parameters, calendar, param)
-        DateType.Century -> parseCentury(parameters, calendar, param)
-    }
+    return parseDate(parameters, calendar, param)
 }
 
 fun parseOptionalYear(
@@ -550,6 +559,7 @@ fun parseDate(
 
     return when (parse(parameters, combine(param, DATE), DateType.Year)) {
         DateType.Day -> parseDay(parameters, calendar, param)
+        DateType.Month -> parseMonth(parameters, calendar, param)
         DateType.Year -> parseYear(parameters, calendar, param)
         DateType.Decade -> parseDecade(parameters, calendar, param)
         DateType.Century -> parseCentury(parameters, calendar, param)
@@ -579,6 +589,19 @@ fun parseDay(
 
 fun parseDayIndex(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, DAY), 1) - 1
+
+fun parseMonth(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Month {
+    val eraIndex = parseInt(parameters, combine(param, ERA))
+    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
+    val monthIndex = parseInt(parameters, combine(param, MONTH))
+    val calendarDate = DisplayMonth(eraIndex, yearIndex, monthIndex)
+
+    return calendar.resolveMonth(calendarDate)
+}
 
 fun parseYear(
     parameters: Parameters,

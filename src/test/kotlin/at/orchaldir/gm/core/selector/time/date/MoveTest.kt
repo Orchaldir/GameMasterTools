@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.time.date
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
-import at.orchaldir.gm.core.model.time.calendar.Month
+import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.time.date.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -12,12 +12,49 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
+import kotlin.test.assertNull
 
-class StartAndEndTest {
+class MoveTest {
 
-    private val month0 = Month("a", 2)
-    private val month1 = Month("b", 3)
+    private val month0 = MonthDefinition("a", 2)
+    private val month1 = MonthDefinition("b", 3)
     private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
+    private val startMonth1Bc1 = Day(-5)
+    private val startMonth2Bc1 = Day(-3)
+    private val startMonth1Ad1 = Day(0)
+    private val startMonth2Ad1 = Day(2)
+    private val startMonth1Ad2 = Day(5)
+    private val endMonth2Bc1 = Day(-1)
+    private val endMonth1Ad1 = Day(1)
+
+    @Nested
+    inner class MoveUpTest {
+
+        @Test
+        fun `Move day up`() {
+            assertEquals(Month(2), calendar0.moveUp(Day(5)))
+        }
+
+        @Test
+        fun `Move month up`() {
+            assertEquals(Year(1), calendar0.moveUp(Month(3)))
+        }
+
+        @Test
+        fun `Move year up`() {
+            assertEquals(Decade(3), calendar0.moveUp(Year(33)))
+        }
+
+        @Test
+        fun `Move decade up`() {
+            assertEquals(Century(1), calendar0.moveUp(Decade(12)))
+        }
+
+        @Test
+        fun `Move century up`() {
+            assertNull(calendar0.moveUp(Century(12)))
+        }
+    }
 
     @Nested
     inner class MonthTest {
@@ -27,22 +64,17 @@ class StartAndEndTest {
 
             @Test
             fun `Get start of the second month in 1 AD`() {
-                assertEquals(Day(2), calendar0.getStartOfMonth(Day(2)))
-                assertEquals(Day(2), calendar0.getStartOfMonth(Day(3)))
-                assertEquals(Day(2), calendar0.getStartOfMonth(Day(4)))
+                assertEquals(startMonth2Ad1, calendar0.getStartDayOfMonth(Month(1)))
             }
 
             @Test
             fun `Get start of the second month in BC 1`() {
-                assertEquals(Day(-3), calendar0.getStartOfMonth(Day(-3)))
-                assertEquals(Day(-3), calendar0.getStartOfMonth(Day(-2)))
-                assertEquals(Day(-3), calendar0.getStartOfMonth(Day(-1)))
+                assertEquals(startMonth2Bc1, calendar0.getStartDayOfMonth(Month(-1)))
             }
 
             @Test
             fun `Get start of the first month in the second year`() {
-                assertEquals(Day(5), calendar0.getStartOfMonth(Day(5)))
-                assertEquals(Day(5), calendar0.getStartOfMonth(Day(6)))
+                assertEquals(startMonth1Ad2, calendar0.getStartDayOfMonth(Month(2)))
             }
         }
 
@@ -51,15 +83,57 @@ class StartAndEndTest {
 
             @Test
             fun `Get end of the first month in 1 AD`() {
-                assertEquals(Day(1), calendar0.getEndOfMonth(Day(0)))
-                assertEquals(Day(1), calendar0.getEndOfMonth(Day(1)))
+                assertEquals(endMonth1Ad1, calendar0.getEndDayOfMonth(Month(0)))
             }
 
             @Test
             fun `Get end of the second month in BC 1`() {
-                assertEquals(Day(-1), calendar0.getEndOfMonth(Day(-3)))
-                assertEquals(Day(-1), calendar0.getEndOfMonth(Day(-2)))
-                assertEquals(Day(-1), calendar0.getEndOfMonth(Day(-1)))
+                assertEquals(endMonth2Bc1, calendar0.getEndDayOfMonth(Month(-1)))
+            }
+        }
+    }
+
+    @Nested
+    inner class MonthWithDayTest {
+
+        @Nested
+        inner class GetStartOfMonthTest {
+
+            @Test
+            fun `Get start of the second month in 1 AD`() {
+                assertEquals(startMonth2Ad1, calendar0.getStartOfMonth(startMonth2Ad1))
+                assertEquals(startMonth2Ad1, calendar0.getStartOfMonth(Day(3)))
+                assertEquals(startMonth2Ad1, calendar0.getStartOfMonth(Day(4)))
+            }
+
+            @Test
+            fun `Get start of the second month in BC 1`() {
+                assertEquals(startMonth2Bc1, calendar0.getStartOfMonth(startMonth2Bc1))
+                assertEquals(startMonth2Bc1, calendar0.getStartOfMonth(Day(-2)))
+                assertEquals(startMonth2Bc1, calendar0.getStartOfMonth(endMonth2Bc1))
+            }
+
+            @Test
+            fun `Get start of the first month in the second year`() {
+                assertEquals(startMonth1Ad2, calendar0.getStartOfMonth(startMonth1Ad2))
+                assertEquals(startMonth1Ad2, calendar0.getStartOfMonth(Day(6)))
+            }
+        }
+
+        @Nested
+        inner class GetEndOfMonthTest {
+
+            @Test
+            fun `Get end of the first month in 1 AD`() {
+                assertEquals(endMonth1Ad1, calendar0.getEndOfMonth(startMonth1Ad1))
+                assertEquals(endMonth1Ad1, calendar0.getEndOfMonth(endMonth1Ad1))
+            }
+
+            @Test
+            fun `Get end of the second month in BC 1`() {
+                assertEquals(endMonth2Bc1, calendar0.getEndOfMonth(startMonth2Bc1))
+                assertEquals(endMonth2Bc1, calendar0.getEndOfMonth(Day(-2)))
+                assertEquals(endMonth2Bc1, calendar0.getEndOfMonth(endMonth2Bc1))
             }
         }
 
@@ -67,28 +141,28 @@ class StartAndEndTest {
         inner class GetStartOfNextMonthTest {
             @Test
             fun `Get start of next month in first era`() {
-                assertEquals(Day(-3), calendar0.getStartOfNextMonth(Day(-5)))
-                assertEquals(Day(-3), calendar0.getStartOfNextMonth(Day(-4)))
+                assertEquals(startMonth2Bc1, calendar0.getStartOfNextMonth(startMonth1Bc1))
+                assertEquals(startMonth2Bc1, calendar0.getStartOfNextMonth(Day(-4)))
             }
 
             @Test
             fun `Get start of next month across era`() {
-                assertEquals(Day(0), calendar0.getStartOfNextMonth(Day(-3)))
-                assertEquals(Day(0), calendar0.getStartOfNextMonth(Day(-2)))
-                assertEquals(Day(0), calendar0.getStartOfNextMonth(Day(-1)))
+                assertEquals(startMonth1Ad1, calendar0.getStartOfNextMonth(startMonth2Bc1))
+                assertEquals(startMonth1Ad1, calendar0.getStartOfNextMonth(Day(-2)))
+                assertEquals(startMonth1Ad1, calendar0.getStartOfNextMonth(endMonth2Bc1))
             }
 
             @Test
             fun `Get start of next month`() {
-                assertEquals(Day(2), calendar0.getStartOfNextMonth(Day(0)))
-                assertEquals(Day(2), calendar0.getStartOfNextMonth(Day(1)))
+                assertEquals(startMonth2Ad1, calendar0.getStartOfNextMonth(startMonth1Ad1))
+                assertEquals(startMonth2Ad1, calendar0.getStartOfNextMonth(endMonth1Ad1))
             }
 
             @Test
             fun `In the next year`() {
-                assertEquals(Day(5), calendar0.getStartOfNextMonth(Day(2)))
-                assertEquals(Day(5), calendar0.getStartOfNextMonth(Day(3)))
-                assertEquals(Day(5), calendar0.getStartOfNextMonth(Day(4)))
+                assertEquals(startMonth1Ad2, calendar0.getStartOfNextMonth(startMonth2Ad1))
+                assertEquals(startMonth1Ad2, calendar0.getStartOfNextMonth(Day(3)))
+                assertEquals(startMonth1Ad2, calendar0.getStartOfNextMonth(Day(4)))
             }
         }
 
@@ -96,22 +170,22 @@ class StartAndEndTest {
         inner class GetStartOfPreviousMonthTest {
             @Test
             fun `Get start of previous month in first era`() {
-                assertEquals(Day(-5), calendar0.getStartOfPreviousMonth(Day(-3)))
-                assertEquals(Day(-5), calendar0.getStartOfPreviousMonth(Day(-2)))
-                assertEquals(Day(-5), calendar0.getStartOfPreviousMonth(Day(-1)))
+                assertEquals(startMonth1Bc1, calendar0.getStartOfPreviousMonth(startMonth2Bc1))
+                assertEquals(startMonth1Bc1, calendar0.getStartOfPreviousMonth(Day(-2)))
+                assertEquals(startMonth1Bc1, calendar0.getStartOfPreviousMonth(endMonth2Bc1))
             }
 
             @Test
             fun `Get start of previous month`() {
-                assertEquals(Day(-3), calendar0.getStartOfPreviousMonth(Day(0)))
-                assertEquals(Day(-3), calendar0.getStartOfPreviousMonth(Day(1)))
+                assertEquals(startMonth2Bc1, calendar0.getStartOfPreviousMonth(startMonth1Ad1))
+                assertEquals(startMonth2Bc1, calendar0.getStartOfPreviousMonth(endMonth1Ad1))
             }
 
             @Test
             fun `In the next year`() {
-                assertEquals(Day(0), calendar0.getStartOfPreviousMonth(Day(2)))
-                assertEquals(Day(0), calendar0.getStartOfPreviousMonth(Day(3)))
-                assertEquals(Day(0), calendar0.getStartOfPreviousMonth(Day(4)))
+                assertEquals(startMonth1Ad1, calendar0.getStartOfPreviousMonth(startMonth2Ad1))
+                assertEquals(startMonth1Ad1, calendar0.getStartOfPreviousMonth(Day(3)))
+                assertEquals(startMonth1Ad1, calendar0.getStartOfPreviousMonth(Day(4)))
             }
         }
     }
@@ -120,14 +194,14 @@ class StartAndEndTest {
     inner class YearTest {
 
         @ParameterizedTest
-        @MethodSource("at.orchaldir.gm.core.selector.time.date.StartAndEndTest#provideStartOfYear")
+        @MethodSource("at.orchaldir.gm.core.selector.time.date.MoveTest#provideStartOfYear")
         fun `Get the start of a year`(year: Year, day: Day) {
             assertEquals(day, calendar0.getStartDayOfYear(year))
         }
 
         @Test
         fun `Get the end of a year`() {
-            assertEquals(Day(-1), calendar0.getEndDayOfYear(Year(-1)))
+            assertEquals(endMonth2Bc1, calendar0.getEndDayOfYear(Year(-1)))
             assertEquals(Day(4), calendar0.getEndDayOfYear(Year(0)))
             assertEquals(Day(9), calendar0.getEndDayOfYear(Year(1)))
             assertEquals(Day(14), calendar0.getEndDayOfYear(Year(2)))
@@ -139,10 +213,18 @@ class StartAndEndTest {
             @Test
             fun `Get the year of a day`() {
                 assertStartYear(Day(-10), -2)
-                assertStartYear(Day(-5), -1)
-                assertStartYear(Day(0), 0)
-                assertStartYear(Day(5), 1)
+                assertStartYear(startMonth1Bc1, -1)
+                assertStartYear(startMonth1Ad1, 0)
+                assertStartYear(startMonth1Ad2, 1)
                 assertStartYear(Day(10), 2)
+            }
+
+            @Test
+            fun `Get the year of a month`() {
+                assertStartYear(Month(-1), -1)
+                assertStartYear(Month(0), 0)
+                assertStartYear(Month(1), 0)
+                assertStartYear(Month(2), 1)
             }
 
             @Test
@@ -244,9 +326,17 @@ class StartAndEndTest {
             }
 
             @Test
+            fun `Get the decade of a month`() {
+                assertStartDecade(Month(-1), -1)
+                assertStartDecade(Month(0), 0)
+                assertStartDecade(Month(17), 0)
+                assertStartDecade(Month(18), 1)
+            }
+
+            @Test
             fun `Get the decade of a day`() {
-                assertStartDecade(Day(-1), -1)
-                assertStartDecade(Day(0), 0)
+                assertStartDecade(endMonth2Bc1, -1)
+                assertStartDecade(startMonth1Ad1, 0)
                 assertStartDecade(Day(25), 0)
                 assertStartDecade(Day(44), 0)
                 assertStartDecade(Day(45), 1)
@@ -330,9 +420,18 @@ class StartAndEndTest {
             }
 
             @Test
+            fun `Get the century of a month`() {
+                assertStartCentury(Month(-1), -1)
+                assertStartCentury(Month(0), 0)
+                assertStartCentury(Month(5), 0)
+                assertStartCentury(Month(197), 0)
+                assertStartCentury(Month(198), 1)
+            }
+
+            @Test
             fun `Get the century of a day`() {
-                assertStartCentury(Day(-1), -1)
-                assertStartCentury(Day(0), 0)
+                assertStartCentury(endMonth2Bc1, -1)
+                assertStartCentury(startMonth1Ad1, 0)
                 assertStartCentury(Day(25), 0)
                 assertStartCentury(Day(494), 0)
                 assertStartCentury(Day(495), 1)

@@ -8,36 +8,42 @@ import org.junit.jupiter.api.Test
 
 class ResolveTest {
 
-    private val month0 = Month("a", 2)
-    private val month1 = Month("b", 3)
+    private val month0 = MonthDefinition("a", 2)
+    private val month1 = MonthDefinition("b", 3)
     private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
+    private val years = calendar0.getDaysPerYear()
 
     @Nested
     inner class ResolveDayTest {
 
         @Test
         fun `Test without offset`() {
-            assertTest(-10, 0, 1)
-            assertTest(-5, 0, 0)
-            assertTest(0, 1, 0)
-            assertTest(5, 1, 1)
+            assertYears(calendar0)
         }
 
         @Test
-        fun `Test with offset`() {
-            val calendar = createCalendar(Day(-12))
-
-            assertResolve(calendar, -13, 0, 0, 1, 2)
-            assertResolve(calendar, -12, 1, 0, 0, 0)
-            assertResolve(calendar, -11, 1, 0, 0, 1)
+        fun `Ignore negative offset`() {
+            assertYears(createCalendar(Day(-12)))
         }
 
-        private fun assertTest(startDate: Int, era: Int, year: Int) {
-            assertResolve(calendar0, startDate, era, year, 0, 0)
-            assertResolve(calendar0, startDate + 1, era, year, 0, 1)
-            assertResolve(calendar0, startDate + 2, era, year, 1, 0)
-            assertResolve(calendar0, startDate + 3, era, year, 1, 1)
-            assertResolve(calendar0, startDate + 4, era, year, 1, 2)
+        @Test
+        fun `Ignore positive offset`() {
+            assertYears(createCalendar(Day(12)))
+        }
+
+        private fun assertYears(calendar: Calendar) {
+            assertYear(calendar, -10, 0, 1)
+            assertYear(calendar, -5, 0, 0)
+            assertYear(calendar, 0, 1, 0)
+            assertYear(calendar, 5, 1, 1)
+        }
+
+        private fun assertYear(calendar: Calendar, startDate: Int, era: Int, year: Int) {
+            assertResolve(calendar, startDate, era, year, 0, 0)
+            assertResolve(calendar, startDate + 1, era, year, 0, 1)
+            assertResolve(calendar, startDate + 2, era, year, 1, 0)
+            assertResolve(calendar, startDate + 3, era, year, 1, 1)
+            assertResolve(calendar, startDate + 4, era, year, 1, 2)
         }
 
         private fun assertResolve(
@@ -58,36 +64,61 @@ class ResolveTest {
     }
 
     @Nested
+    inner class ResolveMonthTest {
+        @Test
+        fun `Test without offset`() {
+            test(calendar0)
+        }
+
+        @Test
+        fun `Ignore negative offset`() {
+            test(createCalendar(Day(-12)))
+        }
+
+        @Test
+        fun `Ignore positive offset`() {
+            test(createCalendar(Day(12)))
+        }
+
+        private fun test(calendar: Calendar) {
+            assertResolve(calendar, -3, 0, 1, 1)
+            assertResolve(calendar, -2, 0, 0, 0)
+            assertResolve(calendar, -1, 0, 0, 1)
+            assertResolve(calendar, 0, 1, 0, 0) // 1 AD
+            assertResolve(calendar, 1, 1, 0, 1)
+        }
+
+        private fun assertResolve(calendar: Calendar, inputMonth: Int, eraIndex: Int, yearIndex: Int, monthIndex: Int) {
+            val month = Month(inputMonth)
+            val displayMonth = DisplayMonth(eraIndex, yearIndex, monthIndex)
+
+            assertEquals(displayMonth, calendar.resolveMonth(month))
+            assertEquals(month, calendar.resolveMonth(displayMonth))
+        }
+    }
+
+    @Nested
     inner class ResolveYearTest {
         @Test
         fun `Test without offset`() {
-            assertResolve(calendar0, -2, 0, 1)
-            assertResolve(calendar0, -1, 0, 0)
-            assertResolve(calendar0, 0, 1, 0) // 1 AD
-            assertResolve(calendar0, 1, 1, 1)
+            test(calendar0)
         }
 
         @Test
-        fun `Test with negative offset`() {
-            val calendar = createCalendar(Day(-12))
-
-            assertResolve(calendar, -4, 0, 1)
-            assertResolve(calendar, -3, 0, 0)
-            assertResolve(calendar, -2, 1, 0)
-            assertResolve(calendar, -1, 1, 1)
-            assertResolve(calendar, 0, 1, 2) // 1 AD
-            assertResolve(calendar, 1, 1, 3)
+        fun `Ignore negative offset`() {
+            test(createCalendar(Day(-years * 2)))
         }
 
         @Test
-        fun `Test with positive offset`() {
-            val calendar = createCalendar(Year(1))
+        fun `Ignore positive offset`() {
+            test(createCalendar(Day(years * 2)))
+        }
 
-            assertResolve(calendar, -2, 0, 2)
-            assertResolve(calendar, -1, 0, 1)
-            assertResolve(calendar, 0, 0, 0)
-            assertResolve(calendar, 1, 1, 0) // 1 AD
-            assertResolve(calendar, 2, 1, 1)
+        private fun test(calendar: Calendar) {
+            assertResolve(calendar, -2, 0, 1)
+            assertResolve(calendar, -1, 0, 0)
+            assertResolve(calendar, 0, 1, 0) // 1 AD
+            assertResolve(calendar, 1, 1, 1)
         }
 
         private fun assertResolve(calendar: Calendar, inputYear: Int, eraIndex: Int, yearIndex: Int) {
@@ -103,21 +134,24 @@ class ResolveTest {
     inner class ResolveDecadeTest {
         @Test
         fun `Test without offset`() {
-            assertResolve(calendar0, -2, 0, 1)
-            assertResolve(calendar0, -1, 0, 0)
-            assertResolve(calendar0, 0, 1, 0) // 1 AD
-            assertResolve(calendar0, 1, 1, 1)
+            test(calendar0)
         }
 
         @Test
-        fun `Test with positive offset`() {
-            val calendar = createCalendar(Decade(1))
+        fun `Ignore negative offset`() {
+            test(createCalendar(Day(-years * 20)))
+        }
 
-            assertResolve(calendar, -2, 0, 2)
-            assertResolve(calendar, -1, 0, 1)
-            assertResolve(calendar, 0, 0, 0)
-            assertResolve(calendar, 1, 1, 0) // 1 AD
-            assertResolve(calendar, 2, 1, 1)
+        @Test
+        fun `Ignore positive offset`() {
+            test(createCalendar(Day(years * 20)))
+        }
+
+        private fun test(calendar: Calendar) {
+            assertResolve(calendar, -2, 0, 1)
+            assertResolve(calendar, -1, 0, 0)
+            assertResolve(calendar, 0, 1, 0) // 1 AD
+            assertResolve(calendar, 1, 1, 1)
         }
 
         private fun assertResolve(calendar: Calendar, inputDecade: Int, eraIndex: Int, decadeIndex: Int) {
@@ -133,21 +167,24 @@ class ResolveTest {
     inner class ResolveCenturyTest {
         @Test
         fun `Test without offset`() {
-            assertResolve(calendar0, -2, 0, 1)
-            assertResolve(calendar0, -1, 0, 0)
-            assertResolve(calendar0, 0, 1, 0) // 1 AD
-            assertResolve(calendar0, 1, 1, 1)
+            test(calendar0)
         }
 
         @Test
-        fun `Test with positive offset`() {
-            val calendar = createCalendar(Century(1))
+        fun `Ignore negative offset`() {
+            test(createCalendar(Day(-years * 200)))
+        }
 
-            assertResolve(calendar, -2, 0, 2)
-            assertResolve(calendar, -1, 0, 1)
-            assertResolve(calendar, 0, 0, 0)
-            assertResolve(calendar, 1, 1, 0) // 1 AD
-            assertResolve(calendar, 2, 1, 1)
+        @Test
+        fun `Ignore positive offset`() {
+            test(createCalendar(Day(years * 200)))
+        }
+
+        private fun test(calendar: Calendar) {
+            assertResolve(calendar, -2, 0, 1)
+            assertResolve(calendar, -1, 0, 0)
+            assertResolve(calendar, 0, 1, 0) // 1 AD
+            assertResolve(calendar, 1, 1, 1)
         }
 
         private fun assertResolve(calendar: Calendar, inputCentury: Int, eraIndex: Int, centuryIndex: Int) {
@@ -159,6 +196,6 @@ class ResolveTest {
         }
     }
 
-    private fun createCalendar(date: Date) = calendar0
+    private fun createCalendar(date: Day) = calendar0
         .copy(eras = CalendarEras("BC", true, date, "AD", false))
 }

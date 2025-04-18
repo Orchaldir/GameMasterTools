@@ -49,7 +49,7 @@ data class DayInYear(val dayIndex: Int, val monthIndex: Int) : RelativeDate() {
     }
 
     override fun isOn(calendar: Calendar, displayDay: DisplayDay) =
-        monthIndex == displayDay.monthIndex && dayIndex == displayDay.dayIndex
+        monthIndex == displayDay.month.monthIndex && dayIndex == displayDay.dayIndex
 }
 
 @Serializable
@@ -70,7 +70,7 @@ data class WeekdayInMonth(val weekdayIndex: Int, val weekInMonthIndex: Int, val 
     }
 
     override fun isOn(calendar: Calendar, displayDay: DisplayDay): Boolean {
-        if (monthIndex != displayDay.monthIndex) {
+        if (monthIndex != displayDay.month.monthIndex) {
             return false
         } else if (weekdayIndex != displayDay.weekdayIndex) {
             return false

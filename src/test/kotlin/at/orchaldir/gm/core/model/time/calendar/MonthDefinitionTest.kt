@@ -8,7 +8,7 @@ class MonthDefinitionTest {
 
     @Test
     fun `Test is inside`() {
-        val month = Month("A", 2)
+        val month = MonthDefinition("A", 2)
 
         assertFalse(month.isInside(-1))
         assertTrue(month.isInside(0))

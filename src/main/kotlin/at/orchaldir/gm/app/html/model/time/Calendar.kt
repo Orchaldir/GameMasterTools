@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.model.time
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.html.model.parseDate
+import at.orchaldir.gm.app.html.model.parseDay
 import at.orchaldir.gm.app.html.model.selectDate
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
@@ -122,7 +122,7 @@ private fun BODY.showEras(
     state: State,
     calendar: Calendar,
 ) {
-    field(call, state, "Start Date", calendar.getStartDate())
+    field(call, state, "Start Date", calendar.getStartDateInDefaultCalendar())
     field("Before Era", display(calendar, DisplayYear(0, 0)))
     field("Current Era", display(calendar, DisplayYear(1, 0)))
 }
@@ -230,7 +230,7 @@ private fun FORM.editEras(
 ) {
     editEra("Before", calendar.eras.before, BEFORE)
     editEra("Current", calendar.eras.first, CURRENT)
-    selectDate(state, "Start Date", calendar.getStartDate(), CURRENT)
+    selectDate(state, "Start Date", calendar.getStartDateInDefaultCalendar(), CURRENT)
 }
 
 private fun FORM.editEra(
@@ -277,7 +277,7 @@ private fun parseBeforeStart(parameters: Parameters) =
 
 private fun parseFirstEra(parameters: Parameters, default: Calendar) =
     LaterEra(
-        parseDate(parameters, default, CURRENT),
+        parseDay(parameters, default, CURRENT),
         parseEraName(parameters, CURRENT),
         parseIsPrefix(parameters, CURRENT),
     )
@@ -322,7 +322,7 @@ private fun parseMonths(parameters: Parameters) = when (parse(parameters, combin
     }
 }
 
-private fun parseComplexMonth(parameters: Parameters, it: Int) = Month(
+private fun parseComplexMonth(parameters: Parameters, it: Int) = MonthDefinition(
     parseMonthName(parameters, it),
     parseDaysPerMonth(parameters, combine(MONTH, DAYS, it)),
 )

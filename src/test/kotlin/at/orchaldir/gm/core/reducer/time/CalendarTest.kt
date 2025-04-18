@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.time
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteCalendar
@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.time.calendar.*
+import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -16,7 +18,7 @@ import kotlin.test.assertEquals
 
 class CalendarTest {
 
-    private val validMonths = ComplexMonths(listOf(Month("a", 10), Month("b", 10)))
+    private val validMonths = ComplexMonths(listOf(MonthDefinition("a", 10), MonthDefinition("b", 10)))
 
     @Nested
     inner class DeleteTest {
@@ -109,6 +111,14 @@ class CalendarTest {
             assertIllegalArgument("Calendar cannot be its own parent!") { REDUCER.invoke(state, action) }
         }
 
+        @Test
+        fun `Default calendar must not have an offset`() {
+            val state = State(Storage(Calendar(CALENDAR_ID_0)))
+            val action = UpdateCalendar(Calendar(CALENDAR_ID_0, eras = CalendarEras(Day(5)), months = validMonths))
+
+            assertIllegalArgument("Default Calendar must not have an offset!") { REDUCER.invoke(state, action) }
+        }
+
         @Nested
         inner class WeekdaysTest {
 
@@ -149,7 +159,7 @@ class CalendarTest {
             @Test
             fun `At least 2 months`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
-                val months = ComplexMonths(listOf(Month("a", 10)))
+                val months = ComplexMonths(listOf(MonthDefinition("a", 10)))
                 val calendar = Calendar(CALENDAR_ID_0, months = months)
                 val action = UpdateCalendar(calendar)
 
@@ -159,7 +169,7 @@ class CalendarTest {
             @Test
             fun `At least 2 days per month`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
-                val months = ComplexMonths(listOf(Month("a", 1), Month("b", 1)))
+                val months = ComplexMonths(listOf(MonthDefinition("a", 1), MonthDefinition("b", 1)))
                 val calendar = Calendar(CALENDAR_ID_0, months = months)
                 val action = UpdateCalendar(calendar)
 
@@ -169,7 +179,7 @@ class CalendarTest {
             @Test
             fun `Months need unique names`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
-                val months = ComplexMonths(listOf(Month("a", 10), Month("a", 10)))
+                val months = ComplexMonths(listOf(MonthDefinition("a", 10), MonthDefinition("a", 10)))
                 val calendar = Calendar(CALENDAR_ID_0, months = months)
                 val action = UpdateCalendar(calendar)
 

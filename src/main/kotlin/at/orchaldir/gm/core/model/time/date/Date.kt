@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.selector.time.date.getStartDayOfCentury
 import at.orchaldir.gm.core.selector.time.date.getStartDayOfDecade
+import at.orchaldir.gm.core.selector.time.date.getStartDayOfMonth
 import at.orchaldir.gm.core.selector.time.date.getStartDayOfYear
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -11,6 +12,7 @@ import kotlin.math.absoluteValue
 
 enum class DateType {
     Day,
+    Month,
     Year,
     Decade,
     Century,
@@ -21,6 +23,7 @@ sealed interface Date {
 
     fun getType() = when (this) {
         is Day -> DateType.Day
+        is Month -> DateType.Month
         is Year -> DateType.Year
         is Decade -> DateType.Decade
         is Century -> DateType.Century
@@ -29,6 +32,7 @@ sealed interface Date {
     fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
 
     fun next(): Date
+    fun previous(): Date
 
 }
 
@@ -40,6 +44,7 @@ data class Day(val day: Int) : Date {
     }
 
     override fun next() = nextDay()
+    override fun previous() = previousDay()
 
     fun nextDay() = this + 1
     fun previousDay() = this - 1
@@ -52,6 +57,28 @@ data class Day(val day: Int) : Date {
 }
 
 @Serializable
+@SerialName("Month")
+data class Month(val month: Int) : Date {
+    operator fun compareTo(other: Month): Int {
+        return month.compareTo(other.month)
+    }
+
+    override fun next() = nextMonth()
+    override fun previous() = previousMonth()
+
+    fun nextMonth() = this + 1
+    fun previousMonth() = this - 1
+
+    operator fun plus(duration: Int) = Month(month + duration)
+    operator fun minus(duration: Int) = Month(month - duration)
+
+    fun getDurationBetween(other: Month) = Duration((month - other.month).absoluteValue)
+    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
+        .getStartDayOfMonth(this)
+        .isBetween(calendar, start, end)
+}
+
+@Serializable
 @SerialName("Year")
 data class Year(val year: Int) : Date {
 
@@ -60,6 +87,7 @@ data class Year(val year: Int) : Date {
         .isBetween(calendar, start, end)
 
     override fun next() = nextYear()
+    override fun previous() = previousYear()
 
     fun nextYear() = Year(year + 1)
     fun previousYear() = Year(year - 1)
@@ -79,6 +107,8 @@ data class Decade(val decade: Int) : Date {
         .isBetween(calendar, start, end)
 
     override fun next() = nextDecade()
+    override fun previous() = previousDecade()
+
     fun nextDecade() = Decade(decade + 1)
     fun previousDecade() = Decade(decade - 1)
 
@@ -96,10 +126,11 @@ data class Century(val century: Int) : Date {
         .getStartDayOfCentury(this)
         .isBetween(calendar, start, end)
 
-    override fun next() = nextDecade()
+    override fun next() = nextCentury()
+    override fun previous() = previousCentury()
 
-    fun nextDecade() = Century(century + 1)
-    fun previousDecade() = Century(century - 1)
+    fun nextCentury() = Century(century + 1)
+    fun previousCentury() = Century(century - 1)
 
     operator fun compareTo(other: Century): Int {
         return century.compareTo(other.century)

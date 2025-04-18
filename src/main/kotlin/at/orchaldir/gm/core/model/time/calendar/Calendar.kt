@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.Duration
-import at.orchaldir.gm.core.model.time.date.*
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.time.date.DisplayDay
+import at.orchaldir.gm.core.model.time.date.DisplayMonth
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.date.resolveDay
@@ -27,7 +30,7 @@ data class Calendar(
     val name: String = "Calendar ${id.value}",
     val days: Days = DayOfTheMonth,
     val months: Months = ComplexMonths(emptyList()),
-    val eras: CalendarEras = CalendarEras("BC", true, Day(0), "AD", false),
+    val eras: CalendarEras = CalendarEras(),
     val origin: CalendarOrigin = OriginalCalendar,
     val defaultFormat: DateFormat = DateFormat(),
 ) : ElementWithSimpleName<CalendarId> {
@@ -41,38 +44,23 @@ data class Calendar(
 
     fun getMinDaysPerMonth() = months.getMinDaysPerMonth()
 
-    fun getStartDate() = eras.first.startDate
-
-    fun getOffsetInDays() = when (eras.first.startDate) {
-        is Day -> -eras.first.startDate.day
-        is Year -> -eras.first.startDate.year * getDaysPerYear()
-        is Decade -> -eras.first.startDate.decade * getDaysPerYear() * 10
-        is Century -> -eras.first.startDate.century * getDaysPerYear() * 100
-    }
-
-    fun getOffsetInYears() = getOffsetInDays() / getDaysPerYear()
-
-    fun getOffsetInDecades() = getOffsetInYears() / 10
-
-    fun getOffsetInCenturies() = getOffsetInYears() / 100
+    fun getStartDateInDefaultCalendar() = eras.first.startDay
 
     // day
 
     fun getWeekDay(date: Day) = when (days) {
         DayOfTheMonth -> null
-        is Weekdays -> {
-            val day = date.day + getOffsetInDays()
-
-            day.modulo(days.weekDays.size)
-        }
+        is Weekdays -> date.day.modulo(days.weekDays.size)
     }
 
     // month
 
     fun getMonth(day: Day) = getMonth(resolveDay(day))
 
-    fun getMonth(day: DisplayDay) = months.getMonth(day.monthIndex)
+    fun getMonth(day: DisplayDay) = getMonth(day.month)
+    fun getMonth(month: DisplayMonth) = months.getMonth(month.monthIndex)
 
+    fun getMonthsPerYear() = months.getSize()
     fun getLastMonthIndex() = months.getSize() - 1
 
     // compare dates

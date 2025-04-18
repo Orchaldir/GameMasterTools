@@ -54,9 +54,8 @@
      "isPrefix": false
     },
     "first": {
-     "startDate": {
-      "type": "Year",
-      "year": 0
+     "startDay": {
+      "day": 0
      },
      "text": "YK",
      "isPrefix": false

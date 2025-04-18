@@ -32,12 +32,12 @@ sealed class Months {
     }
 
     fun getMonth(monthIndex: Int) = when (this) {
-        is SimpleMonths -> Month(months[monthIndex], daysPerMonth)
+        is SimpleMonths -> MonthDefinition(months[monthIndex], daysPerMonth)
         is ComplexMonths -> months[monthIndex]
     }
 
     fun months() = when (this) {
-        is SimpleMonths -> months.map { Month(it, daysPerMonth) }
+        is SimpleMonths -> months.map { MonthDefinition(it, daysPerMonth) }
         is ComplexMonths -> months
     }
 
@@ -56,4 +56,4 @@ data class SimpleMonths(
 
 @Serializable
 @SerialName("Complex")
-data class ComplexMonths(val months: List<Month> = emptyList()) : Months()
+data class ComplexMonths(val months: List<MonthDefinition> = emptyList()) : Months()

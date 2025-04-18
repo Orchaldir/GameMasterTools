@@ -31,6 +31,7 @@ val UPDATE_CALENDAR: Reducer<UpdateCalendar, State> = { state, action ->
     state.getCalendarStorage().require(calendar.id)
     checkDays(calendar)
     checkMonths(calendar)
+    checkEras(state, calendar)
     checkOrigin(state, calendar)
     checkHolidays(state, calendar)
 
@@ -58,6 +59,15 @@ private fun checkMonths(
     calendar.months.months().forEach { require(it.days > 1) { "Requires at least 2 days per month" } }
     require(calendar.months.months().map { it.name }.toSet().size == calendar.months.getSize()) {
         "The names of the months need to be unique!"
+    }
+}
+
+private fun checkEras(
+    state: State,
+    calendar: Calendar,
+) {
+    if (state.time.defaultCalendar == calendar.id) {
+        require(calendar.eras.first.startDay.day == 0) { "Default Calendar must not have an offset!" }
     }
 }
 

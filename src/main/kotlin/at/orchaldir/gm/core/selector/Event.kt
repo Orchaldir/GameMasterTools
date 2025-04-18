@@ -6,10 +6,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.model.time.date.Century
-import at.orchaldir.gm.core.model.time.date.Day
-import at.orchaldir.gm.core.model.time.date.Decade
-import at.orchaldir.gm.core.model.time.date.Year
+import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
@@ -134,12 +131,28 @@ private fun createOwnershipChanged(
     to,
 )
 
-fun State.getEventsOfMonth(calendarId: CalendarId, day: Day): List<Event> {
-    val calendar = getCalendarStorage().getOrThrow(calendarId)
-    val start = calendar.getStartOfMonth(day)
-    val end = calendar.getEndOfMonth(day)
+fun State.getEvents(calendarId: CalendarId, date: Date) = when (date) {
+    is Day -> getEventsOfDay(calendarId, date)
+    is Month -> getEventsOfMonth(calendarId, date)
+    is Year -> getEventsOfYear(calendarId, date)
+    is Decade -> getEventsOfDecade(calendarId, date)
+    is Century -> getEventsOfCentury(calendarId, date)
+}
 
-    return getEvents().filter { it.date.isBetween(calendar, start, end) }
+fun State.getEventsOfDay(calendarId: CalendarId, day: Day): List<Event> {
+    val calendar = getCalendarStorage().getOrThrow(calendarId)
+
+    return getEvents().filter { it.date.isBetween(calendar, day, day) }
+}
+
+fun State.getEventsOfMonth(calendarId: CalendarId, month: Month): List<Event> {
+    val calendar = getCalendarStorage().getOrThrow(calendarId)
+    val start = calendar.getStartDayOfMonth(month)
+    val end = calendar.getEndDayOfMonth(month)
+
+    return getEvents().filter {
+        it.date.isBetween(calendar, start, end)
+    }
 }
 
 fun State.getEventsOfYear(calendarId: CalendarId, year: Year): List<Event> {
@@ -178,6 +191,7 @@ fun List<Event>.sort(calendar: Calendar): List<Event> {
     return sortedBy {
         when (val date = it.date) {
             is Day -> date.day
+            is Month -> calendar.getStartDayOfMonth(date).day
             is Year -> {
                 date.year * daysPerYear
             }

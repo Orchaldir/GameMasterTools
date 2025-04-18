@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.time.calendar
 
-import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Day
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -26,7 +26,7 @@ data class EraBeforeStart(
 @Serializable
 @SerialName("Later")
 data class LaterEra(
-    val startDate: Date,
+    val startDay: Day,
     override val text: String,
     override val isPrefix: Boolean,
 ) : CalendarEra()
