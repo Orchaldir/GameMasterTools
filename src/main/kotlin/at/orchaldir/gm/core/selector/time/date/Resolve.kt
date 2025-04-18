@@ -177,15 +177,13 @@ fun Calendar.resolveDecade(date: DisplayDecade): Decade {
 }
 
 fun Calendar.resolveCentury(date: DisplayCentury): Century {
-    val offsetInDecades = getOffsetInCenturies()
-
     if (date.eraIndex > 0) {
-        val century = date.centuryIndex - offsetInDecades
+        val century = date.centuryIndex
 
         return Century(century)
     }
 
-    val decade = -(date.centuryIndex + 1) - offsetInDecades
+    val decade = -(date.centuryIndex + 1)
 
     return Century(decade)
 }

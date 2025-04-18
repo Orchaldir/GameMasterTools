@@ -11,6 +11,7 @@ class ResolveTest {
     private val month0 = MonthDefinition("a", 2)
     private val month1 = MonthDefinition("b", 3)
     private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
+    private val years = calendar0.getDaysPerYear()
 
     @Nested
     inner class ResolveDayTest {
@@ -105,12 +106,12 @@ class ResolveTest {
 
         @Test
         fun `Ignore negative offset`() {
-            test(createCalendar(Day(-12)))
+            test(createCalendar(Day(-years * 2)))
         }
 
         @Test
         fun `Ignore positive offset`() {
-            test(createCalendar(Day(12)))
+            test(createCalendar(Day(years * 2)))
         }
 
         private fun test(calendar: Calendar) {
@@ -138,12 +139,12 @@ class ResolveTest {
 
         @Test
         fun `Ignore negative offset`() {
-            test(createCalendar(Day(-12)))
+            test(createCalendar(Day(-years * 20)))
         }
 
         @Test
         fun `Ignore positive offset`() {
-            test(createCalendar(Day(12)))
+            test(createCalendar(Day(years * 20)))
         }
 
         private fun test(calendar: Calendar) {
@@ -171,12 +172,12 @@ class ResolveTest {
 
         @Test
         fun `Ignore negative offset`() {
-            test(createCalendar(Day(-12)))
+            test(createCalendar(Day(-years * 200)))
         }
 
         @Test
         fun `Ignore positive offset`() {
-            test(createCalendar(Day(12)))
+            test(createCalendar(Day(years * 200)))
         }
 
         private fun test(calendar: Calendar) {
