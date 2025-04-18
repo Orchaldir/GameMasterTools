@@ -190,6 +190,14 @@ class StartAndEndTest {
             }
 
             @Test
+            fun `Get the year of a month`() {
+                assertStartYear(Month(-1), -1)
+                assertStartYear(Month(0), 0)
+                assertStartYear(Month(1), 0)
+                assertStartYear(Month(2), 1)
+            }
+
+            @Test
             fun `Get the year of a year`() {
                 assertStartYear(Year(2), 2)
             }
@@ -285,6 +293,14 @@ class StartAndEndTest {
                 assertStartDecade(Year(5), 0)
                 assertStartDecade(Year(8), 0)
                 assertStartDecade(Year(9), 1)
+            }
+
+            @Test
+            fun `Get the decade of a month`() {
+                assertStartDecade(Month(-1), -1)
+                assertStartDecade(Month(0), 0)
+                assertStartDecade(Month(17), 0)
+                assertStartDecade(Month(18), 1)
             }
 
             @Test
