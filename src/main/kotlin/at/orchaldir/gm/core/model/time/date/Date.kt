@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.selector.time.date.getStartDayOfCentury
 import at.orchaldir.gm.core.selector.time.date.getStartDayOfDecade
+import at.orchaldir.gm.core.selector.time.date.getStartDayOfMonth
 import at.orchaldir.gm.core.selector.time.date.getStartDayOfYear
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -69,7 +70,9 @@ data class Month(val month: Int) : Date {
     operator fun minus(duration: Int) = Month(month - duration)
 
     fun getDurationBetween(other: Month) = Duration((month - other.month).absoluteValue)
-    override fun isBetween(calendar: Calendar, start: Day, end: Day) = TODO()
+    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
+        .getStartDayOfMonth(this)
+        .isBetween(calendar, start, end)
 }
 
 @Serializable

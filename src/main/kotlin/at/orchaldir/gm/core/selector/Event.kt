@@ -175,7 +175,7 @@ fun List<Event>.sort(calendar: Calendar): List<Event> {
     return sortedBy {
         when (val date = it.date) {
             is Day -> date.day
-            is Month -> TODO()
+            is Month -> calendar.getStartDayOfMonth(date).day
             is Year -> {
                 date.year * daysPerYear
             }
