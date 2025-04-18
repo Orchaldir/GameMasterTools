@@ -390,6 +390,15 @@ class StartAndEndTest {
             }
 
             @Test
+            fun `Get the century of a month`() {
+                assertStartCentury(Month(-1), -1)
+                assertStartCentury(Month(0), 0)
+                assertStartCentury(Month(5), 0)
+                assertStartCentury(Month(197), 0)
+                assertStartCentury(Month(198), 1)
+            }
+
+            @Test
             fun `Get the century of a day`() {
                 assertStartCentury(endMonth2Bc1, -1)
                 assertStartCentury(startMonth1Ad1, 0)
