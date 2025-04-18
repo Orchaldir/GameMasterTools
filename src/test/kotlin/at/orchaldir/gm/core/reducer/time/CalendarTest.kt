@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.time.calendar.*
+import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -108,6 +109,14 @@ class CalendarTest {
                 UpdateCalendar(Calendar(CALENDAR_ID_0, months = validMonths, origin = ImprovedCalendar(CALENDAR_ID_0)))
 
             assertIllegalArgument("Calendar cannot be its own parent!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Default calendar must not have an offset`() {
+            val state = State(Storage(Calendar(CALENDAR_ID_0)))
+            val action = UpdateCalendar(Calendar(CALENDAR_ID_0, eras = CalendarEras(Day(5)), months = validMonths))
+
+            assertIllegalArgument("Default Calendar must not have an offset!") { REDUCER.invoke(state, action) }
         }
 
         @Nested

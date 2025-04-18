@@ -14,8 +14,9 @@ data class CalendarEras(
         start: Day,
         afterText: String,
         afterIsPrefix: Boolean,
-    ) :
-            this(EraBeforeStart(beforeText, beforeIsPrefix), LaterEra(start, afterText, afterIsPrefix))
+    ) : this(EraBeforeStart(beforeText, beforeIsPrefix), LaterEra(start, afterText, afterIsPrefix))
+
+    constructor(start: Day = Day(0)) : this("BC", true, start, "AD", false)
 
     fun getAll() = listOf(before, first)
 
