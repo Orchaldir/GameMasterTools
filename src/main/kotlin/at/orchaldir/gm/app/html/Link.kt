@@ -97,6 +97,8 @@ fun HtmlBlockTag.link(
             link(call, date, display(calendar, calendarDate))
         }
 
+        is Month -> TODO()
+
         is Year -> {
             link(call, date, display(calendar, calendarDate))
         }

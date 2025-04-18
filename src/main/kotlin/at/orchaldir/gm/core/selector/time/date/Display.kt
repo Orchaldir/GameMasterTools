@@ -23,6 +23,7 @@ fun display(calendar: Calendar, format: DateFormat, displayDate: DisplayDate): S
 
 fun displayWithoutEra(calendar: Calendar, format: DateFormat, displayDate: DisplayDate) = when (displayDate) {
     is DisplayDay -> displayDay(calendar, format, displayDate)
+    is DisplayMonth -> displayMonth(calendar, format, displayDate)
     is DisplayYear -> (displayDate.yearIndex + 1).toString()
     is DisplayDecade -> (displayDate.decadeIndex * 10).toString() + "s"
     is DisplayCentury -> {
@@ -32,13 +33,9 @@ fun displayWithoutEra(calendar: Calendar, format: DateFormat, displayDate: Displ
 }
 
 private fun displayDay(calendar: Calendar, format: DateFormat, displayDay: DisplayDay): String {
-    val month = if (format.displayMonthNames) {
-        calendar.getMonth(displayDay).name
-    } else {
-        (displayDay.monthIndex + 1).toString()
-    }
+    val month = getMonthString(format, calendar, displayDay.month)
 
-    return displayDay(format, displayDay.dayIndex + 1, month, displayDay.year.yearIndex + 1)
+    return displayDay(format, displayDay.dayIndex + 1, month, displayDay.month.year.yearIndex + 1)
 }
 
 private fun displayDay(format: DateFormat, day: Int, month: String, year: Int) = when (format.order) {
@@ -48,3 +45,27 @@ private fun displayDay(format: DateFormat, day: Int, month: String, year: Int) =
 
 private fun displayDay(part0: Int, part1: String, part2: Int, separator: Char) =
     "$part0$separator$part1$separator$part2"
+
+private fun displayMonth(calendar: Calendar, format: DateFormat, displayMonth: DisplayMonth): String {
+    val month = getMonthString(format, calendar, displayMonth)
+
+    return displayMonth(format, month, displayMonth.year.yearIndex + 1)
+}
+
+private fun displayMonth(format: DateFormat, month: String, year: Int) = when (format.order) {
+    DateOrder.DayMonthYear -> displayMonth(month, year.toString(), format.separator)
+    DateOrder.YearMonthDay -> displayMonth(year.toString(), month, format.separator)
+}
+
+private fun displayMonth(part0: String, part1: String, separator: Char) =
+    "$part0$separator$part1"
+
+private fun getMonthString(
+    format: DateFormat,
+    calendar: Calendar,
+    displayMonth: DisplayMonth,
+) = if (format.displayMonthNames) {
+    calendar.getMonth(displayMonth).name
+} else {
+    (displayMonth.monthIndex + 1).toString()
+}

@@ -45,6 +45,7 @@ data class Calendar(
 
     fun getOffsetInDays() = when (eras.first.startDate) {
         is Day -> -eras.first.startDate.day
+        is Month -> TODO()
         is Year -> -eras.first.startDate.year * getDaysPerYear()
         is Decade -> -eras.first.startDate.decade * getDaysPerYear() * 10
         is Century -> -eras.first.startDate.century * getDaysPerYear() * 100
@@ -71,7 +72,8 @@ data class Calendar(
 
     fun getMonth(day: Day) = getMonth(resolveDay(day))
 
-    fun getMonth(day: DisplayDay) = months.getMonth(day.monthIndex)
+    fun getMonth(day: DisplayDay) = getMonth(day.month)
+    fun getMonth(month: DisplayMonth) = months.getMonth(month.monthIndex)
 
     fun getLastMonthIndex() = months.getSize() - 1
 

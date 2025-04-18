@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test
 
 class ResolveTest {
 
-    private val month0 = Month("a", 2)
-    private val month1 = Month("b", 3)
+    private val month0 = MonthDefinition("a", 2)
+    private val month1 = MonthDefinition("b", 3)
     private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
 
     @Nested

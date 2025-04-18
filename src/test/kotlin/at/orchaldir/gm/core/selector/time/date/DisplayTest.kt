@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test
 
 class DisplayTest {
 
-    private val month0 = Month("First", 2)
-    private val month1 = Month("Second", 3)
-    private val month2 = Month("Third", 4)
+    private val month0 = MonthDefinition("First", 2)
+    private val month1 = MonthDefinition("Second", 3)
+    private val month2 = MonthDefinition("Third", 4)
     private val calendar = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1, month2)))
     private val format0 = DateFormat()
     private val format1 = DateFormat(DateOrder.YearMonthDay, '/', true)

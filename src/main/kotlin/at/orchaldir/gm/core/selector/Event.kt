@@ -6,10 +6,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.model.time.date.Century
-import at.orchaldir.gm.core.model.time.date.Day
-import at.orchaldir.gm.core.model.time.date.Decade
-import at.orchaldir.gm.core.model.time.date.Year
+import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
@@ -178,6 +175,7 @@ fun List<Event>.sort(calendar: Calendar): List<Event> {
     return sortedBy {
         when (val date = it.date) {
             is Day -> date.day
+            is Month -> TODO()
             is Year -> {
                 date.year * daysPerYear
             }

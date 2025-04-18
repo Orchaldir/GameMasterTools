@@ -7,6 +7,7 @@ import kotlin.math.absoluteValue
 
 fun Calendar.resolve(date: Date) = when (date) {
     is Day -> resolveDay(date)
+    is Month -> TODO()
     is Year -> resolveYear(date)
     is Decade -> resolveDecade(date)
     is Century -> resolveCentury(date)
@@ -92,6 +93,7 @@ fun Calendar.resolveCentury(date: Century): DisplayCentury {
 
 fun Calendar.resolve(date: DisplayDate) = when (date) {
     is DisplayDay -> resolveDay(date)
+    is DisplayMonth -> TODO()
     is DisplayYear -> resolveYear(date)
     is DisplayDecade -> resolveDecade(date)
     is DisplayCentury -> resolveCentury(date)
@@ -100,19 +102,20 @@ fun Calendar.resolve(date: DisplayDate) = when (date) {
 fun Calendar.resolveDay(day: DisplayDay): Day {
     val daysPerYear = getDaysPerYear()
     val offsetInDays = getOffsetInDays()
+    val month = day.month
 
-    if (day.year.eraIndex == 1) {
-        var dayIndex = day.year.yearIndex * daysPerYear + day.dayIndex - offsetInDays
+    if (month.year.eraIndex == 1) {
+        var dayIndex = month.year.yearIndex * daysPerYear + day.dayIndex - offsetInDays
 
-        (0..<day.monthIndex)
+        (0..<month.monthIndex)
             .forEach { dayIndex += months.getDaysPerMonth(it) }
 
         return Day(dayIndex)
     }
 
-    var dayIndex = -day.year.yearIndex * daysPerYear - offsetInDays
+    var dayIndex = -month.year.yearIndex * daysPerYear - offsetInDays
 
-    (day.monthIndex..<months.getSize())
+    (month.monthIndex..<months.getSize())
         .forEach { dayIndex -= months.getDaysPerMonth(it) }
 
     dayIndex += day.dayIndex

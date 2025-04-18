@@ -23,8 +23,10 @@ class DateGenerator(
         val generatedDisplayDate = when (date) {
             is Day -> {
                 val displayDay = calendar.resolveDay(date)
-                displayDay.copy(monthIndex = monthIndex, dayIndex = dayIndex)
+                DisplayDay(displayDay.month.year, monthIndex, dayIndex)
             }
+
+            is Month -> TODO()
 
             is Year -> {
                 val displayYear = calendar.resolveYear(date)
