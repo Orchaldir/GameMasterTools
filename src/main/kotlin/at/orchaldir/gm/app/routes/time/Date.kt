@@ -25,11 +25,8 @@ fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolveDay(day)
-    val monthLink = call.application.href(TimeRoutes.ShowMonth(calendar.resolveMonth(displayDay.month)))
 
     showDate(call, calendarId, day, "Day") {
-        action(monthLink, "Show Month")
-
         visualizeMonth(call, state, calendar, displayDay.month, displayDay)
     }
 }
@@ -38,11 +35,8 @@ fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, month: Month) 
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayMonth = calendar.resolveMonth(month)
-    val year = calendar.resolveYear(displayMonth.year)
 
     showDate(call, calendarId, month, "Month") {
-        action { link(call, year, "Show Year") }
-
         visualizeMonth(call, state, calendar, displayMonth)
     }
 }
@@ -58,6 +52,7 @@ fun HTML.showDate(
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val events = state.getEvents(calendarId, date)
     val backLink = call.application.href(TimeRoutes())
+    val upDate = calendar.moveUp(date)
 
     simpleHtml("$label: " + display(calendar, date)) {
         fieldLink("Calendar", call, state, calendar)
@@ -66,6 +61,10 @@ fun HTML.showDate(
 
         action { link(call, date.next(), "Next $label") }
         action { link(call, date.previous(), "Previous $label") }
+
+        if (upDate != null) {
+            action { link(call, upDate, "Up") }
+        }
 
         content()
 
