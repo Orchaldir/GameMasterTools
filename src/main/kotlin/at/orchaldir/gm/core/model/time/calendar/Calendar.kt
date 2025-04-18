@@ -41,9 +41,9 @@ data class Calendar(
 
     fun getMinDaysPerMonth() = months.getMinDaysPerMonth()
 
-    fun getStartDate() = eras.first.startDate
+    fun getStartDate() = eras.first.startDay
 
-    fun getOffsetInDays() = -eras.first.startDate.day
+    fun getOffsetInDays() = -eras.first.startDay.day
 
     fun getOffsetInYears() = getOffsetInDays() / getDaysPerYear()
 
