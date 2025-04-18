@@ -77,37 +77,32 @@ class CalendarTest {
 
             @Test
             fun `Get months of negative days`() {
-                assertEquals(MONTH0, CALENDAR0.getMonth(Day(-5)))
-                assertEquals(MONTH0, CALENDAR0.getMonth(Day(-4)))
-                assertEquals(MONTH1, CALENDAR0.getMonth(Day(-3)))
-                assertEquals(MONTH1, CALENDAR0.getMonth(Day(-2)))
-                assertEquals(MONTH1, CALENDAR0.getMonth(Day(-1)))
+                test(CALENDAR0, -5)
             }
 
             @Test
             fun `Get months of the first year`() {
-                assertEquals(MONTH0, CALENDAR0.getMonth(Day(0)))
-                assertEquals(MONTH0, CALENDAR0.getMonth(Day(1)))
-                assertEquals(MONTH1, CALENDAR0.getMonth(Day(2)))
-                assertEquals(MONTH1, CALENDAR0.getMonth(Day(3)))
-                assertEquals(MONTH1, CALENDAR0.getMonth(Day(4)))
+                test(CALENDAR0, 0)
             }
 
             @Test
             fun `Get months of the second year`() {
-                assertEquals(MONTH0, CALENDAR0.getMonth(Day(5)))
-                assertEquals(MONTH0, CALENDAR0.getMonth(Day(6)))
-                assertEquals(MONTH1, CALENDAR0.getMonth(Day(7)))
-                assertEquals(MONTH1, CALENDAR0.getMonth(Day(8)))
-                assertEquals(MONTH1, CALENDAR0.getMonth(Day(9)))
+                test(CALENDAR0, 5)
             }
 
             @Test
-            fun `Test with offset`() {
+            fun `Ignore offset`() {
                 val calendar = CALENDAR0.copy(eras = CalendarEras("BC", true, Day(1), "AD", false))
 
-                assertEquals(MONTH1, calendar.getMonth(Day(0)))
-                assertEquals(MONTH0, calendar.getMonth(Day(1)))
+                test(calendar, 0)
+            }
+
+            private fun test(calendar: Calendar, startDay: Int) {
+                assertEquals(MONTH0, calendar.getMonth(Day(startDay)))
+                assertEquals(MONTH0, calendar.getMonth(Day(startDay + 1)))
+                assertEquals(MONTH1, calendar.getMonth(Day(startDay + 2)))
+                assertEquals(MONTH1, calendar.getMonth(Day(startDay + 3)))
+                assertEquals(MONTH1, calendar.getMonth(Day(startDay + 4)))
             }
         }
 
