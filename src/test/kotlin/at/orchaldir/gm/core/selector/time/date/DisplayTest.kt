@@ -27,6 +27,14 @@ class DisplayTest {
         }
 
         @Test
+        fun `Test a month in AD`() {
+            val date = DisplayMonth(1, 2023, 1)
+
+            assertDisplay(format0, date, "2.2024 AD")
+            assertDisplay(format1, date, "2024/Second AD")
+        }
+
+        @Test
         fun `Test a year in AD`() {
             val date = DisplayYear(1, 2023)
 
@@ -56,6 +64,14 @@ class DisplayTest {
 
             assertDisplay(format0, date, "1.1.1 AD")
             assertDisplay(format1, date, "1/First/1 AD")
+        }
+
+        @Test
+        fun `Test the first month in AD`() {
+            val date = DisplayMonth(1, 0, 0)
+
+            assertDisplay(format0, date, "1.1 AD")
+            assertDisplay(format1, date, "1/First AD")
         }
 
         @Test
@@ -104,6 +120,14 @@ class DisplayTest {
         }
 
         @Test
+        fun `Test a month in BC`() {
+            val date = DisplayMonth(0, 101, 2)
+
+            assertDisplay(format0, date, "BC 3.102")
+            assertDisplay(format1, date, "BC 102/Third")
+        }
+
+        @Test
         fun `Test a year in BC`() {
             val date = DisplayYear(0, 1234)
 
@@ -125,6 +149,14 @@ class DisplayTest {
 
             assertDisplay(format0, date, "BC 3.century")
             assertDisplay(format1, date, "BC 3.century")
+        }
+
+        @Test
+        fun `Test the first month in BC`() {
+            val date = DisplayMonth(0, 0, 0)
+
+            assertDisplay(format0, date, "BC 1.1")
+            assertDisplay(format1, date, "BC 1/First")
         }
 
         @Test
