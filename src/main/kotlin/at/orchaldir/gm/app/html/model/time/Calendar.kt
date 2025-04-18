@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.model.time
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.html.model.parseDate
+import at.orchaldir.gm.app.html.model.parseDay
 import at.orchaldir.gm.app.html.model.selectDate
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
@@ -277,7 +277,7 @@ private fun parseBeforeStart(parameters: Parameters) =
 
 private fun parseFirstEra(parameters: Parameters, default: Calendar) =
     LaterEra(
-        parseDate(parameters, default, CURRENT),
+        parseDay(parameters, default, CURRENT),
         parseEraName(parameters, CURRENT),
         parseIsPrefix(parameters, CURRENT),
     )

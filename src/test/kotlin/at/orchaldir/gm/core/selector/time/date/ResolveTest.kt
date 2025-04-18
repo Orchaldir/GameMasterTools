@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.time.date
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -58,6 +59,26 @@ class ResolveTest {
     }
 
     @Nested
+    inner class ResolveMonthTest {
+        @Test
+        fun `Test without offset`() {
+            assertResolve(calendar0, -3, 0, 1, 1)
+            assertResolve(calendar0, -2, 0, 0, 0)
+            assertResolve(calendar0, -1, 0, 0, 1)
+            assertResolve(calendar0, 0, 1, 0, 0) // 1 AD
+            assertResolve(calendar0, 1, 1, 0, 1)
+        }
+
+        private fun assertResolve(calendar: Calendar, inputMonth: Int, eraIndex: Int, yearIndex: Int, monthIndex: Int) {
+            val month = Month(inputMonth)
+            val displayMonth = DisplayMonth(eraIndex, yearIndex, monthIndex)
+
+            assertEquals(displayMonth, calendar.resolveMonth(month))
+            //assertEquals(month, calendar.resolveYear(displayMonth))
+        }
+    }
+
+    @Nested
     inner class ResolveYearTest {
         @Test
         fun `Test without offset`() {
@@ -81,7 +102,7 @@ class ResolveTest {
 
         @Test
         fun `Test with positive offset`() {
-            val calendar = createCalendar(Year(1))
+            val calendar = createCalendar(Day(5))
 
             assertResolve(calendar, -2, 0, 2)
             assertResolve(calendar, -1, 0, 1)
@@ -111,7 +132,7 @@ class ResolveTest {
 
         @Test
         fun `Test with positive offset`() {
-            val calendar = createCalendar(Decade(1))
+            val calendar = createCalendar(Day(50))
 
             assertResolve(calendar, -2, 0, 2)
             assertResolve(calendar, -1, 0, 1)
@@ -141,7 +162,7 @@ class ResolveTest {
 
         @Test
         fun `Test with positive offset`() {
-            val calendar = createCalendar(Century(1))
+            val calendar = createCalendar(Day(500))
 
             assertResolve(calendar, -2, 0, 2)
             assertResolve(calendar, -1, 0, 1)
@@ -159,6 +180,6 @@ class ResolveTest {
         }
     }
 
-    private fun createCalendar(date: Date) = calendar0
+    private fun createCalendar(date: Day) = calendar0
         .copy(eras = CalendarEras("BC", true, date, "AD", false))
 }

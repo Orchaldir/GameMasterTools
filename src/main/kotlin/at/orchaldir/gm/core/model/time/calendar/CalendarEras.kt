@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.time.calendar
 
-import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Day
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,7 +11,7 @@ data class CalendarEras(
     constructor(
         beforeText: String,
         beforeIsPrefix: Boolean,
-        start: Date,
+        start: Day,
         afterText: String,
         afterIsPrefix: Boolean,
     ) :

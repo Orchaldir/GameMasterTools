@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.time.date
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.*
 import kotlin.math.absoluteValue
@@ -54,6 +55,24 @@ fun Calendar.resolveDayAndMonth(dayInYear: Int): Pair<Int, Int> {
     }
 
     error("Unreachable")
+}
+
+fun Calendar.resolveMonth(date: Month): DisplayMonth {
+    val monthsPerYear = getMonthsPerYear()
+    val month = date.month
+
+    if (month >= 0) {
+        val year = month / monthsPerYear
+        val remainingMonths = month % monthsPerYear
+
+        return DisplayMonth(1, year, remainingMonths)
+    }
+
+    val absoluteDate = month.absoluteValue - 1
+    val year = absoluteDate / monthsPerYear
+    val remainingMonths = absoluteDate % monthsPerYear
+
+    return DisplayMonth(0, year, monthsPerYear - remainingMonths - 1)
 }
 
 fun Calendar.resolveYear(date: Year): DisplayYear {
