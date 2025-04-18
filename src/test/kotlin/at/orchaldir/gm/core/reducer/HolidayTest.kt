@@ -20,7 +20,7 @@ import kotlin.test.assertFailsWith
 class HolidayTest {
 
     private val weekdays = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
-    private val months = ComplexMonths(listOf(Month("M0", 2), Month("M1", 3)))
+    private val months = ComplexMonths(listOf(MonthDefinition("M0", 2), MonthDefinition("M1", 3)))
     private val calendar0 = Calendar(CALENDAR_ID_0, "C0", weekdays, months = months)
     private val calendar1 = Calendar(CALENDAR_ID_1, months = months)
     private val state = State(

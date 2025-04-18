@@ -322,7 +322,7 @@ private fun parseMonths(parameters: Parameters) = when (parse(parameters, combin
     }
 }
 
-private fun parseComplexMonth(parameters: Parameters, it: Int) = Month(
+private fun parseComplexMonth(parameters: Parameters, it: Int) = MonthDefinition(
     parseMonthName(parameters, it),
     parseDaysPerMonth(parameters, combine(MONTH, DAYS, it)),
 )

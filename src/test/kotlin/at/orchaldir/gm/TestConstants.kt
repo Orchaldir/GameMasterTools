@@ -24,7 +24,7 @@ import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
-import at.orchaldir.gm.core.model.time.calendar.Month
+import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -100,7 +100,7 @@ val TEXT_ID_2 = TextId(2)
 val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
 
-val CALENDAR0 = Calendar(CALENDAR_ID_0, months = ComplexMonths(listOf(Month("a"))))
+val CALENDAR0 = Calendar(CALENDAR_ID_0, months = ComplexMonths(listOf(MonthDefinition("a"))))
 val YEAR0 = Year(-11)
 val YEAR1 = Year(-10)
 val DAY0 = Day(-300)

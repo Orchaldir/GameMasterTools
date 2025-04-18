@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.time.date
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
-import at.orchaldir.gm.core.model.time.calendar.Month
+import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.time.date.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -15,8 +15,8 @@ import java.util.stream.Stream
 
 class StartAndEndTest {
 
-    private val month0 = Month("a", 2)
-    private val month1 = Month("b", 3)
+    private val month0 = MonthDefinition("a", 2)
+    private val month1 = MonthDefinition("b", 3)
     private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
 
     @Nested
