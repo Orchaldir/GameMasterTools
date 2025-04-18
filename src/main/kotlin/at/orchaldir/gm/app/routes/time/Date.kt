@@ -74,7 +74,7 @@ fun HTML.showDate(
     }
 }
 
-fun HtmlBlockTag.visualizeMonth(
+private fun HtmlBlockTag.visualizeMonth(
     call: ApplicationCall,
     state: State,
     calendar: Calendar,
