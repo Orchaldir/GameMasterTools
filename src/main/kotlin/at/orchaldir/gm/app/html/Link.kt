@@ -60,10 +60,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
-import kotlinx.html.A
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.a
-import kotlinx.html.p
+import kotlinx.html.*
 
 // generic
 
@@ -72,7 +69,11 @@ fun HtmlBlockTag.back(href: String) = action(href, "Back")
 fun HtmlBlockTag.action(
     href: String,
     text: String,
-) = p { link(href, text) }
+) = action { link(href, text) }
+
+fun HtmlBlockTag.action(
+    content: P.() -> Unit,
+) = p { content() }
 
 fun HtmlBlockTag.link(
     href: String,
@@ -92,12 +93,21 @@ fun HtmlBlockTag.link(
     date: Date,
 ) {
     val calendarDate = calendar.resolve(date)
+
+    link(call, date, display(calendar, calendarDate))
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    date: Date,
+    text: String,
+) {
     when (date) {
-        is Day -> link(call, date, display(calendar, calendarDate))
-        is Month -> link(call, date, display(calendar, calendarDate))
-        is Year -> link(call, date, display(calendar, calendarDate))
-        is Decade -> link(call, date, display(calendar, calendarDate))
-        is Century -> link(call, date, display(calendar, calendarDate))
+        is Day -> link(call, date, text)
+        is Month -> link(call, date, text)
+        is Year -> link(call, date, text)
+        is Decade -> link(call, date, text)
+        is Century -> link(call, date, text)
     }
 }
 

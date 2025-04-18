@@ -32,6 +32,7 @@ sealed interface Date {
     fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
 
     fun next(): Date
+    fun previous(): Date
 
 }
 
@@ -43,6 +44,7 @@ data class Day(val day: Int) : Date {
     }
 
     override fun next() = nextDay()
+    override fun previous() = previousDay()
 
     fun nextDay() = this + 1
     fun previousDay() = this - 1
@@ -62,6 +64,7 @@ data class Month(val month: Int) : Date {
     }
 
     override fun next() = nextMonth()
+    override fun previous() = previousMonth()
 
     fun nextMonth() = this + 1
     fun previousMonth() = this - 1
@@ -84,6 +87,7 @@ data class Year(val year: Int) : Date {
         .isBetween(calendar, start, end)
 
     override fun next() = nextYear()
+    override fun previous() = previousYear()
 
     fun nextYear() = Year(year + 1)
     fun previousYear() = Year(year - 1)
@@ -103,6 +107,8 @@ data class Decade(val decade: Int) : Date {
         .isBetween(calendar, start, end)
 
     override fun next() = nextDecade()
+    override fun previous() = previousDecade()
+
     fun nextDecade() = Decade(decade + 1)
     fun previousDecade() = Decade(decade - 1)
 
@@ -120,10 +126,11 @@ data class Century(val century: Int) : Date {
         .getStartDayOfCentury(this)
         .isBetween(calendar, start, end)
 
-    override fun next() = nextDecade()
+    override fun next() = nextCentury()
+    override fun previous() = previousCentury()
 
-    fun nextDecade() = Century(century + 1)
-    fun previousDecade() = Century(century - 1)
+    fun nextCentury() = Century(century + 1)
+    fun previousCentury() = Century(century - 1)
 
     operator fun compareTo(other: Century): Int {
         return century.compareTo(other.century)

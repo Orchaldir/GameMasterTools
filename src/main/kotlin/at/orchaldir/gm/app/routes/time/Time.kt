@@ -115,7 +115,7 @@ fun Application.configureTimeRouting() {
             logger.info { "Show the century ${data.century} for calendar ${calendarId.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showCentury(call, calendarId, data.century)
+                showDate(call, calendarId, data.century, "Century")
             }
         }
         get<TimeRoutes.ShowEvents> { data ->
@@ -377,21 +377,22 @@ private fun HTML.showDecade(call: ApplicationCall, calendarId: CalendarId, decad
     }
 }
 
-private fun HTML.showCentury(call: ApplicationCall, calendarId: CalendarId, century: Century) {
+private fun HTML.showDate(call: ApplicationCall, calendarId: CalendarId, date: Date, text: String) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val events = state.getEventsOfCentury(calendarId, century)
+    val events = state.getEvents(calendarId, date)
     val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowCentury(century.nextDecade()))
-    val previousLink = call.application.href(TimeRoutes.ShowCentury(century.previousDecade()))
 
-    simpleHtml("Century: " + display(calendar, century)) {
+    simpleHtml("$text: " + display(calendar, date)) {
         fieldLink("Calendar", call, state, calendar)
-        field(call, "Start", calendar, calendar.getStartDayOfCentury(century))
-        field(call, "End", calendar, calendar.getEndDayOfCentury(century))
-        action(nextLink, "Next Century")
-        action(previousLink, "Previous Century")
+        field(call, "Start", calendar, calendar.getStartDay(date))
+        field(call, "End", calendar, calendar.getEndDay(date))
+
+        action { link(call, date.next(), "Next $text") }
+        action { link(call, date.previous(), "Previous $text") }
+
         showEvents(events, call, state, calendar)
+
         back(backLink)
     }
 }

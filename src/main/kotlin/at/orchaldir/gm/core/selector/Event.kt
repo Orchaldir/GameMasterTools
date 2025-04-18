@@ -131,6 +131,14 @@ private fun createOwnershipChanged(
     to,
 )
 
+fun State.getEvents(calendarId: CalendarId, date: Date) = when (date) {
+    is Day -> getEventsOfDay(calendarId, date)
+    is Month -> getEventsOfMonth(calendarId, date)
+    is Year -> getEventsOfYear(calendarId, date)
+    is Decade -> getEventsOfDecade(calendarId, date)
+    is Century -> getEventsOfCentury(calendarId, date)
+}
+
 fun State.getEventsOfDay(calendarId: CalendarId, day: Day): List<Event> {
     val calendar = getCalendarStorage().getOrThrow(calendarId)
 

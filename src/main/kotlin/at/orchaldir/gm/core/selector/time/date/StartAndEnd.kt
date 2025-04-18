@@ -21,6 +21,14 @@ fun Calendar.getStartDisplayDay(date: Date): DisplayDay = when (date) {
     is Century -> getStartDisplayDayOfCentury(date)
 }
 
+fun Calendar.getEndDay(date: Date) = when (date) {
+    is Day -> date
+    is Month -> getEndDayOfMonth(date)
+    is Year -> getEndDayOfYear(date)
+    is Decade -> getEndDayOfDecade(date)
+    is Century -> getEndDayOfCentury(date)
+}
+
 // month
 
 fun Calendar.getStartDayOfMonth(month: Month) = resolveDay(getStartDisplayDayOfMonth(month))
@@ -114,7 +122,7 @@ fun Calendar.getStartDisplayDayOfCentury(century: Century) = getStartDisplayDayO
 
 fun Calendar.getStartDisplayDayOfCentury(century: DisplayCentury) = DisplayDay(century.startYear(), 0, 0, null)
 
-fun Calendar.getEndDayOfCentury(century: Century) = getStartDayOfCentury(century.nextDecade()).previousDay()
+fun Calendar.getEndDayOfCentury(century: Century) = getStartDayOfCentury(century.nextCentury()).previousDay()
 
 fun Calendar.getCentury(date: Date): Century = when (date) {
     is Day -> resolveCentury(resolveDay(date).month.year.decade().century())
