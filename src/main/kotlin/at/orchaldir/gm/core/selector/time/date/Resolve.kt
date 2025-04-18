@@ -16,7 +16,7 @@ fun Calendar.resolve(date: Date) = when (date) {
 
 fun Calendar.resolveDay(date: Day): DisplayDay {
     val daysPerYear = getDaysPerYear()
-    val day = date.day + getOffsetInDays()
+    val day = date.day
     val weekdayIndex = getWeekDay(date)
 
     if (day >= 0) {
@@ -76,8 +76,7 @@ fun Calendar.resolveMonth(date: Month): DisplayMonth {
 }
 
 fun Calendar.resolveYear(date: Year): DisplayYear {
-    val offsetInYears = getOffsetInYears()
-    val year = date.year + offsetInYears
+    val year = date.year
 
     if (year >= 0) {
         return DisplayYear(1, year)
@@ -87,8 +86,7 @@ fun Calendar.resolveYear(date: Year): DisplayYear {
 }
 
 fun Calendar.resolveDecade(date: Decade): DisplayDecade {
-    val offsetInDecades = getOffsetInDecades()
-    val decade = date.decade + offsetInDecades
+    val decade = date.decade
 
     if (decade >= 0) {
         return DisplayDecade(1, decade)
@@ -98,8 +96,7 @@ fun Calendar.resolveDecade(date: Decade): DisplayDecade {
 }
 
 fun Calendar.resolveCentury(date: Century): DisplayCentury {
-    val offsetInCenturies = getOffsetInCenturies()
-    val century = date.century + offsetInCenturies
+    val century = date.century
 
     if (century >= 0) {
         return DisplayCentury(1, century)
@@ -120,11 +117,10 @@ fun Calendar.resolve(date: DisplayDate) = when (date) {
 
 fun Calendar.resolveDay(day: DisplayDay): Day {
     val daysPerYear = getDaysPerYear()
-    val offsetInDays = getOffsetInDays()
     val month = day.month
 
     if (month.year.eraIndex == 1) {
-        var dayIndex = month.year.yearIndex * daysPerYear + day.dayIndex - offsetInDays
+        var dayIndex = month.year.yearIndex * daysPerYear + day.dayIndex
 
         (0..<month.monthIndex)
             .forEach { dayIndex += months.getDaysPerMonth(it) }
@@ -132,7 +128,7 @@ fun Calendar.resolveDay(day: DisplayDay): Day {
         return Day(dayIndex)
     }
 
-    var dayIndex = -month.year.yearIndex * daysPerYear - offsetInDays
+    var dayIndex = -month.year.yearIndex * daysPerYear
 
     (month.monthIndex..<months.getSize())
         .forEach { dayIndex -= months.getDaysPerMonth(it) }
@@ -157,29 +153,25 @@ fun Calendar.resolveMonth(month: DisplayMonth): Month {
 }
 
 fun Calendar.resolveYear(date: DisplayYear): Year {
-    val offsetInYears = getOffsetInYears()
-
     if (date.eraIndex == 1) {
-        val year = date.yearIndex - offsetInYears
+        val year = date.yearIndex
 
         return Year(year)
     }
 
-    val year = -(date.yearIndex + 1) - offsetInYears
+    val year = -(date.yearIndex + 1)
 
     return Year(year)
 }
 
 fun Calendar.resolveDecade(date: DisplayDecade): Decade {
-    val offsetInDecades = getOffsetInDecades()
-
     if (date.eraIndex == 1) {
-        val decade = date.decadeIndex - offsetInDecades
+        val decade = date.decadeIndex
 
         return Decade(decade)
     }
 
-    val decade = -(date.decadeIndex + 1) - offsetInDecades
+    val decade = -(date.decadeIndex + 1)
 
     return Decade(decade)
 }
