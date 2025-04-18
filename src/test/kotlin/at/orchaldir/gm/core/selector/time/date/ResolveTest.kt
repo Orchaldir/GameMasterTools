@@ -74,7 +74,7 @@ class ResolveTest {
             val displayMonth = DisplayMonth(eraIndex, yearIndex, monthIndex)
 
             assertEquals(displayMonth, calendar.resolveMonth(month))
-            //assertEquals(month, calendar.resolveYear(displayMonth))
+            assertEquals(month, calendar.resolveMonth(displayMonth))
         }
     }
 

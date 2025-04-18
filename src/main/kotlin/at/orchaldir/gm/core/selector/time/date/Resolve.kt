@@ -1,14 +1,14 @@
 package at.orchaldir.gm.core.selector.time.date
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.*
 import kotlin.math.absoluteValue
 
+// resolve date
 
 fun Calendar.resolve(date: Date) = when (date) {
     is Day -> resolveDay(date)
-    is Month -> TODO()
+    is Month -> resolveMonth(date)
     is Year -> resolveYear(date)
     is Decade -> resolveDecade(date)
     is Century -> resolveCentury(date)
@@ -108,11 +108,11 @@ fun Calendar.resolveCentury(date: Century): DisplayCentury {
     return DisplayCentury(0, -century - 1)
 }
 
-// display
+// resolve display date
 
 fun Calendar.resolve(date: DisplayDate) = when (date) {
     is DisplayDay -> resolveDay(date)
-    is DisplayMonth -> TODO()
+    is DisplayMonth -> resolveMonth(date)
     is DisplayYear -> resolveYear(date)
     is DisplayDecade -> resolveDecade(date)
     is DisplayCentury -> resolveCentury(date)
@@ -140,6 +140,20 @@ fun Calendar.resolveDay(day: DisplayDay): Day {
     dayIndex += day.dayIndex
 
     return Day(dayIndex)
+}
+
+fun Calendar.resolveMonth(month: DisplayMonth): Month {
+    val monthsPerYear = getMonthsPerYear()
+
+    if (month.year.eraIndex == 1) {
+        val monthIndex = month.year.yearIndex * monthsPerYear + month.monthIndex
+
+        return Month(monthIndex)
+    }
+
+    val monthIndex = -(month.year.yearIndex + 1) * monthsPerYear + month.monthIndex
+
+    return Month(monthIndex)
 }
 
 fun Calendar.resolveYear(date: DisplayYear): Year {
