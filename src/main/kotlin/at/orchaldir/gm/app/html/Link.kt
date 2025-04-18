@@ -93,23 +93,11 @@ fun HtmlBlockTag.link(
 ) {
     val calendarDate = calendar.resolve(date)
     when (date) {
-        is Day -> {
-            link(call, date, display(calendar, calendarDate))
-        }
-
-        is Month -> TODO()
-
-        is Year -> {
-            link(call, date, display(calendar, calendarDate))
-        }
-
-        is Decade -> {
-            link(call, date, display(calendar, calendarDate))
-        }
-
-        is Century -> {
-            link(call, date, display(calendar, calendarDate))
-        }
+        is Day -> link(call, date, display(calendar, calendarDate))
+        is Month -> link(call, date, display(calendar, calendarDate))
+        is Year -> link(call, date, display(calendar, calendarDate))
+        is Decade -> link(call, date, display(calendar, calendarDate))
+        is Century -> link(call, date, display(calendar, calendarDate))
     }
 }
 
@@ -119,6 +107,14 @@ fun HtmlBlockTag.link(
     text: String,
 ) {
     link(call.application.href(TimeRoutes.ShowDay(day)), text)
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    month: Month,
+    text: String,
+) {
+    link(call.application.href(TimeRoutes.ShowMonth(month)), text)
 }
 
 fun HtmlBlockTag.link(
