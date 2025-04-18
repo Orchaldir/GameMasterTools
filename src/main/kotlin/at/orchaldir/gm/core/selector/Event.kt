@@ -131,12 +131,20 @@ private fun createOwnershipChanged(
     to,
 )
 
-fun State.getEventsOfMonth(calendarId: CalendarId, day: Day): List<Event> {
+fun State.getEventsOfDay(calendarId: CalendarId, day: Day): List<Event> {
     val calendar = getCalendarStorage().getOrThrow(calendarId)
-    val start = calendar.getStartOfMonth(day)
-    val end = calendar.getEndOfMonth(day)
 
-    return getEvents().filter { it.date.isBetween(calendar, start, end) }
+    return getEvents().filter { it.date.isBetween(calendar, day, day) }
+}
+
+fun State.getEventsOfMonth(calendarId: CalendarId, month: Month): List<Event> {
+    val calendar = getCalendarStorage().getOrThrow(calendarId)
+    val start = calendar.getStartDayOfMonth(month)
+    val end = calendar.getEndDayOfMonth(month)
+
+    return getEvents().filter {
+        it.date.isBetween(calendar, start, end)
+    }
 }
 
 fun State.getEventsOfYear(calendarId: CalendarId, year: Year): List<Event> {

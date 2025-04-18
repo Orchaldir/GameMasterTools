@@ -47,6 +47,9 @@ class TimeRoutes {
     @Resource("day")
     class ShowDay(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
+    @Resource("month")
+    class ShowMonth(val month: Month, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+
     @Resource("year")
     class ShowYear(val year: Year, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
@@ -81,6 +84,14 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDay(call, calendarId, data.day)
+            }
+        }
+        get<TimeRoutes.ShowMonth> { data ->
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show the month ${data.month.month} for calendar ${calendarId.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showMonth(call, calendarId, data.month)
             }
         }
         get<TimeRoutes.ShowYear> { data ->
@@ -152,11 +163,11 @@ private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolveDay(day)
-    val events = state.getEventsOfMonth(calendarId, day)
+    val events = state.getEventsOfDay(calendarId, day)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfNextMonth(day)))
     val previousLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfPreviousMonth(day)))
-    val yearLink = call.application.href(TimeRoutes.ShowYear(calendar.getStartYear(day)))
+    val monthLink = call.application.href(TimeRoutes.ShowMonth(calendar.resolveMonth(displayDay.month)))
 
     simpleHtml("Day: " + display(calendar, displayDay)) {
         fieldLink("Calendar", call, state, calendar)
@@ -166,33 +177,46 @@ private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day
         }
         action(nextLink, "Next Month")
         action(previousLink, "Previous Month")
-        action(yearLink, "Show Year")
+        action(monthLink, "Show Month")
 
-        when (calendar.days) {
-            DayOfTheMonth -> doNothing()
-            is Weekdays -> showMonthWithWeekDays(
-                call,
-                state,
-                calendar,
-                displayDay,
-                calendar.days,
-            )
-        }
+        visualizeMonth(call, state, calendar, displayDay.month, displayDay)
+
         showEvents(events, call, state, calendar)
         back(backLink)
     }
 }
 
-private fun BODY.showMonthWithWeekDays(
+private fun BODY.visualizeMonth(
     call: ApplicationCall,
     state: State,
     calendar: Calendar,
-    selectedDay: DisplayDay,
+    displayMonth: DisplayMonth,
+    displayDay: DisplayDay? = null,
+) {
+    when (calendar.days) {
+        DayOfTheMonth -> doNothing()
+        is Weekdays -> visualizeMonthWithWeekDays(
+            call,
+            state,
+            calendar,
+            displayMonth,
+            displayDay,
+            calendar.days,
+        )
+    }
+}
+
+private fun BODY.visualizeMonthWithWeekDays(
+    call: ApplicationCall,
+    state: State,
+    calendar: Calendar,
+    displayMonth: DisplayMonth,
+    selectedDay: DisplayDay?,
     days: Weekdays,
 ) {
     val moons = state.getMoonStorage().getAll()
-    val month = calendar.getMonth(selectedDay)
-    val startOfMonth = calendar.getStartOfMonth(selectedDay)
+    val month = calendar.getMonth(displayMonth)
+    val startOfMonth = calendar.resolveDay(calendar.getStartDisplayDayOfMonth(displayMonth))
 
     table {
         tr {
@@ -220,7 +244,7 @@ private fun BODY.showMonthWithWeekDays(
                         if (month.isInside(dayIndex)) {
                             val day = startOfMonth + dayIndex
 
-                            if (selectedDay.dayIndex == dayIndex) {
+                            if (selectedDay?.dayIndex == dayIndex) {
                                 style = "background-color:cyan"
                             }
 
@@ -276,6 +300,34 @@ private fun TD.showIcon(
                 width = "16p"
             }
         }
+    }
+}
+
+private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, month: Month) {
+    val state = STORE.getState()
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val displayMonth = calendar.resolveMonth(month)
+    val year = calendar.resolveYear(displayMonth.year)
+    val events = state.getEventsOfMonth(calendarId, month)
+    val backLink = call.application.href(TimeRoutes())
+    val nextLink = call.application.href(TimeRoutes.ShowMonth(month.nextMonth()))
+    val previousLink = call.application.href(TimeRoutes.ShowMonth(month.previousMonth()))
+    val yearLink = call.application.href(TimeRoutes.ShowYear(year))
+
+    simpleHtml("Month: " + display(calendar, displayMonth)) {
+        fieldLink("Calendar", call, state, calendar)
+        showMap("Planar Alignments", state.getPlanarAlignments(year)) { plane, alignment ->
+            link(call, plane)
+            +" ($alignment)"
+        }
+        action(nextLink, "Next Month")
+        action(previousLink, "Previous Month")
+        action(yearLink, "Show Year")
+
+        visualizeMonth(call, state, calendar, displayMonth)
+
+        showEvents(events, call, state, calendar)
+        back(backLink)
     }
 }
 
