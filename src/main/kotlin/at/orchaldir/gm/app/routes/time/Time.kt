@@ -99,7 +99,7 @@ fun Application.configureTimeRouting() {
             logger.info { "Show the year ${data.year.year} for calendar ${calendarId.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showYear(call, calendarId, data.year)
+                showDate(call, calendarId, data.year, "Year")
             }
         }
         get<TimeRoutes.ShowDecade> { data ->
@@ -107,7 +107,7 @@ fun Application.configureTimeRouting() {
             logger.info { "Show the decade ${data.decade} for calendar ${calendarId.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDecade(call, calendarId, data.decade)
+                showDate(call, calendarId, data.decade, "Decade")
             }
         }
         get<TimeRoutes.ShowCentury> { data ->
@@ -163,30 +163,16 @@ private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolveDay(day)
-    val events = state.getEventsOfDay(calendarId, day)
-    val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfNextMonth(day)))
-    val previousLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfPreviousMonth(day)))
     val monthLink = call.application.href(TimeRoutes.ShowMonth(calendar.resolveMonth(displayDay.month)))
 
-    simpleHtml("Day: " + display(calendar, displayDay)) {
-        fieldLink("Calendar", call, state, calendar)
-        showMap("Planar Alignments", state.getPlanarAlignments(day)) { plane, alignment ->
-            link(call, plane)
-            +" ($alignment)"
-        }
-        action(nextLink, "Next Month")
-        action(previousLink, "Previous Month")
+    showDate(call, calendarId, day, "Day") {
         action(monthLink, "Show Month")
 
         visualizeMonth(call, state, calendar, displayDay.month, displayDay)
-
-        showEvents(events, call, state, calendar)
-        back(backLink)
     }
 }
 
-private fun BODY.visualizeMonth(
+private fun HtmlBlockTag.visualizeMonth(
     call: ApplicationCall,
     state: State,
     calendar: Calendar,
@@ -206,7 +192,7 @@ private fun BODY.visualizeMonth(
     }
 }
 
-private fun BODY.visualizeMonthWithWeekDays(
+private fun HtmlBlockTag.visualizeMonthWithWeekDays(
     call: ApplicationCall,
     state: State,
     calendar: Calendar,
@@ -308,88 +294,36 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, month:
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayMonth = calendar.resolveMonth(month)
     val year = calendar.resolveYear(displayMonth.year)
-    val events = state.getEventsOfMonth(calendarId, month)
-    val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowMonth(month.nextMonth()))
-    val previousLink = call.application.href(TimeRoutes.ShowMonth(month.previousMonth()))
     val yearLink = call.application.href(TimeRoutes.ShowYear(year))
 
-    simpleHtml("Month: " + display(calendar, displayMonth)) {
-        fieldLink("Calendar", call, state, calendar)
-        showMap("Planar Alignments", state.getPlanarAlignments(year)) { plane, alignment ->
-            link(call, plane)
-            +" ($alignment)"
-        }
-        action(nextLink, "Next Month")
-        action(previousLink, "Previous Month")
+    showDate(call, calendarId, month, "Month") {
         action(yearLink, "Show Year")
 
         visualizeMonth(call, state, calendar, displayMonth)
-
-        showEvents(events, call, state, calendar)
-        back(backLink)
     }
 }
 
-private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Year) {
-    val state = STORE.getState()
-    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayYear = calendar.resolveYear(year)
-    val decade = calendar.resolveDecade(displayYear.decade())
-    val events = state.getEventsOfYear(calendarId, year)
-    val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowYear(year.nextYear()))
-    val previousLink = call.application.href(TimeRoutes.ShowYear(year.previousYear()))
-    val decadeLink = call.application.href(TimeRoutes.ShowDecade(decade))
-
-    simpleHtml("Year: " + display(calendar, displayYear)) {
-        fieldLink("Calendar", call, state, calendar)
-        showMap("Planar Alignments", state.getPlanarAlignments(year)) { plane, alignment ->
-            link(call, plane)
-            +" ($alignment)"
-        }
-        action(nextLink, "Next Year")
-        action(previousLink, "Previous Year")
-        action(decadeLink, "Show Decade")
-
-        showEvents(events, call, state, calendar)
-        back(backLink)
-    }
-}
-
-private fun HTML.showDecade(call: ApplicationCall, calendarId: CalendarId, decade: Decade) {
-    val state = STORE.getState()
-    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayDecade = calendar.resolveDecade(decade)
-    val events = state.getEventsOfDecade(calendarId, decade)
-    val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowDecade(decade.nextDecade()))
-    val previousLink = call.application.href(TimeRoutes.ShowDecade(decade.previousDecade()))
-
-    simpleHtml("Decade: " + display(calendar, displayDecade)) {
-        fieldLink("Calendar", call, state, calendar)
-        field(call, "Start", calendar, calendar.getStartDayOfDecade(decade))
-        field(call, "End", calendar, calendar.getEndDayOfDecade(decade))
-        action(nextLink, "Next Decade")
-        action(previousLink, "Previous Decade")
-        showEvents(events, call, state, calendar)
-        back(backLink)
-    }
-}
-
-private fun HTML.showDate(call: ApplicationCall, calendarId: CalendarId, date: Date, text: String) {
+private fun HTML.showDate(
+    call: ApplicationCall,
+    calendarId: CalendarId,
+    date: Date,
+    label: String,
+    content: HtmlBlockTag.() -> Unit = {},
+) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val events = state.getEvents(calendarId, date)
     val backLink = call.application.href(TimeRoutes())
 
-    simpleHtml("$text: " + display(calendar, date)) {
+    simpleHtml("$label: " + display(calendar, date)) {
         fieldLink("Calendar", call, state, calendar)
         field(call, "Start", calendar, calendar.getStartDay(date))
         field(call, "End", calendar, calendar.getEndDay(date))
 
-        action { link(call, date.next(), "Next $text") }
-        action { link(call, date.previous(), "Previous $text") }
+        action { link(call, date.next(), "Next $label") }
+        action { link(call, date.previous(), "Previous $label") }
+
+        content()
 
         showEvents(events, call, state, calendar)
 
