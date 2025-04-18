@@ -12,8 +12,9 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
+import kotlin.test.assertNull
 
-class StartAndEndTest {
+class MoveTest {
 
     private val month0 = MonthDefinition("a", 2)
     private val month1 = MonthDefinition("b", 3)
@@ -25,6 +26,35 @@ class StartAndEndTest {
     private val startMonth1Ad2 = Day(5)
     private val endMonth2Bc1 = Day(-1)
     private val endMonth1Ad1 = Day(1)
+
+    @Nested
+    inner class MoveUpTest {
+
+        @Test
+        fun `Move day up`() {
+            assertEquals(Month(2), calendar0.moveUp(Day(5)))
+        }
+
+        @Test
+        fun `Move month up`() {
+            assertEquals(Year(1), calendar0.moveUp(Month(3)))
+        }
+
+        @Test
+        fun `Move year up`() {
+            assertEquals(Decade(3), calendar0.moveUp(Year(33)))
+        }
+
+        @Test
+        fun `Move decade up`() {
+            assertEquals(Century(1), calendar0.moveUp(Decade(12)))
+        }
+
+        @Test
+        fun `Move century up`() {
+            assertNull(calendar0.moveUp(Century(12)))
+        }
+    }
 
     @Nested
     inner class MonthTest {
@@ -164,7 +194,7 @@ class StartAndEndTest {
     inner class YearTest {
 
         @ParameterizedTest
-        @MethodSource("at.orchaldir.gm.core.selector.time.date.StartAndEndTest#provideStartOfYear")
+        @MethodSource("at.orchaldir.gm.core.selector.time.date.MoveTest#provideStartOfYear")
         fun `Get the start of a year`(year: Year, day: Day) {
             assertEquals(day, calendar0.getStartDayOfYear(year))
         }

@@ -3,6 +3,16 @@ package at.orchaldir.gm.core.selector.time.date
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.*
 
+// up
+
+fun Calendar.moveUp(date: Date): Date? = when (date) {
+    is Day -> resolveMonth(resolveDay(date).month)
+    is Month -> resolveYear(resolveMonth(date).year)
+    is Year -> resolveDecade(resolveYear(date).decade())
+    is Decade -> resolveCentury(resolveDecade(date).century())
+    is Century -> null
+}
+
 // day
 
 fun Calendar.getStartDay(date: Date) = when (date) {
