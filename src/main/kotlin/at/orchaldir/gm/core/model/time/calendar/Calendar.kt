@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.Duration
-import at.orchaldir.gm.core.model.time.date.*
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.time.date.DisplayDay
+import at.orchaldir.gm.core.model.time.date.DisplayMonth
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.date.resolveDay
