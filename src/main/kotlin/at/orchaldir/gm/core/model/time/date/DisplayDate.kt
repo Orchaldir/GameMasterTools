@@ -20,6 +20,18 @@ data class DisplayDay(
 
 }
 
+data class DisplayMonth(
+    val year: DisplayYear,
+    val monthIndex: Int,
+) : DisplayDate() {
+
+    constructor(eraIndex: Int, yearIndex: Int, monthIndex: Int) :
+            this(DisplayYear(eraIndex, yearIndex), monthIndex)
+
+    override fun eraIndex() = year.eraIndex
+
+}
+
 data class DisplayYear(
     val eraIndex: Int,
     val yearIndex: Int,
