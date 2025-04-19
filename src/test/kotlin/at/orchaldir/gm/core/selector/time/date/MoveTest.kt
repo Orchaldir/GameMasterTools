@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.selector.time.date
 
-import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
-import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
+import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -18,7 +15,8 @@ class MoveTest {
 
     private val month0 = MonthDefinition("a", 2)
     private val month1 = MonthDefinition("b", 3)
-    private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
+    private val days = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
+    private val calendar0 = Calendar(CalendarId(0), days = days, months = ComplexMonths(listOf(month0, month1)))
     private val startMonth1Bc1 = Day(-5)
     private val startMonth2Bc1 = Day(-3)
     private val startMonth1Ad1 = Day(0)
@@ -33,6 +31,11 @@ class MoveTest {
         @Test
         fun `Move day up`() {
             assertEquals(Month(2), calendar0.moveUp(Day(5)))
+        }
+
+        @Test
+        fun `Move week up`() {
+            assertEquals(Year(1), calendar0.moveUp(Week(3)))
         }
 
         @Test
