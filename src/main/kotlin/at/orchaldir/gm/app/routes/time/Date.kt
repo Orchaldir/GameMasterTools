@@ -115,15 +115,18 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
     val moons = state.getMoonStorage().getAll()
     val month = calendar.getMonth(displayMonth)
     val startOfMonth = calendar.resolveDay(calendar.getStartDisplayDayOfMonth(displayMonth))
+    val startWeek = calendar.moveUpDayToWeek(startOfMonth)
+    val columns = days.weekDays + 1
 
     table {
         tr {
             th {
-                colSpan = days.weekDays.size.toString()
+                colSpan = columns.size.toString()
                 +month.name
             }
         }
         tr {
+            th { }
             days.weekDays.forEach {
                 th {
                     +it.name
@@ -134,9 +137,16 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
         var dayIndex = -startIndex
         val minDaysShown = startIndex + month.days
         val weeksShown = minDaysShown.ceilDiv(days.weekDays.size)
+        var week = startWeek
 
         repeat(weeksShown) {
             tr {
+                td {
+                    val display = calendar.resolveWeek(week)
+                    link(call, week, (display.weekIndex + 1).toString())
+
+                    week += 1
+                }
                 repeat(days.weekDays.size) {
                     td {
                         if (month.isInside(dayIndex)) {
