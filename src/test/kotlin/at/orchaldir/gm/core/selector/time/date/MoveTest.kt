@@ -89,6 +89,28 @@ class MoveTest {
     }
 
     @Nested
+    inner class WeekTest {
+
+        @Nested
+        inner class GetStartOfMonthTest {
+
+            @Test
+            fun `Get start of a week`() {
+                assertEquals(Day(-2), calendar1.getStartDayOfWeek(Week(-1)))
+                assertEquals(Day(0), calendar1.getStartDayOfWeek(Week(0)))
+                assertEquals(Day(2), calendar1.getStartDayOfWeek(Week(1)))
+            }
+
+            @Test
+            fun `Calendar doesn't have weeks`() {
+                assertIllegalArgument("Calendar 0 doesn't support weeks!") {
+                    calendar0.getStartDayOfWeek(Week(-1))
+                }
+            }
+        }
+    }
+
+    @Nested
     inner class MonthTest {
 
         @Nested

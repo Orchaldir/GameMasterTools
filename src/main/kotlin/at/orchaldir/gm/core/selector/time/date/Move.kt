@@ -33,7 +33,7 @@ private fun Calendar.moveUpDay(date: Day): Date {
 
 fun Calendar.getStartDay(date: Date) = when (date) {
     is Day -> date
-    is Week -> TODO()
+    is Week -> getStartDayOfWeek(date)
     is Month -> getStartDayOfMonth(date)
     is Year -> getStartDayOfYear(date)
     is Decade -> getStartDayOfDecade(date)
@@ -42,7 +42,7 @@ fun Calendar.getStartDay(date: Date) = when (date) {
 
 fun Calendar.getStartDisplayDay(date: Date): DisplayDay = when (date) {
     is Day -> resolveDay(date)
-    is Week -> TODO()
+    is Week -> resolveDay(getStartDayOfWeek(date))
     is Month -> getStartDisplayDayOfMonth(date)
     is Year -> getStartDisplayDayOfYear(date)
     is Decade -> getStartDisplayDayOfDecade(date)
@@ -56,6 +56,15 @@ fun Calendar.getEndDay(date: Date) = when (date) {
     is Year -> getEndDayOfYear(date)
     is Decade -> getEndDayOfDecade(date)
     is Century -> getEndDayOfCentury(date)
+}
+
+// week
+
+fun Calendar.getStartDayOfWeek(week: Week): Day {
+    val daysPerWeek = days.getDaysPerWeek()
+    require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
+
+    return Day(week.week * daysPerWeek)
 }
 
 // month
