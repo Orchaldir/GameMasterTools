@@ -51,7 +51,7 @@ fun Calendar.getStartDisplayDay(date: Date): DisplayDay = when (date) {
 
 fun Calendar.getEndDay(date: Date) = when (date) {
     is Day -> date
-    is Week -> TODO()
+    is Week -> getEndDayOfWeek(date)
     is Month -> getEndDayOfMonth(date)
     is Year -> getEndDayOfYear(date)
     is Decade -> getEndDayOfDecade(date)
@@ -65,6 +65,13 @@ fun Calendar.getStartDayOfWeek(week: Week): Day {
     require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
 
     return Day(week.week * daysPerWeek)
+}
+
+fun Calendar.getEndDayOfWeek(week: Week): Day {
+    val daysPerWeek = days.getDaysPerWeek()
+    require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
+
+    return Day(week.week * daysPerWeek + daysPerWeek - 1)
 }
 
 // month
