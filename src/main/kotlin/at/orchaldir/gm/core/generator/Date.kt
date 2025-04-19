@@ -26,6 +26,7 @@ class DateGenerator(
                 val displayDay = calendar.resolveDay(date)
                 DisplayDay(displayDay.month.year, monthIndex, dayIndex)
             }
+            is Week -> TODO()
 
             is Month -> {
                 val displayMonth = calendar.resolveMonth(date)

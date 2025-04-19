@@ -154,6 +154,7 @@ private fun HtmlBlockTag.selectDate(
     }
     when (displayDate) {
         is DisplayDay -> selectDay(param, calendar, displayDate, minDate)
+        is DisplayWeek -> TODO()
         is DisplayMonth -> selectMonth(param, calendar, displayDate, minDate)
         is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
         is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
@@ -559,6 +560,7 @@ fun parseDate(
 
     return when (parse(parameters, combine(param, DATE), DateType.Year)) {
         DateType.Day -> parseDay(parameters, calendar, param)
+        DateType.Week -> TODO()
         DateType.Month -> parseMonth(parameters, calendar, param)
         DateType.Year -> parseYear(parameters, calendar, param)
         DateType.Decade -> parseDecade(parameters, calendar, param)

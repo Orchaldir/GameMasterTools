@@ -8,6 +8,7 @@ import kotlin.math.absoluteValue
 
 fun Calendar.resolve(date: Date) = when (date) {
     is Day -> resolveDay(date)
+    is Week -> TODO()
     is Month -> resolveMonth(date)
     is Year -> resolveYear(date)
     is Decade -> resolveDecade(date)
@@ -109,6 +110,7 @@ fun Calendar.resolveCentury(date: Century): DisplayCentury {
 
 fun Calendar.resolve(date: DisplayDate) = when (date) {
     is DisplayDay -> resolveDay(date)
+    is DisplayWeek -> TODO()
     is DisplayMonth -> resolveMonth(date)
     is DisplayYear -> resolveYear(date)
     is DisplayDecade -> resolveDecade(date)

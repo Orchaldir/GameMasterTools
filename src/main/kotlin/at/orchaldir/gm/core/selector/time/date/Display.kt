@@ -23,6 +23,7 @@ fun display(calendar: Calendar, format: DateFormat, displayDate: DisplayDate): S
 
 fun displayWithoutEra(calendar: Calendar, format: DateFormat, displayDate: DisplayDate) = when (displayDate) {
     is DisplayDay -> displayDay(calendar, format, displayDate)
+    is DisplayWeek -> displayWeek(displayDate)
     is DisplayMonth -> displayMonth(calendar, format, displayDate)
     is DisplayYear -> (displayDate.yearIndex + 1).toString()
     is DisplayDecade -> (displayDate.decadeIndex * 10).toString() + "s"
@@ -45,6 +46,12 @@ private fun displayDay(format: DateFormat, day: Int, month: String, year: Int) =
 
 private fun displayDay(part0: Int, part1: String, part2: Int, separator: Char) =
     "$part0$separator$part1$separator$part2"
+
+private fun displayWeek(week: DisplayWeek) =
+    displayWeek(week.month.year.yearIndex + 1, "Year", week.weekIndex + 1)
+
+private fun displayWeek(week: Int, word: String, year: Int) =
+    "$week.$word of $year"
 
 private fun displayMonth(calendar: Calendar, format: DateFormat, displayMonth: DisplayMonth): String {
     val month = getMonthString(format, calendar, displayMonth)

@@ -133,6 +133,7 @@ private fun createOwnershipChanged(
 
 fun State.getEvents(calendarId: CalendarId, date: Date) = when (date) {
     is Day -> getEventsOfDay(calendarId, date)
+    is Week -> TODO()
     is Month -> getEventsOfMonth(calendarId, date)
     is Year -> getEventsOfYear(calendarId, date)
     is Decade -> getEventsOfDecade(calendarId, date)
@@ -187,10 +188,12 @@ fun State.getEventsOfCentury(calendarId: CalendarId, century: Century): List<Eve
 
 fun List<Event>.sort(calendar: Calendar): List<Event> {
     val daysPerYear = calendar.getDaysPerYear()
+    val daysPerWeek = calendar.days.getDaysPerWeek()
 
     return sortedBy {
         when (val date = it.date) {
             is Day -> date.day
+            is Week -> date.week * daysPerWeek
             is Month -> calendar.getStartDayOfMonth(date).day
             is Year -> {
                 date.year * daysPerYear

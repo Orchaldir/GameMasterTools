@@ -16,6 +16,11 @@ sealed class Days {
         is Weekdays -> DaysType.Weekdays
     }
 
+    fun getDaysPerWeek() = when (this) {
+        DayOfTheMonth -> 0
+        is Weekdays -> weekDays.size
+    }
+
     fun hasWeeks() = this is Weekdays
 }
 
