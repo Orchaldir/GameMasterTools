@@ -37,22 +37,26 @@ class MoveTest {
 
         @Test
         fun `Move day up to week`() {
-            asserToWeek(-5, -3)
-            asserToWeek(-4, -2)
-            asserToWeek(-3, -2)
-            asserToWeek(-2, -1)
-            asserToWeek(-1, -1)
-            asserToWeek(0, 0)
-            asserToWeek(1, 0)
-            asserToWeek(2, 1)
-            asserToWeek(3, 1)
-            asserToWeek(4, 2)
-            asserToWeek(5, 2)
-            asserToWeek(6, 3)
+            assertToWeek(-5, -3)
+            assertToWeek(-4, -2)
+            assertToWeek(-3, -2)
+            assertToWeek(-2, -1)
+            assertToWeek(-1, -1)
+            assertToWeek(0, 0)
+            assertToWeek(1, 0)
+            assertToWeek(2, 1)
+            assertToWeek(3, 1)
+            assertToWeek(4, 2)
+            assertToWeek(5, 2)
+            assertToWeek(6, 3)
         }
 
-        private fun asserToWeek(day: Int, week: Int) {
-            assertEquals(Week(week), calendar1.moveUp(Day(day)))
+        private fun assertToWeek(day: Int, week: Int) {
+            val input = Day(day)
+            val result = Week(week)
+
+            assertEquals(result, calendar1.moveUp(input))
+            assertEquals(result, calendar1.moveUpDayToWeek(input))
         }
 
         @Test
@@ -125,6 +129,20 @@ class MoveTest {
                     calendar0.getEndDayOfWeek(Week(-1))
                 }
             }
+        }
+
+        @Test
+        fun `Get start week of a year`() {
+            assertEquals(Week(-3), calendar1.getStartWeekOfYear(Year(-1)))
+            assertEquals(Week(0), calendar1.getStartWeekOfYear(Year(0)))
+            assertEquals(Week(2), calendar1.getStartWeekOfYear(Year(1)))
+        }
+
+        @Test
+        fun `Get end week of a year`() {
+            assertEquals(Week(-1), calendar1.getEndWeekOfYear(Year(-1)))
+            assertEquals(Week(2), calendar1.getEndWeekOfYear(Year(0)))
+            assertEquals(Week(4), calendar1.getEndWeekOfYear(Year(1)))
         }
     }
 
