@@ -32,6 +32,15 @@ fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     }
 }
 
+fun HTML.showWeek(call: ApplicationCall, calendarId: CalendarId, week: Week) {
+    val state = STORE.getState()
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val displayDay = calendar.resolveWeek(week)
+
+    showDate(call, calendarId, week, "Week") {
+    }
+}
+
 fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, month: Month) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
