@@ -8,7 +8,7 @@ import kotlin.math.absoluteValue
 
 fun Calendar.resolve(date: Date) = when (date) {
     is Day -> resolveDay(date)
-    is Week -> TODO()
+    is Week -> resolveWeek(date)
     is Month -> resolveMonth(date)
     is Year -> resolveYear(date)
     is Decade -> resolveDecade(date)
@@ -56,6 +56,24 @@ fun Calendar.resolveDayAndMonth(dayInYear: Int): Pair<Int, Int> {
     }
 
     error("Unreachable")
+}
+
+fun Calendar.resolveWeek(date: Week): DisplayWeek {
+    val daysPerWeek = days.getDaysPerWeek()
+    require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
+    val daysPerYear = getDaysPerYear()
+    val day = date.week * daysPerWeek
+
+    val year = if (day >= 0) {
+        DisplayYear(1, day / daysPerYear)
+    } else {
+        val absoluteDate = day.absoluteValue - 1
+        DisplayYear(0, absoluteDate / daysPerYear)
+    }
+    val startDay = resolveDay(getStartDisplayDayOfYear(year))
+    val startWeek = startDay.day / daysPerWeek
+
+    return DisplayWeek(year, date.week - startWeek)
 }
 
 fun Calendar.resolveMonth(date: Month): DisplayMonth {
@@ -110,7 +128,7 @@ fun Calendar.resolveCentury(date: Century): DisplayCentury {
 
 fun Calendar.resolve(date: DisplayDate) = when (date) {
     is DisplayDay -> resolveDay(date)
-    is DisplayWeek -> TODO()
+    is DisplayWeek -> resolveWeek(date)
     is DisplayMonth -> resolveMonth(date)
     is DisplayYear -> resolveYear(date)
     is DisplayDecade -> resolveDecade(date)
@@ -138,6 +156,15 @@ fun Calendar.resolveDay(day: DisplayDay): Day {
     dayIndex += day.dayIndex
 
     return Day(dayIndex)
+}
+
+fun Calendar.resolveWeek(week: DisplayWeek): Week {
+    val daysPerWeek = days.getDaysPerWeek()
+    require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
+    val startDay = resolveDay(getStartDisplayDayOfYear(week.year))
+    val startWeek = startDay.day / daysPerWeek
+
+    return Week(startWeek + week.weekIndex)
 }
 
 fun Calendar.resolveMonth(month: DisplayMonth): Month {
