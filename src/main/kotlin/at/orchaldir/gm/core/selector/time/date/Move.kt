@@ -6,12 +6,27 @@ import at.orchaldir.gm.core.model.time.date.*
 // up
 
 fun Calendar.moveUp(date: Date): Date? = when (date) {
-    is Day -> resolveMonth(resolveDay(date).month)
+    is Day -> moveUpDay(date)
     is Week -> resolveYear(resolveWeek(date).year)
     is Month -> resolveYear(resolveMonth(date).year)
     is Year -> resolveDecade(resolveYear(date).decade())
     is Decade -> resolveCentury(resolveDecade(date).century())
     is Century -> null
+}
+
+private fun Calendar.moveUpDay(date: Day): Date {
+    val daysPerWeek = days.getDaysPerWeek()
+
+    return if (daysPerWeek > 0) {
+        if (date.day >= 0) {
+            Week(date.day / daysPerWeek)
+        } else {
+            val week = (date.day - 1) / daysPerWeek
+            Week(week)
+        }
+    } else {
+        resolveMonth(resolveDay(date).month)
+    }
 }
 
 // day

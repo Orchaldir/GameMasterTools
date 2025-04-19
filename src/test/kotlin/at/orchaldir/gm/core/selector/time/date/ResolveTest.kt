@@ -12,7 +12,7 @@ class ResolveTest {
     private val month1 = MonthDefinition("b", 3)
     private val days = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
     private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
-    private val calendar1 = Calendar(CalendarId(0), days = days, months = ComplexMonths(listOf(month0, month1)))
+    private val calendar1 = calendar0.copy(days = days)
     private val years = calendar0.getDaysPerYear()
 
     @Nested

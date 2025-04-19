@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.time.date
 
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -16,7 +17,8 @@ class MoveTest {
     private val month0 = MonthDefinition("a", 2)
     private val month1 = MonthDefinition("b", 3)
     private val days = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
-    private val calendar0 = Calendar(CalendarId(0), days = days, months = ComplexMonths(listOf(month0, month1)))
+    private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
+    private val calendar1 = calendar0.copy(days = days)
     private val startMonth1Bc1 = Day(-5)
     private val startMonth2Bc1 = Day(-3)
     private val startMonth1Ad1 = Day(0)
@@ -29,13 +31,36 @@ class MoveTest {
     inner class MoveUpTest {
 
         @Test
-        fun `Move day up`() {
+        fun `Move day up to month`() {
             assertEquals(Month(2), calendar0.moveUp(Day(5)))
         }
 
         @Test
+        fun `Move day up to week`() {
+            assertEquals(Week(-3), calendar1.moveUp(Day(-5)))
+            assertEquals(Week(-2), calendar1.moveUp(Day(-4)))
+            assertEquals(Week(-2), calendar1.moveUp(Day(-3)))
+            assertEquals(Week(-1), calendar1.moveUp(Day(-2)))
+            assertEquals(Week(-1), calendar1.moveUp(Day(-1)))
+            assertEquals(Week(0), calendar1.moveUp(Day(0)))
+            assertEquals(Week(0), calendar1.moveUp(Day(1)))
+            assertEquals(Week(1), calendar1.moveUp(Day(2)))
+            assertEquals(Week(1), calendar1.moveUp(Day(3)))
+            assertEquals(Week(2), calendar1.moveUp(Day(4)))
+            assertEquals(Week(2), calendar1.moveUp(Day(5)))
+            assertEquals(Week(3), calendar1.moveUp(Day(6)))
+        }
+
+        @Test
+        fun `Fail to move week up, because calendar doesn't have weeks`() {
+            assertIllegalArgument("Calendar 0 doesn't support weeks!") {
+                calendar0.moveUp(Week(3))
+            }
+        }
+
+        @Test
         fun `Move week up`() {
-            assertEquals(Year(1), calendar0.moveUp(Week(3)))
+            assertEquals(Year(1), calendar1.moveUp(Week(3)))
         }
 
         @Test
