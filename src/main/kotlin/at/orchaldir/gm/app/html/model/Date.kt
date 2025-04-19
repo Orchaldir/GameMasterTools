@@ -719,16 +719,16 @@ fun parseCentury(
 }
 
 fun parseDayIndex(parameters: Parameters, param: String) =
-    parseInt(parameters, combine(param, DAY), 1) - 1
+    parseIndexFromInt(parameters, param, DAY)
 
 private fun parseWeekIndex(parameters: Parameters, param: String) =
-    parseInt(parameters, combine(param, WEEK))
+    parseIndexFromInt(parameters, param, WEEK)
 
 private fun parseMonthIndex(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, MONTH))
 
 private fun parseYearIndex(parameters: Parameters, param: String) =
-    parseInt(parameters, combine(param, YEAR), 1) - 1
+    parseIndexFromInt(parameters, param, YEAR)
 
 private fun parseDecadeIndex(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, DECADE))
@@ -738,3 +738,6 @@ private fun parseCenturyIndex(parameters: Parameters, param: String) =
 
 private fun parseEraIndex(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, ERA))
+
+private fun parseIndexFromInt(parameters: Parameters, param: String, type: String) =
+    parseInt(parameters, combine(param, type), 1) - 1
