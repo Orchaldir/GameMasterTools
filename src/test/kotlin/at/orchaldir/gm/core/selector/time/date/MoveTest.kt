@@ -1,9 +1,7 @@
 package at.orchaldir.gm.core.selector.time.date
 
-import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
-import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
+import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -18,7 +16,9 @@ class MoveTest {
 
     private val month0 = MonthDefinition("a", 2)
     private val month1 = MonthDefinition("b", 3)
+    private val days = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
     private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
+    private val calendar1 = calendar0.copy(days = days)
     private val startMonth1Bc1 = Day(-5)
     private val startMonth2Bc1 = Day(-3)
     private val startMonth1Ad1 = Day(0)
@@ -31,8 +31,44 @@ class MoveTest {
     inner class MoveUpTest {
 
         @Test
-        fun `Move day up`() {
+        fun `Move day up to month`() {
             assertEquals(Month(2), calendar0.moveUp(Day(5)))
+        }
+
+        @Test
+        fun `Move day up to week`() {
+            assertToWeek(-5, -3)
+            assertToWeek(-4, -2)
+            assertToWeek(-3, -2)
+            assertToWeek(-2, -1)
+            assertToWeek(-1, -1)
+            assertToWeek(0, 0)
+            assertToWeek(1, 0)
+            assertToWeek(2, 1)
+            assertToWeek(3, 1)
+            assertToWeek(4, 2)
+            assertToWeek(5, 2)
+            assertToWeek(6, 3)
+        }
+
+        private fun assertToWeek(day: Int, week: Int) {
+            val input = Day(day)
+            val result = Week(week)
+
+            assertEquals(result, calendar1.moveUp(input))
+            assertEquals(result, calendar1.moveUpDayToWeek(input))
+        }
+
+        @Test
+        fun `Fail to move week up, because calendar doesn't have weeks`() {
+            assertIllegalArgument("Calendar 0 doesn't support weeks!") {
+                calendar0.moveUp(Week(3))
+            }
+        }
+
+        @Test
+        fun `Move week up`() {
+            assertEquals(Year(1), calendar1.moveUp(Week(3)))
         }
 
         @Test
@@ -53,6 +89,60 @@ class MoveTest {
         @Test
         fun `Move century up`() {
             assertNull(calendar0.moveUp(Century(12)))
+        }
+    }
+
+    @Nested
+    inner class WeekTest {
+
+        @Nested
+        inner class GetStartOfWeekTest {
+
+            @Test
+            fun `Get start of a week`() {
+                assertEquals(Day(-2), calendar1.getStartDayOfWeek(Week(-1)))
+                assertEquals(Day(0), calendar1.getStartDayOfWeek(Week(0)))
+                assertEquals(Day(2), calendar1.getStartDayOfWeek(Week(1)))
+            }
+
+            @Test
+            fun `Calendar doesn't have weeks`() {
+                assertIllegalArgument("Calendar 0 doesn't support weeks!") {
+                    calendar0.getStartDayOfWeek(Week(-1))
+                }
+            }
+        }
+
+        @Nested
+        inner class GetEndOfWeekTest {
+
+            @Test
+            fun `Get end of a week`() {
+                assertEquals(Day(-1), calendar1.getEndDayOfWeek(Week(-1)))
+                assertEquals(Day(1), calendar1.getEndDayOfWeek(Week(0)))
+                assertEquals(Day(3), calendar1.getEndDayOfWeek(Week(1)))
+            }
+
+            @Test
+            fun `Calendar doesn't have weeks`() {
+                assertIllegalArgument("Calendar 0 doesn't support weeks!") {
+                    calendar0.getEndDayOfWeek(Week(-1))
+                }
+            }
+        }
+
+        @Test
+        fun `Get start week of a year`() {
+            assertEquals(Week(-3), calendar1.getStartWeekOfYear(Year(-1)))
+            assertEquals(Week(0), calendar1.getStartWeekOfYear(Year(0)))
+            assertEquals(Week(2), calendar1.getStartWeekOfYear(Year(1)))
+        }
+
+        @Test
+        fun `Get end week of a year`() {
+            assertEquals(Week(-1), calendar1.getEndWeekOfYear(Year(-1)))
+            assertEquals(Week(2), calendar1.getEndWeekOfYear(Year(0)))
+            assertEquals(Week(4), calendar1.getEndWeekOfYear(Year(1)))
         }
     }
 
@@ -220,6 +310,15 @@ class MoveTest {
             }
 
             @Test
+            fun `Get the year of a week`() {
+                assertStartYear(Week(-1), -1)
+                assertStartYear(Week(0), 0)
+                assertStartYear(Week(1), 0)
+                assertStartYear(Week(2), 0)
+                assertStartYear(Week(3), 1)
+            }
+
+            @Test
             fun `Get the year of a month`() {
                 assertStartYear(Month(-1), -1)
                 assertStartYear(Month(0), 0)
@@ -252,10 +351,10 @@ class MoveTest {
 
             private fun assertStartYear(input: Date, year: Int) {
                 val year = Year(year)
-                val display = calendar0.resolveYear(year)
+                val display = calendar1.resolveYear(year)
 
-                assertEquals(year, calendar0.getStartYear(input))
-                assertEquals(display, calendar0.getStartDisplayYear(input))
+                assertEquals(year, calendar1.getStartYear(input))
+                assertEquals(display, calendar1.getStartDisplayYear(input))
             }
         }
     }
@@ -334,6 +433,14 @@ class MoveTest {
             }
 
             @Test
+            fun `Get the decade of a week`() {
+                assertStartDecade(Week(-1), -1)
+                assertStartDecade(Week(0), 0)
+                assertStartDecade(Week(22), 0)
+                assertStartDecade(Week(23), 1)
+            }
+
+            @Test
             fun `Get the decade of a day`() {
                 assertStartDecade(endMonth2Bc1, -1)
                 assertStartDecade(startMonth1Ad1, 0)
@@ -344,10 +451,10 @@ class MoveTest {
 
             private fun assertStartDecade(date: Date, result: Int) {
                 val decade = Decade(result)
-                val display = calendar0.resolveDecade(decade)
+                val display = calendar1.resolveDecade(decade)
 
-                assertEquals(decade, calendar0.getStartDecade(date))
-                assertEquals(display, calendar0.getStartDisplayDecade(date))
+                assertEquals(decade, calendar1.getStartDecade(date))
+                assertEquals(display, calendar1.getStartDisplayDecade(date))
             }
         }
     }
@@ -429,6 +536,14 @@ class MoveTest {
             }
 
             @Test
+            fun `Get the century of a week`() {
+                assertStartCentury(Week(-1), -1)
+                assertStartCentury(Week(0), 0)
+                assertStartCentury(Week(247), 0)
+                assertStartCentury(Week(248), 1)
+            }
+
+            @Test
             fun `Get the century of a day`() {
                 assertStartCentury(endMonth2Bc1, -1)
                 assertStartCentury(startMonth1Ad1, 0)
@@ -439,10 +554,10 @@ class MoveTest {
 
             private fun assertStartCentury(date: Date, result: Int) {
                 val century = Century(result)
-                val display = calendar0.resolveCentury(century)
+                val display = calendar1.resolveCentury(century)
 
-                assertEquals(century, calendar0.getCentury(date))
-                assertEquals(display, calendar0.getDisplayCentury(date))
+                assertEquals(century, calendar1.getCentury(date))
+                assertEquals(display, calendar1.getDisplayCentury(date))
             }
         }
     }

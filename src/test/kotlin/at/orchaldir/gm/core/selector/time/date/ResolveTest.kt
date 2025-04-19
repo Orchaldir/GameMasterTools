@@ -10,7 +10,9 @@ class ResolveTest {
 
     private val month0 = MonthDefinition("a", 2)
     private val month1 = MonthDefinition("b", 3)
+    private val days = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
     private val calendar0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1)))
+    private val calendar1 = calendar0.copy(days = days)
     private val years = calendar0.getDaysPerYear()
 
     @Nested
@@ -61,6 +63,41 @@ class ResolveTest {
             assertEquals(day, calendar.resolveDay(displayDay))
         }
 
+    }
+
+    @Nested
+    inner class ResolveWeekTest {
+        @Test
+        fun `Test without offset`() {
+            test(calendar1)
+        }
+
+        @Test
+        fun `Ignore negative offset`() {
+            test(createCalendar(calendar1, Day(-12)))
+        }
+
+        @Test
+        fun `Ignore positive offset`() {
+            test(createCalendar(calendar1, Day(12)))
+        }
+
+        private fun test(calendar: Calendar) {
+            assertResolve(calendar, -2, 0, 0, 0)
+            assertResolve(calendar, -1, 0, 0, 1)
+            assertResolve(calendar, 0, 1, 0, 0) // 1 AD
+            assertResolve(calendar, 1, 1, 0, 1)
+            assertResolve(calendar, 2, 1, 0, 2)
+            assertResolve(calendar, 3, 1, 1, 1)
+        }
+
+        private fun assertResolve(calendar: Calendar, inputWeek: Int, eraIndex: Int, yearIndex: Int, weekIndex: Int) {
+            val week = Week(inputWeek)
+            val displayWeek = DisplayWeek(eraIndex, yearIndex, weekIndex)
+
+            assertEquals(displayWeek, calendar.resolveWeek(week))
+            assertEquals(week, calendar.resolveWeek(displayWeek))
+        }
     }
 
     @Nested
@@ -196,6 +233,8 @@ class ResolveTest {
         }
     }
 
-    private fun createCalendar(date: Day) = calendar0
+    private fun createCalendar(date: Day) = createCalendar(calendar0, date)
+
+    private fun createCalendar(calendar: Calendar, date: Day) = calendar
         .copy(eras = CalendarEras("BC", true, date, "AD", false))
 }

@@ -32,6 +32,9 @@ class TimeRoutes {
     @Resource("day")
     class ShowDay(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
+    @Resource("week")
+    class ShowWeek(val week: Week, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+
     @Resource("month")
     class ShowMonth(val month: Month, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
@@ -69,6 +72,14 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDay(call, calendarId, data.day)
+            }
+        }
+        get<TimeRoutes.ShowWeek> { data ->
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show the week ${data.week.week} for calendar ${calendarId.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showWeek(call, calendarId, data.week)
             }
         }
         get<TimeRoutes.ShowMonth> { data ->

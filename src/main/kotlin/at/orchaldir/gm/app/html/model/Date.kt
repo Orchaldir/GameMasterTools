@@ -139,12 +139,17 @@ private fun HtmlBlockTag.selectDate(
 ) {
     val displayDate = calendar.resolve(date)
     val dateTypeParam = combine(param, DATE)
+    val dateTypes = if (calendar.days.hasWeeks()) {
+        DateType.entries
+    } else {
+        DateType.entries - DateType.Week
+    }
 
     select {
         id = dateTypeParam
         name = dateTypeParam
         onChange = ON_CHANGE_SCRIPT
-        DateType.entries.forEach {
+        dateTypes.forEach {
             option {
                 label = it.name
                 value = it.name
@@ -154,6 +159,7 @@ private fun HtmlBlockTag.selectDate(
     }
     when (displayDate) {
         is DisplayDay -> selectDay(param, calendar, displayDate, minDate)
+        is DisplayWeek -> selectWeek(param, calendar, displayDate, minDate)
         is DisplayMonth -> selectMonth(param, calendar, displayDate, minDate)
         is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
         is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
@@ -227,6 +233,26 @@ private fun HtmlBlockTag.selectYear(
 
     selectEraIndex(param, calendar, year.eraIndex, displayMinYear, displayMaxYear)
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
+}
+
+private fun HtmlBlockTag.selectWeek(
+    param: String,
+    calendar: Calendar,
+    displayDate: DisplayWeek,
+    minDate: Date?,
+) {
+    if (minDate != null) {
+        val minDay = calendar.getStartDay(minDate)
+        val displayMinDay = calendar.resolveDay(minDay)
+
+        selectEraIndex(param, calendar, displayDate.year.eraIndex, displayMinDay.month.year)
+        selectYearIndex(param, displayDate.year, displayMinDay.month.year)
+        selectWeekIndex(param, calendar, displayDate, Pair(minDay, displayMinDay))
+    } else {
+        selectEraIndex(param, calendar, displayDate.year.eraIndex)
+        selectYearIndex(param, displayDate.year)
+        selectWeekIndex(param, calendar, displayDate)
+    }
 }
 
 private fun HtmlBlockTag.selectMonth(
@@ -417,16 +443,16 @@ fun HtmlBlockTag.selectMonthIndex(
 private fun HtmlBlockTag.selectMonthIndex(
     param: String,
     calendar: Calendar,
-    day: DisplayMonth,
-    minDay: DisplayMonth? = null,
+    month: DisplayMonth,
+    minMonth: DisplayMonth? = null,
 ) {
-    val minIndex = if (minDay != null && day.year == minDay.year) {
-        minDay.monthIndex
+    val minIndex = if (minMonth != null && month.year == minMonth.year) {
+        minMonth.monthIndex
     } else {
         0
     }
 
-    selectMonthIndex(param, calendar, day.monthIndex, minIndex)
+    selectMonthIndex(param, calendar, month.monthIndex, minIndex)
 }
 
 private fun HtmlBlockTag.selectMonthIndex(
@@ -441,6 +467,42 @@ private fun HtmlBlockTag.selectMonthIndex(
         selected = monthIndex == index
         disabled = index < minMonthIndex
     }
+}
+
+private fun HtmlBlockTag.selectWeekIndex(
+    param: String,
+    calendar: Calendar,
+    week: DisplayWeek,
+    min: Pair<Day, DisplayDay>? = null,
+) {
+    val year = calendar.resolveYear(week.year)
+    val startWeek = calendar.getStartWeekOfYear(year)
+    val endWeek = calendar.getEndWeekOfYear(year)
+    val minWeek = if (min != null && week.year == min.second.month.year) {
+        calendar.moveUpDayToWeek(min.first)
+    } else {
+        startWeek
+    }
+    val minIndex = calendar.resolveWeek(minWeek).weekIndex
+    val maxIndex = calendar.resolveWeek(endWeek).weekIndex
+
+    selectWeekIndex(param, week.weekIndex, minIndex, maxIndex)
+}
+
+private fun HtmlBlockTag.selectWeekIndex(
+    param: String,
+    weekIndex: Int,
+    minWeekIndex: Int,
+    maxWeekIndex: Int,
+) {
+    selectInt(
+        weekIndex + 1,
+        minWeekIndex + 1,
+        maxWeekIndex + 1,
+        1,
+        combine(param, WEEK),
+        true,
+    )
 }
 
 fun HtmlBlockTag.selectDayIndex(
@@ -559,6 +621,7 @@ fun parseDate(
 
     return when (parse(parameters, combine(param, DATE), DateType.Year)) {
         DateType.Day -> parseDay(parameters, calendar, param)
+        DateType.Week -> parseWeek(parameters, calendar, param)
         DateType.Month -> parseMonth(parameters, calendar, param)
         DateType.Year -> parseYear(parameters, calendar, param)
         DateType.Decade -> parseDecade(parameters, calendar, param)
@@ -578,26 +641,36 @@ fun parseDay(
         return default
     }
 
-    val eraIndex = parseInt(parameters, eraParam)
-    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
-    val monthIndex = parseInt(parameters, combine(param, MONTH))
+    val eraIndex = parseEraIndex(parameters, param)
+    val yearIndex = parseYearIndex(parameters, param)
+    val monthIndex = parseMonthIndex(parameters, param)
     val dayIndex = parseDayIndex(parameters, param)
     val calendarDate = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
 
     return calendar.resolveDay(calendarDate)
 }
 
-fun parseDayIndex(parameters: Parameters, param: String) =
-    parseInt(parameters, combine(param, DAY), 1) - 1
+fun parseWeek(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Week {
+    val eraIndex = parseEraIndex(parameters, param)
+    val yearIndex = parseYearIndex(parameters, param)
+    val weekIndex = parseWeekIndex(parameters, param)
+    val calendarDate = DisplayWeek(eraIndex, yearIndex, weekIndex)
+
+    return calendar.resolveWeek(calendarDate)
+}
 
 fun parseMonth(
     parameters: Parameters,
     calendar: Calendar,
     param: String,
 ): Month {
-    val eraIndex = parseInt(parameters, combine(param, ERA))
-    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
-    val monthIndex = parseInt(parameters, combine(param, MONTH))
+    val eraIndex = parseEraIndex(parameters, param)
+    val yearIndex = parseYearIndex(parameters, param)
+    val monthIndex = parseMonthIndex(parameters, param)
     val calendarDate = DisplayMonth(eraIndex, yearIndex, monthIndex)
 
     return calendar.resolveMonth(calendarDate)
@@ -614,8 +687,8 @@ fun parseYear(
     calendar: Calendar,
     param: String,
 ): Year {
-    val eraIndex = parseInt(parameters, combine(param, ERA))
-    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
+    val eraIndex = parseEraIndex(parameters, param)
+    val yearIndex = parseYearIndex(parameters, param)
     val calendarDate = DisplayYear(eraIndex, yearIndex)
 
     return calendar.resolveYear(calendarDate)
@@ -626,8 +699,8 @@ fun parseDecade(
     calendar: Calendar,
     param: String,
 ): Decade {
-    val eraIndex = parseInt(parameters, combine(param, ERA))
-    val decadeIndex = parseInt(parameters, combine(param, DECADE))
+    val eraIndex = parseEraIndex(parameters, param)
+    val decadeIndex = parseDecadeIndex(parameters, param)
     val calendarDate = DisplayDecade(eraIndex, decadeIndex)
 
     return calendar.resolveDecade(calendarDate)
@@ -638,9 +711,33 @@ fun parseCentury(
     calendar: Calendar,
     param: String,
 ): Century {
-    val eraIndex = parseInt(parameters, combine(param, ERA))
-    val centuryIndex = parseInt(parameters, combine(param, CENTURY))
+    val eraIndex = parseEraIndex(parameters, param)
+    val centuryIndex = parseCenturyIndex(parameters, param)
     val calendarDate = DisplayCentury(eraIndex, centuryIndex)
 
     return calendar.resolveCentury(calendarDate)
 }
+
+fun parseDayIndex(parameters: Parameters, param: String) =
+    parseIndexFromInt(parameters, param, DAY)
+
+private fun parseWeekIndex(parameters: Parameters, param: String) =
+    parseIndexFromInt(parameters, param, WEEK)
+
+private fun parseMonthIndex(parameters: Parameters, param: String) =
+    parseInt(parameters, combine(param, MONTH))
+
+private fun parseYearIndex(parameters: Parameters, param: String) =
+    parseIndexFromInt(parameters, param, YEAR)
+
+private fun parseDecadeIndex(parameters: Parameters, param: String) =
+    parseInt(parameters, combine(param, DECADE))
+
+private fun parseCenturyIndex(parameters: Parameters, param: String) =
+    parseInt(parameters, combine(param, CENTURY))
+
+private fun parseEraIndex(parameters: Parameters, param: String) =
+    parseInt(parameters, combine(param, ERA))
+
+private fun parseIndexFromInt(parameters: Parameters, param: String, type: String) =
+    parseInt(parameters, combine(param, type), 1) - 1

@@ -22,6 +22,18 @@ data class DisplayDay(
 
 }
 
+data class DisplayWeek(
+    val year: DisplayYear,
+    val weekIndex: Int,
+) : DisplayDate() {
+
+    constructor(eraIndex: Int, yearIndex: Int, weekIndex: Int) :
+            this(DisplayYear(eraIndex, yearIndex), weekIndex)
+
+    override fun eraIndex() = year.eraIndex()
+
+}
+
 data class DisplayMonth(
     val year: DisplayYear,
     val monthIndex: Int,

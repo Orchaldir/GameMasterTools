@@ -15,21 +15,20 @@ fun display(calendar: Calendar, format: DateFormat, date: Date) =
     display(calendar, format, calendar.resolve(date))
 
 fun display(calendar: Calendar, format: DateFormat, displayDate: DisplayDate): String {
-    val textWithoutEra = displayWithoutEra(calendar, format, displayDate)
+    val textWithoutEra = when (displayDate) {
+        is DisplayDay -> displayDay(calendar, format, displayDate)
+        is DisplayWeek -> return displayWeek(calendar, displayDate)
+        is DisplayMonth -> displayMonth(calendar, format, displayDate)
+        is DisplayYear -> (displayDate.yearIndex + 1).toString()
+        is DisplayDecade -> (displayDate.decadeIndex * 10).toString() + "s"
+        is DisplayCentury -> {
+            val century = displayDate.centuryIndex + 1
+            "$century.century"
+        }
+    }
 
     return calendar.eras.getEra(displayDate.eraIndex())
         .display(textWithoutEra)
-}
-
-fun displayWithoutEra(calendar: Calendar, format: DateFormat, displayDate: DisplayDate) = when (displayDate) {
-    is DisplayDay -> displayDay(calendar, format, displayDate)
-    is DisplayMonth -> displayMonth(calendar, format, displayDate)
-    is DisplayYear -> (displayDate.yearIndex + 1).toString()
-    is DisplayDecade -> (displayDate.decadeIndex * 10).toString() + "s"
-    is DisplayCentury -> {
-        val century = displayDate.centuryIndex + 1
-        "$century.century"
-    }
 }
 
 private fun displayDay(calendar: Calendar, format: DateFormat, displayDay: DisplayDay): String {
@@ -45,6 +44,16 @@ private fun displayDay(format: DateFormat, day: Int, month: String, year: Int) =
 
 private fun displayDay(part0: Int, part1: String, part2: Int, separator: Char) =
     "$part0$separator$part1$separator$part2"
+
+private fun displayWeek(calendar: Calendar, week: DisplayWeek): String {
+    val year = week.year.yearIndex + 1
+    val yearText = calendar.eras.getEra(week.eraIndex())
+        .display(year.toString())
+    return displayWeek(week.weekIndex + 1, "Week", yearText)
+}
+
+private fun displayWeek(week: Int, word: String, year: String) =
+    "$week.$word of $year"
 
 private fun displayMonth(calendar: Calendar, format: DateFormat, displayMonth: DisplayMonth): String {
     val month = getMonthString(format, calendar, displayMonth)

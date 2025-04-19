@@ -11,7 +11,9 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.selector.time.date.*
+import at.orchaldir.gm.core.selector.time.date.getEndDay
+import at.orchaldir.gm.core.selector.time.date.getStartDay
+import at.orchaldir.gm.core.selector.time.date.getStartDayOfMonth
 import at.orchaldir.gm.utils.Id
 
 fun State.getEvents(): List<Event> {
@@ -131,54 +133,10 @@ private fun createOwnershipChanged(
     to,
 )
 
-fun State.getEvents(calendarId: CalendarId, date: Date) = when (date) {
-    is Day -> getEventsOfDay(calendarId, date)
-    is Month -> getEventsOfMonth(calendarId, date)
-    is Year -> getEventsOfYear(calendarId, date)
-    is Decade -> getEventsOfDecade(calendarId, date)
-    is Century -> getEventsOfCentury(calendarId, date)
-}
-
-fun State.getEventsOfDay(calendarId: CalendarId, day: Day): List<Event> {
+fun State.getEvents(calendarId: CalendarId, date: Date): List<Event> {
     val calendar = getCalendarStorage().getOrThrow(calendarId)
-
-    return getEvents().filter { it.date.isBetween(calendar, day, day) }
-}
-
-fun State.getEventsOfMonth(calendarId: CalendarId, month: Month): List<Event> {
-    val calendar = getCalendarStorage().getOrThrow(calendarId)
-    val start = calendar.getStartDayOfMonth(month)
-    val end = calendar.getEndDayOfMonth(month)
-
-    return getEvents().filter {
-        it.date.isBetween(calendar, start, end)
-    }
-}
-
-fun State.getEventsOfYear(calendarId: CalendarId, year: Year): List<Event> {
-    val calendar = getCalendarStorage().getOrThrow(calendarId)
-    val start = calendar.getStartDayOfYear(year)
-    val end = calendar.getEndDayOfYear(year)
-
-    return getEvents().filter {
-        it.date.isBetween(calendar, start, end)
-    }
-}
-
-fun State.getEventsOfDecade(calendarId: CalendarId, decade: Decade): List<Event> {
-    val calendar = getCalendarStorage().getOrThrow(calendarId)
-    val start = calendar.getStartDayOfDecade(decade)
-    val end = calendar.getEndDayOfDecade(decade)
-
-    return getEvents().filter {
-        it.date.isBetween(calendar, start, end)
-    }
-}
-
-fun State.getEventsOfCentury(calendarId: CalendarId, century: Century): List<Event> {
-    val calendar = getCalendarStorage().getOrThrow(calendarId)
-    val start = calendar.getStartDayOfCentury(century)
-    val end = calendar.getEndDayOfCentury(century)
+    val start = calendar.getStartDay(date)
+    val end = calendar.getEndDay(date)
 
     return getEvents().filter {
         it.date.isBetween(calendar, start, end)
@@ -187,10 +145,12 @@ fun State.getEventsOfCentury(calendarId: CalendarId, century: Century): List<Eve
 
 fun List<Event>.sort(calendar: Calendar): List<Event> {
     val daysPerYear = calendar.getDaysPerYear()
+    val daysPerWeek = calendar.days.getDaysPerWeek()
 
     return sortedBy {
         when (val date = it.date) {
             is Day -> date.day
+            is Week -> date.week * daysPerWeek
             is Month -> calendar.getStartDayOfMonth(date).day
             is Year -> {
                 date.year * daysPerYear
