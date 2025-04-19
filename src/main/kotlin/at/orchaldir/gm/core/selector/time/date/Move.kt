@@ -14,19 +14,30 @@ fun Calendar.moveUp(date: Date): Date? = when (date) {
     is Century -> null
 }
 
-private fun Calendar.moveUpDay(date: Day): Date {
+private fun Calendar.moveUpDay(day: Day): Date {
     val daysPerWeek = days.getDaysPerWeek()
 
     return if (daysPerWeek > 0) {
-        if (date.day >= 0) {
-            Week(date.day / daysPerWeek)
-        } else {
-            val week = (date.day - 1) / daysPerWeek
-            Week(week)
-        }
+        moveUpDayToWeek(day, daysPerWeek)
     } else {
-        resolveMonth(resolveDay(date).month)
+        resolveMonth(resolveDay(day).month)
     }
+}
+
+fun Calendar.moveUpDayToWeek(day: Day): Week {
+    val daysPerWeek = getValidDaysPerWeek()
+
+    return moveUpDayToWeek(day, daysPerWeek)
+}
+
+private fun moveUpDayToWeek(
+    day: Day,
+    daysPerWeek: Int,
+) = if (day.day >= 0) {
+    Week(day.day / daysPerWeek)
+} else {
+    val week = (day.day - 1) / daysPerWeek
+    Week(week)
 }
 
 // day
@@ -61,15 +72,13 @@ fun Calendar.getEndDay(date: Date) = when (date) {
 // week
 
 fun Calendar.getStartDayOfWeek(week: Week): Day {
-    val daysPerWeek = days.getDaysPerWeek()
-    require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
+    val daysPerWeek = getValidDaysPerWeek()
 
     return Day(week.week * daysPerWeek)
 }
 
 fun Calendar.getEndDayOfWeek(week: Week): Day {
-    val daysPerWeek = days.getDaysPerWeek()
-    require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
+    val daysPerWeek = getValidDaysPerWeek()
 
     return Day(week.week * daysPerWeek + daysPerWeek - 1)
 }

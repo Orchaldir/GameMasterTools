@@ -59,8 +59,7 @@ fun Calendar.resolveDayAndMonth(dayInYear: Int): Pair<Int, Int> {
 }
 
 fun Calendar.resolveWeek(date: Week): DisplayWeek {
-    val daysPerWeek = days.getDaysPerWeek()
-    require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
+    val daysPerWeek = getValidDaysPerWeek()
     val daysPerYear = getDaysPerYear()
     val day = date.week * daysPerWeek
 
@@ -159,8 +158,7 @@ fun Calendar.resolveDay(day: DisplayDay): Day {
 }
 
 fun Calendar.resolveWeek(week: DisplayWeek): Week {
-    val daysPerWeek = days.getDaysPerWeek()
-    require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
+    val daysPerWeek = getValidDaysPerWeek()
     val startDay = resolveDay(getStartDisplayDayOfYear(week.year))
     val startWeek = startDay.day / daysPerWeek
 

@@ -46,6 +46,13 @@ data class Calendar(
 
     fun getStartDateInDefaultCalendar() = eras.first.startDay
 
+    fun getValidDaysPerWeek(): Int {
+        val daysPerWeek = days.getDaysPerWeek()
+        require(daysPerWeek > 0) { "Calendar ${id.value} doesn't support weeks!" }
+
+        return daysPerWeek
+    }
+
     // day
 
     fun getWeekDay(date: Day) = when (days) {
