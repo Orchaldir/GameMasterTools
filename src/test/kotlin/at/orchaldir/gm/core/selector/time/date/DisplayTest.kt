@@ -27,6 +27,15 @@ class DisplayTest {
         }
 
         @Test
+        fun `Test a week in AD`() {
+            val date = DisplayWeek(1, 2023, 1)
+            val result = "2.Week of 2024 AD"
+
+            assertDisplay(format0, date, result)
+            assertDisplay(format1, date, result)
+        }
+
+        @Test
         fun `Test a month in AD`() {
             val date = DisplayMonth(1, 2023, 1)
 
@@ -117,6 +126,15 @@ class DisplayTest {
 
             assertDisplay(format0, date, "BC 4.3.102")
             assertDisplay(format1, date, "BC 102/Third/4")
+        }
+
+        @Test
+        fun `Test a week in BC`() {
+            val date = DisplayWeek(0, 101, 0)
+            val result = "1.Week of BC 102"
+
+            assertDisplay(format0, date, result)
+            assertDisplay(format1, date, result)
         }
 
         @Test

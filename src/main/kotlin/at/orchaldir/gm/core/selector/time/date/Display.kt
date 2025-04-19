@@ -48,7 +48,7 @@ private fun displayDay(part0: Int, part1: String, part2: Int, separator: Char) =
     "$part0$separator$part1$separator$part2"
 
 private fun displayWeek(week: DisplayWeek) =
-    displayWeek(week.month.year.yearIndex + 1, "Year", week.weekIndex + 1)
+    displayWeek(week.weekIndex + 1, "Week", week.year.yearIndex + 1)
 
 private fun displayWeek(week: Int, word: String, year: Int) =
     "$week.$word of $year"
