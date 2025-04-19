@@ -2,10 +2,7 @@ package at.orchaldir.gm.core.model.time.date
 
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.selector.time.date.getStartDayOfCentury
-import at.orchaldir.gm.core.selector.time.date.getStartDayOfDecade
-import at.orchaldir.gm.core.selector.time.date.getStartDayOfMonth
-import at.orchaldir.gm.core.selector.time.date.getStartDayOfYear
+import at.orchaldir.gm.core.selector.time.date.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
@@ -74,7 +71,9 @@ data class Week(val week: Int) : Date {
     }
 
     fun getDurationBetween(other: Week) = Duration((week - other.week).absoluteValue)
-    override fun isBetween(calendar: Calendar, start: Day, end: Day) = TODO()
+    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
+        .getStartDayOfWeek(this)
+        .isBetween(calendar, start, end)
 }
 
 @Serializable
