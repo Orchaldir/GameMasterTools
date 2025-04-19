@@ -83,6 +83,9 @@ fun Calendar.getEndDayOfWeek(week: Week): Day {
     return Day(week.week * daysPerWeek + daysPerWeek - 1)
 }
 
+fun Calendar.getStartWeekOfYear(year: Year) = moveUpDayToWeek(getStartDayOfYear(year))
+fun Calendar.getEndWeekOfYear(year: Year) = moveUpDayToWeek(getEndDayOfYear(year))
+
 // month
 
 fun Calendar.getStartDayOfMonth(month: Month) = resolveDay(getStartDisplayDayOfMonth(month))
