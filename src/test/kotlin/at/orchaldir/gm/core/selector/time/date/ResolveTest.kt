@@ -83,6 +83,7 @@ class ResolveTest {
         }
 
         private fun test(calendar: Calendar) {
+            assertResolve(calendar, -2, 0, 0, 0)
             assertResolve(calendar, -1, 0, 0, 1)
             assertResolve(calendar, 0, 1, 0, 0) // 1 AD
             assertResolve(calendar, 1, 1, 0, 1)

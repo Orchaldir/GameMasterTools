@@ -37,18 +37,22 @@ class MoveTest {
 
         @Test
         fun `Move day up to week`() {
-            assertEquals(Week(-3), calendar1.moveUp(Day(-5)))
-            assertEquals(Week(-2), calendar1.moveUp(Day(-4)))
-            assertEquals(Week(-2), calendar1.moveUp(Day(-3)))
-            assertEquals(Week(-1), calendar1.moveUp(Day(-2)))
-            assertEquals(Week(-1), calendar1.moveUp(Day(-1)))
-            assertEquals(Week(0), calendar1.moveUp(Day(0)))
-            assertEquals(Week(0), calendar1.moveUp(Day(1)))
-            assertEquals(Week(1), calendar1.moveUp(Day(2)))
-            assertEquals(Week(1), calendar1.moveUp(Day(3)))
-            assertEquals(Week(2), calendar1.moveUp(Day(4)))
-            assertEquals(Week(2), calendar1.moveUp(Day(5)))
-            assertEquals(Week(3), calendar1.moveUp(Day(6)))
+            asserToWeek(-5, -3)
+            asserToWeek(-4, -2)
+            asserToWeek(-3, -2)
+            asserToWeek(-2, -1)
+            asserToWeek(-1, -1)
+            asserToWeek(0, 0)
+            asserToWeek(1, 0)
+            asserToWeek(2, 1)
+            asserToWeek(3, 1)
+            asserToWeek(4, 2)
+            asserToWeek(5, 2)
+            asserToWeek(6, 3)
+        }
+
+        private fun asserToWeek(day: Int, week: Int) {
+            assertEquals(Week(week), calendar1.moveUp(Day(day)))
         }
 
         @Test
