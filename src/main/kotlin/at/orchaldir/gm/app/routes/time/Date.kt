@@ -163,7 +163,7 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
 
                             checkSelection(day)
 
-                            +(dayIndex + 1).toString()
+                            link(call, day, (dayIndex + 1).toString())
 
                             showMoons(call, moons, day)
 
