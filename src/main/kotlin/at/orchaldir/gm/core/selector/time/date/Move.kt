@@ -20,9 +20,12 @@ private fun Calendar.moveUpDay(day: Day): Date {
     return if (daysPerWeek > 0) {
         moveUpDayToWeek(day, daysPerWeek)
     } else {
-        resolveMonth(resolveDay(day).month)
+        moveUpDayToMonth(day)
     }
 }
+
+fun Calendar.moveUpDayToMonth(day: Day) =
+    resolveMonth(resolveDay(day).month)
 
 fun Calendar.moveUpDayToWeek(day: Day): Week {
     val daysPerWeek = getValidDaysPerWeek()

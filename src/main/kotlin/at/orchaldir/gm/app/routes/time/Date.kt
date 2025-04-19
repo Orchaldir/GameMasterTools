@@ -28,16 +28,17 @@ fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val displayDay = calendar.resolveDay(day)
 
     showDate(call, calendarId, day, "Day") {
-        visualizeMonth(call, state, calendar, displayDay.month, displayDay)
+        visualizeMonth(call, state, calendar, displayDay.month, day)
     }
 }
 
 fun HTML.showWeek(call: ApplicationCall, calendarId: CalendarId, week: Week) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayDay = calendar.resolveWeek(week)
+    val month = calendar.resolveDay(calendar.getStartDayOfWeek(week)).month
 
     showDate(call, calendarId, week, "Week") {
+        visualizeMonth(call, state, calendar, month, week)
     }
 }
 
@@ -89,7 +90,7 @@ private fun HtmlBlockTag.visualizeMonth(
     state: State,
     calendar: Calendar,
     displayMonth: DisplayMonth,
-    displayDay: DisplayDay? = null,
+    selection: Date? = null,
 ) {
     when (calendar.days) {
         DayOfTheMonth -> doNothing()
@@ -98,7 +99,7 @@ private fun HtmlBlockTag.visualizeMonth(
             state,
             calendar,
             displayMonth,
-            displayDay,
+            selection,
             calendar.days,
         )
     }
@@ -109,7 +110,7 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
     state: State,
     calendar: Calendar,
     displayMonth: DisplayMonth,
-    selectedDay: DisplayDay?,
+    selection: Date?,
     days: Weekdays,
 ) {
     val moons = state.getMoonStorage().getAll()
@@ -117,6 +118,14 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
     val startOfMonth = calendar.resolveDay(calendar.getStartDisplayDayOfMonth(displayMonth))
     val startWeek = calendar.moveUpDayToWeek(startOfMonth)
     val columns = days.weekDays + 1
+    val checkSelection: HtmlBlockTag.(Day) -> Unit = if (selection != null) {
+        val selectionStart = calendar.getStartDay(selection)
+        val selectionEnd = calendar.getEndDay(selection)
+
+        create(calendar, selectionStart, selectionEnd)
+    } else {
+        {}
+    }
 
     table {
         tr {
@@ -152,9 +161,7 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
                         if (month.isInside(dayIndex)) {
                             val day = startOfMonth + dayIndex
 
-                            if (selectedDay?.dayIndex == dayIndex) {
-                                style = "background-color:cyan"
-                            }
+                            checkSelection(day)
 
                             +(dayIndex + 1).toString()
 
@@ -179,6 +186,17 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
         }
     }
 }
+
+private fun create(
+    calendar: Calendar,
+    selectionStart: Day,
+    selectionEnd: Day,
+): HtmlBlockTag.(Day) -> Unit =
+    { day ->
+        if (day.isBetween(calendar, selectionStart, selectionEnd)) {
+            style = "background-color:cyan"
+        }
+    }
 
 private fun TD.showMoons(
     call: ApplicationCall,
