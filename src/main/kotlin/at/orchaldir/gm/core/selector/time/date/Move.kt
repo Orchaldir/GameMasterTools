@@ -119,7 +119,7 @@ fun Calendar.getEndDayOfYear(year: Year) = getStartDayOfYear(year.nextYear()).pr
 
 fun Calendar.getStartYear(date: Date): Year = when (date) {
     is Day -> resolveYear(resolveDay(date).month.year)
-    is Week -> TODO()
+    is Week -> resolveYear(resolveWeek(date).year)
     is Month -> resolveYear(resolveMonth(date).year)
     is Year -> date
     is Decade -> resolveYear(resolveDecade(date).startYear())
@@ -128,7 +128,7 @@ fun Calendar.getStartYear(date: Date): Year = when (date) {
 
 fun Calendar.getStartDisplayYear(date: Date): DisplayYear = when (date) {
     is Day -> resolveDay(date).month.year
-    is Week -> TODO()
+    is Week -> resolveWeek(date).year
     is Month -> resolveMonth(date).year
     is Year -> resolveYear(date)
     is Decade -> resolveDecade(date).startYear()
@@ -147,7 +147,7 @@ fun Calendar.getEndDayOfDecade(decade: Decade) = getStartDayOfDecade(decade.next
 
 fun Calendar.getStartDecade(date: Date): Decade = when (date) {
     is Day -> resolveDecade(resolveDay(date).month.year.decade())
-    is Week -> TODO()
+    is Week -> resolveDecade(resolveWeek(date).year.decade())
     is Month -> resolveDecade(resolveMonth(date).year.decade())
     is Year -> resolveDecade(resolveYear(date).decade())
     is Decade -> date
@@ -156,7 +156,7 @@ fun Calendar.getStartDecade(date: Date): Decade = when (date) {
 
 fun Calendar.getStartDisplayDecade(date: Date): DisplayDecade = when (date) {
     is Day -> resolveDay(date).month.year.decade()
-    is Week -> TODO()
+    is Week -> resolveWeek(date).year.decade()
     is Month -> resolveMonth(date).year.decade()
     is Year -> resolveYear(date).decade()
     is Decade -> resolveDecade(date)
@@ -175,7 +175,7 @@ fun Calendar.getEndDayOfCentury(century: Century) = getStartDayOfCentury(century
 
 fun Calendar.getCentury(date: Date): Century = when (date) {
     is Day -> resolveCentury(resolveDay(date).month.year.decade().century())
-    is Week -> TODO()
+    is Week -> resolveCentury(resolveWeek(date).year.decade().century())
     is Month -> resolveCentury(resolveMonth(date).year.decade().century())
     is Year -> resolveCentury(resolveYear(date).decade().century())
     is Decade -> resolveCentury(resolveDecade(date).century())
@@ -184,7 +184,7 @@ fun Calendar.getCentury(date: Date): Century = when (date) {
 
 fun Calendar.getDisplayCentury(date: Date): DisplayCentury = when (date) {
     is Day -> resolveDay(date).month.year.decade().century()
-    is Week -> TODO()
+    is Week -> resolveWeek(date).year.decade().century()
     is Month -> resolveMonth(date).year.decade().century()
     is Year -> resolveYear(date).decade().century()
     is Decade -> resolveDecade(date).century()
