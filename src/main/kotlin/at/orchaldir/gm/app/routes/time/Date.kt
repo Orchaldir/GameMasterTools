@@ -67,8 +67,11 @@ fun HTML.showDate(
 
     simpleHtml("$label: " + display(calendar, date)) {
         fieldLink("Calendar", call, state, calendar)
-        field(call, "Start", calendar, calendar.getStartDay(date))
-        field(call, "End", calendar, calendar.getEndDay(date))
+
+        if (date !is Day) {
+            field(call, "Start", calendar, calendar.getStartDay(date))
+            field(call, "End", calendar, calendar.getEndDay(date))
+        }
 
         action { link(call, date.next(), "Next $label") }
         action { link(call, date.previous(), "Previous $label") }
