@@ -13,14 +13,14 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.periodical.Periodical
-import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
-import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
+import at.orchaldir.gm.core.model.item.periodical.*
+import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.selector.item.getValidPublicationFrequencies
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
@@ -29,12 +29,20 @@ fun BODY.showPeriodical(
     state: State,
     periodical: Periodical,
 ) {
-    optionalField(call, state, "Date", periodical.startDate())
     fieldCreator(call, state, periodical.founder, "Founder")
     showOwnership(call, state, periodical.ownership)
     fieldLink("Language", call, state, periodical.language)
     fieldLink("Calendar", call, state, periodical.calendar)
-    field("Frequency", periodical.frequency)
+    showFrequency(call, state, periodical.frequency)
+}
+
+private fun HtmlBlockTag.showFrequency(
+    call: ApplicationCall,
+    state: State,
+    frequency: PublicationFrequency,
+) {
+    field("Frequency", frequency.getType())
+    optionalField(call, state, "Publication Start", frequency.getStartDate())
 }
 
 // edit
@@ -56,8 +64,17 @@ private fun FORM.selectPublicationFrequency(
     state: State,
     periodical: Periodical,
 ) {
-    val frequencies = state.getValidPublicationFrequencies(periodical.calendar)
-    selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency)
+    val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
+    val frequencies = getValidPublicationFrequencies(calendar)
+
+    selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency.getType())
+
+    when (val frequency = periodical.frequency) {
+        is DailyPublication -> selectOptionalDay(calendar, "Start Day", frequency.start, DATE)
+        is WeeklyPublication -> selectOptionalWeek(calendar, "Start Week", frequency.start, DATE)
+        is MonthlyPublication -> selectOptionalMonth(calendar, "Start Month", frequency.start, DATE)
+        is YearlyPublication -> selectOptionalYear(calendar, "Start Year", frequency.start, DATE)
+    }
 }
 
 // parse
@@ -68,15 +85,24 @@ fun parsePeriodicalId(parameters: Parameters, param: String) = PeriodicalId(pars
 
 fun parsePeriodical(parameters: Parameters, state: State, id: PeriodicalId): Periodical {
     val startDate = parseOptionalDate(parameters, state, DATE)
+    val calendarId = parseCalendarId(parameters, CALENDAR)
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
 
     return Periodical(
         id,
         parseComplexName(parameters),
-        startDate,
         parseCreator(parameters),
         parseOwnership(parameters, state, startDate),
         parseLanguageId(parameters, LANGUAGE),
-        parseCalendarId(parameters, CALENDAR),
-        parse(parameters, FREQUENCY, PublicationFrequency.Daily),
+        calendarId,
+        parseFrequency(parameters, calendar),
     )
 }
+
+private fun parseFrequency(parameters: Parameters, calendar: Calendar) =
+    when (parse(parameters, FREQUENCY, PublicationFrequencyType.Daily)) {
+        PublicationFrequencyType.Daily -> DailyPublication(parseOptionalDay(parameters, calendar, DATE))
+        PublicationFrequencyType.Weekly -> WeeklyPublication(parseOptionalWeek(parameters, calendar, DATE))
+        PublicationFrequencyType.Monthly -> MonthlyPublication(parseOptionalMonth(parameters, calendar, DATE))
+        PublicationFrequencyType.Yearly -> YearlyPublication(parseOptionalYear(parameters, calendar, DATE))
+    }

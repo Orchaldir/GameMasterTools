@@ -5,8 +5,9 @@ import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.item.periodical.DailyPublication
 import at.orchaldir.gm.core.model.item.periodical.Periodical
-import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency.Weekly
+import at.orchaldir.gm.core.model.item.periodical.WeeklyPublication
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.name.NameWithReference
 import at.orchaldir.gm.core.model.name.ReferencedFullName
@@ -89,7 +90,7 @@ class PeriodicalTest {
 
         @Test
         fun `Date is in the future`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, startDate = FUTURE_DAY_0))
+            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, frequency = DailyPublication(FUTURE_DAY_0)))
 
             assertIllegalArgument("Date (Founding) is in the future!") { REDUCER.invoke(STATE, action) }
         }
@@ -103,7 +104,7 @@ class PeriodicalTest {
 
         @Test
         fun `The calendar doesn't support weeks`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, frequency = Weekly))
+            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, frequency = WeeklyPublication()))
 
             assertIllegalArgument("The Calendar 0 doesn't support weeks!") { REDUCER.invoke(STATE, action) }
         }

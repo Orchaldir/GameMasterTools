@@ -43,7 +43,7 @@ val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
 }
 
 private fun validateFrequency(state: State, periodical: Periodical) {
-    require(state.getValidPublicationFrequencies(periodical.calendar).contains(periodical.frequency)) {
+    require(state.getValidPublicationFrequencies(periodical.calendar).contains(periodical.frequency.getType())) {
         "The Calendar ${periodical.calendar.value} doesn't support weeks!"
     }
 }

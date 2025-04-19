@@ -21,7 +21,7 @@ sealed class PublicationFrequency {
         is YearlyPublication -> PublicationFrequencyType.Yearly
     }
 
-    fun getStartDate(): Date = when (this) {
+    fun getStartDate(): Date? = when (this) {
         is DailyPublication -> start
         is WeeklyPublication -> start
         is MonthlyPublication -> start
@@ -32,23 +32,23 @@ sealed class PublicationFrequency {
 @Serializable
 @SerialName("Daily")
 data class DailyPublication(
-    val start: Day,
+    val start: Day? = null,
 ) : PublicationFrequency()
 
 @Serializable
 @SerialName("Weekly")
 data class WeeklyPublication(
-    val start: Week,
+    val start: Week? = null,
 ) : PublicationFrequency()
 
 @Serializable
 @SerialName("Monthly")
 data class MonthlyPublication(
-    val start: Month,
+    val start: Month? = null,
 ) : PublicationFrequency()
 
 @Serializable
 @SerialName("Yearly")
 data class YearlyPublication(
-    val start: Year,
+    val start: Year? = null,
 ) : PublicationFrequency()

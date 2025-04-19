@@ -30,7 +30,7 @@ data class Periodical(
     val ownership: History<Owner> = History(UndefinedOwner),
     val language: LanguageId = LanguageId(0),
     val calendar: CalendarId = CalendarId(0),
-    val frequency: PublicationFrequency,
+    val frequency: PublicationFrequency = DailyPublication(),
 ) : Element<PeriodicalId>, Created, HasStartDate {
 
     override fun id() = id

@@ -54,7 +54,7 @@ fun displayDate(state: State, date: Date): String {
     return display(calendar, date)
 }
 
-// select
+// select optional
 
 fun HtmlBlockTag.selectOptionalDate(
     state: State,
@@ -73,11 +73,8 @@ private fun HtmlBlockTag.selectOptionalDate(
     param: String,
     minDate: Date? = null,
 ) {
-    field(fieldLabel) {
-        selectBool(date != null, combine(param, AVAILABLE), isDisabled = false, update = true)
-        if (date != null) {
-            selectDate(calendar, date, param, minDate)
-        }
+    selectOptional(fieldLabel, date, param) {
+        selectDate(calendar, it, param, minDate)
     }
 }
 
@@ -100,14 +97,66 @@ fun HtmlBlockTag.selectOptionalYear(
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
+    selectOptional(fieldLabel, year, param) {
+        val displayYear = calendar.resolveYear(it)
+        selectYear(param, calendar, displayYear, minDate, maxDate)
+    }
+}
+
+fun HtmlBlockTag.selectOptionalMonth(
+    calendar: Calendar,
+    fieldLabel: String,
+    month: Month?,
+    param: String,
+    minDate: Date? = null,
+) {
+    selectOptional(fieldLabel, month, param) {
+        val displayMonth = calendar.resolveMonth(it)
+        selectMonth(param, calendar, displayMonth, minDate)
+    }
+}
+
+fun HtmlBlockTag.selectOptionalWeek(
+    calendar: Calendar,
+    fieldLabel: String,
+    week: Week?,
+    param: String,
+    minDate: Date? = null,
+) {
+    selectOptional(fieldLabel, week, param) {
+        val displayWeek = calendar.resolveWeek(it)
+        selectWeek(param, calendar, displayWeek, minDate)
+    }
+}
+
+fun HtmlBlockTag.selectOptionalDay(
+    calendar: Calendar,
+    fieldLabel: String,
+    day: Day?,
+    param: String,
+    minDate: Date? = null,
+) {
+    selectOptional(fieldLabel, day, param) {
+        val displayDay = calendar.resolveDay(it)
+        selectDay(param, calendar, displayDay, minDate)
+    }
+}
+
+private fun <T> HtmlBlockTag.selectOptional(
+    fieldLabel: String,
+    date: T?,
+    param: String,
+    content: HtmlBlockTag.(T) -> Unit,
+) {
     field(fieldLabel) {
-        selectBool(year != null, combine(param, AVAILABLE), isDisabled = false, update = true)
-        if (year != null) {
-            val displayYear = calendar.resolveYear(year)
-            selectYear(param, calendar, displayYear, minDate, maxDate)
+        selectBool(date != null, combine(param, AVAILABLE), isDisabled = false, update = true)
+        if (date != null) {
+            content(date)
         }
     }
 }
+
+// select
 
 fun HtmlBlockTag.selectDate(
     state: State,
@@ -303,6 +352,8 @@ private fun HtmlBlockTag.selectDay(
     selectMonthIndex(param, calendar, displayDate.month, displayMinDay?.month)
     selectDayIndex(param, calendar, displayDate, displayMinDay)
 }
+
+// select indices
 
 private fun HtmlBlockTag.selectEraIndex(
     param: String,
@@ -564,7 +615,7 @@ fun HtmlBlockTag.selectDayIndex(
     selectInt(dayIndex + 1, minDayIndex + 1, maxDayIndex + 1, 1, combine(param, DAY), true)
 }
 
-// parse
+// parse optional
 
 fun parseOptionalDate(
     parameters: Parameters,
@@ -576,12 +627,8 @@ fun parseOptionalDate(
     parameters: Parameters,
     calendar: Calendar,
     param: String,
-): Date? {
-    if (!parseBool(parameters, combine(param, AVAILABLE))) {
-        return null
-    }
-
-    return parseDate(parameters, calendar, param)
+): Date? = parseOptional(parameters, param) {
+    parseDate(parameters, calendar, param)
 }
 
 fun parseOptionalYear(
@@ -594,13 +641,47 @@ fun parseOptionalYear(
     parameters: Parameters,
     calendar: Calendar,
     param: String,
-): Year? {
+): Year? = parseOptional(parameters, param) {
+    parseYear(parameters, calendar, param)
+}
+
+fun parseOptionalMonth(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Month? = parseOptional(parameters, param) {
+    parseMonth(parameters, calendar, param)
+}
+
+fun parseOptionalWeek(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Week? = parseOptional(parameters, param) {
+    parseWeek(parameters, calendar, param)
+}
+
+fun parseOptionalDay(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Day? = parseOptional(parameters, param) {
+    parseDay(parameters, calendar, param)
+}
+
+private fun <T> parseOptional(
+    parameters: Parameters,
+    param: String,
+    content: () -> T,
+): T? {
     if (!parseBool(parameters, combine(param, AVAILABLE))) {
         return null
     }
 
-    return parseYear(parameters, calendar, param)
+    return content()
 }
+
+// parse
 
 fun parseDate(
     parameters: Parameters,
