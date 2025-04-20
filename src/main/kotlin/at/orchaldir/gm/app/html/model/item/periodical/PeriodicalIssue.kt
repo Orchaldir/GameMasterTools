@@ -21,9 +21,10 @@ fun BODY.showPeriodicalIssue(
     state: State,
     issue: PeriodicalIssue,
 ) {
+    val periodical = state.getPeriodicalStorage().getOrThrow(issue.periodical)
     fieldLink("Periodical", call, state, issue.periodical)
     field("Issue Number", issue.number)
-    field(call, state, "Publication Date", issue.getDate(state))
+    field(call, state, periodical.calendar, "Publication Date", issue.getDate(state))
 }
 
 // edit

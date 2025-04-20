@@ -58,6 +58,11 @@ fun HtmlBlockTag.field(call: ApplicationCall, state: State, label: String, date:
     field(call, label, state.getDefaultCalendar(), date)
 }
 
+fun HtmlBlockTag.field(call: ApplicationCall, state: State, calendarId: CalendarId, label: String, date: Date) {
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    field(call, label, calendar, date)
+}
+
 fun HtmlBlockTag.field(call: ApplicationCall, label: String, calendar: Calendar, date: Date) {
     field(label) {
         link(call, calendar, date)
