@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.holiday.DayInMonth
 import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
+import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.ImprovedCalendar
 import at.orchaldir.gm.core.model.time.calendar.OriginalCalendar
@@ -27,6 +29,12 @@ fun State.getChildren(calendar: CalendarId) = getCalendarStorage().getAll().filt
 }
 
 fun State.getDefaultCalendar() = getCalendarStorage().getOrThrow(time.defaultCalendar)
+
+fun State.getCalendar(id: PeriodicalId): Calendar {
+    val periodical = getPeriodicalStorage().getOrThrow(id)
+
+    return getCalendarStorage().getOrThrow(periodical.calendar)
+}
 
 fun State.getPossibleParents(calendar: CalendarId) = getCalendarStorage().getAll().filter { it.id != calendar }
 

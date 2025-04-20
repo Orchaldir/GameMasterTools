@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
 import at.orchaldir.gm.core.selector.item.canDeletePeriodicalIssue
+import at.orchaldir.gm.core.selector.time.calendar.getCalendar
+import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -144,7 +146,7 @@ private fun HTML.showAllPeriodicalIssues(
     val sortAgeLink = call.application.href(PeriodicalIssueRoutes.All())
     val sortPeriodicalLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Periodical))
 
-    simpleHtml("PeriodicalIssues") {
+    simpleHtml("Periodical Issues") {
         field("Count", periodicals.size)
         field("Sort") {
             link(sortAgeLink, "Age")
@@ -155,13 +157,13 @@ private fun HTML.showAllPeriodicalIssues(
             tr {
                 th { +"Date" }
                 th { +"Periodical" }
-                th { +"Link" }
             }
-            periodicals.forEach { periodical ->
+            periodicals.forEach { issue ->
+                val calendar = state.getCalendar(issue.periodical)
+                val text = issue.startDate()?.let { display(calendar, it) } ?: "Unknown"
                 tr {
-                    td { showOptionalDate(call, state, periodical.startDate()) }
-                    td { link(call, state, periodical.periodical) }
-                    td { link(call, periodical.id, "Link") }
+                    td { link(call, issue.id, text) }
+                    td { link(call, state, issue.periodical) }
                 }
             }
         }
@@ -180,7 +182,7 @@ private fun HTML.showPeriodicalIssueDetails(
     val deleteLink = call.application.href(PeriodicalIssueRoutes.Delete(periodical.id))
     val editLink = call.application.href(PeriodicalIssueRoutes.Edit(periodical.id))
 
-    simpleHtml("PeriodicalIssue: ${periodical.name(state)}") {
+    simpleHtml("Periodical Issue: ${periodical.id.value}") {
         showPeriodicalIssue(call, state, periodical)
 
         action(editLink, "Edit")

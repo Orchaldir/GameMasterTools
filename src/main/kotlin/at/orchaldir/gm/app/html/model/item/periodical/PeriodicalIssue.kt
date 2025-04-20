@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
+import at.orchaldir.gm.core.selector.time.calendar.getCalendar
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
@@ -24,7 +25,7 @@ fun BODY.showPeriodicalIssue(
     issue: PeriodicalIssue,
 ) {
     fieldLink("Periodical", call, state, issue.periodical)
-    optionalField(call, state, "Publication Start", issue.date)
+    optionalField(call, state, "Publication Date", issue.date)
 }
 
 // edit
@@ -33,10 +34,9 @@ fun FORM.editPeriodicalIssue(
     state: State,
     issue: PeriodicalIssue,
 ) {
-    val periodical = state.getPeriodicalStorage().getOrThrow(issue.periodical)
-    val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
+    val calendar = state.getCalendar(issue.periodical)
     selectElement(state, "Periodical", PERIODICAL, state.getPeriodicalStorage().getAll(), issue.periodical, true)
-    selectOptionalDate(calendar, "Start Day", issue.date, DATE)
+    selectOptionalDate(calendar, "Publication Date", issue.date, DATE)
 }
 
 // parse
@@ -47,8 +47,7 @@ fun parsePeriodicalIssueId(parameters: Parameters, param: String) = PeriodicalIs
 
 fun parsePeriodicalIssue(parameters: Parameters, state: State, id: PeriodicalIssueId): PeriodicalIssue {
     val periodicalId = parsePeriodicalId(parameters, PERIODICAL)
-    val periodical = state.getPeriodicalStorage().getOrThrow(periodicalId)
-    val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
+    val calendar = state.getCalendar(periodicalId)
 
     return PeriodicalIssue(
         id,
