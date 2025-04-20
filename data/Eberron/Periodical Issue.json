@@ -1,12 +1,8 @@
 {
-  "version": 1,
-  "elements": {
-    "0": {
-      "id": 0,
-      "date": {
-        "type": "Year",
-        "year": 899
-      }
-    }
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0
   }
+ }
 }
