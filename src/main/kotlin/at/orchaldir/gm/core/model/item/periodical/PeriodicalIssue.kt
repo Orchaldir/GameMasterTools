@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.model.item.periodical
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.core.model.util.HasStartDate
-import at.orchaldir.gm.core.selector.time.calendar.getCalendar
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -26,22 +22,35 @@ value class PeriodicalIssueId(val value: Int) : Id<PeriodicalIssueId> {
 data class PeriodicalIssue(
     val id: PeriodicalIssueId,
     val periodical: PeriodicalId = PeriodicalId(0),
-    val date: Date? = null,
-) : Element<PeriodicalIssueId>, HasStartDate {
+    val number: Int = 0,
+) : Element<PeriodicalIssueId> {
 
     override fun id() = id
 
     override fun name(state: State): String {
         val periodical = state.getPeriodicalStorage().getOrThrow(periodical)
 
-        return periodical.name(state) + " (" + dateAsName(state) + ")"
+        return periodical.name(state) + " (" + dateAsName(state, periodical) + ")"
     }
 
     fun dateAsName(state: State): String {
-        val calendar = state.getCalendar(periodical)
-        return date?.let { display(calendar, it) } ?: "Unknown"
+        val periodical = state.getPeriodicalStorage().getOrThrow(periodical)
+
+        return dateAsName(state, periodical)
     }
 
-    override fun startDate() = date
+    private fun dateAsName(state: State, periodical: Periodical): String {
+        val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
+        val date = periodical
+            .frequency
+            .getDateOfIssue(number)
+
+        return display(calendar, date)
+    }
+
+    fun getDate(state: State) = state.getPeriodicalStorage()
+        .getOrThrow(periodical)
+        .frequency
+        .getDateOfIssue(number)
 
 }

@@ -287,6 +287,20 @@ private fun HtmlBlockTag.selectYear(
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
 }
 
+fun FORM.selectWeek(
+    fieldLabel: String,
+    calendar: Calendar,
+    week: Week,
+    param: String,
+    minDate: Date? = null,
+) {
+    val displayDate = calendar.resolveWeek(week)
+
+    field(fieldLabel) {
+        selectWeek(param, calendar, displayDate, minDate)
+    }
+}
+
 private fun HtmlBlockTag.selectWeek(
     param: String,
     calendar: Calendar,
@@ -304,6 +318,20 @@ private fun HtmlBlockTag.selectWeek(
         selectEraIndex(param, calendar, displayDate.year.eraIndex)
         selectYearIndex(param, displayDate.year)
         selectWeekIndex(param, calendar, displayDate)
+    }
+}
+
+fun FORM.selectMonth(
+    fieldLabel: String,
+    calendar: Calendar,
+    month: Month,
+    param: String,
+    minDate: Date? = null,
+) {
+    val displayDate = calendar.resolveMonth(month)
+
+    field(fieldLabel) {
+        selectMonth(param, calendar, displayDate, minDate)
     }
 }
 
@@ -334,11 +362,12 @@ fun FORM.selectDay(
     calendar: Calendar,
     day: Day,
     param: String,
+    minDate: Date? = null,
 ) {
     val displayDate = calendar.resolveDay(day)
 
     field(fieldLabel) {
-        selectDay(param, calendar, displayDate, null)
+        selectDay(param, calendar, displayDate, minDate)
     }
 }
 

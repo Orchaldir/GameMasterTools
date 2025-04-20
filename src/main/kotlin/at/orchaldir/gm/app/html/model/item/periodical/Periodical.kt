@@ -75,10 +75,10 @@ private fun FORM.selectPublicationFrequency(
     selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency.getType(), true)
 
     when (val frequency = periodical.frequency) {
-        is DailyPublication -> selectOptionalDay(calendar, "Start Day", frequency.start, DATE)
-        is WeeklyPublication -> selectOptionalWeek(calendar, "Start Week", frequency.start, DATE)
-        is MonthlyPublication -> selectOptionalMonth(calendar, "Start Month", frequency.start, DATE)
-        is YearlyPublication -> selectOptionalYear(calendar, "Start Year", frequency.start, DATE)
+        is DailyPublication -> selectDay("Start Day", calendar, frequency.start, DATE)
+        is WeeklyPublication -> selectWeek("Start Week", calendar, frequency.start, DATE)
+        is MonthlyPublication -> selectMonth("Start Month", calendar, frequency.start, DATE)
+        is YearlyPublication -> selectYear("Start Year", calendar, frequency.start, DATE)
     }
 }
 
@@ -106,8 +106,8 @@ fun parsePeriodical(parameters: Parameters, state: State, id: PeriodicalId): Per
 
 private fun parseFrequency(parameters: Parameters, calendar: Calendar) =
     when (parse(parameters, FREQUENCY, PublicationFrequencyType.Daily)) {
-        PublicationFrequencyType.Daily -> DailyPublication(parseOptionalDay(parameters, calendar, DATE))
-        PublicationFrequencyType.Weekly -> WeeklyPublication(parseOptionalWeek(parameters, calendar, DATE))
-        PublicationFrequencyType.Monthly -> MonthlyPublication(parseOptionalMonth(parameters, calendar, DATE))
-        PublicationFrequencyType.Yearly -> YearlyPublication(parseOptionalYear(parameters, calendar, DATE))
+        PublicationFrequencyType.Daily -> DailyPublication(parseDay(parameters, calendar, DATE))
+        PublicationFrequencyType.Weekly -> WeeklyPublication(parseWeek(parameters, calendar, DATE))
+        PublicationFrequencyType.Monthly -> MonthlyPublication(parseMonth(parameters, calendar, DATE))
+        PublicationFrequencyType.Yearly -> YearlyPublication(parseYear(parameters, calendar, DATE))
     }
