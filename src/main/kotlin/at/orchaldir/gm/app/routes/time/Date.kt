@@ -73,11 +73,11 @@ fun HTML.showDate(
             field(call, "End", calendar, calendar.getEndDay(date))
         }
 
-        action { link(call, date.next(), "Next $label") }
-        action { link(call, date.previous(), "Previous $label") }
+        action { link(call, calendarId, date.next(), "Next $label") }
+        action { link(call, calendarId, date.previous(), "Previous $label") }
 
         if (upDate != null) {
-            action { link(call, upDate, "Up") }
+            action { link(call, calendarId, upDate, "Up") }
         }
 
         content()
@@ -155,7 +155,7 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
             tr {
                 td {
                     val display = calendar.resolveWeek(week)
-                    link(call, week, (display.weekIndex + 1).toString())
+                    link(call, calendar.id, week, (display.weekIndex + 1).toString())
 
                     week += 1
                 }
@@ -166,7 +166,7 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
 
                             checkSelection(day)
 
-                            link(call, day, (dayIndex + 1).toString())
+                            link(call, calendar.id, day, (dayIndex + 1).toString())
 
                             showMoons(call, moons, day)
 

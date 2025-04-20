@@ -33,7 +33,7 @@ fun BODY.showPeriodical(
     showOwnership(call, state, periodical.ownership)
     fieldLink("Language", call, state, periodical.language)
     fieldLink("Calendar", call, state, periodical.calendar)
-    showFrequency(call, state, periodical.frequency)
+    showFrequency(call, state, periodical)
 
     h2 { +"Usage" }
 
@@ -45,10 +45,10 @@ fun BODY.showPeriodical(
 private fun HtmlBlockTag.showFrequency(
     call: ApplicationCall,
     state: State,
-    frequency: PublicationFrequency,
+    periodical: Periodical,
 ) {
-    field("Frequency", frequency.getType())
-    optionalField(call, state, "Publication Start", frequency.getStartDate())
+    field("Frequency", periodical.frequency.getType())
+    optionalField(call, state, periodical.calendar, "Publication Start", periodical.frequency.getStartDate())
 }
 
 // edit

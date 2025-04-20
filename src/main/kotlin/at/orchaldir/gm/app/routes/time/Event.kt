@@ -45,7 +45,7 @@ fun HtmlBlockTag.showEvents(
         val date = event.date
 
         if (date is Day && date == state.time.currentDate) {
-            link(call, date, "Today")
+            link(call, calendar.id, date, "Today")
         } else {
             link(call, calendar, date)
         }

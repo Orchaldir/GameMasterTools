@@ -96,70 +96,77 @@ fun HtmlBlockTag.link(
 ) {
     val calendarDate = calendar.resolve(date)
 
-    link(call, date, display(calendar, calendarDate))
+    link(call, calendar.id, date, display(calendar, calendarDate))
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     date: Date,
     text: String,
 ) {
     when (date) {
-        is Day -> link(call, date, text)
-        is Week -> link(call, date, text)
-        is Month -> link(call, date, text)
-        is Year -> link(call, date, text)
-        is Decade -> link(call, date, text)
-        is Century -> link(call, date, text)
+        is Day -> link(call, calendar, date, text)
+        is Week -> link(call, calendar, date, text)
+        is Month -> link(call, calendar, date, text)
+        is Year -> link(call, calendar, date, text)
+        is Decade -> link(call, calendar, date, text)
+        is Century -> link(call, calendar, date, text)
     }
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     day: Day,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowDay(day)), text)
+    link(call.application.href(TimeRoutes.ShowDay(day, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     week: Week,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowWeek(week)), text)
+    link(call.application.href(TimeRoutes.ShowWeek(week, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     month: Month,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowMonth(month)), text)
+    link(call.application.href(TimeRoutes.ShowMonth(month, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     year: Year,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowYear(year)), text)
+    link(call.application.href(TimeRoutes.ShowYear(year, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     decade: Decade,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowDecade(decade)), text)
+    link(call.application.href(TimeRoutes.ShowDecade(decade, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     century: Century,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowCentury(century)), text)
+    link(call.application.href(TimeRoutes.ShowCentury(century, calendar)), text)
 }
 
 // element

@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.parse.parseBool
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.*
@@ -15,14 +16,43 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
 
+// show optional
+
 fun HtmlBlockTag.optionalField(call: ApplicationCall, state: State, label: String, date: Date?) =
     optionalField(call, state.getDefaultCalendar(), label, date)
+
+fun HtmlBlockTag.optionalField(
+    call: ApplicationCall,
+    state: State,
+    calendarId: CalendarId,
+    label: String,
+    date: Date?,
+) {
+    if (date != null) {
+        val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+        field(call, label, calendar, date)
+    }
+}
 
 fun HtmlBlockTag.optionalField(call: ApplicationCall, calendar: Calendar, label: String, date: Date?) {
     if (date != null) {
         field(call, label, calendar, date)
     }
 }
+
+fun HtmlBlockTag.showOptionalDate(call: ApplicationCall, state: State, calendarId: CalendarId, date: Date?) {
+    if (date != null) {
+        showDate(call, state, calendarId, date)
+    }
+}
+
+fun HtmlBlockTag.showOptionalDate(call: ApplicationCall, state: State, date: Date?) {
+    if (date != null) {
+        showDate(call, state, date)
+    }
+}
+
+// show
 
 fun HtmlBlockTag.field(call: ApplicationCall, state: State, label: String, date: Date) {
     field(call, label, state.getDefaultCalendar(), date)
@@ -41,14 +71,17 @@ fun HtmlBlockTag.showCurrentDate(
     field(call, state, "Current Date", state.time.currentDate)
 }
 
-fun HtmlBlockTag.showOptionalDate(call: ApplicationCall, state: State, date: Date?) {
-    if (date != null) {
-        showDate(call, state, date)
-    }
+fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
+    showDate(call, state.getDefaultCalendar(), date)
 }
 
-fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
-    link(call, state.getDefaultCalendar(), date)
+fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, calendarId: CalendarId, date: Date) {
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    showDate(call, calendar, date)
+}
+
+fun HtmlBlockTag.showDate(call: ApplicationCall, calendar: Calendar, date: Date) {
+    link(call, calendar, date)
 }
 
 fun displayDate(state: State, date: Date): String {
