@@ -167,7 +167,7 @@ private fun HTML.showAllPeriodicals(
             periodicals.forEach { periodical ->
                 tr {
                     td { link(call, state, periodical) }
-                    td { showOptionalDate(call, state, periodical.calendar, periodical.startDate()) }
+                    td { showOptionalDate(call, state, periodical.calendar, periodical.frequency.getStartDate()) }
                     td { showCreator(call, state, periodical.founder, false) }
                     td { showOwner(call, state, periodical.ownership.current, false) }
                     td { link(call, state, periodical.language) }

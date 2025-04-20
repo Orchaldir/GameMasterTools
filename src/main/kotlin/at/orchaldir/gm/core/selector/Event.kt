@@ -58,11 +58,9 @@ fun State.getEvents(): List<Event> {
     }
 
     getPeriodicalStorage().getAll().forEach { periodical ->
-        val startDate = periodical.startDate()
+        val startDate = periodical.startDate(this)
 
-        if (startDate != null) {
-            events.add(PeriodicalCreatedEvent(startDate, periodical.id))
-        }
+        events.add(PeriodicalCreatedEvent(startDate, periodical.id))
 
         handleOwnership(events, periodical.id, periodical.ownership, ::createOwnershipChanged)
     }

@@ -57,9 +57,10 @@ fun FORM.editPeriodical(
     state: State,
     periodical: Periodical,
 ) {
+    val date = periodical.startDate(state)
     selectComplexName(state, periodical.name)
-    selectCreator(state, periodical.founder, periodical.id, periodical.startDate(), "Founder")
-    selectOwnership(state, periodical.ownership, periodical.startDate())
+    selectCreator(state, periodical.founder, periodical.id, date, "Founder")
+    selectOwnership(state, periodical.ownership, date)
     selectElement(state, "Language", LANGUAGE, state.getLanguageStorage().getAll(), periodical.language)
     selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), periodical.calendar, true)
     selectPublicationFrequency(state, periodical)
