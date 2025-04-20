@@ -1,9 +1,6 @@
 package at.orchaldir.gm.app.html.model.time
 
-import at.orchaldir.gm.app.FORMAT
-import at.orchaldir.gm.app.MONTH
-import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.ORDER
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectBool
 import at.orchaldir.gm.app.html.selectText
@@ -36,7 +33,7 @@ fun FORM.editDateFormat(format: DateFormat) {
     h2 { +"Format" }
 
     selectValue("Date Order", combine(FORMAT, ORDER), DateOrder.entries, format.order)
-    selectText("Date Separator", format.separator.toString(), combine(FORMAT, ORDER), 1, 1)
+    selectText("Date Separator", format.separator.toString(), combine(FORMAT, SEPARATOR), 1, 1)
     selectBool("Display Month Names", format.displayMonthNames, combine(FORMAT, MONTH, NAME))
 }
 
@@ -46,6 +43,6 @@ fun parseDateFormat(
     parameters: Parameters,
 ) = DateFormat(
     parse(parameters, combine(FORMAT, ORDER), DateOrder.DayMonthYear),
-    parseString(parameters, combine(FORMAT, ORDER), ".")[0],
+    parseString(parameters, combine(FORMAT, SEPARATOR), ".")[0],
     parseBool(parameters, combine(FORMAT, MONTH, NAME)),
 )
