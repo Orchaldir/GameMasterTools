@@ -33,6 +33,11 @@ fun <Element : HasStartDate> State.getAgeComparator(): Comparator<Element> {
     return Comparator { a: Element, b: Element -> calendar.compareToOptional(a.startDate(), b.startDate()) }
 }
 
+fun <Element : HasComplexStartDate> State.getComplexAgeComparator(): Comparator<Element> {
+    val calendar = getDefaultCalendar()
+    return Comparator { a: Element, b: Element -> calendar.compareToOptional(a.startDate(this), b.startDate(this)) }
+}
+
 // architectural style
 
 fun State.sortArchitecturalStyles(sort: SortArchitecturalStyle = SortArchitecturalStyle.Name) =
@@ -253,7 +258,7 @@ fun State.sortPeriodicals(
     .sortedWith(
         when (sort) {
             SortPeriodical.Name -> compareBy { it.name(this) }
-            SortPeriodical.Age -> compareBy { 0 } // TODO
+            SortPeriodical.Age -> getComplexAgeComparator()
         }
     )
 
