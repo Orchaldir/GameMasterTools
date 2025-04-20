@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.util.SortPeriodical
 import at.orchaldir.gm.core.selector.item.canDeletePeriodical
+import at.orchaldir.gm.core.selector.item.countPeriodicalIssues
 import at.orchaldir.gm.core.selector.util.sortPeriodicals
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -161,6 +162,7 @@ private fun HTML.showAllPeriodicals(
                 th { +"Owner" }
                 th { +"Language" }
                 th { +"Frequency" }
+                th { +"Issues" }
             }
             periodicals.forEach { periodical ->
                 tr {
@@ -170,6 +172,7 @@ private fun HTML.showAllPeriodicals(
                     td { showOwner(call, state, periodical.ownership.current, false) }
                     td { link(call, state, periodical.language) }
                     tdEnum(periodical.frequency.getType())
+                    tdSkipZero(state.countPeriodicalIssues(periodical.id))
                 }
             }
         }
