@@ -22,7 +22,7 @@ val CREATE_PERIODICAL: Reducer<CreatePeriodical, State> = { state, _ ->
 
 val DELETE_PERIODICAL: Reducer<DeletePeriodical, State> = { state, action ->
     state.getPeriodicalStorage().require(action.id)
-    require(state.canDeletePeriodical(action.id)) { "The periodical ${action.id.value} is used" }
+    require(state.canDeletePeriodical(action.id)) { "The periodical ${action.id.value} is used!" }
 
     noFollowUps(state.updateStorage(state.getPeriodicalStorage().remove(action.id)))
 }
