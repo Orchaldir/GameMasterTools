@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.routes.time
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.time.editCalendar
 import at.orchaldir.gm.app.html.model.time.parseCalendar
 import at.orchaldir.gm.app.html.model.time.showCalendar
+import at.orchaldir.gm.app.routes.time.showDate
 import at.orchaldir.gm.core.action.CreateCalendar
 import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
@@ -12,6 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.selector.item.countPeriodicalIssues
 import at.orchaldir.gm.core.selector.time.calendar.canDelete
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import io.ktor.http.*
@@ -23,7 +26,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -55,7 +58,7 @@ fun Application.configureCalendarRouting() {
             logger.info { "Get all calendars" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCalendars(call)
+                showAllCalendars(call, STORE.getState())
             }
         }
         get<CalendarRoutes.Details> { details ->
@@ -127,16 +130,31 @@ fun Application.configureCalendarRouting() {
     }
 }
 
-private fun HTML.showAllCalendars(call: ApplicationCall) {
+private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
     val calendars = STORE.getState().getCalendarStorage().getAll().sortedBy { it.name }
     val count = calendars.size
     val createLink = call.application.href(CalendarRoutes.New())
 
     simpleHtml("Calendars") {
         field("Count", count)
-        showList(calendars) { calendar ->
-            link(call, calendar)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Days" }
+                th { +"Months" }
+                th { +"Start" }
+            }
+            calendars.forEach { calendar ->
+                tr {
+                    td { link(call, calendar) }
+                    tdSkipZero(calendar.getDaysPerYear())
+                    tdSkipZero(calendar.getMonthsPerYear())
+                    td { showDate(call, state, calendar.getStartDateInDefaultCalendar()) }
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }
