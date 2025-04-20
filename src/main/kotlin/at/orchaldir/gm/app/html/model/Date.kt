@@ -15,9 +15,12 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
 
-fun HtmlBlockTag.optionalField(call: ApplicationCall, state: State, label: String, date: Date?) {
+fun HtmlBlockTag.optionalField(call: ApplicationCall, state: State, label: String, date: Date?) =
+    optionalField(call, state.getDefaultCalendar(), label, date)
+
+fun HtmlBlockTag.optionalField(call: ApplicationCall, calendar: Calendar, label: String, date: Date?) {
     if (date != null) {
-        field(call, label, state.getDefaultCalendar(), date)
+        field(call, label, calendar, date)
     }
 }
 
@@ -66,7 +69,7 @@ fun HtmlBlockTag.selectOptionalDate(
     selectOptionalDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate)
 }
 
-private fun HtmlBlockTag.selectOptionalDate(
+fun HtmlBlockTag.selectOptionalDate(
     calendar: Calendar,
     fieldLabel: String,
     date: Date?,
