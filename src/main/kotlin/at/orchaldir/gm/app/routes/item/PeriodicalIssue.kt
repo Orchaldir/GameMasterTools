@@ -5,14 +5,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.item.periodical.editPeriodicalIssue
 import at.orchaldir.gm.app.html.model.item.periodical.parsePeriodicalIssue
 import at.orchaldir.gm.app.html.model.item.periodical.showPeriodicalIssue
-import at.orchaldir.gm.app.html.model.showCreator
 import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.action.CreatePeriodicalIssue
 import at.orchaldir.gm.core.action.DeletePeriodicalIssue
 import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
+import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_ISSUE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
@@ -32,7 +30,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/$PERIODICAL_TYPE")
+@Resource("/$PERIODICAL_ISSUE_TYPE")
 class PeriodicalIssueRoutes {
     @Resource("all")
     class All(
