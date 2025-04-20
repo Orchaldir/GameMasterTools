@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterOrigin
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
@@ -67,6 +68,13 @@ class FontCreatedEvent(
     val font: FontId,
 ) : Event(date)
 
+//
+
+class PeriodicalCreatedEvent(
+    date: Date,
+    val periodical: PeriodicalId,
+) : Event(date)
+
 // organization
 
 class OrganizationFoundingEvent(
@@ -104,7 +112,7 @@ class RaceCreatedEvent(
     val race: RaceId,
 ) : Event(date)
 
-// text
+// spell
 
 class SpellCreatedEvent(
     date: Date,

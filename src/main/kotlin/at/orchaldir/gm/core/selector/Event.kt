@@ -53,9 +53,17 @@ fun State.getEvents(): List<Event> {
         }
     }
 
-    getFontStorage().getAll().forEach { text ->
-        if (text.date != null) {
-            events.add(FontCreatedEvent(text.date, text.id))
+    getFontStorage().getAll().forEach { font ->
+        if (font.date != null) {
+            events.add(FontCreatedEvent(font.date, font.id))
+        }
+    }
+
+    getPeriodicalStorage().getAll().forEach { periodical ->
+        val startDate = periodical.startDate()
+
+        if (startDate != null) {
+            events.add(PeriodicalCreatedEvent(startDate, periodical.id))
         }
     }
 

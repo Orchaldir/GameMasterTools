@@ -52,7 +52,6 @@ fun FORM.editPeriodical(
     periodical: Periodical,
 ) {
     selectComplexName(state, periodical.name)
-    selectOptionalDate(state, "Start", periodical.startDate(), DATE)
     selectCreator(state, periodical.founder, periodical.id, periodical.startDate(), "Founder")
     selectOwnership(state, periodical.ownership, periodical.startDate())
     selectElement(state, "Language", LANGUAGE, state.getLanguageStorage().getAll(), periodical.language)
@@ -67,7 +66,7 @@ private fun FORM.selectPublicationFrequency(
     val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
     val frequencies = getValidPublicationFrequencies(calendar)
 
-    selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency.getType())
+    selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency.getType(), true)
 
     when (val frequency = periodical.frequency) {
         is DailyPublication -> selectOptionalDay(calendar, "Start Day", frequency.start, DATE)
