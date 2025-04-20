@@ -9,9 +9,9 @@ import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.date.getEndDay
 import at.orchaldir.gm.core.selector.time.date.getStartDay
-import at.orchaldir.gm.core.selector.time.date.getStartDayOfMonth
 import at.orchaldir.gm.utils.Id
 
 fun State.getEvents(): List<Event> {
@@ -139,26 +139,8 @@ fun State.getEvents(calendarId: CalendarId, date: Date): List<Event> {
 }
 
 fun List<Event>.sort(calendar: Calendar): List<Event> {
-    val daysPerYear = calendar.getDaysPerYear()
-    val daysPerWeek = calendar.days.getDaysPerWeek()
-
     return sortedBy {
-        when (val date = it.date) {
-            is Day -> date.day
-            is Week -> date.week * daysPerWeek
-            is Month -> calendar.getStartDayOfMonth(date).day
-            is Year -> {
-                date.year * daysPerYear
-            }
-
-            is Decade -> {
-                date.decade * daysPerYear * 10
-            }
-
-            is Century -> {
-                date.century * daysPerYear * 100
-            }
-        }
+        calendar.createSorter()(it.date)
     }
 }
 
