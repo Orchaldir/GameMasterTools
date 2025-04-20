@@ -19,7 +19,7 @@ fun State.countPeriodicals(language: LanguageId) = getPeriodicalStorage()
     .count { b -> b.language == language }
 
 fun countPublicationFrequencies(collection: Collection<Periodical>) = collection
-    .groupingBy { it.frequency }
+    .groupingBy { it.frequency.getType() }
     .eachCount()
 
 fun State.getPeriodicals(calendar: CalendarId) = getPeriodicalStorage()
