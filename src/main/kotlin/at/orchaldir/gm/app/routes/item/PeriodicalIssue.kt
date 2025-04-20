@@ -140,8 +140,9 @@ private fun HTML.showAllPeriodicalIssues(
 ) {
     val periodicals = state.sortPeriodicalIssues(sort)
     val createLink = call.application.href(PeriodicalIssueRoutes.New())
-    val sortAgeLink = call.application.href(PeriodicalIssueRoutes.All())
+    val sortAgeLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Age))
     val sortPeriodicalLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Periodical))
+    val sortIssueLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Issue))
 
     simpleHtml("Periodical Issues") {
         field("Count", periodicals.size)
@@ -149,16 +150,20 @@ private fun HTML.showAllPeriodicalIssues(
             link(sortAgeLink, "Age")
             +" "
             link(sortPeriodicalLink, "Periodical")
+            +" "
+            link(sortIssueLink, "Issue")
         }
         table {
             tr {
                 th { +"Date" }
                 th { +"Periodical" }
+                th { +"Issue" }
             }
             periodicals.forEach { issue ->
                 tr {
                     td { link(call, issue.id, issue.dateAsName(state)) }
                     td { link(call, state, issue.periodical) }
+                    td { +issue.number.toString() }
                 }
             }
         }

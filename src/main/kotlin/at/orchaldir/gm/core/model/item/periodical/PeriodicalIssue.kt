@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.model.item.periodical
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.HasComplexStartDate
+import at.orchaldir.gm.core.selector.time.date.convertDateToDefault
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -23,7 +26,7 @@ data class PeriodicalIssue(
     val id: PeriodicalIssueId,
     val periodical: PeriodicalId = PeriodicalId(0),
     val number: Int = 0,
-) : Element<PeriodicalIssueId> {
+) : Element<PeriodicalIssueId>, HasComplexStartDate {
 
     override fun id() = id
 
@@ -52,5 +55,12 @@ data class PeriodicalIssue(
         .getOrThrow(periodical)
         .frequency
         .getDateOfIssue(number)
+
+    override fun startDate(state: State): Date {
+        val periodical = state.getPeriodicalStorage().getOrThrow(periodical)
+        val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
+
+        return state.convertDateToDefault(calendar, periodical.frequency.getStartDate())
+    }
 
 }
