@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Dead
-import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -10,7 +9,6 @@ import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
-import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.time.date.getEndDay
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.date.getStartDayOfMonth
@@ -65,6 +63,8 @@ fun State.getEvents(): List<Event> {
         if (startDate != null) {
             events.add(PeriodicalCreatedEvent(startDate, periodical.id))
         }
+
+        handleOwnership(events, periodical.id, periodical.ownership, ::createOwnershipChanged)
     }
 
     getOrganizationStorage().getAll().forEach { organization ->
@@ -119,22 +119,11 @@ private fun <ID : Id<ID>> handleOwnership(
     }
 }
 
-private fun createOwnershipChanged(
-    id: BuildingId,
+private fun <ID : Id<ID>> createOwnershipChanged(
+    id: ID,
     previous: HistoryEntry<Owner>,
     to: Owner,
-) = BuildingOwnershipChangedEvent(
-    previous.until,
-    id,
-    previous.entry,
-    to,
-)
-
-private fun createOwnershipChanged(
-    id: BusinessId,
-    previous: HistoryEntry<Owner>,
-    to: Owner,
-) = BusinessOwnershipChangedEvent(
+) = OwnershipChangedEvent(
     previous.until,
     id,
     previous.entry,

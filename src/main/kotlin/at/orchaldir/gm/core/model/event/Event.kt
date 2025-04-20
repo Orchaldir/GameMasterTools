@@ -84,26 +84,12 @@ class OrganizationFoundingEvent(
 
 // ownership
 
-open class OwnershipChangedEvent<ID : Id<ID>>(
+class OwnershipChangedEvent<ID : Id<ID>>(
     date: Date,
     val id: ID,
     val from: Owner,
     val to: Owner,
 ) : Event(date)
-
-class BuildingOwnershipChangedEvent(
-    date: Date,
-    id: BuildingId,
-    from: Owner,
-    to: Owner,
-) : OwnershipChangedEvent<BuildingId>(date, id, from, to)
-
-class BusinessOwnershipChangedEvent(
-    date: Date,
-    id: BusinessId,
-    from: Owner,
-    to: Owner,
-) : OwnershipChangedEvent<BusinessId>(date, id, from, to)
 
 // race
 

@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.selector.getEvents
 import at.orchaldir.gm.core.selector.sort
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.HTML
@@ -72,11 +71,7 @@ fun HtmlBlockTag.showEvents(
                 +" was started."
             }
 
-            is BuildingOwnershipChangedEvent -> handleOwnershipChanged(call, state, event)
-
-            is BusinessOwnershipChangedEvent -> handleOwnershipChanged(call, state, event)
-
-            is OwnershipChangedEvent<*> -> doNothing()
+            is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)
 
             is CharacterDeathEvent -> {
                 link(call, state, event.character)
