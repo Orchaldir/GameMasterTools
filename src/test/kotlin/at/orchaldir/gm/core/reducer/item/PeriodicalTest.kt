@@ -106,7 +106,7 @@ class PeriodicalTest {
         fun `The calendar doesn't support weeks`() {
             val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, frequency = WeeklyPublication()))
 
-            assertIllegalArgument("The Calendar 0 doesn't support weeks!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("The Calendar 0 doesn't support Weekly!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
