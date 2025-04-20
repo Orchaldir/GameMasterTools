@@ -4,23 +4,23 @@ import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.FREQUENCY
 import at.orchaldir.gm.app.LANGUAGE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldLink
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.selector.item.getPeriodicalIssues
 import at.orchaldir.gm.core.selector.item.getValidPublicationFrequencies
+import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -34,6 +34,12 @@ fun BODY.showPeriodical(
     fieldLink("Language", call, state, periodical.language)
     fieldLink("Calendar", call, state, periodical.calendar)
     showFrequency(call, state, periodical.frequency)
+
+    h2 { +"Usage" }
+
+    showList("Issues", state.sortPeriodicalIssues(state.getPeriodicalIssues(periodical.id))) { issue ->
+        link(call, issue.id, issue.dateAsName(state))
+    }
 }
 
 private fun HtmlBlockTag.showFrequency(
