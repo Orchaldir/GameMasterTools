@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.periodical.Periodical
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
@@ -240,7 +241,7 @@ fun State.sortMaterial(
         }
     )
 
-// periodicals
+// periodical
 
 fun State.sortPeriodicals(sort: SortPeriodical = SortPeriodical.Name) =
     sortPeriodicals(getPeriodicalStorage().getAll(), sort)
@@ -253,6 +254,22 @@ fun State.sortPeriodicals(
         when (sort) {
             SortPeriodical.Name -> compareBy { it.name(this) }
             SortPeriodical.Age -> getAgeComparator()
+        }
+    )
+
+// periodical issue
+
+fun State.sortPeriodicalIssues(sort: SortPeriodicalIssue = SortPeriodicalIssue.Age) =
+    sortPeriodicalIssues(getPeriodicalIssueStorage().getAll(), sort)
+
+fun State.sortPeriodicalIssues(
+    issues: Collection<PeriodicalIssue>,
+    sort: SortPeriodicalIssue = SortPeriodicalIssue.Age,
+) = issues
+    .sortedWith(
+        when (sort) {
+            SortPeriodicalIssue.Periodical -> compareBy { getPeriodicalStorage().getOrThrow(it.periodical).name(this) }
+            SortPeriodicalIssue.Age -> getAgeComparator()
         }
     )
 

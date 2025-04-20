@@ -66,6 +66,11 @@ enum class SortPeriodical {
     Age,
 }
 
+enum class SortPeriodicalIssue {
+    Periodical,
+    Age,
+}
+
 enum class SortPlane {
     Name,
 }

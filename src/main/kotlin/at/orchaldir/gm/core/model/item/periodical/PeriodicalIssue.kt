@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.periodical
 
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -22,9 +23,10 @@ data class PeriodicalIssue(
     val id: PeriodicalIssueId,
     val periodical: PeriodicalId = PeriodicalId(0),
     val date: Date? = null,
-) : ElementWithSimpleName<PeriodicalIssueId> {
+) : ElementWithSimpleName<PeriodicalIssueId>, HasStartDate {
 
     override fun id() = id
     override fun name() = ""
+    override fun startDate() = date
 
 }
