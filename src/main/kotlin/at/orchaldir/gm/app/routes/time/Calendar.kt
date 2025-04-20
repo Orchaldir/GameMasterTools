@@ -144,6 +144,7 @@ private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
                 th { +"Days" }
                 th { +"Months" }
                 th { +"Start" }
+                th { +"Example" }
             }
             calendars.forEach { calendar ->
                 tr {
@@ -151,6 +152,7 @@ private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
                     tdSkipZero(calendar.getDaysPerYear())
                     tdSkipZero(calendar.getMonthsPerYear())
                     td { showDate(call, state, calendar.getStartDateInDefaultCalendar()) }
+                    td { showDate(call, calendar, state.time.currentDate) }
                 }
             }
         }

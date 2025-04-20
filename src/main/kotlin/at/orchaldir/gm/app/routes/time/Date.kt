@@ -71,6 +71,9 @@ fun HTML.showDate(
         if (date !is Day) {
             field(call, "Start", calendar, calendar.getStartDay(date))
             field(call, "End", calendar, calendar.getEndDay(date))
+        } else if (calendarId != state.time.defaultCalendar) {
+            val convertedDate = state.convertDateToDefault(calendar, date)
+            field(call, state, "In default calendar", convertedDate)
         }
 
         action { link(call, calendarId, date.next(), "Next $label") }

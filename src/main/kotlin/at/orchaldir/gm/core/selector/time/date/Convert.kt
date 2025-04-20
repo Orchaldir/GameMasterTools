@@ -7,7 +7,10 @@ import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 
 fun State.convertDateToDefault(from: CalendarId, date: Date) =
-    convertDate(getCalendarStorage().getOrThrow(from), getDefaultCalendar(), date)
+    convertDateToDefault(getCalendarStorage().getOrThrow(from), date)
+
+fun State.convertDateToDefault(from: Calendar, date: Date) =
+    convertDate(from, getDefaultCalendar(), date)
 
 fun convertDate(from: Calendar, to: Calendar, date: Date): Date {
     if (from == to) {
