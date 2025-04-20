@@ -14,6 +14,10 @@ val ITEM_REDUCER: Reducer<ItemAction, State> = { state, action ->
         is CreatePeriodical -> CREATE_PERIODICAL(state, action)
         is DeletePeriodical -> DELETE_PERIODICAL(state, action)
         is UpdatePeriodical -> UPDATE_PERIODICAL(state, action)
+        // periodical issue
+        is CreatePeriodicalIssue -> CREATE_PERIODICAL_ISSUE(state, action)
+        is DeletePeriodicalIssue -> DELETE_PERIODICAL_ISSUE(state, action)
+        is UpdatePeriodicalIssue -> UPDATE_PERIODICAL_ISSUE(state, action)
         // text
         is CreateText -> CREATE_TEXT(state, action)
         is DeleteText -> DELETE_TEXT(state, action)

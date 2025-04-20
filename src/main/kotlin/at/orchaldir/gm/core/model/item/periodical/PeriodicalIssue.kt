@@ -21,7 +21,7 @@ value class PeriodicalIssueId(val value: Int) : Id<PeriodicalIssueId> {
 data class PeriodicalIssue(
     val id: PeriodicalIssueId,
     val periodical: PeriodicalId = PeriodicalId(0),
-    val date: Date,
+    val date: Date? = null,
 ) : ElementWithSimpleName<PeriodicalIssueId> {
 
     override fun id() = id
