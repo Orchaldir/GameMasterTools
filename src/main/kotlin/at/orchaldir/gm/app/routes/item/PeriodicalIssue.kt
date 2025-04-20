@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.item.periodical.editPeriodicalIssue
 import at.orchaldir.gm.app.html.model.item.periodical.parsePeriodicalIssue
 import at.orchaldir.gm.app.html.model.item.periodical.showPeriodicalIssue
-import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CreatePeriodicalIssue
 import at.orchaldir.gm.core.action.DeletePeriodicalIssue
 import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
@@ -15,8 +14,6 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
 import at.orchaldir.gm.core.selector.item.canDeletePeriodicalIssue
-import at.orchaldir.gm.core.selector.time.calendar.getCalendar
-import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -159,10 +156,8 @@ private fun HTML.showAllPeriodicalIssues(
                 th { +"Periodical" }
             }
             periodicals.forEach { issue ->
-                val calendar = state.getCalendar(issue.periodical)
-                val text = issue.startDate()?.let { display(calendar, it) } ?: "Unknown"
                 tr {
-                    td { link(call, issue.id, text) }
+                    td { link(call, issue.id, issue.dateAsName(state)) }
                     td { link(call, state, issue.periodical) }
                 }
             }
@@ -182,7 +177,7 @@ private fun HTML.showPeriodicalIssueDetails(
     val deleteLink = call.application.href(PeriodicalIssueRoutes.Delete(periodical.id))
     val editLink = call.application.href(PeriodicalIssueRoutes.Edit(periodical.id))
 
-    simpleHtml("Periodical Issue: ${periodical.id.value}") {
+    simpleHtml("Periodical Issue: ${periodical.name(state)}") {
         showPeriodicalIssue(call, state, periodical)
 
         action(editLink, "Edit")
