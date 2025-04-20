@@ -25,6 +25,7 @@ import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.date.createSorter
 
 // generic
 
@@ -33,9 +34,18 @@ fun <Element : HasStartDate> State.getAgeComparator(): Comparator<Element> {
     return Comparator { a: Element, b: Element -> calendar.compareToOptional(a.startDate(), b.startDate()) }
 }
 
-fun <Element : HasComplexStartDate> State.getComplexAgeComparator(): Comparator<Element> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Element, b: Element -> calendar.compareToOptional(a.startDate(this), b.startDate(this)) }
+fun <Element : HasComplexStartDate> State.getComplexAgeComparator(valueForNull: Int = Int.MAX_VALUE): Comparator<Element> {
+    val sorter = getDefaultCalendar().createSorter()
+
+    return compareBy { element ->
+        val date = element.startDate(this)
+
+        if (date == null) {
+            valueForNull
+        } else {
+            sorter(date)
+        }
+    }
 }
 
 // architectural style
