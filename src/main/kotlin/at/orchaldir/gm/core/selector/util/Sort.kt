@@ -269,7 +269,7 @@ fun State.sortPeriodicalIssues(
     .sortedWith(
         when (sort) {
             SortPeriodicalIssue.Periodical -> compareBy { getPeriodicalStorage().getOrThrow(it.periodical).name(this) }
-            SortPeriodicalIssue.Age -> getAgeComparator()
+            SortPeriodicalIssue.Age -> compareBy { 0 }
         }
     )
 
