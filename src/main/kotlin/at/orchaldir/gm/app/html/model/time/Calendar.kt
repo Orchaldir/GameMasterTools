@@ -185,7 +185,7 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
             p {
                 selectText(month.name, combine(MONTH, NAME, index))
                 +": "
-                selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index))
+                selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index), true)
                 +"days"
             }
         }
