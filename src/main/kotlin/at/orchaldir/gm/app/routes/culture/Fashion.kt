@@ -98,7 +98,7 @@ fun Application.configureFashionRouting() {
             }
         }
         post<FashionRoutes.Preview> { preview ->
-            logger.info { "Get preview for culture ${preview.id.value}" }
+            logger.info { "Get preview for fashion ${preview.id.value}" }
 
             val fashion = parseFashion(preview.id, call.receiveParameters())
 

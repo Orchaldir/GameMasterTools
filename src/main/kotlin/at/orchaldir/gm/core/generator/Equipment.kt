@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.selector.culture.getFashion
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.RandomNumberGenerator
+import at.orchaldir.gm.utils.doNothing
 import kotlin.random.Random
 
 data class EquipmentGenerator(
@@ -45,6 +46,7 @@ data class EquipmentGenerator(
 
         when (generate(fashion.clothing.clothingSets)) {
             ClothingSet.Dress -> generate(result, Dress)
+            ClothingSet.Naked -> doNothing()
             ClothingSet.PantsAndShirt -> generatePantsAndShirt(result)
             ClothingSet.ShirtAndSkirt -> generateShirtAndSkirt(result)
             ClothingSet.Suit -> generateSuit(result)

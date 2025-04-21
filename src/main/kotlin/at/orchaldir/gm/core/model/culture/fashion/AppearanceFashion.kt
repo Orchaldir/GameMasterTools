@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 data class AppearanceFashion(
     val beard: BeardFashion = BeardFashion(),
     val hair: HairFashion = HairFashion(),
-    val lipColors: OneOf<Color> = OneOf(Color.entries),
+    val lipColors: OneOf<Color> = OneOf(Color.Red),
 )
