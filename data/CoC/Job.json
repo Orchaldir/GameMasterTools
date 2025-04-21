@@ -1,5 +1,45 @@
 {
   "version": 1,
   "elements": {
+    "0": {
+      "id": 0,
+      "name": "Librarian"
+    },
+    "1": {
+      "id": 1,
+      "name": "Sheriff"
+    },
+    "2": {
+      "id": 2,
+      "name": "Deputy"
+    },
+    "3": {
+      "id": 3,
+      "name": "Reporter"
+    },
+    "4": {
+      "id": 4,
+      "name": "Cook"
+    },
+    "5": {
+      "id": 5,
+      "name": "Waiter"
+    },
+    "6": {
+      "id": 6,
+      "name": "Doctor"
+    },
+    "7": {
+      "id": 7,
+      "name": "Reverend"
+    },
+    "8": {
+      "id": 8,
+      "name": "Teacher"
+    },
+    "9": {
+      "id": 9,
+      "name": "Shopkeeper"
+    }
   }
 }
