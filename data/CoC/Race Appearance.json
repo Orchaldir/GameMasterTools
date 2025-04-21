@@ -26,41 +26,21 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "scleraColors": {
-     "AntiqueWhite": "Common",
+    "eyeColors": {
      "Aqua": "Common",
-     "Black": "Common",
      "Blue": "Common",
-     "Chocolate": "Common",
-     "Crimson": "Common",
-     "DimGray": "Common",
-     "Fuchsia": "Common",
-     "Gold": "Common",
-     "Gray": "Common",
+     "Gray": "Rare",
      "Green": "Common",
-     "Indigo": "Common",
-     "Ivory": "Common",
-     "Lavender": "Common",
-     "LightGray": "Common",
-     "Lime": "Common",
-     "Maroon": "Common",
      "Navy": "Common",
      "Olive": "Common",
-     "Orange": "Common",
-     "OrangeRed": "Common",
-     "Peru": "Common",
-     "Pink": "Common",
-     "Purple": "Common",
-     "Red": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
      "SaddleBrown": "Common",
      "Silver": "Common",
-     "SkyBlue": "Common",
-     "SteelBlue": "Common",
-     "Tan": "Common",
-     "Teal": "Common",
-     "Wheat": "Common",
-     "White": "Uncommon",
-     "Yellow": "Common"
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
     }
    },
    "hair": {
@@ -69,6 +49,14 @@
     },
     "hairTypes": {
      "Normal": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "Orange": "Rare",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
     }
    },
    "horn": {
