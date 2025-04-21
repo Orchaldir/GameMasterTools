@@ -11,14 +11,14 @@ class DataTest {
 
     @Test
     fun `Load CoC`() {
-        val newState = State.load("data\\CoC")
+        val newState = State.load("data/CoC")
 
         assertEquals(ELEMENTS.size, newState.storageMap.size)
     }
 
     @Test
     fun `Load Eberron`() {
-        val newState = State.load("data\\Eberron")
+        val newState = State.load("data/Eberron")
 
         assertEquals(ELEMENTS.size, newState.storageMap.size)
     }
