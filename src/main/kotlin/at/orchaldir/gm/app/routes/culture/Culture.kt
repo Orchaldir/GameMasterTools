@@ -151,6 +151,11 @@ private fun HTML.showAllCultures(
                 th { +"Name" }
                 th { +"Calendar" }
                 th { +"Languages" }
+                th {
+                    +"Naming"
+                    br { }
+                    +"Convention"
+                }
                 th { +"Holidays" }
                 th { +"Characters" }
             }
@@ -159,6 +164,7 @@ private fun HTML.showAllCultures(
                     td { link(call, state, culture.id) }
                     td { link(call, state, culture.calendar) }
                     tdInlineLinks(call, state, culture.languages.getValuesFor(Rarity.Everyone))
+                    tdEnum(culture.namingConvention.getType())
                     tdSkipZero(culture.holidays.size)
                     tdSkipZero(state.getCharacters(culture.id).size)
                 }
