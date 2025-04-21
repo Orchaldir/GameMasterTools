@@ -122,6 +122,7 @@
      "type": "Normal",
      "color": "Light"
     },
+    "body": {},
     "head": {
      "ears": {
       "type": "Normal"
@@ -136,9 +137,9 @@
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "SidePart",
-       "side": "Left"
+      "cut": {
+       "type": "Short",
+       "style": "SidePartLeft"
       },
       "color": "SaddleBrown"
      },
@@ -151,23 +152,9 @@
        },
        "color": "Orange"
       }
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
      }
     },
-    "height": {
-     "millimeters": 1800
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "Coat": 31,
-     "Footwear": 0,
-     "Pants": 4,
-     "Shirt": 2
-    }
+    "height": 1800000
    },
    "housingStatus": {
     "current": {
@@ -273,13 +260,15 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilColor": "Blue"
       }
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
+      "cut": {
+       "type": "Short",
+       "style": "MiddlePart"
       },
       "color": "Black"
      },
@@ -295,17 +284,7 @@
       "width": "Large"
      }
     },
-    "height": {
-     "millimeters": 1800
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "Coat": 33,
-     "Footwear": 1,
-     "Pants": 4,
-     "Shirt": 2
-    }
+    "height": 1800000
    },
    "employmentStatus": {
     "current": {
@@ -390,11 +369,11 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "width": "Small",
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
-     }
+     "width": "Small"
+    },
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
     },
     "head": {
      "ears": {
@@ -404,14 +383,15 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilColor": "SaddleBrown"
       }
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "SidePart",
-       "side": "Right"
+      "cut": {
+       "type": "Short",
+       "style": "SidePartRight"
       },
       "color": "SaddleBrown"
      },
@@ -425,23 +405,9 @@
        "color": "Orange"
       },
       "width": "Small"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
      }
     },
-    "height": {
-     "millimeters": 1800
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "Coat": 31,
-     "Footwear": 0,
-     "Pants": 4,
-     "Shirt": 2
-    }
+    "height": 1800000
    },
    "housingStatus": {
     "current": {
@@ -758,7 +724,7 @@
      "type": "Accident"
     }
    },
-   "culture": 2
+   "culture": 0
   },
   "19": {
    "id": 19,
