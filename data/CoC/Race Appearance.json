@@ -23,9 +23,6 @@
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
@@ -38,6 +35,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "White": "Common"
