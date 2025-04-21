@@ -9,7 +9,6 @@
     "middle": null,
     "family": "Cobb"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1742
@@ -33,7 +32,6 @@
     "middle": null,
     "family": "Cutter"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 694120
@@ -47,10 +45,6 @@
     "body": {
      "bodyShape": "Muscular",
      "width": "Small"
-    },
-    "skin": {
-     "type": "Normal",
-     "color": "Light"
     },
     "head": {
      "ears": {
@@ -82,7 +76,11 @@
       }
      }
     },
-    "height": 1900000
+    "height": 1900000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
+    }
    },
    "housingStatus": {
     "current": {
@@ -106,7 +104,6 @@
     "middle": null,
     "family": "Perry"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 679101
@@ -118,11 +115,8 @@
    ],
    "appearance": {
     "type": "Humanoid",
-    "skin": {
-     "type": "Normal",
-     "color": "Light"
+    "body": {
     },
-    "body": {},
     "head": {
      "ears": {
       "type": "Normal"
@@ -154,7 +148,11 @@
       }
      }
     },
-    "height": 1800000
+    "height": 1800000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
+    }
    },
    "housingStatus": {
     "current": {
@@ -237,7 +235,6 @@
     "middle": null,
     "family": "Spencer"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 686625
@@ -334,7 +331,6 @@
     "middle": null,
     "family": "Maclearan"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1873
@@ -357,7 +353,6 @@
     "middle": null,
     "family": "Wendell"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1886
@@ -370,10 +365,6 @@
     "type": "Humanoid",
     "body": {
      "width": "Small"
-    },
-    "skin": {
-     "type": "Normal",
-     "color": "Light"
     },
     "head": {
      "ears": {
@@ -407,7 +398,11 @@
       "width": "Small"
      }
     },
-    "height": 1800000
+    "height": 1800000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
+    }
    },
    "housingStatus": {
     "current": {
@@ -431,7 +426,6 @@
     "middle": null,
     "family": "Haggerty"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1879
@@ -498,7 +492,6 @@
     "middle": null,
     "family": "Haggerty"
    },
-   "gender": "Male",
    "origin": {
     "type": "Born",
     "mother": 10,
@@ -534,7 +527,6 @@
     "middle": null,
     "family": "Wilson"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1878
@@ -599,7 +591,6 @@
     "middle": null,
     "family": "Wilson"
    },
-   "gender": "Male",
    "origin": {
     "type": "Born",
     "mother": 13,
@@ -645,7 +636,6 @@
     "middle": null,
     "family": "Karner"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1867
@@ -709,7 +699,6 @@
     "middle": null,
     "family": "Alhazred"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 699
@@ -723,8 +712,7 @@
     "cause": {
      "type": "Accident"
     }
-   },
-   "culture": 0
+   }
   },
   "19": {
    "id": 19,
@@ -734,7 +722,6 @@
     "middle": null,
     "family": "Philetas"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Decade",
     "decade": 91
