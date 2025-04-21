@@ -1,5 +1,28 @@
 {
-  "version": 1,
-  "elements": {
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Human",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "lifeStages": {
+    "type": "Default",
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     45,
+     60,
+     90,
+     120
+    ],
+    "oldAgeHairColor": "LightGray",
+    "venerableAgeHairColor": "Ivory"
+   }
   }
+ }
 }

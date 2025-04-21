@@ -4,25 +4,10 @@
   "0": {
    "id": 0,
    "name": "Human",
-   "appearanceTypes": {
-    "Body": "Common"
-   },
-   "earsLayout": {
-    "NormalEars": "Common"
-   },
    "earShapes": {
     "Round": "Common"
    },
-   "eyesLayout": {
-    "TwoEyes": "Common"
-   },
    "eye": {
-    "eyeTypes": {
-     "Normal": "Common"
-    },
-    "eyeShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
@@ -35,21 +20,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
-    },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "scleraColors": {
-     "White": "Common"
     }
    },
    "hair": {
-    "beardTypes": {
-     "Normal": "Common"
-    },
-    "hairTypes": {
-     "Normal": "Common"
-    },
     "colors": {
      "Black": "Common",
      "Maroon": "Rare",
