@@ -4,136 +4,175 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.date.convertDate
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.date.getEndDay
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.utils.Id
 
-fun State.getEvents(): List<Event> {
+fun State.getEvents(calendar: Calendar): List<Event> {
     val events = mutableListOf<Event>()
+    val default = getDefaultCalendar()
 
     getArchitecturalStyleStorage().getAll().forEach { style ->
-        if (style.start != null) {
-            events.add(ArchitecturalStyleStartEvent(style.start, style.id))
+        addPossibleEvent(events, default, calendar, style.start) {
+            ArchitecturalStyleStartEvent(it, style.id)
         }
 
-        if (style.end != null) {
-            events.add(ArchitecturalStyleEndEvent(style.end, style.id))
+        addPossibleEvent(events, default, calendar, style.end) {
+            ArchitecturalStyleEndEvent(it, style.id)
         }
     }
 
     getBuildingStorage().getAll().forEach { building ->
-        if (building.constructionDate != null) {
-            events.add(BuildingConstructedEvent(building.constructionDate, building.id))
+        addPossibleEvent(events, default, calendar, building.constructionDate) {
+            BuildingConstructedEvent(it, building.id)
         }
 
-        handleOwnership(events, building.id, building.ownership, ::createOwnershipChanged)
+        addOwnershipEvents(events, default, calendar, building.id, building.ownership)
     }
 
     getBusinessStorage().getAll().forEach { business ->
-        business.startDate()?.let {
-            events.add(BusinessStartedEvent(it, business.id))
+        addPossibleEvent(events, default, calendar, business.startDate()) {
+            BusinessStartedEvent(it, business.id)
         }
 
-        handleOwnership(events, business.id, business.ownership, ::createOwnershipChanged)
+        addOwnershipEvents(events, default, calendar, business.id, business.ownership)
     }
 
     getCharacterStorage().getAll().forEach { character ->
-        events.add(CharacterOriginEvent(character.birthDate, character.id, character.origin))
+        addEvent(events, default, calendar, character.birthDate) {
+            CharacterOriginEvent(it, character.id, character.origin)
+        }
 
         if (character.vitalStatus is Dead) {
-            events.add(CharacterDeathEvent(character.vitalStatus.deathDay, character.id, character.vitalStatus.cause))
+            addEvent(events, default, calendar, character.birthDate) {
+                CharacterDeathEvent(it, character.id, character.vitalStatus.cause)
+            }
         }
     }
 
     getFontStorage().getAll().forEach { font ->
-        if (font.date != null) {
-            events.add(FontCreatedEvent(font.date, font.id))
+        addPossibleEvent(events, default, calendar, font.startDate()) {
+            FontCreatedEvent(it, font.id)
         }
     }
 
     getPeriodicalStorage().getAll().forEach { periodical ->
-        val startDate = periodical.startDate(this)
+        val periodicalCalendar = getCalendarStorage().getOrThrow(periodical.calendar)
 
-        events.add(PeriodicalCreatedEvent(startDate, periodical.id))
+        addEvent(events, periodicalCalendar, calendar, periodical.frequency.getStartDate()) {
+            PeriodicalCreatedEvent(it, periodical.id)
+        }
 
-        handleOwnership(events, periodical.id, periodical.ownership, ::createOwnershipChanged)
+        addOwnershipEvents(events, default, calendar, periodical.id, periodical.ownership)
     }
 
     getOrganizationStorage().getAll().forEach { organization ->
-        organization.startDate()?.let {
-            events.add(OrganizationFoundingEvent(it, organization.id))
+        addPossibleEvent(events, default, calendar, organization.startDate()) {
+            OrganizationFoundingEvent(it, organization.id)
         }
     }
 
     getRaceStorage().getAll().forEach { race ->
-        race.startDate()?.let {
-            events.add(RaceCreatedEvent(it, race.id))
+        addPossibleEvent(events, default, calendar, race.startDate()) {
+            RaceCreatedEvent(it, race.id)
         }
     }
 
     getSpellStorage().getAll().forEach { spell ->
-        if (spell.date != null) {
-            events.add(SpellCreatedEvent(spell.date, spell.id))
+        addPossibleEvent(events, default, calendar, spell.date) {
+            SpellCreatedEvent(it, spell.id)
         }
     }
 
     getTextStorage().getAll().forEach { text ->
-        if (text.date != null) {
-            events.add(TextPublishedEvent(text.date, text.id))
+        addPossibleEvent(events, default, calendar, text.date) {
+            TextPublishedEvent(it, text.id)
         }
     }
 
     getTownStorage().getAll().forEach { town ->
-        events.add(TownFoundingEvent(town.foundingDate, town.id))
+        addEvent(events, default, calendar, town.foundingDate) {
+            TownFoundingEvent(it, town.id)
+        }
     }
 
     return events
 }
 
-private fun <ID : Id<ID>> handleOwnership(
+private fun addPossibleEvent(
     events: MutableList<Event>,
+    from: Calendar,
+    to: Calendar,
+    date: Date?,
+    create: (Date) -> Event,
+) {
+    if (date != null) {
+        val convertedDate = convertDate(from, to, date)
+        events.add(create(convertedDate))
+    }
+}
+
+private fun addEvent(
+    events: MutableList<Event>,
+    from: Calendar,
+    to: Calendar,
+    date: Date,
+    create: (Date) -> Event,
+) {
+    val convertedDate = convertDate(from, to, date)
+    events.add(create(convertedDate))
+}
+
+private fun <ID : Id<ID>> addOwnershipEvents(
+    events: MutableList<Event>,
+    from: Calendar,
+    to: Calendar,
     id: ID,
     ownership: History<Owner>,
-    create: (ID, HistoryEntry<Owner>, Owner) -> OwnershipChangedEvent<ID>,
 ) {
     var lastPrevious: HistoryEntry<Owner>? = null
 
     for (previous in ownership.previousEntries) {
-        if (lastPrevious != null) {
-            events.add(create(id, lastPrevious, previous.entry))
-        }
+        addOwnershipEvent(events, from, to, id, lastPrevious, previous.entry)
 
         lastPrevious = previous
     }
 
-    if (lastPrevious != null) {
-        events.add(create(id, lastPrevious, ownership.current))
+    addOwnershipEvent(events, from, to, id, lastPrevious, ownership.current)
+}
+
+private fun <ID : Id<ID>> addOwnershipEvent(
+    events: MutableList<Event>,
+    from: Calendar,
+    to: Calendar,
+    id: ID,
+    entry: HistoryEntry<Owner>?,
+    owner: Owner,
+) {
+    if (entry != null) {
+        addEvent(events, from, to, entry.until) {
+            OwnershipChangedEvent(
+                it,
+                id,
+                entry.entry,
+                owner,
+            )
+        }
     }
 }
 
-private fun <ID : Id<ID>> createOwnershipChanged(
-    id: ID,
-    previous: HistoryEntry<Owner>,
-    to: Owner,
-) = OwnershipChangedEvent(
-    previous.until,
-    id,
-    previous.entry,
-    to,
-)
-
-fun State.getEvents(calendarId: CalendarId, date: Date): List<Event> {
-    val calendar = getCalendarStorage().getOrThrow(calendarId)
+fun State.getEvents(calendar: Calendar, date: Date): List<Event> {
     val start = calendar.getStartDay(date)
     val end = calendar.getEndDay(date)
 
-    return getEvents().filter {
+    return getEvents(calendar).filter {
         it.date.isBetween(calendar, start, end)
     }
 }

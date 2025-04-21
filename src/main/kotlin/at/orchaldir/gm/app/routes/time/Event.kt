@@ -22,7 +22,7 @@ import kotlinx.html.LI
 fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val events = state.getEvents()
+    val events = state.getEvents(calendar)
     val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Events") {

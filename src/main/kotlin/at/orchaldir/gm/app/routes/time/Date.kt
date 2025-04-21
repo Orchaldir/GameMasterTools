@@ -61,7 +61,7 @@ fun HTML.showDate(
 ) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val events = state.getEvents(calendarId, date)
+    val events = state.getEvents(calendar, date)
     val backLink = call.application.href(TimeRoutes())
     val upDate = calendar.moveUp(date)
 
