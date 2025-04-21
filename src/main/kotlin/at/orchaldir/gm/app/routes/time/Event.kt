@@ -1,9 +1,12 @@
 package at.orchaldir.gm.app.routes.time
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.back
+import at.orchaldir.gm.app.html.fieldLink
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.showCurrentDate
 import at.orchaldir.gm.app.html.model.showOwner
+import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -14,9 +17,7 @@ import at.orchaldir.gm.core.selector.sort
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
-import kotlinx.html.HTML
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.LI
+import kotlinx.html.*
 
 
 fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
@@ -41,95 +42,112 @@ fun HtmlBlockTag.showEvents(
 ) {
     val events = unsortedEvents.sort(calendar)
 
-    showList("Events", events) { event ->
-        val date = event.date
-
-        if (date is Day && date == state.time.currentDate) {
-            link(call, calendar.id, date, "Today")
-        } else {
-            link(call, calendar, date)
+    table {
+        tr {
+            th { +"Date" }
+            th { +"Event" }
         }
-        +": "
-        when (event) {
-            is ArchitecturalStyleStartEvent -> {
-                link(call, state, event.style)
-                +" style started."
-            }
+        events.forEach { event ->
+            tr {
+                td {
+                    val date = event.date
 
-            is ArchitecturalStyleEndEvent -> {
-                link(call, state, event.style)
-                +" style ended."
-            }
-
-            is BuildingConstructedEvent -> {
-                link(call, state, event.building)
-                +" was constructed."
-            }
-
-            is BusinessStartedEvent -> {
-                +"The business "
-                link(call, state, event.business)
-                +" was started."
-            }
-
-            is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)
-
-            is CharacterDeathEvent -> {
-                link(call, state, event.character)
-                +" died."
-            }
-
-            is CharacterOriginEvent -> {
-                link(call, state, event.character)
-                +" was born."
-            }
-
-            is FontCreatedEvent -> {
-                +"The font "
-                link(call, state, event.font)
-                +" was created."
-            }
-
-            is PeriodicalCreatedEvent -> {
-                +"The 1.issue of the "
-                link(call, state, event.periodical)
-                +" was published."
-            }
-
-            is OrganizationFoundingEvent -> {
-                +"The organization "
-                link(call, state, event.organization)
-                +" was founded."
-            }
-
-            is RaceCreatedEvent -> {
-                +"The race "
-                link(call, state, event.race)
-                +" was created."
-            }
-
-            is SpellCreatedEvent -> {
-                +"The spell "
-                link(call, state, event.spell)
-                +" was created."
-            }
-
-            is TextPublishedEvent -> {
-                +"The text "
-                link(call, state, event.text)
-                +" was published."
-            }
-
-            is TownFoundingEvent -> {
-                +"The town "
-                link(call, state, event.town)
-                +" was founded."
+                    if (date is Day && date == state.time.currentDate) {
+                        link(call, calendar.id, date, "Today")
+                    } else {
+                        link(call, calendar, date)
+                    }
+                }
+                td {
+                    showEvent(call, state, event)
+                }
             }
         }
     }
 }
 
-private fun <ID : Id<ID>> LI.handleOwnershipChanged(
+private fun TD.showEvent(
+    call: ApplicationCall,
+    state: State,
+    event: Event,
+) = when (event) {
+    is ArchitecturalStyleStartEvent -> {
+        link(call, state, event.style)
+        +" style started."
+    }
+
+    is ArchitecturalStyleEndEvent -> {
+        link(call, state, event.style)
+        +" style ended."
+    }
+
+    is BuildingConstructedEvent -> {
+        link(call, state, event.building)
+        +" was constructed."
+    }
+
+    is BusinessStartedEvent -> {
+        +"The business "
+        link(call, state, event.business)
+        +" was started."
+    }
+
+    is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)
+
+    is CharacterDeathEvent -> {
+        link(call, state, event.character)
+        +" died."
+    }
+
+    is CharacterOriginEvent -> {
+        link(call, state, event.character)
+        +" was born."
+    }
+
+    is FontCreatedEvent -> {
+        +"The font "
+        link(call, state, event.font)
+        +" was created."
+    }
+
+    is PeriodicalCreatedEvent -> {
+        +"The 1.issue of the "
+        link(call, state, event.periodical)
+        +" was published."
+    }
+
+    is OrganizationFoundingEvent -> {
+        +"The organization "
+        link(call, state, event.organization)
+        +" was founded."
+    }
+
+    is RaceCreatedEvent -> {
+        +"The race "
+        link(call, state, event.race)
+        +" was created."
+    }
+
+    is SpellCreatedEvent -> {
+        +"The spell "
+        link(call, state, event.spell)
+        +" was created."
+    }
+
+    is TextPublishedEvent -> {
+        +"The text "
+        link(call, state, event.text)
+        +" was published."
+    }
+
+    is TownFoundingEvent -> {
+        +"The town "
+        link(call, state, event.town)
+        +" was founded."
+    }
+}
+
+private fun <ID : Id<ID>> HtmlBlockTag.handleOwnershipChanged(
     call: ApplicationCall,
     state: State,
     event: OwnershipChangedEvent<ID>,
