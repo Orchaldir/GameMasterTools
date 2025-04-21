@@ -24,7 +24,7 @@ import kotlinx.html.h2
 
 // show
 
-fun BODY.showPeriodical(
+fun HtmlBlockTag.showPeriodical(
     call: ApplicationCall,
     state: State,
     periodical: Periodical,

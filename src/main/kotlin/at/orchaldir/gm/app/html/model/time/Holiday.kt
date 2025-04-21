@@ -16,10 +16,11 @@ import io.ktor.server.application.*
 import io.ktor.server.util.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showHoliday(
+fun HtmlBlockTag.showHoliday(
     call: ApplicationCall,
     state: State,
     holiday: Holiday,

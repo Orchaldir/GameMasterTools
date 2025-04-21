@@ -94,7 +94,7 @@ fun HTML.showDate(
     }
 }
 
-private fun BODY.addLinkAction(
+private fun HtmlBlockTag.addLinkAction(
     call: ApplicationCall,
     calendarId: CalendarId,
     label: String,

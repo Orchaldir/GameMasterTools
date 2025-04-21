@@ -18,10 +18,11 @@ import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.DETAILS
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showBelt(
+fun HtmlBlockTag.showBelt(
     call: ApplicationCall,
     state: State,
     belt: Belt,
@@ -31,7 +32,7 @@ fun BODY.showBelt(
     showBeltHoles(belt.holes)
 }
 
-private fun BODY.showBuckle(
+private fun HtmlBlockTag.showBuckle(
     call: ApplicationCall,
     state: State,
     buckle: Buckle,
@@ -48,7 +49,7 @@ private fun BODY.showBuckle(
     }
 }
 
-private fun BODY.showBeltHoles(
+private fun HtmlBlockTag.showBeltHoles(
     holes: BeltHoles,
 ) {
     showDetails("Belt Holes", true) {

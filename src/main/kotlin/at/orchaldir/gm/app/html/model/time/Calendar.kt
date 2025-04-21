@@ -22,13 +22,14 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 import kotlinx.html.p
 
 // show
 
 
-fun BODY.showCalendar(
+fun HtmlBlockTag.showCalendar(
     call: ApplicationCall,
     state: State,
     calendar: Calendar,
@@ -64,7 +65,7 @@ fun BODY.showCalendar(
     showDateFormat(calendar.defaultFormat)
 }
 
-private fun BODY.showOrigin(
+private fun HtmlBlockTag.showOrigin(
     call: ApplicationCall,
     state: State,
     calendar: Calendar,
@@ -86,7 +87,7 @@ private fun BODY.showOrigin(
     }
 }
 
-private fun BODY.showDays(
+private fun HtmlBlockTag.showDays(
     calendar: Calendar,
 ) {
     field("Days", calendar.days.getType())
@@ -99,7 +100,7 @@ private fun BODY.showDays(
     }
 }
 
-private fun BODY.showMonths(calendar: Calendar) {
+private fun HtmlBlockTag.showMonths(calendar: Calendar) {
     when (val months = calendar.months) {
         is ComplexMonths -> showList("Months", months.months) { month ->
             field(month.name, "${month.days} days")
@@ -117,7 +118,7 @@ private fun BODY.showMonths(calendar: Calendar) {
     field("Days per Year", calendar.getDaysPerYear())
 }
 
-private fun BODY.showEras(
+private fun HtmlBlockTag.showEras(
     call: ApplicationCall,
     state: State,
     calendar: Calendar,

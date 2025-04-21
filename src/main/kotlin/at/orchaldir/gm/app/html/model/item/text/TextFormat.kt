@@ -28,7 +28,7 @@ private val max = fromMillimeters(2000)
 
 // show
 
-fun BODY.showTextFormat(
+fun HtmlBlockTag.showTextFormat(
     call: ApplicationCall,
     state: State,
     format: TextFormat,

@@ -37,7 +37,7 @@ import kotlin.random.Random
 
 // show
 
-fun BODY.showData(
+fun HtmlBlockTag.showData(
     character: Character,
     call: ApplicationCall,
     state: State,
@@ -85,7 +85,7 @@ fun BODY.showData(
     }
 }
 
-private fun BODY.showHeight(
+private fun HtmlBlockTag.showHeight(
     state: State,
     character: Character,
     maxHeight: Distance,
@@ -116,7 +116,7 @@ private fun HtmlBlockTag.showAge(
     }
 }
 
-fun BODY.showSocial(
+fun HtmlBlockTag.showSocial(
     call: ApplicationCall,
     state: State,
     character: Character,
@@ -147,7 +147,7 @@ fun BODY.showSocial(
     action(editRelationshipsLink, "Edit Relationships")
 }
 
-private fun BODY.showFamily(
+private fun HtmlBlockTag.showFamily(
     call: ApplicationCall,
     state: State,
     character: Character,
@@ -167,7 +167,7 @@ private fun BODY.showFamily(
     }
 }
 
-fun BODY.showLanguages(
+fun HtmlBlockTag.showLanguages(
     call: ApplicationCall,
     state: State,
     character: Character,
@@ -178,7 +178,7 @@ fun BODY.showLanguages(
     }
 }
 
-fun BODY.showMemberships(
+fun HtmlBlockTag.showMemberships(
     call: ApplicationCall,
     state: State,
     character: Character,
@@ -200,7 +200,7 @@ fun BODY.showMemberships(
     }
 }
 
-fun BODY.showPossession(
+fun HtmlBlockTag.showPossession(
     call: ApplicationCall,
     state: State,
     character: Character,

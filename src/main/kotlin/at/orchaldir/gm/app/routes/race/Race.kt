@@ -176,7 +176,7 @@ private fun HTML.showAllRaces(
     }
 }
 
-private inline fun <reified T : Any> BODY.showSortLinks(call: ApplicationCall, createLink: (SortRace) -> T) {
+private inline fun <reified T : Any> HtmlBlockTag.showSortLinks(call: ApplicationCall, createLink: (SortRace) -> T) {
     val sortAgeLink = call.application.href(createLink(SortRace.Age))
     val sortNameLink = call.application.href(createLink(SortRace.Name))
     val sortHeightLink = call.application.href(createLink(SortRace.Height))

@@ -26,7 +26,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showTextContent(
+fun HtmlBlockTag.showTextContent(
     call: ApplicationCall,
     state: State,
     content: TextContent,

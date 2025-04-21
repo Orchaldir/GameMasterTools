@@ -15,10 +15,11 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showCoat(
+fun HtmlBlockTag.showCoat(
     call: ApplicationCall,
     state: State,
     data: Coat,

@@ -21,7 +21,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showOpeningStyle(
+fun HtmlBlockTag.showOpeningStyle(
     call: ApplicationCall,
     state: State,
     openingStyle: OpeningStyle,

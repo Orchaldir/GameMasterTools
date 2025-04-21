@@ -25,7 +25,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showRelativeDate(
+fun HtmlBlockTag.showRelativeDate(
     label: String,
     calendar: Calendar,
     relativeDate: RelativeDate,

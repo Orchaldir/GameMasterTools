@@ -28,7 +28,7 @@ import kotlinx.html.*
 
 // show
 
-fun BODY.showCulture(
+fun HtmlBlockTag.showCulture(
     call: ApplicationCall,
     state: State,
     culture: Culture,
@@ -48,7 +48,7 @@ fun BODY.showCulture(
     }
 }
 
-private fun BODY.showNamingConvention(
+private fun HtmlBlockTag.showNamingConvention(
     namingConvention: NamingConvention,
     call: ApplicationCall,
     state: State,
@@ -92,7 +92,7 @@ private fun BODY.showNamingConvention(
     }
 }
 
-private fun BODY.showGenonymConvention(
+private fun HtmlBlockTag.showGenonymConvention(
     call: ApplicationCall,
     state: State,
     lookupDistance: GenonymicLookupDistance,
@@ -110,7 +110,7 @@ private fun BODY.showGenonymConvention(
     showNamesByGender(call, state, "Names", names)
 }
 
-private fun BODY.showNamesByGender(
+private fun HtmlBlockTag.showNamesByGender(
     call: ApplicationCall,
     state: State,
     label: String,
@@ -123,7 +123,7 @@ private fun BODY.showNamesByGender(
     }
 }
 
-private fun BODY.showStyleByGender(
+private fun HtmlBlockTag.showStyleByGender(
     label: String,
     namesByGender: GenderMap<String>,
 ) {
@@ -134,7 +134,7 @@ private fun BODY.showStyleByGender(
     }
 }
 
-private fun BODY.showClothingOptions(
+private fun HtmlBlockTag.showClothingOptions(
     call: ApplicationCall,
     state: State,
     culture: Culture,

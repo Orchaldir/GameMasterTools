@@ -22,10 +22,11 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showEyePatch(
+fun HtmlBlockTag.showEyePatch(
     call: ApplicationCall,
     state: State,
     eyePatch: EyePatch,
@@ -34,7 +35,7 @@ fun BODY.showEyePatch(
     showFixation(call, state, eyePatch.fixation)
 }
 
-private fun BODY.showStyle(
+private fun HtmlBlockTag.showStyle(
     call: ApplicationCall,
     state: State,
     style: EyePatchStyle,
@@ -57,7 +58,7 @@ private fun BODY.showStyle(
     }
 }
 
-private fun BODY.showFixation(
+private fun HtmlBlockTag.showFixation(
     call: ApplicationCall,
     state: State,
     fixation: EyePatchFixation,

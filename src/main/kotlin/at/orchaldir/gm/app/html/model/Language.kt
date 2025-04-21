@@ -29,7 +29,7 @@ import kotlinx.html.h2
 
 // show
 
-fun BODY.showLanguage(
+fun HtmlBlockTag.showLanguage(
     call: ApplicationCall,
     state: State,
     language: Language,

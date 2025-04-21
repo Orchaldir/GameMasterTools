@@ -20,7 +20,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showSpell(
+fun HtmlBlockTag.showSpell(
     call: ApplicationCall,
     state: State,
     spell: Spell,

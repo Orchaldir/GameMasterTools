@@ -166,7 +166,7 @@ private fun HTML.showFashionEditor(
     val previewLink = call.application.href(FashionRoutes.Preview(fashion.id))
     val updateLink = call.application.href(FashionRoutes.Update(fashion.id))
 
-    simpleHtml("Edit Fashion: ${fashion.name}") {
+    simpleHtml("Edit Fashion: ${fashion.name}", true) {
         formWithPreview(previewLink, updateLink, backLink) {
             editFashion(fashion, state)
         }

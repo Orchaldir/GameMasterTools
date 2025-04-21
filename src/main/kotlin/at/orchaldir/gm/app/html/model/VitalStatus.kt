@@ -18,8 +18,9 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
-fun BODY.showVitalStatus(
+fun HtmlBlockTag.showVitalStatus(
     call: ApplicationCall,
     state: State,
     vitalStatus: VitalStatus,
@@ -42,7 +43,7 @@ fun BODY.showVitalStatus(
     }
 }
 
-private fun BODY.showCauseOfDeath(cause: String) {
+private fun HtmlBlockTag.showCauseOfDeath(cause: String) {
     field("Cause of Death", cause)
 }
 

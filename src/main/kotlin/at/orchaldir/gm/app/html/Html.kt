@@ -20,7 +20,7 @@ import kotlinx.html.*
 fun HTML.simpleHtml(
     title: String,
     keepPositionAfterReload: Boolean = false,
-    content: BODY.() -> Unit,
+    content: HtmlBlockTag.() -> Unit,
 ) {
     head {
         title { +APP_TITLE }
@@ -136,14 +136,14 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldLink(
     }
 }
 
-fun BODY.fieldLink(label: String, link: String, text: String) {
+fun HtmlBlockTag.fieldLink(label: String, link: String, text: String) {
     p {
         b { +"$label: " }
         a(link) { +text }
     }
 }
 
-inline fun <reified T : Any> BODY.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
+inline fun <reified T : Any> HtmlBlockTag.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
     fieldLink("${storage.getType()}s", call.application.href(link), "${storage.getSize()}")
 }
 
