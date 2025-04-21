@@ -19,7 +19,6 @@ fun HtmlBlockTag.showFashion(
     state: State,
     fashion: Fashion,
 ) {
-    field("Name", fashion.name)
     showAppearanceFashion(fashion.appearance)
     showClothingFashion(call, state, fashion.clothing)
 }

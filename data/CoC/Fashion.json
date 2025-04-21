@@ -1,5 +1,39 @@
 {
-  "version": 1,
-  "elements": {
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "New England - Male",
+   "appearance": {
+    "beard": {
+     "beardStyles": {
+      "Goatee": "VeryRare",
+      "GoateeAndMoustache": "VeryRare",
+      "Moustache": "Rare",
+      "Shaved": "Common"
+     },
+     "beardLength": {
+     },
+     "fullBeardStyles": {
+     },
+     "moustacheStyles": {
+      "Handlebar": "Rare",
+      "Pencil": "Common",
+      "Pyramid": "Common",
+      "Toothbrush": "VeryRare",
+      "Walrus": "Rare"
+     }
+    },
+    "hair": {
+     "hairStyles": {
+      "Long": "Common",
+      "Ponytail": "Common",
+      "Short": "Common"
+     },
+     "bunStyles": {
+     }
+    }
+   }
   }
+ }
 }
