@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.time.date
 import at.orchaldir.gm.CALENDAR_ID_0
 import at.orchaldir.gm.CALENDAR_ID_1
 import at.orchaldir.gm.core.model.time.calendar.*
-import at.orchaldir.gm.core.model.time.date.*
+import at.orchaldir.gm.core.model.time.date.Day
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
