@@ -694,10 +694,8 @@
   "18": {
    "id": 18,
    "name": {
-    "type": "Family",
-    "given": "Abdul",
-    "middle": null,
-    "family": "Alhazred"
+    "type": "Mononym",
+    "name": "Abdul Alhazred"
    },
    "birthDate": {
     "type": "Year",
@@ -712,7 +710,8 @@
     "cause": {
      "type": "Accident"
     }
-   }
+   },
+   "culture": 1
   },
   "19": {
    "id": 19,

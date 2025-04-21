@@ -54,7 +54,7 @@ private fun HtmlBlockTag.showNamingConvention(
     state: State,
 ) {
     h2 { +"Naming Convention" }
-    field("Type", namingConvention.javaClass.simpleName)
+    field("Type", namingConvention.getType())
     when (namingConvention) {
         is FamilyConvention -> {
             field("Name Order", namingConvention.nameOrder)
