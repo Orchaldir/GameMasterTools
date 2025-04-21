@@ -131,7 +131,7 @@ fun HtmlBlockTag.link(
     range: DayRange,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowDayRange(range, calendar)), text)
+    link(call.application.href(TimeRoutes.ShowDayRange(range.startDay.day, range.endDay.day, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
