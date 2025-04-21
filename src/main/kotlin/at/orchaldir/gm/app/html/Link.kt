@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.item.EquipmentRoutes
+import at.orchaldir.gm.app.routes.item.PeriodicalIssueRoutes
 import at.orchaldir.gm.app.routes.item.PeriodicalRoutes
 import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
@@ -30,6 +31,7 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
@@ -94,70 +96,77 @@ fun HtmlBlockTag.link(
 ) {
     val calendarDate = calendar.resolve(date)
 
-    link(call, date, display(calendar, calendarDate))
+    link(call, calendar.id, date, display(calendar, calendarDate))
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     date: Date,
     text: String,
 ) {
     when (date) {
-        is Day -> link(call, date, text)
-        is Week -> link(call, date, text)
-        is Month -> link(call, date, text)
-        is Year -> link(call, date, text)
-        is Decade -> link(call, date, text)
-        is Century -> link(call, date, text)
+        is Day -> link(call, calendar, date, text)
+        is Week -> link(call, calendar, date, text)
+        is Month -> link(call, calendar, date, text)
+        is Year -> link(call, calendar, date, text)
+        is Decade -> link(call, calendar, date, text)
+        is Century -> link(call, calendar, date, text)
     }
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     day: Day,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowDay(day)), text)
+    link(call.application.href(TimeRoutes.ShowDay(day, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     week: Week,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowWeek(week)), text)
+    link(call.application.href(TimeRoutes.ShowWeek(week, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     month: Month,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowMonth(month)), text)
+    link(call.application.href(TimeRoutes.ShowMonth(month, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     year: Year,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowYear(year)), text)
+    link(call.application.href(TimeRoutes.ShowYear(year, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     decade: Decade,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowDecade(decade)), text)
+    link(call.application.href(TimeRoutes.ShowDecade(decade, calendar)), text)
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    calendar: CalendarId,
     century: Century,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowCentury(century)), text)
+    link(call.application.href(TimeRoutes.ShowCentury(century, calendar)), text)
 }
 
 // element
@@ -232,6 +241,7 @@ fun <ID : Id<ID>> href(
     is OrganizationId -> call.application.href(OrganizationRoutes.Details(id))
     is PantheonId -> call.application.href(PantheonRoutes.Details(id))
     is PeriodicalId -> call.application.href(PeriodicalRoutes.Details(id))
+    is PeriodicalIssueId -> call.application.href(PeriodicalIssueRoutes.Details(id))
     is PersonalityTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
     is PlaneId -> call.application.href(PlaneRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))

@@ -18,6 +18,8 @@ import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
@@ -167,10 +169,15 @@ data object CreateEquipment : ItemAction()
 data class DeleteEquipment(val id: EquipmentId) : ItemAction()
 data class UpdateEquipment(val equipment: Equipment) : ItemAction()
 
-// Periodical
+// periodical
 data object CreatePeriodical : ItemAction()
 data class DeletePeriodical(val id: PeriodicalId) : ItemAction()
 data class UpdatePeriodical(val periodical: Periodical) : ItemAction()
+
+// periodical issue
+data object CreatePeriodicalIssue : ItemAction()
+data class DeletePeriodicalIssue(val id: PeriodicalIssueId) : ItemAction()
+data class UpdatePeriodicalIssue(val issue: PeriodicalIssue) : ItemAction()
 
 // text
 data object CreateText : ItemAction()

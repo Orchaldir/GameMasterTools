@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.periodical.Periodical
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
@@ -24,12 +25,27 @@ import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.date.createSorter
 
 // generic
 
 fun <Element : HasStartDate> State.getAgeComparator(): Comparator<Element> {
     val calendar = getDefaultCalendar()
     return Comparator { a: Element, b: Element -> calendar.compareToOptional(a.startDate(), b.startDate()) }
+}
+
+fun <Element : HasComplexStartDate> State.getComplexAgeComparator(valueForNull: Int = Int.MAX_VALUE): Comparator<Element> {
+    val sorter = getDefaultCalendar().createSorter()
+
+    return compareBy { element ->
+        val date = element.startDate(this)
+
+        if (date == null) {
+            valueForNull
+        } else {
+            sorter(date)
+        }
+    }
 }
 
 // architectural style
@@ -240,7 +256,7 @@ fun State.sortMaterial(
         }
     )
 
-// periodicals
+// periodical
 
 fun State.sortPeriodicals(sort: SortPeriodical = SortPeriodical.Name) =
     sortPeriodicals(getPeriodicalStorage().getAll(), sort)
@@ -252,7 +268,24 @@ fun State.sortPeriodicals(
     .sortedWith(
         when (sort) {
             SortPeriodical.Name -> compareBy { it.name(this) }
-            SortPeriodical.Age -> getAgeComparator()
+            SortPeriodical.Age -> getComplexAgeComparator()
+        }
+    )
+
+// periodical issue
+
+fun State.sortPeriodicalIssues(sort: SortPeriodicalIssue = SortPeriodicalIssue.Age) =
+    sortPeriodicalIssues(getPeriodicalIssueStorage().getAll(), sort)
+
+fun State.sortPeriodicalIssues(
+    issues: Collection<PeriodicalIssue>,
+    sort: SortPeriodicalIssue = SortPeriodicalIssue.Age,
+) = issues
+    .sortedWith(
+        when (sort) {
+            SortPeriodicalIssue.Periodical -> compareBy { getPeriodicalStorage().getOrThrow(it.periodical).name(this) }
+            SortPeriodicalIssue.Age -> getComplexAgeComparator()
+            SortPeriodicalIssue.Issue -> compareBy { it.number }
         }
     )
 

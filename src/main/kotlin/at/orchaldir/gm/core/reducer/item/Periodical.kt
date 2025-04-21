@@ -22,22 +22,23 @@ val CREATE_PERIODICAL: Reducer<CreatePeriodical, State> = { state, _ ->
 
 val DELETE_PERIODICAL: Reducer<DeletePeriodical, State> = { state, action ->
     state.getPeriodicalStorage().require(action.id)
-    require(state.canDeletePeriodical(action.id)) { "The periodical ${action.id.value} is used" }
+    require(state.canDeletePeriodical(action.id)) { "The periodical ${action.id.value} is used!" }
 
     noFollowUps(state.updateStorage(state.getPeriodicalStorage().remove(action.id)))
 }
 
 val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     val periodical = action.periodical
+    val date = periodical.startDate(state)
 
     state.getPeriodicalStorage().require(periodical.id)
     state.getCalendarStorage().require(periodical.calendar)
     state.getLanguageStorage().require(periodical.language)
-    checkComplexName(state, periodical.name)
-    checkDate(state, periodical.startDate(), "Founding")
-    validateCreator(state, periodical.founder, periodical.id, periodical.startDate(), "Founder")
     validateFrequency(state, periodical)
-    checkOwnershipWithOptionalDate(state, periodical.ownership, periodical.startDate())
+    checkComplexName(state, periodical.name)
+    checkDate(state, date, "Founding")
+    validateCreator(state, periodical.founder, periodical.id, date, "Founder")
+    checkOwnershipWithOptionalDate(state, periodical.ownership, date)
 
     noFollowUps(state.updateStorage(state.getPeriodicalStorage().update(periodical)))
 }

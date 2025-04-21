@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
@@ -78,6 +79,10 @@ val PANTHEON_ID_0 = PantheonId(0)
 val UNKNOWN_PANTHEON_ID = PantheonId(99)
 val PERIODICAL_ID_0 = PeriodicalId(0)
 val PERIODICAL_ID_1 = PeriodicalId(1)
+val UNKNOWN_PERIODICAL_ID = PeriodicalId(99)
+val ISSUE_ID_0 = PeriodicalIssueId(0)
+val ISSUE_ID_1 = PeriodicalIssueId(1)
+val UNKNOWN_ISSUE_ID = PeriodicalIssueId(99)
 val PERSONALITY_ID_0 = PersonalityTraitId(0)
 val UNKNOWN_PERSONALITY_ID = PersonalityTraitId(99)
 val PLANE_ID_0 = PlaneId(0)

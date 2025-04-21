@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.parse.parseBool
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.*
@@ -15,14 +16,51 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
 
-fun HtmlBlockTag.optionalField(call: ApplicationCall, state: State, label: String, date: Date?) {
+// show optional
+
+fun HtmlBlockTag.optionalField(call: ApplicationCall, state: State, label: String, date: Date?) =
+    optionalField(call, state.getDefaultCalendar(), label, date)
+
+fun HtmlBlockTag.optionalField(
+    call: ApplicationCall,
+    state: State,
+    calendarId: CalendarId,
+    label: String,
+    date: Date?,
+) {
     if (date != null) {
-        field(call, label, state.getDefaultCalendar(), date)
+        val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+        field(call, label, calendar, date)
     }
 }
 
+fun HtmlBlockTag.optionalField(call: ApplicationCall, calendar: Calendar, label: String, date: Date?) {
+    if (date != null) {
+        field(call, label, calendar, date)
+    }
+}
+
+fun HtmlBlockTag.showOptionalDate(call: ApplicationCall, state: State, calendarId: CalendarId, date: Date?) {
+    if (date != null) {
+        showDate(call, state, calendarId, date)
+    }
+}
+
+fun HtmlBlockTag.showOptionalDate(call: ApplicationCall, state: State, date: Date?) {
+    if (date != null) {
+        showDate(call, state, date)
+    }
+}
+
+// show
+
 fun HtmlBlockTag.field(call: ApplicationCall, state: State, label: String, date: Date) {
     field(call, label, state.getDefaultCalendar(), date)
+}
+
+fun HtmlBlockTag.field(call: ApplicationCall, state: State, calendarId: CalendarId, label: String, date: Date) {
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    field(call, label, calendar, date)
 }
 
 fun HtmlBlockTag.field(call: ApplicationCall, label: String, calendar: Calendar, date: Date) {
@@ -38,14 +76,17 @@ fun HtmlBlockTag.showCurrentDate(
     field(call, state, "Current Date", state.time.currentDate)
 }
 
-fun HtmlBlockTag.showOptionalDate(call: ApplicationCall, state: State, date: Date?) {
-    if (date != null) {
-        showDate(call, state, date)
-    }
+fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
+    showDate(call, state.getDefaultCalendar(), date)
 }
 
-fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
-    link(call, state.getDefaultCalendar(), date)
+fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, calendarId: CalendarId, date: Date) {
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    showDate(call, calendar, date)
+}
+
+fun HtmlBlockTag.showDate(call: ApplicationCall, calendar: Calendar, date: Date) {
+    link(call, calendar, date)
 }
 
 fun displayDate(state: State, date: Date): String {
@@ -66,7 +107,7 @@ fun HtmlBlockTag.selectOptionalDate(
     selectOptionalDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate)
 }
 
-private fun HtmlBlockTag.selectOptionalDate(
+fun HtmlBlockTag.selectOptionalDate(
     calendar: Calendar,
     fieldLabel: String,
     date: Date?,
@@ -284,6 +325,20 @@ private fun HtmlBlockTag.selectYear(
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
 }
 
+fun FORM.selectWeek(
+    fieldLabel: String,
+    calendar: Calendar,
+    week: Week,
+    param: String,
+    minDate: Date? = null,
+) {
+    val displayDate = calendar.resolveWeek(week)
+
+    field(fieldLabel) {
+        selectWeek(param, calendar, displayDate, minDate)
+    }
+}
+
 private fun HtmlBlockTag.selectWeek(
     param: String,
     calendar: Calendar,
@@ -301,6 +356,20 @@ private fun HtmlBlockTag.selectWeek(
         selectEraIndex(param, calendar, displayDate.year.eraIndex)
         selectYearIndex(param, displayDate.year)
         selectWeekIndex(param, calendar, displayDate)
+    }
+}
+
+fun FORM.selectMonth(
+    fieldLabel: String,
+    calendar: Calendar,
+    month: Month,
+    param: String,
+    minDate: Date? = null,
+) {
+    val displayDate = calendar.resolveMonth(month)
+
+    field(fieldLabel) {
+        selectMonth(param, calendar, displayDate, minDate)
     }
 }
 
@@ -331,11 +400,12 @@ fun FORM.selectDay(
     calendar: Calendar,
     day: Day,
     param: String,
+    minDate: Date? = null,
 ) {
     val displayDate = calendar.resolveDay(day)
 
     field(fieldLabel) {
-        selectDay(param, calendar, displayDate, null)
+        selectDay(param, calendar, displayDate, minDate)
     }
 }
 

@@ -108,6 +108,9 @@ data class Year(val year: Int) : Date {
     fun nextYear() = Year(year + 1)
     fun previousYear() = Year(year - 1)
 
+    operator fun plus(duration: Int) = Year(year + duration)
+    operator fun minus(duration: Int) = Year(year - duration)
+
     operator fun compareTo(other: Year): Int {
         return year.compareTo(other.year)
     }

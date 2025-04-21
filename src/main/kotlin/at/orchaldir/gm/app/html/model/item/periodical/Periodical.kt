@@ -4,23 +4,23 @@ import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.FREQUENCY
 import at.orchaldir.gm.app.LANGUAGE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldLink
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.selector.item.getPeriodicalIssues
 import at.orchaldir.gm.core.selector.item.getValidPublicationFrequencies
+import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -33,16 +33,22 @@ fun BODY.showPeriodical(
     showOwnership(call, state, periodical.ownership)
     fieldLink("Language", call, state, periodical.language)
     fieldLink("Calendar", call, state, periodical.calendar)
-    showFrequency(call, state, periodical.frequency)
+    showFrequency(call, state, periodical)
+
+    h2 { +"Usage" }
+
+    showList("Issues", state.sortPeriodicalIssues(state.getPeriodicalIssues(periodical.id))) { issue ->
+        link(call, issue.id, issue.dateAsName(state))
+    }
 }
 
 private fun HtmlBlockTag.showFrequency(
     call: ApplicationCall,
     state: State,
-    frequency: PublicationFrequency,
+    periodical: Periodical,
 ) {
-    field("Frequency", frequency.getType())
-    optionalField(call, state, "Publication Start", frequency.getStartDate())
+    field("Frequency", periodical.frequency.getType())
+    optionalField(call, state, periodical.calendar, "Publication Start", periodical.frequency.getStartDate())
 }
 
 // edit
@@ -51,9 +57,10 @@ fun FORM.editPeriodical(
     state: State,
     periodical: Periodical,
 ) {
+    val date = periodical.startDate(state)
     selectComplexName(state, periodical.name)
-    selectCreator(state, periodical.founder, periodical.id, periodical.startDate(), "Founder")
-    selectOwnership(state, periodical.ownership, periodical.startDate())
+    selectCreator(state, periodical.founder, periodical.id, date, "Founder")
+    selectOwnership(state, periodical.ownership, date)
     selectElement(state, "Language", LANGUAGE, state.getLanguageStorage().getAll(), periodical.language)
     selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), periodical.calendar, true)
     selectPublicationFrequency(state, periodical)
@@ -69,10 +76,10 @@ private fun FORM.selectPublicationFrequency(
     selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency.getType(), true)
 
     when (val frequency = periodical.frequency) {
-        is DailyPublication -> selectOptionalDay(calendar, "Start Day", frequency.start, DATE)
-        is WeeklyPublication -> selectOptionalWeek(calendar, "Start Week", frequency.start, DATE)
-        is MonthlyPublication -> selectOptionalMonth(calendar, "Start Month", frequency.start, DATE)
-        is YearlyPublication -> selectOptionalYear(calendar, "Start Year", frequency.start, DATE)
+        is DailyPublication -> selectDay("Start Day", calendar, frequency.start, DATE)
+        is WeeklyPublication -> selectWeek("Start Week", calendar, frequency.start, DATE)
+        is MonthlyPublication -> selectMonth("Start Month", calendar, frequency.start, DATE)
+        is YearlyPublication -> selectYear("Start Year", calendar, frequency.start, DATE)
     }
 }
 
@@ -100,8 +107,8 @@ fun parsePeriodical(parameters: Parameters, state: State, id: PeriodicalId): Per
 
 private fun parseFrequency(parameters: Parameters, calendar: Calendar) =
     when (parse(parameters, FREQUENCY, PublicationFrequencyType.Daily)) {
-        PublicationFrequencyType.Daily -> DailyPublication(parseOptionalDay(parameters, calendar, DATE))
-        PublicationFrequencyType.Weekly -> WeeklyPublication(parseOptionalWeek(parameters, calendar, DATE))
-        PublicationFrequencyType.Monthly -> MonthlyPublication(parseOptionalMonth(parameters, calendar, DATE))
-        PublicationFrequencyType.Yearly -> YearlyPublication(parseOptionalYear(parameters, calendar, DATE))
+        PublicationFrequencyType.Daily -> DailyPublication(parseDay(parameters, calendar, DATE))
+        PublicationFrequencyType.Weekly -> WeeklyPublication(parseWeek(parameters, calendar, DATE))
+        PublicationFrequencyType.Monthly -> MonthlyPublication(parseMonth(parameters, calendar, DATE))
+        PublicationFrequencyType.Yearly -> YearlyPublication(parseYear(parameters, calendar, DATE))
     }

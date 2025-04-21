@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
 import at.orchaldir.gm.app.routes.item.configureEquipmentRouting
+import at.orchaldir.gm.app.routes.item.configurePeriodicalIssueRouting
 import at.orchaldir.gm.app.routes.item.configurePeriodicalRouting
 import at.orchaldir.gm.app.routes.item.configureTextRouting
 import at.orchaldir.gm.app.routes.magic.configureSpellRouting
@@ -80,6 +81,7 @@ fun Application.module() {
     configureOrganizationRouting()
     configurePantheonRouting()
     configurePeriodicalRouting()
+    configurePeriodicalIssueRouting()
     configurePersonalityRouting()
     configurePlaneRouting()
     configureRaceRouting()

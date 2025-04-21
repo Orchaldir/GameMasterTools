@@ -30,22 +30,22 @@ private val logger = KotlinLogging.logger {}
 class TimeRoutes {
 
     @Resource("day")
-    class ShowDay(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+    class ShowDay(val day: Day, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("week")
-    class ShowWeek(val week: Week, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+    class ShowWeek(val week: Week, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("month")
-    class ShowMonth(val month: Month, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+    class ShowMonth(val month: Month, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("year")
-    class ShowYear(val year: Year, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+    class ShowYear(val year: Year, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("decade")
-    class ShowDecade(val decade: Decade, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+    class ShowDecade(val decade: Decade, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("century")
-    class ShowCentury(val century: Century, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+    class ShowCentury(val century: Century, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("events")
     class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
@@ -67,51 +67,45 @@ fun Application.configureTimeRouting() {
             }
         }
         get<TimeRoutes.ShowDay> { data ->
-            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
-            logger.info { "Show the day ${data.day.day} for calendar ${calendarId.value}" }
+            logger.info { "Show the day ${data.day.day} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDay(call, calendarId, data.day)
+                showDay(call, data.calendar, data.day)
             }
         }
         get<TimeRoutes.ShowWeek> { data ->
-            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
-            logger.info { "Show the week ${data.week.week} for calendar ${calendarId.value}" }
+            logger.info { "Show the week ${data.week.week} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showWeek(call, calendarId, data.week)
+                showWeek(call, data.calendar, data.week)
             }
         }
         get<TimeRoutes.ShowMonth> { data ->
-            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
-            logger.info { "Show the month ${data.month.month} for calendar ${calendarId.value}" }
+            logger.info { "Show the month ${data.month.month} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMonth(call, calendarId, data.month)
+                showMonth(call, data.calendar, data.month)
             }
         }
         get<TimeRoutes.ShowYear> { data ->
-            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
-            logger.info { "Show the year ${data.year.year} for calendar ${calendarId.value}" }
+            logger.info { "Show the year ${data.year.year} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDate(call, calendarId, data.year, "Year")
+                showDate(call, data.calendar, data.year, "Year")
             }
         }
         get<TimeRoutes.ShowDecade> { data ->
-            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
-            logger.info { "Show the decade ${data.decade} for calendar ${calendarId.value}" }
+            logger.info { "Show the decade ${data.decade} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDate(call, calendarId, data.decade, "Decade")
+                showDate(call, data.calendar, data.decade, "Decade")
             }
         }
         get<TimeRoutes.ShowCentury> { data ->
-            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
-            logger.info { "Show the century ${data.century} for calendar ${calendarId.value}" }
+            logger.info { "Show the century ${data.century} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDate(call, calendarId, data.century, "Century")
+                showDate(call, data.calendar, data.century, "Century")
             }
         }
         get<TimeRoutes.ShowEvents> { data ->
