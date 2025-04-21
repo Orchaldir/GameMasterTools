@@ -233,7 +233,7 @@ private fun HtmlBlockTag.selectDate(
         DateType.entries
     } else {
         DateType.entries - DateType.Week
-    }
+    } - DateType.DayRange
 
     select {
         id = dateTypeParam
@@ -249,6 +249,7 @@ private fun HtmlBlockTag.selectDate(
     }
     when (displayDate) {
         is DisplayDay -> selectDay(param, calendar, displayDate, minDate)
+        is DisplayDayRange -> error("Day Range is not supported!")
         is DisplayWeek -> selectWeek(param, calendar, displayDate, minDate)
         is DisplayMonth -> selectMonth(param, calendar, displayDate, minDate)
         is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
@@ -772,6 +773,7 @@ fun parseDate(
 
     return when (parse(parameters, combine(param, DATE), DateType.Year)) {
         DateType.Day -> parseDay(parameters, calendar, param)
+        DateType.DayRange -> error("Day Range is not supported!")
         DateType.Week -> parseWeek(parameters, calendar, param)
         DateType.Month -> parseMonth(parameters, calendar, param)
         DateType.Year -> parseYear(parameters, calendar, param)

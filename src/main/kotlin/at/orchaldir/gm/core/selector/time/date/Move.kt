@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.time.date.*
 
 fun Calendar.moveUp(date: Date): Date? = when (date) {
     is Day -> moveUpDay(date)
+    is DayRange -> null
     is Week -> resolveYear(resolveWeek(date).year)
     is Month -> resolveYear(resolveMonth(date).year)
     is Year -> resolveDecade(resolveYear(date).decade())
@@ -47,6 +48,7 @@ private fun moveUpDayToWeek(
 
 fun Calendar.getStartDay(date: Date) = when (date) {
     is Day -> date
+    is DayRange -> date.startDay
     is Week -> getStartDayOfWeek(date)
     is Month -> getStartDayOfMonth(date)
     is Year -> getStartDayOfYear(date)
@@ -56,6 +58,7 @@ fun Calendar.getStartDay(date: Date) = when (date) {
 
 fun Calendar.getStartDisplayDay(date: Date): DisplayDay = when (date) {
     is Day -> resolveDay(date)
+    is DayRange -> resolveDay(date.startDay)
     is Week -> resolveDay(getStartDayOfWeek(date))
     is Month -> getStartDisplayDayOfMonth(date)
     is Year -> getStartDisplayDayOfYear(date)
@@ -65,6 +68,7 @@ fun Calendar.getStartDisplayDay(date: Date): DisplayDay = when (date) {
 
 fun Calendar.getEndDay(date: Date) = when (date) {
     is Day -> date
+    is DayRange -> date.endDay
     is Week -> getEndDayOfWeek(date)
     is Month -> getEndDayOfMonth(date)
     is Year -> getEndDayOfYear(date)
@@ -133,7 +137,8 @@ fun Calendar.getStartDisplayDayOfYear(year: DisplayYear) = DisplayDay(year, 0, 0
 fun Calendar.getEndDayOfYear(year: Year) = getStartDayOfYear(year.nextYear()).previousDay()
 
 fun Calendar.getStartYear(date: Date): Year = when (date) {
-    is Day -> resolveYear(resolveDay(date).month.year)
+    is Day -> getStarYearOfDay(date)
+    is DayRange -> getStarYearOfDay(date.startDay)
     is Week -> resolveYear(resolveWeek(date).year)
     is Month -> resolveYear(resolveMonth(date).year)
     is Year -> date
@@ -141,14 +146,21 @@ fun Calendar.getStartYear(date: Date): Year = when (date) {
     is Century -> resolveYear(resolveCentury(date).startYear())
 }
 
+private fun Calendar.getStarYearOfDay(day: Day): Year =
+    resolveYear(resolveDay(day).month.year)
+
 fun Calendar.getStartDisplayYear(date: Date): DisplayYear = when (date) {
-    is Day -> resolveDay(date).month.year
+    is Day -> getStartDisplayYearOfDay(date)
+    is DayRange -> getStartDisplayYearOfDay(date.startDay)
     is Week -> resolveWeek(date).year
     is Month -> resolveMonth(date).year
     is Year -> resolveYear(date)
     is Decade -> resolveDecade(date).startYear()
     is Century -> resolveCentury(date).startYear()
 }
+
+private fun Calendar.getStartDisplayYearOfDay(day: Day) =
+    resolveDay(day).month.year
 
 // decade
 
@@ -161,7 +173,8 @@ fun Calendar.getStartDisplayDayOfDecade(decade: DisplayDecade) = DisplayDay(deca
 fun Calendar.getEndDayOfDecade(decade: Decade) = getStartDayOfDecade(decade.nextDecade()).previousDay()
 
 fun Calendar.getStartDecade(date: Date): Decade = when (date) {
-    is Day -> resolveDecade(resolveDay(date).month.year.decade())
+    is Day -> getStartDecadeOfDay(date)
+    is DayRange -> getStartDecadeOfDay(date.startDay)
     is Week -> resolveDecade(resolveWeek(date).year.decade())
     is Month -> resolveDecade(resolveMonth(date).year.decade())
     is Year -> resolveDecade(resolveYear(date).decade())
@@ -169,14 +182,21 @@ fun Calendar.getStartDecade(date: Date): Decade = when (date) {
     is Century -> resolveDecade(resolveCentury(date).startYear().decade())
 }
 
+private fun Calendar.getStartDecadeOfDay(day: Day): Decade =
+    resolveDecade(resolveDay(day).month.year.decade())
+
 fun Calendar.getStartDisplayDecade(date: Date): DisplayDecade = when (date) {
-    is Day -> resolveDay(date).month.year.decade()
+    is Day -> getStartDisplayDecadeOfDay(date)
+    is DayRange -> getStartDisplayDecadeOfDay(date.startDay)
     is Week -> resolveWeek(date).year.decade()
     is Month -> resolveMonth(date).year.decade()
     is Year -> resolveYear(date).decade()
     is Decade -> resolveDecade(date)
     is Century -> resolveCentury(date).startYear().decade()
 }
+
+private fun Calendar.getStartDisplayDecadeOfDay(day: Day) =
+    resolveDay(day).month.year.decade()
 
 // century
 
@@ -189,7 +209,8 @@ fun Calendar.getStartDisplayDayOfCentury(century: DisplayCentury) = DisplayDay(c
 fun Calendar.getEndDayOfCentury(century: Century) = getStartDayOfCentury(century.nextCentury()).previousDay()
 
 fun Calendar.getCentury(date: Date): Century = when (date) {
-    is Day -> resolveCentury(resolveDay(date).month.year.decade().century())
+    is Day -> getCenturyOfDay(date)
+    is DayRange -> getCenturyOfDay(date.startDay)
     is Week -> resolveCentury(resolveWeek(date).year.decade().century())
     is Month -> resolveCentury(resolveMonth(date).year.decade().century())
     is Year -> resolveCentury(resolveYear(date).decade().century())
@@ -197,11 +218,18 @@ fun Calendar.getCentury(date: Date): Century = when (date) {
     is Century -> date
 }
 
+private fun Calendar.getCenturyOfDay(day: Day): Century =
+    resolveCentury(resolveDay(day).month.year.decade().century())
+
 fun Calendar.getDisplayCentury(date: Date): DisplayCentury = when (date) {
-    is Day -> resolveDay(date).month.year.decade().century()
+    is Day -> getDisplayCenturyOfDay(date)
+    is DayRange -> getDisplayCenturyOfDay(date.startDay)
     is Week -> resolveWeek(date).year.decade().century()
     is Month -> resolveMonth(date).year.decade().century()
     is Year -> resolveYear(date).decade().century()
     is Decade -> resolveDecade(date).century()
     is Century -> resolveCentury(date)
 }
+
+private fun Calendar.getDisplayCenturyOfDay(day: Day) =
+    resolveDay(day).month.year.decade().century()

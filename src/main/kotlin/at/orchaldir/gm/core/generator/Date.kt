@@ -28,6 +28,8 @@ class DateGenerator(
                 DisplayDay(displayDay.month.year, monthIndex, dayIndex)
             }
 
+            is DayRange -> error("Day Range is not supported!")
+
             is Week -> {
                 val displayWeek = calendar.resolveWeek(date)
                 DisplayDay(displayWeek.year, monthIndex, dayIndex)

@@ -107,6 +107,7 @@ fun HtmlBlockTag.link(
 ) {
     when (date) {
         is Day -> link(call, calendar, date, text)
+        is DayRange -> TODO()
         is Week -> link(call, calendar, date, text)
         is Month -> link(call, calendar, date, text)
         is Year -> link(call, calendar, date, text)

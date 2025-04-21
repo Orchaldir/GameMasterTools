@@ -9,6 +9,7 @@ import kotlin.math.absoluteValue
 
 enum class DateType {
     Day,
+    DayRange,
     Week,
     Month,
     Year,
@@ -21,6 +22,7 @@ sealed interface Date {
 
     fun getType() = when (this) {
         is Day -> DateType.Day
+        is DayRange -> DateType.DayRange
         is Week -> DateType.Week
         is Month -> DateType.Month
         is Year -> DateType.Year
@@ -28,8 +30,8 @@ sealed interface Date {
         is Century -> DateType.Century
     }
 
-    fun next(): Date
-    fun previous(): Date
+    fun next(): Date?
+    fun previous(): Date?
 
     fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
 }
@@ -52,6 +54,21 @@ data class Day(val day: Int) : Date {
 
     fun getDurationBetween(other: Day) = Duration((day - other.day).absoluteValue)
     override fun isBetween(calendar: Calendar, start: Day, end: Day) = day >= start.day && day <= end.day
+}
+
+@Serializable
+@SerialName("DayRange")
+data class DayRange(
+    val startDay: Day,
+    val endDay: Day,
+) : Date {
+    override fun next() = null
+    override fun previous() = null
+
+    override fun isBetween(calendar: Calendar, start: Day, end: Day) =
+        !isNotBetween(start, end)
+
+    fun isNotBetween(start: Day, end: Day) = startDay > end || endDay < start
 }
 
 @Serializable

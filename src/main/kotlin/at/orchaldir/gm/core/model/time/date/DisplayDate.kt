@@ -22,6 +22,15 @@ data class DisplayDay(
 
 }
 
+data class DisplayDayRange(
+    val start: DisplayDay,
+    val end: DisplayDay,
+) : DisplayDate() {
+
+    override fun eraIndex() = error("Use start or end directly!")
+
+}
+
 data class DisplayWeek(
     val year: DisplayYear,
     val weekIndex: Int,

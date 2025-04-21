@@ -10,6 +10,7 @@ fun Calendar.createSorter(): (Date) -> Int {
     return { date ->
         when (date) {
             is Day -> date.day
+            is DayRange -> date.startDay.day
             is Week -> date.week * daysPerWeek
             is Month -> getStartDayOfMonth(date).day
             is Year -> {

@@ -8,6 +8,7 @@ import kotlin.math.absoluteValue
 
 fun Calendar.resolve(date: Date) = when (date) {
     is Day -> resolveDay(date)
+    is DayRange -> resolveDayRange(date)
     is Week -> resolveWeek(date)
     is Month -> resolveMonth(date)
     is Year -> resolveYear(date)
@@ -43,6 +44,8 @@ fun Calendar.resolveDay(date: Day): DisplayDay {
 
     error("Unreachable")
 }
+
+fun Calendar.resolveDayRange(date: DayRange) = DisplayDayRange(resolveDay(date.startDay), resolveDay(date.endDay))
 
 fun Calendar.resolveDayAndMonth(dayInYear: Int): Pair<Int, Int> {
     var remainingDays = dayInYear
@@ -127,6 +130,7 @@ fun Calendar.resolveCentury(date: Century): DisplayCentury {
 
 fun Calendar.resolve(date: DisplayDate) = when (date) {
     is DisplayDay -> resolveDay(date)
+    is DisplayDayRange -> resolveDayRange(date)
     is DisplayWeek -> resolveWeek(date)
     is DisplayMonth -> resolveMonth(date)
     is DisplayYear -> resolveYear(date)
@@ -156,6 +160,8 @@ fun Calendar.resolveDay(day: DisplayDay): Day {
 
     return Day(dayIndex)
 }
+
+fun Calendar.resolveDayRange(range: DisplayDayRange) = DayRange(resolveDay(range.start), resolveDay(range.end))
 
 fun Calendar.resolveWeek(week: DisplayWeek): Week {
     val daysPerWeek = getValidDaysPerWeek()
