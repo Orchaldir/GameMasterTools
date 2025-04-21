@@ -24,6 +24,13 @@ th {
   overflow: scroll;
 }
 
+.main {
+  height: 100vh;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  overflow: scroll;
+}
+
 p {
   padding-left: 10px;
 }
