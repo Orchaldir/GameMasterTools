@@ -48,6 +48,46 @@
      }
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "New England - Female",
+   "appearance": {
+    "beard": {
+     "beardStyles": {
+      "Shaved": "Common"
+     },
+     "beardLength": {
+     },
+     "fullBeardStyles": {
+     },
+     "goateeStyles": {
+     },
+     "moustacheStyles": {
+     }
+    },
+    "hair": {
+     "hairStyles": {
+      "Long": "Common",
+      "Ponytail": "Uncommon"
+     },
+     "bunStyles": {
+     },
+     "ponytailPositions": {
+      "High": "Common",
+      "Low": "Common",
+      "Top": "Common"
+     },
+     "shortHairStyles": {
+     },
+     "hairLengths": {
+      "MidBack": "Uncommon",
+      "Waist": "Common",
+      "Classic": "Uncommon",
+      "Knee": "VeryRare"
+     }
+    }
+   }
   }
  }
 }
