@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.time.date.*
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
