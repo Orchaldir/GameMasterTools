@@ -1,5 +1,219 @@
 {
-  "version": 1,
-  "elements": {
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Simple",
+    "name": "Al Azif"
+   },
+   "origin": {
+    "type": "Original",
+    "author": {
+     "type": "Character",
+     "character": 18
+    }
+   },
+   "date": {
+    "type": "Decade",
+    "decade": 73
+   },
+   "language": 7,
+   "format": {
+    "type": "Scroll",
+    "format": {
+     "type": "OneRod",
+     "handle": {
+      "segments": [
+       {
+        "length": 30000,
+        "diameter": 10000,
+        "color": "Gold"
+       },
+       {
+        "length": 10000,
+        "diameter": 30000,
+        "color": "Gold",
+        "shape": "RoundedCylinder"
+       }
+      ],
+      "material": 5
+     }
+    },
+    "rollLength": 200000,
+    "rollDiameter": 50000,
+    "color": "Purple",
+    "material": 7
+   },
+   "content": {
+    "type": "AbstractText",
+    "pages": 100,
+    "spells": [
+     1
+    ]
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Simple",
+    "name": "Necronomicon"
+   },
+   "origin": {
+    "type": "Translation",
+    "text": 0,
+    "translator": {
+     "type": "Character",
+     "character": 19
+    }
+   },
+   "date": {
+    "type": "Decade",
+    "decade": 95
+   },
+   "language": 5,
+   "format": {
+    "type": "Book",
+    "pages": 400,
+    "binding": {
+     "type": "Coptic",
+     "cover": {
+      "color": "SaddleBrown"
+     },
+     "sewingPattern": {
+      "type": "Simple",
+      "color": "Silver",
+      "stitches": [
+       "Kettle",
+       "Kettle",
+       "Kettle"
+      ]
+     }
+    },
+    "size": {
+     "width": 130000,
+     "height": 200000
+    }
+   },
+   "content": {
+    "type": "AbstractText",
+    "pages": 400,
+    "spells": [
+     1
+    ]
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": {
+    "type": "Simple",
+    "name": "Necronomicon"
+   },
+   "origin": {
+    "type": "Translation",
+    "text": 1,
+    "translator": {
+     "type": "Undefined"
+    }
+   },
+   "date": {
+    "type": "Year",
+    "year": 1227
+   },
+   "language": 6,
+   "format": {
+    "type": "Book",
+    "pages": 100,
+    "binding": {
+     "type": "Hardcover",
+     "cover": {
+      "color": "Navy"
+     },
+     "bosses": {
+      "type": "Simple",
+      "material": 4
+     },
+     "protection": {
+      "type": "Corners",
+      "shape": "L"
+     }
+    },
+    "size": {
+     "width": 160000,
+     "height": 200000
+    }
+   },
+   "content": {
+    "type": "AbstractText",
+    "pages": 100,
+    "spells": [
+     1
+    ]
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": {
+    "type": "Simple",
+    "name": "Cultus Maleficarum"
+   },
+   "origin": {
+    "type": "Translation",
+    "text": 2,
+    "translator": {
+     "type": "Undefined"
+    }
+   },
+   "date": {
+    "type": "Year",
+    "year": 1596
+   },
+   "format": {
+    "type": "Book",
+    "pages": 500,
+    "binding": {
+     "type": "Hardcover",
+     "cover": {
+      "color": "Black",
+      "typography": {
+       "type": "SimpleTitle",
+       "font": {
+        "type": "Solid",
+        "size": 20000,
+        "color": "Red"
+       }
+      }
+     },
+     "protection": {
+      "type": "Corners",
+      "shape": "L",
+      "size": 1000,
+      "color": "Red"
+     }
+    },
+    "size": {
+     "width": 150000,
+     "height": 200000
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": {
+    "type": "Simple",
+    "name": "The Young's Mi-go Disks"
+   },
+   "language": 8,
+   "content": {
+    "type": "AbstractText",
+    "pages": 100,
+    "spells": [
+     2,
+     4,
+     3,
+     1
+    ]
+   }
   }
+ }
 }
