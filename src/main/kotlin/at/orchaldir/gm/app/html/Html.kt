@@ -38,11 +38,8 @@ fun HTML.simpleHtml(
             onLoad = "clearScroll()"
         }
         h1 { +title }
-        div {
-            id = "left"
-            classes += "main"
-            content()
-        }
+
+        content()
     }
 }
 
