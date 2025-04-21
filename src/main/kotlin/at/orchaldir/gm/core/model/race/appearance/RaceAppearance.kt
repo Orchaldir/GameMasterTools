@@ -26,10 +26,10 @@ value class RaceAppearanceId(val value: Int) : Id<RaceAppearanceId> {
 data class RaceAppearance(
     val id: RaceAppearanceId,
     val name: String = "RaceAppearance ${id.value}",
-    val appearanceTypes: OneOf<AppearanceType> = OneOf(AppearanceType.entries),
-    val earsLayout: OneOf<EarsLayout> = OneOf(EarsLayout.entries),
+    val appearanceTypes: OneOf<AppearanceType> = OneOf(AppearanceType.Body),
+    val earsLayout: OneOf<EarsLayout> = OneOf(EarsLayout.NormalEars),
     val earShapes: OneOf<EarShape> = OneOf(EarShape.entries),
-    val eyesLayout: OneOf<EyesLayout> = OneOf(EyesLayout.entries),
+    val eyesLayout: OneOf<EyesLayout> = OneOf(EyesLayout.TwoEyes),
     val eye: EyeOptions = EyeOptions(),
     val foot: FootOptions = FootOptions(),
     val hair: HairOptions = HairOptions(),

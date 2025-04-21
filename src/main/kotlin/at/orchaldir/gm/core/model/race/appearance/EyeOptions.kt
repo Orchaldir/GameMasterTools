@@ -9,9 +9,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class EyeOptions(
-    val eyeTypes: OneOf<EyeType> = OneOf(EyeType.entries),
-    val eyeShapes: OneOf<EyeShape> = OneOf(EyeShape.entries),
-    val eyeColors: OneOf<Color> = OneOf(Color.entries),
-    val pupilShapes: OneOf<PupilShape> = OneOf(PupilShape.entries),
-    val scleraColors: OneOf<Color> = OneOf(Color.entries),
+    val eyeTypes: OneOf<EyeType> = OneOf(EyeType.Normal),
+    val eyeShapes: OneOf<EyeShape> = OneOf(EyeShape.Circle),
+    val eyeColors: OneOf<Color> = OneOf(Color.SaddleBrown),
+    val pupilShapes: OneOf<PupilShape> = OneOf(PupilShape.Circle),
+    val scleraColors: OneOf<Color> = OneOf(Color.White),
 )
