@@ -163,11 +163,11 @@ private fun HTML.showTownDetails(
             action(editBuildingsLink, "Edit Buildings")
             h2 { +"Characters" }
             val residents = state.getResident(town.id)
-            val workers = state.getWorkingIn(town.id)
+            val workers = state.getWorkingIn(town.id) - residents
             showList("Residents", state.sortCharacters(residents)) { (character, name) ->
                 link(call, character.id, name)
             }
-            showList("Working in Town", state.sortCharacters(workers)) { (character, name) ->
+            showList("Workers, but not Residents", state.sortCharacters(workers)) { (character, name) ->
                 link(call, character.id, name)
             }
             val characters = residents.toSet() + workers.toSet()
