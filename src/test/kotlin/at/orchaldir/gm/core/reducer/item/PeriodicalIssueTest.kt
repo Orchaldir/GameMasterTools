@@ -83,37 +83,35 @@ class PeriodicalIssueTest {
             @Test
             fun `Can be duplicated for different periodicals`() {
                 val issue = PeriodicalIssue(ISSUE_ID_1, PERIODICAL_ID_1, 0)
-                val action = UpdatePeriodicalIssue(issue)
                 val newState = state.updateStorage(
                     Storage(listOf(issue0, PeriodicalIssue(ISSUE_ID_1, PERIODICAL_ID_1, 1)))
                 )
 
-                assertEquals(
-                    issue,
-                    REDUCER.invoke(newState, action).first.getPeriodicalIssueStorage().get(ISSUE_ID_1)
-                )
+                assertUpdate(newState, issue)
             }
 
             @Test
             fun `Same issue can reuse its own number`() {
-                val action = UpdatePeriodicalIssue(issue0)
-
-                assertEquals(
-                    issue0,
-                    REDUCER.invoke(state, action).first.getPeriodicalIssueStorage().get(ISSUE_ID_0)
-                )
+                assertUpdate(state, issue0)
             }
         }
 
         @Test
         fun `Test Success`() {
             val issue = PeriodicalIssue(ISSUE_ID_0, number = 2)
+
+            assertUpdate(state, issue)
+        }
+
+        private fun assertUpdate(
+            oldState: State,
+            issue: PeriodicalIssue,
+        ) {
             val action = UpdatePeriodicalIssue(issue)
 
-            assertEquals(
-                issue,
-                REDUCER.invoke(state, action).first.getPeriodicalIssueStorage().get(ISSUE_ID_0)
-            )
+            val newState = REDUCER.invoke(oldState, action).first
+
+            assertEquals(issue, newState.getPeriodicalIssueStorage().get(issue.id))
         }
     }
 
