@@ -119,7 +119,7 @@ fun Application.configureDomainRouting() {
             logger.info { "Update domain ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val state = STORE.getState()
+            STORE.getState()
             val domain = parseDomain(formParameters, update.id)
 
             STORE.dispatch(UpdateDomain(domain))

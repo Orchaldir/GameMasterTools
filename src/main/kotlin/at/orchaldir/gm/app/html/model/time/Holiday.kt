@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.selector.organization.getOrganizations
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 

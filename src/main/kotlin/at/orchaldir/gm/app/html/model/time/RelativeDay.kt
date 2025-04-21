@@ -20,7 +20,6 @@ import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.DaysType
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import io.ktor.http.*
-import kotlinx.html.BODY
 import kotlinx.html.HtmlBlockTag
 
 // show

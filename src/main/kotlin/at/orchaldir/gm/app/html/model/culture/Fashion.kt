@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.model.culture
 
 import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
