@@ -67,6 +67,7 @@ fun HtmlBlockTag.showEvents(
             }
 
             is BusinessStartedEvent -> {
+                +"The business "
                 link(call, state, event.business)
                 +" was started."
             }
@@ -84,16 +85,19 @@ fun HtmlBlockTag.showEvents(
             }
 
             is FontCreatedEvent -> {
+                +"The font "
                 link(call, state, event.font)
                 +" was created."
             }
 
             is PeriodicalCreatedEvent -> {
+                +"The 1.issue of the "
                 link(call, state, event.periodical)
-                +" was founded."
+                +" was published."
             }
 
             is OrganizationFoundingEvent -> {
+                +"The organization "
                 link(call, state, event.organization)
                 +" was founded."
             }
@@ -105,16 +109,19 @@ fun HtmlBlockTag.showEvents(
             }
 
             is SpellCreatedEvent -> {
+                +"The spell "
                 link(call, state, event.spell)
                 +" was created."
             }
 
             is TextPublishedEvent -> {
+                +"The text "
                 link(call, state, event.text)
                 +" was published."
             }
 
             is TownFoundingEvent -> {
+                +"The town "
                 link(call, state, event.town)
                 +" was founded."
             }
