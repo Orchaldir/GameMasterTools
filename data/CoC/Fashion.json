@@ -26,11 +26,25 @@
     },
     "hair": {
      "hairStyles": {
-      "Long": "Common",
-      "Ponytail": "Common",
       "Short": "Common"
      },
      "bunStyles": {
+     },
+     "longHairStyles": {
+     },
+     "ponytailStyles": {
+     },
+     "ponytailPositions": {
+     },
+     "shortHairStyles": {
+      "BowlCut": "Rare",
+      "BuzzCut": "Uncommon",
+      "MiddlePart": "Common",
+      "Shaved": "Rare",
+      "SidePartLeft": "Common",
+      "SidePartRight": "Common"
+     },
+     "hairLengths": {
      }
     }
    }
