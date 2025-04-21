@@ -28,6 +28,10 @@ data class PeriodicalIssue(
     val number: Int = 0,
 ) : Element<PeriodicalIssueId>, HasComplexStartDate {
 
+    init {
+        require(number >= 0) { "Invalid issue number $number!" }
+    }
+
     override fun id() = id
 
     override fun name(state: State): String {
