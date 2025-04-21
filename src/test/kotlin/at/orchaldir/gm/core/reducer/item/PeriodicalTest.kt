@@ -1,12 +1,10 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.item.periodical.DailyPublication
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
@@ -49,7 +47,7 @@ class PeriodicalTest {
             val state = State(
                 listOf(
                     Storage(Periodical(PERIODICAL_ID_0)),
-                    Storage(PeriodicalIssue(PERIODICAL_ISSUE_ID_0, PERIODICAL_ID_0)),
+                    Storage(PeriodicalIssue(ISSUE_ID_0, PERIODICAL_ID_0)),
                 )
             )
 
