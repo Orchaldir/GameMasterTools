@@ -85,6 +85,8 @@ fun HTML.showDate(
 
         content()
 
+        br { }
+
         showEvents(events, call, state, calendar)
 
         back(backLink)
