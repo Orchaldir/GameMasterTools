@@ -1,5 +1,150 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Simple",
+    "name": "Public Library"
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Simple",
+    "name": "Sheriff's Office"
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "Town",
+     "id": 0
+    },
+    "prefix": null,
+    "postfix": "Gazette"
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 8
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "GivenName",
+     "id": 9
+    },
+    "prefix": null,
+    "postfix": "'s Grill"
+   },
+   "founder": {
+    "type": "Character",
+    "character": 9
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 9
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FamilyName",
+     "id": 2
+    },
+    "prefix": "Dr",
+    "postfix": "'s Office"
+   },
+   "founder": {
+    "type": "Character",
+    "character": 2
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 2
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": {
+    "type": "Simple",
+    "name": "First Baptist Church of the Divine Ascension"
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 12
+    }
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": {
+    "type": "Simple",
+    "name": "School"
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": {
+    "type": "Simple",
+    "name": "Town Hall"
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FamilyName",
+     "id": 16
+    },
+    "prefix": null,
+    "postfix": "'s Goods"
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 16
+    }
+   }
+  }
  }
 }
