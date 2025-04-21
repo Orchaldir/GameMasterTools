@@ -10,7 +10,8 @@ import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.world.moon.Moon
-import at.orchaldir.gm.core.model.world.moon.MoonPhase
+import at.orchaldir.gm.core.model.world.moon.MoonPhase.FullMoon
+import at.orchaldir.gm.core.model.world.moon.MoonPhase.NewMoon
 import at.orchaldir.gm.core.model.world.plane.PlanarAlignment.Coterminous
 import at.orchaldir.gm.core.selector.getEvents
 import at.orchaldir.gm.core.selector.getForHolidays
@@ -93,7 +94,7 @@ fun HTML.showDate(
     }
 }
 
-private fun BODY.addLinkAction(
+private fun HtmlBlockTag.addLinkAction(
     call: ApplicationCall,
     calendarId: CalendarId,
     label: String,
@@ -222,10 +223,12 @@ private fun TD.showMoons(
     moons: Collection<Moon>,
     day: Day,
 ) {
+    val showName = moons.size > 1
+
     moons.forEach {
         when (it.getPhase(day)) {
-            MoonPhase.NewMoon -> showIcon(call, it, "New Moon", "new-moon.svg")
-            MoonPhase.FullMoon -> showIcon(call, it, "Full Moon", "full-moon.svg")
+            NewMoon -> showIcon(call, it, showName, "New Moon", "new-moon.svg")
+            FullMoon -> showIcon(call, it, showName, "Full Moon", "full-moon.svg")
             else -> doNothing()
         }
     }
@@ -234,12 +237,17 @@ private fun TD.showMoons(
 private fun TD.showIcon(
     call: ApplicationCall,
     moon: Moon,
+    showName: Boolean,
     text: String,
     filename: String,
 ) {
     link(call, moon.id) {
         abbr {
-            title = text
+            title = if (showName) {
+                "$text (${moon.name})"
+            } else {
+                text
+            }
             img {
                 src = "/static/$filename"
                 width = "16p"

@@ -19,14 +19,13 @@ import at.orchaldir.gm.core.selector.util.sortSpells
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 
 // show
 
-fun BODY.showTextContent(
+fun HtmlBlockTag.showTextContent(
     call: ApplicationCall,
     state: State,
     content: TextContent,

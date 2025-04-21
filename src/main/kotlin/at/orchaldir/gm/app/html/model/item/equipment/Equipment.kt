@@ -21,12 +21,12 @@ import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showEquipment(
+fun HtmlBlockTag.showEquipment(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,
@@ -35,7 +35,7 @@ fun BODY.showEquipment(
     showEquipmentData(call, state, equipment)
 }
 
-private fun BODY.showEquipmentData(
+private fun HtmlBlockTag.showEquipmentData(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,

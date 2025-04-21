@@ -98,7 +98,7 @@ fun Application.configureFashionRouting() {
             }
         }
         post<FashionRoutes.Preview> { preview ->
-            logger.info { "Get preview for culture ${preview.id.value}" }
+            logger.info { "Get preview for fashion ${preview.id.value}" }
 
             val fashion = parseFashion(preview.id, call.receiveParameters())
 
@@ -166,7 +166,7 @@ private fun HTML.showFashionEditor(
     val previewLink = call.application.href(FashionRoutes.Preview(fashion.id))
     val updateLink = call.application.href(FashionRoutes.Update(fashion.id))
 
-    simpleHtml("Edit Fashion: ${fashion.name}") {
+    simpleHtml("Edit Fashion: ${fashion.name}", true) {
         formWithPreview(previewLink, updateLink, backLink) {
             editFashion(fashion, state)
         }

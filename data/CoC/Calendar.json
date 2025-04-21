@@ -63,9 +63,8 @@
      "isPrefix": false
     },
     "first": {
-     "startDate": {
-      "type": "Year",
-      "year": -753
+     "startDay": {
+      "day": -274845
      },
      "text": "ab urbe condita",
      "isPrefix": false
@@ -206,20 +205,6 @@
       "days": 31
      }
     ]
-   },
-   "eras": {
-    "before": {
-     "text": "BC",
-     "isPrefix": true
-    },
-    "first": {
-     "startDate": {
-      "type": "Year",
-      "year": 0
-     },
-     "text": "AD",
-     "isPrefix": false
-    }
    },
    "origin": {
     "type": "Improved",

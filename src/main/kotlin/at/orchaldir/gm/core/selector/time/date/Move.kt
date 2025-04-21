@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.time.date.*
 fun Calendar.moveUp(date: Date): Date? = when (date) {
     is Day -> moveUpDay(date)
     is DayRange -> null
-    is Week -> resolveYear(resolveWeek(date).year)
+    is Week -> moveUpDayToMonth(getStartDayOfWeek(date))
     is Month -> resolveYear(resolveMonth(date).year)
     is Year -> resolveDecade(resolveYear(date).decade())
     is Decade -> resolveCentury(resolveDecade(date).century())

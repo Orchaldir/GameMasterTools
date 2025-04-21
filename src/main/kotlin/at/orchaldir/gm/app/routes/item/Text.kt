@@ -252,7 +252,7 @@ private fun HTML.showTextDetails(
     }
 }
 
-private fun BODY.showOrigin(
+private fun HtmlBlockTag.showOrigin(
     call: ApplicationCall,
     state: State,
     text: Text,

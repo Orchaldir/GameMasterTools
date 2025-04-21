@@ -7,10 +7,7 @@ import at.orchaldir.gm.app.html.model.character.appearance.selectHornLength
 import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.parseMaterialId
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOneOf
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
@@ -264,6 +261,11 @@ private fun HtmlBlockTag.showWings(
     val options = appearance.wing
 
     showRarityMap("Layout", options.layouts)
+
+    if (!options.hasWings()) {
+        return
+    }
+
     showRarityMap("Type", options.types)
 
     if (options.types.isAvailable(WingType.Bat)) {
@@ -502,6 +504,11 @@ private fun FORM.editWings(state: State, appearance: RaceAppearance) {
     val options = appearance.wing
 
     selectRarityMap("Layout", combine(WING, LAYOUT), options.layouts, true)
+
+    if (!options.hasWings()) {
+        return
+    }
+
     selectRarityMap("Types", combine(WING, TYPE), options.types, true)
 
     if (options.types.isAvailable(WingType.Bat)) {
@@ -622,7 +629,7 @@ private fun parseFeatureColor(parameters: Parameters, param: String) = FeatureCo
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(
     parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),
-    parseOneOf(parameters, combine(WING, TYPE), WingType::valueOf),
+    parseOneOrNone(parameters, combine(WING, TYPE), WingType::valueOf),
     parseFeatureColor(parameters, combine(WING, BAT)),
     parseOneOf(parameters, combine(WING, BIRD, COLOR), Color::valueOf, setOf(DEFAULT_BIRD_COLOR)),
     parseOneOf(parameters, combine(WING, BUTTERFLY, COLOR), Color::valueOf, setOf(DEFAULT_BUTTERFLY_COLOR)),

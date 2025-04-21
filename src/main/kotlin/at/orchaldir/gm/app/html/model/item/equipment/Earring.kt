@@ -20,12 +20,12 @@ import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showEarring(
+fun HtmlBlockTag.showEarring(
     call: ApplicationCall,
     state: State,
     earring: Earring,
@@ -48,7 +48,7 @@ fun BODY.showEarring(
     }
 }
 
-fun BODY.showDangleEarring(
+fun HtmlBlockTag.showDangleEarring(
     call: ApplicationCall,
     state: State,
     style: DangleEarring,
@@ -61,7 +61,7 @@ fun BODY.showDangleEarring(
     showColorItemPart(call, state, style.wire, "Wire")
 }
 
-fun BODY.showDropEarring(
+fun HtmlBlockTag.showDropEarring(
     call: ApplicationCall,
     state: State,
     style: DropEarring,

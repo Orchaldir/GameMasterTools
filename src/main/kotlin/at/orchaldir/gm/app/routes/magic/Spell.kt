@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.selector.economy.getJobsContaining
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
+import at.orchaldir.gm.core.selector.magic.getSpellsBasedOn
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.util.sortSpells
@@ -205,6 +206,10 @@ private fun HTML.showSpellDetails(
 
         showList("Jobs using it", state.getJobsContaining(spell.id)) { job ->
             link(call, job)
+        }
+
+        showList("Spells based on it", state.getSpellsBasedOn(spell.id)) { spell ->
+            link(call, spell)
         }
 
         showList("Texts containing it", state.getTextsContaining(spell.id)) { text ->

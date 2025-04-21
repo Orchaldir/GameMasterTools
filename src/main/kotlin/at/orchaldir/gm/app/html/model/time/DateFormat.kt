@@ -12,14 +12,14 @@ import at.orchaldir.gm.app.parse.parseString
 import at.orchaldir.gm.core.model.time.calendar.DateFormat
 import at.orchaldir.gm.core.model.time.calendar.DateOrder
 import io.ktor.http.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
 // show
 
 
-fun BODY.showDateFormat(format: DateFormat) {
+fun HtmlBlockTag.showDateFormat(format: DateFormat) {
     h2 { +"Format" }
 
     field("Date Order", format.order)

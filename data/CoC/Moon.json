@@ -4,7 +4,8 @@
   "0": {
    "id": 0,
    "name": "Moon",
-   "daysPerQuarter": 8
+   "daysPerQuarter": 8,
+   "color": "LightGray"
   }
  }
 }

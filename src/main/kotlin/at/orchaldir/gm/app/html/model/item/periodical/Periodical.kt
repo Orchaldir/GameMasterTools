@@ -17,14 +17,13 @@ import at.orchaldir.gm.core.selector.item.getValidPublicationFrequencies
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
 // show
 
-fun BODY.showPeriodical(
+fun HtmlBlockTag.showPeriodical(
     call: ApplicationCall,
     state: State,
     periodical: Periodical,

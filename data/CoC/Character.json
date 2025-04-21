@@ -9,7 +9,6 @@
     "middle": null,
     "family": "Cobb"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1742
@@ -33,7 +32,6 @@
     "middle": null,
     "family": "Cutter"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 694120
@@ -46,11 +44,7 @@
     "type": "Humanoid",
     "body": {
      "bodyShape": "Muscular",
-     "width": "Small",
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
-     }
+     "width": "Small"
     },
     "head": {
      "ears": {
@@ -59,14 +53,15 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilColor": "Blue"
       }
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "SidePart",
-       "side": "Right"
+      "cut": {
+       "type": "Short",
+       "style": "SidePartRight"
       },
       "color": "SaddleBrown"
      },
@@ -79,21 +74,12 @@
        },
        "color": "Maroon"
       }
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
      }
     },
-    "height": {
-     "millimeters": 1900
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "Footwear": 1,
-     "Pants": 4,
-     "Shirt": 2
+    "height": 1900000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
     }
    },
    "housingStatus": {
@@ -118,7 +104,6 @@
     "middle": null,
     "family": "Perry"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 679101
@@ -131,10 +116,6 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
-     }
     },
     "head": {
      "ears": {
@@ -143,15 +124,16 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "eyeShape": "Ellipse",
        "pupilColor": "Blue"
       }
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "SidePart",
-       "side": "Left"
+      "cut": {
+       "type": "Short",
+       "style": "SidePartLeft"
       },
       "color": "SaddleBrown"
      },
@@ -164,22 +146,12 @@
        },
        "color": "Orange"
       }
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
      }
     },
-    "height": {
-     "millimeters": 1800
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "Coat": 31,
-     "Footwear": 0,
-     "Pants": 4,
-     "Shirt": 2
+    "height": 1800000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
     }
    },
    "housingStatus": {
@@ -263,7 +235,6 @@
     "middle": null,
     "family": "Spencer"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Day",
     "day": 686625
@@ -286,13 +257,15 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilColor": "Blue"
       }
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
+      "cut": {
+       "type": "Short",
+       "style": "MiddlePart"
       },
       "color": "Black"
      },
@@ -308,17 +281,7 @@
       "width": "Large"
      }
     },
-    "height": {
-     "millimeters": 1800
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "Coat": 33,
-     "Footwear": 1,
-     "Pants": 4,
-     "Shirt": 2
-    }
+    "height": 1800000
    },
    "employmentStatus": {
     "current": {
@@ -368,7 +331,6 @@
     "middle": null,
     "family": "Maclearan"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1873
@@ -391,7 +353,6 @@
     "middle": null,
     "family": "Wendell"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1886
@@ -403,11 +364,7 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "width": "Small",
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
-     }
+     "width": "Small"
     },
     "head": {
      "ears": {
@@ -417,14 +374,15 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilColor": "SaddleBrown"
       }
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "SidePart",
-       "side": "Right"
+      "cut": {
+       "type": "Short",
+       "style": "SidePartRight"
       },
       "color": "SaddleBrown"
      },
@@ -438,22 +396,12 @@
        "color": "Orange"
       },
       "width": "Small"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
      }
     },
-    "height": {
-     "millimeters": 1800
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "Coat": 31,
-     "Footwear": 0,
-     "Pants": 4,
-     "Shirt": 2
+    "height": 1800000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
     }
    },
    "housingStatus": {
@@ -478,7 +426,6 @@
     "middle": null,
     "family": "Haggerty"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1879
@@ -545,7 +492,6 @@
     "middle": null,
     "family": "Haggerty"
    },
-   "gender": "Male",
    "origin": {
     "type": "Born",
     "mother": 10,
@@ -581,7 +527,6 @@
     "middle": null,
     "family": "Wilson"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1878
@@ -646,7 +591,6 @@
     "middle": null,
     "family": "Wilson"
    },
-   "gender": "Male",
    "origin": {
     "type": "Born",
     "mother": 13,
@@ -692,7 +636,6 @@
     "middle": null,
     "family": "Karner"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 1867
@@ -751,12 +694,9 @@
   "18": {
    "id": 18,
    "name": {
-    "type": "Family",
-    "given": "Abdul",
-    "middle": null,
-    "family": "Alhazred"
+    "type": "Mononym",
+    "name": "Abdul Alhazred"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Year",
     "year": 699
@@ -771,7 +711,7 @@
      "type": "Accident"
     }
    },
-   "culture": 2
+   "culture": 1
   },
   "19": {
    "id": 19,
@@ -781,7 +721,6 @@
     "middle": null,
     "family": "Philetas"
    },
-   "gender": "Male",
    "birthDate": {
     "type": "Decade",
     "decade": 91

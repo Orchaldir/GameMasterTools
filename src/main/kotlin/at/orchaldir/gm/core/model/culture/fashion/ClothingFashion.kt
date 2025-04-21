@@ -11,7 +11,7 @@ private val EMPTY = OneOrNone<EquipmentId>()
 
 @Serializable
 data class ClothingFashion(
-    val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
+    val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.Naked),
     val accessories: SomeOf<EquipmentDataType> = SomeOf(emptySet()),
     val equipmentRarityMap: Map<EquipmentDataType, OneOrNone<EquipmentId>> = emptyMap(),
 ) {

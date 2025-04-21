@@ -17,12 +17,12 @@ import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showDress(
+fun HtmlBlockTag.showDress(
     call: ApplicationCall,
     state: State,
     dress: Dress,

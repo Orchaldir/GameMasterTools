@@ -12,12 +12,12 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showNecklace(
+fun HtmlBlockTag.showNecklace(
     call: ApplicationCall,
     state: State,
     necklace: Necklace,

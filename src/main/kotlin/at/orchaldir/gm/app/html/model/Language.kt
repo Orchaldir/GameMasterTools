@@ -22,14 +22,13 @@ import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
 // show
 
-fun BODY.showLanguage(
+fun HtmlBlockTag.showLanguage(
     call: ApplicationCall,
     state: State,
     language: Language,

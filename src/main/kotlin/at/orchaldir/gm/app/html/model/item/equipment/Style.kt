@@ -15,13 +15,12 @@ import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showOpeningStyle(
+fun HtmlBlockTag.showOpeningStyle(
     call: ApplicationCall,
     state: State,
     openingStyle: OpeningStyle,

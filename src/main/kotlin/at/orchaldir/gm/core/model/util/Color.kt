@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class Color {
+    AntiqueWhite,
     Aqua,
     Black,
     Blue,
@@ -16,6 +17,7 @@ enum class Color {
     Gray,
     Green,
     Indigo,
+    Ivory,
     Lavender,
     LightGray,
     Lime,
@@ -24,6 +26,7 @@ enum class Color {
     Olive,
     Orange,
     OrangeRed,
+    Peru,
     Pink,
     Purple,
     Red,
@@ -31,7 +34,9 @@ enum class Color {
     Silver,
     SkyBlue,
     SteelBlue,
+    Tan,
     Teal,
+    Wheat,
     White,
     Yellow;
 

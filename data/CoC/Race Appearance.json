@@ -4,31 +4,11 @@
   "0": {
    "id": 0,
    "name": "Human",
-   "appearanceTypes": {
-    "Body": "Common"
-   },
-   "skinTypes": {
-    "Normal": "Common"
-   },
-   "normalSkinColors": {
-    "Fair": "Uncommon",
-    "Light": "Common",
-    "Medium": "Uncommon"
-   },
-   "earsLayout": {
-    "NormalEars": "Common"
-   },
    "earShapes": {
     "Round": "Common"
    },
-   "eyesLayout": {
-    "TwoEyes": "Common"
-   },
-   "eyeOptions": {
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "pupilColors": {
+   "eye": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -40,18 +20,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
-    },
-    "scleraColors": {
-     "White": "Common"
     }
    },
-   "hairOptions": {
-    "beardTypes": {
-     "Normal": "Common"
-    },
-    "hairTypes": {
-     "Normal": "Common"
-    },
+   "hair": {
     "colors": {
      "Black": "Common",
      "Maroon": "Rare",
@@ -61,8 +32,30 @@
      "Yellow": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "horn": {
+    "colors": {
+     "types": "Overwrite"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common",
+     "Light": "Common",
+     "Medium": "Rare",
+     "Tan": "VeryRare"
+    }
+   },
+   "tail": {
+    "simpleOptions": {
+     "Cat": {
+      "types": "Overwrite"
+     }
+    }
+   },
+   "wing": {
+    "batColors": {
+     "types": "Overwrite"
+    }
    }
   }
  }

@@ -19,30 +19,7 @@
      "male": 1
     }
    },
-   "appearanceStyle": {
-    "beardStyles": {
-     "Goatee": "VeryRare",
-     "GoateeAndMoustache": "VeryRare",
-     "Moustache": "Uncommon",
-     "Shaved": "Common"
-    },
-    "moustacheStyles": {
-     "Handlebar": "Rare",
-     "Pencil": "Common",
-     "Pyramid": "Common",
-     "Toothbrush": "VeryRare",
-     "Walrus": "Rare"
-    },
-    "hairStyles": {
-     "BuzzCut": "Common",
-     "MiddlePart": "Common",
-     "SidePart": "Common"
-    },
-    "lipColors": {
-     "Red": "Common"
-    }
-   },
-   "clothingStyles": {
+   "fashion": {
     "female": 1,
     "genderless": 0,
     "male": 0
@@ -54,24 +31,9 @@
   },
   "1": {
    "id": 1,
-   "name": "Mi-go",
-   "languages": {
-    "8": "Everyone"
-   }
-  },
-  "2": {
-   "id": 2,
    "name": "Ancient Middle East",
    "languages": {
     "7": "Everyone"
-   },
-   "namingConvention": {
-    "type": "Family",
-    "givenNames": {
-     "female": 4,
-     "genderless": 3,
-     "male": 3
-    }
    }
   }
  }

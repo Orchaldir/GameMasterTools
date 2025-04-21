@@ -256,7 +256,7 @@ private fun HTML.showEquipmentEditor(
     }
 }
 
-private fun BODY.visualizeItem(state: State, equipment: Equipment) {
+private fun HtmlBlockTag.visualizeItem(state: State, equipment: Equipment) {
     val equipped = EquipmentMap.from(equipment.data)
     val appearance = createAppearance(equipment, height)
     val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)

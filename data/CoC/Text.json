@@ -26,21 +26,13 @@
      "handle": {
       "segments": [
        {
-        "length": {
-         "millimeters": 30
-        },
-        "diameter": {
-         "millimeters": 10
-        },
+        "length": 30000,
+        "diameter": 10000,
         "color": "Gold"
        },
        {
-        "length": {
-         "millimeters": 10
-        },
-        "diameter": {
-         "millimeters": 30
-        },
+        "length": 10000,
+        "diameter": 30000,
         "color": "Gold",
         "shape": "RoundedCylinder"
        }
@@ -48,12 +40,8 @@
       "material": 5
      }
     },
-    "rollLength": {
-     "millimeters": 200
-    },
-    "rollDiameter": {
-     "millimeters": 50
-    },
+    "rollLength": 200000,
+    "rollDiameter": 50000,
     "color": "Purple",
     "material": 7
    },
@@ -103,8 +91,8 @@
      }
     },
     "size": {
-     "width": 130,
-     "height": 200
+     "width": 130000,
+     "height": 200000
     }
    },
    "content": {
@@ -151,8 +139,8 @@
      }
     },
     "size": {
-     "width": 160,
-     "height": 200
+     "width": 160000,
+     "height": 200000
     }
    },
    "content": {
@@ -191,9 +179,7 @@
        "type": "SimpleTitle",
        "font": {
         "type": "Solid",
-        "size": {
-         "millimeters": 20
-        },
+        "size": 20000,
         "color": "Red"
        }
       }
@@ -201,13 +187,13 @@
      "protection": {
       "type": "Corners",
       "shape": "L",
-      "size": 0.1,
+      "size": 1000,
       "color": "Red"
      }
     },
     "size": {
-     "width": 150,
-     "height": 200
+     "width": 150000,
+     "height": 200000
     }
    }
   },

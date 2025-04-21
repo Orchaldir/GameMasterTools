@@ -4,47 +4,56 @@
   "0": {
    "id": 0,
    "name": "Leather",
-   "category": "Skin"
+   "category": "Skin",
+   "color": "SaddleBrown"
   },
   "1": {
    "id": 1,
    "name": "Wool",
-   "category": "Fabric"
+   "category": "Fabric",
+   "color": "White"
   },
   "2": {
    "id": 2,
    "name": "Silk",
-   "category": "Fabric"
+   "category": "Fabric",
+   "color": "White"
   },
   "3": {
    "id": 3,
    "name": "Cotton",
-   "category": "Fabric"
+   "category": "Fabric",
+   "color": "White"
   },
   "4": {
    "id": 4,
    "name": "Stone",
-   "category": "Stone"
+   "category": "Stone",
+   "color": "Gray"
   },
   "5": {
    "id": 5,
    "name": "Wood",
-   "category": "Wood"
+   "category": "Wood",
+   "color": "Tan"
   },
   "6": {
    "id": 6,
    "name": "Paper",
-   "category": "Paper"
+   "category": "Paper",
+   "color": "White"
   },
   "7": {
    "id": 7,
    "name": "Papyrus",
-   "category": "Paper"
+   "category": "Paper",
+   "color": "Wheat"
   },
   "8": {
    "id": 8,
    "name": "Parchment",
-   "category": "Paper"
+   "category": "Paper",
+   "color": "Wheat"
   }
  }
 }
