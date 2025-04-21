@@ -62,6 +62,8 @@ data class DayRange(
     val startDay: Day,
     val endDay: Day,
 ) : Date {
+    constructor(start: Int, end: Int) : this(Day(start), Day(end))
+
     override fun next() = null
     override fun previous() = null
 

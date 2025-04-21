@@ -4,7 +4,10 @@ import at.orchaldir.gm.CALENDAR_ID_0
 import at.orchaldir.gm.CALENDAR_ID_1
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.time.date.DayRange
+import at.orchaldir.gm.core.model.time.date.Year
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -22,14 +25,29 @@ class ConvertTest {
 
     @ParameterizedTest
     @MethodSource("at.orchaldir.gm.core.selector.time.date.ConvertTest#provideDays")
-    fun `Convert day to default calendar`(a: Day, b: Day) {
+    fun `Convert day to the default calendar`(a: Day, b: Day) {
         assertEquals(b, convertDate(otherCalendar, defaultCalendar, a))
     }
 
     @ParameterizedTest
     @MethodSource("at.orchaldir.gm.core.selector.time.date.ConvertTest#provideDays")
-    fun `Convert day from default calendar`(a: Day, b: Day) {
+    fun `Convert day from the default calendar`(a: Day, b: Day) {
         assertEquals(a, convertDate(defaultCalendar, otherCalendar, b))
+    }
+
+    @Test
+    fun `Convert year to the default calendar`() {
+        assertEquals(DayRange(109, 117), convertDate(otherCalendar, defaultCalendar, Year(1)))
+    }
+
+    @Test
+    fun `Convert year to from the default calendar`() {
+        assertEquals(DayRange(-91, -83), convertDate(defaultCalendar, otherCalendar, Year(1)))
+    }
+
+    @Test
+    fun `Convert year to the same calendar`() {
+        assertEquals(Year(1), convertDate(otherCalendar, otherCalendar, Year(1)))
     }
 
     companion object {
