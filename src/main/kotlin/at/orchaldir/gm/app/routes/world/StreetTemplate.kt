@@ -34,6 +34,10 @@ import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -65,7 +69,7 @@ fun Application.configureStreetTemplateRouting() {
             logger.info { "Get all street templates" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllStreetTemplates(call)
+                showAllStreetTemplates(call, STORE.getState())
             }
         }
         get<StreetTemplateRoutes.Details> { details ->
@@ -135,15 +139,31 @@ fun Application.configureStreetTemplateRouting() {
     }
 }
 
-private fun HTML.showAllStreetTemplates(call: ApplicationCall) {
-    val streets = STORE.getState().getStreetTemplateStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllStreetTemplates(
+    call: ApplicationCall,
+    state: State,
+) {
+    val templates = state.getStreetTemplateStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(StreetTemplateRoutes.New())
 
     simpleHtml("Street Templates") {
-        field("Count", streets.size)
-        showList(streets) { type ->
-            link(call, type)
+        field("Count", templates.size)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Color" }
+                th { +"Materials" }
+            }
+            templates.forEach { template ->
+                tr {
+                    td { link(call, template) }
+                    td { showColor(template.color) }
+                    tdInlineLinks(call, state, template.materialCost.materials())
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }

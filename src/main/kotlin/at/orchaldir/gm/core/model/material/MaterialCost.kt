@@ -15,4 +15,6 @@ value class MaterialCost private constructor(
     }
 
     fun contains(material: MaterialId) = map.containsKey(material)
+
+    fun materials() = map.keys
 }
