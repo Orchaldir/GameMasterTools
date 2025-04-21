@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.time.date.DayRange
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 
 fun State.convertDateToDefault(from: CalendarId, date: Date) =
@@ -18,7 +20,13 @@ fun convertDate(from: Calendar, to: Calendar, date: Date): Date {
     }
 
     val offset = from.getStartDateInDefaultCalendar().day - to.getStartDateInDefaultCalendar().day
-    val startDay = from.getStartDay(date)
 
-    return startDay + offset
+    if (date is Day) {
+        return date + offset
+    }
+
+    val startDay = from.getStartDay(date)
+    val endDay = from.getEndDay(date)
+
+    return DayRange(startDay + offset, endDay + offset)
 }

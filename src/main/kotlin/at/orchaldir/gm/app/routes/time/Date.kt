@@ -76,8 +76,8 @@ fun HTML.showDate(
             field(call, state, "In default calendar", convertedDate)
         }
 
-        action { link(call, calendarId, date.next(), "Next $label") }
-        action { link(call, calendarId, date.previous(), "Previous $label") }
+        addLinkAction(call, calendarId, "Next $label", date.next())
+        addLinkAction(call, calendarId, "Previous $label", date.previous())
 
         if (upDate != null) {
             action { link(call, calendarId, upDate, "Up") }
@@ -85,9 +85,22 @@ fun HTML.showDate(
 
         content()
 
+        br { }
+
         showEvents(events, call, state, calendar)
 
         back(backLink)
+    }
+}
+
+private fun BODY.addLinkAction(
+    call: ApplicationCall,
+    calendarId: CalendarId,
+    label: String,
+    date: Date?,
+) {
+    if (date != null) {
+        action { link(call, calendarId, date, label) }
     }
 }
 

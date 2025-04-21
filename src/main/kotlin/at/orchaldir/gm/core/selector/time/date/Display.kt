@@ -17,6 +17,7 @@ fun display(calendar: Calendar, format: DateFormat, date: Date) =
 fun display(calendar: Calendar, format: DateFormat, displayDate: DisplayDate): String {
     val textWithoutEra = when (displayDate) {
         is DisplayDay -> displayDay(calendar, format, displayDate)
+        is DisplayDayRange -> return displayDayRange(calendar, format, displayDate)
         is DisplayWeek -> return displayWeek(calendar, displayDate)
         is DisplayMonth -> displayMonth(calendar, format, displayDate)
         is DisplayYear -> (displayDate.yearIndex + 1).toString()
@@ -44,6 +45,9 @@ private fun displayDay(format: DateFormat, day: Int, month: String, year: Int) =
 
 private fun displayDay(part0: Int, part1: String, part2: Int, separator: Char) =
     "$part0$separator$part1$separator$part2"
+
+private fun displayDayRange(calendar: Calendar, format: DateFormat, range: DisplayDayRange) =
+    display(calendar, format, range.start) + " to " + display(calendar, format, range.end)
 
 private fun displayWeek(calendar: Calendar, week: DisplayWeek): String {
     val year = week.year.yearIndex + 1

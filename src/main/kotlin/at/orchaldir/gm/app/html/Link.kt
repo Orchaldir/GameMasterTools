@@ -107,6 +107,7 @@ fun HtmlBlockTag.link(
 ) {
     when (date) {
         is Day -> link(call, calendar, date, text)
+        is DayRange -> link(call, calendar, date, text)
         is Week -> link(call, calendar, date, text)
         is Month -> link(call, calendar, date, text)
         is Year -> link(call, calendar, date, text)
@@ -122,6 +123,15 @@ fun HtmlBlockTag.link(
     text: String,
 ) {
     link(call.application.href(TimeRoutes.ShowDay(day, calendar)), text)
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    calendar: CalendarId,
+    range: DayRange,
+    text: String,
+) {
+    link(call.application.href(TimeRoutes.ShowDayRange(range.startDay.day, range.endDay.day, calendar)), text)
 }
 
 fun HtmlBlockTag.link(

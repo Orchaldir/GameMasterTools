@@ -32,6 +32,10 @@ class TimeRoutes {
     @Resource("day")
     class ShowDay(val day: Day, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
+    // Using DayRange directly results in the parameter for start & end being named "day".
+    @Resource("range")
+    class ShowDayRange(val start: Int, val end: Int, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
+
     @Resource("week")
     class ShowWeek(val week: Week, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
@@ -71,6 +75,13 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDay(call, data.calendar, data.day)
+            }
+        }
+        get<TimeRoutes.ShowDayRange> { data ->
+            logger.info { "Show the range ${data.start}-${data.end} for calendar ${data.calendar.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showDate(call, data.calendar, DayRange(data.start, data.end), "Range")
             }
         }
         get<TimeRoutes.ShowWeek> { data ->
