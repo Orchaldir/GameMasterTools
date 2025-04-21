@@ -68,7 +68,7 @@ class MoveTest {
 
         @Test
         fun `Move week up`() {
-            assertEquals(Year(1), calendar1.moveUp(Week(3)))
+            assertEquals(Month(2), calendar1.moveUp(Week(3)))
         }
 
         @Test
