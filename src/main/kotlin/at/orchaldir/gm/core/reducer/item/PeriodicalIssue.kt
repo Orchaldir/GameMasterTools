@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.selector.item.canDeletePeriodicalIssue
+import at.orchaldir.gm.core.selector.item.getPeriodicalIssues
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -27,6 +28,16 @@ val UPDATE_PERIODICAL_ISSUE: Reducer<UpdatePeriodicalIssue, State> = { state, ac
 
     state.getPeriodicalIssueStorage().require(issue.id)
     state.getPeriodicalStorage().require(issue.periodical)
+    require(hasNoDuplicateIssueNumbers(state, issue)) {
+        "The issue number ${issue.number} is already used by the periodical!"
+    }
 
     noFollowUps(state.updateStorage(state.getPeriodicalIssueStorage().update(issue)))
 }
+
+private fun hasNoDuplicateIssueNumbers(
+    state: State,
+    issue: PeriodicalIssue,
+) = state.getPeriodicalIssues(issue.periodical)
+    .filter { it.id != issue.id }
+    .all { it.number != issue.number }

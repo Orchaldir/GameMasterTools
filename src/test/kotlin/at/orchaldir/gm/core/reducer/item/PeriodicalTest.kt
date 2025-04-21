@@ -18,12 +18,12 @@ import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
+import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 
 class PeriodicalTest {
@@ -71,36 +71,33 @@ class PeriodicalTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0))
-            val state = STATE.removeStorage(PERIODICAL_ID_0)
+            val action = UpdatePeriodical(Periodical(UNKNOWN_PERIODICAL_ID))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Periodical 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Named after unknown character`() {
-            val name = NameWithReference(ReferencedFullName(CHARACTER_ID_0), "A", "B")
+            val name = NameWithReference(ReferencedFullName(UNKNOWN_CHARACTER_ID), "A", "B")
             val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, name))
-            val state = STATE.removeStorage(CHARACTER_ID_0)
 
-            assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Owner is an unknown character`() {
-            val action =
-                UpdatePeriodical(Periodical(PERIODICAL_ID_0, ownership = History(OwnedByCharacter(CHARACTER_ID_0))))
-            val state = STATE.removeStorage(CHARACTER_ID_0)
+            val ownership: History<Owner> = History(OwnedByCharacter(UNKNOWN_CHARACTER_ID))
+            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, ownership = ownership))
 
-            assertIllegalArgument("Cannot use an unknown character 0 as owner!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown character 99 as owner!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Founder is an unknown character`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
-            val state = STATE.removeStorage(CHARACTER_ID_0)
+            val action =
+                UpdatePeriodical(Periodical(PERIODICAL_ID_0, founder = CreatedByCharacter(UNKNOWN_CHARACTER_ID)))
 
-            assertIllegalArgument("Cannot use an unknown character 0 as Founder!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown character 99 as Founder!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

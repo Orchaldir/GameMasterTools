@@ -10,15 +10,15 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 
 class PeriodicalIssueTest {
 
+    val issue0 = PeriodicalIssue(PERIODICAL_ISSUE_ID_0, PERIODICAL_ID_0, 0)
     val state = State(
         listOf(
-            Storage(Periodical(PERIODICAL_ID_0)),
-            Storage(PeriodicalIssue(PERIODICAL_ISSUE_ID_0, PERIODICAL_ID_0)),
+            Storage(listOf(Periodical(PERIODICAL_ID_0), Periodical(PERIODICAL_ID_1))),
+            Storage(issue0),
         )
     )
 
@@ -46,7 +46,7 @@ class PeriodicalIssueTest {
         fun `Cannot update unknown id`() {
             val action = UpdatePeriodicalIssue(PeriodicalIssue(UNKNOWN_PERIODICAL_ISSUE_ID))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Periodical Issue 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -56,10 +56,61 @@ class PeriodicalIssueTest {
             assertIllegalArgument("Requires unknown Periodical 99!") { REDUCER.invoke(state, action) }
         }
 
-        @Test
-        fun `The issue number must not be negative`() {
-            assertIllegalArgument("Invalid issue number -1!") {
-                PeriodicalIssue(PERIODICAL_ISSUE_ID_0, number = -1)
+        @Nested
+        inner class IssueNumberTest {
+
+            @Test
+            fun `Must not be negative`() {
+                assertIllegalArgument("Invalid issue number -1!") {
+                    PeriodicalIssue(PERIODICAL_ISSUE_ID_0, number = -1)
+                }
+            }
+
+            @Test
+            fun `Already used by the same periodical`() {
+                val issue = PeriodicalIssue(PERIODICAL_ISSUE_ID_1, PERIODICAL_ID_0, 0)
+                val action = UpdatePeriodicalIssue(issue)
+                val newState = state.updateStorage(
+                    Storage(
+                        listOf(
+                            issue0,
+                            PeriodicalIssue(PERIODICAL_ISSUE_ID_1, PERIODICAL_ID_0, 1),
+                        )
+                    )
+                )
+
+                assertIllegalArgument("The issue number 0 is already used by the periodical!") {
+                    REDUCER.invoke(newState, action)
+                }
+            }
+
+            @Test
+            fun `Can be duplicated for different periodicals`() {
+                val issue = PeriodicalIssue(PERIODICAL_ISSUE_ID_1, PERIODICAL_ID_1, 0)
+                val action = UpdatePeriodicalIssue(issue)
+                val newState = state.updateStorage(
+                    Storage(
+                        listOf(
+                            issue0,
+                            PeriodicalIssue(PERIODICAL_ISSUE_ID_1, PERIODICAL_ID_1, 1),
+                        )
+                    )
+                )
+
+                assertEquals(
+                    issue,
+                    REDUCER.invoke(newState, action).first.getPeriodicalIssueStorage().get(PERIODICAL_ISSUE_ID_1)
+                )
+            }
+
+            @Test
+            fun `Same issue can reuse its own number`() {
+                val action = UpdatePeriodicalIssue(issue0)
+
+                assertEquals(
+                    issue0,
+                    REDUCER.invoke(state, action).first.getPeriodicalIssueStorage().get(PERIODICAL_ISSUE_ID_0)
+                )
             }
         }
 
