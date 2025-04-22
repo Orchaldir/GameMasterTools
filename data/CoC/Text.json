@@ -85,7 +85,10 @@
     "binding": {
      "type": "Coptic",
      "cover": {
-      "color": "SaddleBrown"
+      "fill": {
+       "type": "Solid",
+       "color": "SaddleBrown"
+      }
      },
      "sewingPattern": {
       "type": "Simple",
@@ -134,7 +137,10 @@
     "binding": {
      "type": "Hardcover",
      "cover": {
-      "color": "Navy"
+      "fill": {
+       "type": "Solid",
+       "color": "Navy"
+      }
      },
      "bosses": {
       "type": "Simple",
@@ -183,14 +189,17 @@
     "binding": {
      "type": "Hardcover",
      "cover": {
-      "color": "Black",
-      "typography": {
-       "type": "SimpleTitle",
-       "font": {
-        "type": "Solid",
-        "size": 20000,
-        "color": "Red"
-       }
+      "fill": {
+       "type": "Solid",
+       "color": "Black"
+      }
+     },
+     "typography": {
+      "type": "SimpleTitle",
+      "font": {
+       "type": "Solid",
+       "size": 20000,
+       "color": "Red"
       }
      },
      "protection": {

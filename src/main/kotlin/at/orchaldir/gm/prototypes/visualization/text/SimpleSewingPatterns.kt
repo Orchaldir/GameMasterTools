@@ -3,7 +3,6 @@ package at.orchaldir.gm.prototypes.visualization.text
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.StitchType.Empty
@@ -41,10 +40,10 @@ fun main() {
             Pair("3", listOf(Empty, Kettle, Kettle, Empty, Empty, Empty, Empty, Kettle, Kettle, Empty)),
         ),
     ) { (sewingSize, sewingLength), pattern ->
-        val cover = BookCover(FillItemPart(Color.SaddleBrown))
+        val sewingPattern = SimpleSewingPattern(Color.Red, sewingSize, sewingLength, pattern)
         Book(
             100,
-            CopticBinding(cover, SimpleSewingPattern(Color.Red, sewingSize, sewingLength, pattern)),
+            CopticBinding(FillItemPart(Color.SaddleBrown), sewingPattern = sewingPattern),
             size
         )
     }

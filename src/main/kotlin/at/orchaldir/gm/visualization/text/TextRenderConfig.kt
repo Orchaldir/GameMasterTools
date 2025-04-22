@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
-import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.book.LeatherBindingStyle
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
@@ -20,7 +20,7 @@ data class LeatherBindingConfig(
 data class TextRenderConfig(
     val padding: Distance,
     val line: LineOptions,
-    val leatherBindingMap: Map<LeatherBindingType, LeatherBindingConfig>,
+    val leatherBindingMap: Map<LeatherBindingStyle, LeatherBindingConfig>,
     val bossesRadius: SizeConfig<Factor>,
     val sewingRadius: SizeConfig<Factor>,
     val sewingLength: SizeConfig<Factor>,

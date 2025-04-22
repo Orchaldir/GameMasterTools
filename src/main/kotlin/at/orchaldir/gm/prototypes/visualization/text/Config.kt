@@ -1,6 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
-import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.book.LeatherBindingStyle
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -14,9 +14,9 @@ val TEXT_CONFIG = TextRenderConfig(
     fromMillimeters(50),
     LineOptions(Color.Black.toRender(), fromMillimeters(1)),
     mapOf(
-        LeatherBindingType.ThreeQuarter to createConfig(40, 40),
-        LeatherBindingType.Half to createConfig(30, 30),
-        LeatherBindingType.Quarter to createConfig(20, 20),
+        LeatherBindingStyle.ThreeQuarter to createConfig(40, 40),
+        LeatherBindingStyle.Half to createConfig(30, 30),
+        LeatherBindingStyle.Quarter to createConfig(20, 20),
     ),
     fromPercentages(2, 3, 4),
     withFactor(0.015f, 0.02f, 0.025f),

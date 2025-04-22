@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.model.item.text.book
 
 import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
+import at.orchaldir.gm.core.model.item.text.book.typography.NoTypography
+import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
@@ -23,32 +26,34 @@ sealed class BookBinding : MadeFromParts {
     }
 
     fun contains(font: FontId) = when (this) {
-        is CopticBinding -> cover.typography.contains(font)
-        is Hardcover -> cover.typography.contains(font)
-        is LeatherBinding -> cover.typography.contains(font)
+        is CopticBinding -> typography.contains(font)
+        is Hardcover -> typography.contains(font)
+        is LeatherBinding -> typography.contains(font)
     }
 }
 
 @Serializable
 @SerialName("Coptic")
 data class CopticBinding(
-    val cover: BookCover = BookCover(),
+    val cover: FillItemPart = FillItemPart(Color.Blue),
+    val typography: Typography = NoTypography,
     val sewingPattern: SewingPattern,
 ) : BookBinding() {
 
-    override fun parts() = listOf(cover.main)
+    override fun parts() = listOf(cover)
 
 }
 
 @Serializable
 @SerialName("Hardcover")
 data class Hardcover(
-    val cover: BookCover = BookCover(),
+    val cover: FillItemPart = FillItemPart(Color.Blue),
+    val typography: Typography = NoTypography,
     val bosses: BossesPattern = NoBosses,
     val protection: EdgeProtection = NoEdgeProtection,
 ) : BookBinding() {
 
-    override fun parts() = listOf(cover.main) + bosses.parts() + protection.parts()
+    override fun parts() = listOf(cover) + bosses.parts() + protection.parts()
 
 }
 
@@ -57,10 +62,11 @@ data class Hardcover(
 data class LeatherBinding(
     val leatherColor: Color = Color.SaddleBrown,
     val leatherMaterial: MaterialId = MaterialId(0),
-    val type: LeatherBindingType = LeatherBindingType.Half,
-    val cover: BookCover = BookCover(),
+    val style: LeatherBindingStyle = LeatherBindingStyle.Half,
+    val cover: FillItemPart = FillItemPart(Color.Blue),
+    val typography: Typography = NoTypography,
 ) : BookBinding() {
 
-    override fun parts() = listOf(cover.main)
+    override fun parts() = listOf(cover)
 
 }

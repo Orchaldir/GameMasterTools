@@ -23,13 +23,13 @@ fun main() {
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(BookBindingType.entries),
     ) { color, type ->
-        val cover = BookCover(FillItemPart(color))
+        val cover = FillItemPart(color)
         Book(
             100,
             when (type) {
-                BookBindingType.Coptic -> CopticBinding(cover, SimpleSewingPattern(Color.White))
+                BookBindingType.Coptic -> CopticBinding(cover, sewingPattern = SimpleSewingPattern(Color.White))
                 BookBindingType.Hardcover -> Hardcover(cover)
-                BookBindingType.Leather -> LeatherBinding(Color.SaddleBrown, ID, LeatherBindingType.Half, cover)
+                BookBindingType.Leather -> LeatherBinding(Color.SaddleBrown, ID, LeatherBindingStyle.Half, cover)
             },
             size
         )

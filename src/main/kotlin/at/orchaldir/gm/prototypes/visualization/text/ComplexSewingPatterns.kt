@@ -3,7 +3,6 @@ package at.orchaldir.gm.prototypes.visualization.text
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.ComplexStitch
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
@@ -17,7 +16,7 @@ import java.io.File
 private val ID = MaterialId(0)
 
 fun main() {
-    val cover = BookCover(FillItemPart(Color.SaddleBrown))
+    val cover = FillItemPart(Color.SaddleBrown)
     val stitches = listOf(
         ComplexStitch(Color.Red, Size.Small, Size.Large),
         ComplexStitch(Color.Green, Size.Medium, Size.Small),
@@ -25,7 +24,7 @@ fun main() {
     )
     val book = Book(
         100,
-        CopticBinding(cover, ComplexSewingPattern(stitches)),
+        CopticBinding(cover, sewingPattern = ComplexSewingPattern(stitches)),
         Size2i.fromMillimeters(125, 190)
     )
 

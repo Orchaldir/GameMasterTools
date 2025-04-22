@@ -3,7 +3,6 @@ package at.orchaldir.gm.prototypes.visualization.text
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.TypographyLayout
@@ -28,13 +27,11 @@ fun main() {
         Book(
             100,
             Hardcover(
-                BookCover(
-                    typography = SimpleTypography(
-                        SolidFont(fromMillimeters(10)),
-                        SolidFont(fromMillimeters(15)),
-                        order,
-                        layout,
-                    )
+                typography = SimpleTypography(
+                    SolidFont(fromMillimeters(10)),
+                    SolidFont(fromMillimeters(15)),
+                    order,
+                    layout,
                 )
             ),
             size,

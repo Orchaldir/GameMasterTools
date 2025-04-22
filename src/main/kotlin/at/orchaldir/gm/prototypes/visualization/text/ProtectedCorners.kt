@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.CornerShape
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.ProtectedCorners
@@ -28,12 +27,11 @@ fun main() {
         addNames(listOf(10, 20, 30, 40, 50)),
         addNames(CornerShape.entries),
     ) { size, shape ->
-        val cover = BookCover(FillItemPart(Color.Green))
         val protection = ProtectedCorners(shape, fromPercentage(size), ColorItemPart(Color.Silver))
 
         Book(
             100,
-            Hardcover(cover, protection = protection),
+            Hardcover(FillItemPart(Color.Green), protection = protection),
             bookSize
         )
     }

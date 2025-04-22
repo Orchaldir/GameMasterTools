@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.BossesShape
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleBossesPattern
@@ -41,11 +40,11 @@ fun main() {
             Pair("3", listOf(1)),
         ),
     ) { (shape, size), pattern ->
-        val cover = BookCover(FillItemPart(Color.SaddleBrown))
+        val cover = FillItemPart(Color.SaddleBrown)
         val bosses = SimpleBossesPattern(pattern, shape, size, ColorItemPart(Color.Gray))
         Book(
             100,
-            Hardcover(cover, bosses),
+            Hardcover(cover, bosses = bosses),
             bookSize
         )
     }

@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.TypographyLayout
@@ -33,12 +32,10 @@ fun main() {
         Book(
             100,
             Hardcover(
-                BookCover(
-                    FillItemPart(Color.Black),
-                    typography = SimpleTitleTypography(
-                        SolidFont(fontSize, Color.Red),
-                        layout,
-                    )
+                FillItemPart(Color.Black),
+                typography = SimpleTitleTypography(
+                    SolidFont(fontSize, Color.Red),
+                    layout,
                 )
             ),
             size,
