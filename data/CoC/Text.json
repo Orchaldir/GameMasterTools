@@ -85,14 +85,13 @@
     "binding": {
      "type": "Coptic",
      "cover": {
-      "fill": {
-       "type": "Solid",
-       "color": "SaddleBrown"
-      }
      },
      "sewingPattern": {
       "type": "Simple",
-      "color": "Silver",
+      "thread": {
+       "material": 3,
+       "color": "Silver"
+      },
       "stitches": [
        "Kettle",
        "Kettle",

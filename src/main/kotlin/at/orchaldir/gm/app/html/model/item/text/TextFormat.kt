@@ -72,7 +72,7 @@ private fun HtmlBlockTag.showBinding(
         when (binding) {
             is CopticBinding -> {
                 showFillItemPart(call, state, binding.cover, "Cover")
-                showSewingPattern(binding.sewingPattern)
+                showSewingPattern(call, state, binding.sewingPattern)
             }
 
             is Hardcover -> {
@@ -136,13 +136,17 @@ private fun HtmlBlockTag.showEdgeProtection(
     }
 }
 
-private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
+private fun HtmlBlockTag.showSewingPattern(
+    call: ApplicationCall,
+    state: State,
+    pattern: SewingPattern,
+) {
     showDetails("Sewing") {
         field("Pattern", pattern.getType())
 
         when (pattern) {
             is SimpleSewingPattern -> {
-                field("Color", pattern.color)
+                showColorItemPart(call, state, pattern.thread)
                 field("Size", pattern.size)
                 field("Distance Between Edge & Hole", pattern.length)
                 showList("Stitches", pattern.stitches) { stitch ->
@@ -152,7 +156,7 @@ private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
 
             is ComplexSewingPattern -> {
                 showList(pattern.stitches) { complex ->
-                    field("Color", complex.color)
+                    showColorItemPart(call, state, complex.thread)
                     field("Size", complex.size)
                     field("Distance Between Edge & Hole", complex.length)
                     field("Stitch", complex.stitch)
@@ -228,7 +232,7 @@ private fun HtmlBlockTag.editBinding(
         when (binding) {
             is CopticBinding -> {
                 editCover(state, binding.cover, binding.typography, hasAuthor)
-                editSewingPattern(binding.sewingPattern)
+                editSewingPattern(state, binding.sewingPattern)
             }
 
             is Hardcover -> {
@@ -327,13 +331,13 @@ private fun HtmlBlockTag.editEdgeProtection(
     }
 }
 
-private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
+private fun HtmlBlockTag.editSewingPattern(state: State, pattern: SewingPattern) {
     showDetails("Sewing Pattern", true) {
         selectValue("Type", SEWING, SewingPatternType.entries, pattern.getType(), true)
 
         when (pattern) {
             is SimpleSewingPattern -> {
-                selectColor(pattern.color, combine(SEWING, COLOR))
+                editColorItemPart(state, pattern.thread, SEWING, "Thread")
                 selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
                 selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
                 editSewingPattern(pattern.stitches) { elementParam, element ->
@@ -343,7 +347,7 @@ private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
 
             is ComplexSewingPattern -> {
                 editSewingPattern(pattern.stitches) { elementParam, element ->
-                    selectColor(element.color, combine(elementParam, COLOR))
+                    editColorItemPart(state, element.thread, elementParam, "Thread")
                     selectValue("Size", combine(elementParam, SIZE), Size.entries, element.size, true)
                     selectValue(
                         "Distance Between Edge & Hole",
@@ -470,7 +474,7 @@ private fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters
 
 private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
     SewingPatternType.Simple -> SimpleSewingPattern(
-        parse(parameters, combine(SEWING, COLOR), Color.Crimson),
+        parseColorItemPart(parameters, SEWING),
         parse(parameters, combine(SEWING, SIZE), Size.Medium),
         parse(parameters, combine(SEWING, LENGTH), Size.Medium),
         parseSimplePattern(parameters),
@@ -485,7 +489,7 @@ private fun parseSimplePattern(parameters: Parameters) = parseList(parameters, S
 
 private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { param ->
     ComplexStitch(
-        parse(parameters, combine(param, COLOR), Color.Crimson),
+        parseColorItemPart(parameters, param),
         parse(parameters, combine(param, SIZE), Size.Medium),
         parse(parameters, combine(param, LENGTH), Size.Medium),
         parse(parameters, param, StitchType.Kettle),

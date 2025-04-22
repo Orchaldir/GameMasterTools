@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.model.item.text.book
 
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.book.StitchType.Kettle
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -14,7 +15,7 @@ enum class SewingPatternType {
 }
 
 @Serializable
-sealed class SewingPattern {
+sealed class SewingPattern : MadeFromParts {
 
     fun getType() = when (this) {
         is SimpleSewingPattern -> SewingPatternType.Simple
@@ -25,15 +26,19 @@ sealed class SewingPattern {
 @Serializable
 @SerialName("Simple")
 data class SimpleSewingPattern(
-    val color: Color = Color.Red,
+    val thread: ColorItemPart = ColorItemPart(),
     val size: Size = Size.Medium,
     val length: Size = Size.Medium,
     val stitches: List<StitchType> = listOf(Kettle, Kettle, Kettle, Kettle),
-) : SewingPattern()
+) : SewingPattern() {
+
+    override fun parts() = listOf(thread)
+
+}
 
 @Serializable
 data class ComplexStitch(
-    val color: Color,
+    val thread: ColorItemPart = ColorItemPart(),
     val size: Size = Size.Medium,
     val length: Size = Size.Medium,
     val stitch: StitchType = Kettle,
@@ -43,4 +48,8 @@ data class ComplexStitch(
 @SerialName("Complex")
 data class ComplexSewingPattern(
     val stitches: List<ComplexStitch>,
-) : SewingPattern()
+) : SewingPattern() {
+
+    override fun parts() = stitches.map { it.thread }
+
+}

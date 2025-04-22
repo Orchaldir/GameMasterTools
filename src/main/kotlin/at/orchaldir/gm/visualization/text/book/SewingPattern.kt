@@ -25,7 +25,8 @@ private fun visualizeSimpleSewingPattern(
     state: TextRenderState,
     simple: SimpleSewingPattern,
 ) {
-    val options = FillAndBorder(simple.color.toRender(), state.config.line)
+    val color = simple.thread.getColor(state.state)
+    val options = FillAndBorder(color.toRender(), state.config.line)
     val parts = simple.stitches.size
     val length = fromNumber(1.0f / parts.toFloat())
     val half = length / 2.0f
@@ -67,7 +68,8 @@ private fun visualizeComplexSewingPattern(
     val renderer = state.renderer.getLayer()
 
     complex.stitches.forEach { element ->
-        val options = FillAndBorder(element.color.toRender(), state.config.line)
+        val color = element.thread.getColor(state.state)
+        val options = FillAndBorder(color.toRender(), state.config.line)
         val radius = state.aabb.convertHeight(state.config.sewingRadius.convert(element.size))
         val sewingLength = state.config.sewingLength.convert(element.length)
         val diameter = radius * 2

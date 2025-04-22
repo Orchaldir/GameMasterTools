@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
@@ -40,7 +41,8 @@ fun main() {
             Pair("3", listOf(Empty, Kettle, Kettle, Empty, Empty, Empty, Empty, Kettle, Kettle, Empty)),
         ),
     ) { (sewingSize, sewingLength), pattern ->
-        val sewingPattern = SimpleSewingPattern(Color.Red, sewingSize, sewingLength, pattern)
+        val sewingPattern = SimpleSewingPattern(ColorItemPart(Color.Red), sewingSize, sewingLength, pattern)
+
         Book(
             100,
             CopticBinding(FillItemPart(Color.SaddleBrown), sewingPattern = sewingPattern),

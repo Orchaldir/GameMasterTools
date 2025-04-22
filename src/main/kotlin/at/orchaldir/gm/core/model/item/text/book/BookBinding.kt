@@ -41,7 +41,7 @@ data class CopticBinding(
     val sewingPattern: SewingPattern,
 ) : BookBinding() {
 
-    override fun parts() = listOf(cover)
+    override fun parts() = listOf(cover) + sewingPattern.parts()
 
 }
 

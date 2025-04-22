@@ -15,6 +15,8 @@ private val ID = MaterialId(0)
 
 fun main() {
     val size = Size2i.fromMillimeters(125, 190)
+    val leather = ColorItemPart(Color.SaddleBrown)
+    val sewingPattern = SimpleSewingPattern(ColorItemPart(Color.White))
 
     renderTextTable(
         "book-bindings.svg",
@@ -25,11 +27,11 @@ fun main() {
         addNames(BookBindingType.entries),
     ) { color, type ->
         val cover = FillItemPart(color)
-        val leather = ColorItemPart(Color.SaddleBrown)
+
         Book(
             100,
             when (type) {
-                BookBindingType.Coptic -> CopticBinding(cover, sewingPattern = SimpleSewingPattern(Color.White))
+                BookBindingType.Coptic -> CopticBinding(cover, sewingPattern = sewingPattern)
                 BookBindingType.Hardcover -> Hardcover(cover)
                 BookBindingType.Leather -> LeatherBinding(LeatherBindingStyle.Half, cover, leather)
             },
