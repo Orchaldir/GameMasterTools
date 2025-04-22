@@ -81,10 +81,6 @@
    "language": 5,
    "format": {
     "type": "Book",
-    "pages": 400,
-    "page": {
-     "material": 8
-    },
     "binding": {
      "type": "Coptic",
      "cover": {
@@ -101,6 +97,10 @@
        "Kettle"
       ]
      }
+    },
+    "pages": 400,
+    "page": {
+     "material": 8
     },
     "size": {
      "width": 130000,
@@ -135,10 +135,6 @@
    "language": 6,
    "format": {
     "type": "Book",
-    "pages": 100,
-    "page": {
-     "material": 8
-    },
     "binding": {
      "type": "Hardcover",
      "cover": {
@@ -160,6 +156,9 @@
        "material": 9
       }
      }
+    },
+    "page": {
+     "material": 8
     },
     "size": {
      "width": 160000,
@@ -193,10 +192,6 @@
    },
    "format": {
     "type": "Book",
-    "pages": 500,
-    "page": {
-     "material": 6
-    },
     "binding": {
      "type": "Hardcover",
      "cover": {
@@ -222,6 +217,10 @@
        "color": "Red"
       }
      }
+    },
+    "pages": 500,
+    "page": {
+     "material": 6
     },
     "size": {
      "width": 150000,
