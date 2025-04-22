@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.CornerShape
@@ -19,6 +20,7 @@ fun main() {
 
     renderTextTable(
         "book-protect-corners.svg",
+        State(),
         TEXT_CONFIG,
         bookSize.toSize2d() + fromMillimeters(50),
         addNames(listOf(10, 20, 30, 40, 50)),

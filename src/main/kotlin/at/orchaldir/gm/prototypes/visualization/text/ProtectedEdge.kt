@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
@@ -18,6 +19,7 @@ fun main() {
 
     renderTextTable(
         "book-protect-edges.svg",
+        State(),
         TEXT_CONFIG,
         bookSize.toSize2d() + fromMillimeters(50),
         addNames(listOf(5, 10, 15, 20)),

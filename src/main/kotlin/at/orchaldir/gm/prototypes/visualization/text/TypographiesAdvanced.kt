@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.font.FontWithBorder
 import at.orchaldir.gm.core.model.font.SolidFont
@@ -43,6 +44,7 @@ fun main() {
 
     renderResolvedTextTable(
         "book-typographies-advanced.svg",
+        State(),
         TEXT_CONFIG,
         texts,
     )

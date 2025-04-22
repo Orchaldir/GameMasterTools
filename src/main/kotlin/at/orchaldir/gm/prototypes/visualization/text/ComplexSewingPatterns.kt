@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
@@ -27,7 +28,7 @@ fun main() {
         Size2i.fromMillimeters(125, 190)
     )
 
-    val svg = visualizeTextFormat(TEXT_CONFIG, book)
+    val svg = visualizeTextFormat(State(), TEXT_CONFIG, book)
 
     File("book-sewing-patterns-complex.svg").writeText(svg.export())
 }

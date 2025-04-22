@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
@@ -17,6 +18,7 @@ fun main() {
 
     renderTextTable(
         "book-typographies-title.svg",
+        State(),
         TEXT_CONFIG,
         size.toSize2d() + fromMillimeters(50),
         addNames(TypographyLayout.getTitleEntries()),

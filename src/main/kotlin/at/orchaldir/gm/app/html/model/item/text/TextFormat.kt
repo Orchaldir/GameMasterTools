@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.model.item.text
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.item.editColorItemPart
+import at.orchaldir.gm.app.html.model.item.parseColorItemPart
+import at.orchaldir.gm.app.html.model.item.showColorItemPart
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
@@ -46,8 +49,7 @@ fun HtmlBlockTag.showTextFormat(
             is Scroll -> {
                 fieldDistance("Roll Length", format.rollLength)
                 fieldDistance("Roll Diameter", format.rollDiameter)
-                field("Scroll Color", format.color)
-                fieldLink("Scroll Material", call, state, format.material)
+                showColorItemPart(call, state, format.main)
                 showScrollFormat(call, state, format.format)
             }
         }
@@ -187,11 +189,10 @@ private fun HtmlBlockTag.showScrollHandle(
     state: State,
     handle: ScrollHandle,
 ) {
-    fieldLink("Handle Material", call, state, handle.material)
     showList("Handle Segments", handle.segments) { segment ->
         fieldDistance("Length", segment.length)
         fieldDistance("Diameter", segment.diameter)
-        field("Color", segment.color)
+        showColorItemPart(call, state, segment.main)
         field("Shape", segment.shape)
     }
 }
@@ -216,15 +217,8 @@ fun FORM.editTextFormat(
 
             is Scroll -> {
                 selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
-                selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
-                selectColor(format.color, COLOR, "Scroll Color")
-                selectElement(
-                    state,
-                    "Scroll Material",
-                    MATERIAL,
-                    state.getMaterialStorage().getAll(),
-                    format.material,
-                )
+                selectDistance("Roll Diameter", DIAMETER, format.rollDiameter, min, max, step, true)
+                editColorItemPart(state, format.main, SCROLL)
                 editScrollFormat(state, format.format)
             }
         }
@@ -434,17 +428,10 @@ private fun HtmlBlockTag.editScrollHandle(
     state: State,
     handle: ScrollHandle,
 ) {
-    selectElement(
-        state,
-        "Handle Material",
-        combine(HANDLE, MATERIAL),
-        state.getMaterialStorage().getAll(),
-        handle.material,
-    )
     editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
         selectDistance("Length", combine(segmentParam, LENGTH), segment.length, min, max, step, true)
         selectDistance("Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, step, true)
-        selectColor(segment.color, combine(segmentParam, COLOR))
+        editColorItemPart(state, segment.main, segmentParam)
         selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape, true)
     }
 }
@@ -462,8 +449,7 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseScrollFormat(parameters),
         parseDistance(parameters, LENGTH, 200),
         parseDistance(parameters, DIAMETER, 50),
-        parse(parameters, COLOR, Color.Green),
-        parseMaterialId(parameters, MATERIAL),
+        parseColorItemPart(parameters, SCROLL),
     )
 
     TextFormatType.Undefined -> UndefinedTextFormat
@@ -564,14 +550,13 @@ private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, 
 
 private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
     parseHandleSegments(parameters),
-    parseMaterialId(parameters, combine(HANDLE, MATERIAL)),
 )
 
 private fun parseHandleSegments(parameters: Parameters) = parseList(parameters, HANDLE, 1) { param ->
     HandleSegment(
         parseDistance(parameters, combine(param, LENGTH), 40),
         parseDistance(parameters, combine(param, DIAMETER), 15),
-        parse(parameters, combine(param, COLOR), Color.Black),
+        parseColorItemPart(parameters, param),
         parse(parameters, combine(param, SHAPE), HandleSegmentShape.Cylinder),
     )
 }

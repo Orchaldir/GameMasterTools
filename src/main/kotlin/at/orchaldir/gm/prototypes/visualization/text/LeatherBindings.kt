@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
@@ -17,6 +18,7 @@ fun main() {
 
     renderTextTable(
         "book-leather-bindings.svg",
+        State(),
         TEXT_CONFIG,
         size.toSize2d() + fromMillimeters(50),
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),

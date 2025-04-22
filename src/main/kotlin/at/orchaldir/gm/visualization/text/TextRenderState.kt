@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.utils.Storage
@@ -14,6 +15,7 @@ data class ResolvedTextData(
 }
 
 data class TextRenderState(
+    val state: State,
     val aabb: AABB,
     val config: TextRenderConfig,
     val renderer: MultiLayerRenderer,

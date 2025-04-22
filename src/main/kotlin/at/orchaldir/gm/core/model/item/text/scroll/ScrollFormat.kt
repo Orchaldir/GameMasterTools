@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
@@ -12,7 +13,7 @@ enum class ScrollFormatType {
 }
 
 @Serializable
-sealed class ScrollFormat {
+sealed class ScrollFormat : MadeFromParts {
 
     fun getType() = when (this) {
         is ScrollWithoutRod -> ScrollFormatType.NoRod
@@ -31,12 +32,6 @@ sealed class ScrollFormat {
         is ScrollWithOneRod -> handle.calculateDiameter(rollDiameter)
         is ScrollWithTwoRods -> handle.calculateDiameter(rollDiameter) * 2
     }
-
-    fun isMadeOf(material: MaterialId) = when (this) {
-        is ScrollWithOneRod -> handle.material == material
-        is ScrollWithTwoRods -> handle.material == material
-        ScrollWithoutRod -> false
-    }
 }
 
 @Serializable
@@ -47,10 +42,18 @@ data object ScrollWithoutRod : ScrollFormat()
 @SerialName("OneRod")
 data class ScrollWithOneRod(
     val handle: ScrollHandle,
-) : ScrollFormat()
+) : ScrollFormat() {
+
+    override fun parts() = handle.parts()
+
+}
 
 @Serializable
 @SerialName("TwoRods")
 data class ScrollWithTwoRods(
     val handle: ScrollHandle,
-) : ScrollFormat()
+) : ScrollFormat() {
+
+    override fun parts() = handle.parts()
+
+}
