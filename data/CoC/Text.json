@@ -198,6 +198,7 @@
       "shape": "L",
       "size": 1000,
       "main": {
+       "material": 9,
        "color": "Red"
       }
      }

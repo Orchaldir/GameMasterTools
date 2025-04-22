@@ -51,7 +51,7 @@ fun HtmlBlockTag.editSimpleTitleTypography(
     typography: SimpleTitleTypography,
     hasAuthor: Boolean,
 ) {
-    editFontOption(state, "Title", typography.font, NAME)
+    editFontOption(state, "Title", typography.font, TILE)
     editTypographyLayout(typography.layout, hasAuthor)
 }
 
@@ -60,7 +60,7 @@ fun HtmlBlockTag.editSimpleTypography(
     typography: SimpleTypography,
     hasAuthor: Boolean,
 ) {
-    editFontOption(state, "Title", typography.title, NAME)
+    editFontOption(state, "Title", typography.title, TILE)
     editFontOption(state, "Author", typography.author, CREATOR)
     selectValue("Typography Order", combine(TYPOGRAPHY, ORDER), TypographyOrder.entries, typography.order, true)
     editTypographyLayout(typography.layout, hasAuthor)
@@ -182,13 +182,13 @@ private fun HtmlBlockTag.editSharedFontOptions(
 fun parseTextTypography(parameters: Parameters) = when (parse(parameters, TYPOGRAPHY, TypographyType.None)) {
     TypographyType.None -> NoTypography
     TypographyType.SimpleTitle -> SimpleTitleTypography(
-        parseFontOption(parameters, NAME),
+        parseFontOption(parameters, TILE),
         parse(parameters, combine(TYPOGRAPHY, LAYOUT), TypographyLayout.Top),
     )
 
     TypographyType.Simple -> SimpleTypography(
         parseFontOption(parameters, CREATOR),
-        parseFontOption(parameters, NAME),
+        parseFontOption(parameters, TILE),
         parse(parameters, combine(TYPOGRAPHY, ORDER), TypographyOrder.AuthorFirst),
         parse(parameters, combine(TYPOGRAPHY, LAYOUT), TypographyLayout.Top),
     )
