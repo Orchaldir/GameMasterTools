@@ -57,7 +57,7 @@ private fun visualizeLeatherBinding(
 
     state.renderer.getLayer().renderRectangle(spineAabb, options)
 
-    val cornerWidth = state.aabb.convertWidth(config.corner)
+    val cornerWidth = state.aabb.convertMinSide(config.corner)
 
     visualizeTopCornerAsTriangle(state, options, cornerWidth)
     visualizeBottomCornerAsTriangle(state, options, cornerWidth)
