@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.*
@@ -24,12 +25,13 @@ fun main() {
         addNames(BookBindingType.entries),
     ) { color, type ->
         val cover = FillItemPart(color)
+        val leather = ColorItemPart(Color.SaddleBrown)
         Book(
             100,
             when (type) {
                 BookBindingType.Coptic -> CopticBinding(cover, sewingPattern = SimpleSewingPattern(Color.White))
                 BookBindingType.Hardcover -> Hardcover(cover)
-                BookBindingType.Leather -> LeatherBinding(Color.SaddleBrown, ID, LeatherBindingStyle.Half, cover)
+                BookBindingType.Leather -> LeatherBinding(LeatherBindingStyle.Half, cover, leather)
             },
             size
         )

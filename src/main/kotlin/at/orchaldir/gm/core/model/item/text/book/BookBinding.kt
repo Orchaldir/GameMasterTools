@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.text.book
 
 import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.book.typography.NoTypography
@@ -60,13 +61,12 @@ data class Hardcover(
 @Serializable
 @SerialName("Leather")
 data class LeatherBinding(
-    val leatherColor: Color = Color.SaddleBrown,
-    val leatherMaterial: MaterialId = MaterialId(0),
     val style: LeatherBindingStyle = LeatherBindingStyle.Half,
     val cover: FillItemPart = FillItemPart(Color.Blue),
+    val leather: ColorItemPart = ColorItemPart(),
     val typography: Typography = NoTypography,
 ) : BookBinding() {
 
-    override fun parts() = listOf(cover)
+    override fun parts() = listOf(cover, leather)
 
 }

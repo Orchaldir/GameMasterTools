@@ -83,8 +83,7 @@ private fun HtmlBlockTag.showBinding(
 
             is LeatherBinding -> {
                 showFillItemPart(call, state, binding.cover, "Cover")
-                field("Leather Color", binding.leatherColor)
-                fieldLink("Leather Material", call, state, binding.leatherMaterial)
+                showColorItemPart(call, state, binding.leather, "Leather")
                 field("Leather Binding", binding.style)
             }
         }
@@ -240,15 +239,7 @@ private fun HtmlBlockTag.editBinding(
 
             is LeatherBinding -> {
                 editCover(state, binding.cover, binding.typography, hasAuthor)
-                selectColor(binding.leatherColor, combine(LEATHER, BINDING, COLOR), "Leather Color")
-                selectElement(
-                    state,
-                    "Leather Material",
-                    combine(LEATHER, MATERIAL),
-                    state.getMaterialStorage().getAll(),
-                    binding.leatherMaterial,
-                    false
-                )
+                editColorItemPart(state, binding.leather, LEATHER)
                 selectValue(
                     "Leather Binding",
                     combine(LEATHER, BINDING),
@@ -436,10 +427,9 @@ private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDI
     )
 
     BookBindingType.Leather -> LeatherBinding(
-        parse(parameters, combine(LEATHER, BINDING, COLOR), Color.SaddleBrown),
-        parseMaterialId(parameters, combine(LEATHER, MATERIAL)),
         parse(parameters, combine(LEATHER, BINDING), LeatherBindingStyle.Half),
         parseFillItemPart(parameters, COVER),
+        parseColorItemPart(parameters, LEATHER),
         parseTextTypography(parameters),
     )
 }

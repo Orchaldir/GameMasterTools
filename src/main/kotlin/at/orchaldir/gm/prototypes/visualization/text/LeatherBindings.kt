@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
@@ -24,7 +25,7 @@ fun main() {
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(LeatherBindingStyle.entries),
     ) { color, type ->
-        val binding = LeatherBinding(Color.SaddleBrown, ID, type, FillItemPart(color))
+        val binding = LeatherBinding(type, FillItemPart(color), ColorItemPart(Color.SaddleBrown))
         Book(
             100,
             binding,
