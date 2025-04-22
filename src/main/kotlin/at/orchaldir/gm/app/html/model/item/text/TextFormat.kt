@@ -110,8 +110,7 @@ private fun HtmlBlockTag.showBossesPattern(
             is SimpleBossesPattern -> {
                 field("Shape", pattern.shape)
                 field("Size", pattern.size)
-                field("Color", pattern.color)
-                fieldLink("Material", call, state, pattern.material)
+                showColorItemPart(call, state, pattern.boss)
                 field("Pattern", pattern.pattern.toString())
             }
         }
@@ -131,14 +130,12 @@ private fun HtmlBlockTag.showEdgeProtection(
             is ProtectedCorners -> {
                 field("Corner Shape", protection.shape)
                 fieldFactor("Corner Size", protection.size)
-                field("Corner Color", protection.color)
-                fieldLink("Corner Material", call, state, protection.material)
+                showColorItemPart(call, state, protection.main)
             }
 
             is ProtectedEdge -> {
                 fieldFactor("Edge Width", protection.width)
-                field("Edge Color", protection.color)
-                fieldLink("Edge Material", call, state, protection.material)
+                showColorItemPart(call, state, protection.main)
             }
         }
     }
@@ -298,14 +295,7 @@ private fun HtmlBlockTag.editBossesPattern(
             is SimpleBossesPattern -> {
                 selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
                 selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
-                selectColor(bosses.color, combine(BOSSES, COLOR), "Bosses Color")
-                selectElement(
-                    state,
-                    "Bosses Material",
-                    combine(BOSSES, MATERIAL),
-                    state.getMaterialStorage().getAll(),
-                    bosses.material,
-                )
+                editColorItemPart(state, bosses.boss, BOSSES)
                 selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
 
                 showListWithIndex(bosses.pattern) { index, count ->
@@ -337,14 +327,7 @@ private fun HtmlBlockTag.editEdgeProtection(
                     1,
                     true,
                 )
-                selectColor(protection.color, combine(EDGE, COLOR), "Corner Color")
-                selectElement(
-                    state,
-                    "Corner Material",
-                    combine(EDGE, MATERIAL),
-                    state.getMaterialStorage().getAll(),
-                    protection.material,
-                )
+                editColorItemPart(state, protection.main, EDGE)
             }
 
             is ProtectedEdge -> {
@@ -357,14 +340,7 @@ private fun HtmlBlockTag.editEdgeProtection(
                     1,
                     true,
                 )
-                selectColor(protection.color, combine(EDGE, COLOR), "Edge Color")
-                selectElement(
-                    state,
-                    "Edge Material",
-                    combine(EDGE, MATERIAL),
-                    state.getMaterialStorage().getAll(),
-                    protection.material,
-                )
+                editColorItemPart(state, protection.main, EDGE)
             }
         }
     }
@@ -486,8 +462,7 @@ private fun parseBosses(parameters: Parameters) = when (parse(parameters, BOSSES
         parseBossesPattern(parameters),
         parse(parameters, combine(BOSSES, SHAPE), BossesShape.Circle),
         parse(parameters, combine(BOSSES, SIZE), Size.Medium),
-        parse(parameters, combine(BOSSES, COLOR), Color.Crimson),
-        parseMaterialId(parameters, combine(BOSSES, MATERIAL)),
+        parseColorItemPart(parameters, BOSSES),
     )
 
     BossesPatternType.None -> NoBosses
@@ -507,14 +482,12 @@ private fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters
     EdgeProtectionType.Corners -> ProtectedCorners(
         parse(parameters, combine(EDGE, SHAPE), CornerShape.Triangle),
         parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_CORNER_SIZE),
-        parse(parameters, combine(EDGE, COLOR), Color.Crimson),
-        parseMaterialId(parameters, combine(EDGE, MATERIAL)),
+        parseColorItemPart(parameters, EDGE),
     )
 
     EdgeProtectionType.Edge -> ProtectedEdge(
         parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_EDGE_WIDTH),
-        parse(parameters, combine(EDGE, COLOR), Color.Crimson),
-        parseMaterialId(parameters, combine(EDGE, MATERIAL)),
+        parseColorItemPart(parameters, EDGE),
     )
 }
 

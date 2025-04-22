@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.text.book
 
-import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
@@ -17,7 +17,7 @@ enum class EdgeProtectionType {
 }
 
 @Serializable
-sealed class EdgeProtection {
+sealed class EdgeProtection : MadeFromParts {
 
     fun getType() = when (this) {
         is NoEdgeProtection -> EdgeProtectionType.None
@@ -35,15 +35,21 @@ data object NoEdgeProtection : EdgeProtection()
 data class ProtectedCorners(
     val shape: CornerShape = CornerShape.Triangle,
     val size: Factor = DEFAULT_PROTECTED_CORNER_SIZE,
-    val color: Color = Color.Gray,
-    val material: MaterialId = MaterialId(0),
-) : EdgeProtection()
+    val main: ColorItemPart = ColorItemPart(),
+) : EdgeProtection() {
+
+    override fun parts() = listOf(main)
+
+}
 
 @Serializable
 @SerialName("Edge")
 data class ProtectedEdge(
     val width: Factor = DEFAULT_PROTECTED_EDGE_WIDTH,
-    val color: Color = Color.Gray,
-    val material: MaterialId = MaterialId(0),
-) : EdgeProtection()
+    val main: ColorItemPart = ColorItemPart(),
+) : EdgeProtection() {
+
+    override fun parts() = listOf(main)
+
+}
 

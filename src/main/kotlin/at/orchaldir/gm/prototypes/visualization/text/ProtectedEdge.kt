@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
@@ -26,7 +27,7 @@ fun main() {
         addNames(listOf(Color.Gray, Color.Gold)),
     ) { size, color ->
         val cover = BookCover(Color.Green, ID)
-        val protection = ProtectedEdge(fromPercentage(size), color)
+        val protection = ProtectedEdge(fromPercentage(size), ColorItemPart(color))
 
         Book(
             100,
