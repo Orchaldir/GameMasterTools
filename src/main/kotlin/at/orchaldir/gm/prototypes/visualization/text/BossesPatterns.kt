@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.BossesShape
@@ -40,7 +41,7 @@ fun main() {
             Pair("3", listOf(1)),
         ),
     ) { (shape, size), pattern ->
-        val cover = BookCover(Color.SaddleBrown, ID)
+        val cover = BookCover(FillItemPart(Color.SaddleBrown))
         val bosses = SimpleBossesPattern(pattern, shape, size, ColorItemPart(Color.Gray))
         Book(
             100,

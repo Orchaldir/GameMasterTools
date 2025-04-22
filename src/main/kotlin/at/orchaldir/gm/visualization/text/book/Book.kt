@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeBook(
@@ -35,7 +36,8 @@ private fun visualizeCover(
     state: TextRenderState,
     cover: BookCover,
 ) {
-    val options = FillAndBorder(cover.color.toRender(), state.config.line)
+    val fill = cover.main.getFill(state.state)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
     state.renderer.getLayer().renderRectangle(state.aabb, options)
 
     visualizeTypography(state, cover.typography)

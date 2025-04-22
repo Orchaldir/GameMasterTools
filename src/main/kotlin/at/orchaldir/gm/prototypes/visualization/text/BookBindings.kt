@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -22,7 +23,7 @@ fun main() {
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(BookBindingType.entries),
     ) { color, type ->
-        val cover = BookCover(color, ID)
+        val cover = BookCover(FillItemPart(color))
         Book(
             100,
             when (type) {

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.text.book
 
 import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
@@ -13,18 +14,12 @@ enum class BookBindingType {
 }
 
 @Serializable
-sealed class BookBinding {
+sealed class BookBinding : MadeFromParts {
 
     fun getType() = when (this) {
         is CopticBinding -> BookBindingType.Coptic
         is Hardcover -> BookBindingType.Hardcover
         is LeatherBinding -> BookBindingType.Leather
-    }
-
-    fun isMadeOf(material: MaterialId) = when (this) {
-        is CopticBinding -> cover.material == material
-        is Hardcover -> cover.material == material
-        is LeatherBinding -> cover.material == material || leatherMaterial == material
     }
 
     fun contains(font: FontId) = when (this) {
@@ -39,7 +34,11 @@ sealed class BookBinding {
 data class CopticBinding(
     val cover: BookCover = BookCover(),
     val sewingPattern: SewingPattern,
-) : BookBinding()
+) : BookBinding() {
+
+    override fun parts() = listOf(cover.main)
+
+}
 
 @Serializable
 @SerialName("Hardcover")
@@ -47,7 +46,11 @@ data class Hardcover(
     val cover: BookCover = BookCover(),
     val bosses: BossesPattern = NoBosses,
     val protection: EdgeProtection = NoEdgeProtection,
-) : BookBinding()
+) : BookBinding() {
+
+    override fun parts() = listOf(cover.main) + bosses.parts() + protection.parts()
+
+}
 
 @Serializable
 @SerialName("Leather")
@@ -56,4 +59,8 @@ data class LeatherBinding(
     val leatherMaterial: MaterialId = MaterialId(0),
     val type: LeatherBindingType = LeatherBindingType.Half,
     val cover: BookCover = BookCover(),
-) : BookBinding()
+) : BookBinding() {
+
+    override fun parts() = listOf(cover.main)
+
+}

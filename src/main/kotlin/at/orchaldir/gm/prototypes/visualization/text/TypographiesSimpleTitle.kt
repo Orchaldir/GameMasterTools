@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.SolidFont
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
@@ -33,7 +34,7 @@ fun main() {
             100,
             Hardcover(
                 BookCover(
-                    Color.Black,
+                    FillItemPart(Color.Black),
                     typography = SimpleTitleTypography(
                         SolidFont(fontSize, Color.Red),
                         layout,

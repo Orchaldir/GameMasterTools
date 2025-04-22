@@ -44,7 +44,11 @@ data class Book(
     val pages: Int,
     val binding: BookBinding,
     val size: Size2i = Size2i.square(fromMillimeters(100)),
-) : TextFormat()
+) : TextFormat() {
+
+    override fun parts() = binding.parts()
+
+}
 
 @Serializable
 @SerialName("Scroll")
