@@ -9,11 +9,8 @@ import at.orchaldir.gm.core.model.item.text.book.ComplexStitch
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Color.Blue
-import at.orchaldir.gm.core.model.util.Color.Green
-import at.orchaldir.gm.core.model.util.Color.Red
+import at.orchaldir.gm.core.model.util.Color.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.utils.math.Size2i.Companion.fromMillimeters
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
 import java.io.File

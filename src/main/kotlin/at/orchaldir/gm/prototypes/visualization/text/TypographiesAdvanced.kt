@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.font.FontWithBorder
 import at.orchaldir.gm.core.model.font.SolidFont
-import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.book.Hardcover

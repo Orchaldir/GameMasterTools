@@ -3,12 +3,7 @@ package at.orchaldir.gm.app.html.model.item.text
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.model.item.editColorItemPart
-import at.orchaldir.gm.app.html.model.item.editFillItemPart
-import at.orchaldir.gm.app.html.model.item.parseColorItemPart
-import at.orchaldir.gm.app.html.model.item.parseFillItemPart
-import at.orchaldir.gm.app.html.model.item.showColorItemPart
-import at.orchaldir.gm.app.html.model.item.showFillItemPart
+import at.orchaldir.gm.app.html.model.item.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
@@ -18,7 +13,6 @@ import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -90,7 +84,6 @@ private fun HtmlBlockTag.showBinding(
         }
     }
 }
-
 
 
 private fun HtmlBlockTag.showBossesPattern(
