@@ -19,18 +19,20 @@ fun visualizeText(
 ) = visualizeTextFormat(state, config, text, config.calculatePaddedSize(text.format))
 
 fun visualizeTextFormat(
+    state: State,
     config: TextRenderConfig,
     format: TextFormat,
-) = visualizeTextFormat(config, format, config.calculatePaddedSize(format))
+) = visualizeTextFormat(state, config, format, config.calculatePaddedSize(format))
 
 fun visualizeTextFormat(
+    state: State,
     config: TextRenderConfig,
     format: TextFormat,
     size: Size2d,
 ): Svg {
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
-    val state = TextRenderState(aabb, config, builder)
+    val state = TextRenderState(state, aabb, config, builder)
 
     visualizeTextFormat(state, format)
 
@@ -46,7 +48,7 @@ fun visualizeTextFormat(
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
     val data = resolveTextData(state, text)
-    val renderState = TextRenderState(aabb, config, builder, data, state.getFontStorage())
+    val renderState = TextRenderState(state, aabb, config, builder, data, state.getFontStorage())
 
     visualizeTextFormat(renderState, text.format)
 

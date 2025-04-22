@@ -1,7 +1,9 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.BossesShape
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleBossesPattern
@@ -18,6 +20,7 @@ fun main() {
 
     renderTextTable(
         "book-bosses-patterns.svg",
+        State(),
         TEXT_CONFIG,
         bookSize.toSize2d() + fromMillimeters(50),
         listOf(
@@ -37,11 +40,10 @@ fun main() {
             Pair("3", listOf(1)),
         ),
     ) { (shape, size), pattern ->
-        val cover = BookCover(Color.SaddleBrown, ID)
-        Book(
-            100,
-            Hardcover(cover, SimpleBossesPattern(pattern, shape, size)),
-            bookSize
-        )
+        val cover = FillItemPart(Color.SaddleBrown)
+        val bosses = SimpleBossesPattern(pattern, shape, size, ColorItemPart(Color.Gray))
+        val binding = Hardcover(cover, bosses = bosses)
+
+        Book(binding, size = bookSize)
     }
 }

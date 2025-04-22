@@ -1,8 +1,8 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.TypographyLayout
@@ -17,25 +17,21 @@ fun main() {
 
     renderTextTable(
         "book-typographies-simple.svg",
+        State(),
         TEXT_CONFIG,
         size.toSize2d() + fromMillimeters(50),
         addNames(TypographyLayout.entries),
         addNames(TypographyOrder.entries),
         ResolvedTextData("The Shadow over Innsmouth", "H. P. Lovecraft"),
     ) { layout, order ->
-        Book(
-            100,
-            Hardcover(
-                BookCover(
-                    typography = SimpleTypography(
-                        SolidFont(fromMillimeters(10)),
-                        SolidFont(fromMillimeters(15)),
-                        order,
-                        layout,
-                    )
-                )
-            ),
-            size,
+        val typography = SimpleTypography(
+            SolidFont(fromMillimeters(10)),
+            SolidFont(fromMillimeters(15)),
+            order,
+            layout,
         )
+        val binding = Hardcover(typography = typography)
+
+        Book(binding, size = size)
     }
 }

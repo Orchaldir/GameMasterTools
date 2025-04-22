@@ -3,14 +3,16 @@ package at.orchaldir.gm.app.html.model.item.text
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.item.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -39,6 +41,7 @@ fun HtmlBlockTag.showTextFormat(
             UndefinedTextFormat -> doNothing()
             is Book -> {
                 field("Pages", format.pages)
+                showColorItemPart(call, state, format.page, "Page")
                 showBinding(call, state, format.binding)
                 fieldSize("Size", format.size)
             }
@@ -46,8 +49,7 @@ fun HtmlBlockTag.showTextFormat(
             is Scroll -> {
                 fieldDistance("Roll Length", format.rollLength)
                 fieldDistance("Roll Diameter", format.rollDiameter)
-                field("Scroll Color", format.color)
-                fieldLink("Scroll Material", call, state, format.material)
+                showColorItemPart(call, state, format.main)
                 showScrollFormat(call, state, format.format)
             }
         }
@@ -64,36 +66,25 @@ private fun HtmlBlockTag.showBinding(
 
         when (binding) {
             is CopticBinding -> {
-                showCover(call, state, binding.cover)
-                showSewingPattern(binding.sewingPattern)
+                showFillItemPart(call, state, binding.cover, "Cover")
+                showSewingPattern(call, state, binding.sewingPattern)
             }
 
             is Hardcover -> {
-                showCover(call, state, binding.cover)
+                showFillItemPart(call, state, binding.cover, "Cover")
                 showBossesPattern(call, state, binding.bosses)
                 showEdgeProtection(call, state, binding.protection)
             }
 
             is LeatherBinding -> {
-                showCover(call, state, binding.cover)
-                field("Leather Color", binding.leatherColor)
-                fieldLink("Leather Material", call, state, binding.leatherMaterial)
-                field("Leather Binding", binding.type)
+                showFillItemPart(call, state, binding.cover, "Cover")
+                showColorItemPart(call, state, binding.leather, "Leather")
+                field("Leather Binding", binding.style)
             }
         }
     }
 }
 
-private fun HtmlBlockTag.showCover(
-    call: ApplicationCall,
-    state: State,
-    cover: BookCover,
-) {
-    showDetails("Cover") {
-        field("Color", cover.color)
-        fieldLink("Material", call, state, cover.material)
-    }
-}
 
 private fun HtmlBlockTag.showBossesPattern(
     call: ApplicationCall,
@@ -108,8 +99,7 @@ private fun HtmlBlockTag.showBossesPattern(
             is SimpleBossesPattern -> {
                 field("Shape", pattern.shape)
                 field("Size", pattern.size)
-                field("Color", pattern.color)
-                fieldLink("Material", call, state, pattern.material)
+                showColorItemPart(call, state, pattern.boss)
                 field("Pattern", pattern.pattern.toString())
             }
         }
@@ -129,26 +119,28 @@ private fun HtmlBlockTag.showEdgeProtection(
             is ProtectedCorners -> {
                 field("Corner Shape", protection.shape)
                 fieldFactor("Corner Size", protection.size)
-                field("Corner Color", protection.color)
-                fieldLink("Corner Material", call, state, protection.material)
+                showColorItemPart(call, state, protection.main)
             }
 
             is ProtectedEdge -> {
                 fieldFactor("Edge Width", protection.width)
-                field("Edge Color", protection.color)
-                fieldLink("Edge Material", call, state, protection.material)
+                showColorItemPart(call, state, protection.main)
             }
         }
     }
 }
 
-private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
+private fun HtmlBlockTag.showSewingPattern(
+    call: ApplicationCall,
+    state: State,
+    pattern: SewingPattern,
+) {
     showDetails("Sewing") {
         field("Pattern", pattern.getType())
 
         when (pattern) {
             is SimpleSewingPattern -> {
-                field("Color", pattern.color)
+                showColorItemPart(call, state, pattern.thread)
                 field("Size", pattern.size)
                 field("Distance Between Edge & Hole", pattern.length)
                 showList("Stitches", pattern.stitches) { stitch ->
@@ -158,7 +150,7 @@ private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
 
             is ComplexSewingPattern -> {
                 showList(pattern.stitches) { complex ->
-                    field("Color", complex.color)
+                    showColorItemPart(call, state, complex.thread)
                     field("Size", complex.size)
                     field("Distance Between Edge & Hole", complex.length)
                     field("Stitch", complex.stitch)
@@ -187,11 +179,10 @@ private fun HtmlBlockTag.showScrollHandle(
     state: State,
     handle: ScrollHandle,
 ) {
-    fieldLink("Handle Material", call, state, handle.material)
     showList("Handle Segments", handle.segments) { segment ->
         fieldDistance("Length", segment.length)
         fieldDistance("Diameter", segment.diameter)
-        field("Color", segment.color)
+        showColorItemPart(call, state, segment.main)
         field("Shape", segment.shape)
     }
 }
@@ -210,21 +201,15 @@ fun FORM.editTextFormat(
             UndefinedTextFormat -> doNothing()
             is Book -> {
                 selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
+                editColorItemPart(state, format.page, PAGE, "Page")
                 editBinding(state, format.binding, hasAuthor)
                 selectSize(SIZE, format.size, min, max, step, true)
             }
 
             is Scroll -> {
                 selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
-                selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
-                selectColor(format.color, COLOR, "Scroll Color")
-                selectElement(
-                    state,
-                    "Scroll Material",
-                    MATERIAL,
-                    state.getMaterialStorage().getAll(),
-                    format.material,
-                )
+                selectDistance("Roll Diameter", DIAMETER, format.rollDiameter, min, max, step, true)
+                editColorItemPart(state, format.main, SCROLL)
                 editScrollFormat(state, format.format)
             }
         }
@@ -241,32 +226,24 @@ private fun HtmlBlockTag.editBinding(
 
         when (binding) {
             is CopticBinding -> {
-                editCover(state, binding.cover, hasAuthor)
-                editSewingPattern(binding.sewingPattern)
+                editCover(state, binding.cover, binding.typography, hasAuthor)
+                editSewingPattern(state, binding.sewingPattern)
             }
 
             is Hardcover -> {
-                editCover(state, binding.cover, hasAuthor)
+                editCover(state, binding.cover, binding.typography, hasAuthor)
                 editBossesPattern(state, binding.bosses)
                 editEdgeProtection(state, binding.protection)
             }
 
             is LeatherBinding -> {
-                editCover(state, binding.cover, hasAuthor)
-                selectColor(binding.leatherColor, combine(LEATHER, BINDING, COLOR), "Leather Color")
-                selectElement(
-                    state,
-                    "Leather Material",
-                    combine(LEATHER, MATERIAL),
-                    state.getMaterialStorage().getAll(),
-                    binding.leatherMaterial,
-                    false
-                )
+                editCover(state, binding.cover, binding.typography, hasAuthor)
+                editColorItemPart(state, binding.leather, LEATHER)
                 selectValue(
                     "Leather Binding",
                     combine(LEATHER, BINDING),
-                    LeatherBindingType.entries,
-                    binding.type,
+                    LeatherBindingStyle.entries,
+                    binding.style,
                     true
                 )
             }
@@ -276,19 +253,13 @@ private fun HtmlBlockTag.editBinding(
 
 private fun HtmlBlockTag.editCover(
     state: State,
-    cover: BookCover,
+    cover: FillItemPart,
+    typography: Typography,
     hasAuthor: Boolean,
 ) {
     showDetails("Cover", true) {
-        selectColor(cover.color, combine(COVER, BINDING, COLOR), "Cover Color")
-        selectElement(
-            state,
-            "Cover Material",
-            combine(COVER, MATERIAL),
-            state.getMaterialStorage().getAll(),
-            cover.material,
-        )
-        editTypography(state, cover.typography, hasAuthor)
+        editFillItemPart(state, cover, COVER)
+        editTypography(state, typography, hasAuthor)
     }
 }
 
@@ -304,14 +275,7 @@ private fun HtmlBlockTag.editBossesPattern(
             is SimpleBossesPattern -> {
                 selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
                 selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
-                selectColor(bosses.color, combine(BOSSES, COLOR), "Bosses Color")
-                selectElement(
-                    state,
-                    "Bosses Material",
-                    combine(BOSSES, MATERIAL),
-                    state.getMaterialStorage().getAll(),
-                    bosses.material,
-                )
+                editColorItemPart(state, bosses.boss, BOSSES)
                 selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
 
                 showListWithIndex(bosses.pattern) { index, count ->
@@ -343,14 +307,7 @@ private fun HtmlBlockTag.editEdgeProtection(
                     1,
                     true,
                 )
-                selectColor(protection.color, combine(EDGE, COLOR), "Corner Color")
-                selectElement(
-                    state,
-                    "Corner Material",
-                    combine(EDGE, MATERIAL),
-                    state.getMaterialStorage().getAll(),
-                    protection.material,
-                )
+                editColorItemPart(state, protection.main, EDGE)
             }
 
             is ProtectedEdge -> {
@@ -363,26 +320,19 @@ private fun HtmlBlockTag.editEdgeProtection(
                     1,
                     true,
                 )
-                selectColor(protection.color, combine(EDGE, COLOR), "Edge Color")
-                selectElement(
-                    state,
-                    "Edge Material",
-                    combine(EDGE, MATERIAL),
-                    state.getMaterialStorage().getAll(),
-                    protection.material,
-                )
+                editColorItemPart(state, protection.main, EDGE)
             }
         }
     }
 }
 
-private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
+private fun HtmlBlockTag.editSewingPattern(state: State, pattern: SewingPattern) {
     showDetails("Sewing Pattern", true) {
         selectValue("Type", SEWING, SewingPatternType.entries, pattern.getType(), true)
 
         when (pattern) {
             is SimpleSewingPattern -> {
-                selectColor(pattern.color, combine(SEWING, COLOR))
+                editColorItemPart(state, pattern.thread, SEWING, "Thread")
                 selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
                 selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
                 editSewingPattern(pattern.stitches) { elementParam, element ->
@@ -392,7 +342,7 @@ private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
 
             is ComplexSewingPattern -> {
                 editSewingPattern(pattern.stitches) { elementParam, element ->
-                    selectColor(element.color, combine(elementParam, COLOR))
+                    editColorItemPart(state, element.thread, elementParam, "Thread")
                     selectValue("Size", combine(elementParam, SIZE), Size.entries, element.size, true)
                     selectValue(
                         "Distance Between Edge & Hole",
@@ -434,17 +384,10 @@ private fun HtmlBlockTag.editScrollHandle(
     state: State,
     handle: ScrollHandle,
 ) {
-    selectElement(
-        state,
-        "Handle Material",
-        combine(HANDLE, MATERIAL),
-        state.getMaterialStorage().getAll(),
-        handle.material,
-    )
     editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
         selectDistance("Length", combine(segmentParam, LENGTH), segment.length, min, max, step, true)
         selectDistance("Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, step, true)
-        selectColor(segment.color, combine(segmentParam, COLOR))
+        editColorItemPart(state, segment.main, segmentParam)
         selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape, true)
     }
 }
@@ -453,8 +396,9 @@ private fun HtmlBlockTag.editScrollHandle(
 
 fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
     TextFormatType.Book -> Book(
-        parseInt(parameters, PAGES, 100),
         parseBinding(parameters),
+        parseInt(parameters, PAGES, 100),
+        parseColorItemPart(parameters, PAGE),
         parseSize(parameters, SIZE),
     )
 
@@ -462,8 +406,7 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseScrollFormat(parameters),
         parseDistance(parameters, LENGTH, 200),
         parseDistance(parameters, DIAMETER, 50),
-        parse(parameters, COLOR, Color.Green),
-        parseMaterialId(parameters, MATERIAL),
+        parseColorItemPart(parameters, SCROLL),
     )
 
     TextFormatType.Undefined -> UndefinedTextFormat
@@ -471,37 +414,32 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
 
 private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDING, BookBindingType.Hardcover)) {
     BookBindingType.Coptic -> CopticBinding(
-        parseCover(parameters),
+        parseFillItemPart(parameters, COVER),
+        parseTextTypography(parameters),
         parseSewing(parameters),
     )
 
     BookBindingType.Hardcover -> Hardcover(
-        parseCover(parameters),
+        parseFillItemPart(parameters, COVER),
+        parseTextTypography(parameters),
         parseBosses(parameters),
         parseEdgeProtection(parameters),
     )
 
     BookBindingType.Leather -> LeatherBinding(
-        parse(parameters, combine(LEATHER, BINDING, COLOR), Color.SaddleBrown),
-        parseMaterialId(parameters, combine(LEATHER, MATERIAL)),
-        parse(parameters, combine(LEATHER, BINDING), LeatherBindingType.Half),
-        parseCover(parameters),
+        parse(parameters, combine(LEATHER, BINDING), LeatherBindingStyle.Half),
+        parseFillItemPart(parameters, COVER),
+        parseColorItemPart(parameters, LEATHER),
+        parseTextTypography(parameters),
     )
 }
-
-private fun parseCover(parameters: Parameters) = BookCover(
-    parse(parameters, combine(COVER, BINDING, COLOR), Color.Black),
-    parseMaterialId(parameters, combine(COVER, MATERIAL)),
-    parseTextTypography(parameters),
-)
 
 private fun parseBosses(parameters: Parameters) = when (parse(parameters, BOSSES, BossesPatternType.None)) {
     BossesPatternType.Simple -> SimpleBossesPattern(
         parseBossesPattern(parameters),
         parse(parameters, combine(BOSSES, SHAPE), BossesShape.Circle),
         parse(parameters, combine(BOSSES, SIZE), Size.Medium),
-        parse(parameters, combine(BOSSES, COLOR), Color.Crimson),
-        parseMaterialId(parameters, combine(BOSSES, MATERIAL)),
+        parseColorItemPart(parameters, BOSSES),
     )
 
     BossesPatternType.None -> NoBosses
@@ -521,20 +459,18 @@ private fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters
     EdgeProtectionType.Corners -> ProtectedCorners(
         parse(parameters, combine(EDGE, SHAPE), CornerShape.Triangle),
         parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_CORNER_SIZE),
-        parse(parameters, combine(EDGE, COLOR), Color.Crimson),
-        parseMaterialId(parameters, combine(EDGE, MATERIAL)),
+        parseColorItemPart(parameters, EDGE),
     )
 
     EdgeProtectionType.Edge -> ProtectedEdge(
         parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_EDGE_WIDTH),
-        parse(parameters, combine(EDGE, COLOR), Color.Crimson),
-        parseMaterialId(parameters, combine(EDGE, MATERIAL)),
+        parseColorItemPart(parameters, EDGE),
     )
 }
 
 private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
     SewingPatternType.Simple -> SimpleSewingPattern(
-        parse(parameters, combine(SEWING, COLOR), Color.Crimson),
+        parseColorItemPart(parameters, SEWING),
         parse(parameters, combine(SEWING, SIZE), Size.Medium),
         parse(parameters, combine(SEWING, LENGTH), Size.Medium),
         parseSimplePattern(parameters),
@@ -549,7 +485,7 @@ private fun parseSimplePattern(parameters: Parameters) = parseList(parameters, S
 
 private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { param ->
     ComplexStitch(
-        parse(parameters, combine(param, COLOR), Color.Crimson),
+        parseColorItemPart(parameters, param),
         parse(parameters, combine(param, SIZE), Size.Medium),
         parse(parameters, combine(param, LENGTH), Size.Medium),
         parse(parameters, param, StitchType.Kettle),
@@ -564,14 +500,13 @@ private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, 
 
 private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
     parseHandleSegments(parameters),
-    parseMaterialId(parameters, combine(HANDLE, MATERIAL)),
 )
 
 private fun parseHandleSegments(parameters: Parameters) = parseList(parameters, HANDLE, 1) { param ->
     HandleSegment(
         parseDistance(parameters, combine(param, LENGTH), 40),
         parseDistance(parameters, combine(param, DIAMETER), 15),
-        parse(parameters, combine(param, COLOR), Color.Black),
+        parseColorItemPart(parameters, param),
         parse(parameters, combine(param, SHAPE), HandleSegmentShape.Cylinder),
     )
 }

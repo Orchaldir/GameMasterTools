@@ -2,9 +2,7 @@ package at.orchaldir.gm.core
 
 import at.orchaldir.gm.core.model.ELEMENTS
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.utils.combine
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class DataTest {

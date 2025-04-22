@@ -21,7 +21,8 @@ private fun visualizeRoll(
     state: TextRenderState,
     scroll: Scroll,
 ) {
-    val options = FillAndBorder(scroll.color.toRender(), state.config.line)
+    val color = scroll.main.getColor(state.state)
+    val options = FillAndBorder(color.toRender(), state.config.line)
     state.renderer.getLayer().renderRectangle(state.aabb, options)
 }
 
@@ -61,7 +62,8 @@ private fun visualizeRod(
     val renderer = state.renderer.getLayer()
 
     handle.segments.forEach { segment ->
-        val options = FillAndBorder(segment.color.toRender(), state.config.line)
+        val color = segment.main.getColor(state.state)
+        val options = FillAndBorder(color.toRender(), state.config.line)
         val half = segment.length / 2
 
         val centerTop = startTop.minusHeight(half)

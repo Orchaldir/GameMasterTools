@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.text.book
 
-import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -12,7 +12,7 @@ enum class BossesPatternType {
 }
 
 @Serializable
-sealed class BossesPattern {
+sealed class BossesPattern : MadeFromParts {
 
     fun getType() = when (this) {
         is NoBosses -> BossesPatternType.None
@@ -30,7 +30,10 @@ data class SimpleBossesPattern(
     val pattern: List<Int> = listOf(2, 1, 2),
     val shape: BossesShape = BossesShape.Circle,
     val size: Size = Size.Medium,
-    val color: Color = Color.Gray,
-    val material: MaterialId = MaterialId(0),
-) : BossesPattern()
+    val boss: ColorItemPart = ColorItemPart(),
+) : BossesPattern() {
+
+    override fun parts() = listOf(boss)
+
+}
 

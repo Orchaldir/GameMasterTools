@@ -24,7 +24,7 @@ fun State.countTexts(language: LanguageId) = getTextStorage()
 
 fun State.countTexts(material: MaterialId) = getTextStorage()
     .getAll()
-    .count { it.format.isMadeOf(material) }
+    .count { it.contains(material) }
 
 fun State.countTexts(spell: SpellId) = getTextStorage()
     .getAll()
@@ -91,7 +91,7 @@ fun State.getTextsContaining(spell: SpellId) = getTextStorage()
 
 fun State.getTextsMadeOf(material: MaterialId) = getTextStorage()
     .getAll()
-    .filter { it.format.isMadeOf(material) }
+    .filter { it.contains(material) }
 
 fun State.getTranslationsOf(text: TextId) = getTextStorage()
     .getAll()

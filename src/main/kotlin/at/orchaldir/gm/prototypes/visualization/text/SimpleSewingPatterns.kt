@@ -1,7 +1,9 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.StitchType.Empty
@@ -19,6 +21,7 @@ fun main() {
 
     renderTextTable(
         "book-sewing-patterns-simple.svg",
+        State(),
         TEXT_CONFIG,
         size.toSize2d() + fromMillimeters(50),
         listOf(
@@ -38,11 +41,9 @@ fun main() {
             Pair("3", listOf(Empty, Kettle, Kettle, Empty, Empty, Empty, Empty, Kettle, Kettle, Empty)),
         ),
     ) { (sewingSize, sewingLength), pattern ->
-        val cover = BookCover(Color.SaddleBrown, ID)
-        Book(
-            100,
-            CopticBinding(cover, SimpleSewingPattern(Color.Red, sewingSize, sewingLength, pattern)),
-            size
-        )
+        val sewingPattern = SimpleSewingPattern(ColorItemPart(Color.Red), sewingSize, sewingLength, pattern)
+        val binding = CopticBinding(FillItemPart(Color.SaddleBrown), sewingPattern = sewingPattern)
+
+        Book(binding, size = size)
     }
 }

@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.text
 
 import at.orchaldir.gm.app.html.model.displayDate
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.name.SimpleName
@@ -34,7 +35,7 @@ data class Text(
     val language: LanguageId = LanguageId(0),
     val format: TextFormat = UndefinedTextFormat,
     val content: TextContent = UndefinedTextContent,
-) : Element<TextId>, Created, HasStartDate {
+) : Element<TextId>, Created, HasStartDate, MadeFromParts {
 
     override fun id() = id
     override fun name(state: State) = name.resolve(state)
@@ -53,5 +54,7 @@ data class Text(
 
     override fun creator() = origin.creator()
     override fun startDate() = date
+
+    override fun parts() = format.parts()
 
 }

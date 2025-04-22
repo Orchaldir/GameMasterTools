@@ -174,6 +174,7 @@ private fun HTML.showAllTexts(
                 th { +"Creator" }
                 th { +"Language" }
                 th { +"Format" }
+                th { +"Materials" }
                 th { +"Spells" }
             }
             texts.forEach { text ->
@@ -184,6 +185,7 @@ private fun HTML.showAllTexts(
                     td { showCreator(call, state, text.origin.creator()) }
                     td { link(call, state, text.language) }
                     tdEnum(text.format.getType())
+                    tdInlineLinks(call, state, text.materials())
                     tdSkipZero(text.content.spells().size)
                 }
             }

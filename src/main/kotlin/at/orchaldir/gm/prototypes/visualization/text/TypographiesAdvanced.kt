@@ -1,11 +1,11 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.font.FontWithBorder
 import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.TextFormat
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.AdvancedTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleStringRenderOption
@@ -43,6 +43,7 @@ fun main() {
 
     renderResolvedTextTable(
         "book-typographies-advanced.svg",
+        State(),
         TEXT_CONFIG,
         texts,
     )
@@ -102,15 +103,9 @@ private fun createTypography(
     titleOption: StringRenderOption,
     authorOption: StringRenderOption,
     data: ResolvedTextData,
-): Pair<TextFormat, ResolvedTextData> = Pair(
-    Book(
-        100,
-        Hardcover(
-            BookCover(
-                typography = AdvancedTypography(titleOption, authorOption)
-            )
-        ),
-        size,
-    ),
-    data
-)
+): Pair<TextFormat, ResolvedTextData> {
+    val binding = Hardcover(typography = AdvancedTypography(titleOption, authorOption))
+    val book = Book(binding, size = size)
+
+    return Pair(book, data)
+}

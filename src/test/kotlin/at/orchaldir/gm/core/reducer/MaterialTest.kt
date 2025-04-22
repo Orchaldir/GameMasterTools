@@ -68,7 +68,7 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material used by a book`() {
-            val book = Text(TEXT_ID_0, format = Book(100, Hardcover()))
+            val book = Text(TEXT_ID_0, format = Book(Hardcover(), 100))
             val state = State(
                 listOf(
                     Storage(book),

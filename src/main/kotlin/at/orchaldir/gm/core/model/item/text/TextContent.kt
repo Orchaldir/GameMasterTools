@@ -29,7 +29,7 @@ sealed class TextContent {
 }
 
 @Serializable
-@SerialName("AbstractText")
+@SerialName("Abstract")
 data class AbstractText(
     val pages: Int,
     val spells: Set<SpellId> = emptySet(),

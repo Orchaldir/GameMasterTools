@@ -28,25 +28,32 @@
        {
         "length": 30000,
         "diameter": 10000,
-        "color": "Gold"
+        "main": {
+         "material": 5,
+         "color": "Gold"
+        }
        },
        {
         "length": 10000,
         "diameter": 30000,
-        "color": "Gold",
+        "main": {
+         "material": 5,
+         "color": "Gold"
+        },
         "shape": "RoundedCylinder"
        }
-      ],
-      "material": 5
+      ]
      }
     },
     "rollLength": 200000,
     "rollDiameter": 50000,
-    "color": "Purple",
-    "material": 7
+    "main": {
+     "material": 7,
+     "color": "Purple"
+    }
    },
    "content": {
-    "type": "AbstractText",
+    "type": "Abstract",
     "pages": 100,
     "spells": [
      1
@@ -74,15 +81,16 @@
    "language": 5,
    "format": {
     "type": "Book",
-    "pages": 400,
     "binding": {
      "type": "Coptic",
      "cover": {
-      "color": "SaddleBrown"
      },
      "sewingPattern": {
       "type": "Simple",
-      "color": "Silver",
+      "thread": {
+       "material": 3,
+       "color": "Silver"
+      },
       "stitches": [
        "Kettle",
        "Kettle",
@@ -90,13 +98,17 @@
       ]
      }
     },
+    "pages": 400,
+    "page": {
+     "material": 8
+    },
     "size": {
      "width": 130000,
      "height": 200000
     }
    },
    "content": {
-    "type": "AbstractText",
+    "type": "Abstract",
     "pages": 400,
     "spells": [
      1
@@ -123,20 +135,30 @@
    "language": 6,
    "format": {
     "type": "Book",
-    "pages": 100,
     "binding": {
      "type": "Hardcover",
      "cover": {
-      "color": "Navy"
+      "fill": {
+       "type": "Solid",
+       "color": "Navy"
+      }
      },
      "bosses": {
       "type": "Simple",
-      "material": 4
+      "boss": {
+       "material": 9
+      }
      },
      "protection": {
       "type": "Corners",
-      "shape": "L"
+      "shape": "L",
+      "main": {
+       "material": 9
+      }
      }
+    },
+    "page": {
+     "material": 8
     },
     "size": {
      "width": 160000,
@@ -144,7 +166,7 @@
     }
    },
    "content": {
-    "type": "AbstractText",
+    "type": "Abstract",
     "pages": 100,
     "spells": [
      1
@@ -170,26 +192,35 @@
    },
    "format": {
     "type": "Book",
-    "pages": 500,
     "binding": {
      "type": "Hardcover",
      "cover": {
-      "color": "Black",
-      "typography": {
-       "type": "SimpleTitle",
-       "font": {
-        "type": "Solid",
-        "size": 20000,
-        "color": "Red"
-       }
+      "fill": {
+       "type": "Solid",
+       "color": "Black"
+      }
+     },
+     "typography": {
+      "type": "SimpleTitle",
+      "font": {
+       "type": "Solid",
+       "size": 20000,
+       "color": "Red"
       }
      },
      "protection": {
       "type": "Corners",
       "shape": "L",
       "size": 1000,
-      "color": "Red"
+      "main": {
+       "material": 9,
+       "color": "Red"
+      }
      }
+    },
+    "pages": 500,
+    "page": {
+     "material": 6
     },
     "size": {
      "width": 150000,
@@ -205,7 +236,7 @@
    },
    "language": 8,
    "content": {
-    "type": "AbstractText",
+    "type": "Abstract",
     "pages": 100,
     "spells": [
      2,

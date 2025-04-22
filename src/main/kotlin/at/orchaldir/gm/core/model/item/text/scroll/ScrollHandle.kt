@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.sumOf
 import kotlinx.serialization.Serializable
@@ -8,9 +8,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ScrollHandle(
     val segments: List<HandleSegment>,
-    val material: MaterialId = MaterialId(0),
-) {
-    constructor(segment: HandleSegment, material: MaterialId = MaterialId(0)) : this(listOf(segment), material)
+) : MadeFromParts {
+    constructor(segment: HandleSegment) : this(listOf(segment))
 
     fun calculateHandleLength() = sumOf(segments.map { it.length })
 
@@ -20,4 +19,7 @@ data class ScrollHandle(
 
     fun calculateDiameter(rollDiameter: Distance) = rollDiameter.max(calculateHandleDiameter())
 
+    override fun parts() = segments.fold(listOf<MadeFromParts>()) { sum, segment ->
+        sum + segment.parts()
+    }
 }

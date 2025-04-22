@@ -1,9 +1,11 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
-import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.book.LeatherBindingStyle
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -17,16 +19,17 @@ fun main() {
 
     renderTextTable(
         "book-leather-bindings.svg",
+        State(),
         TEXT_CONFIG,
         size.toSize2d() + fromMillimeters(50),
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
-        addNames(LeatherBindingType.entries),
+        addNames(LeatherBindingStyle.entries),
     ) { color, type ->
-        val cover = BookCover(color, ID)
+        val binding = LeatherBinding(type, FillItemPart(color), ColorItemPart(Color.SaddleBrown))
+
         Book(
-            100,
-            LeatherBinding(Color.SaddleBrown, ID, type, cover),
-            size
+            binding,
+            size = size
         )
     }
 }

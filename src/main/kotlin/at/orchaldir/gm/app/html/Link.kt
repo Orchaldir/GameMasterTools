@@ -214,6 +214,12 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
     link(call, element.id(), element.name(state))
 }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
+    call: ApplicationCall,
+    element: ELEMENT,
+    text: String,
+) = link(href(call, element.id()), text)
+
 fun <ID : Id<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     id: ID,

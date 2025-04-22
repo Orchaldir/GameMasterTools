@@ -1,7 +1,11 @@
 package at.orchaldir.gm.core.model.item.text.book
 
 import at.orchaldir.gm.core.model.font.FontId
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
+import at.orchaldir.gm.core.model.item.text.book.typography.NoTypography
+import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,7 +17,7 @@ enum class BookBindingType {
 }
 
 @Serializable
-sealed class BookBinding {
+sealed class BookBinding : MadeFromParts {
 
     fun getType() = when (this) {
         is CopticBinding -> BookBindingType.Coptic
@@ -21,39 +25,47 @@ sealed class BookBinding {
         is LeatherBinding -> BookBindingType.Leather
     }
 
-    fun isMadeOf(material: MaterialId) = when (this) {
-        is CopticBinding -> cover.material == material
-        is Hardcover -> cover.material == material
-        is LeatherBinding -> cover.material == material || leatherMaterial == material
-    }
-
     fun contains(font: FontId) = when (this) {
-        is CopticBinding -> cover.typography.contains(font)
-        is Hardcover -> cover.typography.contains(font)
-        is LeatherBinding -> cover.typography.contains(font)
+        is CopticBinding -> typography.contains(font)
+        is Hardcover -> typography.contains(font)
+        is LeatherBinding -> typography.contains(font)
     }
 }
 
 @Serializable
 @SerialName("Coptic")
 data class CopticBinding(
-    val cover: BookCover = BookCover(),
+    val cover: FillItemPart = FillItemPart(Color.Blue),
+    val typography: Typography = NoTypography,
     val sewingPattern: SewingPattern,
-) : BookBinding()
+) : BookBinding() {
+
+    override fun parts() = listOf(cover) + sewingPattern.parts()
+
+}
 
 @Serializable
 @SerialName("Hardcover")
 data class Hardcover(
-    val cover: BookCover = BookCover(),
+    val cover: FillItemPart = FillItemPart(Color.Blue),
+    val typography: Typography = NoTypography,
     val bosses: BossesPattern = NoBosses,
     val protection: EdgeProtection = NoEdgeProtection,
-) : BookBinding()
+) : BookBinding() {
+
+    override fun parts() = listOf(cover) + bosses.parts() + protection.parts()
+
+}
 
 @Serializable
 @SerialName("Leather")
 data class LeatherBinding(
-    val leatherColor: Color = Color.SaddleBrown,
-    val leatherMaterial: MaterialId = MaterialId(0),
-    val type: LeatherBindingType = LeatherBindingType.Half,
-    val cover: BookCover = BookCover(),
-) : BookBinding()
+    val style: LeatherBindingStyle = LeatherBindingStyle.Half,
+    val cover: FillItemPart = FillItemPart(Color.Blue),
+    val leather: ColorItemPart = ColorItemPart(),
+    val typography: Typography = NoTypography,
+) : BookBinding() {
+
+    override fun parts() = listOf(cover, leather)
+
+}

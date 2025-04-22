@@ -1,5 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.item.text.scroll.HandleSegmentShape.RoundedCylinder
@@ -24,6 +26,7 @@ fun main() {
 
     renderTextTable(
         "scroll-formats.svg",
+        State(),
         TEXT_CONFIG,
         Size2d(rollDiameter * 4, rollLength + fromMillimeters(200)),
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
@@ -37,7 +40,7 @@ fun main() {
             },
             rollLength,
             rollDiameter,
-            color
+            ColorItemPart(color),
         )
     }
 }
