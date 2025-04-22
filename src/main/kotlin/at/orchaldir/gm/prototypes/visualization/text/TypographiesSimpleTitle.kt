@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.SolidFont
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
@@ -29,15 +30,18 @@ fun main() {
         ),
         ResolvedTextData("The Colour Out of Space"),
     ) { layout, fontSize ->
+        val typography = SimpleTitleTypography(
+            SolidFont(fontSize, Color.Red),
+            layout,
+        )
+        val binding = Hardcover(
+            FillItemPart(Color.Black),
+            typography = typography
+        )
         Book(
             100,
-            Hardcover(
-                FillItemPart(Color.Black),
-                typography = SimpleTitleTypography(
-                    SolidFont(fontSize, Color.Red),
-                    layout,
-                )
-            ),
+            ColorItemPart(),
+            binding,
             size,
         )
     }

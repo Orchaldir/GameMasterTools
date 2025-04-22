@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.font.FontWithBorder
 import at.orchaldir.gm.core.model.font.SolidFont
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
@@ -103,13 +104,14 @@ private fun createTypography(
     titleOption: StringRenderOption,
     authorOption: StringRenderOption,
     data: ResolvedTextData,
-): Pair<TextFormat, ResolvedTextData> = Pair(
-    Book(
+): Pair<TextFormat, ResolvedTextData> {
+    val binding = Hardcover(typography = AdvancedTypography(titleOption, authorOption))
+    val book = Book(
         100,
-        Hardcover(
-            typography = AdvancedTypography(titleOption, authorOption)
-        ),
+        ColorItemPart(),
+        binding,
         size,
-    ),
-    data
-)
+    )
+
+    return Pair(book, data)
+}

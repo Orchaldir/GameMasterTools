@@ -30,6 +30,7 @@ fun main() {
 
         Book(
             100,
+            ColorItemPart(),
             when (type) {
                 BookBindingType.Coptic -> CopticBinding(cover, sewingPattern = sewingPattern)
                 BookBindingType.Hardcover -> Hardcover(cover)

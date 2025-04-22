@@ -45,6 +45,7 @@ fun main() {
 
         Book(
             100,
+            ColorItemPart(),
             CopticBinding(FillItemPart(Color.SaddleBrown), sewingPattern = sewingPattern),
             size
         )

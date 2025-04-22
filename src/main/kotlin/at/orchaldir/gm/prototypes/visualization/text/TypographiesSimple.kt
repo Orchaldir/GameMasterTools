@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.SolidFont
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTypography
@@ -24,16 +25,18 @@ fun main() {
         addNames(TypographyOrder.entries),
         ResolvedTextData("The Shadow over Innsmouth", "H. P. Lovecraft"),
     ) { layout, order ->
+        val typography = SimpleTypography(
+            SolidFont(fromMillimeters(10)),
+            SolidFont(fromMillimeters(15)),
+            order,
+            layout,
+        )
+        val binding = Hardcover(typography = typography)
+
         Book(
             100,
-            Hardcover(
-                typography = SimpleTypography(
-                    SolidFont(fromMillimeters(10)),
-                    SolidFont(fromMillimeters(15)),
-                    order,
-                    layout,
-                )
-            ),
+            ColorItemPart(),
+            binding,
             size,
         )
     }

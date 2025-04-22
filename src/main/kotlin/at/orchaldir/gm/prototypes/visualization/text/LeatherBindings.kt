@@ -28,6 +28,7 @@ fun main() {
         val binding = LeatherBinding(type, FillItemPart(color), ColorItemPart(Color.SaddleBrown))
         Book(
             100,
+            ColorItemPart(),
             binding,
             size
         )

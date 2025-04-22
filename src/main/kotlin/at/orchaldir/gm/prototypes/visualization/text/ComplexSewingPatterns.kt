@@ -28,6 +28,7 @@ fun main() {
     )
     val book = Book(
         100,
+        ColorItemPart(),
         CopticBinding(cover, sewingPattern = ComplexSewingPattern(stitches)),
         Size2i.fromMillimeters(125, 190)
     )

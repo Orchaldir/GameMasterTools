@@ -82,6 +82,9 @@
    "format": {
     "type": "Book",
     "pages": 400,
+    "page": {
+     "material": 8
+    },
     "binding": {
      "type": "Coptic",
      "cover": {
@@ -133,6 +136,9 @@
    "format": {
     "type": "Book",
     "pages": 100,
+    "page": {
+     "material": 8
+    },
     "binding": {
      "type": "Hardcover",
      "cover": {
@@ -188,6 +194,9 @@
    "format": {
     "type": "Book",
     "pages": 500,
+    "page": {
+     "material": 6
+    },
     "binding": {
      "type": "Hardcover",
      "cover": {

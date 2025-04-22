@@ -44,6 +44,7 @@ fun main() {
         val bosses = SimpleBossesPattern(pattern, shape, size, ColorItemPart(Color.Gray))
         Book(
             100,
+            ColorItemPart(),
             Hardcover(cover, bosses = bosses),
             bookSize
         )

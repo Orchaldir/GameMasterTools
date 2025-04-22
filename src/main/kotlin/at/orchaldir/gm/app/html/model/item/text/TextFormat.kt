@@ -47,6 +47,7 @@ fun HtmlBlockTag.showTextFormat(
             UndefinedTextFormat -> doNothing()
             is Book -> {
                 field("Pages", format.pages)
+                showColorItemPart(call, state, format.page, "Page")
                 showBinding(call, state, format.binding)
                 fieldSize("Size", format.size)
             }
@@ -207,6 +208,7 @@ fun FORM.editTextFormat(
             UndefinedTextFormat -> doNothing()
             is Book -> {
                 selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
+                editColorItemPart(state, format.page, PAGE, "Page")
                 editBinding(state, format.binding, hasAuthor)
                 selectSize(SIZE, format.size, min, max, step, true)
             }
@@ -402,6 +404,7 @@ private fun HtmlBlockTag.editScrollHandle(
 fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
     TextFormatType.Book -> Book(
         parseInt(parameters, PAGES, 100),
+        parseColorItemPart(parameters, PAGE),
         parseBinding(parameters),
         parseSize(parameters, SIZE),
     )

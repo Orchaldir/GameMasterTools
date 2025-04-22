@@ -30,6 +30,7 @@ fun main() {
 
         Book(
             100,
+            ColorItemPart(),
             Hardcover(FillItemPart(Color.Green), protection = protection),
             bookSize
         )

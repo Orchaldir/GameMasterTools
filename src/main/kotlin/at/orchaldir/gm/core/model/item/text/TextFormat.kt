@@ -42,11 +42,12 @@ sealed class TextFormat : MadeFromParts {
 @SerialName("Book")
 data class Book(
     val pages: Int,
+    val page: ColorItemPart = ColorItemPart(),
     val binding: BookBinding,
     val size: Size2i = Size2i.square(fromMillimeters(100)),
 ) : TextFormat() {
 
-    override fun parts() = binding.parts()
+    override fun parts() = binding.parts() + page
 
 }
 
