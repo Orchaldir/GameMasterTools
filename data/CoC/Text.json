@@ -28,22 +28,29 @@
        {
         "length": 30000,
         "diameter": 10000,
-        "color": "Gold"
+        "main": {
+         "color": "Gold",
+         "material": 5
+        }
        },
        {
         "length": 10000,
         "diameter": 30000,
-        "color": "Gold",
+        "main": {
+         "color": "Gold",
+         "material": 5
+        },
         "shape": "RoundedCylinder"
        }
-      ],
-      "material": 5
+      ]
      }
     },
     "rollLength": 200000,
     "rollDiameter": 50000,
-    "color": "Purple",
-    "material": 7
+    "main": {
+     "color": "Purple",
+     "material": 7
+    }
    },
    "content": {
     "type": "AbstractText",
