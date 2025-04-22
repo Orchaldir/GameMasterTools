@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.util.Color.Green
 import at.orchaldir.gm.core.model.util.Color.Red
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.utils.math.Size2i.Companion.fromMillimeters
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
 import java.io.File
 
@@ -26,11 +27,11 @@ fun main() {
         ComplexStitch(ColorItemPart(Green), Size.Medium, Size.Small),
         ComplexStitch(ColorItemPart(Blue), Size.Large, Size.Medium),
     )
+    val binding = CopticBinding(cover, sewingPattern = ComplexSewingPattern(stitches))
+
     val book = Book(
-        100,
-        ColorItemPart(),
-        CopticBinding(cover, sewingPattern = ComplexSewingPattern(stitches)),
-        Size2i.fromMillimeters(125, 190)
+        binding,
+        size = fromMillimeters(125, 190)
     )
 
     val svg = visualizeTextFormat(State(), TEXT_CONFIG, book)

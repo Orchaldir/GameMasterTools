@@ -33,11 +33,6 @@ fun main() {
         )
         val binding = Hardcover(typography = typography)
 
-        Book(
-            100,
-            ColorItemPart(),
-            binding,
-            size,
-        )
+        Book(binding, size = size)
     }
 }

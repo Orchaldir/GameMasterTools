@@ -403,9 +403,9 @@ private fun HtmlBlockTag.editScrollHandle(
 
 fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
     TextFormatType.Book -> Book(
+        parseBinding(parameters),
         parseInt(parameters, PAGES, 100),
         parseColorItemPart(parameters, PAGE),
-        parseBinding(parameters),
         parseSize(parameters, SIZE),
     )
 

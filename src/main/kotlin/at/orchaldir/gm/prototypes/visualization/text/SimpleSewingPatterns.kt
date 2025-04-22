@@ -42,12 +42,8 @@ fun main() {
         ),
     ) { (sewingSize, sewingLength), pattern ->
         val sewingPattern = SimpleSewingPattern(ColorItemPart(Color.Red), sewingSize, sewingLength, pattern)
+        val binding = CopticBinding(FillItemPart(Color.SaddleBrown), sewingPattern = sewingPattern)
 
-        Book(
-            100,
-            ColorItemPart(),
-            CopticBinding(FillItemPart(Color.SaddleBrown), sewingPattern = sewingPattern),
-            size
-        )
+        Book(binding, size = size)
     }
 }

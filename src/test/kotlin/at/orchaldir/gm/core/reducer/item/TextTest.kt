@@ -142,7 +142,7 @@ class TextTest {
         inner class FormatTest {
             @Test
             fun `Too few pages`() {
-                val action = UpdateText(Text(TEXT_ID_0, format = Book(2, Hardcover())))
+                val action = UpdateText(Text(TEXT_ID_0, format = Book(Hardcover(), 2)))
 
                 assertIllegalArgument("The text requires at least 10 pages!") { REDUCER.invoke(STATE, action) }
             }
@@ -151,7 +151,7 @@ class TextTest {
             fun `Too few stitches for the simple pattern`() {
                 val pattern = SimpleSewingPattern(stitches = emptyList())
                 val binding = CopticBinding(sewingPattern = pattern)
-                val action = UpdateText(Text(TEXT_ID_0, format = Book(100, binding)))
+                val action = UpdateText(Text(TEXT_ID_0, format = Book(binding, 100)))
 
                 assertIllegalArgument("The sewing pattern requires at least 2 stitches!") {
                     REDUCER.invoke(
@@ -165,7 +165,7 @@ class TextTest {
             fun `Too few stitches for the complex pattern`() {
                 val pattern = ComplexSewingPattern(stitches = emptyList())
                 val binding = CopticBinding(sewingPattern = pattern)
-                val action = UpdateText(Text(TEXT_ID_0, format = Book(100, binding)))
+                val action = UpdateText(Text(TEXT_ID_0, format = Book(binding, 100)))
 
                 assertIllegalArgument("The sewing pattern requires at least 2 stitches!") {
                     REDUCER.invoke(

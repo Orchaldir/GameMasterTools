@@ -28,12 +28,8 @@ fun main() {
         addNames(CornerShape.entries),
     ) { size, shape ->
         val protection = ProtectedCorners(shape, fromPercentage(size), ColorItemPart(Color.Silver))
+        val binding = Hardcover(FillItemPart(Color.Green), protection = protection)
 
-        Book(
-            100,
-            ColorItemPart(),
-            Hardcover(FillItemPart(Color.Green), protection = protection),
-            bookSize
-        )
+        Book(binding, size = bookSize)
     }
 }

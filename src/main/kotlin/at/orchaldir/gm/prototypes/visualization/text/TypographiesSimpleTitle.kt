@@ -38,11 +38,7 @@ fun main() {
             FillItemPart(Color.Black),
             typography = typography
         )
-        Book(
-            100,
-            ColorItemPart(),
-            binding,
-            size,
-        )
+
+        Book(binding, size = size)
     }
 }

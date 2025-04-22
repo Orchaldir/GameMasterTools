@@ -42,11 +42,8 @@ fun main() {
     ) { (shape, size), pattern ->
         val cover = FillItemPart(Color.SaddleBrown)
         val bosses = SimpleBossesPattern(pattern, shape, size, ColorItemPart(Color.Gray))
-        Book(
-            100,
-            ColorItemPart(),
-            Hardcover(cover, bosses = bosses),
-            bookSize
-        )
+        val binding = Hardcover(cover, bosses = bosses)
+
+        Book(binding, size = bookSize)
     }
 }

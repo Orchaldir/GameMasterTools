@@ -26,11 +26,10 @@ fun main() {
         addNames(LeatherBindingStyle.entries),
     ) { color, type ->
         val binding = LeatherBinding(type, FillItemPart(color), ColorItemPart(Color.SaddleBrown))
+
         Book(
-            100,
-            ColorItemPart(),
             binding,
-            size
+            size = size
         )
     }
 }

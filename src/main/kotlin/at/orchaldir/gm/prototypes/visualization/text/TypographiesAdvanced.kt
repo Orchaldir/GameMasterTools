@@ -106,12 +106,7 @@ private fun createTypography(
     data: ResolvedTextData,
 ): Pair<TextFormat, ResolvedTextData> {
     val binding = Hardcover(typography = AdvancedTypography(titleOption, authorOption))
-    val book = Book(
-        100,
-        ColorItemPart(),
-        binding,
-        size,
-    )
+    val book = Book(binding, size = size)
 
     return Pair(book, data)
 }

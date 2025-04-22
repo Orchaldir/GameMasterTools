@@ -27,12 +27,8 @@ fun main() {
         addNames(listOf(Color.Gray, Color.Gold)),
     ) { size, color ->
         val protection = ProtectedEdge(fromPercentage(size), ColorItemPart(color))
+        val binding = Hardcover(FillItemPart(Color.Green), protection = protection)
 
-        Book(
-            100,
-            ColorItemPart(),
-            Hardcover(FillItemPart(Color.Green), protection = protection),
-            bookSize
-        )
+        Book(binding, size = bookSize)
     }
 }

@@ -41,9 +41,9 @@ sealed class TextFormat : MadeFromParts {
 @Serializable
 @SerialName("Book")
 data class Book(
-    val pages: Int,
-    val page: ColorItemPart = ColorItemPart(),
     val binding: BookBinding,
+    val pages: Int = 100,
+    val page: ColorItemPart = ColorItemPart(),
     val size: Size2i = Size2i.square(fromMillimeters(100)),
 ) : TextFormat() {
 
