@@ -145,12 +145,15 @@
      "bosses": {
       "type": "Simple",
       "boss": {
-       "material": 4
+       "material": 9
       }
      },
      "protection": {
       "type": "Corners",
-      "shape": "L"
+      "shape": "L",
+      "main": {
+       "material": 9
+      }
      }
     },
     "size": {
