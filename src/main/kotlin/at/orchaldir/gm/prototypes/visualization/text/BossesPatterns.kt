@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.BossesShape
@@ -40,9 +41,10 @@ fun main() {
         ),
     ) { (shape, size), pattern ->
         val cover = BookCover(Color.SaddleBrown, ID)
+        val bosses = SimpleBossesPattern(pattern, shape, size, ColorItemPart(Color.Gray))
         Book(
             100,
-            Hardcover(cover, SimpleBossesPattern(pattern, shape, size)),
+            Hardcover(cover, bosses),
             bookSize
         )
     }

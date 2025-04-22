@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.CornerShape
@@ -27,7 +28,7 @@ fun main() {
         addNames(CornerShape.entries),
     ) { size, shape ->
         val cover = BookCover(Color.Green, ID)
-        val protection = ProtectedCorners(shape, fromPercentage(size))
+        val protection = ProtectedCorners(shape, fromPercentage(size), ColorItemPart(Color.Silver))
 
         Book(
             100,
