@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.ItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -24,13 +25,6 @@ sealed class EarringStyle : MadeFromParts {
         is HoopEarring -> EarringStyleType.Hoop
         is StudEarring -> EarringStyleType.Stud
     }
-
-    override fun parts() = when (this) {
-        is DangleEarring -> wire.parts() + top.parts() + bottom.parts()
-        is DropEarring -> wire.parts() + top.parts() + bottom.parts()
-        is HoopEarring -> wire.parts()
-        is StudEarring -> ornament.parts()
-    }
 }
 
 @Serializable
@@ -40,7 +34,11 @@ data class DangleEarring(
     val bottom: Ornament = SimpleOrnament(),
     val sizes: List<Size> = listOf(Size.Medium, Size.Large),
     val wire: ColorItemPart = ColorItemPart(Color.Gold),
-) : EarringStyle()
+) : EarringStyle() {
+
+    override fun parts() = top.parts() + bottom.parts() + wire
+
+}
 
 @Serializable
 @SerialName("Drop")
@@ -51,7 +49,11 @@ data class DropEarring(
     val top: Ornament = SimpleOrnament(),
     val bottom: Ornament = SimpleOrnament(),
     val wire: ColorItemPart = ColorItemPart(Color.Gold),
-) : EarringStyle()
+) : EarringStyle() {
+
+    override fun parts() = top.parts() + bottom.parts() + wire
+
+}
 
 @Serializable
 @SerialName("Hoop")
@@ -59,11 +61,19 @@ data class HoopEarring(
     val length: Factor,
     val thickness: Size = Size.Medium,
     val wire: ColorItemPart = ColorItemPart(Color.Gold),
-) : EarringStyle()
+) : EarringStyle() {
+
+    override fun parts() = listOf(wire)
+
+}
 
 @Serializable
 @SerialName("Stud")
 data class StudEarring(
     val ornament: Ornament = SimpleOrnament(),
     val size: Size = Size.Medium,
-) : EarringStyle()
+) : EarringStyle() {
+
+    override fun parts() = ornament.parts()
+
+}

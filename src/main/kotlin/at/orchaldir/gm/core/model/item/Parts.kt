@@ -7,11 +7,19 @@ import at.orchaldir.gm.core.model.util.Fill
 import at.orchaldir.gm.core.model.util.Solid
 import kotlinx.serialization.Serializable
 
+interface ItemPart {
+
+    fun contains(id: MaterialId): Boolean
+
+    fun materials(): Set<MaterialId>
+
+}
+
 @Serializable
 data class ColorItemPart(
     val material: MaterialId = MaterialId(0),
     val color: Color? = null,
-) : MadeFromParts {
+) : ItemPart {
 
     constructor(color: Color) : this(MaterialId(0), color)
 
@@ -32,7 +40,7 @@ data class ColorItemPart(
 data class FillItemPart(
     val material: MaterialId = MaterialId(0),
     val fill: Fill? = null,
-) : MadeFromParts {
+) : ItemPart {
 
     constructor(color: Color) : this(fill = Solid(color))
 
@@ -46,5 +54,21 @@ data class FillItemPart(
 
     override fun contains(id: MaterialId) = material == id
     override fun materials() = setOf(material)
+
+}
+
+interface MadeFromParts {
+
+    fun parts(): List<ItemPart> = emptyList()
+
+    fun contains(id: MaterialId): Boolean = parts().any { it.contains(id) }
+
+    fun materials(): Set<MaterialId> {
+        val sum: MutableSet<MaterialId> = mutableSetOf()
+
+        parts().forEach { sum.addAll(it.materials()) }
+
+        return sum
+    }
 
 }
