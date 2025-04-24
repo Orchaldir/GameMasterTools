@@ -15,10 +15,11 @@ import kotlin.test.assertEquals
 
 class PeriodicalIssueTest {
 
-    val issue0 = PeriodicalIssue(ISSUE_ID_0, PERIODICAL_ID_0, 0)
+    val issue0 = PeriodicalIssue(ISSUE_ID_0, PERIODICAL_ID_0)
     val state = State(
         listOf(
-            Storage(listOf(Periodical(PERIODICAL_ID_0), Periodical(PERIODICAL_ID_1))),
+            Storage(CALENDAR0),
+            Storage(listOf(Periodical(PERIODICAL_ID_0, date = YEAR1), Periodical(PERIODICAL_ID_1))),
             Storage(issue0),
         )
     )
@@ -57,48 +58,38 @@ class PeriodicalIssueTest {
             assertIllegalArgument("Requires unknown Periodical 99!") { REDUCER.invoke(state, action) }
         }
 
+
         @Nested
-        inner class IssueNumberTest {
+        inner class DateTest {
 
             @Test
-            fun `Must not be negative`() {
-                assertIllegalArgument("Invalid issue number -1!") {
-                    PeriodicalIssue(ISSUE_ID_0, number = -1)
-                }
-            }
-
-            @Test
-            fun `Already used by the same periodical`() {
-                val issue = PeriodicalIssue(ISSUE_ID_1, PERIODICAL_ID_0, 0)
+            fun `Issue cannot be published before the start of the periodical`() {
+                val issue = PeriodicalIssue(ISSUE_ID_0, PERIODICAL_ID_0, YEAR0)
                 val action = UpdatePeriodicalIssue(issue)
-                val newState = state.updateStorage(
-                    Storage(listOf(issue0, PeriodicalIssue(ISSUE_ID_1, PERIODICAL_ID_0, 1)))
-                )
 
-                assertIllegalArgument("The issue number 0 is already used by the periodical!") {
-                    REDUCER.invoke(newState, action)
+                assertIllegalArgument("The Issue 0 cannot be published before the start of the periodical!") {
+                    REDUCER.invoke(state, action)
                 }
             }
 
             @Test
-            fun `Can be duplicated for different periodicals`() {
-                val issue = PeriodicalIssue(ISSUE_ID_1, PERIODICAL_ID_1, 0)
-                val newState = state.updateStorage(
-                    Storage(listOf(issue0, PeriodicalIssue(ISSUE_ID_1, PERIODICAL_ID_1, 1)))
-                )
+            fun `The start date of the periodical is valid`() {
+                val issue = PeriodicalIssue(ISSUE_ID_0, PERIODICAL_ID_0, YEAR1)
 
-                assertUpdate(newState, issue)
+                assertUpdate(state, issue)
             }
 
             @Test
-            fun `Same issue can reuse its own number`() {
-                assertUpdate(state, issue0)
+            fun `Any date after the start of periodical is valid`() {
+                val issue = PeriodicalIssue(ISSUE_ID_0, PERIODICAL_ID_0, YEAR2)
+
+                assertUpdate(state, issue)
             }
         }
 
         @Test
         fun `Test Success`() {
-            val issue = PeriodicalIssue(ISSUE_ID_0, number = 2)
+            val issue = PeriodicalIssue(ISSUE_ID_0)
 
             assertUpdate(state, issue)
         }

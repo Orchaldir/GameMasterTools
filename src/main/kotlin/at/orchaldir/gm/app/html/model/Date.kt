@@ -205,8 +205,9 @@ fun HtmlBlockTag.selectDate(
     date: Date,
     param: String,
     minDate: Date? = null,
+    optionalDateTypes: Set<DateType>? = null,
 ) {
-    selectDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate)
+    selectDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate, optionalDateTypes)
 }
 
 fun HtmlBlockTag.selectDate(
@@ -215,9 +216,10 @@ fun HtmlBlockTag.selectDate(
     date: Date,
     param: String,
     minDate: Date? = null,
+    optionalDateTypes: Set<DateType>? = null,
 ) {
     field(fieldLabel) {
-        selectDate(calendar, date, param, minDate)
+        selectDate(calendar, date, param, minDate, optionalDateTypes)
     }
 }
 
@@ -226,14 +228,11 @@ private fun HtmlBlockTag.selectDate(
     date: Date,
     param: String,
     minDate: Date? = null,
+    optionalDateTypes: Set<DateType>? = null,
 ) {
     val displayDate = calendar.resolve(date)
     val dateTypeParam = combine(param, DATE)
-    val dateTypes = if (calendar.days.hasWeeks()) {
-        DateType.entries
-    } else {
-        DateType.entries - DateType.Week
-    } - DateType.DayRange
+    val dateTypes = optionalDateTypes ?: calendar.getValidDateTypes()
 
     select {
         id = dateTypeParam

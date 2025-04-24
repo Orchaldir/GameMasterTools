@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.*
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicalIssues
 import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
+import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -27,6 +28,7 @@ fun HtmlBlockTag.showPeriodical(
     state: State,
     periodical: Periodical,
 ) {
+    val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
     fieldCreator(call, state, periodical.founder, "Founder")
     showOwnership(call, state, periodical.ownership)
     fieldLink("Language", call, state, periodical.language)
@@ -37,7 +39,7 @@ fun HtmlBlockTag.showPeriodical(
     h2 { +"Usage" }
 
     showList("Issues", state.sortPeriodicalIssues(state.getPeriodicalIssues(periodical.id))) { issue ->
-        link(call, issue.id, issue.dateAsName(state))
+        link(call, issue.id, display(calendar, issue.date))
     }
 }
 

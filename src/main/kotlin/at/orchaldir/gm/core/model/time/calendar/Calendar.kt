@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.DateType
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.DisplayDay
 import at.orchaldir.gm.core.model.time.date.DisplayMonth
@@ -52,6 +53,12 @@ data class Calendar(
 
         return daysPerWeek
     }
+
+    fun getValidDateTypes() = if (days.hasWeeks()) {
+        DateType.entries
+    } else {
+        DateType.entries - DateType.Week
+    }.toSet() - DateType.DayRange
 
     // day
 

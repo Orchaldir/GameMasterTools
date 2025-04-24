@@ -73,8 +73,7 @@ enum class SortPeriodical {
 
 enum class SortPeriodicalIssue {
     Periodical,
-    Age,
-    Issue,
+    Date,
 }
 
 enum class SortPlane {

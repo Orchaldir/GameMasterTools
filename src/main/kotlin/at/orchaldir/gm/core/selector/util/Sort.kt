@@ -291,18 +291,17 @@ fun State.sortPeriodicals(
 
 // periodical issue
 
-fun State.sortPeriodicalIssues(sort: SortPeriodicalIssue = SortPeriodicalIssue.Age) =
+fun State.sortPeriodicalIssues(sort: SortPeriodicalIssue = SortPeriodicalIssue.Date) =
     sortPeriodicalIssues(getPeriodicalIssueStorage().getAll(), sort)
 
 fun State.sortPeriodicalIssues(
     issues: Collection<PeriodicalIssue>,
-    sort: SortPeriodicalIssue = SortPeriodicalIssue.Age,
+    sort: SortPeriodicalIssue = SortPeriodicalIssue.Date,
 ) = issues
     .sortedWith(
         when (sort) {
             SortPeriodicalIssue.Periodical -> compareBy { getPeriodicalStorage().getOrThrow(it.periodical).name(this) }
-            SortPeriodicalIssue.Age -> getComplexAgeComparator()
-            SortPeriodicalIssue.Issue -> compareBy { it.number }
+            SortPeriodicalIssue.Date -> getComplexAgeComparator()
         }
     )
 
