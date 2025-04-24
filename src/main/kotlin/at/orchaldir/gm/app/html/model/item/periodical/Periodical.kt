@@ -10,7 +10,9 @@ import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.periodical.*
+import at.orchaldir.gm.core.model.item.periodical.Periodical
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
+import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicalIssues
 import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
 import at.orchaldir.gm.core.selector.time.date.display
