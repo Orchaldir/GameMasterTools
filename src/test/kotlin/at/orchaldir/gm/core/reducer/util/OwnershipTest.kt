@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.town.StreetTile
@@ -20,6 +21,7 @@ private val STATE = State(
     listOf(
         Storage(CALENDAR0),
         Storage(Character(CHARACTER_ID_2, birthDate = DAY0)),
+        Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
         Storage(listOf(StreetTemplate(STREET_TYPE_ID_0), StreetTemplate(STREET_TYPE_ID_0))),
         Storage(
             Town(
@@ -31,10 +33,20 @@ private val STATE = State(
     )
 )
 private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER_ID_2))
+private val OWNED_BY_ORGANIZATION = History<Owner>(OwnedByOrganization(ORGANIZATION_ID_0))
 private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN_ID_0))
-private val CHARACTER_AS_PREVIOUS =
-    History(OwnedByTown(TOWN_ID_0), HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY1))
-private val TOWN_AS_PREVIOUS = History(OwnedByCharacter(CHARACTER_ID_2), HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1))
+private val CHARACTER_AS_PREVIOUS = History(
+    OwnedByTown(TOWN_ID_0),
+    HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY1),
+)
+private val ORGANIZATION_AS_PREVIOUS = History(
+    OwnedByCharacter(CHARACTER_ID_2),
+    HistoryEntry(OwnedByOrganization(ORGANIZATION_ID_0), DAY1),
+)
+private val TOWN_AS_PREVIOUS = History(
+    OwnedByCharacter(CHARACTER_ID_2),
+    HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1),
+)
 
 class OwnerTest {
 
@@ -42,12 +54,17 @@ class OwnerTest {
     fun `Owner is an unknown character`() {
         val state = STATE.removeStorage(CHARACTER_ID_0)
 
-        assertIllegalArgument("Cannot use an unknown character 2 as owner!") {
-            checkOwnership(
-                state,
-                OWNED_BY_CHARACTER,
-                DAY0
-            )
+        assertIllegalArgument("Cannot use an unknown Character 2 as owner!") {
+            checkOwnership(state, OWNED_BY_CHARACTER, DAY0)
+        }
+    }
+
+    @Test
+    fun `Owner is an unknown organization`() {
+        val state = STATE.removeStorage(ORGANIZATION_ID_0)
+
+        assertIllegalArgument("Cannot use an unknown Organization 0 as owner!") {
+            checkOwnership(state, OWNED_BY_ORGANIZATION, DAY0)
         }
     }
 
@@ -55,15 +72,26 @@ class OwnerTest {
     fun `Owner is an unknown town`() {
         val state = STATE.removeStorage(TOWN_ID_0)
 
-        assertIllegalArgument("Cannot use an unknown town 0 as owner!") { checkOwnership(state, OWNED_BY_TOWN, DAY0) }
+        assertIllegalArgument("Cannot use an unknown Town 0 as owner!") {
+            checkOwnership(state, OWNED_BY_TOWN, DAY0)
+        }
     }
 
     @Test
     fun `Previous owner is an unknown character`() {
         val state = STATE.removeStorage(CHARACTER_ID_0)
 
-        assertIllegalArgument("Cannot use an unknown character 2 as 1.previous owner!") {
+        assertIllegalArgument("Cannot use an unknown Character 2 as 1.previous owner!") {
             checkOwnership(state, CHARACTER_AS_PREVIOUS, DAY0)
+        }
+    }
+
+    @Test
+    fun `Previous owner is an unknown organization`() {
+        val state = STATE.removeStorage(ORGANIZATION_ID_0)
+
+        assertIllegalArgument("Cannot use an unknown Organization 0 as 1.previous owner!") {
+            checkOwnership(state, ORGANIZATION_AS_PREVIOUS, DAY0)
         }
     }
 
@@ -71,7 +99,7 @@ class OwnerTest {
     fun `Previous owner is an unknown town`() {
         val state = STATE.removeStorage(TOWN_ID_0)
 
-        assertIllegalArgument("Cannot use an unknown town 0 as 1.previous owner!") {
+        assertIllegalArgument("Cannot use an unknown Town 0 as 1.previous owner!") {
             checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
         }
     }
@@ -142,6 +170,11 @@ class OwnerTest {
     }
 
     @Test
+    fun `Successfully updated with organization as owner`() {
+        testSuccess(OWNED_BY_ORGANIZATION)
+    }
+
+    @Test
     fun `Successfully updated with town as owner`() {
         testSuccess(OWNED_BY_TOWN)
     }
@@ -149,6 +182,11 @@ class OwnerTest {
     @Test
     fun `Successfully updated with character as previous owner`() {
         testSuccess(CHARACTER_AS_PREVIOUS)
+    }
+
+    @Test
+    fun `Successfully updated with organization as previous owner`() {
+        testSuccess(ORGANIZATION_AS_PREVIOUS)
     }
 
     @Test
