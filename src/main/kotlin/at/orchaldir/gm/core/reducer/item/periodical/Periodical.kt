@@ -37,7 +37,6 @@ val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     validateFrequency(state, periodical)
     checkComplexName(state, periodical.name)
     checkDate(state, date, "Founding")
-    validateCreator(state, periodical.founder, periodical.id, date, "Founder")
     checkOwnershipWithOptionalDate(state, periodical.ownership, date)
 
     noFollowUps(state.updateStorage(state.getPeriodicalStorage().update(periodical)))

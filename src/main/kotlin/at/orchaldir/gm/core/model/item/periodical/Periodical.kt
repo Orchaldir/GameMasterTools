@@ -27,18 +27,15 @@ value class PeriodicalId(val value: Int) : Id<PeriodicalId> {
 data class Periodical(
     val id: PeriodicalId,
     val name: ComplexName = SimpleName("Periodical ${id.value}"),
-    val founder: Creator = UndefinedCreator,
     val ownership: History<Owner> = History(UndefinedOwner),
     val language: LanguageId = LanguageId(0),
     val calendar: CalendarId = CalendarId(0),
     val date: Date? = null,
     val frequency: PublicationFrequency = PublicationFrequency.Daily,
-) : Element<PeriodicalId>, Created, HasOwner, HasStartDate {
+) : Element<PeriodicalId>, HasOwner, HasStartDate {
 
     override fun id() = id
     override fun name(state: State) = name.resolve(state)
-
-    override fun creator() = founder
     override fun owner() = ownership
     override fun startDate() = date
 

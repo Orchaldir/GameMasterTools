@@ -12,10 +12,6 @@
     "prefix": null,
     "postfix": "Gazette"
    },
-   "founder": {
-    "type": "Business",
-    "business": 2
-   },
    "ownership": {
     "current": {
      "type": "Character",

@@ -87,10 +87,6 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
         link(call, state, organization)
     }
 
-    showList("Periodicals", getCreatedBy(state.getPeriodicalStorage(), id)) { periodical ->
-        link(call, state, periodical)
-    }
-
     showList("Planes", getCreatedBy(state.getPlaneStorage(), id)) { plane ->
         link(call, state, plane)
     }

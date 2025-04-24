@@ -31,7 +31,6 @@ fun HtmlBlockTag.showPeriodical(
     periodical: Periodical,
 ) {
     val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
-    fieldCreator(call, state, periodical.founder, "Founder")
     showOwnership(call, state, periodical.ownership)
     fieldLink("Language", call, state, periodical.language)
     fieldLink("Calendar", call, state, periodical.calendar)
@@ -56,7 +55,6 @@ fun FORM.editPeriodical(
     val frequencies = getValidPublicationFrequencies(calendar)
 
     selectComplexName(state, periodical.name)
-    selectCreator(state, periodical.founder, periodical.id, date, "Founder")
     selectOwnership(state, periodical.ownership, date)
     selectElement(state, "Language", LANGUAGE, state.getLanguageStorage().getAll(), periodical.language)
     selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), periodical.calendar, true)
@@ -78,7 +76,6 @@ fun parsePeriodical(parameters: Parameters, state: State, id: PeriodicalId): Per
     return Periodical(
         id,
         parseComplexName(parameters),
-        parseCreator(parameters),
         parseOwnership(parameters, state, startDate),
         parseLanguageId(parameters, LANGUAGE),
         calendarId,

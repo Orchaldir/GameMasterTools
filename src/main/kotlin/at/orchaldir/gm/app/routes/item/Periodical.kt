@@ -158,7 +158,6 @@ private fun HTML.showAllPeriodicals(
             tr {
                 th { +"Name" }
                 th { +"Start" }
-                th { +"Founder" }
                 th { +"Owner" }
                 th { +"Language" }
                 th { +"Frequency" }
@@ -168,7 +167,6 @@ private fun HTML.showAllPeriodicals(
                 tr {
                     td { link(call, state, periodical) }
                     td { showOptionalDate(call, state, periodical.calendar, periodical.startDate()) }
-                    td { showCreator(call, state, periodical.founder, false) }
                     td { showOwner(call, state, periodical.ownership.current, false) }
                     td { link(call, state, periodical.language) }
                     tdEnum(periodical.frequency)
@@ -177,7 +175,6 @@ private fun HTML.showAllPeriodicals(
             }
         }
         showPeriodicalOwnershipCount(call, state, periodicals)
-        showCreatorCount(call, state, periodicals, "Founders")
         showPublicationFrequencies(periodicals)
         action(createLink, "Add")
         back("/")
