@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
@@ -14,41 +15,52 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Test
 
-private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0))
-private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1))
-
-private val STATE = State(
-    listOf(
-        Storage(CALENDAR0),
-        Storage(Character(CHARACTER_ID_2, birthDate = DAY0)),
-        Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
-        Storage(listOf(StreetTemplate(STREET_TYPE_ID_0), StreetTemplate(STREET_TYPE_ID_0))),
-        Storage(
-            Town(
-                TOWN_ID_0,
-                foundingDate = DAY0,
-                map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1))
-            )
-        ),
-    )
-)
-private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER_ID_2))
-private val OWNED_BY_ORGANIZATION = History<Owner>(OwnedByOrganization(ORGANIZATION_ID_0))
-private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN_ID_0))
-private val CHARACTER_AS_PREVIOUS = History(
-    OwnedByTown(TOWN_ID_0),
-    HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY1),
-)
-private val ORGANIZATION_AS_PREVIOUS = History(
-    OwnedByCharacter(CHARACTER_ID_2),
-    HistoryEntry(OwnedByOrganization(ORGANIZATION_ID_0), DAY1),
-)
-private val TOWN_AS_PREVIOUS = History(
-    OwnedByCharacter(CHARACTER_ID_2),
-    HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1),
-)
-
 class OwnerTest {
+
+    private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0))
+    private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1))
+
+    private val STATE = State(
+        listOf(
+            Storage(CALENDAR0),
+            Storage(Business(BUSINESS_ID_0, startDate = DAY0)),
+            Storage(Character(CHARACTER_ID_2, birthDate = DAY0)),
+            Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
+            Storage(listOf(StreetTemplate(STREET_TYPE_ID_0), StreetTemplate(STREET_TYPE_ID_0))),
+            Storage(
+                Town(
+                    TOWN_ID_0,
+                    foundingDate = DAY0,
+                    map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1))
+                )
+            ),
+        )
+    )
+    private val OWNED_BY_BUSINESS = History<Owner>(OwnedByBusiness(BUSINESS_ID_0))
+    private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER_ID_2))
+    private val OWNED_BY_ORGANIZATION = History<Owner>(OwnedByOrganization(ORGANIZATION_ID_0))
+    private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN_ID_0))
+    private val CHARACTER_AS_PREVIOUS = History(
+        OwnedByTown(TOWN_ID_0),
+        HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY1),
+    )
+    private val ORGANIZATION_AS_PREVIOUS = History(
+        OwnedByCharacter(CHARACTER_ID_2),
+        HistoryEntry(OwnedByOrganization(ORGANIZATION_ID_0), DAY1),
+    )
+    private val TOWN_AS_PREVIOUS = History(
+        OwnedByCharacter(CHARACTER_ID_2),
+        HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1),
+    )
+
+    @Test
+    fun `Owner is an unknown business`() {
+        val state = STATE.removeStorage(BUSINESS_ID_0)
+
+        assertIllegalArgument("Cannot use an unknown Business 0 as owner!") {
+            checkOwnership(state, OWNED_BY_BUSINESS, DAY0)
+        }
+    }
 
     @Test
     fun `Owner is an unknown character`() {
@@ -162,6 +174,11 @@ class OwnerTest {
         assertIllegalArgument("The 2.previous owner didn't exist at the start of their ownership!") {
             checkOwnership(state, ownership, DAY0)
         }
+    }
+
+    @Test
+    fun `Successfully updated with business as owner`() {
+        testSuccess(OWNED_BY_BUSINESS)
     }
 
     @Test
