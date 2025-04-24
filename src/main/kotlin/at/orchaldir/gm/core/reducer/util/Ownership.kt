@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.NoOwner
+import at.orchaldir.gm.core.model.util.OwnedByBusiness
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByOrganization
 import at.orchaldir.gm.core.model.util.OwnedByTown
@@ -44,6 +45,7 @@ private fun checkOwner(
 ) {
     val element = when (owner) {
         NoOwner, UndefinedOwner -> return
+        is OwnedByBusiness -> checkOwner(state.getBusinessStorage(), owner.business, noun)
         is OwnedByCharacter -> checkOwner(state.getCharacterStorage(), owner.character, noun)
         is OwnedByOrganization -> checkOwner(state.getOrganizationStorage(), owner.organization, noun)
         is OwnedByTown -> checkOwner(state.getTownStorage(), owner.town, noun)
@@ -60,6 +62,7 @@ private fun checkOwner(
 ) {
     when (owner) {
         NoOwner, UndefinedOwner -> doNothing()
+        is OwnedByBusiness -> checkOwner(state.getBusinessStorage(), owner.business, noun)
         is OwnedByCharacter -> checkOwner(state.getCharacterStorage(), owner.character, noun)
         is OwnedByOrganization -> checkOwner(state.getOrganizationStorage(), owner.organization, noun)
         is OwnedByTown -> checkOwner(state.getTownStorage(), owner.town, noun)
