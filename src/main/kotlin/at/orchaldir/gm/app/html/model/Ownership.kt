@@ -40,8 +40,14 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     val previousBuildings = getPreviouslyOwned(state.getBuildingStorage(), owner)
     val businesses = getOwned(state.getBusinessStorage(), owner)
     val previousBusinesses = getPreviouslyOwned(state.getBusinessStorage(), owner)
+    val periodicals = getOwned(state.getPeriodicalStorage(), owner)
+    val previousPeriodicals = getPreviouslyOwned(state.getPeriodicalStorage(), owner)
 
-    if (!alwaysShowTitle && buildings.isEmpty() && previousBuildings.isEmpty() && businesses.isEmpty() && previousBusinesses.isEmpty()) {
+    if (!alwaysShowTitle &&
+        buildings.isEmpty() && previousBuildings.isEmpty() &&
+        businesses.isEmpty() && previousBusinesses.isEmpty() &&
+        periodicals.isEmpty() && previousPeriodicals.isEmpty()
+    ) {
         return
     }
 
@@ -61,6 +67,14 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
 
     showList("Previously owned Businesses", previousBusinesses) { business ->
         link(call, state, business)
+    }
+
+    showList("Owned Periodicals", periodicals) { periodical ->
+        link(call, state, periodical)
+    }
+
+    showList("Previously owned Periodicals", previousPeriodicals) { periodical ->
+        link(call, state, periodical)
     }
 }
 
