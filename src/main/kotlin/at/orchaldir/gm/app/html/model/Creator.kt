@@ -67,6 +67,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
     h2 { +"Created" }
 
+    showList("Articles", getCreatedBy(state.getArticleStorage(), id)) { article ->
+        link(call, state, article)
+    }
+
     showList("Buildings", getCreatedBy(state.getBuildingStorage(), id)) { building ->
         link(call, state, building)
     }
@@ -81,10 +85,6 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
     showList("Organizations", getCreatedBy(state.getOrganizationStorage(), id)) { organization ->
         link(call, state, organization)
-    }
-
-    showList("Periodicals", getCreatedBy(state.getPeriodicalStorage(), id)) { periodical ->
-        link(call, state, periodical)
     }
 
     showList("Planes", getCreatedBy(state.getPlaneStorage(), id)) { plane ->

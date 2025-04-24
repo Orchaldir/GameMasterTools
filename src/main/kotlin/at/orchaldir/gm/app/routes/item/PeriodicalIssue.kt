@@ -33,7 +33,7 @@ private val logger = KotlinLogging.logger {}
 class PeriodicalIssueRoutes {
     @Resource("all")
     class All(
-        val sort: SortPeriodicalIssue = SortPeriodicalIssue.Age,
+        val sort: SortPeriodicalIssue = SortPeriodicalIssue.Date,
         val parent: PeriodicalIssueRoutes = PeriodicalIssueRoutes(),
     )
 
@@ -140,30 +140,25 @@ private fun HTML.showAllPeriodicalIssues(
 ) {
     val periodicals = state.sortPeriodicalIssues(sort)
     val createLink = call.application.href(PeriodicalIssueRoutes.New())
-    val sortAgeLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Age))
+    val sortDateLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Date))
     val sortPeriodicalLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Periodical))
-    val sortIssueLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Issue))
 
     simpleHtml("Periodical Issues") {
         field("Count", periodicals.size)
         field("Sort") {
-            link(sortAgeLink, "Age")
+            link(sortDateLink, "Age")
             +" "
             link(sortPeriodicalLink, "Periodical")
-            +" "
-            link(sortIssueLink, "Issue")
         }
         table {
             tr {
                 th { +"Date" }
                 th { +"Periodical" }
-                th { +"Issue" }
             }
             periodicals.forEach { issue ->
                 tr {
                     td { link(call, issue.id, issue.dateAsName(state)) }
                     td { link(call, state, issue.periodical) }
-                    td { +issue.number.toString() }
                 }
             }
         }

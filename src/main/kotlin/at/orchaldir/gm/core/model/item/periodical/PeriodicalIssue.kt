@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.periodical
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.HasComplexStartDate
 import at.orchaldir.gm.core.selector.time.date.convertDateToDefault
 import at.orchaldir.gm.core.selector.time.date.display
@@ -25,12 +26,9 @@ value class PeriodicalIssueId(val value: Int) : Id<PeriodicalIssueId> {
 data class PeriodicalIssue(
     val id: PeriodicalIssueId,
     val periodical: PeriodicalId = PeriodicalId(0),
-    val number: Int = 0,
+    val date: Date = Year(0),
+    val articles: Set<ArticleId> = emptySet(),
 ) : Element<PeriodicalIssueId>, HasComplexStartDate {
-
-    init {
-        require(number >= 0) { "Invalid issue number $number!" }
-    }
 
     override fun id() = id
 
@@ -48,23 +46,15 @@ data class PeriodicalIssue(
 
     private fun dateAsName(state: State, periodical: Periodical): String {
         val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
-        val date = periodical
-            .frequency
-            .getDateOfIssue(number)
 
         return display(calendar, date)
     }
 
-    fun getDate(state: State) = state.getPeriodicalStorage()
-        .getOrThrow(periodical)
-        .frequency
-        .getDateOfIssue(number)
-
-    override fun startDate(state: State): Date {
+    override fun startDate(state: State): Date? {
         val periodical = state.getPeriodicalStorage().getOrThrow(periodical)
         val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
 
-        return state.convertDateToDefault(calendar, periodical.frequency.getStartDate())
+        return periodical.startDate()?.let { state.convertDateToDefault(calendar, it) }
     }
 
 }

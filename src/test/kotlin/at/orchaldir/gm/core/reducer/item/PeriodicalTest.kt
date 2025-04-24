@@ -5,10 +5,9 @@ import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.item.periodical.DailyPublication
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
-import at.orchaldir.gm.core.model.item.periodical.WeeklyPublication
+import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.name.NameWithReference
 import at.orchaldir.gm.core.model.name.ReferencedFullName
@@ -87,20 +86,12 @@ class PeriodicalTest {
             val ownership: History<Owner> = History(OwnedByCharacter(UNKNOWN_CHARACTER_ID))
             val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, ownership = ownership))
 
-            assertIllegalArgument("Cannot use an unknown character 99 as owner!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
-        fun `Founder is an unknown character`() {
-            val action =
-                UpdatePeriodical(Periodical(PERIODICAL_ID_0, founder = CreatedByCharacter(UNKNOWN_CHARACTER_ID)))
-
-            assertIllegalArgument("Cannot use an unknown character 99 as Founder!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot use an unknown Character 99 as owner!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Date is in the future`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, frequency = DailyPublication(FUTURE_DAY_0)))
+            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, date = FUTURE_DAY_0))
 
             assertIllegalArgument("Date (Founding) is in the future!") { REDUCER.invoke(STATE, action) }
         }
@@ -114,7 +105,7 @@ class PeriodicalTest {
 
         @Test
         fun `The calendar doesn't support weeks`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, frequency = WeeklyPublication()))
+            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, frequency = PublicationFrequency.Weekly))
 
             assertIllegalArgument("The Calendar 0 doesn't support Weekly!") { REDUCER.invoke(STATE, action) }
         }

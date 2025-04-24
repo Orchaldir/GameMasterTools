@@ -12,21 +12,15 @@
     "prefix": null,
     "postfix": "Gazette"
    },
-   "founder": {
-    "type": "Business",
-    "business": 2
-   },
    "ownership": {
     "current": {
-     "type": "Character",
-     "character": 8
+     "type": "Business",
+     "business": 2
     }
    },
-   "frequency": {
-    "type": "Daily",
-    "start": {
-     "day": 696513
-    }
+   "date": {
+    "type": "Decade",
+    "decade": 190
    }
   }
  }

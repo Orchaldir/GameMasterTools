@@ -1,5 +1,15 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "date": {
+    "type": "Year",
+    "year": 1910
+   },
+   "articles": [
+    0
+   ]
+  }
  }
 }

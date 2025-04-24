@@ -287,7 +287,7 @@ class BuildingTest {
         fun `Owner is an unknown character`() {
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
-            assertIllegalArgument("Cannot use an unknown character 0 as owner!") { REDUCER.invoke(state, ACTION) }
+            assertIllegalArgument("Cannot use an unknown Character 0 as owner!") { REDUCER.invoke(state, ACTION) }
         }
 
         @Test

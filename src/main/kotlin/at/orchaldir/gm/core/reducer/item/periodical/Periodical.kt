@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
-import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
 import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
 import at.orchaldir.gm.utils.redux.Reducer
@@ -29,7 +28,7 @@ val DELETE_PERIODICAL: Reducer<DeletePeriodical, State> = { state, action ->
 
 val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     val periodical = action.periodical
-    val date = periodical.startDate(state)
+    val date = periodical.date
 
     state.getPeriodicalStorage().require(periodical.id)
     state.getCalendarStorage().require(periodical.calendar)
@@ -37,14 +36,13 @@ val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     validateFrequency(state, periodical)
     checkComplexName(state, periodical.name)
     checkDate(state, date, "Founding")
-    validateCreator(state, periodical.founder, periodical.id, date, "Founder")
     checkOwnershipWithOptionalDate(state, periodical.ownership, date)
 
     noFollowUps(state.updateStorage(state.getPeriodicalStorage().update(periodical)))
 }
 
 private fun validateFrequency(state: State, periodical: Periodical) {
-    val type = periodical.frequency.getType()
+    val type = periodical.frequency
 
     require(state.getValidPublicationFrequencies(periodical.calendar).contains(type)) {
         "The Calendar ${periodical.calendar.value} doesn't support $type!"

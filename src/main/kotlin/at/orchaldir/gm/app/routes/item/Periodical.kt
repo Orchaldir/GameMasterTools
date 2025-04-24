@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.item.periodical.editPeriodical
 import at.orchaldir.gm.app.html.model.item.periodical.parsePeriodical
 import at.orchaldir.gm.app.html.model.item.periodical.showPeriodical
-import at.orchaldir.gm.app.html.model.showCreator
 import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.action.CreatePeriodical
@@ -158,7 +157,6 @@ private fun HTML.showAllPeriodicals(
             tr {
                 th { +"Name" }
                 th { +"Start" }
-                th { +"Founder" }
                 th { +"Owner" }
                 th { +"Language" }
                 th { +"Frequency" }
@@ -167,17 +165,15 @@ private fun HTML.showAllPeriodicals(
             periodicals.forEach { periodical ->
                 tr {
                     td { link(call, state, periodical) }
-                    td { showOptionalDate(call, state, periodical.calendar, periodical.frequency.getStartDate()) }
-                    td { showCreator(call, state, periodical.founder, false) }
+                    td { showOptionalDate(call, state, periodical.calendar, periodical.startDate()) }
                     td { showOwner(call, state, periodical.ownership.current, false) }
                     td { link(call, state, periodical.language) }
-                    tdEnum(periodical.frequency.getType())
+                    tdEnum(periodical.frequency)
                     tdSkipZero(state.countPeriodicalIssues(periodical.id))
                 }
             }
         }
         showPeriodicalOwnershipCount(call, state, periodicals)
-        showCreatorCount(call, state, periodicals, "Founders")
         showPublicationFrequencies(periodicals)
         action(createLink, "Add")
         back("/")

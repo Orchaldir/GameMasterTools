@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.item.periodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
-import at.orchaldir.gm.core.model.item.periodical.PublicationFrequencyType
+import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -19,7 +19,7 @@ fun State.countPeriodicals(language: LanguageId) = getPeriodicalStorage()
     .count { b -> b.language == language }
 
 fun countPublicationFrequencies(collection: Collection<Periodical>) = collection
-    .groupingBy { it.frequency.getType() }
+    .groupingBy { it.frequency }
     .eachCount()
 
 fun State.getPeriodicals(calendar: CalendarId) = getPeriodicalStorage()
@@ -32,7 +32,7 @@ fun State.getPeriodicals(language: LanguageId) = getPeriodicalStorage()
 
 fun State.getValidPublicationFrequencies(
     calendarId: CalendarId,
-): List<PublicationFrequencyType> {
+): List<PublicationFrequency> {
     val calendar = getCalendarStorage().getOrThrow(calendarId)
 
     return getValidPublicationFrequencies(calendar)
@@ -41,7 +41,7 @@ fun State.getValidPublicationFrequencies(
 fun getValidPublicationFrequencies(
     calendar: Calendar,
 ) = if (calendar.days.hasWeeks()) {
-    PublicationFrequencyType.entries
+    PublicationFrequency.entries
 } else {
-    PublicationFrequencyType.entries - PublicationFrequencyType.Weekly
+    PublicationFrequency.entries - PublicationFrequency.Weekly
 }

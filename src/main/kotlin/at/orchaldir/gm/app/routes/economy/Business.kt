@@ -204,6 +204,7 @@ private fun HTML.showBusinessDetails(
             link(call, state, character)
         }
         showCreated(call, state, business.id)
+        showOwnedElements(call, state, business.id, true)
 
         action(editLink, "Edit")
         if (state.canDelete(business.id)) {

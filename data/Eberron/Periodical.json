@@ -8,9 +8,7 @@
     "name": "Korranberg Chronicle"
    },
    "language": 1,
-   "frequency": {
-    "type": "Weekly"
-   }
+   "frequency": "Weekly"
   },
   "1": {
    "id": 1,

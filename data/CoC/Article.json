@@ -1,5 +1,14 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "title": "Last of graduating class dies",
+   "author": 8,
+   "date": {
+    "type": "Year",
+    "year": 1910
+   }
+  }
  }
 }

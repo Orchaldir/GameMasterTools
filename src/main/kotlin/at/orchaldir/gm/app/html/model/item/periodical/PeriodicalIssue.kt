@@ -1,14 +1,18 @@
 package at.orchaldir.gm.app.html.model.item.periodical
 
+import at.orchaldir.gm.app.CONTENT
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.PERIODICAL
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldLink
-import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.field
+import at.orchaldir.gm.app.html.model.parseDate
+import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.periodical.*
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
+import at.orchaldir.gm.core.selector.util.getExistingElements
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -23,8 +27,10 @@ fun HtmlBlockTag.showPeriodicalIssue(
 ) {
     val periodical = state.getPeriodicalStorage().getOrThrow(issue.periodical)
     fieldLink("Periodical", call, state, issue.periodical)
-    field("Issue Number", issue.number)
-    field(call, state, periodical.calendar, "Publication Date", issue.getDate(state))
+    field(call, state, periodical.calendar, "Publication Date", issue.date)
+    showList("Articles", issue.articles) { article ->
+        link(call, state, article)
+    }
 }
 
 // edit
@@ -35,6 +41,8 @@ fun FORM.editPeriodicalIssue(
 ) {
     selectElement(state, "Periodical", PERIODICAL, state.getPeriodicalStorage().getAll(), issue.periodical, true)
     selectIssueNumber(state, issue)
+    val possibleArticle = state.getExistingElements(state.getArticleStorage().getAll(), issue.date)
+    selectElements(state, "Articles", CONTENT, possibleArticle, issue.articles)
 }
 
 private fun FORM.selectIssueNumber(
@@ -43,40 +51,16 @@ private fun FORM.selectIssueNumber(
 ) {
     val periodical = state.getPeriodicalStorage().getOrThrow(issue.periodical)
     val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
+    val dateTypes = periodical.frequency.getValidDateTypes(calendar)
 
-    when (val frequency = periodical.frequency) {
-        is DailyPublication -> selectDay(
-            "Publication Date",
-            calendar,
-            frequency.start + issue.number,
-            DATE,
-            frequency.start,
-        )
-
-        is WeeklyPublication -> selectWeek(
-            "Publication Date",
-            calendar,
-            frequency.start + issue.number,
-            DATE,
-            frequency.start,
-        )
-
-        is MonthlyPublication -> selectMonth(
-            "Publication Date",
-            calendar,
-            frequency.start + issue.number,
-            DATE,
-            frequency.start,
-        )
-
-        is YearlyPublication -> selectYear(
-            "Publication Date",
-            calendar,
-            frequency.start + issue.number,
-            DATE,
-            frequency.start,
-        )
-    }
+    selectDate(
+        calendar,
+        "Publication Date",
+        issue.date,
+        DATE,
+        periodical.date,
+        dateTypes,
+    )
 }
 
 // parse
@@ -87,22 +71,13 @@ fun parsePeriodicalIssueId(parameters: Parameters, param: String) = PeriodicalIs
 
 fun parsePeriodicalIssue(parameters: Parameters, state: State, id: PeriodicalIssueId): PeriodicalIssue {
     val periodicalId = parsePeriodicalId(parameters, PERIODICAL)
+    val periodical = state.getPeriodicalStorage().getOrThrow(periodicalId)
+    val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
 
     return PeriodicalIssue(
         id,
         periodicalId,
-        parseIssueNumber(parameters, state, periodicalId),
+        parseDate(parameters, calendar, DATE),
+        parseElements(parameters, CONTENT) { parseArticleId(it) },
     )
-}
-
-fun parseIssueNumber(parameters: Parameters, state: State, id: PeriodicalId): Int {
-    val periodical = state.getPeriodicalStorage().getOrThrow(id)
-    val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
-
-    return when (val frequency = periodical.frequency) {
-        is DailyPublication -> parseDay(parameters, calendar, DATE).day - frequency.start.day
-        is WeeklyPublication -> parseWeek(parameters, calendar, DATE).week - frequency.start.week
-        is MonthlyPublication -> parseMonth(parameters, calendar, DATE).month - frequency.start.month
-        is YearlyPublication -> parseYear(parameters, calendar, DATE).year - frequency.start.year
-    }
 }
