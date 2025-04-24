@@ -4,21 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.fieldAge
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.model.fieldCreator
-import at.orchaldir.gm.app.html.model.fieldReferenceByName
-import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.model.parseComplexName
-import at.orchaldir.gm.app.html.model.parseCreator
-import at.orchaldir.gm.app.html.model.parseOptionalDate
-import at.orchaldir.gm.app.html.model.parseOwnership
-import at.orchaldir.gm.app.html.model.selectComplexName
-import at.orchaldir.gm.app.html.model.selectCreator
-import at.orchaldir.gm.app.html.model.selectOptionalDate
-import at.orchaldir.gm.app.html.model.selectOwnership
-import at.orchaldir.gm.app.html.model.showCreated
-import at.orchaldir.gm.app.html.model.showEmployees
-import at.orchaldir.gm.app.html.model.showOwnedElements
-import at.orchaldir.gm.app.html.model.showOwnership
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
@@ -29,7 +15,7 @@ import at.orchaldir.gm.core.selector.getPreviousEmployees
 import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
 import at.orchaldir.gm.core.selector.world.getBuilding
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
