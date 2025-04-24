@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -23,6 +24,7 @@ val DELETE_ORGANIZATION: Reducer<DeleteOrganization, State> = { state, action ->
     state.getOrganizationStorage().require(action.id)
 
     checkIfCreatorCanBeDeleted(state, action.id, "organization")
+    checkIfOwnerCanBeDeleted(state, action.id)
 
     noFollowUps(state.updateStorage(state.getOrganizationStorage().remove(action.id)))
 }

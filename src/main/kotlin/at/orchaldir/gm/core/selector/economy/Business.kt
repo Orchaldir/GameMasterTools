@@ -37,12 +37,6 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
 
 fun State.getOpenBusinesses(date: Date?) = getExistingElements(getBusinessStorage().getAll(), date)
 
-// owner
-
-fun <ID : Id<ID>> State.getPreviouslyOwnedBusinesses(id: ID) = getBusinessStorage()
-    .getAll()
-    .filter { it.ownership.wasOwnedBy(id) }
-
 // founder
 
 fun <ID : Id<ID>> State.getBusinessesFoundedBy(id: ID) = getBusinessStorage().getAll()
