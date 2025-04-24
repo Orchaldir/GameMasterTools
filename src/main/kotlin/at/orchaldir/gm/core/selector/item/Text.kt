@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
@@ -95,3 +96,7 @@ fun State.getTextsMadeOf(material: MaterialId) = getTextStorage()
 fun State.getTranslationsOf(text: TextId) = getTextStorage()
     .getAll()
     .filter { b -> b.origin.isTranslationOf(text) }
+
+fun State.getTextsPublishedBy(publisher: BusinessId) = getTextStorage()
+    .getAll()
+    .filter { it.publisher == publisher }

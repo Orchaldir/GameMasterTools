@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.util.SortBusiness
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
+import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
 import at.orchaldir.gm.core.selector.util.sortBusinesses
 import at.orchaldir.gm.core.selector.world.getBuilding
 import io.ktor.http.*
@@ -191,6 +192,7 @@ private fun HTML.showBusinessDetails(
     val editLink = call.application.href(BusinessRoutes.Edit(business.id))
     val employees = state.getEmployees(business.id).toSet()
     val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
+    val published = state.getTextsPublishedBy(business.id)
 
     simpleHtml("Business: ${business.name(state)}") {
         fieldReferenceByName(call, state, business.name)
@@ -203,7 +205,12 @@ private fun HTML.showBusinessDetails(
         showList("Previous Employees", previousEmployees) { character ->
             link(call, state, character)
         }
-        showCreated(call, state, business.id)
+        showCreated(call, state, business.id, true)
+
+        showList("Published Texts", published) { text ->
+            link(call, state, text)
+        }
+
         showOwnedElements(call, state, business.id, true)
 
         action(editLink, "Edit")

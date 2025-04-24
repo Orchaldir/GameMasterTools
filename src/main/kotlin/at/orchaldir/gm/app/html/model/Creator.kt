@@ -60,8 +60,9 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
     call: ApplicationCall,
     state: State,
     id: ID,
+    alwaysShowTitle: Boolean = false,
 ) {
-    if (!state.isCreator(id)) {
+    if (!alwaysShowTitle && !state.isCreator(id)) {
         return
     }
 
