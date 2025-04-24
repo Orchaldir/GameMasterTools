@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.language
 
+import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
@@ -22,10 +24,11 @@ data class Language(
     val id: LanguageId,
     val name: String = "Language ${id.value}",
     val origin: LanguageOrigin = OriginalLanguage,
-) : ElementWithSimpleName<LanguageId>, HasStartDate {
+) : ElementWithSimpleName<LanguageId>, Created, HasStartDate {
 
     override fun id() = id
     override fun name() = name
+    override fun creator() = origin.creator()
     override fun startDate() = when (origin) {
         is InventedLanguage -> origin.date
         else -> null

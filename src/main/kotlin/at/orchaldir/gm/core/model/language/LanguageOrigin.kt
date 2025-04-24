@@ -1,7 +1,9 @@
 package at.orchaldir.gm.core.model.language
 
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.Creator
+import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -15,7 +17,7 @@ enum class LanguageOriginType {
 }
 
 @Serializable
-sealed class LanguageOrigin {
+sealed class LanguageOrigin : Created {
 
     fun getType() = when (this) {
         is CombinedLanguage -> LanguageOriginType.Combined
@@ -29,6 +31,12 @@ sealed class LanguageOrigin {
         is CombinedLanguage -> parents.contains(language)
         is EvolvedLanguage -> parent == language
         else -> false
+    }
+
+    override fun creator() = if (this is InventedLanguage) {
+        inventor
+    } else {
+        UndefinedCreator
     }
 
 }

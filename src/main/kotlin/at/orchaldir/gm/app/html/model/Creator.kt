@@ -12,21 +12,11 @@ import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
-import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.getLiving
-import at.orchaldir.gm.core.selector.getRacesCreatedBy
-import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
-import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
-import at.orchaldir.gm.core.selector.magic.getSpellsCreatedBy
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
-import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
 import at.orchaldir.gm.core.selector.util.*
-import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getExistingTowns
-import at.orchaldir.gm.core.selector.world.getPrisonPlanesCreatedBy
-import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -77,19 +67,19 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
     h2 { +"Created" }
 
-    showList("Buildings", state.getBuildingsBuildBy(id)) { building ->
+    showList("Buildings", getCreatedBy(state.getBuildingStorage(), id)) { building ->
         link(call, state, building)
     }
 
-    showList("Businesses", state.getBusinessesFoundedBy(id)) { business ->
+    showList("Businesses", getCreatedBy(state.getBusinessStorage(), id)) { business ->
         link(call, state, business)
     }
 
-    showList("Languages", state.getLanguagesInventedBy(id)) { language ->
+    showList("Languages", getCreatedBy(state.getLanguageStorage(), id)) { language ->
         link(call, language)
     }
 
-    showList("Organizations", state.getOrganizationsFoundedBy(id)) { organization ->
+    showList("Organizations", getCreatedBy(state.getOrganizationStorage(), id)) { organization ->
         link(call, state, organization)
     }
 
@@ -97,27 +87,23 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
         link(call, state, periodical)
     }
 
-    showList("Prison Planes", state.getPrisonPlanesCreatedBy(id)) { plane ->
+    showList("Planes", getCreatedBy(state.getPlaneStorage(), id)) { plane ->
         link(call, state, plane)
     }
 
-    showList("Races", state.getRacesCreatedBy(id)) { race ->
+    showList("Races", getCreatedBy(state.getRaceStorage(), id)) { race ->
         link(call, state, race)
     }
 
-    showList("Spells", state.getSpellsCreatedBy(id)) { spell ->
+    showList("Spells", getCreatedBy(state.getSpellStorage(), id)) { spell ->
         link(call, state, spell)
     }
 
-    showList("Texts Written", state.getTextsWrittenBy(id)) { text ->
+    showList("Texts", getCreatedBy(state.getTextStorage(), id)) { text ->
         link(call, state, text)
     }
 
-    showList("Texts Translated", state.getTextsTranslatedBy(id)) { text ->
-        link(call, state, text)
-    }
-
-    showList("Towns", state.getTownsFoundedBy(id)) { town ->
+    showList("Towns", getCreatedBy(state.getTownStorage(), id)) { town ->
         link(call, state, town)
     }
 }
