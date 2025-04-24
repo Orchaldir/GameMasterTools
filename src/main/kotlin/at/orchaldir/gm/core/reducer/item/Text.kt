@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.exists
+import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -32,10 +33,17 @@ val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
     state.getTextStorage().require(action.text.id)
     checkDate(state, action.text.date, "Text")
     checkOrigin(state, action.text)
+    checkPublisher(state, action.text)
     checkTextFormat(action.text.format)
     checkTextContent(state, action.text.content)
 
     noFollowUps(state.updateStorage(state.getTextStorage().update(action.text)))
+}
+
+private fun checkPublisher(state: State, text: Text) {
+    if (text.publisher != null) {
+        state.requireExists(state.getBusinessStorage(), text.publisher, text.date)
+    }
 }
 
 private fun checkOrigin(
@@ -45,9 +53,8 @@ private fun checkOrigin(
     when (val origin = text.origin) {
         is OriginalText -> validateCreator(state, origin.author, text.id, text.date, "Author")
         is TranslatedText -> {
-            val original = state.getTextStorage().getOrThrow(origin.text)
             require(text.id != origin.text) { "The text cannot translate itself!" }
-            require(state.exists(original, text.date)) {
+            state.requireExists(state.getTextStorage(), origin.text, text.date) {
                 "The translation must happen after the original was written!"
             }
             validateCreator(state, origin.translator, text.id, text.date, "Translator")
