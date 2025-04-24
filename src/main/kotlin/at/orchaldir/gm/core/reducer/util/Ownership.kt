@@ -2,14 +2,7 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.NoOwner
-import at.orchaldir.gm.core.model.util.OwnedByBusiness
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.OwnedByOrganization
-import at.orchaldir.gm.core.model.util.OwnedByTown
-import at.orchaldir.gm.core.model.util.Owner
-import at.orchaldir.gm.core.model.util.UndefinedOwner
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

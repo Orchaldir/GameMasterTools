@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.BUSINESS
-import at.orchaldir.gm.app.CHARACTER
-import at.orchaldir.gm.app.ORGANIZATION
-import at.orchaldir.gm.app.OWNER
-import at.orchaldir.gm.app.TOWN
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.character.parseCharacterId
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId
