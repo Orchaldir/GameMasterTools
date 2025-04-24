@@ -17,8 +17,8 @@ import at.orchaldir.gm.core.selector.canDeleteLanguage
 import at.orchaldir.gm.core.selector.countCharacters
 import at.orchaldir.gm.core.selector.countChildren
 import at.orchaldir.gm.core.selector.culture.countCultures
-import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
 import at.orchaldir.gm.core.selector.item.countTexts
+import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
 import at.orchaldir.gm.core.selector.magic.countSpells
 import io.ktor.http.*
 import io.ktor.resources.*

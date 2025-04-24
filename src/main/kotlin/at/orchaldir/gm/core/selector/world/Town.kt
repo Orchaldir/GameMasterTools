@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
-import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
         && !isCurrentOrFormerOwner(town)

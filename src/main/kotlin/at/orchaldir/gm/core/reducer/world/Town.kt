@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate

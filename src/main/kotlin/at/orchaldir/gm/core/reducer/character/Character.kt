@@ -5,7 +5,10 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.reducer.util.*
+import at.orchaldir.gm.core.reducer.util.checkBeliefStatusHistory
+import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
+import at.orchaldir.gm.core.reducer.util.checkHousingStatusHistory
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getParents
 import at.orchaldir.gm.core.selector.organization.getOrganizations

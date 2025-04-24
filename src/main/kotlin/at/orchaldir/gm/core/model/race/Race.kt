@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.util.Created
-import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.OneOf

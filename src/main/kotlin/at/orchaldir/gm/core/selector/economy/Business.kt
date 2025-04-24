@@ -5,12 +5,10 @@ import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.wasOwnedBy
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getBuilding
-import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(id: BusinessId) = getBuilding(id) == null
         && getEmployees(id).isEmpty()

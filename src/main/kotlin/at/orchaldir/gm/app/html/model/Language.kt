@@ -14,8 +14,8 @@ import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getPossibleParents
-import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.item.getTexts
+import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.magic.getSpells
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.utils.doNothing

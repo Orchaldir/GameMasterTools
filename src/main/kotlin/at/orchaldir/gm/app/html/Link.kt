@@ -6,11 +6,7 @@ import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
-import at.orchaldir.gm.app.routes.item.ArticleRoutes
-import at.orchaldir.gm.app.routes.item.EquipmentRoutes
-import at.orchaldir.gm.app.routes.item.PeriodicalIssueRoutes
-import at.orchaldir.gm.app.routes.item.PeriodicalRoutes
-import at.orchaldir.gm.app.routes.item.TextRoutes
+import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes

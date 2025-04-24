@@ -1,16 +1,20 @@
 package at.orchaldir.gm.app.routes.item
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.item.text.editText
 import at.orchaldir.gm.app.html.model.item.text.parseText
 import at.orchaldir.gm.app.html.model.item.text.showText
+import at.orchaldir.gm.app.html.model.showCreator
+import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.TEXT_TYPE
+import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.item.text.TextId
+import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.sortTexts

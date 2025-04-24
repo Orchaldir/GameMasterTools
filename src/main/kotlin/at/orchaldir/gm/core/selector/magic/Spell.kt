@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.getExistingElements
-import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteSpell(spell: SpellId) = getSpellsBasedOn(spell).isEmpty()
         && countDomains(spell) == 0

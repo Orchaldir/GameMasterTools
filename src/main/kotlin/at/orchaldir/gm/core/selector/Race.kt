@@ -2,13 +2,10 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.race.CreatedRace
-import at.orchaldir.gm.core.model.race.ModifiedRace
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.getExistingElements
-import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(race: RaceId) = getRaceStorage().getSize() > 1 && getCharacters(race).isEmpty()
 

@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
-import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteOrganization(organization: OrganizationId) = !isCreator(organization)
         && !isCurrentOrFormerOwner(organization)

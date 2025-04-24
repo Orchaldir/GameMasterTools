@@ -16,12 +16,7 @@ import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.item.periodical.Article
-import at.orchaldir.gm.core.model.item.periodical.ArticleId
-import at.orchaldir.gm.core.model.item.periodical.Periodical
-import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
-import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
-import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
+import at.orchaldir.gm.core.model.item.periodical.*
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
