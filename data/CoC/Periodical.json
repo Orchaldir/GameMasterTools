@@ -22,12 +22,7 @@
      "character": 8
     }
    },
-   "frequency": {
-    "type": "Daily",
-    "start": {
-     "day": 696513
-    }
-   }
+   "frequency": "Daily"
   }
  }
 }
