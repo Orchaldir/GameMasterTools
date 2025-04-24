@@ -149,6 +149,13 @@
      "character": 16
     }
    }
+  },
+  "9": {
+   "id": 9,
+   "name": {
+    "type": "Simple",
+    "name": "Golden Goblin Press"
+   }
   }
  }
 }
