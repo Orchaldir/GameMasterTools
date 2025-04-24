@@ -20,8 +20,6 @@ import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.util.getOwned
 import at.orchaldir.gm.core.selector.util.getPreviouslyOwned
 import at.orchaldir.gm.core.selector.world.getExistingTowns
-import at.orchaldir.gm.core.selector.world.getOwnedBuildings
-import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -35,13 +33,13 @@ import kotlinx.html.h2
 fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     call: ApplicationCall,
     state: State,
-    id: ID,
+    owner: ID,
     alwaysShowTitle: Boolean = false,
 ) {
-    val buildings = state.getOwnedBuildings(id)
-    val previousBuildings = state.getPreviouslyOwnedBuildings(id)
-    val businesses = getOwned(state.getBusinessStorage(), id)
-    val previousBusinesses = getPreviouslyOwned(state.getBusinessStorage(), id)
+    val buildings = getOwned(state.getBuildingStorage(), owner)
+    val previousBuildings = getPreviouslyOwned(state.getBuildingStorage(), owner)
+    val businesses = getOwned(state.getBusinessStorage(), owner)
+    val previousBusinesses = getPreviouslyOwned(state.getBusinessStorage(), owner)
 
     if (!alwaysShowTitle && buildings.isEmpty() && previousBuildings.isEmpty() && businesses.isEmpty() && previousBusinesses.isEmpty()) {
         return

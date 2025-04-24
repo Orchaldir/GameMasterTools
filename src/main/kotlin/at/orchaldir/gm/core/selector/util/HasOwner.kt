@@ -7,20 +7,6 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
-fun <ID0, ID1, ELEMENT> isCurrentOrFormerOwner(
-    storage: Storage<ID0, ELEMENT>,
-    id: ID1,
-) where ID0 : Id<ID0>,
-        ID1 : Id<ID1>,
-        ELEMENT : Element<ID0>,
-        ELEMENT : HasOwner = storage
-    .getAll()
-    .any {
-        val owner = it.owner()
-
-        owner.current.isOwnedBy(id) || owner.wasOwnedBy(id)
-    }
-
 fun <ID0, ID1, ELEMENT> getOwned(
     storage: Storage<ID0, ELEMENT>,
     id: ID1,
@@ -40,6 +26,26 @@ fun <ID0, ID1, ELEMENT> getPreviouslyOwned(
         ELEMENT : HasOwner = storage
     .getAll()
     .filter { it.owner().wasOwnedBy(id) }
+
+fun <ID : Id<ID>> isCurrentOrFormerOwner(
+    state: State,
+    id: ID,
+) = isCurrentOrFormerOwner(state.getBuildingStorage(), id)
+        || isCurrentOrFormerOwner(state.getBusinessStorage(), id)
+
+fun <ID0, ID1, ELEMENT> isCurrentOrFormerOwner(
+    storage: Storage<ID0, ELEMENT>,
+    id: ID1,
+) where ID0 : Id<ID0>,
+        ID1 : Id<ID1>,
+        ELEMENT : Element<ID0>,
+        ELEMENT : HasOwner = storage
+    .getAll()
+    .any {
+        val owner = it.owner()
+
+        owner.current.isOwnedBy(id) || owner.wasOwnedBy(id)
+    }
 
 fun <ID : Id<ID>> checkIfOwnerCanBeDeleted(
     state: State,

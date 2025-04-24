@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.model.util.wasOwnedBy
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
@@ -51,13 +50,3 @@ fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
 
 fun <ID : Id<ID>> State.getBuildingsBuildBy(id: ID) = getBuildingStorage().getAll()
     .filter { it.builder.isId(id) }
-
-// owner
-
-fun <ID : Id<ID>> State.getOwnedBuildings(id: ID) = getBuildingStorage()
-    .getAll()
-    .filter { it.ownership.current.isOwnedBy(id) }
-
-fun <ID : Id<ID>> State.getPreviouslyOwnedBuildings(id: ID) = getBuildingStorage()
-    .getAll()
-    .filter { it.ownership.wasOwnedBy(id) }
