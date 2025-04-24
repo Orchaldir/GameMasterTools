@@ -28,12 +28,13 @@ data class Business(
     private val startDate: Date? = null,
     val founder: Creator = UndefinedCreator,
     val ownership: History<Owner> = History(UndefinedOwner),
-) : Element<BusinessId>, Created, HasStartDate {
+) : Element<BusinessId>, Created, HasOwner, HasStartDate {
 
     override fun id() = id
     override fun name(state: State) = name.resolve(state)
 
     override fun creator() = founder
+    override fun owner() = ownership
     override fun startDate() = startDate
 
 }
