@@ -11,9 +11,11 @@ import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.TEXT_TYPE
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
+import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
@@ -170,7 +172,7 @@ private fun HTML.showAllTexts(
                 th { +"Name" }
                 th { +"Date" }
                 th { +"Origin" }
-                th { +"Creator" }
+                th { +"Publisher" }
                 th { +"Language" }
                 th { +"Format" }
                 th { +"Materials" }
@@ -180,8 +182,20 @@ private fun HTML.showAllTexts(
                 tr {
                     td { link(call, state, text) }
                     td { showOptionalDate(call, state, text.date) }
-                    tdEnum(text.origin.getType())
-                    td { showCreator(call, state, text.origin.creator()) }
+                    td {
+                        when (text.origin) {
+                            is OriginalText -> {
+                                +"Written by "
+                                showCreator(call, state, text.origin.creator())
+                            }
+
+                            is TranslatedText -> {
+                                +"Translated by "
+                                showCreator(call, state, text.origin.creator())
+                            }
+                        }
+                    }
+                    td { optionalLink(call, state, text.publisher) }
                     td { link(call, state, text.language) }
                     tdEnum(text.format.getType())
                     tdInlineLinks(call, state, text.materials())
