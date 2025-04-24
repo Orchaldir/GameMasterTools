@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
+import at.orchaldir.gm.app.routes.item.ArticleRoutes
 import at.orchaldir.gm.app.routes.item.EquipmentRoutes
 import at.orchaldir.gm.app.routes.item.PeriodicalIssueRoutes
 import at.orchaldir.gm.app.routes.item.PeriodicalRoutes
@@ -34,6 +35,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.h2
 import kotlinx.html.h3
+import kotlinx.html.h4
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -67,9 +69,11 @@ fun Application.configureRouting() {
                     h3 { +"Items" }
                     fieldStorageLink(call, state.getEquipmentStorage(), EquipmentRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes.All())
+                    fieldStorageLink(call, state.getTextStorage(), TextRoutes.All())
+                    h4 { +"Periodicals" }
+                    fieldStorageLink(call, state.getArticleStorage(), ArticleRoutes.All())
                     fieldStorageLink(call, state.getPeriodicalStorage(), PeriodicalRoutes.All())
                     fieldStorageLink(call, state.getPeriodicalIssueStorage(), PeriodicalIssueRoutes.All())
-                    fieldStorageLink(call, state.getTextStorage(), TextRoutes.All())
                     h3 { +"Economy" }
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())
                     fieldStorageLink(call, state.getJobStorage(), JobRoutes())

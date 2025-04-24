@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.routes.culture.configureCultureRouting
 import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
+import at.orchaldir.gm.app.routes.item.configureArticleRouting
 import at.orchaldir.gm.app.routes.item.configureEquipmentRouting
 import at.orchaldir.gm.app.routes.item.configurePeriodicalIssueRouting
 import at.orchaldir.gm.app.routes.item.configurePeriodicalRouting
@@ -55,6 +56,7 @@ fun Application.module() {
     configureRouting()
     configureStatusPages()
     configureArchitecturalStyleRouting()
+    configureArticleRouting()
     configureBuildingRouting()
     configureBuildingEditorRouting()
     configureBusinessRouting()

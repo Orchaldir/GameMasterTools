@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.text.Text
@@ -63,6 +64,22 @@ fun State.sortArchitecturalStyles(
             SortArchitecturalStyle.Start -> getAgeComparator()
             SortArchitecturalStyle.End -> compareBy { it.end?.year }
         })
+
+// periodical
+
+fun State.sortArticles(sort: SortArticle = SortArticle.Title) =
+    sortArticles(getArticleStorage().getAll(), sort)
+
+fun State.sortArticles(
+    articles: Collection<Article>,
+    sort: SortArticle = SortArticle.Title,
+) = articles
+    .sortedWith(
+        when (sort) {
+            SortArticle.Title -> compareBy { it.title }
+            SortArticle.Date -> getAgeComparator()
+        }
+    )
 
 // building
 
