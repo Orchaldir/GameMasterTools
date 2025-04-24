@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.time.date.convertDateToDefault
 import at.orchaldir.gm.utils.Element
@@ -31,14 +32,15 @@ data class Periodical(
     val ownership: History<Owner> = History(UndefinedOwner),
     val language: LanguageId = LanguageId(0),
     val calendar: CalendarId = CalendarId(0),
-    val frequency: PublicationFrequency = DailyPublication(),
-) : Element<PeriodicalId>, Created, HasOwner, HasComplexStartDate {
+    val date: Date? = null,
+    val frequency: PublicationFrequency = PublicationFrequency.Daily,
+) : Element<PeriodicalId>, Created, HasOwner, HasStartDate {
 
     override fun id() = id
     override fun name(state: State) = name.resolve(state)
 
     override fun creator() = founder
     override fun owner() = ownership
-    override fun startDate(state: State) = state.convertDateToDefault(calendar, frequency.getStartDate())
+    override fun startDate() = date
 
 }

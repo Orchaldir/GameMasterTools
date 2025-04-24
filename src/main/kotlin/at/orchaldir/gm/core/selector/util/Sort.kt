@@ -285,7 +285,7 @@ fun State.sortPeriodicals(
     .sortedWith(
         when (sort) {
             SortPeriodical.Name -> compareBy { it.name(this) }
-            SortPeriodical.Age -> getComplexAgeComparator()
+            SortPeriodical.Age -> getAgeComparator()
         }
     )
 

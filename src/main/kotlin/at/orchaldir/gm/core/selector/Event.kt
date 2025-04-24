@@ -66,7 +66,7 @@ fun State.getEvents(calendar: Calendar): List<Event> {
     getPeriodicalStorage().getAll().forEach { periodical ->
         val periodicalCalendar = getCalendarStorage().getOrThrow(periodical.calendar)
 
-        addEvent(events, periodicalCalendar, calendar, periodical.frequency.getStartDate()) {
+        addPossibleEvent(events, periodicalCalendar, calendar, periodical.date) {
             PeriodicalCreatedEvent(it, periodical.id)
         }
 

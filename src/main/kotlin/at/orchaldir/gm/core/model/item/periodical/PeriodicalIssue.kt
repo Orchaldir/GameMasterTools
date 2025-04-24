@@ -60,11 +60,11 @@ data class PeriodicalIssue(
         .frequency
         .getDateOfIssue(number)
 
-    override fun startDate(state: State): Date {
+    override fun startDate(state: State): Date? {
         val periodical = state.getPeriodicalStorage().getOrThrow(periodical)
         val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
 
-        return state.convertDateToDefault(calendar, periodical.frequency.getStartDate())
+        return periodical.startDate()?.let { state.convertDateToDefault(calendar, it) }
     }
 
 }

@@ -209,7 +209,7 @@ fun HtmlBlockTag.selectDate(
     selectDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate)
 }
 
-private fun HtmlBlockTag.selectDate(
+fun HtmlBlockTag.selectDate(
     calendar: Calendar,
     fieldLabel: String,
     date: Date,

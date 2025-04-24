@@ -9,6 +9,10 @@ import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.*
+import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.time.date.Month
+import at.orchaldir.gm.core.model.time.date.Week
+import at.orchaldir.gm.core.model.time.date.Year
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -44,37 +48,37 @@ private fun FORM.selectIssueNumber(
     val periodical = state.getPeriodicalStorage().getOrThrow(issue.periodical)
     val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
 
-    when (val frequency = periodical.frequency) {
-        is DailyPublication -> selectDay(
+    when (periodical.frequency) {
+        PublicationFrequency.Daily -> selectDay(
             "Publication Date",
             calendar,
-            frequency.start + issue.number,
+            Day(issue.number),
             DATE,
-            frequency.start,
+            periodical.date,
         )
 
-        is WeeklyPublication -> selectWeek(
+        PublicationFrequency.Weekly -> selectWeek(
             "Publication Date",
             calendar,
-            frequency.start + issue.number,
+            Week(issue.number),
             DATE,
-            frequency.start,
+            periodical.date,
         )
 
-        is MonthlyPublication -> selectMonth(
+        PublicationFrequency.Monthly -> selectMonth(
             "Publication Date",
             calendar,
-            frequency.start + issue.number,
+            Month(issue.number),
             DATE,
-            frequency.start,
+            periodical.date,
         )
 
-        is YearlyPublication -> selectYear(
+        PublicationFrequency.Yearly -> selectYear(
             "Publication Date",
             calendar,
-            frequency.start + issue.number,
+            Year(issue.number),
             DATE,
-            frequency.start,
+            periodical.date,
         )
     }
 }
@@ -99,10 +103,10 @@ fun parseIssueNumber(parameters: Parameters, state: State, id: PeriodicalId): In
     val periodical = state.getPeriodicalStorage().getOrThrow(id)
     val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
 
-    return when (val frequency = periodical.frequency) {
-        is DailyPublication -> parseDay(parameters, calendar, DATE).day - frequency.start.day
-        is WeeklyPublication -> parseWeek(parameters, calendar, DATE).week - frequency.start.week
-        is MonthlyPublication -> parseMonth(parameters, calendar, DATE).month - frequency.start.month
-        is YearlyPublication -> parseYear(parameters, calendar, DATE).year - frequency.start.year
+    return when (periodical.frequency) {
+        PublicationFrequency.Daily -> parseDay(parameters, calendar, DATE).day
+        PublicationFrequency.Weekly -> parseWeek(parameters, calendar, DATE).week
+        PublicationFrequency.Monthly -> parseMonth(parameters, calendar, DATE).month
+        PublicationFrequency.Yearly -> parseYear(parameters, calendar, DATE).year
     }
 }
