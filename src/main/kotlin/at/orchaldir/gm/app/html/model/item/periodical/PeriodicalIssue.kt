@@ -1,16 +1,22 @@
 package at.orchaldir.gm.app.html.model.item.periodical
 
+import at.orchaldir.gm.app.CONTENT
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.PERIODICAL
 import at.orchaldir.gm.app.html.fieldLink
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.field
 import at.orchaldir.gm.app.html.model.parseDate
 import at.orchaldir.gm.app.html.model.selectDate
 import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.selectElements
+import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
+import at.orchaldir.gm.core.selector.util.getExistingElements
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -26,6 +32,9 @@ fun HtmlBlockTag.showPeriodicalIssue(
     val periodical = state.getPeriodicalStorage().getOrThrow(issue.periodical)
     fieldLink("Periodical", call, state, issue.periodical)
     field(call, state, periodical.calendar, "Publication Date", issue.date)
+    showList("Articles", issue.articles) { article ->
+        link(call, state, article)
+    }
 }
 
 // edit
@@ -36,6 +45,8 @@ fun FORM.editPeriodicalIssue(
 ) {
     selectElement(state, "Periodical", PERIODICAL, state.getPeriodicalStorage().getAll(), issue.periodical, true)
     selectIssueNumber(state, issue)
+    val possibleArticle = state.getExistingElements(state.getArticleStorage().getAll(), issue.date)
+    selectElements(state, "Articles", CONTENT, possibleArticle, issue.articles)
 }
 
 private fun FORM.selectIssueNumber(
@@ -71,5 +82,6 @@ fun parsePeriodicalIssue(parameters: Parameters, state: State, id: PeriodicalIss
         id,
         periodicalId,
         parseDate(parameters, calendar, DATE),
+        parseElements(parameters, CONTENT) { parseArticleId(it) },
     )
 }

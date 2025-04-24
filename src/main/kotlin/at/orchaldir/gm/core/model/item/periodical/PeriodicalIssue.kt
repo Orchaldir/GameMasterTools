@@ -27,6 +27,7 @@ data class PeriodicalIssue(
     val id: PeriodicalIssueId,
     val periodical: PeriodicalId = PeriodicalId(0),
     val date: Date = Year(0),
+    val articles: Set<ArticleId> = emptySet(),
 ) : Element<PeriodicalIssueId>, HasComplexStartDate {
 
     override fun id() = id

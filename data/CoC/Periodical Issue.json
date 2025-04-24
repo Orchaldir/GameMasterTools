@@ -6,7 +6,10 @@
    "date": {
     "type": "Year",
     "year": 1910
-   }
+   },
+   "articles": [
+    0
+   ]
   }
  }
 }
