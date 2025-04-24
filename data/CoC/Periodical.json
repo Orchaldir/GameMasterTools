@@ -22,7 +22,10 @@
      "character": 8
     }
    },
-   "frequency": "Daily"
+   "date": {
+    "type": "Decade",
+    "decade": 190
+   }
   }
  }
 }

@@ -38,6 +38,10 @@
     "prefix": null,
     "postfix": "Gazette"
    },
+   "founder": {
+    "type": "Character",
+    "character": 8
+   },
    "ownership": {
     "current": {
      "type": "Character",
