@@ -52,7 +52,7 @@ fun FORM.editTextContent(
     state: State,
     content: TextContent,
 ) {
-    showDetails("Text Format", true) {
+    showDetails("Content", true) {
         selectValue("Type", CONTENT, TextContentType.entries, content.getType(), true)
 
         when (content) {

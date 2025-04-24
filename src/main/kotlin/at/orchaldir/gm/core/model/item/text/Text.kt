@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.text
 
 import at.orchaldir.gm.app.html.model.displayDate
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.name.ComplexName
@@ -31,6 +32,7 @@ data class Text(
     val id: TextId,
     val name: ComplexName = SimpleName("Text ${id.value}"),
     val origin: TextOrigin = OriginalText(UndefinedCreator),
+    val publisher: BusinessId? = null,
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
     val format: TextFormat = UndefinedTextFormat,

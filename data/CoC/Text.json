@@ -245,6 +245,47 @@
      1
     ]
    }
+  },
+  "5": {
+   "id": 5,
+   "name": {
+    "type": "Simple",
+    "name": "Ecstasy, Flames, and the Druids of Briton"
+   },
+   "publisher": 9,
+   "date": {
+    "type": "Year",
+    "year": 1909
+   },
+   "format": {
+    "type": "Book",
+    "binding": {
+     "type": "Hardcover",
+     "cover": {
+      "fill": {
+       "type": "Solid",
+       "color": "Black"
+      }
+     },
+     "typography": {
+      "type": "SimpleTitle",
+      "font": {
+       "type": "Solid",
+       "size": 19000,
+       "color": "Gold",
+       "font": 4
+      }
+     }
+    },
+    "pages": 200,
+    "page": {
+     "material": 6
+    },
+    "size": {
+     "width": 150000,
+     "height": 200000
+    }
+   }
   }
  }
 }

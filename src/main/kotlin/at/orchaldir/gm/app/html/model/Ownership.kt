@@ -3,12 +3,12 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.character.parseCharacterId
+import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.economy.parseBusinessId
 import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date

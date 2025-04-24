@@ -194,7 +194,7 @@ fun FORM.editTextFormat(
     format: TextFormat,
     hasAuthor: Boolean,
 ) {
-    showDetails("Text Format", true) {
+    showDetails("Format", true) {
         selectValue("Type", FORMAT, TextFormatType.entries, format.getType(), true)
 
         when (format) {

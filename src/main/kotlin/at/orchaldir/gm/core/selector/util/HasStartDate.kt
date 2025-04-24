@@ -22,3 +22,28 @@ fun <ELEMENT : HasStartDate> State.getExistingElements(elements: Collection<ELEM
 } else {
     elements.filter { exists(it, date) }
 }
+
+fun <ID, ELEMENT> State.requireExists(storage: Storage<ID, ELEMENT>, id: ID, date: Date?): ELEMENT
+        where ID : Id<ID>,
+              ELEMENT : Element<ID>,
+              ELEMENT : HasStartDate =
+    requireExists(storage, id, date) { element ->
+        "The ${id.type()} ${id.value()} doesn't exist at the required date!"
+    }
+
+fun <ID, ELEMENT> State.requireExists(
+    storage: Storage<ID, ELEMENT>,
+    id: ID,
+    date: Date?,
+    message: (ELEMENT) -> String,
+): ELEMENT where ID : Id<ID>,
+                 ELEMENT : Element<ID>,
+                 ELEMENT : HasStartDate {
+    val element = storage.getOrThrow(id)
+
+    require(exists(element, date)) {
+        message(element)
+    }
+
+    return element
+}

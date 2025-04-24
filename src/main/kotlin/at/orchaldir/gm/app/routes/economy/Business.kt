@@ -1,10 +1,13 @@
 package at.orchaldir.gm.app.routes.economy
 
-import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.parse.economy.parseBusiness
+import at.orchaldir.gm.app.html.model.economy.editBusiness
+import at.orchaldir.gm.app.html.model.economy.parseBusiness
+import at.orchaldir.gm.app.html.model.economy.showBusiness
+import at.orchaldir.gm.app.html.model.showCreator
+import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
@@ -15,9 +18,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.SortBusiness
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.getEmployees
-import at.orchaldir.gm.core.selector.getPreviousEmployees
 import at.orchaldir.gm.core.selector.util.sortBusinesses
-import at.orchaldir.gm.core.selector.world.getBuilding
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -189,22 +190,9 @@ private fun HTML.showBusinessDetails(
     val backLink = call.application.href(BusinessRoutes.All())
     val deleteLink = call.application.href(BusinessRoutes.Delete(business.id))
     val editLink = call.application.href(BusinessRoutes.Edit(business.id))
-    val employees = state.getEmployees(business.id).toSet()
-    val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
 
     simpleHtml("Business: ${business.name(state)}") {
-        fieldReferenceByName(call, state, business.name)
-        state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
-        optionalField(call, state, "Start", business.startDate())
-        fieldAge("Age", state, business.startDate())
-        fieldCreator(call, state, business.founder, "Founder")
-        showOwnership(call, state, business.ownership)
-        showEmployees(call, state, "Employees", employees)
-        showList("Previous Employees", previousEmployees) { character ->
-            link(call, state, character)
-        }
-        showCreated(call, state, business.id)
-        showOwnedElements(call, state, business.id, true)
+        showBusiness(call, state, business)
 
         action(editLink, "Edit")
         if (state.canDelete(business.id)) {
@@ -225,10 +213,7 @@ private fun HTML.showBusinessEditor(
 
     simpleHtml("Edit Business: ${business.name(state)}") {
         formWithPreview(previewLink, updateLink, backLink) {
-            selectComplexName(state, business.name)
-            selectOptionalDate(state, "Start", business.startDate(), DATE)
-            selectCreator(state, business.founder, business.id, business.startDate(), "Founder")
-            selectOwnership(state, business.ownership, business.startDate())
+            editBusiness(state, business)
         }
     }
 }

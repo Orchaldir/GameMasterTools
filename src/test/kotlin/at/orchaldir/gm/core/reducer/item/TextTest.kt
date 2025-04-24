@@ -1,10 +1,12 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
+import at.orchaldir.gm.app.BUSINESS
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
@@ -26,6 +28,7 @@ private val STATE = State(
     listOf(
         Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, date = DAY1))),
         Storage(CALENDAR0),
+        Storage(Business(BUSINESS_ID_0, startDate = DAY2)),
         Storage(Character(CHARACTER_ID_0)),
         Storage(Language(LANGUAGE_ID_0)),
         Storage(Spell(SPELL_ID_0)),
@@ -84,6 +87,25 @@ class TextTest {
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown character 1 as Author!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Publisher must exist`() {
+            val action = UpdateText(Text(TEXT_ID_0, publisher = UNKNOWN_BUSINESS_ID))
+
+            assertIllegalArgument("Requires unknown Business 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Publisher must exist at the time of publishing`() {
+            val action = UpdateText(Text(TEXT_ID_0, publisher = BUSINESS_ID_0, date = DAY1))
+
+            assertIllegalArgument("The Business 0 doesn't exist at the required date!") {
+                REDUCER.invoke(
+                    STATE,
+                    action
+                )
+            }
         }
 
         @Test
