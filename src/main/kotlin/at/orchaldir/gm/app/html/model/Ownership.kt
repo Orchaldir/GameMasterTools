@@ -15,10 +15,10 @@ import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
-import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getLiving
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
+import at.orchaldir.gm.core.selector.util.getOwned
+import at.orchaldir.gm.core.selector.util.getPreviouslyOwned
 import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
@@ -40,8 +40,8 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
 ) {
     val buildings = state.getOwnedBuildings(id)
     val previousBuildings = state.getPreviouslyOwnedBuildings(id)
-    val businesses = state.getOwnedBusinesses(id)
-    val previousBusinesses = state.getPreviouslyOwnedBusinesses(id)
+    val businesses = getOwned(state.getBusinessStorage(), id)
+    val previousBusinesses = getPreviouslyOwned(state.getBusinessStorage(), id)
 
     if (!alwaysShowTitle && buildings.isEmpty() && previousBuildings.isEmpty() && businesses.isEmpty() && previousBusinesses.isEmpty()) {
         return

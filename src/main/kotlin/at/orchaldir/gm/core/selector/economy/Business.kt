@@ -39,10 +39,6 @@ fun State.getOpenBusinesses(date: Date?) = getExistingElements(getBusinessStorag
 
 // owner
 
-fun <ID : Id<ID>> State.getOwnedBusinesses(id: ID) = getBusinessStorage()
-    .getAll()
-    .filter { it.ownership.current.isOwnedBy(id) }
-
 fun <ID : Id<ID>> State.getPreviouslyOwnedBusinesses(id: ID) = getBusinessStorage()
     .getAll()
     .filter { it.ownership.wasOwnedBy(id) }

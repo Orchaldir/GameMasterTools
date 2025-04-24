@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.selector.util.getOwned
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
@@ -43,7 +43,7 @@ private fun checkBuildingOwnership(state: State, id: TownId) {
 }
 
 private fun checkBusinessOwnership(state: State, id: TownId) {
-    val owned = state.getOwnedBusinesses(id)
+    val owned = getOwned(state.getBusinessStorage(), id)
     require(owned.isEmpty()) { "Cannot delete town ${id.value}, because it owns businesses!" }
     val previouslyOwned = state.getPreviouslyOwnedBusinesses(id)
     require(previouslyOwned.isEmpty()) { "Cannot delete town ${id.value}, because it previously owned businesses!" }
