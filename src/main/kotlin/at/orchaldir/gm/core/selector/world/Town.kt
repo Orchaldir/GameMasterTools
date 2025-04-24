@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
 import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
-        && !isCurrentOrFormerOwner(this, town)
+        && !isCurrentOrFormerOwner(town)
         && !isCreator(town)
 
 // get

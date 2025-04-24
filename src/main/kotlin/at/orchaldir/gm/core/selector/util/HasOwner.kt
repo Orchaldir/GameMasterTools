@@ -27,11 +27,11 @@ fun <ID0, ID1, ELEMENT> getPreviouslyOwned(
     .getAll()
     .filter { it.owner().wasOwnedBy(id) }
 
-fun <ID : Id<ID>> isCurrentOrFormerOwner(
-    state: State,
+fun <ID : Id<ID>> State.isCurrentOrFormerOwner(
     id: ID,
-) = isCurrentOrFormerOwner(state.getBuildingStorage(), id)
-        || isCurrentOrFormerOwner(state.getBusinessStorage(), id)
+) = isCurrentOrFormerOwner(getBuildingStorage(), id)
+        || isCurrentOrFormerOwner(getBusinessStorage(), id)
+        || isCurrentOrFormerOwner(getPeriodicalStorage(), id)
 
 fun <ID0, ID1, ELEMENT> isCurrentOrFormerOwner(
     storage: Storage<ID0, ELEMENT>,

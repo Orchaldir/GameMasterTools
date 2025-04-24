@@ -28,7 +28,7 @@ fun State.canCreateCharacter() = getCultureStorage().getSize() > 0
 
 fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
         && getParents(character).isEmpty()
-        && !isCurrentOrFormerOwner(this, character)
+        && !isCurrentOrFormerOwner(character)
         && !isCreator(character)
         && getOrganizations(character).isEmpty()
 
