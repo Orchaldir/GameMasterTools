@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.getExistingElements
-import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteSpell(spell: SpellId) = getSpellsBasedOn(spell).isEmpty()
         && countDomains(spell) == 0
@@ -30,10 +29,6 @@ fun State.getSpells(language: LanguageId) = getSpellStorage()
     .filter { it.language == language }
 
 fun State.getExistingSpell(date: Date?) = getExistingElements(getSpellStorage().getAll(), date)
-
-fun <ID : Id<ID>> State.getSpellsCreatedBy(id: ID) = getSpellStorage()
-    .getAll()
-    .filter { it.origin.wasCreatedBy(id) }
 
 fun State.getSpellsBasedOn(id: SpellId) = getSpellStorage()
     .getAll()

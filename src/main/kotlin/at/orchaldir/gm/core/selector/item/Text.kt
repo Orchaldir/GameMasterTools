@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
 
@@ -96,12 +95,3 @@ fun State.getTextsMadeOf(material: MaterialId) = getTextStorage()
 fun State.getTranslationsOf(text: TextId) = getTextStorage()
     .getAll()
     .filter { b -> b.origin.isTranslationOf(text) }
-
-fun <ID : Id<ID>> State.getTextsTranslatedBy(id: ID) = getTextStorage()
-    .getAll()
-    .filter { it.origin.wasTranslatedBy(id) }
-
-fun <ID : Id<ID>> State.getTextsWrittenBy(id: ID) = getTextStorage()
-    .getAll()
-    .filter { it.origin.wasWrittenBy(id) }
-

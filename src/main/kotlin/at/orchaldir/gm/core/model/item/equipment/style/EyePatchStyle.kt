@@ -27,7 +27,7 @@ sealed class EyePatchStyle : MadeFromParts {
 
     override fun parts() = when (this) {
         is EyePatchWithEye -> listOf(main)
-        is OrnamentAsEyePatch -> listOf(ornament)
+        is OrnamentAsEyePatch -> ornament.parts()
         is SimpleEyePatch -> listOf(main)
     }
 }

@@ -49,7 +49,7 @@ class OrganizationTest {
             val building = Building(BUILDING_ID_0, builder = CreatedByOrganization(ORGANIZATION_ID_0))
             val newState = state.updateStorage(Storage(building))
 
-            assertIllegalArgument("Cannot delete organization 0, because of built buildings!") {
+            assertIllegalArgument("Cannot delete Organization 0, because of created elements (Building)!") {
                 REDUCER.invoke(newState, action)
             }
         }

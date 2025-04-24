@@ -1,5 +1,33 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "Town",
+     "id": 0
+    },
+    "prefix": null,
+    "postfix": "Gazette"
+   },
+   "founder": {
+    "type": "Business",
+    "business": 2
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 8
+    }
+   },
+   "frequency": {
+    "type": "Daily",
+    "start": {
+     "day": 696513
+    }
+   }
+  }
  }
 }

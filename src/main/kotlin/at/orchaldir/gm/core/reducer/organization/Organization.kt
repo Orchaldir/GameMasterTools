@@ -7,9 +7,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkHistory
-import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
+import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -22,7 +23,8 @@ val CREATE_ORGANIZATION: Reducer<CreateOrganization, State> = { state, _ ->
 val DELETE_ORGANIZATION: Reducer<DeleteOrganization, State> = { state, action ->
     state.getOrganizationStorage().require(action.id)
 
-    checkIfCreatorCanBeDeleted(state, action.id, "organization")
+    checkIfCreatorCanBeDeleted(state, action.id)
+    checkIfOwnerCanBeDeleted(state, action.id)
 
     noFollowUps(state.updateStorage(state.getOrganizationStorage().remove(action.id)))
 }

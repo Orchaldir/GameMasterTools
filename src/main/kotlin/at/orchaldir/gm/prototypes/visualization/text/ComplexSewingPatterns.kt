@@ -18,7 +18,7 @@ import java.io.File
 private val ID = MaterialId(0)
 
 fun main() {
-    val cover = FillItemPart(Color.SaddleBrown)
+    val cover = FillItemPart(SaddleBrown)
     val stitches = listOf(
         ComplexStitch(ColorItemPart(Red), Size.Small, Size.Large),
         ComplexStitch(ColorItemPart(Green), Size.Medium, Size.Small),

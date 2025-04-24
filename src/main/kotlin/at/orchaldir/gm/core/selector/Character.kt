@@ -18,23 +18,17 @@ import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
-import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.isCreator
-import at.orchaldir.gm.core.selector.world.getOwnedBuildings
-import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
+import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun State.canCreateCharacter() = getCultureStorage().getSize() > 0
 
 fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
         && getParents(character).isEmpty()
-        && getOwnedBuildings(character).isEmpty()
-        && getPreviouslyOwnedBuildings(character).isEmpty()
-        && getOwnedBusinesses(character).isEmpty()
-        && getPreviouslyOwnedBusinesses(character).isEmpty()
+        && !isCurrentOrFormerOwner(character)
         && !isCreator(character)
         && getOrganizations(character).isEmpty()
 

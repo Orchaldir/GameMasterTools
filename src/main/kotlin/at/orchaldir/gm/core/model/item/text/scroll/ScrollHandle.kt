@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
+import at.orchaldir.gm.core.model.item.ItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.sumOf
@@ -19,7 +20,7 @@ data class ScrollHandle(
 
     fun calculateDiameter(rollDiameter: Distance) = rollDiameter.max(calculateHandleDiameter())
 
-    override fun parts() = segments.fold(listOf<MadeFromParts>()) { sum, segment ->
+    override fun parts() = segments.fold(listOf<ItemPart>()) { sum, segment ->
         sum + segment.parts()
     }
 }

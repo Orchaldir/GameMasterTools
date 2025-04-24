@@ -12,8 +12,8 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.selector.item.getPeriodicalIssues
-import at.orchaldir.gm.core.selector.item.getValidPublicationFrequencies
+import at.orchaldir.gm.core.selector.item.periodical.getPeriodicalIssues
+import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.server.application.*

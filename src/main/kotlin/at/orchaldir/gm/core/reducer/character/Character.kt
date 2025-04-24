@@ -5,15 +5,16 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.reducer.util.*
-import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
-import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.reducer.util.checkBeliefStatusHistory
+import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
+import at.orchaldir.gm.core.reducer.util.checkHousingStatusHistory
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getParents
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
-import at.orchaldir.gm.core.selector.world.getOwnedBuildings
-import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
+import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
+import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -34,25 +35,10 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     val organizations = state.getOrganizations(action.id)
     require(organizations.isEmpty()) { "Cannot delete character ${action.id.value}, because he is a member of an organization!" }
 
-    checkBuildingOwnership(state, action.id)
-    checkBusinessOwnership(state, action.id)
-    checkIfCreatorCanBeDeleted(state, action.id, "character")
+    checkIfCreatorCanBeDeleted(state, action.id)
+    checkIfOwnerCanBeDeleted(state, action.id)
 
     noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))
-}
-
-private fun checkBuildingOwnership(state: State, id: CharacterId) {
-    val owned = state.getOwnedBuildings(id)
-    require(owned.isEmpty()) { "Cannot delete character ${id.value}, because he owns buildings!" }
-    val previouslyOwned = state.getPreviouslyOwnedBuildings(id)
-    require(previouslyOwned.isEmpty()) { "Cannot delete character ${id.value}, because he previously owned buildings!" }
-}
-
-private fun checkBusinessOwnership(state: State, id: CharacterId) {
-    val owned = state.getOwnedBusinesses(id)
-    require(owned.isEmpty()) { "Cannot delete character ${id.value}, because he owns businesses!" }
-    val previouslyOwned = state.getPreviouslyOwnedBusinesses(id)
-    require(previouslyOwned.isEmpty()) { "Cannot delete character ${id.value}, because he previously owned businesses!" }
 }
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->

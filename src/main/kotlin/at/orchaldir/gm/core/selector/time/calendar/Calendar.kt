@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.time.calendar.ImprovedCalendar
 import at.orchaldir.gm.core.model.time.calendar.OriginalCalendar
 import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.getHolidays
-import at.orchaldir.gm.core.selector.item.countPeriodicals
+import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
 import at.orchaldir.gm.utils.doNothing
 import kotlin.math.max
 

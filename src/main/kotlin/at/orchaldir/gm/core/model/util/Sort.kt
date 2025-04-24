@@ -6,6 +6,11 @@ enum class SortArchitecturalStyle {
     End,
 }
 
+enum class SortArticle {
+    Title,
+    Date,
+}
+
 enum class SortBuilding {
     Name,
     Construction,

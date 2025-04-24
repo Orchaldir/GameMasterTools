@@ -15,13 +15,11 @@ import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
-import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getLiving
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
+import at.orchaldir.gm.core.selector.util.getOwned
+import at.orchaldir.gm.core.selector.util.getPreviouslyOwned
 import at.orchaldir.gm.core.selector.world.getExistingTowns
-import at.orchaldir.gm.core.selector.world.getOwnedBuildings
-import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -35,15 +33,21 @@ import kotlinx.html.h2
 fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     call: ApplicationCall,
     state: State,
-    id: ID,
+    owner: ID,
     alwaysShowTitle: Boolean = false,
 ) {
-    val buildings = state.getOwnedBuildings(id)
-    val previousBuildings = state.getPreviouslyOwnedBuildings(id)
-    val businesses = state.getOwnedBusinesses(id)
-    val previousBusinesses = state.getPreviouslyOwnedBusinesses(id)
+    val buildings = getOwned(state.getBuildingStorage(), owner)
+    val previousBuildings = getPreviouslyOwned(state.getBuildingStorage(), owner)
+    val businesses = getOwned(state.getBusinessStorage(), owner)
+    val previousBusinesses = getPreviouslyOwned(state.getBusinessStorage(), owner)
+    val periodicals = getOwned(state.getPeriodicalStorage(), owner)
+    val previousPeriodicals = getPreviouslyOwned(state.getPeriodicalStorage(), owner)
 
-    if (!alwaysShowTitle && buildings.isEmpty() && previousBuildings.isEmpty() && businesses.isEmpty() && previousBusinesses.isEmpty()) {
+    if (!alwaysShowTitle &&
+        buildings.isEmpty() && previousBuildings.isEmpty() &&
+        businesses.isEmpty() && previousBusinesses.isEmpty() &&
+        periodicals.isEmpty() && previousPeriodicals.isEmpty()
+    ) {
         return
     }
 
@@ -63,6 +67,14 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
 
     showList("Previously owned Businesses", previousBusinesses) { business ->
         link(call, state, business)
+    }
+
+    showList("Owned Periodicals", periodicals) { periodical ->
+        link(call, state, periodical)
+    }
+
+    showList("Previously owned Periodicals", previousPeriodicals) { periodical ->
+        link(call, state, periodical)
     }
 }
 

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.item
+package at.orchaldir.gm.core.reducer.item.periodical
 
 import at.orchaldir.gm.core.action.CreatePeriodical
 import at.orchaldir.gm.core.action.DeletePeriodical
@@ -9,8 +9,8 @@ import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.selector.item.canDeletePeriodical
-import at.orchaldir.gm.core.selector.item.getValidPublicationFrequencies
+import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
+import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

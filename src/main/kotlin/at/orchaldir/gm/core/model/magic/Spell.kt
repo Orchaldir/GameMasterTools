@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.magic
 
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
@@ -26,10 +27,11 @@ data class Spell(
     val date: Date? = null,
     val language: LanguageId? = null,
     val origin: SpellOrigin = UndefinedSpellOrigin,
-) : ElementWithSimpleName<SpellId>, HasStartDate {
+) : ElementWithSimpleName<SpellId>, Created, HasStartDate {
 
     override fun id() = id
     override fun name() = name
+    override fun creator() = origin.creator()
     override fun startDate() = date
 
 }

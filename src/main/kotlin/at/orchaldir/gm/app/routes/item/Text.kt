@@ -1,23 +1,22 @@
 package at.orchaldir.gm.app.routes.item
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.model.item.text.editTextContent
-import at.orchaldir.gm.app.html.model.item.text.editTextFormat
-import at.orchaldir.gm.app.html.model.item.text.showTextContent
-import at.orchaldir.gm.app.html.model.item.text.showTextFormat
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.item.parseText
+import at.orchaldir.gm.app.html.model.item.text.editText
+import at.orchaldir.gm.app.html.model.item.text.parseText
+import at.orchaldir.gm.app.html.model.item.text.showText
+import at.orchaldir.gm.app.html.model.showCreator
+import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.TEXT_TYPE
+import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.item.text.TextId
+import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
-import at.orchaldir.gm.core.selector.item.getTranslationsOf
-import at.orchaldir.gm.core.selector.item.hasAuthor
 import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
@@ -234,15 +233,7 @@ private fun HTML.showTextDetails(
         if (text.format !is UndefinedTextFormat) {
             svg(svg, 20)
         }
-        showOrigin(call, state, text)
-        optionalField(call, state, "Date", text.date)
-        fieldLink("Language", call, state, text.language)
-        showTextFormat(call, state, text.format)
-        showTextContent(call, state, text.content)
-
-        showList("Translations", state.getTranslationsOf(text.id)) { text ->
-            link(call, text.id, text.getNameWithDate(state))
-        }
+        showText(call, state, text)
 
         action(editLink, "Edit")
 
@@ -254,34 +245,12 @@ private fun HTML.showTextDetails(
     }
 }
 
-private fun HtmlBlockTag.showOrigin(
-    call: ApplicationCall,
-    state: State,
-    text: Text,
-) {
-    when (text.origin) {
-        is OriginalText -> field("Author") {
-            showCreator(call, state, text.origin.author)
-        }
-
-        is TranslatedText -> {
-            fieldLink("Translation Of", call, state, text.origin.text)
-            field("Translator") {
-                showCreator(call, state, text.origin.translator)
-            }
-        }
-    }
-}
-
 private fun HTML.showTextEditor(
     call: ApplicationCall,
     state: State,
     text: Text,
 ) {
     val name = text.name(state)
-    val hasAuthor = state.hasAuthor(text)
-    val languages = state.getLanguageStorage().getAll()
-        .sortedBy { it.name }
     val backLink = href(call, text.id)
     val previewLink = call.application.href(TextRoutes.Preview(text.id))
     val updateLink = call.application.href(TextRoutes.Update(text.id))
@@ -290,33 +259,11 @@ private fun HTML.showTextEditor(
     simpleHtml("Edit Text: $name") {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
-                selectComplexName(state, text.name)
-                editOrigin(state, text)
-                selectOptionalDate(state, "Date", text.date, DATE)
-                selectElement(state, "Language", LANGUAGE, languages, text.language, true)
-                editTextFormat(state, text.format, hasAuthor)
-                editTextContent(state, text.content)
+                editText(state, text)
             }
         }, {
             svg(svg, 50)
         })
 
-    }
-}
-
-private fun FORM.editOrigin(
-    state: State,
-    text: Text,
-) {
-    selectValue("Origin", ORIGIN, TextOriginType.entries, text.origin.getType(), true)
-
-    when (text.origin) {
-        is OriginalText -> selectCreator(state, text.origin.author, text.id, text.date, "Author")
-        is TranslatedText -> {
-            val otherTexts = state.getTextStorage().getAllExcept(text.id)
-
-            selectElement(state, "Translation Of", combine(ORIGIN, REFERENCE), otherTexts, text.origin.text)
-            selectCreator(state, text.origin.translator, text.id, text.date, "Translator")
-        }
     }
 }

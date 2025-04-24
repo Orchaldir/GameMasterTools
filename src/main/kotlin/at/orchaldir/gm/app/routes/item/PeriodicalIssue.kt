@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_ISSUE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
-import at.orchaldir.gm.core.selector.item.canDeletePeriodicalIssue
+import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodicalIssue
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.resources.*

@@ -3,14 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
-import at.orchaldir.gm.core.selector.getLanguagesInventedBy
-import at.orchaldir.gm.core.selector.getRacesCreatedBy
-import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
-import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
 import at.orchaldir.gm.core.selector.util.exists
-import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
-import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -74,23 +67,3 @@ private fun <ID0, ID1, ELEMENT> checkCreatorElement(
     require(state.exists(element, date)) { "$noun ($typeNoun ${creator.value()}) does not exist!" }
 }
 
-fun <ID : Id<ID>> checkIfCreatorCanBeDeleted(
-    state: State,
-    id: ID,
-    noun: String,
-) {
-    val buildings = state.getBuildingsBuildBy(id)
-    require(buildings.isEmpty()) { "Cannot delete $noun ${id.value()}, because of built buildings!" }
-    val businesses = state.getBusinessesFoundedBy(id)
-    require(businesses.isEmpty()) { "Cannot delete $noun ${id.value()}, because of founded businesses!" }
-    val languages = state.getLanguagesInventedBy(id)
-    require(languages.isEmpty()) { "Cannot delete $noun ${id.value()}, because of invented languages!" }
-    val races = state.getRacesCreatedBy(id)
-    require(races.isEmpty()) { "Cannot delete $noun ${id.value()}, because of created race!" }
-    val towns = state.getTownsFoundedBy(id)
-    require(towns.isEmpty()) { "Cannot delete $noun ${id.value()}, because of founded towns!" }
-    val writtenTexts = state.getTextsWrittenBy(id)
-    require(writtenTexts.isEmpty()) { "Cannot delete $noun ${id.value()}, who is an author!" }
-    val translatedTexts = state.getTextsTranslatedBy(id)
-    require(translatedTexts.isEmpty()) { "Cannot delete $noun ${id.value()}, who is a translator!" }
-}

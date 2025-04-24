@@ -32,12 +32,13 @@ data class Periodical(
     val language: LanguageId = LanguageId(0),
     val calendar: CalendarId = CalendarId(0),
     val frequency: PublicationFrequency = DailyPublication(),
-) : Element<PeriodicalId>, Created, HasComplexStartDate {
+) : Element<PeriodicalId>, Created, HasOwner, HasComplexStartDate {
 
     override fun id() = id
     override fun name(state: State) = name.resolve(state)
 
     override fun creator() = founder
+    override fun owner() = ownership
     override fun startDate(state: State) = state.convertDateToDefault(calendar, frequency.getStartDate())
 
 }

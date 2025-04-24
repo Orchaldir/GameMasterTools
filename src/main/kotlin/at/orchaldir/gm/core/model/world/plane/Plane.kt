@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.plane
 
+import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -22,9 +23,10 @@ data class Plane(
     val name: String = "Plane ${id.value}",
     val title: String? = null,
     val purpose: PlanePurpose = MaterialPlane,
-) : ElementWithSimpleName<PlaneId> {
+) : ElementWithSimpleName<PlaneId>, Created {
 
     override fun id() = id
     override fun name() = name
+    override fun creator() = purpose.creator()
 
 }

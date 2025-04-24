@@ -9,18 +9,13 @@ import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
-import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
-import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
 
 fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
-        && getOwnedBuildings(town).isEmpty()
-        && getPreviouslyOwnedBuildings(town).isEmpty()
-        && getOwnedBusinesses(town).isEmpty()
-        && getPreviouslyOwnedBusinesses(town).isEmpty()
+        && !isCurrentOrFormerOwner(town)
         && !isCreator(town)
 
 // get
@@ -45,11 +40,6 @@ fun State.getTowns(type: StreetTemplateId) = getTownStorage().getAll()
     .filter { it.map.contains { it.construction.contains(type) } }
 
 fun State.getExistingTowns(date: Date?) = getExistingElements(getTownStorage().getAll(), date)
-
-// founder
-
-fun <ID : Id<ID>> State.getTownsFoundedBy(id: ID) = getTownStorage().getAll()
-    .filter { it.founder.isId(id) }
 
 // map size
 

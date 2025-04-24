@@ -57,7 +57,7 @@ class BusinessTest {
                 )
             )
 
-            assertIllegalArgument("Cannot delete business 0, because of invented languages!") {
+            assertIllegalArgument("Cannot delete Business 0, because of created elements (Language)!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -72,7 +72,7 @@ class BusinessTest {
                 )
             )
 
-            assertIllegalArgument("Cannot delete business 0, who is an author!") {
+            assertIllegalArgument("Cannot delete Business 0, because of created elements (Text)!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -93,7 +93,7 @@ class BusinessTest {
         fun `Cannot delete a business that build a building`() {
             val state = createState(Building(BUILDING_ID_0, builder = CreatedByBusiness(BUSINESS_ID_0)))
 
-            assertIllegalArgument("Cannot delete business 0, because of built buildings!") {
+            assertIllegalArgument("Cannot delete Business 0, because of created elements (Building)!") {
                 REDUCER.invoke(
                     state,
                     action
