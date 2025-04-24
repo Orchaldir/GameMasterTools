@@ -14,8 +14,8 @@
    },
    "ownership": {
     "current": {
-     "type": "Character",
-     "character": 8
+     "type": "Business",
+     "business": 2
     }
    },
    "date": {
