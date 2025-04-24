@@ -148,7 +148,7 @@ class CharacterTest {
             fun `Cannot delete a building owner`() {
                 val state = createState(Building(BUILDING_ID_0, ownership = OWNER))
 
-                assertIllegalArgument("Cannot delete character 0, because he owns buildings!") {
+                assertIllegalArgument("Cannot delete Character 0, because of owned elements (Building)!") {
                     REDUCER.invoke(state, action)
                 }
             }
@@ -157,7 +157,7 @@ class CharacterTest {
             fun `Cannot delete a previous building owner`() {
                 val state = createState(Building(BUILDING_ID_0, ownership = PREVIOUS_OWNER))
 
-                assertIllegalArgument("Cannot delete character 0, because he previously owned buildings!") {
+                assertIllegalArgument("Cannot delete Character 0, because of previously owned elements (Building)!") {
                     REDUCER.invoke(state, action)
                 }
             }
@@ -170,7 +170,7 @@ class CharacterTest {
             fun `Cannot delete a business owner`() {
                 val state = createState(Business(BUSINESS_ID_0, ownership = OWNER))
 
-                assertIllegalArgument("Cannot delete character 0, because he owns businesses!") {
+                assertIllegalArgument("Cannot delete Character 0, because of owned elements (Business)!") {
                     REDUCER.invoke(state, action)
                 }
             }
@@ -179,7 +179,7 @@ class CharacterTest {
             fun `Cannot delete a previous business owner`() {
                 val state = createState(Business(BUSINESS_ID_0, ownership = PREVIOUS_OWNER))
 
-                assertIllegalArgument("Cannot delete character 0, because he previously owned businesses!") {
+                assertIllegalArgument("Cannot delete Character 0, because of previously owned elements (Business)!") {
                     REDUCER.invoke(state, action)
                 }
             }

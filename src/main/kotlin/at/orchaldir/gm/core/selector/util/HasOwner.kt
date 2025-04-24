@@ -65,10 +65,10 @@ private fun <ID0, ID1, ELEMENT> checkOwnership(
         ID1 : Id<ID1>,
         ELEMENT : Element<ID0>,
         ELEMENT : HasOwner {
-    val ownedNoun = storage.getType() + "s"
+    val ownedNoun = storage.getType()
     val owned = getOwned(storage, owner)
     val previouslyOwned = getPreviouslyOwned(storage, owner)
 
-    require(owned.isEmpty()) { "Cannot delete $ownerNoun ${owner.value()}, because of owned $ownedNoun!" }
-    require(previouslyOwned.isEmpty()) { "Cannot delete $ownerNoun ${owner.value()}, because of previously owned $ownedNoun!" }
+    require(owned.isEmpty()) { "Cannot delete $ownerNoun ${owner.value()}, because of owned elements ($ownedNoun)!" }
+    require(previouslyOwned.isEmpty()) { "Cannot delete $ownerNoun ${owner.value()}, because of previously owned elements ($ownedNoun)!" }
 }
