@@ -42,11 +42,6 @@ fun State.getTowns(type: StreetTemplateId) = getTownStorage().getAll()
 
 fun State.getExistingTowns(date: Date?) = getExistingElements(getTownStorage().getAll(), date)
 
-// founder
-
-fun <ID : Id<ID>> State.getTownsFoundedBy(id: ID) = getTownStorage().getAll()
-    .filter { it.founder.isId(id) }
-
 // map size
 
 fun getMinWidthStart(town: Town) = mapIndexOfConstructions(town, 1 - town.map.size.width) { index ->

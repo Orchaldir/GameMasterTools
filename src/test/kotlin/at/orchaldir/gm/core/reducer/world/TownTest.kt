@@ -68,7 +68,7 @@ class TownTest {
         fun `Cannot delete a town that build a building`() {
             val state = createState(Building(BUILDING_ID_0, builder = CreatedByTown(TOWN_ID_0)))
 
-            assertIllegalArgument("Cannot delete town 0, because of built buildings!") {
+            assertIllegalArgument("Cannot delete Town 0, because of created elements (Building)!") {
                 REDUCER.invoke(
                     state,
                     action

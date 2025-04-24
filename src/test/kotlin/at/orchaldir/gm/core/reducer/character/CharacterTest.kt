@@ -86,7 +86,7 @@ class CharacterTest {
             val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), DAY0)
             val newState = state.updateStorage(Storage(Language(LANGUAGE_ID_0, origin = origin)))
 
-            assertIllegalArgument("Cannot delete character 0, because of invented languages!") {
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Language)!") {
                 REDUCER.invoke(newState, action)
             }
         }
@@ -96,7 +96,7 @@ class CharacterTest {
             val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_0))
             val newState = state.updateStorage(Storage(Text(TEXT_ID_0, origin = origin)))
 
-            assertIllegalArgument("Cannot delete character 0, who is an author!") {
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Text)!") {
                 REDUCER.invoke(newState, action)
             }
         }
@@ -106,7 +106,7 @@ class CharacterTest {
             val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val newState = state.updateStorage(Storage(Text(TEXT_ID_0, origin = origin)))
 
-            assertIllegalArgument("Cannot delete character 0, who is a translator!") {
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Text)!") {
                 REDUCER.invoke(newState, action)
             }
         }
@@ -116,7 +116,7 @@ class CharacterTest {
             val building = Building(BUILDING_ID_0, builder = CreatedByCharacter(CHARACTER_ID_0))
             val newState = state.updateStorage(Storage(building))
 
-            assertIllegalArgument("Cannot delete character 0, because of built buildings!") {
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Building)!") {
                 REDUCER.invoke(newState, action)
             }
         }
@@ -126,7 +126,7 @@ class CharacterTest {
             val town = Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0))
             val newState = state.updateStorage(Storage(town))
 
-            assertIllegalArgument("Cannot delete character 0, because of founded towns!") {
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Town)!") {
                 REDUCER.invoke(newState, action)
             }
         }

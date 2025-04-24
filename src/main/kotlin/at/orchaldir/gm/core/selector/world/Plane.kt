@@ -28,10 +28,6 @@ fun State.getPrisonPlane(god: GodId) = getPlaneStorage()
     .getAll()
     .firstOrNull { it.purpose is PrisonPlane && it.purpose.gods.contains(god) }
 
-fun <ID : Id<ID>> State.getPrisonPlanesCreatedBy(id: ID) = getPlaneStorage()
-    .getAll()
-    .filter { it.purpose is PrisonPlane && it.purpose.creator.isId(id) }
-
 fun State.getReflections(plane: PlaneId) = getPlaneStorage()
     .getAll()
     .filter { it.purpose is ReflectivePlane && it.purpose.plane == plane }

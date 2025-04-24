@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getParents
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -31,7 +32,7 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     val organizations = state.getOrganizations(action.id)
     require(organizations.isEmpty()) { "Cannot delete character ${action.id.value}, because he is a member of an organization!" }
 
-    checkIfCreatorCanBeDeleted(state, action.id, "character")
+    checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)
 
     noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))

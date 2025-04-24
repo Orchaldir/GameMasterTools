@@ -31,10 +31,6 @@ fun State.getSpells(language: LanguageId) = getSpellStorage()
 
 fun State.getExistingSpell(date: Date?) = getExistingElements(getSpellStorage().getAll(), date)
 
-fun <ID : Id<ID>> State.getSpellsCreatedBy(id: ID) = getSpellStorage()
-    .getAll()
-    .filter { it.creator().isId(id) }
-
 fun State.getSpellsBasedOn(id: SpellId) = getSpellStorage()
     .getAll()
     .filter { it.origin.wasBasedOn(id) }

@@ -23,12 +23,3 @@ fun State.getRaces(id: RaceAppearanceId) = getRaceStorage().getAll()
 
 fun State.getPossibleParents(race: RaceId) = getRaceStorage()
     .getAllExcept(race)
-
-fun <ID : Id<ID>> State.getRacesCreatedBy(id: ID) = getRaceStorage()
-    .getAll().filter { l ->
-        when (l.origin) {
-            is CreatedRace -> l.origin.creator.isId(id)
-            is ModifiedRace -> l.origin.modifier.isId(id)
-            else -> false
-        }
-    }

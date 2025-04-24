@@ -96,12 +96,3 @@ fun State.getTextsMadeOf(material: MaterialId) = getTextStorage()
 fun State.getTranslationsOf(text: TextId) = getTextStorage()
     .getAll()
     .filter { b -> b.origin.isTranslationOf(text) }
-
-fun <ID : Id<ID>> State.getTextsTranslatedBy(id: ID) = getTextStorage()
-    .getAll()
-    .filter { it.origin.wasTranslatedBy(id) }
-
-fun <ID : Id<ID>> State.getTextsWrittenBy(id: ID) = getTextStorage()
-    .getAll()
-    .filter { it.origin.wasWrittenBy(id) }
-

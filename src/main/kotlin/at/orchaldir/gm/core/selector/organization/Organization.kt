@@ -14,10 +14,6 @@ import at.orchaldir.gm.utils.Id
 fun State.canDeleteOrganization(organization: OrganizationId) = !isCreator(organization)
         && !isCurrentOrFormerOwner(organization)
 
-fun <ID : Id<ID>> State.getOrganizationsFoundedBy(id: ID) = getOrganizationStorage()
-    .getAll()
-    .filter { it.founder.isId(id) }
-
 fun State.getExistingOrganizations(date: Date?) = getExistingElements(getOrganizationStorage().getAll(), date)
 
 fun State.getOrganizations(member: CharacterId) = getOrganizationStorage()

@@ -38,13 +38,6 @@ fun State.getDefaultLanguages(character: Character) = getCultureStorage()
 fun State.getPossibleParents(language: LanguageId) = getLanguageStorage()
     .getAllExcept(language)
 
-fun <ID : Id<ID>> State.getLanguagesInventedBy(id: ID) = getLanguageStorage().getAll().filter { l ->
-    when (l.origin) {
-        is InventedLanguage -> l.origin.inventor.isId(id)
-        else -> false
-    }
-}
-
 fun State.getPlanarLanguages(plane: PlaneId) = getLanguageStorage()
     .getAll()
     .filter { it.origin is PlanarLanguage && it.origin.plane == plane }
