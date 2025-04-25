@@ -30,8 +30,18 @@ class DateTest {
         }
 
         @Test
+        fun `Decade overlaps itself`() {
+            assertTrue(decade.isOverlapping(CALENDAR0, decade))
+        }
+
+        @Test
         fun `Decade overlaps year`() {
             assertTrue(decade.isOverlapping(CALENDAR0, year))
+        }
+
+        @Test
+        fun `Year overlaps itself`() {
+            assertTrue(year.isOverlapping(CALENDAR0, year))
         }
 
         @Test
