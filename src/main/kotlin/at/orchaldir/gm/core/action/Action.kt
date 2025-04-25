@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.Holiday
@@ -201,6 +203,11 @@ data class UpdateBusiness(val business: Business) : EconomyAction()
 data object CreateCurrency : EconomyAction()
 data class DeleteCurrency(val id: CurrencyId) : EconomyAction()
 data class UpdateCurrency(val currency: Currency) : EconomyAction()
+
+// currency unit
+data object CreateCurrencyUnit : EconomyAction()
+data class DeleteCurrencyUnit(val id: CurrencyUnitId) : EconomyAction()
+data class UpdateCurrencyUnit(val unit: CurrencyUnit) : EconomyAction()
 
 // job
 data object CreateJob : EconomyAction()
