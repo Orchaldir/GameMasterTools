@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.economy.money
 
-import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -21,13 +20,13 @@ value class CurrencyId(val value: Int) : Id<CurrencyId> {
 @Serializable
 data class Currency(
     val id: CurrencyId,
-    val name: Name = Name.init("Currency ${id.value}"),
+    val name: String = "Currency ${id.value}",
     private val startDate: Date? = null,
     private val endDate: Date? = null,
 ) : ElementWithSimpleName<CurrencyId>, HasStartDate {
 
     override fun id() = id
-    override fun name() = name.name
+    override fun name() = name
     override fun startDate() = startDate
 
 }
