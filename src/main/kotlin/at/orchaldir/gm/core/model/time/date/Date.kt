@@ -44,9 +44,8 @@ sealed interface Date {
     fun isOverlapping(calendar: Calendar, start: Day, end: Day): Boolean {
         val currentStart = calendar.getStartDay(this)
         val currentEnd = calendar.getEndDay(this)
-        val notBetween = isNotBetween(currentStart, currentEnd, start, end)
 
-        return !notBetween
+        return !isNotBetween(currentStart, currentEnd, start, end)
     }
 }
 
@@ -55,11 +54,7 @@ private fun isNotBetween(
     endA: Day,
     startB: Day,
     endB: Day,
-): Boolean {
-    val isBAfterA = startB > endA
-    val isAAfterB = endB < startA
-    return isBAfterA || isAAfterB
-}
+) = startB > endA || endB < startA
 
 @Serializable
 @SerialName("Day")
