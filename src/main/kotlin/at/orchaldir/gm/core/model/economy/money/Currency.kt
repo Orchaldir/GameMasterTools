@@ -22,8 +22,8 @@ value class CurrencyId(val value: Int) : Id<CurrencyId> {
 data class Currency(
     val id: CurrencyId,
     val name: String = "Currency ${id.value}",
-    private val startDate: Date? = null,
-    private val endDate: Date? = null,
+    val startDate: Date? = null,
+    val endDate: Date? = null,
 ) : ElementWithSimpleName<CurrencyId>, HasStartDate {
 
     override fun id() = id

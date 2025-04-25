@@ -248,17 +248,15 @@ private fun HtmlBlockTag.selectAppearance(
 
 fun parseRaceId(parameters: Parameters, param: String) = RaceId(parseInt(parameters, param))
 
-fun parseRace(state: State, parameters: Parameters, id: RaceId): Race {
-    val name = parameters.getOrFail("name")
-    return Race(
-        id, name,
-        parseOneOf(parameters, GENDER, Gender::valueOf),
-        parseDistribution(parameters, HEIGHT, ::parseDistance),
-        parseWeight(parameters, WEIGHT),
-        parseLifeStages(parameters),
-        parseRaceOrigin(parameters, state),
-    )
-}
+fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
+    id,
+    parameters.getOrFail(NAME),
+    parseOneOf(parameters, GENDER, Gender::valueOf),
+    parseDistribution(parameters, HEIGHT, ::parseDistance),
+    parseWeight(parameters, WEIGHT),
+    parseLifeStages(parameters),
+    parseRaceOrigin(parameters, state),
+)
 
 private fun parseLifeStages(parameters: Parameters): LifeStages {
     return when (parameters[combine(LIFE_STAGE, TYPE)]) {
