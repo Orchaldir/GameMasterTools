@@ -86,10 +86,11 @@ private fun TD.showEvent(
         getStartText(event)
     )
 
-    is EndEvent<*> -> when (val id = event.id) {
-        is CharacterId -> displayEvent(call, state, event, "died")
-        else -> displayEvent(call, state, event, "ended")
-    }
+    is EndEvent<*> -> displayEvent(
+        call, state,
+        event,
+        getEndText(event)
+    )
 
     is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)
 }
@@ -103,6 +104,11 @@ private fun getStartText(event: StartEvent<*>): String = when (event.id) {
     is OrganizationId, is TownId -> "was founded"
     is TextId -> "was published"
     else -> "started"
+}
+
+private fun getEndText(event: EndEvent<*>): String = when (event.id) {
+    is CharacterId -> "died"
+    else -> "ended"
 }
 
 private fun <ID : Id<ID>> HtmlBlockTag.displayEvent(
