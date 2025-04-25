@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.economy.money.CurrencyId
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -53,6 +55,9 @@ val CHARACTER_ID_2 = CharacterId(2)
 val UNKNOWN_CHARACTER_ID = CharacterId(99)
 val CULTURE_ID_0 = CultureId(0)
 val CULTURE_ID_1 = CultureId(1)
+val CURRENCY_ID_0 = CurrencyId(0)
+val UNKNOWN_CURRENCY_ID = CurrencyId(99)
+val CURRENCY_UNIT_ID_0 = CurrencyUnitId(0)
 val DOMAIN_ID_0 = DomainId(0)
 val UNKNOWN_DOMAIN_ID = DomainId(99)
 val EQUIPMENT_ID_0 = EquipmentId(0)

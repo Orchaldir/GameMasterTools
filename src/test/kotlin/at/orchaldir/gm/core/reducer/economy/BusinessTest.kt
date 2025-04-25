@@ -153,7 +153,7 @@ class BusinessTest {
             val action = UpdateBusiness(Business(BUSINESS_ID_0))
             val state = STATE.removeStorage(BUSINESS_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Business 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
