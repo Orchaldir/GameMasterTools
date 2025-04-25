@@ -1,0 +1,17 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Galifar",
+   "startDate": {
+    "type": "Year",
+    "year": 0
+   },
+   "endDate": {
+    "type": "Year",
+    "year": 893
+   }
+  }
+ }
+}

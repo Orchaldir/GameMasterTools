@@ -8,17 +8,29 @@ import at.orchaldir.gm.app.html.model.showCurrentDate
 import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.event.*
+import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.event.EndEvent
+import at.orchaldir.gm.core.model.event.Event
+import at.orchaldir.gm.core.model.event.OwnershipChangedEvent
+import at.orchaldir.gm.core.model.event.StartEvent
+import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
+import at.orchaldir.gm.core.model.item.text.TextId
+import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getEvents
 import at.orchaldir.gm.core.selector.sort
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.*
-
 
 fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
     val state = STORE.getState()
@@ -35,7 +47,7 @@ fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
 }
 
 fun HtmlBlockTag.showEvents(
-    unsortedEvents: List<Event>,
+    unsortedEvents: List<Event<*>>,
     call: ApplicationCall,
     state: State,
     calendar: Calendar,
@@ -69,82 +81,48 @@ fun HtmlBlockTag.showEvents(
 private fun TD.showEvent(
     call: ApplicationCall,
     state: State,
-    event: Event,
+    event: Event<*>,
 ) = when (event) {
-    is ArchitecturalStyleStartEvent -> {
-        link(call, state, event.style)
-        +" style started."
-    }
+    is StartEvent<*> -> displayEvent(
+        call, state,
+        event,
+        getStartText(event)
+    )
 
-    is ArchitecturalStyleEndEvent -> {
-        link(call, state, event.style)
-        +" style ended."
-    }
-
-    is BuildingConstructedEvent -> {
-        link(call, state, event.building)
-        +" was constructed."
-    }
-
-    is BusinessStartedEvent -> {
-        +"The business "
-        link(call, state, event.business)
-        +" was started."
-    }
+    is EndEvent<*> -> displayEvent(
+        call, state,
+        event,
+        getEndText(event)
+    )
 
     is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)
+}
 
-    is CharacterDeathEvent -> {
-        link(call, state, event.character)
-        +" died."
-    }
+private fun getStartText(event: StartEvent<*>): String = when (event.id) {
+    is BuildingId -> "was constructed"
+    is BusinessId -> "opened"
+    is CharacterId -> "was born"
+    is FontId, is RaceId, is SpellId -> "was created"
+    is PeriodicalId -> "started publishing"
+    is OrganizationId, is TownId -> "was founded"
+    is TextId -> "was published"
+    else -> "started"
+}
 
-    is CharacterOriginEvent -> {
-        link(call, state, event.character)
-        +" was born."
-    }
+private fun getEndText(event: EndEvent<*>): String = when (event.id) {
+    is CharacterId -> "died"
+    else -> "ended"
+}
 
-    is FontCreatedEvent -> {
-        +"The font "
-        link(call, state, event.font)
-        +" was created."
-    }
-
-    is PeriodicalCreatedEvent -> {
-        +"The 1.issue of the "
-        link(call, state, event.periodical)
-        +" was published."
-    }
-
-    is OrganizationFoundingEvent -> {
-        +"The organization "
-        link(call, state, event.organization)
-        +" was founded."
-    }
-
-    is RaceCreatedEvent -> {
-        +"The race "
-        link(call, state, event.race)
-        +" was created."
-    }
-
-    is SpellCreatedEvent -> {
-        +"The spell "
-        link(call, state, event.spell)
-        +" was created."
-    }
-
-    is TextPublishedEvent -> {
-        +"The text "
-        link(call, state, event.text)
-        +" was published."
-    }
-
-    is TownFoundingEvent -> {
-        +"The town "
-        link(call, state, event.town)
-        +" was founded."
-    }
+private fun <ID : Id<ID>> HtmlBlockTag.displayEvent(
+    call: ApplicationCall,
+    state: State,
+    event: Event<ID>,
+    text: String,
+) {
+    +"The ${event.id.type()} "
+    link(call, state, event.id)
+    +" $text."
 }
 
 private fun <ID : Id<ID>> HtmlBlockTag.handleOwnershipChanged(

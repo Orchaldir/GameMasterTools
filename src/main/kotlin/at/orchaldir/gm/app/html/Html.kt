@@ -145,7 +145,7 @@ fun HtmlBlockTag.fieldLink(label: String, link: String, text: String) {
 }
 
 inline fun <reified T : Any> HtmlBlockTag.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
-    fieldLink("${storage.getType()}s", call.application.href(link), "${storage.getSize()}")
+    fieldLink(storage.getPlural(), call.application.href(link), "${storage.getSize()}")
 }
 
 fun HtmlBlockTag.svg(svg: Svg, width: Int) {

@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 interface Id<ID> {
     fun next(): ID
     fun type(): String
+    fun plural() = type() + "s"
     fun value(): Int
 }
 
@@ -50,6 +51,7 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     fun getSize() = elements.size
 
     fun getType() = nextId.type()
+    fun getPlural() = nextId.plural()
 
     fun get(id: ID) = elements[id]
 

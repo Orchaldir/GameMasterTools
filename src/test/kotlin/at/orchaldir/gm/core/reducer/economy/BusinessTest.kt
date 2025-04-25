@@ -26,7 +26,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 
 class BusinessTest {
@@ -150,10 +149,9 @@ class BusinessTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateBusiness(Business(BUSINESS_ID_0))
-            val state = STATE.removeStorage(BUSINESS_ID_0)
+            val action = UpdateBusiness(Business(UNKNOWN_BUSINESS_ID))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Business 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
