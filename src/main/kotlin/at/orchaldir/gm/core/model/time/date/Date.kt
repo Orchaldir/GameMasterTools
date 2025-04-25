@@ -33,8 +33,20 @@ sealed interface Date {
     fun next(): Date?
     fun previous(): Date?
 
-    fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
+    fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean {
+        val weekStart = calendar.getStartDay(this)
+        val weekEnd = calendar.getEndDay(this)
+
+        return !isNotBetween(weekStart, weekEnd, end, start)
+    }
 }
+
+private fun isNotBetween(
+    startA: Day,
+    endA: Day,
+    startB: Day,
+    endB: Day,
+): Boolean = startB > endA || endB < startA
 
 @Serializable
 @SerialName("Day")
@@ -70,7 +82,7 @@ data class DayRange(
     override fun isBetween(calendar: Calendar, start: Day, end: Day) =
         !isNotBetween(start, end)
 
-    fun isNotBetween(start: Day, end: Day) = startDay > end || endDay < start
+    fun isNotBetween(start: Day, end: Day) = isNotBetween(startDay, endDay, end, start)
 }
 
 @Serializable
@@ -88,11 +100,6 @@ data class Week(val week: Int) : Date {
     operator fun compareTo(other: Week): Int {
         return week.compareTo(other.week)
     }
-
-    fun getDurationBetween(other: Week) = Duration((week - other.week).absoluteValue)
-    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
-        .getStartDayOfWeek(this)
-        .isBetween(calendar, start, end)
 }
 
 @Serializable
@@ -110,11 +117,6 @@ data class Month(val month: Int) : Date {
     operator fun compareTo(other: Month): Int {
         return month.compareTo(other.month)
     }
-
-    fun getDurationBetween(other: Month) = Duration((month - other.month).absoluteValue)
-    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
-        .getStartDayOfMonth(this)
-        .isBetween(calendar, start, end)
 }
 
 @Serializable
@@ -133,10 +135,6 @@ data class Year(val year: Int) : Date {
     operator fun compareTo(other: Year): Int {
         return year.compareTo(other.year)
     }
-
-    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
-        .getStartDayOfYear(this)
-        .isBetween(calendar, start, end)
 }
 
 @Serializable
@@ -152,10 +150,6 @@ data class Decade(val decade: Int) : Date {
     operator fun compareTo(other: Decade): Int {
         return decade.compareTo(other.decade)
     }
-
-    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
-        .getStartDayOfDecade(this)
-        .isBetween(calendar, start, end)
 }
 
 @Serializable
@@ -171,8 +165,4 @@ data class Century(val century: Int) : Date {
     operator fun compareTo(other: Century): Int {
         return century.compareTo(other.century)
     }
-
-    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
-        .getStartDayOfCentury(this)
-        .isBetween(calendar, start, end)
 }
