@@ -2,7 +2,8 @@ package at.orchaldir.gm.core.model.time.date
 
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.selector.time.date.*
+import at.orchaldir.gm.core.selector.time.date.getEndDay
+import at.orchaldir.gm.core.selector.time.date.getStartDay
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
