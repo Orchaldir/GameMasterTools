@@ -28,14 +28,14 @@ class CurrencyTest {
 
         @Test
         fun `Can delete an existing business`() {
-            val state = State(Storage(Currency(CURRENCY_ID_0)))
-
             assertEquals(0, REDUCER.invoke(state, action).first.getCurrencyStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Currency 0!") { REDUCER.invoke(State(), action) }
+            val action = DeleteCurrency(UNKNOWN_CURRENCY_ID)
+
+            assertIllegalArgument("Requires unknown Currency 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -68,10 +68,10 @@ class CurrencyTest {
 
         @Test
         fun `Test Success`() {
-            val business = Currency(CURRENCY_ID_0, "New")
-            val action = UpdateCurrency(business)
+            val currency = Currency(CURRENCY_ID_0, "New")
+            val action = UpdateCurrency(currency)
 
-            assertEquals(business, REDUCER.invoke(state, action).first.getCurrencyStorage().get(CURRENCY_ID_0))
+            assertEquals(currency, REDUCER.invoke(state, action).first.getCurrencyStorage().get(CURRENCY_ID_0))
         }
     }
 

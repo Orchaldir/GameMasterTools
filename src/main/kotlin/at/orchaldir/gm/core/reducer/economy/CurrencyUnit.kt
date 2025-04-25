@@ -23,6 +23,7 @@ val DELETE_CURRENCY_UNIT: Reducer<DeleteCurrencyUnit, State> = { state, action -
 val UPDATE_CURRENCY_UNIT: Reducer<UpdateCurrencyUnit, State> = { state, action ->
     val unit = action.unit
     state.getCurrencyUnitStorage().require(unit.id)
+    state.getCurrencyStorage().require(unit.currency)
 
     noFollowUps(state.updateStorage(state.getCurrencyUnitStorage().update(unit)))
 }
