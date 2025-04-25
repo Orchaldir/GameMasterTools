@@ -33,6 +33,13 @@ sealed interface Date {
     fun next(): Date?
     fun previous(): Date?
 
+    fun isBetween(calendar: Calendar, date: Date): Boolean {
+        val start = calendar.getStartDay(date)
+        val end = calendar.getEndDay(date)
+
+        return isBetween(calendar, start, end)
+    }
+
     fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean {
         val weekStart = calendar.getStartDay(this)
         val weekEnd = calendar.getEndDay(this)
