@@ -213,7 +213,7 @@ private fun create(
     selectionEnd: Day,
 ): HtmlBlockTag.(Day) -> Unit =
     { day ->
-        if (day.isBetween(calendar, selectionStart, selectionEnd)) {
+        if (day.isOverlapping(calendar, selectionStart, selectionEnd)) {
             style = "background-color:cyan"
         }
     }

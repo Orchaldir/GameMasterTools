@@ -173,7 +173,7 @@ fun State.getEvents(calendar: Calendar, date: Date): List<Event> {
     val end = calendar.getEndDay(date)
 
     return getEvents(calendar).filter {
-        it.date.isBetween(calendar, start, end)
+        it.date.isOverlapping(calendar, start, end)
     }
 }
 
