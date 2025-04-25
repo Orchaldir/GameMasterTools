@@ -33,14 +33,14 @@ sealed interface Date {
     fun next(): Date?
     fun previous(): Date?
 
-    fun isBetween(calendar: Calendar, date: Date): Boolean {
+    fun isOverlapping(calendar: Calendar, date: Date): Boolean {
         val start = calendar.getStartDay(date)
         val end = calendar.getEndDay(date)
 
-        return isBetween(calendar, start, end)
+        return isOverlapping(calendar, start, end)
     }
 
-    fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean {
+    fun isOverlapping(calendar: Calendar, start: Day, end: Day): Boolean {
         val weekStart = calendar.getStartDay(this)
         val weekEnd = calendar.getEndDay(this)
 
@@ -72,7 +72,7 @@ data class Day(val day: Int) : Date {
     }
 
     fun getDurationBetween(other: Day) = Duration((day - other.day).absoluteValue)
-    override fun isBetween(calendar: Calendar, start: Day, end: Day) = day >= start.day && day <= end.day
+    override fun isOverlapping(calendar: Calendar, start: Day, end: Day) = day >= start.day && day <= end.day
 }
 
 @Serializable
@@ -86,7 +86,7 @@ data class DayRange(
     override fun next() = null
     override fun previous() = null
 
-    override fun isBetween(calendar: Calendar, start: Day, end: Day) =
+    override fun isOverlapping(calendar: Calendar, start: Day, end: Day) =
         !isNotBetween(start, end)
 
     fun isNotBetween(start: Day, end: Day) = isNotBetween(startDay, endDay, end, start)
