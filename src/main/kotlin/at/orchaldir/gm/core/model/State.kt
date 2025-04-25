@@ -16,12 +16,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.economy.money.CURRENCY_TYPE
-import at.orchaldir.gm.core.model.economy.money.CURRENCY_UNIT_TYPE
-import at.orchaldir.gm.core.model.economy.money.Currency
-import at.orchaldir.gm.core.model.economy.money.CurrencyId
-import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.font.FONT_TYPE
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId

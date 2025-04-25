@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.model.economy.money
 
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

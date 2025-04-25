@@ -2,7 +2,10 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Dead
-import at.orchaldir.gm.core.model.event.*
+import at.orchaldir.gm.core.model.event.EndEvent
+import at.orchaldir.gm.core.model.event.Event
+import at.orchaldir.gm.core.model.event.OwnershipChangedEvent
+import at.orchaldir.gm.core.model.event.StartEvent
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History

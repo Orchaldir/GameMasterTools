@@ -21,12 +21,7 @@ import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.FORM
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
+import kotlinx.html.*
 
 // show
 
