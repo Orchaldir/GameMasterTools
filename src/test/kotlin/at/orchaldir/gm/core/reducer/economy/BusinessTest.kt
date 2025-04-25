@@ -149,10 +149,9 @@ class BusinessTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateBusiness(Business(BUSINESS_ID_0))
-            val state = STATE.removeStorage(BUSINESS_ID_0)
+            val action = UpdateBusiness(Business(UNKNOWN_BUSINESS_ID))
 
-            assertIllegalArgument("Requires unknown Business 99!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Business 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
