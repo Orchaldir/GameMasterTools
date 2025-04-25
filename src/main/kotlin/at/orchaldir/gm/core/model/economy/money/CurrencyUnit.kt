@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val CURRENCY_UNIT_TYPE = "CurrencyUnit"
+const val CURRENCY_UNIT_TYPE = "Currency Unit"
 
 @JvmInline
 @Serializable

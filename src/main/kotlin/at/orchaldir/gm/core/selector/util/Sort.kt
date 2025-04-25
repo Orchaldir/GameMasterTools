@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.money.Currency
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.equipment.Equipment
@@ -159,6 +160,22 @@ fun State.sortCurrencies(
         when (sort) {
             SortCurrency.Name -> compareBy { it.name(this) }
             SortCurrency.Date -> getAgeComparator()
+        }
+    )
+
+// currency unit
+
+fun State.sortCurrencyUnits(sort: SortCurrencyUnit = SortCurrencyUnit.Name) =
+    sortCurrencies(getCurrencyUnitStorage().getAll(), sort)
+
+fun State.sortCurrencies(
+    businesses: Collection<CurrencyUnit>,
+    sort: SortCurrencyUnit = SortCurrencyUnit.Name,
+) = businesses
+    .sortedWith(
+        when (sort) {
+            SortCurrencyUnit.Name -> compareBy { it.name }
+            SortCurrencyUnit.Value -> compareBy { it.value }
         }
     )
 

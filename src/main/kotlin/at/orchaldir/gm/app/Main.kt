@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyRouting
+import at.orchaldir.gm.app.routes.economy.money.configureCurrencyUnitRouting
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.configureSpellRouting
 import at.orchaldir.gm.app.routes.organization.configureOrganizationRouting
@@ -59,6 +60,7 @@ fun Application.module() {
     configureBusinessRouting()
     configureCharacterRouting()
     configureCurrencyRouting()
+    configureCurrencyUnitRouting()
     configureEquipmentMapRouting()
     configureCharacterLanguageRouting()
     configureCharacterRelationshipRouting()

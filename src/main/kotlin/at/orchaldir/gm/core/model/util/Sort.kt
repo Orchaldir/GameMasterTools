@@ -32,6 +32,11 @@ enum class SortCurrency {
     Date,
 }
 
+enum class SortCurrencyUnit {
+    Name,
+    Value,
+}
+
 enum class SortDomain {
     Name,
 }

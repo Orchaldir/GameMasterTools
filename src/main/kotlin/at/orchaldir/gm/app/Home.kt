@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
+import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
@@ -74,6 +75,7 @@ fun Application.configureRouting() {
                     h3 { +"Economy" }
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())
                     fieldStorageLink(call, state.getCurrencyStorage(), CurrencyRoutes.All())
+                    fieldStorageLink(call, state.getCurrencyUnitStorage(), CurrencyUnitRoutes.All())
                     fieldStorageLink(call, state.getJobStorage(), JobRoutes())
                     h3 { +"Magic" }
                     fieldStorageLink(call, state.getSpellStorage(), SpellRoutes.All())

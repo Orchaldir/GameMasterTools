@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
+import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
@@ -26,6 +27,8 @@ import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -244,6 +247,7 @@ fun <ID : Id<ID>> href(
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))
     is CultureId -> call.application.href(CultureRoutes.Details(id))
     is CurrencyId -> call.application.href(CurrencyRoutes.Details(id))
+    is CurrencyUnitId -> call.application.href(CurrencyUnitRoutes.Details(id))
     is DomainId -> call.application.href(DomainRoutes.Details(id))
     is EquipmentId -> call.application.href(EquipmentRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))
