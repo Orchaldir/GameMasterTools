@@ -41,10 +41,10 @@ sealed interface Date {
     }
 
     fun isOverlapping(calendar: Calendar, start: Day, end: Day): Boolean {
-        val weekStart = calendar.getStartDay(this)
-        val weekEnd = calendar.getEndDay(this)
+        val currentStart = calendar.getStartDay(this)
+        val currentEnd = calendar.getEndDay(this)
 
-        return !isNotBetween(weekStart, weekEnd, end, start)
+        return !isNotBetween(currentStart, currentEnd, end, start)
     }
 }
 
