@@ -80,16 +80,11 @@ private fun TD.showEvent(
     state: State,
     event: Event<*>,
 ) = when (event) {
-    is StartEvent<*> -> when (val id = event.id) {
-        is BuildingId -> displayEvent(call, state, event, "was constructed")
-        is BusinessId -> displayEvent(call, state, event, "opened")
-        is CharacterId -> displayEvent(call, state, event, "was born")
-        is FontId, is RaceId, is SpellId -> displayEvent(call, state, event, "was created")
-        is PeriodicalId -> displayEvent(call, state, event, "started publishing")
-        is OrganizationId, is TownId -> displayEvent(call, state, event, "was founded")
-        is TextId -> displayEvent(call, state, event, "was published")
-        else -> displayEvent(call, state, event, "started")
-    }
+    is StartEvent<*> -> displayEvent(
+        call, state,
+        event,
+        getStartText(event)
+    )
 
     is EndEvent<*> -> when (val id = event.id) {
         is CharacterId -> displayEvent(call, state, event, "died")
@@ -97,6 +92,17 @@ private fun TD.showEvent(
     }
 
     is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)
+}
+
+private fun getStartText(event: StartEvent<*>): String = when (event.id) {
+    is BuildingId -> "was constructed"
+    is BusinessId -> "opened"
+    is CharacterId -> "was born"
+    is FontId, is RaceId, is SpellId -> "was created"
+    is PeriodicalId -> "started publishing"
+    is OrganizationId, is TownId -> "was founded"
+    is TextId -> "was published"
+    else -> "started"
 }
 
 private fun <ID : Id<ID>> HtmlBlockTag.displayEvent(
