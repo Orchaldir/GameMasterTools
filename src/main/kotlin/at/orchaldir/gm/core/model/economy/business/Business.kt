@@ -17,6 +17,7 @@ value class BusinessId(val value: Int) : Id<BusinessId> {
 
     override fun next() = BusinessId(value + 1)
     override fun type() = BUSINESS_TYPE
+    override fun plural() = "Businesses"
     override fun value() = value
 
 }

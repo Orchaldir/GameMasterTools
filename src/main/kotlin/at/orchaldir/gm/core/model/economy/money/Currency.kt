@@ -13,6 +13,7 @@ value class CurrencyId(val value: Int) : Id<CurrencyId> {
 
     override fun next() = CurrencyId(value + 1)
     override fun type() = CURRENCY_TYPE
+    override fun plural() = "Currencies"
     override fun value() = value
 
 }
