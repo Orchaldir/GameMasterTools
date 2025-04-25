@@ -82,53 +82,19 @@ private fun TD.showEvent(
 ) = when (event) {
     is StartEvent<*> -> when (val id = event.id) {
         is BuildingId -> displayEvent(call, state, event, "was constructed")
-        /*
-        is BusinessId -> {
-            "The ${id.type()} "
-            link(call, state, event.id)
-            +" opened."
-        }
-        is CharacterId -> {
-            "The ${id.type()} "
-            link(call, state, event.id)
-            +" was born."
-        }
-        is FontId, is RaceId, is SpellId -> {
-            "The ${id.type()} "
-            link(call, state, event.id)
-            +" was created."
-        }
-        is PeriodicalId -> {
-            +"The 1.issue of the "
-            link(call, state, event.id)
-            +" was published."
-        }
-        is OrganizationId, is TownId -> {
-            "The ${id.type()} "
-            link(call, state, event.id)
-            +" was founded."
-        }
-        is TextId -> {
-            "The ${id.type()} "
-            link(call, state, event.id)
-            +" was published."
-        }
-        */
+        is BusinessId -> displayEvent(call, state, event, "opened")
+        is CharacterId -> displayEvent(call, state, event, "was born")
+        is FontId, is RaceId, is SpellId -> displayEvent(call, state, event, "was created")
+        is PeriodicalId -> displayEvent(call, state, event, "started publishing")
+        is OrganizationId, is TownId -> displayEvent(call, state, event, "was founded")
+        is TextId -> displayEvent(call, state, event, "was published")
         else -> displayEvent(call, state, event, "started")
     }
 
-    is EndEvent<*> -> displayEvent(call, state, event, "ended")/*when (val id = event.id) {
-        is CharacterId -> {
-            "The ${id.type()} "
-            link(call, state, event.id)
-            +" died."
-        }
-        else -> {
-            "The ${id.type()} "
-            link(call, state, event.id)
-            +" ended."
-        }
-    }*/
+    is EndEvent<*> -> when (val id = event.id) {
+        is CharacterId -> displayEvent(call, state, event, "died")
+        else -> displayEvent(call, state, event, "ended")
+    }
 
     is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)
 }
