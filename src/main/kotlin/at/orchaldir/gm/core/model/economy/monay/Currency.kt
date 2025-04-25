@@ -1,0 +1,33 @@
+package at.orchaldir.gm.core.model.economy.monay
+
+import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.utils.Id
+import kotlinx.serialization.Serializable
+
+const val CURRENCY_TYPE = "Currency"
+
+@JvmInline
+@Serializable
+value class CurrencyId(val value: Int) : Id<CurrencyId> {
+
+    override fun next() = CurrencyId(value + 1)
+    override fun type() = CURRENCY_TYPE
+    override fun value() = value
+
+}
+
+@Serializable
+data class Currency(
+    val id: CurrencyId,
+    val name: Name = Name.init("Currency ${id.value}"),
+    private val startDate: Date? = null,
+    private val endDate: Date? = null,
+) : ElementWithSimpleName<CurrencyId>, HasStartDate {
+
+    override fun id() = id
+    override fun name() = name.name
+    override fun startDate() = startDate
+
+}
