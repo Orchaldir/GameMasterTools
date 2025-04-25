@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.economy.money.Currency
+import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.Holiday
@@ -194,6 +196,11 @@ sealed class EconomyAction : Action()
 data object CreateBusiness : EconomyAction()
 data class DeleteBusiness(val id: BusinessId) : EconomyAction()
 data class UpdateBusiness(val business: Business) : EconomyAction()
+
+// currency
+data object CreateCurrency : EconomyAction()
+data class DeleteCurrency(val id: CurrencyId) : EconomyAction()
+data class UpdateCurrency(val currency: Currency) : EconomyAction()
 
 // job
 data object CreateJob : EconomyAction()
