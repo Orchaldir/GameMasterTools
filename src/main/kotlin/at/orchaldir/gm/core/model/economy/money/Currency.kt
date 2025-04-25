@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.economy.monay
+package at.orchaldir.gm.core.model.economy.money
 
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Date
