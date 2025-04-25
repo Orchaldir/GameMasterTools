@@ -57,6 +57,16 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
     }
 
+    getCurrencyStorage().getAll().forEach { currency ->
+        addPossibleEvent(events, default, calendar, currency.startDate) {
+            StartEvent(it, currency.id)
+        }
+
+        addPossibleEvent(events, default, calendar, currency.endDate) {
+            EndEvent(it, currency.id)
+        }
+    }
+
     getFontStorage().getAll().forEach { font ->
         addPossibleEvent(events, default, calendar, font.startDate()) {
             StartEvent(it, font.id)
