@@ -4,20 +4,29 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.START
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.optionalField
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
+import at.orchaldir.gm.core.model.util.SortCurrencyUnit
+import at.orchaldir.gm.core.selector.economy.getCurrencyUnits
+import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
 
 // show
 
@@ -28,6 +37,23 @@ fun HtmlBlockTag.showCurrency(
 ) {
     optionalField(call, state, "Start", currency.startDate)
     optionalField(call, state, "End", currency.endDate)
+
+    val units = state.sortCurrencyUnits(
+        state.getCurrencyUnits(currency.id),
+        SortCurrencyUnit.Value,
+    )
+    table {
+        tr {
+            th { +"Value" }
+            th { +"Unit" }
+        }
+        units.forEach { unit ->
+            tr {
+                tdSkipZero(unit.value)
+                td { link(call, state, unit) }
+            }
+        }
+    }
 }
 
 // edit

@@ -166,9 +166,9 @@ fun State.sortCurrencies(
 // currency unit
 
 fun State.sortCurrencyUnits(sort: SortCurrencyUnit = SortCurrencyUnit.Name) =
-    sortCurrencies(getCurrencyUnitStorage().getAll(), sort)
+    sortCurrencyUnits(getCurrencyUnitStorage().getAll(), sort)
 
-fun State.sortCurrencies(
+fun State.sortCurrencyUnits(
     businesses: Collection<CurrencyUnit>,
     sort: SortCurrencyUnit = SortCurrencyUnit.Name,
 ) = businesses

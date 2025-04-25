@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.editCurrencyUnit
 import at.orchaldir.gm.app.html.model.economy.parseCurrencyUnit
 import at.orchaldir.gm.app.html.model.economy.showCurrencyUnit
-import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CreateCurrencyUnit
 import at.orchaldir.gm.core.action.DeleteCurrencyUnit
 import at.orchaldir.gm.core.action.UpdateCurrencyUnit
@@ -139,13 +138,13 @@ private fun HTML.showAllCurrencies(
     state: State,
     sort: SortCurrencyUnit,
 ) {
-    val unites = state.sortCurrencyUnits(sort)
+    val units = state.sortCurrencyUnits(sort)
     val createLink = call.application.href(CurrencyUnitRoutes.New())
     val sortNameLink = call.application.href(CurrencyUnitRoutes.All())
     val sortValueLink = call.application.href(CurrencyUnitRoutes.All(SortCurrencyUnit.Value))
 
     simpleHtml("Currency Units") {
-        field("Count", unites.size)
+        field("Count", units.size)
         field("Sort") {
             link(sortNameLink, "Name")
             +" "
@@ -157,7 +156,7 @@ private fun HTML.showAllCurrencies(
                 th { +"Currency" }
                 th { +"Value" }
             }
-            unites.forEach { unit ->
+            units.forEach { unit ->
                 tr {
                     td { link(call, state, unit) }
                     td { link(call, state, unit.currency) }
