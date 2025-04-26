@@ -19,27 +19,14 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
         .build()
 }
 
-fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation) = Polygon2d(
-    listOf(
-        center.createPolar(radius, firstCorner),
-        center.createPolar(radius, firstCorner + ONE_THIRD_CIRCLE),
-        center.createPolar(radius, firstCorner + TWO_THIRD_CIRCLE),
-    )
+fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation) =
+    Polygon2d(createTrianglePoints(center, radius, firstCorner))
+
+fun createRoundedTriangle(center: Point2d, radius: Distance, firstCorner: Orientation) =
+    Polygon2d(subdividePoints(createTrianglePoints(center, radius, firstCorner), ::halfSegment))
+
+fun createTrianglePoints(center: Point2d, radius: Distance, firstCorner: Orientation) = listOf(
+    center.createPolar(radius, firstCorner),
+    center.createPolar(radius, firstCorner + ONE_THIRD_CIRCLE),
+    center.createPolar(radius, firstCorner + TWO_THIRD_CIRCLE),
 )
-
-fun createRoundedTriangle(center: Point2d, radius: Distance, firstCorner: Orientation): Polygon2d {
-    val a = center.createPolar(radius, firstCorner)
-    val b = center.createPolar(radius, firstCorner + ONE_THIRD_CIRCLE)
-    val c = center.createPolar(radius, firstCorner + TWO_THIRD_CIRCLE)
-
-    return Polygon2d(
-        listOf(
-            a,
-            (a + b) / 2.0f,
-            b,
-            (b + c) / 2.0f,
-            c,
-            (c + a) / 2.0f,
-        )
-    )
-}
