@@ -22,6 +22,14 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
 fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation) =
     Polygon2d(createRegularPolygonPoints(center, radius, sides, firstCorner))
 
+fun createRoundedRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation) =
+    Polygon2d(
+        subdividePolygon(
+            createRegularPolygonPoints(center, radius, sides, firstCorner),
+            ::halfSegment,
+        )
+    )
+
 fun createRegularPolygonPoints(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation): List<Point2d> {
     require(sides >= 3) { "A regular polygon needs at least 3 sides!" }
 
