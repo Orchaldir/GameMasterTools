@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.visualization.currency.calculateCoinSize
 
 fun main() {
     val radius = Distance.fromCentimeters(1)
@@ -38,7 +37,7 @@ fun main() {
         "coin-shapes.svg",
         State(materialStorage),
         CURRENCY_CONFIG,
-        calculateCoinSize(radius),
+        CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
         shapes,
         materials,
     ) { shape, material ->
