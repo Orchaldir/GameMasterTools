@@ -4,14 +4,14 @@ import kotlinx.serialization.Serializable
 
 @JvmInline
 @Serializable
-value class Name private constructor(val name: String) {
+value class Name private constructor(val text: String) {
 
     companion object {
         fun init(name: String) = Name(name.trim())
     }
 
     init {
-        require(name.isNotEmpty()) { "Name is empty!" }
+        require(text.isNotEmpty()) { "Name is empty!" }
     }
 
 }
