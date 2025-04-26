@@ -20,5 +20,4 @@ data class TextRenderState(
     val config: TextRenderConfig,
     val renderer: MultiLayerRenderer,
     val data: ResolvedTextData = ResolvedTextData(),
-    val fonts: Storage<FontId, Font> = Storage(FontId(0)),
 )
