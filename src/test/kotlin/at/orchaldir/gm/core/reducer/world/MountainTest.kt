@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.NAME
 import at.orchaldir.gm.core.action.DeleteMountain
 import at.orchaldir.gm.core.action.UpdateMountain
 import at.orchaldir.gm.core.model.State
@@ -66,7 +67,7 @@ class MountainTest {
         @Test
         fun `Update is valid`() {
             val state = State(Storage(Mountain(ID0)))
-            val mountain = Mountain(ID0, "Test")
+            val mountain = Mountain(ID0, NAME)
             val action = UpdateMountain(mountain)
 
             assertEquals(mountain, REDUCER.invoke(state, action).first.getMountainStorage().get(ID0))

@@ -91,7 +91,7 @@ class JobTest {
 
         @Test
         fun `Success`() {
-            val job = Job(JOB_ID_0, "Test")
+            val job = Job(JOB_ID_0, NAME)
             val action = UpdateJob(job)
 
             assertEquals(job, REDUCER.invoke(STATE, action).first.getJobStorage().get(JOB_ID_0))

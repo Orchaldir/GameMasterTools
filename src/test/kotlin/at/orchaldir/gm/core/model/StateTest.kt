@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model
 
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.utils.Storage
@@ -13,7 +14,7 @@ class StateTest {
     @Nested
     inner class GetElementNameTest {
         val id = CalendarId(0)
-        val state = State(Storage(listOf(Calendar(id, "Gregorian"))))
+        val state = State(Storage(listOf(Calendar(id, Name.init("Gregorian")))))
 
         @Test
         fun `Get name of valid element`() {

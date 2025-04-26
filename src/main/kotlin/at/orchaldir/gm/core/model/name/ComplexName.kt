@@ -59,9 +59,9 @@ data class NameWithReference(
             }
 
             is ReferencedFullName -> state.getCharacterStorage().getOrThrow(reference.id).name(state)
-            is ReferencedMoon -> state.getMoonStorage().getOrThrow(reference.id).name
-            is ReferencedMountain -> state.getMountainStorage().getOrThrow(reference.id).name
-            is ReferencedRiver -> state.getRiverStorage().getOrThrow(reference.id).name
+            is ReferencedMoon -> state.getMoonStorage().getOrThrow(reference.id).name.text
+            is ReferencedMountain -> state.getMountainStorage().getOrThrow(reference.id).name.text
+            is ReferencedRiver -> state.getRiverStorage().getOrThrow(reference.id).name.text
             is ReferencedTown -> state.getTownStorage().getOrThrow(reference.id).name(state)
         }
 

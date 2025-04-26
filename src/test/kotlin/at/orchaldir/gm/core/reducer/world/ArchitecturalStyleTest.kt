@@ -146,7 +146,7 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Update is valid`() {
-            val style = ArchitecturalStyle(ARCHITECTURAL_ID0, "Test")
+            val style = ArchitecturalStyle(ARCHITECTURAL_ID0, NAME)
             val action = UpdateArchitecturalStyle(style)
 
             assertEquals(

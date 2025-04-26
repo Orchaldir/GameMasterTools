@@ -98,7 +98,7 @@ class GodTest {
         fun `Update a god`() {
             val god = God(
                 GOD_ID_0,
-                "Test",
+                NAME,
                 null,
                 Gender.Genderless,
                 setOf(PERSONALITY_ID_0),

@@ -68,7 +68,7 @@ class CurrencyTest {
 
         @Test
         fun `Test Success`() {
-            val currency = Currency(CURRENCY_ID_0, "New")
+            val currency = Currency(CURRENCY_ID_0, NAME)
             val action = UpdateCurrency(currency)
 
             assertEquals(currency, REDUCER.invoke(state, action).first.getCurrencyStorage().get(CURRENCY_ID_0))

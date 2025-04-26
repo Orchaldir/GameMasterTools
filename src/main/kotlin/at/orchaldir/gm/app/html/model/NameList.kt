@@ -57,10 +57,10 @@ fun parseNameListId(
 fun parseNameList(id: NameListId, parameters: Parameters) = NameList(
     id,
     parseName(parameters),
-    parseNames(parameters),
+    parseNames(parameters.getOrFail(NAMES)),
 )
 
-private fun parseNames(parameters: Parameters): List<Name> = parameters.getOrFail(NAMES)
+fun parseNames(input: String): List<Name> = input
     .split("\n", ",", ".", ";")
     .map { it.trim() }
     .filter { it.isNotEmpty() }

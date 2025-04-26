@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.MOON_ID_0
+import at.orchaldir.gm.NAME
 import at.orchaldir.gm.PLANE_ID_0
 import at.orchaldir.gm.UNKNOWN_PLANE_ID
 import at.orchaldir.gm.assertIllegalArgument
@@ -51,7 +52,7 @@ class MoonTest {
 
         @Test
         fun `Update is valid`() {
-            val moon = Moon(MOON_ID_0, "Test", plane = PLANE_ID_0)
+            val moon = Moon(MOON_ID_0, NAME, plane = PLANE_ID_0)
             val action = UpdateMoon(moon)
 
             assertEquals(moon, REDUCER.invoke(state, action).first.getMoonStorage().get(MOON_ID_0))
@@ -59,7 +60,7 @@ class MoonTest {
 
         @Test
         fun `Days per quarter is too small`() {
-            val moon = Moon(MOON_ID_0, "Test", daysPerQuarter = 0)
+            val moon = Moon(MOON_ID_0, NAME, daysPerQuarter = 0)
             val action = UpdateMoon(moon)
 
             assertIllegalArgument("Days per quarter most be greater than 0!") { REDUCER.invoke(state, action) }

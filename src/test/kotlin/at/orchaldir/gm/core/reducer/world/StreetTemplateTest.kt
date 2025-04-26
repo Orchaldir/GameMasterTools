@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.NAME
 import at.orchaldir.gm.STREET_TYPE_ID_0
 import at.orchaldir.gm.TOWN_ID_0
 import at.orchaldir.gm.assertFailMessage
@@ -75,7 +76,7 @@ class StreetTemplateTest {
         @Test
         fun `Update is valid`() {
             val state = State(Storage(StreetTemplate(STREET_TYPE_ID_0)))
-            val street = StreetTemplate(STREET_TYPE_ID_0, "Test", Color.Gold)
+            val street = StreetTemplate(STREET_TYPE_ID_0, NAME, Color.Gold)
             val action = UpdateStreetTemplate(street)
 
             assertEquals(street, REDUCER.invoke(state, action).first.getStreetTemplateStorage().get(STREET_TYPE_ID_0))

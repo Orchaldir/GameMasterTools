@@ -23,7 +23,7 @@ private val STATE = State(
             )
         ),
         Storage(Culture(CULTURE_ID_0, namingConvention = FamilyConvention())),
-        Storage(River(RIVER_ID_0, "Miskatonic")),
+        Storage(River(RIVER_ID_0, Name.init("Miskatonic"))),
         Storage(Town(TOWN_ID_0, SimpleName("York"))),
     )
 )
