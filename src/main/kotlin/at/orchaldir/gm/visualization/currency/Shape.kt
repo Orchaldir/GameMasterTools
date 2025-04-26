@@ -2,14 +2,15 @@ package at.orchaldir.gm.visualization.currency
 
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.createDiamond
 import at.orchaldir.gm.utils.math.createRegularPolygon
-import at.orchaldir.gm.utils.math.createRoundedRegularPolygon
+import at.orchaldir.gm.utils.math.createRoundedSquare
+import at.orchaldir.gm.utils.math.createRoundedTriangle
+import at.orchaldir.gm.utils.math.createSquare
+import at.orchaldir.gm.utils.math.createTriangle
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-
-private val SQUARE_ORIENTATION = QUARTER_CIRCLE / 2.0f
 
 fun visualizeShape(
     renderer: LayerRenderer,
@@ -58,11 +59,11 @@ private fun createShapePolygon(
     radius: Distance,
 ) = when (shape) {
     Shape.Circle -> createRegularPolygon(center, radius, 120)
-    Shape.Triangle -> createRegularPolygon(center, radius, 3)
-    Shape.RoundedTriangle -> createRoundedRegularPolygon(center, radius, 3)
-    Shape.Square -> createRoundedRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
-    Shape.RoundedSquare -> createRoundedRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
-    Shape.Diamond -> createRegularPolygon(center, radius, 4)
+    Shape.Triangle -> createTriangle(center, radius)
+    Shape.RoundedTriangle -> createRoundedTriangle(center, radius)
+    Shape.Square -> createSquare(center, radius)
+    Shape.RoundedSquare -> createRoundedSquare(center, radius)
+    Shape.Diamond -> createDiamond(center, radius)
     Shape.Pentagon -> createRegularPolygon(center, radius, 5)
     Shape.Hexagon -> createRegularPolygon(center, radius, 6)
     Shape.Heptagon -> createRegularPolygon(center, radius, 7)
