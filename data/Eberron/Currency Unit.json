@@ -3,7 +3,11 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Crown"
+   "name": "Crown",
+   "format": {
+    "type": "Coin",
+    "material": 21
+   }
   },
   "1": {
    "id": 1,
