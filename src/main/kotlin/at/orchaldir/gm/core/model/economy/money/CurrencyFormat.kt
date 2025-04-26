@@ -26,6 +26,13 @@ sealed class CurrencyFormat {
         is HoledCoin -> CurrencyFormatType.HoledCoin
         is BiMetallicCoin -> CurrencyFormatType.BiMetallicCoin
     }
+
+    fun getMaterials() = when (this) {
+        UndefinedCurrencyFormat -> emptySet()
+        is Coin -> setOf(material)
+        is HoledCoin -> setOf(material)
+        is BiMetallicCoin -> setOf(material, innerMaterial)
+    }
 }
 
 @Serializable

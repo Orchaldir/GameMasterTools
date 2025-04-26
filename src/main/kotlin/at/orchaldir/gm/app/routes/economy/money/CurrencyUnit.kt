@@ -155,12 +155,16 @@ private fun HTML.showAllCurrencies(
                 th { +"Name" }
                 th { +"Currency" }
                 th { +"Value" }
+                th { +"Format" }
+                th { +"Materials" }
             }
             units.forEach { unit ->
                 tr {
                     td { link(call, state, unit) }
                     td { link(call, state, unit.currency) }
                     tdSkipZero(unit.value)
+                    tdEnum(unit.format.getType())
+                    tdInlineLinks(call, state, unit.format.getMaterials())
                 }
             }
         }
