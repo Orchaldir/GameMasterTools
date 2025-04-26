@@ -4,10 +4,17 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_RADIUS = fromMillimeters(1)
+val DEFAULT_RADIUS = fromCentimeters(1)
+val MAX_RADIUS = fromCentimeters(10)
+
 val MIN_RADIUS_FACTOR = fromPercentage(10)
+val DEFAULT_RADIUS_FACTOR = fromPercentage(20)
 val MAX_RADIUS_FACTOR = fromPercentage(90)
 
 enum class CurrencyFormatType {
@@ -44,20 +51,27 @@ data object UndefinedCurrencyFormat : CurrencyFormat()
 data class Coin(
     val material: MaterialId = MaterialId(0),
     val shape: Shape = Shape.Circle,
-    val radius: Distance = Distance.fromCentimeters(1),
-) : CurrencyFormat()
+    val radius: Distance = DEFAULT_RADIUS,
+) : CurrencyFormat() {
+
+    init {
+        checkRadius(radius)
+    }
+
+}
 
 @Serializable
 @SerialName("Holed")
 data class HoledCoin(
     val material: MaterialId = MaterialId(0),
     val shape: Shape = Shape.Circle,
-    val radius: Distance = Distance.fromCentimeters(1),
+    val radius: Distance = DEFAULT_RADIUS,
     val holeShape: Shape = Shape.Circle,
-    val holeFactor: Factor = fromPercentage(20),
+    val holeFactor: Factor = DEFAULT_RADIUS_FACTOR,
 ) : CurrencyFormat() {
 
     init {
+        checkRadius(radius)
         checkRadiusFactor(holeFactor, "hole")
     }
 
@@ -68,17 +82,23 @@ data class HoledCoin(
 data class BiMetallicCoin(
     val material: MaterialId = MaterialId(0),
     val shape: Shape = Shape.Circle,
-    val radius: Distance = Distance.fromCentimeters(1),
+    val radius: Distance = DEFAULT_RADIUS,
     val innerMaterial: MaterialId = MaterialId(1),
     val innerShape: Shape = Shape.Circle,
-    val innerFactor: Factor = fromPercentage(20),
+    val innerFactor: Factor = DEFAULT_RADIUS_FACTOR,
 ) : CurrencyFormat() {
 
     init {
         require(material != innerMaterial) { "Outer & inner material are the same!" }
+        checkRadius(radius)
         checkRadiusFactor(innerFactor, "inner")
     }
 
+}
+
+private fun checkRadius(radius: Distance) {
+    require(radius >= MIN_RADIUS) { "The radius is too small!" }
+    require(radius <= MAX_RADIUS) { "The radius factor is too large!" }
 }
 
 private fun checkRadiusFactor(factor: Factor, label: String) {
