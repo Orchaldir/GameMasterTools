@@ -2,16 +2,12 @@
 
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.editFont
-import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.model.selectName
-import at.orchaldir.gm.app.html.model.selectOptionalDate
-import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.html.model.parseFont
 import at.orchaldir.gm.app.html.model.showFont
+import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
@@ -22,7 +18,6 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.util.SortFont
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.countTexts
-import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.util.sortFonts
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*

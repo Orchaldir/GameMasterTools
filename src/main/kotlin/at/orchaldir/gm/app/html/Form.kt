@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf

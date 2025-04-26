@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.ArticleId

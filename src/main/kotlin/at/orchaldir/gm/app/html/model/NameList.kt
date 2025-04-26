@@ -10,13 +10,9 @@ import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.selector.culture.getCultures
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.FORM
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
-import kotlinx.html.id
-import kotlinx.html.textArea
+import kotlinx.html.*
 
 // show
 

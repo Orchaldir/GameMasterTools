@@ -1,11 +1,13 @@
 package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.CURRENCY
-import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
+import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
@@ -13,7 +15,6 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 

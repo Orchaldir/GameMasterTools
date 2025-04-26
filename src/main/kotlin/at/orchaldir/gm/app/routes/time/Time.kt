@@ -1,16 +1,14 @@
 package at.orchaldir.gm.app.routes.time
 
-import at.orchaldir.gm.app.CALENDAR
-import at.orchaldir.gm.app.CURRENT
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.selectDate
-import at.orchaldir.gm.app.html.model.showCurrentDate
+import at.orchaldir.gm.app.html.action
+import at.orchaldir.gm.app.html.back
+import at.orchaldir.gm.app.html.button
 import at.orchaldir.gm.app.html.model.time.editTime
 import at.orchaldir.gm.app.html.model.time.parseTime
 import at.orchaldir.gm.app.html.model.time.showTime
+import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.UpdateTime
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -23,9 +21,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.FORM
 import kotlinx.html.HTML
-import kotlinx.html.HtmlBlockTag
 import kotlinx.html.form
 import mu.KotlinLogging
 

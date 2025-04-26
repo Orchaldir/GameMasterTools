@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.getPersonalityTraits
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 
 // show

@@ -1,15 +1,15 @@
 package at.orchaldir.gm.app.html.model.world
 
-import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.TILE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
-import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.html.optionalField
+import at.orchaldir.gm.app.html.selectOptionalText
+import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.getPlanarLanguages
@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.selector.world.getPlanarAlignment
 import at.orchaldir.gm.core.selector.world.getReflections
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.HtmlBlockTag
 
 // show

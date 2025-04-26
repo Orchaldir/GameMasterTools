@@ -3,10 +3,10 @@ package at.orchaldir.gm.app.html.model.religion
 import at.orchaldir.gm.app.JOB
 import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.economy.parseJobId
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
 import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
-import at.orchaldir.gm.app.html.model.economy.parseJobId
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseSomeOf

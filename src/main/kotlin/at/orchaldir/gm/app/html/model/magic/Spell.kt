@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.model.magic
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.LANGUAGE
+import at.orchaldir.gm.app.ORIGIN
+import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.combine
@@ -13,7 +16,6 @@ import at.orchaldir.gm.core.selector.magic.getExistingSpell
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 

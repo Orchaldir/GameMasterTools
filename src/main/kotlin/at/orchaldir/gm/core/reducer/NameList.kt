@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-import at.orchaldir.gm.utils.titlecaseFirstChar
 
 val CREATE_NAME_LIST: Reducer<CreateNameList, State> = { state, _ ->
     val nameList = NameList(state.getNameListStorage().nextId)

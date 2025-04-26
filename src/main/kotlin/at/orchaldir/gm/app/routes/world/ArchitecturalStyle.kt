@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldName
 import at.orchaldir.gm.app.html.model.optionalField
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.selectOptionalYear

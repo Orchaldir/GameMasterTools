@@ -2,14 +2,10 @@ package at.orchaldir.gm.app.html.model.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.model.fieldWeight
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.item.editFillItemPart
 import at.orchaldir.gm.app.html.model.item.parseFillItemPart
 import at.orchaldir.gm.app.html.model.item.showFillItemPart
-import at.orchaldir.gm.app.html.model.parseName
-import at.orchaldir.gm.app.html.model.parseWeight
-import at.orchaldir.gm.app.html.model.selectName
-import at.orchaldir.gm.app.html.model.selectWeight
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -21,7 +17,6 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 

@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.*
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.getOrFail
+import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 

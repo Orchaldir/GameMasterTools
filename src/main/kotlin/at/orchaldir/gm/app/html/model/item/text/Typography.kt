@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.item.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDistance
+import at.orchaldir.gm.app.html.model.parseFontId
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectElement
@@ -9,7 +10,6 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.html.model.parseFontId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.*
 import at.orchaldir.gm.core.model.item.text.book.typography.*

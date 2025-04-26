@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.END
-import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.html.model.parseName
@@ -12,7 +11,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import io.ktor.http.*
-import io.ktor.server.util.*
 
 fun parseArchitecturalStyleId(parameters: Parameters, param: String) = ArchitecturalStyleId(parseInt(parameters, param))
 

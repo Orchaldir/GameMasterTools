@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.model.time.showHolidays
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
-import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.organization.MemberRank
@@ -21,7 +20,6 @@ import at.orchaldir.gm.core.selector.organization.getNotMembers
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2

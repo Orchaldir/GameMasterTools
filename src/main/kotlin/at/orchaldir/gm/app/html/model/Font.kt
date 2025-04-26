@@ -10,12 +10,8 @@ import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.selector.item.getTexts
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
-import kotlinx.html.FORM
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.TextAreaWrap
-import kotlinx.html.h2
-import kotlinx.html.textArea
+import io.ktor.server.application.*
+import kotlinx.html.*
 
 // show
 
