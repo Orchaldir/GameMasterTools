@@ -1,14 +1,12 @@
 package at.orchaldir.gm.visualization.currency
 
 import at.orchaldir.gm.core.model.economy.money.*
-import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.createRegularPolygon
 import at.orchaldir.gm.utils.math.createRoundedSquare
 import at.orchaldir.gm.utils.math.createRoundedTriangle
-import at.orchaldir.gm.utils.math.createSquare
-import at.orchaldir.gm.utils.math.createTriangle
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -24,26 +22,20 @@ fun visualizeShape(
 ) {
     when (shape) {
         Shape.Circle -> renderer.renderCircle(center, radius, options)
-        Shape.Triangle -> {
-            val polygon = createTriangle(center, radius, TRIANGLE_ORIENTATION)
-            renderer.renderPolygon(polygon, options)
-        }
+        Shape.Triangle -> visualizeRegularPolygon(renderer, options, center, radius, 3)
 
         Shape.RoundedTriangle -> {
             val polygon = createRoundedTriangle(center, radius, TRIANGLE_ORIENTATION)
             renderer.renderRoundedPolygon(polygon, options)
         }
 
-        Shape.Square -> {
-            val polygon = createSquare(center, radius)
-            renderer.renderPolygon(polygon, options)
-        }
+        Shape.Square -> visualizeRegularPolygon(renderer, options, center, radius, 4, QUARTER_CIRCLE / 2.0f)
 
         Shape.RoundedSquare -> {
             val polygon = createRoundedSquare(center, radius)
             renderer.renderRoundedPolygon(polygon, options)
         }
-        Shape.Diamond -> doNothing()
+        Shape.Diamond -> visualizeRegularPolygon(renderer, options, center, radius, 4)
         Shape.Pentagon -> visualizeRegularPolygon(renderer, options, center, radius, 5)
         Shape.Hexagon -> visualizeRegularPolygon(renderer, options, center, radius, 6)
         Shape.Heptagon -> visualizeRegularPolygon(renderer, options, center, radius, 7)
@@ -57,7 +49,8 @@ private fun visualizeRegularPolygon(
     center: Point2d,
     radius: Distance,
     sides: Int,
+    orientation: Orientation = TRIANGLE_ORIENTATION,
 ) {
-    val polygon = createRegularPolygon(center, radius, sides, TRIANGLE_ORIENTATION)
+    val polygon = createRegularPolygon(center, radius, sides, orientation)
     renderer.renderPolygon(polygon, options)
 }
