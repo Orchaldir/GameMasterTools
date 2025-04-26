@@ -50,9 +50,7 @@ fun HtmlBlockTag.showBuildingPurpose(
         is SingleFamilyHouse -> showInhabitants(call, state, building)
     }
 
-    fieldList("Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id)) { c ->
-        link(call, state, c)
-    }
+    fieldList(call, state, "Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id))
 }
 
 private fun HtmlBlockTag.showInhabitants(
@@ -60,9 +58,7 @@ private fun HtmlBlockTag.showInhabitants(
     state: State,
     building: Building,
 ) {
-    fieldList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
-        link(call, state, c)
-    }
+    fieldList(call, state, "Inhabitants", state.getCharactersLivingInHouse(building.id))
 }
 
 fun FORM.selectBuildingPurpose(state: State, building: Building) {

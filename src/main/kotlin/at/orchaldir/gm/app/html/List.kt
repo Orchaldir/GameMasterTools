@@ -30,6 +30,21 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldList(
     }
 }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldList(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    elements: Collection<ELEMENT>,
+) {
+    if (elements.isNotEmpty()) {
+        field(label) {
+            showList(elements) {
+                link(call, state, it)
+            }
+        }
+    }
+}
+
 fun <T> HtmlBlockTag.fieldList(
     label: String,
     elements: Collection<T>,

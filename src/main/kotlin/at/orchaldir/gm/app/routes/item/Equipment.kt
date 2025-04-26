@@ -222,12 +222,8 @@ private fun HTML.showEquipmentDetails(
 
         h2 { +"Usage" }
 
-        fieldList("Equipped By", characters) { item ->
-            link(call, state, item)
-        }
-        fieldList("Part of Fashion", fashions) { item ->
-            link(call, item)
-        }
+        fieldList(call, state, "Equipped By", characters)
+        fieldList(call, state, "Part of Fashion", fashions)
 
         action(editLink, "Edit")
 

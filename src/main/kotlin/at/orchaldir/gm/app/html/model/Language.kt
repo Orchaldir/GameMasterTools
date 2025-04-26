@@ -44,9 +44,7 @@ fun HtmlBlockTag.showLanguage(
 
     showOrigin(call, state, language)
 
-    fieldList("Child Languages", children) { language ->
-        link(call, language)
-    }
+    fieldList(call, state, "Child Languages", children)
 
     h2 { +"Usage" }
 

@@ -48,12 +48,8 @@ fun HtmlBlockTag.showJob(
     fieldList("Previous Characters", state.sortCharacters(previousCharacters)) { (character, name) ->
         link(call, character.id, name)
     }
-    fieldList("Associated Domains", state.sortDomains(domains)) { domain ->
-        link(call, domain)
-    }
-    fieldList("Associated Gods", state.sortGods(gods)) { god ->
-        link(call, god)
-    }
+    fieldList(call, state, "Associated Domains", state.sortDomains(domains))
+    fieldList(call, state, "Associated Gods", state.sortGods(gods))
 }
 
 // edit

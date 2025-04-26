@@ -38,14 +38,10 @@ fun HtmlBlockTag.showBusiness(
     fieldCreator(call, state, business.founder, "Founder")
     showOwnership(call, state, business.ownership)
     showEmployees(call, state, "Employees", employees)
-    fieldList("Previous Employees", previousEmployees) { character ->
-        link(call, state, character)
-    }
+    fieldList(call, state, "Previous Employees", previousEmployees)
     showCreated(call, state, business.id, true)
 
-    fieldList("Published Texts", published) { text ->
-        link(call, state, text)
-    }
+    fieldList(call, state, "Published Texts", published)
 
     showOwnedElements(call, state, business.id, true)
 }

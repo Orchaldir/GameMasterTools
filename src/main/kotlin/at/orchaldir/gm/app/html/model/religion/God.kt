@@ -44,10 +44,7 @@ fun HtmlBlockTag.showGod(
 
     fieldList(call, state, state.getHolidays(god.id))
     fieldList(call, state, state.getPantheonsContaining(god.id))
-
-    fieldList("Believers", state.getBelievers(god.id)) { character ->
-        link(call, state, character)
-    }
+    fieldList(call, state, "Believers", state.getBelievers(god.id))
 
     showCreated(call, state, god.id)
 }

@@ -156,15 +156,9 @@ private fun HtmlBlockTag.showFamily(
     val children = state.getChildren(character.id)
     val siblings = state.getSiblings(character.id)
 
-    fieldList("Parents", parents) { parent ->
-        link(call, state, parent)
-    }
-    fieldList("Children", children) { child ->
-        link(call, state, child)
-    }
-    fieldList("Siblings", siblings) { sibling ->
-        link(call, state, sibling)
-    }
+    fieldList(call, state, "Parents", parents)
+    fieldList(call, state, "Children", children)
+    fieldList(call, state, "Siblings", siblings)
 }
 
 fun HtmlBlockTag.showLanguages(

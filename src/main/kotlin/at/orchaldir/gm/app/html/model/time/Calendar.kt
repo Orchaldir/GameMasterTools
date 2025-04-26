@@ -75,9 +75,7 @@ private fun HtmlBlockTag.showOrigin(
             field("Origin", "Original")
         }
     }
-    fieldList("Child Calendars", children) { child ->
-        link(call, child)
-    }
+    fieldList(call, state, "Child Calendars", children)
 }
 
 private fun HtmlBlockTag.showDays(

@@ -32,21 +32,10 @@ fun HtmlBlockTag.showPlane(
     showPlanePurpose(call, state, plane.purpose)
     optionalField("Current Alignment", state.getPlanarAlignment(plane, state.time.currentDate))
 
-    fieldList("Demiplanes", state.getDemiplanes(plane.id)) { demiplane ->
-        link(call, demiplane)
-    }
-
-    fieldList("Reflection", state.getReflections(plane.id)) { reflection ->
-        link(call, reflection)
-    }
-
-    fieldList("Associated Moons", state.getMoons(plane.id)) { moon ->
-        link(call, moon)
-    }
-
-    fieldList("Associated Languages", state.getPlanarLanguages(plane.id)) { language ->
-        link(call, language)
-    }
+    fieldList(call, state, "Demiplanes", state.getDemiplanes(plane.id))
+    fieldList(call, state, "Reflection", state.getReflections(plane.id))
+    fieldList(call, state, "Associated Moons", state.getMoons(plane.id))
+    fieldList(call, state, "Associated Languages", state.getPlanarLanguages(plane.id))
 }
 
 // edit

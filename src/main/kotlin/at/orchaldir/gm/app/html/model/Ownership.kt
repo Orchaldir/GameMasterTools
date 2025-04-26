@@ -52,29 +52,12 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
 
     h2 { +"Possession" }
 
-    fieldList("Owned Buildings", buildings) { building ->
-        link(call, state, building)
-    }
-
-    fieldList("Previously owned Buildings", previousBuildings) { building ->
-        link(call, state, building)
-    }
-
-    fieldList("Owned Businesses", businesses) { business ->
-        link(call, state, business)
-    }
-
-    fieldList("Previously owned Businesses", previousBusinesses) { business ->
-        link(call, state, business)
-    }
-
-    fieldList("Owned Periodicals", periodicals) { periodical ->
-        link(call, state, periodical)
-    }
-
-    fieldList("Previously owned Periodicals", previousPeriodicals) { periodical ->
-        link(call, state, periodical)
-    }
+    fieldList(call, state, "Owned Buildings", buildings)
+    fieldList(call, state, "Previously owned Buildings", previousBuildings)
+    fieldList(call, state, "Owned Businesses", businesses)
+    fieldList(call, state, "Previously owned Businesses", previousBusinesses)
+    fieldList(call, state, "Owned Periodicals", periodicals)
+    fieldList(call, state, "Previously owned Periodicals", previousPeriodicals)
 }
 
 

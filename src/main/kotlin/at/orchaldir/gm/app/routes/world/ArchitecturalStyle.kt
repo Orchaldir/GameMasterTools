@@ -203,9 +203,7 @@ private fun HTML.showArchitecturalStyleDetails(
         if (style.revival != null) {
             fieldLink("Revival of", call, state, style.revival)
         }
-        fieldList("Revived by", revivedBy) { s ->
-            link(call, s)
-        }
+        fieldList(call, state, "Revived by", revivedBy)
         fieldList("Buildings", state.sortBuildings()) { (building, name) ->
             link(call, building.id, name)
         }

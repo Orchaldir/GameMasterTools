@@ -31,9 +31,7 @@ fun HtmlBlockTag.showPantheon(
         link(call, state, god)
     }
 
-    fieldList("Believers", state.getBelievers(pantheon.id)) { character ->
-        link(call, state, character)
-    }
+    fieldList(call, state, "Believers", state.getBelievers(pantheon.id))
 }
 
 // edit
