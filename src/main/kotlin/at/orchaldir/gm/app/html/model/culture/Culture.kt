@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseLanguageId
 import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.parseNameListId
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
@@ -25,7 +26,6 @@ import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 
 // show

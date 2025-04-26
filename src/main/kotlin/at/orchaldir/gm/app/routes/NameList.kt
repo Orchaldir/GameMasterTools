@@ -2,8 +2,9 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.selectName
-import at.orchaldir.gm.app.parse.parseNameList
+import at.orchaldir.gm.app.html.model.editNameList
+import at.orchaldir.gm.app.html.model.parseNameList
+import at.orchaldir.gm.app.html.model.showNameList
 import at.orchaldir.gm.core.action.CreateNameList
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
@@ -150,12 +151,7 @@ private fun HTML.showNameListDetails(
     val editLink = call.application.href(NameListRoutes.Edit(nameList.id))
 
     simpleHtml("Name List: ${nameList.name}") {
-        showList("Names", nameList.names) { name ->
-            +name
-        }
-        showList("Cultures", state.getCultures(nameList.id)) { culture ->
-            link(call, culture)
-        }
+        showNameList(call, state, nameList)
         action(editLink, "Edit")
         if (state.canDelete(nameList.id)) {
             action(deleteLink, "Delete")
@@ -173,17 +169,11 @@ private fun HTML.showNameListEditor(
 
     simpleHtml("Edit Name List: ${nameList.name}") {
         form {
-            selectName(nameList.name)
-            h2 { +"Names" }
-            textArea {
-                id = "names"
-                name = "names"
-                cols = "30"
-                rows = (nameList.name.text.length + 5).toString()
-                +nameList.names.joinToString("\n")
-            }
+            editNameList(nameList)
             button("Update", updateLink)
         }
         back(backLink)
     }
 }
+
+

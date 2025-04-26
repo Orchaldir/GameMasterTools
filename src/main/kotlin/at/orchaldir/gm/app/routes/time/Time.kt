@@ -6,8 +6,11 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.selectDate
 import at.orchaldir.gm.app.html.model.showCurrentDate
-import at.orchaldir.gm.app.parse.parseTime
+import at.orchaldir.gm.app.html.model.time.editTime
+import at.orchaldir.gm.app.html.model.time.parseTime
+import at.orchaldir.gm.app.html.model.time.showTime
 import at.orchaldir.gm.core.action.UpdateTime
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -20,7 +23,9 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.html.FORM
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.form
 import mu.KotlinLogging
 
@@ -153,8 +158,7 @@ private fun HTML.showTimeData(call: ApplicationCall) {
     val editLink = call.application.href(TimeRoutes.Edit())
 
     simpleHtml("Time Data") {
-        fieldLink("Default Calendar", call, state, state.time.defaultCalendar)
-        showCurrentDate(call, state)
+        showTime(call, state)
         action(editLink, "Edit")
         back("/")
     }
@@ -169,16 +173,11 @@ private fun HTML.editTimeData(
 
     simpleHtml("Edit Time Data") {
         form {
-            selectElement(
-                state,
-                "Default Calendar",
-                CALENDAR,
-                state.getCalendarStorage().getAll(),
-                state.time.defaultCalendar,
-            )
-            selectDate(state, "Current Date", state.time.currentDate, CURRENT)
+            editTime(state)
             button("Update", updateLink)
         }
         back(backLink)
     }
 }
+
+

@@ -5,11 +5,13 @@ package at.orchaldir.gm.app.routes
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.editFont
 import at.orchaldir.gm.app.html.model.optionalField
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.parse.parseFont
+import at.orchaldir.gm.app.html.model.parseFont
+import at.orchaldir.gm.app.html.model.showFont
 import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
@@ -246,16 +248,8 @@ private fun HTML.showFontDetails(
 
     simpleHtml("Font: ${font.name}") {
         svg(visualizeString(example, font, 40.0f), 100)
-        optionalField(call, state, "Date", font.date)
-        field("Base64") {
-            textArea("10", "200", TextAreaWrap.soft) {
-                +font.base64
-            }
-        }
-        h2 { +"Usage" }
-        showList("Texts", state.getTexts(font.id)) { text ->
-            link(call, state, text)
-        }
+
+        showFont(call, state, font)
 
         action(editLink, "Edit")
         action(uploaderLink, "Upload Font File")
@@ -277,8 +271,7 @@ private fun HTML.showFontEditor(
 
     simpleHtml("Edit Font: ${font.name}") {
         formWithPreview(previewLink, updateLink, backLink) {
-            selectName(font.name)
-            selectOptionalDate(state, "Date", font.date, DATE)
+            editFont(state, font)
         }
     }
 }
