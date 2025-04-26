@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.createRegularPolygon
 import at.orchaldir.gm.utils.math.createRoundedSquare
 import at.orchaldir.gm.utils.math.createRoundedTriangle
 import at.orchaldir.gm.utils.math.createSquare
@@ -43,9 +44,24 @@ fun visualizeShape(
             renderer.renderRoundedPolygon(polygon, options)
         }
         Shape.Diamond -> doNothing()
-        Shape.Pentagon -> doNothing()
-        Shape.Hexagon -> doNothing()
-        Shape.Heptagon -> doNothing()
-        Shape.Octagon -> doNothing()
+        Shape.Pentagon -> {
+            val polygon = createRegularPolygon(center, radius, 5, TRIANGLE_ORIENTATION)
+            renderer.renderPolygon(polygon, options)
+        }
+
+        Shape.Hexagon -> {
+            val polygon = createRegularPolygon(center, radius, 6, TRIANGLE_ORIENTATION)
+            renderer.renderPolygon(polygon, options)
+        }
+
+        Shape.Heptagon -> {
+            val polygon = createRegularPolygon(center, radius, 7, TRIANGLE_ORIENTATION)
+            renderer.renderPolygon(polygon, options)
+        }
+
+        Shape.Octagon -> {
+            val polygon = createRegularPolygon(center, radius, 8, TRIANGLE_ORIENTATION)
+            renderer.renderPolygon(polygon, options)
+        }
     }
 }

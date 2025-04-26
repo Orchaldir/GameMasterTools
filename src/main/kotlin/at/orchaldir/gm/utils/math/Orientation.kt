@@ -11,6 +11,7 @@ val QUARTER_CIRCLE = Orientation.fromDegree(90.0f)
 val ONE_THIRD_CIRCLE = Orientation.fromDegree(120.0f)
 val HALF_CIRCLE = Orientation.fromDegree(180.0f)
 val TWO_THIRD_CIRCLE = Orientation.fromDegree(240.0f)
+val FULL_CIRCLE = Orientation.fromDegree(360.0f)
 
 @JvmInline
 @Serializable

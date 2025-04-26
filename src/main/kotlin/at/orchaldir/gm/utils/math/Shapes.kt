@@ -19,6 +19,24 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
         .build()
 }
 
+fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation) =
+    Polygon2d(createRegularPolygonPoints(center, radius, sides, firstCorner))
+
+fun createRegularPolygonPoints(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation): List<Point2d> {
+    require(sides >= 3) { "A regular polygon needs at least 3 sides!" }
+
+    val step = FULL_CIRCLE / sides
+    var orientation = firstCorner
+
+    return (0..<sides).map {
+        val point = center.createPolar(radius, orientation)
+
+        orientation += step
+
+        point
+    }
+}
+
 fun createSquare(center: Point2d, radius: Distance) =
     Polygon2d(createSquarePoints(center, radius))
 
