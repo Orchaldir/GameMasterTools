@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.reducer.font
 
-import at.orchaldir.gm.CALENDAR0
-import at.orchaldir.gm.FONT_ID_0
-import at.orchaldir.gm.FUTURE_DAY_0
-import at.orchaldir.gm.NAME
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State

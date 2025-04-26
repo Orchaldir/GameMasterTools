@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
-import at.orchaldir.gm.MOON_ID_0
-import at.orchaldir.gm.NAME
-import at.orchaldir.gm.PLANE_ID_0
-import at.orchaldir.gm.UNKNOWN_PLANE_ID
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State

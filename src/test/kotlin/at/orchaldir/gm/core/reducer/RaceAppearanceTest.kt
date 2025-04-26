@@ -13,7 +13,10 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Rat
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
-import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.model.race.appearance.FeatureColorOptions
+import at.orchaldir.gm.core.model.race.appearance.HairOptions
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.race.appearance.TailOptions
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
