@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyFormat
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
+import at.orchaldir.gm.core.model.economy.money.HoledCoin
 import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
@@ -45,5 +46,6 @@ fun visualizeCurrencyFormat(
     when (format) {
         UndefinedCurrencyFormat -> doNothing()
         is Coin -> visualizeCoin(innerState, format)
+        is HoledCoin -> doNothing()
     }
 }

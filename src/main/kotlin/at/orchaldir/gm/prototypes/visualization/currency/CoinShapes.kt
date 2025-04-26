@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.currency
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Coin
+import at.orchaldir.gm.core.model.economy.money.HoledCoin
 import at.orchaldir.gm.core.model.economy.money.Shape
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -20,10 +21,6 @@ fun main() {
             Material(silver, color = Color.Silver),
         )
     )
-    val materials = listOf(
-        Pair("Gold", gold),
-        Pair("Silver", silver),
-    )
 
     renderCurrencyTable(
         "coin-shapes.svg",
@@ -31,12 +28,22 @@ fun main() {
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
         addNames(Shape.entries),
-        materials,
-    ) { shape, material ->
-        Coin(
-            material,
-            shape,
-            radius,
-        )
+        addNames(listOf(null, Shape.Circle, Shape.Square, Shape.Octagon)),
+    ) { shape, hole ->
+        if (hole == null) {
+            Coin(
+                gold,
+                shape,
+                radius,
+            )
+        } else {
+            HoledCoin(
+                gold,
+                shape,
+                radius,
+                hole,
+            )
+        }
+
     }
 }

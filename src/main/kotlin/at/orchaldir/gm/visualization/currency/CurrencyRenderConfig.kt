@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.currency
 
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyFormat
+import at.orchaldir.gm.core.model.economy.money.HoledCoin
 import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -22,6 +23,7 @@ data class CurrencyRenderConfig(
 
     fun calculateSize(format: CurrencyFormat) = when (format) {
         is Coin -> calculateCoinSize(format.radius)
+        is HoledCoin -> calculateCoinSize(format.radius)
         UndefinedCurrencyFormat -> square(fromCentimeters(1))
     }
 
