@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.world.parseMountain
 import at.orchaldir.gm.core.action.CreateMountain
 import at.orchaldir.gm.core.action.DeleteMountain
@@ -116,7 +118,7 @@ private fun HTML.showAllMountains(
     call: ApplicationCall,
     state: State,
 ) {
-    val mountains = state.getMountainStorage().getAll().sortedBy { it.name }
+    val mountains = state.getMountainStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(MountainRoutes.New())
 
     simpleHtml("Mountains") {
@@ -132,7 +134,7 @@ private fun HTML.showAllMountains(
                     td { link(call, mountain) }
                     td {
                         state.getMaterialStorage().get(mountain.resources)
-                            .sortedBy { it.name }
+                            .sortedBy { it.name.text }
                             .map { link(call, state, it) }
                     }
                 }
@@ -154,7 +156,7 @@ private fun HTML.showMountainDetails(
     val editLink = call.application.href(MountainRoutes.Edit(mountain.id))
 
     simpleHtml("Mountain: ${mountain.name}") {
-        field("Name", mountain.name)
+        fieldName(mountain.name)
         showList("Resources", mountain.resources) { resource ->
             link(call, state, resource)
         }
@@ -177,7 +179,7 @@ private fun HTML.showMountainEditor(
     state: State,
     mountain: Mountain,
 ) {
-    val materials = state.getMaterialStorage().getAll().sortedBy { it.name }
+    val materials = state.getMaterialStorage().getAll().sortedBy { it.name.text }
     val backLink = href(call, mountain.id)
     val updateLink = call.application.href(MountainRoutes.Update(mountain.id))
 

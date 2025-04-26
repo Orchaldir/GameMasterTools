@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.Font
@@ -18,13 +19,9 @@ fun parseFont(
     parameters: Parameters,
     state: State,
     id: FontId,
-): Font {
-    val oldFont = state.getFontStorage().getOrThrow(id)
-
-    return Font(
-        id,
-        parameters.getOrFail(NAME),
-        parseOptionalDate(parameters, state, DATE),
-        oldFont.base64
-    )
-}
+) = Font(
+    id,
+    parseName(parameters),
+    parseOptionalDate(parameters, state, DATE),
+    state.getFontStorage().getOrThrow(id).base64,
+)

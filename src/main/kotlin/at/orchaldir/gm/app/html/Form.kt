@@ -87,10 +87,6 @@ fun <T> FORM.selectGenderMap(
     }
 }
 
-fun HtmlBlockTag.selectName(name: String) {
-    selectText("Name", name, NAME, 1)
-}
-
 fun HtmlBlockTag.selectFloat(
     label: String,
     number: Float,

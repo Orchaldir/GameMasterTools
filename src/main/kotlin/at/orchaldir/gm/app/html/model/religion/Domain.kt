@@ -5,6 +5,8 @@ import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.economy.parseJobId
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseInt
@@ -42,7 +44,7 @@ fun FORM.editDomain(
     domain: Domain,
 ) {
     selectName(domain.name)
-    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), domain.spells, false) { it.name }
+    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), domain.spells, false) { it.name.text }
     selectElements(state, "Jobs", JOB, state.sortJobs(), domain.jobs)
 }
 
@@ -54,7 +56,7 @@ fun parseDomainId(value: String) = DomainId(value.toInt())
 
 fun parseDomain(parameters: Parameters, id: DomainId) = Domain(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseSomeOf(parameters, SPELLS, ::parseSpellId),
     parseElements(parameters, JOB, ::parseJobId),
 )

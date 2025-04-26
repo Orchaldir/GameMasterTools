@@ -109,7 +109,7 @@ private fun HTML.showAllMoons(
     call: ApplicationCall,
     state: State,
 ) {
-    val moons = STORE.getState().getMoonStorage().getAll().sortedBy { it.name }
+    val moons = STORE.getState().getMoonStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(MoonRoutes.New())
 
     simpleHtml("Moons") {

@@ -83,10 +83,9 @@ fun parsePersonality(parameters: Parameters) = parameters.entries()
     .toSet()
 
 fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters): PersonalityTrait {
-    val name = parameters.getOrFail("name").trim()
     val group = parameters["group"]
         ?.toIntOrNull()
         ?.let { PersonalityTraitGroup(it) }
 
-    return PersonalityTrait(id, name, group)
+    return PersonalityTrait(id, parseName(parameters), group)
 }

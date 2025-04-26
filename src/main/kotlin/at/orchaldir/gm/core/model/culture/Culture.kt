@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.culture.name.NamingConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -28,7 +29,7 @@ value class CultureId(val value: Int) : Id<CultureId> {
 @Serializable
 data class Culture(
     val id: CultureId,
-    val name: String = "Culture ${id.value}",
+    val name: Name = Name.init("Culture ${id.value}"),
     val calendar: CalendarId = CalendarId(0),
     val languages: SomeOf<LanguageId> = SomeOf(emptyMap()),
     val namingConvention: NamingConvention = NoNamingConvention,
@@ -37,7 +38,7 @@ data class Culture(
 ) : ElementWithSimpleName<CultureId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
     fun getFashion(character: Character) = fashion.get(character.gender)
 

@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.parse.economy
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
+import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.economy.job.Job
@@ -16,6 +17,6 @@ fun parseJobId(value: String) = JobId(value.toInt())
 
 fun parseJob(id: JobId, parameters: Parameters) = Job(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseSomeOf(parameters, SPELLS, ::parseSpellId),
 )

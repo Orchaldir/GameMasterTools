@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.optionalField
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.parseFont

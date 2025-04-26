@@ -4,6 +4,8 @@ import at.orchaldir.gm.app.CURRENCY
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
@@ -53,7 +55,7 @@ fun parseOptionalCurrencyUnitId(parameters: Parameters, param: String) =
 
 fun parseCurrencyUnit(parameters: Parameters, state: State, id: CurrencyUnitId): CurrencyUnit = CurrencyUnit(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseCurrencyId(parameters, CURRENCY),
     parseInt(parameters, NUMBER, 1),
 )

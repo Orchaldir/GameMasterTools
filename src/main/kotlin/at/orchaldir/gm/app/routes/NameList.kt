@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parseNameList
 import at.orchaldir.gm.core.action.CreateNameList
 import at.orchaldir.gm.core.action.DeleteNameList
@@ -115,7 +116,7 @@ private fun HTML.showAllNameLists(
     call: ApplicationCall,
     state: State,
 ) {
-    val nameLists = state.getNameListStorage().getAll().sortedBy { it.name }
+    val nameLists = state.getNameListStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(NameListRoutes.New())
 
     simpleHtml("Name Lists") {
@@ -178,7 +179,7 @@ private fun HTML.showNameListEditor(
                 id = "names"
                 name = "names"
                 cols = "30"
-                rows = (nameList.name.length + 5).toString()
+                rows = (nameList.name.text.length + 5).toString()
                 +nameList.names.joinToString("\n")
             }
             button("Update", updateLink)

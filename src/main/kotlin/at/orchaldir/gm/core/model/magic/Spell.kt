@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.magic
 
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
@@ -23,14 +24,14 @@ value class SpellId(val value: Int) : Id<SpellId> {
 @Serializable
 data class Spell(
     val id: SpellId,
-    val name: String = "Spell ${id.value}",
+    val name: Name = Name.init("Spell ${id.value}"),
     val date: Date? = null,
     val language: LanguageId? = null,
     val origin: SpellOrigin = UndefinedSpellOrigin,
 ) : ElementWithSimpleName<SpellId>, Created, HasStartDate {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
     override fun creator() = origin.creator()
     override fun startDate() = date
 

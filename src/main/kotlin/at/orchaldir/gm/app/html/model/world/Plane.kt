@@ -3,9 +3,13 @@ package at.orchaldir.gm.app.html.model.world
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.getPlanarLanguages
@@ -59,13 +63,13 @@ fun HtmlBlockTag.editPlane(
 
 // parse
 
-fun parsePlaneId(parameters: Parameters, param: String) = PlaneId(parseInt(parameters, param))
-
-fun parsePlaneId(value: String) = PlaneId(value.toInt())
+fun parsePlaneId(parameters: Parameters, param: String) = parseOptionalPlaneId(parameters, param) ?: PlaneId(0)
+fun parseOptionalPlaneId(parameters: Parameters, param: String) =
+    parseOptionalInt(parameters, param)?.let { PlaneId(it) }
 
 fun parsePlane(parameters: Parameters, id: PlaneId) = Plane(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseOptionalString(parameters, TILE),
     parsePlanePurpose(parameters),
 )

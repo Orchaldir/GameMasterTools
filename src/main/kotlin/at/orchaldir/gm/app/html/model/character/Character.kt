@@ -192,7 +192,7 @@ fun HtmlBlockTag.showMemberships(
             "Rank",
         ) { _, _, rankIndex ->
             if (rankIndex != null) {
-                +organization.memberRanks[rankIndex].name
+                +organization.memberRanks[rankIndex].name.text
             } else {
                 +"Unknown"
             }

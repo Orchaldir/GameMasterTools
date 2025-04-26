@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.race
 
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.util.Created
@@ -29,7 +30,7 @@ value class RaceId(val value: Int) : Id<RaceId> {
 @Serializable
 data class Race(
     val id: RaceId,
-    val name: String = "Race ${id.value}",
+    val name: Name = Name.init("Race ${id.value}"),
     val genders: OneOf<Gender> = OneOf(Gender.entries),
     val height: Distribution<Distance> = Distribution.fromMeters(1.8f, 0.2f),
     val weight: Weight = Weight.fromKilogram(75.0f),
@@ -38,7 +39,7 @@ data class Race(
 ) : ElementWithSimpleName<RaceId>, Created, HasStartDate {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
     override fun creator() = origin.creator()
     override fun startDate() = origin.startDate()
 

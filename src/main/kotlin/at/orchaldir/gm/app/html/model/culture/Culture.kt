@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.html.model.culture
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseLanguageId
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.model.time.parseHolidays
@@ -153,7 +155,7 @@ fun FORM.editCulture(
 ) {
     selectName(culture.name)
     selectElement(state, "Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll(), culture.calendar)
-    selectRarityMap("Languages", LANGUAGES, state.getLanguageStorage(), culture.languages) { it.name }
+    selectRarityMap("Languages", LANGUAGES, state.getLanguageStorage(), culture.languages) { it.name.text }
     editHolidays(state, culture.holidays)
     editNamingConvention(culture.namingConvention, state)
     editClothingOptions(state, culture)
@@ -242,7 +244,7 @@ private fun HtmlBlockTag.selectNameList(
         name = selectId
         state.getNameListStorage().getAll().forEach { nameList ->
             option {
-                label = nameList.name
+                label = nameList.name.text
                 value = nameList.id.value.toString()
                 selected = nameList.id == nameListId
             }
@@ -277,7 +279,7 @@ private fun FORM.editClothingOptions(
                 }
                 state.getFashionStorage().getAll().forEach { fashion ->
                     option {
-                        label = fashion.name
+                        label = fashion.name.text
                         value = fashion.id.value.toString()
                         selected = fashion.id == fashionId
                     }
@@ -292,19 +294,15 @@ private fun FORM.editClothingOptions(
 fun parseCulture(
     parameters: Parameters,
     id: CultureId,
-): Culture {
-    val name = parameters.getOrFail(NAME)
-
-    return Culture(
-        id,
-        name,
-        parseCalendarId(parameters, CALENDAR_TYPE),
-        parseSomeOf(parameters, LANGUAGES, ::parseLanguageId),
-        parseNamingConvention(parameters),
-        parseClothingStyles(parameters),
-        parseHolidays(parameters)
-    )
-}
+) = Culture(
+    id,
+    parseName(parameters),
+    parseCalendarId(parameters, CALENDAR_TYPE),
+    parseSomeOf(parameters, LANGUAGES, ::parseLanguageId),
+    parseNamingConvention(parameters),
+    parseClothingStyles(parameters),
+    parseHolidays(parameters)
+)
 
 fun parseNamingConvention(
     parameters: Parameters,

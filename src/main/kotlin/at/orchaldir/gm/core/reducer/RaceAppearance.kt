@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.FeatureColorType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
@@ -21,7 +22,7 @@ val CREATE_RACE_APPEARANCE: Reducer<CreateRaceAppearance, State> = { state, _ ->
 val CLONE_RACE_APPEARANCE: Reducer<CloneRaceAppearance, State> = { state, action ->
     val original = state.getRaceAppearanceStorage().getOrThrow(action.id)
     val cloneId = state.getRaceAppearanceStorage().nextId
-    val clone = original.copy(id = cloneId, name = "Clone ${cloneId.value}")
+    val clone = original.copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 
     noFollowUps(state.updateStorage(state.getRaceAppearanceStorage().add(clone)))
 }

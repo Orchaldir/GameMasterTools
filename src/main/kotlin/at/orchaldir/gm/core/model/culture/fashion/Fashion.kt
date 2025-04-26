@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.culture.fashion
 
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -19,12 +20,12 @@ value class FashionId(val value: Int) : Id<FashionId> {
 @Serializable
 data class Fashion(
     val id: FashionId,
-    val name: String = "Fashion ${id.value}",
+    val name: Name = Name.init("Fashion ${id.value}"),
     val appearance: AppearanceFashion = AppearanceFashion(),
     val clothing: ClothingFashion = ClothingFashion(),
 ) : ElementWithSimpleName<FashionId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
 }

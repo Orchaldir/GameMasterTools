@@ -20,11 +20,11 @@ value class NameListId(val value: Int) : Id<NameListId> {
 @Serializable
 data class NameList(
     val id: NameListId,
-    val name: String = "NameList ${id.value}",
+    val name: Name = Name.init("NameList ${id.value}"),
     val names: List<String> = listOf(),
 ) : ElementWithSimpleName<NameListId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
 }

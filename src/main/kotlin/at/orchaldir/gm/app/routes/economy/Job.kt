@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.economy.parseJob
 import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
@@ -121,7 +122,7 @@ fun Application.configureJobRouting() {
 }
 
 private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
-    val jobs = state.getJobStorage().getAll().sortedBy { it.name }
+    val jobs = state.getJobStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(JobRoutes.New())
 
     simpleHtml("Jobs") {
@@ -200,7 +201,7 @@ private fun HTML.showJobEditor(
     simpleHtml("Edit Job: ${job.name}") {
         form {
             selectName(job.name)
-            selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name }
+            selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name.text }
             button("Update", updateLink)
         }
         back(backLink)

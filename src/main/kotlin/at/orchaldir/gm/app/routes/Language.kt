@@ -136,7 +136,7 @@ private fun HTML.showAllLanguages(
     call: ApplicationCall,
     state: State,
 ) {
-    val languages = STORE.getState().getLanguageStorage().getAll().sortedBy { it.name }
+    val languages = STORE.getState().getLanguageStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(LanguageRoutes.New())
 
     simpleHtml("Languages") {

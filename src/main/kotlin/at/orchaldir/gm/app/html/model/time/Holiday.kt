@@ -4,6 +4,8 @@ import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.holiday.Holiday
@@ -61,14 +63,10 @@ fun parseHolidayId(
 
 fun parseHolidayId(value: String) = HolidayId(value.toInt())
 
-fun parseHoliday(id: HolidayId, parameters: Parameters): Holiday {
-    val name = parameters.getOrFail(NAME)
-
-    return Holiday(
-        id,
-        name,
-        parseCalendarId(parameters, CALENDAR_TYPE),
-        parseRelativeDate(parameters, DATE),
-        parseHolidayPurpose(parameters),
-    )
-}
+fun parseHoliday(id: HolidayId, parameters: Parameters) = Holiday(
+    id,
+    parseName(parameters),
+    parseCalendarId(parameters, CALENDAR_TYPE),
+    parseRelativeDate(parameters, DATE),
+    parseHolidayPurpose(parameters),
+)

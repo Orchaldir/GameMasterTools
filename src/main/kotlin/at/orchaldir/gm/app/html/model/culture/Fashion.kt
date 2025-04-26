@@ -1,7 +1,8 @@
 package at.orchaldir.gm.app.html.model.culture
 
 import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -42,7 +43,7 @@ fun parseFashionId(
 
 fun parseFashion(id: FashionId, parameters: Parameters) = Fashion(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseAppearanceFashion(parameters),
     parseClothingFashion(parameters),
 )

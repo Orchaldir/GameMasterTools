@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.moon
 
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
@@ -23,7 +24,7 @@ value class MoonId(val value: Int) : Id<MoonId> {
 @Serializable
 data class Moon(
     val id: MoonId,
-    val name: String = "Moon ${id.value}",
+    val name: Name = Name.init("Moon ${id.value}"),
     val title: String? = null,
     val daysPerQuarter: Int = 1,
     val color: Color = Color.White,
@@ -31,7 +32,7 @@ data class Moon(
 ) : ElementWithSimpleName<MoonId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
     fun getCycle() = daysPerQuarter * 4
 

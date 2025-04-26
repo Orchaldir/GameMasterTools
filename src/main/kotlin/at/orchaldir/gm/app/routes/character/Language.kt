@@ -93,7 +93,7 @@ private fun HTML.showLanguageEditor(
                                 values.forEach { languageId ->
                                     val language = state.getLanguageStorage().getOrThrow(languageId)
                                     option {
-                                        label = language.name
+                                        label = language.name.text
                                         value = language.id.value.toString()
                                     }
                                 }

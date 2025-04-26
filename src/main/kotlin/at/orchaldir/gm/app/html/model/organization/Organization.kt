@@ -50,7 +50,7 @@ private fun HtmlBlockTag.showMembers(
     h2 { +"Members" }
 
     showListWithIndex(organization.memberRanks) { index, rank ->
-        field("Rank", rank.name)
+        fieldName("Rank", rank.name)
         showList("Members", organization.getMembers(index)) { character ->
             link(call, state, character)
         }
@@ -82,7 +82,7 @@ private fun FORM.editMembers(
 
     selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK, true)
     showListWithIndex(organization.memberRanks) { index, rank ->
-        selectText("Name", rank.name, combine(RANK, NAME, index), 1)
+        selectText("Name", rank.name.text, combine(RANK, NAME, index), 1)
     }
     selectInt("Members", organization.members.size, 0, maxMembers, 1, MEMBER, true)
     showListWithIndex(organization.members.entries) { memberIndex, (characterId, history) ->
@@ -99,7 +99,7 @@ private fun FORM.editMembers(
             "Rank"
         ) { _, param, currentRank, _ ->
             selectOptionalValue("Rank", param, currentRank, rankIds) { rank ->
-                label = organization.memberRanks[rank].name
+                label = organization.memberRanks[rank].name.text
                 value = rank.toString()
             }
         }
@@ -113,7 +113,7 @@ fun parseOrganizationId(parameters: Parameters, param: String) = OrganizationId(
 fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId) =
     Organization(
         id,
-        parameters.getOrFail(NAME),
+        parseName(parameters),
         parseCreator(parameters),
         parseOptionalDate(parameters, state, DATE),
         parseRanks(parameters),
@@ -129,7 +129,7 @@ private fun parseRanks(parameters: Parameters): List<MemberRank> {
 }
 
 private fun parseRank(parameters: Parameters, index: Int) = MemberRank(
-    parseOptionalString(parameters, combine(RANK, NAME, index)) ?: "${index + 1}.Rank",
+    parseName(parameters, combine(RANK, NAME, index), "${index + 1}.Rank"),
 )
 
 private fun parseMembers(

@@ -7,7 +7,9 @@ import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.character.parseGender
 import at.orchaldir.gm.app.html.model.editPersonality
+import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.parsePersonality
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.showCreated
 import at.orchaldir.gm.app.html.model.showPersonality
 import at.orchaldir.gm.app.parse.parseElements
@@ -84,7 +86,7 @@ fun parseGodId(value: String) = GodId(value.toInt())
 
 fun parseGod(parameters: Parameters, id: GodId) = God(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseOptionalString(parameters, TILE),
     parseGender(parameters),
     parsePersonality(parameters),

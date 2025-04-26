@@ -63,7 +63,7 @@ fun FORM.editText(
 ) {
     val hasAuthor = state.hasAuthor(text)
     val languages = state.getLanguageStorage().getAll()
-        .sortedBy { it.name }
+        .sortedBy { it.name.text }
     val businesses = state.getExistingElements(state.getBusinessStorage(), text.date)
 
     selectComplexName(state, text.name)

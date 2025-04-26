@@ -121,7 +121,7 @@ fun Application.configureFashionRouting() {
 }
 
 private fun HTML.showAllFashions(call: ApplicationCall) {
-    val fashion = STORE.getState().getFashionStorage().getAll().sortedBy { it.name }
+    val fashion = STORE.getState().getFashionStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(FashionRoutes.New())
 
     simpleHtml("Fashions") {

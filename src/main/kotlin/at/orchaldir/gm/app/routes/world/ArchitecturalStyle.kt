@@ -5,7 +5,9 @@ import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldName
 import at.orchaldir.gm.app.html.model.optionalField
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.selectOptionalYear
 import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
@@ -197,7 +199,7 @@ private fun HTML.showArchitecturalStyleDetails(
     val editLink = call.application.href(ArchitecturalStyleRoutes.Edit(style.id))
 
     simpleHtml("Architectural Style: ${style.name}") {
-        field("Name", style.name)
+        fieldName(style.name)
         optionalField(call, state, "Start", style.start)
         optionalField(call, state, "End", style.end)
         if (style.revival != null) {

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.economy.job
 
 import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
@@ -21,11 +22,11 @@ value class JobId(val value: Int) : Id<JobId> {
 @Serializable
 data class Job(
     val id: JobId,
-    val name: String = "Job ${id.value}",
+    val name: Name = Name.init("Job ${id.value}"),
     val spells: SomeOf<SpellId> = SomeOf(),
 ) : ElementWithSimpleName<JobId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
 }

@@ -2,7 +2,9 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldName
 import at.orchaldir.gm.app.html.model.parsePersonalityTrait
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
@@ -111,7 +113,7 @@ fun Application.configurePersonalityRouting() {
 }
 
 private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
-    val personalityTraits = state.getPersonalityTraitStorage().getAll().sortedBy { it.name }
+    val personalityTraits = state.getPersonalityTraitStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(PersonalityTraitRoutes.New())
 
     simpleHtml("Personality Traits") {
@@ -160,12 +162,12 @@ private fun HTML.showPersonalityTraitDetails(
     val editLink = call.application.href(PersonalityTraitRoutes.Edit(trait.id))
 
     simpleHtml("Personality Trait: ${trait.name}") {
-        field("Name", trait.name)
+        fieldName(trait.name)
 
         if (trait.group != null) {
             val traits = state.getPersonalityTraits(trait.group)
                 .filter { it != trait }
-                .sortedBy { it.name }
+                .sortedBy { it.name.text }
 
             showList("Conflicting", traits) { t ->
                 link(call, t)
@@ -210,8 +212,8 @@ private fun HTML.showPersonalityTraitEditor(
                     groups.forEach { g ->
                         option {
                             label = state.getPersonalityTraits(g)
-                                .sortedBy { it.name }
-                                .joinToString(separator = " VS ") { it.name }
+                                .sortedBy { it.name.text }
+                                .joinToString(separator = " VS ") { it.name.text }
                             value = g.value.toString()
                             selected = g == trait.group
                         }

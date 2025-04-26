@@ -72,7 +72,7 @@ private fun FORM.selectEquipment(
                     true,
                 ) { id ->
                     val equipment = state.getEquipmentStorage().getOrThrow(id)
-                    label = equipment.name
+                    label = equipment.name.text
                     value = id.value.toString()
                     selected = id == currentId
                 }

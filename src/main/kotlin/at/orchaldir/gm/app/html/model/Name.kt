@@ -21,8 +21,11 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.fieldName(name: Name) {
-    field("Name") {
+
+fun HtmlBlockTag.fieldName(name: Name) = fieldName("Name", name)
+
+fun HtmlBlockTag.fieldName(label: String, name: Name) {
+    field(label) {
         showName(name)
     }
 }
@@ -138,7 +141,9 @@ private fun FORM.internalSelect(
 
 // parse
 
-fun parseName(parameters: Parameters) = Name.init(parameters.getOrFail(NAME))
+fun parseName(parameters: Parameters, param: String = NAME) = Name.init(parameters.getOrFail(param))
+
+fun parseName(parameters: Parameters, param: String, default: String) = Name.init(parameters[param] ?: default)
 
 fun parseComplexName(parameters: Parameters): ComplexName {
     val type = parse(parameters, combine(NAME, TYPE), ComplexNameType.Simple)

@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.world.parseRiver
 import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
@@ -107,7 +109,7 @@ fun Application.configureRiverRouting() {
 }
 
 private fun HTML.showAllRivers(call: ApplicationCall) {
-    val rivers = STORE.getState().getRiverStorage().getAll().sortedBy { it.name }
+    val rivers = STORE.getState().getRiverStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(RiverRoutes.New())
 
     simpleHtml("Rivers") {
@@ -130,7 +132,7 @@ private fun HTML.showRiverDetails(
     val editLink = call.application.href(RiverRoutes.Edit(river.id))
 
     simpleHtml("River: ${river.name}") {
-        field("Name", river.name)
+        fieldName(river.name)
         showList("Towns", state.getTowns(river.id)) { town ->
             link(call, state, town)
         }

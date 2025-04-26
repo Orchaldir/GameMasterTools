@@ -6,9 +6,10 @@ import at.orchaldir.gm.app.html.model.fieldWeight
 import at.orchaldir.gm.app.html.model.item.editFillItemPart
 import at.orchaldir.gm.app.html.model.item.parseFillItemPart
 import at.orchaldir.gm.app.html.model.item.showFillItemPart
+import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.parseWeight
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.selectWeight
-import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -181,16 +182,12 @@ fun parseEquipmentId(value: String) = EquipmentId(value.toInt())
 
 fun parseEquipmentId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
 
-fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
-    val name = parameters.getOrFail(NAME)
-
-    return Equipment(
-        id,
-        name,
-        parseEquipmentData(parameters),
-        parseWeight(parameters, WEIGHT),
-    )
-}
+fun parseEquipment(id: EquipmentId, parameters: Parameters) = Equipment(
+    id,
+    parseName(parameters),
+    parseEquipmentData(parameters),
+    parseWeight(parameters, WEIGHT),
+)
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.Belt)) {

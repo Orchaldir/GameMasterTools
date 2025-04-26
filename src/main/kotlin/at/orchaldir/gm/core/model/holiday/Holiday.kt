@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.holiday
 
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
@@ -20,12 +21,12 @@ value class HolidayId(val value: Int) : Id<HolidayId> {
 @Serializable
 data class Holiday(
     val id: HolidayId,
-    val name: String = "Holiday ${id.value}",
+    val name: Name = Name.init("Holiday ${id.value}"),
     val calendar: CalendarId = CalendarId(0),
     val relativeDate: RelativeDate = DayInYear(0, 0),
     val purpose: HolidayPurpose = Anniversary,
 ) : ElementWithSimpleName<HolidayId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 }

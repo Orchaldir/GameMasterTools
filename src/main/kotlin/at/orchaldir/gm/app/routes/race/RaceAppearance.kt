@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldName
 import at.orchaldir.gm.app.html.model.race.editRaceAppearance
 import at.orchaldir.gm.app.html.model.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.model.race.showRaceAppearance
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateRaceAppearance
@@ -135,7 +137,7 @@ fun Application.configureRaceAppearanceRouting() {
 private fun HTML.showAll(call: ApplicationCall) {
     val elements = STORE.getState().getRaceAppearanceStorage()
         .getAll()
-        .sortedBy { it.name }
+        .sortedBy { it.name.text }
     val createLink = call.application.href(AppearanceRoutes.New())
     val galleryLink = call.application.href(AppearanceRoutes.Gallery())
 
@@ -158,7 +160,7 @@ private fun HTML.showGallery(
 ) {
     val elements = STORE.getState().getRaceAppearanceStorage()
         .getAll()
-        .sortedBy { it.name }
+        .sortedBy { it.name.text }
     val backLink = call.application.href(AppearanceRoutes())
 
     simpleHtml("Race Appearances") {
@@ -183,7 +185,7 @@ private fun HTML.showDetails(
 
     simpleHtml("Race Appearance: ${appearance.name}") {
         split({
-            field("Name", appearance.name)
+            fieldName(appearance.name)
             h2 { +"Options" }
 
             showRaceAppearance(call, state, appearance, eyeOptions)

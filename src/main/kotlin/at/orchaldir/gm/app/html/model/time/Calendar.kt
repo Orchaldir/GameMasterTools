@@ -4,7 +4,9 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.field
 import at.orchaldir.gm.app.html.model.parseDay
+import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.holiday.Holiday
@@ -250,19 +252,15 @@ fun parseCalendar(
     parameters: Parameters,
     default: Calendar,
     id: CalendarId,
-): Calendar {
-    val name = parseOptionalString(parameters, NAME) ?: "Unknown"
-    val origin = parseOrigin(parameters)
-
-    return Calendar(
-        id, name,
-        parseDays(parameters),
-        parseMonths(parameters),
-        parseEras(parameters, default),
-        origin,
-        parseDateFormat(parameters),
-    )
-}
+) = Calendar(
+    id,
+    parseName(parameters),
+    parseDays(parameters),
+    parseMonths(parameters),
+    parseEras(parameters, default),
+    parseOrigin(parameters),
+    parseDateFormat(parameters),
+)
 
 private fun parseEras(parameters: Parameters, default: Calendar) = CalendarEras(
     parseBeforeStart(parameters),

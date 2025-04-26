@@ -179,10 +179,10 @@ private fun HTML.showTownDetails(
             showPersonalityCountForCharacters(call, state, characters)
             showRaceCount(call, state, characters)
             h2 { +"Terrain" }
-            showList("Mountains", state.getMountains(town.id).sortedBy { it.name }) { mountain ->
+            showList("Mountains", state.getMountains(town.id).sortedBy { it.name.text }) { mountain ->
                 link(call, mountain)
             }
-            showList("Rivers", state.getRivers(town.id).sortedBy { it.name }) { river ->
+            showList("Rivers", state.getRivers(town.id).sortedBy { it.name.text }) { river ->
                 link(call, river)
             }
             showList("Streets", state.getStreets(town.id).sortedBy { it.name(state) }) { street ->

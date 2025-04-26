@@ -130,7 +130,7 @@ fun Application.configureCalendarRouting() {
 }
 
 private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
-    val calendars = STORE.getState().getCalendarStorage().getAll().sortedBy { it.name }
+    val calendars = STORE.getState().getCalendarStorage().getAll().sortedBy { it.name.text }
     val defaultCalendar = state.getDefaultCalendar()
     val count = calendars.size
     val createLink = call.application.href(CalendarRoutes.New())

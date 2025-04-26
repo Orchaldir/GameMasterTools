@@ -21,7 +21,6 @@ import at.orchaldir.gm.core.selector.economy.getCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 
 // show

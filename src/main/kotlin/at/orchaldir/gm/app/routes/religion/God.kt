@@ -166,7 +166,7 @@ private fun HTML.showAllGods(
                         showList(
                             state.getPersonalityTraitStorage()
                                 .get(god.personality)
-                                .sortedBy { it.name }) {
+                                .sortedBy { it.name.text }) {
                             link(call, it)
                         }
                     }
@@ -174,7 +174,7 @@ private fun HTML.showAllGods(
                         showList(
                             state.getDomainStorage()
                                 .get(god.domains)
-                                .sortedBy { it.name }) {
+                                .sortedBy { it.name.text }) {
                             link(call, it)
                         }
                     }

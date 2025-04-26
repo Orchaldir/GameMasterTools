@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.html.model.world
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.field
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
@@ -58,11 +60,9 @@ fun parseMoonId(parameters: Parameters, param: String) = MoonId(parseInt(paramet
 
 fun parseMoon(id: MoonId, parameters: Parameters) = Moon(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parameters[TILE]?.ifEmpty { null },
     parseInt(parameters, LENGTH, 1),
     parse(parameters, COLOR, Color.White),
-    parameters[PLANE]
-        ?.ifEmpty { null }
-        ?.let { parsePlaneId(it) },
+    parseOptionalPlaneId(parameters, PLANE),
 )

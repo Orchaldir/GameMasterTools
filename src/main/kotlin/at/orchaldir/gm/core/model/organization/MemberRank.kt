@@ -1,8 +1,9 @@
 package at.orchaldir.gm.core.model.organization
 
+import at.orchaldir.gm.core.model.name.Name
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class MemberRank(
-    val name: String = "Member",
+    val name: Name = Name.init("Member"),
 )

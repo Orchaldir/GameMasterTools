@@ -238,7 +238,7 @@ private fun HtmlBlockTag.selectAppearance(
         state,
         "Appearance",
         combine(RACE, APPEARANCE, index),
-        state.getRaceAppearanceStorage().getAll().sortedBy { it.name },
+        state.getRaceAppearanceStorage().getAll().sortedBy { it.name.text },
         raceAppearanceId,
         true,
     )
@@ -250,7 +250,7 @@ fun parseRaceId(parameters: Parameters, param: String) = RaceId(parseInt(paramet
 
 fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseOneOf(parameters, GENDER, Gender::valueOf),
     parseDistribution(parameters, HEIGHT, ::parseDistance),
     parseWeight(parameters, WEIGHT),

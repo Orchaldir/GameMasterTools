@@ -139,7 +139,7 @@ private fun HTML.showAllCultures(
     call: ApplicationCall,
     state: State,
 ) {
-    val cultures = STORE.getState().getCultureStorage().getAll().sortedBy { it.name }
+    val cultures = STORE.getState().getCultureStorage().getAll().sortedBy { it.name.text }
     val count = cultures.size
     val createLink = call.application.href(CultureRoutes.New())
 

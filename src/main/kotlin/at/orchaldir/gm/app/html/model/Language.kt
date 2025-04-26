@@ -123,7 +123,7 @@ private fun FORM.editOrigin(
 ) {
     val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.getPossibleParents(language.id)
-        .sortedBy { it.name }
+        .sortedBy { it.name.text }
     val planes = state.sortPlanes()
 
     selectValue("Origin", ORIGIN, entries, language.origin.getType(), true) {
@@ -162,12 +162,11 @@ fun parseLanguageId(parameters: Parameters, param: String) = LanguageId(parseInt
 fun parseOptionalLanguageId(parameters: Parameters, param: String) =
     parseOptionalInt(parameters, param)?.let { LanguageId(it) }
 
-fun parseLanguage(parameters: Parameters, state: State, id: LanguageId): Language {
-    val name = parameters.getOrFail(NAME)
-    val origin = parseOrigin(parameters, state)
-
-    return Language(id, name, origin)
-}
+fun parseLanguage(parameters: Parameters, state: State, id: LanguageId) = Language(
+    id,
+    parseName(parameters),
+    parseOrigin(parameters, state),
+)
 
 private fun parseOrigin(parameters: Parameters, state: State) = when (parse(parameters, ORIGIN, Original)) {
     Combined -> {

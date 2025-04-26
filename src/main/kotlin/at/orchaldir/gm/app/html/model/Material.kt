@@ -18,7 +18,7 @@ import kotlinx.html.HtmlBlockTag
 // show
 
 fun HtmlBlockTag.showMaterial(material: Material) {
-    field("Name", material.name)
+    fieldName(material.name)
     field("Category", material.category)
     fieldColor(material.color)
 }
@@ -38,13 +38,9 @@ fun parseMaterialId(parameters: Parameters, param: String) = MaterialId(parseInt
 fun parseOptionalMaterialId(parameters: Parameters, param: String) =
     parseOptionalInt(parameters, param)?.let { MaterialId(it) }
 
-fun parseMaterial(id: MaterialId, parameters: Parameters): Material {
-    val name = parameters.getOrFail(NAME)
-
-    return Material(
-        id,
-        name,
-        parse(parameters, CATEGORY, MaterialCategory.Metal),
-        parse(parameters, COLOR, Color.Pink),
-    )
-}
+fun parseMaterial(id: MaterialId, parameters: Parameters) = Material(
+    id,
+    parseName(parameters),
+    parse(parameters, CATEGORY, MaterialCategory.Metal),
+    parse(parameters, COLOR, Color.Pink),
+)

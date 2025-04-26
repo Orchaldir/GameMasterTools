@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
@@ -11,5 +12,5 @@ fun parseRiverId(parameters: Parameters, param: String) = RiverId(parseInt(param
 
 fun parseRiver(id: RiverId, parameters: Parameters) = River(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
 )

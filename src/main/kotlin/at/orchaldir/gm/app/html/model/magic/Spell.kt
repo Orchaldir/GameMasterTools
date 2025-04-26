@@ -139,7 +139,7 @@ fun parseSpellId(value: String) = SpellId(value.toInt())
 
 fun parseSpell(parameters: Parameters, state: State, id: SpellId) = Spell(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseOptionalDate(parameters, state, DATE),
     parseOptionalLanguageId(parameters, LANGUAGE),
     parseOrigin(parameters),
