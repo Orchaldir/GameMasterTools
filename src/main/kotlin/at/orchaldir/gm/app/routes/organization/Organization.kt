@@ -196,7 +196,7 @@ private fun HTML.showOrganizationDetails(
     val deleteLink = call.application.href(OrganizationRoutes.Delete(organization.id))
     val editLink = call.application.href(OrganizationRoutes.Edit(organization.id))
 
-    simpleHtml("Organization: ${organization.name(state)}") {
+    simpleHtmlDetails(organization) {
         showOrganization(call, state, organization)
 
         action(editLink, "Edit")
@@ -214,12 +214,11 @@ private fun HTML.showOrganizationEditor(
     state: State,
     organization: Organization,
 ) {
-    val name = organization.name(state)
     val backLink = href(call, organization.id)
     val previewLink = call.application.href(OrganizationRoutes.Preview(organization.id))
     val updateLink = call.application.href(OrganizationRoutes.Update(organization.id))
 
-    simpleHtml("Edit Organization: $name") {
+    simpleHtmlEditor(organization) {
         formWithPreview(previewLink, updateLink, backLink) {
             editOrganization(state, organization)
         }

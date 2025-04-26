@@ -180,7 +180,7 @@ private fun HTML.showStreetTemplateDetails(
     val deleteLink = call.application.href(StreetTemplateRoutes.Delete(type.id))
     val editLink = call.application.href(StreetTemplateRoutes.Edit(type.id))
 
-    simpleHtml("Street Template: ${type.name}") {
+    simpleHtmlDetails(type) {
         split({
             fieldName(type.name)
             fieldColor(type.color)
@@ -208,7 +208,7 @@ private fun HTML.showStreetTemplateEditor(
     val previewLink = call.application.href(StreetTemplateRoutes.Preview(type.id))
     val updateLink = call.application.href(StreetTemplateRoutes.Update(type.id))
 
-    simpleHtml("Edit street template: ${type.name}") {
+    simpleHtmlEditor(type) {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
                 selectName(type.name)

@@ -181,7 +181,7 @@ private fun HTML.showLanguageDetails(
     val deleteLink = call.application.href(LanguageRoutes.Delete(language.id))
     val editLink = call.application.href(LanguageRoutes.Edit(language.id))
 
-    simpleHtml("Language: ${language.name}") {
+    simpleHtmlDetails(language) {
         showLanguage(call, state, language)
 
         action(editLink, "Edit")
@@ -202,7 +202,7 @@ private fun HTML.showLanguageEditor(
     val previewLink = call.application.href(LanguageRoutes.Preview(language.id))
     val updateLink = call.application.href(LanguageRoutes.Update(language.id))
 
-    simpleHtml("Edit Language: ${language.name}") {
+    simpleHtmlEditor(language) {
         formWithPreview(previewLink, updateLink, backLink) {
             editLanguage(state, language)
         }

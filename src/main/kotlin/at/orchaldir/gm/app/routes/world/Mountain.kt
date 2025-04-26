@@ -155,7 +155,7 @@ private fun HTML.showMountainDetails(
     val deleteLink = call.application.href(MountainRoutes.Delete(mountain.id))
     val editLink = call.application.href(MountainRoutes.Edit(mountain.id))
 
-    simpleHtml("Mountain: ${mountain.name}") {
+    simpleHtmlDetails(mountain) {
         fieldName(mountain.name)
         showList("Resources", mountain.resources) { resource ->
             link(call, state, resource)
@@ -183,7 +183,7 @@ private fun HTML.showMountainEditor(
     val backLink = href(call, mountain.id)
     val updateLink = call.application.href(MountainRoutes.Update(mountain.id))
 
-    simpleHtml("Edit Mountain: ${mountain.name}") {
+    simpleHtmlEditor(mountain) {
         form {
             selectName(mountain.name)
             selectElements(state, "Resources", MATERIAL, materials, mountain.resources)

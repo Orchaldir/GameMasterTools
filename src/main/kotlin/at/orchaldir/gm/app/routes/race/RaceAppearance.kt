@@ -183,7 +183,7 @@ private fun HTML.showDetails(
     val deleteLink = call.application.href(AppearanceRoutes.Delete(appearance.id))
     val editLink = call.application.href(AppearanceRoutes.Edit(appearance.id))
 
-    simpleHtml("Race Appearance: ${appearance.name}") {
+    simpleHtmlDetails(appearance) {
         split({
             fieldName(appearance.name)
             h2 { +"Options" }
@@ -238,7 +238,7 @@ private fun HTML.showEditor(
     val previewLink = call.application.href(AppearanceRoutes.Preview(appearance.id))
     val updateLink = call.application.href(AppearanceRoutes.Update(appearance.id))
 
-    simpleHtml("Edit Race Appearance: ${appearance.name}", true) {
+    simpleHtmlEditor(appearance, true) {
 
         split({
             formWithPreview(previewLink, updateLink, backLink) {

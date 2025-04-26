@@ -131,7 +131,7 @@ private fun HTML.showRiverDetails(
     val deleteLink = call.application.href(RiverRoutes.Delete(river.id))
     val editLink = call.application.href(RiverRoutes.Edit(river.id))
 
-    simpleHtml("River: ${river.name}") {
+    simpleHtmlDetails(river) {
         fieldName(river.name)
         showList("Towns", state.getTowns(river.id)) { town ->
             link(call, state, town)
@@ -151,7 +151,7 @@ private fun HTML.showRiverEditor(
     val backLink = href(call, river.id)
     val updateLink = call.application.href(RiverRoutes.Update(river.id))
 
-    simpleHtml("Edit River: ${river.name}") {
+    simpleHtmlEditor(river) {
         form {
             selectName(river.name)
             button("Update", updateLink)

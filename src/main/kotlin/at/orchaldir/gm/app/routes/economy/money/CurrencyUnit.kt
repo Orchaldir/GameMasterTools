@@ -178,7 +178,7 @@ private fun HTML.showCurrencyUnitDetails(
     val deleteLink = call.application.href(CurrencyUnitRoutes.Delete(unit.id))
     val editLink = call.application.href(CurrencyUnitRoutes.Edit(unit.id))
 
-    simpleHtml("CurrencyUnit: ${unit.name(state)}") {
+    simpleHtmlDetails(unit) {
         showCurrencyUnit(call, state, unit)
 
         action(editLink, "Edit")
@@ -198,7 +198,7 @@ private fun HTML.showCurrencyUnitEditor(
     val previewLink = call.application.href(CurrencyUnitRoutes.Preview(unit.id))
     val updateLink = call.application.href(CurrencyUnitRoutes.Update(unit.id))
 
-    simpleHtml("Edit CurrencyUnit: ${unit.name(state)}") {
+    simpleHtmlEditor(unit) {
         formWithPreview(previewLink, updateLink, backLink) {
             editCurrencyUnit(state, unit)
         }

@@ -161,7 +161,7 @@ private fun HTML.showPersonalityTraitDetails(
     val deleteLink = call.application.href(PersonalityTraitRoutes.Delete(trait.id))
     val editLink = call.application.href(PersonalityTraitRoutes.Edit(trait.id))
 
-    simpleHtml("Personality Trait: ${trait.name}") {
+    simpleHtmlDetails(trait) {
         fieldName(trait.name)
 
         if (trait.group != null) {
@@ -197,7 +197,7 @@ private fun HTML.showPersonalityTraitEditor(
     val backLink = href(call, trait.id)
     val updateLink = call.application.href(PersonalityTraitRoutes.Update(trait.id))
 
-    simpleHtml("Edit PersonalityTrait: ${trait.name}") {
+    simpleHtmlEditor(trait) {
         form {
             selectName(trait.name)
             field("Group") {

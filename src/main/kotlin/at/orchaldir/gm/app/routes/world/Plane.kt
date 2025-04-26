@@ -182,7 +182,7 @@ private fun HTML.showPlaneDetails(
     val deleteLink = call.application.href(PlaneRoutes.Delete(plane.id))
     val editLink = call.application.href(PlaneRoutes.Edit(plane.id))
 
-    simpleHtml("Plane: ${plane.name(state)}") {
+    simpleHtmlDetails(plane) {
         showPlane(call, state, plane)
 
         action(editLink, "Edit")
@@ -200,12 +200,11 @@ private fun HTML.showPlaneEditor(
     state: State,
     plane: Plane,
 ) {
-    val name = plane.name(state)
     val backLink = href(call, plane.id)
     val previewLink = call.application.href(PlaneRoutes.Preview(plane.id))
     val updateLink = call.application.href(PlaneRoutes.Update(plane.id))
 
-    simpleHtml("Edit Plane: $name") {
+    simpleHtmlEditor(plane) {
         formWithPreview(previewLink, updateLink, backLink) {
             editPlane(state, plane)
         }

@@ -246,7 +246,7 @@ private fun HTML.showFontDetails(
     val editLink = call.application.href(FontRoutes.Edit(font.id))
     val uploaderLink = call.application.href(FontRoutes.Uploader(font.id))
 
-    simpleHtml("Font: ${font.name}") {
+    simpleHtmlDetails(font) {
         svg(visualizeString(example, font, 40.0f), 100)
 
         showFont(call, state, font)
@@ -269,7 +269,7 @@ private fun HTML.showFontEditor(
     val previewLink = call.application.href(FontRoutes.Preview(font.id))
     val updateLink = call.application.href(FontRoutes.Update(font.id))
 
-    simpleHtml("Edit Font: ${font.name}") {
+    simpleHtmlEditor(font) {
         formWithPreview(previewLink, updateLink, backLink) {
             editFont(state, font)
         }
@@ -283,7 +283,7 @@ private fun HTML.showFontUploader(
     val backLink = href(call, font.id)
     val uploadLink = call.application.href(FontRoutes.Upload(font.id))
 
-    simpleHtml("Upload Font: ${font.name}") {
+    simpleHtml(font, "Upload ") {
         form(encType = FormEncType.multipartFormData) {
             fileInput {
                 formEncType = InputFormEncType.multipartFormData

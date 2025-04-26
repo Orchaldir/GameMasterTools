@@ -231,7 +231,7 @@ private fun HTML.showRaceDetails(
     val deleteLink = call.application.href(RaceRoutes.Delete(race.id))
     val editLink = call.application.href(RaceRoutes.Edit(race.id))
 
-    simpleHtml("Race: ${race.name}") {
+    simpleHtmlDetails(race) {
         split({
             showRace(call, state, race)
 
@@ -303,7 +303,7 @@ private fun HTML.showRaceEditor(
     val previewLink = call.application.href(RaceRoutes.Preview(race.id))
     val updateLink = call.application.href(RaceRoutes.Update(race.id))
 
-    simpleHtml("Edit Race: ${race.name}", true) {
+    simpleHtmlEditor(race, true) {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
                 editRace(call, state, race)

@@ -150,7 +150,7 @@ private fun HTML.showNameListDetails(
     val deleteLink = call.application.href(NameListRoutes.Delete(nameList.id))
     val editLink = call.application.href(NameListRoutes.Edit(nameList.id))
 
-    simpleHtml("Name List: ${nameList.name}") {
+    simpleHtmlDetails(nameList) {
         showNameList(call, state, nameList)
         action(editLink, "Edit")
         if (state.canDelete(nameList.id)) {
@@ -167,7 +167,7 @@ private fun HTML.showNameListEditor(
     val backLink = href(call, nameList.id)
     val updateLink = call.application.href(NameListRoutes.Update(nameList.id))
 
-    simpleHtml("Edit Name List: ${nameList.name}") {
+    simpleHtmlEditor(nameList) {
         form {
             editNameList(nameList)
             button("Update", updateLink)

@@ -152,7 +152,7 @@ private fun HTML.showJobDetails(
     val deleteLink = call.application.href(JobRoutes.Delete(job.id))
     val editLink = call.application.href(JobRoutes.Edit(job.id))
 
-    simpleHtml("Job: ${job.name}") {
+    simpleHtmlDetails(job) {
         showJob(call, state, job)
 
         action(editLink, "Edit")
@@ -171,7 +171,7 @@ private fun HTML.showJobEditor(
     val backLink = href(call, job.id)
     val updateLink = call.application.href(JobRoutes.Update(job.id))
 
-    simpleHtml("Edit Job: ${job.name}") {
+    simpleHtmlEditor(job) {
         form {
             editJob(state, job)
             button("Update", updateLink)

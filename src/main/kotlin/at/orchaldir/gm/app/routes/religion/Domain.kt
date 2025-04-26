@@ -176,7 +176,7 @@ private fun HTML.showDomainDetails(
     val deleteLink = call.application.href(DomainRoutes.Delete(domain.id))
     val editLink = call.application.href(DomainRoutes.Edit(domain.id))
 
-    simpleHtml("Domain: ${domain.name(state)}") {
+    simpleHtmlDetails(domain) {
         showDomain(call, state, domain)
 
         showList("Gods", state.getGodsWith(domain.id)) {
@@ -198,12 +198,11 @@ private fun HTML.showDomainEditor(
     state: State,
     domain: Domain,
 ) {
-    val name = domain.name(state)
     val backLink = href(call, domain.id)
     val previewLink = call.application.href(DomainRoutes.Preview(domain.id))
     val updateLink = call.application.href(DomainRoutes.Update(domain.id))
 
-    simpleHtml("Edit Domain: $name") {
+    simpleHtmlEditor(domain) {
         formWithPreview(previewLink, updateLink, backLink) {
             editDomain(call, state, domain)
         }

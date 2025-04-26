@@ -186,7 +186,7 @@ private fun HTML.showCultureDetails(
     val deleteLink = call.application.href(CultureRoutes.Delete(culture.id))
     val editLink = call.application.href(CultureRoutes.Edit(culture.id))
 
-    simpleHtml("Culture: ${culture.name}") {
+    simpleHtmlDetails(culture) {
         showCulture(call, state, culture)
 
         action(editLink, "Edit")
@@ -209,7 +209,7 @@ private fun HTML.showCultureEditor(
     val previewLink = call.application.href(CultureRoutes.Preview(culture.id))
     val updateLink = call.application.href(CultureRoutes.Update(culture.id))
 
-    simpleHtml("Edit Culture: ${culture.name}") {
+    simpleHtmlEditor(culture) {
         formWithPreview(previewLink, updateLink, backLink) {
             editCulture(state, culture)
         }

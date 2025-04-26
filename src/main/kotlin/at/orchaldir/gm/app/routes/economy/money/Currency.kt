@@ -179,7 +179,7 @@ private fun HTML.showCurrencyDetails(
     val deleteLink = call.application.href(CurrencyRoutes.Delete(currency.id))
     val editLink = call.application.href(CurrencyRoutes.Edit(currency.id))
 
-    simpleHtml("Currency: ${currency.name(state)}") {
+    simpleHtmlDetails(currency) {
         showCurrency(call, state, currency)
 
         action(editLink, "Edit")
@@ -199,7 +199,7 @@ private fun HTML.showCurrencyEditor(
     val previewLink = call.application.href(CurrencyRoutes.Preview(currency.id))
     val updateLink = call.application.href(CurrencyRoutes.Update(currency.id))
 
-    simpleHtml("Edit Currency: ${currency.name(state)}") {
+    simpleHtmlEditor(currency) {
         formWithPreview(previewLink, updateLink, backLink) {
             editCurrency(state, currency)
         }
