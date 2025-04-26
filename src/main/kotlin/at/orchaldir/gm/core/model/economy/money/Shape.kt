@@ -28,15 +28,15 @@ data object Circle : Shape()
 @Serializable
 @SerialName("Triangle")
 data class Triangle(
-    val rounded: Boolean,
-    val cornerTop: Boolean,
+    val rounded: Boolean = false,
+    val cornerTop: Boolean = true,
 ) : Shape()
 
 @Serializable
 @SerialName("Square")
 data class Square(
-    val rounded: Boolean,
-    val cornerTop: Boolean,
+    val rounded: Boolean = false,
+    val cornerTop: Boolean = false,
 ) : Shape()
 
 @Serializable
