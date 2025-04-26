@@ -19,6 +19,7 @@ value class Distance private constructor(private val micrometers: Int) : SiUnit<
     companion object {
         fun fromMeters(meters: Int) = Distance(meterToMicrometers(meters))
         fun fromMeters(meters: Float) = Distance(meterToMicrometers(meters))
+        fun fromCentimeters(centimeter: Int) = Distance(centimeterToMicrometers(centimeter))
         fun fromMillimeters(millimeter: Int) = Distance(millimeterToMicrometers(millimeter))
         fun fromMillimeters(millimeter: Float) = Distance(millimeterToMicrometers(millimeter))
         fun fromMicrometers(micrometers: Int) = Distance(micrometers)
@@ -61,6 +62,9 @@ fun meterToMillimeter(meter: Float) = down(meter)
 
 fun meterToMicrometers(meter: Int) = down(down(meter))
 fun meterToMicrometers(meter: Float) = down(down(meter))
+
+fun centimeterToMicrometers(centimeter: Int) = down(centimeter * 10)
+fun centimeterToMicrometers(centimeter: Float) = down(centimeter * 10.0f)
 
 fun millimeterToMicrometers(millimeter: Int) = down(millimeter)
 fun millimeterToMicrometers(millimeter: Float) = down(millimeter)
