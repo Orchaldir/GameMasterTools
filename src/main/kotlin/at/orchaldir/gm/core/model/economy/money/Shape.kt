@@ -11,4 +11,5 @@ enum class Shape {
     Hexagon,
     Heptagon,
     Octagon,
+    Dodecagonal,
 }

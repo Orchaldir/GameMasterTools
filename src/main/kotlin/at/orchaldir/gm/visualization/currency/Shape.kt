@@ -6,8 +6,6 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.createRegularPolygon
 import at.orchaldir.gm.utils.math.createRoundedRegularPolygon
-import at.orchaldir.gm.utils.math.createRoundedSquare
-import at.orchaldir.gm.utils.math.createRoundedTriangle
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -33,6 +31,7 @@ fun visualizeShape(
         Shape.Hexagon -> visualizeRegularPolygon(renderer, options, center, radius, 6)
         Shape.Heptagon -> visualizeRegularPolygon(renderer, options, center, radius, 7)
         Shape.Octagon -> visualizeRegularPolygon(renderer, options, center, radius, 8)
+        Shape.Dodecagonal -> visualizeRegularPolygon(renderer, options, center, radius, 12)
     }
 }
 
