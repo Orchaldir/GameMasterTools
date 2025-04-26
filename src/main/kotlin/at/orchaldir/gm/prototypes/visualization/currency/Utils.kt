@@ -6,14 +6,14 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.currency.CurrencyRenderConfig
 import at.orchaldir.gm.visualization.currency.CurrencyRenderState
 import at.orchaldir.gm.visualization.currency.visualizeCurrencyFormat
 
 val CURRENCY_CONFIG = CurrencyRenderConfig(
-    LineOptions(Color.Black.toRender(), fromMillimeters(1)),
+    LineOptions(Color.Black.toRender(), fromMicrometers(200)),
     fromPercentage(200),
 )
 

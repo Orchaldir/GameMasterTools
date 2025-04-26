@@ -42,5 +42,5 @@ data class HoledCoin(
     val shape: Shape = Shape.Circle,
     val radius: Distance = Distance.fromCentimeters(1),
     val holeShape: Shape = Shape.Circle,
-    val holeFactor: Factor = fromPercentage(50),
+    val holeFactor: Factor = fromPercentage(20),
 ) : CurrencyFormat()
