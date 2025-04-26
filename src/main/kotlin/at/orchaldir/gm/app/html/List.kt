@@ -27,7 +27,7 @@ fun <T> HtmlBlockTag.showInlineList(
     }
 }
 
-fun <T> HtmlBlockTag.showList(
+fun <T> HtmlBlockTag.fieldList(
     label: String,
     elements: Collection<T>,
     content: LI.(T) -> Unit,

@@ -34,7 +34,7 @@ fun HtmlBlockTag.showBuildingPurpose(
         is ApartmentHouse -> {
             field("Apartments", purpose.apartments)
             repeat(purpose.apartments) { i ->
-                showList("${i + 1}.Apartment", state.getCharactersLivingInApartment(building.id, i)) { c ->
+                fieldList("${i + 1}.Apartment", state.getCharactersLivingInApartment(building.id, i)) { c ->
                     link(call, state, c)
                 }
             }
@@ -50,7 +50,7 @@ fun HtmlBlockTag.showBuildingPurpose(
         is SingleFamilyHouse -> showInhabitants(call, state, building)
     }
 
-    showList("Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id)) { c ->
+    fieldList("Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id)) { c ->
         link(call, state, c)
     }
 }
@@ -60,7 +60,7 @@ private fun HtmlBlockTag.showInhabitants(
     state: State,
     building: Building,
 ) {
-    showList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
+    fieldList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
         link(call, state, c)
     }
 }

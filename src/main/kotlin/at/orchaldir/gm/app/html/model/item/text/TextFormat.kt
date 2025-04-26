@@ -143,7 +143,7 @@ private fun HtmlBlockTag.showSewingPattern(
                 showColorItemPart(call, state, pattern.thread)
                 field("Size", pattern.size)
                 field("Distance Between Edge & Hole", pattern.length)
-                showList("Stitches", pattern.stitches) { stitch ->
+                fieldList("Stitches", pattern.stitches) { stitch ->
                     +stitch.name
                 }
             }
@@ -179,7 +179,7 @@ private fun HtmlBlockTag.showScrollHandle(
     state: State,
     handle: ScrollHandle,
 ) {
-    showList("Handle Segments", handle.segments) { segment ->
+    fieldList("Handle Segments", handle.segments) { segment ->
         fieldDistance("Length", segment.length)
         fieldDistance("Diameter", segment.diameter)
         showColorItemPart(call, state, segment.main)

@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.Font
@@ -27,7 +27,7 @@ fun HtmlBlockTag.showFont(
         }
     }
     h2 { +"Usage" }
-    showList("Texts", state.getTexts(font.id)) { text ->
+    fieldList("Texts", state.getTexts(font.id)) { text ->
         link(call, state, text)
     }
 }

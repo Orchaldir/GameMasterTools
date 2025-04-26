@@ -68,43 +68,43 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
     h2 { +"Created" }
 
-    showList("Articles", getCreatedBy(state.getArticleStorage(), id)) { article ->
+    fieldList("Articles", getCreatedBy(state.getArticleStorage(), id)) { article ->
         link(call, state, article)
     }
 
-    showList("Buildings", getCreatedBy(state.getBuildingStorage(), id)) { building ->
+    fieldList("Buildings", getCreatedBy(state.getBuildingStorage(), id)) { building ->
         link(call, state, building)
     }
 
-    showList("Businesses", getCreatedBy(state.getBusinessStorage(), id)) { business ->
+    fieldList("Businesses", getCreatedBy(state.getBusinessStorage(), id)) { business ->
         link(call, state, business)
     }
 
-    showList("Languages", getCreatedBy(state.getLanguageStorage(), id)) { language ->
+    fieldList("Languages", getCreatedBy(state.getLanguageStorage(), id)) { language ->
         link(call, language)
     }
 
-    showList("Organizations", getCreatedBy(state.getOrganizationStorage(), id)) { organization ->
+    fieldList("Organizations", getCreatedBy(state.getOrganizationStorage(), id)) { organization ->
         link(call, state, organization)
     }
 
-    showList("Planes", getCreatedBy(state.getPlaneStorage(), id)) { plane ->
+    fieldList("Planes", getCreatedBy(state.getPlaneStorage(), id)) { plane ->
         link(call, state, plane)
     }
 
-    showList("Races", getCreatedBy(state.getRaceStorage(), id)) { race ->
+    fieldList("Races", getCreatedBy(state.getRaceStorage(), id)) { race ->
         link(call, state, race)
     }
 
-    showList("Spells", getCreatedBy(state.getSpellStorage(), id)) { spell ->
+    fieldList("Spells", getCreatedBy(state.getSpellStorage(), id)) { spell ->
         link(call, state, spell)
     }
 
-    showList("Texts", getCreatedBy(state.getTextStorage(), id)) { text ->
+    fieldList("Texts", getCreatedBy(state.getTextStorage(), id)) { text ->
         link(call, state, text)
     }
 
-    showList("Towns", getCreatedBy(state.getTownStorage(), id)) { town ->
+    fieldList("Towns", getCreatedBy(state.getTownStorage(), id)) { town ->
         link(call, state, town)
     }
 }

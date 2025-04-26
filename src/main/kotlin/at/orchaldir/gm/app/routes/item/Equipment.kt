@@ -222,10 +222,10 @@ private fun HTML.showEquipmentDetails(
 
         h2 { +"Usage" }
 
-        showList("Equipped By", characters) { item ->
+        fieldList("Equipped By", characters) { item ->
             link(call, state, item)
         }
-        showList("Part of Fashion", fashions) { item ->
+        fieldList("Part of Fashion", fashions) { item ->
             link(call, item)
         }
 

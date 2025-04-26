@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.HISTORY
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.showListWithIndex
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
@@ -23,7 +23,7 @@ fun <T> HtmlBlockTag.showHistory(
     label: String,
     showEntry: HtmlBlockTag.(ApplicationCall, State, T) -> Unit,
 ) {
-    showList("Previous $label", history.previousEntries) { previous ->
+    fieldList("Previous $label", history.previousEntries) { previous ->
         +"Until "
         showDate(call, state, previous.until)
         +": "

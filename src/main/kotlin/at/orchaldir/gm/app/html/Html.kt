@@ -257,7 +257,7 @@ fun <T> HtmlBlockTag.showRarityMap(
 
     showDetails(enum) {
         showMap(sortedMap) { rarity, values ->
-            showList(rarity.toString(), values) {
+            fieldList(rarity.toString(), values) {
                 content(it)
             }
         }

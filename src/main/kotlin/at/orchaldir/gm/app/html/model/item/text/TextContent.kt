@@ -36,7 +36,7 @@ fun HtmlBlockTag.showTextContent(
         when (content) {
             is AbstractText -> {
                 field("Pages", content.pages)
-                showList("Spell", content.spells) { spell ->
+                fieldList("Spell", content.spells) { spell ->
                     link(call, state, spell)
                 }
             }

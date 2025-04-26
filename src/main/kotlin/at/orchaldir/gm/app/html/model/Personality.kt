@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.PERSONALITY_PREFIX
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
@@ -22,7 +22,7 @@ fun HtmlBlockTag.showPersonality(
     state: State,
     personality: Set<PersonalityTraitId>,
 ) {
-    showList("Personality", personality) { t ->
+    fieldList("Personality", personality) { t ->
         link(call, state, t)
     }
 }

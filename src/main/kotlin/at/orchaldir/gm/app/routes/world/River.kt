@@ -133,7 +133,7 @@ private fun HTML.showRiverDetails(
 
     simpleHtmlDetails(river) {
         fieldName(river.name)
-        showList("Towns", state.getTowns(river.id)) { town ->
+        fieldList("Towns", state.getTowns(river.id)) { town ->
             link(call, state, town)
         }
         action(editLink, "Edit")

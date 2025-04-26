@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.model.magic.parseSpellId
 import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.selectRarityMap
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.showRarityMap
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseSomeOf
@@ -41,19 +41,19 @@ fun HtmlBlockTag.showJob(
     showRarityMap("Spells", job.spells) { spell ->
         link(call, state, spell)
     }
-    showList("Businesses", state.getBusinesses(job.id)) { business ->
+    fieldList("Businesses", state.getBusinesses(job.id)) { business ->
         link(call, state, business)
     }
-    showList("Current Characters", state.sortCharacters(characters)) { (character, name) ->
+    fieldList("Current Characters", state.sortCharacters(characters)) { (character, name) ->
         link(call, character.id, name)
     }
-    showList("Previous Characters", state.sortCharacters(previousCharacters)) { (character, name) ->
+    fieldList("Previous Characters", state.sortCharacters(previousCharacters)) { (character, name) ->
         link(call, character.id, name)
     }
-    showList("Associated Domains", state.sortDomains(domains)) { domain ->
+    fieldList("Associated Domains", state.sortDomains(domains)) { domain ->
         link(call, domain)
     }
-    showList("Associated Gods", state.sortGods(gods)) { god ->
+    fieldList("Associated Gods", state.sortGods(gods)) { god ->
         link(call, god)
     }
 }

@@ -198,22 +198,22 @@ private fun HTML.showMaterialDetails(
 
         h2 { +"Usage" }
 
-        showList("Currency", currencyUnits) { unit ->
+        fieldList("Currency", currencyUnits) { unit ->
             link(call, unit)
         }
-        showList("Equipment", equipmentList) { equipment ->
+        fieldList("Equipment", equipmentList) { equipment ->
             link(call, equipment)
         }
-        showList("Mountains", mountains) { mountain ->
+        fieldList("Mountains", mountains) { mountain ->
             link(call, mountain)
         }
-        showList("Race Appearances", raceAppearances) { appearance ->
+        fieldList("Race Appearances", raceAppearances) { appearance ->
             link(call, appearance)
         }
-        showList("Street Templates", streetTemplates) { template ->
+        fieldList("Street Templates", streetTemplates) { template ->
             link(call, template)
         }
-        showList("Texts", texts) { text ->
+        fieldList("Texts", texts) { text ->
             link(call, text, text.getNameWithDate(state))
         }
         action(editLink, "Edit")

@@ -35,22 +35,22 @@ fun HtmlBlockTag.showGod(
     field("Gender", god.gender)
     showPersonality(call, state, god.personality)
 
-    showList("Domains", god.domains) { domain ->
+    fieldList("Domains", god.domains) { domain ->
         link(call, state, domain)
     }
 
     optionalFieldLink("Heart Plane", call, state, state.getHeartPlane(god.id)?.id)
     optionalFieldLink("Prison Plane", call, state, state.getPrisonPlane(god.id)?.id)
 
-    showList("Holidays", state.getHolidays(god.id)) { holiday ->
+    fieldList("Holidays", state.getHolidays(god.id)) { holiday ->
         link(call, state, holiday)
     }
 
-    showList("Pantheons", state.getPantheonsContaining(god.id)) { pantheon ->
+    fieldList("Pantheons", state.getPantheonsContaining(god.id)) { pantheon ->
         link(call, state, pantheon)
     }
 
-    showList("Believers", state.getBelievers(god.id)) { character ->
+    fieldList("Believers", state.getBelievers(god.id)) { character ->
         link(call, state, character)
     }
 

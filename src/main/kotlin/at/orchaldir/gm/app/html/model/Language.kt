@@ -44,25 +44,25 @@ fun HtmlBlockTag.showLanguage(
 
     showOrigin(call, state, language)
 
-    showList("Child Languages", children) { language ->
+    fieldList("Child Languages", children) { language ->
         link(call, language)
     }
 
     h2 { +"Usage" }
 
-    showList("Characters", characters) { character ->
+    fieldList("Characters", characters) { character ->
         link(call, state, character)
     }
-    showList("Cultures", cultures) { culture ->
+    fieldList("Cultures", cultures) { culture ->
         link(call, culture)
     }
-    showList("Periodicals", periodicals) { periodical ->
+    fieldList("Periodicals", periodicals) { periodical ->
         link(call, state, periodical)
     }
-    showList("Spells", spells) { spell ->
+    fieldList("Spells", spells) { spell ->
         link(call, state, spell)
     }
-    showList("Texts", texts) { texts ->
+    fieldList("Texts", texts) { texts ->
         link(call, state, texts)
     }
 }

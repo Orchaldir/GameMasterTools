@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.selectOptionalText
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
@@ -32,19 +32,19 @@ fun HtmlBlockTag.showPlane(
     showPlanePurpose(call, state, plane.purpose)
     optionalField("Current Alignment", state.getPlanarAlignment(plane, state.time.currentDate))
 
-    showList("Demiplanes", state.getDemiplanes(plane.id)) { demiplane ->
+    fieldList("Demiplanes", state.getDemiplanes(plane.id)) { demiplane ->
         link(call, demiplane)
     }
 
-    showList("Reflection", state.getReflections(plane.id)) { reflection ->
+    fieldList("Reflection", state.getReflections(plane.id)) { reflection ->
         link(call, reflection)
     }
 
-    showList("Associated Moons", state.getMoons(plane.id)) { moon ->
+    fieldList("Associated Moons", state.getMoons(plane.id)) { moon ->
         link(call, moon)
     }
 
-    showList("Associated Languages", state.getPlanarLanguages(plane.id)) { language ->
+    fieldList("Associated Languages", state.getPlanarLanguages(plane.id)) { language ->
         link(call, language)
     }
 }

@@ -49,7 +49,7 @@ private fun HtmlBlockTag.showMembers(
 
     showListWithIndex(organization.memberRanks) { index, rank ->
         fieldName("Rank", rank.name)
-        showList("Members", organization.getMembers(index)) { character ->
+        fieldList("Members", organization.getMembers(index)) { character ->
             link(call, state, character)
         }
     }

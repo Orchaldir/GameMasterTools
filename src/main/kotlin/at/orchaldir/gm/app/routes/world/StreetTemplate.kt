@@ -185,7 +185,7 @@ private fun HTML.showStreetTemplateDetails(
             fieldName(type.name)
             fieldColor(type.color)
             showMaterialCost(call, state, type.materialCost)
-            showList("Towns", state.getTowns(type.id)) { town ->
+            fieldList("Towns", state.getTowns(type.id)) { town ->
                 link(call, state, town)
             }
             action(editLink, "Edit")

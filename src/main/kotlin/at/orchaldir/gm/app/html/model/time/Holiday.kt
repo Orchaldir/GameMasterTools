@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.holiday.Holiday
@@ -33,10 +33,10 @@ fun HtmlBlockTag.showHoliday(
     showRelativeDate("Relative Date", calendar, holiday.relativeDate)
     fieldHolidayPurpose(call, state, holiday.purpose)
 
-    showList("Cultures", state.getCultures(holiday.id)) { culture ->
+    fieldList("Cultures", state.getCultures(holiday.id)) { culture ->
         link(call, culture)
     }
-    showList("Organizations", state.getOrganizations(holiday.id)) { culture ->
+    fieldList("Organizations", state.getOrganizations(holiday.id)) { culture ->
         link(call, culture)
     }
 }

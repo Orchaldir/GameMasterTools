@@ -156,13 +156,13 @@ private fun HtmlBlockTag.showFamily(
     val children = state.getChildren(character.id)
     val siblings = state.getSiblings(character.id)
 
-    showList("Parents", parents) { parent ->
+    fieldList("Parents", parents) { parent ->
         link(call, state, parent)
     }
-    showList("Children", children) { child ->
+    fieldList("Children", children) { child ->
         link(call, state, child)
     }
-    showList("Siblings", siblings) { sibling ->
+    fieldList("Siblings", siblings) { sibling ->
         link(call, state, sibling)
     }
 }
@@ -183,7 +183,7 @@ fun HtmlBlockTag.showMemberships(
     state: State,
     character: Character,
 ) {
-    showList("Organizations", state.getOrganizations(character.id)) { organization ->
+    fieldList("Organizations", state.getOrganizations(character.id)) { organization ->
         link(call, organization)
         showHistory(
             call,

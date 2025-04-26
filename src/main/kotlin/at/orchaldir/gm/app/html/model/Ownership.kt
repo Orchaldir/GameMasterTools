@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
@@ -52,27 +52,27 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
 
     h2 { +"Possession" }
 
-    showList("Owned Buildings", buildings) { building ->
+    fieldList("Owned Buildings", buildings) { building ->
         link(call, state, building)
     }
 
-    showList("Previously owned Buildings", previousBuildings) { building ->
+    fieldList("Previously owned Buildings", previousBuildings) { building ->
         link(call, state, building)
     }
 
-    showList("Owned Businesses", businesses) { business ->
+    fieldList("Owned Businesses", businesses) { business ->
         link(call, state, business)
     }
 
-    showList("Previously owned Businesses", previousBusinesses) { business ->
+    fieldList("Previously owned Businesses", previousBusinesses) { business ->
         link(call, state, business)
     }
 
-    showList("Owned Periodicals", periodicals) { periodical ->
+    fieldList("Owned Periodicals", periodicals) { periodical ->
         link(call, state, periodical)
     }
 
-    showList("Previously owned Periodicals", previousPeriodicals) { periodical ->
+    fieldList("Previously owned Periodicals", previousPeriodicals) { periodical ->
         link(call, state, periodical)
     }
 }

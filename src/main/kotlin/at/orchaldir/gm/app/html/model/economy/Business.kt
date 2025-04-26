@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.fieldAge
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -38,12 +38,12 @@ fun HtmlBlockTag.showBusiness(
     fieldCreator(call, state, business.founder, "Founder")
     showOwnership(call, state, business.ownership)
     showEmployees(call, state, "Employees", employees)
-    showList("Previous Employees", previousEmployees) { character ->
+    fieldList("Previous Employees", previousEmployees) { character ->
         link(call, state, character)
     }
     showCreated(call, state, business.id, true)
 
-    showList("Published Texts", published) { text ->
+    fieldList("Published Texts", published) { text ->
         link(call, state, text)
     }
 
