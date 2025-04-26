@@ -164,9 +164,12 @@ fun convertPolygonWithHoleToPath(polygon: Polygon2d, hole: Polygon2d): String {
     val builder = PathBuilder()
 
     convertCornersToPath(polygon.corners, builder)
+
+    builder.close()
+
     convertCornersToPath(hole.corners.reversed(), builder)
 
-    return builder.build()
+    return builder.close().build()
 }
 
 private fun convertCornersToPath(corners: List<Point2d>) = convertCornersToPath(corners, PathBuilder())
