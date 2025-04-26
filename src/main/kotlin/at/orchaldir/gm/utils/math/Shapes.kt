@@ -26,3 +26,20 @@ fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation) 
         center.createPolar(radius, firstCorner + TWO_THIRD_CIRCLE),
     )
 )
+
+fun createRoundedTriangle(center: Point2d, radius: Distance, firstCorner: Orientation): Polygon2d {
+    val a = center.createPolar(radius, firstCorner)
+    val b = center.createPolar(radius, firstCorner + ONE_THIRD_CIRCLE)
+    val c = center.createPolar(radius, firstCorner + TWO_THIRD_CIRCLE)
+
+    return Polygon2d(
+        listOf(
+            a,
+            (a + b) / 2.0f,
+            b,
+            (b + c) / 2.0f,
+            c,
+            (c + a) / 2.0f,
+        )
+    )
+}

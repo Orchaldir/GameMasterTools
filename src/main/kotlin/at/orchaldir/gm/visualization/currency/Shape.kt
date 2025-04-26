@@ -1,17 +1,10 @@
 package at.orchaldir.gm.visualization.currency
 
-import at.orchaldir.gm.core.model.economy.money.Circle
-import at.orchaldir.gm.core.model.economy.money.RegularPolygon
-import at.orchaldir.gm.core.model.economy.money.Shape
-import at.orchaldir.gm.core.model.economy.money.Square
-import at.orchaldir.gm.core.model.economy.money.Triangle
+import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.ONE_THIRD_CIRCLE
-import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.QUARTER_CIRCLE
-import at.orchaldir.gm.utils.math.ZERO_ORIENTATION
-import at.orchaldir.gm.utils.math.createCross
+import at.orchaldir.gm.utils.math.createRoundedTriangle
 import at.orchaldir.gm.utils.math.createTriangle
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -32,8 +25,14 @@ fun visualizeShape(
             } else {
                 QUARTER_CIRCLE
             }
-            val polygon = createTriangle(center, radius, orientation)
-            renderer.renderPolygon(polygon, options)
+
+            if (shape.rounded) {
+                val polygon = createRoundedTriangle(center, radius, orientation)
+                renderer.renderRoundedPolygon(polygon, options)
+            } else {
+                val polygon = createTriangle(center, radius, orientation)
+                renderer.renderPolygon(polygon, options)
+            }
         }
         is Square -> doNothing()
         is RegularPolygon -> doNothing()
