@@ -18,3 +18,11 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
         .addMirroredPoints(aabb, size, END)
         .build()
 }
+
+fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation) = Polygon2d(
+    listOf(
+        center.createPolar(radius, firstCorner),
+        center.createPolar(radius, firstCorner + ONE_THIRD_CIRCLE),
+        center.createPolar(radius, firstCorner + TWO_THIRD_CIRCLE),
+    )
+)

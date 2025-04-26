@@ -6,7 +6,13 @@ import at.orchaldir.gm.core.model.economy.money.Shape
 import at.orchaldir.gm.core.model.economy.money.Square
 import at.orchaldir.gm.core.model.economy.money.Triangle
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.ONE_THIRD_CIRCLE
+import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.ZERO_ORIENTATION
+import at.orchaldir.gm.utils.math.createCross
+import at.orchaldir.gm.utils.math.createTriangle
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -20,7 +26,15 @@ fun visualizeShape(
 ) {
     when (shape) {
         is Circle -> renderer.renderCircle(center, radius, options)
-        is Triangle -> doNothing()
+        is Triangle -> {
+            val orientation = if (shape.cornerTop) {
+                -QUARTER_CIRCLE
+            } else {
+                QUARTER_CIRCLE
+            }
+            val polygon = createTriangle(center, radius, orientation)
+            renderer.renderPolygon(polygon, options)
+        }
         is Square -> doNothing()
         is RegularPolygon -> doNothing()
     }

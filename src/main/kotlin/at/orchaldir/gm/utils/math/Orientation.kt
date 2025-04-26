@@ -6,8 +6,11 @@ import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 
+val ZERO_ORIENTATION = Orientation.fromDegree(0.0f)
 val QUARTER_CIRCLE = Orientation.fromDegree(90.0f)
+val ONE_THIRD_CIRCLE = Orientation.fromDegree(120.0f)
 val HALF_CIRCLE = Orientation.fromDegree(180.0f)
+val TWO_THIRD_CIRCLE = Orientation.fromDegree(240.0f)
 
 @JvmInline
 @Serializable
@@ -18,7 +21,7 @@ value class Orientation private constructor(private val degree: Float) {
 
         fun fromRadians(radians: Float) = Orientation(Math.toDegrees(radians.toDouble()).toFloat())
 
-        fun zero() = Orientation(0.0f)
+        fun zero() = ZERO_ORIENTATION
     }
 
     fun toDegree() = degree
