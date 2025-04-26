@@ -1,9 +1,6 @@
 package at.orchaldir.gm.visualization.text
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.font.Font
-import at.orchaldir.gm.core.model.font.FontId
-import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 
