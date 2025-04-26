@@ -198,9 +198,7 @@ private fun HTML.showMaterialDetails(
 
         h2 { +"Usage" }
 
-        fieldList("Currency", currencyUnits) { unit ->
-            link(call, unit)
-        }
+        fieldList(call, state, currencyUnits)
         fieldList("Equipment", equipmentList) { equipment ->
             link(call, equipment)
         }
