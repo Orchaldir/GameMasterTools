@@ -16,8 +16,8 @@ private val SQUARE_ORIENTATION = QUARTER_CIRCLE / 2.0f
 fun visualizeShape(
     renderer: LayerRenderer,
     center: Point2d,
-    radius: Distance,
     shape: Shape,
+    radius: Distance,
     options: RenderOptions,
 ) {
     when (shape) {
@@ -33,6 +33,21 @@ fun visualizeShape(
         Shape.Octagon -> visualizeRegularPolygon(renderer, options, center, radius, 8)
         Shape.Dodecagonal -> visualizeRegularPolygon(renderer, options, center, radius, 12)
     }
+}
+
+fun visualizeHoledShape(
+    renderer: LayerRenderer,
+    center: Point2d,
+    shape: Shape,
+    radius: Distance,
+    holeShape: Shape,
+    holeRadius: Distance,
+    options: RenderOptions,
+) {
+    val coinPolygon = createRegularPolygon(center, radius, 5, TRIANGLE_ORIENTATION)
+    val holePolygon = createRegularPolygon(center, holeRadius, 5, TRIANGLE_ORIENTATION)
+
+    renderer.renderPolygonWithHole(coinPolygon, holePolygon, options)
 }
 
 private fun visualizeRoundedRegularPolygon(

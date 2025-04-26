@@ -46,6 +46,6 @@ fun visualizeCurrencyFormat(
     when (format) {
         UndefinedCurrencyFormat -> doNothing()
         is Coin -> visualizeCoin(innerState, format)
-        is HoledCoin -> doNothing()
+        is HoledCoin -> visualizeHoledCoin(innerState, format)
     }
 }
