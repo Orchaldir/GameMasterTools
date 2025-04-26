@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.selector.culture.getCultures
@@ -25,7 +26,7 @@ fun HtmlBlockTag.showNameList(
     nameList: NameList,
 ) {
     showList("Names", nameList.names) { name ->
-        +name
+        +name.text
     }
     showList("Cultures", state.getCultures(nameList.id)) { culture ->
         link(call, culture)
@@ -42,7 +43,7 @@ fun FORM.editNameList(nameList: NameList) {
         name = "names"
         cols = "30"
         rows = (nameList.name.text.length + 5).toString()
-        +nameList.names.joinToString("\n")
+        +nameList.names.joinToString("\n") { it.text }
     }
 }
 
@@ -56,7 +57,12 @@ fun parseNameListId(
 fun parseNameList(id: NameListId, parameters: Parameters) = NameList(
     id,
     parseName(parameters),
-    parameters.getOrFail(NAMES)
-        .split('\n')
-        .toList(),
+    parseNames(parameters),
 )
+
+private fun parseNames(parameters: Parameters): List<Name> = parameters.getOrFail(NAMES)
+    .split("\n", ",", ".", ";")
+    .map { it.trim() }
+    .filter { it.isNotEmpty() }
+    .map { Name.init(it) }
+    .toList()

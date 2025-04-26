@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.name
 
+import at.orchaldir.gm.utils.titlecaseFirstChar
 import kotlinx.serialization.Serializable
 
 @JvmInline
@@ -7,7 +8,7 @@ import kotlinx.serialization.Serializable
 value class Name private constructor(val text: String) {
 
     companion object {
-        fun init(name: String) = Name(name.trim())
+        fun init(name: String) = Name(name.trim().titlecaseFirstChar())
     }
 
     init {

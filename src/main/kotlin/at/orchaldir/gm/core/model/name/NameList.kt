@@ -21,7 +21,7 @@ value class NameListId(val value: Int) : Id<NameListId> {
 data class NameList(
     val id: NameListId,
     val name: Name = Name.init("NameList ${id.value}"),
-    val names: List<String> = listOf(),
+    val names: List<Name> = listOf(),
 ) : ElementWithSimpleName<NameListId> {
 
     override fun id() = id

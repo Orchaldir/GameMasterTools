@@ -53,7 +53,7 @@ class NameGenerator(
 
     private fun generateName(nameListId: NameListId): String {
         val nameList = state.getNameListStorage().getOrThrow(nameListId)
-        return numberGenerator.select(nameList.names)
+        return numberGenerator.select(nameList.names).text
     }
 
 }
