@@ -5,17 +5,12 @@ import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyFormat
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
-import at.orchaldir.gm.core.model.item.text.*
-import at.orchaldir.gm.core.selector.item.getAuthorName
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.text.ResolvedTextData
-import at.orchaldir.gm.visualization.text.book.visualizeBook
-import at.orchaldir.gm.visualization.text.scroll.visualizeScroll
 
 fun visualizeCurrencyUnit(
     state: State,
@@ -49,6 +44,6 @@ fun visualizeCurrencyFormat(
 
     when (format) {
         UndefinedCurrencyFormat -> doNothing()
-        is Coin -> doNothing()
+        is Coin -> visualizeCoin(innerState, format)
     }
 }
