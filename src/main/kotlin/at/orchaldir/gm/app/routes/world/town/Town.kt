@@ -155,7 +155,7 @@ private fun HTML.showTownDetails(
             showCreatorCount(call, state, buildings, "Builder")
             showBuildingPurposeCount(buildings)
             showDetails("Buildings") {
-                fieldList("Buildings", state.sortBuildings(buildings)) { (building, name) ->
+                showList(state.sortBuildings(buildings)) { (building, name) ->
                     link(call, building.id, name)
                 }
             }
@@ -179,15 +179,9 @@ private fun HTML.showTownDetails(
             showPersonalityCountForCharacters(call, state, characters)
             showRaceCount(call, state, characters)
             h2 { +"Terrain" }
-            fieldList("Mountains", state.getMountains(town.id).sortedBy { it.name.text }) { mountain ->
-                link(call, mountain)
-            }
-            fieldList("Rivers", state.getRivers(town.id).sortedBy { it.name.text }) { river ->
-                link(call, river)
-            }
-            fieldList("Streets", state.getStreets(town.id).sortedBy { it.name(state) }) { street ->
-                link(call, state, street)
-            }
+            fieldList(call, state, state.getMountains(town.id).sortedBy { it.name.text })
+            fieldList(call, state, state.getRivers(town.id).sortedBy { it.name.text })
+            fieldList(call, state, state.getStreets(town.id).sortedBy { it.name(state) })
             showStreetTemplateCount(call, state, town.id)
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")

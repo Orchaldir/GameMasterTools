@@ -68,45 +68,16 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
     h2 { +"Created" }
 
-    fieldList("Articles", getCreatedBy(state.getArticleStorage(), id)) { article ->
-        link(call, state, article)
-    }
-
-    fieldList("Buildings", getCreatedBy(state.getBuildingStorage(), id)) { building ->
-        link(call, state, building)
-    }
-
-    fieldList("Businesses", getCreatedBy(state.getBusinessStorage(), id)) { business ->
-        link(call, state, business)
-    }
-
-    fieldList("Languages", getCreatedBy(state.getLanguageStorage(), id)) { language ->
-        link(call, language)
-    }
-
-    fieldList("Organizations", getCreatedBy(state.getOrganizationStorage(), id)) { organization ->
-        link(call, state, organization)
-    }
-
-    fieldList("Planes", getCreatedBy(state.getPlaneStorage(), id)) { plane ->
-        link(call, state, plane)
-    }
-
-    fieldList("Races", getCreatedBy(state.getRaceStorage(), id)) { race ->
-        link(call, state, race)
-    }
-
-    fieldList("Spells", getCreatedBy(state.getSpellStorage(), id)) { spell ->
-        link(call, state, spell)
-    }
-
-    fieldList("Texts", getCreatedBy(state.getTextStorage(), id)) { text ->
-        link(call, state, text)
-    }
-
-    fieldList("Towns", getCreatedBy(state.getTownStorage(), id)) { town ->
-        link(call, state, town)
-    }
+    fieldList(call, state, getCreatedBy(state.getArticleStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getBuildingStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getBusinessStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getLanguageStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getOrganizationStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getPlaneStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getRaceStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getSpellStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getTextStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getTownStorage(), id))
 }
 
 // select

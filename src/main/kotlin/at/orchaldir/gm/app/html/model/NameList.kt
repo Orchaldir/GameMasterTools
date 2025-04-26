@@ -24,9 +24,7 @@ fun HtmlBlockTag.showNameList(
     fieldList("Names", nameList.names) { name ->
         +name.text
     }
-    fieldList("Cultures", state.getCultures(nameList.id)) { culture ->
-        link(call, culture)
-    }
+    fieldList(call, state, state.getCultures(nameList.id))
 }
 
 // edit

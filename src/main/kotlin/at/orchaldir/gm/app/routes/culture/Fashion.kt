@@ -146,9 +146,7 @@ private fun HTML.showFashionDetails(
     simpleHtmlDetails(fashion) {
         showFashion(call, state, fashion)
         h2 { +"Usage" }
-        fieldList("Cultures", state.getCultures(fashion.id)) { culture ->
-            link(call, culture)
-        }
+        fieldList(call, state, state.getCultures(fashion.id))
         action(editLink, "Edit")
         if (state.canDelete(fashion.id)) {
             action(deleteLink, "Delete")

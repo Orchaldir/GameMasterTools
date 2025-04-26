@@ -199,21 +199,14 @@ private fun HTML.showMaterialDetails(
         h2 { +"Usage" }
 
         fieldList(call, state, currencyUnits)
-        fieldList("Equipment", equipmentList) { equipment ->
-            link(call, equipment)
-        }
-        fieldList("Mountains", mountains) { mountain ->
-            link(call, mountain)
-        }
-        fieldList("Race Appearances", raceAppearances) { appearance ->
-            link(call, appearance)
-        }
-        fieldList("Street Templates", streetTemplates) { template ->
-            link(call, template)
-        }
+        fieldList(call, state, equipmentList)
+        fieldList(call, state, mountains)
+        fieldList(call, state, raceAppearances)
+        fieldList(call, state, streetTemplates)
         fieldList("Texts", texts) { text ->
             link(call, text, text.getNameWithDate(state))
         }
+
         action(editLink, "Edit")
         if (state.canDelete(material.id)) {
             action(deleteLink, "Delete")

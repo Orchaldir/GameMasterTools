@@ -47,17 +47,13 @@ fun HtmlBlockTag.showCalendar(
 
     h2 { +"Usage" }
 
-    fieldList("Cultures", cultures) { culture ->
-        link(call, culture)
-    }
+    fieldList(call, state, cultures)
     fieldList("Holidays", holidays) { holiday ->
         link(call, holiday)
         +": "
         +holiday.relativeDate.display(calendar)
     }
-    fieldList("Periodicals", periodicals) { periodical ->
-        link(call, state, periodical)
-    }
+    fieldList(call, state, periodicals)
 
     showDateFormat(calendar.defaultFormat)
 }

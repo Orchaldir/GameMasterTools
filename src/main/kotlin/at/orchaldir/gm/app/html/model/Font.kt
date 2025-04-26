@@ -27,9 +27,8 @@ fun HtmlBlockTag.showFont(
         }
     }
     h2 { +"Usage" }
-    fieldList("Texts", state.getTexts(font.id)) { text ->
-        link(call, state, text)
-    }
+
+    fieldList(call, state, state.getTexts(font.id))
 }
 
 // edit

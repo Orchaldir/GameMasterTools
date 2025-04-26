@@ -29,9 +29,7 @@ fun HtmlBlockTag.showArticle(
     optionalFieldLink("Author", call, state, article.author)
     optionalField(call, state, "Date", article.date)
 
-    fieldList("Issues", state.getPeriodicalIssues(article.id)) { issue ->
-        link(call, state, issue)
-    }
+    fieldList(call, state, state.getPeriodicalIssues(article.id))
 }
 
 // edit

@@ -50,21 +50,11 @@ fun HtmlBlockTag.showLanguage(
 
     h2 { +"Usage" }
 
-    fieldList("Characters", characters) { character ->
-        link(call, state, character)
-    }
-    fieldList("Cultures", cultures) { culture ->
-        link(call, culture)
-    }
-    fieldList("Periodicals", periodicals) { periodical ->
-        link(call, state, periodical)
-    }
-    fieldList("Spells", spells) { spell ->
-        link(call, state, spell)
-    }
-    fieldList("Texts", texts) { texts ->
-        link(call, state, texts)
-    }
+    fieldList(call, state, characters)
+    fieldList(call, state, cultures)
+    fieldList(call, state, periodicals)
+    fieldList(call, state, spells)
+    fieldList(call, state, texts)
 }
 
 private fun HtmlBlockTag.showOrigin(

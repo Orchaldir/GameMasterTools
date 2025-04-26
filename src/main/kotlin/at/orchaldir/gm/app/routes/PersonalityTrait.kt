@@ -177,9 +177,7 @@ private fun HTML.showPersonalityTraitDetails(
         fieldList("Characters", characters) { (character, name) ->
             link(call, character.id, name)
         }
-        fieldList("Gods", gods) { god ->
-            link(call, state, god)
-        }
+        fieldList(call, state, gods)
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")

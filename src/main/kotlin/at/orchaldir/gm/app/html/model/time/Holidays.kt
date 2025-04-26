@@ -22,9 +22,7 @@ fun HtmlBlockTag.showHolidays(
 ) {
     val holidays = state.sortHolidays(state.getHolidayStorage().get(holidayIds))
 
-    fieldList("Holidays", holidays) { holiday ->
-        link(call, state, holiday)
-    }
+    fieldList(call, state, holidays)
 }
 
 // edit

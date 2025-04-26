@@ -41,9 +41,7 @@ fun HtmlBlockTag.showJob(
     showRarityMap("Spells", job.spells) { spell ->
         link(call, state, spell)
     }
-    fieldList("Businesses", state.getBusinesses(job.id)) { business ->
-        link(call, state, business)
-    }
+    fieldList(call, state, state.getBusinesses(job.id))
     fieldList("Current Characters", state.sortCharacters(characters)) { (character, name) ->
         link(call, character.id, name)
     }
