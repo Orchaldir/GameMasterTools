@@ -34,6 +34,13 @@ sealed class CurrencyFormat {
         is BiMetallicCoin -> CurrencyFormatType.BiMetallicCoin
     }
 
+    fun contains(id: MaterialId) = when (this) {
+        UndefinedCurrencyFormat -> false
+        is Coin -> material == id
+        is HoledCoin -> material == id
+        is BiMetallicCoin -> material == id || innerMaterial == id
+    }
+
     fun getMaterials() = when (this) {
         UndefinedCurrencyFormat -> emptySet()
         is Coin -> setOf(material)

@@ -15,11 +15,13 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.countRaceAppearancesMadeOf
+import at.orchaldir.gm.core.selector.economy.getCurrencyUnits
 import at.orchaldir.gm.core.selector.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
+import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
@@ -181,6 +183,7 @@ private fun HTML.showMaterialDetails(
     state: State,
     material: Material,
 ) {
+    val currencyUnits = state.sortCurrencyUnits(state.getCurrencyUnits(material.id))
     val equipmentList = state.sortEquipmentList(state.getEquipmentMadeOf(material.id))
     val mountains = state.getMountainsContaining(material.id)
     val raceAppearances = state.getRaceAppearancesMadeOf(material.id)
@@ -195,6 +198,9 @@ private fun HTML.showMaterialDetails(
 
         h2 { +"Usage" }
 
+        showList("Currency", currencyUnits) { unit ->
+            link(call, unit)
+        }
         showList("Equipment", equipmentList) { equipment ->
             link(call, equipment)
         }
