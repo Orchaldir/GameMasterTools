@@ -2,13 +2,12 @@
 
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.model.selectOptionalDate
+import at.orchaldir.gm.app.html.model.editFont
+import at.orchaldir.gm.app.html.model.parseFont
+import at.orchaldir.gm.app.html.model.showFont
 import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.parse.parseFont
 import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
@@ -19,7 +18,6 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.util.SortFont
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.countTexts
-import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.util.sortFonts
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*
@@ -243,18 +241,10 @@ private fun HTML.showFontDetails(
     val editLink = call.application.href(FontRoutes.Edit(font.id))
     val uploaderLink = call.application.href(FontRoutes.Uploader(font.id))
 
-    simpleHtml("Font: ${font.name}") {
+    simpleHtmlDetails(font) {
         svg(visualizeString(example, font, 40.0f), 100)
-        optionalField(call, state, "Date", font.date)
-        field("Base64") {
-            textArea("10", "200", TextAreaWrap.soft) {
-                +font.base64
-            }
-        }
-        h2 { +"Usage" }
-        showList("Texts", state.getTexts(font.id)) { text ->
-            link(call, state, text)
-        }
+
+        showFont(call, state, font)
 
         action(editLink, "Edit")
         action(uploaderLink, "Upload Font File")
@@ -274,10 +264,9 @@ private fun HTML.showFontEditor(
     val previewLink = call.application.href(FontRoutes.Preview(font.id))
     val updateLink = call.application.href(FontRoutes.Update(font.id))
 
-    simpleHtml("Edit Font: ${font.name}") {
+    simpleHtmlEditor(font) {
         formWithPreview(previewLink, updateLink, backLink) {
-            selectName(font.name)
-            selectOptionalDate(state, "Date", font.date, DATE)
+            editFont(state, font)
         }
     }
 }
@@ -289,7 +278,7 @@ private fun HTML.showFontUploader(
     val backLink = href(call, font.id)
     val uploadLink = call.application.href(FontRoutes.Upload(font.id))
 
-    simpleHtml("Upload Font: ${font.name}") {
+    simpleHtml(font, "Upload ") {
         form(encType = FormEncType.multipartFormData) {
             fileInput {
                 formEncType = InputFormEncType.multipartFormData

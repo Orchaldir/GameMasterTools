@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.model.character.appearance.selectHornLength
 import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.parseMaterialId
+import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
@@ -34,7 +35,6 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h3
@@ -438,7 +438,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
             state.getMaterialStorage(),
             options.materials,
             true,
-        ) { element -> element.name }
+        ) { element -> element.name.text }
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
@@ -533,25 +533,22 @@ private fun FORM.editWings(state: State, appearance: RaceAppearance) {
 
 fun parseRaceAppearanceId(parameters: Parameters, param: String) = RaceAppearanceId(parseInt(parameters, param))
 
-fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppearance {
-    val name = parameters.getOrFail("name")
-    return RaceAppearance(
-        id,
-        name,
-        parseOneOf(parameters, APPEARANCE, AppearanceType::valueOf),
-        parseOneOf(parameters, combine(EARS, LAYOUT), EarsLayout::valueOf),
-        parseOneOf(parameters, combine(EAR, SHAPE), EarShape::valueOf, EarShape.entries),
-        parseOneOf(parameters, combine(EYE, LAYOUT), EyesLayout::valueOf),
-        parseEyeOptions(parameters),
-        parseFootOptions(parameters),
-        parseHairOptions(parameters),
-        parseHornOptions(parameters),
-        parseMouthOptions(parameters),
-        parseSkinOptions(parameters, SKIN),
-        parseTailOptions(parameters),
-        parseWingOptions(parameters),
-    )
-}
+fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters) = RaceAppearance(
+    id,
+    parseName(parameters),
+    parseOneOf(parameters, APPEARANCE, AppearanceType::valueOf),
+    parseOneOf(parameters, combine(EARS, LAYOUT), EarsLayout::valueOf),
+    parseOneOf(parameters, combine(EAR, SHAPE), EarShape::valueOf, EarShape.entries),
+    parseOneOf(parameters, combine(EYE, LAYOUT), EyesLayout::valueOf),
+    parseEyeOptions(parameters),
+    parseFootOptions(parameters),
+    parseHairOptions(parameters),
+    parseHornOptions(parameters),
+    parseMouthOptions(parameters),
+    parseSkinOptions(parameters, SKIN),
+    parseTailOptions(parameters),
+    parseWingOptions(parameters),
+)
 
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {
     val eyeTypes = parseOneOf(parameters, combine(EYE, TYPE), EyeType::valueOf, EyeType.entries)

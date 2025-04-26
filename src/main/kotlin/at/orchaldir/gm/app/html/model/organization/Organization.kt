@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.model.time.showHolidays
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
-import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.organization.MemberRank
@@ -21,7 +20,6 @@ import at.orchaldir.gm.core.selector.organization.getNotMembers
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
@@ -50,7 +48,7 @@ private fun HtmlBlockTag.showMembers(
     h2 { +"Members" }
 
     showListWithIndex(organization.memberRanks) { index, rank ->
-        field("Rank", rank.name)
+        fieldName("Rank", rank.name)
         showList("Members", organization.getMembers(index)) { character ->
             link(call, state, character)
         }
@@ -82,7 +80,7 @@ private fun FORM.editMembers(
 
     selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK, true)
     showListWithIndex(organization.memberRanks) { index, rank ->
-        selectText("Name", rank.name, combine(RANK, NAME, index), 1)
+        selectText("Name", rank.name.text, combine(RANK, NAME, index), 1)
     }
     selectInt("Members", organization.members.size, 0, maxMembers, 1, MEMBER, true)
     showListWithIndex(organization.members.entries) { memberIndex, (characterId, history) ->
@@ -99,7 +97,7 @@ private fun FORM.editMembers(
             "Rank"
         ) { _, param, currentRank, _ ->
             selectOptionalValue("Rank", param, currentRank, rankIds) { rank ->
-                label = organization.memberRanks[rank].name
+                label = organization.memberRanks[rank].name.text
                 value = rank.toString()
             }
         }
@@ -113,7 +111,7 @@ fun parseOrganizationId(parameters: Parameters, param: String) = OrganizationId(
 fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId) =
     Organization(
         id,
-        parameters.getOrFail(NAME),
+        parseName(parameters),
         parseCreator(parameters),
         parseOptionalDate(parameters, state, DATE),
         parseRanks(parameters),
@@ -129,7 +127,7 @@ private fun parseRanks(parameters: Parameters): List<MemberRank> {
 }
 
 private fun parseRank(parameters: Parameters, index: Int) = MemberRank(
-    parseOptionalString(parameters, combine(RANK, NAME, index)) ?: "${index + 1}.Rank",
+    parseName(parameters, combine(RANK, NAME, index), "${index + 1}.Rank"),
 )
 
 private fun parseMembers(

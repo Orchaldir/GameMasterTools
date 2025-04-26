@@ -120,7 +120,7 @@ class SpellTest {
 
         @Test
         fun `Update a spell`() {
-            val spell = Spell(SPELL_ID_0, "Test")
+            val spell = Spell(SPELL_ID_0, NAME)
             val action = UpdateSpell(spell)
 
             assertEquals(spell, REDUCER.invoke(STATE, action).first.getSpellStorage().get(SPELL_ID_0))

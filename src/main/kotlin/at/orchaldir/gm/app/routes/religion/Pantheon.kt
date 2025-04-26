@@ -188,7 +188,7 @@ private fun HTML.showPantheonDetails(
     val deleteLink = call.application.href(PantheonRoutes.Delete(pantheon.id))
     val editLink = call.application.href(PantheonRoutes.Edit(pantheon.id))
 
-    simpleHtml("Pantheon: ${pantheon.name(state)}") {
+    simpleHtmlDetails(pantheon) {
         showPantheon(call, state, pantheon)
 
         action(editLink, "Edit")
@@ -206,12 +206,11 @@ private fun HTML.showPantheonEditor(
     state: State,
     pantheon: Pantheon,
 ) {
-    val name = pantheon.name(state)
     val backLink = href(call, pantheon.id)
     val previewLink = call.application.href(PantheonRoutes.Preview(pantheon.id))
     val updateLink = call.application.href(PantheonRoutes.Update(pantheon.id))
 
-    simpleHtml("Edit Pantheon: $name") {
+    simpleHtmlEditor(pantheon) {
         formWithPreview(previewLink, updateLink, backLink) {
             editPantheon(state, pantheon)
         }

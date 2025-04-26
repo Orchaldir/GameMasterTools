@@ -215,7 +215,7 @@ private fun HTML.showEquipmentDetails(
     val deleteLink = call.application.href(EquipmentRoutes.Delete(equipment.id))
     val editLink = call.application.href(EquipmentRoutes.Edit(equipment.id))
 
-    simpleHtml("Equipment: ${equipment.name}") {
+    simpleHtmlDetails(equipment) {
         visualizeItem(state, equipment)
 
         showEquipment(call, state, equipment)
@@ -248,7 +248,7 @@ private fun HTML.showEquipmentEditor(
     val previewLink = call.application.href(EquipmentRoutes.Preview(equipment.id))
     val updateLink = call.application.href(EquipmentRoutes.Update(equipment.id))
 
-    simpleHtml("Edit equipment: ${equipment.name}") {
+    simpleHtmlEditor(equipment) {
         visualizeItem(state, equipment)
         formWithPreview(previewLink, updateLink, backLink) {
             editEquipment(state, equipment)

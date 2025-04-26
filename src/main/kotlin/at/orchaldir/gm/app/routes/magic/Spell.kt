@@ -197,7 +197,7 @@ private fun HTML.showSpellDetails(
     val deleteLink = call.application.href(SpellRoutes.Delete(spell.id))
     val editLink = call.application.href(SpellRoutes.Edit(spell.id))
 
-    simpleHtml("Spell: ${spell.name(state)}") {
+    simpleHtmlDetails(spell) {
         showSpell(call, state, spell)
 
         showList("Domains containing it", state.getDomainsAssociatedWith(spell.id)) { domain ->
@@ -231,12 +231,11 @@ private fun HTML.showSpellEditor(
     state: State,
     spell: Spell,
 ) {
-    val name = spell.name(state)
     val backLink = href(call, spell.id)
     val previewLink = call.application.href(SpellRoutes.Preview(spell.id))
     val updateLink = call.application.href(SpellRoutes.Update(spell.id))
 
-    simpleHtml("Edit Spell: $name") {
+    simpleHtmlEditor(spell) {
         formWithPreview(previewLink, updateLink, backLink) {
             editSpell(state, spell)
         }

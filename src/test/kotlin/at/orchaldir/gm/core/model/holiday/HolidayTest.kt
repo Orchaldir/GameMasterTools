@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 private val CALENDAR_ID0 = CalendarId(0)
 private val WEEKDAYS = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
 private val MONTHS = ComplexMonths(listOf(MonthDefinition("M0", 2), MonthDefinition("M1", 3)))
-private val CALENDAR0 = Calendar(CALENDAR_ID0, "C0", WEEKDAYS, months = MONTHS)
+private val CALENDAR0 = Calendar(CALENDAR_ID0, days = WEEKDAYS, months = MONTHS)
 
 class HolidayTest {
 

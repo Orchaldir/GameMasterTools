@@ -190,7 +190,7 @@ private fun HTML.showMaterialDetails(
     val deleteLink = call.application.href(MaterialRoutes.Delete(material.id))
     val editLink = call.application.href(MaterialRoutes.Edit(material.id))
 
-    simpleHtml("Material: ${material.name}") {
+    simpleHtmlDetails(material) {
         showMaterial(material)
 
         h2 { +"Usage" }
@@ -225,7 +225,7 @@ private fun HTML.showMaterialEditor(
     val backLink = href(call, material.id)
     val updateLink = call.application.href(MaterialRoutes.Update(material.id))
 
-    simpleHtml("Edit Material: ${material.name}") {
+    simpleHtmlEditor(material) {
         form {
             editMaterial(material)
             button("Update", updateLink)

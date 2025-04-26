@@ -6,10 +6,10 @@ import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.character.parseOptionalCharacterId
 import at.orchaldir.gm.app.html.model.optionalField
+import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
@@ -40,7 +40,7 @@ fun FORM.editArticle(
     state: State,
     article: Article,
 ) {
-    selectText("Title", article.title, TILE, 1)
+    selectText("Title", article.title.text, TILE, 1)
     selectOptionalElement(
         state,
         "Author",
@@ -59,7 +59,7 @@ fun parseArticleId(parameters: Parameters, param: String) = ArticleId(parseInt(p
 
 fun parseArticle(parameters: Parameters, state: State, id: ArticleId) = Article(
     id,
-    parseString(parameters, TILE),
+    parseName(parameters, TILE),
     parseOptionalCharacterId(parameters, CHARACTER),
     parseOptionalDate(parameters, state, DATE),
 )

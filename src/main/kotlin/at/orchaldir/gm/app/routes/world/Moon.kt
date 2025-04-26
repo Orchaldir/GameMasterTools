@@ -109,7 +109,7 @@ private fun HTML.showAllMoons(
     call: ApplicationCall,
     state: State,
 ) {
-    val moons = STORE.getState().getMoonStorage().getAll().sortedBy { it.name }
+    val moons = STORE.getState().getMoonStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(MoonRoutes.New())
 
     simpleHtml("Moons") {
@@ -148,7 +148,7 @@ private fun HTML.showMoonDetails(
     val deleteLink = call.application.href(MoonRoutes.Delete(moon.id))
     val editLink = call.application.href(MoonRoutes.Edit(moon.id))
 
-    simpleHtml("Moon: ${moon.name}") {
+    simpleHtmlDetails(moon) {
         showMoon(call, state, moon)
 
         action(editLink, "Edit")
@@ -165,7 +165,7 @@ private fun HTML.showMoonEditor(
     val backLink = href(call, moon.id)
     val updateLink = call.application.href(MoonRoutes.Update(moon.id))
 
-    simpleHtml("Edit Moon: ${moon.name}") {
+    simpleHtmlEditor(moon) {
         form {
             editMoon(state, moon)
 

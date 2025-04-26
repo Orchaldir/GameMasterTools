@@ -1,9 +1,10 @@
 package at.orchaldir.gm.app.html.model.religion
 
 import at.orchaldir.gm.app.GOD
-import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalString
@@ -14,7 +15,6 @@ import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
@@ -55,7 +55,7 @@ fun parsePantheonId(value: String) = PantheonId(value.toInt())
 
 fun parsePantheon(parameters: Parameters, id: PantheonId) = Pantheon(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseOptionalString(parameters, TILE),
     parseElements(parameters, GOD, ::parseGodId),
 )

@@ -2,14 +2,10 @@ package at.orchaldir.gm.app.html.model.religion
 
 import at.orchaldir.gm.app.DOMAIN
 import at.orchaldir.gm.app.GENDER
-import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.parseGender
-import at.orchaldir.gm.app.html.model.editPersonality
-import at.orchaldir.gm.app.html.model.parsePersonality
-import at.orchaldir.gm.app.html.model.showCreated
-import at.orchaldir.gm.app.html.model.showPersonality
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalString
@@ -25,7 +21,6 @@ import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
@@ -84,7 +79,7 @@ fun parseGodId(value: String) = GodId(value.toInt())
 
 fun parseGod(parameters: Parameters, id: GodId) = God(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseOptionalString(parameters, TILE),
     parseGender(parameters),
     parsePersonality(parameters),

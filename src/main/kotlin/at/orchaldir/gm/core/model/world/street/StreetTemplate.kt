@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.world.street
 
 import at.orchaldir.gm.core.model.material.MaterialCost
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
@@ -21,12 +22,12 @@ value class StreetTemplateId(val value: Int) : Id<StreetTemplateId> {
 @Serializable
 data class StreetTemplate(
     val id: StreetTemplateId,
-    val name: String = "StreetTemplate ${id.value}",
+    val name: Name = Name.init("StreetTemplate ${id.value}"),
     val color: Color = Color.Gray,
     val materialCost: MaterialCost = MaterialCost(),
 ) : ElementWithSimpleName<StreetTemplateId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
 }

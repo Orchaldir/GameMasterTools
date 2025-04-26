@@ -130,7 +130,7 @@ fun Application.configureCalendarRouting() {
 }
 
 private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
-    val calendars = STORE.getState().getCalendarStorage().getAll().sortedBy { it.name }
+    val calendars = STORE.getState().getCalendarStorage().getAll().sortedBy { it.name.text }
     val defaultCalendar = state.getDefaultCalendar()
     val count = calendars.size
     val createLink = call.application.href(CalendarRoutes.New())
@@ -179,7 +179,7 @@ private fun HTML.showCalendarDetails(
     val deleteLink = call.application.href(CalendarRoutes.Delete(calendar.id))
     val editLink = call.application.href(CalendarRoutes.Edit(calendar.id))
 
-    simpleHtml("Calendar: ${calendar.name}") {
+    simpleHtmlDetails(calendar) {
         showCalendar(call, state, calendar)
 
         action(editLink, "Edit")
@@ -201,7 +201,7 @@ private fun HTML.showCalendarEditor(
     val previewLink = call.application.href(CalendarRoutes.Preview(calendar.id))
     val updateLink = call.application.href(CalendarRoutes.Update(calendar.id))
 
-    simpleHtml("Edit Calendar: ${calendar.name}") {
+    simpleHtmlEditor(calendar) {
         formWithPreview(previewLink, updateLink, backLink) {
             editCalendar(state, calendar)
         }

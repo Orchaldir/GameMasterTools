@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.time.calendar
 
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
@@ -24,7 +25,7 @@ value class CalendarId(val value: Int) : Id<CalendarId> {
 @Serializable
 data class Calendar(
     val id: CalendarId,
-    val name: String = "Calendar ${id.value}",
+    val name: Name = Name.init("Calendar ${id.value}"),
     val days: Days = DayOfTheMonth,
     val months: Months = ComplexMonths(emptyList()),
     val eras: CalendarEras = CalendarEras(),
@@ -33,7 +34,7 @@ data class Calendar(
 ) : ElementWithSimpleName<CalendarId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
     // data
 

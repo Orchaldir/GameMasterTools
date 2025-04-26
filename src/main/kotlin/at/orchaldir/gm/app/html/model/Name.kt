@@ -15,8 +15,20 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.*
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+
+// show
+
+
+fun HtmlBlockTag.fieldName(name: Name) = fieldName("Name", name)
+
+fun HtmlBlockTag.fieldName(label: String, name: Name) {
+    field(label) {
+        showName(name)
+    }
+}
 
 fun HtmlBlockTag.fieldComplexName(
     state: State,
@@ -52,6 +64,16 @@ fun HtmlBlockTag.showComplexName(
     name: ComplexName,
 ) {
     +name.resolve(state)
+}
+
+fun HtmlBlockTag.showName(name: Name) {
+    +name.text
+}
+
+// edit
+
+fun HtmlBlockTag.selectName(name: Name) {
+    selectText("Name", name.text, NAME, 1)
 }
 
 fun FORM.selectComplexName(
@@ -116,6 +138,12 @@ private fun FORM.internalSelect(
         is SimpleName -> selectText("Name", name.name, NAME, 1)
     }
 }
+
+// parse
+
+fun parseName(parameters: Parameters, param: String = NAME) = Name.init(parameters.getOrFail(param))
+
+fun parseName(parameters: Parameters, param: String, default: String) = Name.init(parameters[param] ?: default)
 
 fun parseComplexName(parameters: Parameters): ComplexName {
     val type = parse(parameters, combine(NAME, TYPE), ComplexNameType.Simple)

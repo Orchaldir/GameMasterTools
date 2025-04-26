@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.religion
 
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
@@ -22,12 +23,12 @@ value class DomainId(val value: Int) : Id<DomainId> {
 @Serializable
 data class Domain(
     val id: DomainId,
-    val name: String = "Domain ${id.value}",
+    val name: Name = Name.init("Domain ${id.value}"),
     val spells: SomeOf<SpellId> = SomeOf(),
     val jobs: Set<JobId> = emptySet(),
 ) : ElementWithSimpleName<DomainId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
 }

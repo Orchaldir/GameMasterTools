@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.NAME
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
@@ -66,7 +67,7 @@ class RiverTest {
         @Test
         fun `Update is valid`() {
             val state = State(Storage(River(ID0)))
-            val river = River(ID0, "Test")
+            val river = River(ID0, NAME)
             val action = UpdateRiver(river)
 
             assertEquals(river, REDUCER.invoke(state, action).first.getRiverStorage().get(ID0))

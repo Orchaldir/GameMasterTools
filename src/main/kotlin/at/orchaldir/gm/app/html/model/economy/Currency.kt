@@ -2,13 +2,9 @@ package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.END
-import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.model.parseOptionalDate
-import at.orchaldir.gm.app.html.model.selectOptionalDate
-import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseOptionalInt
@@ -20,7 +16,6 @@ import at.orchaldir.gm.core.selector.economy.getCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 
 // show
@@ -70,7 +65,7 @@ fun parseOptionalCurrencyId(parameters: Parameters, param: String) =
 
 fun parseCurrency(parameters: Parameters, state: State, id: CurrencyId): Currency = Currency(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parseOptionalDate(parameters, state, combine(START, DATE)),
     parseOptionalDate(parameters, state, combine(END, DATE)),
 )

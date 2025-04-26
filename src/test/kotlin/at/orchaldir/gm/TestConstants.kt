@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
@@ -110,6 +111,8 @@ val TEXT_ID_1 = TextId(1)
 val TEXT_ID_2 = TextId(2)
 val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
+
+val NAME = Name.init("Test")
 
 val CALENDAR0 = Calendar(CALENDAR_ID_0, months = ComplexMonths(listOf(MonthDefinition("a"))))
 val YEAR0 = Year(-11)

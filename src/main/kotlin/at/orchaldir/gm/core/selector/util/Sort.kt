@@ -62,7 +62,7 @@ fun State.sortArchitecturalStyles(
 ) = styles
     .sortedWith(
         when (sort) {
-            SortArchitecturalStyle.Name -> compareBy { it.name }
+            SortArchitecturalStyle.Name -> compareBy { it.name.text }
             SortArchitecturalStyle.Start -> getAgeComparator()
             SortArchitecturalStyle.End -> compareBy { it.end?.year }
         })
@@ -78,7 +78,7 @@ fun State.sortArticles(
 ) = articles
     .sortedWith(
         when (sort) {
-            SortArticle.Title -> compareBy { it.title }
+            SortArticle.Title -> compareBy { it.title.text }
             SortArticle.Date -> getAgeComparator()
         }
     )
@@ -174,7 +174,7 @@ fun State.sortCurrencyUnits(
 ) = businesses
     .sortedWith(
         when (sort) {
-            SortCurrencyUnit.Name -> compareBy { it.name }
+            SortCurrencyUnit.Name -> compareBy { it.name.text }
             SortCurrencyUnit.Value -> compareBy { it.value }
         }
     )
@@ -243,7 +243,7 @@ fun State.sortHolidays() = sortHolidays(getHolidayStorage().getAll())
 
 fun State.sortHolidays(
     holidays: Collection<Holiday>,
-) = holidays.sortedBy { it.name }
+) = holidays.sortedBy { it.name.text }
 
 // job
 
@@ -270,7 +270,7 @@ fun State.sortOrganizations(
 ) = organizations
     .sortedWith(
         when (sort) {
-            SortOrganization.Name -> compareBy { it.name }
+            SortOrganization.Name -> compareBy { it.name.text }
             SortOrganization.Age -> getAgeComparator()
             SortOrganization.Members -> compareBy { it.countAllMembers() }
         })
@@ -302,7 +302,7 @@ fun State.sortMaterial(
 ) = planes
     .sortedWith(
         when (sort) {
-            SortMaterial.Name -> compareBy { it.name }
+            SortMaterial.Name -> compareBy { it.name.text }
             SortMaterial.Equipment -> compareBy<Material> { getEquipmentMadeOf(it.id).size }.reversed()
         }
     )
@@ -350,7 +350,7 @@ fun State.sortPlanes(
 ) = planes
     .sortedWith(
         when (sort) {
-            SortPlane.Name -> compareBy { it.name }
+            SortPlane.Name -> compareBy { it.name.text }
         })
 
 // race
@@ -382,7 +382,7 @@ fun State.sortSpells(
 ) = spells
     .sortedWith(
         when (sort) {
-            SortSpell.Name -> compareBy { it.name }
+            SortSpell.Name -> compareBy { it.name.text }
             SortSpell.Age -> getAgeComparator()
         })
 

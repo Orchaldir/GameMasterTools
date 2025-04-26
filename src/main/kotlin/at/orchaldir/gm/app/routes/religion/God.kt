@@ -166,7 +166,7 @@ private fun HTML.showAllGods(
                         showList(
                             state.getPersonalityTraitStorage()
                                 .get(god.personality)
-                                .sortedBy { it.name }) {
+                                .sortedBy { it.name.text }) {
                             link(call, it)
                         }
                     }
@@ -174,7 +174,7 @@ private fun HTML.showAllGods(
                         showList(
                             state.getDomainStorage()
                                 .get(god.domains)
-                                .sortedBy { it.name }) {
+                                .sortedBy { it.name.text }) {
                             link(call, it)
                         }
                     }
@@ -200,7 +200,7 @@ private fun HTML.showGodDetails(
     val deleteLink = call.application.href(GodRoutes.Delete(god.id))
     val editLink = call.application.href(GodRoutes.Edit(god.id))
 
-    simpleHtml("God: ${god.name(state)}") {
+    simpleHtmlDetails(god) {
         showGod(call, state, god)
 
         action(editLink, "Edit")
@@ -218,12 +218,11 @@ private fun HTML.showGodEditor(
     state: State,
     god: God,
 ) {
-    val name = god.name(state)
     val backLink = href(call, god.id)
     val previewLink = call.application.href(GodRoutes.Preview(god.id))
     val updateLink = call.application.href(GodRoutes.Update(god.id))
 
-    simpleHtml("Edit God: $name") {
+    simpleHtmlEditor(god) {
         formWithPreview(previewLink, updateLink, backLink) {
             editGod(call, state, god)
         }

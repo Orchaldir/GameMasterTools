@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.EarShape
 import at.orchaldir.gm.core.model.character.appearance.EarsLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Id
@@ -25,7 +26,7 @@ value class RaceAppearanceId(val value: Int) : Id<RaceAppearanceId> {
 @Serializable
 data class RaceAppearance(
     val id: RaceAppearanceId,
-    val name: String = "RaceAppearance ${id.value}",
+    val name: Name = Name.init("RaceAppearance ${id.value}"),
     val appearanceTypes: OneOf<AppearanceType> = OneOf(AppearanceType.Body),
     val earsLayout: OneOf<EarsLayout> = OneOf(EarsLayout.NormalEars),
     val earShapes: OneOf<EarShape> = OneOf(EarShape.entries),
@@ -41,7 +42,7 @@ data class RaceAppearance(
 ) : ElementWithSimpleName<RaceAppearanceId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
     fun contains(material: MaterialId) = skin.contains(material) ||
             horn.contains(material) ||

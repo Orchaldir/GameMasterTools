@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.LANGUAGES
+import at.orchaldir.gm.app.ORIGIN
+import at.orchaldir.gm.app.PLANE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.world.parsePlaneId
 import at.orchaldir.gm.app.parse.parse
@@ -21,7 +24,6 @@ import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
@@ -123,7 +125,7 @@ private fun FORM.editOrigin(
 ) {
     val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.getPossibleParents(language.id)
-        .sortedBy { it.name }
+        .sortedBy { it.name.text }
     val planes = state.sortPlanes()
 
     selectValue("Origin", ORIGIN, entries, language.origin.getType(), true) {
@@ -162,12 +164,11 @@ fun parseLanguageId(parameters: Parameters, param: String) = LanguageId(parseInt
 fun parseOptionalLanguageId(parameters: Parameters, param: String) =
     parseOptionalInt(parameters, param)?.let { LanguageId(it) }
 
-fun parseLanguage(parameters: Parameters, state: State, id: LanguageId): Language {
-    val name = parameters.getOrFail(NAME)
-    val origin = parseOrigin(parameters, state)
-
-    return Language(id, name, origin)
-}
+fun parseLanguage(parameters: Parameters, state: State, id: LanguageId) = Language(
+    id,
+    parseName(parameters),
+    parseOrigin(parameters, state),
+)
 
 private fun parseOrigin(parameters: Parameters, state: State) = when (parse(parameters, ORIGIN, Original)) {
     Combined -> {

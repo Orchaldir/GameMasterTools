@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.material
 
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
@@ -20,12 +21,12 @@ value class MaterialId(val value: Int) : Id<MaterialId> {
 @Serializable
 data class Material(
     val id: MaterialId,
-    val name: String = "Material ${id.value}",
+    val name: Name = Name.init("Material ${id.value}"),
     val category: MaterialCategory = MaterialCategory.Metal,
     val color: Color = Color.Pink,
 ) : ElementWithSimpleName<MaterialId> {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
 }

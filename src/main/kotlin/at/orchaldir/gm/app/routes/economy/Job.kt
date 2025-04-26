@@ -1,9 +1,10 @@
 package at.orchaldir.gm.app.routes.economy
 
-import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.economy.parseJob
+import at.orchaldir.gm.app.html.model.economy.editJob
+import at.orchaldir.gm.app.html.model.economy.parseJob
+import at.orchaldir.gm.app.html.model.economy.showJob
 import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
@@ -12,15 +13,8 @@ import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.selector.economy.canDelete
-import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.getEmployees
-import at.orchaldir.gm.core.selector.getPreviousEmployees
 import at.orchaldir.gm.core.selector.religion.countDomains
-import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
-import at.orchaldir.gm.core.selector.religion.getGodsAssociatedWith
-import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.util.sortDomains
-import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -121,7 +115,7 @@ fun Application.configureJobRouting() {
 }
 
 private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
-    val jobs = state.getJobStorage().getAll().sortedBy { it.name }
+    val jobs = state.getJobStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(JobRoutes.New())
 
     simpleHtml("Jobs") {
@@ -157,30 +151,10 @@ private fun HTML.showJobDetails(
     val backLink = call.application.href(JobRoutes())
     val deleteLink = call.application.href(JobRoutes.Delete(job.id))
     val editLink = call.application.href(JobRoutes.Edit(job.id))
-    val characters = state.getEmployees(job.id).toSet()
-    val previousCharacters = state.getPreviousEmployees(job.id).toSet() - characters
-    val domains = state.getDomainsAssociatedWith(job.id)
-    val gods = state.getGodsAssociatedWith(job.id)
 
-    simpleHtml("Job: ${job.name}") {
-        showRarityMap("Spells", job.spells) { spell ->
-            link(call, state, spell)
-        }
-        showList("Businesses", state.getBusinesses(job.id)) { business ->
-            link(call, state, business)
-        }
-        showList("Current Characters", state.sortCharacters(characters)) { (character, name) ->
-            link(call, character.id, name)
-        }
-        showList("Previous Characters", state.sortCharacters(previousCharacters)) { (character, name) ->
-            link(call, character.id, name)
-        }
-        showList("Associated Domains", state.sortDomains(domains)) { domain ->
-            link(call, domain)
-        }
-        showList("Associated Gods", state.sortGods(gods)) { god ->
-            link(call, god)
-        }
+    simpleHtmlDetails(job) {
+        showJob(call, state, job)
+
         action(editLink, "Edit")
         if (state.canDelete(job.id)) {
             action(deleteLink, "Delete")
@@ -197,12 +171,13 @@ private fun HTML.showJobEditor(
     val backLink = href(call, job.id)
     val updateLink = call.application.href(JobRoutes.Update(job.id))
 
-    simpleHtml("Edit Job: ${job.name}") {
+    simpleHtmlEditor(job) {
         form {
-            selectName(job.name)
-            selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name }
+            editJob(state, job)
             button("Update", updateLink)
         }
         back(backLink)
     }
 }
+
+

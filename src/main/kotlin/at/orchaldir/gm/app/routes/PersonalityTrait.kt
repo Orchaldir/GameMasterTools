@@ -2,7 +2,9 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldName
 import at.orchaldir.gm.app.html.model.parsePersonalityTrait
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
@@ -111,7 +113,7 @@ fun Application.configurePersonalityRouting() {
 }
 
 private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
-    val personalityTraits = state.getPersonalityTraitStorage().getAll().sortedBy { it.name }
+    val personalityTraits = state.getPersonalityTraitStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(PersonalityTraitRoutes.New())
 
     simpleHtml("Personality Traits") {
@@ -159,13 +161,13 @@ private fun HTML.showPersonalityTraitDetails(
     val deleteLink = call.application.href(PersonalityTraitRoutes.Delete(trait.id))
     val editLink = call.application.href(PersonalityTraitRoutes.Edit(trait.id))
 
-    simpleHtml("Personality Trait: ${trait.name}") {
-        field("Name", trait.name)
+    simpleHtmlDetails(trait) {
+        fieldName(trait.name)
 
         if (trait.group != null) {
             val traits = state.getPersonalityTraits(trait.group)
                 .filter { it != trait }
-                .sortedBy { it.name }
+                .sortedBy { it.name.text }
 
             showList("Conflicting", traits) { t ->
                 link(call, t)
@@ -195,7 +197,7 @@ private fun HTML.showPersonalityTraitEditor(
     val backLink = href(call, trait.id)
     val updateLink = call.application.href(PersonalityTraitRoutes.Update(trait.id))
 
-    simpleHtml("Edit PersonalityTrait: ${trait.name}") {
+    simpleHtmlEditor(trait) {
         form {
             selectName(trait.name)
             field("Group") {
@@ -210,8 +212,8 @@ private fun HTML.showPersonalityTraitEditor(
                     groups.forEach { g ->
                         option {
                             label = state.getPersonalityTraits(g)
-                                .sortedBy { it.name }
-                                .joinToString(separator = " VS ") { it.name }
+                                .sortedBy { it.name.text }
+                                .joinToString(separator = " VS ") { it.name.text }
                             value = g.value.toString()
                             selected = g == trait.group
                         }

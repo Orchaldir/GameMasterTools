@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.optionalField
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.selectOptionalYear
 import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
@@ -196,8 +197,7 @@ private fun HTML.showArchitecturalStyleDetails(
     val deleteLink = call.application.href(ArchitecturalStyleRoutes.Delete(style.id))
     val editLink = call.application.href(ArchitecturalStyleRoutes.Edit(style.id))
 
-    simpleHtml("Architectural Style: ${style.name}") {
-        field("Name", style.name)
+    simpleHtmlDetails(style) {
         optionalField(call, state, "Start", style.start)
         optionalField(call, state, "End", style.end)
         if (style.revival != null) {
@@ -226,7 +226,7 @@ private fun HTML.showArchitecturalStyleEditor(
     val previewLink = call.application.href(ArchitecturalStyleRoutes.Preview(style.id))
     val updateLink = call.application.href(ArchitecturalStyleRoutes.Update(style.id))
 
-    simpleHtml("Edit Architectural Style: ${style.name}") {
+    simpleHtmlEditor(style) {
         formWithPreview(previewLink, updateLink, backLink) {
             editArchitecturalStyle(state, style)
         }

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-private val ITEM = Equipment(EQUIPMENT_ID_0, "Test")
+private val ITEM = Equipment(EQUIPMENT_ID_0, NAME)
 private val STATE = State(listOf(Storage(Equipment(EQUIPMENT_ID_0)), Storage(Material(MATERIAL_ID_0))))
 private val EQUIPMENT_MAP = EquipmentMap(EQUIPMENT_ID_0, BodySlot.Head)
 

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.economy.money
 
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -19,7 +20,7 @@ value class CurrencyUnitId(val value: Int) : Id<CurrencyUnitId> {
 @Serializable
 data class CurrencyUnit(
     val id: CurrencyUnitId,
-    val name: String = "Currency Unit ${id.value}",
+    val name: Name = Name.init("Currency Unit ${id.value}"),
     val currency: CurrencyId = CurrencyId(0),
     val value: Int = 1,
 ) : ElementWithSimpleName<CurrencyUnitId> {
@@ -29,6 +30,6 @@ data class CurrencyUnit(
     }
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
 }

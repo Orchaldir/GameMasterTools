@@ -121,7 +121,7 @@ fun Application.configureFashionRouting() {
 }
 
 private fun HTML.showAllFashions(call: ApplicationCall) {
-    val fashion = STORE.getState().getFashionStorage().getAll().sortedBy { it.name }
+    val fashion = STORE.getState().getFashionStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(FashionRoutes.New())
 
     simpleHtml("Fashions") {
@@ -143,7 +143,7 @@ private fun HTML.showFashionDetails(
     val deleteLink = call.application.href(FashionRoutes.Delete(fashion.id))
     val editLink = call.application.href(FashionRoutes.Edit(fashion.id))
 
-    simpleHtml("Fashion: ${fashion.name}") {
+    simpleHtmlDetails(fashion) {
         showFashion(call, state, fashion)
         h2 { +"Usage" }
         showList("Cultures", state.getCultures(fashion.id)) { culture ->
@@ -166,7 +166,7 @@ private fun HTML.showFashionEditor(
     val previewLink = call.application.href(FashionRoutes.Preview(fashion.id))
     val updateLink = call.application.href(FashionRoutes.Update(fashion.id))
 
-    simpleHtml("Edit Fashion: ${fashion.name}", true) {
+    simpleHtmlEditor(fashion, true) {
         formWithPreview(previewLink, updateLink, backLink) {
             editFashion(fashion, state)
         }

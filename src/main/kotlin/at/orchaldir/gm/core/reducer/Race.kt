@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.race.CreatedRace
 import at.orchaldir.gm.core.model.race.ModifiedRace
 import at.orchaldir.gm.core.model.race.Race
@@ -25,7 +26,7 @@ val CREATE_RACE: Reducer<CreateRace, State> = { state, _ ->
 val CLONE_RACE: Reducer<CloneRace, State> = { state, action ->
     val original = state.getRaceStorage().getOrThrow(action.id)
     val cloneId = state.getRaceStorage().nextId
-    val clone = original.copy(id = cloneId, name = "Clone ${cloneId.value}")
+    val clone = original.copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 
     noFollowUps(state.updateStorage(state.getRaceStorage().add(clone)))
 }

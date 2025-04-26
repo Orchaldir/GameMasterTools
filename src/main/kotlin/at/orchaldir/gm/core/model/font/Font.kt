@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.font
 
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -21,12 +22,12 @@ value class FontId(val value: Int) : Id<FontId> {
 @Serializable
 data class Font(
     val id: FontId,
-    val name: String = "Font ${id.value}",
+    val name: Name = Name.init("Font ${id.value}"),
     val date: Date? = null,
     val base64: String = "",
 ) : ElementWithSimpleName<FontId>, HasStartDate {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
     override fun startDate() = date
 }

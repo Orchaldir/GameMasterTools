@@ -91,7 +91,7 @@ class RaceTest {
             (0..5).forEach { maxAge ->
                 val state = State(Storage(Race(RACE_ID_0)))
                 val race = Race(
-                    RACE_ID_0, "Test", lifeStages = createAging(
+                    RACE_ID_0, NAME, lifeStages = createAging(
                         listOf(
                             createStage("A", 5),
                             createStage("B", maxAge),
@@ -131,7 +131,7 @@ class RaceTest {
 
         private fun <T> testIsValid(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
             val race = Race(
-                RACE_ID_0, "Test", lifeStages = createAging(
+                RACE_ID_0, NAME, lifeStages = createAging(
                     listOf(
                         createStage("A", 6),
                         createStage("B", 7),

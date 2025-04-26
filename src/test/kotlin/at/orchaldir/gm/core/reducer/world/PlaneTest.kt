@@ -122,7 +122,7 @@ class PlaneTest {
             @Test
             fun `Update a heart plane`() {
                 val plane0 = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
-                val plane1 = Plane(PLANE_ID_0, "Test", purpose = HeartPlane(GOD_ID_0))
+                val plane1 = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
                 val newState = state.updateStorage(Storage(listOf(plane0, Plane(PLANE_ID_1))))
                 val action = UpdatePlane(plane1)
 
@@ -154,7 +154,7 @@ class PlaneTest {
             @Test
             fun `Update a prison plane`() {
                 val plane0 = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
-                val plane1 = Plane(PLANE_ID_0, "Test", purpose = PrisonPlane(setOf(GOD_ID_0)))
+                val plane1 = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
                 val newState = state.updateStorage(Storage(listOf(plane0, Plane(PLANE_ID_1))))
                 val action = UpdatePlane(plane1)
 
@@ -164,7 +164,7 @@ class PlaneTest {
 
         @Test
         fun `Update is valid`() {
-            val plane = Plane(PLANE_ID_0, "Test")
+            val plane = Plane(PLANE_ID_0, NAME)
             val action = UpdatePlane(plane)
 
             assertEquals(plane, REDUCER.invoke(state, action).first.getPlaneStorage().get(PLANE_ID_0))

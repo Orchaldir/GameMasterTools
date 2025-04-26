@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCost
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -94,7 +95,7 @@ class MaterialTest {
         @Test
         fun `Material exists`() {
             val state = State(Storage(Material(MATERIAL_ID_0)))
-            val material = Material(MATERIAL_ID_0, "Test")
+            val material = Material(MATERIAL_ID_0, color = Color.Green)
             val action = UpdateMaterial(material)
 
             assertEquals(material, REDUCER.invoke(state, action).first.getMaterialStorage().get(MATERIAL_ID_0))

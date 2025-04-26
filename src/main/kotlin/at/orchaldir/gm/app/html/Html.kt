@@ -17,6 +17,25 @@ import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.*
 
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtmlDetails(
+    element: ELEMENT,
+    keepPositionAfterReload: Boolean = false,
+    content: HtmlBlockTag.() -> Unit,
+) = simpleHtml(element, "", keepPositionAfterReload, content)
+
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtmlEditor(
+    element: ELEMENT,
+    keepPositionAfterReload: Boolean = false,
+    content: HtmlBlockTag.() -> Unit,
+) = simpleHtml(element, "Edit ", keepPositionAfterReload, content)
+
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtml(
+    element: ELEMENT,
+    prefix: String,
+    keepPositionAfterReload: Boolean = false,
+    content: HtmlBlockTag.() -> Unit,
+) = simpleHtml("$prefix${element.id().type()}: ${element.name()}", keepPositionAfterReload, content)
+
 fun HTML.simpleHtml(
     title: String,
     keepPositionAfterReload: Boolean = false,

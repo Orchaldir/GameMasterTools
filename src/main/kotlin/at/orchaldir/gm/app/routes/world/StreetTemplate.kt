@@ -2,7 +2,9 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldName
 import at.orchaldir.gm.app.html.model.selectMaterialCost
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.showMaterialCost
 import at.orchaldir.gm.app.parse.world.parseStreetTemplate
 import at.orchaldir.gm.core.action.CreateStreetTemplate
@@ -143,7 +145,7 @@ private fun HTML.showAllStreetTemplates(
     call: ApplicationCall,
     state: State,
 ) {
-    val templates = state.getStreetTemplateStorage().getAll().sortedBy { it.name }
+    val templates = state.getStreetTemplateStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(StreetTemplateRoutes.New())
 
     simpleHtml("Street Templates") {
@@ -178,9 +180,9 @@ private fun HTML.showStreetTemplateDetails(
     val deleteLink = call.application.href(StreetTemplateRoutes.Delete(type.id))
     val editLink = call.application.href(StreetTemplateRoutes.Edit(type.id))
 
-    simpleHtml("Street Template: ${type.name}") {
+    simpleHtmlDetails(type) {
         split({
-            field("Name", type.name)
+            fieldName(type.name)
             fieldColor(type.color)
             showMaterialCost(call, state, type.materialCost)
             showList("Towns", state.getTowns(type.id)) { town ->
@@ -206,7 +208,7 @@ private fun HTML.showStreetTemplateEditor(
     val previewLink = call.application.href(StreetTemplateRoutes.Preview(type.id))
     val updateLink = call.application.href(StreetTemplateRoutes.Update(type.id))
 
-    simpleHtml("Edit street template: ${type.name}") {
+    simpleHtmlEditor(type) {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
                 selectName(type.name)

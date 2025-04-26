@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.organization
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -22,7 +23,7 @@ value class OrganizationId(val value: Int) : Id<OrganizationId> {
 @Serializable
 data class Organization(
     val id: OrganizationId,
-    val name: String = "Organization ${id.value}",
+    val name: Name = Name.init("Organization ${id.value}"),
     val founder: Creator = UndefinedCreator,
     val date: Date? = null,
     val memberRanks: List<MemberRank> = listOf(MemberRank()),
@@ -31,7 +32,7 @@ data class Organization(
 ) : ElementWithSimpleName<OrganizationId>, Created, HasStartDate {
 
     override fun id() = id
-    override fun name() = name
+    override fun name() = name.text
 
     override fun creator() = founder
     override fun startDate() = date

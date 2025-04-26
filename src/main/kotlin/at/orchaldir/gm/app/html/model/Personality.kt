@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.getPersonalityTraits
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 
 // show
@@ -83,10 +82,9 @@ fun parsePersonality(parameters: Parameters) = parameters.entries()
     .toSet()
 
 fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters): PersonalityTrait {
-    val name = parameters.getOrFail("name").trim()
     val group = parameters["group"]
         ?.toIntOrNull()
         ?.let { PersonalityTraitGroup(it) }
 
-    return PersonalityTrait(id, name, group)
+    return PersonalityTrait(id, parseName(parameters), group)
 }

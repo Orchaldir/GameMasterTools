@@ -67,7 +67,7 @@ private fun HtmlBlockTag.editSkinInternal(
             options.materials,
             skin.material,
             true
-        ) { material -> material.name }
+        ) { material -> material.name.text }
 
         is NormalSkin -> {
             selectFromOneOf(

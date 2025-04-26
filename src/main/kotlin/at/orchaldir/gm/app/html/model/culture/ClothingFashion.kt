@@ -81,7 +81,7 @@ private fun HtmlBlockTag.selectEquipmentType(
 
     if (items.isNotEmpty()) {
         val options = style.getOptions(type)
-        selectRarityMap(type.name, type.name, state.getEquipmentStorage(), items, options) { it.name }
+        selectRarityMap(type.name, type.name, state.getEquipmentStorage(), items, options) { it.name.text }
     }
 }
 

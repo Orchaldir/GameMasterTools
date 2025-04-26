@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.reducer.religion
 
-import at.orchaldir.gm.CALENDAR0
-import at.orchaldir.gm.DOMAIN_ID_0
-import at.orchaldir.gm.GOD_ID_0
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.UpdateDomain
 import at.orchaldir.gm.core.model.State
@@ -61,7 +58,7 @@ class DomainTest {
 
         @Test
         fun `Update a domain`() {
-            val domain = Domain(DOMAIN_ID_0, "Test")
+            val domain = Domain(DOMAIN_ID_0, NAME)
             val action = UpdateDomain(domain)
 
             assertEquals(domain, REDUCER.invoke(STATE, action).first.getDomainStorage().get(DOMAIN_ID_0))

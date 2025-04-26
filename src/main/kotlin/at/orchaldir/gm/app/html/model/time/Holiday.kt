@@ -2,8 +2,12 @@ package at.orchaldir.gm.app.html.model.time
 
 import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.fieldLink
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
+import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.holiday.Holiday
@@ -13,7 +17,6 @@ import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
@@ -61,14 +64,10 @@ fun parseHolidayId(
 
 fun parseHolidayId(value: String) = HolidayId(value.toInt())
 
-fun parseHoliday(id: HolidayId, parameters: Parameters): Holiday {
-    val name = parameters.getOrFail(NAME)
-
-    return Holiday(
-        id,
-        name,
-        parseCalendarId(parameters, CALENDAR_TYPE),
-        parseRelativeDate(parameters, DATE),
-        parseHolidayPurpose(parameters),
-    )
-}
+fun parseHoliday(id: HolidayId, parameters: Parameters) = Holiday(
+    id,
+    parseName(parameters),
+    parseCalendarId(parameters, CALENDAR_TYPE),
+    parseRelativeDate(parameters, DATE),
+    parseHolidayPurpose(parameters),
+)

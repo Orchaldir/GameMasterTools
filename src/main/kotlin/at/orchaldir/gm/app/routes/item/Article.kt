@@ -171,17 +171,17 @@ private fun HTML.showAllArticles(
 private fun HTML.showArticleDetails(
     call: ApplicationCall,
     state: State,
-    periodical: Article,
+    article: Article,
 ) {
     val backLink = call.application.href(ArticleRoutes.All())
-    val deleteLink = call.application.href(ArticleRoutes.Delete(periodical.id))
-    val editLink = call.application.href(ArticleRoutes.Edit(periodical.id))
+    val deleteLink = call.application.href(ArticleRoutes.Delete(article.id))
+    val editLink = call.application.href(ArticleRoutes.Edit(article.id))
 
-    simpleHtml("Article: ${periodical.name(state)}") {
-        showArticle(call, state, periodical)
+    simpleHtmlDetails(article) {
+        showArticle(call, state, article)
 
         action(editLink, "Edit")
-        if (state.canDeleteArticle(periodical.id)) {
+        if (state.canDeleteArticle(article.id)) {
             action(deleteLink, "Delete")
         }
         back(backLink)
@@ -191,15 +191,15 @@ private fun HTML.showArticleDetails(
 private fun HTML.showArticleEditor(
     call: ApplicationCall,
     state: State,
-    periodical: Article,
+    article: Article,
 ) {
-    val backLink = href(call, periodical.id)
-    val previewLink = call.application.href(ArticleRoutes.Preview(periodical.id))
-    val updateLink = call.application.href(ArticleRoutes.Update(periodical.id))
+    val backLink = href(call, article.id)
+    val previewLink = call.application.href(ArticleRoutes.Preview(article.id))
+    val updateLink = call.application.href(ArticleRoutes.Update(article.id))
 
-    simpleHtml("Edit Article: ${periodical.name(state)}") {
+    simpleHtmlEditor(article) {
         formWithPreview(previewLink, updateLink, backLink) {
-            editArticle(state, periodical)
+            editArticle(state, article)
         }
     }
 }

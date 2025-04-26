@@ -1,8 +1,13 @@
 package at.orchaldir.gm.app.html.model.world
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.COLOR
+import at.orchaldir.gm.app.LENGTH
+import at.orchaldir.gm.app.PLANE
+import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.field
+import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
@@ -12,7 +17,6 @@ import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -58,11 +62,9 @@ fun parseMoonId(parameters: Parameters, param: String) = MoonId(parseInt(paramet
 
 fun parseMoon(id: MoonId, parameters: Parameters) = Moon(
     id,
-    parameters.getOrFail(NAME),
+    parseName(parameters),
     parameters[TILE]?.ifEmpty { null },
     parseInt(parameters, LENGTH, 1),
     parse(parameters, COLOR, Color.White),
-    parameters[PLANE]
-        ?.ifEmpty { null }
-        ?.let { parsePlaneId(it) },
+    parseOptionalPlaneId(parameters, PLANE),
 )
