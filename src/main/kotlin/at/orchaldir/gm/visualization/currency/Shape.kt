@@ -4,7 +4,9 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.createRoundedSquare
 import at.orchaldir.gm.utils.math.createRoundedTriangle
+import at.orchaldir.gm.utils.math.createSquare
 import at.orchaldir.gm.utils.math.createTriangle
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -19,7 +21,6 @@ fun visualizeShape(
     shape: Shape,
     options: RenderOptions,
 ) {
-
     when (shape) {
         Shape.Circle -> renderer.renderCircle(center, radius, options)
         Shape.Triangle -> {
@@ -32,8 +33,15 @@ fun visualizeShape(
             renderer.renderRoundedPolygon(polygon, options)
         }
 
-        Shape.Square -> doNothing()
-        Shape.RoundedSquare -> doNothing()
+        Shape.Square -> {
+            val polygon = createSquare(center, radius)
+            renderer.renderPolygon(polygon, options)
+        }
+
+        Shape.RoundedSquare -> {
+            val polygon = createRoundedSquare(center, radius)
+            renderer.renderRoundedPolygon(polygon, options)
+        }
         Shape.Diamond -> doNothing()
         Shape.Pentagon -> doNothing()
         Shape.Hexagon -> doNothing()

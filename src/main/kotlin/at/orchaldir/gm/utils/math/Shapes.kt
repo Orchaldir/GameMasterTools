@@ -19,6 +19,14 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
         .build()
 }
 
+fun createSquare(center: Point2d, radius: Distance) =
+    Polygon2d(createSquarePoints(center, radius))
+
+fun createRoundedSquare(center: Point2d, radius: Distance) =
+    Polygon2d(subdividePolygon(createSquarePoints(center, radius), ::halfSegment))
+
+fun createSquarePoints(center: Point2d, radius: Distance) = AABB.fromRadius(center, radius).getCorners()
+
 fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation) =
     Polygon2d(createTrianglePoints(center, radius, firstCorner))
 

@@ -33,6 +33,9 @@ data class AABB(val start: Point2d, val size: Size2d) {
             )
         }
 
+        fun fromRadius(center: Point2d, radius: Distance) =
+            fromRadii(center, radius, radius)
+
         fun fromRadii(center: Point2d, radiusX: Distance, radiusY: Distance) =
             fromWidthAndHeight(center, radiusX * 2.0f, radiusY * 2.0f)
 
