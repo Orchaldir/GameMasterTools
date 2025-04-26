@@ -27,6 +27,6 @@ data object UndefinedCurrencyFormat : CurrencyFormat()
 @SerialName("Coin")
 data class Coin(
     val material: MaterialId = MaterialId(0),
-    val shape: Shape = Circle,
+    val shape: Shape = Shape.Circle,
     val radius: Distance = Distance.fromCentimeters(1),
 ) : CurrencyFormat()

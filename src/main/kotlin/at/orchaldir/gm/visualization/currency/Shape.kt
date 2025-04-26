@@ -10,6 +10,8 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 
+private val TRIANGLE_ORIENTATION = -QUARTER_CIRCLE
+
 fun visualizeShape(
     renderer: LayerRenderer,
     center: Point2d,
@@ -17,24 +19,25 @@ fun visualizeShape(
     shape: Shape,
     options: RenderOptions,
 ) {
-    when (shape) {
-        is Circle -> renderer.renderCircle(center, radius, options)
-        is Triangle -> {
-            val orientation = if (shape.cornerTop) {
-                -QUARTER_CIRCLE
-            } else {
-                QUARTER_CIRCLE
-            }
 
-            if (shape.rounded) {
-                val polygon = createRoundedTriangle(center, radius, orientation)
-                renderer.renderRoundedPolygon(polygon, options)
-            } else {
-                val polygon = createTriangle(center, radius, orientation)
-                renderer.renderPolygon(polygon, options)
-            }
+    when (shape) {
+        Shape.Circle -> renderer.renderCircle(center, radius, options)
+        Shape.Triangle -> {
+            val polygon = createTriangle(center, radius, TRIANGLE_ORIENTATION)
+            renderer.renderPolygon(polygon, options)
         }
-        is Square -> doNothing()
-        is RegularPolygon -> doNothing()
+
+        Shape.RoundedTriangle -> {
+            val polygon = createRoundedTriangle(center, radius, TRIANGLE_ORIENTATION)
+            renderer.renderRoundedPolygon(polygon, options)
+        }
+
+        Shape.Square -> doNothing()
+        Shape.RoundedSquare -> doNothing()
+        Shape.Diamond -> doNothing()
+        Shape.Pentagon -> doNothing()
+        Shape.Hexagon -> doNothing()
+        Shape.Heptagon -> doNothing()
+        Shape.Octagon -> doNothing()
     }
 }
