@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.currency
 
+import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyFormat
 import at.orchaldir.gm.core.model.economy.money.HoledCoin
@@ -24,6 +25,7 @@ data class CurrencyRenderConfig(
     fun calculateSize(format: CurrencyFormat) = when (format) {
         is Coin -> calculateCoinSize(format.radius)
         is HoledCoin -> calculateCoinSize(format.radius)
+        is BiMetallicCoin -> calculateCoinSize(format.radius)
         UndefinedCurrencyFormat -> square(fromCentimeters(1))
     }
 

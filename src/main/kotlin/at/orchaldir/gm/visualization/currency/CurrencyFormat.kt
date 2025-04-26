@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.currency
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyFormat
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
@@ -47,5 +48,6 @@ fun visualizeCurrencyFormat(
         UndefinedCurrencyFormat -> doNothing()
         is Coin -> visualizeCoin(innerState, format)
         is HoledCoin -> visualizeHoledCoin(innerState, format)
+        is BiMetallicCoin -> visualizeBiMetallicCoin(innerState, format)
     }
 }

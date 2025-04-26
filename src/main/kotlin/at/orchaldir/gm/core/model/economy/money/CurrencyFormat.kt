@@ -11,6 +11,7 @@ enum class CurrencyFormatType {
     Undefined,
     Coin,
     HoledCoin,
+    BiMetallicCoin,
 }
 
 @Serializable
@@ -20,6 +21,7 @@ sealed class CurrencyFormat {
         is UndefinedCurrencyFormat -> CurrencyFormatType.Undefined
         is Coin -> CurrencyFormatType.Coin
         is HoledCoin -> CurrencyFormatType.HoledCoin
+        is BiMetallicCoin -> CurrencyFormatType.BiMetallicCoin
     }
 }
 
@@ -44,3 +46,20 @@ data class HoledCoin(
     val holeShape: Shape = Shape.Circle,
     val holeFactor: Factor = fromPercentage(20),
 ) : CurrencyFormat()
+
+@Serializable
+@SerialName("BiMetallic")
+data class BiMetallicCoin(
+    val material: MaterialId = MaterialId(0),
+    val shape: Shape = Shape.Circle,
+    val radius: Distance = Distance.fromCentimeters(1),
+    val innerMaterial: MaterialId = MaterialId(1),
+    val innerShape: Shape = Shape.Circle,
+    val innerFactor: Factor = fromPercentage(20),
+) : CurrencyFormat() {
+
+    init {
+        require(material != innerMaterial) { "Outer & inner material are the same!" }
+    }
+
+}
