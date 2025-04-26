@@ -75,6 +75,6 @@ data class BiMetallicCoin(
 }
 
 private fun checkRadiusFactor(factor: Factor, label: String) {
-    require(factor < MIN_RADIUS_FACTOR) { "The $label factor is too small!" }
-    require(factor > MAX_RADIUS_FACTOR) { "The $label factor is too large!" }
+    require(factor >= MIN_RADIUS_FACTOR) { "The $label factor is too small!" }
+    require(factor <= MAX_RADIUS_FACTOR) { "The $label factor is too large!" }
 }
