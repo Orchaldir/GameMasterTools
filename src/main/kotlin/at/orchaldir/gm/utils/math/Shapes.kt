@@ -3,6 +3,8 @@ package at.orchaldir.gm.utils.math
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 
+private val AT_TOP = -QUARTER_CIRCLE
+
 fun createCross(center: Point2d, height: Distance): Polygon2d {
     val aabb = AABB.fromRadii(center, height / 4.0f, height / 2.0f)
     val size = fromPercentage(15)
@@ -19,10 +21,10 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
         .build()
 }
 
-fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation) =
+fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
     Polygon2d(createRegularPolygonPoints(center, radius, sides, firstCorner))
 
-fun createRoundedRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation) =
+fun createRoundedRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
     Polygon2d(
         subdividePolygon(
             createRegularPolygonPoints(center, radius, sides, firstCorner),

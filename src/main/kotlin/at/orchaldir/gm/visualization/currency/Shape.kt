@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.currency
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.createRegularPolygon
 import at.orchaldir.gm.utils.math.createRoundedRegularPolygon
@@ -44,10 +45,38 @@ fun visualizeHoledShape(
     holeRadius: Distance,
     options: RenderOptions,
 ) {
-    val coinPolygon = createRegularPolygon(center, radius, 5, TRIANGLE_ORIENTATION)
-    val holePolygon = createRegularPolygon(center, holeRadius, 5, TRIANGLE_ORIENTATION)
+    val coinPolygon = createShapePolygon(shape, center, radius)
+    val holePolygon = createShapePolygon(holeShape, center, holeRadius)
 
-    renderer.renderPolygonWithHole(coinPolygon, holePolygon, options)
+    if (shape.isRounded()) {
+        if (holeShape.isRounded()) {
+            renderer.renderRoundedPolygonWithRoundedHole(coinPolygon, holePolygon, options)
+        } else {
+            renderer.renderRoundedPolygonWithHole(coinPolygon, holePolygon, options)
+        }
+    } else if (holeShape.isRounded()) {
+        renderer.renderPolygonWithRoundedHole(coinPolygon, holePolygon, options)
+    } else {
+        renderer.renderPolygonWithHole(coinPolygon, holePolygon, options)
+    }
+}
+
+private fun createShapePolygon(
+    shape: Shape,
+    center: Point2d,
+    radius: Distance,
+) = when (shape) {
+    Shape.Circle -> createRegularPolygon(center, radius, 120)
+    Shape.Triangle -> createRegularPolygon(center, radius, 3)
+    Shape.RoundedTriangle -> createRoundedRegularPolygon(center, radius, 3)
+    Shape.Square -> createRoundedRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
+    Shape.RoundedSquare -> createRoundedRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
+    Shape.Diamond -> createRegularPolygon(center, radius, 4)
+    Shape.Pentagon -> createRegularPolygon(center, radius, 5)
+    Shape.Hexagon -> createRegularPolygon(center, radius, 6)
+    Shape.Heptagon -> createRegularPolygon(center, radius, 7)
+    Shape.Octagon -> createRegularPolygon(center, radius, 8)
+    Shape.Dodecagonal -> createRegularPolygon(center, radius, 12)
 }
 
 private fun visualizeRoundedRegularPolygon(

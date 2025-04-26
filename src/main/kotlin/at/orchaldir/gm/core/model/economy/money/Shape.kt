@@ -11,5 +11,7 @@ enum class Shape {
     Hexagon,
     Heptagon,
     Octagon,
-    Dodecagonal,
+    Dodecagonal;
+
+    fun isRounded() = this == RoundedTriangle || this == RoundedSquare
 }
