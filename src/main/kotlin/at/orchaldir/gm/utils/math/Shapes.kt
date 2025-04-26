@@ -23,7 +23,7 @@ fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation) 
     Polygon2d(createTrianglePoints(center, radius, firstCorner))
 
 fun createRoundedTriangle(center: Point2d, radius: Distance, firstCorner: Orientation) =
-    Polygon2d(subdividePoints(createTrianglePoints(center, radius, firstCorner), ::halfSegment))
+    Polygon2d(subdividePolygon(createTrianglePoints(center, radius, firstCorner), ::halfSegment))
 
 fun createTrianglePoints(center: Point2d, radius: Distance, firstCorner: Orientation) = listOf(
     center.createPolar(radius, firstCorner),
