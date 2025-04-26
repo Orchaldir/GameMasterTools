@@ -28,9 +28,7 @@ fun HtmlBlockTag.showPeriodicalIssue(
     val periodical = state.getPeriodicalStorage().getOrThrow(issue.periodical)
     fieldLink("Periodical", call, state, issue.periodical)
     field(call, state, periodical.calendar, "Publication Date", issue.date)
-    fieldList("Articles", issue.articles) { article ->
-        link(call, state, article)
-    }
+    fieldIdList(call, state, issue.articles)
 }
 
 // edit

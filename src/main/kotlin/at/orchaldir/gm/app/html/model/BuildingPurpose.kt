@@ -34,9 +34,7 @@ fun HtmlBlockTag.showBuildingPurpose(
         is ApartmentHouse -> {
             field("Apartments", purpose.apartments)
             repeat(purpose.apartments) { i ->
-                fieldList("${i + 1}.Apartment", state.getCharactersLivingInApartment(building.id, i)) { c ->
-                    link(call, state, c)
-                }
+                fieldList(call, state, "${i + 1}.Apartment", state.getCharactersLivingInApartment(building.id, i))
             }
         }
 

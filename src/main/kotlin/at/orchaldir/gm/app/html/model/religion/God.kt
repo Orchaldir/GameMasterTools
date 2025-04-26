@@ -35,9 +35,7 @@ fun HtmlBlockTag.showGod(
     field("Gender", god.gender)
     showPersonality(call, state, god.personality)
 
-    fieldList("Domains", god.domains) { domain ->
-        link(call, state, domain)
-    }
+    fieldIdList(call, state, god.domains)
 
     optionalFieldLink("Heart Plane", call, state, state.getHeartPlane(god.id)?.id)
     optionalFieldLink("Prison Plane", call, state, state.getPrisonPlane(god.id)?.id)

@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.PERSONALITY_PREFIX
+import at.orchaldir.gm.app.html.fieldIdList
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.fieldList
@@ -22,9 +23,7 @@ fun HtmlBlockTag.showPersonality(
     state: State,
     personality: Set<PersonalityTraitId>,
 ) {
-    fieldList("Personality", personality) { t ->
-        link(call, state, t)
-    }
+    fieldIdList(call, state, "Personality", personality)
 }
 
 // edit

@@ -157,9 +157,7 @@ private fun HTML.showMountainDetails(
 
     simpleHtmlDetails(mountain) {
         fieldName(mountain.name)
-        fieldList("Resources", mountain.resources) { resource ->
-            link(call, state, resource)
-        }
+        fieldIdList(call, state, "Resources", mountain.resources)
         fieldList(call, state, state.getTowns(mountain.id))
 
         action(editLink, "Edit")

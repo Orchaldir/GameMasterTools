@@ -45,6 +45,36 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldList(
     }
 }
 
+fun <ID : Id<ID>> HtmlBlockTag.fieldIdList(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    ids: Collection<ID>,
+) {
+    if (ids.isNotEmpty()) {
+        field(label) {
+            showList(ids) {
+                link(call, state, it)
+            }
+        }
+    }
+}
+
+fun <ID : Id<ID>> HtmlBlockTag.fieldIdList(
+    call: ApplicationCall,
+    state: State,
+    ids: Collection<ID>,
+) {
+    if (ids.isNotEmpty()) {
+        val first = ids.first()
+        field(first.plural()) {
+            showList(ids) {
+                link(call, state, it)
+            }
+        }
+    }
+}
+
 fun <T> HtmlBlockTag.fieldList(
     label: String,
     elements: Collection<T>,
