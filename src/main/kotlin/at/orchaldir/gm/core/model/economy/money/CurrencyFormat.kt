@@ -7,6 +7,9 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_RADIUS_FACTOR = fromPercentage(10)
+val MAX_RADIUS_FACTOR = fromPercentage(90)
+
 enum class CurrencyFormatType {
     Undefined,
     Coin,
@@ -45,7 +48,13 @@ data class HoledCoin(
     val radius: Distance = Distance.fromCentimeters(1),
     val holeShape: Shape = Shape.Circle,
     val holeFactor: Factor = fromPercentage(20),
-) : CurrencyFormat()
+) : CurrencyFormat() {
+
+    init {
+        checkRadiusFactor(holeFactor, "hole")
+    }
+
+}
 
 @Serializable
 @SerialName("BiMetallic")
@@ -60,6 +69,12 @@ data class BiMetallicCoin(
 
     init {
         require(material != innerMaterial) { "Outer & inner material are the same!" }
+        checkRadiusFactor(innerFactor, "inner")
     }
 
+}
+
+private fun checkRadiusFactor(factor: Factor, label: String) {
+    require(factor < MIN_RADIUS_FACTOR) { "The $label factor is too small!" }
+    require(factor > MAX_RADIUS_FACTOR) { "The $label factor is too large!" }
 }
