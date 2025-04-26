@@ -44,24 +44,20 @@ fun visualizeShape(
             renderer.renderRoundedPolygon(polygon, options)
         }
         Shape.Diamond -> doNothing()
-        Shape.Pentagon -> {
-            val polygon = createRegularPolygon(center, radius, 5, TRIANGLE_ORIENTATION)
-            renderer.renderPolygon(polygon, options)
-        }
-
-        Shape.Hexagon -> {
-            val polygon = createRegularPolygon(center, radius, 6, TRIANGLE_ORIENTATION)
-            renderer.renderPolygon(polygon, options)
-        }
-
-        Shape.Heptagon -> {
-            val polygon = createRegularPolygon(center, radius, 7, TRIANGLE_ORIENTATION)
-            renderer.renderPolygon(polygon, options)
-        }
-
-        Shape.Octagon -> {
-            val polygon = createRegularPolygon(center, radius, 8, TRIANGLE_ORIENTATION)
-            renderer.renderPolygon(polygon, options)
-        }
+        Shape.Pentagon -> visualizeRegularPolygon(renderer, options, center, radius, 5)
+        Shape.Hexagon -> visualizeRegularPolygon(renderer, options, center, radius, 6)
+        Shape.Heptagon -> visualizeRegularPolygon(renderer, options, center, radius, 7)
+        Shape.Octagon -> visualizeRegularPolygon(renderer, options, center, radius, 8)
     }
+}
+
+private fun visualizeRegularPolygon(
+    renderer: LayerRenderer,
+    options: RenderOptions,
+    center: Point2d,
+    radius: Distance,
+    sides: Int,
+) {
+    val polygon = createRegularPolygon(center, radius, sides, TRIANGLE_ORIENTATION)
+    renderer.renderPolygon(polygon, options)
 }
