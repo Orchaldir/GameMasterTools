@@ -33,7 +33,14 @@ val DELETE_JOB: Reducer<DeleteJob, State> = { state, action ->
 }
 
 val UPDATE_JOB: Reducer<UpdateJob, State> = { state, action ->
-    state.getJobStorage().require(action.job.id)
+    val job = action.job
+    state.getJobStorage().require(job.id)
 
-    noFollowUps(state.updateStorage(state.getJobStorage().update(action.job)))
+    validateJob(state, job)
+
+    noFollowUps(state.updateStorage(state.getJobStorage().update(job)))
+}
+
+fun validateJob(state: State, job: Job) {
+    job.spells.getValidValues().forEach { state.getSpellStorage().require(it) }
 }

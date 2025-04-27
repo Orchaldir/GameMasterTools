@@ -34,11 +34,15 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
     val town = action.town
     state.getTownStorage().require(town.id)
 
+    validateTown(state, town)
+
+    noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
+}
+
+fun validateTown(state: State, town: Town) {
     checkComplexName(state, town.name)
     checkDate(state, town.foundingDate, "Town")
     validateCreator(state, town.founder, town.id, town.foundingDate, "founder")
-
-    noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
 }
 
 // town's streets

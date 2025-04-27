@@ -8,5 +8,7 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 val LOAD_DATA: Reducer<LoadData, State> = { _, action ->
     val newState = State.load(action.path)
 
+    newState.validate()
+
     noFollowUps(newState)
 }

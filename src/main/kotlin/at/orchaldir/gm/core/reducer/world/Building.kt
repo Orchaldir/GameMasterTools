@@ -69,15 +69,21 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
         checkComplexName(state, action.name)
     }
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
-    checkDate(state, action.constructionDate, "Building")
-    checkArchitecturalStyle(state, action)
-    validateCreator(state, action.builder, action.id, action.constructionDate, "Builder")
-    checkOwnershipWithOptionalDate(state, action.ownership, action.constructionDate)
-    checkPurpose(state, oldBuilding, action)
-
     val building = action.applyTo(oldBuilding)
+    validateBuilding(state, building)
 
     noFollowUps(state.updateStorage(state.getBuildingStorage().update(building)))
+}
+
+fun validateBuilding(
+    state: State,
+    building: Building,
+) {
+    checkDate(state, building.constructionDate, "Building")
+    checkArchitecturalStyle(state, building)
+    validateCreator(state, building.builder, building.id, building.constructionDate, "Builder")
+    checkOwnershipWithOptionalDate(state, building.ownership, building.constructionDate)
+    checkPurpose(state, building)
 }
 
 val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
@@ -98,11 +104,11 @@ val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
     )
 }
 
-private fun checkArchitecturalStyle(state: State, action: UpdateBuilding) {
-    if (action.style != null) {
-        val style = state.getArchitecturalStyleStorage().getOrThrow(action.style)
+private fun checkArchitecturalStyle(state: State, building: Building) {
+    if (building.style != null) {
+        val style = state.getArchitecturalStyleStorage().getOrThrow(building.style)
 
-        checkStartDate(state, style, action.id, action.constructionDate)
+        checkStartDate(state, style, building.id, building.constructionDate)
     }
 }
 
@@ -157,8 +163,7 @@ private fun checkIfStreetIsPartOfTown(
 
 private fun checkPurpose(
     state: State,
-    oldBuilding: Building,
-    action: UpdateBuilding,
+    action: Building,
 ) {
     when (action.purpose) {
         is ApartmentHouse -> {
@@ -168,13 +173,13 @@ private fun checkPurpose(
             }
         }
 
-        is BuildingPurpose -> doNothing()
         is SingleBusiness -> doNothing()
         is SingleFamilyHouse -> doNothing()
+        is BusinessAndHome -> doNothing()
     }
 
     if (!action.purpose.getType().isHome()) {
-        require(state.getCharactersLivingIn(oldBuilding.id).isEmpty()) {
+        require(state.getCharactersLivingIn(action.id).isEmpty()) {
             "Cannot change the purpose, while characters are living in it!"
         }
     }

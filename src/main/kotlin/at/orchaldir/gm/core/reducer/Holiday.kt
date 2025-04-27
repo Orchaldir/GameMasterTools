@@ -31,12 +31,16 @@ val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->
     val holiday = action.holiday
 
     state.getHolidayStorage().require(holiday.id)
+    validateHoliday(state, holiday)
+
+    noFollowUps(state.updateStorage(state.getHolidayStorage().update(holiday)))
+}
+
+fun validateHoliday(state: State, holiday: Holiday) {
     val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
 
     checkPurpose(state, holiday.purpose)
     checkRelativeDate(calendar, holiday.relativeDate)
-
-    noFollowUps(state.updateStorage(state.getHolidayStorage().update(holiday)))
 }
 
 fun checkPurpose(state: State, purpose: HolidayPurpose) {

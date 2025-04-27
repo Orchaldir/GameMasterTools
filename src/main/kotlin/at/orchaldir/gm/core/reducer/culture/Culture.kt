@@ -45,27 +45,32 @@ val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
 }
 
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
-    state.getCultureStorage().require(action.culture.id)
-    state.getCalendarStorage().require(action.culture.calendar)
-    state.getFashionStorage()
-        .require(action.culture.fashion.getValues().filterNotNull())
-    state.getHolidayStorage()
-        .require(action.culture.holidays)
-    state.getLanguageStorage()
-        .require(action.culture.languages.getValidValues())
-    state.getNameListStorage()
-        .require(action.culture.namingConvention.getNameLists())
-    val oldCulture = state.getCultureStorage().getOrThrow(action.culture.id)
+    val culture = action.culture
+    val oldCulture = state.getCultureStorage().getOrThrow(culture.id)
 
-    if (requiresChangeToMononym(action.culture, oldCulture)) {
+    validateCulture(state, culture)
+
+    if (requiresChangeToMononym(culture, oldCulture)) {
         logger.info { "Change names to mononym for Culture ${oldCulture.id.value}" }
         changeNames(state, oldCulture, action) { changeToMononym(it) }
-    } else if (requiresChangeToGenonym(action.culture, oldCulture)) {
+    } else if (requiresChangeToGenonym(culture, oldCulture)) {
         logger.info { "Change names to genonym for Culture ${oldCulture.id.value}" }
         changeNames(state, oldCulture, action) { changeToGenonym(it) }
     } else {
-        noFollowUps(state.updateStorage(state.getCultureStorage().update(action.culture)))
+        noFollowUps(state.updateStorage(state.getCultureStorage().update(culture)))
     }
+}
+
+fun validateCulture(state: State, culture: Culture) {
+    state.getCalendarStorage().require(culture.calendar)
+    state.getFashionStorage()
+        .require(culture.fashion.getValues().filterNotNull())
+    state.getHolidayStorage()
+        .require(culture.holidays)
+    state.getLanguageStorage()
+        .require(culture.languages.getValidValues())
+    state.getNameListStorage()
+        .require(culture.namingConvention.getNameLists())
 }
 
 private fun changeNames(

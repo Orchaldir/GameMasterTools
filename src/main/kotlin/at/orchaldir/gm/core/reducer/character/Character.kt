@@ -43,8 +43,28 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     val character = action.character
-    val oldCharacter = state.getCharacterStorage().getOrThrow(character.id)
 
+    validateCharacterData(state, character)
+
+    val oldCharacter = state.getCharacterStorage().getOrThrow(character.id)
+    val update = character.copy(languages = oldCharacter.languages)
+
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(update)))
+}
+
+fun validateCharacter(
+    state: State,
+    character: Character,
+) {
+    validateCharacterData(state, character)
+    validateCharacterAppearance(state, character.appearance, character.race)
+    validateCharacterEquipment(state, character.equipmentMap)
+}
+
+fun validateCharacterData(
+    state: State,
+    character: Character,
+) {
     state.getRaceStorage().require(character.race)
     state.getCultureStorage().require(character.culture)
     checkSexualOrientation(character)
@@ -54,9 +74,6 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     checkHousingStatusHistory(state, character.housingStatus, character.birthDate)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
-    val update = character.copy(languages = oldCharacter.languages)
-
-    noFollowUps(state.updateStorage(state.getCharacterStorage().update(update)))
 }
 
 private fun checkSexualOrientation(character: Character) {

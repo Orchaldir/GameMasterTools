@@ -2,16 +2,30 @@ package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val UPDATE_EQUIPMENT_MAP: Reducer<UpdateEquipmentOfCharacter, State> = { state, action ->
     val character = state.getCharacterStorage().getOrThrow(action.id)
+
+    validateCharacterEquipment(state, action.map)
+
+    val updated = character.copy(equipmentMap = action.map)
+
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
+}
+
+fun validateCharacterEquipment(
+    state: State,
+    equipmentMap: EquipmentMap<EquipmentId>,
+) {
     val occupySlots = mutableSetOf<BodySlot>()
 
-    action.map.getEquipmentWithSlotSets().forEach { (id, slotSets) ->
+    equipmentMap.getEquipmentWithSlotSets().forEach { (id, slotSets) ->
         val equipment = state.getEquipmentStorage().getOrThrow(id)
         val allowedSlotSets = equipment.data.slots().getAllBodySlotCombinations()
 
@@ -25,8 +39,4 @@ val UPDATE_EQUIPMENT_MAP: Reducer<UpdateEquipmentOfCharacter, State> = { state, 
             occupySlots.addAll(slotSet)
         }
     }
-
-    val updated = character.copy(equipmentMap = action.map)
-
-    noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
 }

@@ -38,12 +38,19 @@ val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
 
 val UPDATE_BUSINESS: Reducer<UpdateBusiness, State> = { state, action ->
     state.getBusinessStorage().require(action.business.id)
-    val newBusiness = action.business
+    val business = action.business
 
-    checkComplexName(state, newBusiness.name)
-    checkDate(state, newBusiness.startDate(), "Business Founding")
-    validateCreator(state, newBusiness.founder, newBusiness.id, newBusiness.startDate(), "Founder")
-    checkOwnershipWithOptionalDate(state, newBusiness.ownership, newBusiness.startDate())
+    validateBusiness(state, business)
 
     noFollowUps(state.updateStorage(state.getBusinessStorage().update(action.business)))
+}
+
+fun validateBusiness(
+    state: State,
+    business: Business,
+) {
+    checkComplexName(state, business.name)
+    checkDate(state, business.startDate(), "Business Founding")
+    validateCreator(state, business.founder, business.id, business.startDate(), "Founder")
+    checkOwnershipWithOptionalDate(state, business.ownership, business.startDate())
 }

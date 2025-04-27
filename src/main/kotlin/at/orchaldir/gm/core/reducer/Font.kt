@@ -26,7 +26,11 @@ val DELETE_FONT: Reducer<DeleteFont, State> = { state, action ->
 val UPDATE_FONT: Reducer<UpdateFont, State> = { state, action ->
     val font = action.font
     state.getFontStorage().require(font.id)
-    checkDate(state, font.startDate(), "Font")
+    validateFont(state, font)
 
     noFollowUps(state.updateStorage(state.getFontStorage().update(font)))
+}
+
+fun validateFont(state: State, font: Font) {
+    checkDate(state, font.startDate(), "Font")
 }

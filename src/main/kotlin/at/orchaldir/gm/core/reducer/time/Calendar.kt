@@ -29,13 +29,20 @@ val UPDATE_CALENDAR: Reducer<UpdateCalendar, State> = { state, action ->
     val calendar = action.calendar
 
     state.getCalendarStorage().require(calendar.id)
+    validateCalendar(state, calendar)
+
+    noFollowUps(state.updateStorage(state.getCalendarStorage().update(calendar)))
+}
+
+fun validateCalendar(
+    state: State,
+    calendar: Calendar,
+) {
     checkDays(calendar)
     checkMonths(calendar)
     checkEras(state, calendar)
     checkOrigin(state, calendar)
     checkHolidays(state, calendar)
-
-    noFollowUps(state.updateStorage(state.getCalendarStorage().update(calendar)))
 }
 
 private fun checkDays(

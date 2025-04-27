@@ -26,15 +26,24 @@ val DELETE_PERIODICAL_ISSUE: Reducer<DeletePeriodicalIssue, State> = { state, ac
 
 val UPDATE_PERIODICAL_ISSUE: Reducer<UpdatePeriodicalIssue, State> = { state, action ->
     val issue = action.issue
-
     state.getPeriodicalIssueStorage().require(issue.id)
+
+    validatePeriodicalIssue(state, issue)
+
+    noFollowUps(state.updateStorage(state.getPeriodicalIssueStorage().update(issue)))
+}
+
+fun validatePeriodicalIssue(
+    state: State,
+    issue: PeriodicalIssue,
+) {
     val periodical = state.getPeriodicalStorage().getOrThrow(issue.periodical)
 
     require(isDateValid(state, issue, periodical)) {
         "The Issue ${issue.id.value} cannot be published before the start of the periodical!"
     }
 
-    noFollowUps(state.updateStorage(state.getPeriodicalIssueStorage().update(issue)))
+    issue.articles.forEach { state.getArticleStorage().require(it) }
 }
 
 private fun isDateValid(

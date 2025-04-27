@@ -29,10 +29,15 @@ val DELETE_SPELL: Reducer<DeleteSpell, State> = { state, action ->
 val UPDATE_SPELL: Reducer<UpdateSpell, State> = { state, action ->
     val spell = action.spell
     state.getSpellStorage().require(spell.id)
-    checkDate(state, spell.startDate(), "Spell")
-    checkOrigin(state, spell)
+    validateSpell(state, spell)
 
     noFollowUps(state.updateStorage(state.getSpellStorage().update(spell)))
+}
+
+fun validateSpell(state: State, spell: Spell) {
+    checkDate(state, spell.startDate(), "Spell")
+    checkOrigin(state, spell)
+    state.getLanguageStorage().requireOptional(spell.language)
 }
 
 private fun checkOrigin(state: State, spell: Spell) {

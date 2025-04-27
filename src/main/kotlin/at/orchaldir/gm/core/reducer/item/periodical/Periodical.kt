@@ -28,6 +28,15 @@ val DELETE_PERIODICAL: Reducer<DeletePeriodical, State> = { state, action ->
 
 val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     val periodical = action.periodical
+    validatePeriodical(state, periodical)
+
+    noFollowUps(state.updateStorage(state.getPeriodicalStorage().update(periodical)))
+}
+
+fun validatePeriodical(
+    state: State,
+    periodical: Periodical,
+) {
     val date = periodical.date
 
     state.getPeriodicalStorage().require(periodical.id)
@@ -37,8 +46,6 @@ val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     checkComplexName(state, periodical.name)
     checkDate(state, date, "Founding")
     checkOwnershipWithOptionalDate(state, periodical.ownership, date)
-
-    noFollowUps(state.updateStorage(state.getPeriodicalStorage().update(periodical)))
 }
 
 private fun validateFrequency(state: State, periodical: Periodical) {

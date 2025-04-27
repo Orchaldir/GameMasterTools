@@ -31,14 +31,21 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
 
     state.getFashionStorage().require(fashion.id)
 
-    checkAppearanceStyle(fashion.appearance)
-    checkClothingStyle(state, fashion.clothing)
+    validateFashion(state, fashion)
 
     val cleanClothingStyle = fashion.clothing
         .copy(equipmentRarityMap = fashion.clothing.equipmentRarityMap.filter { it.value.isNotEmpty() })
     val clean = fashion.copy(clothing = cleanClothingStyle)
 
     noFollowUps(state.updateStorage(state.getFashionStorage().update(clean)))
+}
+
+fun validateFashion(
+    state: State,
+    fashion: Fashion,
+) {
+    checkAppearanceStyle(fashion.appearance)
+    checkClothingStyle(state, fashion.clothing)
 }
 
 private fun checkAppearanceStyle(

@@ -23,7 +23,15 @@ val DELETE_CURRENCY_UNIT: Reducer<DeleteCurrencyUnit, State> = { state, action -
 val UPDATE_CURRENCY_UNIT: Reducer<UpdateCurrencyUnit, State> = { state, action ->
     val unit = action.unit
     state.getCurrencyUnitStorage().require(unit.id)
-    state.getCurrencyStorage().require(unit.currency)
+    validateCurrencyUnit(state, unit)
 
     noFollowUps(state.updateStorage(state.getCurrencyUnitStorage().update(unit)))
+}
+
+fun validateCurrencyUnit(
+    state: State,
+    unit: CurrencyUnit,
+) {
+    state.getCurrencyStorage().require(unit.currency)
+    unit.format.getMaterials().forEach { state.getMaterialStorage().require(it) }
 }
