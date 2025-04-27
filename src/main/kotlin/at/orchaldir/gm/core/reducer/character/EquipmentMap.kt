@@ -10,9 +10,10 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val UPDATE_EQUIPMENT_MAP: Reducer<UpdateEquipmentOfCharacter, State> = { state, action ->
+    val character = state.getCharacterStorage().getOrThrow(action.id)
+
     validateCharacterEquipment(state, action.map)
 
-    val character = state.getCharacterStorage().getOrThrow(action.id)
     val updated = character.copy(equipmentMap = action.map)
 
     noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
