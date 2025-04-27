@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.editJob
+import at.orchaldir.gm.app.html.model.economy.parseBusiness
 import at.orchaldir.gm.app.html.model.economy.parseJob
 import at.orchaldir.gm.app.html.model.economy.showJob
 import at.orchaldir.gm.core.action.CreateJob
@@ -45,6 +46,9 @@ class JobRoutes {
 
     @Resource("edit")
     class Edit(val id: JobId, val parent: JobRoutes = JobRoutes())
+
+    @Resource("preview")
+    class Preview(val id: JobId, val parent: JobRoutes = JobRoutes())
 
     @Resource("update")
     class Update(val id: JobId, val parent: JobRoutes = JobRoutes())
@@ -103,6 +107,16 @@ fun Application.configureJobRouting() {
                 showJobEditor(call, state, job)
             }
         }
+        post<JobRoutes.Preview> { preview ->
+            logger.info { "Preview job ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val job = parseJob(preview.id, call.receiveParameters())
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showJobEditor(call, state, job)
+            }
+        }
         post<JobRoutes.Update> { update ->
             logger.info { "Update job ${update.id.value}" }
 
@@ -128,7 +142,11 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
         table {
             tr {
                 th { +"Name" }
-                th { +"Income" }
+                th {
+                    +"Monthly"
+                    br { }
+                    +"Income"
+                }
                 th { +"Characters" }
                 th { +"Domains" }
                 th { +"Spells" }
@@ -179,14 +197,13 @@ private fun HTML.showJobEditor(
     job: Job,
 ) {
     val backLink = href(call, job.id)
+    val previewLink = call.application.href(JobRoutes.Preview(job.id))
     val updateLink = call.application.href(JobRoutes.Update(job.id))
 
     simpleHtmlEditor(job) {
-        form {
+        formWithPreview(previewLink, updateLink, backLink) {
             editJob(state, job)
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

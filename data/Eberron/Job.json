@@ -73,7 +73,11 @@
   },
   "15": {
    "id": 15,
-   "name": "Guard"
+   "name": "Guard",
+   "income": {
+    "type": "Salary",
+    "salary": 100
+   }
   },
   "16": {
    "id": 16,
