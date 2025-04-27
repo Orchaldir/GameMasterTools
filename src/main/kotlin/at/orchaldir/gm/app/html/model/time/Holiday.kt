@@ -3,11 +3,10 @@ package at.orchaldir.gm.app.html.model.time
 import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.fieldLink
-import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.holiday.Holiday

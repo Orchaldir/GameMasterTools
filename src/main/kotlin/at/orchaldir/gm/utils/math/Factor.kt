@@ -1,7 +1,6 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 
 val START = fromPercentage(0)

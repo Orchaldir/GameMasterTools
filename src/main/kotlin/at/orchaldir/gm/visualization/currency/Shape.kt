@@ -1,13 +1,7 @@
 package at.orchaldir.gm.visualization.currency
 
-import at.orchaldir.gm.core.model.economy.money.*
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.createDiamond
-import at.orchaldir.gm.utils.math.createRegularPolygon
-import at.orchaldir.gm.utils.math.createRoundedSquare
-import at.orchaldir.gm.utils.math.createRoundedTriangle
-import at.orchaldir.gm.utils.math.createSquare
-import at.orchaldir.gm.utils.math.createTriangle
+import at.orchaldir.gm.core.model.economy.money.Shape
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions

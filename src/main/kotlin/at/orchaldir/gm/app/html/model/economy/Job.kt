@@ -1,12 +1,12 @@
 package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.SPELLS
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
 import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.selectRarityMap
-import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.showRarityMap
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseSomeOf

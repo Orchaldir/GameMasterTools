@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.LI
 import kotlinx.html.li

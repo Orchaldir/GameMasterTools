@@ -1,10 +1,9 @@
 package at.orchaldir.gm.app.html.model.time
 
 import at.orchaldir.gm.app.HOLIDAY
-import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.selectElements
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.holiday.HolidayId

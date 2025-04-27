@@ -2,8 +2,6 @@ package at.orchaldir.gm.prototypes.visualization.currency
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
-import at.orchaldir.gm.core.model.economy.money.Coin
-import at.orchaldir.gm.core.model.economy.money.HoledCoin
 import at.orchaldir.gm.core.model.economy.money.Shape
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -12,7 +10,6 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
-import kotlinx.coroutines.channels.Channel
 
 fun main() {
     val radius = Distance.fromCentimeters(1)

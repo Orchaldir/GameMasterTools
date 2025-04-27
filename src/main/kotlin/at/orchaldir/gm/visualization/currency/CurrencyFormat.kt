@@ -1,12 +1,7 @@
 package at.orchaldir.gm.visualization.currency
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
-import at.orchaldir.gm.core.model.economy.money.Coin
-import at.orchaldir.gm.core.model.economy.money.CurrencyFormat
-import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.economy.money.HoledCoin
-import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
+import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d

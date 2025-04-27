@@ -3,9 +3,8 @@ package at.orchaldir.gm.app.html.model.economy
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.fieldAge
 import at.orchaldir.gm.app.html.fieldLink
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
