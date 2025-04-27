@@ -92,6 +92,7 @@ import at.orchaldir.gm.core.reducer.validateLanguage
 import at.orchaldir.gm.core.reducer.validateRace
 import at.orchaldir.gm.core.reducer.validateRaceAppearance
 import at.orchaldir.gm.core.reducer.world.validateArchitecturalStyle
+import at.orchaldir.gm.core.reducer.world.validateBuilding
 import at.orchaldir.gm.core.reducer.world.validateMoon
 import at.orchaldir.gm.core.reducer.world.validateMountain
 import at.orchaldir.gm.core.reducer.world.validatePlane
@@ -267,7 +268,7 @@ data class State(
         require(ELEMENTS.size == storageMap.size) { "Wrong number element storages!" }
         getArchitecturalStyleStorage().getAll().forEach { validateArchitecturalStyle(this, it) }
         getArticleStorage().getAll().forEach { validateArticle(this, it) }
-        // TODO: building
+        getBuildingStorage().getAll().forEach { validateBuilding(this, it) }
         getBusinessStorage().getAll().forEach { validateBusiness(this, it) }
         getCalendarStorage().getAll().forEach { validateCalendar(this, it) }
         getCharacterStorage().getAll().forEach { validateCharacter(this, it) }
