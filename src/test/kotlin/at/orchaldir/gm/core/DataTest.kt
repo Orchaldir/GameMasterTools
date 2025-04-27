@@ -1,23 +1,23 @@
 package at.orchaldir.gm.core
 
-import at.orchaldir.gm.core.model.ELEMENTS
 import at.orchaldir.gm.core.model.State
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class DataTest {
 
     @Test
     fun `Load CoC`() {
-        val newState = State.load("data/CoC")
-
-        assertEquals(ELEMENTS.size, newState.storageMap.size)
+        test("data/CoC")
     }
 
     @Test
     fun `Load Eberron`() {
-        val newState = State.load("data/Eberron")
+        test("data/Eberron")
+    }
 
-        assertEquals(ELEMENTS.size, newState.storageMap.size)
+    private fun test(path: String) {
+        val newState = State.load(path)
+
+        newState.validate()
     }
 }

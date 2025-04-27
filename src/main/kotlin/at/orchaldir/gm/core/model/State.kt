@@ -264,6 +264,7 @@ data class State(
     }
 
     fun validate() {
+        require(ELEMENTS.size == storageMap.size) { "Wrong number element storages!" }
         getArchitecturalStyleStorage().getAll().forEach { validateArchitecturalStyle(this, it) }
         getArticleStorage().getAll().forEach { validateArticle(this, it) }
         // TODO: building
