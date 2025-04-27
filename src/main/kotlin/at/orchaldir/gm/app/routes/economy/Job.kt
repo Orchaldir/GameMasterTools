@@ -124,15 +124,15 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
         table {
             tr {
                 th { +"Name" }
-                th { +"Domains" }
                 th { +"Characters" }
+                th { +"Domains" }
                 th { +"Spells" }
             }
             jobs.forEach { job ->
                 tr {
                     td { link(call, job) }
-                    tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(state.getEmployees(job.id).size)
+                    tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(job.spells.getRarityMap().size)
                 }
             }
