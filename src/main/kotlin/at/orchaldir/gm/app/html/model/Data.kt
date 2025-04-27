@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.CURRENT
+import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.routes.time.TimeRoutes
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Time
@@ -15,6 +17,8 @@ import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.application.call
+import io.ktor.server.resources.href
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
@@ -32,9 +36,12 @@ fun HtmlBlockTag.showTime(
     call: ApplicationCall,
     state: State,
 ) {
+    val eventsLink = call.application.href(TimeRoutes.ShowEvents())
+
     h2 { +"Time" }
     fieldLink("Default Calendar", call, state, state.getDefaultCalendar())
     showCurrentDate(call, state)
+    action(eventsLink, "Events")
 }
 
 // edit
