@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
+import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -27,8 +28,11 @@ fun HtmlBlockTag.showCurrencyUnit(
     state: State,
     unit: CurrencyUnit,
 ) {
+    val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
+
     fieldLink("Currency", call, state, unit.currency)
     field("Value", unit.value)
+    field("Denomination", currency.display(unit.value))
     showCurrencyFormat(call, state, unit.format)
 }
 
