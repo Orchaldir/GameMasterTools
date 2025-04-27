@@ -20,18 +20,18 @@ val prettyJson = Json {
 const val VERSION = 1
 
 @Serializable
-data class Data<I, E>(val version: Int, val elements: Map<I, E>)
+data class StorageIO<I, E>(val version: Int, val elements: Map<I, E>)
 
 inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> saveStorage(
     path: String,
     storage: Storage<ID, ELEMENT>,
 ) {
-    val data = Data(VERSION, storage.getAll().associateBy { it.id() })
+    val data = StorageIO(VERSION, storage.getAll().associateBy { it.id() })
 
-    saveData(path, storage.getType(), data)
+    save(path, storage.getType(), data)
 }
 
-inline fun <reified T> saveData(
+inline fun <reified T> save(
     path: String,
     name: String,
     data: T,
@@ -45,7 +45,7 @@ inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
     path: String,
     zero: ID,
 ): Storage<ID, ELEMENT> {
-    val data = loadData<Data<ID, ELEMENT>>(path, zero.type())
+    val data = load<StorageIO<ID, ELEMENT>>(path, zero.type())
 
     if (data.elements.isEmpty()) {
         return Storage(zero)
@@ -54,7 +54,7 @@ inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
     return Storage(data.elements.values.toList())
 }
 
-inline fun <reified T> loadData(
+inline fun <reified T> load(
     path: String,
     name: String,
 ): T {

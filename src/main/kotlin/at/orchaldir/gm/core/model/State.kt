@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model
 
 import at.orchaldir.gm.core.generator.RarityGenerator
-import at.orchaldir.gm.core.loadData
+import at.orchaldir.gm.core.load
 import at.orchaldir.gm.core.loadStorage
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
@@ -88,7 +88,7 @@ import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
 import at.orchaldir.gm.core.reducer.time.validateCalendar
 import at.orchaldir.gm.core.reducer.world.*
-import at.orchaldir.gm.core.saveData
+import at.orchaldir.gm.core.save
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -256,7 +256,7 @@ data class State(
             return State(
                 ELEMENTS.associateWith { loadStorageForType(path, it) },
                 path,
-                loadData(path, TIME)
+                load(path, TIME)
             )
         }
     }
@@ -332,7 +332,7 @@ data class State(
         saveStorage(path, getStreetTemplateStorage())
         saveStorage(path, getTextStorage())
         saveStorage(path, getTownStorage())
-        saveData(path, TIME, time)
+        save(path, TIME, time)
     }
 }
 
