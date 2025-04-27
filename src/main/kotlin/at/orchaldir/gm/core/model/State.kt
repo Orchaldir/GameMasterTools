@@ -105,7 +105,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import mu.KotlinLogging
 
-val logger = KotlinLogging.logger {}
+private val logger = KotlinLogging.logger {}
 
 val ELEMENTS =
     setOf(
