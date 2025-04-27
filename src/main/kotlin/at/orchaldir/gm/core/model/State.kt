@@ -260,11 +260,15 @@ data class State(
 
     companion object {
 
-        fun load(path: String) = State(
-            ELEMENTS.associateWith { loadStorageForType(path, it) },
-            path,
-            loadData(path, TIME)
-        )
+        fun load(path: String): State {
+            logger.info { "Load $path" }
+
+            return State(
+                ELEMENTS.associateWith { loadStorageForType(path, it) },
+                path,
+                loadData(path, TIME)
+            )
+        }
     }
 
     fun validate() {
