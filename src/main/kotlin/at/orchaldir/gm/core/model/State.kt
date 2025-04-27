@@ -103,6 +103,9 @@ import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import mu.KotlinLogging
+
+val logger = KotlinLogging.logger {}
 
 val ELEMENTS =
     setOf(
@@ -265,6 +268,7 @@ data class State(
     }
 
     fun validate() {
+        logger.info { "Validate state" }
         require(ELEMENTS.size == storageMap.size) { "Wrong number element storages!" }
         getArchitecturalStyleStorage().getAll().forEach { validateArchitecturalStyle(this, it) }
         getArticleStorage().getAll().forEach { validateArticle(this, it) }
