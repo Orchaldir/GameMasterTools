@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
+import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
@@ -66,6 +67,8 @@ fun parseOptionalCurrencyId(parameters: Parameters, param: String) =
 fun parseCurrency(parameters: Parameters, state: State, id: CurrencyId): Currency = Currency(
     id,
     parseName(parameters),
+    Denomination.init("gp"),
+    emptyList(),
     parseOptionalDate(parameters, state, combine(START, DATE)),
     parseOptionalDate(parameters, state, combine(END, DATE)),
 )

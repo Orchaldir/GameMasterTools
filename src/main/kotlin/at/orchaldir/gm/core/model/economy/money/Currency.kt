@@ -24,7 +24,7 @@ value class CurrencyId(val value: Int) : Id<CurrencyId> {
 data class Currency(
     val id: CurrencyId,
     val name: Name = Name.init("Currency ${id.value}"),
-    val denomination: Denomination = Denomination("gp"),
+    val denomination: Denomination = Denomination.init("gp"),
     val subDenominations: List<Pair<Denomination, Int>> = emptyList(),
     val startDate: Date? = null,
     val endDate: Date? = null,
