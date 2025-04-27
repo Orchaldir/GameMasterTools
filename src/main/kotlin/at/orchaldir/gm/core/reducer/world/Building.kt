@@ -73,7 +73,7 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     checkArchitecturalStyle(state, action)
     validateCreator(state, action.builder, action.id, action.constructionDate, "Builder")
     checkOwnershipWithOptionalDate(state, action.ownership, action.constructionDate)
-    checkPurpose(state, oldBuilding, action)
+    checkPurpose(state, action)
 
     val building = action.applyTo(oldBuilding)
 
@@ -157,7 +157,6 @@ private fun checkIfStreetIsPartOfTown(
 
 private fun checkPurpose(
     state: State,
-    oldBuilding: Building,
     action: UpdateBuilding,
 ) {
     when (action.purpose) {
@@ -168,13 +167,13 @@ private fun checkPurpose(
             }
         }
 
-        is BuildingPurpose -> doNothing()
         is SingleBusiness -> doNothing()
         is SingleFamilyHouse -> doNothing()
+        is BusinessAndHome -> doNothing()
     }
 
     if (!action.purpose.getType().isHome()) {
-        require(state.getCharactersLivingIn(oldBuilding.id).isEmpty()) {
+        require(state.getCharactersLivingIn(action.id).isEmpty()) {
             "Cannot change the purpose, while characters are living in it!"
         }
     }
