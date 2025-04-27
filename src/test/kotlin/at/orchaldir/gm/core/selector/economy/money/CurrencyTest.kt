@@ -37,8 +37,23 @@ class CurrencyTest {
         }
 
         @Test
+        fun `A price in cp & sp`() {
+            assertEquals("5 sp 4 cp", currency.display(54))
+        }
+
+        @Test
         fun `A price in gp`() {
             assertEquals("16 gp", currency.display(1600))
+        }
+
+        @Test
+        fun `A price in sp & gp`() {
+            assertEquals("2 gp 3 sp", currency.display(230))
+        }
+
+        @Test
+        fun `A price in all 3`() {
+            assertEquals("1 gp 2 sp 3 cp", currency.display(123))
         }
     }
 }
