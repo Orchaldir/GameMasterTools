@@ -82,6 +82,8 @@ data class HoledCoin(
         checkRadiusFactor(holeFactor, "hole")
     }
 
+    fun calculateHoleRadius() = calculateInnerRadius(radius, shape, holeShape) * holeFactor
+
 }
 
 @Serializable
@@ -101,6 +103,8 @@ data class BiMetallicCoin(
         checkRadiusFactor(innerFactor, "inner")
     }
 
+    fun calculateInnerRadius() = calculateInnerRadius(radius, shape, innerShape) * innerFactor
+
 }
 
 private fun checkRadius(radius: Distance) {
@@ -111,4 +115,14 @@ private fun checkRadius(radius: Distance) {
 private fun checkRadiusFactor(factor: Factor, label: String) {
     require(factor >= MIN_RADIUS_FACTOR) { "The $label factor is too small!" }
     require(factor <= MAX_RADIUS_FACTOR) { "The $label factor is too large!" }
+}
+
+private fun calculateInnerRadius(radius: Distance, outer: Shape, inner: Shape): Distance {
+    val outerSides = outer.getSides()
+
+    if (outer == Shape.Circle || outerSides == inner.getSides()) {
+        return radius
+    }
+
+    return calculateIncircle(radius, outerSides)
 }

@@ -64,9 +64,5 @@ private fun createShapePolygon(
     Shape.Square -> createSquare(center, radius)
     Shape.RoundedSquare -> createRoundedSquare(center, radius)
     Shape.Diamond -> createDiamond(center, radius)
-    Shape.Pentagon -> createRegularPolygon(center, radius, 5)
-    Shape.Hexagon -> createRegularPolygon(center, radius, 6)
-    Shape.Heptagon -> createRegularPolygon(center, radius, 7)
-    Shape.Octagon -> createRegularPolygon(center, radius, 8)
-    Shape.Dodecagonal -> createRegularPolygon(center, radius, 12)
+    else -> createRegularPolygon(center, radius, shape.getSides())
 }

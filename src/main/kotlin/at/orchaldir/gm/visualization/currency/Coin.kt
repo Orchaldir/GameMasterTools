@@ -31,7 +31,7 @@ fun visualizeHoledCoin(
         coin.shape,
         coin.radius,
         coin.holeShape,
-        coin.radius * coin.holeFactor,
+        coin.calculateHoleRadius(),
         options
     )
 }
@@ -57,7 +57,7 @@ fun visualizeBiMetallicCoin(
         renderer,
         center,
         coin.innerShape,
-        coin.radius * coin.innerFactor,
+        coin.calculateInnerRadius(),
         innerOptions
     )
 }
