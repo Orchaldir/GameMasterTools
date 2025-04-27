@@ -4,12 +4,7 @@ import at.orchaldir.gm.core.action.CreateCurrencyUnit
 import at.orchaldir.gm.core.action.DeleteCurrencyUnit
 import at.orchaldir.gm.core.action.UpdateCurrencyUnit
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
-import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.economy.money.HoledCoin
-import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

@@ -68,6 +68,7 @@ import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.TOWN_TYPE
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.core.reducer.character.validateCharacter
 import at.orchaldir.gm.core.reducer.culture.validateCulture
 import at.orchaldir.gm.core.reducer.culture.validateFashion
@@ -86,18 +87,7 @@ import at.orchaldir.gm.core.reducer.religion.validateDomain
 import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
 import at.orchaldir.gm.core.reducer.time.validateCalendar
-import at.orchaldir.gm.core.reducer.validateFont
-import at.orchaldir.gm.core.reducer.validateHoliday
-import at.orchaldir.gm.core.reducer.validateLanguage
-import at.orchaldir.gm.core.reducer.validateRace
-import at.orchaldir.gm.core.reducer.validateRaceAppearance
-import at.orchaldir.gm.core.reducer.world.validateArchitecturalStyle
-import at.orchaldir.gm.core.reducer.world.validateBuilding
-import at.orchaldir.gm.core.reducer.world.validateMoon
-import at.orchaldir.gm.core.reducer.world.validateMountain
-import at.orchaldir.gm.core.reducer.world.validatePlane
-import at.orchaldir.gm.core.reducer.world.validateStreetTemplate
-import at.orchaldir.gm.core.reducer.world.validateTown
+import at.orchaldir.gm.core.reducer.world.*
 import at.orchaldir.gm.core.saveData
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
