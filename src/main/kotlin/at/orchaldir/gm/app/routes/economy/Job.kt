@@ -138,6 +138,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
 
     simpleHtml("Jobs") {
         field("Count", jobs.size)
+        fieldLink("Currency", call, currency)
 
         table {
             tr {
