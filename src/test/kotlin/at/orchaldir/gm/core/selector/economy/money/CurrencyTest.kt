@@ -25,5 +25,20 @@ class CurrencyTest {
         fun `A price of 0`() {
             assertEquals("0 cp", currency.display(0))
         }
+
+        @Test
+        fun `A price in cp`() {
+            assertEquals("5 cp", currency.display(5))
+        }
+
+        @Test
+        fun `A price in sp`() {
+            assertEquals("4 sp", currency.display(40))
+        }
+
+        @Test
+        fun `A price in gp`() {
+            assertEquals("16 gp", currency.display(1600))
+        }
     }
 }
