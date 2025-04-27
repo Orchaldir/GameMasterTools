@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.economy.money.CURRENCY_TYPE
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.util.SortCurrency
-import at.orchaldir.gm.core.selector.economy.canDeleteCurrency
+import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrency
 import at.orchaldir.gm.core.selector.util.sortCurrencies
 import io.ktor.http.*
 import io.ktor.resources.*

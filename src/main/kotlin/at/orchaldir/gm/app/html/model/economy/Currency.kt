@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
-import at.orchaldir.gm.core.selector.economy.getCurrencyUnits
+import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import io.ktor.http.*
 import io.ktor.server.application.*
