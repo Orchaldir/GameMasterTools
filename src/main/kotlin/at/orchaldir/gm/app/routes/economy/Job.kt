@@ -12,7 +12,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.economy.job.Salary
 import at.orchaldir.gm.core.selector.economy.canDelete
+import at.orchaldir.gm.core.selector.economy.money.display
+import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.religion.countDomains
 import io.ktor.http.*
@@ -115,6 +118,7 @@ fun Application.configureJobRouting() {
 }
 
 private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
+    val currency = state.getDefaultCurrency()
     val jobs = state.getJobStorage().getAll().sortedBy { it.name.text }
     val createLink = call.application.href(JobRoutes.New())
 
@@ -124,6 +128,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
         table {
             tr {
                 th { +"Name" }
+                th { +"Income" }
                 th { +"Characters" }
                 th { +"Domains" }
                 th { +"Spells" }
@@ -131,6 +136,11 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
             jobs.forEach { job ->
                 tr {
                     td { link(call, job) }
+                    td {
+                        if (job.income is Salary) {
+                            +currency.display(job.income.salary)
+                        }
+                    }
                     tdSkipZero(state.getEmployees(job.id).size)
                     tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(job.spells.getRarityMap().size)
