@@ -33,6 +33,6 @@ fun HtmlBlockTag.editDenomination(
 // parse
 
 fun parseDenomination(parameters: Parameters, param: String) = Denomination(
-    parseNoTEmptyString(parameters, combine(param, NAME)),
+    parseNotEmptyString(parameters, combine(param, NAME), "gp"),
     parseBool(parameters, combine(param, PREFIX)),
 )
