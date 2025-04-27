@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.economy.money
 
 import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.name.Text
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -25,8 +24,8 @@ value class CurrencyId(val value: Int) : Id<CurrencyId> {
 data class Currency(
     val id: CurrencyId,
     val name: Name = Name.init("Currency ${id.value}"),
-    val denomination: Text = Text.init("gp"),
-    val subDenomination: List<Pair<Text, Int>> = emptyList(),
+    val denomination: Denomination = Denomination("gp"),
+    val subDenominations: List<Pair<Denomination, Int>> = emptyList(),
     val startDate: Date? = null,
     val endDate: Date? = null,
 ) : ElementWithSimpleName<CurrencyId>, HasStartDate {
@@ -34,7 +33,7 @@ data class Currency(
     init {
         var min = 1
 
-        subDenomination.forEach { (text, threshold) ->
+        subDenominations.forEach { (text, threshold) ->
             require(threshold >= min) { "Sub denomination ${text.text} has a too low value!" }
         }
     }
