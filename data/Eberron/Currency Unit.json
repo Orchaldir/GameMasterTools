@@ -38,6 +38,26 @@
     "material": 32,
     "radius": 16000
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Double Crown",
+   "value": 2,
+   "format": {
+    "type": "Coin",
+    "material": 21,
+    "radius": 14000
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Silver Throne",
+   "value": 50,
+   "format": {
+    "type": "Coin",
+    "material": 24,
+    "radius": 20000
+   }
   }
  }
 }
