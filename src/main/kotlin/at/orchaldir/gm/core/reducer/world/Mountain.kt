@@ -23,7 +23,17 @@ val DELETE_MOUNTAIN: Reducer<DeleteMountain, State> = { state, action ->
 }
 
 val UPDATE_MOUNTAIN: Reducer<UpdateMountain, State> = { state, action ->
-    state.getMountainStorage().require(action.mountain.id)
+    val mountain = action.mountain
+    state.getMountainStorage().require(mountain.id)
 
-    noFollowUps(state.updateStorage(state.getMountainStorage().update(action.mountain)))
+    validateMountain(state, mountain)
+
+    noFollowUps(state.updateStorage(state.getMountainStorage().update(mountain)))
+}
+
+fun validateMountain(
+    state: State,
+    mountain: Mountain,
+) {
+    mountain.resources.forEach { state.getMaterialStorage().require(it) }
 }

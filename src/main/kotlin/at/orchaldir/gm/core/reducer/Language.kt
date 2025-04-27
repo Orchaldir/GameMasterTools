@@ -44,12 +44,17 @@ val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
     val language = action.language
 
     state.getLanguageStorage().require(language.id)
+    validateLanguage(state, language)
+
+    noFollowUps(state.updateStorage(state.getLanguageStorage().update(language)))
+}
+
+fun validateLanguage(state: State, language: Language) {
     checkDate(state, language.startDate(), "Language")
     checkOrigin(state, language)
 
     // no duplicate name?
     // no circle? (time travel?)
-    noFollowUps(state.updateStorage(state.getLanguageStorage().update(language)))
 }
 
 private fun checkOrigin(

@@ -25,5 +25,14 @@ val DELETE_ARTICLE: Reducer<DeleteArticle, State> = { state, action ->
 val UPDATE_ARTICLE: Reducer<UpdateArticle, State> = { state, action ->
     val article = action.article
 
+    validateArticle(state, article)
+
     noFollowUps(state.updateStorage(state.getArticleStorage().update(article)))
+}
+
+fun validateArticle(
+    state: State,
+    article: Article,
+) {
+    state.getCharacterStorage().requireOptional(article.author)
 }

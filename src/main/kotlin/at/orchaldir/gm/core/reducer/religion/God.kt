@@ -28,8 +28,13 @@ val DELETE_GOD: Reducer<DeleteGod, State> = { state, action ->
 val UPDATE_GOD: Reducer<UpdateGod, State> = { state, action ->
     val god = action.god
     state.getGodStorage().require(god.id)
-    god.domains.forEach { state.getDomainStorage().require(it) }
-    god.personality.forEach { state.getPersonalityTraitStorage().require(it) }
+
+    validateGod(state, god)
 
     noFollowUps(state.updateStorage(state.getGodStorage().update(god)))
+}
+
+fun validateGod(state: State, god: God) {
+    god.domains.forEach { state.getDomainStorage().require(it) }
+    god.personality.forEach { state.getPersonalityTraitStorage().require(it) }
 }

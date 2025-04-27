@@ -32,14 +32,21 @@ val DELETE_ORGANIZATION: Reducer<DeleteOrganization, State> = { state, action ->
 val UPDATE_ORGANIZATION: Reducer<UpdateOrganization, State> = { state, action ->
     val organization = action.organization
     state.getOrganizationStorage().require(organization.id)
+    validateOrganization(state, organization)
+
+    noFollowUps(state.updateStorage(state.getOrganizationStorage().update(organization)))
+}
+
+fun validateOrganization(
+    state: State,
+    organization: Organization,
+) {
     checkDate(state, organization.startDate(), "Organization")
 
     validateCreator(state, organization.founder, organization.id, organization.date, "founder")
     validateRanks(state, organization)
     validateMembers(state, organization)
     organization.holidays.forEach { state.getHolidayStorage().require(it) }
-
-    noFollowUps(state.updateStorage(state.getOrganizationStorage().update(organization)))
 }
 
 private fun validateRanks(state: State, organization: Organization) {

@@ -38,12 +38,12 @@ val UPDATE_RACE_APPEARANCE: Reducer<UpdateRaceAppearance, State> = { state, acti
     val appearance = action.appearance
     state.getRaceAppearanceStorage().require(appearance.id)
 
-    checkRaceAppearance(appearance)
+    validateRaceAppearance(state, appearance)
 
     noFollowUps(state.updateStorage(state.getRaceAppearanceStorage().update(appearance)))
 }
 
-private fun checkRaceAppearance(appearance: RaceAppearance) {
+fun validateRaceAppearance(state: State, appearance: RaceAppearance) {
     checkTails(appearance)
 }
 

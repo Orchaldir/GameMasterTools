@@ -24,8 +24,12 @@ val UPDATE_MOON: Reducer<UpdateMoon, State> = { state, action ->
     val moon = action.moon
 
     state.getMoonStorage().require(moon.id)
-    moon.plane?.let { state.getPlaneStorage().require(it) }
-    require(moon.daysPerQuarter > 0) { "Days per quarter most be greater than 0!" }
+    validateMoon(state, moon)
 
     noFollowUps(state.updateStorage(state.getMoonStorage().update(moon)))
+}
+
+fun validateMoon(state: State, moon: Moon) {
+    moon.plane?.let { state.getPlaneStorage().require(it) }
+    require(moon.daysPerQuarter > 0) { "Days per quarter most be greater than 0!" }
 }

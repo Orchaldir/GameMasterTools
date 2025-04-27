@@ -29,14 +29,19 @@ val DELETE_TEXT: Reducer<DeleteText, State> = { state, action ->
 }
 
 val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
-    state.getTextStorage().require(action.text.id)
-    checkDate(state, action.text.date, "Text")
-    checkOrigin(state, action.text)
-    checkPublisher(state, action.text)
-    checkTextFormat(action.text.format)
-    checkTextContent(state, action.text.content)
+    val text = action.text
+    state.getTextStorage().require(text.id)
+    validateText(state, text)
 
-    noFollowUps(state.updateStorage(state.getTextStorage().update(action.text)))
+    noFollowUps(state.updateStorage(state.getTextStorage().update(text)))
+}
+
+fun validateText(state: State, text: Text) {
+    checkDate(state, text.date, "Text")
+    checkOrigin(state, text)
+    checkPublisher(state, text)
+    checkTextFormat(text.format)
+    checkTextContent(state, text.content)
 }
 
 private fun checkPublisher(state: State, text: Text) {

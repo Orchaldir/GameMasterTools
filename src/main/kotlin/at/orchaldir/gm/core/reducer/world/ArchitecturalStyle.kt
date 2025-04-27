@@ -32,6 +32,15 @@ val DELETE_ARCHITECTURAL_STYLE: Reducer<DeleteArchitecturalStyle, State> = { sta
 val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { state, action ->
     val style = action.style
     state.getArchitecturalStyleStorage().require(style.id)
+    validateArchitecturalStyle(state, style)
+
+    noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().update(style)))
+}
+
+fun validateArchitecturalStyle(
+    state: State,
+    style: ArchitecturalStyle,
+) {
     val calendar = state.getDefaultCalendar()
 
     checkDate(state, style.start, "Architectural Style's Start")
@@ -44,8 +53,6 @@ val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { sta
     }
 
     require(calendar.isAfterOptional(style.end, style.start)) { "Architectural style must end after it started!" }
-
-    noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().update(style)))
 }
 
 fun checkStartDate(state: State, style: ArchitecturalStyle, building: BuildingId, constructionDate: Date?) =

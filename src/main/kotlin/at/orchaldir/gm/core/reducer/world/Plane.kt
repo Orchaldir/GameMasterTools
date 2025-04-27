@@ -30,9 +30,13 @@ val UPDATE_PLANE: Reducer<UpdatePlane, State> = { state, action ->
     val plane = action.plane
 
     state.getPlaneStorage().require(plane.id)
-    checkPurpose(state, plane)
+    validatePlane(state, plane)
 
     noFollowUps(state.updateStorage(state.getPlaneStorage().update(plane)))
+}
+
+fun validatePlane(state: State, plane: Plane) {
+    checkPurpose(state, plane)
 }
 
 private fun checkPurpose(state: State, plane: Plane) {

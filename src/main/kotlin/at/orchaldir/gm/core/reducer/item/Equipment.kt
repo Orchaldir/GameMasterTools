@@ -27,7 +27,7 @@ val UPDATE_EQUIPMENT: Reducer<UpdateEquipment, State> = { state, action ->
     val equipment = action.equipment
     val oldEquipment = state.getEquipmentStorage().getOrThrow(equipment.id)
 
-    equipment.data.materials().forEach { state.getMaterialStorage().require(it) }
+    validateEquipment(state, equipment)
 
     if (equipment.data.javaClass != oldEquipment.data.javaClass) {
         require(
@@ -36,4 +36,11 @@ val UPDATE_EQUIPMENT: Reducer<UpdateEquipment, State> = { state, action ->
     }
 
     noFollowUps(state.updateStorage(state.getEquipmentStorage().update(equipment)))
+}
+
+fun validateEquipment(
+    state: State,
+    equipment: Equipment,
+) {
+    equipment.data.materials().forEach { state.getMaterialStorage().require(it) }
 }

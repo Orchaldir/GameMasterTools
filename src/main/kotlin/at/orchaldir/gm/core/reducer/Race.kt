@@ -42,11 +42,15 @@ val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
 val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
     val race = action.race
     state.getRaceStorage().require(race.id)
+    validateRace(state, race)
+
+    noFollowUps(state.updateStorage(state.getRaceStorage().update(race)))
+}
+
+fun validateRace(state: State, race: Race) {
     checkDate(state, race.startDate(), "Race")
     checkLifeStages(state, race.lifeStages)
     checkOrigin(state, race)
-
-    noFollowUps(state.updateStorage(state.getRaceStorage().update(race)))
 }
 
 fun checkLifeStages(state: State, lifeStages: LifeStages) {

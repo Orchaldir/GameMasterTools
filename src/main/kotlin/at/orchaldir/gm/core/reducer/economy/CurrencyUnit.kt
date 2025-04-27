@@ -4,7 +4,12 @@ import at.orchaldir.gm.core.action.CreateCurrencyUnit
 import at.orchaldir.gm.core.action.DeleteCurrencyUnit
 import at.orchaldir.gm.core.action.UpdateCurrencyUnit
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
+import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
+import at.orchaldir.gm.core.model.economy.money.HoledCoin
+import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -23,7 +28,15 @@ val DELETE_CURRENCY_UNIT: Reducer<DeleteCurrencyUnit, State> = { state, action -
 val UPDATE_CURRENCY_UNIT: Reducer<UpdateCurrencyUnit, State> = { state, action ->
     val unit = action.unit
     state.getCurrencyUnitStorage().require(unit.id)
-    state.getCurrencyStorage().require(unit.currency)
+    validateCurrencyUnit(state, unit)
 
     noFollowUps(state.updateStorage(state.getCurrencyUnitStorage().update(unit)))
+}
+
+fun validateCurrencyUnit(
+    state: State,
+    unit: CurrencyUnit,
+) {
+    state.getCurrencyStorage().require(unit.currency)
+    unit.format.getMaterials().forEach { state.getMaterialStorage().require(it) }
 }

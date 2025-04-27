@@ -25,7 +25,11 @@ val DELETE_PANTHEON: Reducer<DeletePantheon, State> = { state, action ->
 val UPDATE_PANTHEON: Reducer<UpdatePantheon, State> = { state, action ->
     val pantheon = action.pantheon
     state.getPantheonStorage().require(pantheon.id)
-    pantheon.gods.forEach { state.getGodStorage().require(it) }
+    validatePantheon(state, pantheon)
 
     noFollowUps(state.updateStorage(state.getPantheonStorage().update(pantheon)))
+}
+
+fun validatePantheon(state: State, pantheon: Pantheon) {
+    pantheon.gods.forEach { state.getGodStorage().require(it) }
 }

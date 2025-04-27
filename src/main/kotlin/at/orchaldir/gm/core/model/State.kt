@@ -68,6 +68,35 @@ import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.TOWN_TYPE
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.reducer.character.validateCharacter
+import at.orchaldir.gm.core.reducer.culture.validateCulture
+import at.orchaldir.gm.core.reducer.culture.validateFashion
+import at.orchaldir.gm.core.reducer.economy.validateBusiness
+import at.orchaldir.gm.core.reducer.economy.validateCurrency
+import at.orchaldir.gm.core.reducer.economy.validateCurrencyUnit
+import at.orchaldir.gm.core.reducer.economy.validateJob
+import at.orchaldir.gm.core.reducer.item.periodical.validateArticle
+import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodical
+import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodicalIssue
+import at.orchaldir.gm.core.reducer.item.validateEquipment
+import at.orchaldir.gm.core.reducer.item.validateText
+import at.orchaldir.gm.core.reducer.magic.validateSpell
+import at.orchaldir.gm.core.reducer.organization.validateOrganization
+import at.orchaldir.gm.core.reducer.religion.validateDomain
+import at.orchaldir.gm.core.reducer.religion.validateGod
+import at.orchaldir.gm.core.reducer.religion.validatePantheon
+import at.orchaldir.gm.core.reducer.time.validateCalendar
+import at.orchaldir.gm.core.reducer.validateFont
+import at.orchaldir.gm.core.reducer.validateHoliday
+import at.orchaldir.gm.core.reducer.validateLanguage
+import at.orchaldir.gm.core.reducer.validateRace
+import at.orchaldir.gm.core.reducer.validateRaceAppearance
+import at.orchaldir.gm.core.reducer.world.validateArchitecturalStyle
+import at.orchaldir.gm.core.reducer.world.validateMoon
+import at.orchaldir.gm.core.reducer.world.validateMountain
+import at.orchaldir.gm.core.reducer.world.validatePlane
+import at.orchaldir.gm.core.reducer.world.validateStreetTemplate
+import at.orchaldir.gm.core.reducer.world.validateTown
 import at.orchaldir.gm.core.saveData
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
@@ -232,6 +261,39 @@ data class State(
             path,
             loadData(path, TIME)
         )
+    }
+
+    fun validate() {
+        getArchitecturalStyleStorage().getAll().forEach { validateArchitecturalStyle(this, it) }
+        getArticleStorage().getAll().forEach { validateArticle(this, it) }
+        // TODO: building
+        getBusinessStorage().getAll().forEach { validateBusiness(this, it) }
+        getCalendarStorage().getAll().forEach { validateCalendar(this, it) }
+        getCharacterStorage().getAll().forEach { validateCharacter(this, it) }
+        getCultureStorage().getAll().forEach { validateCulture(this, it) }
+        getCurrencyStorage().getAll().forEach { validateCurrency(this, it) }
+        getCurrencyUnitStorage().getAll().forEach { validateCurrencyUnit(this, it) }
+        getDomainStorage().getAll().forEach { validateDomain(this, it) }
+        getEquipmentStorage().getAll().forEach { validateEquipment(this, it) }
+        getFashionStorage().getAll().forEach { validateFashion(this, it) }
+        getFontStorage().getAll().forEach { validateFont(this, it) }
+        getGodStorage().getAll().forEach { validateGod(this, it) }
+        getHolidayStorage().getAll().forEach { validateHoliday(this, it) }
+        getJobStorage().getAll().forEach { validateJob(this, it) }
+        getLanguageStorage().getAll().forEach { validateLanguage(this, it) }
+        getMoonStorage().getAll().forEach { validateMoon(this, it) }
+        getMountainStorage().getAll().forEach { validateMountain(this, it) }
+        getOrganizationStorage().getAll().forEach { validateOrganization(this, it) }
+        getPantheonStorage().getAll().forEach { validatePantheon(this, it) }
+        getPeriodicalStorage().getAll().forEach { validatePeriodical(this, it) }
+        getPeriodicalIssueStorage().getAll().forEach { validatePeriodicalIssue(this, it) }
+        getPlaneStorage().getAll().forEach { validatePlane(this, it) }
+        getRaceStorage().getAll().forEach { validateRace(this, it) }
+        getRaceAppearanceStorage().getAll().forEach { validateRaceAppearance(this, it) }
+        getSpellStorage().getAll().forEach { validateSpell(this, it) }
+        getStreetTemplateStorage().getAll().forEach { validateStreetTemplate(this, it) }
+        getTextStorage().getAll().forEach { validateText(this, it) }
+        getTownStorage().getAll().forEach { validateTown(this, it) }
     }
 
     fun save() {

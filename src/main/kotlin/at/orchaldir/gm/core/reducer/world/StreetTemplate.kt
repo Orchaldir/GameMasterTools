@@ -23,7 +23,17 @@ val DELETE_STREET_TEMPLATE: Reducer<DeleteStreetTemplate, State> = { state, acti
 }
 
 val UPDATE_STREET_TEMPLATE: Reducer<UpdateStreetTemplate, State> = { state, action ->
-    state.getStreetTemplateStorage().require(action.template.id)
+    val template = action.template
+    state.getStreetTemplateStorage().require(template.id)
 
-    noFollowUps(state.updateStorage(state.getStreetTemplateStorage().update(action.template)))
+    validateStreetTemplate(state, template)
+
+    noFollowUps(state.updateStorage(state.getStreetTemplateStorage().update(template)))
+}
+
+fun validateStreetTemplate(
+    state: State,
+    template: StreetTemplate,
+) {
+    template.materialCost.materials().forEach { state.getMaterialStorage().require(it) }
 }

@@ -30,9 +30,16 @@ val UPDATE_CURRENCY: Reducer<UpdateCurrency, State> = { state, action ->
     val currency = action.currency
     state.getCurrencyStorage().require(currency.id)
 
+    validateCurrency(state, currency)
+
+    noFollowUps(state.updateStorage(state.getCurrencyStorage().update(currency)))
+}
+
+fun validateCurrency(
+    state: State,
+    currency: Currency,
+) {
     require(state.getDefaultCalendar().isAfterOptional(currency.endDate, currency.startDate)) {
         "Start date is after end date!"
     }
-
-    noFollowUps(state.updateStorage(state.getCurrencyStorage().update(currency)))
 }
