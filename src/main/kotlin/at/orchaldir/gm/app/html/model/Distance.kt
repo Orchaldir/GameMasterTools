@@ -55,3 +55,9 @@ fun parseDistance(
     param: String,
     default: Int = 0,
 ) = fromMicrometers(parseInt(parameters, param, default))
+
+fun parseDistance(
+    parameters: Parameters,
+    param: String,
+    default: Distance,
+) = fromMicrometers(parseInt(parameters, param, default.toMicrometers()))

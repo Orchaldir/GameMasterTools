@@ -12,9 +12,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_UNIT_TYPE
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.selector.economy.canDeleteCurrencyUnit
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
+import at.orchaldir.gm.prototypes.visualization.currency.CURRENCY_CONFIG
+import at.orchaldir.gm.visualization.currency.visualizeCurrencyUnit
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -36,6 +39,9 @@ class CurrencyUnitRoutes {
         val sort: SortCurrencyUnit = SortCurrencyUnit.Name,
         val parent: CurrencyUnitRoutes = CurrencyUnitRoutes(),
     )
+
+    @Resource("gallery")
+    class Gallery(val parent: CurrencyUnitRoutes = CurrencyUnitRoutes())
 
     @Resource("details")
     class Details(val id: CurrencyUnitId, val parent: CurrencyUnitRoutes = CurrencyUnitRoutes())
@@ -63,6 +69,13 @@ fun Application.configureCurrencyUnitRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllCurrencies(call, STORE.getState(), all.sort)
+            }
+        }
+        get<CurrencyUnitRoutes.Gallery> {
+            logger.info { "Show gallery" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showGallery(call, STORE.getState())
             }
         }
         get<CurrencyUnitRoutes.Details> { details ->
@@ -113,7 +126,7 @@ fun Application.configureCurrencyUnitRouting() {
             logger.info { "Preview unit ${preview.id.value}" }
 
             val state = STORE.getState()
-            val unit = parseCurrencyUnit(call.receiveParameters(), state, preview.id)
+            val unit = parseCurrencyUnit(call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCurrencyUnitEditor(call, state, unit)
@@ -122,7 +135,7 @@ fun Application.configureCurrencyUnitRouting() {
         post<CurrencyUnitRoutes.Update> { update ->
             logger.info { "Update unit ${update.id.value}" }
 
-            val unit = parseCurrencyUnit(call.receiveParameters(), STORE.getState(), update.id)
+            val unit = parseCurrencyUnit(call.receiveParameters(), update.id)
 
             STORE.dispatch(UpdateCurrencyUnit(unit))
 
@@ -142,8 +155,10 @@ private fun HTML.showAllCurrencies(
     val createLink = call.application.href(CurrencyUnitRoutes.New())
     val sortNameLink = call.application.href(CurrencyUnitRoutes.All())
     val sortValueLink = call.application.href(CurrencyUnitRoutes.All(SortCurrencyUnit.Value))
+    val galleryLink = call.application.href(CurrencyUnitRoutes.Gallery())
 
     simpleHtml("Currency Units") {
+        action(galleryLink, "Gallery")
         field("Count", units.size)
         field("Sort") {
             link(sortNameLink, "Name")
@@ -155,17 +170,41 @@ private fun HTML.showAllCurrencies(
                 th { +"Name" }
                 th { +"Currency" }
                 th { +"Value" }
+                th { +"Format" }
+                th { +"Materials" }
             }
             units.forEach { unit ->
                 tr {
                     td { link(call, state, unit) }
                     td { link(call, state, unit.currency) }
                     tdSkipZero(unit.value)
+                    tdEnum(unit.format.getType())
+                    tdInlineLinks(call, state, unit.format.getMaterials())
                 }
             }
         }
         action(createLink, "Add")
         back("/")
+    }
+}
+
+private fun HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+) {
+    val units = state.sortCurrencyUnits()
+        .filter { it.format != UndefinedCurrencyFormat }
+    val maxSize = units
+        .map { CURRENCY_CONFIG.calculatePaddedSize(it.format) }
+        .maxBy { it.height }
+    val backLink = call.application.href(CurrencyUnitRoutes.All())
+
+    simpleHtml("Currency Units") {
+        showGallery(call, state, units) { unit ->
+            visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit, maxSize)
+        }
+
+        back(backLink)
     }
 }
 
@@ -179,6 +218,7 @@ private fun HTML.showCurrencyUnitDetails(
     val editLink = call.application.href(CurrencyUnitRoutes.Edit(unit.id))
 
     simpleHtmlDetails(unit) {
+        visualizeUnit(state, unit)
         showCurrencyUnit(call, state, unit)
 
         action(editLink, "Edit")
@@ -199,8 +239,15 @@ private fun HTML.showCurrencyUnitEditor(
     val updateLink = call.application.href(CurrencyUnitRoutes.Update(unit.id))
 
     simpleHtmlEditor(unit) {
+        visualizeUnit(state, unit)
         formWithPreview(previewLink, updateLink, backLink) {
             editCurrencyUnit(state, unit)
         }
     }
+}
+
+private fun HtmlBlockTag.visualizeUnit(state: State, unit: CurrencyUnit) {
+    val frontSvg = visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit)
+
+    svg(frontSvg, 20)
 }

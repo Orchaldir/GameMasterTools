@@ -36,9 +36,7 @@ fun HtmlBlockTag.showTextContent(
         when (content) {
             is AbstractText -> {
                 field("Pages", content.pages)
-                showList("Spell", content.spells) { spell ->
-                    link(call, state, spell)
-                }
+                fieldIdList(call, state, content.spells)
             }
 
             UndefinedTextContent -> doNothing()

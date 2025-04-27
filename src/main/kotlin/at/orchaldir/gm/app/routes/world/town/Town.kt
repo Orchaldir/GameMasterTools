@@ -155,7 +155,7 @@ private fun HTML.showTownDetails(
             showCreatorCount(call, state, buildings, "Builder")
             showBuildingPurposeCount(buildings)
             showDetails("Buildings") {
-                showList("Buildings", state.sortBuildings(buildings)) { (building, name) ->
+                showList(state.sortBuildings(buildings)) { (building, name) ->
                     link(call, building.id, name)
                 }
             }
@@ -164,10 +164,10 @@ private fun HTML.showTownDetails(
             h2 { +"Characters" }
             val residents = state.getResident(town.id)
             val workers = state.getWorkingIn(town.id) - residents
-            showList("Residents", state.sortCharacters(residents)) { (character, name) ->
+            fieldList("Residents", state.sortCharacters(residents)) { (character, name) ->
                 link(call, character.id, name)
             }
-            showList("Workers, but not Residents", state.sortCharacters(workers)) { (character, name) ->
+            fieldList("Workers, but not Residents", state.sortCharacters(workers)) { (character, name) ->
                 link(call, character.id, name)
             }
             val characters = residents.toSet() + workers.toSet()
@@ -179,15 +179,9 @@ private fun HTML.showTownDetails(
             showPersonalityCountForCharacters(call, state, characters)
             showRaceCount(call, state, characters)
             h2 { +"Terrain" }
-            showList("Mountains", state.getMountains(town.id).sortedBy { it.name.text }) { mountain ->
-                link(call, mountain)
-            }
-            showList("Rivers", state.getRivers(town.id).sortedBy { it.name.text }) { river ->
-                link(call, river)
-            }
-            showList("Streets", state.getStreets(town.id).sortedBy { it.name(state) }) { street ->
-                link(call, state, street)
-            }
+            fieldList(call, state, state.getMountains(town.id).sortedBy { it.name.text })
+            fieldList(call, state, state.getRivers(town.id).sortedBy { it.name.text })
+            fieldList(call, state, state.getStreets(town.id).sortedBy { it.name(state) })
             showStreetTemplateCount(call, state, town.id)
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")

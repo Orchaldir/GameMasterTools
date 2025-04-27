@@ -8,19 +8,19 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
     fun moveTo(point: Point2d) = moveTo(point.x, point.y)
 
     fun moveTo(x: Float, y: Float): PathBuilder {
-        val part = String.format(LOCALE, "M %.3f %.3f", x, y)
+        val part = String.format(LOCALE, "M %.4f %.4f", x, y)
         return add(part)
     }
 
     fun lineTo(point: Point2d) = lineTo(point.x, point.y)
 
     fun lineTo(x: Float, y: Float): PathBuilder {
-        val part = String.format(LOCALE, "L %.3f %.3f", x, y)
+        val part = String.format(LOCALE, "L %.4f %.4f", x, y)
         return add(part)
     }
 
     fun curveTo(control: Point2d, end: Point2d): PathBuilder {
-        val part = String.format(LOCALE, "Q %.3f %.3f %.3f %.3f", control.x, control.y, end.x, end.y)
+        val part = String.format(LOCALE, "Q %.4f %.4f %.4f %.4f", control.x, control.y, end.x, end.y)
         return add(part)
     }
 
@@ -35,7 +35,7 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
     ): PathBuilder {
         val part = String.format(
             LOCALE,
-            "A %.3f %.3f %.3f %d %d %.3f %.3f",
+            "A %.4f %.4f %.4f %d %d %.4f %.4f",
             radiusX,
             radiusY,
             xAxisRotation,

@@ -47,17 +47,13 @@ fun HtmlBlockTag.showCalendar(
 
     h2 { +"Usage" }
 
-    showList("Cultures", cultures) { culture ->
-        link(call, culture)
-    }
-    showList("Holidays", holidays) { holiday ->
+    fieldList(call, state, cultures)
+    fieldList("Holidays", holidays) { holiday ->
         link(call, holiday)
         +": "
         +holiday.relativeDate.display(calendar)
     }
-    showList("Periodicals", periodicals) { periodical ->
-        link(call, state, periodical)
-    }
+    fieldList(call, state, periodicals)
 
     showDateFormat(calendar.defaultFormat)
 }
@@ -79,9 +75,7 @@ private fun HtmlBlockTag.showOrigin(
             field("Origin", "Original")
         }
     }
-    showList("Child Calendars", children) { child ->
-        link(call, child)
-    }
+    fieldList(call, state, "Child Calendars", children)
 }
 
 private fun HtmlBlockTag.showDays(
@@ -89,7 +83,7 @@ private fun HtmlBlockTag.showDays(
 ) {
     field("Days", calendar.days.getType())
     when (calendar.days) {
-        is Weekdays -> showList("Weekdays", calendar.days.weekDays) { day ->
+        is Weekdays -> fieldList("Weekdays", calendar.days.weekDays) { day ->
             +day.name
         }
 
@@ -99,12 +93,12 @@ private fun HtmlBlockTag.showDays(
 
 private fun HtmlBlockTag.showMonths(calendar: Calendar) {
     when (val months = calendar.months) {
-        is ComplexMonths -> showList("Months", months.months) { month ->
+        is ComplexMonths -> fieldList("Months", months.months) { month ->
             field(month.name, "${month.days} days")
         }
 
         is SimpleMonths -> {
-            showList("Months", months.months) { month ->
+            fieldList("Months", months.months) { month ->
                 +month
             }
             field("Days per Month", months.daysPerMonth)

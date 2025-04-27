@@ -134,16 +134,14 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
             }
         }
 
-        showList("By Group", state.getPersonalityTraitGroups()) { group ->
+        fieldList("By Group", state.getPersonalityTraitGroups()) { group ->
             state.getPersonalityTraits(group).forEach { trait ->
                 +" "
                 link(call, state, trait)
             }
         }
 
-        showList("Without Group", personalityTraits.filter { it.group == null }) { personalityTrait ->
-            link(call, personalityTrait)
-        }
+        fieldList(call, state, "Without Group", personalityTraits.filter { it.group == null })
 
         action(createLink, "Add")
         back("/")
@@ -169,17 +167,13 @@ private fun HTML.showPersonalityTraitDetails(
                 .filter { it != trait }
                 .sortedBy { it.name.text }
 
-            showList("Conflicting", traits) { t ->
-                link(call, t)
-            }
+            fieldList(call, state, "Conflicting", traits)
         }
 
-        showList("Characters", characters) { (character, name) ->
+        fieldList("Characters", characters) { (character, name) ->
             link(call, character.id, name)
         }
-        showList("Gods", gods) { god ->
-            link(call, state, god)
-        }
+        fieldList(call, state, gods)
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")

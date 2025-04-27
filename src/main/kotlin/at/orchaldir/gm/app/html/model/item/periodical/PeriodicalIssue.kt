@@ -3,10 +3,13 @@ package at.orchaldir.gm.app.html.model.item.periodical
 import at.orchaldir.gm.app.CONTENT
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.PERIODICAL
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.fieldIdList
+import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.model.field
 import at.orchaldir.gm.app.html.model.parseDate
 import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.selectElements
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
@@ -28,9 +31,7 @@ fun HtmlBlockTag.showPeriodicalIssue(
     val periodical = state.getPeriodicalStorage().getOrThrow(issue.periodical)
     fieldLink("Periodical", call, state, issue.periodical)
     field(call, state, periodical.calendar, "Publication Date", issue.date)
-    showList("Articles", issue.articles) { article ->
-        link(call, state, article)
-    }
+    fieldIdList(call, state, issue.articles)
 }
 
 // edit

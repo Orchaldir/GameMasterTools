@@ -179,9 +179,7 @@ private fun HTML.showDomainDetails(
     simpleHtmlDetails(domain) {
         showDomain(call, state, domain)
 
-        showList("Gods", state.getGodsWith(domain.id)) {
-            link(call, state, it)
-        }
+        fieldList(call, state, state.getGodsWith(domain.id))
 
         action(editLink, "Edit")
 

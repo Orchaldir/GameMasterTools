@@ -1,18 +1,31 @@
 package at.orchaldir.gm.utils.math
 
-fun subdivideLine(line: Line2d, iterations: Int) = Line2d(subdivideLine(line.points, iterations))
+// line
 
-fun subdivideLine(points: List<Point2d>, iterations: Int): List<Point2d> {
+fun subdivideLine(
+    line: Line2d,
+    iterations: Int,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = ::subdivideIntoThirds,
+) = Line2d(subdivideLine(line.points, iterations, updateSegment))
+
+fun subdivideLine(
+    points: List<Point2d>,
+    iterations: Int,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = ::subdivideIntoThirds,
+): List<Point2d> {
     var result = points
 
     repeat(iterations) {
-        result = subdivideLine(result)
+        result = subdivideLine(result, updateSegment)
     }
 
     return result
 }
 
-fun subdivideLine(points: List<Point2d>): List<Point2d> {
+fun subdivideLine(
+    points: List<Point2d>,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit,
+): List<Point2d> {
     if (points.size < 3) {
         return points
     }
@@ -23,12 +36,8 @@ fun subdivideLine(points: List<Point2d>): List<Point2d> {
 
     while (iter.hasNext()) {
         val second = iter.next()
-        val diff = (second - first) / 3.0f
-        val new0 = first + diff
-        val new1 = new0 + diff
 
-        result.add(new0)
-        result.add(new1)
+        updateSegment(first, second, result)
 
         first = second
     }
@@ -36,4 +45,69 @@ fun subdivideLine(points: List<Point2d>): List<Point2d> {
     result.add(first)
 
     return result
+}
+
+// polygon
+
+fun subdividePolygon(
+    polygon: Polygon2d,
+    iterations: Int,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = ::subdivideIntoThirds,
+) = Polygon2d(subdividePolygon(polygon.corners, iterations, updateSegment))
+
+fun subdividePolygon(
+    points: List<Point2d>,
+    iterations: Int,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = ::subdivideIntoThirds,
+): List<Point2d> {
+    var result = points
+
+    repeat(iterations) {
+        result = subdividePolygon(result, updateSegment)
+    }
+
+    return result
+}
+
+fun subdividePolygon(
+    points: List<Point2d>,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit,
+): List<Point2d> {
+    if (points.size < 3) {
+        return points
+    }
+
+    val iter = points.iterator()
+    var first = iter.next()
+    val result = mutableListOf<Point2d>()
+
+    while (iter.hasNext()) {
+        val second = iter.next()
+
+        updateSegment(first, second, result)
+
+        first = second
+    }
+
+    val second = points.first()
+
+    updateSegment(first, second, result)
+
+    return result
+}
+
+// segments
+
+fun subdivideIntoThirds(first: Point2d, second: Point2d, result: MutableList<Point2d>) {
+    val diff = (second - first) / 3.0f
+    val new0 = first + diff
+    val new1 = new0 + diff
+
+    result.add(new0)
+    result.add(new1)
+}
+
+fun halfSegment(first: Point2d, second: Point2d, result: MutableList<Point2d>) {
+    result.add((first + second) / 2.0f)
+    result.add(second)
 }

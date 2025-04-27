@@ -55,7 +55,7 @@ fun HtmlBlockTag.showDangleEarring(
 ) {
     showOrnament(call, state, style.top, "Top Ornament")
     showOrnament(call, state, style.bottom, "Bottom Ornament")
-    showList("Sizes", style.sizes) {
+    fieldList("Sizes", style.sizes) {
         +it.name
     }
     showColorItemPart(call, state, style.wire, "Wire")

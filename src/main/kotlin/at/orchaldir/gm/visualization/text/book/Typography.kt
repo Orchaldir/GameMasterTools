@@ -186,14 +186,14 @@ private fun convert(
     is FontWithBorder -> RenderStringOptions(
         FillAndBorder(option.fill.toRender(), LineOptions(option.border.toRender(), option.thickness)),
         option.size.toMeters(),
-        state.fonts.getOrThrow(option.font),
+        state.state.getFontStorage().getOrThrow(option.font),
         verticalAlignment,
     )
 
     is SolidFont -> RenderStringOptions(
         option.color.toRender(),
         option.size.toMeters(),
-        state.fonts.getOrThrow(option.font),
+        state.state.getFontStorage().getOrThrow(option.font),
         verticalAlignment
     )
 }

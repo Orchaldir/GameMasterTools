@@ -23,6 +23,7 @@ data class CurrencyUnit(
     val name: Name = Name.init("Currency Unit ${id.value}"),
     val currency: CurrencyId = CurrencyId(0),
     val value: Int = 1,
+    val format: CurrencyFormat = UndefinedCurrencyFormat,
 ) : ElementWithSimpleName<CurrencyUnitId> {
 
     init {

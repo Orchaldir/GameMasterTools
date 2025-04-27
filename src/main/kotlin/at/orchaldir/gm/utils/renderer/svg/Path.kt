@@ -102,22 +102,24 @@ fun convertRingToPath(
         .build()
 }
 
-fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
-    val path = PathBuilder()
-    var previous = polygon.corners[0]
+fun convertRoundedPolygonToPath(polygon: Polygon2d) =
+    convertRoundedPolygonToPath(polygon.corners, PathBuilder())
+
+fun convertRoundedPolygonToPath(corners: List<Point2d>, builder: PathBuilder): String {
+    var previous = corners[0]
     var isStart = true
     var isSharp = false
     var firstMiddle: Point2d? = null
 
-    for (i in 0..<polygon.corners.size) {
-        val index = (i + 1) % polygon.corners.size
-        val corner = polygon.corners[index]
+    for (i in 0..<corners.size) {
+        val index = (i + 1) % corners.size
+        val corner = corners[index]
 
         if (previous.calculateDistance(corner).toMeters() == 0.0f) {
             isSharp = true
 
             if (!isStart) {
-                path.lineTo(previous)
+                builder.lineTo(previous)
             }
 
             continue
@@ -129,45 +131,94 @@ fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
 
             if (isSharp) {
                 isSharp = false
-                path.moveTo(previous)
-                path.lineTo(middle)
+                builder.moveTo(previous)
+                builder.lineTo(middle)
             } else {
                 firstMiddle = middle
-                path.moveTo(middle)
+                builder.moveTo(middle)
             }
         } else if (isSharp) {
             isSharp = false
             val middle = (previous + corner) / 2.0f
-            path.lineTo(middle)
+            builder.lineTo(middle)
         } else {
             val middle = (previous + corner) / 2.0f
-            path.curveTo(previous, middle)
+            builder.curveTo(previous, middle)
         }
 
         previous = corner
     }
 
     if (firstMiddle != null) {
-        path.curveTo(previous, firstMiddle)
+        builder.curveTo(previous, firstMiddle)
     } else {
-        path.close()
+        builder.close()
     }
 
-    return path.build()
+    return builder.build()
 }
 
 fun convertPolygonToPath(polygon: Polygon2d) = convertCornersToPath(polygon.corners)
     .close()
     .build()
 
-private fun convertCornersToPath(corners: List<Point2d>): PathBuilder {
-    val path = PathBuilder()
-        .moveTo(corners[0])
+fun convertPolygonWithHoleToPath(polygon: Polygon2d, hole: Polygon2d): String {
+    val builder = PathBuilder()
+
+    convertCornersToPath(polygon.corners, builder)
+
+    builder.close()
+
+    convertCornersToPath(hole.corners.reversed(), builder)
+
+    return builder.close().build()
+}
+
+fun convertRoundedPolygonWithHoleToPath(polygon: Polygon2d, hole: Polygon2d): String {
+    val builder = PathBuilder()
+
+    convertRoundedPolygonToPath(polygon.corners, builder)
+
+    builder.close()
+
+    convertCornersToPath(hole.corners.reversed(), builder)
+
+    return builder.close().build()
+}
+
+fun convertPolygonWithRoundedHoleToPath(polygon: Polygon2d, hole: Polygon2d): String {
+    val builder = PathBuilder()
+
+    convertCornersToPath(polygon.corners, builder)
+
+    builder.close()
+
+    convertRoundedPolygonToPath(hole.corners.reversed(), builder)
+
+    return builder.close().build()
+}
+
+fun convertRoundedPolygonWithRoundedHoleToPath(polygon: Polygon2d, hole: Polygon2d): String {
+    val builder = PathBuilder()
+
+    convertRoundedPolygonToPath(polygon.corners, builder)
+
+    builder.close()
+
+    convertRoundedPolygonToPath(hole.corners.reversed(), builder)
+
+    return builder.close().build()
+}
+
+private fun convertCornersToPath(corners: List<Point2d>) = convertCornersToPath(corners, PathBuilder())
+
+private fun convertCornersToPath(corners: List<Point2d>, builder: PathBuilder): PathBuilder {
+    builder.moveTo(corners[0])
 
     corners.stream()
         .skip(1)
-        .forEach { path.lineTo(it) }
+        .forEach { builder.lineTo(it) }
 
-    return path
+    return builder
 }
 

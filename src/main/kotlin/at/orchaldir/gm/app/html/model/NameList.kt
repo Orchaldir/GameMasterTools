@@ -1,8 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.NAMES
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.Name
@@ -21,12 +20,10 @@ fun HtmlBlockTag.showNameList(
     state: State,
     nameList: NameList,
 ) {
-    showList("Names", nameList.names) { name ->
+    fieldList("Names", nameList.names) { name ->
         +name.text
     }
-    showList("Cultures", state.getCultures(nameList.id)) { culture ->
-        link(call, culture)
-    }
+    fieldList(call, state, state.getCultures(nameList.id))
 }
 
 // edit

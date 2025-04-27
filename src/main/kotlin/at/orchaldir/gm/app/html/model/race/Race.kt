@@ -49,7 +49,7 @@ private fun HtmlBlockTag.showLifeStages(
 
         is DefaultAging -> {
             showAppearance(call, state, lifeStages.appearance)
-            showList("Max Ages", lifeStages.maxAges.withIndex().toList()) { indexed ->
+            fieldList("Max Ages", lifeStages.maxAges.withIndex().toList()) { indexed ->
                 val maxAge = indexed.value
                 val stage = DefaultLifeStages.entries[indexed.index].name
                 field(stage, "$maxAge years")

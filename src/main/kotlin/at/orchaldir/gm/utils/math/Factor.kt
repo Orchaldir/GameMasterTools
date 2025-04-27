@@ -49,6 +49,8 @@ value class Factor private constructor(private val permyriad: Int) {
     operator fun div(other: Float) = Factor((permyriad / other).toInt())
     operator fun div(factor: Int) = Factor(permyriad / factor)
 
+    operator fun compareTo(other: Factor): Int = permyriad.compareTo(other.permyriad)
+
     fun interpolate(other: Factor, between: Factor) = this * (FULL - between) + other * between
 
 }

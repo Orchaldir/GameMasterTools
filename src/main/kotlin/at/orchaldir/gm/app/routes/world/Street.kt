@@ -138,7 +138,7 @@ private fun HTML.showStreetDetails(
 
     simpleHtml("Street: ${street.name(state)}") {
         fieldReferenceByName(call, state, street.name)
-        showList("Towns", state.getTowns(street.id)) { town ->
+        fieldList("Towns", state.getTowns(street.id)) { town ->
             val buildings = state.sortBuildings(
                 state.getBuildings(town.id)
                     .filter { it.address.contains(street.id) })

@@ -45,9 +45,7 @@ fun HtmlBlockTag.showCulture(
 
     h2 { +"Usage" }
 
-    showList("Characters", state.getCharacters(culture.id)) { character ->
-        link(call, state, character)
-    }
+    fieldList(call, state, state.getCharacters(culture.id))
 }
 
 private fun HtmlBlockTag.showNamingConvention(

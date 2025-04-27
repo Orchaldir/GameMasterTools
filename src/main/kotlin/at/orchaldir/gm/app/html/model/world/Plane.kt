@@ -1,12 +1,11 @@
 package at.orchaldir.gm.app.html.model.world
 
 import at.orchaldir.gm.app.TILE
-import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.selectOptionalText
-import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
@@ -32,21 +31,10 @@ fun HtmlBlockTag.showPlane(
     showPlanePurpose(call, state, plane.purpose)
     optionalField("Current Alignment", state.getPlanarAlignment(plane, state.time.currentDate))
 
-    showList("Demiplanes", state.getDemiplanes(plane.id)) { demiplane ->
-        link(call, demiplane)
-    }
-
-    showList("Reflection", state.getReflections(plane.id)) { reflection ->
-        link(call, reflection)
-    }
-
-    showList("Associated Moons", state.getMoons(plane.id)) { moon ->
-        link(call, moon)
-    }
-
-    showList("Associated Languages", state.getPlanarLanguages(plane.id)) { language ->
-        link(call, language)
-    }
+    fieldList(call, state, "Demiplanes", state.getDemiplanes(plane.id))
+    fieldList(call, state, "Reflection", state.getReflections(plane.id))
+    fieldList(call, state, "Associated Moons", state.getMoons(plane.id))
+    fieldList(call, state, "Associated Languages", state.getPlanarLanguages(plane.id))
 }
 
 // edit

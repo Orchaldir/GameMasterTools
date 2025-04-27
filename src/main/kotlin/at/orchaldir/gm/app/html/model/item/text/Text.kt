@@ -31,7 +31,7 @@ fun HtmlBlockTag.showText(
     showTextFormat(call, state, text.format)
     showTextContent(call, state, text.content)
 
-    showList("Translations", state.getTranslationsOf(text.id)) { text ->
+    fieldList("Translations", state.getTranslationsOf(text.id)) { text ->
         link(call, text.id, text.getNameWithDate(state))
     }
 }
