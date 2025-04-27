@@ -23,6 +23,7 @@ value class JobId(val value: Int) : Id<JobId> {
 data class Job(
     val id: JobId,
     val name: Name = Name.init("Job ${id.value}"),
+    val income: Income = UndefinedIncome,
     val spells: SomeOf<SpellId> = SomeOf(),
 ) : ElementWithSimpleName<JobId> {
 
