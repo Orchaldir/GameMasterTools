@@ -289,7 +289,7 @@ data class State(
         getPeriodicalIssueStorage().getAll().forEach { validatePeriodicalIssue(this, it) }
         getPlaneStorage().getAll().forEach { validatePlane(this, it) }
         getRaceStorage().getAll().forEach { validateRace(this, it) }
-        getRaceAppearanceStorage().getAll().forEach { validateRaceAppearance(this, it) }
+        getRaceAppearanceStorage().getAll().forEach { validateRaceAppearance(it) }
         getSpellStorage().getAll().forEach { validateSpell(this, it) }
         getStreetTemplateStorage().getAll().forEach { validateStreetTemplate(this, it) }
         getTextStorage().getAll().forEach { validateText(this, it) }
