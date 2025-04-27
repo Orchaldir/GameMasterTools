@@ -28,6 +28,8 @@ enum class Shape {
         Octagon -> 8
         Dodecagonal -> 12
     }
+
+    fun hasCornerAtTop() = !(this == Square || this == RoundedSquare)
 }
 
 fun calculateIncircle(radius: Distance, sides: Int): Distance {

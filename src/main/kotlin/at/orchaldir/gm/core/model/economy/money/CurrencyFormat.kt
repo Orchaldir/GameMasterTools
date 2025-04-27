@@ -120,7 +120,9 @@ private fun checkRadiusFactor(factor: Factor, label: String) {
 private fun calculateInnerRadius(radius: Distance, outer: Shape, inner: Shape): Distance {
     val outerSides = outer.getSides()
 
-    if (outer == Shape.Circle || outerSides == inner.getSides()) {
+    if (outer == Shape.Circle ||
+        (outerSides == inner.getSides() && outer.hasCornerAtTop() == inner.hasCornerAtTop())
+    ) {
         return radius
     }
 
