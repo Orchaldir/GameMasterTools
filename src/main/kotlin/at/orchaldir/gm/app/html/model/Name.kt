@@ -141,6 +141,8 @@ private fun FORM.internalSelect(
 
 // parse
 
+fun parseNoTEmptyString(parameters: Parameters, param: String) = NotEmptyString.init(parameters.getOrFail(param))
+
 fun parseName(parameters: Parameters, param: String = NAME) = Name.init(parameters.getOrFail(param))
 
 fun parseName(parameters: Parameters, param: String, default: String) = Name.init(parameters[param] ?: default)

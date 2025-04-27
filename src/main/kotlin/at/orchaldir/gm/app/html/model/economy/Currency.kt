@@ -1,12 +1,22 @@
 package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.DENOMINATION
 import at.orchaldir.gm.app.END
+import at.orchaldir.gm.app.MAIN
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.START
+import at.orchaldir.gm.app.html.editList
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.parseList
+import at.orchaldir.gm.app.html.selectInt
+import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -26,9 +36,26 @@ fun HtmlBlockTag.showCurrency(
     state: State,
     currency: Currency,
 ) {
+    showDenominations(currency)
     optionalField(call, state, "Start", currency.startDate)
     optionalField(call, state, "End", currency.endDate)
 
+    showUnits(state, currency, call)
+}
+
+private fun HtmlBlockTag.showDenominations(currency: Currency) {
+    showDenomination(currency.denomination)
+    fieldList("Subdenominations", currency.subDenominations) { (denomination, threshold) ->
+        showDenomination(denomination)
+        field("Threshold", threshold.toString())
+    }
+}
+
+private fun HtmlBlockTag.showUnits(
+    state: State,
+    currency: Currency,
+    call: ApplicationCall,
+) {
     val units = state.sortCurrencyUnits(
         state.getCurrencyUnits(currency.id),
         SortCurrencyUnit.Value,
@@ -53,6 +80,27 @@ fun FORM.editCurrency(
     state: State,
     currency: Currency,
 ) {
+    editDenomination(currency.denomination, DENOMINATION)
+    editList(
+        "Subdenominations",
+        DENOMINATION,
+        currency.subDenominations,
+        0,
+        3,
+        1,
+    ) { index, param, (denomination, threshold) ->
+        editDenomination(denomination, param)
+        selectInt(
+            "Threshold",
+            threshold,
+            1,
+            100000,
+            1,
+            combine(param, NUMBER),
+            true
+        )
+    }
+
     selectName(currency.name)
     selectOptionalDate(state, "Start", currency.startDate, combine(START, DATE))
     selectOptionalDate(state, "End", currency.endDate, combine(END, DATE))
@@ -64,11 +112,20 @@ fun parseCurrencyId(parameters: Parameters, param: String) = parseOptionalCurren
 fun parseOptionalCurrencyId(parameters: Parameters, param: String) =
     parseOptionalInt(parameters, param)?.let { CurrencyId(it) }
 
-fun parseCurrency(parameters: Parameters, state: State, id: CurrencyId): Currency = Currency(
-    id,
-    parseName(parameters),
-    Denomination.init("gp"),
-    emptyList(),
-    parseOptionalDate(parameters, state, combine(START, DATE)),
-    parseOptionalDate(parameters, state, combine(END, DATE)),
-)
+fun parseCurrency(parameters: Parameters, state: State, id: CurrencyId): Currency {
+    val subDenominations = parseList(parameters, DENOMINATION, 0) { param ->
+        Pair(
+            parseDenomination(parameters, param),
+            parseInt(parameters, combine(param, NUMBER))
+        )
+    }
+
+    return Currency(
+        id,
+        parseName(parameters),
+        parseDenomination(parameters, DENOMINATION),
+        subDenominations,
+        parseOptionalDate(parameters, state, combine(START, DATE)),
+        parseOptionalDate(parameters, state, combine(END, DATE)),
+    )
+}
