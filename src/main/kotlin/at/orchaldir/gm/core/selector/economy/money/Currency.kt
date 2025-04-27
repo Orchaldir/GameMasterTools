@@ -32,5 +32,9 @@ private fun Currency.display(denomination: Denomination, price: Int, threshold: 
     val times = price / threshold
     val remains = price % threshold
 
-    return denomination.display(times) + " " + display(remains)
+    return if (remains > 0) {
+        denomination.display(times) + " " + display(remains)
+    } else {
+        denomination.display(times)
+    }
 }
