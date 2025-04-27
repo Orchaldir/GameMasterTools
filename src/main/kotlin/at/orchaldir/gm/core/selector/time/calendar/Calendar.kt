@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.time.calendar.OriginalCalendar
 import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
+import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.utils.doNothing
 import kotlin.math.max
 
@@ -26,7 +27,7 @@ fun State.getChildren(calendar: CalendarId) = getCalendarStorage().getAll().filt
     }
 }
 
-fun State.getDefaultCalendar() = getCalendarStorage().getOrThrow(time.defaultCalendar)
+fun State.getDefaultCalendar() = getCalendarStorage().getOrThrow(getDefaultCalendarId())
 
 fun State.getPossibleParents(calendar: CalendarId) = getCalendarStorage().getAll().filter { it.id != calendar }
 

@@ -27,6 +27,7 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getEvents
 import at.orchaldir.gm.core.selector.sort
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -53,6 +54,7 @@ fun HtmlBlockTag.showEvents(
     calendar: Calendar,
 ) {
     val events = unsortedEvents.sort(calendar)
+    val currentDate = state.getCurrentDate()
 
     table {
         tr {
@@ -64,7 +66,7 @@ fun HtmlBlockTag.showEvents(
                 td {
                     val date = event.date
 
-                    if (date is Day && date == state.time.currentDate) {
+                    if (date is Day && date == currentDate) {
                         link(call, calendar.id, date, "Today")
                     } else {
                         link(call, calendar, date)

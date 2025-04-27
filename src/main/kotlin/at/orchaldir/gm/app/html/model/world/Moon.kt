@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -26,8 +27,9 @@ fun HtmlBlockTag.showMoon(
     state: State,
     moon: Moon,
 ) {
-    val nextNewMoon = moon.getNextNewMoon(state.time.currentDate)
-    val nextFullMoon = moon.getNextFullMoon(state.time.currentDate)
+    val currentDate = state.getCurrentDate()
+    val nextNewMoon = moon.getNextNewMoon(currentDate)
+    val nextFullMoon = moon.getNextFullMoon(currentDate)
 
     optionalField("Title", moon.title)
     field("Cycle", moon.getCycle().toString() + " days")

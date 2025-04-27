@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.world.plane.PlanarAlignment.Coterminous
 import at.orchaldir.gm.core.selector.getEvents
 import at.orchaldir.gm.core.selector.getForHolidays
 import at.orchaldir.gm.core.selector.time.date.*
+import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.core.selector.world.getPlanarAlignments
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv
@@ -72,7 +73,7 @@ fun HTML.showDate(
         if (date !is Day) {
             field(call, "Start", calendar, calendar.getStartDay(date))
             field(call, "End", calendar, calendar.getEndDay(date))
-        } else if (calendarId != state.time.defaultCalendar) {
+        } else if (calendarId != state.getDefaultCalendarId()) {
             val convertedDate = state.convertDateToDefault(calendar, date)
             field(call, state, "In default calendar", convertedDate)
         }

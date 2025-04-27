@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
@@ -21,7 +22,7 @@ fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
 // get
 
 fun State.getAgeInYears(town: Town) = getDefaultCalendar()
-    .getDurationInYears(town.foundingDate, time.currentDate)
+    .getDurationInYears(town.foundingDate, getCurrentDate())
 
 fun countEachTown(buildings: Collection<Building>) = buildings
     .groupingBy { it.lot.town }

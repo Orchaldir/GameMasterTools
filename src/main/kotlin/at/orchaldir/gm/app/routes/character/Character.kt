@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.selector.canCreateCharacter
 import at.orchaldir.gm.core.selector.getAgeInYears
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
+import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -124,7 +125,7 @@ fun Application.configureCharacterRouting() {
             logger.info { "Generate the birthday of character ${generate.id.value}" }
 
             val state = STORE.getState()
-            val generator = DateGenerator(RandomNumberGenerator(Random), state, state.time.defaultCalendar)
+            val generator = DateGenerator(RandomNumberGenerator(Random), state, state.getDefaultCalendarId())
             val character = state.getCharacterStorage().getOrThrow(generate.id)
             val birthDate = generator.generateMonthAndDay(character.birthDate)
             val updated = character.copy(birthDate = birthDate)

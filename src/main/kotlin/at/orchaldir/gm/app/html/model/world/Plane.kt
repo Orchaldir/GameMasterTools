@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.getPlanarLanguages
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.world.getDemiplanes
 import at.orchaldir.gm.core.selector.world.getMoons
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
@@ -27,9 +28,11 @@ fun HtmlBlockTag.showPlane(
     state: State,
     plane: Plane,
 ) {
+    val currentDate = state.getCurrentDate()
+
     optionalField("Title", plane.title)
     showPlanePurpose(call, state, plane.purpose)
-    optionalField("Current Alignment", state.getPlanarAlignment(plane, state.time.currentDate))
+    optionalField("Current Alignment", state.getPlanarAlignment(plane, currentDate))
 
     fieldList(call, state, "Demiplanes", state.getDemiplanes(plane.id))
     fieldList(call, state, "Reflection", state.getReflections(plane.id))

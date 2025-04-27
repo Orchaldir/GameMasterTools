@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.reducer.checkRelativeDate
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.time.calendar.canDelete
+import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -73,7 +74,7 @@ private fun checkEras(
     state: State,
     calendar: Calendar,
 ) {
-    if (state.time.defaultCalendar == calendar.id) {
+    if (state.getDefaultCalendarId() == calendar.id) {
         require(calendar.eras.first.startDay.day == 0) { "Default Calendar must not have an offset!" }
     }
 }

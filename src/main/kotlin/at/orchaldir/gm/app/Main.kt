@@ -53,6 +53,7 @@ fun Application.module() {
     configureSerialization()
     configureRouting()
     configureStatusPages()
+    configureDataRouting()
     configureArchitecturalStyleRouting()
     configureArticleRouting()
     configureBuildingRouting()

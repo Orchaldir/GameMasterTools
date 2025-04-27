@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.action
 
+import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.Culture
@@ -111,6 +112,9 @@ data class CloneCulture(val id: CultureId) : Action()
 data class DeleteCulture(val id: CultureId) : Action()
 data class UpdateCulture(val culture: Culture) : Action()
 
+// data
+data class UpdateData(val data: Data) : Action()
+
 // fashion
 data object CreateFashion : Action()
 data class DeleteFashion(val id: FashionId) : Action()
@@ -157,9 +161,6 @@ data object CreateRaceAppearance : Action()
 data class CloneRaceAppearance(val id: RaceAppearanceId) : Action()
 data class DeleteRaceAppearance(val id: RaceAppearanceId) : Action()
 data class UpdateRaceAppearance(val appearance: RaceAppearance) : Action()
-
-// time
-data class UpdateTime(val time: Time) : Action()
 
 //-- items --
 

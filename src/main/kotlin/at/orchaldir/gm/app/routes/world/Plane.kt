@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.world.plane.IndependentPlane
 import at.orchaldir.gm.core.model.world.plane.PLANE_TYPE
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.core.selector.world.canDeletePlane
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
@@ -134,7 +135,7 @@ private fun HTML.showAllPlanes(
     state: State,
     sort: SortPlane,
 ) {
-    val day = state.time.currentDate
+    val day = state.getCurrentDate()
     val planes = state.sortPlanes(sort)
     val createLink = call.application.href(PlaneRoutes.New())
     val sortNameLink = call.application.href(PlaneRoutes.All(SortPlane.Name))

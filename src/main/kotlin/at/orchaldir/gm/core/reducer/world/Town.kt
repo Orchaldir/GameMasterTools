@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.core.selector.world.getBuildings
@@ -16,7 +17,7 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
-    val town = Town(state.getTownStorage().nextId, foundingDate = state.time.currentDate)
+    val town = Town(state.getTownStorage().nextId, foundingDate = state.getCurrentDate())
 
     noFollowUps(state.updateStorage(state.getTownStorage().add(town)))
 }

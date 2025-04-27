@@ -135,27 +135,27 @@ val ELEMENTS =
         TEXT_TYPE,
         TOWN_TYPE,
     )
-private const val TIME = "Time"
+private const val DATA = "Data"
 
 data class State(
     val storageMap: Map<String, Storage<*, *>> = emptyMap(),
     val path: String = "data",
-    val time: Time = Time(),
+    val data: Data = Data(),
     val rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
 ) {
     constructor(
         storage: Storage<*, *>,
         path: String = "data",
-        time: Time = Time(),
+        data: Data = Data(),
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
-    ) : this(mapOf(storage.getType() to storage), path, time, rarityGenerator)
+    ) : this(mapOf(storage.getType() to storage), path, data, rarityGenerator)
 
     constructor(
         storageList: List<Storage<*, *>>,
         path: String = "data",
-        time: Time = Time(),
+        data: Data = Data(),
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
-    ) : this(storageList.associateBy { it.getType() }, path, time, rarityGenerator)
+    ) : this(storageList.associateBy { it.getType() }, path, data, rarityGenerator)
 
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE_TYPE)
     fun getArticleStorage() = getStorage<ArticleId, Article>(ARTICLE_TYPE)
@@ -256,7 +256,7 @@ data class State(
             return State(
                 ELEMENTS.associateWith { loadStorageForType(path, it) },
                 path,
-                load(path, TIME)
+                load(path, DATA)
             )
         }
     }
@@ -332,7 +332,7 @@ data class State(
         saveStorage(path, getStreetTemplateStorage())
         saveStorage(path, getTextStorage())
         saveStorage(path, getTownStorage())
-        save(path, TIME, time)
+        save(path, DATA, data)
     }
 }
 
