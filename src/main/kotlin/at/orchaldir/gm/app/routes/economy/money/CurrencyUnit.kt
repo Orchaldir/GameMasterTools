@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.selector.economy.canDeleteCurrencyUnit
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
+import at.orchaldir.gm.prototypes.visualization.currency.CURRENCY_CONFIG
+import at.orchaldir.gm.visualization.currency.visualizeCurrencyUnit
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -183,6 +185,7 @@ private fun HTML.showCurrencyUnitDetails(
     val editLink = call.application.href(CurrencyUnitRoutes.Edit(unit.id))
 
     simpleHtmlDetails(unit) {
+        visualizeUnit(state, unit)
         showCurrencyUnit(call, state, unit)
 
         action(editLink, "Edit")
@@ -203,8 +206,15 @@ private fun HTML.showCurrencyUnitEditor(
     val updateLink = call.application.href(CurrencyUnitRoutes.Update(unit.id))
 
     simpleHtmlEditor(unit) {
+        visualizeUnit(state, unit)
         formWithPreview(previewLink, updateLink, backLink) {
             editCurrencyUnit(state, unit)
         }
     }
+}
+
+private fun HtmlBlockTag.visualizeUnit(state: State, unit: CurrencyUnit) {
+    val frontSvg = visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit)
+
+    svg(frontSvg, 20)
 }
