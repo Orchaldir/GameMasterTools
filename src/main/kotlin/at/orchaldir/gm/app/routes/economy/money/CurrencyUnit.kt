@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_UNIT_TYPE
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.selector.economy.canDeleteCurrencyUnit
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
@@ -39,6 +40,9 @@ class CurrencyUnitRoutes {
         val parent: CurrencyUnitRoutes = CurrencyUnitRoutes(),
     )
 
+    @Resource("gallery")
+    class Gallery(val parent: CurrencyUnitRoutes = CurrencyUnitRoutes())
+
     @Resource("details")
     class Details(val id: CurrencyUnitId, val parent: CurrencyUnitRoutes = CurrencyUnitRoutes())
 
@@ -65,6 +69,13 @@ fun Application.configureCurrencyUnitRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllCurrencies(call, STORE.getState(), all.sort)
+            }
+        }
+        get<CurrencyUnitRoutes.Gallery> {
+            logger.info { "Show gallery" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showGallery(call, STORE.getState())
             }
         }
         get<CurrencyUnitRoutes.Details> { details ->
@@ -144,8 +155,10 @@ private fun HTML.showAllCurrencies(
     val createLink = call.application.href(CurrencyUnitRoutes.New())
     val sortNameLink = call.application.href(CurrencyUnitRoutes.All())
     val sortValueLink = call.application.href(CurrencyUnitRoutes.All(SortCurrencyUnit.Value))
+    val galleryLink = call.application.href(CurrencyUnitRoutes.Gallery())
 
     simpleHtml("Currency Units") {
+        action(galleryLink, "Gallery")
         field("Count", units.size)
         field("Sort") {
             link(sortNameLink, "Name")
@@ -172,6 +185,26 @@ private fun HTML.showAllCurrencies(
         }
         action(createLink, "Add")
         back("/")
+    }
+}
+
+private fun HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+) {
+    val units = state.sortCurrencyUnits()
+        .filter { it.format != UndefinedCurrencyFormat }
+    val maxSize = units
+        .map { CURRENCY_CONFIG.calculatePaddedSize(it.format) }
+        .maxBy { it.height }
+    val backLink = call.application.href(CurrencyUnitRoutes.All())
+
+    simpleHtml("Currency Units") {
+        showGallery(call, state, units) { unit ->
+            visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit, maxSize)
+        }
+
+        back(backLink)
     }
 }
 

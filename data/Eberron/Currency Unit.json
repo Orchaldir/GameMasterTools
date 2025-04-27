@@ -12,17 +12,32 @@
   "1": {
    "id": 1,
    "name": "Sovereign",
-   "value": 10
+   "value": 10,
+   "format": {
+    "type": "Coin",
+    "material": 24,
+    "radius": 12000
+   }
   },
   "2": {
    "id": 2,
    "name": "Galifar",
-   "value": 100
+   "value": 100,
+   "format": {
+    "type": "Coin",
+    "material": 20,
+    "radius": 14000
+   }
   },
   "3": {
    "id": 3,
    "name": "Dragon",
-   "value": 1000
+   "value": 1000,
+   "format": {
+    "type": "Coin",
+    "material": 32,
+    "radius": 16000
+   }
   }
  }
 }
