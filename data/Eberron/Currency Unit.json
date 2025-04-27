@@ -6,7 +6,8 @@
    "name": "Crown",
    "format": {
     "type": "Coin",
-    "material": 21
+    "material": 21,
+    "shape": "Octagon"
    }
   },
   "1": {
@@ -16,6 +17,7 @@
    "format": {
     "type": "Coin",
     "material": 24,
+    "shape": "Octagon",
     "radius": 12000
    }
   },
@@ -26,6 +28,7 @@
    "format": {
     "type": "Coin",
     "material": 20,
+    "shape": "Octagon",
     "radius": 14000
    }
   },
@@ -36,6 +39,7 @@
    "format": {
     "type": "Coin",
     "material": 32,
+    "shape": "Octagon",
     "radius": 16000
    }
   },
@@ -46,6 +50,7 @@
    "format": {
     "type": "Coin",
     "material": 21,
+    "shape": "Octagon",
     "radius": 14000
    }
   },
@@ -56,7 +61,7 @@
    "format": {
     "type": "Coin",
     "material": 24,
-    "radius": 20000
+    "radius": 16000
    }
   }
  }
