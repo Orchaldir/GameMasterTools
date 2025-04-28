@@ -28,12 +28,13 @@ fun visualizeHoledCoinSide(
     holeRadius: Distance,
     side: HoledCoinSide,
 ) {
-    val subRadius = (radius - holeRadius) / 2.0f
-    val offset = holeRadius + subRadius
+    val subRadius = radius - holeRadius
+    val subHalf = subRadius / 2.0f
+    val offset = holeRadius + subHalf
 
     visualizeHoledCoinSide(state, renderer, center.minusHeight(offset), subRadius, side.top)
-    visualizeHoledCoinSide(state, renderer, center.minusWidth(offset), subRadius, side.left)
-    visualizeHoledCoinSide(state, renderer, center.addWidth(offset), subRadius, side.right)
+    visualizeHoledCoinSide(state, renderer, center.minusWidth(offset), subHalf, side.left)
+    visualizeHoledCoinSide(state, renderer, center.addWidth(offset), subHalf, side.right)
     visualizeHoledCoinSide(state, renderer, center.addHeight(offset), subRadius, side.bottom)
 }
 
