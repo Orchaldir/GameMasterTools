@@ -197,12 +197,14 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, MATERIAL),
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
+            parseRimFactor(parameters),
         )
 
         CurrencyFormatType.HoledCoin -> HoledCoin(
             parseMaterialId(parameters, MATERIAL),
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
+            parseRimFactor(parameters),
             parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
             parseRadiusFactor(parameters),
         )
@@ -211,6 +213,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, MATERIAL),
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
+            parseRimFactor(parameters),
             parseMaterialId(parameters, combine(HOLE, MATERIAL)),
             parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
             parseRadiusFactor(parameters),
@@ -219,6 +222,9 @@ fun parseCurrencyFormat(parameters: Parameters) =
 
 private fun parseRadius(parameters: Parameters): Distance =
     parseDistance(parameters, LENGTH, DEFAULT_RADIUS)
+
+private fun parseRimFactor(parameters: Parameters): Factor =
+    parseFactor(parameters, EDGE, DEFAULT_RIM_FACTOR)
 
 private fun parseRadiusFactor(parameters: Parameters): Factor =
     parseFactor(parameters, HOLE, DEFAULT_RADIUS_FACTOR)

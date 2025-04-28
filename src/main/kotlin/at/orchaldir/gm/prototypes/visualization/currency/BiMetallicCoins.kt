@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.currency
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
+import at.orchaldir.gm.core.model.economy.money.DEFAULT_RIM_FACTOR
 import at.orchaldir.gm.core.model.economy.money.Shape
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -34,6 +35,7 @@ fun main() {
             gold,
             shape,
             radius,
+            DEFAULT_RIM_FACTOR,
             silver,
             innerShape,
             Factor.fromPercentage(40),
