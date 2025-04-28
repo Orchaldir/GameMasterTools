@@ -82,6 +82,7 @@ data class HoledCoin(
     val rimFactor: Factor = DEFAULT_RIM_FACTOR,
     val holeShape: Shape = Shape.Circle,
     val holeFactor: Factor = DEFAULT_RADIUS_FACTOR,
+    val hasHoleRim: Boolean = true,
 ) : CurrencyFormat() {
 
     init {

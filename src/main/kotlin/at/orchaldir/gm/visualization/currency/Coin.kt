@@ -26,7 +26,7 @@ fun visualizeCoin(
         coin.radius,
         options
     )
-    visualizeCoinRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
+    visualizeOuterRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
 }
 
 fun visualizeHoledCoin(
@@ -36,6 +36,7 @@ fun visualizeHoledCoin(
     val options = state.getFillAndBorder(coin.material)
     val renderer = state.renderer.getLayer()
     val center = state.aabb.getCenter()
+    val holeRadius = coin.calculateHoleRadius()
 
     visualizeHoledShape(
         renderer,
@@ -43,10 +44,22 @@ fun visualizeHoledCoin(
         coin.shape,
         coin.radius,
         coin.holeShape,
-        coin.calculateHoleRadius(),
+        holeRadius,
         options
     )
-    visualizeCoinRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
+    visualizeOuterRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
+
+    if (coin.hasHoleRim) {
+        visualizeInnerRim(
+            state,
+            renderer,
+            center,
+            coin.radius,
+            coin.holeShape,
+            holeRadius,
+            coin.rimFactor,
+        )
+    }
 }
 
 fun visualizeBiMetallicCoin(
@@ -66,7 +79,7 @@ fun visualizeBiMetallicCoin(
         options
     )
 
-    visualizeCoinRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
+    visualizeOuterRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
 
     visualizeShape(
         renderer,
@@ -77,7 +90,7 @@ fun visualizeBiMetallicCoin(
     )
 }
 
-private fun visualizeCoinRim(
+private fun visualizeOuterRim(
     state: CurrencyRenderState,
     renderer: LayerRenderer,
     center: Point2d,
@@ -86,6 +99,29 @@ private fun visualizeCoinRim(
     rimFactor: Factor,
 ) {
     val rimRadius = radius * (ONE - rimFactor)
+    visualizeRim(state, renderer, center, shape, rimRadius)
+}
+
+private fun visualizeInnerRim(
+    state: CurrencyRenderState,
+    renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    innerShape: Shape,
+    innerRadius: Distance,
+    rimFactor: Factor,
+) {
+    val rimRadius = innerRadius + radius * rimFactor
+    visualizeRim(state, renderer, center, innerShape, rimRadius)
+}
+
+private fun visualizeRim(
+    state: CurrencyRenderState,
+    renderer: LayerRenderer,
+    center: Point2d,
+    shape: Shape,
+    rimRadius: Distance,
+) {
     val rimOptions = BorderOnly(state.config.line)
 
     visualizeShape(
