@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.NoBorder
 
 data class CurrencyRenderState(
     val state: State,
@@ -14,9 +15,12 @@ data class CurrencyRenderState(
     val renderer: MultiLayerRenderer,
 ) {
 
-    fun getFillAndBorder(material: MaterialId): FillAndBorder {
-        val color = state.getMaterialStorage().get(material)?.color ?: Color.Pink
+    fun getFillAndBorder(material: MaterialId) =
+        FillAndBorder(color(material).toRender(), config.line)
 
-        return FillAndBorder(color.toRender(), config.line)
-    }
+    fun getNoBorder(material: MaterialId) =
+        NoBorder(color(material).toRender())
+
+    private fun color(material: MaterialId): Color =
+        state.getMaterialStorage().get(material)?.color ?: Color.Pink
 }

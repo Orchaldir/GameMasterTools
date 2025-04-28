@@ -68,7 +68,7 @@ fun visualizeBiMetallicCoin(
     coin: BiMetallicCoin,
 ) {
     val options = state.getFillAndBorder(coin.material)
-    val innerOptions = state.getFillAndBorder(coin.innerMaterial)
+    val innerOptions = state.getNoBorder(coin.innerMaterial)
     val renderer = state.renderer.getLayer()
     val center = state.aabb.getCenter()
 
