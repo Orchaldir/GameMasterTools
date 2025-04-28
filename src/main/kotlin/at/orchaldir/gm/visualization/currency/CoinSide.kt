@@ -15,6 +15,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
+import kotlin.math.pow
 
 fun visualizeCoinSide(
     state: CurrencyRenderState,
@@ -36,7 +37,7 @@ private fun visualizeDenomination(
     side: ShowDenomination,
 ) {
     val text = state.data.denomination.display(state.data.number)
-    visualizeText(state, renderer, center, radius, side.font, text)
+    visualizeText(state, renderer, center, side.font, text, radius * 0.75f)
 }
 
 private fun visualizeName(
@@ -45,17 +46,24 @@ private fun visualizeName(
     center: Point2d,
     radius: Distance,
     side: ShowName,
-) = visualizeText(state, renderer, center, radius, side.font, state.data.name.text)
+) {
+    val text = state.data.name.text
+    // 1 = 1.5
+    // 2 = 1
+    // 3 = 0.75
+    // 4 = 0.5
+    val factor = 0.75.pow((text.length - 2).toDouble()).toFloat()
+    visualizeText(state, renderer, center, side.font, text, radius * factor)
+}
 
 private fun visualizeText(
     state: CurrencyRenderState,
     renderer: LayerRenderer,
     center: Point2d,
-    radius: Distance,
     font: FontId?,
     text: String,
+    size: Distance,
 ) {
-    val size = radius * 0.75f
     val options = RenderStringOptions(
         BorderOnly(LineOptions(Color.Black.toRender(), HUNDRED_µM)),
         size.toMeters(),

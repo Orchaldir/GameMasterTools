@@ -7,12 +7,11 @@ import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
-import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 
 data class ResolvedCurrencyData(
-    val name: Name = Name.init("Unknown"),
+    val name: Name = Name.init("DDDDD"),
     val number: Int = 1,
     val denomination: Denomination = Denomination.init("gp", hasSpace = true),
 )
