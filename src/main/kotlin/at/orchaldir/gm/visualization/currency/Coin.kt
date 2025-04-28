@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.economy.money.Shape
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
@@ -98,6 +99,10 @@ private fun visualizeOuterRim(
     radius: Distance,
     rimFactor: Factor,
 ) {
+    if (rimFactor == ZERO) {
+        return
+    }
+
     val rimRadius = radius * (ONE - rimFactor)
     visualizeRim(state, renderer, center, shape, rimRadius)
 }
@@ -111,6 +116,10 @@ private fun visualizeInnerRim(
     innerRadius: Distance,
     rimFactor: Factor,
 ) {
+    if (rimFactor == ZERO) {
+        return
+    }
+
     val rimRadius = innerRadius + radius * rimFactor
     visualizeRim(state, renderer, center, innerShape, rimRadius)
 }

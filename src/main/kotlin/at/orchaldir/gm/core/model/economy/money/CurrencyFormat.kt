@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.economy.money
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -13,7 +14,6 @@ val MIN_RADIUS = fromMillimeters(1)
 val DEFAULT_RADIUS = fromCentimeters(1)
 val MAX_RADIUS = fromCentimeters(10)
 
-val MIN_RIM_FACTOR = fromPercentage(5)
 val DEFAULT_RIM_FACTOR = fromPercentage(10)
 val MAX_RIM_FACTOR = fromPercentage(20)
 
@@ -124,7 +124,7 @@ private fun checkRadius(radius: Distance) {
 }
 
 private fun checkRimFactor(factor: Factor) =
-    checkFactor(factor, "rim", MIN_RIM_FACTOR, MAX_RIM_FACTOR)
+    checkFactor(factor, "rim", ZERO, MAX_RIM_FACTOR)
 
 private fun checkRadiusFactor(factor: Factor, label: String) =
     checkFactor(factor, label, MIN_RADIUS_FACTOR, MAX_RADIUS_FACTOR)
