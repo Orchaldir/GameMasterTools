@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.model.item.equipment.selectMaterial
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
-import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -61,6 +60,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                 field("Shape", format.shape)
                 fieldDistance("Radius", format.radius)
                 fieldFactor("Rim Factor", format.rimFactor)
+                showCoinSide(call, state, format.front, "Front")
             }
 
             is HoledCoin -> {
@@ -87,6 +87,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                     field("Shape", format.innerShape)
                     fieldFactor("Factor", format.innerFactor)
                 }
+                showCoinSide(call, state, format.front, "Front")
             }
         }
     }
@@ -151,6 +152,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                 selectShape(format.shape, SHAPE)
                 selectRadius(format.radius)
                 selectRimFactor(format.rimFactor)
+                editCoinSide(state, format.front, "Front", FRONT)
             }
 
             is HoledCoin -> {
@@ -177,6 +179,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                     selectShape(format.innerShape, combine(HOLE, SHAPE))
                     selectRadiusFactor(format.innerFactor)
                 }
+                editCoinSide(state, format.front, "Front", FRONT)
             }
         }
     }
@@ -247,6 +250,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
             parseRimFactor(parameters),
+            parseCoinSide(parameters, FRONT)
         )
 
         CurrencyFormatType.HoledCoin -> HoledCoin(
@@ -267,6 +271,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, combine(HOLE, MATERIAL)),
             parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
             parseRadiusFactor(parameters),
+            parseCoinSide(parameters, FRONT)
         )
     }
 

@@ -9,9 +9,11 @@ import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.item.getTexts
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -51,6 +53,9 @@ fun parseFontId(
     parameters: Parameters,
     param: String,
 ) = FontId(parseInt(parameters, param))
+
+fun parseOptionalFontId(parameters: Parameters, param: String) =
+    parseOptionalInt(parameters, param)?.let { FontId(it) }
 
 fun parseFont(
     parameters: Parameters,
