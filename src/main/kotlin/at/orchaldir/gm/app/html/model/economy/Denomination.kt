@@ -27,7 +27,7 @@ fun HtmlBlockTag.editDenomination(
     param: String,
 ) {
     selectText("Denomination", denomination.text.text, combine(param, NAME))
-    selectBool("Is prefix", denomination.isPrefix, combine(param, PREFIX), true)
+    selectBool("Is prefix", denomination.isPrefix, combine(param, PREFIX), update = true)
 }
 
 // parse

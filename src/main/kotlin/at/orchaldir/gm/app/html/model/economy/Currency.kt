@@ -36,9 +36,9 @@ fun HtmlBlockTag.showCurrency(
     state: State,
     currency: Currency,
 ) {
-    showDenominations(currency)
     optionalField(call, state, "Start", currency.startDate)
     optionalField(call, state, "End", currency.endDate)
+    showDenominations(currency)
 
     showUnits(state, currency, call)
 }
@@ -80,6 +80,13 @@ fun FORM.editCurrency(
     state: State,
     currency: Currency,
 ) {
+    selectName(currency.name)
+    selectOptionalDate(state, "Start", currency.startDate, combine(START, DATE))
+    selectOptionalDate(state, "End", currency.endDate, combine(END, DATE))
+    editDenominations(currency)
+}
+
+private fun FORM.editDenominations(currency: Currency) {
     editDenomination(currency.denomination, DENOMINATION)
     editList(
         "Subdenominations",
@@ -100,10 +107,6 @@ fun FORM.editCurrency(
             true
         )
     }
-
-    selectName(currency.name)
-    selectOptionalDate(state, "Start", currency.startDate, combine(START, DATE))
-    selectOptionalDate(state, "End", currency.endDate, combine(END, DATE))
 }
 
 // parse

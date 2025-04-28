@@ -1,5 +1,21 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Dollar",
+   "denomination": {
+    "text": "$",
+    "isPrefix": true
+   },
+   "subDenominations": [
+    {
+     "first": {
+      "text": "c"
+     },
+     "second": 100
+    }
+   ]
+  }
  }
 }
