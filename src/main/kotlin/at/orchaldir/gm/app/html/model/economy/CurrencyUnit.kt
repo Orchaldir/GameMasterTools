@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.item.equipment.selectMaterial
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseBool
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
@@ -14,6 +15,8 @@ import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import io.ktor.http.*
@@ -56,15 +59,18 @@ fun HtmlBlockTag.showCurrencyFormat(
             fieldLink("Material", call, state, format.material)
             field("Shape", format.shape)
             fieldDistance("Radius", format.radius)
+            fieldFactor("Rim Factor", format.rimFactor)
         }
 
         is HoledCoin -> {
             fieldLink("Material", call, state, format.material)
             field("Shape", format.shape)
             fieldDistance("Radius", format.radius)
+            fieldFactor("Rim Factor", format.rimFactor)
             showDetails("Hole") {
                 field("Shape", format.holeShape)
                 fieldFactor("Factor", format.holeFactor)
+                field("Has rim?", format.hasHoleRim)
             }
         }
 
@@ -73,6 +79,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                 fieldLink("Material", call, state, format.material)
                 field("Shape", format.shape)
                 fieldDistance("Radius", format.radius)
+                fieldFactor("Rim Factor", format.rimFactor)
             }
             showDetails("Inner") {
                 fieldLink("Material", call, state, format.innerMaterial)
@@ -120,15 +127,18 @@ fun HtmlBlockTag.editCurrencyFormat(
             selectMaterial(state, format.material, MATERIAL)
             selectShape(format.shape, SHAPE)
             selectRadius(format.radius)
+            selectRimFactor(format.rimFactor)
         }
 
         is HoledCoin -> {
             selectMaterial(state, format.material, MATERIAL)
             selectShape(format.shape, SHAPE)
             selectRadius(format.radius)
+            selectRimFactor(format.rimFactor)
             showDetails("Hole") {
                 selectShape(format.holeShape, combine(HOLE, SHAPE))
                 selectRadiusFactor(format.holeFactor)
+                selectBool("Has rim?", format.hasHoleRim, combine(HOLE, EDGE), update = true)
             }
         }
 
@@ -137,6 +147,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                 selectMaterial(state, format.material, MATERIAL)
                 selectShape(format.shape, SHAPE)
                 selectRadius(format.radius)
+                selectRimFactor(format.rimFactor)
             }
             showDetails("Inner") {
                 selectMaterial(state, format.innerMaterial, combine(HOLE, MATERIAL))
@@ -160,6 +171,17 @@ private fun HtmlBlockTag.selectRadius(radius: Distance) {
         MAX_RADIUS,
         fromMicrometers(100),
         true
+    )
+}
+
+private fun HtmlBlockTag.selectRimFactor(factor: Factor) {
+    selectFactor(
+        "Rim Factor",
+        EDGE,
+        factor,
+        ZERO,
+        MAX_RIM_FACTOR,
+        fromPermille(1),
     )
 }
 
@@ -207,6 +229,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseRimFactor(parameters),
             parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
             parseRadiusFactor(parameters),
+            parseBool(parameters, combine(HOLE, EDGE)),
         )
 
         CurrencyFormatType.BiMetallicCoin -> BiMetallicCoin(
