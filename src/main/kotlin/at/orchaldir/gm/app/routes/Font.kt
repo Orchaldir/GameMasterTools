@@ -4,9 +4,9 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.editFont
-import at.orchaldir.gm.app.html.model.parseFont
-import at.orchaldir.gm.app.html.model.showFont
+import at.orchaldir.gm.app.html.model.font.editFont
+import at.orchaldir.gm.app.html.model.font.parseFont
+import at.orchaldir.gm.app.html.model.font.showFont
 import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont

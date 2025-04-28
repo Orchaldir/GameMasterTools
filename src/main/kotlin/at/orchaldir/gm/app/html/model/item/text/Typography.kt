@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.model.item.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDistance
-import at.orchaldir.gm.app.html.model.parseFontId
+import at.orchaldir.gm.app.html.model.font.parseFontId
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectElement
