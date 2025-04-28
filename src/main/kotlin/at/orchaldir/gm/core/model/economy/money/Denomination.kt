@@ -7,15 +7,25 @@ import kotlinx.serialization.Serializable
 data class Denomination(
     val text: NotEmptyString = NotEmptyString.init("gp"),
     val isPrefix: Boolean = false,
+    val hasSpace: Boolean = false,
 ) {
     companion object {
-        fun init(text: String, isPrefix: Boolean = false) = Denomination(NotEmptyString.init(text), isPrefix)
+        fun init(text: String, isPrefix: Boolean = false, hasSpace: Boolean = false) =
+            Denomination(NotEmptyString.init(text), isPrefix, hasSpace)
     }
 
-    fun display(value: Int) = if (isPrefix) {
-        "${text.text} $value"
-    } else {
-        "$value ${text.text}"
+    fun display(value: Int): String {
+        val center = if (hasSpace) {
+            " "
+        } else {
+            ""
+        }
+
+        return if (isPrefix) {
+            "${text.text}$center$value"
+        } else {
+            "$value$center${text.text}"
+        }
     }
 
 }

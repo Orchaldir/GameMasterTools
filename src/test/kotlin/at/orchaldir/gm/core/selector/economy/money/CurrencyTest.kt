@@ -10,14 +10,46 @@ import kotlin.test.assertEquals
 class CurrencyTest {
 
     @Nested
-    inner class DisplayTest {
+    inner class DisplayDollarTest {
 
         private val currency = Currency(
             CURRENCY_ID_0,
-            denomination = Denomination.init("gp"),
+            denomination = Denomination.init("$", true),
             subDenominations = listOf(
-                Pair(Denomination.init("cp"), 10),
-                Pair(Denomination.init("sp"), 100),
+                Pair(Denomination.init("c", false), 100),
+            ),
+        )
+
+        @Test
+        fun `A price of 0`() {
+            assertEquals("0c", currency.display(0))
+        }
+
+        @Test
+        fun `A price in cent`() {
+            assertEquals("5c", currency.display(5))
+        }
+
+        @Test
+        fun `A price in dollar`() {
+            assertEquals("$2", currency.display(200))
+        }
+
+        @Test
+        fun `A price in both`() {
+            assertEquals("$1 23c", currency.display(123))
+        }
+    }
+
+    @Nested
+    inner class DisplayFantasyCurrencyTest {
+
+        private val currency = Currency(
+            CURRENCY_ID_0,
+            denomination = Denomination.init("gp", hasSpace = true),
+            subDenominations = listOf(
+                Pair(Denomination.init("cp", hasSpace = true), 10),
+                Pair(Denomination.init("sp", hasSpace = true), 100),
             ),
         )
 

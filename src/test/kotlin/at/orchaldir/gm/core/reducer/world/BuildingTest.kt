@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
+import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.name.NameWithReference
@@ -38,6 +39,7 @@ class BuildingTest {
     private val BIG_SIZE = MapSize2d(2, 1)
     private val BIG_SQUARE = square(2)
     private val OWNERSHIP = History<Owner>(UndefinedOwner)
+    private val data = Data(time = Time(currentDate = Day(42)))
 
     @Nested
     inner class AddBuildingTest {
@@ -109,7 +111,7 @@ class BuildingTest {
         fun `Successfully added a building`() {
             val map = TileMap2d(TownTile())
             val town = Town(TOWN_ID_0, map = map)
-            val state = State(Storage(town), time = Time(currentDate = Day(42)))
+            val state = State(Storage(town), data = data)
             val action = AddBuilding(TOWN_ID_0, 0, square(1))
 
             val result = REDUCER.invoke(state, action).first
@@ -128,7 +130,7 @@ class BuildingTest {
         fun `Successfully added a big building`() {
             val map = TileMap2d(BIG_SQUARE, TownTile())
             val town = Town(TOWN_ID_0, map = map)
-            val state = State(Storage(town), time = Time(currentDate = Day(42)))
+            val state = State(Storage(town), data = data)
             val action = AddBuilding(TOWN_ID_0, 0, BIG_SIZE)
 
             val result = REDUCER.invoke(state, action).first
