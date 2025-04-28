@@ -64,6 +64,7 @@ data class Coin(
     val shape: Shape = Shape.Circle,
     val radius: Distance = DEFAULT_RADIUS,
     val rimFactor: Factor = DEFAULT_RIM_FACTOR,
+    val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
     init {
@@ -105,6 +106,7 @@ data class BiMetallicCoin(
     val innerMaterial: MaterialId = MaterialId(1),
     val innerShape: Shape = Shape.Circle,
     val innerFactor: Factor = DEFAULT_RADIUS_FACTOR,
+    val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
     init {
