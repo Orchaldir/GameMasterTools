@@ -7,7 +7,7 @@
    "format": {
     "type": "Coin",
     "material": 11,
-    "radius": 19000
+    "radius": 9500
    }
   },
   "1": {
@@ -17,7 +17,7 @@
    "format": {
     "type": "Coin",
     "material": 12,
-    "radius": 21000
+    "radius": 10600
    }
   },
   "2": {
@@ -27,7 +27,7 @@
    "format": {
     "type": "Coin",
     "material": 13,
-    "radius": 18000
+    "radius": 9000
    }
   },
   "3": {
@@ -36,7 +36,8 @@
    "value": 25,
    "format": {
     "type": "Coin",
-    "material": 13
+    "material": 13,
+    "radius": 12100
    }
   },
   "4": {
@@ -46,7 +47,27 @@
    "format": {
     "type": "Coin",
     "material": 13,
-    "radius": 15000
+    "radius": 15300
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Dollar",
+   "value": 100,
+   "format": {
+    "type": "Coin",
+    "material": 13,
+    "radius": 19000
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Eagle",
+   "value": 1000,
+   "format": {
+    "type": "Coin",
+    "material": 10,
+    "radius": 13500
    }
   }
  }

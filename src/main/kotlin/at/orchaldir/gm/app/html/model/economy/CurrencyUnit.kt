@@ -15,6 +15,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -150,7 +151,7 @@ private fun HtmlBlockTag.selectRadius(radius: Distance) {
         radius,
         MIN_RADIUS,
         MAX_RADIUS,
-        MIN_RADIUS,
+        fromMicrometers(100),
         true
     )
 }
