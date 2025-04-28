@@ -28,6 +28,7 @@ fun visualizeCoin(
         options
     )
     visualizeOuterRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
+    visualizeCoinSide(state, renderer, center, coin.radius, coin.front)
 }
 
 fun visualizeHoledCoin(
@@ -89,6 +90,8 @@ fun visualizeBiMetallicCoin(
         coin.calculateInnerRadius(),
         innerOptions
     )
+
+    visualizeCoinSide(state, renderer, center, coin.radius, coin.front)
 }
 
 private fun visualizeOuterRim(

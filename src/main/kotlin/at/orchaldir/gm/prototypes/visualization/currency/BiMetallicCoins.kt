@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
 import at.orchaldir.gm.core.model.economy.money.DEFAULT_RIM_FACTOR
 import at.orchaldir.gm.core.model.economy.money.Shape
+import at.orchaldir.gm.core.model.economy.money.ShowDenomination
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
@@ -39,6 +40,7 @@ fun main() {
             silver,
             innerShape,
             Factor.fromPercentage(40),
+            ShowDenomination(),
         )
 
     }
