@@ -91,7 +91,7 @@ fun visualizeBiMetallicCoin(
         innerOptions
     )
 
-    visualizeCoinSide(state, renderer, center, coin.radius, coin.front)
+    visualizeCoinSide(state, renderer, center, coin.calculateInCircle(Shape.Circle), coin.front)
 }
 
 private fun visualizeOuterRim(

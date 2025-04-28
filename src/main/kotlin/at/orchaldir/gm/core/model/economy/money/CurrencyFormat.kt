@@ -116,7 +116,9 @@ data class BiMetallicCoin(
         checkRadiusFactor(innerFactor, "inner")
     }
 
-    fun calculateInnerRadius() = calculateInnerRadius(radius, shape, innerShape) * innerFactor
+    fun calculateInCircle(other: Shape): Distance = calculateInnerRadius(radius, shape, other)
+
+    fun calculateInnerRadius() = calculateInCircle(innerShape) * innerFactor
 
 }
 
