@@ -14,6 +14,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -97,4 +98,8 @@ fun parseVitalStatus(
 private fun parseDeathDay(
     parameters: Parameters,
     state: State,
-) = parseDate(parameters, state.getDefaultCalendar(), combine(DEATH, DATE), state.time.currentDate)
+) = parseDate(
+    parameters,
+    state.getDefaultCalendar(),
+    combine(DEATH, DATE), state.getCurrentDate()
+)

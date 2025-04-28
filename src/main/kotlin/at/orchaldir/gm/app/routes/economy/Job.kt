@@ -12,9 +12,14 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.economy.job.Salary
+import at.orchaldir.gm.core.model.util.SortJob
 import at.orchaldir.gm.core.selector.economy.canDelete
+import at.orchaldir.gm.core.selector.economy.money.display
+import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.religion.countDomains
+import at.orchaldir.gm.core.selector.util.sortJobs
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -31,6 +36,12 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/$JOB_TYPE")
 class JobRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortJob = SortJob.Name,
+        val parent: JobRoutes = JobRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: JobId, val parent: JobRoutes = JobRoutes())
 
@@ -43,17 +54,20 @@ class JobRoutes {
     @Resource("edit")
     class Edit(val id: JobId, val parent: JobRoutes = JobRoutes())
 
+    @Resource("preview")
+    class Preview(val id: JobId, val parent: JobRoutes = JobRoutes())
+
     @Resource("update")
     class Update(val id: JobId, val parent: JobRoutes = JobRoutes())
 }
 
 fun Application.configureJobRouting() {
     routing {
-        get<JobRoutes> {
+        get<JobRoutes.All> { all ->
             logger.info { "Get all jobs" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllJobs(call, STORE.getState())
+                showAllJobs(call, STORE.getState(), all.sort)
             }
         }
         get<JobRoutes.Details> { details ->
@@ -100,6 +114,16 @@ fun Application.configureJobRouting() {
                 showJobEditor(call, state, job)
             }
         }
+        post<JobRoutes.Preview> { preview ->
+            logger.info { "Preview job ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val job = parseJob(preview.id, call.receiveParameters())
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showJobEditor(call, state, job)
+            }
+        }
         post<JobRoutes.Update> { update ->
             logger.info { "Update job ${update.id.value}" }
 
@@ -114,25 +138,47 @@ fun Application.configureJobRouting() {
     }
 }
 
-private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
-    val jobs = state.getJobStorage().getAll().sortedBy { it.name.text }
+private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob) {
+    val currency = state.getDefaultCurrency()
+    val jobs = state.sortJobs(sort)
     val createLink = call.application.href(JobRoutes.New())
+    val sortNameLink = call.application.href(JobRoutes.All())
+    val sortIncomeLink = call.application.href(JobRoutes.All(SortJob.Income))
+    val sortSpellsLink = call.application.href(JobRoutes.All(SortJob.Spells))
 
     simpleHtml("Jobs") {
         field("Count", jobs.size)
+        fieldLink("Currency", call, currency)
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortIncomeLink, "Income")
+            +" "
+            link(sortSpellsLink, "Spells")
+        }
 
         table {
             tr {
                 th { +"Name" }
-                th { +"Domains" }
+                th {
+                    +"Monthly"
+                    br { }
+                    +"Income"
+                }
                 th { +"Characters" }
+                th { +"Domains" }
                 th { +"Spells" }
             }
             jobs.forEach { job ->
                 tr {
                     td { link(call, job) }
-                    tdSkipZero(state.countDomains(job.id))
+                    td {
+                        if (job.income is Salary) {
+                            +currency.display(job.income.salary)
+                        }
+                    }
                     tdSkipZero(state.getEmployees(job.id).size)
+                    tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(job.spells.getRarityMap().size)
                 }
             }
@@ -169,14 +215,13 @@ private fun HTML.showJobEditor(
     job: Job,
 ) {
     val backLink = href(call, job.id)
+    val previewLink = call.application.href(JobRoutes.Preview(job.id))
     val updateLink = call.application.href(JobRoutes.Update(job.id))
 
     simpleHtmlEditor(job) {
-        form {
+        formWithPreview(previewLink, updateLink, backLink) {
             editJob(state, job)
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
 

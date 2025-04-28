@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment
 import at.orchaldir.gm.core.selector.world.getStreetIds
 import at.orchaldir.gm.core.selector.world.getUsedHouseNumbers
@@ -27,7 +28,7 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
     val town = oldTown.build(action.tileIndex, action.size, BuildingTile(buildingId))
     val lot = BuildingLot(action.town, action.tileIndex, action.size)
-    val building = Building(buildingId, lot = lot, constructionDate = state.time.currentDate)
+    val building = Building(buildingId, lot = lot, constructionDate = state.getCurrentDate())
 
     noFollowUps(
         state.updateStorage(

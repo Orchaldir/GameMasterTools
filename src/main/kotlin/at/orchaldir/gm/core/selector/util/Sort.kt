@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.economy.job.Salary
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.font.Font
@@ -122,7 +123,7 @@ fun State.sortBusinesses(
         when (sort) {
             SortBusiness.Name -> compareBy { it.name(this) }
             SortBusiness.Age -> getAgeComparator()
-            SortBusiness.Employees -> compareBy<Business> { getEmployees(it.id).size }.reversed()
+            SortBusiness.Employees -> compareByDescending { getEmployees(it.id).size }
         }
     )
 
@@ -234,7 +235,7 @@ fun State.sortGods(
     .sortedWith(
         when (sort) {
             SortGod.Name -> compareBy { it.name(this) }
-            SortGod.Believers -> compareBy { getBelievers(it.id).size }
+            SortGod.Believers -> compareByDescending { getBelievers(it.id).size }
         })
 
 // holiday
@@ -257,6 +258,14 @@ fun State.sortJobs(
     .sortedWith(
         when (sort) {
             SortJob.Name -> compareBy { it.name(this) }
+            SortJob.Spells -> compareByDescending { it.spells.getSize() }
+            SortJob.Income -> compareByDescending {
+                if (it.income is Salary) {
+                    it.income.salary.value
+                } else {
+                    0
+                }
+            }
         })
 
 // organization
@@ -272,7 +281,7 @@ fun State.sortOrganizations(
         when (sort) {
             SortOrganization.Name -> compareBy { it.name.text }
             SortOrganization.Age -> getAgeComparator()
-            SortOrganization.Members -> compareBy { it.countAllMembers() }
+            SortOrganization.Members -> compareByDescending { it.countAllMembers() }
         })
 
 // domain
@@ -288,7 +297,7 @@ fun State.sortPantheons(
         when (sort) {
             SortPantheon.Name -> compareBy { it.name(this) }
             SortPantheon.Gods -> compareBy { it.gods.size }
-            SortPantheon.Believers -> compareBy { getBelievers(it.id).size }
+            SortPantheon.Believers -> compareByDescending { getBelievers(it.id).size }
         })
 
 // material
@@ -303,7 +312,7 @@ fun State.sortMaterial(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name.text }
-            SortMaterial.Equipment -> compareBy<Material> { getEquipmentMadeOf(it.id).size }.reversed()
+            SortMaterial.Equipment -> compareByDescending { getEquipmentMadeOf(it.id).size }
         }
     )
 
@@ -365,9 +374,9 @@ fun State.sortRaces(
     .sortedWith(
         when (sort) {
             SortRace.Age -> getAgeComparator()
-            SortRace.Height -> compareBy { it.height.center.value() }
-            SortRace.Weight -> compareBy { it.weight.value() }
-            SortRace.MaxLifeSpan -> compareBy { it.lifeStages.getMaxAge() }
+            SortRace.Height -> compareByDescending { it.height.center.value() }
+            SortRace.Weight -> compareByDescending { it.weight.value() }
+            SortRace.MaxLifeSpan -> compareByDescending { it.lifeStages.getMaxAge() }
             SortRace.Name -> compareBy { it.name(this) }
         })
 

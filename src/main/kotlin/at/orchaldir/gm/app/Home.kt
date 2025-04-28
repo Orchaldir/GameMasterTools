@@ -46,11 +46,12 @@ fun Application.configureRouting() {
         get("/") {
             logger.info { "Root" }
             val state = STORE.getState()
-            val timeLink = call.application.href(TimeRoutes())
+            val dataLink = call.application.href(DataRoutes())
             val eventsLink = call.application.href(TimeRoutes.ShowEvents())
 
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(APP_TITLE) {
+                    action(dataLink, "Data")
                     h2 { +"Elements" }
                     fieldStorageLink(call, state.getFontStorage(), FontRoutes.All())
                     fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
@@ -86,7 +87,6 @@ fun Application.configureRouting() {
                     h3 { +"Time" }
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
                     fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())
-                    action(timeLink, "Time")
                     action(eventsLink, "Events")
                     h3 { +"World" }
                     fieldStorageLink(call, state.getArchitecturalStyleStorage(), ArchitecturalStyleRoutes.All())

@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.*
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -73,7 +74,7 @@ fun HtmlBlockTag.showCurrentDate(
     call: ApplicationCall,
     state: State,
 ) {
-    field(call, state, "Current Date", state.time.currentDate)
+    field(call, state, "Current Date", state.getCurrentDate())
 }
 
 fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {

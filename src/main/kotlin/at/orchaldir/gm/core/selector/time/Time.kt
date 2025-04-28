@@ -6,13 +6,17 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getStartYear
 
 fun State.getAgeInYears(date: Date?) = if (date != null) {
-    getDefaultCalendar().getDurationInYears(date, time.currentDate)
+    getDefaultCalendar().getDurationInYears(date, getCurrentDate())
 } else {
     null
 }
 
-fun State.getAgeInYears(date: Date) = getDefaultCalendar().getDurationInYears(date, time.currentDate)
+fun State.getAgeInYears(date: Date) = getDefaultCalendar().getDurationInYears(date, getCurrentDate())
 
 fun State.getCurrentYear() = getDefaultCalendar()
-    .getStartYear(time.currentDate)
+    .getStartYear(getCurrentDate())
+
+fun State.getDefaultCalendarId() = data.time.defaultCalendar
+
+fun State.getCurrentDate() = data.time.currentDate
 

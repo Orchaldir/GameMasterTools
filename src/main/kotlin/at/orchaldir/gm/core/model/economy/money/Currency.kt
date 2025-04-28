@@ -24,9 +24,19 @@ value class CurrencyId(val value: Int) : Id<CurrencyId> {
 data class Currency(
     val id: CurrencyId,
     val name: Name = Name.init("Currency ${id.value}"),
+    val denomination: Denomination = Denomination.init("gp"),
+    val subDenominations: List<Pair<Denomination, Int>> = emptyList(),
     val startDate: Date? = null,
     val endDate: Date? = null,
 ) : ElementWithSimpleName<CurrencyId>, HasStartDate {
+
+    init {
+        var min = 1
+
+        subDenominations.forEach { (text, threshold) ->
+            require(threshold >= min) { "Sub denomination ${text.text} has a too low value!" }
+        }
+    }
 
     override fun id() = id
     override fun name() = name.text

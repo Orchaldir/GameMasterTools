@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.Genderless
@@ -63,7 +64,7 @@ class CharacterTest {
         @Test
         fun `Default birthday is today`() {
             val today = Day(42)
-            val state = State(time = Time(currentDate = today))
+            val state = State(data = Data(time = Time(currentDate = today)))
 
             val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
 
@@ -405,7 +406,7 @@ class CharacterTest {
                     Storage(listOf(Culture(CULTURE_ID_0))),
                     Storage(listOf(Race(RACE_ID_0))),
                 )
-            ).copy(time = Time(currentDate = Day(10)))
+            ).copy(data = Data(time = Time(currentDate = Day(10))))
 
             @Test
             fun `Died from accident`() {

@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.selector.time.calendar.canDelete
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.convertDate
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -148,7 +149,7 @@ private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
                 th { +"Today" }
             }
             calendars.forEach { calendar ->
-                val example = convertDate(defaultCalendar, calendar, state.time.currentDate)
+                val example = convertDate(defaultCalendar, calendar, state.getCurrentDate())
 
                 tr {
                     td { link(call, calendar) }

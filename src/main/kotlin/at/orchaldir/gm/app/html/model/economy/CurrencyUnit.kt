@@ -10,10 +10,12 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
+import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -29,7 +31,16 @@ fun HtmlBlockTag.showCurrencyUnit(
 ) {
     fieldLink("Currency", call, state, unit.currency)
     field("Value", unit.value)
+    showDenomination(state, unit)
     showCurrencyFormat(call, state, unit.format)
+}
+
+private fun HtmlBlockTag.showDenomination(
+    state: State,
+    unit: CurrencyUnit,
+) {
+    val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
+    field("Denomination", currency.display(unit.value))
 }
 
 fun HtmlBlockTag.showCurrencyFormat(
@@ -86,7 +97,8 @@ fun FORM.editCurrencyUnit(
         state.getCurrencyStorage().getAll(),
         unit.currency,
     )
-    selectInt("Value", unit.value, 1, 10000, 1, NUMBER)
+    selectInt("Value", unit.value, 1, 10000, 1, NUMBER, update = true)
+    showDenomination(state, unit)
     editCurrencyFormat(state, unit.format)
 }
 
@@ -146,7 +158,7 @@ private fun HtmlBlockTag.selectRadius(radius: Distance) {
         radius,
         MIN_RADIUS,
         MAX_RADIUS,
-        MIN_RADIUS,
+        fromMicrometers(100),
         true
     )
 }

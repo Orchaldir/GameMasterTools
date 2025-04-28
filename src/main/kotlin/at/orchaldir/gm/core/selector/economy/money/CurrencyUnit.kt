@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.economy
+package at.orchaldir.gm.core.selector.economy.money
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CurrencyId

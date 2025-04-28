@@ -1,28 +1,15 @@
 package at.orchaldir.gm.app.routes.time
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.action
-import at.orchaldir.gm.app.html.back
-import at.orchaldir.gm.app.html.button
-import at.orchaldir.gm.app.html.model.time.editTime
-import at.orchaldir.gm.app.html.model.time.parseTime
-import at.orchaldir.gm.app.html.model.time.showTime
-import at.orchaldir.gm.app.html.simpleHtml
-import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
-import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
-import kotlinx.html.form
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -54,23 +41,10 @@ class TimeRoutes {
 
     @Resource("events")
     class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
-
-    @Resource("edit")
-    class Edit(val parent: TimeRoutes = TimeRoutes())
-
-    @Resource("update")
-    class Update(val parent: TimeRoutes = TimeRoutes())
 }
 
 fun Application.configureTimeRouting() {
     routing {
-        get<TimeRoutes> {
-            logger.info { "Get time data" }
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTimeData(call)
-            }
-        }
         get<TimeRoutes.ShowDay> { data ->
             logger.info { "Show the day ${data.day.day} for calendar ${data.calendar.value}" }
 
@@ -121,58 +95,13 @@ fun Application.configureTimeRouting() {
             }
         }
         get<TimeRoutes.ShowEvents> { data ->
-            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            val calendarId = data.calendar ?: STORE.getState().getDefaultCalendarId()
             logger.info { "Show events with calendar ${calendarId.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showEvents(call, calendarId)
             }
         }
-        get<TimeRoutes.Edit> {
-            logger.info { "Get editor for time data" }
-
-            call.respondHtml(HttpStatusCode.OK) {
-                editTimeData(call)
-            }
-        }
-        post<TimeRoutes.Update> {
-            logger.info { "Update time data" }
-
-            val time = parseTime(call.receiveParameters(), STORE.getState().getDefaultCalendar())
-
-            STORE.dispatch(UpdateTime(time))
-
-            call.respondRedirect(call.application.href(TimeRoutes()))
-
-            STORE.getState().save()
-        }
-    }
-}
-
-private fun HTML.showTimeData(call: ApplicationCall) {
-    val state = STORE.getState()
-    val editLink = call.application.href(TimeRoutes.Edit())
-
-    simpleHtml("Time Data") {
-        showTime(call, state)
-        action(editLink, "Edit")
-        back("/")
-    }
-}
-
-private fun HTML.editTimeData(
-    call: ApplicationCall,
-) {
-    val state = STORE.getState()
-    val backLink = call.application.href(TimeRoutes())
-    val updateLink = call.application.href(TimeRoutes.Update())
-
-    simpleHtml("Edit Time Data") {
-        form {
-            editTime(state)
-            button("Update", updateLink)
-        }
-        back(backLink)
     }
 }
 

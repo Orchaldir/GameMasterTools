@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model
 
 import at.orchaldir.gm.core.generator.RarityGenerator
-import at.orchaldir.gm.core.loadData
+import at.orchaldir.gm.core.load
 import at.orchaldir.gm.core.loadStorage
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
@@ -52,7 +52,6 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.*
-import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -88,7 +87,7 @@ import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
 import at.orchaldir.gm.core.reducer.time.validateCalendar
 import at.orchaldir.gm.core.reducer.world.*
-import at.orchaldir.gm.core.saveData
+import at.orchaldir.gm.core.save
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -135,27 +134,27 @@ val ELEMENTS =
         TEXT_TYPE,
         TOWN_TYPE,
     )
-private const val TIME = "Time"
+private const val DATA = "Data"
 
 data class State(
     val storageMap: Map<String, Storage<*, *>> = emptyMap(),
     val path: String = "data",
-    val time: Time = Time(),
+    val data: Data = Data(),
     val rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
 ) {
     constructor(
         storage: Storage<*, *>,
         path: String = "data",
-        time: Time = Time(),
+        data: Data = Data(),
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
-    ) : this(mapOf(storage.getType() to storage), path, time, rarityGenerator)
+    ) : this(mapOf(storage.getType() to storage), path, data, rarityGenerator)
 
     constructor(
         storageList: List<Storage<*, *>>,
         path: String = "data",
-        time: Time = Time(),
+        data: Data = Data(),
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
-    ) : this(storageList.associateBy { it.getType() }, path, time, rarityGenerator)
+    ) : this(storageList.associateBy { it.getType() }, path, data, rarityGenerator)
 
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE_TYPE)
     fun getArticleStorage() = getStorage<ArticleId, Article>(ARTICLE_TYPE)
@@ -256,7 +255,7 @@ data class State(
             return State(
                 ELEMENTS.associateWith { loadStorageForType(path, it) },
                 path,
-                loadData(path, TIME)
+                load(path, DATA)
             )
         }
     }
@@ -332,7 +331,7 @@ data class State(
         saveStorage(path, getStreetTemplateStorage())
         saveStorage(path, getTextStorage())
         saveStorage(path, getTownStorage())
-        saveData(path, TIME, time)
+        save(path, DATA, data)
     }
 }
 

@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getParents
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.doNothing
@@ -20,7 +21,7 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
-    val character = Character(state.getCharacterStorage().nextId, birthDate = state.time.currentDate)
+    val character = Character(state.getCharacterStorage().nextId, birthDate = state.getCurrentDate())
     val characters = state.getCharacterStorage().add(character)
     noFollowUps(state.updateStorage(characters))
 }
@@ -112,7 +113,7 @@ private fun checkCauseOfDeath(
         val dead = character.vitalStatus
 
         dead.deathDay.let {
-            require(calendar.isAfterOrEqual(state.time.currentDate, it)) { "Character died in the future!" }
+            require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Character died in the future!" }
             require(calendar.isAfterOrEqual(it, character.birthDate)) { "Character died before its origin!" }
         }
 

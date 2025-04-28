@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.countRaceAppearancesMadeOf
-import at.orchaldir.gm.core.selector.economy.getCurrencyUnits
+import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts

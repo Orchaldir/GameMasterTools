@@ -4,6 +4,20 @@
   "0": {
    "id": 0,
    "name": "Galifar",
+   "subDenominations": [
+    {
+     "first": {
+      "text": "cp"
+     },
+     "second": 10
+    },
+    {
+     "first": {
+      "text": "sp"
+     },
+     "second": 100
+    }
+   ],
    "startDate": {
     "type": "Year",
     "year": 0

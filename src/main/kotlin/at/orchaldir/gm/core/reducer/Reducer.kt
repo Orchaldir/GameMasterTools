@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
 import at.orchaldir.gm.core.reducer.time.CREATE_CALENDAR
 import at.orchaldir.gm.core.reducer.time.DELETE_CALENDAR
 import at.orchaldir.gm.core.reducer.time.UPDATE_CALENDAR
-import at.orchaldir.gm.core.reducer.time.UPDATE_TIME
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -78,7 +77,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is DeleteRaceAppearance -> DELETE_RACE_APPEARANCE(state, action)
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // time
-        is UpdateTime -> UPDATE_TIME(state, action)
+        is UpdateData -> UPDATE_DATA(state, action)
         // sub reducers
         is ItemAction -> ITEM_REDUCER(state, action)
         is EconomyAction -> ECONOMY_REDUCER(state, action)
