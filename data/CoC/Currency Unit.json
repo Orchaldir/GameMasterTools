@@ -1,5 +1,53 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Penny",
+   "format": {
+    "type": "Coin",
+    "material": 11,
+    "radius": 19000
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Nickel",
+   "value": 5,
+   "format": {
+    "type": "Coin",
+    "material": 12,
+    "radius": 21000
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Dime",
+   "value": 10,
+   "format": {
+    "type": "Coin",
+    "material": 13,
+    "radius": 18000
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Quarter",
+   "value": 25,
+   "format": {
+    "type": "Coin",
+    "material": 13
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Half Dollar",
+   "value": 50,
+   "format": {
+    "type": "Coin",
+    "material": 13,
+    "radius": 15000
+   }
+  }
  }
 }
