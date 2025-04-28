@@ -30,18 +30,20 @@ fun HtmlBlockTag.showCurrencyUnit(
 ) {
     showDetails("Value", true) {
         fieldLink("Currency", call, state, unit.currency)
-        field("Value", unit.value)
-        showDenomination(state, unit)
+        field("Number", unit.number)
+        field("Denomination", unit.number)
+        showValue(state, unit)
     }
     showCurrencyFormat(call, state, unit.format)
 }
 
-private fun HtmlBlockTag.showDenomination(
+private fun HtmlBlockTag.showValue(
     state: State,
     unit: CurrencyUnit,
 ) {
     val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
-    field("Denomination", currency.display(unit.value))
+    val denomination = currency.getDenomination(unit.denomination)
+    field("Value", denomination.display(unit.number))
 }
 
 fun HtmlBlockTag.showCurrencyFormat(
@@ -96,6 +98,7 @@ fun FORM.editCurrencyUnit(
     state: State,
     unit: CurrencyUnit,
 ) {
+    val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
     selectName(unit.name)
     showDetails("Value", true) {
         selectElement(
@@ -105,8 +108,25 @@ fun FORM.editCurrencyUnit(
             state.getCurrencyStorage().getAll(),
             unit.currency,
         )
-        selectInt("Value", unit.value, 1, 10000, 1, NUMBER, update = true)
-        showDenomination(state, unit)
+        selectInt(
+            "Number",
+            unit.number,
+            1,
+            10000,
+            1,
+            NUMBER,
+            update = true,
+        )
+        selectInt(
+            "Denomination",
+            unit.denomination,
+            0,
+            currency.countDenominations() - 1,
+            1,
+            combine(DENOMINATION, NUMBER),
+            update = true,
+        )
+        showValue(state, unit)
     }
     editCurrencyFormat(state, unit.format)
 }
@@ -215,6 +235,7 @@ fun parseCurrencyUnit(parameters: Parameters, id: CurrencyUnitId): CurrencyUnit 
     parseName(parameters),
     parseCurrencyId(parameters, CURRENCY),
     parseInt(parameters, NUMBER, 1),
+    parseInt(parameters, combine(DENOMINATION, NUMBER), 0),
     parseCurrencyFormat(parameters),
 )
 

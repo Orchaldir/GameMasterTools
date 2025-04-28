@@ -176,7 +176,7 @@ fun State.sortCurrencyUnits(
     .sortedWith(
         when (sort) {
             SortCurrencyUnit.Name -> compareBy { it.name.text }
-            SortCurrencyUnit.Value -> compareBy { it.value }
+            SortCurrencyUnit.Value -> compareBy { it.denomination * 1000 + it.number }
         }
     )
 

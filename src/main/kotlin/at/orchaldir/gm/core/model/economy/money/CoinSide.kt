@@ -27,11 +27,11 @@ data object BlankCoinSide : CoinSide()
 @Serializable
 @SerialName("Denomination")
 data class ShowDenomination(
-    val font: FontId = FontId(0),
+    val font: FontId? = null,
 ) : CoinSide()
 
 @Serializable
 @SerialName("Name")
 data class ShowName(
-    val font: FontId = FontId(0),
+    val font: FontId? = null,
 ) : CoinSide()

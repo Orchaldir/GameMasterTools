@@ -181,8 +181,8 @@ private fun HTML.showAllCurrencies(
                 tr {
                     td { link(call, state, unit) }
                     td { link(call, currency) }
-                    tdSkipZero(unit.value)
-                    td { +currency.display(unit.value) }
+                    tdSkipZero(unit.number)
+                    td { +currency.display(unit.number) }
                     tdEnum(unit.format.getType())
                     tdInlineLinks(call, state, unit.format.getMaterials())
                 }

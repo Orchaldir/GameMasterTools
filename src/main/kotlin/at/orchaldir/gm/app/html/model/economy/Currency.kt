@@ -53,8 +53,9 @@ private fun HtmlBlockTag.showUnits(
             th { +"Unit" }
         }
         units.forEach { unit ->
+            val denomination = currency.getDenomination(unit.denomination)
             tr {
-                tdSkipZero(unit.value)
+                td { +denomination.display(unit.number) }
                 td { link(call, state, unit) }
             }
         }
