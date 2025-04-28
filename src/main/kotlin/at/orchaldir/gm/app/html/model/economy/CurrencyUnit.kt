@@ -135,7 +135,7 @@ fun HtmlBlockTag.editCurrencyFormat(
             selectShape(format.shape, SHAPE)
             selectRadius(format.radius)
             selectRimFactor(format.rimFactor)
-            showDetails("Hole") {
+            showDetails("Hole", true) {
                 selectShape(format.holeShape, combine(HOLE, SHAPE))
                 selectRadiusFactor(format.holeFactor)
                 selectBool("Has rim?", format.hasHoleRim, combine(HOLE, EDGE), update = true)
@@ -143,13 +143,13 @@ fun HtmlBlockTag.editCurrencyFormat(
         }
 
         is BiMetallicCoin -> {
-            showDetails("Outer") {
+            showDetails("Outer", true) {
                 selectMaterial(state, format.material, MATERIAL)
                 selectShape(format.shape, SHAPE)
                 selectRadius(format.radius)
                 selectRimFactor(format.rimFactor)
             }
-            showDetails("Inner") {
+            showDetails("Inner", true) {
                 selectMaterial(state, format.innerMaterial, combine(HOLE, MATERIAL))
                 selectShape(format.innerShape, combine(HOLE, SHAPE))
                 selectRadiusFactor(format.innerFactor)
@@ -182,6 +182,7 @@ private fun HtmlBlockTag.selectRimFactor(factor: Factor) {
         ZERO,
         MAX_RIM_FACTOR,
         fromPermille(1),
+        true,
     )
 }
 
@@ -193,6 +194,7 @@ private fun DETAILS.selectRadiusFactor(factor: Factor) {
         MIN_RADIUS_FACTOR,
         MAX_RADIUS_FACTOR,
         fromPercentage(1),
+        true,
     )
 }
 
