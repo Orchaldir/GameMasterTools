@@ -265,7 +265,7 @@ private fun HTML.showTextEditor(
     val updateLink = call.application.href(TextRoutes.Update(text.id))
     val svg = visualizeText(state, TEXT_CONFIG, text)
 
-    simpleHtml("Edit Text: $name") {
+    simpleHtml("Edit Text: $name", true) {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
                 editText(state, text)

@@ -16,13 +16,16 @@ import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.HUNDRED_µM
+import at.orchaldir.gm.utils.math.unit.ONE_CM
+import at.orchaldir.gm.utils.math.unit.ONE_DM
+import at.orchaldir.gm.utils.math.unit.ONE_M
+import at.orchaldir.gm.utils.math.unit.ONE_MM
 import at.orchaldir.gm.utils.math.unit.ZERO
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
-
-private val ONE_MM = fromMillimeters(1)
-private val THOUSAND_MM = fromMillimeters(1000)
 
 // edit
 
@@ -102,7 +105,14 @@ fun HtmlBlockTag.editStringRenderOption(
 
             is WrappedStringRenderOption -> {
                 editStringSharedOptions(state, param, option.x, option.y, option.font)
-                selectDistance("$text Width", combine(param, WIDTH), option.width, ZERO, THOUSAND_MM, update = true)
+                selectDistance(
+                    "$text Width",
+                    combine(param, WIDTH),
+                    option.width,
+                    ZERO,
+                    ONE_M,
+                    update = true,
+                )
             }
         }
     }
@@ -115,8 +125,8 @@ private fun HtmlBlockTag.editStringSharedOptions(
     y: Distance,
     fontOption: FontOption,
 ) {
-    selectDistance("X", combine(param, X), x, ZERO, THOUSAND_MM, update = true)
-    selectDistance("Y", combine(param, Y), y, ZERO, THOUSAND_MM, update = true)
+    selectDistance("X", combine(param, X), x, ZERO, ONE_M, update = true)
+    selectDistance("Y", combine(param, Y), y, ZERO, ONE_M, update = true)
     editFontOption(state, fontOption, combine(param, FONT))
 }
 
@@ -152,8 +162,9 @@ fun HtmlBlockTag.editFontOption(
                 "Border Thickness",
                 combine(param, BORDER, SIZE),
                 option.thickness,
-                ONE_MM,
-                fromMillimeters(100),
+                HUNDRED_µM,
+                ONE_CM,
+                HUNDRED_µM,
                 update = true,
             )
         }
@@ -174,7 +185,14 @@ private fun HtmlBlockTag.editSharedFontOptions(
         fontId,
         true,
     )
-    selectDistance("Font Size", combine(param, SIZE), size, ONE_MM, THOUSAND_MM, update = true)
+    selectDistance(
+        "Font Size",
+        combine(param, SIZE),
+        size,
+        ONE_MM,
+        ONE_M,
+        update = true
+    )
 }
 
 // parse
