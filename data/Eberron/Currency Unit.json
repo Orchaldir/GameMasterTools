@@ -7,7 +7,10 @@
    "format": {
     "type": "Coin",
     "material": 21,
-    "shape": "Octagon"
+    "shape": "Octagon",
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "1": {
@@ -18,7 +21,10 @@
     "type": "Coin",
     "material": 24,
     "shape": "Octagon",
-    "radius": 12000
+    "radius": 12000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "2": {
@@ -29,7 +35,10 @@
     "type": "Coin",
     "material": 20,
     "shape": "Octagon",
-    "radius": 14000
+    "radius": 14000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "3": {
@@ -41,7 +50,10 @@
     "type": "Coin",
     "material": 32,
     "shape": "Octagon",
-    "radius": 16000
+    "radius": 16000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "4": {
@@ -52,7 +64,10 @@
     "type": "Coin",
     "material": 21,
     "shape": "Octagon",
-    "radius": 14000
+    "radius": 14000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "5": {
@@ -63,7 +78,10 @@
    "format": {
     "type": "Coin",
     "material": 24,
-    "radius": 16000
+    "radius": 16000,
+    "front": {
+     "type": "Value"
+    }
    }
   }
  }
