@@ -38,7 +38,7 @@ sealed class FontOption {
 data class SolidFont(
     val size: Distance,
     val color: Color = Color.White,
-    val font: FontId = FontId(0),
+    val font: FontId? = null,
 ) : FontOption()
 
 @Serializable
@@ -48,7 +48,7 @@ data class FontWithBorder(
     val thickness: Distance,
     val fill: Color = Color.White,
     val border: Color = Color.Black,
-    val font: FontId = FontId(0),
+    val font: FontId? = null,
 ) : FontOption()
 
 @Serializable
@@ -57,5 +57,5 @@ data class HollowFont(
     val size: Distance,
     val thickness: Distance,
     val border: Color = Color.Black,
-    val font: FontId = FontId(0),
+    val font: FontId? = null,
 ) : FontOption()

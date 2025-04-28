@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.selectOptionalElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
@@ -75,10 +75,10 @@ private fun HtmlBlockTag.selectBorderThickness(
 private fun HtmlBlockTag.editSharedFontOptions(
     state: State,
     param: String,
-    fontId: FontId,
+    fontId: FontId?,
     size: Distance,
 ) {
-    selectElement(
+    selectOptionalElement(
         state,
         "Font",
         combine(param, FONT),

@@ -188,21 +188,21 @@ private fun convert(
     is SolidFont -> RenderStringOptions(
         option.color.toRender(),
         option.size.toMeters(),
-        state.state.getFontStorage().getOrThrow(option.font),
+        state.state.getFontStorage().getOptional(option.font),
         verticalAlignment
     )
 
     is FontWithBorder -> RenderStringOptions(
         FillAndBorder(option.fill.toRender(), LineOptions(option.border.toRender(), option.thickness)),
         option.size.toMeters(),
-        state.state.getFontStorage().getOrThrow(option.font),
+        state.state.getFontStorage().getOptional(option.font),
         verticalAlignment,
     )
 
     is HollowFont -> RenderStringOptions(
         BorderOnly(LineOptions(option.border.toRender(), option.thickness)),
         option.size.toMeters(),
-        state.state.getFontStorage().getOrThrow(option.font),
+        state.state.getFontStorage().getOptional(option.font),
         verticalAlignment,
     )
 }
