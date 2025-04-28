@@ -4,7 +4,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.DEFAULT_RIM_FACTOR
 import at.orchaldir.gm.core.model.economy.money.HoledCoin
+import at.orchaldir.gm.core.model.economy.money.HoledCoinSide
 import at.orchaldir.gm.core.model.economy.money.Shape
+import at.orchaldir.gm.core.model.economy.money.ShowDenomination
+import at.orchaldir.gm.core.model.economy.money.ShowName
+import at.orchaldir.gm.core.model.economy.money.ShowNumber
+import at.orchaldir.gm.core.model.economy.money.ShowValue
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
@@ -44,6 +49,12 @@ fun main() {
                 radius,
                 DEFAULT_RIM_FACTOR,
                 hole,
+                front = HoledCoinSide(
+                    ShowValue(),
+                    ShowNumber(),
+                    ShowDenomination(),
+                    ShowName(),
+                )
             )
         }
 

@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.currency
 
 import at.orchaldir.gm.core.model.economy.money.BlankCoinSide
 import at.orchaldir.gm.core.model.economy.money.CoinSide
+import at.orchaldir.gm.core.model.economy.money.HoledCoinSide
 import at.orchaldir.gm.core.model.economy.money.ShowDenomination
 import at.orchaldir.gm.core.model.economy.money.ShowName
 import at.orchaldir.gm.core.model.economy.money.ShowNumber
@@ -18,6 +19,41 @@ import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import kotlin.math.pow
+
+fun visualizeHoledCoinSide(
+    state: CurrencyRenderState,
+    renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    holeRadius: Distance,
+    side: HoledCoinSide,
+) {
+    val subRadius = (radius - holeRadius) / 2.0f
+    val offset = holeRadius + subRadius
+
+    visualizeHoledCoinSide(state, renderer, center.minusHeight(offset), subRadius, side.top)
+    visualizeHoledCoinSide(state, renderer, center.minusWidth(offset), subRadius, side.left)
+    visualizeHoledCoinSide(state, renderer, center.addWidth(offset), subRadius, side.right)
+    visualizeHoledCoinSide(state, renderer, center.addHeight(offset), subRadius, side.bottom)
+}
+
+private fun visualizeHoledCoinSide(
+    state: CurrencyRenderState,
+    renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    side: CoinSide,
+) {
+    if (side != BlankCoinSide) {
+        visualizeCoinSide(
+            state,
+            renderer,
+            center,
+            radius,
+            side,
+        )
+    }
+}
 
 fun visualizeCoinSide(
     state: CurrencyRenderState,

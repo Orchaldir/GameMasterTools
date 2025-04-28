@@ -95,7 +95,9 @@ data class HoledCoin(
         checkRimFactor(rimFactor)
     }
 
-    fun calculateHoleRadius() = calculateInnerRadius(radius, shape, holeShape) * holeFactor
+    fun calculateInnerShapeRadius(other: Shape) = calculateInnerRadius(radius, shape, other)
+
+    fun calculateHoleRadius() = calculateInnerShapeRadius(holeShape) * holeFactor
 
 }
 

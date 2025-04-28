@@ -62,6 +62,15 @@ fun visualizeHoledCoin(
             coin.rimFactor,
         )
     }
+
+    visualizeHoledCoinSide(
+        state,
+        renderer,
+        center,
+        coin.calculateInnerShapeRadius(Shape.Circle),
+        holeRadius,
+        coin.front,
+    )
 }
 
 fun visualizeBiMetallicCoin(
