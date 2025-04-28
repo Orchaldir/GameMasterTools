@@ -13,7 +13,7 @@
   "1": {
    "id": 1,
    "name": "Nickel",
-   "value": 5,
+   "number": 5,
    "format": {
     "type": "Coin",
     "material": 12,
@@ -23,7 +23,7 @@
   "2": {
    "id": 2,
    "name": "Dime",
-   "value": 10,
+   "number": 10,
    "format": {
     "type": "Coin",
     "material": 13,
@@ -33,7 +33,7 @@
   "3": {
    "id": 3,
    "name": "Quarter",
-   "value": 25,
+   "number": 25,
    "format": {
     "type": "Coin",
     "material": 13,
@@ -43,7 +43,7 @@
   "4": {
    "id": 4,
    "name": "Half Dollar",
-   "value": 50,
+   "number": 50,
    "format": {
     "type": "Coin",
     "material": 13,
@@ -53,7 +53,8 @@
   "5": {
    "id": 5,
    "name": "Dollar",
-   "value": 100,
+   "number": 1,
+   "denomination": 1,
    "format": {
     "type": "Coin",
     "material": 13,
@@ -63,7 +64,8 @@
   "6": {
    "id": 6,
    "name": "Eagle",
-   "value": 1000,
+   "number": 10,
+   "denomination": 1,
    "format": {
     "type": "Coin",
     "material": 10,
