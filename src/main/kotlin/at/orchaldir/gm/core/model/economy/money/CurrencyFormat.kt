@@ -72,6 +72,8 @@ data class Coin(
         checkRimFactor(rimFactor)
     }
 
+    fun calculateInnerShapeRadius(inner: Shape) = calculateInnerRadius(radius, shape, inner)
+
 }
 
 @Serializable
@@ -116,9 +118,9 @@ data class BiMetallicCoin(
         checkRadiusFactor(innerFactor, "inner")
     }
 
-    fun calculateInCircle(other: Shape): Distance = calculateInnerRadius(radius, shape, other)
+    fun calculateInnerShapeRadius(other: Shape) = calculateInnerRadius(radius, shape, other)
 
-    fun calculateInnerRadius() = calculateInCircle(innerShape) * innerFactor
+    fun calculateInnerRadius() = calculateInnerShapeRadius(innerShape) * innerFactor
 
 }
 
