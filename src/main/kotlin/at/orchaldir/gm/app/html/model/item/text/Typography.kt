@@ -15,15 +15,7 @@ import at.orchaldir.gm.core.model.font.*
 import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
-import at.orchaldir.gm.utils.math.unit.HUNDRED_µM
-import at.orchaldir.gm.utils.math.unit.ONE_CM
-import at.orchaldir.gm.utils.math.unit.ONE_DM
-import at.orchaldir.gm.utils.math.unit.ONE_M
-import at.orchaldir.gm.utils.math.unit.ONE_MM
-import at.orchaldir.gm.utils.math.unit.ZERO
+import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

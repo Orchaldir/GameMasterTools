@@ -11,7 +11,7 @@ import java.util.*
 private const val FACTOR = 1000
 private const val SQUARED = FACTOR * FACTOR
 
-val ZERO = Distance.fromMillimeters(0)
+val ZERO = fromMillimeters(0)
 val HUNDRED_µM = fromMicrometers(100)
 val ONE_MM = fromMillimeters(1)
 val ONE_CM = fromCentimeters(1)
