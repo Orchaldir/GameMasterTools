@@ -9,11 +9,15 @@ fun State.canDeleteCurrencyUnit(id: CurrencyUnitId) = true
 
 fun State.countCurrencyUnits(currency: CurrencyId) = getCurrencyUnitStorage()
     .getAll()
-    .count { unit -> unit.currency == currency }
+    .count { it.currency == currency }
+
+fun State.countCurrencyUnits(material: MaterialId) = getCurrencyUnitStorage()
+    .getAll()
+    .count { it.format.contains(material) }
 
 fun State.getCurrencyUnits(currency: CurrencyId) = getCurrencyUnitStorage()
     .getAll()
-    .filter { unit -> unit.currency == currency }
+    .filter { it.currency == currency }
 
 fun State.getCurrencyUnits(material: MaterialId) = getCurrencyUnitStorage()
     .getAll()
