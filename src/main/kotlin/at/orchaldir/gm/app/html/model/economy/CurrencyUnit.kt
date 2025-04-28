@@ -29,12 +29,18 @@ fun HtmlBlockTag.showCurrencyUnit(
     state: State,
     unit: CurrencyUnit,
 ) {
-    val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
-
     fieldLink("Currency", call, state, unit.currency)
     field("Value", unit.value)
-    field("Denomination", currency.display(unit.value))
+    showDenomination(state, unit)
     showCurrencyFormat(call, state, unit.format)
+}
+
+private fun HtmlBlockTag.showDenomination(
+    state: State,
+    unit: CurrencyUnit,
+) {
+    val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
+    field("Denomination", currency.display(unit.value))
 }
 
 fun HtmlBlockTag.showCurrencyFormat(
@@ -91,7 +97,8 @@ fun FORM.editCurrencyUnit(
         state.getCurrencyStorage().getAll(),
         unit.currency,
     )
-    selectInt("Value", unit.value, 1, 10000, 1, NUMBER)
+    selectInt("Value", unit.value, 1, 10000, 1, NUMBER, update = true)
+    showDenomination(state, unit)
     editCurrencyFormat(state, unit.format)
 }
 
