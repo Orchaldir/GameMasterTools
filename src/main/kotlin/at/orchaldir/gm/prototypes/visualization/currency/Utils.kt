@@ -25,6 +25,26 @@ fun <C, R> renderCurrencyTable(
     size: Size2d,
     columns: List<Pair<String, C>>,
     rows: List<Pair<String, R>>,
+    createData: (C, R) -> ResolvedCurrencyData,
+    createFormat: (C, R) -> CurrencyFormat,
+) {
+    renderTable(filename, size, rows, columns, false) { aabb, renderer, _, column, row ->
+        val data = createData(column, row)
+        val format = createFormat(column, row)
+        val state = CurrencyRenderState(state, aabb, config, renderer, data)
+
+        visualizeCurrencyFormat(state, format)
+    }
+}
+
+
+fun <C, R> renderCurrencyTable(
+    filename: String,
+    state: State,
+    config: CurrencyRenderConfig,
+    size: Size2d,
+    columns: List<Pair<String, C>>,
+    rows: List<Pair<String, R>>,
     data: ResolvedCurrencyData = ResolvedCurrencyData(),
     create: (C, R) -> CurrencyFormat,
 ) {

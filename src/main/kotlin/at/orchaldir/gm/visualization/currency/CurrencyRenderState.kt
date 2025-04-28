@@ -11,7 +11,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 
 data class ResolvedCurrencyData(
-    val name: Name = Name.init("DDDDD"),
+    val name: Name = Name.init("Dollar"),
     val number: Int = 1,
     val denomination: Denomination = Denomination.init("gp", hasSpace = true),
 )
