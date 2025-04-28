@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.economy.money.BlankCoinSide
 import at.orchaldir.gm.core.model.economy.money.CoinSide
 import at.orchaldir.gm.core.model.economy.money.ShowDenomination
 import at.orchaldir.gm.core.model.economy.money.ShowName
+import at.orchaldir.gm.core.model.economy.money.ShowNumber
+import at.orchaldir.gm.core.model.economy.money.ShowValue
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
@@ -27,6 +29,8 @@ fun visualizeCoinSide(
     BlankCoinSide -> doNothing()
     is ShowDenomination -> visualizeDenomination(state, renderer, center, radius, side)
     is ShowName -> visualizeName(state, renderer, center, radius, side)
+    is ShowNumber -> visualizeNumber(state, renderer, center, radius, side)
+    is ShowValue -> visualizeValue(state, renderer, center, radius, side)
 }
 
 private fun visualizeDenomination(
@@ -36,8 +40,8 @@ private fun visualizeDenomination(
     radius: Distance,
     side: ShowDenomination,
 ) {
-    val text = state.data.denomination.display(state.data.number)
-    visualizeText(state, renderer, center, side.font, text, radius * 0.75f)
+    val text = state.data.denomination.text.text
+    visualizeText(state, renderer, center, side.font, text, radius)
 }
 
 private fun visualizeName(
@@ -48,12 +52,29 @@ private fun visualizeName(
     side: ShowName,
 ) {
     val text = state.data.name.text
-    // 1 = 1.5
-    // 2 = 1
-    // 3 = 0.75
-    // 4 = 0.5
-    val factor = 0.75.pow((text.length - 2).toDouble()).toFloat()
-    visualizeText(state, renderer, center, side.font, text, radius * factor)
+    visualizeText(state, renderer, center, side.font, text, radius)
+}
+
+private fun visualizeNumber(
+    state: CurrencyRenderState,
+    renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    side: ShowNumber,
+) {
+    val text = state.data.number.toString()
+    visualizeText(state, renderer, center, side.font, text, radius)
+}
+
+private fun visualizeValue(
+    state: CurrencyRenderState,
+    renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    side: ShowValue,
+) {
+    val text = state.data.denomination.display(state.data.number)
+    visualizeText(state, renderer, center, side.font, text, radius)
 }
 
 private fun visualizeText(
@@ -64,9 +85,10 @@ private fun visualizeText(
     text: String,
     size: Distance,
 ) {
+    val factor = 0.75.pow((text.length - 2).toDouble()).toFloat()
     val options = RenderStringOptions(
         BorderOnly(LineOptions(Color.Black.toRender(), HUNDRED_µM)),
-        size.toMeters(),
+        size.toMeters() * factor,
         state.state.getFontStorage().getOptional(font),
     )
 

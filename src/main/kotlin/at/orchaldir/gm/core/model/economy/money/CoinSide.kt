@@ -8,6 +8,8 @@ enum class CoinSideType {
     Blank,
     Denomination,
     Name,
+    Number,
+    Value,
 }
 
 @Serializable
@@ -17,6 +19,8 @@ sealed class CoinSide {
         is BlankCoinSide -> CoinSideType.Blank
         is ShowDenomination -> CoinSideType.Denomination
         is ShowName -> CoinSideType.Name
+        is ShowNumber -> CoinSideType.Number
+        is ShowValue -> CoinSideType.Value
     }
 }
 
@@ -33,5 +37,17 @@ data class ShowDenomination(
 @Serializable
 @SerialName("Name")
 data class ShowName(
+    val font: FontId? = null,
+) : CoinSide()
+
+@Serializable
+@SerialName("Number")
+data class ShowNumber(
+    val font: FontId? = null,
+) : CoinSide()
+
+@Serializable
+@SerialName("Value")
+data class ShowValue(
     val font: FontId? = null,
 ) : CoinSide()
