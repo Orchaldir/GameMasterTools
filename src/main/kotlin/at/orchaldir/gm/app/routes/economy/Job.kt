@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.editJob
-import at.orchaldir.gm.app.html.model.economy.parseBusiness
 import at.orchaldir.gm.app.html.model.economy.parseJob
 import at.orchaldir.gm.app.html.model.economy.showJob
 import at.orchaldir.gm.core.action.CreateJob
@@ -14,7 +13,6 @@ import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.job.Salary
-import at.orchaldir.gm.core.model.util.SortBusiness
 import at.orchaldir.gm.core.model.util.SortJob
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.money.display

@@ -30,8 +30,6 @@ import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
-import kotlin.collections.sortedWith
-import kotlin.comparisons.compareBy
 
 // generic
 

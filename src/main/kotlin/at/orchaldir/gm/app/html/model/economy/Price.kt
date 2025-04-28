@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import io.ktor.http.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
