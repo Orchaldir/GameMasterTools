@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.HUNDRED_µM
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.LineOptions
@@ -33,10 +34,11 @@ private fun visualizeDenomination(
     radius: Distance,
     side: ShowDenomination,
 ) {
+    val size = radius * 0.75f
     val text = state.data.denomination.display(state.data.number)
     val options = RenderStringOptions(
-        BorderOnly(LineOptions(Color.Black.toRender(), radius / 50.0f)),
-        radius.toMeters(),
+        BorderOnly(LineOptions(Color.Black.toRender(), HUNDRED_µM)),
+        size.toMeters(),
         state.state.getFontStorage().getOptional(side.font),
     )
 
