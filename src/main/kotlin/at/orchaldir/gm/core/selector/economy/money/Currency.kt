@@ -10,7 +10,7 @@ fun State.canDeleteCurrency(id: CurrencyId) = countCurrencyUnits(id) == 0
 
 fun Currency.display(price: Price) = display(price.value)
 
-fun Currency.display(price: Int): String {
+private fun Currency.display(price: Int): String {
     var lastThreshold = 0
 
     subDenominations.forEach { (subdenomination, threshold) ->

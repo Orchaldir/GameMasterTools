@@ -171,18 +171,17 @@ private fun HTML.showAllCurrencies(
                 th { +"Name" }
                 th { +"Currency" }
                 th { +"Value" }
-                th { +"Denomination" }
                 th { +"Format" }
                 th { +"Materials" }
             }
             units.forEach { unit ->
                 val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
+                val denomination = currency.getDenomination(unit.denomination)
 
                 tr {
                     td { link(call, state, unit) }
                     td { link(call, currency) }
-                    tdSkipZero(unit.number)
-                    td { +currency.display(unit.number) }
+                    td { +denomination.display(unit.number) }
                     tdEnum(unit.format.getType())
                     tdInlineLinks(call, state, unit.format.getMaterials())
                 }

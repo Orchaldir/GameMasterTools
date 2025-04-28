@@ -31,12 +31,12 @@ fun HtmlBlockTag.showCurrencyUnit(
         fieldLink("Currency", call, state, unit.currency)
         field("Number", unit.number)
         field("Denomination", unit.denomination)
-        showValue(state, unit)
+        fieldValue(state, unit)
     }
     showCurrencyFormat(call, state, unit.format)
 }
 
-private fun HtmlBlockTag.showValue(
+private fun HtmlBlockTag.fieldValue(
     state: State,
     unit: CurrencyUnit,
 ) {
@@ -127,7 +127,7 @@ fun FORM.editCurrencyUnit(
             combine(DENOMINATION, NUMBER),
             update = true,
         )
-        showValue(state, unit)
+        fieldValue(state, unit)
     }
     editCurrencyFormat(state, unit.format)
 }
