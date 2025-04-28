@@ -7,7 +7,10 @@
    "format": {
     "type": "Coin",
     "material": 11,
-    "radius": 9500
+    "radius": 9500,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "1": {
@@ -17,7 +20,10 @@
    "format": {
     "type": "Coin",
     "material": 12,
-    "radius": 10600
+    "radius": 10600,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "2": {
@@ -27,7 +33,10 @@
    "format": {
     "type": "Coin",
     "material": 13,
-    "radius": 9000
+    "radius": 9000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "3": {
@@ -37,7 +46,10 @@
    "format": {
     "type": "Coin",
     "material": 13,
-    "radius": 12100
+    "radius": 12100,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "4": {
@@ -47,7 +59,10 @@
    "format": {
     "type": "Coin",
     "material": 13,
-    "radius": 15300
+    "radius": 15300,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "5": {
@@ -58,7 +73,10 @@
    "format": {
     "type": "Coin",
     "material": 13,
-    "radius": 19000
+    "radius": 19000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "6": {
@@ -69,7 +87,10 @@
    "format": {
     "type": "Coin",
     "material": 10,
-    "radius": 13500
+    "radius": 13500,
+    "front": {
+     "type": "Value"
+    }
    }
   }
  }
