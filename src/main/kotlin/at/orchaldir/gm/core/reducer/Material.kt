@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.canDeleteMaterial
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -17,7 +17,7 @@ val CREATE_MATERIAL: Reducer<CreateMaterial, State> = { state, _ ->
 
 val DELETE_MATERIAL: Reducer<DeleteMaterial, State> = { state, action ->
     state.getMaterialStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Material ${action.id.value} is used" }
+    require(state.canDeleteMaterial(action.id)) { "Material ${action.id.value} is used" }
 
     noFollowUps(state.updateStorage(state.getMaterialStorage().remove(action.id)))
 }

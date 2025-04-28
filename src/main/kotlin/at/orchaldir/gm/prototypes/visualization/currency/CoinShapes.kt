@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.currency
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Coin
+import at.orchaldir.gm.core.model.economy.money.DEFAULT_RIM_FACTOR
 import at.orchaldir.gm.core.model.economy.money.HoledCoin
 import at.orchaldir.gm.core.model.economy.money.Shape
 import at.orchaldir.gm.core.model.material.Material
@@ -41,6 +42,7 @@ fun main() {
                 gold,
                 shape,
                 radius,
+                DEFAULT_RIM_FACTOR,
                 hole,
             )
         }

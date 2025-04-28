@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.economy.money
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -12,6 +13,9 @@ import kotlinx.serialization.Serializable
 val MIN_RADIUS = fromMillimeters(1)
 val DEFAULT_RADIUS = fromCentimeters(1)
 val MAX_RADIUS = fromCentimeters(10)
+
+val DEFAULT_RIM_FACTOR = fromPercentage(10)
+val MAX_RIM_FACTOR = fromPercentage(20)
 
 val MIN_RADIUS_FACTOR = fromPercentage(10)
 val DEFAULT_RADIUS_FACTOR = fromPercentage(20)
@@ -59,10 +63,12 @@ data class Coin(
     val material: MaterialId = MaterialId(0),
     val shape: Shape = Shape.Circle,
     val radius: Distance = DEFAULT_RADIUS,
+    val rimFactor: Factor = DEFAULT_RIM_FACTOR,
 ) : CurrencyFormat() {
 
     init {
         checkRadius(radius)
+        checkRimFactor(rimFactor)
     }
 
 }
@@ -73,13 +79,16 @@ data class HoledCoin(
     val material: MaterialId = MaterialId(0),
     val shape: Shape = Shape.Circle,
     val radius: Distance = DEFAULT_RADIUS,
+    val rimFactor: Factor = DEFAULT_RIM_FACTOR,
     val holeShape: Shape = Shape.Circle,
     val holeFactor: Factor = DEFAULT_RADIUS_FACTOR,
+    val hasHoleRim: Boolean = true,
 ) : CurrencyFormat() {
 
     init {
         checkRadius(radius)
         checkRadiusFactor(holeFactor, "hole")
+        checkRimFactor(rimFactor)
     }
 
     fun calculateHoleRadius() = calculateInnerRadius(radius, shape, holeShape) * holeFactor
@@ -92,6 +101,7 @@ data class BiMetallicCoin(
     val material: MaterialId = MaterialId(0),
     val shape: Shape = Shape.Circle,
     val radius: Distance = DEFAULT_RADIUS,
+    val rimFactor: Factor = DEFAULT_RIM_FACTOR,
     val innerMaterial: MaterialId = MaterialId(1),
     val innerShape: Shape = Shape.Circle,
     val innerFactor: Factor = DEFAULT_RADIUS_FACTOR,
@@ -100,6 +110,7 @@ data class BiMetallicCoin(
     init {
         require(material != innerMaterial) { "Outer & inner material are the same!" }
         checkRadius(radius)
+        checkRimFactor(rimFactor)
         checkRadiusFactor(innerFactor, "inner")
     }
 
@@ -112,9 +123,20 @@ private fun checkRadius(radius: Distance) {
     require(radius <= MAX_RADIUS) { "The radius factor is too large!" }
 }
 
-private fun checkRadiusFactor(factor: Factor, label: String) {
-    require(factor >= MIN_RADIUS_FACTOR) { "The $label factor is too small!" }
-    require(factor <= MAX_RADIUS_FACTOR) { "The $label factor is too large!" }
+private fun checkRimFactor(factor: Factor) =
+    checkFactor(factor, "rim", ZERO, MAX_RIM_FACTOR)
+
+private fun checkRadiusFactor(factor: Factor, label: String) =
+    checkFactor(factor, label, MIN_RADIUS_FACTOR, MAX_RADIUS_FACTOR)
+
+private fun checkFactor(
+    factor: Factor,
+    label: String,
+    min: Factor,
+    max: Factor,
+) {
+    require(factor >= min) { "The $label factor is too small!" }
+    require(factor <= max) { "The $label factor is too large!" }
 }
 
 private fun calculateInnerRadius(radius: Distance, outer: Shape, inner: Shape): Distance {

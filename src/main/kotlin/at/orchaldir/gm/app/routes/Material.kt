@@ -13,8 +13,9 @@ import at.orchaldir.gm.core.model.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.canDeleteMaterial
 import at.orchaldir.gm.core.selector.countRaceAppearancesMadeOf
+import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.item.countEquipment
@@ -155,6 +156,7 @@ private fun HTML.showAllMaterials(
                 th { +"Name" }
                 th { +"Category" }
                 th { +"Color" }
+                th { +"Currency" }
                 th { +"Equipment" }
                 th { +"Race App" }
                 th { +"Streets" }
@@ -165,6 +167,7 @@ private fun HTML.showAllMaterials(
                     td { link(call, state, material) }
                     tdEnum(material.category)
                     td { showColor(material.color) }
+                    tdSkipZero(state.countCurrencyUnits(material.id))
                     tdSkipZero(state.countEquipment(material.id))
                     tdSkipZero(state.countRaceAppearancesMadeOf(material.id))
                     tdSkipZero(state.countStreetTemplates(material.id))
@@ -208,7 +211,7 @@ private fun HTML.showMaterialDetails(
         }
 
         action(editLink, "Edit")
-        if (state.canDelete(material.id)) {
+        if (state.canDeleteMaterial(material.id)) {
             action(deleteLink, "Delete")
         }
         back(backLink)

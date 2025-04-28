@@ -78,6 +78,10 @@ fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
 fun HtmlBlockTag.field(name: String, value: Int) =
     field(name, value.toString())
 
+fun HtmlBlockTag.field(name: String, value: Boolean) = field(name) {
+    +value.toString()
+}
+
 fun <T : Enum<T>> HtmlBlockTag.field(name: String, value: T) =
     field(name, value.name)
 

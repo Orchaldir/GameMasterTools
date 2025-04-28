@@ -1,12 +1,22 @@
 package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.Serializable
 import java.util.*
 
 private const val FACTOR = 1000
 private const val SQUARED = FACTOR * FACTOR
-val ZERO = Distance.fromMillimeters(0)
+
+val ZERO = fromMillimeters(0)
+val HUNDRED_µM = fromMicrometers(100)
+val ONE_MM = fromMillimeters(1)
+val ONE_CM = fromCentimeters(1)
+val ONE_DM = fromCentimeters(10)
+val ONE_M = fromMeters(1)
 
 @JvmInline
 @Serializable

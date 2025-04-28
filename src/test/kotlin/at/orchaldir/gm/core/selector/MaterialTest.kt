@@ -25,8 +25,8 @@ class MaterialTest {
         fun `Can delete unused material`() {
             val state = State(Storage(listOf(Material(MATERIAL_ID_0), Material(MATERIAL_ID_1))))
 
-            assertTrue(state.canDelete(MATERIAL_ID_0))
-            assertTrue(state.canDelete(MATERIAL_ID_1))
+            assertTrue(state.canDeleteMaterial(MATERIAL_ID_0))
+            assertTrue(state.canDeleteMaterial(MATERIAL_ID_1))
         }
 
         @Test
@@ -38,8 +38,8 @@ class MaterialTest {
                 )
             )
 
-            assertFalse(state.canDelete(MATERIAL_ID_0))
-            assertTrue(state.canDelete(MATERIAL_ID_1))
+            assertFalse(state.canDeleteMaterial(MATERIAL_ID_0))
+            assertTrue(state.canDeleteMaterial(MATERIAL_ID_1))
         }
     }
 
