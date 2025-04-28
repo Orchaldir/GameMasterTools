@@ -4,16 +4,21 @@
   "0": {
    "id": 0,
    "name": "Galifar",
+   "denomination": {
+    "hasSpace": true
+   },
    "subDenominations": [
     {
      "first": {
-      "text": "cp"
+      "text": "cp",
+      "hasSpace": true
      },
      "second": 10
     },
     {
      "first": {
-      "text": "sp"
+      "text": "sp",
+      "hasSpace": true
      },
      "second": 100
     }

@@ -13,7 +13,6 @@
   "1": {
    "id": 1,
    "name": "Sovereign",
-   "number": 1,
    "denomination": 1,
    "format": {
     "type": "Coin",
@@ -25,7 +24,6 @@
   "2": {
    "id": 2,
    "name": "Galifar",
-   "number": 1,
    "denomination": 2,
    "format": {
     "type": "Coin",

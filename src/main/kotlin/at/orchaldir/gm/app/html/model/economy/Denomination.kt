@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.PREFIX
+import at.orchaldir.gm.app.SPACE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.model.parseNotEmptyString
 import at.orchaldir.gm.app.html.selectBool
@@ -28,6 +29,8 @@ fun HtmlBlockTag.editDenomination(
 ) {
     selectText("Denomination", denomination.text.text, combine(param, NAME))
     selectBool("Is prefix", denomination.isPrefix, combine(param, PREFIX), update = true)
+    selectBool("Has Space", denomination.hasSpace, combine(param, SPACE), update = true)
+    field("Example", denomination.display(1))
 }
 
 // parse
@@ -35,4 +38,5 @@ fun HtmlBlockTag.editDenomination(
 fun parseDenomination(parameters: Parameters, param: String) = Denomination(
     parseNotEmptyString(parameters, combine(param, NAME), "gp"),
     parseBool(parameters, combine(param, PREFIX)),
+    parseBool(parameters, combine(param, SPACE)),
 )
