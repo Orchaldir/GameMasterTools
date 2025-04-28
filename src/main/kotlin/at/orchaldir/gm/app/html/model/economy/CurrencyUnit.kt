@@ -30,7 +30,7 @@ fun HtmlBlockTag.showCurrencyUnit(
     showDetails("Value", true) {
         fieldLink("Currency", call, state, unit.currency)
         field("Number", unit.number)
-        field("Denomination", unit.number)
+        field("Denomination", unit.denomination)
         showValue(state, unit)
     }
     showCurrencyFormat(call, state, unit.format)
