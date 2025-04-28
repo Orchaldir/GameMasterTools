@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.canDeleteMaterial
 import at.orchaldir.gm.core.selector.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
@@ -211,7 +212,7 @@ private fun HTML.showMaterialDetails(
         }
 
         action(editLink, "Edit")
-        if (state.canDelete(material.id)) {
+        if (state.canDeleteMaterial(material.id)) {
             action(deleteLink, "Delete")
         }
         back(backLink)

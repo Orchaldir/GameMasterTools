@@ -4,6 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.Coin
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.Shirt
@@ -40,11 +42,25 @@ class MaterialTest {
         }
 
         @Test
-        fun `Cannot delete a material used by an item template`() {
-            val template = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(MATERIAL_ID_0)))
+        fun `Cannot delete a material used by a currency unit`() {
+            val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, format = Coin())
             val state = State(
                 listOf(
-                    Storage(template),
+                    Storage(unit),
+                    Storage(Material(MATERIAL_ID_0)),
+                )
+            )
+            val action = DeleteMaterial(MATERIAL_ID_0)
+
+            assertIllegalArgument("Material 0 is used") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete a material used by an equipment`() {
+            val equipment = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(MATERIAL_ID_0)))
+            val state = State(
+                listOf(
+                    Storage(equipment),
                     Storage(Material(MATERIAL_ID_0)),
                 )
             )
