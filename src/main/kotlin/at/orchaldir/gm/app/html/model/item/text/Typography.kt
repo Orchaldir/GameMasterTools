@@ -150,17 +150,30 @@ fun HtmlBlockTag.editFontOption(
             selectColor(option.fill, combine(param, COLOR), "Fill Color")
             selectColor(option.border, combine(param, BORDER, COLOR), "Border Color")
             editSharedFontOptions(state, param, option.font, option.size)
-            selectDistance(
-                "Border Thickness",
-                combine(param, BORDER, SIZE),
-                option.thickness,
-                HUNDRED_µM,
-                ONE_CM,
-                HUNDRED_µM,
-                update = true,
-            )
+            selectBorderThickness(param, option.thickness)
+        }
+
+        is HollowFont -> {
+            selectColor(option.border, combine(param, BORDER, COLOR), "Border Color")
+            editSharedFontOptions(state, param, option.font, option.size)
+            selectBorderThickness(param, option.thickness)
         }
     }
+}
+
+private fun HtmlBlockTag.selectBorderThickness(
+    param: String,
+    thickness: Distance,
+) {
+    selectDistance(
+        "Border Thickness",
+        combine(param, BORDER, SIZE),
+        thickness,
+        HUNDRED_µM,
+        ONE_CM,
+        HUNDRED_µM,
+        update = true,
+    )
 }
 
 private fun HtmlBlockTag.editSharedFontOptions(
@@ -221,6 +234,13 @@ private fun parseFontOption(parameters: Parameters, param: String) =
             parseDistance(parameters, combine(param, SIZE), 10),
             parseDistance(parameters, combine(param, BORDER, SIZE), 1),
             parse(parameters, combine(param, COLOR), Color.White),
+            parse(parameters, combine(param, BORDER, COLOR), Color.White),
+            parseFontId(parameters, combine(param, FONT)),
+        )
+
+        FontOptionType.Hollow -> HollowFont(
+            parseDistance(parameters, combine(param, SIZE), 10),
+            parseDistance(parameters, combine(param, BORDER, SIZE), 1),
             parse(parameters, combine(param, BORDER, COLOR), Color.White),
             parseFontId(parameters, combine(param, FONT)),
         )
