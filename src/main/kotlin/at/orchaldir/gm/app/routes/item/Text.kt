@@ -220,7 +220,7 @@ private fun HTML.showGallery(
     val backLink = call.application.href(TextRoutes.All())
 
     simpleHtml("Texts") {
-        showGallery(call, texts, { text -> text.getNameWithDate(state) }) { text ->
+        showGallery(call, texts, { it.getNameWithDate(state) }) { text ->
             visualizeTextFormat(state, TEXT_CONFIG, text, size)
         }
 
