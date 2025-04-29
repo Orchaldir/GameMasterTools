@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.religion
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
@@ -24,7 +25,7 @@ value class GodId(val value: Int) : Id<GodId> {
 data class God(
     val id: GodId,
     val name: Name = Name.init("God ${id.value}"),
-    val title: String? = null,
+    val title: NotEmptyString? = null,
     val gender: Gender = Gender.Genderless,
     val personality: Set<PersonalityTraitId> = emptySet(),
     val domains: Set<DomainId> = emptySet(),

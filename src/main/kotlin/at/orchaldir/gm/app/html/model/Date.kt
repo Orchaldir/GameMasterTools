@@ -197,19 +197,6 @@ fun HtmlBlockTag.selectOptionalDay(
     }
 }
 
-private fun <T> HtmlBlockTag.selectOptional(
-    fieldLabel: String,
-    date: T?,
-    param: String,
-    content: HtmlBlockTag.(T) -> Unit,
-) {
-    field(fieldLabel) {
-        selectBool(date != null, combine(param, AVAILABLE), isDisabled = false, update = true)
-        if (date != null) {
-            content(date)
-        }
-    }
-}
 
 // select
 

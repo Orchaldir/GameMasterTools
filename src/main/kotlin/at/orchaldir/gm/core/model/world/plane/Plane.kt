@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.world.plane
 
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
@@ -22,7 +23,7 @@ value class PlaneId(val value: Int) : Id<PlaneId> {
 data class Plane(
     val id: PlaneId,
     val name: Name = Name.init("Plane ${id.value}"),
-    val title: String? = null,
+    val title: NotEmptyString? = null,
     val purpose: PlanePurpose = MaterialPlane,
 ) : ElementWithSimpleName<PlaneId>, Created {
 

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.religion
 
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -21,7 +22,7 @@ value class PantheonId(val value: Int) : Id<PantheonId> {
 data class Pantheon(
     val id: PantheonId,
     val name: Name = Name.init("Pantheon ${id.value}"),
-    val title: String? = null,
+    val title: NotEmptyString? = null,
     val gods: Set<GodId> = emptySet(),
 ) : ElementWithSimpleName<PantheonId> {
 

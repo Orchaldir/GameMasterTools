@@ -37,7 +37,7 @@ fun FORM.editPantheon(
     pantheon: Pantheon,
 ) {
     selectName(pantheon.name)
-    selectOptionalText("Optional Title", pantheon.title, TILE)
+    selectOptionalNotEmptyString("Optional Title", pantheon.title, TILE)
     selectElements(state, "Member Gods", GOD, state.sortGods(), pantheon.gods)
 }
 
@@ -50,6 +50,6 @@ fun parsePantheonId(value: String) = PantheonId(value.toInt())
 fun parsePantheon(parameters: Parameters, id: PantheonId) = Pantheon(
     id,
     parseName(parameters),
-    parseOptionalString(parameters, TILE),
+    parseOptionalNotEmptyString(parameters, TILE),
     parseElements(parameters, GOD, ::parseGodId),
 )

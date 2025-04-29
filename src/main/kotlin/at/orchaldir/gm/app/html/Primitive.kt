@@ -34,6 +34,12 @@ fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
 
 // show string
 
+fun HtmlBlockTag.optionalField(label: String, string: NotEmptyString?) =
+    optionalField(label, string?.text)
+
+fun HtmlBlockTag.field(label: String, string: NotEmptyString) =
+    field(label, string.text)
+
 fun HtmlBlockTag.fieldName(name: Name) = fieldName("Name", name)
 
 fun HtmlBlockTag.fieldName(label: String, name: Name) {
@@ -53,17 +59,16 @@ fun HtmlBlockTag.field(name: String, value: String) = field(name) {
     +value
 }
 
-// TODO: NotEmptyString?
-fun HtmlBlockTag.optionalField(name: String, value: String?) {
+fun <T : Enum<T>> HtmlBlockTag.optionalField(name: String, value: T?) =
+    optionalField(name, value?.name)
+
+private fun HtmlBlockTag.optionalField(name: String, value: String?) {
     if (value != null) {
         field(name) {
             +value
         }
     }
 }
-
-fun <T : Enum<T>> HtmlBlockTag.optionalField(name: String, value: T?) =
-    optionalField(name, value?.name)
 
 // edit
 
@@ -164,6 +169,24 @@ fun HtmlBlockTag.selectInt(
 
 // select string
 
+fun HtmlBlockTag.selectOptionalNotEmptyString(
+    label: String,
+    string: NotEmptyString?,
+    param: String,
+) {
+    selectOptional(label, string, param) {
+        selectText(it.text, param)
+    }
+}
+
+fun HtmlBlockTag.selectNotEmptyString(
+    label: String,
+    string: NotEmptyString,
+    param: String,
+) {
+    selectText(label, string.text, param)
+}
+
 fun HtmlBlockTag.selectName(name: Name) {
     selectText("Name", name.text, NAME, 1)
 }
@@ -231,6 +254,9 @@ fun parseOptionalInt(parameters: Parameters, param: String): Int? {
 }
 
 // parse string
+
+fun parseOptionalNotEmptyString(parameters: Parameters, param: String) =
+    parameters[param]?.let { NotEmptyString.init(it) }
 
 fun parseNotEmptyString(parameters: Parameters, param: String) = NotEmptyString.init(parameters.getOrFail(param))
 

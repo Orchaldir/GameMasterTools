@@ -196,8 +196,8 @@ fun TR.tdSkipZero(value: Int?) {
     }
 }
 
-fun TR.tdString(value: NotEmptyString) {
-    tdString(value.text)
+fun TR.tdString(value: NotEmptyString?) {
+    tdString(value?.text)
 }
 
 fun TR.tdString(text: String?) {

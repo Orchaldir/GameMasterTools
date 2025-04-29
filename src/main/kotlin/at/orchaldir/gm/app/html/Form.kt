@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.AVAILABLE
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
@@ -39,6 +41,20 @@ fun FORM.button(text: String, updateLink: String, isDisabled: Boolean = false) {
             formAction = updateLink
             formMethod = InputFormMethod.post
             disabled = isDisabled
+        }
+    }
+}
+
+fun <T> HtmlBlockTag.selectOptional(
+    fieldLabel: String,
+    value: T?,
+    param: String,
+    content: HtmlBlockTag.(T) -> Unit,
+) {
+    field(fieldLabel) {
+        selectBool(value != null, combine(param, AVAILABLE), isDisabled = false, update = true)
+        if (value != null) {
+            content(value)
         }
     }
 }

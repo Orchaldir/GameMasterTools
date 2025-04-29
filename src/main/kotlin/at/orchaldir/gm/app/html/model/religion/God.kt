@@ -55,7 +55,7 @@ fun FORM.editGod(
     god: God,
 ) {
     selectName(god.name)
-    selectOptionalText("Optional Title", god.title, TILE)
+    selectOptionalNotEmptyString("Optional Title", god.title, TILE)
     selectValue("Gender", GENDER, Gender.entries, god.gender)
     editPersonality(call, state, god.personality)
     selectElements(state, "Domains", DOMAIN, state.sortDomains(), god.domains)
@@ -70,7 +70,7 @@ fun parseGodId(value: String) = GodId(value.toInt())
 fun parseGod(parameters: Parameters, id: GodId) = God(
     id,
     parseName(parameters),
-    parseOptionalString(parameters, TILE),
+    parseOptionalNotEmptyString(parameters, TILE),
     parseGender(parameters),
     parsePersonality(parameters),
     parseElements(parameters, DOMAIN, ::parseDomainId),

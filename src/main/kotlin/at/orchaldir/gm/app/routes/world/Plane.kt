@@ -157,7 +157,7 @@ private fun HTML.showAllPlanes(
             planes.forEach { plane ->
                 tr {
                     td { link(call, state, plane) }
-                    td { plane.title?.let { +it } }
+                    tdString(plane.title)
                     td { displayPlanePurpose(call, state, plane.purpose, false) }
                     td {
                         if (plane.purpose is IndependentPlane) {
