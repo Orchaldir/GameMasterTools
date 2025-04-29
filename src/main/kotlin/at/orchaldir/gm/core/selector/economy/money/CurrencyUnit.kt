@@ -12,6 +12,10 @@ fun State.countCurrencyUnits(currency: CurrencyId) = getCurrencyUnitStorage()
     .getAll()
     .count { it.currency == currency }
 
+fun State.countCurrencyUnits(font: FontId) = getCurrencyUnitStorage()
+    .getAll()
+    .count { it.format.getFonts().contains(font) }
+
 fun State.countCurrencyUnits(material: MaterialId) = getCurrencyUnitStorage()
     .getAll()
     .count { it.format.contains(material) }
@@ -22,7 +26,7 @@ fun State.getCurrencyUnits(currency: CurrencyId) = getCurrencyUnitStorage()
 
 fun State.getCurrencyUnits(font: FontId) = getCurrencyUnitStorage()
     .getAll()
-    .filter { b -> b.format.getFonts().contains(font) }
+    .filter { it.format.getFonts().contains(font) }
 
 fun State.getCurrencyUnits(material: MaterialId) = getCurrencyUnitStorage()
     .getAll()

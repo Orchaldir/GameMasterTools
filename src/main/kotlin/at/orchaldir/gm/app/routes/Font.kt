@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.util.SortFont
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.util.sortFonts
 import at.orchaldir.gm.visualization.visualizeString
@@ -214,6 +215,7 @@ private fun HTML.showAllFonts(
                     style = "width:1000px"
                     +"Example"
                 }
+                th { +"Currencies" }
                 th { +"Texts" }
             }
             fonts.forEach { font ->
@@ -221,6 +223,7 @@ private fun HTML.showAllFonts(
                     td { link(call, font) }
                     td { showOptionalDate(call, state, font.date) }
                     td { svg(visualizeString(example, font, 40.0f), 100) }
+                    tdSkipZero(state.countCurrencyUnits(font.id))
                     tdSkipZero(state.countTexts(font.id))
                 }
             }
