@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.PLANE
 import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.html.model.parseName
-import at.orchaldir.gm.app.html.model.selectName
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.core.model.State

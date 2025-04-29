@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.PERSONALITY_PREFIX
 import at.orchaldir.gm.app.html.fieldIdList
 import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PersonalityTrait

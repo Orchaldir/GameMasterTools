@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.NAMES
 import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameList

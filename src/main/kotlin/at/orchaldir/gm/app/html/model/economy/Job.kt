@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
-import at.orchaldir.gm.app.html.model.parseName
-import at.orchaldir.gm.app.html.model.selectName
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.html.parseInt

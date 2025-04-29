@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldName
+import at.orchaldir.gm.app.html.fieldName
 import at.orchaldir.gm.app.html.model.parsePersonalityTrait
-import at.orchaldir.gm.app.html.model.selectName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait

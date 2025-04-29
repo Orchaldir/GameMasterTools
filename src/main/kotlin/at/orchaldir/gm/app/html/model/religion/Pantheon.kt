@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.html.model.religion
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.parseName
-import at.orchaldir.gm.app.html.model.selectName
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseOptionalString

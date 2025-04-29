@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.model.character.appearance.selectHornLength
 import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.parseMaterialId
-import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*

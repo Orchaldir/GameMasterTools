@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.parse.world
 
-import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId

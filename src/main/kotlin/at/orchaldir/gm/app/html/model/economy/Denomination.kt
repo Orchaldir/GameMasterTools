@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.PREFIX
 import at.orchaldir.gm.app.SPACE
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.model.parseNotEmptyString
+import at.orchaldir.gm.app.html.parseNotEmptyString
 import at.orchaldir.gm.app.html.selectBool
 import at.orchaldir.gm.app.html.selectText
 import at.orchaldir.gm.app.parse.combine

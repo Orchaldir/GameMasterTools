@@ -1,6 +1,10 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import io.ktor.http.Parameters
+import io.ktor.server.util.getOrFail
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.P
 import kotlinx.html.b
@@ -21,6 +25,27 @@ fun HtmlBlockTag.field(name: String, value: Boolean) = field(name) {
 fun HtmlBlockTag.field(name: String, value: Int) =
     field(name, value.toString())
 
+fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
+    p {
+        b { +"$label: " }
+        content()
+    }
+}
+
+// show string
+
+fun HtmlBlockTag.fieldName(name: Name) = fieldName("Name", name)
+
+fun HtmlBlockTag.fieldName(label: String, name: Name) {
+    field(label) {
+        showName(name)
+    }
+}
+
+fun HtmlBlockTag.showName(name: Name) {
+    +name.text
+}
+
 fun <T : Enum<T>> HtmlBlockTag.field(name: String, value: T) =
     field(name, value.name)
 
@@ -39,13 +64,6 @@ fun HtmlBlockTag.optionalField(name: String, value: String?) {
 
 fun <T : Enum<T>> HtmlBlockTag.optionalField(name: String, value: T?) =
     optionalField(name, value?.name)
-
-fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
-    p {
-        b { +"$label: " }
-        content()
-    }
-}
 
 // edit
 
@@ -144,6 +162,18 @@ fun HtmlBlockTag.selectInt(
     }
 }
 
+// select string
+
+fun HtmlBlockTag.selectName(name: Name) {
+    selectText("Name", name.text, NAME, 1)
+}
+
+fun HtmlBlockTag.selectOptionalName(
+    name: Name?,
+) {
+    selectText("Name", name?.text ?: "", NAME, 0)
+}
+
 fun HtmlBlockTag.selectOptionalText(
     label: String,
     text: String?,
@@ -200,8 +230,28 @@ fun parseOptionalInt(parameters: Parameters, param: String): Int? {
     return value.toInt()
 }
 
+// parse string
+
+fun parseNotEmptyString(parameters: Parameters, param: String) = NotEmptyString.init(parameters.getOrFail(param))
+
+fun parseNotEmptyString(parameters: Parameters, param: String, default: String) =
+    NotEmptyString.init(parameters[param] ?: default)
+
+fun parseName(parameters: Parameters, param: String = NAME) = Name.init(parameters.getOrFail(param))
+
+fun parseName(parameters: Parameters, param: String, default: String) = Name.init(parameters[param] ?: default)
+
+fun parseOptionalName(parameters: Parameters, param: String = NAME) = parameters[param]
+    ?.trim()
+    ?.let { name ->
+        if (name.isEmpty()) {
+            null
+        } else {
+            Name.init(name)
+        }
+    }
+
 fun parseString(parameters: Parameters, param: String, default: String = "") = parameters[param]?.trim() ?: default
 
 fun parseOptionalString(parameters: Parameters, param: String) = parameters[param]?.ifEmpty { null }?.trim()
-
 

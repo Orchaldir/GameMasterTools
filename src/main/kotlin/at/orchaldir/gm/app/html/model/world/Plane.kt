@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html.model.world
 
 import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.model.parseName
-import at.orchaldir.gm.app.html.model.selectName
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.selectOptionalText
 import at.orchaldir.gm.app.html.parseOptionalInt

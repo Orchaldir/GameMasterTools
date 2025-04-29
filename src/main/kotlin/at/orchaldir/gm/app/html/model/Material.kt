@@ -4,11 +4,14 @@ import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.fieldColor
+import at.orchaldir.gm.app.html.fieldName
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseOptionalInt
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId

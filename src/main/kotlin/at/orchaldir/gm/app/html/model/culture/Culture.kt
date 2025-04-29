@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.html.model.culture
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseLanguageId
-import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.model.parseNameListId
-import at.orchaldir.gm.app.html.model.selectName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.model.time.parseHolidays

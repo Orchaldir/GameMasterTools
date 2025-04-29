@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.character.parseOptionalCharacterId
 import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.optionalFieldLink
