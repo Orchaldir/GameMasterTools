@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
+import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
@@ -22,6 +23,7 @@ import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
@@ -329,6 +331,7 @@ fun <ID : Id<ID>> href(
     is StreetId -> call.application.href(StreetRoutes.Details(id))
     is StreetTemplateId -> call.application.href(StreetTemplateRoutes.Details(id))
     is TextId -> call.application.href(TextRoutes.Details(id))
+    is TitleId -> call.application.href(TitleRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }

@@ -21,7 +21,7 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showTitle(
     title: Title,
 ) {
-    field("Tex", title.text.text)
+    field("Text", title.text.text)
     field("Position", title.position)
 }
 
