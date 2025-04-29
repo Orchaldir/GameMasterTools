@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.selectNotEmptyString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
@@ -26,7 +27,7 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showTitle(
     title: Title,
 ) {
-    field("Text", title.text.text)
+    field("Text", title.text)
     field("Position", title.position)
     field("Separator", title.separator?.let { "\"$it\"" } ?: "")
 }
@@ -37,7 +38,7 @@ fun FORM.editTitle(
     title: Title,
 ) {
     selectName(title.name)
-    selectText("Text", title.text.text, WORD, 1)
+    selectNotEmptyString("Text", title.text, WORD)
     selectValue("Position", POSITION, TitlePosition.entries, title.position)
     selectOptionalText("Separator", title.separator?.toString(), SEPARATOR)
 }

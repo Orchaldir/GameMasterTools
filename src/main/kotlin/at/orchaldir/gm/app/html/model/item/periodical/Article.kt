@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.model.item.periodical
 
 import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.TILE
+import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.character.parseOptionalCharacterId
 import at.orchaldir.gm.app.html.model.optionalField
@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.html.optionalFieldLink
 import at.orchaldir.gm.app.html.selectOptionalElement
 import at.orchaldir.gm.app.html.selectText
 import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
@@ -41,7 +42,7 @@ fun FORM.editArticle(
     state: State,
     article: Article,
 ) {
-    selectText("Title", article.title.text, TILE, 1)
+    selectName("Title", article.title, TITLE)
     selectOptionalElement(
         state,
         "Author",
@@ -60,7 +61,7 @@ fun parseArticleId(parameters: Parameters, param: String) = ArticleId(parseInt(p
 
 fun parseArticle(parameters: Parameters, state: State, id: ArticleId) = Article(
     id,
-    parseName(parameters, TILE),
+    parseName(parameters, TITLE),
     parseOptionalCharacterId(parameters, CHARACTER),
     parseOptionalDate(parameters, state, DATE),
 )

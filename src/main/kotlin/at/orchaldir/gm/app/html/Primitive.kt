@@ -187,13 +187,15 @@ fun HtmlBlockTag.selectNotEmptyString(
     selectText(label, string.text, param)
 }
 
-fun HtmlBlockTag.selectName(name: Name) {
-    selectText("Name", name.text, NAME, 1)
+fun HtmlBlockTag.selectName(label: String, name: Name, param: String) {
+    selectText(label, name.text, param, 1)
 }
 
-fun HtmlBlockTag.selectOptionalName(
-    name: Name?,
-) {
+fun HtmlBlockTag.selectName(name: Name, param: String = NAME) {
+    selectText("Name", name.text, param, 1)
+}
+
+fun HtmlBlockTag.selectOptionalName(name: Name?) {
     selectText("Name", name?.text ?: "", NAME, 0)
 }
 

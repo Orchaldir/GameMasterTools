@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.model.religion
 
 import at.orchaldir.gm.app.DOMAIN
 import at.orchaldir.gm.app.GENDER
-import at.orchaldir.gm.app.TILE
+import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.parseGender
@@ -55,7 +55,7 @@ fun FORM.editGod(
     god: God,
 ) {
     selectName(god.name)
-    selectOptionalNotEmptyString("Optional Title", god.title, TILE)
+    selectOptionalNotEmptyString("Optional Title", god.title, TITLE)
     selectValue("Gender", GENDER, Gender.entries, god.gender)
     editPersonality(call, state, god.personality)
     selectElements(state, "Domains", DOMAIN, state.sortDomains(), god.domains)
@@ -70,7 +70,7 @@ fun parseGodId(value: String) = GodId(value.toInt())
 fun parseGod(parameters: Parameters, id: GodId) = God(
     id,
     parseName(parameters),
-    parseOptionalNotEmptyString(parameters, TILE),
+    parseOptionalNotEmptyString(parameters, TITLE),
     parseGender(parameters),
     parsePersonality(parameters),
     parseElements(parameters, DOMAIN, ::parseDomainId),

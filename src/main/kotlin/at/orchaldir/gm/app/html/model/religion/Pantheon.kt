@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.religion
 
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.TILE
+import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.selectName
@@ -37,7 +38,7 @@ fun FORM.editPantheon(
     pantheon: Pantheon,
 ) {
     selectName(pantheon.name)
-    selectOptionalNotEmptyString("Optional Title", pantheon.title, TILE)
+    selectOptionalNotEmptyString("Optional Title", pantheon.title, TITLE)
     selectElements(state, "Member Gods", GOD, state.sortGods(), pantheon.gods)
 }
 
@@ -50,6 +51,6 @@ fun parsePantheonId(value: String) = PantheonId(value.toInt())
 fun parsePantheon(parameters: Parameters, id: PantheonId) = Pantheon(
     id,
     parseName(parameters),
-    parseOptionalNotEmptyString(parameters, TILE),
+    parseOptionalNotEmptyString(parameters, TITLE),
     parseElements(parameters, GOD, ::parseGodId),
 )
