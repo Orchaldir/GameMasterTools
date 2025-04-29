@@ -4,12 +4,13 @@ import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.SEPARATOR
 import at.orchaldir.gm.app.WORD
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parseChar
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseNotEmptyString
-import at.orchaldir.gm.app.html.selectOptionalText
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.html.parseOptionalInt
+import at.orchaldir.gm.app.html.selectChar
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.selectNotEmptyString
 import at.orchaldir.gm.core.model.State
@@ -38,7 +39,7 @@ fun FORM.editTitle(
     selectName(title.name)
     selectNotEmptyString("Text", title.text, WORD)
     selectValue("Position", POSITION, TitlePosition.entries, title.position)
-    selectOptionalText("Separator", title.separator?.toString(), SEPARATOR)
+    selectChar("Separator", title.separator, SEPARATOR)
 }
 
 // parse
@@ -52,4 +53,5 @@ fun parseTitle(parameters: Parameters, state: State, id: TitleId) = Title(
     parseName(parameters),
     parseNotEmptyString(parameters, WORD),
     parse(parameters, POSITION, TitlePosition.BeforeFamilyName),
+    parseChar(parameters, SEPARATOR, ' '),
 )

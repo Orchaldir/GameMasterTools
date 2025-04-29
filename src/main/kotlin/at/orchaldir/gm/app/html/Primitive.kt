@@ -214,8 +214,9 @@ fun HtmlBlockTag.selectOptionalText(
     label: String,
     text: String?,
     param: String,
+    max: Int? = null,
 ) {
-    selectText(label, text ?: "", param, 0)
+    selectText(label, text ?: "", param, 0, max)
 }
 
 fun HtmlBlockTag.selectText(
