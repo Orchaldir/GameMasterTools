@@ -32,6 +32,7 @@ fun validateCurrencyUnit(
     state: State,
     unit: CurrencyUnit,
 ) {
-    state.getCurrencyStorage().require(unit.currency)
+    val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
+    currency.getDenomination(unit.denomination)
     unit.format.getMaterials().forEach { state.getMaterialStorage().require(it) }
 }

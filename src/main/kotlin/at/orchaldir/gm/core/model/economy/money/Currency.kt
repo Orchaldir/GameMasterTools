@@ -51,7 +51,7 @@ data class Currency(
         } else if (index == size) {
             denomination
         } else {
-            error("Index $index is not a valid denomination!")
+            error("Currency ${id.value} doesn't have a denomination $index!")
         }
     }
 
