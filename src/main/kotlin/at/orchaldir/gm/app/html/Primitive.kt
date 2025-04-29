@@ -165,7 +165,7 @@ fun HtmlBlockTag.selectChar(
     char: Char,
     param: String,
 ) {
-    selectText(label, char.toString(), param, 1, 1)
+    selectString(label, char.toString(), param, 1, 1)
 }
 
 fun HtmlBlockTag.selectOptionalNotEmptyString(
@@ -174,7 +174,7 @@ fun HtmlBlockTag.selectOptionalNotEmptyString(
     param: String,
 ) {
     selectOptional(label, string, param) {
-        selectText(it.text, param)
+        selectString(it.text, param)
     }
 }
 
@@ -183,24 +183,24 @@ fun HtmlBlockTag.selectNotEmptyString(
     string: NotEmptyString,
     param: String,
 ) {
-    selectText(label, string.text, param)
+    selectString(label, string.text, param)
 }
 
 fun HtmlBlockTag.selectName(label: String, name: Name, param: String) {
-    selectText(label, name.text, param, 1)
+    selectString(label, name.text, param, 1)
 }
 
 fun HtmlBlockTag.selectName(name: Name, param: String = NAME) {
-    selectText("Name", name.text, param, 1)
+    selectString("Name", name.text, param, 1)
 }
 
 fun HtmlBlockTag.selectOptionalName(name: Name?) = selectOptionalName("Name", name)
 
 fun HtmlBlockTag.selectOptionalName(label: String, name: Name?, param: String = NAME) {
-    selectText(label, name?.text ?: "", param, 0)
+    selectString(label, name?.text ?: "", param, 0)
 }
 
-fun HtmlBlockTag.selectText(
+private fun HtmlBlockTag.selectString(
     label: String,
     text: String,
     param: String,
@@ -208,11 +208,11 @@ fun HtmlBlockTag.selectText(
     max: Int? = null,
 ) {
     field(label) {
-        selectText(text, param, min, max)
+        selectString(text, param, min, max)
     }
 }
 
-private fun HtmlBlockTag.selectText(
+private fun HtmlBlockTag.selectString(
     text: String,
     param: String,
     min: Int = 1,
@@ -285,8 +285,3 @@ fun parseOptionalName(parameters: Parameters, param: String = NAME) = parameters
             Name.init(name)
         }
     }
-
-fun parseString(parameters: Parameters, param: String, default: String = "") = parameters[param]?.trim() ?: default
-
-fun parseOptionalString(parameters: Parameters, param: String) = parameters[param]?.ifEmpty { null }?.trim()
-
