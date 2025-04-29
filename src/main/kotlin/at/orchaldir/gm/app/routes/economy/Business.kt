@@ -191,7 +191,7 @@ private fun HTML.showBusinessDetails(
     val deleteLink = call.application.href(BusinessRoutes.Delete(business.id))
     val editLink = call.application.href(BusinessRoutes.Edit(business.id))
 
-    simpleHtml("Business: ${business.name(state)}") {
+    simpleHtmlDetails(business) {
         showBusiness(call, state, business)
 
         action(editLink, "Edit")
@@ -211,7 +211,7 @@ private fun HTML.showBusinessEditor(
     val previewLink = call.application.href(BusinessRoutes.Preview(business.id))
     val updateLink = call.application.href(BusinessRoutes.Update(business.id))
 
-    simpleHtml("Edit Business: ${business.name(state)}") {
+    simpleHtmlEditor(business) {
         formWithPreview(previewLink, updateLink, backLink) {
             editBusiness(state, business)
         }

@@ -139,9 +139,9 @@ private fun HTML.showTownDetails(
     val editStreetsLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
     val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
 
-    simpleHtml("Town: ${town.name(state)}") {
+    simpleHtmlDetails(town) {
         split({
-            fieldReferenceByName(call, state, town.name)
+            fieldName(town.name)
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
             fieldCreator(call, state, town.founder, "Founder")
@@ -206,10 +206,10 @@ private fun HTML.showTownEditor(
     val previewLink = call.application.href(TownRoutes.Preview(town.id))
     val updateLink = call.application.href(TownRoutes.Update(town.id))
 
-    simpleHtml("Edit Town: ${town.name(state)}") {
+    simpleHtmlEditor(town) {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
-                selectComplexName(state, town.name)
+                selectName(town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)
                 selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
             }

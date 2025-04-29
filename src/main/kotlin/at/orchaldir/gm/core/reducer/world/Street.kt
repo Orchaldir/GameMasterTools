@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
-import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -25,8 +24,6 @@ val DELETE_STREET: Reducer<DeleteStreet, State> = { state, action ->
 
 val UPDATE_STREET: Reducer<UpdateStreet, State> = { state, action ->
     state.getStreetStorage().require(action.street.id)
-
-    checkComplexName(state, action.street.name)
 
     noFollowUps(state.updateStorage(state.getStreetStorage().update(action.street)))
 }

@@ -31,7 +31,7 @@ import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.name.ComplexName
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.Organization
@@ -307,7 +307,7 @@ data class DeleteBuilding(val id: BuildingId) : WorldAction()
 
 data class UpdateBuilding(
     val id: BuildingId,
-    val name: ComplexName?,
+    val name: Name?,
     val address: Address,
     val constructionDate: Date?,
     val ownership: History<Owner>,

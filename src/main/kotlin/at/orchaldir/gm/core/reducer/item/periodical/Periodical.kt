@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
-import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
@@ -43,7 +42,6 @@ fun validatePeriodical(
     state.getCalendarStorage().require(periodical.calendar)
     state.getLanguageStorage().require(periodical.language)
     validateFrequency(state, periodical)
-    checkComplexName(state, periodical.name)
     checkDate(state, date, "Founding")
     checkOwnershipWithOptionalDate(state, periodical.ownership, date)
 }

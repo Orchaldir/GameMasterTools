@@ -18,7 +18,7 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
 
     return UpdateBuilding(
         id,
-        parseOptionalComplexName(parameters),
+        parseOptionalName(parameters),
         parseAddress(parameters),
         constructionDate,
         parseOwnership(parameters, state, constructionDate),

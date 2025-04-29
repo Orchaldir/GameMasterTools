@@ -30,7 +30,7 @@ fun HtmlBlockTag.showBusiness(
     val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
     val published = state.getTextsPublishedBy(business.id)
 
-    fieldReferenceByName(call, state, business.name)
+    fieldName(business.name)
     state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
     optionalField(call, state, "Start", business.startDate())
     fieldAge("Age", state, business.startDate())
@@ -51,7 +51,7 @@ fun FORM.editBusiness(
     state: State,
     business: Business,
 ) {
-    selectComplexName(state, business.name)
+    selectName(business.name)
     selectOptionalDate(state, "Start", business.startDate(), DATE)
     selectCreator(state, business.founder, business.id, business.startDate(), "Founder")
     selectOwnership(state, business.ownership, business.startDate())
@@ -64,12 +64,11 @@ fun parseOptionalBusinessId(parameters: Parameters, param: String) =
     parseOptionalInt(parameters, param)?.let { BusinessId(it) }
 
 fun parseBusiness(parameters: Parameters, state: State, id: BusinessId): Business {
-    val name = parseComplexName(parameters)
     val startDate = parseOptionalDate(parameters, state, DATE)
 
     return Business(
         id,
-        name,
+        parseName(parameters),
         startDate,
         parseCreator(parameters),
         parseOwnership(parameters, state, startDate),

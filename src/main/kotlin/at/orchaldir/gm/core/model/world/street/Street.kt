@@ -1,9 +1,7 @@
 package at.orchaldir.gm.core.model.world.street
 
-import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.name.ComplexName
-import at.orchaldir.gm.core.model.name.SimpleName
-import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -22,10 +20,10 @@ value class StreetId(val value: Int) : Id<StreetId> {
 @Serializable
 data class Street(
     val id: StreetId,
-    val name: ComplexName = SimpleName("Street ${id.value}"),
-) : Element<StreetId> {
+    val name: Name = Name.init("Street ${id.value}"),
+) : ElementWithSimpleName<StreetId> {
 
     override fun id() = id
-    override fun name(state: State) = name.resolve(state)
+    override fun name() = name.text
 
 }
