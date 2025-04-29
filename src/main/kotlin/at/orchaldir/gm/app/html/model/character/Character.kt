@@ -227,7 +227,7 @@ fun FORM.editCharacter(
     val races = state.getExistingRaces(character.birthDate)
     val race = state.getRaceStorage().getOrThrow(character.race)
 
-    selectName(state, character)
+    selectCharacterName(state, character)
     selectElement(state, "Race", RACE, state.sortRaces(races), character.race, true)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
@@ -316,7 +316,7 @@ private fun FORM.selectOrigin(
     selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE), race.startDate())
 }
 
-private fun FORM.selectName(
+private fun FORM.selectCharacterName(
     state: State,
     character: Character,
 ) {
@@ -344,10 +344,11 @@ private fun FORM.selectName(
             }
         }
     }
-    selectText("Given Name", character.getGivenName(), GIVEN_NAME, 1)
+    selectName("Given Name", character.getGivenName(), GIVEN_NAME)
+
     if (character.name is FamilyName) {
-        selectText("Middle Name", character.name.middle ?: "", MIDDLE_NAME, 1)
-        selectText("Family Name", character.name.family, FAMILY_NAME, 1)
+        selectOptionalName("Middle Name", character.name.middle, MIDDLE_NAME)
+        selectName("Family Name", character.name.family, FAMILY_NAME)
     }
 }
 
@@ -421,22 +422,14 @@ private fun parseBirthday(
 }
 
 private fun parseCharacterName(parameters: Parameters): CharacterName {
-    val given = parameters.getOrFail(GIVEN_NAME)
+    val given = parseName(parameters, GIVEN_NAME)
 
     return when (parameters.getOrFail(NAME_TYPE)) {
-        "FamilyName" -> {
-            var middle = parameters[MIDDLE_NAME]
-
-            if (middle.isNullOrEmpty()) {
-                middle = null
-            }
-
-            FamilyName(
-                given,
-                middle,
-                parameters[FAMILY_NAME] ?: "Unknown"
-            )
-        }
+        "FamilyName" -> FamilyName(
+            given,
+            parseOptionalName(parameters, MIDDLE_NAME),
+            parseName(parameters, FAMILY_NAME, "Unknown"),
+        )
 
         "Genonym" -> Genonym(given)
         else -> Mononym(given)

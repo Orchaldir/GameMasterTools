@@ -37,7 +37,7 @@ value class CharacterId(val value: Int) : Id<CharacterId> {
 @Serializable
 data class Character(
     val id: CharacterId,
-    val name: CharacterName = Mononym("Character ${id.value}"),
+    val name: CharacterName = Mononym.init("Character ${id.value}"),
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Male,
     val sexuality: SexualOrientation = SexualOrientation.Heterosexual,
@@ -66,20 +66,20 @@ data class Character(
             }
 
             is Genonym -> state.getGenonymName(this, name)
-            is Mononym -> name.name
+            is Mononym -> name.name.text
         }
     }
 
     fun nameForSorting(state: State): String {
         return when (name) {
-            is FamilyName -> name.family + ", " + name.given + if (name.middle != null) {
-                " " + name.middle
+            is FamilyName -> name.family.text + ", " + name.given.text + if (name.middle != null) {
+                " " + name.middle.text
             } else {
                 ""
             }
 
             is Genonym -> state.getGenonymName(this, name)
-            is Mononym -> name.name
+            is Mononym -> name.name.text
         }
     }
 

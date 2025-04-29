@@ -76,7 +76,7 @@ private fun State.getGenonymName(
     return if (parentId != null) {
         val parent = getCharacterStorage().getOrThrow(parentId)
         val result =
-            getGenonymName(name.given, character.gender, style, parent)
+            getGenonymName(name.given.text, character.gender, style, parent)
 
         if (lookupDistance == TwoGenerations) {
             val grandparentId = getParent(parent)
@@ -95,7 +95,7 @@ private fun State.getGenonymName(
         return result
 
     } else {
-        name.given
+        name.given.text
     }
 }
 

@@ -147,9 +147,9 @@ fun State.sortCharacters(
 ) = characters
     .map {
         val name = when (it.name) {
-            is FamilyName -> it.name.family + it.name.given + it.name.middle
-            is Genonym -> it.name.given
-            is Mononym -> it.name.name
+            is FamilyName -> it.name.family.text + it.name.given.text + it.name.middle?.text
+            is Genonym -> it.name.given.text
+            is Mononym -> it.name.name.text
         }.lowercase()
         Pair(it, name)
     }

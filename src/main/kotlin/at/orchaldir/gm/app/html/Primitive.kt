@@ -1,23 +1,11 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.FORMAT
 import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.SEPARATOR
-import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import io.ktor.http.Parameters
 import io.ktor.server.util.getOrFail
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.P
-import kotlinx.html.b
-import kotlinx.html.checkBoxInput
-import kotlinx.html.numberInput
-import kotlinx.html.onChange
-import kotlinx.html.p
-import kotlinx.html.textInput
-import kotlin.text.toFloat
-import kotlin.text.trim
+import kotlinx.html.*
 
 // show
 
@@ -206,8 +194,10 @@ fun HtmlBlockTag.selectName(name: Name, param: String = NAME) {
     selectText("Name", name.text, param, 1)
 }
 
-fun HtmlBlockTag.selectOptionalName(name: Name?) {
-    selectText("Name", name?.text ?: "", NAME, 0)
+fun HtmlBlockTag.selectOptionalName(name: Name?) = selectOptionalName("Name", name)
+
+fun HtmlBlockTag.selectOptionalName(label: String, name: Name?, param: String = NAME) {
+    selectText(label, name?.text ?: "", param, 0)
 }
 
 fun HtmlBlockTag.selectOptionalText(

@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.utils.titlecaseFirstChar
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -8,16 +10,22 @@ sealed class CharacterName
 
 @Serializable
 @SerialName("Mononym")
-data class Mononym(val name: String) : CharacterName()
+data class Mononym(val name: Name) : CharacterName() {
+
+    companion object {
+        fun init(name: String) = Mononym(Name.init(name))
+    }
+
+}
 
 @Serializable
 @SerialName("Family")
 data class FamilyName(
-    val given: String,
-    val middle: String?,
-    val family: String,
+    val given: Name,
+    val middle: Name?,
+    val family: Name,
 ) : CharacterName()
 
 @Serializable
 @SerialName("Genonym")
-data class Genonym(val given: String) : CharacterName()
+data class Genonym(val given: Name) : CharacterName()

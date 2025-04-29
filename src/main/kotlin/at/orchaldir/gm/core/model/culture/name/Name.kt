@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.culture.name
 
 import at.orchaldir.gm.core.model.character.FamilyName
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
@@ -54,10 +55,10 @@ sealed class NamingConvention {
     }
 }
 
-private fun getFamilyName(first: String, middle: String?, last: String) = if (middle != null) {
-    "$first $middle $last"
+private fun getFamilyName(first: Name, middle: Name?, last: Name) = if (middle != null) {
+    "${first.text} ${middle.text} ${last.text}"
 } else {
-    "$first $last"
+    "${first.text} ${last.text}"
 }
 
 @Serializable
