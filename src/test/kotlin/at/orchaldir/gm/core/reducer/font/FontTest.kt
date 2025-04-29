@@ -1,18 +1,22 @@
 package at.orchaldir.gm.core.reducer.font
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.ShowValue
 import at.orchaldir.gm.core.model.font.Font
+import at.orchaldir.gm.core.model.font.FontOption
+import at.orchaldir.gm.core.model.font.SolidFont
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.item.text.book.Hardcover
+import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -44,6 +48,15 @@ class FontTest {
         fun `Cannot delete, if used by a currency coin`() {
             val coin = Coin(front = ShowValue(FONT_ID_0))
             val state = STATE.updateStorage(Storage(CurrencyUnit(CURRENCY_UNIT_ID_0, format = coin)))
+
+            assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete, if used by a text`() {
+            val font = SolidFont(fromCentimeters(1), font = FONT_ID_0)
+            val book = Book(Hardcover(typography = SimpleTitleTypography(font)))
+            val state = STATE.updateStorage(Storage(Text(TEXT_ID_0, format = book)))
 
             assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
         }
