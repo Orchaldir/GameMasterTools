@@ -22,8 +22,9 @@ value class TitleId(val value: Int) : Id<TitleId> {
 data class Title(
     val id: TitleId,
     val name: Name = Name.init("Title ${id.value}"),
-    val text: NotEmptyString = NotEmptyString.init("Title ${id.value}"),
+    val text: NotEmptyString = NotEmptyString.init("Dr"),
     val position: TitlePosition = TitlePosition.BeforeFullName,
+    val separator: Char? = null,
 ) : ElementWithSimpleName<TitleId> {
 
     override fun id() = id

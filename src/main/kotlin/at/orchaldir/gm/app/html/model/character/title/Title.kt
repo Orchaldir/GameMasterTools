@@ -1,9 +1,11 @@
 package at.orchaldir.gm.app.html.model.character.title
 
 import at.orchaldir.gm.app.POSITION
+import at.orchaldir.gm.app.SEPARATOR
 import at.orchaldir.gm.app.WORD
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.selectOptionalText
 import at.orchaldir.gm.app.html.selectText
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
@@ -23,6 +25,7 @@ fun HtmlBlockTag.showTitle(
 ) {
     field("Text", title.text.text)
     field("Position", title.position)
+    field("Separator", title.separator?.let { "\"$it\"" } ?: "")
 }
 
 // edit
@@ -33,6 +36,7 @@ fun FORM.editTitle(
     selectName(title.name)
     selectText("Text", title.text.text, WORD, 1)
     selectValue("Position", POSITION, TitlePosition.entries, title.position)
+    selectOptionalText("Separator", title.separator?.toString(), SEPARATOR)
 }
 
 // parse

@@ -4,18 +4,13 @@ import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.name.NotEmptyString
-import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.reverseAndSort
-import at.orchaldir.gm.core.selector.time.getAgeInYears
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
-import io.ktor.server.resources.*
 import kotlinx.html.*
 
 fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtmlDetails(
@@ -75,50 +70,6 @@ fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
         right()
     }
 }
-
-fun HtmlBlockTag.field(name: String, value: Int) =
-    field(name, value.toString())
-
-fun HtmlBlockTag.field(name: String, value: Boolean) = field(name) {
-    +value.toString()
-}
-
-fun <T : Enum<T>> HtmlBlockTag.field(name: String, value: T) =
-    field(name, value.name)
-
-fun <T : Enum<T>> HtmlBlockTag.optionalField(name: String, value: T?) =
-    optionalField(name, value?.name)
-
-fun HtmlBlockTag.field(name: String, value: String) = field(name) {
-    +value
-}
-
-fun HtmlBlockTag.optionalField(name: String, value: String?) {
-    if (value != null) {
-        field(name) {
-            +value
-        }
-    }
-}
-
-fun HtmlBlockTag.fieldAge(name: String, state: State, date: Date?) {
-    if (date != null) {
-        fieldAge(name, state.getAgeInYears(date))
-    }
-}
-
-fun HtmlBlockTag.fieldAge(name: String, age: Int) = field(name) {
-    +"$age years"
-}
-
-fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
-    p {
-        b { +"$label: " }
-        content()
-    }
-}
-
-
 
 fun HtmlBlockTag.svg(svg: Svg, width: Int) {
     div {

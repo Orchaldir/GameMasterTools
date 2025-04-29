@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.html.fieldAge
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.*
