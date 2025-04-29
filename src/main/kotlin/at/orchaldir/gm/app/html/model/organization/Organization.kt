@@ -78,7 +78,7 @@ private fun FORM.editMembers(
 
     selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK, true)
     showListWithIndex(organization.memberRanks) { index, rank ->
-        selectText("Name", rank.name.text, combine(RANK, NAME, index), 1)
+        selectName("Name", rank.name, combine(RANK, NAME, index))
     }
     selectInt("Members", organization.members.size, 0, maxMembers, 1, MEMBER, true)
     showListWithIndex(organization.members.entries) { memberIndex, (characterId, history) ->
