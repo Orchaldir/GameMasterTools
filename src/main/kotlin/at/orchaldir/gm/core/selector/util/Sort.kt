@@ -121,7 +121,7 @@ fun State.sortBusinesses(
 ) = businesses
     .sortedWith(
         when (sort) {
-            SortBusiness.Name -> compareBy { it.name(this) }
+            SortBusiness.Name -> compareBy { it.name.text }
             SortBusiness.Age -> getAgeComparator()
             SortBusiness.Employees -> compareByDescending { getEmployees(it.id).size }
         }
@@ -159,7 +159,7 @@ fun State.sortCurrencies(
 ) = businesses
     .sortedWith(
         when (sort) {
-            SortCurrency.Name -> compareBy { it.name(this) }
+            SortCurrency.Name -> compareBy { it.name.text }
             SortCurrency.Date -> getAgeComparator()
         }
     )
@@ -191,7 +191,7 @@ fun State.sortDomains(
 ) = domains
     .sortedWith(
         when (sort) {
-            SortDomain.Name -> compareBy { it.name(this) }
+            SortDomain.Name -> compareBy { it.name.text }
         })
 
 // equipment
@@ -205,7 +205,7 @@ fun State.sortEquipmentList(
 ) = equipmentList
     .sortedWith(
         when (sort) {
-            SortEquipment.Name -> compareBy { it.name(this) }
+            SortEquipment.Name -> compareBy { it.name.text }
         })
 
 // font
@@ -219,7 +219,7 @@ fun State.sortFonts(
 ) = fonts
     .sortedWith(
         when (sort) {
-            SortFont.Name -> compareBy { it.name(this) }
+            SortFont.Name -> compareBy { it.name.text }
             SortFont.Age -> getAgeComparator()
         })
 
@@ -234,7 +234,7 @@ fun State.sortGods(
 ) = gods
     .sortedWith(
         when (sort) {
-            SortGod.Name -> compareBy { it.name(this) }
+            SortGod.Name -> compareBy { it.name.text }
             SortGod.Believers -> compareByDescending { getBelievers(it.id).size }
         })
 
@@ -257,7 +257,7 @@ fun State.sortJobs(
 ) = jobs
     .sortedWith(
         when (sort) {
-            SortJob.Name -> compareBy { it.name(this) }
+            SortJob.Name -> compareBy { it.name.text }
             SortJob.Spells -> compareByDescending { it.spells.getSize() }
             SortJob.Income -> compareByDescending {
                 if (it.income is Salary) {
@@ -295,7 +295,7 @@ fun State.sortPantheons(
 ) = domains
     .sortedWith(
         when (sort) {
-            SortPantheon.Name -> compareBy { it.name(this) }
+            SortPantheon.Name -> compareBy { it.name.text }
             SortPantheon.Gods -> compareBy { it.gods.size }
             SortPantheon.Believers -> compareByDescending { getBelievers(it.id).size }
         })
@@ -327,7 +327,7 @@ fun State.sortPeriodicals(
 ) = periodicals
     .sortedWith(
         when (sort) {
-            SortPeriodical.Name -> compareBy { it.name(this) }
+            SortPeriodical.Name -> compareBy { it.name.text }
             SortPeriodical.Age -> getAgeComparator()
         }
     )
@@ -343,7 +343,7 @@ fun State.sortPeriodicalIssues(
 ) = issues
     .sortedWith(
         when (sort) {
-            SortPeriodicalIssue.Periodical -> compareBy { getPeriodicalStorage().getOrThrow(it.periodical).name(this) }
+            SortPeriodicalIssue.Periodical -> compareBy { getPeriodicalStorage().getOrThrow(it.periodical).name.text }
             SortPeriodicalIssue.Date -> getComplexAgeComparator()
         }
     )
@@ -377,7 +377,7 @@ fun State.sortRaces(
             SortRace.Height -> compareByDescending { it.height.center.value() }
             SortRace.Weight -> compareByDescending { it.weight.value() }
             SortRace.MaxLifeSpan -> compareByDescending { it.lifeStages.getMaxAge() }
-            SortRace.Name -> compareBy { it.name(this) }
+            SortRace.Name -> compareBy { it.name.text }
         })
 
 // spell
@@ -406,6 +406,6 @@ fun State.sortTexts(
 ) = texts
     .sortedWith(
         when (sort) {
-            SortText.Name -> compareBy { it.name(this) }
+            SortText.Name -> compareBy { it.name.text }
             SortText.Age -> getAgeComparator()
         })
