@@ -47,7 +47,7 @@ class CultureTest {
         @Test
         fun `Cannot delete, if used by a character`() {
             val action = DeleteCulture(CULTURE_ID_0)
-            val state = STATE.updateStorage(Storage(listOf(Character(CharacterId(0), culture = CULTURE_ID_0))))
+            val state = STATE.updateStorage(Storage(Character(CharacterId(0), culture = CULTURE_ID_0)))
 
             assertIllegalArgument("Culture 0 is used by characters") { REDUCER.invoke(state, action) }
         }
