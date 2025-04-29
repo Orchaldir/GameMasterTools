@@ -4,6 +4,9 @@ import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.load
 import at.orchaldir.gm.core.loadStorage
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
+import at.orchaldir.gm.core.model.character.title.Title
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -132,6 +135,7 @@ val ELEMENTS =
         STREET_TYPE,
         STREET_TEMPLATE_TYPE,
         TEXT_TYPE,
+        TITLE_TYPE,
         TOWN_TYPE,
     )
 private const val DATA = "Data"
@@ -190,6 +194,7 @@ data class State(
     fun getStreetStorage() = getStorage<StreetId, Street>(STREET_TYPE)
     fun getStreetTemplateStorage() = getStorage<StreetTemplateId, StreetTemplate>(STREET_TEMPLATE_TYPE)
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
+    fun getTitleStorage() = getStorage<TitleId, Title>(TITLE_TYPE)
     fun getTownStorage() = getStorage<TownId, Town>(TOWN_TYPE)
 
     fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(id: ID) = getStorage<ID, ELEMENT>(id.type())
@@ -330,6 +335,7 @@ data class State(
         saveStorage(path, getStreetStorage())
         saveStorage(path, getStreetTemplateStorage())
         saveStorage(path, getTextStorage())
+        saveStorage(path, getTitleStorage())
         saveStorage(path, getTownStorage())
         save(path, DATA, data)
     }
@@ -370,6 +376,7 @@ fun createStorage(type: String) = when (type) {
     STREET_TYPE -> Storage(StreetId(0))
     STREET_TEMPLATE_TYPE -> Storage(StreetTemplateId(0))
     TEXT_TYPE -> Storage(TextId(0))
+    TITLE_TYPE -> Storage(TitleId(0))
     TOWN_TYPE -> Storage(TownId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
@@ -413,6 +420,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     STREET_TYPE -> loadStorage<StreetId, Street>(path, StreetId(0))
     STREET_TEMPLATE_TYPE -> loadStorage<StreetTemplateId, StreetTemplate>(path, StreetTemplateId(0))
     TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
+    TITLE_TYPE -> loadStorage<TitleId, Title>(path, TitleId(0))
     TOWN_TYPE -> loadStorage<TownId, Town>(path, TownId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
