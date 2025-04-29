@@ -4,9 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.name.NameWithReference
-import at.orchaldir.gm.core.model.name.ReferencedFullName
-import at.orchaldir.gm.core.model.name.SimpleName
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -142,14 +140,6 @@ class TownTest {
         }
 
         @Test
-        fun `Named after unknown character`() {
-            val name = NameWithReference(ReferencedFullName(CHARACTER_ID_0), "A", "B")
-            val action = UpdateTown(Town(TOWN_ID_0, name))
-
-            assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
         fun `Founder must exist`() {
             val action = UpdateTown(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
 
@@ -165,7 +155,7 @@ class TownTest {
 
         @Test
         fun `Update is valid`() {
-            val town = Town(TOWN_ID_0, SimpleName("Test"))
+            val town = Town(TOWN_ID_0, Name.init("Test"))
             val action = UpdateTown(town)
 
             assertEquals(town, REDUCER.invoke(STATE, action).first.getTownStorage().get(TOWN_ID_0))

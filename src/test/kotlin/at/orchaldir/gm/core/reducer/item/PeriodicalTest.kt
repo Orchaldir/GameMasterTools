@@ -9,9 +9,7 @@ import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
 import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.name.NameWithReference
-import at.orchaldir.gm.core.model.name.ReferencedFullName
-import at.orchaldir.gm.core.model.name.SimpleName
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.Owner
@@ -73,14 +71,6 @@ class PeriodicalTest {
         }
 
         @Test
-        fun `Named after unknown character`() {
-            val name = NameWithReference(ReferencedFullName(UNKNOWN_CHARACTER_ID), "A", "B")
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, name))
-
-            assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
         fun `Owner is an unknown character`() {
             val ownership: History<Owner> = History(OwnedByCharacter(UNKNOWN_CHARACTER_ID))
             val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, ownership = ownership))
@@ -118,7 +108,7 @@ class PeriodicalTest {
 
         @Test
         fun `Test Success`() {
-            val periodical = Periodical(PERIODICAL_ID_0, SimpleName("Test"))
+            val periodical = Periodical(PERIODICAL_ID_0, Name.init("Test"))
             val action = UpdatePeriodical(periodical)
 
             assertEquals(periodical, REDUCER.invoke(STATE, action).first.getPeriodicalStorage().get(PERIODICAL_ID_0))
