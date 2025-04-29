@@ -22,6 +22,15 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.character.canDelete
+import at.orchaldir.gm.core.selector.character.getAgeInYears
+import at.orchaldir.gm.core.selector.character.getChildren
+import at.orchaldir.gm.core.selector.character.getParents
+import at.orchaldir.gm.core.selector.character.getPossibleFathers
+import at.orchaldir.gm.core.selector.character.getPossibleMothers
+import at.orchaldir.gm.core.selector.character.getSiblings
+import at.orchaldir.gm.core.selector.character.hasPossibleParents
+import at.orchaldir.gm.core.selector.character.scaleHeightByAge
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentYear

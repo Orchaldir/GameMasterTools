@@ -28,8 +28,8 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
-import at.orchaldir.gm.core.selector.getBelievers
-import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.character.getBelievers
+import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter

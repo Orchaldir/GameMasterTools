@@ -9,8 +9,8 @@ import at.orchaldir.gm.core.reducer.util.checkBeliefStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkHousingStatusHistory
-import at.orchaldir.gm.core.selector.getChildren
-import at.orchaldir.gm.core.selector.getParents
+import at.orchaldir.gm.core.selector.character.getChildren
+import at.orchaldir.gm.core.selector.character.getParents
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate

@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.selector.countCharacters
+import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.countChildren
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals

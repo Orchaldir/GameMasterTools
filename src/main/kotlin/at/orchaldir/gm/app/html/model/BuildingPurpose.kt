@@ -11,10 +11,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.economy.getBusinessesWithoutBuilding
-import at.orchaldir.gm.core.selector.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.getCharactersLivingInApartment
-import at.orchaldir.gm.core.selector.getCharactersLivingInHouse
-import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.character.getCharactersLivingInApartment
+import at.orchaldir.gm.core.selector.character.getCharactersLivingInHouse
+import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

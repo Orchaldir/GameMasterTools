@@ -15,8 +15,8 @@ import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.util.SortCharacter
-import at.orchaldir.gm.core.selector.canCreateCharacter
-import at.orchaldir.gm.core.selector.getAgeInYears
+import at.orchaldir.gm.core.selector.character.canCreateCharacter
+import at.orchaldir.gm.core.selector.character.getAgeInYears
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId

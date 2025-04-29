@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PERSONALITY_TRAIT_TYPE
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
-import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.getPersonalityTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith

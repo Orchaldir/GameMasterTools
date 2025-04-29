@@ -22,7 +22,7 @@ import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.util.GenderMap
-import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

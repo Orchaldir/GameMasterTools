@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.core.model.culture.name.isAnyGenonym
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.selector.culture.canDelete
-import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 import mu.KotlinLogging

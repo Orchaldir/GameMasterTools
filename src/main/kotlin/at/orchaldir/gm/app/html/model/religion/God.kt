@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.selector.getBelievers
+import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.util.sortDomains

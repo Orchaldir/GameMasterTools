@@ -14,8 +14,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.model.language.LanguageOriginType.*
 import at.orchaldir.gm.core.selector.culture.getCultures
-import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.core.selector.getChildren
+import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.character.getChildren
 import at.orchaldir.gm.core.selector.getPossibleParents
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals

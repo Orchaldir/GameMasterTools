@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.selector.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.getBuildingAgeComparator
 
 fun State.canDelete(building: Building) = building.ownership.current.canDelete()

@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.util.SortJob
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency
-import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.sortJobs
 import io.ktor.http.*

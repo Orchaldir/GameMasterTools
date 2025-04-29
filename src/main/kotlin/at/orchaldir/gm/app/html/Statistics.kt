@@ -16,6 +16,12 @@ import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.character.countEachCauseOfDeath
+import at.orchaldir.gm.core.selector.character.countEachCulture
+import at.orchaldir.gm.core.selector.character.countEachGender
+import at.orchaldir.gm.core.selector.character.countEachHousingStatus
+import at.orchaldir.gm.core.selector.character.countEachLanguage
+import at.orchaldir.gm.core.selector.character.countEachSexualOrientation
 import at.orchaldir.gm.core.selector.economy.countEachJob
 import at.orchaldir.gm.core.selector.item.countEachLanguage
 import at.orchaldir.gm.core.selector.item.countEachTextFormat

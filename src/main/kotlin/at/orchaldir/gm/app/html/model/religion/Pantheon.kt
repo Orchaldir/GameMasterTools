@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.selector.getBelievers
+import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.server.application.*
