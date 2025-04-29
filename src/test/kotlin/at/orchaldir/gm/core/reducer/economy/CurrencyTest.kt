@@ -67,6 +67,20 @@ class CurrencyTest {
         }
 
         @Test
+        fun `Must have enough sub denomination for all units`() {
+            val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, denomination = 1)
+            val state = state.updateStorage(Storage(unit))
+            val action = UpdateCurrency(Currency(CURRENCY_ID_0))
+
+            assertIllegalArgument("Currency Units require at least 1 sub denomination!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
         fun `Test Success`() {
             val currency = Currency(CURRENCY_ID_0, NAME)
             val action = UpdateCurrency(currency)
