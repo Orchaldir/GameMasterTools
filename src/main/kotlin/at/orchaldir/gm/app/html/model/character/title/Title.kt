@@ -4,11 +4,9 @@ import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.SEPARATOR
 import at.orchaldir.gm.app.WORD
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseNotEmptyString
 import at.orchaldir.gm.app.html.selectOptionalText
-import at.orchaldir.gm.app.html.selectText
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.html.parseOptionalInt

@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.FORMAT
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.SEPARATOR
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import io.ktor.http.Parameters
@@ -32,7 +35,7 @@ fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
     }
 }
 
-// show string
+// show text
 
 fun HtmlBlockTag.optionalField(label: String, string: NotEmptyString?) =
     optionalField(label, string?.text)
@@ -167,7 +170,15 @@ fun HtmlBlockTag.selectInt(
     }
 }
 
-// select string
+// select text
+
+fun HtmlBlockTag.selectChar(
+    label: String,
+    char: Char,
+    param: String,
+) {
+    selectText(label, char.toString(), param, 1, 1)
+}
 
 fun HtmlBlockTag.selectOptionalNotEmptyString(
     label: String,
@@ -219,7 +230,7 @@ fun HtmlBlockTag.selectText(
     }
 }
 
-fun HtmlBlockTag.selectText(
+private fun HtmlBlockTag.selectText(
     text: String,
     param: String,
     min: Int = 1,
@@ -255,7 +266,21 @@ fun parseOptionalInt(parameters: Parameters, param: String): Int? {
     return value.toInt()
 }
 
-// parse string
+// parse text
+
+fun parseChar(parameters: Parameters, param: String, default: Char): Char {
+    val text = parameters[param]
+
+    if (text != null) {
+        if (text.length == 1) {
+            return text[0]
+        }
+
+        error("Char has wrong length!")
+    } else {
+        return default
+    }
+}
 
 fun parseOptionalNotEmptyString(parameters: Parameters, param: String) =
     parameters[param]?.let { NotEmptyString.init(it) }

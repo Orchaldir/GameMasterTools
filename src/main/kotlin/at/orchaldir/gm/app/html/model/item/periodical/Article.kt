@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.optionalFieldLink
 import at.orchaldir.gm.app.html.selectOptionalElement
-import at.orchaldir.gm.app.html.selectText
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
