@@ -187,14 +187,15 @@ private fun HTML.showAllCharacters(
                 th { +"Organizations" }
             }
             characters.forEach { character ->
+                val name = character.nameForSorting(state)
                 tr {
                     td {
                         if (character.vitalStatus is Dead) {
                             del {
-                                link(call, state, character)
+                                link(call, character, name)
                             }
                         } else {
-                            link(call, state, character)
+                            link(call, character, name)
                         }
                     }
                     td { link(call, state, character.race) }
