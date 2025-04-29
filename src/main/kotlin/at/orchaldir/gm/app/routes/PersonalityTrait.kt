@@ -170,9 +170,7 @@ private fun HTML.showPersonalityTraitDetails(
             fieldList(call, state, "Conflicting", traits)
         }
 
-        fieldList("Characters", characters) { (character, name) ->
-            link(call, character.id, name)
-        }
+        fieldList(call, state, characters)
         fieldList(call, state, gods)
 
         action(editLink, "Edit")

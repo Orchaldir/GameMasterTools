@@ -187,15 +187,15 @@ private fun HTML.showAllCharacters(
                 th { +"Employment Status" }
                 th { +"Organizations" }
             }
-            charactersWithNames.forEach { (character, name) ->
+            charactersWithNames.forEach { character ->
                 tr {
                     td {
                         if (character.vitalStatus is Dead) {
                             del {
-                                link(call, character.id, name)
+                                link(call, state, character)
                             }
                         } else {
-                            link(call, character.id, name)
+                            link(call, state, character.id)
                         }
                     }
                     td { link(call, state, character.race) }
@@ -234,7 +234,7 @@ private fun HTML.showGallery(
         .filter { it.appearance !is UndefinedAppearance }
     val sortedCharacters = state.sortCharacters(characters, SortCharacter.Name)
     val charactersWithSize =
-        sortedCharacters.map { Triple(it.first, it.second, calculatePaddedSize(CHARACTER_CONFIG, it.first.appearance)) }
+        sortedCharacters.map { Triple(it, it.name(state), calculatePaddedSize(CHARACTER_CONFIG, it.appearance)) }
     val maxSize = charactersWithSize
         .maxBy { it.third.baseSize.height }
         .third

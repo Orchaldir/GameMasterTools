@@ -61,12 +61,8 @@ private fun HtmlBlockTag.showJobUsage(
     val gods = state.getGodsAssociatedWith(job.id)
 
     fieldList(call, state, state.getBusinesses(job.id))
-    fieldList("Current Characters", state.sortCharacters(characters)) { (character, name) ->
-        link(call, character.id, name)
-    }
-    fieldList("Previous Characters", state.sortCharacters(previousCharacters)) { (character, name) ->
-        link(call, character.id, name)
-    }
+    fieldList(call, state, "Current Characters", state.sortCharacters(characters))
+    fieldList(call, state, "Previous Characters", state.sortCharacters(previousCharacters))
     fieldList(call, state, "Associated Domains", state.sortDomains(domains))
     fieldList(
         call,

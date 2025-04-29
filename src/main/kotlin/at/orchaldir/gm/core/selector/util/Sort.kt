@@ -2,6 +2,9 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.FamilyName
+import at.orchaldir.gm.core.model.character.Genonym
+import at.orchaldir.gm.core.model.character.Mononym
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.Salary
@@ -129,11 +132,6 @@ fun State.sortBusinesses(
 
 // character
 
-fun State.getCharacterAgePairComparator(): Comparator<Pair<Character, String>> {
-    val comparator = getAgeComparator<Character>()
-    return Comparator { a: Pair<Character, String>, b: Pair<Character, String> -> comparator.compare(a.first, b.first) }
-}
-
 fun State.sortCharacters(sort: SortCharacter = SortCharacter.Name) =
     sortCharacters(getCharacterStorage().getAll(), sort)
 
@@ -141,11 +139,17 @@ fun State.sortCharacters(
     characters: Collection<Character>,
     sort: SortCharacter = SortCharacter.Name,
 ) = characters
-    .map { Pair(it, it.name(this)) }
     .sortedWith(
         when (sort) {
-            SortCharacter.Name -> compareBy { it.second }
-            SortCharacter.Age -> getCharacterAgePairComparator()
+            SortCharacter.Name -> compareBy {
+                when (it.name) {
+                    is FamilyName -> it.name.family + it.name.middle + it.name.given
+                    is Genonym -> it.name.given
+                    is Mononym -> it.name.name
+                }
+            }
+
+            SortCharacter.Age -> getAgeComparator()
         })
 
 // currency

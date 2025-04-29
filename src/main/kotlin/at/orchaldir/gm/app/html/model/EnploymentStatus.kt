@@ -33,8 +33,8 @@ fun HtmlBlockTag.showEmployees(
     label: String,
     employees: Collection<Character>,
 ) {
-    fieldList(label, state.sortCharacters(employees)) { (character, name) ->
-        link(call, character.id, name)
+    fieldList(label, state.sortCharacters(employees)) { character ->
+        link(call, state, character)
         +" as "
         if (character.employmentStatus.current is Employed) {
             link(call, state, character.employmentStatus.current.job)

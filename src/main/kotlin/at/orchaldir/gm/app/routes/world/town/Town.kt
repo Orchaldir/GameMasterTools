@@ -164,12 +164,8 @@ private fun HTML.showTownDetails(
             h2 { +"Characters" }
             val residents = state.getResident(town.id)
             val workers = state.getWorkingIn(town.id) - residents
-            fieldList("Residents", state.sortCharacters(residents)) { (character, name) ->
-                link(call, character.id, name)
-            }
-            fieldList("Workers, but not Residents", state.sortCharacters(workers)) { (character, name) ->
-                link(call, character.id, name)
-            }
+            fieldList(call, state, "Residents", state.sortCharacters(residents))
+            fieldList(call, state, "Workers, but not Residents", state.sortCharacters(workers))
             val characters = residents.toSet() + workers.toSet()
             showCauseOfDeath(characters)
             showCultureCount(call, state, characters)
