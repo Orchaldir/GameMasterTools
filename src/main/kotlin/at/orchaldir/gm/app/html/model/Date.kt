@@ -584,7 +584,7 @@ private fun HtmlBlockTag.selectMonthIndex(
     minMonthIndex: Int,
 ) {
     selectWithIndex(combine(param, MONTH), calendar.months.months()) { index, month ->
-        label = month.name
+        label = month.name.text
         value = index.toString()
         selected = monthIndex == index
         disabled = index < minMonthIndex

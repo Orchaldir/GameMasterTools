@@ -94,12 +94,12 @@ private fun HtmlBlockTag.showDays(
 private fun HtmlBlockTag.showMonths(calendar: Calendar) {
     when (val months = calendar.months) {
         is ComplexMonths -> fieldList("Months", months.months) { month ->
-            field(month.name, "${month.days} days")
+            field(month.name.text, "${month.days} days")
         }
 
         is SimpleMonths -> {
             fieldList("Months", months.months) { month ->
-                +month
+                +month.text
             }
             field("Days per Month", months.daysPerMonth)
         }
@@ -175,7 +175,7 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
         is ComplexMonths -> months.months.withIndex().forEach { (index, month) ->
             val minDays = getMinNumberOfDays(holidays, index)
             p {
-                selectText(month.name, combine(MONTH, NAME, index))
+                selectName(month.name, combine(MONTH, NAME, index))
                 +": "
                 selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index), true)
                 +"days"
@@ -187,7 +187,7 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
 
             months.months.withIndex().forEach { (index, month) ->
                 p {
-                    selectText(month, combine(MONTH, NAME, index))
+                    selectName(month, combine(MONTH, NAME, index))
                 }
             }
             selectInt("Days per Month", months.daysPerMonth, minDays, 100, 1, combine(MONTH, DAYS))
@@ -318,7 +318,7 @@ private fun parseComplexMonth(parameters: Parameters, it: Int) = MonthDefinition
 private fun parseDaysPerMonth(parameters: Parameters, param: String) = parseInt(parameters, param, 2)
 
 private fun parseMonthName(parameters: Parameters, it: Int) =
-    parseOptionalString(parameters, combine(MONTH, NAME, it)) ?: "${it + 1}.Month"
+    parseName(parameters, combine(MONTH, NAME, it), "${it + 1}.Month")
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, Original)) {
     Improved -> {

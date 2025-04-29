@@ -58,7 +58,7 @@ fun checkRelativeDate(calendar: Calendar, relativeDate: RelativeDate) {
 
         is DayInYear -> {
             val month = checkMonth(calendar, relativeDate.monthIndex)
-            require(relativeDate.dayIndex < month.days) { "Holiday is outside the month ${month.name}!" }
+            require(relativeDate.dayIndex < month.days) { "Holiday is outside the month ${month.name.text}!" }
         }
 
         is WeekdayInMonth -> {

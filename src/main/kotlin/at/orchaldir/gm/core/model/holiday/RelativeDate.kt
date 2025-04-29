@@ -45,7 +45,7 @@ data class DayInYear(val dayIndex: Int, val monthIndex: Int) : RelativeDate() {
         val month = calendar.months.getMonth(monthIndex)
         val day = dayIndex + 1
 
-        return "${day}.${month.name}"
+        return "${day}.${month.name.text}"
     }
 
     override fun isOn(calendar: Calendar, displayDay: DisplayDay) =
@@ -63,7 +63,7 @@ data class WeekdayInMonth(val weekdayIndex: Int, val weekInMonthIndex: Int, val 
                 val count = weekInMonthIndex + 1
                 val weekday = calendar.days.weekDays[weekdayIndex]
 
-                return "${count}.${weekday.name} of ${month.name}"
+                return "${count}.${weekday.name.text} of ${month.name.text}"
             }
         }
 
