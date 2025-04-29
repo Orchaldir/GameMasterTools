@@ -25,12 +25,10 @@ fun HtmlBlockTag.showBusiness(
     state: State,
     business: Business,
 ) {
-
     val employees = state.getEmployees(business.id).toSet()
     val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
     val published = state.getTextsPublishedBy(business.id)
 
-    fieldName(business.name)
     state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
     optionalField(call, state, "Start", business.startDate())
     fieldAge("Age", state, business.startDate())
