@@ -28,7 +28,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun State.canCreateCharacter() = getCultureStorage().getSize() > 0
 
-fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
+fun State.canDeleteCharacter(character: CharacterId) = getChildren(character).isEmpty()
         && getParents(character).isEmpty()
         && !isCurrentOrFormerOwner(character)
         && !isCreator(character)

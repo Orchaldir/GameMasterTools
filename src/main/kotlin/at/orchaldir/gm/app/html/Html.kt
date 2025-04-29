@@ -117,59 +117,7 @@ fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
     }
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
-    label: String,
-    call: ApplicationCall,
-    state: State,
-    id: ID,
-) {
-    field(label) {
-        link(call, state, id)
-    }
-}
 
-fun <ID : Id<ID>> HtmlBlockTag.optionalFieldLink(
-    label: String,
-    call: ApplicationCall,
-    state: State,
-    id: ID?,
-) {
-    if (id != null) {
-        fieldLink(label, call, state, id)
-    }
-}
-
-fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.fieldLink(
-    label: String,
-    call: ApplicationCall,
-    element: ELEMENT,
-) {
-    field(label) {
-        link(call, element)
-    }
-}
-
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldLink(
-    label: String,
-    call: ApplicationCall,
-    state: State,
-    element: ELEMENT,
-) {
-    field(label) {
-        link(call, state, element)
-    }
-}
-
-fun HtmlBlockTag.fieldLink(label: String, link: String, text: String) {
-    p {
-        b { +"$label: " }
-        a(link) { +text }
-    }
-}
-
-inline fun <reified T : Any> HtmlBlockTag.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
-    fieldLink(storage.getPlural(), call.application.href(link), "${storage.getSize()}")
-}
 
 fun HtmlBlockTag.svg(svg: Svg, width: Int) {
     div {
