@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character.title
 
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
@@ -20,7 +21,9 @@ value class TitleId(val value: Int) : Id<TitleId> {
 @Serializable
 data class Title(
     val id: TitleId,
-    val name: NotEmptyString = NotEmptyString.init("Title ${id.value}"),
+    val name: Name = Name.init("Title ${id.value}"),
+    val text: NotEmptyString = NotEmptyString.init("Title ${id.value}"),
+    val position: TitlePosition = TitlePosition.BeforeFullName,
 ) : ElementWithSimpleName<TitleId> {
 
     override fun id() = id
