@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.world.parsePlaneId
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOptionalInt
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.model.language.LanguageOriginType.*

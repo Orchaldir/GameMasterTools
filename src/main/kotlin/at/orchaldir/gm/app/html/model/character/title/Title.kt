@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.html.selectOptionalText
 import at.orchaldir.gm.app.html.selectText
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseOptionalInt
+import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId

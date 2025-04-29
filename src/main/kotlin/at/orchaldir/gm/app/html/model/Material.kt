@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.fieldColor
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOptionalInt
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId

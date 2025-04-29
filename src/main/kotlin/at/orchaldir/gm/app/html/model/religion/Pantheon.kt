@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parseElements
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOptionalString
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseOptionalString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId

@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.STREET
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOptionalInt
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.action.RemoveStreetTile

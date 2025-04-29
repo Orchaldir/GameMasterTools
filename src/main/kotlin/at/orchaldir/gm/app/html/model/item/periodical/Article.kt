@@ -12,7 +12,7 @@ import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.optionalFieldLink
 import at.orchaldir.gm.app.html.selectOptionalElement
 import at.orchaldir.gm.app.html.selectText
-import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.ArticleId

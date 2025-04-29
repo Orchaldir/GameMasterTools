@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.selectOptionalText
-import at.orchaldir.gm.app.parse.parseOptionalInt
-import at.orchaldir.gm.app.parse.parseOptionalString
+import at.orchaldir.gm.app.html.parseOptionalInt
+import at.orchaldir.gm.app.html.parseOptionalString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId

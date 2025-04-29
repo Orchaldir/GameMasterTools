@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.html.model.selectDate
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectElements
 import at.orchaldir.gm.app.parse.parseElements
-import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
