@@ -73,10 +73,7 @@ class CurrencyTest {
             val action = UpdateCurrency(Currency(CURRENCY_ID_0))
 
             assertIllegalArgument("Currency Units require at least 1 sub denomination!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+                REDUCER.invoke(state, action)
             }
         }
 
