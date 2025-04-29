@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.action
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.character.title.Title
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -110,6 +112,11 @@ data object CreateCulture : Action()
 data class CloneCulture(val id: CultureId) : Action()
 data class DeleteCulture(val id: CultureId) : Action()
 data class UpdateCulture(val culture: Culture) : Action()
+
+// title
+data object CreateTitle : Action()
+data class DeleteTitle(val id: TitleId) : Action()
+data class UpdateTitle(val title: Title) : Action()
 
 // data
 data class UpdateData(val data: Data) : Action()

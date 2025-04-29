@@ -76,6 +76,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CloneRaceAppearance -> CLONE_RACE_APPEARANCE(state, action)
         is DeleteRaceAppearance -> DELETE_RACE_APPEARANCE(state, action)
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
+        // title
+        is CreateTitle -> CREATE_TITLE(state, action)
+        is DeleteTitle -> DELETE_TITLE(state, action)
+        is UpdateTitle -> UPDATE_TITLE(state, action)
         // time
         is UpdateData -> UPDATE_DATA(state, action)
         // sub reducers
