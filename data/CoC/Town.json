@@ -3,15 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": {
-    "type": "Reference",
-    "reference": {
-     "type": "FamilyName",
-     "id": 0
-    },
-    "prefix": null,
-    "postfix": "’s Corners"
-   },
+   "name": "Cobb’s Corners",
    "map": {
     "size": {
      "width": 26,

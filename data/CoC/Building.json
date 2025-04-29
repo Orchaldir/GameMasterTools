@@ -398,15 +398,7 @@
   },
   "52": {
    "id": 52,
-   "name": {
-    "type": "Reference",
-    "reference": {
-     "type": "FullName",
-     "id": 1
-    },
-    "prefix": "Home of",
-    "postfix": null
-   },
+   "name": "Home of John Cutter",
    "lot": {
     "tileIndex": 460
    },
@@ -614,15 +606,7 @@
   },
   "74": {
    "id": 74,
-   "name": {
-    "type": "Reference",
-    "reference": {
-     "type": "FamilyName",
-     "id": 16
-    },
-    "prefix": "Home of Family",
-    "postfix": null
-   },
+   "name": "Home of Family Karner",
    "lot": {
     "tileIndex": 168
    },

@@ -3,10 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": {
-    "type": "Simple",
-    "name": "Public Library"
-   },
+   "name": "Public Library",
    "ownership": {
     "current": {
      "type": "Town",
@@ -16,10 +13,7 @@
   },
   "1": {
    "id": 1,
-   "name": {
-    "type": "Simple",
-    "name": "Sheriff's Office"
-   },
+   "name": "Sheriff's Office",
    "ownership": {
     "current": {
      "type": "Town",
@@ -29,15 +23,7 @@
   },
   "2": {
    "id": 2,
-   "name": {
-    "type": "Reference",
-    "reference": {
-     "type": "Town",
-     "id": 0
-    },
-    "prefix": null,
-    "postfix": "Gazette"
-   },
+   "name": "Cobb’s Corners Gazette",
    "founder": {
     "type": "Character",
     "character": 8
@@ -51,15 +37,7 @@
   },
   "3": {
    "id": 3,
-   "name": {
-    "type": "Reference",
-    "reference": {
-     "type": "GivenName",
-     "id": 9
-    },
-    "prefix": null,
-    "postfix": "'s Grill"
-   },
+   "name": "Jim's Grill",
    "founder": {
     "type": "Character",
     "character": 9
@@ -73,15 +51,7 @@
   },
   "4": {
    "id": 4,
-   "name": {
-    "type": "Reference",
-    "reference": {
-     "type": "FamilyName",
-     "id": 2
-    },
-    "prefix": "Dr",
-    "postfix": "'s Office"
-   },
+   "name": "Dr Perry's Office",
    "founder": {
     "type": "Character",
     "character": 2
@@ -95,10 +65,7 @@
   },
   "5": {
    "id": 5,
-   "name": {
-    "type": "Simple",
-    "name": "First Baptist Church of the Divine Ascension"
-   },
+   "name": "First Baptist Church of the Divine Ascension",
    "ownership": {
     "current": {
      "type": "Character",
@@ -108,10 +75,7 @@
   },
   "6": {
    "id": 6,
-   "name": {
-    "type": "Simple",
-    "name": "School"
-   },
+   "name": "School",
    "ownership": {
     "current": {
      "type": "Town",
@@ -121,10 +85,7 @@
   },
   "7": {
    "id": 7,
-   "name": {
-    "type": "Simple",
-    "name": "Town Hall"
-   },
+   "name": "Town Hall",
    "ownership": {
     "current": {
      "type": "Town",
@@ -134,15 +95,7 @@
   },
   "8": {
    "id": 8,
-   "name": {
-    "type": "Reference",
-    "reference": {
-     "type": "FamilyName",
-     "id": 16
-    },
-    "prefix": null,
-    "postfix": "'s Goods"
-   },
+   "name": "Karner's Goods",
    "ownership": {
     "current": {
      "type": "Character",
@@ -152,10 +105,7 @@
   },
   "9": {
    "id": 9,
-   "name": {
-    "type": "Simple",
-    "name": "Golden Goblin Press"
-   }
+   "name": "Golden Goblin Press"
   }
  }
 }
