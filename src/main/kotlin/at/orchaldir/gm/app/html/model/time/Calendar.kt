@@ -230,7 +230,7 @@ private fun FORM.editEra(
     era: CalendarEra,
     param: String,
 ) {
-    selectText("$label Era - Name", era.text, combine(param, NAME))
+    selectNotEmptyString("$label Era - Name", era.text, combine(param, NAME))
     selectBool("$label Era - Is prefix", era.isPrefix, combine(param, PREFIX))
 }
 
@@ -274,7 +274,7 @@ private fun parseIsPrefix(parameters: Parameters, param: String) =
     parseBool(parameters, combine(param, PREFIX))
 
 private fun parseEraName(parameters: Parameters, param: String) =
-    parseOptionalString(parameters, combine(param, NAME)) ?: "?"
+    parseNotEmptyString(parameters, combine(param, NAME), "?")
 
 private fun parseDays(parameters: Parameters) = when (parse(parameters, DAYS, DaysType.DayOfTheMonth)) {
     DaysType.DayOfTheMonth -> DayOfTheMonth

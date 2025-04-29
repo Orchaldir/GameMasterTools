@@ -443,7 +443,7 @@ private fun HtmlBlockTag.selectEraIndex(
         onChange = ON_CHANGE_SCRIPT
         calendar.eras.getAll().withIndex().forEach { (index, era) ->
             option {
-                label = era.text
+                label = era.text.text
                 value = index.toString()
                 disabled = index < minIndex || index > maxIndex
                 selected = index == eraIndex
