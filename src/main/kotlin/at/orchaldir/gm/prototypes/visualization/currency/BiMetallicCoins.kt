@@ -4,12 +4,13 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
 import at.orchaldir.gm.core.model.economy.money.DEFAULT_RIM_FACTOR
 import at.orchaldir.gm.core.model.economy.money.Shape
+import at.orchaldir.gm.core.model.economy.money.ShowValue
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
@@ -38,7 +39,8 @@ fun main() {
             DEFAULT_RIM_FACTOR,
             silver,
             innerShape,
-            Factor.fromPercentage(40),
+            fromPercentage(40),
+            ShowValue(),
         )
 
     }

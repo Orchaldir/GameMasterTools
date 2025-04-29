@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.model.item.equipment.selectMaterial
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
-import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -30,18 +29,20 @@ fun HtmlBlockTag.showCurrencyUnit(
 ) {
     showDetails("Value", true) {
         fieldLink("Currency", call, state, unit.currency)
-        field("Value", unit.value)
-        showDenomination(state, unit)
+        field("Number", unit.number)
+        field("Denomination", unit.denomination)
+        fieldValue(state, unit)
     }
     showCurrencyFormat(call, state, unit.format)
 }
 
-private fun HtmlBlockTag.showDenomination(
+private fun HtmlBlockTag.fieldValue(
     state: State,
     unit: CurrencyUnit,
 ) {
     val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
-    field("Denomination", currency.display(unit.value))
+    val denomination = currency.getDenomination(unit.denomination)
+    field("Value", denomination.display(unit.number))
 }
 
 fun HtmlBlockTag.showCurrencyFormat(
@@ -59,6 +60,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                 field("Shape", format.shape)
                 fieldDistance("Radius", format.radius)
                 fieldFactor("Rim Factor", format.rimFactor)
+                showCoinSide(call, state, format.front, "Front")
             }
 
             is HoledCoin -> {
@@ -85,6 +87,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                     field("Shape", format.innerShape)
                     fieldFactor("Factor", format.innerFactor)
                 }
+                showCoinSide(call, state, format.front, "Front")
             }
         }
     }
@@ -96,6 +99,7 @@ fun FORM.editCurrencyUnit(
     state: State,
     unit: CurrencyUnit,
 ) {
+    val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
     selectName(unit.name)
     showDetails("Value", true) {
         selectElement(
@@ -105,8 +109,25 @@ fun FORM.editCurrencyUnit(
             state.getCurrencyStorage().getAll(),
             unit.currency,
         )
-        selectInt("Value", unit.value, 1, 10000, 1, NUMBER, update = true)
-        showDenomination(state, unit)
+        selectInt(
+            "Number",
+            unit.number,
+            1,
+            10000,
+            1,
+            NUMBER,
+            update = true,
+        )
+        selectInt(
+            "Denomination",
+            unit.denomination,
+            0,
+            currency.countDenominations() - 1,
+            1,
+            combine(DENOMINATION, NUMBER),
+            update = true,
+        )
+        fieldValue(state, unit)
     }
     editCurrencyFormat(state, unit.format)
 }
@@ -131,6 +152,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                 selectShape(format.shape, SHAPE)
                 selectRadius(format.radius)
                 selectRimFactor(format.rimFactor)
+                editCoinSide(state, format.front, "Front", FRONT)
             }
 
             is HoledCoin -> {
@@ -157,6 +179,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                     selectShape(format.innerShape, combine(HOLE, SHAPE))
                     selectRadiusFactor(format.innerFactor)
                 }
+                editCoinSide(state, format.front, "Front", FRONT)
             }
         }
     }
@@ -215,6 +238,7 @@ fun parseCurrencyUnit(parameters: Parameters, id: CurrencyUnitId): CurrencyUnit 
     parseName(parameters),
     parseCurrencyId(parameters, CURRENCY),
     parseInt(parameters, NUMBER, 1),
+    parseInt(parameters, combine(DENOMINATION, NUMBER), 0),
     parseCurrencyFormat(parameters),
 )
 
@@ -226,6 +250,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
             parseRimFactor(parameters),
+            parseCoinSide(parameters, FRONT)
         )
 
         CurrencyFormatType.HoledCoin -> HoledCoin(
@@ -246,6 +271,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, combine(HOLE, MATERIAL)),
             parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
             parseRadiusFactor(parameters),
+            parseCoinSide(parameters, FRONT)
         )
     }
 

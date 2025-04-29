@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateCurrency
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
+import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -41,5 +42,10 @@ fun validateCurrency(
 ) {
     require(state.getDefaultCalendar().isAfterOptional(currency.endDate, currency.startDate)) {
         "Start date is after end date!"
+    }
+    val currencyUnits = state.getCurrencyUnits(currency.id)
+    val minSubDenomination = currencyUnits.maxOfOrNull { it.denomination } ?: 0
+    require(currency.subDenominations.size >= minSubDenomination) {
+        "Currency Units require at least $minSubDenomination sub denomination!"
     }
 }

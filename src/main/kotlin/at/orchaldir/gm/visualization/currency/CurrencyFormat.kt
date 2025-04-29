@@ -23,7 +23,13 @@ fun visualizeCurrencyUnit(
 ): Svg {
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
-    val renderState = CurrencyRenderState(state, aabb, config, builder)
+    val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
+    val data = ResolvedCurrencyData(
+        unit.name,
+        unit.number,
+        currency.getDenomination(unit.denomination),
+    )
+    val renderState = CurrencyRenderState(state, aabb, config, builder, data)
 
     visualizeCurrencyFormat(renderState, unit.format)
 

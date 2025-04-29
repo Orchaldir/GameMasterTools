@@ -42,4 +42,17 @@ data class Currency(
     override fun name() = name.text
     override fun startDate() = startDate
 
+    fun countDenominations() = subDenominations.size + 1
+    fun getDenomination(index: Int): Denomination {
+        val size = subDenominations.size
+
+        return if (index >= 0 && index < size) {
+            subDenominations[index].first
+        } else if (index == size) {
+            denomination
+        } else {
+            error("Currency ${id.value} doesn't have a denomination $index!")
+        }
+    }
+
 }

@@ -22,12 +22,14 @@ data class CurrencyUnit(
     val id: CurrencyUnitId,
     val name: Name = Name.init("Currency Unit ${id.value}"),
     val currency: CurrencyId = CurrencyId(0),
-    val value: Int = 1,
+    val number: Int = 1,
+    val denomination: Int = 0,
     val format: CurrencyFormat = UndefinedCurrencyFormat,
 ) : ElementWithSimpleName<CurrencyUnitId> {
 
     init {
-        require(value > 0) { "The $name's value is too low!" }
+        require(number > 0) { "The $name's number is too low!" }
+        require(denomination >= 0) { "The $name's denomination is too low!" }
     }
 
     override fun id() = id

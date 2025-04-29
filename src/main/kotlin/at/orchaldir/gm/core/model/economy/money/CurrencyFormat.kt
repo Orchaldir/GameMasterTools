@@ -45,6 +45,13 @@ sealed class CurrencyFormat {
         is BiMetallicCoin -> material == id || innerMaterial == id
     }
 
+    fun getFonts() = when (this) {
+        UndefinedCurrencyFormat -> emptySet()
+        is Coin -> setOfNotNull(front.font())
+        is HoledCoin -> front.getFonts()
+        is BiMetallicCoin -> setOfNotNull(front.font())
+    }
+
     fun getMaterials() = when (this) {
         UndefinedCurrencyFormat -> emptySet()
         is Coin -> setOf(material)
@@ -64,12 +71,15 @@ data class Coin(
     val shape: Shape = Shape.Circle,
     val radius: Distance = DEFAULT_RADIUS,
     val rimFactor: Factor = DEFAULT_RIM_FACTOR,
+    val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
     init {
         checkRadius(radius)
         checkRimFactor(rimFactor)
     }
+
+    fun calculateInnerShapeRadius(inner: Shape) = calculateInnerRadius(radius, shape, inner)
 
 }
 
@@ -83,6 +93,7 @@ data class HoledCoin(
     val holeShape: Shape = Shape.Circle,
     val holeFactor: Factor = DEFAULT_RADIUS_FACTOR,
     val hasHoleRim: Boolean = true,
+    val front: HoledCoinSide = HoledCoinSide(),
 ) : CurrencyFormat() {
 
     init {
@@ -91,7 +102,9 @@ data class HoledCoin(
         checkRimFactor(rimFactor)
     }
 
-    fun calculateHoleRadius() = calculateInnerRadius(radius, shape, holeShape) * holeFactor
+    fun calculateInnerShapeRadius(other: Shape) = calculateInnerRadius(radius, shape, other)
+
+    fun calculateHoleRadius() = calculateInnerShapeRadius(holeShape) * holeFactor
 
 }
 
@@ -105,6 +118,7 @@ data class BiMetallicCoin(
     val innerMaterial: MaterialId = MaterialId(1),
     val innerShape: Shape = Shape.Circle,
     val innerFactor: Factor = DEFAULT_RADIUS_FACTOR,
+    val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
     init {
@@ -114,7 +128,9 @@ data class BiMetallicCoin(
         checkRadiusFactor(innerFactor, "inner")
     }
 
-    fun calculateInnerRadius() = calculateInnerRadius(radius, shape, innerShape) * innerFactor
+    fun calculateInnerShapeRadius(other: Shape) = calculateInnerRadius(radius, shape, other)
+
+    fun calculateInnerRadius() = calculateInnerShapeRadius(innerShape) * innerFactor
 
 }
 

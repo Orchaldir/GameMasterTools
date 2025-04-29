@@ -1,12 +1,15 @@
-package at.orchaldir.gm.app.html.model
+package at.orchaldir.gm.app.html.model.font
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.getTexts
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -27,6 +30,7 @@ fun HtmlBlockTag.showFont(
     }
     h2 { +"Usage" }
 
+    fieldList(call, state, state.getCurrencyUnits(font.id))
     fieldList(call, state, state.getTexts(font.id))
 }
 
@@ -46,6 +50,9 @@ fun parseFontId(
     parameters: Parameters,
     param: String,
 ) = FontId(parseInt(parameters, param))
+
+fun parseOptionalFontId(parameters: Parameters, param: String) =
+    parseOptionalInt(parameters, param)?.let { FontId(it) }
 
 fun parseFont(
     parameters: Parameters,

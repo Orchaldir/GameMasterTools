@@ -1,13 +1,18 @@
 package at.orchaldir.gm.prototypes.visualization.currency
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.*
+import at.orchaldir.gm.core.model.economy.money.Coin
+import at.orchaldir.gm.core.model.economy.money.DEFAULT_RIM_FACTOR
+import at.orchaldir.gm.core.model.economy.money.Shape
+import at.orchaldir.gm.core.model.economy.money.ShowName
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.visualization.currency.ResolvedCurrencyData
 
 fun main() {
     val radius = Distance.fromCentimeters(1)
@@ -21,34 +26,22 @@ fun main() {
     )
 
     renderCurrencyTable(
-        "coin-shapes.svg",
+        "coin-name.svg",
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
         addNames(Shape.entries),
-        addNames(listOf(null, Shape.Circle, Shape.Square, Shape.Octagon)),
-    ) { shape, hole ->
-        if (hole == null) {
-            Coin(
-                gold,
-                shape,
-                radius,
-            )
-        } else {
-            HoledCoin(
-                gold,
-                shape,
-                radius,
-                DEFAULT_RIM_FACTOR,
-                hole,
-                front = HoledCoinSide(
-                    ShowValue(),
-                    ShowNumber(),
-                    ShowDenomination(),
-                    ShowName(),
-                )
-            )
+        addNames(listOf("D", "DD", "DDD", "DDDD", "DDDDD")),
+        { _, name ->
+            ResolvedCurrencyData(Name.init(name))
         }
-
+    ) { shape, name ->
+        Coin(
+            gold,
+            shape,
+            radius,
+            DEFAULT_RIM_FACTOR,
+            ShowName(),
+        )
     }
 }

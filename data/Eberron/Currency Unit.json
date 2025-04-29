@@ -7,61 +7,81 @@
    "format": {
     "type": "Coin",
     "material": 21,
-    "shape": "Octagon"
+    "shape": "Octagon",
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "1": {
    "id": 1,
    "name": "Sovereign",
-   "value": 10,
+   "denomination": 1,
    "format": {
     "type": "Coin",
     "material": 24,
     "shape": "Octagon",
-    "radius": 12000
+    "radius": 12000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "2": {
    "id": 2,
    "name": "Galifar",
-   "value": 100,
+   "denomination": 2,
    "format": {
     "type": "Coin",
     "material": 20,
     "shape": "Octagon",
-    "radius": 14000
+    "radius": 14000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "3": {
    "id": 3,
    "name": "Dragon",
-   "value": 1000,
+   "number": 10,
+   "denomination": 2,
    "format": {
     "type": "Coin",
     "material": 32,
     "shape": "Octagon",
-    "radius": 16000
+    "radius": 16000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "4": {
    "id": 4,
    "name": "Double Crown",
-   "value": 2,
+   "number": 2,
    "format": {
     "type": "Coin",
     "material": 21,
     "shape": "Octagon",
-    "radius": 14000
+    "radius": 14000,
+    "front": {
+     "type": "Value"
+    }
    }
   },
   "5": {
    "id": 5,
    "name": "Silver Throne",
-   "value": 50,
+   "number": 5,
+   "denomination": 1,
    "format": {
     "type": "Coin",
     "material": 24,
-    "radius": 16000
+    "radius": 16000,
+    "front": {
+     "type": "Value"
+    }
    }
   }
  }
