@@ -257,7 +257,7 @@ class CharacterTest {
                 UpdateCharacter(
                     Character(
                         CHARACTER_ID_0,
-                        Mononym("Test"),
+                        Mononym(NAME0),
                         RACE_ID_1,
                         Gender.Male,
                         personality = setOf(PERSONALITY_ID_0)
@@ -269,7 +269,7 @@ class CharacterTest {
             assertEquals(
                 Character(
                     CHARACTER_ID_0,
-                    Mononym("Test"),
+                    Mononym(NAME0),
                     RACE_ID_1,
                     Gender.Male,
                     personality = setOf(PERSONALITY_ID_0),

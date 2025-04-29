@@ -1,5 +1,10 @@
 package at.orchaldir.gm.core.model.time.calendar
 
+import at.orchaldir.gm.DAY_NAME0
+import at.orchaldir.gm.DAY_NAME1
+import at.orchaldir.gm.DAY_NAME2
+import at.orchaldir.gm.NAME0
+import at.orchaldir.gm.NAME1
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
@@ -13,11 +18,11 @@ import kotlin.test.assertTrue
 
 class CalendarTest {
 
-    private val MONTH0 = MonthDefinition("a", 2)
-    private val MONTH1 = MonthDefinition("b", 3)
+    private val MONTH0 = MonthDefinition(NAME0, 2)
+    private val MONTH1 = MonthDefinition(NAME1, 3)
     private val CALENDAR0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(MONTH0, MONTH1)))
-    private val CALENDAR1 =
-        Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("D0"), WeekDay("D1"), WeekDay("D2"))))
+    val weekdays = Weekdays(listOf(WeekDay(DAY_NAME0), WeekDay(DAY_NAME1), WeekDay(DAY_NAME2)))
+    private val CALENDAR1 = Calendar(CalendarId(1), days = weekdays)
     private val year0 = Year(0)
     private val year1 = Year(1)
     private val year2 = Year(2)

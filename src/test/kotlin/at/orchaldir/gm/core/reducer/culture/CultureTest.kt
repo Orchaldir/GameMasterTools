@@ -111,31 +111,31 @@ class CultureTest {
 
             @Test
             fun `Keep Mononym`() {
-                changeToNo(FamilyConvention(), Mononym("A"))
+                changeToNo(FamilyConvention(), Mononym(NAME0))
             }
 
             @Test
             fun `From family to no convention`() {
-                changeToNo(FamilyConvention(), FamilyName("A", null, "B"))
+                changeToNo(FamilyConvention(), FamilyName(NAME0, null, NAME1))
             }
 
             @Test
             fun `From genonym to no convention`() {
-                changeToNo(GenonymConvention(), Genonym("A"))
+                changeToNo(GenonymConvention(), Genonym(NAME0))
             }
 
             @Test
             fun `From patronym to no convention`() {
-                changeToNo(PatronymConvention(), Genonym("A"))
+                changeToNo(PatronymConvention(), Genonym(NAME0))
             }
 
             @Test
             fun `From matronym to no convention`() {
-                changeToNo(MatronymConvention(), Genonym("A"))
+                changeToNo(MatronymConvention(), Genonym(NAME0))
             }
 
             private fun changeToNo(old: NamingConvention, name: CharacterName) =
-                changeConvention(old, NoNamingConvention, name, Mononym("A"))
+                changeConvention(old, NoNamingConvention, name, Mononym(NAME0))
         }
 
         @Nested
@@ -143,31 +143,31 @@ class CultureTest {
 
             @Test
             fun `Keep Mononym`() {
-                changeToMononym(FamilyConvention(), Mononym("A"))
+                changeToMononym(FamilyConvention(), Mononym(NAME0))
             }
 
             @Test
             fun `From family to no convention`() {
-                changeToMononym(FamilyConvention(), FamilyName("A", null, "B"))
+                changeToMononym(FamilyConvention(), FamilyName(NAME0, null, NAME1))
             }
 
             @Test
             fun `From genonym to no convention`() {
-                changeToMononym(GenonymConvention(), Genonym("A"))
+                changeToMononym(GenonymConvention(), Genonym(NAME0))
             }
 
             @Test
             fun `From patronym to no convention`() {
-                changeToMononym(PatronymConvention(), Genonym("A"))
+                changeToMononym(PatronymConvention(), Genonym(NAME0))
             }
 
             @Test
             fun `From matronym to no convention`() {
-                changeToMononym(MatronymConvention(), Genonym("A"))
+                changeToMononym(MatronymConvention(), Genonym(NAME0))
             }
 
             private fun changeToMononym(old: NamingConvention, name: CharacterName) =
-                changeConvention(old, MononymConvention(), name, Mononym("A"))
+                changeConvention(old, MononymConvention(), name, Mononym(NAME0))
         }
 
         @Nested
@@ -175,12 +175,12 @@ class CultureTest {
 
             @Test
             fun `Keep Mononym`() {
-                changeToFamily(FamilyConvention(), Mononym("A"))
+                changeToFamily(FamilyConvention(), Mononym(NAME0))
             }
 
             @Test
             fun `Keep family name`() {
-                val familyName = FamilyName("A", null, "B")
+                val familyName = FamilyName(NAME0, null, NAME1)
                 val convention = FamilyConvention()
 
                 changeConvention(convention, convention, familyName, familyName)
@@ -188,21 +188,21 @@ class CultureTest {
 
             @Test
             fun `From genonym to no convention`() {
-                changeToFamily(GenonymConvention(), Genonym("A"))
+                changeToFamily(GenonymConvention(), Genonym(NAME0))
             }
 
             @Test
             fun `From patronym to no convention`() {
-                changeToFamily(PatronymConvention(), Genonym("A"))
+                changeToFamily(PatronymConvention(), Genonym(NAME0))
             }
 
             @Test
             fun `From matronym to no convention`() {
-                changeToFamily(MatronymConvention(), Genonym("A"))
+                changeToFamily(MatronymConvention(), Genonym(NAME0))
             }
 
             private fun changeToFamily(old: NamingConvention, oldName: CharacterName) =
-                changeConvention(old, FamilyConvention(), oldName, Mononym("A"))
+                changeConvention(old, FamilyConvention(), oldName, Mononym(NAME0))
         }
 
 
@@ -211,31 +211,31 @@ class CultureTest {
 
             @Test
             fun `Change mononym to genonym`() {
-                changeToPatronym(FamilyConvention(), Mononym("A"))
+                changeToPatronym(FamilyConvention(), Mononym(NAME0))
             }
 
             @Test
             fun `Change family name to genonym`() {
-                changeToPatronym(FamilyConvention(), FamilyName("A", null, "B"))
+                changeToPatronym(FamilyConvention(), FamilyName(NAME0, null, NAME1))
             }
 
             @Test
             fun `Keep for genonym`() {
-                changeToPatronym(GenonymConvention(), Genonym("A"))
+                changeToPatronym(GenonymConvention(), Genonym(NAME0))
             }
 
             @Test
             fun `Keep for patronym`() {
-                changeToPatronym(PatronymConvention(), Genonym("A"))
+                changeToPatronym(PatronymConvention(), Genonym(NAME0))
             }
 
             @Test
             fun `Keep for matronym`() {
-                changeToPatronym(MatronymConvention(), Genonym("A"))
+                changeToPatronym(MatronymConvention(), Genonym(NAME0))
             }
 
             private fun changeToPatronym(old: NamingConvention, oldName: CharacterName) =
-                changeConvention(old, PatronymConvention(), oldName, Genonym("A"))
+                changeConvention(old, PatronymConvention(), oldName, Genonym(NAME0))
         }
 
         private fun changeConvention(
@@ -243,7 +243,7 @@ class CultureTest {
         ) {
             val action = UpdateCulture(Culture(CULTURE_ID_0, namingConvention = new))
             val character0 = Character(CHARACTER_ID_0, oldName, culture = CULTURE_ID_0)
-            val character1 = Character(CHARACTER_ID_1, Mononym("Z"), culture = CULTURE_ID_1)
+            val character1 = Character(CHARACTER_ID_1, Mononym(NAME2), culture = CULTURE_ID_1)
             val result = Character(CHARACTER_ID_0, newName, culture = CULTURE_ID_0)
             val state = State(
                 listOf(

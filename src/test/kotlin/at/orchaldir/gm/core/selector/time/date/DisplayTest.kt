@@ -1,5 +1,8 @@
 package at.orchaldir.gm.core.selector.time.date
 
+import at.orchaldir.gm.NAME0
+import at.orchaldir.gm.NAME1
+import at.orchaldir.gm.NAME2
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -8,9 +11,9 @@ import org.junit.jupiter.api.Test
 
 class DisplayTest {
 
-    private val month0 = MonthDefinition("First", 2)
-    private val month1 = MonthDefinition("Second", 3)
-    private val month2 = MonthDefinition("Third", 4)
+    private val month0 = MonthDefinition(NAME0, 2)
+    private val month1 = MonthDefinition(NAME1, 3)
+    private val month2 = MonthDefinition(NAME2, 4)
     private val calendar = Calendar(CalendarId(0), months = ComplexMonths(listOf(month0, month1, month2)))
     private val format0 = DateFormat()
     private val format1 = DateFormat(DateOrder.YearMonthDay, '/', true)
@@ -23,7 +26,7 @@ class DisplayTest {
         @Test
         fun `Test a day in AD`() {
             assertDisplay(format0, dayAd, "3.2.2024 AD")
-            assertDisplay(format1, dayAd, "2024/Second/3 AD")
+            assertDisplay(format1, dayAd, "2024/B/3 AD")
         }
 
         @Test
@@ -40,7 +43,7 @@ class DisplayTest {
             val date = DisplayMonth(1, 2023, 1)
 
             assertDisplay(format0, date, "2.2024 AD")
-            assertDisplay(format1, date, "2024/Second AD")
+            assertDisplay(format1, date, "2024/B AD")
         }
 
         @Test
@@ -72,7 +75,7 @@ class DisplayTest {
             val date = DisplayDay(1, 0, 0, 0)
 
             assertDisplay(format0, date, "1.1.1 AD")
-            assertDisplay(format1, date, "1/First/1 AD")
+            assertDisplay(format1, date, "1/A/1 AD")
         }
 
         @Test
@@ -80,7 +83,7 @@ class DisplayTest {
             val date = DisplayMonth(1, 0, 0)
 
             assertDisplay(format0, date, "1.1 AD")
-            assertDisplay(format1, date, "1/First AD")
+            assertDisplay(format1, date, "1/A AD")
         }
 
         @Test
@@ -123,7 +126,7 @@ class DisplayTest {
         @Test
         fun `Test a day in BC`() {
             assertDisplay(format0, dayBc, "BC 4.3.102")
-            assertDisplay(format1, dayBc, "BC 102/Third/4")
+            assertDisplay(format1, dayBc, "BC 102/C/4")
         }
 
         @Test
@@ -140,7 +143,7 @@ class DisplayTest {
             val date = DisplayMonth(0, 101, 2)
 
             assertDisplay(format0, date, "BC 3.102")
-            assertDisplay(format1, date, "BC 102/Third")
+            assertDisplay(format1, date, "BC 102/C")
         }
 
         @Test
@@ -172,7 +175,7 @@ class DisplayTest {
             val date = DisplayMonth(0, 0, 0)
 
             assertDisplay(format0, date, "BC 1.1")
-            assertDisplay(format1, date, "BC 1/First")
+            assertDisplay(format1, date, "BC 1/A")
         }
 
         @Test
@@ -197,7 +200,7 @@ class DisplayTest {
         val date = DisplayDayRange(dayBc, dayAd)
 
         assertDisplay(format0, date, "BC 4.3.102 to 3.2.2024 AD")
-        assertDisplay(format1, date, "BC 102/Third/4 to 2024/Second/3 AD")
+        assertDisplay(format1, date, "BC 102/C/4 to 2024/B/3 AD")
     }
 
     private fun assertDisplay(format: DateFormat, date: DisplayDate, result: String) {

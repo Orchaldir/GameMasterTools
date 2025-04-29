@@ -19,8 +19,9 @@ import kotlin.test.assertFailsWith
 
 class HolidayTest {
 
-    private val weekdays = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
-    private val months = ComplexMonths(listOf(MonthDefinition("M0", 2), MonthDefinition("M1", 3)))
+    private val weekdays = Weekdays(listOf(WeekDay(DAY_NAME1), WeekDay(DAY_NAME1)))
+    val monthsList = listOf(MonthDefinition(NAME0, 2), MonthDefinition(NAME1, 3))
+    private val months = ComplexMonths(monthsList)
     private val calendar0 = Calendar(CALENDAR_ID_0, days = weekdays, months = months)
     private val calendar1 = Calendar(CALENDAR_ID_1, months = months)
     private val state = State(
@@ -105,7 +106,7 @@ class HolidayTest {
                 val holiday = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(2, 0))
                 val action = UpdateHoliday(holiday)
 
-                assertIllegalArgument("Holiday is outside the month M0!") { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Holiday is outside the month A!") { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -113,7 +114,7 @@ class HolidayTest {
                 val holiday = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(3, 1))
                 val action = UpdateHoliday(holiday)
 
-                assertIllegalArgument("Holiday is outside the month M1!") { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Holiday is outside the month B!") { REDUCER.invoke(state, action) }
             }
 
             @Test
