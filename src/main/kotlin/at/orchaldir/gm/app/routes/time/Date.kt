@@ -159,7 +159,7 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
             th { }
             days.weekDays.forEach {
                 th {
-                    +it.name
+                    +it.name.text
                 }
             }
         }

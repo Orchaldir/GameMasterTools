@@ -84,7 +84,7 @@ private fun HtmlBlockTag.showDays(
     field("Days", calendar.days.getType())
     when (calendar.days) {
         is Weekdays -> fieldList("Weekdays", calendar.days.weekDays) { day ->
-            +day.name
+            +day.name.text
         }
 
         DayOfTheMonth -> doNothing()
@@ -159,7 +159,7 @@ private fun FORM.editDays(
             selectInt("Weekdays", days.weekDays.size, minNumber, 100, 1, combine(WEEK, DAYS), true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
-                    selectText(day.name, combine(WEEK, DAY, index))
+                    selectName(day.name, combine(WEEK, DAY, index))
                 }
             }
         }
@@ -285,7 +285,7 @@ private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
     val count = parseInt(parameters, combine(WEEK, DAYS), 2)
 
     return (0..<count)
-        .map { parseOptionalString(parameters, combine(WEEK, DAY, it)) ?: "${it + 1}.Day" }
+        .map { parseName(parameters, combine(WEEK, DAY, it), "${it + 1}.Day") }
         .map { WeekDay(it) }
 }
 

@@ -71,7 +71,7 @@ fun HtmlBlockTag.selectRelativeDate(param: String, relativeDate: RelativeDate, c
                     combine(param, DAY),
                     calendar.days.weekDays
                 ) { index, weekday ->
-                    label = weekday.name
+                    label = weekday.name.text
                     value = index.toString()
                     selected = relativeDate.weekdayIndex == index
                 }
