@@ -7,17 +7,21 @@ class NameTest {
 
     @Test
     fun `Test a valid name`() {
-        assertEquals("Test", Name.init("Test").text)
+        test("Test")
     }
 
     @Test
     fun `Trim a name`() {
-        assertEquals("Test", Name.init(" Test  ").text)
+        test(" Test  ")
     }
 
     @Test
     fun `Capitalize name`() {
-        assertEquals("Test", Name.init("test").text)
+        test("test")
+    }
+
+    private fun test(name: String) {
+        assertEquals("Test", Name.init(name).text)
     }
 
 }
