@@ -22,6 +22,14 @@ sealed class CoinSide {
         is ShowNumber -> CoinSideType.Number
         is ShowValue -> CoinSideType.Value
     }
+
+    fun font() = when (this) {
+        is BlankCoinSide -> null
+        is ShowDenomination -> font
+        is ShowName -> font
+        is ShowNumber -> font
+        is ShowValue -> font
+    }
 }
 
 @Serializable

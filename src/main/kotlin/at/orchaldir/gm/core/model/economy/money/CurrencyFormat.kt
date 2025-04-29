@@ -45,6 +45,13 @@ sealed class CurrencyFormat {
         is BiMetallicCoin -> material == id || innerMaterial == id
     }
 
+    fun getFonts() = when (this) {
+        UndefinedCurrencyFormat -> emptySet()
+        is Coin -> setOfNotNull(front.font())
+        is HoledCoin -> front.getFonts()
+        is BiMetallicCoin -> setOfNotNull(front.font())
+    }
+
     fun getMaterials() = when (this) {
         UndefinedCurrencyFormat -> emptySet()
         is Coin -> setOf(material)

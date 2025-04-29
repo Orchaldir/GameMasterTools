@@ -8,4 +8,8 @@ data class HoledCoinSide(
     val left: CoinSide = BlankCoinSide,
     val right: CoinSide = BlankCoinSide,
     val bottom: CoinSide = BlankCoinSide,
-)
+) {
+
+    fun getFonts() = setOfNotNull(top.font(), left.font(), right.font(), bottom.font())
+
+}

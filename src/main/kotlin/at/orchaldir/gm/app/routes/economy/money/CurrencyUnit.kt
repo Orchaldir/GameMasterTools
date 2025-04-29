@@ -173,6 +173,7 @@ private fun HTML.showAllCurrencies(
                 th { +"Value" }
                 th { +"Format" }
                 th { +"Materials" }
+                th { +"Fonts" }
             }
             units.forEach { unit ->
                 val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
@@ -184,6 +185,7 @@ private fun HTML.showAllCurrencies(
                     td { +denomination.display(unit.number) }
                     tdEnum(unit.format.getType())
                     tdInlineLinks(call, state, unit.format.getMaterials())
+                    tdInlineLinks(call, state, unit.format.getFonts())
                 }
             }
         }
