@@ -3,10 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": {
-    "type": "Simple",
-    "name": "Quickstone"
-   },
+   "name": "Quickstone",
    "foundingDate": {
     "type": "Year",
     "year": 991
@@ -14,10 +11,7 @@
   },
   "1": {
    "id": 1,
-   "name": {
-    "type": "Simple",
-    "name": "Graystone"
-   },
+   "name": "Graystone",
    "foundingDate": {
     "type": "Year",
     "year": 969
