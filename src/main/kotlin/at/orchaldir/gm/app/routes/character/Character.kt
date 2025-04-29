@@ -158,8 +158,7 @@ private fun HTML.showAllCharacters(
     state: State,
     sort: SortCharacter,
 ) {
-    val characters = STORE.getState().getCharacterStorage().getAll()
-    val charactersWithNames = state.sortCharacters(characters, sort)
+    val characters = state.sortCharacters(sort)
     val createLink = call.application.href(CharacterRoutes.New())
     val sortNameLink = call.application.href(CharacterRoutes.All())
     val sortAgeLink = call.application.href(CharacterRoutes.All(SortCharacter.Age))
@@ -187,7 +186,7 @@ private fun HTML.showAllCharacters(
                 th { +"Employment Status" }
                 th { +"Organizations" }
             }
-            charactersWithNames.forEach { character ->
+            characters.forEach { character ->
                 tr {
                     td {
                         if (character.vitalStatus is Dead) {
@@ -195,7 +194,7 @@ private fun HTML.showAllCharacters(
                                 link(call, state, character)
                             }
                         } else {
-                            link(call, state, character.id)
+                            link(call, state, character)
                         }
                     }
                     td { link(call, state, character.race) }
