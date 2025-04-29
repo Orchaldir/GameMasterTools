@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -236,12 +237,6 @@ fun <ID : Id<ID>> TR.tdInlineLinks(
     }
 }
 
-fun TR.tdString(text: String?) {
-    td {
-        text?.let { +it }
-    }
-}
-
 fun TR.tdSkipZero(value: Int?) {
     td {
         if (value != null && value != 0) {
@@ -250,3 +245,12 @@ fun TR.tdSkipZero(value: Int?) {
     }
 }
 
+fun TR.tdString(value: NotEmptyString) {
+    tdString(value.text)
+}
+
+fun TR.tdString(text: String?) {
+    td {
+        text?.let { +it }
+    }
+}

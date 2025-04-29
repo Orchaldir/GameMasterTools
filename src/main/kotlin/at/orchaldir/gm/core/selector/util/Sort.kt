@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.FamilyName
 import at.orchaldir.gm.core.model.character.Genonym
 import at.orchaldir.gm.core.model.character.Mononym
+import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.Salary
@@ -420,3 +421,18 @@ fun State.sortTexts(
             SortText.Name -> compareBy { it.name.text }
             SortText.Age -> getAgeComparator()
         })
+
+// title
+
+fun State.sortTitles(sort: SortTitle = SortTitle.Name) =
+    sortTitles(getTitleStorage().getAll(), sort)
+
+fun State.sortTitles(
+    titles: Collection<Title>,
+    sort: SortTitle = SortTitle.Name,
+) = titles
+    .sortedWith(
+        when (sort) {
+            SortTitle.Name -> compareBy { it.name.text }
+        }
+    )
