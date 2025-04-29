@@ -68,7 +68,7 @@ private fun HtmlBlockTag.showLifeStages(
 }
 
 private fun HtmlBlockTag.showLifeStage(stage: LifeStage) {
-    +stage.name
+    +stage.name.text
     ul {
         li {
             showMaxAge(stage.maxAge)
@@ -151,7 +151,7 @@ private fun FORM.editLifeStages(
             var minMaxAge = 1
             showListWithIndex(lifeStages.getAllLifeStages()) { index, stage ->
                 val nextMaxAge = lifeStages.maxAges.getOrNull(index + 1) ?: 10001
-                selectMaxAge(stage.name, index, stage.maxAge, minMaxAge, nextMaxAge - 1)
+                selectMaxAge(stage.name.text, index, stage.maxAge, minMaxAge, nextMaxAge - 1)
                 minMaxAge = stage.maxAge + 1
             }
             selectHairColor("Old Age Hair Color", 6, lifeStages.oldAgeHairColor)
@@ -163,7 +163,7 @@ private fun FORM.editLifeStages(
             selectNumberOfLifeStages(lifeStages.lifeStages.size)
             var minMaxAge = 1
             showListWithIndex(lifeStages.lifeStages) { index, stage ->
-                selectStageName(index, stage.name)
+                selectName(stage.name, combine(LIFE_STAGE, NAME, index))
                 ul {
                     li {
                         val nextMaxAge = lifeStages.lifeStages.getOrNull(index + 1)?.maxAge ?: 10001
@@ -202,13 +202,6 @@ private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: Color
 
 private fun FORM.selectNumberOfLifeStages(number: Int) {
     selectInt("Life Stages", number, 2, 100, 1, LIFE_STAGE, true)
-}
-
-private fun HtmlBlockTag.selectStageName(
-    index: Int,
-    name: String,
-) {
-    selectText("Name", name, combine(LIFE_STAGE, NAME, index), 1)
 }
 
 private fun HtmlBlockTag.selectMaxAge(
@@ -289,7 +282,7 @@ private fun parseSimpleLifeStages(parameters: Parameters): List<LifeStage> {
 }
 
 private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = LifeStage(
-    parseOptionalString(parameters, combine(LIFE_STAGE, NAME, index)) ?: "${index + 1}.Life Stage",
+    parseName(parameters, combine(LIFE_STAGE, NAME, index), "${index + 1}.Life Stage"),
     parseMaxAge(parameters, index),
     parseFactor(parameters, combine(LIFE_STAGE, SIZE, index)),
     parseBool(parameters, combine(LIFE_STAGE, BEARD, index)),

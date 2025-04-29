@@ -308,7 +308,7 @@ private fun FORM.selectOrigin(
             race.lifeStages.lifeStages.withIndex().toList(),
             true,
         ) { stage ->
-            label = stage.value.name
+            label = stage.value.name.text
             value = stage.index.toString()
         }
     }

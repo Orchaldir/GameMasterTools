@@ -200,15 +200,6 @@ fun HtmlBlockTag.selectOptionalName(label: String, name: Name?, param: String = 
     selectText(label, name?.text ?: "", param, 0)
 }
 
-fun HtmlBlockTag.selectOptionalText(
-    label: String,
-    text: String?,
-    param: String,
-    max: Int? = null,
-) {
-    selectText(label, text ?: "", param, 0, max)
-}
-
 fun HtmlBlockTag.selectText(
     label: String,
     text: String,

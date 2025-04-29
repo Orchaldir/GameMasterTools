@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.race.aging
 
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.FULL
@@ -9,7 +10,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-private val immutable = LifeStage("Immutable", Int.MAX_VALUE)
+private val immutable = LifeStage(Name.init("Immutable"), Int.MAX_VALUE)
 private val defaultRelativeSizes = listOf(20, 40, 60, 95, 100, 100, 95, 90)
 private val defaultLifeStagesMap = mutableMapOf<DefaultAging, List<LifeStage>>()
 
@@ -90,7 +91,7 @@ data class DefaultAging(
         hasBeard: Boolean = false,
         hairColor: Color? = null,
     ) = LifeStage(
-        DefaultLifeStages.entries[index].name,
+        Name.init(DefaultLifeStages.entries[index].name),
         maxAges[index],
         fromPercentage(defaultRelativeSizes[index]),
         hasBeard,
