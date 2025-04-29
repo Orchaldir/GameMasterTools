@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.parse.world
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.model.parseComplexName
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseDate
+import at.orchaldir.gm.app.html.model.parseName
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
@@ -20,7 +20,7 @@ fun parseTerrainType(parameters: Parameters) = parse(parameters, combine(TERRAIN
 fun parseTownId(parameters: Parameters, param: String) = TownId(parseInt(parameters, param))
 
 fun parseTown(parameters: Parameters, state: State, oldTown: Town) = oldTown.copy(
-    name = parseComplexName(parameters),
+    name = parseName(parameters),
     foundingDate = parseDate(parameters, state, DATE),
     founder = parseCreator(parameters),
 )

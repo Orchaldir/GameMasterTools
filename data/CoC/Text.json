@@ -3,10 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": {
-    "type": "Simple",
-    "name": "Al Azif"
-   },
+   "name": "Al Azif",
    "origin": {
     "type": "Original",
     "author": {
@@ -62,10 +59,7 @@
   },
   "1": {
    "id": 1,
-   "name": {
-    "type": "Simple",
-    "name": "Necronomicon"
-   },
+   "name": "Necronomicon",
    "origin": {
     "type": "Translation",
     "text": 0,
@@ -117,10 +111,7 @@
   },
   "2": {
    "id": 2,
-   "name": {
-    "type": "Simple",
-    "name": "Necronomicon"
-   },
+   "name": "Necronomicon",
    "origin": {
     "type": "Translation",
     "text": 1,
@@ -175,10 +166,7 @@
   },
   "3": {
    "id": 3,
-   "name": {
-    "type": "Simple",
-    "name": "Cultus Maleficarum"
-   },
+   "name": "Cultus Maleficarum",
    "origin": {
     "type": "Translation",
     "text": 2,
@@ -230,10 +218,7 @@
   },
   "4": {
    "id": 4,
-   "name": {
-    "type": "Simple",
-    "name": "The Young's Mi-go Disks"
-   },
+   "name": "The Young's Mi-go Disks",
    "language": 8,
    "content": {
     "type": "Abstract",
@@ -248,10 +233,7 @@
   },
   "5": {
    "id": 5,
-   "name": {
-    "type": "Simple",
-    "name": "Ecstasy, Flames, and the Druids of Briton"
-   },
+   "name": "Ecstasy, Flames, and the Druids of Briton",
    "publisher": 9,
    "date": {
     "type": "Year",

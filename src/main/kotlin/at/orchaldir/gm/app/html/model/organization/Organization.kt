@@ -86,7 +86,14 @@ private fun FORM.editMembers(
         val potentialCharacters = state.sortCharacters(state.getCharacterStorage().get(notMembers + characterId))
         val memberParam = combine(MEMBER, memberIndex)
 
-        selectElement("Character", combine(memberParam, CHARACTER), potentialCharacters, characterId, true)
+        selectElement(
+            state,
+            "Character",
+            combine(memberParam, CHARACTER),
+            potentialCharacters,
+            characterId,
+            true,
+        )
         selectHistory(
             state,
             combine(memberParam, RANK),

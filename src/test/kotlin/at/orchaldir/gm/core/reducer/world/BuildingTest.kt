@@ -8,9 +8,7 @@ import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.name.NameWithReference
-import at.orchaldir.gm.core.model.name.ReferencedFullName
-import at.orchaldir.gm.core.model.name.SimpleName
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
@@ -250,7 +248,7 @@ class BuildingTest {
         private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER_ID_0))
         private val ACTION = UpdateBuilding(
             BUILDING_ID_0,
-            SimpleName("New"),
+            Name.init("New"),
             NoAddress,
             DAY0,
             OWNED_BY_CHARACTER,
@@ -311,14 +309,6 @@ class BuildingTest {
         inner class NameTest {
 
             @Test
-            fun `Named after unknown character`() {
-                val name = NameWithReference(ReferencedFullName(CHARACTER_ID_1), "A", "B")
-                val action = ACTION.copy(name = name)
-
-                assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(STATE, action) }
-            }
-
-            @Test
             fun `Null is valid`() {
                 val action = ACTION.copy(name = null)
 
@@ -331,7 +321,7 @@ class BuildingTest {
 
             private val action = UpdateBuilding(
                 BUILDING_ID_0,
-                SimpleName("New"),
+                Name.init("New"),
                 NoAddress,
                 DAY0,
                 OWNERSHIP,

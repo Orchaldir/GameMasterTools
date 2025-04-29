@@ -5,13 +5,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.name.ComplexName
-import at.orchaldir.gm.core.model.name.SimpleName
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.UndefinedCreator
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -30,17 +29,17 @@ value class TextId(val value: Int) : Id<TextId> {
 @Serializable
 data class Text(
     val id: TextId,
-    val name: ComplexName = SimpleName("Text ${id.value}"),
+    val name: Name = Name.init("Text ${id.value}"),
     val origin: TextOrigin = OriginalText(UndefinedCreator),
     val publisher: BusinessId? = null,
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
     val format: TextFormat = UndefinedTextFormat,
     val content: TextContent = UndefinedTextContent,
-) : Element<TextId>, Created, HasStartDate, MadeFromParts {
+) : ElementWithSimpleName<TextId>, Created, HasStartDate, MadeFromParts {
 
     override fun id() = id
-    override fun name(state: State) = name.resolve(state)
+    override fun name() = name.text
 
     fun getNameWithDate(state: State): String {
         val resolvedName = name(state)

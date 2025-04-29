@@ -1,12 +1,12 @@
 package at.orchaldir.gm.core.reducer.world
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.STREET_ID_0
+import at.orchaldir.gm.STREET_TYPE_ID_0
+import at.orchaldir.gm.assertFailMessage
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.name.NameWithReference
-import at.orchaldir.gm.core.model.name.ReferencedFullName
-import at.orchaldir.gm.core.model.name.SimpleName
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
@@ -80,16 +80,8 @@ class StreetTest {
         }
 
         @Test
-        fun `Named after unknown character`() {
-            val name = NameWithReference(ReferencedFullName(CHARACTER_ID_0), "A", "B")
-            val action = UpdateStreet(Street(STREET_ID_0, name))
-
-            assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
         fun `Update is valid`() {
-            val street = Street(STREET_ID_0, SimpleName("Test"))
+            val street = Street(STREET_ID_0, Name.init("Test"))
             val action = UpdateStreet(street)
 
             assertEquals(street, REDUCER.invoke(STATE, action).first.getStreetStorage().get(STREET_ID_0))

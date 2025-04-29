@@ -3,15 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": {
-    "type": "Reference",
-    "reference": {
-     "type": "Town",
-     "id": 0
-    },
-    "prefix": null,
-    "postfix": "Gazette"
-   },
+   "name": "Cobb’s Corners Gazette",
    "ownership": {
     "current": {
      "type": "Business",

@@ -139,9 +139,9 @@ private fun HTML.showTownDetails(
     val editStreetsLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
     val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
 
-    simpleHtml("Town: ${town.name(state)}") {
+    simpleHtmlDetails(town) {
         split({
-            fieldReferenceByName(call, state, town.name)
+            fieldName(town.name)
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
             fieldCreator(call, state, town.founder, "Founder")
@@ -164,12 +164,8 @@ private fun HTML.showTownDetails(
             h2 { +"Characters" }
             val residents = state.getResident(town.id)
             val workers = state.getWorkingIn(town.id) - residents
-            fieldList("Residents", state.sortCharacters(residents)) { (character, name) ->
-                link(call, character.id, name)
-            }
-            fieldList("Workers, but not Residents", state.sortCharacters(workers)) { (character, name) ->
-                link(call, character.id, name)
-            }
+            fieldList(call, state, "Residents", state.sortCharacters(residents))
+            fieldList(call, state, "Workers, but not Residents", state.sortCharacters(workers))
             val characters = residents.toSet() + workers.toSet()
             showCauseOfDeath(characters)
             showCultureCount(call, state, characters)
@@ -206,10 +202,10 @@ private fun HTML.showTownEditor(
     val previewLink = call.application.href(TownRoutes.Preview(town.id))
     val updateLink = call.application.href(TownRoutes.Update(town.id))
 
-    simpleHtml("Edit Town: ${town.name(state)}") {
+    simpleHtmlEditor(town) {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
-                selectComplexName(state, town.name)
+                selectName(town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)
                 selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
             }

@@ -189,7 +189,7 @@ private fun HTML.showPeriodicalDetails(
     val deleteLink = call.application.href(PeriodicalRoutes.Delete(periodical.id))
     val editLink = call.application.href(PeriodicalRoutes.Edit(periodical.id))
 
-    simpleHtml("Periodical: ${periodical.name(state)}") {
+    simpleHtmlDetails(periodical) {
         showPeriodical(call, state, periodical)
 
         action(editLink, "Edit")
@@ -209,7 +209,7 @@ private fun HTML.showPeriodicalEditor(
     val previewLink = call.application.href(PeriodicalRoutes.Preview(periodical.id))
     val updateLink = call.application.href(PeriodicalRoutes.Update(periodical.id))
 
-    simpleHtml("Edit Periodical: ${periodical.name(state)}") {
+    simpleHtmlEditor(periodical) {
         formWithPreview(previewLink, updateLink, backLink) {
             editPeriodical(state, periodical)
         }

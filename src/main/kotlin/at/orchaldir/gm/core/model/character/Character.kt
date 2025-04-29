@@ -70,6 +70,19 @@ data class Character(
         }
     }
 
+    fun nameForSorting(state: State): String {
+        return when (name) {
+            is FamilyName -> name.family + ", " + name.given + if (name.middle != null) {
+                " " + name.middle
+            } else {
+                ""
+            }
+
+            is Genonym -> state.getGenonymName(this, name)
+            is Mononym -> name.name
+        }
+    }
+
     override fun startDate() = birthDate
 
     fun getAge(state: State, currentDay: Day): Duration {

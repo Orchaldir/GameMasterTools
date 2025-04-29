@@ -220,7 +220,7 @@ private fun HTML.showGallery(
     val backLink = call.application.href(TextRoutes.All())
 
     simpleHtml("Texts") {
-        showGallery(call, texts, { text -> text.getNameWithDate(state) }) { text ->
+        showGallery(call, texts, { it.getNameWithDate(state) }) { text ->
             visualizeTextFormat(state, TEXT_CONFIG, text, size)
         }
 
@@ -259,13 +259,12 @@ private fun HTML.showTextEditor(
     state: State,
     text: Text,
 ) {
-    val name = text.name(state)
     val backLink = href(call, text.id)
     val previewLink = call.application.href(TextRoutes.Preview(text.id))
     val updateLink = call.application.href(TextRoutes.Update(text.id))
     val svg = visualizeText(state, TEXT_CONFIG, text)
 
-    simpleHtml("Edit Text: $name", true) {
+    simpleHtmlEditor(text, true) {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
                 editText(state, text)

@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
@@ -49,7 +48,6 @@ fun validateBusiness(
     state: State,
     business: Business,
 ) {
-    checkComplexName(state, business.name)
     checkDate(state, business.startDate(), "Business Founding")
     validateCreator(state, business.founder, business.id, business.startDate(), "Founder")
     checkOwnershipWithOptionalDate(state, business.ownership, business.startDate())

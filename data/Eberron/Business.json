@@ -3,10 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": {
-    "type": "Simple",
-    "name": "The Crown"
-   },
+   "name": "The Crown",
    "startDate": {
     "type": "Year",
     "year": 991
@@ -24,10 +21,7 @@
   },
   "1": {
    "id": 1,
-   "name": {
-    "type": "Simple",
-    "name": "Tuuva Mercantile"
-   },
+   "name": "Tuuva Mercantile",
    "startDate": {
     "type": "Year",
     "year": 991
@@ -35,10 +29,7 @@
   },
   "2": {
    "id": 2,
-   "name": {
-    "type": "Simple",
-    "name": "The Anvil"
-   },
+   "name": "The Anvil",
    "startDate": {
     "type": "Year",
     "year": 995
@@ -46,10 +37,7 @@
   },
   "3": {
    "id": 3,
-   "name": {
-    "type": "Simple",
-    "name": "The Livery"
-   },
+   "name": "The Livery",
    "startDate": {
     "type": "Year",
     "year": 995
@@ -57,10 +45,7 @@
   },
   "4": {
    "id": 4,
-   "name": {
-    "type": "Simple",
-    "name": "Sivis Stone 182"
-   },
+   "name": "Sivis Stone 182",
    "startDate": {
     "type": "Year",
     "year": 995
@@ -78,10 +63,7 @@
   },
   "5": {
    "id": 5,
-   "name": {
-    "type": "Simple",
-    "name": "Orien Station"
-   },
+   "name": "Orien Station",
    "startDate": {
     "type": "Year",
     "year": 996
@@ -99,10 +81,7 @@
   },
   "6": {
    "id": 6,
-   "name": {
-    "type": "Simple",
-    "name": "The Gold Dragon Inn"
-   },
+   "name": "The Gold Dragon Inn",
    "startDate": {
     "type": "Year",
     "year": 996
@@ -120,10 +99,7 @@
   },
   "7": {
    "id": 7,
-   "name": {
-    "type": "Simple",
-    "name": "The Rose Theater"
-   },
+   "name": "The Rose Theater",
    "startDate": {
     "type": "Year",
     "year": 992
@@ -131,10 +107,7 @@
   },
   "8": {
    "id": 8,
-   "name": {
-    "type": "Simple",
-    "name": "Littlehand Haberdashers"
-   },
+   "name": "Littlehand Haberdashers",
    "startDate": {
     "type": "Year",
     "year": 992
@@ -152,10 +125,7 @@
   },
   "9": {
    "id": 9,
-   "name": {
-    "type": "Simple",
-    "name": "The Patchery"
-   },
+   "name": "The Patchery",
    "startDate": {
     "type": "Year",
     "year": 991
@@ -163,10 +133,7 @@
   },
   "10": {
    "id": 10,
-   "name": {
-    "type": "Simple",
-    "name": "Town Hall"
-   },
+   "name": "Town Hall",
    "startDate": {
     "type": "Year",
     "year": 995
@@ -184,10 +151,7 @@
   },
   "11": {
    "id": 11,
-   "name": {
-    "type": "Simple",
-    "name": "The Sharn Inquisitive"
-   },
+   "name": "The Sharn Inquisitive",
    "startDate": {
     "type": "Year",
     "year": 995
@@ -205,10 +169,7 @@
   },
   "12": {
    "id": 12,
-   "name": {
-    "type": "Simple",
-    "name": "The Kundarak Enclave"
-   },
+   "name": "The Kundarak Enclave",
    "startDate": {
     "type": "Year",
     "year": 996
@@ -226,10 +187,7 @@
   },
   "13": {
    "id": 13,
-   "name": {
-    "type": "Simple",
-    "name": "Schoolhouse"
-   },
+   "name": "Schoolhouse",
    "startDate": {
     "type": "Year",
     "year": 995
@@ -243,10 +201,7 @@
   },
   "14": {
    "id": 14,
-   "name": {
-    "type": "Simple",
-    "name": "Stone Soup"
-   },
+   "name": "Stone Soup",
    "startDate": {
     "type": "Year",
     "year": 991
@@ -254,10 +209,7 @@
   },
   "15": {
    "id": 15,
-   "name": {
-    "type": "Simple",
-    "name": "The Church"
-   },
+   "name": "The Church",
    "startDate": {
     "type": "Year",
     "year": 991
@@ -275,15 +227,7 @@
   },
   "16": {
    "id": 16,
-   "name": {
-    "type": "Reference",
-    "reference": {
-     "type": "FamilyName",
-     "id": 11
-    },
-    "prefix": null,
-    "postfix": "Bank"
-   },
+   "name": "Kemble Bank",
    "startDate": {
     "type": "Year",
     "year": 995

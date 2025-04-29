@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
@@ -66,9 +65,6 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
-    if (action.name != null) {
-        checkComplexName(state, action.name)
-    }
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
     val building = action.applyTo(oldBuilding)
     validateBuilding(state, building)

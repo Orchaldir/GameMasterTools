@@ -54,7 +54,7 @@ fun FORM.editPeriodical(
     val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
     val frequencies = getValidPublicationFrequencies(calendar)
 
-    selectComplexName(state, periodical.name)
+    selectName(periodical.name)
     selectOwnership(state, periodical.ownership, date)
     selectElement(state, "Language", LANGUAGE, state.getLanguageStorage().getAll(), periodical.language)
     selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), periodical.calendar, true)
@@ -75,7 +75,7 @@ fun parsePeriodical(parameters: Parameters, state: State, id: PeriodicalId): Per
 
     return Periodical(
         id,
-        parseComplexName(parameters),
+        parseName(parameters),
         parseOwnership(parameters, state, startDate),
         parseLanguageId(parameters, LANGUAGE),
         calendarId,

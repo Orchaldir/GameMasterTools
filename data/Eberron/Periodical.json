@@ -3,27 +3,18 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": {
-    "type": "Simple",
-    "name": "Korranberg Chronicle"
-   },
+   "name": "Korranberg Chronicle",
    "language": 1,
    "frequency": "Weekly"
   },
   "1": {
    "id": 1,
-   "name": {
-    "type": "Simple",
-    "name": "Sharn Inquisitive"
-   },
+   "name": "Sharn Inquisitive",
    "language": 1
   },
   "2": {
    "id": 2,
-   "name": {
-    "type": "Simple",
-    "name": "Aundairian Scroll"
-   },
+   "name": "Aundairian Scroll",
    "language": 1
   }
  }

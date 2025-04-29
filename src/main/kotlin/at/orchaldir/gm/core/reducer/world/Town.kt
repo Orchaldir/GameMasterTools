@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
-import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.time.getCurrentDate
@@ -41,7 +40,6 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
 }
 
 fun validateTown(state: State, town: Town) {
-    checkComplexName(state, town.name)
     checkDate(state, town.foundingDate, "Town")
     validateCreator(state, town.founder, town.id, town.foundingDate, "founder")
 }

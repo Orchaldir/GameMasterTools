@@ -272,7 +272,7 @@ private fun HTML.showBuildingEditor(
     simpleHtml("Edit Building: ${building.name(state)}") {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
-                selectOptionalComplexName(state, building.name)
+                selectOptionalName(building.name)
                 selectAddress(state, building)
                 selectOptionalDate(state, "Construction", building.constructionDate, DATE)
                 fieldAge("Age", state, building.constructionDate)

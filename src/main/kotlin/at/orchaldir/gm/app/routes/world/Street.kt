@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldReferenceByName
-import at.orchaldir.gm.app.html.model.selectComplexName
+import at.orchaldir.gm.app.html.model.fieldName
+import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.world.parseStreet
 import at.orchaldir.gm.core.action.CreateStreet
 import at.orchaldir.gm.core.action.DeleteStreet
@@ -136,8 +136,8 @@ private fun HTML.showStreetDetails(
     val deleteLink = call.application.href(StreetRoutes.Delete(street.id))
     val editLink = call.application.href(StreetRoutes.Edit(street.id))
 
-    simpleHtml("Street: ${street.name(state)}") {
-        fieldReferenceByName(call, state, street.name)
+    simpleHtmlDetails(street) {
+        fieldName(street.name)
         fieldList("Towns", state.getTowns(street.id)) { town ->
             val buildings = state.sortBuildings(
                 state.getBuildings(town.id)
@@ -164,9 +164,9 @@ private fun HTML.showStreetEditor(
     val backLink = href(call, street.id)
     val updateLink = call.application.href(StreetRoutes.Update(street.id))
 
-    simpleHtml("Edit Street: ${street.name(state)}") {
+    simpleHtmlEditor(street) {
         form {
-            selectComplexName(state, street.name)
+            selectName(street.name)
             button("Update", updateLink)
         }
         back(backLink)

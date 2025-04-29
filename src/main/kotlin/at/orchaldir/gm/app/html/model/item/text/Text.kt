@@ -66,7 +66,7 @@ fun FORM.editText(
         .sortedBy { it.name.text }
     val businesses = state.getExistingElements(state.getBusinessStorage(), text.date)
 
-    selectComplexName(state, text.name)
+    selectName(text.name)
     editOrigin(state, text)
     selectOptionalDate(state, "Date", text.date, DATE)
     selectOptionalElement(state, "Publisher", BUSINESS, businesses, text.publisher)
@@ -99,7 +99,7 @@ fun parseTextId(parameters: Parameters, param: String) = TextId(parseInt(paramet
 fun parseText(parameters: Parameters, state: State, id: TextId) =
     Text(
         id,
-        parseComplexName(parameters),
+        parseName(parameters),
         parseOrigin(parameters),
         parseOptionalBusinessId(parameters, BUSINESS),
         parseOptionalDate(parameters, state, DATE),
