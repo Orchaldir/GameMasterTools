@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.selector.util
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.FamilyName
