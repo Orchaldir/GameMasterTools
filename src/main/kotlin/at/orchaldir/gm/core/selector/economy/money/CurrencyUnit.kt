@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.economy.money
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.material.MaterialId
 
 fun State.canDeleteCurrencyUnit(id: CurrencyUnitId) = true
@@ -18,6 +19,10 @@ fun State.countCurrencyUnits(material: MaterialId) = getCurrencyUnitStorage()
 fun State.getCurrencyUnits(currency: CurrencyId) = getCurrencyUnitStorage()
     .getAll()
     .filter { it.currency == currency }
+
+fun State.getCurrencyUnits(font: FontId) = getCurrencyUnitStorage()
+    .getAll()
+    .filter { b -> b.format.getFonts().contains(font) }
 
 fun State.getCurrencyUnits(material: MaterialId) = getCurrencyUnitStorage()
     .getAll()

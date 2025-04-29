@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.getTexts
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -34,6 +35,7 @@ fun HtmlBlockTag.showFont(
     }
     h2 { +"Usage" }
 
+    fieldList(call, state, state.getCurrencyUnits(font.id))
     fieldList(call, state, state.getTexts(font.id))
 }
 
