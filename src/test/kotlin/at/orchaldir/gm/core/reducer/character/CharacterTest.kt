@@ -517,6 +517,13 @@ class CharacterTest {
         }
 
         @Test
+        fun `Cannot use unknown title`() {
+            val action = UpdateCharacter(Character(CHARACTER_ID_0, title = TITLE_ID_0))
+
+            assertIllegalArgument("Requires unknown Title 0!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Cannot use unknown personality trait`() {
             val state = STATE.removeStorage(PERSONALITY_ID_0)
             val action = UpdateCharacter(Character(CHARACTER_ID_0, personality = setOf(PERSONALITY_ID_0)))

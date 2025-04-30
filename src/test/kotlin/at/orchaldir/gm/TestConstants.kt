@@ -2,6 +2,7 @@ package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
@@ -109,6 +110,7 @@ val STREET_TYPE_ID_1 = StreetTemplateId(1)
 val TEXT_ID_0 = TextId(0)
 val TEXT_ID_1 = TextId(1)
 val TEXT_ID_2 = TextId(2)
+val TITLE_ID_0 = TitleId(0)
 val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
 
