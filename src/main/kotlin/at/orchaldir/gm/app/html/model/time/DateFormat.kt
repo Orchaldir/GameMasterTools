@@ -24,7 +24,7 @@ fun HtmlBlockTag.showDateFormat(format: DateFormat) {
 
     field("Date Order", format.order)
     field("Date Separator", format.separator)
-    field("Display Month Names", format.displayMonthNames.toString())
+    field("Display Month Names", format.displayMonthNames)
 }
 
 // edit
