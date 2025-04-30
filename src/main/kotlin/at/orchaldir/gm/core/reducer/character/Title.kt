@@ -17,7 +17,7 @@ val CREATE_TITLE: Reducer<CreateTitle, State> = { state, _ ->
 
 val DELETE_TITLE: Reducer<DeleteTitle, State> = { state, action ->
     state.getTitleStorage().require(action.id)
-    require(state.canDeleteTitle(action.id)) { "Title ${action.id.value} is used by characters" }
+    require(state.canDeleteTitle(action.id)) { "Title ${action.id.value} is used" }
 
     noFollowUps(state.updateStorage(state.getTitleStorage().remove(action.id)))
 }
