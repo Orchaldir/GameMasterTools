@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.util.SortTitle
 import at.orchaldir.gm.core.selector.character.canDeleteTitle
+import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.util.sortTitles
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -153,6 +154,7 @@ private fun HTML.showAllTitlees(
                 th { +"Text" }
                 th { +"Position" }
                 th { +"Separator" }
+                th { +"Characters" }
             }
             titles.forEach { title ->
                 tr {
@@ -160,6 +162,7 @@ private fun HTML.showAllTitlees(
                     tdString(title.text)
                     tdEnum(title.position)
                     tdChar(title.separator)
+                    tdSkipZero(state.countCharacters(title.id))
                 }
             }
         }
@@ -178,7 +181,7 @@ private fun HTML.showTitleDetails(
     val editLink = call.application.href(TitleRoutes.Edit(title.id))
 
     simpleHtmlDetails(title) {
-        showTitle(title)
+        showTitle(call, state, title)
 
         action(editLink, "Edit")
         if (state.canDeleteTitle(title.id)) {

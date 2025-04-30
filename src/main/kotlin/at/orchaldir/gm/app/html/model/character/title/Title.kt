@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.SEPARATOR
 import at.orchaldir.gm.app.WORD
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.parseChar
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseNotEmptyString
@@ -17,18 +18,23 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.character.title.TitlePosition
+import at.orchaldir.gm.core.selector.character.getCharacters
 import io.ktor.http.*
+import io.ktor.server.application.ApplicationCall
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
 
 fun HtmlBlockTag.showTitle(
+    call: ApplicationCall,
+    state: State,
     title: Title,
 ) {
     field("Text", title.text)
     field("Position", title.position)
     field("Separator", title.separator)
+    fieldList(call, state, state.getCharacters(title.id))
 }
 
 // edit

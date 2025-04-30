@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.updateBeard
 import at.orchaldir.gm.core.model.character.appearance.updateHairColor
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
@@ -38,7 +39,11 @@ fun State.canDeleteCharacter(character: CharacterId) = getChildren(character).is
 
 fun State.countCharacters(language: LanguageId) = getCharacterStorage()
     .getAll()
-    .count { c -> getKnownLanguages(c).containsKey(language) }
+    .count { getKnownLanguages(it).containsKey(language) }
+
+fun State.countCharacters(title: TitleId) = getCharacterStorage()
+    .getAll()
+    .count { it.title == title }
 
 fun countEachCauseOfDeath(characters: Collection<Character>) = characters
     .filter { it.vitalStatus is Dead }
@@ -72,15 +77,25 @@ fun State.countEachLanguage(characters: Collection<Character>) = characters
 
 // get characters
 
-fun State.getCharacters(culture: CultureId) = getCharacterStorage().getAll().filter { c -> c.culture == culture }
+fun State.getCharacters(culture: CultureId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.culture == culture }
 
-fun State.getCharacters(language: LanguageId) =
-    getCharacterStorage().getAll().filter { c -> getKnownLanguages(c).containsKey(language) }
+fun State.getCharacters(language: LanguageId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> getKnownLanguages(c).containsKey(language) }
 
-fun State.getCharacters(trait: PersonalityTraitId) =
-    getCharacterStorage().getAll().filter { c -> c.personality.contains(trait) }
+fun State.getCharacters(trait: PersonalityTraitId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.personality.contains(trait) }
 
-fun State.getCharacters(race: RaceId) = getCharacterStorage().getAll().filter { c -> c.race == race }
+fun State.getCharacters(race: RaceId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.race == race }
+
+fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.title == titleId }
 
 // belief status
 
