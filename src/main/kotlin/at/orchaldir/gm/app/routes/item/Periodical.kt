@@ -143,16 +143,10 @@ private fun HTML.showAllPeriodicals(
 ) {
     val periodicals = state.sortPeriodicals(sort)
     val createLink = call.application.href(PeriodicalRoutes.New())
-    val sortNameLink = call.application.href(PeriodicalRoutes.All())
-    val sortAgeLink = call.application.href(PeriodicalRoutes.All(SortPeriodical.Age))
 
     simpleHtml("Periodicals") {
         field("Count", periodicals.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortAgeLink, "Age")
-        }
+        showSortTableLinks(call, SortPeriodical.entries, PeriodicalRoutes(), PeriodicalRoutes::All)
         table {
             tr {
                 th { +"Name" }

@@ -160,11 +160,7 @@ private fun HTML.showAllCurrencies(
     simpleHtml("Currency Units") {
         action(galleryLink, "Gallery")
         field("Count", units.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortValueLink, "Value")
-        }
+        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes(), CurrencyUnitRoutes::All)
         table {
             tr {
                 th { +"Name" }

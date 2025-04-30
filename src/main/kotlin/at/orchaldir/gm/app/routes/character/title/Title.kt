@@ -63,7 +63,7 @@ fun Application.configureTitleRouting() {
             logger.info { "Get all title" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllTitlees(call, STORE.getState(), all.sort)
+                showAllTitles(call, STORE.getState(), all.sort)
             }
         }
         get<TitleRoutes.Details> { details ->
@@ -134,7 +134,7 @@ fun Application.configureTitleRouting() {
     }
 }
 
-private fun HTML.showAllTitlees(
+private fun HTML.showAllTitles(
     call: ApplicationCall,
     state: State,
     sort: SortTitle,

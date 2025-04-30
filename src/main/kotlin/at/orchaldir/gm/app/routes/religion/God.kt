@@ -137,16 +137,10 @@ private fun HTML.showAllGods(
 ) {
     val gods = state.sortGods(sort)
     val createLink = call.application.href(GodRoutes.New())
-    val sortNameLink = call.application.href(GodRoutes.All(SortGod.Name))
-    val sortBelieversLink = call.application.href(GodRoutes.All(SortGod.Believers))
 
     simpleHtml("Gods") {
         field("Count", gods.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortBelieversLink, "Believers")
-        }
+        showSortTableLinks(call, SortGod.entries, GodRoutes(), GodRoutes::All)
 
         table {
             tr {

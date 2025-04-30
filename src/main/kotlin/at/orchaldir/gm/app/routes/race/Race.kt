@@ -139,7 +139,7 @@ private fun HTML.showAllRaces(
     simpleHtml("Races") {
         action(galleryLink, "Gallery")
         field("Count", races.size)
-        showSortLinks(call) { sort -> RaceRoutes.All(sort) }
+        showSortLinks(call, RaceRoutes::All)
 
         table {
             tr {
@@ -176,23 +176,11 @@ private fun HTML.showAllRaces(
     }
 }
 
-private inline fun <reified T : Any> HtmlBlockTag.showSortLinks(call: ApplicationCall, createLink: (SortRace) -> T) {
-    val sortAgeLink = call.application.href(createLink(SortRace.Age))
-    val sortNameLink = call.application.href(createLink(SortRace.Name))
-    val sortHeightLink = call.application.href(createLink(SortRace.Height))
-    val sortWeightLink = call.application.href(createLink(SortRace.Weight))
-    val sortMaxLifeSpanLink = call.application.href(createLink(SortRace.MaxLifeSpan))
-    field("Sort") {
-        link(sortAgeLink, "Age")
-        +" "
-        link(sortNameLink, "Name")
-        +" "
-        link(sortMaxLifeSpanLink, "Max Age")
-        +" "
-        link(sortHeightLink, "Height")
-        +" "
-        link(sortWeightLink, "Weight")
-    }
+private inline fun <reified V : Any> HtmlBlockTag.showSortLinks(
+    call: ApplicationCall,
+    crossinline createLink: Function2<SortRace, RaceRoutes, V>,
+) {
+    showSortTableLinks(call, SortRace.entries, RaceRoutes(), createLink)
 }
 
 private fun HTML.showGallery(
@@ -206,7 +194,7 @@ private fun HTML.showGallery(
     val backLink = call.application.href(RaceRoutes.All())
 
     simpleHtml("Races") {
-        showSortLinks(call) { sort -> RaceRoutes.Gallery(sort) }
+        showSortLinks(call, RaceRoutes::Gallery)
 
         showGallery(call, state, races) { race ->
             val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toPermyriad() }

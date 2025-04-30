@@ -143,19 +143,16 @@ fun Application.configureArchitecturalStyleRouting() {
 private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State, sort: SortArchitecturalStyle) {
     val styles = STORE.getState().sortArchitecturalStyles(sort)
     val createLink = call.application.href(ArchitecturalStyleRoutes.New())
-    val sortNameLink = call.application.href(ArchitecturalStyleRoutes.All())
-    val sortStartLink = call.application.href(ArchitecturalStyleRoutes.All(Start))
-    val sortEndLink = call.application.href(ArchitecturalStyleRoutes.All(End))
 
     simpleHtml("Architectural Styles") {
         field("Count", styles.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortStartLink, "Start")
-            +" "
-            link(sortEndLink, "End")
-        }
+        showSortTableLinks(
+            call,
+            SortArchitecturalStyle.entries,
+            ArchitecturalStyleRoutes(),
+            ArchitecturalStyleRoutes::All
+        )
+
         table {
             tr {
                 th { +"Name" }

@@ -143,19 +143,10 @@ private fun HTML.showAllPantheons(
 ) {
     val pantheons = state.sortPantheons(sort)
     val createLink = call.application.href(PantheonRoutes.New())
-    val sortNameLink = call.application.href(PantheonRoutes.All(SortPantheon.Name))
-    val sortGodsLink = call.application.href(PantheonRoutes.All(SortPantheon.Gods))
-    val sortBelieversLink = call.application.href(PantheonRoutes.All(SortPantheon.Believers))
 
     simpleHtml("Pantheons") {
         field("Count", pantheons.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortGodsLink, "Gods")
-            +" "
-            link(sortBelieversLink, "Believers")
-        }
+        showSortTableLinks(call, SortPantheon.entries, PantheonRoutes(), PantheonRoutes::All)
 
         table {
             tr {

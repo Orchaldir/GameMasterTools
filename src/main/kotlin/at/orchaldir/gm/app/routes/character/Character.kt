@@ -4,6 +4,8 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.*
+import at.orchaldir.gm.app.routes.FontRoutes
+import at.orchaldir.gm.app.routes.FontRoutes.All
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -15,6 +17,7 @@ import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.util.SortCharacter
+import at.orchaldir.gm.core.model.util.SortFont
 import at.orchaldir.gm.core.selector.character.canCreateCharacter
 import at.orchaldir.gm.core.selector.character.getAgeInYears
 import at.orchaldir.gm.core.selector.item.getEquipment
@@ -161,18 +164,12 @@ private fun HTML.showAllCharacters(
 ) {
     val characters = state.sortCharacters(sort)
     val createLink = call.application.href(CharacterRoutes.New())
-    val sortNameLink = call.application.href(CharacterRoutes.All())
-    val sortAgeLink = call.application.href(CharacterRoutes.All(SortCharacter.Age))
     val galleryLink = call.application.href(CharacterRoutes.Gallery())
 
     simpleHtml("Characters") {
         action(galleryLink, "Gallery")
         field("Count", characters.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortAgeLink, "Age")
-        }
+        showSortTableLinks(call, SortCharacter.entries, CharacterRoutes(), CharacterRoutes::All)
         table {
             tr {
                 th { +"Name" }

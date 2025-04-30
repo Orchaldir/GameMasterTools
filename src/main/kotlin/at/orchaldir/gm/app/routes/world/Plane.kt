@@ -138,13 +138,10 @@ private fun HTML.showAllPlanes(
     val day = state.getCurrentDate()
     val planes = state.sortPlanes(sort)
     val createLink = call.application.href(PlaneRoutes.New())
-    val sortNameLink = call.application.href(PlaneRoutes.All(SortPlane.Name))
 
     simpleHtml("Planes") {
         field("Count", planes.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-        }
+        showSortTableLinks(call, SortPlane.entries, PlaneRoutes(), PlaneRoutes::All)
 
         table {
             tr {

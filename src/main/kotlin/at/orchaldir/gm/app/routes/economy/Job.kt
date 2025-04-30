@@ -142,21 +142,11 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
     val currency = state.getDefaultCurrency()
     val jobs = state.sortJobs(sort)
     val createLink = call.application.href(JobRoutes.New())
-    val sortNameLink = call.application.href(JobRoutes.All())
-    val sortIncomeLink = call.application.href(JobRoutes.All(SortJob.Income))
-    val sortSpellsLink = call.application.href(JobRoutes.All(SortJob.Spells))
 
     simpleHtml("Jobs") {
         field("Count", jobs.size)
         fieldLink("Currency", call, currency)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortIncomeLink, "Income")
-            +" "
-            link(sortSpellsLink, "Spells")
-        }
-
+        showSortTableLinks(call, SortJob.entries, JobRoutes(), JobRoutes::All)
         table {
             tr {
                 th { +"Name" }

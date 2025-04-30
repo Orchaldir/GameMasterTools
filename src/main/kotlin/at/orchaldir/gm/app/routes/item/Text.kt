@@ -150,18 +150,11 @@ private fun HTML.showAllTexts(
     val texts = state.sortTexts(sort)
     val createLink = call.application.href(TextRoutes.New())
     val galleryLink = call.application.href(TextRoutes.Gallery())
-    val sortNameLink = call.application.href(TextRoutes.All(SortText.Name))
-    val sortAgeLink = call.application.href(TextRoutes.All(SortText.Age))
 
     simpleHtml("Texts") {
         action(galleryLink, "Gallery")
         field("Count", texts.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortAgeLink, "Age")
-        }
-
+        showSortTableLinks(call, SortText.entries, TextRoutes(), TextRoutes::All)
         table {
             tr {
                 th { +"Name" }

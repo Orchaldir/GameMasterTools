@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.font.FONT_TYPE
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.util.SortFont
+import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
@@ -201,11 +202,7 @@ private fun HTML.showAllFonts(
 
     simpleHtml("Fonts") {
         field("Count", fonts.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortAgeLink, "Age")
-        }
+        showSortTableLinks(call, SortFont.entries, FontRoutes(), FontRoutes::All)
 
         table {
             tr {
