@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.selector.time.date
 
-import at.orchaldir.gm.DAY_NAME0
-import at.orchaldir.gm.DAY_NAME1
-import at.orchaldir.gm.NAME0
-import at.orchaldir.gm.NAME1
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.*
 import org.junit.jupiter.api.Assertions.assertEquals

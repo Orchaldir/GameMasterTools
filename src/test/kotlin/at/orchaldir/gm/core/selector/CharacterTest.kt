@@ -8,12 +8,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Friend
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.selector.character.getChildren
-import at.orchaldir.gm.core.selector.character.getOthersWithoutRelationship
-import at.orchaldir.gm.core.selector.character.getParents
-import at.orchaldir.gm.core.selector.character.getPossibleFathers
-import at.orchaldir.gm.core.selector.character.getPossibleMothers
-import at.orchaldir.gm.core.selector.character.getSiblings
+import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

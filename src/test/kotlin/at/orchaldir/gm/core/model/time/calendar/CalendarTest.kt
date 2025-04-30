@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.model.time.calendar
 
-import at.orchaldir.gm.DAY_NAME0
-import at.orchaldir.gm.DAY_NAME1
-import at.orchaldir.gm.DAY_NAME2
-import at.orchaldir.gm.NAME0
-import at.orchaldir.gm.NAME1
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
