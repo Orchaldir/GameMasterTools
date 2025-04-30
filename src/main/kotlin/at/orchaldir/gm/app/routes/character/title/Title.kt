@@ -152,12 +152,14 @@ private fun HTML.showAllTitlees(
                 th { +"Name" }
                 th { +"Text" }
                 th { +"Position" }
+                th { +"Separator" }
             }
             titles.forEach { title ->
                 tr {
                     td { link(call, state, title) }
                     tdString(title.text)
                     tdEnum(title.position)
+                    tdChar(title.separator)
                 }
             }
         }
