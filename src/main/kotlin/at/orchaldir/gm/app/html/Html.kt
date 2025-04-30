@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
-import io.ktor.server.resources.href
+import io.ktor.server.resources.*
 import kotlinx.html.*
 
 fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtmlDetails(

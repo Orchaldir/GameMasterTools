@@ -4,8 +4,6 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.*
-import at.orchaldir.gm.app.routes.FontRoutes
-import at.orchaldir.gm.app.routes.FontRoutes.All
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -17,7 +15,6 @@ import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.util.SortCharacter
-import at.orchaldir.gm.core.model.util.SortFont
 import at.orchaldir.gm.core.selector.character.canCreateCharacter
 import at.orchaldir.gm.core.selector.character.getAgeInYears
 import at.orchaldir.gm.core.selector.item.getEquipment

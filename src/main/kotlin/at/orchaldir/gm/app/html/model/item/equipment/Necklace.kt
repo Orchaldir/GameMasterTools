@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.html.model.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*

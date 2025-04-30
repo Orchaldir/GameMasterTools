@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.model.selectOptionalYear
 import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
@@ -15,7 +14,7 @@ import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
-import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.*
+import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Name
 import at.orchaldir.gm.core.model.world.building.ARCHITECTURAL_STYLE_TYPE
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId

@@ -3,24 +3,15 @@ package at.orchaldir.gm.app.html.model.character.title
 import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.SEPARATOR
 import at.orchaldir.gm.app.WORD
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.parseChar
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.parseNotEmptyString
-import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.html.parseOptionalInt
-import at.orchaldir.gm.app.html.selectChar
-import at.orchaldir.gm.app.html.selectName
-import at.orchaldir.gm.app.html.selectNotEmptyString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.character.title.TitlePosition
 import at.orchaldir.gm.core.selector.character.getCharacters
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 

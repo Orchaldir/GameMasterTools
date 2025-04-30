@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters

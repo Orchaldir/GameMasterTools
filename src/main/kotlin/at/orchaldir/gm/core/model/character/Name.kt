@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.utils.titlecaseFirstChar
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

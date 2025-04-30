@@ -6,8 +6,6 @@ import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
@@ -23,15 +21,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.*
-import at.orchaldir.gm.core.selector.character.canDeleteCharacter
-import at.orchaldir.gm.core.selector.character.getAgeInYears
-import at.orchaldir.gm.core.selector.character.getChildren
-import at.orchaldir.gm.core.selector.character.getParents
-import at.orchaldir.gm.core.selector.character.getPossibleFathers
-import at.orchaldir.gm.core.selector.character.getPossibleMothers
-import at.orchaldir.gm.core.selector.character.getSiblings
-import at.orchaldir.gm.core.selector.character.hasPossibleParents
-import at.orchaldir.gm.core.selector.character.scaleHeightByAge
+import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentYear

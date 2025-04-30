@@ -5,8 +5,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.editMaterial
 import at.orchaldir.gm.app.html.model.parseMaterial
 import at.orchaldir.gm.app.html.model.showMaterial
-import at.orchaldir.gm.app.routes.character.title.TitleRoutes
-import at.orchaldir.gm.app.routes.character.title.TitleRoutes.All
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
@@ -15,7 +13,6 @@ import at.orchaldir.gm.core.model.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
-import at.orchaldir.gm.core.model.util.SortTitle
 import at.orchaldir.gm.core.selector.canDeleteMaterial
 import at.orchaldir.gm.core.selector.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits

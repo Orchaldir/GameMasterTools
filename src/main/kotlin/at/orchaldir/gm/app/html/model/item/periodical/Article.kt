@@ -3,16 +3,11 @@ package at.orchaldir.gm.app.html.model.item.periodical
 import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.TITLE
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.character.parseOptionalCharacterId
 import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectOptionalDate
-import at.orchaldir.gm.app.html.optionalFieldLink
-import at.orchaldir.gm.app.html.selectOptionalElement
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.ArticleId

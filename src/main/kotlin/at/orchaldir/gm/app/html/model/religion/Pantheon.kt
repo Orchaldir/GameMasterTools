@@ -1,13 +1,9 @@
 package at.orchaldir.gm.app.html.model.religion
 
 import at.orchaldir.gm.app.GOD
-import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.parse.parseElements
-import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
