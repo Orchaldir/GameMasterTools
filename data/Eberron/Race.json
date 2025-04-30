@@ -112,7 +112,7 @@
     "Female": "Common",
     "Male": "Common"
    },
-   "weight": 60000,
+   "weight": 60000000,
    "lifeStages": {
     "type": "Default",
     "appearance": 1,
