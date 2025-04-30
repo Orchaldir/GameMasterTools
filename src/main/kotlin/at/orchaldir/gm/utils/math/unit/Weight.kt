@@ -16,10 +16,10 @@ value class Weight private constructor(private val milligrams: Int) : SiUnit<Wei
     }
 
     companion object {
-        fun fromKilogram(kg: Int) = Weight(fromKilograms(kg))
-        fun fromKilogram(kg: Float) = Weight(fromKilograms(kg))
-        fun fromGram(g: Int) = Weight(fromGrams(g))
-        fun fromGram(g: Float) = Weight(fromGrams(g))
+        fun fromKilograms(kg: Int) = Weight(convertFromKilograms(kg))
+        fun fromKilograms(kg: Float) = Weight(convertFromKilograms(kg))
+        fun fromGrams(g: Int) = Weight(convertFromGrams(g))
+        fun fromGrams(g: Float) = Weight(convertFromGrams(g))
         fun fromMilligrams(mg: Int) = Weight(mg)
     }
 
@@ -44,10 +44,10 @@ value class Weight private constructor(private val milligrams: Int) : SiUnit<Wei
     }
 }
 
-fun fromKilograms(kg: Int) = downTwice(kg)
-fun fromKilograms(kg: Float) = downTwice(kg)
-fun fromGrams(grams: Int) = down(grams)
-fun fromGrams(grams: Float) = down(grams)
+fun convertFromKilograms(kg: Int) = downTwice(kg)
+fun convertFromKilograms(kg: Float) = downTwice(kg)
+fun convertFromGrams(grams: Int) = down(grams)
+fun convertFromGrams(grams: Float) = down(grams)
 
 fun toKilograms(milligrams: Int) = upTwice(milligrams)
 

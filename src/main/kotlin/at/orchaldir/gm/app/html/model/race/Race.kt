@@ -124,8 +124,8 @@ fun FORM.editRace(
         fromMillimeters(10),
         true
     )
-    val kilo = Weight.fromKilogram(1.0f)
-    selectWeight("Weight", WEIGHT, race.weight, kilo, Weight.fromKilogram(1000.0f), kilo)
+    val kilo = Weight.fromKilograms(1.0f)
+    selectWeight("Weight", WEIGHT, race.weight, kilo, Weight.fromKilograms(1000.0f), kilo)
     editRaceOrigin(state, race)
     editLifeStages(state, race)
 }

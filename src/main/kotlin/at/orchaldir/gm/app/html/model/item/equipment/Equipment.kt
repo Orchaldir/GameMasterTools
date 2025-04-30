@@ -98,8 +98,8 @@ fun FORM.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    val gram = Weight.fromGram(10)
-    selectWeight("Weight", WEIGHT, equipment.weight, gram, Weight.fromKilogram(10.0f), gram)
+    val gram = Weight.fromGrams(10)
+    selectWeight("Weight", WEIGHT, equipment.weight, gram, Weight.fromKilograms(10.0f), gram)
     selectValue(
         "Equipment",
         combine(EQUIPMENT, TYPE),

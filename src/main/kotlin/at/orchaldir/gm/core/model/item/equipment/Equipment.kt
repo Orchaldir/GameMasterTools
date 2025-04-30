@@ -23,7 +23,7 @@ data class Equipment(
     val id: EquipmentId,
     val name: Name = Name.init("Equipment ${id.value}"),
     val data: EquipmentData = Belt(),
-    val weight: Weight = Weight.fromGram(1),
+    val weight: Weight = Weight.fromGrams(1),
 ) : ElementWithSimpleName<EquipmentId> {
 
     override fun id() = id

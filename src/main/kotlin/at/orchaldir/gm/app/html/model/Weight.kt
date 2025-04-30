@@ -22,7 +22,7 @@ fun HtmlBlockTag.selectWeight(
     current: Weight,
     minValue: Weight,
     maxValue: Weight,
-    step: Weight = Weight.fromGram(1),
+    step: Weight = Weight.fromGrams(1),
     update: Boolean = false,
 ) {
     field(label) {
@@ -35,7 +35,7 @@ fun HtmlBlockTag.selectWeight(
     current: Weight,
     minValue: Weight,
     maxValue: Weight,
-    step: Weight = Weight.fromGram(1),
+    step: Weight = Weight.fromGrams(1),
     update: Boolean = false,
 ) {
     val values = (minValue.value()..maxValue.value() step step.value()).toList()
@@ -52,4 +52,4 @@ fun parseWeight(
     parameters: Parameters,
     param: String,
     default: Int = 0,
-) = Weight.fromGram(parseInt(parameters, param, default))
+) = Weight.fromGrams(parseInt(parameters, param, default))
