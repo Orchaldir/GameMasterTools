@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
@@ -434,5 +435,6 @@ fun State.sortTitles(
     .sortedWith(
         when (sort) {
             SortTitle.Name -> compareBy { it.name.text }
+            SortTitle.Characters -> compareByDescending { countCharacters(it.id) }
         }
     )

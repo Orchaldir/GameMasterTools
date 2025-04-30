@@ -112,4 +112,5 @@ enum class SortText {
 
 enum class SortTitle {
     Name,
+    Characters,
 }
