@@ -257,7 +257,7 @@ class CharacterTest {
                 UpdateCharacter(
                     Character(
                         CHARACTER_ID_0,
-                        Mononym("Test"),
+                        Mononym(NAME0),
                         RACE_ID_1,
                         Gender.Male,
                         personality = setOf(PERSONALITY_ID_0)
@@ -269,7 +269,7 @@ class CharacterTest {
             assertEquals(
                 Character(
                     CHARACTER_ID_0,
-                    Mononym("Test"),
+                    Mononym(NAME0),
                     RACE_ID_1,
                     Gender.Male,
                     personality = setOf(PERSONALITY_ID_0),
@@ -514,6 +514,13 @@ class CharacterTest {
             val action = UpdateCharacter(Character(CHARACTER_ID_0, culture = CULTURE_ID_0))
 
             assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown title`() {
+            val action = UpdateCharacter(Character(CHARACTER_ID_0, title = TITLE_ID_0))
+
+            assertIllegalArgument("Requires unknown Title 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

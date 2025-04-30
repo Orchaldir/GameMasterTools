@@ -78,7 +78,7 @@ private fun getMonthString(
     calendar: Calendar,
     displayMonth: DisplayMonth,
 ) = if (format.displayMonthNames) {
-    calendar.getMonth(displayMonth).name
+    calendar.getMonth(displayMonth).name.text
 } else {
     (displayMonth.monthIndex + 1).toString()
 }

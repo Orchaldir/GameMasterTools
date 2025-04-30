@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.race.CreatedRace
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.LifeStage
@@ -126,7 +127,7 @@ class RaceTest {
             assertIllegalArgument("Date (Race) is in the future!") { REDUCER.invoke(newState, action) }
         }
 
-        private fun createSimpleLifeStage(name: String, maxAge: Int) = LifeStage(name, maxAge)
+        private fun createSimpleLifeStage(name: String, maxAge: Int) = LifeStage(Name.init(name), maxAge)
         private fun createSimpleAging(stages: List<LifeStage>) = SimpleAging(lifeStages = stages)
 
         private fun <T> testIsValid(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {

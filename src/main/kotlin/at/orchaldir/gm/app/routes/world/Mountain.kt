@@ -3,8 +3,6 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldName
-import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.world.parseMountain
 import at.orchaldir.gm.core.action.CreateMountain
 import at.orchaldir.gm.core.action.DeleteMountain

@@ -8,8 +8,8 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.selector.getEmployees
-import at.orchaldir.gm.core.selector.getPreviousEmployees
+import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.world.getBuilding
 import at.orchaldir.gm.utils.redux.Reducer

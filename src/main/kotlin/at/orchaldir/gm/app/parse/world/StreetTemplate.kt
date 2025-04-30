@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.html.model.parseMaterialCost
-import at.orchaldir.gm.app.html.model.parseName
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId

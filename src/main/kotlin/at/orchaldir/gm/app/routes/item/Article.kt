@@ -141,16 +141,10 @@ private fun HTML.showAllArticles(
 ) {
     val articles = state.sortArticles(sort)
     val createLink = call.application.href(ArticleRoutes.New())
-    val sortTitleLink = call.application.href(ArticleRoutes.All())
-    val sortDateLink = call.application.href(ArticleRoutes.All(SortArticle.Date))
 
     simpleHtml("Articles") {
         field("Count", articles.size)
-        field("Sort") {
-            link(sortTitleLink, "Title")
-            +" "
-            link(sortDateLink, "Date")
-        }
+        showSortTableLinks(call, SortArticle.entries, ArticleRoutes(), ArticleRoutes::All)
         table {
             tr {
                 th { +"Title" }

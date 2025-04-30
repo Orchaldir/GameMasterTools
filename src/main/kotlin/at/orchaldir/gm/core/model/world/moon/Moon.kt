@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.world.moon
 
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
@@ -25,7 +26,7 @@ value class MoonId(val value: Int) : Id<MoonId> {
 data class Moon(
     val id: MoonId,
     val name: Name = Name.init("Moon ${id.value}"),
-    val title: String? = null,
+    val title: NotEmptyString? = null,
     val daysPerQuarter: Int = 1,
     val color: Color = Color.White,
     val plane: PlaneId? = null,

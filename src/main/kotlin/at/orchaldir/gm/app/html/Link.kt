@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
+import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
@@ -22,6 +23,7 @@ import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
@@ -62,9 +64,66 @@ import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.date.resolve
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.*
+
+// field
+
+fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
+    label: String,
+    call: ApplicationCall,
+    state: State,
+    id: ID,
+) {
+    field(label) {
+        link(call, state, id)
+    }
+}
+
+fun <ID : Id<ID>> HtmlBlockTag.optionalFieldLink(
+    label: String,
+    call: ApplicationCall,
+    state: State,
+    id: ID?,
+) {
+    if (id != null) {
+        fieldLink(label, call, state, id)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.fieldLink(
+    label: String,
+    call: ApplicationCall,
+    element: ELEMENT,
+) {
+    field(label) {
+        link(call, element)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldLink(
+    label: String,
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+) {
+    field(label) {
+        link(call, state, element)
+    }
+}
+
+fun HtmlBlockTag.fieldLink(label: String, link: String, text: String) {
+    p {
+        b { +"$label: " }
+        a(link) { +text }
+    }
+}
+
+inline fun <reified T : Any> HtmlBlockTag.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
+    fieldLink(storage.getPlural(), call.application.href(link), "${storage.getSize()}")
+}
 
 // generic
 
@@ -272,6 +331,7 @@ fun <ID : Id<ID>> href(
     is StreetId -> call.application.href(StreetRoutes.Details(id))
     is StreetTemplateId -> call.application.href(StreetTemplateRoutes.Details(id))
     is TextId -> call.application.href(TextRoutes.Details(id))
+    is TitleId -> call.application.href(TitleRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }

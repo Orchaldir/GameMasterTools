@@ -145,19 +145,10 @@ private fun HTML.showAllOrganizations(
 ) {
     val organizations = state.sortOrganizations(sort)
     val createLink = call.application.href(OrganizationRoutes.New())
-    val sortAgeLink = call.application.href(OrganizationRoutes.All(SortOrganization.Age))
-    val sortNameLink = call.application.href(OrganizationRoutes.All(SortOrganization.Name))
-    val sortMembersLink = call.application.href(OrganizationRoutes.All(SortOrganization.Members))
 
     simpleHtml("Organizations") {
         field("Count", organizations.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortAgeLink, "Age")
-            +" "
-            link(sortMembersLink, "Members")
-        }
+        showSortTableLinks(call, SortOrganization.entries, OrganizationRoutes(), OrganizationRoutes::All)
 
         table {
             tr {

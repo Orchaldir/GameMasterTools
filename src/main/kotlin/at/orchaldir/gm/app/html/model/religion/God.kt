@@ -2,18 +2,19 @@ package at.orchaldir.gm.app.html.model.religion
 
 import at.orchaldir.gm.app.DOMAIN
 import at.orchaldir.gm.app.GENDER
-import at.orchaldir.gm.app.TILE
+import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.parseGender
+import at.orchaldir.gm.app.html.model.editPersonality
+import at.orchaldir.gm.app.html.model.parsePersonality
+import at.orchaldir.gm.app.html.model.showCreated
+import at.orchaldir.gm.app.html.model.showPersonality
 import at.orchaldir.gm.app.parse.parseElements
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.selector.getBelievers
+import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.util.sortDomains
@@ -55,7 +56,7 @@ fun FORM.editGod(
     god: God,
 ) {
     selectName(god.name)
-    selectOptionalText("Optional Title", god.title, TILE)
+    selectOptionalNotEmptyString("Optional Title", god.title, TITLE)
     selectValue("Gender", GENDER, Gender.entries, god.gender)
     editPersonality(call, state, god.personality)
     selectElements(state, "Domains", DOMAIN, state.sortDomains(), god.domains)
@@ -70,7 +71,7 @@ fun parseGodId(value: String) = GodId(value.toInt())
 fun parseGod(parameters: Parameters, id: GodId) = God(
     id,
     parseName(parameters),
-    parseOptionalString(parameters, TILE),
+    parseOptionalNotEmptyString(parameters, TITLE),
     parseGender(parameters),
     parsePersonality(parameters),
     parseElements(parameters, DOMAIN, ::parseDomainId),

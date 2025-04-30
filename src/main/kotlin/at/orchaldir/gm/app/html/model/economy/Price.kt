@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.selector.economy.money.display

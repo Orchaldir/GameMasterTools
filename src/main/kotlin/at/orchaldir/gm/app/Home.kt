@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
+import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
@@ -60,6 +61,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes.All())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
+                    fieldStorageLink(call, state.getTitleStorage(), TitleRoutes.All())
                     h3 { +"Cultures" }
                     fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
                     fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())

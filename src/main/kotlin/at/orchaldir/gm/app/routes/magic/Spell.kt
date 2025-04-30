@@ -146,17 +146,10 @@ private fun HTML.showAllSpells(
 ) {
     val spells = state.sortSpells(sort)
     val createLink = call.application.href(SpellRoutes.New())
-    val sortNameLink = call.application.href(SpellRoutes.All(SortSpell.Name))
-    val sortAgeLink = call.application.href(SpellRoutes.All(SortSpell.Age))
 
     simpleHtml("Spells") {
         field("Count", spells.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortAgeLink, "Age")
-        }
-
+        showSortTableLinks(call, SortSpell.entries, SpellRoutes(), SpellRoutes::All)
         table {
             tr {
                 th { +"Name" }

@@ -3,10 +3,9 @@ package at.orchaldir.gm.app.html.model.character
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
@@ -22,6 +21,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentYear
@@ -50,9 +50,8 @@ fun HtmlBlockTag.showData(
 
     h2 { +"Data" }
 
-    field("Race") {
-        link(call, race)
-    }
+    optionalFieldLink("Title", call, state, character.title)
+    fieldLink("Race", call, race)
     field("Gender", character.gender)
     when (character.origin) {
         is Born -> {
@@ -80,7 +79,7 @@ fun HtmlBlockTag.showData(
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
     action(editLink, "Edit")
-    if (state.canDelete(character.id)) {
+    if (state.canDeleteCharacter(character.id)) {
         action(deleteLink, "Delete")
     }
 }
@@ -218,7 +217,8 @@ fun FORM.editCharacter(
     val races = state.getExistingRaces(character.birthDate)
     val race = state.getRaceStorage().getOrThrow(character.race)
 
-    selectName(state, character)
+    selectCharacterName(state, character)
+    selectOptionalElement(state, "Title", TITLE, state.getTitleStorage().getAll(), character.title)
     selectElement(state, "Race", RACE, state.sortRaces(races), character.race, true)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
@@ -299,7 +299,7 @@ private fun FORM.selectOrigin(
             race.lifeStages.lifeStages.withIndex().toList(),
             true,
         ) { stage ->
-            label = stage.value.name
+            label = stage.value.name.text
             value = stage.index.toString()
         }
     }
@@ -307,7 +307,7 @@ private fun FORM.selectOrigin(
     selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE), race.startDate())
 }
 
-private fun FORM.selectName(
+private fun FORM.selectCharacterName(
     state: State,
     character: Character,
 ) {
@@ -335,10 +335,11 @@ private fun FORM.selectName(
             }
         }
     }
-    selectText("Given Name", character.getGivenName(), GIVEN_NAME, 1)
+    selectName("Given Name", character.getGivenName(), GIVEN_NAME)
+
     if (character.name is FamilyName) {
-        selectText("Middle Name", character.name.middle ?: "", MIDDLE_NAME, 1)
-        selectText("Family Name", character.name.family, FAMILY_NAME, 1)
+        selectOptionalName("Middle Name", character.name.middle, MIDDLE_NAME)
+        selectName("Family Name", character.name.family, FAMILY_NAME)
     }
 }
 
@@ -383,6 +384,7 @@ fun parseCharacter(
         housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
+        title = parseOptionalTitleId(parameters, TITLE),
     )
 }
 
@@ -412,22 +414,14 @@ private fun parseBirthday(
 }
 
 private fun parseCharacterName(parameters: Parameters): CharacterName {
-    val given = parameters.getOrFail(GIVEN_NAME)
+    val given = parseName(parameters, GIVEN_NAME)
 
     return when (parameters.getOrFail(NAME_TYPE)) {
-        "FamilyName" -> {
-            var middle = parameters[MIDDLE_NAME]
-
-            if (middle.isNullOrEmpty()) {
-                middle = null
-            }
-
-            FamilyName(
-                given,
-                middle,
-                parameters[FAMILY_NAME] ?: "Unknown"
-            )
-        }
+        "FamilyName" -> FamilyName(
+            given,
+            parseOptionalName(parameters, MIDDLE_NAME),
+            parseName(parameters, FAMILY_NAME, "Unknown"),
+        )
 
         "Genonym" -> Genonym(given)
         else -> Mononym(given)

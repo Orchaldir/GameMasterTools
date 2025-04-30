@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 
 class CalendarTest {
 
-    private val validMonths = ComplexMonths(listOf(MonthDefinition("a", 10), MonthDefinition("b", 10)))
+    private val validMonths = ComplexMonths(listOf(MonthDefinition(NAME0, 10), MonthDefinition(NAME1, 10)))
 
     @Nested
     inner class DeleteTest {
@@ -125,7 +125,7 @@ class CalendarTest {
             @Test
             fun `At least 2 weekdays`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
-                val weekdays = Weekdays(listOf(WeekDay("a")))
+                val weekdays = Weekdays(listOf(WeekDay(NAME0)))
                 val calendar = Calendar(CALENDAR_ID_0, days = weekdays, months = validMonths)
                 val action = UpdateCalendar(calendar)
 
@@ -135,7 +135,7 @@ class CalendarTest {
             @Test
             fun `Weekdays need unique names`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
-                val weekdays = Weekdays(listOf(WeekDay("a"), WeekDay("a")))
+                val weekdays = Weekdays(listOf(WeekDay(NAME0), WeekDay(NAME0)))
                 val calendar = Calendar(CALENDAR_ID_0, days = weekdays, months = validMonths)
                 val action = UpdateCalendar(calendar)
 
@@ -145,7 +145,7 @@ class CalendarTest {
             @Test
             fun `Valid weekdays`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
-                val weekdays = Weekdays(listOf(WeekDay("a"), WeekDay("b")))
+                val weekdays = Weekdays(listOf(WeekDay(NAME0), WeekDay(NAME1)))
                 val calendar = Calendar(CALENDAR_ID_0, days = weekdays, months = validMonths)
                 val action = UpdateCalendar(calendar)
 
@@ -159,7 +159,7 @@ class CalendarTest {
             @Test
             fun `At least 2 months`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
-                val months = ComplexMonths(listOf(MonthDefinition("a", 10)))
+                val months = ComplexMonths(listOf(MonthDefinition(NAME0, 10)))
                 val calendar = Calendar(CALENDAR_ID_0, months = months)
                 val action = UpdateCalendar(calendar)
 
@@ -169,7 +169,7 @@ class CalendarTest {
             @Test
             fun `At least 2 days per month`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
-                val months = ComplexMonths(listOf(MonthDefinition("a", 1), MonthDefinition("b", 1)))
+                val months = ComplexMonths(listOf(MonthDefinition(NAME0, 1), MonthDefinition(NAME1, 1)))
                 val calendar = Calendar(CALENDAR_ID_0, months = months)
                 val action = UpdateCalendar(calendar)
 
@@ -179,7 +179,7 @@ class CalendarTest {
             @Test
             fun `Months need unique names`() {
                 val state = State(Storage(Calendar(CALENDAR_ID_0)))
-                val months = ComplexMonths(listOf(MonthDefinition("a", 10), MonthDefinition("a", 10)))
+                val months = ComplexMonths(listOf(MonthDefinition(NAME0, 10), MonthDefinition(NAME0, 10)))
                 val calendar = Calendar(CALENDAR_ID_0, months = months)
                 val action = UpdateCalendar(calendar)
 

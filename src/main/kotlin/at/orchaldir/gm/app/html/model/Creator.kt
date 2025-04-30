@@ -12,8 +12,8 @@ import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
-import at.orchaldir.gm.core.selector.getLiving
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.core.selector.world.getExistingTowns

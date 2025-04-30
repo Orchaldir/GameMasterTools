@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.character.getCharacters
 
 fun State.canDelete(culture: CultureId) = getCharacters(culture).isEmpty()
 

@@ -2,13 +2,9 @@ package at.orchaldir.gm.app.html.model.world
 
 import at.orchaldir.gm.app.ALIGNMENT
 import at.orchaldir.gm.app.PATTERN
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.model.world.plane.PlanarAlignment.*
 import at.orchaldir.gm.core.model.world.plane.PlaneAlignmentPatternType.*

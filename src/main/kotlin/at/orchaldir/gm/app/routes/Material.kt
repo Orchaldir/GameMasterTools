@@ -145,11 +145,7 @@ private fun HTML.showAllMaterials(
 
     simpleHtml("Materials") {
         field("Count", materials.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortEquipmentLink, "Equipment")
-        }
+        showSortTableLinks(call, SortMaterial.entries, MaterialRoutes(), MaterialRoutes::All)
 
         table {
             tr {

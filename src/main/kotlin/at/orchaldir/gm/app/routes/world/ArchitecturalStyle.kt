@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.html.model.selectOptionalYear
 import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
@@ -15,7 +14,7 @@ import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
-import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.*
+import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Name
 import at.orchaldir.gm.core.model.world.building.ARCHITECTURAL_STYLE_TYPE
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -143,19 +142,16 @@ fun Application.configureArchitecturalStyleRouting() {
 private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State, sort: SortArchitecturalStyle) {
     val styles = STORE.getState().sortArchitecturalStyles(sort)
     val createLink = call.application.href(ArchitecturalStyleRoutes.New())
-    val sortNameLink = call.application.href(ArchitecturalStyleRoutes.All())
-    val sortStartLink = call.application.href(ArchitecturalStyleRoutes.All(Start))
-    val sortEndLink = call.application.href(ArchitecturalStyleRoutes.All(End))
 
     simpleHtml("Architectural Styles") {
         field("Count", styles.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortStartLink, "Start")
-            +" "
-            link(sortEndLink, "End")
-        }
+        showSortTableLinks(
+            call,
+            SortArchitecturalStyle.entries,
+            ArchitecturalStyleRoutes(),
+            ArchitecturalStyleRoutes::All
+        )
+
         table {
             tr {
                 th { +"Name" }

@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
 import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.selector.character.getFather
+import at.orchaldir.gm.core.selector.character.getMother
 
 fun State.canHaveFamilyName(character: Character): Boolean {
     val culture = getCultureStorage().getOrThrow(character.culture)
@@ -74,7 +76,7 @@ private fun State.getGenonymName(
     return if (parentId != null) {
         val parent = getCharacterStorage().getOrThrow(parentId)
         val result =
-            getGenonymName(name.given, character.gender, style, parent)
+            getGenonymName(name.given.text, character.gender, style, parent)
 
         if (lookupDistance == TwoGenerations) {
             val grandparentId = getParent(parent)
@@ -93,12 +95,12 @@ private fun State.getGenonymName(
         return result
 
     } else {
-        name.given
+        name.given.text
     }
 }
 
 private fun getGenonymName(first: String, gender: Gender, style: GenonymicStyle, parent: Character): String {
-    val parentGiven = parent.getGivenName()
+    val parentGiven = parent.getGivenName().text
 
     return when (style) {
         is ChildOfStyle -> getGenonymName("$first %s $parentGiven", style.words, gender)

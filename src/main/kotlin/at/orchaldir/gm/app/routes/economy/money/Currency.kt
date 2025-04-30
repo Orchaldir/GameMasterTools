@@ -139,25 +139,19 @@ private fun HTML.showAllCurrencies(
     state: State,
     sort: SortCurrency,
 ) {
-    val currencyes = state.sortCurrencies(sort)
+    val currencies = state.sortCurrencies(sort)
     val createLink = call.application.href(CurrencyRoutes.New())
-    val sortNameLink = call.application.href(CurrencyRoutes.All())
-    val sortDateLink = call.application.href(CurrencyRoutes.All(SortCurrency.Date))
 
     simpleHtml("Currencies") {
-        field("Count", currencyes.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortDateLink, "Date")
-        }
+        field("Count", currencies.size)
+        showSortTableLinks(call, SortCurrency.entries, CurrencyRoutes(), CurrencyRoutes::All)
         table {
             tr {
                 th { +"Name" }
                 th { +"Start" }
                 th { +"End" }
             }
-            currencyes.forEach { currency ->
+            currencies.forEach { currency ->
                 tr {
                     td { link(call, state, currency) }
                     td { showOptionalDate(call, state, currency.startDate) }

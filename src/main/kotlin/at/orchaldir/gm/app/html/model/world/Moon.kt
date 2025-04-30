@@ -3,13 +3,10 @@ package at.orchaldir.gm.app.html.model.world
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.LENGTH
 import at.orchaldir.gm.app.PLANE
-import at.orchaldir.gm.app.TILE
+import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.html.model.parseName
-import at.orchaldir.gm.app.html.model.selectName
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -52,7 +49,7 @@ fun HtmlBlockTag.editMoon(
     moon: Moon,
 ) {
     selectName(moon.name)
-    selectText("Optional Name", moon.title ?: "", TILE, 0)
+    selectOptionalNotEmptyString("Optional Name", moon.title, TITLE)
     selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, 1, LENGTH, false)
     selectColor(moon.color)
     selectOptionalElement(state, "Plane", PLANE, state.sortPlanes(), moon.plane)
@@ -65,7 +62,7 @@ fun parseMoonId(parameters: Parameters, param: String) = MoonId(parseInt(paramet
 fun parseMoon(id: MoonId, parameters: Parameters) = Moon(
     id,
     parseName(parameters),
-    parameters[TILE]?.ifEmpty { null },
+    parseOptionalNotEmptyString(parameters, TITLE),
     parseInt(parameters, LENGTH, 1),
     parse(parameters, COLOR, Color.White),
     parseOptionalPlaneId(parameters, PLANE),

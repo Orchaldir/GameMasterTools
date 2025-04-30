@@ -137,13 +137,10 @@ private fun HTML.showAllDomains(
 ) {
     val domains = state.sortDomains(sort)
     val createLink = call.application.href(DomainRoutes.New())
-    val sortNameLink = call.application.href(DomainRoutes.All(SortDomain.Name))
 
     simpleHtml("Domains") {
         field("Count", domains.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-        }
+        showSortTableLinks(call, SortDomain.entries, DomainRoutes(), DomainRoutes::All)
 
         table {
             tr {

@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship
-import at.orchaldir.gm.core.selector.getOthersWithoutRelationship
+import at.orchaldir.gm.core.selector.character.getOthersWithoutRelationship
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*

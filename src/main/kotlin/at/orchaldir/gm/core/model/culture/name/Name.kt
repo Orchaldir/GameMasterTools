@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.model.culture.name
 
 import at.orchaldir.gm.core.model.character.FamilyName
+import at.orchaldir.gm.core.model.character.title.AbstractTitle
+import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
@@ -24,19 +27,19 @@ sealed class NamingConvention {
 
     abstract fun getNameLists(): Set<NameListId>
 
-    fun getFamilyName(name: FamilyName): String {
+    fun getFamilyName(name: FamilyName, title: AbstractTitle = NoTitle): String {
         when (this) {
             is FamilyConvention -> return when (nameOrder) {
                 NameOrder.GivenNameFirst -> getFamilyName(
-                    name.given,
+                    name.given.text,
                     name.middle,
-                    name.family
+                    title.resolveFamilyName(name.family.text)
                 )
 
                 NameOrder.FamilyNameFirst -> getFamilyName(
-                    name.family,
+                    title.resolveFamilyName(name.family.text),
                     name.middle,
-                    name.given
+                    name.given.text
                 )
             }
 
@@ -54,8 +57,8 @@ sealed class NamingConvention {
     }
 }
 
-private fun getFamilyName(first: String, middle: String?, last: String) = if (middle != null) {
-    "$first $middle $last"
+private fun getFamilyName(first: String, middle: Name?, last: String) = if (middle != null) {
+    "$first ${middle.text} $last"
 } else {
     "$first $last"
 }

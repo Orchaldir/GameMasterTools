@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.FamilyName
 import at.orchaldir.gm.core.model.character.Genonym
 import at.orchaldir.gm.core.model.character.Mononym
+import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.Salary
@@ -28,8 +29,9 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
-import at.orchaldir.gm.core.selector.getBelievers
-import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.character.countCharacters
+import at.orchaldir.gm.core.selector.character.getBelievers
+import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
@@ -146,9 +148,9 @@ fun State.sortCharacters(
 ) = characters
     .map {
         val name = when (it.name) {
-            is FamilyName -> it.name.family + it.name.given + it.name.middle
-            is Genonym -> it.name.given
-            is Mononym -> it.name.name
+            is FamilyName -> it.name.family.text + it.name.given.text + it.name.middle?.text
+            is Genonym -> it.name.given.text
+            is Mononym -> it.name.name.text
         }.lowercase()
         Pair(it, name)
     }
@@ -420,3 +422,19 @@ fun State.sortTexts(
             SortText.Name -> compareBy { it.name.text }
             SortText.Age -> getAgeComparator()
         })
+
+// title
+
+fun State.sortTitles(sort: SortTitle = SortTitle.Name) =
+    sortTitles(getTitleStorage().getAll(), sort)
+
+fun State.sortTitles(
+    titles: Collection<Title>,
+    sort: SortTitle = SortTitle.Name,
+) = titles
+    .sortedWith(
+        when (sort) {
+            SortTitle.Name -> compareBy { it.name.text }
+            SortTitle.Characters -> compareByDescending { countCharacters(it.id) }
+        }
+    )

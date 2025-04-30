@@ -3,15 +3,12 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.reverseAndSort
-import at.orchaldir.gm.core.selector.time.getAgeInYears
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -73,102 +70,6 @@ fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
         classes += "split"
         right()
     }
-}
-
-fun HtmlBlockTag.field(name: String, value: Int) =
-    field(name, value.toString())
-
-fun HtmlBlockTag.field(name: String, value: Boolean) = field(name) {
-    +value.toString()
-}
-
-fun <T : Enum<T>> HtmlBlockTag.field(name: String, value: T) =
-    field(name, value.name)
-
-fun <T : Enum<T>> HtmlBlockTag.optionalField(name: String, value: T?) =
-    optionalField(name, value?.name)
-
-fun HtmlBlockTag.field(name: String, value: String) = field(name) {
-    +value
-}
-
-fun HtmlBlockTag.optionalField(name: String, value: String?) {
-    if (value != null) {
-        field(name) {
-            +value
-        }
-    }
-}
-
-fun HtmlBlockTag.fieldAge(name: String, state: State, date: Date?) {
-    if (date != null) {
-        fieldAge(name, state.getAgeInYears(date))
-    }
-}
-
-fun HtmlBlockTag.fieldAge(name: String, age: Int) = field(name) {
-    +"$age years"
-}
-
-fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
-    p {
-        b { +"$label: " }
-        content()
-    }
-}
-
-fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
-    label: String,
-    call: ApplicationCall,
-    state: State,
-    id: ID,
-) {
-    field(label) {
-        link(call, state, id)
-    }
-}
-
-fun <ID : Id<ID>> HtmlBlockTag.optionalFieldLink(
-    label: String,
-    call: ApplicationCall,
-    state: State,
-    id: ID?,
-) {
-    if (id != null) {
-        fieldLink(label, call, state, id)
-    }
-}
-
-fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.fieldLink(
-    label: String,
-    call: ApplicationCall,
-    element: ELEMENT,
-) {
-    field(label) {
-        link(call, element)
-    }
-}
-
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldLink(
-    label: String,
-    call: ApplicationCall,
-    state: State,
-    element: ELEMENT,
-) {
-    field(label) {
-        link(call, state, element)
-    }
-}
-
-fun HtmlBlockTag.fieldLink(label: String, link: String, text: String) {
-    p {
-        b { +"$label: " }
-        a(link) { +text }
-    }
-}
-
-inline fun <reified T : Any> HtmlBlockTag.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
-    fieldLink(storage.getPlural(), call.application.href(link), "${storage.getSize()}")
 }
 
 fun HtmlBlockTag.svg(svg: Svg, width: Int) {
@@ -270,6 +171,26 @@ fun <T> HtmlBlockTag.showRarityMap(
 
 // table
 
+inline fun <T : Enum<T>, U, reified V : Any> HtmlBlockTag.showSortTableLinks(
+    call: ApplicationCall,
+    entries: List<T>,
+    parent: U,
+    crossinline createLink: Function2<T, U, V>,
+) {
+    field("Sort") {
+        entries.forEach {
+            val r = createLink.invoke(it, parent)
+            val link = call.application.href(r)
+            link(link, it.name)
+            +" "
+        }
+    }
+}
+
+fun TR.tdChar(char: Char) {
+    tdString("\"$char\"")
+}
+
 fun <T : Enum<T>> TR.tdEnum(value: T) {
     td {
         +value.name
@@ -288,12 +209,6 @@ fun <ID : Id<ID>> TR.tdInlineLinks(
     }
 }
 
-fun TR.tdString(text: String?) {
-    td {
-        text?.let { +it }
-    }
-}
-
 fun TR.tdSkipZero(value: Int?) {
     td {
         if (value != null && value != 0) {
@@ -302,3 +217,12 @@ fun TR.tdSkipZero(value: Int?) {
     }
 }
 
+fun TR.tdString(value: NotEmptyString?) {
+    tdString(value?.text)
+}
+
+fun TR.tdString(text: String?) {
+    td {
+        text?.let { +it }
+    }
+}

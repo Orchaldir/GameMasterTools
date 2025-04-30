@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.race.aging
 
+import at.orchaldir.gm.NAME0
+import at.orchaldir.gm.NAME1
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import org.junit.jupiter.api.Nested
@@ -11,8 +13,8 @@ class LifeStagesTest {
     @Nested
     inner class SimpleAgingTest {
         private val appearance = RaceAppearanceId(3)
-        val a = LifeStage("A", 2, fromPercentage(1000))
-        val b = LifeStage("B", 4, fromPercentage(2000))
+        val a = LifeStage(NAME0, 2, fromPercentage(1000))
+        val b = LifeStage(NAME1, 4, fromPercentage(2000))
         private val simpleAging = SimpleAging(appearance, listOf(a, b))
 
         @Test

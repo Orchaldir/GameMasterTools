@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.HEIGHT
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.model.State

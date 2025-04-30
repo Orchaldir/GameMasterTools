@@ -1,16 +1,13 @@
 package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.html.fieldAge
-import at.orchaldir.gm.app.html.fieldLink
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.selector.getEmployees
-import at.orchaldir.gm.core.selector.getPreviousEmployees
+import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
 import at.orchaldir.gm.core.selector.world.getBuilding
 import io.ktor.http.*
@@ -25,12 +22,10 @@ fun HtmlBlockTag.showBusiness(
     state: State,
     business: Business,
 ) {
-
     val employees = state.getEmployees(business.id).toSet()
     val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
     val published = state.getTextsPublishedBy(business.id)
 
-    fieldName(business.name)
     state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
     optionalField(call, state, "Start", business.startDate())
     fieldAge("Age", state, business.startDate())

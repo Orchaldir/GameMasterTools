@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.time.calendar
 
+import at.orchaldir.gm.core.model.name.Name
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -51,7 +52,7 @@ sealed class Months {
 @SerialName("Simple")
 data class SimpleMonths(
     val daysPerMonth: Int,
-    val months: List<String>,
+    val months: List<Name>,
 ) : Months()
 
 @Serializable

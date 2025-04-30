@@ -1,13 +1,7 @@
 package at.orchaldir.gm.app.html.model.world
 
-import at.orchaldir.gm.app.TILE
-import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.model.parseName
-import at.orchaldir.gm.app.html.model.selectName
-import at.orchaldir.gm.app.html.optionalField
-import at.orchaldir.gm.app.html.selectOptionalText
-import at.orchaldir.gm.app.parse.parseOptionalInt
-import at.orchaldir.gm.app.parse.parseOptionalString
+import at.orchaldir.gm.app.TITLE
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
@@ -47,7 +41,7 @@ fun HtmlBlockTag.editPlane(
     plane: Plane,
 ) {
     selectName(plane.name)
-    selectOptionalText("Optional Title", plane.title, TILE)
+    selectOptionalNotEmptyString("Optional Title", plane.title, TITLE)
     editPlanePurpose(state, plane)
 }
 
@@ -60,6 +54,6 @@ fun parseOptionalPlaneId(parameters: Parameters, param: String) =
 fun parsePlane(parameters: Parameters, id: PlaneId) = Plane(
     id,
     parseName(parameters),
-    parseOptionalString(parameters, TILE),
+    parseOptionalNotEmptyString(parameters, TITLE),
     parsePlanePurpose(parameters),
 )

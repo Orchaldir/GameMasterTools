@@ -152,14 +152,14 @@ private fun HtmlBlockTag.visualizeMonthWithWeekDays(
         tr {
             th {
                 colSpan = columns.size.toString()
-                +month.name
+                +month.name.text
             }
         }
         tr {
             th { }
             days.weekDays.forEach {
                 th {
-                    +it.name
+                    +it.name.text
                 }
             }
         }

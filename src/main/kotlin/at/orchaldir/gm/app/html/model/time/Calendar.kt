@@ -2,8 +2,11 @@ package at.orchaldir.gm.app.html.model.time
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.html.model.field
+import at.orchaldir.gm.app.html.model.parseDay
+import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.time.calendar.*
@@ -84,7 +87,7 @@ private fun HtmlBlockTag.showDays(
     field("Days", calendar.days.getType())
     when (calendar.days) {
         is Weekdays -> fieldList("Weekdays", calendar.days.weekDays) { day ->
-            +day.name
+            +day.name.text
         }
 
         DayOfTheMonth -> doNothing()
@@ -94,12 +97,12 @@ private fun HtmlBlockTag.showDays(
 private fun HtmlBlockTag.showMonths(calendar: Calendar) {
     when (val months = calendar.months) {
         is ComplexMonths -> fieldList("Months", months.months) { month ->
-            field(month.name, "${month.days} days")
+            field(month.name.text, "${month.days} days")
         }
 
         is SimpleMonths -> {
             fieldList("Months", months.months) { month ->
-                +month
+                +month.text
             }
             field("Days per Month", months.daysPerMonth)
         }
@@ -159,7 +162,7 @@ private fun FORM.editDays(
             selectInt("Weekdays", days.weekDays.size, minNumber, 100, 1, combine(WEEK, DAYS), true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
-                    selectText(day.name, combine(WEEK, DAY, index))
+                    selectName(day.name, combine(WEEK, DAY, index))
                 }
             }
         }
@@ -175,7 +178,7 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
         is ComplexMonths -> months.months.withIndex().forEach { (index, month) ->
             val minDays = getMinNumberOfDays(holidays, index)
             p {
-                selectText(month.name, combine(MONTH, NAME, index))
+                selectName(month.name, combine(MONTH, NAME, index))
                 +": "
                 selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index), true)
                 +"days"
@@ -187,7 +190,7 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
 
             months.months.withIndex().forEach { (index, month) ->
                 p {
-                    selectText(month, combine(MONTH, NAME, index))
+                    selectName(month, combine(MONTH, NAME, index))
                 }
             }
             selectInt("Days per Month", months.daysPerMonth, minDays, 100, 1, combine(MONTH, DAYS))
@@ -230,7 +233,7 @@ private fun FORM.editEra(
     era: CalendarEra,
     param: String,
 ) {
-    selectText("$label Era - Name", era.text, combine(param, NAME))
+    selectNotEmptyString("$label Era - Name", era.text, combine(param, NAME))
     selectBool("$label Era - Is prefix", era.isPrefix, combine(param, PREFIX))
 }
 
@@ -274,7 +277,7 @@ private fun parseIsPrefix(parameters: Parameters, param: String) =
     parseBool(parameters, combine(param, PREFIX))
 
 private fun parseEraName(parameters: Parameters, param: String) =
-    parseOptionalString(parameters, combine(param, NAME)) ?: "?"
+    parseNotEmptyString(parameters, combine(param, NAME), "?")
 
 private fun parseDays(parameters: Parameters) = when (parse(parameters, DAYS, DaysType.DayOfTheMonth)) {
     DaysType.DayOfTheMonth -> DayOfTheMonth
@@ -285,7 +288,7 @@ private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
     val count = parseInt(parameters, combine(WEEK, DAYS), 2)
 
     return (0..<count)
-        .map { parseOptionalString(parameters, combine(WEEK, DAY, it)) ?: "${it + 1}.Day" }
+        .map { parseName(parameters, combine(WEEK, DAY, it), "${it + 1}.Day") }
         .map { WeekDay(it) }
 }
 
@@ -318,7 +321,7 @@ private fun parseComplexMonth(parameters: Parameters, it: Int) = MonthDefinition
 private fun parseDaysPerMonth(parameters: Parameters, param: String) = parseInt(parameters, param, 2)
 
 private fun parseMonthName(parameters: Parameters, it: Int) =
-    parseOptionalString(parameters, combine(MONTH, NAME, it)) ?: "${it + 1}.Month"
+    parseName(parameters, combine(MONTH, NAME, it), "${it + 1}.Month")
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, Original)) {
     Improved -> {

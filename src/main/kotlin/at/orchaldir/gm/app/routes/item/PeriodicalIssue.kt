@@ -145,11 +145,7 @@ private fun HTML.showAllPeriodicalIssues(
 
     simpleHtml("Periodical Issues") {
         field("Count", periodicals.size)
-        field("Sort") {
-            link(sortDateLink, "Age")
-            +" "
-            link(sortPeriodicalLink, "Periodical")
-        }
+        showSortTableLinks(call, SortPeriodicalIssue.entries, PeriodicalIssueRoutes(), PeriodicalIssueRoutes::All)
         table {
             tr {
                 th { +"Date" }

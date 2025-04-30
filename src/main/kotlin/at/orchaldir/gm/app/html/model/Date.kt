@@ -4,14 +4,13 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseBool
-import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.*
+import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -94,6 +93,18 @@ fun displayDate(state: State, date: Date): String {
     val calendar = state.getDefaultCalendar()
 
     return display(calendar, date)
+}
+
+// show age
+
+fun HtmlBlockTag.fieldAge(name: String, state: State, date: Date?) {
+    if (date != null) {
+        fieldAge(name, state.getAgeInYears(date))
+    }
+}
+
+fun HtmlBlockTag.fieldAge(name: String, age: Int) = field(name) {
+    +"$age years"
 }
 
 // select optional
@@ -184,19 +195,6 @@ fun HtmlBlockTag.selectOptionalDay(
     }
 }
 
-private fun <T> HtmlBlockTag.selectOptional(
-    fieldLabel: String,
-    date: T?,
-    param: String,
-    content: HtmlBlockTag.(T) -> Unit,
-) {
-    field(fieldLabel) {
-        selectBool(date != null, combine(param, AVAILABLE), isDisabled = false, update = true)
-        if (date != null) {
-            content(date)
-        }
-    }
-}
 
 // select
 
@@ -443,7 +441,7 @@ private fun HtmlBlockTag.selectEraIndex(
         onChange = ON_CHANGE_SCRIPT
         calendar.eras.getAll().withIndex().forEach { (index, era) ->
             option {
-                label = era.text
+                label = era.text.text
                 value = index.toString()
                 disabled = index < minIndex || index > maxIndex
                 selected = index == eraIndex
@@ -584,7 +582,7 @@ private fun HtmlBlockTag.selectMonthIndex(
     minMonthIndex: Int,
 ) {
     selectWithIndex(combine(param, MONTH), calendar.months.months()) { index, month ->
-        label = month.name
+        label = month.name.text
         value = index.toString()
         selected = monthIndex == index
         disabled = index < minMonthIndex

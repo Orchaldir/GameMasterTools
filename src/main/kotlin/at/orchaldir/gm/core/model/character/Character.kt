@@ -3,6 +3,9 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.character.title.AbstractTitle
+import at.orchaldir.gm.core.model.character.title.NoTitle
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
@@ -37,7 +40,7 @@ value class CharacterId(val value: Int) : Id<CharacterId> {
 @Serializable
 data class Character(
     val id: CharacterId,
-    val name: CharacterName = Mononym("Character ${id.value}"),
+    val name: CharacterName = Mononym.init("Character ${id.value}"),
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Male,
     val sexuality: SexualOrientation = SexualOrientation.Heterosexual,
@@ -53,33 +56,38 @@ data class Character(
     val housingStatus: History<HousingStatus> = History(UndefinedHousingStatus),
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
+    val title: TitleId? = null,
 ) : Element<CharacterId>, HasStartDate {
 
     override fun id() = id
 
     override fun name(state: State): String {
+        val title: AbstractTitle = state.getTitleStorage().getOptional(title) ?: NoTitle
+
         return when (name) {
             is FamilyName -> {
                 val culture = state.getCultureStorage().getOrThrow(culture)
 
-                culture.namingConvention.getFamilyName(name)
+                culture.namingConvention.getFamilyName(name, title)
             }
 
-            is Genonym -> state.getGenonymName(this, name)
-            is Mononym -> name.name
+            is Genonym -> title.resolveFullName(state.getGenonymName(this, name))
+            is Mononym -> title.resolveFullName(name.name.text)
         }
     }
 
     fun nameForSorting(state: State): String {
+        val title: AbstractTitle = state.getTitleStorage().getOptional(title) ?: NoTitle
+
         return when (name) {
-            is FamilyName -> name.family + ", " + name.given + if (name.middle != null) {
-                " " + name.middle
+            is FamilyName -> title.resolveFamilyName(name.family.text) + ", " + name.given.text + if (name.middle != null) {
+                " " + name.middle.text
             } else {
                 ""
             }
 
-            is Genonym -> state.getGenonymName(this, name)
-            is Mononym -> name.name
+            is Genonym -> title.resolveFullName(state.getGenonymName(this, name))
+            is Mononym -> title.resolveFullName(name.name.text)
         }
     }
 

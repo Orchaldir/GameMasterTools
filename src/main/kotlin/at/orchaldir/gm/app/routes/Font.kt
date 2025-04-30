@@ -201,11 +201,7 @@ private fun HTML.showAllFonts(
 
     simpleHtml("Fonts") {
         field("Count", fonts.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortAgeLink, "Age")
-        }
+        showSortTableLinks(call, SortFont.entries, FontRoutes(), FontRoutes::All)
 
         table {
             tr {

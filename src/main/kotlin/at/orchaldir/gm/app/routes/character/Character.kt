@@ -12,10 +12,11 @@ import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Dead
+import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.util.SortCharacter
-import at.orchaldir.gm.core.selector.canCreateCharacter
-import at.orchaldir.gm.core.selector.getAgeInYears
+import at.orchaldir.gm.core.selector.character.canCreateCharacter
+import at.orchaldir.gm.core.selector.character.getAgeInYears
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
@@ -160,21 +161,16 @@ private fun HTML.showAllCharacters(
 ) {
     val characters = state.sortCharacters(sort)
     val createLink = call.application.href(CharacterRoutes.New())
-    val sortNameLink = call.application.href(CharacterRoutes.All())
-    val sortAgeLink = call.application.href(CharacterRoutes.All(SortCharacter.Age))
     val galleryLink = call.application.href(CharacterRoutes.Gallery())
 
     simpleHtml("Characters") {
         action(galleryLink, "Gallery")
         field("Count", characters.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortAgeLink, "Age")
-        }
+        showSortTableLinks(call, SortCharacter.entries, CharacterRoutes(), CharacterRoutes::All)
         table {
             tr {
                 th { +"Name" }
+                th { +"Title" }
                 th { +"Race" }
                 th { +"Gender" }
                 th { +"Sexuality" }
@@ -198,9 +194,14 @@ private fun HTML.showAllCharacters(
                             link(call, character, name)
                         }
                     }
+                    td { optionalLink(call, state, character.title) }
                     td { link(call, state, character.race) }
                     tdEnum(character.gender)
-                    tdEnum(character.sexuality)
+                    td {
+                        if (character.sexuality != SexualOrientation.Heterosexual) {
+                            +character.sexuality.toString()
+                        }
+                    }
                     td { link(call, state, character.culture) }
                     td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }

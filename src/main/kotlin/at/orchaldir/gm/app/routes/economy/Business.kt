@@ -16,8 +16,8 @@ import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.SortBusiness
+import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.economy.canDelete
-import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.util.sortBusinesses
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -144,19 +144,10 @@ private fun HTML.showAllBusinesses(
 ) {
     val businesses = state.sortBusinesses(sort)
     val createLink = call.application.href(BusinessRoutes.New())
-    val sortNameLink = call.application.href(BusinessRoutes.All())
-    val sortAgeLink = call.application.href(BusinessRoutes.All(SortBusiness.Age))
-    val sortEmployeesLink = call.application.href(BusinessRoutes.All(SortBusiness.Employees))
 
     simpleHtml("Businesses") {
         field("Count", businesses.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortAgeLink, "Age")
-            +" "
-            link(sortEmployeesLink, "Employees")
-        }
+        showSortTableLinks(call, SortBusiness.entries, BusinessRoutes(), BusinessRoutes::All)
         table {
             tr {
                 th { +"Name" }

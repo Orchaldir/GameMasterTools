@@ -2,6 +2,7 @@ package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
@@ -109,12 +110,20 @@ val STREET_TYPE_ID_1 = StreetTemplateId(1)
 val TEXT_ID_0 = TextId(0)
 val TEXT_ID_1 = TextId(1)
 val TEXT_ID_2 = TextId(2)
+val TITLE_ID_0 = TitleId(0)
+val UNKNOWN_TITLE_ID = TitleId(99)
 val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
 
 val NAME = Name.init("Test")
 
-val CALENDAR0 = Calendar(CALENDAR_ID_0, months = ComplexMonths(listOf(MonthDefinition("a"))))
+val DAY_NAME0 = Name.init("D0")
+val DAY_NAME1 = Name.init("D1")
+val DAY_NAME2 = Name.init("D2")
+val NAME0 = Name.init("A")
+val NAME1 = Name.init("B")
+val NAME2 = Name.init("C")
+val CALENDAR0 = Calendar(CALENDAR_ID_0, months = ComplexMonths(listOf(MonthDefinition(NAME0))))
 val YEAR0 = Year(-11)
 val YEAR1 = Year(-10)
 val YEAR2 = Year(-9)

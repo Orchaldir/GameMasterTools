@@ -1,5 +1,8 @@
 package at.orchaldir.gm.core.selector
 
+import at.orchaldir.gm.NAME0
+import at.orchaldir.gm.NAME1
+import at.orchaldir.gm.NAME2
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.*
@@ -10,6 +13,7 @@ import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGenera
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
 import at.orchaldir.gm.core.model.culture.name.NameOrder.FamilyNameFirst
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -17,20 +21,25 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val ID0 = CharacterId(0)
-private val ID1 = CharacterId(1)
-private val ID2 = CharacterId(2)
-private val OTHER = CharacterId(10)
-private val CULTURE0 = CultureId(0)
-private val GENDER_MAP = GenderMap("f", "g", "m")
 
 class NameTest {
+    private val ID0 = CharacterId(0)
+    private val ID1 = CharacterId(1)
+    private val ID2 = CharacterId(2)
+    private val OTHER = CharacterId(10)
+    private val CULTURE0 = CultureId(0)
+    private val GENDER_MAP = GenderMap("f", "g", "m")
+    private val given = Name.init("Given")
+    private val family = Name.init("Family")
+    private val middle = Name.init("Middle")
+    private val child = Name.init("Child")
+    private val father = Name.init("Father")
 
     @Test
     fun `Get Mononym independent of culture`() {
-        val state = State(Storage(Character(ID0, Mononym("Test"))))
+        val state = State(Storage(Character(ID0, Mononym(given))))
 
-        assertEquals("Test", state.getElementName(ID0))
+        assertEquals("Given", state.getElementName(ID0))
     }
 
     @Nested
@@ -45,7 +54,7 @@ class NameTest {
 
         @Test
         fun `Given name first with middle name`() {
-            val state = init(GivenNameFirst, "Middle")
+            val state = init(GivenNameFirst, middle)
 
             assertEquals("Given Middle Family", state.getElementName(ID0))
         }
@@ -59,7 +68,7 @@ class NameTest {
 
         @Test
         fun `Family name first with middle name`() {
-            val state = init(FamilyNameFirst, "Middle")
+            val state = init(FamilyNameFirst, middle)
 
             assertEquals("Family Middle Given", state.getElementName(ID0))
         }
@@ -79,11 +88,11 @@ class NameTest {
             }
         }
 
-        private fun init(nameOrder: NameOrder, middle: String?) = init(FamilyConvention(nameOrder), middle)
+        private fun init(nameOrder: NameOrder, middle: Name?) = init(FamilyConvention(nameOrder), middle)
 
-        private fun init(convention: NamingConvention, middle: String?) = State(
+        private fun init(convention: NamingConvention, middle: Name?) = State(
             listOf(
-                Storage(Character(ID0, FamilyName("Given", middle, "Family"))),
+                Storage(Character(ID0, FamilyName(given, middle, family))),
                 Storage(Culture(CULTURE0, namingConvention = convention)),
             )
         )
@@ -97,12 +106,12 @@ class NameTest {
         fun `Without a father`() {
             val state = State(
                 listOf(
-                    Storage(Character(ID0, Genonym("A"))),
+                    Storage(Character(ID0, Genonym(given))),
                     Storage(Culture(CULTURE0, namingConvention = PatronymConvention())),
                 )
             )
 
-            assertEquals("A", state.getElementName(ID0))
+            assertEquals("Given", state.getElementName(ID0))
         }
 
         @Nested
@@ -113,8 +122,8 @@ class NameTest {
                     listOf(
                         Storage(
                             listOf(
-                                Character(ID0, Genonym("Child"), origin = Born(OTHER, ID1)),
-                                Character(ID1, Genonym("Father"))
+                                Character(ID0, Genonym(child), origin = Born(OTHER, ID1)),
+                                Character(ID1, Genonym(father))
                             )
                         ),
                         Storage(Culture(CULTURE0, namingConvention = PatronymConvention())),
@@ -170,8 +179,8 @@ class NameTest {
                 listOf(
                     Storage(
                         listOf(
-                            Character(ID0, Genonym("Child"), gender = gender, origin = Born(OTHER, ID1)),
-                            Character(ID1, Genonym("Father"))
+                            Character(ID0, Genonym(child), gender = gender, origin = Born(OTHER, ID1)),
+                            Character(ID1, Genonym(father))
                         )
                     ),
                     Storage(
@@ -191,9 +200,9 @@ class NameTest {
                 listOf(
                     Storage(
                         listOf(
-                            Character(ID0, Genonym("A"), gender = Female, origin = Born(OTHER, ID1)),
-                            Character(ID1, Genonym("B"), gender = Male, origin = Born(OTHER, ID2)),
-                            Character(ID2, Genonym("C"))
+                            Character(ID0, Genonym(NAME0), gender = Female, origin = Born(OTHER, ID1)),
+                            Character(ID1, Genonym(NAME1), gender = Male, origin = Born(OTHER, ID2)),
+                            Character(ID2, Genonym(NAME2))
                         )
                     ),
                     Storage(
@@ -220,9 +229,9 @@ class NameTest {
             listOf(
                 Storage(
                     listOf(
-                        Character(ID0, Genonym("A"), gender = Male, origin = Born(ID1, OTHER)),
-                        Character(ID1, Genonym("B"), gender = Female, origin = Born(ID2, OTHER)),
-                        Character(ID2, Genonym("C"))
+                        Character(ID0, Genonym(NAME0), gender = Male, origin = Born(ID1, OTHER)),
+                        Character(ID1, Genonym(NAME1), gender = Female, origin = Born(ID2, OTHER)),
+                        Character(ID2, Genonym(NAME2))
                     )
                 ),
                 Storage(
@@ -263,9 +272,9 @@ class NameTest {
             listOf(
                 Storage(
                     listOf(
-                        Character(ID0, Genonym("A"), gender = gender, origin = Born(ID1, ID2)),
-                        Character(ID1, Genonym("B"), gender = Female),
-                        Character(ID2, Genonym("C"), gender = gender)
+                        Character(ID0, Genonym(NAME0), gender = gender, origin = Born(ID1, ID2)),
+                        Character(ID1, Genonym(NAME1), gender = Female),
+                        Character(ID2, Genonym(NAME2), gender = gender)
                     )
                 ),
                 Storage(
