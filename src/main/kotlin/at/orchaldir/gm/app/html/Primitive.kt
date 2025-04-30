@@ -25,6 +25,9 @@ fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
 
 // show text
 
+fun HtmlBlockTag.field(label: String, char: Char) =
+    field(label, "\"$char\"")
+
 fun HtmlBlockTag.optionalField(label: String, string: NotEmptyString?) =
     optionalField(label, string?.text)
 

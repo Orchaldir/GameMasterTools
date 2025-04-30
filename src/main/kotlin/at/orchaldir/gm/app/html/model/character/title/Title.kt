@@ -28,7 +28,7 @@ fun HtmlBlockTag.showTitle(
 ) {
     field("Text", title.text)
     field("Position", title.position)
-    field("Separator", title.separator?.let { "\"$it\"" } ?: "")
+    field("Separator", title.separator)
 }
 
 // edit
