@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.model.character
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.html.parseInt
@@ -59,9 +60,8 @@ fun HtmlBlockTag.showData(
 
     h2 { +"Data" }
 
-    field("Race") {
-        link(call, race)
-    }
+    optionalFieldLink("Title", call, state, character.title)
+    fieldLink("Race", call, race)
     field("Gender", character.gender)
     when (character.origin) {
         is Born -> {
@@ -228,6 +228,7 @@ fun FORM.editCharacter(
     val race = state.getRaceStorage().getOrThrow(character.race)
 
     selectCharacterName(state, character)
+    selectOptionalElement(state, "Title", TITLE, state.getTitleStorage().getAll(), character.title)
     selectElement(state, "Race", RACE, state.sortRaces(races), character.race, true)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
@@ -393,6 +394,7 @@ fun parseCharacter(
         housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
+        title = parseOptionalTitleId(parameters, TITLE),
     )
 }
 

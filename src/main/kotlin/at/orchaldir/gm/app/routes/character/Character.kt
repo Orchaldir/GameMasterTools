@@ -176,6 +176,7 @@ private fun HTML.showAllCharacters(
         table {
             tr {
                 th { +"Name" }
+                th { +"Title" }
                 th { +"Race" }
                 th { +"Gender" }
                 th { +"Sexuality" }
@@ -199,6 +200,7 @@ private fun HTML.showAllCharacters(
                             link(call, character, name)
                         }
                     }
+                    td { optionalLink(call, state, character.title) }
                     td { link(call, state, character.race) }
                     tdEnum(character.gender)
                     td {

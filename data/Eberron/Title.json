@@ -5,13 +5,15 @@
    "id": 0,
    "name": "Noble",
    "text": "ir",
-   "position": "BeforeFamilyName"
+   "position": "BeforeFamilyName",
+   "separator": "'"
   },
   "1": {
    "id": 1,
    "name": "Dragonmarked",
    "text": "d",
-   "position": "BeforeFamilyName"
+   "position": "BeforeFamilyName",
+   "separator": "'"
   },
   "2": {
    "id": 2,
