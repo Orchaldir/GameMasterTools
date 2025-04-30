@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.formatAsKilograms
+import at.orchaldir.gm.utils.math.unit.formatWeight
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -40,7 +40,7 @@ fun HtmlBlockTag.selectWeight(
 ) {
     val values = (minValue.value()..maxValue.value() step step.value()).toList()
     selectValue(param, values, update) { v ->
-        label = formatAsKilograms(v)
+        label = formatWeight(v)
         value = v.toString()
         selected = v == current.value()
     }

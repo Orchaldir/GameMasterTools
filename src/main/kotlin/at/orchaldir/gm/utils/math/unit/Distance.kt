@@ -8,9 +8,6 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.Serializable
 import java.util.*
 
-private const val FACTOR = 1000
-private const val SQUARED = FACTOR * FACTOR
-
 val ZERO = fromMillimeters(0)
 val HUNDRED_µM = fromMicrometers(100)
 val ONE_MM = fromMillimeters(1)
@@ -60,18 +57,13 @@ value class Distance private constructor(private val micrometers: Int) : SiUnit<
     }
 }
 
-fun metersOnly(micrometers: Int) = micrometers / FACTOR
-fun millimetersOnly(micrometers: Int) = micrometers % FACTOR
-
 // to lower
-private fun down(value: Int) = value * FACTOR
-private fun down(value: Float) = (value * FACTOR).toInt()
 
 fun meterToMillimeter(meter: Int) = down(meter)
 fun meterToMillimeter(meter: Float) = down(meter)
 
-fun meterToMicrometers(meter: Int) = down(down(meter))
-fun meterToMicrometers(meter: Float) = down(down(meter))
+fun meterToMicrometers(meter: Int) = downTwice(meter)
+fun meterToMicrometers(meter: Float) = downTwice(meter)
 
 fun centimeterToMicrometers(centimeter: Int) = down(centimeter * 10)
 fun centimeterToMicrometers(centimeter: Float) = down(centimeter * 10.0f)
@@ -80,16 +72,14 @@ fun millimeterToMicrometers(millimeter: Int) = down(millimeter)
 fun millimeterToMicrometers(millimeter: Float) = down(millimeter)
 
 // to higher
-private fun up(value: Int) = value / FACTOR.toFloat()
-private fun up(value: Float) = value / FACTOR.toFloat()
 
 fun millimeterToMeter(millimeter: Int) = up(millimeter)
-fun micrometersToMeter(micrometers: Int) = up(up(micrometers))
+fun micrometersToMeter(micrometers: Int) = upTwice(micrometers)
 fun micrometersToMillimeter(micrometers: Int) = up(micrometers)
 
-fun formatMicrometersAsMeters(micrometers: Int) = if (micrometers > SQUARED) {
+fun formatMicrometersAsMeters(micrometers: Int) = if (micrometers > SI_SQUARED) {
     String.format(Locale.US, "%.2f m", micrometersToMeter(micrometers))
-} else if (micrometers > FACTOR) {
+} else if (micrometers > SI_FACTOR) {
     String.format(Locale.US, "%.2f mm", micrometersToMillimeter(micrometers))
 } else {
     String.format(Locale.US, "%d μm", micrometers)

@@ -2,63 +2,59 @@ package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
+import java.util.Locale
 
 private const val FACTOR = 1000
-private const val LESS_DIGITS_THRESHOLD = FACTOR * 10
+private const val SQUARED = FACTOR * FACTOR
 
 @JvmInline
 @Serializable
-value class Weight private constructor(private val grams: Int) : SiUnit<Weight> {
+value class Weight private constructor(private val milligrams: Int) : SiUnit<Weight> {
 
     init {
-        require(grams >= 0) { "Weight must be greater 0!" }
+        require(milligrams >= 0) { "Weight must be greater 0!" }
     }
 
     companion object {
-        fun fromKilogram(kg: Float) = Weight(kilogramsToGrams(kg))
-        fun fromGram(gram: Int) = Weight(gram)
+        fun fromKilogram(kg: Int) = Weight(fromKilograms(kg))
+        fun fromKilogram(kg: Float) = Weight(fromKilograms(kg))
+        fun fromGram(g: Int) = Weight(fromGrams(g))
+        fun fromGram(g: Float) = Weight(fromGrams(g))
+        fun fromMilligrams(mg: Int) = Weight(mg)
     }
 
-    override fun value() = grams
+    override fun value() = milligrams
 
-    fun kilogramsOnly() = kilogramsOnly(grams)
-    fun gramsOnly() = gramsOnly(grams)
+    fun toKilograms() = toKilograms(milligrams)
 
-    fun toKilograms() = gramsToKilograms(grams)
+    override fun toString() = formatWeight(milligrams)
 
-    override fun toString() = formatAsKilograms(grams)
-
-    override operator fun plus(other: Weight) = Weight(grams + other.grams)
-    override operator fun minus(other: Weight) = Weight(grams - other.grams)
-    operator fun times(factor: Float) = Weight((grams * factor).toInt())
+    override operator fun plus(other: Weight) = Weight(milligrams + other.milligrams)
+    override operator fun minus(other: Weight) = Weight(milligrams - other.milligrams)
+    operator fun times(factor: Float) = Weight((milligrams * factor).toInt())
     operator fun times(factor: Factor) = times(factor.toNumber())
-    operator fun times(factor: Int) = Weight(grams * factor)
-    operator fun div(factor: Float) = Weight((grams / factor).toInt())
-    operator fun div(factor: Int) = Weight(grams / factor)
+    operator fun times(factor: Int) = Weight(milligrams * factor)
+    operator fun div(factor: Float) = Weight((milligrams / factor).toInt())
+    operator fun div(factor: Int) = Weight(milligrams / factor)
 
-    fun max(other: Weight) = if (grams >= other.grams) {
+    fun max(other: Weight) = if (milligrams >= other.milligrams) {
         this
     } else {
         other
     }
 }
 
-fun kilogramsOnly(grams: Int) = grams / FACTOR
-fun gramsOnly(grams: Int) = grams % FACTOR
+fun fromKilograms(kg: Int) = downTwice(kg)
+fun fromKilograms(kg: Float) = downTwice(kg)
+fun fromGrams(grams: Int) = down(grams)
+fun fromGrams(grams: Float) = down(grams)
 
-fun kilogramsToGrams(kg: Float) = (kg * FACTOR).toInt()
-fun gramsToKilograms(milligrams: Int) = milligrams / FACTOR.toFloat()
+fun toKilograms(milligrams: Int) = upTwice(milligrams)
 
-fun formatAsKilograms(grams: Int) = String.format(
-    if (grams > LESS_DIGITS_THRESHOLD) {
-        "%d.%01d kg"
-    } else {
-        "%d.%03d kg"
-    },
-    kilogramsOnly(grams),
-    if (grams > LESS_DIGITS_THRESHOLD) {
-        gramsOnly(grams) / 100
-    } else {
-        gramsOnly(grams)
-    },
-)
+fun formatWeight(milligrams: Int) = if (milligrams > SQUARED) {
+    String.format(Locale.US, "%.1f kg", micrometersToMeter(milligrams))
+} else if (milligrams > FACTOR) {
+    String.format(Locale.US, "%.1f g", micrometersToMillimeter(milligrams))
+} else {
+    String.format(Locale.US, "%d mg", milligrams)
+}
