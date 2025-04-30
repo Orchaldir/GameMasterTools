@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.economy.money
 
 import at.orchaldir.gm.utils.math.FULL_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Distance
+import kotlin.math.pow
 
 enum class Shape {
     Circle,
@@ -17,6 +18,8 @@ enum class Shape {
     Dodecagonal;
 
     fun isRounded() = this == RoundedTriangle || this == RoundedSquare
+
+    fun calculateArea(radius: Distance) = Math.PI.toFloat() * radius.toMeters().pow(2)
 
     fun getSides() = when (this) {
         Circle -> 0
