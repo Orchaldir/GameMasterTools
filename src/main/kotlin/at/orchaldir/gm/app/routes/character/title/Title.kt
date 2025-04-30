@@ -141,18 +141,10 @@ private fun HTML.showAllTitlees(
 ) {
     val titles = state.sortTitles(sort)
     val createLink = call.application.href(TitleRoutes.New())
-    val t = TitleRoutes::All
 
     simpleHtml("Titles") {
         field("Count", titles.size)
-        field("Sort") {
-            SortTitle.entries.forEach {
-                val r = t.call(it, TitleRoutes())
-                val link = call.application.href(r)
-                link(link, it.name)
-                +" "
-            }
-        }
+        showSortTableLinks(call, SortTitle.entries, TitleRoutes(), TitleRoutes::All)
         table {
             tr {
                 th { +"Name" }

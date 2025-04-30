@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
+import io.ktor.server.resources.href
 import kotlinx.html.*
 
 fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtmlDetails(
@@ -169,6 +170,22 @@ fun <T> HtmlBlockTag.showRarityMap(
 }
 
 // table
+
+inline fun <T : Enum<T>, U, reified V : Any> HtmlBlockTag.showSortTableLinks(
+    call: ApplicationCall,
+    entries: List<T>,
+    parent: U,
+    crossinline createLink: Function2<T, U, V>,
+) {
+    field("Sort") {
+        entries.forEach {
+            val r = createLink.invoke(it, parent)
+            val link = call.application.href(r)
+            link(link, it.name)
+            +" "
+        }
+    }
+}
 
 fun TR.tdChar(char: Char) {
     tdString("\"$char\"")
