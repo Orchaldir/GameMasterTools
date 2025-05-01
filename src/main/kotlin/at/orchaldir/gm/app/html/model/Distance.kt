@@ -2,7 +2,9 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseLong
 import at.orchaldir.gm.app.html.selectInt
+import at.orchaldir.gm.app.html.selectLong
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -40,8 +42,8 @@ fun HtmlBlockTag.selectDistance(
 ) = selectDistance(
     param,
     current,
-    minValue.convertToLong(prefix).toInt(),
-    maxValue.convertToLong(prefix).toInt(),
+    minValue.convertToLong(prefix),
+    maxValue.convertToLong(prefix),
     prefix,
     update,
 )
@@ -50,8 +52,8 @@ fun HtmlBlockTag.selectDistance(
     label: String,
     param: String,
     distance: Distance,
-    minValue: Int,
-    maxValue: Int,
+    minValue: Long,
+    maxValue: Long,
     prefix: SiPrefix,
     update: Boolean = false,
 ) {
@@ -63,15 +65,15 @@ fun HtmlBlockTag.selectDistance(
 fun HtmlBlockTag.selectDistance(
     param: String,
     current: Distance,
-    minValue: Int,
-    maxValue: Int,
+    minValue: Long,
+    maxValue: Long,
     prefix: SiPrefix,
     update: Boolean = false,
 ) {
     val unit = Distance.resolveUnit(prefix)
     val text = current.toString()
-    val currentValue = current.convertToLong(prefix).toInt()
-    selectInt(currentValue, minValue, maxValue, 1, param, update)
+    val currentValue = current.convertToLong(prefix)
+    selectLong(currentValue, minValue, maxValue, 1, param, update)
     +"$unit ($text)"
 }
 
@@ -81,12 +83,12 @@ fun parseDistance(
     parameters: Parameters,
     param: String,
     prefix: SiPrefix,
-    default: Int = 0,
-) = Distance.from(prefix, parseInt(parameters, param, default))
+    default: Long = 0,
+) = Distance.from(prefix, parseLong(parameters, param, default))
 
 fun parseDistance(
     parameters: Parameters,
     param: String,
     prefix: SiPrefix,
     default: Distance,
-) = parseDistance(parameters, param, prefix, default.convertToLong(prefix).toInt())
+) = parseDistance(parameters, param, prefix, default.convertToLong(prefix))

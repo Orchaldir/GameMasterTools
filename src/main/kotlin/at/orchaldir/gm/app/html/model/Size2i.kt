@@ -20,8 +20,8 @@ fun HtmlBlockTag.fieldSize(name: String, size: Size2i) {
 fun HtmlBlockTag.selectSize(
     param: String,
     size: Size2i,
-    minValue: Int,
-    maxVale: Int,
+    minValue: Long,
+    maxVale: Long,
     prefix: SiPrefix,
     update: Boolean = false,
 ) {

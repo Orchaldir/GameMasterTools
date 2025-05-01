@@ -24,9 +24,9 @@ fun FORM.selectDistanceDistribution(
     label: String,
     param: String,
     distribution: Distribution<Distance>,
-    min: Int,
-    max: Int,
-    maxOffset: Int,
+    min: Long,
+    max: Long,
+    maxOffset: Long,
     prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) {

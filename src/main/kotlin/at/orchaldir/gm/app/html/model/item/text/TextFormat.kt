@@ -22,8 +22,8 @@ import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 
-private const val min = 10
-private const val max = 2000
+private const val min = 10L
+private const val max = 2000L
 private val prefix = SiPrefix.Milli
 
 // show

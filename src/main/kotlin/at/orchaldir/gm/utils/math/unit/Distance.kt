@@ -31,13 +31,13 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
         fun fromMillimeters(millimeter: Float) = Distance(millimeterToMicrometers(millimeter))
         fun fromMicrometers(micrometers: Long) = Distance(micrometers)
 
-        fun from(prefix: SiPrefix, value: Int) = Distance(
+        fun from(prefix: SiPrefix, value: Long) = Distance(
             when (prefix) {
                 SiPrefix.Kilo -> downNineSteps(value)
                 SiPrefix.Base -> downSixSteps(value)
                 SiPrefix.Centi -> down(downThreeSteps(value))
                 SiPrefix.Milli -> downThreeSteps(value)
-                SiPrefix.Micro -> value.toLong()
+                SiPrefix.Micro -> value
             }
         )
 
