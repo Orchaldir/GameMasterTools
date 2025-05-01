@@ -18,7 +18,7 @@ class WeightTest {
 
     @Test
     fun `Convert to & from si prefix`() {
-        val value = 2
+        val value = 1234L
 
         prefixes.forEach {
             assertEquals(value, Weight.from(it, value).convertTo(it))

@@ -41,9 +41,9 @@ fun FORM.selectWeightDistribution(
     label: String,
     param: String,
     distribution: Distribution<Weight>,
-    min: Int,
-    max: Int,
-    maxOffset: Int,
+    min: Long,
+    max: Long,
+    maxOffset: Long,
     prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) {
