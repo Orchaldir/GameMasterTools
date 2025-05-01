@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.model.economy
+package at.orchaldir.gm.app.html.model.economy.money
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*

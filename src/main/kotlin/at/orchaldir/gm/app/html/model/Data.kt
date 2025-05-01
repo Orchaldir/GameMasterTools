@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.CURRENCY
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldLink
-import at.orchaldir.gm.app.html.model.economy.parseCurrencyId
+import at.orchaldir.gm.app.html.model.economy.money.parseCurrencyId
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.routes.time.TimeRoutes
