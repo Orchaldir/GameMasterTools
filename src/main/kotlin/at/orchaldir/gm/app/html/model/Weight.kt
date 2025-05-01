@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseLong
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.formatWeight
@@ -51,5 +52,5 @@ fun HtmlBlockTag.selectWeight(
 fun parseWeight(
     parameters: Parameters,
     param: String,
-    default: Int = 0,
-) = Weight.fromGrams(parseInt(parameters, param, default))
+    default: Long = 0,
+) = Weight.fromGrams(parseLong(parameters, param, default))

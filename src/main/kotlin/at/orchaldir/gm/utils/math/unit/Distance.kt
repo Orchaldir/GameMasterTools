@@ -17,35 +17,35 @@ val ONE_M = fromMeters(1)
 
 @JvmInline
 @Serializable
-value class Distance private constructor(private val micrometers: Int) : SiUnit<Distance> {
+value class Distance private constructor(private val micrometers: Long) : SiUnit<Distance> {
 
     init {
         require(micrometers >= 0) { "Distance must be >= 0 μm!" }
     }
 
     companion object {
-        fun fromMeters(meters: Int) = Distance(meterToMicrometers(meters))
+        fun fromMeters(meters: Long) = Distance(meterToMicrometers(meters))
         fun fromMeters(meters: Float) = Distance(meterToMicrometers(meters))
-        fun fromCentimeters(centimeter: Int) = Distance(centimeterToMicrometers(centimeter))
-        fun fromMillimeters(millimeter: Int) = Distance(millimeterToMicrometers(millimeter))
+        fun fromCentimeters(centimeter: Long) = Distance(centimeterToMicrometers(centimeter))
+        fun fromMillimeters(millimeter: Long) = Distance(millimeterToMicrometers(millimeter))
         fun fromMillimeters(millimeter: Float) = Distance(millimeterToMicrometers(millimeter))
-        fun fromMicrometers(micrometers: Int) = Distance(micrometers)
+        fun fromMicrometers(micrometers: Long) = Distance(micrometers)
     }
 
     override fun value() = micrometers
 
-    fun toMeters() = micrometersToMeter(micrometers)
-    fun toMillimeters() = micrometersToMillimeter(micrometers)
+    fun toMeters() = toMeters(micrometers)
+    fun toMillimeters() = toMillimeters(micrometers)
     fun toMicrometers() = micrometers
 
     override fun toString() = formatMicrometersAsMeters(micrometers)
 
     override operator fun plus(other: Distance) = Distance(micrometers + other.micrometers)
     override operator fun minus(other: Distance) = Distance(micrometers - other.micrometers)
-    operator fun times(factor: Float) = Distance((micrometers * factor).toInt())
+    operator fun times(factor: Float) = Distance((micrometers * factor).toLong())
     operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(factor: Int) = Distance(micrometers * factor)
-    operator fun div(factor: Float) = Distance((micrometers / factor).toInt())
+    operator fun div(factor: Float) = Distance((micrometers / factor).toLong())
     operator fun div(factor: Int) = Distance(micrometers / factor)
 
     operator fun compareTo(other: Distance): Int = micrometers.compareTo(other.micrometers)
@@ -59,28 +59,27 @@ value class Distance private constructor(private val micrometers: Int) : SiUnit<
 
 // to lower
 
-fun meterToMillimeter(meter: Int) = down(meter)
+fun meterToMillimeter(meter: Long) = down(meter)
 fun meterToMillimeter(meter: Float) = down(meter)
 
-fun meterToMicrometers(meter: Int) = downTwice(meter)
+fun meterToMicrometers(meter: Long) = downTwice(meter)
 fun meterToMicrometers(meter: Float) = downTwice(meter)
 
-fun centimeterToMicrometers(centimeter: Int) = down(centimeter * 10)
+fun centimeterToMicrometers(centimeter: Long) = down(centimeter * 10)
 fun centimeterToMicrometers(centimeter: Float) = down(centimeter * 10.0f)
 
-fun millimeterToMicrometers(millimeter: Int) = down(millimeter)
+fun millimeterToMicrometers(millimeter: Long) = down(millimeter)
 fun millimeterToMicrometers(millimeter: Float) = down(millimeter)
 
 // to higher
 
-fun millimeterToMeter(millimeter: Int) = up(millimeter)
-fun micrometersToMeter(micrometers: Int) = upTwice(micrometers)
-fun micrometersToMillimeter(micrometers: Int) = up(micrometers)
+fun toMeters(micrometers: Long) = upTwice(micrometers)
+fun toMillimeters(micrometers: Long) = up(micrometers)
 
-fun formatMicrometersAsMeters(micrometers: Int) = if (micrometers > SI_SQUARED) {
-    String.format(Locale.US, "%.2f m", micrometersToMeter(micrometers))
+fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SQUARED) {
+    String.format(Locale.US, "%.2f m", toMeters(micrometers))
 } else if (micrometers > SI_FACTOR) {
-    String.format(Locale.US, "%.2f mm", micrometersToMillimeter(micrometers))
+    String.format(Locale.US, "%.2f mm", toMillimeters(micrometers))
 } else {
     String.format(Locale.US, "%d μm", micrometers)
 }

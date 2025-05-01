@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseLong
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
@@ -53,11 +54,11 @@ fun HtmlBlockTag.selectDistance(
 fun parseDistance(
     parameters: Parameters,
     param: String,
-    default: Int = 0,
-) = fromMicrometers(parseInt(parameters, param, default))
+    default: Long = 0,
+) = fromMicrometers(parseLong(parameters, param, default))
 
 fun parseDistance(
     parameters: Parameters,
     param: String,
     default: Distance,
-) = fromMicrometers(parseInt(parameters, param, default.toMicrometers()))
+) = fromMicrometers(parseLong(parameters, param, default.toMicrometers()))

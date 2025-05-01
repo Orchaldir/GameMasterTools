@@ -251,6 +251,18 @@ fun parseOptionalInt(parameters: Parameters, param: String): Int? {
     return value.toInt()
 }
 
+fun parseLong(parameters: Parameters, param: String, default: Long = 0) = parameters[param]?.toLong() ?: default
+
+fun parseOptionalLong(parameters: Parameters, param: String): Long? {
+    val value = parameters[param]
+
+    if (value.isNullOrEmpty()) {
+        return null
+    }
+
+    return value.toLong()
+}
+
 // parse text
 
 fun parseChar(parameters: Parameters, param: String, default: Char): Char {

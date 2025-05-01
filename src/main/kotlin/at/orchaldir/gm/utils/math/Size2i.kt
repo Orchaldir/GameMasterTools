@@ -12,7 +12,7 @@ data class Size2i(val width: Distance, val height: Distance) {
     }
 
     companion object {
-        fun fromMillimeters(width: Int, height: Int) = Size2i(
+        fun fromMillimeters(width: Long, height: Long) = Size2i(
             Distance.fromMillimeters(width),
             Distance.fromMillimeters(height),
         )
