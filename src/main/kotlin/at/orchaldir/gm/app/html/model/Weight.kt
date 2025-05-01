@@ -40,10 +40,11 @@ fun HtmlBlockTag.selectWeight(
     prefix: SiPrefix,
     update: Boolean = false,
 ) {
-    val text = formatWeight(current.value())
+    val unit = Weight.resolveUnit(prefix)
+    val text = current.toString()
     val currentValue = current.convertTo(prefix).toInt()
     selectInt(currentValue, minValue, maxValue, 1, param, update)
-    +" ($text)"
+    +"$unit ($text)"
 }
 
 // parse

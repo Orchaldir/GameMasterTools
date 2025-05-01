@@ -125,7 +125,7 @@ fun FORM.editRace(
         fromMillimeters(10),
         true
     )
-    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, SiPrefix.Kilo)
+    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, SiPrefix.Kilo, true)
     editRaceOrigin(state, race)
     editLifeStages(state, race)
 }
