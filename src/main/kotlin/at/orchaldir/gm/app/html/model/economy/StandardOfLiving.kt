@@ -57,6 +57,6 @@ fun parseStandardOfLiving(
     param: String,
 ) = StandardOfLiving(
     id,
-    parseName(parameters, combine(param, NAME)),
+    parseName(parameters, combine(param, NAME), "Standard ${id.value}"),
     parsePrice(parameters, combine(param, PRICE)),
 )
