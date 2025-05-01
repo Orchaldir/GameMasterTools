@@ -184,7 +184,7 @@ private fun HTML.showJobDetails(
     state: State,
     job: Job,
 ) {
-    val backLink = call.application.href(JobRoutes())
+    val backLink = call.application.href(JobRoutes.All())
     val deleteLink = call.application.href(JobRoutes.Delete(job.id))
     val editLink = call.application.href(JobRoutes.Edit(job.id))
 
