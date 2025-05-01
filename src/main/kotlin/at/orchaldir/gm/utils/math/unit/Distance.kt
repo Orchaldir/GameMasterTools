@@ -24,37 +24,36 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
     }
 
     companion object {
-        fun fromMeters(meters: Long) = Distance(meterToMicrometers(meters))
-        fun fromMeters(meters: Float) = Distance(meterToMicrometers(meters))
-        fun fromCentimeters(centimeter: Long) = Distance(centimeterToMicrometers(centimeter))
-        fun fromMillimeters(millimeter: Long) = Distance(millimeterToMicrometers(millimeter))
-        fun fromMillimeters(millimeter: Float) = Distance(millimeterToMicrometers(millimeter))
+        fun fromKilometers(kilometers: Long) = Distance(convertFromKilometers(kilometers))
+        fun fromMeters(meters: Long) = Distance(convertFromMeters(meters))
+        fun fromMeters(meters: Float) = Distance(convertFromMeters(meters))
+        fun fromCentimeters(centimeter: Long) = Distance(convertFromCentimeters(centimeter))
+        fun fromMillimeters(millimeter: Long) = Distance(convertFromMillimeters(millimeter))
+        fun fromMillimeters(millimeter: Float) = Distance(convertFromMillimeters(millimeter))
         fun fromMicrometers(micrometers: Long) = Distance(micrometers)
 
-        fun from(prefix: SiPrefix, value: Long) = Distance(
-            when (prefix) {
-                SiPrefix.Kilo -> downNineSteps(value)
-                SiPrefix.Base -> downSixSteps(value)
-                SiPrefix.Centi -> down(downThreeSteps(value))
-                SiPrefix.Milli -> downThreeSteps(value)
-                SiPrefix.Micro -> value
-            }
-        )
+        fun from(prefix: SiPrefix, value: Long) = when (prefix) {
+            SiPrefix.Kilo -> fromKilometers(value)
+            SiPrefix.Base -> fromMeters(value)
+            SiPrefix.Centi -> fromCentimeters(value)
+            SiPrefix.Milli -> fromMillimeters(value)
+            SiPrefix.Micro -> fromMicrometers(value)
+        }
 
         fun resolveUnit(prefix: SiPrefix) = prefix.resolveUnit() + "m"
     }
 
     override fun value() = micrometers
     override fun convertToLong(prefix: SiPrefix) = when (prefix) {
-        SiPrefix.Kilo -> upNineSteps(micrometers).toLong()
-        SiPrefix.Base -> upSixSteps(micrometers).toLong()
-        SiPrefix.Centi -> up(upThreeSteps(micrometers)).toLong()
-        SiPrefix.Milli -> upThreeSteps(micrometers).toLong()
+        SiPrefix.Kilo -> convertToKilometers(micrometers).toLong()
+        SiPrefix.Base -> convertToMeters(micrometers).toLong()
+        SiPrefix.Centi -> convertToCentimeters(micrometers).toLong()
+        SiPrefix.Milli -> convertToMillimeters(micrometers).toLong()
         SiPrefix.Micro -> micrometers
     }
 
-    fun toMeters() = toMeters(micrometers)
-    fun toMillimeters() = toMillimeters(micrometers)
+    fun toMeters() = convertToMeters(micrometers)
+    fun toMillimeters() = convertToMillimeters(micrometers)
     fun toMicrometers() = micrometers
 
     override fun toString() = formatMicrometersAsMeters(micrometers)
@@ -83,27 +82,28 @@ fun checkDistance(distance: Distance, label: String, min: Distance, max: Distanc
 
 // to lower
 
-fun meterToMillimeter(meter: Long) = downThreeSteps(meter)
-fun meterToMillimeter(meter: Float) = downThreeSteps(meter)
+fun convertFromKilometers(kilometer: Long) = downNineSteps(kilometer)
 
-fun meterToMicrometers(meter: Long) = downSixSteps(meter)
-fun meterToMicrometers(meter: Float) = downSixSteps(meter)
+fun convertFromMeters(meter: Long) = downSixSteps(meter)
+fun convertFromMeters(meter: Float) = downSixSteps(meter)
 
-fun centimeterToMicrometers(centimeter: Long) = downThreeSteps(centimeter * 10)
-fun centimeterToMicrometers(centimeter: Float) = downThreeSteps(centimeter * 10.0f)
+fun convertFromCentimeters(centimeter: Long) = downThreeSteps(centimeter * 10)
+fun convertFromCentimeters(centimeter: Float) = downThreeSteps(centimeter * 10.0f)
 
-fun millimeterToMicrometers(millimeter: Long) = downThreeSteps(millimeter)
-fun millimeterToMicrometers(millimeter: Float) = downThreeSteps(millimeter)
+fun convertFromMillimeters(millimeter: Long) = downThreeSteps(millimeter)
+fun convertFromMillimeters(millimeter: Float) = downThreeSteps(millimeter)
 
 // to higher
 
-fun toMeters(micrometers: Long) = upSixSteps(micrometers)
-fun toMillimeters(micrometers: Long) = upThreeSteps(micrometers)
+fun convertToKilometers(micrometers: Long) = upNineSteps(micrometers)
+fun convertToMeters(micrometers: Long) = upSixSteps(micrometers)
+fun convertToCentimeters(millimeters: Long) = up(upThreeSteps(millimeters))
+fun convertToMillimeters(micrometers: Long) = upThreeSteps(micrometers)
 
 fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SIX_STEPS) {
-    String.format(Locale.US, "%.2f m", toMeters(micrometers))
+    String.format(Locale.US, "%.2f m", convertToMeters(micrometers))
 } else if (micrometers > SI_THREE_STEPS) {
-    String.format(Locale.US, "%.2f mm", toMillimeters(micrometers))
+    String.format(Locale.US, "%.2f mm", convertToMillimeters(micrometers))
 } else {
     String.format(Locale.US, "%d μm", micrometers)
 }

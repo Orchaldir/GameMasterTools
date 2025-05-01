@@ -42,14 +42,14 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
 
     override fun value() = milligrams
     override fun convertToLong(prefix: SiPrefix) = when (prefix) {
-        SiPrefix.Kilo -> toKilograms(milligrams).toLong()
-        SiPrefix.Base -> toGrams(milligrams).toLong()
-        SiPrefix.Centi -> toCentigrams(milligrams).toLong()
+        SiPrefix.Kilo -> convertToKilograms(milligrams).toLong()
+        SiPrefix.Base -> convertToGrams(milligrams).toLong()
+        SiPrefix.Centi -> convertToCentigrams(milligrams).toLong()
         SiPrefix.Milli -> milligrams
-        SiPrefix.Micro -> toMicrograms(milligrams)
+        SiPrefix.Micro -> convertToMicrograms(milligrams)
     }
 
-    fun toKilograms() = toKilograms(milligrams)
+    fun toKilograms() = convertToKilograms(milligrams)
 
     override fun toString() = formatWeight(milligrams)
 
@@ -75,15 +75,15 @@ fun convertFromGrams(grams: Float) = downThreeSteps(grams)
 fun convertFromCentigrams(grams: Long) = down(grams)
 fun convertFromMicrograms(micrograms: Long) = upThreeSteps(micrograms).toLong()
 
-fun toKilograms(milligrams: Long) = upSixSteps(milligrams)
-fun toGrams(milligrams: Long) = upThreeSteps(milligrams)
-fun toCentigrams(milligrams: Long) = up(milligrams)
-fun toMicrograms(milligrams: Long) = downThreeSteps(milligrams)
+fun convertToKilograms(milligrams: Long) = upSixSteps(milligrams)
+fun convertToGrams(milligrams: Long) = upThreeSteps(milligrams)
+fun convertToCentigrams(milligrams: Long) = up(milligrams)
+fun convertToMicrograms(milligrams: Long) = downThreeSteps(milligrams)
 
 fun formatWeight(milligrams: Long) = if (milligrams >= SQUARED) {
-    String.format(Locale.US, "%.1f kg", toKilograms(milligrams))
+    String.format(Locale.US, "%.1f kg", convertToKilograms(milligrams))
 } else if (milligrams >= FACTOR) {
-    String.format(Locale.US, "%.1f g", toGrams(milligrams))
+    String.format(Locale.US, "%.1f g", convertToGrams(milligrams))
 } else {
     String.format(Locale.US, "%d mg", milligrams)
 }
