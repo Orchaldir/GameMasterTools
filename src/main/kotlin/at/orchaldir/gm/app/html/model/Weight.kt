@@ -1,9 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseLong
-import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectLong
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.Weight
@@ -42,7 +40,7 @@ fun HtmlBlockTag.selectWeight(
 ) {
     val unit = Weight.resolveUnit(prefix)
     val text = current.toString()
-    val currentValue = current.convertTo(prefix)
+    val currentValue = current.convertToLong(prefix)
     selectLong(currentValue, minValue, maxValue, 1, param, update)
     +"$unit ($text)"
 }

@@ -21,7 +21,7 @@ class WeightTest {
         val value = 1234L
 
         prefixes.forEach {
-            assertEquals(value, Weight.from(it, value).convertTo(it))
+            assertEquals(value, Weight.from(it, value).convertToLong(it))
         }
     }
 

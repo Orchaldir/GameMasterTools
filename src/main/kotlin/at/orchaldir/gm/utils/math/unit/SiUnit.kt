@@ -8,7 +8,7 @@ const val SI_NINE_STEPS = SI_SIX_STEPS * SI_THREE_STEPS
 interface SiUnit<T> {
 
     fun value(): Long
-    fun convertTo(prefix: SiPrefix): Long
+    fun convertToLong(prefix: SiPrefix): Long
 
     operator fun plus(other: T): T
     operator fun minus(other: T): T

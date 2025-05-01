@@ -40,8 +40,8 @@ fun HtmlBlockTag.selectDistance(
 ) = selectDistance(
     param,
     current,
-    minValue.convertTo(prefix).toInt(),
-    maxValue.convertTo(prefix).toInt(),
+    minValue.convertToLong(prefix).toInt(),
+    maxValue.convertToLong(prefix).toInt(),
     prefix,
     update,
 )
@@ -70,7 +70,7 @@ fun HtmlBlockTag.selectDistance(
 ) {
     val unit = Distance.resolveUnit(prefix)
     val text = current.toString()
-    val currentValue = current.convertTo(prefix).toInt()
+    val currentValue = current.convertToLong(prefix).toInt()
     selectInt(currentValue, minValue, maxValue, 1, param, update)
     +"$unit ($text)"
 }
@@ -89,4 +89,4 @@ fun parseDistance(
     param: String,
     prefix: SiPrefix,
     default: Distance,
-) = parseDistance(parameters, param, prefix, default.convertTo(prefix).toInt())
+) = parseDistance(parameters, param, prefix, default.convertToLong(prefix).toInt())

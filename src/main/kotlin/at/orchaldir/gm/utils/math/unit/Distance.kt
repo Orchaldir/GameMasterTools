@@ -45,7 +45,7 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
     }
 
     override fun value() = micrometers
-    override fun convertTo(prefix: SiPrefix) = when (prefix) {
+    override fun convertToLong(prefix: SiPrefix) = when (prefix) {
         SiPrefix.Kilo -> upNineSteps(micrometers).toLong()
         SiPrefix.Base -> upSixSteps(micrometers).toLong()
         SiPrefix.Centi -> up(upThreeSteps(micrometers)).toLong()
