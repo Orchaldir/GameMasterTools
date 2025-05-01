@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
+import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrencyUnit
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import at.orchaldir.gm.prototypes.visualization.currency.CURRENCY_CONFIG
@@ -164,6 +165,7 @@ private fun HTML.showAllCurrencies(
                 th { +"Name" }
                 th { +"Currency" }
                 th { +"Value" }
+                th { +"Weight" }
                 th { +"Format" }
                 th { +"Materials" }
                 th { +"Fonts" }
@@ -176,6 +178,7 @@ private fun HTML.showAllCurrencies(
                     td { link(call, state, unit) }
                     td { link(call, currency) }
                     td { +denomination.display(unit.number) }
+                    td(state.calculateWeight(unit))
                     tdEnum(unit.format.getType())
                     tdInlineLinks(call, state, unit.format.getMaterials())
                     tdInlineLinks(call, state, unit.format.getFonts())
