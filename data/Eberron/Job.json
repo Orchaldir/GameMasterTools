@@ -210,6 +210,14 @@
     "type": "SoL",
     "standard": 3
    }
+  },
+  "25": {
+   "id": 25,
+   "name": "Farmhand",
+   "income": {
+    "type": "SoL",
+    "standard": 1
+   }
   }
  }
 }
