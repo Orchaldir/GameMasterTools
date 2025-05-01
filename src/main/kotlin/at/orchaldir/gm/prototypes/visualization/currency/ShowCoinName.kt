@@ -1,11 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.currency
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.Coin
-import at.orchaldir.gm.core.model.economy.money.DEFAULT_RIM_FACTOR
-import at.orchaldir.gm.core.model.economy.money.DEFAULT_THICKNESS
-import at.orchaldir.gm.core.model.economy.money.Shape
-import at.orchaldir.gm.core.model.economy.money.ShowName
+import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.Name

@@ -5,8 +5,6 @@ import at.orchaldir.gm.app.OFFSET
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.utils.math.unit.*
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
-import at.orchaldir.gm.utils.math.unit.Weight.Companion.fromGrams
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag

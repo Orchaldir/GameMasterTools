@@ -2,15 +2,9 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseLong
 import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.math.unit.SiPrefix
-import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.formatMicrometersAsMeters
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.unit.SiPrefix
-import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

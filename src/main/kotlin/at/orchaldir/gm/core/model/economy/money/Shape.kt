@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.model.economy.money
 import at.orchaldir.gm.utils.math.FULL_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.convertFromKilograms
 import kotlin.math.pow
 
 enum class Shape {

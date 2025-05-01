@@ -1,13 +1,7 @@
 package at.orchaldir.gm.core.selector.economy.money
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
-import at.orchaldir.gm.core.model.economy.money.Coin
-import at.orchaldir.gm.core.model.economy.money.CurrencyId
-import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
-import at.orchaldir.gm.core.model.economy.money.HoledCoin
-import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
+import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.calculateWeight

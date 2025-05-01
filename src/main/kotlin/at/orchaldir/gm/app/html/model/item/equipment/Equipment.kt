@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.unit.SiPrefix
-import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM

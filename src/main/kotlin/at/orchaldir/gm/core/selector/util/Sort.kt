@@ -35,10 +35,8 @@ import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
-import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
-import kotlin.collections.sortedWith
 
 // generic
 

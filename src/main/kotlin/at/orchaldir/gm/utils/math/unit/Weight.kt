@@ -2,7 +2,7 @@ package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
-import java.util.Locale
+import java.util.*
 
 val WEIGHTLESS = Weight.fromKilograms(0)
 

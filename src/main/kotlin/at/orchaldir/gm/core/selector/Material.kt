@@ -1,14 +1,12 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.Shape
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Weight
 
 fun State.canDeleteMaterial(material: MaterialId) = countCurrencyUnits(material) == 0
