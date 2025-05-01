@@ -99,7 +99,6 @@ fun FORM.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    val gram = Weight.fromGrams(10)
     selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base, true)
     selectValue(
         "Equipment",
