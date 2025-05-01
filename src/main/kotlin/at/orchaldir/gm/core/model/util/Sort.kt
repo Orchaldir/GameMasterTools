@@ -35,6 +35,7 @@ enum class SortCurrency {
 enum class SortCurrencyUnit {
     Name,
     Value,
+    Weight,
 }
 
 enum class SortDomain {

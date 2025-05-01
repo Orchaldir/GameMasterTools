@@ -32,6 +32,7 @@ import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
@@ -193,6 +194,7 @@ fun State.sortCurrencyUnits(
         when (sort) {
             SortCurrencyUnit.Name -> compareBy { it.name.text }
             SortCurrencyUnit.Value -> compareBy { it.denomination * 1000 + it.number }
+            SortCurrencyUnit.Weight -> compareByDescending { calculateWeight(it).value() }
         }
     )
 
