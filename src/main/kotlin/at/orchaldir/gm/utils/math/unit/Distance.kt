@@ -34,9 +34,9 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
 
     override fun value() = micrometers
     override fun convertTo(prefix: SiPrefix) = when (prefix) {
-        SiPrefix.Kilo -> upTriple(micrometers).toLong()
-        SiPrefix.Base -> upTwice(micrometers).toLong()
-        SiPrefix.Milli -> up(micrometers).toLong()
+        SiPrefix.Kilo -> upNineSteps(micrometers).toLong()
+        SiPrefix.Base -> upSixSteps(micrometers).toLong()
+        SiPrefix.Milli -> upThreeSteps(micrometers).toLong()
         SiPrefix.Micro -> micrometers
     }
 
@@ -65,22 +65,22 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
 
 // to lower
 
-fun meterToMillimeter(meter: Long) = down(meter)
-fun meterToMillimeter(meter: Float) = down(meter)
+fun meterToMillimeter(meter: Long) = downThreeSteps(meter)
+fun meterToMillimeter(meter: Float) = downThreeSteps(meter)
 
-fun meterToMicrometers(meter: Long) = downTwice(meter)
-fun meterToMicrometers(meter: Float) = downTwice(meter)
+fun meterToMicrometers(meter: Long) = downSixSteps(meter)
+fun meterToMicrometers(meter: Float) = downSixSteps(meter)
 
-fun centimeterToMicrometers(centimeter: Long) = down(centimeter * 10)
-fun centimeterToMicrometers(centimeter: Float) = down(centimeter * 10.0f)
+fun centimeterToMicrometers(centimeter: Long) = downThreeSteps(centimeter * 10)
+fun centimeterToMicrometers(centimeter: Float) = downThreeSteps(centimeter * 10.0f)
 
-fun millimeterToMicrometers(millimeter: Long) = down(millimeter)
-fun millimeterToMicrometers(millimeter: Float) = down(millimeter)
+fun millimeterToMicrometers(millimeter: Long) = downThreeSteps(millimeter)
+fun millimeterToMicrometers(millimeter: Float) = downThreeSteps(millimeter)
 
 // to higher
 
-fun toMeters(micrometers: Long) = upTwice(micrometers)
-fun toMillimeters(micrometers: Long) = up(micrometers)
+fun toMeters(micrometers: Long) = upSixSteps(micrometers)
+fun toMillimeters(micrometers: Long) = upThreeSteps(micrometers)
 
 fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SQUARED) {
     String.format(Locale.US, "%.2f m", toMeters(micrometers))

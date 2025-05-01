@@ -24,10 +24,10 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
 
         fun from(prefix: SiPrefix, value: Int) = Weight(
             when (prefix) {
-                SiPrefix.Kilo -> downTwice(value)
-                SiPrefix.Base -> down(value)
+                SiPrefix.Kilo -> downSixSteps(value)
+                SiPrefix.Base -> downThreeSteps(value)
                 SiPrefix.Milli -> value.toLong()
-                SiPrefix.Micro -> up(value).toLong()
+                SiPrefix.Micro -> upThreeSteps(value).toLong()
             }
         )
 
@@ -36,10 +36,10 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
 
     override fun value() = milligrams
     override fun convertTo(prefix: SiPrefix) = when (prefix) {
-        SiPrefix.Kilo -> upTwice(milligrams).toLong()
-        SiPrefix.Base -> up(milligrams).toLong()
+        SiPrefix.Kilo -> upSixSteps(milligrams).toLong()
+        SiPrefix.Base -> upThreeSteps(milligrams).toLong()
         SiPrefix.Milli -> milligrams
-        SiPrefix.Micro -> down(milligrams)
+        SiPrefix.Micro -> downThreeSteps(milligrams)
     }
 
     fun toKilograms() = toKilograms(milligrams)
@@ -61,13 +61,13 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
     }
 }
 
-fun convertFromKilograms(kg: Long) = downTwice(kg)
-fun convertFromKilograms(kg: Float) = downTwice(kg)
-fun convertFromGrams(grams: Long) = down(grams)
-fun convertFromGrams(grams: Float) = down(grams)
+fun convertFromKilograms(kg: Long) = downSixSteps(kg)
+fun convertFromKilograms(kg: Float) = downSixSteps(kg)
+fun convertFromGrams(grams: Long) = downThreeSteps(grams)
+fun convertFromGrams(grams: Float) = downThreeSteps(grams)
 
-fun toKilograms(milligrams: Long) = upTwice(milligrams)
-fun toGrams(milligrams: Long) = up(milligrams)
+fun toKilograms(milligrams: Long) = upSixSteps(milligrams)
+fun toGrams(milligrams: Long) = upThreeSteps(milligrams)
 
 fun formatWeight(milligrams: Long) = if (milligrams >= SQUARED) {
     String.format(Locale.US, "%.1f kg", toKilograms(milligrams))

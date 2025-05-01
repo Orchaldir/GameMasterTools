@@ -13,20 +13,20 @@ interface SiUnit<T> {
 
 }
 
-fun down(value: Int) = value.toLong() * SI_FACTOR
-fun down(value: Long) = value * SI_FACTOR
-fun down(value: Float) = (value * SI_FACTOR).toLong()
+fun downThreeSteps(value: Int) = value.toLong() * SI_FACTOR
+fun downThreeSteps(value: Long) = value * SI_FACTOR
+fun downThreeSteps(value: Float) = (value * SI_FACTOR).toLong()
 
-fun downTwice(value: Int) = value.toLong() * SI_SQUARED
-fun downTwice(value: Long) = value * SI_SQUARED
-fun downTwice(value: Float) = (value * SI_SQUARED).toLong()
+fun downSixSteps(value: Int) = value.toLong() * SI_SQUARED
+fun downSixSteps(value: Long) = value * SI_SQUARED
+fun downSixSteps(value: Float) = (value * SI_SQUARED).toLong()
 
-fun up(value: Int) = value / SI_FACTOR.toFloat()
-fun up(value: Long) = value / SI_FACTOR.toFloat()
-fun up(value: Float) = value / SI_FACTOR.toFloat()
+fun upThreeSteps(value: Int) = value / SI_FACTOR.toFloat()
+fun upThreeSteps(value: Long) = value / SI_FACTOR.toFloat()
+fun upThreeSteps(value: Float) = value / SI_FACTOR.toFloat()
 
-fun upTwice(value: Int) = value / SI_SQUARED.toFloat()
-fun upTwice(value: Long) = value / SI_SQUARED.toFloat()
-fun upTwice(value: Float) = value / SI_SQUARED.toFloat()
+fun upSixSteps(value: Int) = value / SI_SQUARED.toFloat()
+fun upSixSteps(value: Long) = value / SI_SQUARED.toFloat()
+fun upSixSteps(value: Float) = value / SI_SQUARED.toFloat()
 
-fun upTriple(value: Long) = value / (SI_SQUARED * SI_FACTOR).toFloat()
+fun upNineSteps(value: Long) = value / (SI_SQUARED * SI_FACTOR).toFloat()

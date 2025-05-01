@@ -7,9 +7,9 @@ enum class SiPrefix {
     Micro;
 
     fun resolveUnit() = when (this) {
-        SiPrefix.Kilo -> "k"
-        SiPrefix.Base -> ""
-        SiPrefix.Milli -> "m"
-        SiPrefix.Micro -> "µ"
+        Kilo -> "k"
+        Base -> ""
+        Milli -> "m"
+        Micro -> "µ"
     }
 }
