@@ -27,9 +27,9 @@ fun HtmlBlockTag.showData(
 
 // edit
 
-fun FORM.editData(state: State) {
-    editEconomy(state, state.data.economy)
-    editTime(state, state.data.time)
+fun FORM.editData(state: State, data: Data) {
+    editEconomy(state, data.economy)
+    editTime(state, data.time)
 }
 
 // parse
