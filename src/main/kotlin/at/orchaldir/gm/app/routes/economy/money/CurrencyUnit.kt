@@ -153,8 +153,6 @@ private fun HTML.showAllCurrencies(
 ) {
     val units = state.sortCurrencyUnits(sort)
     val createLink = call.application.href(CurrencyUnitRoutes.New())
-    val sortNameLink = call.application.href(CurrencyUnitRoutes.All())
-    val sortValueLink = call.application.href(CurrencyUnitRoutes.All(SortCurrencyUnit.Value))
     val galleryLink = call.application.href(CurrencyUnitRoutes.Gallery())
 
     simpleHtml("Currency Units") {

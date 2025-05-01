@@ -4,6 +4,8 @@ import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 import java.util.Locale
 
+val WEIGHTLESS = Weight.fromKilograms(0)
+
 private const val FACTOR = 1000
 private const val SQUARED = FACTOR * FACTOR
 
@@ -21,6 +23,9 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
         fun fromGrams(g: Long) = Weight(convertFromGrams(g))
         fun fromGrams(g: Float) = Weight(convertFromGrams(g))
         fun fromMilligrams(mg: Long) = Weight(mg)
+
+        fun fromVolume(volume: Float, density: Weight) =
+            fromKilograms(volume * density.toKilograms())
 
         fun from(prefix: SiPrefix, value: Int) = Weight(
             when (prefix) {
