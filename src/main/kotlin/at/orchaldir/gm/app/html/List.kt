@@ -153,13 +153,13 @@ fun <T> parseList(
     parameters: Parameters,
     param: String,
     defaultSize: Int,
-    parseElement: (String) -> T,
+    parseElement: (Int, String) -> T,
 ): List<T> {
     val count = parseInt(parameters, combine(param, NUMBER), defaultSize)
 
     return (0..<count)
         .map { index ->
-            parseElement(combine(param, index))
+            parseElement(index, combine(param, index))
         }
 }
 

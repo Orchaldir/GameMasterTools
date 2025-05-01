@@ -478,11 +478,11 @@ private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING
     SewingPatternType.Complex -> ComplexSewingPattern(parseComplexPattern(parameters))
 }
 
-private fun parseSimplePattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { param ->
+private fun parseSimplePattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { _, param ->
     parse(parameters, param, StitchType.Kettle)
 }
 
-private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { param ->
+private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { _, param ->
     ComplexStitch(
         parseColorItemPart(parameters, param),
         parse(parameters, combine(param, SIZE), Size.Medium),
@@ -501,7 +501,7 @@ private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
     parseHandleSegments(parameters),
 )
 
-private fun parseHandleSegments(parameters: Parameters) = parseList(parameters, HANDLE, 1) { param ->
+private fun parseHandleSegments(parameters: Parameters) = parseList(parameters, HANDLE, 1) { _, param ->
     HandleSegment(
         parseDistance(parameters, combine(param, LENGTH), prefix, 40),
         parseDistance(parameters, combine(param, DIAMETER), prefix, 15),
