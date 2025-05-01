@@ -4,5 +4,12 @@ enum class SiPrefix {
     Kilo,
     Base,
     Milli,
-    Micro,
+    Micro;
+
+    fun resolveUnit() = when (this) {
+        SiPrefix.Kilo -> "k"
+        SiPrefix.Base -> ""
+        SiPrefix.Milli -> "m"
+        SiPrefix.Micro -> "µ"
+    }
 }
