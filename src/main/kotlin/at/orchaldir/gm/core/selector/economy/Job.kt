@@ -2,7 +2,9 @@ package at.orchaldir.gm.core.selector.economy
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -19,11 +21,15 @@ fun countEachJob(characters: Collection<Character>) = characters
 
 fun State.countJobs(spell: SpellId) = getJobStorage()
     .getAll()
-    .count { b -> b.spells.contains(spell) }
+    .count { it.spells.contains(spell) }
+
+fun State.countJobs(standard: StandardOfLivingId) = getJobStorage()
+    .getAll()
+    .count { it.income is AffordableStandardOfLiving && it.income.standard == standard }
 
 fun State.getJobsContaining(spell: SpellId) = getJobStorage()
     .getAll()
-    .filter { b -> b.spells.contains(spell) }
+    .filter { it.spells.contains(spell) }
 
 
 

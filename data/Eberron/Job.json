@@ -34,7 +34,11 @@
   },
   "3": {
    "id": 3,
-   "name": "Teacher"
+   "name": "Teacher",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "4": {
    "id": 4,
@@ -46,26 +50,42 @@
   },
   "5": {
    "id": 5,
-   "name": "Barkeeper"
+   "name": "Barkeeper",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
   },
   "6": {
    "id": 6,
-   "name": "Innkeeper"
+   "name": "Innkeeper",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "7": {
    "id": 7,
-   "name": "Blacksmith"
+   "name": "Blacksmith",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "8": {
    "id": 8,
-   "name": "Accountant"
+   "name": "Accountant",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "9": {
    "id": 9,
    "name": "Baker",
    "income": {
     "type": "SoL",
-    "standard": 4
+    "standard": 2
    }
   },
   "10": {
@@ -78,11 +98,19 @@
   },
   "11": {
    "id": 11,
-   "name": "Priest"
+   "name": "Priest",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "12": {
    "id": 12,
-   "name": "Cook"
+   "name": "Cook",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
   },
   "13": {
    "id": 13,
@@ -97,7 +125,11 @@
   },
   "14": {
    "id": 14,
-   "name": "Bouncer"
+   "name": "Bouncer",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
   },
   "15": {
    "id": 15,
@@ -109,11 +141,19 @@
   },
   "16": {
    "id": 16,
-   "name": "Banker"
+   "name": "Banker",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
   },
   "17": {
    "id": 17,
-   "name": "Tailor"
+   "name": "Tailor",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "18": {
    "id": 18,
@@ -125,19 +165,35 @@
   },
   "19": {
    "id": 19,
-   "name": "Sailor"
+   "name": "Sailor",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
   },
   "20": {
    "id": 20,
-   "name": "Librarian"
+   "name": "Librarian",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "21": {
    "id": 21,
-   "name": "Scribe"
+   "name": "Scribe",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "22": {
    "id": 22,
-   "name": "Sage"
+   "name": "Sage",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "23": {
    "id": 23,
@@ -149,7 +205,11 @@
   },
   "24": {
    "id": 24,
-   "name": "Merchant"
+   "name": "Shopkeeper",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   }
  }
 }

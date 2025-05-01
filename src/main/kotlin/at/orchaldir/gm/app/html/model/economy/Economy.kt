@@ -9,9 +9,11 @@ import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.economy.money.parseCurrencyId
 import at.orchaldir.gm.app.html.parseList
 import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.Economy
+import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import io.ktor.http.*
@@ -35,11 +37,13 @@ fun HtmlBlockTag.showEconomy(
         tr {
             th { +"Name" }
             th { +"Cost per Day" }
+            th { +"Jobs" }
         }
         economy.standardsOfLiving.forEach { standard ->
             tr {
                 td { link(call, state, standard) }
                 td { +currency.display(standard.costPerDay) }
+                tdSkipZero(state.countJobs(standard.id))
             }
         }
     }
