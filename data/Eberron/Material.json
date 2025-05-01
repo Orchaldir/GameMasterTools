@@ -93,12 +93,14 @@
   "18": {
    "id": 18,
    "name": "Iron",
-   "color": "DimGray"
+   "color": "DimGray",
+   "density": 7870000000
   },
   "19": {
    "id": 19,
    "name": "Steel",
-   "color": "Gray"
+   "color": "Gray",
+   "density": 7850000000
   },
   "20": {
    "id": 20,
@@ -109,7 +111,8 @@
   "21": {
    "id": 21,
    "name": "Copper",
-   "color": "Orange"
+   "color": "Orange",
+   "density": 8940000000
   },
   "22": {
    "id": 22,
@@ -117,12 +120,14 @@
   },
   "23": {
    "id": 23,
-   "name": "Brass"
+   "name": "Brass",
+   "density": 8600000000
   },
   "24": {
    "id": 24,
    "name": "Silver",
-   "color": "Silver"
+   "color": "Silver",
+   "density": 10500000000
   },
   "25": {
    "id": 25,
@@ -166,7 +171,8 @@
   "32": {
    "id": 32,
    "name": "Platinum",
-   "color": "AliceBlue"
+   "color": "AliceBlue",
+   "density": 21450000000
   }
  }
 }
