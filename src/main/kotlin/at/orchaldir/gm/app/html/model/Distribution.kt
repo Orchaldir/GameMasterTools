@@ -22,24 +22,24 @@ fun <T : SiUnit<T>> HtmlBlockTag.showDistribution(
 
 // edit
 
-fun FORM.selectDistribution(
+fun FORM.selectDistanceDistribution(
     label: String,
     param: String,
     distribution: Distribution<Distance>,
-    min: Distance,
-    max: Distance,
-    maxOffset: Distance,
-    step: Distance = fromMillimeters(1),
+    min: Int,
+    max: Int,
+    maxOffset: Int,
+    prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) {
     field(label) {
-        selectDistance(combine(param, CENTER), distribution.center, min, max, step, update)
+        selectDistance(combine(param, CENTER), distribution.center, min, max, prefix, update)
         +" +- "
-        selectDistance(combine(param, OFFSET), distribution.offset, ZERO, maxOffset, step, update)
+        selectDistance(combine(param, OFFSET), distribution.offset, 0, maxOffset, prefix, update)
     }
 }
 
-fun FORM.selectDistribution(
+fun FORM.selectWeightDistribution(
     label: String,
     param: String,
     distribution: Distribution<Weight>,
@@ -61,9 +61,10 @@ fun FORM.selectDistribution(
 fun <T : SiUnit<T>> parseDistribution(
     parameters: Parameters,
     param: String,
-    parseUnit: (Parameters, String) -> T,
+    prefix: SiPrefix,
+    parseUnit: (Parameters, String, SiPrefix) -> T,
 ) = Distribution(
-    parseUnit(parameters, combine(param, CENTER)),
-    parseUnit(parameters, combine(param, OFFSET)),
+    parseUnit(parameters, combine(param, CENTER), prefix),
+    parseUnit(parameters, combine(param, OFFSET), prefix),
 )
 

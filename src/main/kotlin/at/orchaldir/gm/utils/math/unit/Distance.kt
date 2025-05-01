@@ -30,6 +30,18 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
         fun fromMillimeters(millimeter: Long) = Distance(millimeterToMicrometers(millimeter))
         fun fromMillimeters(millimeter: Float) = Distance(millimeterToMicrometers(millimeter))
         fun fromMicrometers(micrometers: Long) = Distance(micrometers)
+
+        fun from(prefix: SiPrefix, value: Int) = Distance(
+            when (prefix) {
+                SiPrefix.Kilo -> downNineSteps(value)
+                SiPrefix.Base -> downSixSteps(value)
+                SiPrefix.Centi -> down(downThreeSteps(value))
+                SiPrefix.Milli -> downThreeSteps(value)
+                SiPrefix.Micro -> value.toLong()
+            }
+        )
+
+        fun resolveUnit(prefix: SiPrefix) = prefix.resolveUnit() + "m"
     }
 
     override fun value() = micrometers
@@ -83,9 +95,9 @@ fun millimeterToMicrometers(millimeter: Float) = downThreeSteps(millimeter)
 fun toMeters(micrometers: Long) = upSixSteps(micrometers)
 fun toMillimeters(micrometers: Long) = upThreeSteps(micrometers)
 
-fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SQUARED) {
+fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SIX_STEPS) {
     String.format(Locale.US, "%.2f m", toMeters(micrometers))
-} else if (micrometers > SI_FACTOR) {
+} else if (micrometers > SI_THREE_STEPS) {
     String.format(Locale.US, "%.2f mm", toMillimeters(micrometers))
 } else {
     String.format(Locale.US, "%d μm", micrometers)

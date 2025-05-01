@@ -23,6 +23,8 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
 
+val siPrefix = SiPrefix.Centi
+
 // show
 
 fun HtmlBlockTag.showRace(
@@ -115,14 +117,14 @@ fun FORM.editRace(
 ) {
     selectName(race.name)
     selectRarityMap("Gender", GENDER, race.genders)
-    selectDistribution(
+    selectDistanceDistribution(
         "Height",
         HEIGHT,
         race.height,
-        fromMillimeters(100),
-        fromMeters(5),
-        fromMeters(1),
-        fromMillimeters(10),
+        100,
+        5,
+        1,
+        siPrefix,
         true
     )
     selectWeight("Weight", WEIGHT, race.weight, 1, 1000, SiPrefix.Kilo, true)
@@ -246,7 +248,7 @@ fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
     id,
     parseName(parameters),
     parseOneOf(parameters, GENDER, Gender::valueOf),
-    parseDistribution(parameters, HEIGHT, ::parseDistance),
+    parseDistribution(parameters, HEIGHT, siPrefix, ::parseDistance),
     parseWeight(parameters, WEIGHT, SiPrefix.Kilo),
     parseLifeStages(parameters),
     parseRaceOrigin(parameters, state),

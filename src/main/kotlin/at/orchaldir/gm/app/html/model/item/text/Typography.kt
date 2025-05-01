@@ -15,9 +15,12 @@ import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ONE_M
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.ZERO
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
+
+val siPrefix = SiPrefix.Milli
 
 // edit
 
@@ -97,14 +100,7 @@ fun HtmlBlockTag.editStringRenderOption(
 
             is WrappedStringRenderOption -> {
                 editStringSharedOptions(state, param, option.x, option.y, option.font)
-                selectDistance(
-                    "$text Width",
-                    combine(param, WIDTH),
-                    option.width,
-                    ZERO,
-                    ONE_M,
-                    update = true,
-                )
+                selectDistance("$text Width", combine(param, WIDTH), option.width)
             }
         }
     }
@@ -117,9 +113,13 @@ private fun HtmlBlockTag.editStringSharedOptions(
     y: Distance,
     fontOption: FontOption,
 ) {
-    selectDistance("X", combine(param, X), x, ZERO, ONE_M, update = true)
-    selectDistance("Y", combine(param, Y), y, ZERO, ONE_M, update = true)
+    selectDistance("X", combine(param, X), x)
+    selectDistance("Y", combine(param, Y), y)
     editFontOption(state, fontOption, combine(param, FONT))
+}
+
+private fun HtmlBlockTag.selectDistance(label: String, param: String, value: Distance) {
+    selectDistance(label, param, value, ZERO, ONE_M, siPrefix, update = true)
 }
 
 // parse
@@ -147,16 +147,16 @@ fun parseTextTypography(parameters: Parameters) = when (parse(parameters, TYPOGR
 private fun parseStringRenderOption(parameters: Parameters, param: String) =
     when (parse(parameters, combine(param, TYPE), StringRenderOptionType.Simple)) {
         StringRenderOptionType.Simple -> SimpleStringRenderOption(
-            parseDistance(parameters, combine(param, X), 0),
-            parseDistance(parameters, combine(param, Y), 0),
+            parseDistance(parameters, combine(param, X), siPrefix, 0),
+            parseDistance(parameters, combine(param, Y), siPrefix, 0),
             parseFontOption(parameters, combine(param, FONT)),
         )
 
         StringRenderOptionType.Wrapped -> WrappedStringRenderOption(
-            parseDistance(parameters, combine(param, X), 0),
-            parseDistance(parameters, combine(param, Y), 0),
+            parseDistance(parameters, combine(param, X), siPrefix, 0),
+            parseDistance(parameters, combine(param, Y), siPrefix, 0),
             parseFontOption(parameters, combine(param, FONT)),
-            parseDistance(parameters, combine(param, WIDTH), 100),
+            parseDistance(parameters, combine(param, WIDTH), siPrefix, 100),
         )
     }
 

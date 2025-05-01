@@ -15,6 +15,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -195,9 +196,9 @@ private fun HtmlBlockTag.selectRadius(radius: Distance) {
         "Radius",
         LENGTH,
         radius,
-        MIN_RADIUS,
-        MAX_RADIUS,
-        fromMicrometers(100),
+        MIN_RADIUS.toMillimeters().toInt(),
+        MAX_RADIUS.toMillimeters().toInt(),
+        SiPrefix.Milli,
         true
     )
 }
@@ -277,7 +278,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
     }
 
 private fun parseRadius(parameters: Parameters): Distance =
-    parseDistance(parameters, LENGTH, DEFAULT_RADIUS)
+    parseDistance(parameters, LENGTH, SiPrefix.Milli, DEFAULT_RADIUS)
 
 private fun parseRimFactor(parameters: Parameters): Factor =
     parseFactor(parameters, EDGE, DEFAULT_RIM_FACTOR)

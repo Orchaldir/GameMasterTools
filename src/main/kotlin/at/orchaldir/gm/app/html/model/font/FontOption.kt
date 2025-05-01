@@ -67,7 +67,7 @@ private fun HtmlBlockTag.selectBorderThickness(
         thickness,
         HUNDRED_µM,
         ONE_CM,
-        HUNDRED_µM,
+        SiPrefix.Micro,
         update = true,
     )
 }
@@ -92,6 +92,7 @@ private fun HtmlBlockTag.editSharedFontOptions(
         size,
         ONE_MM,
         ONE_M,
+        SiPrefix.Milli,
         update = true
     )
 }
@@ -101,23 +102,35 @@ private fun HtmlBlockTag.editSharedFontOptions(
 fun parseFontOption(parameters: Parameters, param: String) =
     when (parse(parameters, combine(param, TYPE), FontOptionType.Solid)) {
         FontOptionType.Solid -> SolidFont(
-            parseDistance(parameters, combine(param, SIZE), 10),
-            parse(parameters, combine(param, COLOR), Color.White),
+            parseFontSize(parameters, param),
+            parseFontColor(parameters, param),
             parseFontId(parameters, combine(param, FONT)),
         )
 
         FontOptionType.Border -> FontWithBorder(
-            parseDistance(parameters, combine(param, SIZE), 10),
-            parseDistance(parameters, combine(param, BORDER, SIZE), 1),
-            parse(parameters, combine(param, COLOR), Color.White),
-            parse(parameters, combine(param, BORDER, COLOR), Color.White),
+            parseFontSize(parameters, param),
+            parseBorderThickness(parameters, param),
+            parseFontColor(parameters, param),
+            parseBorderColor(parameters, param),
             parseFontId(parameters, combine(param, FONT)),
         )
 
         FontOptionType.Hollow -> HollowFont(
-            parseDistance(parameters, combine(param, SIZE), 10),
-            parseDistance(parameters, combine(param, BORDER, SIZE), 1),
-            parse(parameters, combine(param, BORDER, COLOR), Color.White),
+            parseFontSize(parameters, param),
+            parseBorderThickness(parameters, param),
+            parseBorderColor(parameters, param),
             parseFontId(parameters, combine(param, FONT)),
         )
     }
+
+private fun parseBorderThickness(parameters: Parameters, param: String) =
+    parseDistance(parameters, combine(param, BORDER, SIZE), SiPrefix.Micro, 1)
+
+private fun parseFontSize(parameters: Parameters, param: String) =
+    parseDistance(parameters, combine(param, SIZE), SiPrefix.Milli, 10)
+
+private fun parseFontColor(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, COLOR), Color.White)
+
+private fun parseBorderColor(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, BORDER, COLOR), Color.White)

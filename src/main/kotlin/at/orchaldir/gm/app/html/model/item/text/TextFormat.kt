@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -22,9 +22,9 @@ import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 
-private val step = fromMillimeters(10)
-private val min = fromMillimeters(10)
-private val max = fromMillimeters(2000)
+private const val min = 10
+private const val max = 2000
+private val prefix = SiPrefix.Milli
 
 // show
 
@@ -202,12 +202,12 @@ fun FORM.editTextFormat(
                 selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
                 editColorItemPart(state, format.page, PAGE, "Page")
                 editBinding(state, format.binding, hasAuthor)
-                selectSize(SIZE, format.size, min, max, step, true)
+                selectSize(SIZE, format.size, min, max, prefix, true)
             }
 
             is Scroll -> {
-                selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
-                selectDistance("Roll Diameter", DIAMETER, format.rollDiameter, min, max, step, true)
+                selectDistance("Roll Length", LENGTH, format.rollLength, min, max, prefix, true)
+                selectDistance("Roll Diameter", DIAMETER, format.rollDiameter, min, max, prefix, true)
                 editColorItemPart(state, format.main, SCROLL)
                 editScrollFormat(state, format.format)
             }
@@ -384,8 +384,8 @@ private fun HtmlBlockTag.editScrollHandle(
     handle: ScrollHandle,
 ) {
     editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
-        selectDistance("Length", combine(segmentParam, LENGTH), segment.length, min, max, step, true)
-        selectDistance("Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, step, true)
+        selectDistance("Length", combine(segmentParam, LENGTH), segment.length, min, max, prefix, true)
+        selectDistance("Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, prefix, true)
         editColorItemPart(state, segment.main, segmentParam)
         selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape, true)
     }
@@ -398,13 +398,13 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseBinding(parameters),
         parseInt(parameters, PAGES, 100),
         parseColorItemPart(parameters, PAGE),
-        parseSize(parameters, SIZE),
+        parseSize(parameters, SIZE, prefix),
     )
 
     TextFormatType.Scroll -> Scroll(
         parseScrollFormat(parameters),
-        parseDistance(parameters, LENGTH, 200),
-        parseDistance(parameters, DIAMETER, 50),
+        parseDistance(parameters, LENGTH, prefix, 200),
+        parseDistance(parameters, DIAMETER, prefix, 50),
         parseColorItemPart(parameters, SCROLL),
     )
 
@@ -503,8 +503,8 @@ private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
 
 private fun parseHandleSegments(parameters: Parameters) = parseList(parameters, HANDLE, 1) { param ->
     HandleSegment(
-        parseDistance(parameters, combine(param, LENGTH), 40),
-        parseDistance(parameters, combine(param, DIAMETER), 15),
+        parseDistance(parameters, combine(param, LENGTH), prefix, 40),
+        parseDistance(parameters, combine(param, DIAMETER), prefix, 15),
         parseColorItemPart(parameters, param),
         parse(parameters, combine(param, SHAPE), HandleSegmentShape.Cylinder),
     )
