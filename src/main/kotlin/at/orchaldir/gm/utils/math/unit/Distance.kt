@@ -8,9 +8,6 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.Serializable
 import java.util.*
 
-private const val FACTOR = 1000
-private const val SQUARED = FACTOR * FACTOR
-
 val ZERO = fromMillimeters(0)
 val HUNDRED_µM = fromMicrometers(100)
 val ONE_MM = fromMillimeters(1)
@@ -20,35 +17,53 @@ val ONE_M = fromMeters(1)
 
 @JvmInline
 @Serializable
-value class Distance private constructor(private val micrometers: Int) : SiUnit<Distance> {
+value class Distance private constructor(private val micrometers: Long) : SiUnit<Distance> {
 
     init {
         require(micrometers >= 0) { "Distance must be >= 0 μm!" }
     }
 
     companion object {
-        fun fromMeters(meters: Int) = Distance(meterToMicrometers(meters))
-        fun fromMeters(meters: Float) = Distance(meterToMicrometers(meters))
-        fun fromCentimeters(centimeter: Int) = Distance(centimeterToMicrometers(centimeter))
-        fun fromMillimeters(millimeter: Int) = Distance(millimeterToMicrometers(millimeter))
-        fun fromMillimeters(millimeter: Float) = Distance(millimeterToMicrometers(millimeter))
-        fun fromMicrometers(micrometers: Int) = Distance(micrometers)
+        fun fromKilometers(kilometers: Long) = Distance(convertFromKilometers(kilometers))
+        fun fromMeters(meters: Long) = Distance(convertFromMeters(meters))
+        fun fromMeters(meters: Float) = Distance(convertFromMeters(meters))
+        fun fromCentimeters(centimeter: Long) = Distance(convertFromCentimeters(centimeter))
+        fun fromMillimeters(millimeter: Long) = Distance(convertFromMillimeters(millimeter))
+        fun fromMillimeters(millimeter: Float) = Distance(convertFromMillimeters(millimeter))
+        fun fromMicrometers(micrometers: Long) = Distance(micrometers)
+
+        fun from(prefix: SiPrefix, value: Long) = when (prefix) {
+            SiPrefix.Kilo -> fromKilometers(value)
+            SiPrefix.Base -> fromMeters(value)
+            SiPrefix.Centi -> fromCentimeters(value)
+            SiPrefix.Milli -> fromMillimeters(value)
+            SiPrefix.Micro -> fromMicrometers(value)
+        }
+
+        fun resolveUnit(prefix: SiPrefix) = prefix.resolveUnit() + "m"
     }
 
     override fun value() = micrometers
+    override fun convertToLong(prefix: SiPrefix) = when (prefix) {
+        SiPrefix.Kilo -> convertToKilometers(micrometers).toLong()
+        SiPrefix.Base -> convertToMeters(micrometers).toLong()
+        SiPrefix.Centi -> convertToCentimeters(micrometers).toLong()
+        SiPrefix.Milli -> convertToMillimeters(micrometers).toLong()
+        SiPrefix.Micro -> micrometers
+    }
 
-    fun toMeters() = micrometersToMeter(micrometers)
-    fun toMillimeters() = micrometersToMillimeter(micrometers)
+    fun toMeters() = convertToMeters(micrometers)
+    fun toMillimeters() = convertToMillimeters(micrometers)
     fun toMicrometers() = micrometers
 
     override fun toString() = formatMicrometersAsMeters(micrometers)
 
     override operator fun plus(other: Distance) = Distance(micrometers + other.micrometers)
     override operator fun minus(other: Distance) = Distance(micrometers - other.micrometers)
-    operator fun times(factor: Float) = Distance((micrometers * factor).toInt())
+    operator fun times(factor: Float) = Distance((micrometers * factor).toLong())
     operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(factor: Int) = Distance(micrometers * factor)
-    operator fun div(factor: Float) = Distance((micrometers / factor).toInt())
+    operator fun div(factor: Float) = Distance((micrometers / factor).toLong())
     operator fun div(factor: Int) = Distance(micrometers / factor)
 
     operator fun compareTo(other: Distance): Int = micrometers.compareTo(other.micrometers)
@@ -60,37 +75,35 @@ value class Distance private constructor(private val micrometers: Int) : SiUnit<
     }
 }
 
-fun metersOnly(micrometers: Int) = micrometers / FACTOR
-fun millimetersOnly(micrometers: Int) = micrometers % FACTOR
+fun checkDistance(distance: Distance, label: String, min: Distance, max: Distance) {
+    require(distance >= min) { "The $label is too small!" }
+    require(distance <= max) { "The $label is too large!" }
+}
 
 // to lower
-private fun down(value: Int) = value * FACTOR
-private fun down(value: Float) = (value * FACTOR).toInt()
 
-fun meterToMillimeter(meter: Int) = down(meter)
-fun meterToMillimeter(meter: Float) = down(meter)
+fun convertFromKilometers(kilometer: Long) = downNineSteps(kilometer)
 
-fun meterToMicrometers(meter: Int) = down(down(meter))
-fun meterToMicrometers(meter: Float) = down(down(meter))
+fun convertFromMeters(meter: Long) = downSixSteps(meter)
+fun convertFromMeters(meter: Float) = downSixSteps(meter)
 
-fun centimeterToMicrometers(centimeter: Int) = down(centimeter * 10)
-fun centimeterToMicrometers(centimeter: Float) = down(centimeter * 10.0f)
+fun convertFromCentimeters(centimeter: Long) = downThreeSteps(centimeter * 10)
+fun convertFromCentimeters(centimeter: Float) = downThreeSteps(centimeter * 10.0f)
 
-fun millimeterToMicrometers(millimeter: Int) = down(millimeter)
-fun millimeterToMicrometers(millimeter: Float) = down(millimeter)
+fun convertFromMillimeters(millimeter: Long) = downThreeSteps(millimeter)
+fun convertFromMillimeters(millimeter: Float) = downThreeSteps(millimeter)
 
 // to higher
-private fun up(value: Int) = value / FACTOR.toFloat()
-private fun up(value: Float) = value / FACTOR.toFloat()
 
-fun millimeterToMeter(millimeter: Int) = up(millimeter)
-fun micrometersToMeter(micrometers: Int) = up(up(micrometers))
-fun micrometersToMillimeter(micrometers: Int) = up(micrometers)
+fun convertToKilometers(micrometers: Long) = upNineSteps(micrometers)
+fun convertToMeters(micrometers: Long) = upSixSteps(micrometers)
+fun convertToCentimeters(millimeters: Long) = up(upThreeSteps(millimeters))
+fun convertToMillimeters(micrometers: Long) = upThreeSteps(micrometers)
 
-fun formatMicrometersAsMeters(micrometers: Int) = if (micrometers > SQUARED) {
-    String.format(Locale.US, "%.2f m", micrometersToMeter(micrometers))
-} else if (micrometers > FACTOR) {
-    String.format(Locale.US, "%.2f mm", micrometersToMillimeter(micrometers))
+fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SIX_STEPS) {
+    String.format(Locale.US, "%.2f m", convertToMeters(micrometers))
+} else if (micrometers > SI_THREE_STEPS) {
+    String.format(Locale.US, "%.2f mm", convertToMillimeters(micrometers))
 } else {
     String.format(Locale.US, "%d μm", micrometers)
 }

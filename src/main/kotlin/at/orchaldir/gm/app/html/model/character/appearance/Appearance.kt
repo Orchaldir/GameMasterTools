@@ -28,10 +28,13 @@ import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.h2
+
+
+val siPrefix = SiPrefix.Centi
 
 // edit
 
@@ -76,7 +79,7 @@ private fun FORM.editHeight(
     maxHeight: Distance,
 ) {
     val race = state.getRaceStorage().getOrThrow(character.race)
-    selectDistance("Max Height", HEIGHT, maxHeight, race.height.getMin(), race.height.getMax(), fromMillimeters(10))
+    selectDistance("Max Height", HEIGHT, maxHeight, race.height.getMin(), race.height.getMax(), siPrefix)
     showCurrentHeight(state, character, maxHeight)
 }
 
@@ -206,7 +209,7 @@ fun parseAppearance(
 private fun parseHeight(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-) = parseDistance(parameters, HEIGHT, config.heightDistribution.center.value())
+) = parseDistance(parameters, HEIGHT, siPrefix, config.heightDistribution.center)
 
 private fun parseBody(
     parameters: Parameters,

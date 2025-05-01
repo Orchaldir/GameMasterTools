@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.unit.Weight
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -98,8 +98,7 @@ fun FORM.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    val gram = Weight.fromGram(10)
-    selectWeight("Weight", WEIGHT, equipment.weight, gram, Weight.fromKilogram(10.0f), gram)
+    selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base, true)
     selectValue(
         "Equipment",
         combine(EQUIPMENT, TYPE),
@@ -181,7 +180,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters) = Equipment(
     id,
     parseName(parameters),
     parseEquipmentData(parameters),
-    parseWeight(parameters, WEIGHT),
+    parseWeight(parameters, WEIGHT, SiPrefix.Base),
 )
 
 fun parseEquipmentData(parameters: Parameters) =

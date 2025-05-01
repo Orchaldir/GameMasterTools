@@ -32,7 +32,9 @@ import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.character.getEmployees
-import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
+import at.orchaldir.gm.core.selector.economy.money.calculateWeight
+import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
+import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
 
@@ -189,7 +191,8 @@ fun State.sortCurrencyUnits(
     .sortedWith(
         when (sort) {
             SortCurrencyUnit.Name -> compareBy { it.name.text }
-            SortCurrencyUnit.Value -> compareBy { it.denomination * 1000 + it.number }
+            SortCurrencyUnit.Value -> compareByDescending { it.denomination * 1000 + it.number }
+            SortCurrencyUnit.Weight -> compareByDescending { calculateWeight(it).value() }
         }
     )
 
@@ -325,7 +328,9 @@ fun State.sortMaterial(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name.text }
-            SortMaterial.Equipment -> compareByDescending { getEquipmentMadeOf(it.id).size }
+            SortMaterial.Density -> compareByDescending { it.density.value() }
+            SortMaterial.Currency -> compareByDescending { countCurrencyUnits(it.id) }
+            SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }
         }
     )
 

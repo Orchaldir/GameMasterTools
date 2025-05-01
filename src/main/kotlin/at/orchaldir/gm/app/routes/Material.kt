@@ -140,8 +140,6 @@ private fun HTML.showAllMaterials(
 ) {
     val materials = state.sortMaterial(sort)
     val createLink = call.application.href(MaterialRoutes.New())
-    val sortNameLink = call.application.href(MaterialRoutes.All(SortMaterial.Name))
-    val sortEquipmentLink = call.application.href(MaterialRoutes.All(SortMaterial.Equipment))
 
     simpleHtml("Materials") {
         field("Count", materials.size)
@@ -152,6 +150,7 @@ private fun HTML.showAllMaterials(
                 th { +"Name" }
                 th { +"Category" }
                 th { +"Color" }
+                th { +"Density" }
                 th { +"Currency" }
                 th { +"Equipment" }
                 th { +"Race App" }
@@ -163,6 +162,7 @@ private fun HTML.showAllMaterials(
                     td { link(call, state, material) }
                     tdEnum(material.category)
                     td { showColor(material.color) }
+                    td(material.density)
                     tdSkipZero(state.countCurrencyUnits(material.id))
                     tdSkipZero(state.countEquipment(material.id))
                     tdSkipZero(state.countRaceAppearancesMadeOf(material.id))

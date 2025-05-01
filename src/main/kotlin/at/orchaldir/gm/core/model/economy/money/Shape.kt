@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.economy.money
 
 import at.orchaldir.gm.utils.math.FULL_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Weight
+import kotlin.math.pow
 
 enum class Shape {
     Circle,
@@ -17,6 +19,15 @@ enum class Shape {
     Dodecagonal;
 
     fun isRounded() = this == RoundedTriangle || this == RoundedSquare
+
+    fun calculateArea(radius: Distance) =
+        Math.PI.toFloat() * radius.toMeters().pow(2)
+
+    fun calculateVolume(radius: Distance, thickness: Distance) =
+        calculateArea(radius) * thickness.toMeters()
+
+    fun calculateWeight(radius: Distance, thickness: Distance, density: Weight) =
+        Weight.fromKilograms(calculateVolume(radius, thickness) * density.toKilograms())
 
     fun getSides() = when (this) {
         Circle -> 0

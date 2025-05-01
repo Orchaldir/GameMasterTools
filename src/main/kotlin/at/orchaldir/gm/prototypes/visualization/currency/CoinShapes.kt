@@ -39,6 +39,7 @@ fun main() {
                 gold,
                 shape,
                 radius,
+                DEFAULT_THICKNESS,
                 DEFAULT_RIM_FACTOR,
                 hole,
                 front = HoledCoinSide(

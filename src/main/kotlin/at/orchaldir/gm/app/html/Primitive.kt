@@ -161,6 +161,39 @@ fun HtmlBlockTag.selectInt(
     }
 }
 
+fun HtmlBlockTag.selectLong(
+    label: String,
+    number: Long,
+    minNumber: Long,
+    maxNumber: Long,
+    stepNumber: Long,
+    param: String,
+    update: Boolean = false,
+) {
+    field(label) {
+        selectLong(number, minNumber, maxNumber, stepNumber, param, update)
+    }
+}
+
+fun HtmlBlockTag.selectLong(
+    number: Long,
+    minNumber: Long,
+    maxNumber: Long,
+    stepNumber: Long,
+    param: String,
+    update: Boolean = false,
+) {
+    numberInput(name = param) {
+        min = "$minNumber"
+        max = "$maxNumber"
+        step = stepNumber.toString()
+        value = number.toString()
+        if (update) {
+            onChange = ON_CHANGE_SCRIPT
+        }
+    }
+}
+
 // select text
 
 fun HtmlBlockTag.selectChar(
@@ -249,6 +282,18 @@ fun parseOptionalInt(parameters: Parameters, param: String): Int? {
     }
 
     return value.toInt()
+}
+
+fun parseLong(parameters: Parameters, param: String, default: Long = 0) = parameters[param]?.toLong() ?: default
+
+fun parseOptionalLong(parameters: Parameters, param: String): Long? {
+    val value = parameters[param]
+
+    if (value.isNullOrEmpty()) {
+        return null
+    }
+
+    return value.toLong()
 }
 
 // parse text

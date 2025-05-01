@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
 
 const val MATERIAL_TYPE = "Material"
@@ -24,6 +25,7 @@ data class Material(
     val name: Name = Name.init("Material ${id.value}"),
     val category: MaterialCategory = MaterialCategory.Metal,
     val color: Color = Color.Pink,
+    val density: Weight = Weight.fromKilograms(1000),
 ) : ElementWithSimpleName<MaterialId> {
 
     override fun id() = id

@@ -35,6 +35,7 @@ enum class SortCurrency {
 enum class SortCurrencyUnit {
     Name,
     Value,
+    Weight,
 }
 
 enum class SortDomain {
@@ -63,6 +64,8 @@ enum class SortJob {
 
 enum class SortMaterial {
     Name,
+    Density,
+    Currency,
     Equipment,
 }
 

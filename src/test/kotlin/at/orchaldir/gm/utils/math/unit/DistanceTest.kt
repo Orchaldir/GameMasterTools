@@ -25,6 +25,15 @@ class DistanceTest {
         assertEquals("12.35 m", fromMillimeters(12345).toString())
     }
 
+    @Test
+    fun `Convert to & from si prefix`() {
+        val value = 1234L
+
+        SiPrefix.entries.forEach {
+            assertEquals(value, Distance.from(it, value).convertToLong(it))
+        }
+    }
+
     @Nested
     inner class ConversionTest {
         @Nested

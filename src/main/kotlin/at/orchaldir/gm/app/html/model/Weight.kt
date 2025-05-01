@@ -1,10 +1,10 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.parseLong
+import at.orchaldir.gm.app.html.selectLong
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.formatAsKilograms
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -20,30 +20,29 @@ fun HtmlBlockTag.selectWeight(
     label: String,
     param: String,
     current: Weight,
-    minValue: Weight,
-    maxValue: Weight,
-    step: Weight = Weight.fromGram(1),
+    minValue: Long,
+    maxValue: Long,
+    prefix: SiPrefix,
     update: Boolean = false,
 ) {
     field(label) {
-        selectWeight(param, current, minValue, maxValue, step, update)
+        selectWeight(param, current, minValue, maxValue, prefix, update)
     }
 }
 
 fun HtmlBlockTag.selectWeight(
     param: String,
     current: Weight,
-    minValue: Weight,
-    maxValue: Weight,
-    step: Weight = Weight.fromGram(1),
+    minValue: Long,
+    maxValue: Long,
+    prefix: SiPrefix,
     update: Boolean = false,
 ) {
-    val values = (minValue.value()..maxValue.value() step step.value()).toList()
-    selectValue(param, values, update) { v ->
-        label = formatAsKilograms(v)
-        value = v.toString()
-        selected = v == current.value()
-    }
+    val unit = Weight.resolveUnit(prefix)
+    val text = current.toString()
+    val currentValue = current.convertToLong(prefix)
+    selectLong(currentValue, minValue, maxValue, 1, param, update)
+    +"$unit ($text)"
 }
 
 // parse
@@ -51,5 +50,6 @@ fun HtmlBlockTag.selectWeight(
 fun parseWeight(
     parameters: Parameters,
     param: String,
-    default: Int = 0,
-) = Weight.fromGram(parseInt(parameters, param, default))
+    prefix: SiPrefix,
+    default: Long = 0,
+) = Weight.from(prefix, parseLong(parameters, param, default))

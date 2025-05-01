@@ -33,7 +33,7 @@ data class Race(
     val name: Name = Name.init("Race ${id.value}"),
     val genders: OneOf<Gender> = OneOf(Gender.entries),
     val height: Distribution<Distance> = Distribution.fromMeters(1.8f, 0.2f),
-    val weight: Weight = Weight.fromKilogram(75.0f),
+    val weight: Weight = Weight.fromKilograms(75.0f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
 ) : ElementWithSimpleName<RaceId>, Created, HasStartDate {

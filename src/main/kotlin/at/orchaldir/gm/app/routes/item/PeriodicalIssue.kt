@@ -140,8 +140,8 @@ private fun HTML.showAllPeriodicalIssues(
 ) {
     val periodicals = state.sortPeriodicalIssues(sort)
     val createLink = call.application.href(PeriodicalIssueRoutes.New())
-    val sortDateLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Date))
-    val sortPeriodicalLink = call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Periodical))
+    call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Date))
+    call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Periodical))
 
     simpleHtml("Periodical Issues") {
         field("Count", periodicals.size)

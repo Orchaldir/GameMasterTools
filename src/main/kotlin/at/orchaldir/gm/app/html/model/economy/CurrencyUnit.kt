@@ -8,13 +8,14 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
+import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -34,6 +35,7 @@ fun HtmlBlockTag.showCurrencyUnit(
         field("Denomination", unit.denomination)
         fieldValue(state, unit)
     }
+    fieldWeight("Weight", state.calculateWeight(unit))
     showCurrencyFormat(call, state, unit.format)
 }
 
@@ -60,6 +62,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                 fieldLink("Material", call, state, format.material)
                 field("Shape", format.shape)
                 fieldDistance("Radius", format.radius)
+                fieldDistance("Thickness", format.thickness)
                 fieldFactor("Rim Factor", format.rimFactor)
                 showCoinSide(call, state, format.front, "Front")
             }
@@ -68,6 +71,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                 fieldLink("Material", call, state, format.material)
                 field("Shape", format.shape)
                 fieldDistance("Radius", format.radius)
+                fieldDistance("Thickness", format.thickness)
                 fieldFactor("Rim Factor", format.rimFactor)
                 showDetails("Hole") {
                     field("Shape", format.holeShape)
@@ -83,6 +87,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                     fieldDistance("Radius", format.radius)
                     fieldFactor("Rim Factor", format.rimFactor)
                 }
+                fieldDistance("Thickness", format.thickness)
                 showDetails("Inner") {
                     fieldLink("Material", call, state, format.innerMaterial)
                     field("Shape", format.innerShape)
@@ -130,6 +135,7 @@ fun FORM.editCurrencyUnit(
         )
         fieldValue(state, unit)
     }
+    fieldWeight("Weight", state.calculateWeight(unit))
     editCurrencyFormat(state, unit.format)
 }
 
@@ -152,6 +158,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                 selectMaterial(state, format.material, MATERIAL)
                 selectShape(format.shape, SHAPE)
                 selectRadius(format.radius)
+                selectThickness(format.thickness)
                 selectRimFactor(format.rimFactor)
                 editCoinSide(state, format.front, "Front", FRONT)
             }
@@ -160,6 +167,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                 selectMaterial(state, format.material, MATERIAL)
                 selectShape(format.shape, SHAPE)
                 selectRadius(format.radius)
+                selectThickness(format.thickness)
                 selectRimFactor(format.rimFactor)
                 showDetails("Hole", true) {
                     selectShape(format.holeShape, combine(HOLE, SHAPE))
@@ -175,6 +183,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                     selectRadius(format.radius)
                     selectRimFactor(format.rimFactor)
                 }
+                selectThickness(format.thickness)
                 showDetails("Inner", true) {
                     selectMaterial(state, format.innerMaterial, combine(HOLE, MATERIAL))
                     selectShape(format.innerShape, combine(HOLE, SHAPE))
@@ -197,7 +206,19 @@ private fun HtmlBlockTag.selectRadius(radius: Distance) {
         radius,
         MIN_RADIUS,
         MAX_RADIUS,
-        fromMicrometers(100),
+        SiPrefix.Milli,
+        true
+    )
+}
+
+private fun HtmlBlockTag.selectThickness(thickness: Distance) {
+    selectDistance(
+        "Thickness",
+        THICKNESS,
+        thickness,
+        MIN_THICKNESS,
+        MAX_THICKNESS,
+        SiPrefix.Micro,
         true
     )
 }
@@ -250,6 +271,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, MATERIAL),
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
+            parseThickness(parameters),
             parseRimFactor(parameters),
             parseCoinSide(parameters, FRONT)
         )
@@ -258,6 +280,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, MATERIAL),
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
+            parseThickness(parameters),
             parseRimFactor(parameters),
             parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
             parseRadiusFactor(parameters),
@@ -268,6 +291,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, MATERIAL),
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
+            parseThickness(parameters),
             parseRimFactor(parameters),
             parseMaterialId(parameters, combine(HOLE, MATERIAL)),
             parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
@@ -277,7 +301,10 @@ fun parseCurrencyFormat(parameters: Parameters) =
     }
 
 private fun parseRadius(parameters: Parameters): Distance =
-    parseDistance(parameters, LENGTH, DEFAULT_RADIUS)
+    parseDistance(parameters, LENGTH, SiPrefix.Milli, DEFAULT_RADIUS)
+
+private fun parseThickness(parameters: Parameters): Distance =
+    parseDistance(parameters, THICKNESS, SiPrefix.Micro, DEFAULT_THICKNESS)
 
 private fun parseRimFactor(parameters: Parameters): Factor =
     parseFactor(parameters, EDGE, DEFAULT_RIM_FACTOR)
