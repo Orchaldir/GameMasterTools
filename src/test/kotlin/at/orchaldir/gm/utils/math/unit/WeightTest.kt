@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class WeightTest {
+    val prefixes = SiPrefix.entries - SiPrefix.Micro
 
     @Test
     fun `To string`() {
@@ -13,6 +14,15 @@ class WeightTest {
         assertEquals("1.0 kg", Weight.fromKilograms(1).toString())
         assertEquals("1.2 kg", Weight.fromGrams(1234).toString())
         assertEquals("12.3 kg", Weight.fromGrams(12345).toString())
+    }
+
+    @Test
+    fun `Convert to & from si prefix`() {
+        val value = 2
+
+        prefixes.forEach {
+            assertEquals(value, Weight.from(it, value).convertTo(it))
+        }
     }
 
 }
