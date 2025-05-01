@@ -218,6 +218,22 @@
     "type": "SoL",
     "standard": 1
    }
+  },
+  "26": {
+   "id": 26,
+   "name": "Officer",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "27": {
+   "id": 27,
+   "name": "Soldier",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   }
  }
 }
