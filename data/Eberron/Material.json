@@ -103,7 +103,8 @@
   "20": {
    "id": 20,
    "name": "Gold",
-   "color": "Gold"
+   "color": "Gold",
+   "density": 19320000000
   },
   "21": {
    "id": 21,
