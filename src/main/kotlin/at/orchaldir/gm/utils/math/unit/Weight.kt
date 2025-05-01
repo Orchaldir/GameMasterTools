@@ -74,9 +74,9 @@ fun convertFromGrams(grams: Float) = down(grams)
 fun toKilograms(milligrams: Long) = upTwice(milligrams)
 fun toGrams(milligrams: Long) = up(milligrams)
 
-fun formatWeight(milligrams: Long) = if (milligrams > SQUARED) {
+fun formatWeight(milligrams: Long) = if (milligrams >= SQUARED) {
     String.format(Locale.US, "%.1f kg", toKilograms(milligrams))
-} else if (milligrams > FACTOR) {
+} else if (milligrams >= FACTOR) {
     String.format(Locale.US, "%.1f g", toGrams(milligrams))
 } else {
     String.format(Locale.US, "%d mg", milligrams)
