@@ -3,11 +3,19 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Miner"
+   "name": "Miner",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
   },
   "1": {
    "id": 1,
    "name": "Stone Chanter",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   },
    "spells": {
     "0": "Common",
     "1": "Everyone"
@@ -16,6 +24,10 @@
   "2": {
    "id": 2,
    "name": "Stonespeaker",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   },
    "spells": {
     "2": "Common"
    }
@@ -26,7 +38,11 @@
   },
   "4": {
    "id": 4,
-   "name": "Mine Foreman"
+   "name": "Mine Foreman",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "5": {
    "id": 5,
@@ -46,7 +62,11 @@
   },
   "9": {
    "id": 9,
-   "name": "Baker"
+   "name": "Baker",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
   },
   "10": {
    "id": 10,
@@ -67,6 +87,10 @@
   "13": {
    "id": 13,
    "name": "Entertainer",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   },
    "spells": {
     "3": "Everyone"
    }
@@ -79,8 +103,8 @@
    "id": 15,
    "name": "Guard",
    "income": {
-    "type": "Salary",
-    "salary": 100
+    "type": "SoL",
+    "standard": 3
    }
   },
   "16": {
@@ -93,7 +117,11 @@
   },
   "18": {
    "id": 18,
-   "name": "Farmer"
+   "name": "Farmer",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
   },
   "19": {
    "id": 19,
@@ -113,7 +141,11 @@
   },
   "23": {
    "id": 23,
-   "name": "Hunter"
+   "name": "Hunter",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
   },
   "24": {
    "id": 24,
