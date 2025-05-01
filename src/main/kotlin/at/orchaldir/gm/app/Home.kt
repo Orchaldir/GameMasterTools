@@ -79,7 +79,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())
                     fieldStorageLink(call, state.getCurrencyStorage(), CurrencyRoutes.All())
                     fieldStorageLink(call, state.getCurrencyUnitStorage(), CurrencyUnitRoutes.All())
-                    fieldStorageLink(call, state.getJobStorage(), JobRoutes())
+                    fieldStorageLink(call, state.getJobStorage(), JobRoutes.All())
                     h3 { +"Magic" }
                     fieldStorageLink(call, state.getSpellStorage(), SpellRoutes.All())
                     h3 { +"Religion" }
