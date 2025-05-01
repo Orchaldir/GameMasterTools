@@ -25,11 +25,15 @@ fun State.countJobs(spell: SpellId) = getJobStorage()
 
 fun State.countJobs(standard: StandardOfLivingId) = getJobStorage()
     .getAll()
-    .count { it.income is AffordableStandardOfLiving && it.income.standard == standard }
+    .count { it.income.hasStandard(standard) }
 
 fun State.getJobsContaining(spell: SpellId) = getJobStorage()
     .getAll()
     .filter { it.spells.contains(spell) }
+
+fun State.getJobs(standard: StandardOfLivingId) = getJobStorage()
+    .getAll()
+    .filter { it.income.hasStandard(standard) }
 
 
 

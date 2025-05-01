@@ -19,6 +19,11 @@ sealed class Income {
         is AffordableStandardOfLiving -> IncomeType.StandardOfLiving
         is Salary -> IncomeType.Salary
     }
+
+    fun hasStandard(id: StandardOfLivingId) = when (this) {
+        is AffordableStandardOfLiving -> standard == id
+        else -> false
+    }
 }
 
 @Serializable
