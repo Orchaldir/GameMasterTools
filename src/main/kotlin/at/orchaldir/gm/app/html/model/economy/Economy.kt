@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.CURRENCY
 import at.orchaldir.gm.app.PRICE
+import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.html.editList
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.link
@@ -62,7 +63,7 @@ fun HtmlBlockTag.editEconomy(
 
     editList(
         "Standards of Living",
-        PRICE,
+        STANDARD,
         economy.standardsOfLiving,
         1,
         10,
@@ -78,7 +79,7 @@ fun parseEconomy(
     parameters: Parameters,
 ) = Economy(
     parseCurrencyId(parameters, CURRENCY),
-    parseList(parameters, PRICE, 1) { index, param ->
+    parseList(parameters, STANDARD, 1) { index, param ->
         parseStandardOfLiving(StandardOfLivingId(index), parameters, param)
     },
 )

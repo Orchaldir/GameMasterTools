@@ -50,7 +50,11 @@
   },
   "10": {
    "id": 10,
-   "name": "Arcane Artisan"
+   "name": "Arcane Artisan",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
   },
   "11": {
    "id": 11,

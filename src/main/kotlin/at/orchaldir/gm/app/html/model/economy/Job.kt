@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.economy
 
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.SPELLS
+import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.money.editPrice
@@ -21,6 +22,7 @@ import at.orchaldir.gm.core.selector.religion.getGodsAssociatedWith
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortDomains
 import at.orchaldir.gm.core.selector.util.sortGods
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -33,7 +35,7 @@ fun HtmlBlockTag.showJob(
     state: State,
     job: Job,
 ) {
-    showSalary(state, job.income)
+    showSalary(call, state, job.income)
     showRarityMap("Spells", job.spells) { spell ->
         link(call, state, spell)
     }
@@ -42,11 +44,14 @@ fun HtmlBlockTag.showJob(
 }
 
 private fun HtmlBlockTag.showSalary(
+    call: ApplicationCall,
     state: State,
     income: Income,
 ) {
-    if (income is Salary) {
-        showPrice(state, "Average Salary", income.salary)
+    when (income) {
+        UndefinedIncome -> doNothing()
+        is AffordableStandardOfLiving -> fieldLink(call, state, income.standard)
+        is Salary -> showPrice(state, "Average Salary", income.salary)
     }
 }
 
@@ -94,8 +99,17 @@ private fun HtmlBlockTag.editSalary(
         income.getType(),
         true
     )
-    if (income is Salary) {
-        editPrice(state, "Average Salary", income.salary, PRICE, 1, 100000)
+    when (income) {
+        UndefinedIncome -> doNothing()
+        is AffordableStandardOfLiving -> selectElement(
+            state,
+            "Standard of Living",
+            STANDARD,
+            state.data.economy.standardsOfLiving,
+            income.standard,
+        )
+
+        is Salary -> editPrice(state, "Average Salary", income.salary, PRICE, 1, 100000)
     }
 }
 
@@ -115,7 +129,11 @@ fun parseJob(id: JobId, parameters: Parameters) = Job(
 fun parseIncome(parameters: Parameters) =
     when (parse(parameters, combine(PRICE, TYPE), IncomeType.Undefined)) {
         IncomeType.Undefined -> UndefinedIncome
+        IncomeType.StandardOfLiving -> AffordableStandardOfLiving(
+            parseStandardOfLivingId(parameters, STANDARD),
+        )
         IncomeType.Salary -> Salary(
             parsePrice(parameters, PRICE)
         )
+
     }

@@ -74,6 +74,16 @@ import kotlinx.html.*
 // field
 
 fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
+    call: ApplicationCall,
+    state: State,
+    id: ID,
+) {
+    field(id.type()) {
+        link(call, state, id)
+    }
+}
+
+fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
     label: String,
     call: ApplicationCall,
     state: State,
