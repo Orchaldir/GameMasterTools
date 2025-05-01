@@ -42,7 +42,10 @@ class CurrencyUnitRoutes {
     )
 
     @Resource("gallery")
-    class Gallery(val parent: CurrencyUnitRoutes = CurrencyUnitRoutes())
+    class Gallery(
+        val sort: SortCurrencyUnit = SortCurrencyUnit.Name,
+        val parent: CurrencyUnitRoutes = CurrencyUnitRoutes(),
+    )
 
     @Resource("details")
     class Details(val id: CurrencyUnitId, val parent: CurrencyUnitRoutes = CurrencyUnitRoutes())
@@ -72,11 +75,11 @@ fun Application.configureCurrencyUnitRouting() {
                 showAllCurrencies(call, STORE.getState(), all.sort)
             }
         }
-        get<CurrencyUnitRoutes.Gallery> {
+        get<CurrencyUnitRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState())
+                showGallery(call, STORE.getState(), gallery.sort)
             }
         }
         get<CurrencyUnitRoutes.Details> { details ->
@@ -193,8 +196,9 @@ private fun HTML.showAllCurrencies(
 private fun HTML.showGallery(
     call: ApplicationCall,
     state: State,
+    sort: SortCurrencyUnit,
 ) {
-    val units = state.sortCurrencyUnits()
+    val units = state.sortCurrencyUnits(sort)
         .filter { it.format != UndefinedCurrencyFormat }
     val maxSize = units
         .map { CURRENCY_CONFIG.calculatePaddedSize(it.format) }
@@ -202,6 +206,7 @@ private fun HTML.showGallery(
     val backLink = call.application.href(CurrencyUnitRoutes.All())
 
     simpleHtml("Currency Units") {
+        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes(), CurrencyUnitRoutes::Gallery)
         showGallery(call, state, units) { unit ->
             visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit, maxSize)
         }

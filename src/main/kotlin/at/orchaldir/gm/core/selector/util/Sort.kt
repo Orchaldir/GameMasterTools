@@ -193,7 +193,7 @@ fun State.sortCurrencyUnits(
     .sortedWith(
         when (sort) {
             SortCurrencyUnit.Name -> compareBy { it.name.text }
-            SortCurrencyUnit.Value -> compareBy { it.denomination * 1000 + it.number }
+            SortCurrencyUnit.Value -> compareByDescending { it.denomination * 1000 + it.number }
             SortCurrencyUnit.Weight -> compareByDescending { calculateWeight(it).value() }
         }
     )
