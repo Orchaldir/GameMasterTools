@@ -26,6 +26,7 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
             when (prefix) {
                 SiPrefix.Kilo -> downSixSteps(value)
                 SiPrefix.Base -> downThreeSteps(value)
+                SiPrefix.Centi -> down(value)
                 SiPrefix.Milli -> value.toLong()
                 SiPrefix.Micro -> upThreeSteps(value).toLong()
             }
@@ -38,6 +39,7 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
     override fun convertTo(prefix: SiPrefix) = when (prefix) {
         SiPrefix.Kilo -> upSixSteps(milligrams).toLong()
         SiPrefix.Base -> upThreeSteps(milligrams).toLong()
+        SiPrefix.Centi -> up(milligrams).toLong()
         SiPrefix.Milli -> milligrams
         SiPrefix.Micro -> downThreeSteps(milligrams)
     }
