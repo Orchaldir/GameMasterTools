@@ -15,15 +15,13 @@ import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.math.unit.SiPrefix
-import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
 
-val siPrefix = SiPrefix.Centi
+val heightPrefix = SiPrefix.Centi
+val weightPrefix = SiPrefix.Kilo
 
 // show
 
@@ -124,10 +122,10 @@ fun FORM.editRace(
         100,
         5,
         1,
-        siPrefix,
+        heightPrefix,
         true
     )
-    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, SiPrefix.Kilo, true)
+    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix, true)
     editRaceOrigin(state, race)
     editLifeStages(state, race)
 }
@@ -248,8 +246,8 @@ fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
     id,
     parseName(parameters),
     parseOneOf(parameters, GENDER, Gender::valueOf),
-    parseDistribution(parameters, HEIGHT, siPrefix, ::parseDistance),
-    parseWeight(parameters, WEIGHT, SiPrefix.Kilo),
+    parseDistribution(parameters, HEIGHT, heightPrefix, ::parseDistance),
+    parseWeight(parameters, WEIGHT, weightPrefix),
     parseLifeStages(parameters),
     parseRaceOrigin(parameters, state),
 )
