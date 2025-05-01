@@ -69,7 +69,7 @@ fun HtmlBlockTag.field(call: ApplicationCall, label: String, calendar: Calendar,
     }
 }
 
-fun HtmlBlockTag.showCurrentDate(
+fun HtmlBlockTag.fieldCurrentDate(
     call: ApplicationCall,
     state: State,
 ) {

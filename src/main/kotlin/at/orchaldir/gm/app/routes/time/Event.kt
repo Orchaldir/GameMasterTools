@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.back
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.model.showCurrentDate
+import at.orchaldir.gm.app.html.model.fieldCurrentDate
 import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.model.State
@@ -41,7 +41,7 @@ fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
 
     simpleHtml("Events") {
         fieldLink("Calendar", call, state, calendar)
-        showCurrentDate(call, state)
+        fieldCurrentDate(call, state)
         showEvents(events, call, state, calendar)
         back(backLink)
     }
