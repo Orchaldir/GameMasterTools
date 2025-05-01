@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -224,5 +225,11 @@ fun TR.tdString(value: NotEmptyString?) {
 fun TR.tdString(text: String?) {
     td {
         text?.let { +it }
+    }
+}
+
+fun TR.td(weight: Weight) {
+    td {
+        +weight.toString()
     }
 }
