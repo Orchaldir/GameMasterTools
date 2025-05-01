@@ -78,6 +78,7 @@ fun parseData(
     default: Calendar,
 ) = Data(
     parseCurrencyId(parameters, CURRENCY),
+    emptyList(),
     parseTime(parameters, default),
 )
 
