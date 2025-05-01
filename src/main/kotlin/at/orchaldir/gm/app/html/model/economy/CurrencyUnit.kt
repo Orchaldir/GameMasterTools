@@ -251,6 +251,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, MATERIAL),
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
+            parseThickness(parameters),
             parseRimFactor(parameters),
             parseCoinSide(parameters, FRONT)
         )
@@ -259,6 +260,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, MATERIAL),
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
+            parseThickness(parameters),
             parseRimFactor(parameters),
             parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
             parseRadiusFactor(parameters),
@@ -269,6 +271,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
             parseMaterialId(parameters, MATERIAL),
             parse(parameters, SHAPE, Shape.Circle),
             parseRadius(parameters),
+            parseThickness(parameters),
             parseRimFactor(parameters),
             parseMaterialId(parameters, combine(HOLE, MATERIAL)),
             parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
@@ -279,6 +282,9 @@ fun parseCurrencyFormat(parameters: Parameters) =
 
 private fun parseRadius(parameters: Parameters): Distance =
     parseDistance(parameters, LENGTH, SiPrefix.Milli, DEFAULT_RADIUS)
+
+private fun parseThickness(parameters: Parameters): Distance =
+    parseDistance(parameters, THICKNESS, SiPrefix.Micro, DEFAULT_THICKNESS)
 
 private fun parseRimFactor(parameters: Parameters): Factor =
     parseFactor(parameters, EDGE, DEFAULT_RIM_FACTOR)

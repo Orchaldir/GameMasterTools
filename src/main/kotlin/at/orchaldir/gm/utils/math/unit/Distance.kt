@@ -76,6 +76,11 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
     }
 }
 
+fun checkDistance(distance: Distance, label: String, min: Distance, max: Distance) {
+    require(distance >= min) { "The $label is too small!" }
+    require(distance <= max) { "The $label is too large!" }
+}
+
 // to lower
 
 fun meterToMillimeter(meter: Long) = downThreeSteps(meter)

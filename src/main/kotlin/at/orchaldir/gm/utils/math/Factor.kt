@@ -55,6 +55,16 @@ value class Factor private constructor(private val permyriad: Int) {
 
 }
 
+fun checkFactor(
+    factor: Factor,
+    label: String,
+    min: Factor,
+    max: Factor,
+) {
+    require(factor >= min) { "The $label factor is too small!" }
+    require(factor <= max) { "The $label factor is too large!" }
+}
+
 fun percentageOnly(permyriad: Int) = permyriad / PERCENTAGE_FACTOR
 fun permilleOnly(permyriad: Int) = (permyriad % PERCENTAGE_FACTOR) / PERMILLE_FACTOR
 
