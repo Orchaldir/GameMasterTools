@@ -32,9 +32,12 @@ import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
+import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
+import kotlin.collections.sortedWith
 
 // generic
 
@@ -325,7 +328,9 @@ fun State.sortMaterial(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name.text }
-            SortMaterial.Equipment -> compareByDescending { getEquipmentMadeOf(it.id).size }
+            SortMaterial.Density -> compareByDescending { it.density.value() }
+            SortMaterial.Currency -> compareByDescending { countCurrencyUnits(it.id) }
+            SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }
         }
     )
 

@@ -63,6 +63,8 @@ enum class SortJob {
 
 enum class SortMaterial {
     Name,
+    Density,
+    Currency,
     Equipment,
 }
 
