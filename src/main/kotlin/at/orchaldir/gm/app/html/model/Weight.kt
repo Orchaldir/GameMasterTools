@@ -3,7 +3,8 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseLong
-import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.selectInt
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.formatWeight
 import io.ktor.http.*
@@ -21,30 +22,28 @@ fun HtmlBlockTag.selectWeight(
     label: String,
     param: String,
     current: Weight,
-    minValue: Weight,
-    maxValue: Weight,
-    step: Weight = Weight.fromGrams(1),
+    minValue: Int,
+    maxValue: Int,
+    prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) {
     field(label) {
-        selectWeight(param, current, minValue, maxValue, step, update)
+        selectWeight(param, current, minValue, maxValue, prefix, update)
     }
 }
 
 fun HtmlBlockTag.selectWeight(
     param: String,
     current: Weight,
-    minValue: Weight,
-    maxValue: Weight,
-    step: Weight = Weight.fromGrams(1),
+    minValue: Int,
+    maxValue: Int,
+    prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) {
-    val values = (minValue.value()..maxValue.value() step step.value()).toList()
-    selectValue(param, values, update) { v ->
-        label = formatWeight(v)
-        value = v.toString()
-        selected = v == current.value()
-    }
+    val text = formatWeight(current.value())
+    val currentValue = current.convertTo(prefix).toInt()
+    selectInt(currentValue, minValue, maxValue, 1, param, update)
+    +" ($text)"
 }
 
 // parse
@@ -52,5 +51,6 @@ fun HtmlBlockTag.selectWeight(
 fun parseWeight(
     parameters: Parameters,
     param: String,
-    default: Long = 0,
-) = Weight.fromGrams(parseLong(parameters, param, default))
+    prefix: SiPrefix = SiPrefix.Base,
+    default: Int = 0,
+) = Weight.from(prefix, parseInt(parameters, param, default))

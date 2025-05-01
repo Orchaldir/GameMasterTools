@@ -43,16 +43,16 @@ fun FORM.selectDistribution(
     label: String,
     param: String,
     distribution: Distribution<Weight>,
-    min: Weight,
-    max: Weight,
-    maxOffset: Weight,
-    step: Weight = fromGrams(1),
+    min: Int,
+    max: Int,
+    maxOffset: Int,
+    prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) {
     field(label) {
-        selectWeight(combine(param, CENTER), distribution.center, min, max, step, update)
+        selectWeight(combine(param, CENTER), distribution.center, min, max, prefix, update)
         +" +- "
-        selectWeight(combine(param, OFFSET), distribution.offset, fromGrams(0), maxOffset, step, update)
+        selectWeight(combine(param, OFFSET), distribution.offset, 0, maxOffset, prefix, update)
     }
 }
 

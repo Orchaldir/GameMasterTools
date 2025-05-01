@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -124,8 +125,7 @@ fun FORM.editRace(
         fromMillimeters(10),
         true
     )
-    val kilo = Weight.fromKilograms(1.0f)
-    selectWeight("Weight", WEIGHT, race.weight, kilo, Weight.fromKilograms(1000.0f), kilo)
+    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, SiPrefix.Kilo)
     editRaceOrigin(state, race)
     editLifeStages(state, race)
 }

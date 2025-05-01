@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -99,7 +100,7 @@ fun FORM.editEquipment(
 ) {
     selectName(equipment.name)
     val gram = Weight.fromGrams(10)
-    selectWeight("Weight", WEIGHT, equipment.weight, gram, Weight.fromKilograms(10.0f), gram)
+    selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base)
     selectValue(
         "Equipment",
         combine(EQUIPMENT, TYPE),

@@ -21,9 +21,24 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
         fun fromGrams(g: Long) = Weight(convertFromGrams(g))
         fun fromGrams(g: Float) = Weight(convertFromGrams(g))
         fun fromMilligrams(mg: Long) = Weight(mg)
+
+        fun from(prefix: SiPrefix, value: Int) = Weight(
+            when (prefix) {
+                SiPrefix.Kilo -> downTwice(value)
+                SiPrefix.Base -> down(value)
+                SiPrefix.Milli -> value.toLong()
+                SiPrefix.Micro -> up(value).toLong()
+            }
+        )
     }
 
     override fun value() = milligrams
+    override fun convertTo(prefix: SiPrefix) = when (prefix) {
+        SiPrefix.Kilo -> upTwice(milligrams).toLong()
+        SiPrefix.Base -> up(milligrams).toLong()
+        SiPrefix.Milli -> milligrams
+        SiPrefix.Micro -> down(milligrams)
+    }
 
     fun toKilograms() = toKilograms(milligrams)
 
