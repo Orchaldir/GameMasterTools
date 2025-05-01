@@ -119,9 +119,9 @@ fun FORM.editRace(
         "Height",
         HEIGHT,
         race.height,
+        10,
+        500,
         100,
-        5,
-        1,
         heightPrefix,
         true
     )
