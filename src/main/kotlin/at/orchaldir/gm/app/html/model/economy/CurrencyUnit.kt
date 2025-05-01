@@ -196,8 +196,8 @@ private fun HtmlBlockTag.selectRadius(radius: Distance) {
         "Radius",
         LENGTH,
         radius,
-        MIN_RADIUS.toMillimeters().toInt(),
-        MAX_RADIUS.toMillimeters().toInt(),
+        MIN_RADIUS,
+        MAX_RADIUS,
         SiPrefix.Milli,
         true
     )
