@@ -1,4 +1,18 @@
 {
+ "economy": {
+  "standardsOfLiving": [
+   {
+    "id": 0,
+    "name": "Standard 0",
+    "costPerDay": 1
+   },
+   {
+    "id": 1,
+    "name": "Standard 1",
+    "costPerDay": 2
+   }
+  ]
+ },
  "time": {
   "currentDate": {
    "day": 334992
