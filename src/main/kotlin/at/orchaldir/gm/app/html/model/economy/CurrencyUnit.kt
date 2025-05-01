@@ -14,7 +14,6 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -61,6 +60,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                 fieldLink("Material", call, state, format.material)
                 field("Shape", format.shape)
                 fieldDistance("Radius", format.radius)
+                fieldDistance("Thickness", format.thickness)
                 fieldFactor("Rim Factor", format.rimFactor)
                 showCoinSide(call, state, format.front, "Front")
             }
@@ -69,6 +69,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                 fieldLink("Material", call, state, format.material)
                 field("Shape", format.shape)
                 fieldDistance("Radius", format.radius)
+                fieldDistance("Thickness", format.thickness)
                 fieldFactor("Rim Factor", format.rimFactor)
                 showDetails("Hole") {
                     field("Shape", format.holeShape)
@@ -84,6 +85,7 @@ fun HtmlBlockTag.showCurrencyFormat(
                     fieldDistance("Radius", format.radius)
                     fieldFactor("Rim Factor", format.rimFactor)
                 }
+                fieldDistance("Thickness", format.thickness)
                 showDetails("Inner") {
                     fieldLink("Material", call, state, format.innerMaterial)
                     field("Shape", format.innerShape)
@@ -153,6 +155,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                 selectMaterial(state, format.material, MATERIAL)
                 selectShape(format.shape, SHAPE)
                 selectRadius(format.radius)
+                selectThickness(format.thickness)
                 selectRimFactor(format.rimFactor)
                 editCoinSide(state, format.front, "Front", FRONT)
             }
@@ -161,6 +164,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                 selectMaterial(state, format.material, MATERIAL)
                 selectShape(format.shape, SHAPE)
                 selectRadius(format.radius)
+                selectThickness(format.thickness)
                 selectRimFactor(format.rimFactor)
                 showDetails("Hole", true) {
                     selectShape(format.holeShape, combine(HOLE, SHAPE))
@@ -176,6 +180,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                     selectRadius(format.radius)
                     selectRimFactor(format.rimFactor)
                 }
+                selectThickness(format.thickness)
                 showDetails("Inner", true) {
                     selectMaterial(state, format.innerMaterial, combine(HOLE, MATERIAL))
                     selectShape(format.innerShape, combine(HOLE, SHAPE))
@@ -199,6 +204,18 @@ private fun HtmlBlockTag.selectRadius(radius: Distance) {
         MIN_RADIUS,
         MAX_RADIUS,
         SiPrefix.Milli,
+        true
+    )
+}
+
+private fun HtmlBlockTag.selectThickness(thickness: Distance) {
+    selectDistance(
+        "Thickness",
+        THICKNESS,
+        thickness,
+        MIN_THICKNESS,
+        MAX_THICKNESS,
+        SiPrefix.Micro,
         true
     )
 }
