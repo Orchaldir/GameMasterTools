@@ -51,5 +51,5 @@ fun parseMaterial(id: MaterialId, parameters: Parameters) = Material(
     parseName(parameters),
     parse(parameters, CATEGORY, MaterialCategory.Metal),
     parse(parameters, COLOR, Color.Pink),
-    parseWeight(parameters, DENSITY),
+    parseWeight(parameters, DENSITY, SiPrefix.Kilo),
 )

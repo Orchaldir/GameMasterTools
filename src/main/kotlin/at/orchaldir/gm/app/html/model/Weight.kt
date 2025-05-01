@@ -24,7 +24,7 @@ fun HtmlBlockTag.selectWeight(
     current: Weight,
     minValue: Int,
     maxValue: Int,
-    prefix: SiPrefix = SiPrefix.Base,
+    prefix: SiPrefix,
     update: Boolean = false,
 ) {
     field(label) {
@@ -37,7 +37,7 @@ fun HtmlBlockTag.selectWeight(
     current: Weight,
     minValue: Int,
     maxValue: Int,
-    prefix: SiPrefix = SiPrefix.Base,
+    prefix: SiPrefix,
     update: Boolean = false,
 ) {
     val text = formatWeight(current.value())
@@ -51,6 +51,6 @@ fun HtmlBlockTag.selectWeight(
 fun parseWeight(
     parameters: Parameters,
     param: String,
-    prefix: SiPrefix = SiPrefix.Base,
+    prefix: SiPrefix,
     default: Int = 0,
 ) = Weight.from(prefix, parseInt(parameters, param, default))

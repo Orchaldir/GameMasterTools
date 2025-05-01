@@ -182,7 +182,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters) = Equipment(
     id,
     parseName(parameters),
     parseEquipmentData(parameters),
-    parseWeight(parameters, WEIGHT),
+    parseWeight(parameters, WEIGHT, SiPrefix.Base),
 )
 
 fun parseEquipmentData(parameters: Parameters) =

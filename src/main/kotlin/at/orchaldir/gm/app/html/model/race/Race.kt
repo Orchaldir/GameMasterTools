@@ -247,7 +247,7 @@ fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
     parseName(parameters),
     parseOneOf(parameters, GENDER, Gender::valueOf),
     parseDistribution(parameters, HEIGHT, ::parseDistance),
-    parseWeight(parameters, WEIGHT),
+    parseWeight(parameters, WEIGHT, SiPrefix.Kilo),
     parseLifeStages(parameters),
     parseRaceOrigin(parameters, state),
 )
