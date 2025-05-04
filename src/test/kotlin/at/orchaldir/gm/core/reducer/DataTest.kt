@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.CALENDAR_ID_0
 import at.orchaldir.gm.CURRENCY_ID_0
+import at.orchaldir.gm.HOLIDAY_ID_0
 import at.orchaldir.gm.STANDARD_ID_0
 import at.orchaldir.gm.STANDARD_ID_1
 import at.orchaldir.gm.UNKNOWN_CALENDAR_ID
@@ -20,6 +21,7 @@ import at.orchaldir.gm.core.selector.economy.Economy
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class DataTest {
 
@@ -69,6 +71,18 @@ class DataTest {
             assertIllegalArgument("Standard of Living 'B' must have a greater income than the last one!") {
                 REDUCER.invoke(state, action)
             }
+        }
+
+        @Test
+        fun `Update multiple Standards of Living`() {
+            val standards = listOf(
+                StandardOfLiving(STANDARD_ID_0, name0, Price(100)),
+                StandardOfLiving(STANDARD_ID_1, name1, Price(200)),
+            )
+            val data = Data(economy = Economy(standardsOfLiving = standards))
+            val action = UpdateData(data)
+
+            assertEquals(data, REDUCER.invoke(state, action).first.data)
         }
     }
 
