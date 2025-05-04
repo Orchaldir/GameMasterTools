@@ -8,7 +8,13 @@ import kotlinx.serialization.Serializable
 enum class IncomeType {
     Undefined,
     Salary,
-    StandardOfLiving,
+    StandardOfLiving;
+
+    fun getValidTypes() = when (this) {
+        Undefined -> IncomeType.entries.toList()
+        Salary -> listOf(Undefined, Salary)
+        StandardOfLiving -> listOf(Undefined, StandardOfLiving)
+    }
 }
 
 @Serializable

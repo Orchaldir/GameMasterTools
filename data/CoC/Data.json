@@ -1,4 +1,14 @@
 {
+ "economy": {
+  "defaultIncomeType": "StandardOfLiving",
+  "standardsOfLiving": [
+   {
+    "id": 0,
+    "name": "Pauper",
+    "costPerDay": 25000
+   }
+  ]
+ },
  "time": {
   "currentDate": {
    "day": 701420

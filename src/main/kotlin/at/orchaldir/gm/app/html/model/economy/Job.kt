@@ -95,7 +95,7 @@ private fun HtmlBlockTag.editSalary(
     selectValue(
         "Income Type",
         combine(PRICE, TYPE),
-        IncomeType.entries,
+        state.data.economy.defaultIncomeType.getValidTypes(),
         income.getType(),
         true
     )

@@ -68,7 +68,6 @@
   "5": {
    "id": 5,
    "name": "Dollar",
-   "number": 1,
    "denomination": 1,
    "format": {
     "type": "Coin",
