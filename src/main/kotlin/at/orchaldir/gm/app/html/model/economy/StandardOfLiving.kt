@@ -39,6 +39,7 @@ fun HtmlBlockTag.editStandardOfLiving(
     state: State,
     standard: StandardOfLiving,
     param: String,
+    minIncome: Int,
 ) {
     selectName(standard.name, combine(param, NAME))
     editPrice(
@@ -46,7 +47,7 @@ fun HtmlBlockTag.editStandardOfLiving(
         "Max Yearly Income",
         standard.maxYearlyIncome,
         combine(param, PRICE),
-        0,
+        minIncome,
         10000000,
     )
 }

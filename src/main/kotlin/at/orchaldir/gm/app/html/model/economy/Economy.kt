@@ -82,6 +82,8 @@ fun HtmlBlockTag.editEconomy(
         economy.defaultIncomeType,
     )
 
+    var minIncome = 0
+
     editList(
         "Standards of Living",
         STANDARD,
@@ -90,7 +92,8 @@ fun HtmlBlockTag.editEconomy(
         10,
         1,
     ) { index, param, standard ->
-        editStandardOfLiving(state, standard, param)
+        editStandardOfLiving(state, standard, param, minIncome)
+        minIncome = standard.maxYearlyIncome.value
     }
 }
 

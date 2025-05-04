@@ -26,6 +26,21 @@
     "id": 4,
     "name": "Middle Class",
     "maxYearlyIncome": 600000
+   },
+   {
+    "id": 5,
+    "name": "Upper Middle Class",
+    "maxYearlyIncome": 2500000
+   },
+   {
+    "id": 6,
+    "name": "Upper Class",
+    "maxYearlyIncome": 7500000
+   },
+   {
+    "id": 7,
+    "name": "Wealthy",
+    "maxYearlyIncome": 10000000
    }
   ]
  },
