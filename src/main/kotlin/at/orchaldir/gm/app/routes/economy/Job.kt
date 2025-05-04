@@ -158,6 +158,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                     br { }
                     +"Income"
                 }
+                th { +"Gender" }
                 th { +"Characters" }
                 th { +"Domains" }
                 th { +"Spells" }
@@ -172,6 +173,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                             is Salary -> +currency.display(job.income.salary)
                         }
                     }
+                    tdOptionalEnum(job.preferredGender)
                     tdSkipZero(state.getEmployees(job.id).size)
                     tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(job.spells.getRarityMap().size)

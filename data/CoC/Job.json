@@ -39,7 +39,11 @@
   },
   "7": {
    "id": 7,
-   "name": "Reverend"
+   "name": "Reverend",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
   },
   "8": {
    "id": 8,
@@ -195,7 +199,8 @@
    "income": {
     "type": "SoL",
     "standard": 3
-   }
+   },
+   "preferredGender": "Female"
   },
   "28": {
    "id": 28,
@@ -219,6 +224,216 @@
    "income": {
     "type": "SoL",
     "standard": 6
+   }
+  },
+  "31": {
+   "id": 31,
+   "name": "Deep-Sea Diver",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "32": {
+   "id": 32,
+   "name": "Aviator",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "33": {
+   "id": 33,
+   "name": "Charter Boat Captain",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "34": {
+   "id": 34,
+   "name": "Switchboard Operator",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   },
+   "preferredGender": "Female"
+  },
+  "35": {
+   "id": 35,
+   "name": "Traveling Salesman",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "36": {
+   "id": 36,
+   "name": "Itinerant Preacher",
+   "income": {
+    "type": "SoL",
+    "standard": 0
+   }
+  },
+  "37": {
+   "id": 37,
+   "name": "Missionary",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "38": {
+   "id": 38,
+   "name": "Thug",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   },
+   "preferredGender": "Male"
+  },
+  "39": {
+   "id": 39,
+   "name": "Bookie",
+   "income": {
+    "type": "SoL",
+    "standard": 5
+   }
+  },
+  "40": {
+   "id": 40,
+   "name": "Fence",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "41": {
+   "id": 41,
+   "name": "Forger",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "42": {
+   "id": 42,
+   "name": "Gambler",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "43": {
+   "id": 43,
+   "name": "Gangster",
+   "income": {
+    "type": "SoL",
+    "standard": 6
+   }
+  },
+  "44": {
+   "id": 44,
+   "name": "Hit Man",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "45": {
+   "id": 45,
+   "name": "Columnist",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "46": {
+   "id": 46,
+   "name": "Copywriter",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "47": {
+   "id": 47,
+   "name": "Editor",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "48": {
+   "id": 48,
+   "name": "Foreign Correspondent",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "49": {
+   "id": 49,
+   "name": "Photojournalist",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "50": {
+   "id": 50,
+   "name": "Miner",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "51": {
+   "id": 51,
+   "name": "Lumberjack",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "52": {
+   "id": 52,
+   "name": "Farmer",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "53": {
+   "id": 53,
+   "name": "Farmer",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "54": {
+   "id": 54,
+   "name": "Bus Driver",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "55": {
+   "id": 55,
+   "name": "Taxi Driver",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "56": {
+   "id": 56,
+   "name": "Skilled Trade",
+   "income": {
+    "type": "SoL",
+    "standard": 3
    }
   }
  }

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.model.economy
 
+import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.STANDARD
@@ -13,6 +14,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -36,6 +38,7 @@ fun HtmlBlockTag.showJob(
     job: Job,
 ) {
     showSalary(call, state, job.income)
+    optionalField("Preferred Gender", job.preferredGender)
     showRarityMap("Spells", job.spells) { spell ->
         link(call, state, spell)
     }
@@ -85,6 +88,7 @@ fun FORM.editJob(
 ) {
     selectName(job.name)
     editSalary(state, job.income)
+    selectOptionalValue("Preferred Gender", GENDER, job.preferredGender, Gender.entries)
     selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name.text }
 }
 
@@ -123,6 +127,7 @@ fun parseJob(id: JobId, parameters: Parameters) = Job(
     id,
     parseName(parameters),
     parseIncome(parameters),
+    parse<Gender>(parameters, GENDER),
     parseSomeOf(parameters, SPELLS, ::parseSpellId),
 )
 

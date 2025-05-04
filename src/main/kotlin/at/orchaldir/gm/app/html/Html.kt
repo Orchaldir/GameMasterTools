@@ -198,6 +198,10 @@ fun <T : Enum<T>> TR.tdEnum(value: T) {
     }
 }
 
+fun <T : Enum<T>> TR.tdOptionalEnum(value: T?) {
+    tdString(value?.name)
+}
+
 fun <ID : Id<ID>> TR.tdInlineLinks(
     call: ApplicationCall,
     state: State,
