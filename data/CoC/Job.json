@@ -3,7 +3,11 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Librarian"
+   "name": "Librarian",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "1": {
    "id": 1,
@@ -15,7 +19,11 @@
   },
   "3": {
    "id": 3,
-   "name": "Reporter"
+   "name": "Reporter",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
   },
   "4": {
    "id": 4,
@@ -39,7 +47,179 @@
   },
   "9": {
    "id": 9,
-   "name": "Shopkeeper"
+   "name": "Shopkeeper",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Grave Digger",
+   "income": {
+    "type": "SoL",
+    "standard": 1
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Gardener",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Architect",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Photographer",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Entertainer",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Jazz Musician",
+   "income": {
+    "type": "SoL",
+    "standard": 1
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "Musician",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "17": {
+   "id": 17,
+   "name": "Stage Actor",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "Stage Hand",
+   "income": {
+    "type": "SoL",
+    "standard": 1
+   }
+  },
+  "19": {
+   "id": 19,
+   "name": "Stunt Man",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "20": {
+   "id": 20,
+   "name": "Coach",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "21": {
+   "id": 21,
+   "name": "Athlete",
+   "income": {
+    "type": "SoL",
+    "standard": 1
+   }
+  },
+  "22": {
+   "id": 22,
+   "name": "Trainer",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "23": {
+   "id": 23,
+   "name": "Accountant",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "24": {
+   "id": 24,
+   "name": "Barber",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "25": {
+   "id": 25,
+   "name": "Clerk",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "26": {
+   "id": 26,
+   "name": "Salesman",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "27": {
+   "id": 27,
+   "name": "Secretary",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "28": {
+   "id": 28,
+   "name": "Small Business Owner",
+   "income": {
+    "type": "SoL",
+    "standard": 5
+   }
+  },
+  "29": {
+   "id": 29,
+   "name": "Company Officer",
+   "income": {
+    "type": "SoL",
+    "standard": 6
+   }
+  },
+  "30": {
+   "id": 30,
+   "name": "Stock Broker",
+   "income": {
+    "type": "SoL",
+    "standard": 6
+   }
   }
  }
 }
