@@ -1,5 +1,6 @@
 {
  "economy": {
+  "defaultIncomeType": "StandardOfLiving",
   "standardsOfLiving": [
    {
     "id": 0,

@@ -3,14 +3,20 @@ package at.orchaldir.gm.app.html.model.economy
 import at.orchaldir.gm.app.CURRENCY
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.STANDARD
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.editList
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.economy.money.parseCurrencyId
 import at.orchaldir.gm.app.html.parseList
 import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.tdSkipZero
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.job.IncomeType
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.Economy
 import at.orchaldir.gm.core.selector.economy.countJobs
@@ -32,6 +38,7 @@ fun HtmlBlockTag.showEconomy(
     h2 { +"Economy" }
 
     fieldLink("Default Currency", call, state, economy.defaultCurrency)
+    field("Default Income Type", economy.defaultIncomeType)
 
     table {
         tr {
@@ -64,6 +71,12 @@ fun HtmlBlockTag.editEconomy(
         state.getCurrencyStorage().getAll(),
         economy.defaultCurrency,
     )
+    selectValue(
+        "Default Income Type",
+        combine(PRICE, TYPE),
+        IncomeType.entries,
+        economy.defaultIncomeType,
+    )
 
     editList(
         "Standards of Living",
@@ -83,6 +96,7 @@ fun parseEconomy(
     parameters: Parameters,
 ) = Economy(
     parseCurrencyId(parameters, CURRENCY),
+    parse(parameters, combine(PRICE, TYPE), IncomeType.Undefined),
     parseList(parameters, STANDARD, 1) { index, param ->
         parseStandardOfLiving(StandardOfLivingId(index), parameters, param)
     },
