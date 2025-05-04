@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
+import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.Time
@@ -22,6 +23,8 @@ import org.junit.jupiter.api.Test
 
 class DataTest {
 
+    private val name0 = Name.init("A")
+    private val name1 = Name.init("B")
     private val state = State(
         listOf(
             Storage(Calendar(CALENDAR_ID_0)),
@@ -48,11 +51,24 @@ class DataTest {
 
         @Test
         fun `Cannot reuse standard of living names`() {
-            val name = Name.init("A")
-            val standards = listOf(StandardOfLiving(STANDARD_ID_0, name), StandardOfLiving(STANDARD_ID_1, name))
+            val standards = listOf(StandardOfLiving(STANDARD_ID_0, name0), StandardOfLiving(STANDARD_ID_1, name0))
             val action = UpdateData(Data(economy = Economy(standardsOfLiving = standards)))
 
             assertIllegalArgument("Name 'A' is duplicated for standards of living!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `A max income must be greater than the last one`() {
+            val income = Price(100)
+            val standards = listOf(
+                StandardOfLiving(STANDARD_ID_0, name0, income),
+                StandardOfLiving(STANDARD_ID_1, name1, income),
+            )
+            val action = UpdateData(Data(economy = Economy(standardsOfLiving = standards)))
+
+            assertIllegalArgument("Standard of Living 'B' must have a greater income than the last one!") {
+                REDUCER.invoke(state, action)
+            }
         }
     }
 
