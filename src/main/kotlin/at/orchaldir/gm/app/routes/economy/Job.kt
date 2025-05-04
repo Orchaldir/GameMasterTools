@@ -154,7 +154,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
             tr {
                 th { +"Name" }
                 th {
-                    +"Monthly"
+                    +"Yearly"
                     br { }
                     +"Income"
                 }
@@ -170,7 +170,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                         when (job.income) {
                             UndefinedIncome -> doNothing()
                             is AffordableStandardOfLiving -> link(call, state, job.income.standard)
-                            is Salary -> +currency.display(job.income.salary)
+                            is Salary -> +currency.display(job.income.yearlySalary)
                         }
                     }
                     tdOptionalEnum(job.preferredGender)

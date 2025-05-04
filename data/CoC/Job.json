@@ -430,7 +430,47 @@
   },
   "56": {
    "id": 56,
-   "name": "Skilled Trade",
+   "name": "Electrician",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "57": {
+   "id": 57,
+   "name": "Factory Worker",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "58": {
+   "id": 58,
+   "name": "Dockworker",
+   "income": {
+    "type": "SoL",
+    "standard": 2
+   }
+  },
+  "59": {
+   "id": 59,
+   "name": "Plumber",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "60": {
+   "id": 60,
+   "name": "Mechanic",
+   "income": {
+    "type": "SoL",
+    "standard": 3
+   }
+  },
+  "61": {
+   "id": 61,
+   "name": "Millwright",
    "income": {
     "type": "SoL",
     "standard": 3

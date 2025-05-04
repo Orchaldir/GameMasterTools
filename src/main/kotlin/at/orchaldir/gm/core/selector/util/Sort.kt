@@ -281,7 +281,7 @@ fun State.sortJobs(
                 when (it.income) {
                     UndefinedIncome -> 0
                     is AffordableStandardOfLiving -> it.income.standard.value + 1
-                    is Salary -> it.income.salary.value
+                    is Salary -> it.income.yearlySalary.value
                 }
             }
         })

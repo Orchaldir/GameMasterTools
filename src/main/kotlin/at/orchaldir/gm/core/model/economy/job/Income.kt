@@ -45,6 +45,6 @@ data class AffordableStandardOfLiving(
 @Serializable
 @SerialName("Salary")
 data class Salary(
-    val salary: Price,
+    val yearlySalary: Price,
 ) : Income()
 
