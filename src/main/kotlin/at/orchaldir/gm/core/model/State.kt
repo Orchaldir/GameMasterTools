@@ -302,6 +302,7 @@ data class State(
         getStreetTemplateStorage().getAll().forEach { validateStreetTemplate(this, it) }
         getTextStorage().getAll().forEach { validateText(this, it) }
         getTownStorage().getAll().forEach { validateTown(this, it) }
+        validateData(this, data)
     }
 
     fun save() {

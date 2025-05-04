@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -103,6 +104,8 @@ val RACE_APPEARANCE_ID_0 = RaceAppearanceId(0)
 val RIVER_ID_0 = RiverId(0)
 val SPELL_ID_0 = SpellId(0)
 val SPELL_ID_1 = SpellId(1)
+val STANDARD_ID_0 = StandardOfLivingId(0)
+val STANDARD_ID_1 = StandardOfLivingId(1)
 val STREET_ID_0 = StreetId(0)
 val STREET_ID_1 = StreetId(1)
 val STREET_TYPE_ID_0 = StreetTemplateId(0)
