@@ -29,7 +29,7 @@ fun HtmlBlockTag.showStandardOfLiving(
     state: State,
     standard: StandardOfLiving,
 ) {
-    showPrice(state, "Cost Per Day", standard.costPerDay)
+    showPrice(state, "Max Yearly Income", standard.maxYearlyIncome)
     fieldList(call, state, state.getJobs(standard.id))
 }
 
@@ -43,11 +43,11 @@ fun HtmlBlockTag.editStandardOfLiving(
     selectName(standard.name, combine(param, NAME))
     editPrice(
         state,
-        "Cost Per Day",
-        standard.costPerDay,
+        "Max Yearly Income",
+        standard.maxYearlyIncome,
         combine(param, PRICE),
         0,
-        100000,
+        10000000,
     )
 }
 

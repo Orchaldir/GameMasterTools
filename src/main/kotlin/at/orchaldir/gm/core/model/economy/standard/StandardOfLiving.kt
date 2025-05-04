@@ -24,7 +24,7 @@ value class StandardOfLivingId(val value: Int) : Id<StandardOfLivingId> {
 data class StandardOfLiving(
     val id: StandardOfLivingId,
     val name: Name = Name.init("Standard Of Living ${id.value}"),
-    val costPerDay: Price = Price(0),
+    val maxYearlyIncome: Price = Price(0),
 ) : ElementWithSimpleName<StandardOfLivingId> {
 
     override fun id() = id

@@ -43,13 +43,17 @@ fun HtmlBlockTag.showEconomy(
     table {
         tr {
             th { +"Name" }
-            th { +"Cost per Day" }
+            th {
+                +"Max"
+                br { }
+                +"Yearly Income"
+            }
             th { +"Jobs" }
         }
         economy.standardsOfLiving.forEach { standard ->
             tr {
                 td { link(call, state, standard) }
-                td { +currency.display(standard.costPerDay) }
+                td { +currency.display(standard.maxYearlyIncome) }
                 tdSkipZero(state.countJobs(standard.id))
             }
         }

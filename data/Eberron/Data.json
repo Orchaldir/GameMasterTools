@@ -5,37 +5,37 @@
    {
     "id": 0,
     "name": "Wretched",
-    "costPerDay": 2
+    "maxYearlyIncome": 2
    },
    {
     "id": 1,
     "name": "Squalid",
-    "costPerDay": 2
+    "maxYearlyIncome": 2
    },
    {
     "id": 2,
     "name": "Poor",
-    "costPerDay": 1
+    "maxYearlyIncome": 1
    },
    {
     "id": 3,
     "name": "Modest",
-    "costPerDay": 1
+    "maxYearlyIncome": 1
    },
    {
     "id": 4,
     "name": "Comfortable",
-    "costPerDay": 1
+    "maxYearlyIncome": 1
    },
    {
     "id": 5,
     "name": "Wealthy",
-    "costPerDay": 1
+    "maxYearlyIncome": 1
    },
    {
     "id": 6,
     "name": "Aristocratic",
-    "costPerDay": 1
+    "maxYearlyIncome": 1
    }
   ]
  },

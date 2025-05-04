@@ -5,7 +5,27 @@
    {
     "id": 0,
     "name": "Pauper",
-    "costPerDay": 25000
+    "maxYearlyIncome": 25000
+   },
+   {
+    "id": 1,
+    "name": "Lower Class",
+    "maxYearlyIncome": 50000
+   },
+   {
+    "id": 2,
+    "name": "Upper Lower Class",
+    "maxYearlyIncome": 150000
+   },
+   {
+    "id": 3,
+    "name": "Lower Middle Class",
+    "maxYearlyIncome": 250000
+   },
+   {
+    "id": 4,
+    "name": "Middle Class",
+    "maxYearlyIncome": 600000
    }
   ]
  },
