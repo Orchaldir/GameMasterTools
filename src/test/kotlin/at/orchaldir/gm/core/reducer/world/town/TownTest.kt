@@ -15,11 +15,15 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
+import at.orchaldir.gm.core.model.world.town.BuildingTile
+import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -151,6 +155,26 @@ class TownTest {
             val action = UpdateTown(Town(TOWN_ID_0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Nested
+        inner class MapTest {
+
+            @Test
+            fun `Building must exist`() {
+                val map = TileMap2d(TownTile(construction = BuildingTile(UNKNOWN_BUILDING_ID)))
+                val action = UpdateTown(Town(TOWN_ID_0, map = map))
+
+                assertIllegalArgument("Requires unknown Building 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Street template must exist`() {
+                val map = TileMap2d(TownTile(construction = StreetTile(UNKNOWN_STREET_TYPE_ID)))
+                val action = UpdateTown(Town(TOWN_ID_0, map = map))
+
+                assertIllegalArgument("Requires unknown Street Template 99!") { REDUCER.invoke(STATE, action) }
+            }
         }
 
         @Test
