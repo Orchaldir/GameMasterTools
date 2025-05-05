@@ -162,18 +162,19 @@ class TownTest {
 
             @Test
             fun `Building must exist`() {
-                val map = TileMap2d(TownTile(construction = BuildingTile(UNKNOWN_BUILDING_ID)))
-                val action = UpdateTown(Town(TOWN_ID_0, map = map))
-
-                assertIllegalArgument("Requires unknown Building 99!") { REDUCER.invoke(STATE, action) }
+                testValid("Building", TownTile(construction = BuildingTile(UNKNOWN_BUILDING_ID)))
             }
 
             @Test
             fun `Street template must exist`() {
-                val map = TileMap2d(TownTile(construction = StreetTile(UNKNOWN_STREET_TYPE_ID)))
+                testValid("Street Template", TownTile(construction = StreetTile(UNKNOWN_STREET_TYPE_ID)))
+            }
+
+            private fun testValid(noun: String, tile: TownTile) {
+                val map = TileMap2d(tile)
                 val action = UpdateTown(Town(TOWN_ID_0, map = map))
 
-                assertIllegalArgument("Requires unknown Street Template 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Requires unknown $noun 99!") { REDUCER.invoke(STATE, action) }
             }
         }
 
