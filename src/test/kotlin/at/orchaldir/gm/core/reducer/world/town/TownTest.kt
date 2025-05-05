@@ -15,6 +15,9 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
+import at.orchaldir.gm.core.model.world.terrain.HillTerrain
+import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
+import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
@@ -166,8 +169,32 @@ class TownTest {
             }
 
             @Test
+            fun `Hill must exist`() {
+                val terrain = HillTerrain(UNKNOWN_MOUNTAIN_ID)
+                testValid("Mountain", TownTile(terrain))
+            }
+
+            @Test
+            fun `Mountain must exist`() {
+                val terrain = MountainTerrain(UNKNOWN_MOUNTAIN_ID)
+                testValid("Mountain", TownTile(terrain))
+            }
+
+            @Test
+            fun `River must exist`() {
+                val terrain = RiverTerrain(UNKNOWN_RIVER_ID)
+                testValid("River", TownTile(terrain))
+            }
+
+            @Test
             fun `Street template must exist`() {
                 testValid("Street Template", TownTile(construction = StreetTile(UNKNOWN_STREET_TYPE_ID)))
+            }
+
+            @Test
+            fun `Street must exist`() {
+                val construction = StreetTile(STREET_TYPE_ID_0, UNKNOWN_STREET_ID)
+                testValid("Street", TownTile(construction = construction))
             }
 
             private fun testValid(noun: String, tile: TownTile) {
