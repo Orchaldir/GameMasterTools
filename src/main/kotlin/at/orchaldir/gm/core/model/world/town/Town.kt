@@ -79,6 +79,16 @@ data class Town(
         return updateTiles(tiles)
     }
 
+    fun removeAbstractBuilding(index: Int): Town {
+        val oldTile = map.getRequiredTile(index)
+
+        require(oldTile.construction is AbstractBuildingTile) { "Tile $index is not an abstract building!" }
+
+        val tile = oldTile.copy(construction = NoConstruction)
+
+        return updateTile(index, tile)
+    }
+
     fun removeBuilding(building: BuildingId): Town {
         return copy(map = map.copy(tiles = map.tiles.map { tile ->
             if (tile.construction is BuildingTile && tile.construction.building == building) {
