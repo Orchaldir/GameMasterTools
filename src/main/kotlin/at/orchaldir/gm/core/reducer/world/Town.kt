@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
+import at.orchaldir.gm.core.selector.character.countEmployees
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
@@ -23,6 +25,10 @@ val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
 
 val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
     state.getTownStorage().require(action.id)
+
+    require(state.countCurrentOrFormerEmployees(action.id) == 0) {
+        "Cannot delete Town ${action.id.value}, because it has or had employees!"
+    }
 
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)

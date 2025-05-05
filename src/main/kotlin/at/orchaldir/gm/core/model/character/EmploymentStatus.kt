@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.town.TownId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -66,7 +67,7 @@ data class Employed(
 data class EmployedByTown(
     val job: JobId,
     val town: TownId,
-    val optionalBusiness: BusinessId?,
+    val optionalBusiness: BusinessId? = null,
 ) : EmploymentStatus()
 
 @Serializable
@@ -76,3 +77,8 @@ data object Unemployed : EmploymentStatus()
 @Serializable
 @SerialName("Undefined")
 data object UndefinedEmploymentStatus : EmploymentStatus()
+
+fun History<EmploymentStatus>.wasEmployedAt(town: TownId) = previousEntries
+    .any { it.entry.isEmployedAt(town) }
+
+fun History<EmploymentStatus>.isOrWasEmployedAt(town: TownId) = current.isEmployedAt(town) || wasEmployedAt(town)

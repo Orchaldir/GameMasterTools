@@ -3,6 +3,10 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.EmployedByTown
+import at.orchaldir.gm.core.model.character.EmploymentStatus
+import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Day
@@ -71,6 +75,27 @@ class TownTest {
                     state,
                     action
                 )
+            }
+        }
+
+        @Test
+        fun `Cannot delete a town that employs a character`() {
+            val employmentStatus = History<EmploymentStatus>(EmployedByTown(JOB_ID_0, TOWN_ID_0))
+            val state = createState(Character(CHARACTER_ID_0, employmentStatus = employmentStatus))
+
+            assertIllegalArgument("Cannot delete Town 0, because it has or had employees!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a town that employed a character`() {
+            val historyEntry = HistoryEntry<EmploymentStatus>(EmployedByTown(JOB_ID_0, TOWN_ID_0), DAY0)
+            val employmentStatus = History(Unemployed, listOf(historyEntry))
+            val state = createState(Character(CHARACTER_ID_0, employmentStatus = employmentStatus))
+
+            assertIllegalArgument("Cannot delete Town 0, because it has or had employees!") {
+                REDUCER.invoke(state, action)
             }
         }
 

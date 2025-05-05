@@ -49,6 +49,14 @@ fun State.countCharacters(title: TitleId) = getCharacterStorage()
     .getAll()
     .count { it.title == title }
 
+fun State.countCurrentOrFormerEmployees(town: TownId) = getCharacterStorage()
+    .getAll()
+    .count { c -> c.employmentStatus.isOrWasEmployedAt(town) }
+
+fun State.countEmployees(town: TownId) = getCharacterStorage()
+    .getAll()
+    .count { c -> c.employmentStatus.current.isEmployedAt(town) }
+
 fun State.countResident(town: TownId) = getCharacterStorage()
     .getAll()
     .count { isResident(it, town) }
