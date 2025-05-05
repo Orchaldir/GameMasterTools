@@ -21,11 +21,7 @@ import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
 import at.orchaldir.gm.app.routes.time.configureCalendarRouting
 import at.orchaldir.gm.app.routes.time.configureTimeRouting
 import at.orchaldir.gm.app.routes.world.*
-import at.orchaldir.gm.app.routes.world.town.configureAbstractBuildingEditorRouting
-import at.orchaldir.gm.app.routes.world.town.configureBuildingEditorRouting
-import at.orchaldir.gm.app.routes.world.town.configureStreetEditorRouting
-import at.orchaldir.gm.app.routes.world.town.configureTerrainRouting
-import at.orchaldir.gm.app.routes.world.town.configureTownRouting
+import at.orchaldir.gm.app.routes.world.town.*
 import at.orchaldir.gm.core.action.LoadData
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.REDUCER

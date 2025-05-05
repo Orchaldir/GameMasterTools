@@ -2,15 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.reducer.world.town.ADD_ABSTRACT_BUILDING
-import at.orchaldir.gm.core.reducer.world.town.ADD_STREET_TILE
-import at.orchaldir.gm.core.reducer.world.town.CREATE_TOWN
-import at.orchaldir.gm.core.reducer.world.town.DELETE_TOWN
-import at.orchaldir.gm.core.reducer.world.town.REMOVE_ABSTRACT_BUILDING
-import at.orchaldir.gm.core.reducer.world.town.REMOVE_STREET_TILE
-import at.orchaldir.gm.core.reducer.world.town.RESIZE_TERRAIN
-import at.orchaldir.gm.core.reducer.world.town.SET_TERRAIN_TILE
-import at.orchaldir.gm.core.reducer.world.town.UPDATE_TOWN
+import at.orchaldir.gm.core.reducer.world.town.*
 import at.orchaldir.gm.utils.redux.Reducer
 
 val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->

@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.action.AddAbstractBuilding
 import at.orchaldir.gm.core.action.RemoveAbstractBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.AbstractBuildingTile
-import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
