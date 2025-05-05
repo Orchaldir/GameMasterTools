@@ -21,6 +21,7 @@ import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
 import at.orchaldir.gm.app.routes.time.configureCalendarRouting
 import at.orchaldir.gm.app.routes.time.configureTimeRouting
 import at.orchaldir.gm.app.routes.world.*
+import at.orchaldir.gm.app.routes.world.town.configureAbstractBuildingEditorRouting
 import at.orchaldir.gm.app.routes.world.town.configureBuildingEditorRouting
 import at.orchaldir.gm.app.routes.world.town.configureStreetEditorRouting
 import at.orchaldir.gm.app.routes.world.town.configureTerrainRouting
@@ -56,6 +57,7 @@ fun Application.module() {
     configureRouting()
     configureStatusPages()
     configureDataRouting()
+    configureAbstractBuildingEditorRouting()
     configureArchitecturalStyleRouting()
     configureArticleRouting()
     configureBuildingRouting()

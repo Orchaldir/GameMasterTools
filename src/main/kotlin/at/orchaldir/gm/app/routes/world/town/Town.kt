@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.world.parseTown
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
+import at.orchaldir.gm.app.routes.world.town.TownRoutes.AbstractBuildingRoutes
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
@@ -160,6 +161,7 @@ private fun HTML.showTownDetails(
     val backLink = call.application.href(TownRoutes.All())
     val deleteLink = call.application.href(TownRoutes.Delete(town.id))
     val editLink = call.application.href(TownRoutes.Edit(town.id))
+    val editAbstractBuildingsLink = call.application.href(AbstractBuildingRoutes.Edit(town.id))
     val editBuildingsLink = call.application.href(TownRoutes.BuildingRoutes.Edit(town.id))
     val editStreetsLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
     val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
@@ -185,6 +187,7 @@ private fun HTML.showTownDetails(
                 }
             }
             showBuildingOwnershipCount(call, state, buildings)
+            action(editAbstractBuildingsLink, "Edit Abstract Buildings")
             action(editBuildingsLink, "Edit Buildings")
             h2 { +"Characters" }
             val employees = state.getEmployees(town.id)
