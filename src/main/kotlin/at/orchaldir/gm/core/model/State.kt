@@ -91,6 +91,7 @@ import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
 import at.orchaldir.gm.core.reducer.time.validateCalendar
 import at.orchaldir.gm.core.reducer.world.*
+import at.orchaldir.gm.core.reducer.world.town.validateTown
 import at.orchaldir.gm.core.save
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element

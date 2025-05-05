@@ -35,6 +35,26 @@ class TownRoutes {
     @Resource("update")
     class Update(val id: TownId, val parent: TownRoutes = TownRoutes())
 
+    @Resource("/abstract")
+    class AbstractBuildingRoutes(val parent: TownRoutes = TownRoutes()) {
+        @Resource("edit")
+        class Edit(val id: TownId, val parent: AbstractBuildingRoutes = AbstractBuildingRoutes())
+
+        @Resource("add")
+        class Add(
+            val town: TownId,
+            val tileIndex: Int,
+            val parent: AbstractBuildingRoutes = AbstractBuildingRoutes(),
+        )
+
+        @Resource("remove")
+        class Remove(
+            val town: TownId,
+            val tileIndex: Int,
+            val parent: AbstractBuildingRoutes = AbstractBuildingRoutes(),
+        )
+    }
+
     @Resource("/building")
     class BuildingRoutes(val parent: TownRoutes = TownRoutes()) {
         @Resource("edit")

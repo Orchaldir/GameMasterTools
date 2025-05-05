@@ -302,6 +302,18 @@ data object CreateTown : WorldAction()
 data class DeleteTown(val id: TownId) : WorldAction()
 data class UpdateTown(val town: Town) : WorldAction()
 
+// town's abstract buildings
+
+data class AddAbstractBuilding(
+    val town: TownId,
+    val tileIndex: Int,
+) : WorldAction()
+
+data class RemoveAbstractBuilding(
+    val town: TownId,
+    val tileIndex: Int,
+) : WorldAction()
+
 // town's buildings
 
 data class AddBuilding(

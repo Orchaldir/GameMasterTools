@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.reducer.world.town.*
 import at.orchaldir.gm.utils.redux.Reducer
 
 val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
@@ -38,6 +39,9 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is CreateTown -> CREATE_TOWN(state, action)
         is DeleteTown -> DELETE_TOWN(state, action)
         is UpdateTown -> UPDATE_TOWN(state, action)
+        // town's abstract buildings
+        is AddAbstractBuilding -> ADD_ABSTRACT_BUILDING(state, action)
+        is RemoveAbstractBuilding -> REMOVE_ABSTRACT_BUILDING(state, action)
         // town's buildings
         is AddBuilding -> ADD_BUILDING(state, action)
         is DeleteBuilding -> DELETE_BUILDING(state, action)
