@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.economy.parseJobId
+import at.orchaldir.gm.app.html.model.economy.parseOptionalBusinessId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.world.parseTownId
@@ -174,7 +175,7 @@ fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): 
         EmploymentStatusType.EmployedByTown -> EmployedByTown(
             parseJobId(parameters, combine(param, JOB)),
             parseTownId(parameters, combine(param, TOWN)),
-            parseBusinessId(parameters, combine(param, BUSINESS)),
+            parseOptionalBusinessId(parameters, combine(param, BUSINESS)),
         )
 
         EmploymentStatusType.Unemployed -> Unemployed
