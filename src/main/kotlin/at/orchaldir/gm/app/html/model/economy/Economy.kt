@@ -4,15 +4,8 @@ import at.orchaldir.gm.app.CURRENCY
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.editList
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldLink
-import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.money.parseCurrencyId
-import at.orchaldir.gm.app.html.parseList
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State

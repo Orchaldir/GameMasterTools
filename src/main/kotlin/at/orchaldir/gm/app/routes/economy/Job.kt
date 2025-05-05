@@ -9,15 +9,9 @@ import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
-import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
-import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.economy.job.Salary
-import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
+import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
 import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency

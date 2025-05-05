@@ -283,6 +283,7 @@ fun State.sortJobs(
                     is Salary -> it.income.yearlySalary.value
                 }
             }
+
             SortJob.Characters -> compareByDescending { countCharacters(it.id) }
             SortJob.Spells -> compareByDescending { it.spells.getSize() }
         })

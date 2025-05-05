@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.model.economy
 
-import at.orchaldir.gm.app.GENDER
-import at.orchaldir.gm.app.PRICE
-import at.orchaldir.gm.app.SPELLS
-import at.orchaldir.gm.app.STANDARD
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.money.editPrice
 import at.orchaldir.gm.app.html.model.economy.money.parsePrice
@@ -137,6 +133,7 @@ fun parseIncome(parameters: Parameters) =
         IncomeType.StandardOfLiving -> AffordableStandardOfLiving(
             parseStandardOfLivingId(parameters, STANDARD),
         )
+
         IncomeType.Salary -> Salary(
             parsePrice(parameters, PRICE)
         )
