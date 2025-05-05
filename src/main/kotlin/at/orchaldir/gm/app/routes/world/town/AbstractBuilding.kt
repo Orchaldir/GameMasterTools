@@ -74,7 +74,7 @@ private fun HTML.showAbstractBuildingEditor(
 ) {
     val backLink = href(call, town.id)
 
-    simpleHtml("Edit Buildings of Town ${town.name()}") {
+    simpleHtml("Edit Abstract Buildings of Town ${town.name()}") {
         svg(visualizeAbstractBuildingEditor(call, state, town), 90)
         back(backLink)
     }
