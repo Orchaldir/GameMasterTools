@@ -131,6 +131,7 @@ private fun HTML.showAllTowns(
             tr {
                 th { +"Name" }
                 th { +"Date" }
+                th { +"Founder" }
                 th { +"Buildings" }
                 th { +"Residents" }
             }
@@ -138,6 +139,7 @@ private fun HTML.showAllTowns(
                 tr {
                     td { link(call, town) }
                     td { showDate(call, state, town.startDate()) }
+                    td { showCreator(call, state, town.founder, false) }
                     tdSkipZero(state.countBuildings(town.id))
                     tdSkipZero(state.countResident(town.id))
                 }
