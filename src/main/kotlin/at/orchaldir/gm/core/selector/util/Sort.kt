@@ -276,7 +276,6 @@ fun State.sortJobs(
     .sortedWith(
         when (sort) {
             SortJob.Name -> compareBy { it.name.text }
-            SortJob.Spells -> compareByDescending { it.spells.getSize() }
             SortJob.Income -> compareByDescending {
                 when (it.income) {
                     UndefinedIncome -> 0
@@ -284,6 +283,8 @@ fun State.sortJobs(
                     is Salary -> it.income.yearlySalary.value
                 }
             }
+            SortJob.Characters -> compareByDescending { countCharacters(it.id) }
+            SortJob.Spells -> compareByDescending { it.spells.getSize() }
         })
 
 // organization

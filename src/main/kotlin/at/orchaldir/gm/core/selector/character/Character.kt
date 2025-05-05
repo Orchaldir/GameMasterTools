@@ -41,6 +41,10 @@ fun State.countCharacters(language: LanguageId) = getCharacterStorage()
     .getAll()
     .count { getKnownLanguages(it).containsKey(language) }
 
+fun State.countCharacters(job: JobId) = getCharacterStorage()
+    .getAll()
+    .count { it.employmentStatus.current.hasJob(job) }
+
 fun State.countCharacters(title: TitleId) = getCharacterStorage()
     .getAll()
     .count { it.title == title }

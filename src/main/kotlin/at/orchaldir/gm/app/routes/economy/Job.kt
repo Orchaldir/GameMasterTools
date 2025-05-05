@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.job.Salary
 import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.util.SortJob
+import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.money.display
@@ -174,7 +175,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                         }
                     }
                     tdOptionalEnum(job.preferredGender)
-                    tdSkipZero(state.getEmployees(job.id).size)
+                    tdSkipZero(state.countCharacters(job.id))
                     tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(job.spells.getRarityMap().size)
                 }
