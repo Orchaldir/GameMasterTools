@@ -90,9 +90,10 @@
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
-     "business": 1,
-     "job": 2
+     "type": "ByTown",
+     "job": 2,
+     "town": 0,
+     "optionalBusiness": 1
     }
    }
   },

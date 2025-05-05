@@ -130,7 +130,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 "Business",
                 combine(param, BUSINESS),
                 state.sortBusinesses(),
-                employmentStatus.business,
+                employmentStatus.optionalBusiness,
             ) { business ->
                 !state.exists(business, start)
             }

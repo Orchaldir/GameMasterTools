@@ -25,7 +25,7 @@ sealed class EmploymentStatus {
 
     fun getBusiness() = when (this) {
         is Employed -> business
-        is EmployedByTown -> business
+        is EmployedByTown -> optionalBusiness
         else -> null
     }
 
@@ -43,7 +43,7 @@ sealed class EmploymentStatus {
 
     fun isEmployedAt(business: BusinessId) = when (this) {
         is Employed -> business == this.business
-        is EmployedByTown -> business == this.business
+        is EmployedByTown -> business == this.optionalBusiness
         else -> false
     }
 
@@ -61,7 +61,7 @@ data class Employed(
 data class EmployedByTown(
     val job: JobId,
     val town: TownId,
-    val business: BusinessId?,
+    val optionalBusiness: BusinessId?,
 ) : EmploymentStatus()
 
 @Serializable
