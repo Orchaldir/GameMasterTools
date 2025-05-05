@@ -39,9 +39,7 @@ fun <ID, ELEMENT> State.requireExists(
 ): ELEMENT where ID : Id<ID>,
                  ELEMENT : Element<ID>,
                  ELEMENT : HasStartDate {
-    val element = storage.getOrThrow(id) {
-        message(id)
-    }
+    val element = storage.getOrThrow(id)
 
     require(exists(element, date)) {
         message(element.id())

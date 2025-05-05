@@ -32,7 +32,7 @@ private fun checkEmploymentStatus(
         is Employed -> checkEmployed(state, noun, date, status.job, status.business)
         is EmployedByTown -> {
             checkEmployed(state, noun, date, status.job, status.optionalBusiness)
-            state.requireExists(state.getTownStorage(), status.town, date) { "The $noun's town doesn't exist!" }
+            state.requireExists(state.getTownStorage(), status.town, date)
         }
     }
 }
@@ -45,9 +45,7 @@ private fun checkEmployed(
     businessId: BusinessId?,
 ) {
     if (businessId != null) {
-        val business = state.getBusinessStorage()
-            .getOrThrow(businessId) { "The $noun's business doesn't exist!" }
-        require(state.exists(business, date)) { "The $noun's business is not in operation!" }
+        state.requireExists(state.getBusinessStorage(), businessId, date)
     }
-    state.getJobStorage().require(jobId) { "The $noun's job doesn't exist!" }
+    state.getJobStorage().require(jobId)
 }

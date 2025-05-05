@@ -28,14 +28,14 @@ class EmploymentStatusTest {
 
         @Test
         fun `Cannot use unknown business`() {
-            assertIllegalArgument("The employment's business doesn't exist!") {
+            assertIllegalArgument("Requires unknown Business 99!") {
                 checkEmploymentStatusHistory(state, History(Employed(UNKNOWN_BUSINESS_ID, JOB_ID_0)), DAY0)
             }
         }
 
         @Test
         fun `Cannot use unknown job`() {
-            assertIllegalArgument("The employment's job doesn't exist!") {
+            assertIllegalArgument("Requires unknown Job 99!") {
                 checkEmploymentStatusHistory(state, History(Employed(BUSINESS_ID_0, UNKNOWN_JOB_ID)), DAY0)
             }
         }
@@ -44,7 +44,7 @@ class EmploymentStatusTest {
         fun `Character employed by a business before its founding`() {
             val newState = state.updateStorage(Storage(Business(BUSINESS_ID_0, startDate = DAY1)))
 
-            assertIllegalArgument("The employment's business is not in operation!") {
+            assertIllegalArgument("The Business 0 doesn't exist at the required date!") {
                 checkEmploymentStatusHistory(newState, History(Employed(BUSINESS_ID_0, JOB_ID_0)), DAY0)
             }
         }
@@ -60,14 +60,14 @@ class EmploymentStatusTest {
 
         @Test
         fun `Cannot use unknown job`() {
-            assertIllegalArgument("The employment's job doesn't exist!") {
+            assertIllegalArgument("Requires unknown Job 99!") {
                 checkEmploymentStatusHistory(state, History(EmployedByTown(UNKNOWN_JOB_ID, TOWN_ID_0)), DAY0)
             }
         }
 
         @Test
         fun `Cannot use unknown town`() {
-            assertIllegalArgument("The employment's town doesn't exist!") {
+            assertIllegalArgument("Requires unknown Town 99!") {
                 checkEmploymentStatusHistory(state, History(EmployedByTown(JOB_ID_0, UNKNOWN_TOWN_ID)), DAY0)
             }
         }
@@ -76,7 +76,7 @@ class EmploymentStatusTest {
         fun `Character employed by a town before its founding`() {
             val newState = state.updateStorage(Storage(Town(TOWN_ID_0, foundingDate = DAY1)))
 
-            assertIllegalArgument("The employment's town doesn't exist!") {
+            assertIllegalArgument("The Town 0 doesn't exist at the required date!") {
                 checkEmploymentStatusHistory(newState, History(EmployedByTown(JOB_ID_0, TOWN_ID_0)), DAY0)
             }
         }
