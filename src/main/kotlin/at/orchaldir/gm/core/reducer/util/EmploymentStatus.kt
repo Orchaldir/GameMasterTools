@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.util.exists
+import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.doNothing
 
 fun checkEmploymentStatusHistory(
@@ -21,15 +22,18 @@ fun checkEmploymentStatusHistory(
 
 private fun checkEmploymentStatus(
     state: State,
-    employmentStatus: EmploymentStatus,
+    status: EmploymentStatus,
     noun: String,
     date: Date,
 ) {
-    when (employmentStatus) {
+    when (status) {
         UndefinedEmploymentStatus -> doNothing()
         Unemployed -> doNothing()
-        is Employed -> checkEmployed(state, noun, date, employmentStatus.job, employmentStatus.business)
-        is EmployedByTown -> checkEmployed(state, noun, date, employmentStatus.job, employmentStatus.optionalBusiness)
+        is Employed -> checkEmployed(state, noun, date, status.job, status.business)
+        is EmployedByTown -> {
+            checkEmployed(state, noun, date, status.job, status.optionalBusiness)
+            state.requireExists(state.getTownStorage(), status.town, date) { "The $noun's town doesn't exist!" }
+        }
     }
 }
 

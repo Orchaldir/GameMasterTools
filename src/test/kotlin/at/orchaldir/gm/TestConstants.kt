@@ -117,6 +117,7 @@ val TITLE_ID_0 = TitleId(0)
 val UNKNOWN_TITLE_ID = TitleId(99)
 val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
+val UNKNOWN_TOWN_ID = TownId(99)
 
 val NAME = Name.init("Test")
 
