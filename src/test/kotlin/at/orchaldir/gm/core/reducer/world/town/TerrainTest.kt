@@ -15,6 +15,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.MapSize2d
+import at.orchaldir.gm.utils.map.MapSize2d.Companion.square
 import at.orchaldir.gm.utils.map.Resize
 import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
@@ -259,8 +260,8 @@ class TerrainTest {
                 )
             )
             val oldTown = Town(TOWN_ID_0, map = oldMap)
-            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_ID_0, 1, MapSize2d.Companion.square(1)))
-            val newBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_ID_0, 7, MapSize2d.Companion.square(1)))
+            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_ID_0, 1, square(1)))
+            val newBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_ID_0, 7, square(1)))
             val state = State(listOf(Storage(oldBuilding), Storage(oldTown)))
             val action = ResizeTown(TOWN_ID_0, Resize(2, 0, 1, 0), TerrainType.Plain, 0)
 
@@ -274,7 +275,7 @@ class TerrainTest {
         fun `Resize would remove a building`() {
             val oldMap = TileMap2d(MapSize2d(2, 1), listOf(EMPTY, BUILDING_TILE))
             val oldTown = Town(TOWN_ID_0, map = oldMap)
-            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_ID_0, 1, MapSize2d.Companion.square(1)))
+            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_ID_0, 1, square(1)))
             val state = State(listOf(Storage(oldBuilding), Storage(oldTown)))
             val action = ResizeTown(TOWN_ID_0, Resize(0, -1, 0, 0), TerrainType.Plain, 0)
 
