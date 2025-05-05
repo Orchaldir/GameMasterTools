@@ -6,11 +6,7 @@ import at.orchaldir.gm.core.action.RemoveStreetTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
-import at.orchaldir.gm.core.model.world.town.AbstractBuildingTile
-import at.orchaldir.gm.core.model.world.town.BuildingTile
-import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d
