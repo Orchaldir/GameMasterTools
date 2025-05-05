@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.world.town.TownId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,6 +11,7 @@ enum class EmploymentStatusType {
     Undefined,
     Unemployed,
     Employed,
+    EmployedByTown,
 }
 
 @Serializable
@@ -18,25 +21,35 @@ sealed class EmploymentStatus {
         UndefinedEmploymentStatus -> EmploymentStatusType.Undefined
         Unemployed -> EmploymentStatusType.Unemployed
         is Employed -> EmploymentStatusType.Employed
+        is EmployedByTown -> EmploymentStatusType.EmployedByTown
     }
 
     fun getBusiness() = when (this) {
         is Employed -> business
+        is EmployedByTown -> optionalBusiness
         else -> null
     }
 
     fun getJob() = when (this) {
         is Employed -> job
+        is EmployedByTown -> job
         else -> null
     }
 
     fun hasJob(job: JobId) = when (this) {
         is Employed -> job == this.job
+        is EmployedByTown -> job == this.job
         else -> false
     }
 
     fun isEmployedAt(business: BusinessId) = when (this) {
         is Employed -> business == this.business
+        is EmployedByTown -> business == this.optionalBusiness
+        else -> false
+    }
+
+    fun isEmployedAt(town: TownId) = when (this) {
+        is EmployedByTown -> town == this.town
         else -> false
     }
 
@@ -50,9 +63,22 @@ data class Employed(
 ) : EmploymentStatus()
 
 @Serializable
+@SerialName("ByTown")
+data class EmployedByTown(
+    val job: JobId,
+    val town: TownId,
+    val optionalBusiness: BusinessId? = null,
+) : EmploymentStatus()
+
+@Serializable
 @SerialName("Unemployed")
 data object Unemployed : EmploymentStatus()
 
 @Serializable
 @SerialName("Undefined")
 data object UndefinedEmploymentStatus : EmploymentStatus()
+
+fun History<EmploymentStatus>.wasEmployedAt(town: TownId) = previousEntries
+    .any { it.entry.isEmployedAt(town) }
+
+fun History<EmploymentStatus>.isOrWasEmployedAt(town: TownId) = current.isEmployedAt(town) || wasEmployedAt(town)

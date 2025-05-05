@@ -99,7 +99,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
                     fieldStorageLink(call, state.getStreetStorage(), StreetRoutes())
                     fieldStorageLink(call, state.getStreetTemplateStorage(), StreetTemplateRoutes())
-                    fieldStorageLink(call, state.getTownStorage(), TownRoutes())
+                    fieldStorageLink(call, state.getTownStorage(), TownRoutes.All())
                 }
             }
         }

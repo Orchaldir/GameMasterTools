@@ -11,11 +11,15 @@ import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortTown
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getResident
 import at.orchaldir.gm.core.selector.character.getWorkingIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.util.sortCharacters
+import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTemplateFill
 import at.orchaldir.gm.visualization.town.showTerrainName
@@ -30,17 +34,21 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.h2
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 fun Application.configureTownRouting() {
     routing {
-        get<TownRoutes> {
+        get<TownRoutes.All> { all ->
             logger.info { "Get all towns" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllTowns(call, STORE.getState())
+                showAllTowns(call, STORE.getState(), all.sort)
             }
         }
         get<TownRoutes.Details> { details ->
@@ -67,7 +75,7 @@ fun Application.configureTownRouting() {
 
             STORE.dispatch(DeleteTown(delete.id))
 
-            call.respondRedirect(call.application.href(TownRoutes()))
+            call.respondRedirect(call.application.href(TownRoutes.All()))
 
             STORE.getState().save()
         }
@@ -111,14 +119,31 @@ fun Application.configureTownRouting() {
 private fun HTML.showAllTowns(
     call: ApplicationCall,
     state: State,
+    sort: SortTown,
 ) {
-    val towns = STORE.getState().getTownStorage().getAll().sortedBy { it.name(state) }
+    val towns = state.sortTowns(sort)
     val createLink = call.application.href(TownRoutes.New())
 
     simpleHtml("Towns") {
         field("Count", towns.size)
-        showList(towns) { town ->
-            link(call, state, town)
+        showSortTableLinks(call, SortTown.entries, TownRoutes(), TownRoutes::All)
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Date" }
+                th { +"Founder" }
+                th { +"Buildings" }
+                th { +"Residents" }
+            }
+            towns.forEach { town ->
+                tr {
+                    td { link(call, town) }
+                    td { showDate(call, state, town.startDate()) }
+                    td { showCreator(call, state, town.founder, false) }
+                    tdSkipZero(state.countBuildings(town.id))
+                    tdSkipZero(state.countResident(town.id))
+                }
+            }
         }
         showCreatorCount(call, state, towns, "Founders")
         action(createLink, "Add")
@@ -132,7 +157,7 @@ private fun HTML.showTownDetails(
     town: Town,
 ) {
     val buildings = state.getBuildings(town.id)
-    val backLink = call.application.href(TownRoutes())
+    val backLink = call.application.href(TownRoutes.All())
     val deleteLink = call.application.href(TownRoutes.Delete(town.id))
     val editLink = call.application.href(TownRoutes.Edit(town.id))
     val editBuildingsLink = call.application.href(TownRoutes.BuildingRoutes.Edit(town.id))
@@ -162,8 +187,14 @@ private fun HTML.showTownDetails(
             showBuildingOwnershipCount(call, state, buildings)
             action(editBuildingsLink, "Edit Buildings")
             h2 { +"Characters" }
+            val employees = state.getEmployees(town.id)
             val residents = state.getResident(town.id)
             val workers = state.getWorkingIn(town.id) - residents
+            fieldList("Employees", state.sortCharacters(employees)) { employee ->
+                link(call, state, employee)
+                +" as "
+                showEmploymentStatus(call, state, employee.employmentStatus.current, showTown = false)
+            }
             fieldList(call, state, "Residents", state.sortCharacters(residents))
             fieldList(call, state, "Workers, but not Residents", state.sortCharacters(workers))
             val characters = residents.toSet() + workers.toSet()

@@ -4,13 +4,15 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
+import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.selector.economy.Economy
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -24,6 +26,7 @@ class DataTest {
         listOf(
             Storage(Calendar(CALENDAR_ID_0)),
             Storage(Currency(CURRENCY_ID_0)),
+            Storage(Job(JOB_ID_0, income = AffordableStandardOfLiving(STANDARD_ID_1))),
         )
     )
 
@@ -62,6 +65,16 @@ class DataTest {
             val action = UpdateData(Data(economy = Economy(standardsOfLiving = standards)))
 
             assertIllegalArgument("Standard of Living 'B' must have a greater income than the last one!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a used standard of living`() {
+            val data = Data(economy = Economy(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0))))
+            val action = UpdateData(data)
+
+            assertIllegalArgument("The number of required Standards of Living is 2!") {
                 REDUCER.invoke(state, action)
             }
         }

@@ -49,6 +49,20 @@ fun State.countCharacters(title: TitleId) = getCharacterStorage()
     .getAll()
     .count { it.title == title }
 
+fun State.countCurrentOrFormerEmployees(town: TownId) = getCharacterStorage()
+    .getAll()
+    .count { c -> c.employmentStatus.isOrWasEmployedAt(town) }
+
+fun State.countEmployees(town: TownId) = getCharacterStorage()
+    .getAll()
+    .count { c -> c.employmentStatus.current.isEmployedAt(town) }
+
+fun State.countResident(town: TownId) = getCharacterStorage()
+    .getAll()
+    .count { isResident(it, town) }
+
+// count each
+
 fun countEachCauseOfDeath(characters: Collection<Character>) = characters
     .filter { it.vitalStatus is Dead }
     .groupingBy { it.vitalStatus.getCauseOfDeath()!! }
@@ -149,6 +163,10 @@ fun State.getEmployees(job: JobId) = getCharacterStorage()
 fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.employmentStatus.current.isEmployedAt(business) }
+
+fun State.getEmployees(town: TownId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.employmentStatus.current.isEmployedAt(town) }
 
 fun State.getPreviousEmployees(job: JobId) = getCharacterStorage()
     .getAll()

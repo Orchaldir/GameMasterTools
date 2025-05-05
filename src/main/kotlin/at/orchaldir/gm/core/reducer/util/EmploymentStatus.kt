@@ -1,13 +1,12 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Employed
-import at.orchaldir.gm.core.model.character.EmploymentStatus
-import at.orchaldir.gm.core.model.character.UndefinedEmploymentStatus
-import at.orchaldir.gm.core.model.character.Unemployed
+import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.selector.util.exists
+import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.doNothing
 
 fun checkEmploymentStatusHistory(
@@ -18,18 +17,30 @@ fun checkEmploymentStatusHistory(
 
 private fun checkEmploymentStatus(
     state: State,
-    employmentStatus: EmploymentStatus,
+    status: EmploymentStatus,
     noun: String,
     date: Date,
 ) {
-    when (employmentStatus) {
+    when (status) {
         UndefinedEmploymentStatus -> doNothing()
         Unemployed -> doNothing()
-        is Employed -> {
-            val business = state.getBusinessStorage()
-                .getOrThrow(employmentStatus.business) { "The $noun's business doesn't exist!" }
-            require(state.exists(business, date)) { "The $noun's business is not in operation!" }
-            state.getJobStorage().require(employmentStatus.job) { "The $noun's job doesn't exist!" }
+        is Employed -> checkEmployed(state, noun, date, status.job, status.business)
+        is EmployedByTown -> {
+            checkEmployed(state, noun, date, status.job, status.optionalBusiness)
+            state.requireExists(state.getTownStorage(), status.town, date)
         }
     }
+}
+
+private fun checkEmployed(
+    state: State,
+    noun: String,
+    date: Date,
+    jobId: JobId,
+    businessId: BusinessId?,
+) {
+    if (businessId != null) {
+        state.requireExists(state.getBusinessStorage(), businessId, date)
+    }
+    state.getJobStorage().require(jobId)
 }

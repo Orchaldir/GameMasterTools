@@ -27,7 +27,7 @@ fun <ID, ELEMENT> State.requireExists(storage: Storage<ID, ELEMENT>, id: ID, dat
         where ID : Id<ID>,
               ELEMENT : Element<ID>,
               ELEMENT : HasStartDate =
-    requireExists(storage, id, date) { element ->
+    requireExists(storage, id, date) {
         "The ${id.type()} ${id.value()} doesn't exist at the required date!"
     }
 
@@ -35,14 +35,14 @@ fun <ID, ELEMENT> State.requireExists(
     storage: Storage<ID, ELEMENT>,
     id: ID,
     date: Date?,
-    message: (ELEMENT) -> String,
+    message: (ID) -> String,
 ): ELEMENT where ID : Id<ID>,
                  ELEMENT : Element<ID>,
                  ELEMENT : HasStartDate {
     val element = storage.getOrThrow(id)
 
     require(exists(element, date)) {
-        message(element)
+        message(element.id())
     }
 
     return element
