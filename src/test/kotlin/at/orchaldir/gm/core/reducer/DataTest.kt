@@ -1,13 +1,6 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.CALENDAR_ID_0
-import at.orchaldir.gm.CURRENCY_ID_0
-import at.orchaldir.gm.HOLIDAY_ID_0
-import at.orchaldir.gm.STANDARD_ID_0
-import at.orchaldir.gm.STANDARD_ID_1
-import at.orchaldir.gm.UNKNOWN_CALENDAR_ID
-import at.orchaldir.gm.UNKNOWN_CURRENCY_ID
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
