@@ -46,7 +46,9 @@ fun HtmlBlockTag.showEconomy(
             th {
                 +"Max"
                 br { }
-                +"Yearly Income"
+                +"Yearly"
+                br { }
+                +"Income"
             }
             th { +"Jobs" }
         }
