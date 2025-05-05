@@ -153,7 +153,7 @@ fun parseEarring(parameters: Parameters): Earring {
 fun parseDangleEarring(parameters: Parameters) = DangleEarring(
     parseOrnament(parameters, TOP),
     parseOrnament(parameters, BOTTOM),
-    parseList(parameters, SIZE, 1) { param ->
+    parseList(parameters, SIZE, 1) { _, param ->
         parse(parameters, param, Size.Medium)
     },
     parseColorItemPart(parameters, WIRE),

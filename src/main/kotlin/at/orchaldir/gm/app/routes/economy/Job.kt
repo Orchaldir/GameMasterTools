@@ -9,17 +9,15 @@ import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
-import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.economy.job.Salary
+import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
-import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.sortJobs
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -151,10 +149,11 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
             tr {
                 th { +"Name" }
                 th {
-                    +"Monthly"
+                    +"Yearly"
                     br { }
                     +"Income"
                 }
+                th { +"Gender" }
                 th { +"Characters" }
                 th { +"Domains" }
                 th { +"Spells" }
@@ -163,11 +162,14 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                 tr {
                     td { link(call, job) }
                     td {
-                        if (job.income is Salary) {
-                            +currency.display(job.income.salary)
+                        when (job.income) {
+                            UndefinedIncome -> doNothing()
+                            is AffordableStandardOfLiving -> link(call, state, job.income.standard)
+                            is Salary -> +currency.display(job.income.yearlySalary)
                         }
                     }
-                    tdSkipZero(state.getEmployees(job.id).size)
+                    tdOptionalEnum(job.preferredGender)
+                    tdSkipZero(state.countCharacters(job.id))
                     tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(job.spells.getRarityMap().size)
                 }
@@ -184,7 +186,7 @@ private fun HTML.showJobDetails(
     state: State,
     job: Job,
 ) {
-    val backLink = call.application.href(JobRoutes())
+    val backLink = call.application.href(JobRoutes.All())
     val deleteLink = call.application.href(JobRoutes.Delete(job.id))
     val editLink = call.application.href(JobRoutes.Edit(job.id))
 

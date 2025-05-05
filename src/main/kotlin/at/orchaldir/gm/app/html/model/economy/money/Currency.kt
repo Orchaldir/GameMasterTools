@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.model.economy
+package at.orchaldir.gm.app.html.model.economy.money
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
@@ -105,7 +105,7 @@ fun parseOptionalCurrencyId(parameters: Parameters, param: String) =
 
 fun parseCurrency(parameters: Parameters, state: State, id: CurrencyId): Currency {
     var lastThreshold = 0
-    val subDenominations = parseList(parameters, DENOMINATION, 0) { param ->
+    val subDenominations = parseList(parameters, DENOMINATION, 0) { _, param ->
         lastThreshold = parseInt(parameters, combine(param, NUMBER), lastThreshold + 1)
 
         Pair(

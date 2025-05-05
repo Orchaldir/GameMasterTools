@@ -7,8 +7,10 @@ import at.orchaldir.gm.core.model.character.Genonym
 import at.orchaldir.gm.core.model.character.Mononym
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.Salary
+import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.font.Font
@@ -274,14 +276,16 @@ fun State.sortJobs(
     .sortedWith(
         when (sort) {
             SortJob.Name -> compareBy { it.name.text }
-            SortJob.Spells -> compareByDescending { it.spells.getSize() }
             SortJob.Income -> compareByDescending {
-                if (it.income is Salary) {
-                    it.income.salary.value
-                } else {
-                    0
+                when (it.income) {
+                    UndefinedIncome -> 0
+                    is AffordableStandardOfLiving -> it.income.standard.value + 1
+                    is Salary -> it.income.yearlySalary.value
                 }
             }
+
+            SortJob.Characters -> compareByDescending { countCharacters(it.id) }
+            SortJob.Spells -> compareByDescending { it.spells.getSize() }
         })
 
 // organization

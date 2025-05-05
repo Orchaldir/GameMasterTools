@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.money.*
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.font.FONT_TYPE
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
@@ -221,6 +222,8 @@ data class State(
             if (element != null) {
                 return element.name(this)
             }
+        } else if (id is StandardOfLivingId) {
+            return data.economy.getStandardOfLiving(id).name()
         }
 
         return "Unknown"
@@ -298,6 +301,7 @@ data class State(
         getStreetTemplateStorage().getAll().forEach { validateStreetTemplate(this, it) }
         getTextStorage().getAll().forEach { validateText(this, it) }
         getTownStorage().getAll().forEach { validateTown(this, it) }
+        validateData(this, data)
     }
 
     fun save() {

@@ -1,9 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseLong
-import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectLong
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.SiPrefix

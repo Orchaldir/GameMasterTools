@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
+import at.orchaldir.gm.app.routes.economy.StandardOfLivingRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.item.*
@@ -30,6 +31,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -70,6 +72,16 @@ import io.ktor.server.resources.*
 import kotlinx.html.*
 
 // field
+
+fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
+    call: ApplicationCall,
+    state: State,
+    id: ID,
+) {
+    field(id.type()) {
+        link(call, state, id)
+    }
+}
 
 fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
     label: String,
@@ -328,6 +340,7 @@ fun <ID : Id<ID>> href(
     is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is SpellId -> call.application.href(SpellRoutes.Details(id))
+    is StandardOfLivingId -> call.application.href(StandardOfLivingRoutes.Details(id))
     is StreetId -> call.application.href(StreetRoutes.Details(id))
     is StreetTemplateId -> call.application.href(StreetTemplateRoutes.Details(id))
     is TextId -> call.application.href(TextRoutes.Details(id))
