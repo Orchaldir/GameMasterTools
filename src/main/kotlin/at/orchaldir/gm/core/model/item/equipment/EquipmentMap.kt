@@ -1,8 +1,5 @@
-package at.orchaldir.gm.core.model.character
+package at.orchaldir.gm.core.model.item.equipment
 
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.EquipmentData
-import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import kotlinx.serialization.Serializable
 
 @Serializable
