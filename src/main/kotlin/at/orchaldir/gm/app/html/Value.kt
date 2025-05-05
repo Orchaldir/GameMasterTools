@@ -75,7 +75,6 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
     elements: Collection<ELEMENT>,
     current: ID?,
     update: Boolean = false,
-    isDisabled: (ELEMENT) -> Boolean = { false },
 ) {
     selectOptionalValue(
         labelText,
@@ -86,7 +85,6 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
     ) { element ->
         label = element.name(state)
         value = element.id().value().toString()
-        disabled = isDisabled(element)
     }
 }
 
@@ -97,13 +95,11 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     elements: Collection<ELEMENT>,
     current: ID,
     update: Boolean = false,
-    isDisabled: (ELEMENT) -> Boolean = { false },
 ) {
     selectValue(labelText, selectId, elements, update) { element ->
         label = element.name(state)
         value = element.id().value().toString()
         selected = element.id() == current
-        disabled = isDisabled(element)
     }
 }
 

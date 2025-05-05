@@ -19,10 +19,13 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.core.selector.util.sortBusinesses
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortJobs
+import at.orchaldir.gm.core.selector.util.sortTowns
+import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -123,11 +126,9 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 state,
                 "Business",
                 combine(param, BUSINESS),
-                state.sortBusinesses(),
+                state.sortBusinesses(state.getOpenBusinesses(start)),
                 employmentStatus.business,
-            ) { business ->
-                !state.exists(business, start)
-            }
+            )
             selectJob(state, param, employmentStatus.job)
         }
 
@@ -136,21 +137,17 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 state,
                 "Town",
                 combine(param, TOWN),
-                state.getTownStorage().getAll(),
+                state.sortTowns(state.getExistingTowns(start)),
                 employmentStatus.town,
-            ) { town ->
-                !state.exists(town, start)
-            }
+            )
             selectJob(state, param, employmentStatus.job)
             selectOptionalElement(
                 state,
                 "Business",
                 combine(param, BUSINESS),
-                state.sortBusinesses(),
+                state.sortBusinesses(state.getOpenBusinesses(start)),
                 employmentStatus.optionalBusiness,
-            ) { business ->
-                !state.exists(business, start)
-            }
+            )
         }
     }
 }
