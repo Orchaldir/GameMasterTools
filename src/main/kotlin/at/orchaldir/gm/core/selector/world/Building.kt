@@ -15,6 +15,10 @@ fun State.canDelete(building: Building) = building.ownership.current.canDelete()
         && getCharactersLivingIn(building.id).isEmpty()
         && getCharactersPreviouslyLivingIn(building.id).isEmpty()
 
+fun State.countBuildings(town: TownId) = getBuildingStorage()
+    .getAll()
+    .count { it.lot.town == town }
+
 fun countEachPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
     .eachCount()

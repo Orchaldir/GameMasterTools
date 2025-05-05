@@ -118,3 +118,10 @@ enum class SortTitle {
     Name,
     Characters,
 }
+
+enum class SortTown {
+    Name,
+    Date,
+    Buildings,
+    Residents,
+}

@@ -49,6 +49,12 @@ fun State.countCharacters(title: TitleId) = getCharacterStorage()
     .getAll()
     .count { it.title == title }
 
+fun State.countResident(town: TownId) = getCharacterStorage()
+    .getAll()
+    .count { isResident(it, town) }
+
+// count each
+
 fun countEachCauseOfDeath(characters: Collection<Character>) = characters
     .filter { it.vitalStatus is Dead }
     .groupingBy { it.vitalStatus.getCauseOfDeath()!! }

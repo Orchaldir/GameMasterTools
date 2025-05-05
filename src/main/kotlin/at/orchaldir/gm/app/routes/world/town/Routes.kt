@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.world.town
 
+import at.orchaldir.gm.core.model.util.SortTown
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
@@ -10,6 +11,12 @@ import io.ktor.resources.*
 
 @Resource("/$TOWN_TYPE")
 class TownRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortTown = SortTown.Name,
+        val parent: TownRoutes = TownRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: TownId, val parent: TownRoutes = TownRoutes())
 

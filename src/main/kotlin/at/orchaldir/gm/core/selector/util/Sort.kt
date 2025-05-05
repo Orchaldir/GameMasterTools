@@ -31,7 +31,9 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.character.countCharacters
+import at.orchaldir.gm.core.selector.character.countResident
 import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
@@ -39,6 +41,7 @@ import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
+import at.orchaldir.gm.core.selector.world.countBuildings
 
 // generic
 
@@ -447,3 +450,20 @@ fun State.sortTitles(
             SortTitle.Characters -> compareByDescending { countCharacters(it.id) }
         }
     )
+
+// town
+
+fun State.sortTowns(sort: SortTown = SortTown.Name) =
+    sortTowns(getTownStorage().getAll(), sort)
+
+fun State.sortTowns(
+    towns: Collection<Town>,
+    sort: SortTown = SortTown.Name,
+) = towns
+    .sortedWith(
+        when (sort) {
+            SortTown.Name -> compareBy { it.name.text }
+            SortTown.Date -> getAgeComparator()
+            SortTown.Residents -> compareByDescending { countResident(it.id) }
+            SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
+        })
