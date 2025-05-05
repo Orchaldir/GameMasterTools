@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -12,7 +13,6 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
