@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
-import at.orchaldir.gm.core.selector.character.countEmployees
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted

@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.selector.economy.getRequiredStandards
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
