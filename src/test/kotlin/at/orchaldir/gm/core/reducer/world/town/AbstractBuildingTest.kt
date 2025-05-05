@@ -80,7 +80,7 @@ class AbstractBuildingTest {
         }
 
         @Test
-        fun `Successfully set a street`() {
+        fun `Successfully set an abstract building`() {
             val map = TileMap2d(EMPTY)
             val town = Town(TOWN_ID_0, map = map)
             val state = STATE.updateStorage(Storage(town))
