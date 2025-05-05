@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getResident
 import at.orchaldir.gm.core.selector.character.getWorkingIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
@@ -162,8 +163,14 @@ private fun HTML.showTownDetails(
             showBuildingOwnershipCount(call, state, buildings)
             action(editBuildingsLink, "Edit Buildings")
             h2 { +"Characters" }
+            val employees = state.getEmployees(town.id)
             val residents = state.getResident(town.id)
             val workers = state.getWorkingIn(town.id) - residents
+            fieldList("Employees", state.sortCharacters(employees)) { employee ->
+                link(call, state, employee)
+                +" as "
+                showEmploymentStatus(call, state, employee.employmentStatus.current, showTown = false)
+            }
             fieldList(call, state, "Residents", state.sortCharacters(residents))
             fieldList(call, state, "Workers, but not Residents", state.sortCharacters(workers))
             val characters = residents.toSet() + workers.toSet()

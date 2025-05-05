@@ -47,6 +47,11 @@ sealed class EmploymentStatus {
         else -> false
     }
 
+    fun isEmployedAt(town: TownId) = when (this) {
+        is EmployedByTown -> town == this.town
+        else -> false
+    }
+
 }
 
 @Serializable

@@ -150,6 +150,10 @@ fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.employmentStatus.current.isEmployedAt(business) }
 
+fun State.getEmployees(town: TownId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.employmentStatus.current.isEmployedAt(town) }
+
 fun State.getPreviousEmployees(job: JobId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.employmentStatus.previousEntries.any { it.entry.hasJob(job) } }
