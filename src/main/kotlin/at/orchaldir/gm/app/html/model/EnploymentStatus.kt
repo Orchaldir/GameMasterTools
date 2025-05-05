@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.economy.parseJobId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectOptionalElement
-import at.orchaldir.gm.app.html.selectOptionalValue
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -58,20 +57,27 @@ fun HtmlBlockTag.showEmploymentStatusHistory(
 fun HtmlBlockTag.showEmploymentStatus(
     call: ApplicationCall,
     state: State,
-    employmentStatus: EmploymentStatus,
+    status: EmploymentStatus,
     showUndefined: Boolean = true,
+    showOptionalBusiness: Boolean = true,
 ) {
-    when (employmentStatus) {
+    when (status) {
         is Employed -> {
-            link(call, state, employmentStatus.job)
+            link(call, state, status.job)
             +" at "
-            link(call, state, employmentStatus.business)
+            link(call, state, status.business)
         }
 
-        is EmployedByTown -> {
-            link(call, state, employmentStatus.job)
+        is EmployedByTown -> if (status.optionalBusiness != null && showOptionalBusiness) {
+            link(call, state, status.job)
             +" at "
-            link(call, state, employmentStatus.town)
+            link(call, state, status.town)
+            +"'s "
+            link(call, state, status.optionalBusiness)
+        } else {
+            link(call, state, status.job)
+            +" of "
+            link(call, state, status.town)
         }
 
         Unemployed -> +"Unemployed"

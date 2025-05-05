@@ -207,7 +207,7 @@ private fun HTML.showAllCharacters(
                     td { showDate(call, state, character.birthDate) }
                     tdSkipZero(state.getAgeInYears(character))
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
-                    td { showEmploymentStatus(call, state, character.employmentStatus.current, false) }
+                    td { showEmploymentStatus(call, state, character.employmentStatus.current, false, false) }
                     tdSkipZero(state.getOrganizations(character.id).size)
                 }
             }

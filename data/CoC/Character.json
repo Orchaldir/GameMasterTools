@@ -286,9 +286,10 @@
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
-     "business": 1,
-     "job": 1
+     "type": "ByTown",
+     "job": 1,
+     "town": 0,
+     "optionalBusiness": 1
     }
    }
   },
