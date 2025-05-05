@@ -5,37 +5,37 @@
    {
     "id": 0,
     "name": "Wretched",
-    "maxYearlyIncome": 2
+    "maxYearlyIncome": 10
    },
    {
     "id": 1,
     "name": "Squalid",
-    "maxYearlyIncome": 2
+    "maxYearlyIncome": 20
    },
    {
     "id": 2,
     "name": "Poor",
-    "maxYearlyIncome": 1
+    "maxYearlyIncome": 30
    },
    {
     "id": 3,
     "name": "Modest",
-    "maxYearlyIncome": 1
+    "maxYearlyIncome": 40
    },
    {
     "id": 4,
     "name": "Comfortable",
-    "maxYearlyIncome": 1
+    "maxYearlyIncome": 50
    },
    {
     "id": 5,
     "name": "Wealthy",
-    "maxYearlyIncome": 1
+    "maxYearlyIncome": 60
    },
    {
     "id": 6,
     "name": "Aristocratic",
-    "maxYearlyIncome": 1
+    "maxYearlyIncome": 70
    }
   ]
  },
