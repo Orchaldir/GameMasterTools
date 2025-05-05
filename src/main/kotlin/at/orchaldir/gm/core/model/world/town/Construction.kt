@@ -36,6 +36,10 @@ sealed class Construction {
 data object NoConstruction : Construction()
 
 @Serializable
+@SerialName("AbstractBuilding")
+data object AbstractBuildingTile : Construction()
+
+@Serializable
 @SerialName("Building")
 data class BuildingTile(val building: BuildingId) : Construction()
 

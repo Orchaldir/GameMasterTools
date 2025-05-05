@@ -7,9 +7,11 @@ import at.orchaldir.gm.core.model.world.terrain.HillTerrain
 import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
 import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
 import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
+import at.orchaldir.gm.core.model.world.town.AbstractBuildingTile
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
@@ -50,6 +52,18 @@ data class TownRenderer(
         tooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     ) {
         tileRenderer.renderWithLinksAndTooltips(svgBuilder, town.map, colorLookup, linkLookup, tooltipLookup)
+    }
+
+    fun renderAbstractBuildings(
+        color: Color = Color.DimGray,
+    ) {
+        val size = MapSize2d.square(1)
+
+        tileRenderer.render(town.map) { index, _, _, _, tile ->
+            if (tile.construction is AbstractBuildingTile) {
+                renderBuilding(svgBuilder.getLayer(), index, size, color)
+            }
+        }
     }
 
     fun renderBuildings(
@@ -108,9 +122,16 @@ data class TownRenderer(
         layer: LayerRenderer,
         building: Building,
         color: Color,
+    ) = renderBuilding(layer, building.lot.tileIndex, building.lot.size, color)
+
+    private fun renderBuilding(
+        layer: LayerRenderer,
+        tileIndex: Int,
+        size: MapSize2d,
+        color: Color,
     ) {
-        val start = tileRenderer.calculateTilePosition(town.map, building.lot.tileIndex)
-        val size = tileRenderer.calculateLotSize(building.lot.size)
+        val start = tileRenderer.calculateTilePosition(town.map, tileIndex)
+        val size = tileRenderer.calculateLotSize(size)
         val aabb = AABB(start, size).shrink(HALF)
         val style = NoBorder(color.toRender())
 
@@ -142,6 +163,7 @@ fun visualizeTown(
     val townRenderer = TownRenderer(town)
 
     townRenderer.renderTiles(tileColorLookup, tileLinkLookup, tileTooltipLookup)
+    townRenderer.renderAbstractBuildings()
     townRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup, buildingTooltipLookup)
     townRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
 
