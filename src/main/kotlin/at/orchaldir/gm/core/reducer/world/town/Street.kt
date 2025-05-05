@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
     state.getStreetTemplateStorage().require(action.type)
 
-    action.street?.let { state.getStreetStorage().require(it) }
+    state.getStreetStorage().requireOptional(action.street)
 
     val oldTown = state.getTownStorage().getOrThrow(action.town)
     val town = oldTown.build(action.tileIndex, StreetTile(action.type, action.street))
