@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.world.town.TownId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,6 +10,7 @@ enum class EmploymentStatusType {
     Undefined,
     Unemployed,
     Employed,
+    EmployedByTown,
 }
 
 @Serializable
@@ -18,25 +20,30 @@ sealed class EmploymentStatus {
         UndefinedEmploymentStatus -> EmploymentStatusType.Undefined
         Unemployed -> EmploymentStatusType.Unemployed
         is Employed -> EmploymentStatusType.Employed
+        is EmployedByTown -> EmploymentStatusType.EmployedByTown
     }
 
     fun getBusiness() = when (this) {
         is Employed -> business
+        is EmployedByTown -> business
         else -> null
     }
 
     fun getJob() = when (this) {
         is Employed -> job
+        is EmployedByTown -> job
         else -> null
     }
 
     fun hasJob(job: JobId) = when (this) {
         is Employed -> job == this.job
+        is EmployedByTown -> job == this.job
         else -> false
     }
 
     fun isEmployedAt(business: BusinessId) = when (this) {
         is Employed -> business == this.business
+        is EmployedByTown -> business == this.business
         else -> false
     }
 
@@ -47,6 +54,14 @@ sealed class EmploymentStatus {
 data class Employed(
     val business: BusinessId,
     val job: JobId,
+) : EmploymentStatus()
+
+@Serializable
+@SerialName("ByTown")
+data class EmployedByTown(
+    val job: JobId,
+    val town: TownId,
+    val business: BusinessId?,
 ) : EmploymentStatus()
 
 @Serializable

@@ -3,16 +3,21 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.BUSINESS
 import at.orchaldir.gm.app.EMPLOYMENT
 import at.orchaldir.gm.app.JOB
+import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.economy.parseJobId
 import at.orchaldir.gm.app.html.selectElement
+import at.orchaldir.gm.app.html.selectOptionalElement
+import at.orchaldir.gm.app.html.selectOptionalValue
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.util.exists
@@ -36,8 +41,10 @@ fun HtmlBlockTag.showEmployees(
     fieldList(label, state.sortCharacters(employees)) { character ->
         link(call, state, character)
         +" as "
-        if (character.employmentStatus.current is Employed) {
-            link(call, state, character.employmentStatus.current.job)
+        when (val status = character.employmentStatus.current) {
+            is Employed -> link(call, state, status.job)
+            is EmployedByTown -> link(call, state, status.job)
+            else -> doNothing()
         }
     }
 }
@@ -59,6 +66,12 @@ fun HtmlBlockTag.showEmploymentStatus(
             link(call, state, employmentStatus.job)
             +" at "
             link(call, state, employmentStatus.business)
+        }
+
+        is EmployedByTown -> {
+            link(call, state, employmentStatus.job)
+            +" at "
+            link(call, state, employmentStatus.town)
         }
 
         Unemployed -> +"Unemployed"
@@ -89,16 +102,53 @@ fun HtmlBlockTag.selectEmploymentStatus(
         Unemployed -> doNothing()
 
         is Employed -> {
-            selectValue("Business", combine(param, BUSINESS), state.sortBusinesses()) { business ->
-                label = business.name(state)
-                value = business.id.value.toString()
-                selected = employmentStatus.business == business.id
-                disabled = !state.exists(business, start)
+            selectElement(
+                state,
+                "Business",
+                combine(param, BUSINESS),
+                state.sortBusinesses(),
+                employmentStatus.business,
+            ) { business ->
+                !state.exists(business, start)
             }
-            selectElement(state, "Job", combine(param, JOB), state.sortJobs(), employmentStatus.job)
+            selectJob(state, param, employmentStatus.job)
+        }
+
+        is EmployedByTown -> {
+            selectElement(
+                state,
+                "Town",
+                combine(param, TOWN),
+                state.getTownStorage().getAll(),
+                employmentStatus.town,
+            ) { town ->
+                !state.exists(town, start)
+            }
+            selectJob(state, param, employmentStatus.job)
+            selectOptionalElement(
+                state,
+                "Business",
+                combine(param, BUSINESS),
+                state.sortBusinesses(),
+                employmentStatus.business,
+            ) { business ->
+                !state.exists(business, start)
+            }
         }
     }
 }
+
+private fun HtmlBlockTag.selectJob(
+    state: State,
+    param: String,
+    job: JobId,
+) = selectElement(
+    state,
+    "Job",
+    combine(param, JOB),
+    state.sortJobs(),
+    job,
+)
 
 // parse
 
@@ -110,6 +160,12 @@ fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): 
         EmploymentStatusType.Employed -> Employed(
             parseBusinessId(parameters, combine(param, BUSINESS)),
             parseJobId(parameters, combine(param, JOB)),
+        )
+
+        EmploymentStatusType.EmployedByTown -> EmployedByTown(
+            parseJobId(parameters, combine(param, JOB)),
+            parseTownId(parameters, combine(param, TOWN)),
+            parseBusinessId(parameters, combine(param, BUSINESS)),
         )
 
         EmploymentStatusType.Unemployed -> Unemployed
