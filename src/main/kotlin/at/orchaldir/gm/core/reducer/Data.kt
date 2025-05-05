@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.selector.economy.getRequiredStandards
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -21,6 +22,11 @@ fun validateData(state: State, data: Data) {
 
 private fun validateEconomy(state: State, economy: Economy) {
     state.getCurrencyStorage().require(economy.defaultCurrency)
+    val requiredStandards = state.getRequiredStandards()
+
+    require(economy.standardsOfLiving.size >= requiredStandards) {
+        "The number of required Standards of Living is $requiredStandards!"
+    }
 
     val usedNames = mutableSetOf<Name>()
     var lastIncome = -1
