@@ -94,7 +94,7 @@ fun FORM.editJob(
     editSalary(state, job.income)
     selectOptionalValue("Preferred Gender", GENDER, job.preferredGender, Gender.entries)
     selectGenderMap("Uniforms", job.uniforms, UNIFORM) { genderParam, uniform ->
-        selectOptionalElement(state, "Uniform", UNIFORM, state.sortUniforms(), uniform)
+        selectOptionalElement(state, "Uniform", genderParam, state.sortUniforms(), uniform)
     }
     selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name.text }
 }

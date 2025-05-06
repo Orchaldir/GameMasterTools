@@ -12,6 +12,8 @@ import kotlinx.html.P
 import kotlinx.html.li
 import kotlinx.html.ul
 
+private fun createParam(param: String, gender: Gender) = "$param-$gender"
+
 // show
 
 fun <T> HtmlBlockTag.showGenderMap(
@@ -50,7 +52,7 @@ fun <T> FORM.selectGenderMap(
     showDetails(label) {
         showMap(map.getMap()) { gender, value ->
             field(gender.toString()) {
-                content("$param-$gender", value)
+                content(createParam(param, gender), value)
             }
         }
     }
@@ -63,9 +65,9 @@ fun <T> parseGenderMap(
     param: String,
     parseGender: (String) -> T,
 ): GenderMap<T> {
-    val female = parseGender(param + "-" + Gender.Female)
-    val genderless = parseGender(param + "-" + Gender.Genderless)
-    val male = parseGender(param + "-" + Gender.Male)
+    val female = parseGender(createParam(param, Gender.Female))
+    val genderless = parseGender(createParam(param, Gender.Genderless))
+    val male = parseGender(createParam(param, Gender.Male))
 
     return GenderMap(female, genderless, male)
 }
