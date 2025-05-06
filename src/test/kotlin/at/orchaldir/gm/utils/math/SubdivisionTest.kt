@@ -1,6 +1,6 @@
 package at.orchaldir.gm.utils.math
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import at.orchaldir.gm.assertPoints
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -13,21 +13,21 @@ class SubdivisionTest {
         fun `Subdividing an empty list returns the input`() {
             val noPoints = emptyList<Point2d>()
 
-            assertEquals(noPoints, subdivideLine(noPoints, 1))
+            assertPoints(noPoints, subdivideLine(noPoints, 1))
         }
 
         @Test
         fun `Subdividing a single point returns the input`() {
             val point = listOf(Point2d())
 
-            assertEquals(point, subdivideLine(point, 1))
+            assertPoints(point, subdivideLine(point, 1))
         }
 
         @Test
         fun `Subdividing two points returns the input`() {
             val twoPoints = listOf(Point2d(), Point2d(1.0f, 2.0f))
 
-            assertEquals(twoPoints, subdivideLine(twoPoints, 1))
+            assertPoints(twoPoints, subdivideLine(twoPoints, 1))
         }
 
         @Test
@@ -42,7 +42,7 @@ class SubdivisionTest {
                 Point2d(3.0f, 3.0f),
             )
 
-            assertEquals(output, subdivideLine(input, 1))
+            assertPoints(output, subdivideLine(input, 1))
         }
     }
 
@@ -86,7 +86,7 @@ class SubdivisionTest {
         }
 
         private fun test(input: List<Point2d>, output: List<Point2d>) {
-            assertEquals(output, subdividePolygon(input, 1, ::halfSegment))
+            assertPoints(output, subdividePolygon(input, 1, ::halfSegment))
         }
     }
 

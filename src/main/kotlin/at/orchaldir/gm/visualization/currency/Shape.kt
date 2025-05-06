@@ -54,9 +54,15 @@ private fun createShapePolygon(
 ) = when (shape) {
     Shape.Circle -> createRegularPolygon(center, radius, 120)
     Shape.Triangle -> createTriangle(center, radius)
+    Shape.CutoffTriangle -> createCutoffTriangle(center, radius)
     Shape.RoundedTriangle -> createRoundedTriangle(center, radius)
     Shape.Square -> createSquare(center, radius)
+    Shape.CutoffSquare -> createCutoffSquare(center, radius)
     Shape.RoundedSquare -> createRoundedSquare(center, radius)
     Shape.Diamond -> createDiamond(center, radius)
+    Shape.CutoffDiamond -> createCutoffDiamond(center, radius)
+    Shape.RoundedDiamond -> createRoundedDiamond(center, radius)
+    Shape.ScallopedOctagon -> createScallopedRegularPolygon(center, radius, 8)
+    Shape.ScallopedDodecagonal -> createScallopedRegularPolygon(center, radius, 12)
     else -> createRegularPolygon(center, radius, shape.getSides())
 }

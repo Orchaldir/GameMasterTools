@@ -35,6 +35,12 @@ fun main() {
                 radius,
             )
         } else {
+            val front = HoledCoinSide(
+                ShowValue(),
+                ShowNumber(),
+                ShowDenomination(),
+                ShowName(),
+            )
             HoledCoin(
                 gold,
                 shape,
@@ -42,12 +48,7 @@ fun main() {
                 DEFAULT_THICKNESS,
                 DEFAULT_RIM_FACTOR,
                 hole,
-                front = HoledCoinSide(
-                    ShowValue(),
-                    ShowNumber(),
-                    ShowDenomination(),
-                    ShowName(),
-                )
+                front = front
             )
         }
 

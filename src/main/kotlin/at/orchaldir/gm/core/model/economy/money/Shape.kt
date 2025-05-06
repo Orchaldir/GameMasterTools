@@ -8,20 +8,43 @@ import kotlin.math.pow
 enum class Shape {
     Circle,
     Triangle,
+    CutoffTriangle,
     RoundedTriangle,
     Square,
+    CutoffSquare,
     RoundedSquare,
     Diamond,
+    CutoffDiamond,
+    RoundedDiamond,
     Pentagon,
     Hexagon,
     Heptagon,
     Octagon,
-    Dodecagonal;
+    ScallopedOctagon,
+    Dodecagonal,
+    ScallopedDodecagonal;
 
-    fun isRounded() = this == RoundedTriangle || this == RoundedSquare
+    fun isRounded() = when (this) {
+        RoundedTriangle, RoundedSquare, RoundedDiamond, ScallopedOctagon, ScallopedDodecagonal -> true
+        else -> false
+    }
+
+    fun isScalloped() = this == ScallopedOctagon || this == ScallopedDodecagonal
 
     fun calculateArea(radius: Distance) =
         Math.PI.toFloat() * radius.toMeters().pow(2)
+
+    fun calculateIncircle(radius: Distance, sides: Int): Distance {
+        require(sides >= 3) { "Requires at least 3 sides!" }
+        val angle = FULL_CIRCLE.div(sides * 2.0f)
+        val incircleRadius = radius * angle.cos()
+
+        if (isScalloped()) {
+            return incircleRadius * 0.8f
+        }
+
+        return incircleRadius
+    }
 
     fun calculateVolume(radius: Distance, thickness: Distance) =
         calculateArea(radius) * thickness.toMeters()
@@ -31,21 +54,15 @@ enum class Shape {
 
     fun getSides() = when (this) {
         Circle -> 0
-        Triangle, RoundedTriangle -> 3
-        Square, RoundedSquare, Diamond -> 4
+        Triangle, CutoffTriangle, RoundedTriangle -> 3
+        Square, CutoffSquare, RoundedSquare, Diamond, CutoffDiamond, RoundedDiamond -> 4
         Pentagon -> 5
         Hexagon -> 6
         Heptagon -> 7
-        Octagon -> 8
-        Dodecagonal -> 12
+        Octagon, ScallopedOctagon -> 8
+        Dodecagonal, ScallopedDodecagonal -> 12
     }
 
     fun hasCornerAtTop() = !(this == Square || this == RoundedSquare)
 }
 
-fun calculateIncircle(radius: Distance, sides: Int): Distance {
-    require(sides >= 3) { "Requires at least 3 sides!" }
-    val angle = FULL_CIRCLE.div(sides * 2.0f)
-
-    return radius * angle.cos()
-}

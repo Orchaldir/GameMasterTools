@@ -167,5 +167,5 @@ private fun calculateInnerRadius(radius: Distance, outer: Shape, inner: Shape): 
         return radius
     }
 
-    return calculateIncircle(radius, outerSides)
+    return outer.calculateIncircle(radius, outerSides)
 }
