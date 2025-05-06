@@ -1,7 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
@@ -9,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.NoEyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance

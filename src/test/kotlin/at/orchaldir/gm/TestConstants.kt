@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
@@ -67,6 +68,7 @@ val DOMAIN_ID_0 = DomainId(0)
 val UNKNOWN_DOMAIN_ID = DomainId(99)
 val EQUIPMENT_ID_0 = EquipmentId(0)
 val EQUIPMENT_ID_1 = EquipmentId(1)
+val UNKNOWN_EQUIPMENT_ID = EquipmentId(99)
 val FASHION_ID_0 = FashionId(0)
 val FONT_ID_0 = FontId(0)
 val GOD_ID_0 = GodId(0)
@@ -107,8 +109,10 @@ val RIVER_ID_0 = RiverId(0)
 val UNKNOWN_RIVER_ID = RiverId(99)
 val SPELL_ID_0 = SpellId(0)
 val SPELL_ID_1 = SpellId(1)
+val UNKNOWN_SPELL_ID = SpellId(99)
 val STANDARD_ID_0 = StandardOfLivingId(0)
 val STANDARD_ID_1 = StandardOfLivingId(1)
+val UNKNOWN_STANDARD_ID = StandardOfLivingId(99)
 val STREET_ID_0 = StreetId(0)
 val STREET_ID_1 = StreetId(1)
 val UNKNOWN_STREET_ID = StreetId(99)
@@ -123,6 +127,8 @@ val UNKNOWN_TITLE_ID = TitleId(99)
 val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
 val UNKNOWN_TOWN_ID = TownId(99)
+val UNIFORM_ID_0 = UniformId(0)
+val UNKNOWN_UNIFORM_ID = UniformId(99)
 
 val NAME = Name.init("Test")
 

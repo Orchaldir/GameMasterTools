@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.OUTERWEAR_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
@@ -43,7 +43,7 @@ fun visualizeBodyEquipment(
             is Shirt -> visualizeShirt(state, body, it)
             is Skirt -> visualizeSkirt(state, body, it)
             is Socks -> visualizeSocks(state, body, it)
-            is SuitJacket -> visualizeCoat(state, body, it.convert(), HIGHER_EQUIPMENT_LAYER)
+            is SuitJacket -> visualizeCoat(state, body, it.convert(), JACKET_LAYER)
             is Tie -> visualizeTie(state, body, it)
             else -> doNothing()
         }

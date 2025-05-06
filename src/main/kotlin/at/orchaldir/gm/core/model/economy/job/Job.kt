@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.model.economy.job
 
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -26,6 +28,7 @@ data class Job(
     val name: Name = Name.init("Job ${id.value}"),
     val income: Income = UndefinedIncome,
     val preferredGender: Gender? = null,
+    val uniforms: GenderMap<UniformId?> = GenderMap(null),
     val spells: SomeOf<SpellId> = SomeOf(),
 ) : ElementWithSimpleName<JobId> {
 

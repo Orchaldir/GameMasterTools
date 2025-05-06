@@ -2,12 +2,11 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.reverseAndSort
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -92,24 +91,6 @@ fun HtmlBlockTag.showDetails(
         summary { +(label ?: "") }
 
         content()
-    }
-}
-
-
-// lists
-
-fun <T> HtmlBlockTag.showGenderMap(
-    map: GenderMap<T>,
-    content: LI.(Gender, T) -> Unit,
-) {
-    ul {
-        map.getMap()
-            .filterValues { it != null }
-            .forEach { (key, value) ->
-                li {
-                    content(key, value)
-                }
-            }
     }
 }
 
@@ -200,6 +181,26 @@ fun <T : Enum<T>> TR.tdEnum(value: T) {
 
 fun <T : Enum<T>> TR.tdOptionalEnum(value: T?) {
     tdString(value?.name)
+}
+
+fun <ID : Id<ID>> TR.tdLink(
+    call: ApplicationCall,
+    state: State,
+    id: ID?,
+) {
+    td {
+        optionalLink(call, state, id)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> TR.tdLink(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+) {
+    td {
+        link(call, state, element)
+    }
 }
 
 fun <ID : Id<ID>> TR.tdInlineLinks(

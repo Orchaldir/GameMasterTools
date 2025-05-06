@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
@@ -45,12 +46,8 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(building.lot.town)
     val town = oldTown.removeBuilding(building.id)
 
-    require(
-        state.getCharactersLivingIn(id).isEmpty()
-    ) { "Cannot delete building ${id.value}, because it has inhabitants!" }
-    require(
-        state.getCharactersPreviouslyLivingIn(id).isEmpty()
-    ) { "Cannot delete building ${id.value}, because it had inhabitants!" }
+    validateCanDelete(state.getCharactersLivingIn(id).isEmpty(), id, "it has inhabitants")
+    validateCanDelete(state.getCharactersPreviouslyLivingIn(id).isEmpty(), id, "it had inhabitants")
 
     noFollowUps(
         state.updateStorage(

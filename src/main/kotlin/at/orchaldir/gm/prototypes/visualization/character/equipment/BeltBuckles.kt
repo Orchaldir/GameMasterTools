@@ -1,12 +1,8 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.item.equipment.Belt
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.Pants
-import at.orchaldir.gm.core.model.item.equipment.Shirt
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.BuckleShape
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
 import at.orchaldir.gm.core.model.util.Size

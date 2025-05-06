@@ -125,3 +125,7 @@ enum class SortTown {
     Buildings,
     Residents,
 }
+
+enum class SortUniform {
+    Name,
+}

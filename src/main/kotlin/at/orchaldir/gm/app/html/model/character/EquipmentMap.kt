@@ -2,12 +2,7 @@ package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.culture.fashion.Fashion
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.selector.item.getEquipmentOf
 import io.ktor.http.*
@@ -20,9 +15,10 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showEquipmentMap(
     call: ApplicationCall,
     state: State,
+    label: String,
     equipmentMap: EquipmentMap<EquipmentId>,
 ) {
-    showMap("Equipped", equipmentMap.getEquipmentWithSlotSets()) { item, slotSets ->
+    showMap(label, equipmentMap.getEquipmentWithSlotSets()) { item, slotSets ->
         link(call, state, item)
 
         if (slotSets.size > 1) {
@@ -38,16 +34,16 @@ fun HtmlBlockTag.showEquipmentMap(
 fun FORM.editEquipmentMap(
     state: State,
     equipmentMap: EquipmentMap<EquipmentId>,
-    fashion: Fashion?,
+    param: String = "",
 ) {
-    EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, fashion, it) }
+    EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }
 }
 
 private fun FORM.selectEquipment(
     state: State,
     equipmentMap: EquipmentMap<EquipmentId>,
-    fashion: Fashion?,
     type: EquipmentDataType,
+    param: String,
 ) {
     // ignore fashion for testing
     val options = OneOrNone(state.getEquipmentOf(type).map { it.id })
@@ -66,7 +62,7 @@ private fun FORM.selectEquipment(
             if (isFreeOrType) {
                 selectFromOneOrNone(
                     text,
-                    bodySlots.joinToString("_"),
+                    param + bodySlots.joinToString("_"),
                     options,
                     false,
                     true,
@@ -87,11 +83,15 @@ private fun FORM.selectEquipment(
 
 fun parseEquipmentMap(
     parameters: Parameters,
+    param: String = "",
 ): EquipmentMap<EquipmentId> {
     val map = mutableMapOf<EquipmentId, MutableSet<Set<BodySlot>>>()
 
-    parameters.forEach { slotStrings, ids ->
-        tryParse(map, slotStrings, ids)
+    parameters.forEach { parameter, ids ->
+        if (parameter.startsWith(param)) {
+            val slotsString = parameter.removePrefix(param)
+            tryParse(map, slotsString, ids)
+        }
     }
 
     return EquipmentMap(map)
@@ -99,14 +99,14 @@ fun parseEquipmentMap(
 
 private fun tryParse(
     map: MutableMap<EquipmentId, MutableSet<Set<BodySlot>>>,
-    slotStrings: String,
+    slotsString: String,
     ids: List<String>,
 ) {
     val filteredIds = ids.filter { it.isNotEmpty() }
-    require(filteredIds.size <= 1) { "Slots $slotStrings has too many items!" }
+    require(filteredIds.size <= 1) { "Slots $slotsString has too many items!" }
     val id = EquipmentId(filteredIds.firstOrNull()?.toInt() ?: return)
 
-    val slots = slotStrings.split("_")
+    val slots = slotsString.split("_")
         .map { BodySlot.valueOf(it) }
         .toSet()
 

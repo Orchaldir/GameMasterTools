@@ -71,6 +71,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getEquipmentStorage(), EquipmentRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes.All())
                     fieldStorageLink(call, state.getTextStorage(), TextRoutes.All())
+                    fieldStorageLink(call, state.getUniformStorage(), UniformRoutes.All())
                     h4 { +"Periodicals" }
                     fieldStorageLink(call, state.getArticleStorage(), ArticleRoutes.All())
                     fieldStorageLink(call, state.getPeriodicalStorage(), PeriodicalRoutes.All())

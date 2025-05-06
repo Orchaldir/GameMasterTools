@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -466,4 +467,18 @@ fun State.sortTowns(
             SortTown.Date -> getAgeComparator()
             SortTown.Residents -> compareByDescending { countResident(it.id) }
             SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
+        })
+
+// uniform
+
+fun State.sortUniforms(sort: SortUniform = SortUniform.Name) =
+    sortUniforms(getUniformStorage().getAll(), sort)
+
+fun State.sortUniforms(
+    uniforms: Collection<Uniform>,
+    sort: SortUniform = SortUniform.Name,
+) = uniforms
+    .sortedWith(
+        when (sort) {
+            SortUniform.Name -> compareBy { it.name.text }
         })

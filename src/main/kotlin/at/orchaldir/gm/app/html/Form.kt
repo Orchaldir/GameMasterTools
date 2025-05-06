@@ -2,8 +2,6 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.AVAILABLE
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.reverseAndSort
@@ -55,20 +53,6 @@ fun <T> HtmlBlockTag.selectOptional(
         selectBool(value != null, combine(param, AVAILABLE), isDisabled = false, update = true)
         if (value != null) {
             content(value)
-        }
-    }
-}
-
-fun <T> FORM.selectGenderMap(
-    text: String,
-    map: GenderMap<T>,
-    content: P.(Gender, T) -> Unit,
-) {
-    showDetails(text) {
-        showMap(map.getMap()) { gender, value ->
-            field(gender.toString()) {
-                content(gender, value)
-            }
         }
     }
 }

@@ -5,7 +5,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.money.editPrice
 import at.orchaldir.gm.app.html.model.economy.money.parsePrice
 import at.orchaldir.gm.app.html.model.economy.money.showPrice
+import at.orchaldir.gm.app.html.model.item.parseOptionalUniformId
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
+import at.orchaldir.gm.app.html.model.parseGenderMap
+import at.orchaldir.gm.app.html.model.selectGenderMap
+import at.orchaldir.gm.app.html.model.showGenderMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseSomeOf
@@ -20,6 +24,7 @@ import at.orchaldir.gm.core.selector.religion.getGodsAssociatedWith
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortDomains
 import at.orchaldir.gm.core.selector.util.sortGods
+import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -35,6 +40,9 @@ fun HtmlBlockTag.showJob(
 ) {
     showSalary(call, state, job.income)
     optionalField("Preferred Gender", job.preferredGender)
+    showGenderMap("Uniforms", job.uniforms) { uniform ->
+        optionalLink(call, state, uniform)
+    }
     showRarityMap("Spells", job.spells) { spell ->
         link(call, state, spell)
     }
@@ -85,6 +93,9 @@ fun FORM.editJob(
     selectName(job.name)
     editSalary(state, job.income)
     selectOptionalValue("Preferred Gender", GENDER, job.preferredGender, Gender.entries)
+    selectGenderMap("Uniforms", job.uniforms, UNIFORM) { genderParam, uniform ->
+        selectOptionalElement(state, genderParam, state.sortUniforms(), uniform)
+    }
     selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name.text }
 }
 
@@ -124,6 +135,9 @@ fun parseJob(id: JobId, parameters: Parameters) = Job(
     parseName(parameters),
     parseIncome(parameters),
     parse<Gender>(parameters, GENDER),
+    parseGenderMap(UNIFORM) { param ->
+        parseOptionalUniformId(parameters, param)
+    },
     parseSomeOf(parameters, SPELLS, ::parseSpellId),
 )
 

@@ -21,8 +21,11 @@ import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.item.Uniform
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.item.periodical.*
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -196,6 +199,11 @@ data class UpdatePeriodicalIssue(val issue: PeriodicalIssue) : ItemAction()
 data object CreateText : ItemAction()
 data class DeleteText(val id: TextId) : ItemAction()
 data class UpdateText(val text: Text) : ItemAction()
+
+// uniform
+data object CreateUniform : ItemAction()
+data class DeleteUniform(val id: UniformId) : ItemAction()
+data class UpdateUniform(val uniform: Uniform) : ItemAction()
 
 //-- economy --
 

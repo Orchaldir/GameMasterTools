@@ -202,7 +202,7 @@ fun HtmlBlockTag.showPossession(
 
     showOwnedElements(call, state, character.id, true)
 
-    showEquipmentMap(call, state, character.equipmentMap)
+    showEquipmentMap(call, state, "Equipped", character.equipmentMap)
 
     action(editEquipmentLink, "Edit Equipment")
 }

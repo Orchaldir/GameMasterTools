@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -23,14 +24,10 @@ val CREATE_BUSINESS: Reducer<CreateBusiness, State> = { state, _ ->
 
 val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
     state.getBusinessStorage().require(action.id)
-    require(state.getBuilding(action.id) == null) { "Cannot delete business ${action.id.value}, because it has a building!" }
+    validateCanDelete(state.getBuilding(action.id) == null, action.id, "it has a building")
     checkIfCreatorCanBeDeleted(state, action.id)
-    require(state.getEmployees(action.id).isEmpty()) {
-        "Cannot delete business ${action.id.value}, because it has employees!"
-    }
-    require(state.getPreviousEmployees(action.id).isEmpty()) {
-        "Cannot delete business ${action.id.value}, because it has previous employees!"
-    }
+    validateCanDelete(state.getEmployees(action.id).isEmpty(), action.id, "it has employees")
+    validateCanDelete(state.getPreviousEmployees(action.id).isEmpty(), action.id, "it has previous employees")
 
     noFollowUps(state.updateStorage(state.getBusinessStorage().remove(action.id)))
 }

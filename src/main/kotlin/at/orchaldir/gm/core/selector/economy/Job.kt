@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -26,6 +27,10 @@ fun State.countJobs(standard: StandardOfLivingId) = getJobStorage()
     .getAll()
     .count { it.income.hasStandard(standard) }
 
+fun State.countJobs(uniform: UniformId) = getJobStorage()
+    .getAll()
+    .count { it.uniforms.contains(uniform) }
+
 fun State.getJobsContaining(spell: SpellId) = getJobStorage()
     .getAll()
     .filter { it.spells.contains(spell) }
@@ -33,6 +38,10 @@ fun State.getJobsContaining(spell: SpellId) = getJobStorage()
 fun State.getJobs(standard: StandardOfLivingId) = getJobStorage()
     .getAll()
     .filter { it.income.hasStandard(standard) }
+
+fun State.getJobs(uniform: UniformId) = getJobStorage()
+    .getAll()
+    .filter { it.uniforms.contains(uniform) }
 
 
 

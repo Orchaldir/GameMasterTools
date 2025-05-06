@@ -1,10 +1,9 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size

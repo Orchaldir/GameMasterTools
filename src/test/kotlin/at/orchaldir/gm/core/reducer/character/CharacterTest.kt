@@ -137,7 +137,7 @@ class CharacterTest {
             val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(0)))
             val newState = state.updateStorage(Storage(organization))
 
-            assertIllegalArgument("Cannot delete character 0, because he is a member of an organization!") {
+            assertIllegalArgument("Cannot delete Character 0, because he is a member of an organization!") {
                 REDUCER.invoke(newState, action)
             }
         }
@@ -208,21 +208,21 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a character with parents`() {
-                assertIllegalArgument("Cannot delete character 0, because he has parents!") {
+                assertIllegalArgument("Cannot delete Character 0, because he has parents!") {
                     REDUCER.invoke(state, DeleteCharacter(CHARACTER_ID_0))
                 }
             }
 
             @Test
             fun `Cannot delete a father`() {
-                assertIllegalArgument("Cannot delete character 2, because he has children!") {
+                assertIllegalArgument("Cannot delete Character 2, because he has children!") {
                     REDUCER.invoke(state, DeleteCharacter(CHARACTER_ID_2))
                 }
             }
 
             @Test
             fun `Cannot delete a mother`() {
-                assertIllegalArgument("Cannot delete character 1, because he has children!") {
+                assertIllegalArgument("Cannot delete Character 1, because he has children!") {
                     REDUCER.invoke(state, DeleteCharacter(CHARACTER_ID_1))
                 }
             }

@@ -1,13 +1,13 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.mouth
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.Beak
 import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.EYES

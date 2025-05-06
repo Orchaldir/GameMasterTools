@@ -2,8 +2,7 @@ package at.orchaldir.gm.app.html.model.culture
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.parseLanguageId
-import at.orchaldir.gm.app.html.model.parseNameListId
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.model.time.parseHolidays
@@ -13,10 +12,8 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
@@ -117,10 +114,8 @@ private fun HtmlBlockTag.showNamesByGender(
     label: String,
     namesByGender: GenderMap<NameListId>,
 ) {
-    showDetails(label) {
-        showGenderMap(namesByGender) { gender, id ->
-            fieldLink(gender.toString(), call, state, id)
-        }
+    showGenderMap(label, namesByGender) { id ->
+        link(call, state, id)
     }
 }
 
@@ -128,10 +123,8 @@ private fun HtmlBlockTag.showStyleByGender(
     label: String,
     namesByGender: GenderMap<String>,
 ) {
-    showDetails(label) {
-        showGenderMap(namesByGender) { gender, text ->
-            field(gender.toString(), text)
-        }
+    showGenderMap(label, namesByGender) { text ->
+        +text
     }
 }
 
@@ -141,8 +134,8 @@ private fun HtmlBlockTag.showClothingOptions(
     culture: Culture,
 ) {
     h2 { +"Fashion" }
-    showGenderMap(culture.fashion) { gender, id ->
-        optionalFieldLink(gender.toString(), call, state, id)
+    showGenderMap(culture.fashion) { id ->
+        optionalLink(call, state, id)
     }
 }
 
@@ -227,9 +220,8 @@ private fun FORM.selectNamesByGender(
     namesByGender: GenderMap<NameListId>,
     param: String,
 ) {
-    selectGenderMap(fieldLabel, namesByGender) { gender, nameListId ->
-        val selectId = "$param-$gender"
-        selectNameList(selectId, state, nameListId)
+    selectGenderMap(fieldLabel, namesByGender, param) { genderParam, nameListId ->
+        selectNameList(genderParam, state, nameListId)
     }
 }
 
@@ -252,8 +244,8 @@ private fun HtmlBlockTag.selectNameList(
 }
 
 private fun FORM.selectWordsByGender(label: String, genderMap: GenderMap<String>, param: String) {
-    selectGenderMap(label, genderMap) { gender, word ->
-        textInput(name = "$param-$gender") {
+    selectGenderMap(label, genderMap, param) { genderParam, word ->
+        textInput(name = genderParam) {
             value = word
         }
     }
@@ -265,26 +257,13 @@ private fun FORM.editClothingOptions(
 ) {
     h2 { +"Fashion" }
 
-    showMap(culture.fashion.getMap()) { gender, fashionId ->
-        field(gender.toString()) {
-            val selectId = "$FASHION-$gender"
-            select {
-                id = selectId
-                name = selectId
-                option {
-                    label = "None"
-                    value = ""
-                    selected = fashionId == null
-                }
-                state.getFashionStorage().getAll().forEach { fashion ->
-                    option {
-                        label = fashion.name.text
-                        value = fashion.id.value.toString()
-                        selected = fashion.id == fashionId
-                    }
-                }
-            }
-        }
+    selectGenderMap(culture.fashion, FASHION) { genderParam, fashionId ->
+        selectOptionalElement(
+            state,
+            genderParam,
+            state.getFashionStorage().getAll(),
+            fashionId,
+        )
     }
 }
 
@@ -353,48 +332,19 @@ fun parseGenonymicStyle(
 fun parseNamesByGender(
     parameters: Parameters,
     param: String,
-): GenderMap<NameListId> {
-    val female = parseNameListId(parameters, param, Gender.Female)
-    val genderless = parseNameListId(parameters, param, Gender.Genderless)
-    val male = parseNameListId(parameters, param, Gender.Male)
-
-    return GenderMap(female, genderless, male)
+) = parseGenderMap(param) { genderParam ->
+    parseNameListId(parameters, genderParam)
 }
-
-private fun parseNameListId(
-    parameters: Parameters,
-    param: String,
-    gender: Gender,
-) = parseNameListId(parameters, "$param-$gender")
 
 fun parseWordsByGender(
     parameters: Parameters,
     param: String,
-): GenderMap<String> {
-    val female = parseWord(parameters, param, Gender.Female)
-    val genderless = parseWord(parameters, param, Gender.Genderless)
-    val male = parseWord(parameters, param, Gender.Male)
-
-    return GenderMap(female, genderless, male)
+) = parseGenderMap(param) { genderParam ->
+    parameters[genderParam] ?: "Unknown"
 }
-
-private fun parseWord(
-    parameters: Parameters,
-    param: String,
-    gender: Gender,
-) = parameters["$param-$gender"] ?: "Unknown"
 
 fun parseClothingStyles(
     parameters: Parameters,
-): GenderMap<FashionId?> {
-    val female = parseFashionId(parameters, Gender.Female)
-    val genderless = parseFashionId(parameters, Gender.Genderless)
-    val male = parseFashionId(parameters, Gender.Male)
-
-    return GenderMap(female, genderless, male)
+) = parseGenderMap(FASHION) { param ->
+    parseOptionalFashionId(parameters, param)
 }
-
-private fun parseFashionId(
-    parameters: Parameters,
-    gender: Gender,
-) = parseOptionalInt(parameters, "$FASHION-$gender")?.let { FashionId(it) }

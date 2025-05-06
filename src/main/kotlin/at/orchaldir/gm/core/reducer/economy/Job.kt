@@ -4,8 +4,10 @@ import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.utils.redux.Reducer
@@ -19,15 +21,9 @@ val CREATE_JOB: Reducer<CreateJob, State> = { state, _ ->
 
 val DELETE_JOB: Reducer<DeleteJob, State> = { state, action ->
     state.getJobStorage().require(action.id)
-    require(state.getEmployees(action.id).isEmpty()) {
-        "Cannot delete job ${action.id.value}, because it is used by a character!"
-    }
-    require(state.getPreviousEmployees(action.id).isEmpty()) {
-        "Cannot delete job ${action.id.value}, because it is the former job of a character!"
-    }
-    require(state.countDomains(action.id) == 0) {
-        "Cannot delete job ${action.id.value}, because it is associated with a domain!"
-    }
+    validateCanDelete(state.countCharacters(action.id), action.id, "it is used by a character")
+    validateCanDelete(state.getPreviousEmployees(action.id).isEmpty(), action.id, "it is the former job of a character")
+    validateCanDelete(state.countDomains(action.id), action.id, "it is associated with a domain")
 
     noFollowUps(state.updateStorage(state.getJobStorage().remove(action.id)))
 }
@@ -42,5 +38,11 @@ val UPDATE_JOB: Reducer<UpdateJob, State> = { state, action ->
 }
 
 fun validateJob(state: State, job: Job) {
-    job.spells.getValidValues().forEach { state.getSpellStorage().require(it) }
+    if (job.income is AffordableStandardOfLiving) {
+        state.data.economy.requireStandardOfLiving(job.income.standard)
+    }
+    job.spells.getValidValues()
+        .forEach { state.getSpellStorage().require(it) }
+    job.uniforms.getValues()
+        .forEach { state.getUniformStorage().requireOptional(it) }
 }
