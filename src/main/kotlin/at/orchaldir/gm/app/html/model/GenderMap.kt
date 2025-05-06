@@ -19,7 +19,7 @@ private fun createParam(param: String, gender: Gender) = "$param-$gender"
 fun <T> HtmlBlockTag.showGenderMap(
     label: String,
     map: GenderMap<T>,
-    content: LI.(Gender, T) -> Unit,
+    content: P.(T) -> Unit,
 ) {
     showDetails(label) {
         showGenderMap(map, content)
@@ -28,14 +28,16 @@ fun <T> HtmlBlockTag.showGenderMap(
 
 fun <T> HtmlBlockTag.showGenderMap(
     map: GenderMap<T>,
-    content: LI.(Gender, T) -> Unit,
+    content: P.(T) -> Unit,
 ) {
     ul {
         map.getMap()
             .filterValues { it != null }
-            .forEach { (key, value) ->
+            .forEach { (gender, value) ->
                 li {
-                    content(key, value)
+                    field(gender.name) {
+                        content(value)
+                    }
                 }
             }
     }

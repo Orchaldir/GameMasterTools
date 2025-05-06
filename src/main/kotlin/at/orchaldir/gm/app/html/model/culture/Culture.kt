@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
@@ -120,8 +119,8 @@ private fun HtmlBlockTag.showNamesByGender(
     label: String,
     namesByGender: GenderMap<NameListId>,
 ) {
-    showGenderMap(label, namesByGender) { gender, id ->
-        fieldLink(gender.toString(), call, state, id)
+    showGenderMap(label, namesByGender) { id ->
+        link(call, state, id)
     }
 }
 
@@ -129,8 +128,8 @@ private fun HtmlBlockTag.showStyleByGender(
     label: String,
     namesByGender: GenderMap<String>,
 ) {
-    showGenderMap(label, namesByGender) { gender, text ->
-        field(gender.toString(), text)
+    showGenderMap(label, namesByGender) { text ->
+        +text
     }
 }
 
@@ -140,8 +139,8 @@ private fun HtmlBlockTag.showClothingOptions(
     culture: Culture,
 ) {
     h2 { +"Fashion" }
-    showGenderMap(culture.fashion) { gender, id ->
-        optionalFieldLink(gender.toString(), call, state, id)
+    showGenderMap(culture.fashion) { id ->
+        optionalLink(call, state, id)
     }
 }
 

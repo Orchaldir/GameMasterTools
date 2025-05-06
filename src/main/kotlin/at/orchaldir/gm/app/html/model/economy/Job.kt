@@ -40,8 +40,8 @@ fun HtmlBlockTag.showJob(
 ) {
     showSalary(call, state, job.income)
     optionalField("Preferred Gender", job.preferredGender)
-    showGenderMap("Uniforms", job.uniforms) { gender, uniform ->
-        optionalFieldLink(gender.name, call, state, uniform)
+    showGenderMap("Uniforms", job.uniforms) { uniform ->
+        optionalLink(call, state, uniform)
     }
     showRarityMap("Spells", job.spells) { spell ->
         link(call, state, spell)
