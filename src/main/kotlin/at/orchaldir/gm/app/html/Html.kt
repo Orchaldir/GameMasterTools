@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.reverseAndSort
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -200,6 +201,26 @@ fun <T : Enum<T>> TR.tdEnum(value: T) {
 
 fun <T : Enum<T>> TR.tdOptionalEnum(value: T?) {
     tdString(value?.name)
+}
+
+fun <ID : Id<ID>> TR.tdLink(
+    call: ApplicationCall,
+    state: State,
+    id: ID?,
+) {
+    td {
+        optionalLink(call, state, id)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> TR.tdLink(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+) {
+    td {
+        link(call, state, element)
+    }
 }
 
 fun <ID : Id<ID>> TR.tdInlineLinks(

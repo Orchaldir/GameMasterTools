@@ -154,13 +154,14 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                     +"Income"
                 }
                 th { +"Gender" }
+                th { +"Uniform" }
                 th { +"Characters" }
                 th { +"Domains" }
                 th { +"Spells" }
             }
             jobs.forEach { job ->
                 tr {
-                    td { link(call, job) }
+                    tdLink(call, state, job)
                     td {
                         when (job.income) {
                             UndefinedIncome -> doNothing()
@@ -169,6 +170,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                         }
                     }
                     tdOptionalEnum(job.preferredGender)
+                    tdLink(call, state, job.uniform)
                     tdSkipZero(state.countCharacters(job.id))
                     tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(job.spells.getRarityMap().size)
