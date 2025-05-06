@@ -62,7 +62,12 @@ class RaceTest {
             val newState = state.updateStorage(Storage(character))
             val action = DeleteRace(RACE_ID_0)
 
-            assertIllegalArgument("Race 0 is used by characters") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete Race 0, because it is used by a character!") {
+                REDUCER.invoke(
+                    newState,
+                    action
+                )
+            }
         }
     }
 

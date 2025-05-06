@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.reducer.util.checkBeliefStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkHousingStatusHistory
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getChildren
 import at.orchaldir.gm.core.selector.character.getParents
 import at.orchaldir.gm.core.selector.organization.getOrganizations
@@ -30,11 +32,11 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     state.getCharacterStorage().require(action.id)
 
     val parents = state.getParents(action.id)
-    require(parents.isEmpty()) { "Cannot delete character ${action.id.value}, because he has parents!" }
     val children = state.getChildren(action.id)
-    require(children.isEmpty()) { "Cannot delete character ${action.id.value}, because he has children!" }
     val organizations = state.getOrganizations(action.id)
-    require(organizations.isEmpty()) { "Cannot delete character ${action.id.value}, because he is a member of an organization!" }
+    validateCanDelete(parents.isEmpty(), action.id, "he has parents")
+    validateCanDelete(children.isEmpty(), action.id, "he has children")
+    validateCanDelete(organizations.isEmpty(), action.id, "he is a member of an organization")
 
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)

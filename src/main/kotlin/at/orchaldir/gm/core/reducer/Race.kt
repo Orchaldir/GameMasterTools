@@ -11,8 +11,11 @@ import at.orchaldir.gm.core.model.race.ModifiedRace
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -34,7 +37,7 @@ val CLONE_RACE: Reducer<CloneRace, State> = { state, action ->
 val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
     state.getRaceStorage().require(action.id)
     require(state.getRaceStorage().getSize() > 1) { "Cannot delete the last race" }
-    require(state.getCharacters(action.id).isEmpty()) { "Race ${action.id.value} is used by characters" }
+    validateCanDelete(state.countCharacters(action.id), action.id, "it is used by a character")
 
     noFollowUps(state.updateStorage(state.getRaceStorage().remove(action.id)))
 }

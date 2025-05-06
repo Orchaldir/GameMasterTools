@@ -45,6 +45,10 @@ fun State.countCharacters(job: JobId) = getCharacterStorage()
     .getAll()
     .count { it.employmentStatus.current.hasJob(job) }
 
+fun State.countCharacters(race: RaceId) = getCharacterStorage()
+    .getAll()
+    .count { c -> c.race == race }
+
 fun State.countCharacters(title: TitleId) = getCharacterStorage()
     .getAll()
     .count { it.title == title }

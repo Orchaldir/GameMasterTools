@@ -47,7 +47,12 @@ class LanguageTest {
             )
             val action = DeleteLanguage(LANGUAGE_ID_0)
 
-            assertIllegalArgument("Cannot delete language 0 with children!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Language 0, because it has children!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
         }
 
         @Test
@@ -62,7 +67,7 @@ class LanguageTest {
             )
             val action = DeleteLanguage(LANGUAGE_ID_0)
 
-            assertIllegalArgument("Cannot delete language 0 that is known by characters!") {
+            assertIllegalArgument("Cannot delete Language 0, because it is known by characters!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -73,7 +78,7 @@ class LanguageTest {
             val state = State(listOf(Storage(periodical), Storage(Language(LANGUAGE_ID_1))))
             val action = DeleteLanguage(LANGUAGE_ID_1)
 
-            assertIllegalArgument("Cannot delete language 1 that is used by a periodical!") {
+            assertIllegalArgument("Cannot delete Language 1, because it is used by a periodical!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -84,7 +89,12 @@ class LanguageTest {
             val state = State(listOf(Storage(text), Storage(Language(LANGUAGE_ID_1))))
             val action = DeleteLanguage(LANGUAGE_ID_1)
 
-            assertIllegalArgument("Cannot delete language 1 that is used by a text!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Language 1, because it is used by a text!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
         }
     }
 
