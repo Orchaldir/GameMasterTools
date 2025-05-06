@@ -5,12 +5,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
-import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.*
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
-import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.RarityMap
@@ -45,7 +40,7 @@ data class EquipmentGenerator(
         val result = mutableMapOf<EquipmentId, EquipmentDataType>()
 
         when (generate(fashion.clothing.clothingSets)) {
-            ClothingSet.Dress -> generate(result, Dress)
+            ClothingSet.Dress -> generate(result, EquipmentDataType.Dress)
             ClothingSet.Naked -> doNothing()
             ClothingSet.PantsAndShirt -> generatePantsAndShirt(result)
             ClothingSet.ShirtAndSkirt -> generateShirtAndSkirt(result)
@@ -60,19 +55,19 @@ data class EquipmentGenerator(
     }
 
     private fun generatePantsAndShirt(result: MutableMap<EquipmentId, EquipmentDataType>) {
-        generate(result, Pants)
-        generate(result, Shirt)
+        generate(result, EquipmentDataType.Pants)
+        generate(result, EquipmentDataType.Shirt)
     }
 
     private fun generateShirtAndSkirt(result: MutableMap<EquipmentId, EquipmentDataType>) {
-        generate(result, Shirt)
-        generate(result, Skirt)
+        generate(result, EquipmentDataType.Shirt)
+        generate(result, EquipmentDataType.Skirt)
     }
 
     private fun generateSuit(result: MutableMap<EquipmentId, EquipmentDataType>) {
-        generate(result, Pants)
-        generate(result, Shirt)
-        generate(result, SuitJacket)
+        generate(result, EquipmentDataType.Pants)
+        generate(result, EquipmentDataType.Shirt)
+        generate(result, EquipmentDataType.SuitJacket)
     }
 
     private fun generateAccessory(result: MutableMap<EquipmentId, EquipmentDataType>, type: EquipmentDataType) {
