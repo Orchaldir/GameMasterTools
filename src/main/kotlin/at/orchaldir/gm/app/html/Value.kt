@@ -88,6 +88,24 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
     }
 }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
+    state: State,
+    selectId: String,
+    elements: Collection<ELEMENT>,
+    current: ID?,
+    update: Boolean = false,
+) {
+    selectOptionalValue(
+        selectId,
+        current?.let { state.getStorage<ID, ELEMENT>(current).get(current) },
+        elements,
+        update,
+    ) { element ->
+        label = element.name(state)
+        value = element.id().value().toString()
+    }
+}
+
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     state: State,
     labelText: String,
@@ -159,22 +177,32 @@ fun <T> HtmlBlockTag.selectOptionalValue(
     content: OPTION.(T) -> Unit,
 ) {
     field(fieldLabel) {
-        select {
-            id = selectId
-            name = selectId
-            if (update) {
-                onChange = ON_CHANGE_SCRIPT
-            }
+        selectOptionalValue(selectId, selectedValue, values, update, content)
+    }
+}
+
+fun <T> HtmlBlockTag.selectOptionalValue(
+    selectId: String,
+    selectedValue: T?,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(T) -> Unit,
+) {
+    select {
+        id = selectId
+        name = selectId
+        if (update) {
+            onChange = ON_CHANGE_SCRIPT
+        }
+        option {
+            label = "None"
+            value = ""
+            selected = selectedValue == null
+        }
+        values.forEach { value ->
             option {
-                label = "None"
-                value = ""
-                selected = selectedValue == null
-            }
-            values.forEach { value ->
-                option {
-                    content(value)
-                    selected = selectedValue == value
-                }
+                content(value)
+                selected = selectedValue == value
             }
         }
     }

@@ -21,7 +21,7 @@ fun <T> HtmlBlockTag.showGenderMap(
     map: GenderMap<T>,
     content: LI.(Gender, T) -> Unit,
 ) {
-    field(label) {
+    showDetails(label) {
         showGenderMap(map, content)
     }
 }
@@ -49,7 +49,7 @@ fun <T> FORM.selectGenderMap(
     param: String,
     content: P.(String, T) -> Unit,
 ) {
-    showDetails(label) {
+    showDetails(label, true) {
         showMap(map.getMap()) { gender, value ->
             field(gender.toString()) {
                 content(createParam(param, gender), value)
