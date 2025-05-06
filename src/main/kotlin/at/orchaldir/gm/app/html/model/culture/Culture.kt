@@ -2,11 +2,7 @@ package at.orchaldir.gm.app.html.model.culture
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.parseGenderMap
-import at.orchaldir.gm.app.html.model.parseLanguageId
-import at.orchaldir.gm.app.html.model.parseNameListId
-import at.orchaldir.gm.app.html.model.selectGenderMap
-import at.orchaldir.gm.app.html.model.showGenderMap
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.model.time.parseHolidays
@@ -16,7 +12,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*

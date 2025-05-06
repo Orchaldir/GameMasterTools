@@ -1,9 +1,9 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.Dress
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.Strapless
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle

@@ -8,11 +8,8 @@ import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
-import at.orchaldir.gm.core.selector.economy.getRequiredStandards
 import at.orchaldir.gm.core.selector.religion.countDomains
-import at.orchaldir.gm.core.selector.world.getBuilding
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

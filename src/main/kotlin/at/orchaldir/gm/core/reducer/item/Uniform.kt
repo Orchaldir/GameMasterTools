@@ -5,10 +5,8 @@ import at.orchaldir.gm.core.action.DeleteUniform
 import at.orchaldir.gm.core.action.UpdateUniform
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
-import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.item.canDeleteUniform
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

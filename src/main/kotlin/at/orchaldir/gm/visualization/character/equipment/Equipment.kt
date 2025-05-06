@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.OUTERWEAR_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig

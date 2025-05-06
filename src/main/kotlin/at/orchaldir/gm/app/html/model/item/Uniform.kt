@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.model.character.showEquipmentMap
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.app.html.selectName
-import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
