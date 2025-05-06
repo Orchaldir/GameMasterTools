@@ -350,19 +350,9 @@ fun parseGenonymicStyle(
 fun parseNamesByGender(
     parameters: Parameters,
     param: String,
-): GenderMap<NameListId> {
-    val female = parseNameListId(parameters, param, Gender.Female)
-    val genderless = parseNameListId(parameters, param, Gender.Genderless)
-    val male = parseNameListId(parameters, param, Gender.Male)
-
-    return GenderMap(female, genderless, male)
+) = parseGenderMap(param) { genderParam ->
+    parseNameListId(parameters, genderParam)
 }
-
-private fun parseNameListId(
-    parameters: Parameters,
-    param: String,
-    gender: Gender,
-) = parseNameListId(parameters, "$param-$gender")
 
 fun parseWordsByGender(
     parameters: Parameters,

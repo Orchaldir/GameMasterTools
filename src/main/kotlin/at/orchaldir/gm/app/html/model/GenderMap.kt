@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.GenderMap
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.LI
 import kotlinx.html.P
 import kotlinx.html.li
 import kotlinx.html.ul
