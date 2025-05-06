@@ -24,6 +24,9 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
 
 fun createDiamond(center: Point2d, radius: Distance) = createRegularPolygon(center, radius, 4)
 
+fun createCutoffDiamond(center: Point2d, radius: Distance) =
+    subdividePolygon(createRegularPolygon(center, radius, 4), 1)
+
 fun createRoundedDiamond(center: Point2d, radius: Distance) = createRoundedRegularPolygon(center, radius, 4)
 
 fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
@@ -60,8 +63,6 @@ fun createCutoffSquare(center: Point2d, radius: Distance) =
 
 fun createRoundedSquare(center: Point2d, radius: Distance) =
     createRoundedRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
-
-fun createSquarePoints(center: Point2d, radius: Distance) = AABB.fromRadius(center, radius).getCorners()
 
 fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation = AT_TOP) =
     createRegularPolygon(center, radius, 3, firstCorner)
