@@ -263,22 +263,12 @@ private fun FORM.editClothingOptions(
     h2 { +"Fashion" }
 
     selectGenderMap(culture.fashion, FASHION) { genderParam, fashionId ->
-        select {
-            id = genderParam
-            name = genderParam
-            option {
-                label = "None"
-                value = ""
-                selected = fashionId == null
-            }
-            state.getFashionStorage().getAll().forEach { fashion ->
-                option {
-                    label = fashion.name.text
-                    value = fashion.id.value.toString()
-                    selected = fashion.id == fashionId
-                }
-            }
-        }
+        selectOptionalElement(
+            state,
+            genderParam,
+            state.getFashionStorage().getAll(),
+            fashionId,
+        )
     }
 }
 
