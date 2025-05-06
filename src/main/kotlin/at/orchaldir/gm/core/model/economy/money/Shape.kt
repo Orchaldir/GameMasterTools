@@ -12,13 +12,14 @@ enum class Shape {
     Square,
     RoundedSquare,
     Diamond,
+    RoundedDiamond,
     Pentagon,
     Hexagon,
     Heptagon,
     Octagon,
     Dodecagonal;
 
-    fun isRounded() = this == RoundedTriangle || this == RoundedSquare
+    fun isRounded() = this == RoundedTriangle || this == RoundedSquare || this == RoundedDiamond
 
     fun calculateArea(radius: Distance) =
         Math.PI.toFloat() * radius.toMeters().pow(2)
@@ -32,7 +33,7 @@ enum class Shape {
     fun getSides() = when (this) {
         Circle -> 0
         Triangle, RoundedTriangle -> 3
-        Square, RoundedSquare, Diamond -> 4
+        Square, RoundedSquare, Diamond, RoundedDiamond -> 4
         Pentagon -> 5
         Hexagon -> 6
         Heptagon -> 7

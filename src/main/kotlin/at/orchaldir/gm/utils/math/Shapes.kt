@@ -24,6 +24,8 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
 
 fun createDiamond(center: Point2d, radius: Distance) = createRegularPolygon(center, radius, 4)
 
+fun createRoundedDiamond(center: Point2d, radius: Distance) = createRoundedRegularPolygon(center, radius, 4)
+
 fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
     Polygon2d(createRegularPolygonPoints(center, radius, sides, firstCorner))
 
