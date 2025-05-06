@@ -106,9 +106,9 @@ fun createSubdivideIntoThirds(factor: Float): (Point2d, Point2d, MutableList<Poi
         val new0 = first + diff * factor
         val new1 = first + diff * (1.0f - factor)
 
-    result.add(new0)
-    result.add(new1)
-}
+        result.add(new0)
+        result.add(new1)
+    }
 
 fun halfSegment(first: Point2d, second: Point2d, result: MutableList<Point2d>) {
     result.add((first + second) / 2.0f)
