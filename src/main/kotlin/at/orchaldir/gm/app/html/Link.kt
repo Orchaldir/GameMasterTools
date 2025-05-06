@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
@@ -346,5 +347,6 @@ fun <ID : Id<ID>> href(
     is TextId -> call.application.href(TextRoutes.Details(id))
     is TitleId -> call.application.href(TitleRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
+    is UniformId -> call.application.href(UniformRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }

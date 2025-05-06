@@ -100,6 +100,7 @@ fun Application.module() {
     configureTextRouting()
     configureTitleRouting()
     configureTownRouting()
+    configureUniformRouting()
 }
 
 fun Application.configureSerialization() {
