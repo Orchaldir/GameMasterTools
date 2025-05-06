@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.model.item
 
+import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.html.model.character.editEquipmentMap
 import at.orchaldir.gm.app.html.model.character.parseEquipmentMap
 import at.orchaldir.gm.app.html.model.character.showEquipmentMap
@@ -31,7 +32,7 @@ fun FORM.editUniform(
     uniform: Uniform,
 ) {
     selectName(uniform.name)
-    editEquipmentMap(state, uniform.equipmentMap)
+    editEquipmentMap(state, uniform.equipmentMap, UNIFORM)
 }
 
 // parse
@@ -43,5 +44,5 @@ fun parseOptionalUniformId(parameters: Parameters, param: String) =
 fun parseUniform(parameters: Parameters, id: UniformId) = Uniform(
     id,
     parseName(parameters),
-    parseEquipmentMap(parameters),
+    parseEquipmentMap(parameters, UNIFORM),
 )
