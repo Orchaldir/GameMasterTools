@@ -60,7 +60,7 @@ class JobTest {
             val employmentStatus = History<EmploymentStatus>(Employed(BUSINESS_ID_0, JOB_ID_0))
             val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, employmentStatus = employmentStatus)))
 
-            assertIllegalArgument("Cannot delete job 0, because it is used by a character!") {
+            assertIllegalArgument("Cannot delete Job 0, because it is used by a character!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -70,7 +70,7 @@ class JobTest {
             val employmentStatus = History(Unemployed, HistoryEntry(Employed(BUSINESS_ID_0, JOB_ID_0), DAY0))
             val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, employmentStatus = employmentStatus)))
 
-            assertIllegalArgument("Cannot delete job 0, because it is the former job of a character!") {
+            assertIllegalArgument("Cannot delete Job 0, because it is the former job of a character!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -79,11 +79,8 @@ class JobTest {
         fun `Cannot delete a job associated with a domain`() {
             val state = STATE.updateStorage(Storage(Domain(DOMAIN_ID_0, jobs = setOf(JOB_ID_0))))
 
-            assertIllegalArgument("Cannot delete job 0, because it is associated with a domain!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+            assertIllegalArgument("Cannot delete Job 0, because it is associated with a domain!") {
+                REDUCER.invoke(state, action)
             }
         }
     }
