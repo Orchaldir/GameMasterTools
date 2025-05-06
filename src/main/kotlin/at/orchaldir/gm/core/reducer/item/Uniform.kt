@@ -5,7 +5,10 @@ import at.orchaldir.gm.core.action.DeleteUniform
 import at.orchaldir.gm.core.action.UpdateUniform
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
+import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.item.canDeleteUniform
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -17,7 +20,7 @@ val CREATE_UNIFORM: Reducer<CreateUniform, State> = { state, _ ->
 
 val DELETE_UNIFORM: Reducer<DeleteUniform, State> = { state, action ->
     state.getUniformStorage().require(action.id)
-    require(state.canDeleteUniform(action.id)) { "Uniform ${action.id.value} is used" }
+    validateCanDelete(state.canDeleteUniform(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getUniformStorage().remove(action.id)))
 }
@@ -34,5 +37,9 @@ fun validateUniform(
     state: State,
     uniform: Uniform,
 ) {
+    state.getUniformStorage().require(uniform.id)
 
+    uniform.equipmentMap.getAllEquipment().forEach { id ->
+        state.getEquipmentStorage().require(id)
+    }
 }
