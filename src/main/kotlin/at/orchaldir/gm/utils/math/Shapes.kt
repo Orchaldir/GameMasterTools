@@ -5,6 +5,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 private val AT_TOP = -QUARTER_CIRCLE
 private val SQUARE_ORIENTATION = QUARTER_CIRCLE / 2.0f
+private val cutoffSubdivide = createSubdivideIntoThirds(1.0f / 5.0f)
 
 fun createCross(center: Point2d, height: Distance): Polygon2d {
     val aabb = AABB.fromRadii(center, height / 4.0f, height / 2.0f)
@@ -25,7 +26,7 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
 fun createDiamond(center: Point2d, radius: Distance) = createRegularPolygon(center, radius, 4)
 
 fun createCutoffDiamond(center: Point2d, radius: Distance) =
-    subdividePolygon(createRegularPolygon(center, radius, 4), 1)
+    subdividePolygon(createRegularPolygon(center, radius, 4), 1, cutoffSubdivide)
 
 fun createRoundedDiamond(center: Point2d, radius: Distance) = createRoundedRegularPolygon(center, radius, 4)
 
@@ -59,7 +60,7 @@ fun createSquare(center: Point2d, radius: Distance) =
     createRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
 
 fun createCutoffSquare(center: Point2d, radius: Distance) =
-    subdividePolygon(createRegularPolygon(center, radius, 4, SQUARE_ORIENTATION), 1)
+    subdividePolygon(createRegularPolygon(center, radius, 4, SQUARE_ORIENTATION), 1, cutoffSubdivide)
 
 fun createRoundedSquare(center: Point2d, radius: Distance) =
     createRoundedRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)

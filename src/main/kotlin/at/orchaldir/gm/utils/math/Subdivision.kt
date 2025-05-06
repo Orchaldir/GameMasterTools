@@ -5,13 +5,13 @@ package at.orchaldir.gm.utils.math
 fun subdivideLine(
     line: Line2d,
     iterations: Int,
-    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = ::subdivideIntoThirds,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = subdivideIntoThirds,
 ) = Line2d(subdivideLine(line.points, iterations, updateSegment))
 
 fun subdivideLine(
     points: List<Point2d>,
     iterations: Int,
-    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = ::subdivideIntoThirds,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = subdivideIntoThirds,
 ): List<Point2d> {
     var result = points
 
@@ -52,13 +52,13 @@ fun subdivideLine(
 fun subdividePolygon(
     polygon: Polygon2d,
     iterations: Int,
-    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = ::subdivideIntoThirds,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = subdivideIntoThirds,
 ) = Polygon2d(subdividePolygon(polygon.corners, iterations, updateSegment))
 
 fun subdividePolygon(
     points: List<Point2d>,
     iterations: Int,
-    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = ::subdivideIntoThirds,
+    updateSegment: (Point2d, Point2d, MutableList<Point2d>) -> Unit = subdivideIntoThirds,
 ): List<Point2d> {
     var result = points
 
@@ -98,10 +98,13 @@ fun subdividePolygon(
 
 // segments
 
-fun subdivideIntoThirds(first: Point2d, second: Point2d, result: MutableList<Point2d>) {
-    val diff = (second - first) / 3.0f
-    val new0 = first + diff
-    val new1 = new0 + diff
+val subdivideIntoThirds = createSubdivideIntoThirds(1.0f / 3.0f)
+
+fun createSubdivideIntoThirds(factor: Float): (Point2d, Point2d, MutableList<Point2d>) -> Unit =
+    { first, second, result ->
+        val diff = second - first
+        val new0 = first + diff * factor
+        val new1 = first + diff * (1.0f - factor)
 
     result.add(new0)
     result.add(new1)
