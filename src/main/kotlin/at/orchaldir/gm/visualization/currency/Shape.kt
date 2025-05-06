@@ -54,6 +54,7 @@ private fun createShapePolygon(
 ) = when (shape) {
     Shape.Circle -> createRegularPolygon(center, radius, 120)
     Shape.Triangle -> createTriangle(center, radius)
+    Shape.CutoffTriangle -> createCutoffTriangle(center, radius)
     Shape.RoundedTriangle -> createRoundedTriangle(center, radius)
     Shape.Square -> createSquare(center, radius)
     Shape.CutoffSquare -> createCutoffSquare(center, radius)

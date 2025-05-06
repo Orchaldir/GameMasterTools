@@ -26,12 +26,15 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
 fun createDiamond(center: Point2d, radius: Distance) = createRegularPolygon(center, radius, 4)
 
 fun createCutoffDiamond(center: Point2d, radius: Distance) =
-    subdividePolygon(createRegularPolygon(center, radius, 4), 1, cutoffSubdivide)
+    createCutoffRegularPolygon(center, radius, 4)
 
 fun createRoundedDiamond(center: Point2d, radius: Distance) = createRoundedRegularPolygon(center, radius, 4)
 
 fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
     Polygon2d(createRegularPolygonPoints(center, radius, sides, firstCorner))
+
+fun createCutoffRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
+    subdividePolygon(createRegularPolygon(center, radius, sides, firstCorner), 1, cutoffSubdivide)
 
 fun createRoundedRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
     Polygon2d(
@@ -60,13 +63,16 @@ fun createSquare(center: Point2d, radius: Distance) =
     createRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
 
 fun createCutoffSquare(center: Point2d, radius: Distance) =
-    subdividePolygon(createRegularPolygon(center, radius, 4, SQUARE_ORIENTATION), 1, cutoffSubdivide)
+    createCutoffRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
 
 fun createRoundedSquare(center: Point2d, radius: Distance) =
     createRoundedRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
 
 fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation = AT_TOP) =
     createRegularPolygon(center, radius, 3, firstCorner)
+
+fun createCutoffTriangle(center: Point2d, radius: Distance) =
+    createCutoffRegularPolygon(center, radius, 3)
 
 fun createRoundedTriangle(center: Point2d, radius: Distance, firstCorner: Orientation = AT_TOP) =
     createRoundedRegularPolygon(center, radius, 3, firstCorner)

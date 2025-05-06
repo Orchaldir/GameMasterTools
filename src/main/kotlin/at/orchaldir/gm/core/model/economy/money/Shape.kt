@@ -8,6 +8,7 @@ import kotlin.math.pow
 enum class Shape {
     Circle,
     Triangle,
+    CutoffTriangle,
     RoundedTriangle,
     Square,
     CutoffSquare,
@@ -34,7 +35,7 @@ enum class Shape {
 
     fun getSides() = when (this) {
         Circle -> 0
-        Triangle, RoundedTriangle -> 3
+        Triangle, CutoffTriangle, RoundedTriangle -> 3
         Square, CutoffSquare, RoundedSquare, Diamond, CutoffDiamond, RoundedDiamond -> 4
         Pentagon -> 5
         Hexagon -> 6
