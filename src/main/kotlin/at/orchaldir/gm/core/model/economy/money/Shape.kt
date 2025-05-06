@@ -21,12 +21,15 @@ enum class Shape {
     Heptagon,
     Octagon,
     ScallopedOctagon,
-    Dodecagonal;
+    Dodecagonal,
+    ScallopedDodecagonal;
 
-    fun isRounded() =
-        this == RoundedTriangle || this == RoundedSquare || this == RoundedDiamond || this == ScallopedOctagon
+    fun isRounded() = when (this) {
+        RoundedTriangle, RoundedSquare, RoundedDiamond, ScallopedOctagon, ScallopedDodecagonal -> true
+        else -> false
+    }
 
-    fun isScalloped() = this == ScallopedOctagon
+    fun isScalloped() = this == ScallopedOctagon || this == ScallopedDodecagonal
 
     fun calculateArea(radius: Distance) =
         Math.PI.toFloat() * radius.toMeters().pow(2)
@@ -57,7 +60,7 @@ enum class Shape {
         Hexagon -> 6
         Heptagon -> 7
         Octagon, ScallopedOctagon -> 8
-        Dodecagonal -> 12
+        Dodecagonal, ScallopedDodecagonal -> 12
     }
 
     fun hasCornerAtTop() = !(this == Square || this == RoundedSquare)
