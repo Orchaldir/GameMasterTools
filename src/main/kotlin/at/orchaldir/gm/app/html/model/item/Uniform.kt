@@ -1,15 +1,18 @@
 package at.orchaldir.gm.app.html.model.item
 
 import at.orchaldir.gm.app.UNIFORM
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.character.editEquipmentMap
 import at.orchaldir.gm.app.html.model.character.parseEquipmentMap
 import at.orchaldir.gm.app.html.model.character.showEquipmentMap
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -23,6 +26,7 @@ fun HtmlBlockTag.showUniform(
     uniform: Uniform,
 ) {
     showEquipmentMap(call, state, "Equipment", uniform.equipmentMap)
+    fieldList(call, state, state.getJobs(uniform.id))
 }
 
 // edit
