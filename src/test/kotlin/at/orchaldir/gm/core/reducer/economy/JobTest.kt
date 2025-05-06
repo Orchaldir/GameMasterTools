@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.action.UpdateJob
+import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Employed
@@ -11,8 +12,11 @@ import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.name.MononymConvention
+import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.religion.Domain
@@ -35,7 +39,8 @@ private val STATE = State(
         Storage(Job(JOB_ID_0)),
         Storage(Spell(SPELL_ID_0)),
         Storage(Uniform(UNIFORM_ID_0)),
-    )
+    ),
+    data = Data(Economy(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0)))),
 )
 
 class JobTest {
@@ -112,8 +117,20 @@ class JobTest {
         }
 
         @Test
+        fun `Cannot update job with unknown standard of living`() {
+            val action = UpdateJob(Job(JOB_ID_0, income = AffordableStandardOfLiving(UNKNOWN_STANDARD_ID)))
+
+            assertIllegalArgument("Requires unknown Standard Of Living 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Success`() {
-            val job = Job(JOB_ID_0, uniforms = GenderMap(UNIFORM_ID_0), spells = SomeOf(SPELL_ID_0))
+            val job = Job(
+                JOB_ID_0,
+                income = AffordableStandardOfLiving(STANDARD_ID_0),
+                uniforms = GenderMap(UNIFORM_ID_0),
+                spells = SomeOf(SPELL_ID_0),
+            )
             val action = UpdateJob(job)
 
             assertEquals(job, REDUCER.invoke(STATE, action).first.getJobStorage().get(JOB_ID_0))
