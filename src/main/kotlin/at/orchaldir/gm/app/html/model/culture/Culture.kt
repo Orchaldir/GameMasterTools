@@ -2,8 +2,11 @@ package at.orchaldir.gm.app.html.model.culture
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.parseGenderMap
 import at.orchaldir.gm.app.html.model.parseLanguageId
 import at.orchaldir.gm.app.html.model.parseNameListId
+import at.orchaldir.gm.app.html.model.selectGenderMap
+import at.orchaldir.gm.app.html.model.showGenderMap
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.model.time.parseHolidays
@@ -227,9 +230,8 @@ private fun FORM.selectNamesByGender(
     namesByGender: GenderMap<NameListId>,
     param: String,
 ) {
-    selectGenderMap(fieldLabel, namesByGender) { gender, nameListId ->
-        val selectId = "$param-$gender"
-        selectNameList(selectId, state, nameListId)
+    selectGenderMap(fieldLabel, namesByGender, param) { genderParam, nameListId ->
+        selectNameList(genderParam, state, nameListId)
     }
 }
 
@@ -252,8 +254,8 @@ private fun HtmlBlockTag.selectNameList(
 }
 
 private fun FORM.selectWordsByGender(label: String, genderMap: GenderMap<String>, param: String) {
-    selectGenderMap(label, genderMap) { gender, word ->
-        textInput(name = "$param-$gender") {
+    selectGenderMap(label, genderMap, param) { genderParam, word ->
+        textInput(name = genderParam) {
             value = word
         }
     }
@@ -370,31 +372,12 @@ private fun parseNameListId(
 fun parseWordsByGender(
     parameters: Parameters,
     param: String,
-): GenderMap<String> {
-    val female = parseWord(parameters, param, Gender.Female)
-    val genderless = parseWord(parameters, param, Gender.Genderless)
-    val male = parseWord(parameters, param, Gender.Male)
-
-    return GenderMap(female, genderless, male)
+) = parseGenderMap(param) { genderParam ->
+    parameters[genderParam] ?: "Unknown"
 }
-
-private fun parseWord(
-    parameters: Parameters,
-    param: String,
-    gender: Gender,
-) = parameters["$param-$gender"] ?: "Unknown"
 
 fun parseClothingStyles(
     parameters: Parameters,
-): GenderMap<FashionId?> {
-    val female = parseFashionId(parameters, Gender.Female)
-    val genderless = parseFashionId(parameters, Gender.Genderless)
-    val male = parseFashionId(parameters, Gender.Male)
-
-    return GenderMap(female, genderless, male)
+) = parseGenderMap(FASHION) { param ->
+    parseOptionalFashionId(parameters, param)
 }
-
-private fun parseFashionId(
-    parameters: Parameters,
-    gender: Gender,
-) = parseOptionalInt(parameters, "$FASHION-$gender")?.let { FashionId(it) }

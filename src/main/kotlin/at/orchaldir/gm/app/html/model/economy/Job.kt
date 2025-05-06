@@ -7,6 +7,9 @@ import at.orchaldir.gm.app.html.model.economy.money.parsePrice
 import at.orchaldir.gm.app.html.model.economy.money.showPrice
 import at.orchaldir.gm.app.html.model.item.parseOptionalUniformId
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
+import at.orchaldir.gm.app.html.model.parseGenderMap
+import at.orchaldir.gm.app.html.model.selectGenderMap
+import at.orchaldir.gm.app.html.model.showGenderMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseSomeOf
@@ -37,7 +40,9 @@ fun HtmlBlockTag.showJob(
 ) {
     showSalary(call, state, job.income)
     optionalField("Preferred Gender", job.preferredGender)
-    optionalFieldLink("Uniform", call, state, job.uniform)
+    showGenderMap("Uniforms", job.uniforms) { gender, uniform ->
+        optionalFieldLink(gender.name, call, state, uniform)
+    }
     showRarityMap("Spells", job.spells) { spell ->
         link(call, state, spell)
     }
@@ -88,7 +93,9 @@ fun FORM.editJob(
     selectName(job.name)
     editSalary(state, job.income)
     selectOptionalValue("Preferred Gender", GENDER, job.preferredGender, Gender.entries)
-    selectOptionalElement(state, "Uniform", UNIFORM, state.sortUniforms(), job.uniform)
+    selectGenderMap("Uniforms", job.uniforms, UNIFORM) { genderParam, uniform ->
+        selectOptionalElement(state, "Uniform", UNIFORM, state.sortUniforms(), uniform)
+    }
     selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name.text }
 }
 
@@ -128,7 +135,9 @@ fun parseJob(id: JobId, parameters: Parameters) = Job(
     parseName(parameters),
     parseIncome(parameters),
     parse<Gender>(parameters, GENDER),
-    parseOptionalUniformId(parameters, UNIFORM),
+    parseGenderMap(UNIFORM) { param ->
+        parseOptionalUniformId(parameters, param)
+    },
     parseSomeOf(parameters, SPELLS, ::parseSpellId),
 )
 

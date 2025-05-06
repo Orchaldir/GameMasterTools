@@ -1,0 +1,72 @@
+package at.orchaldir.gm.app.html.model
+
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.showMap
+import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.util.GenderMap
+import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.LI
+import kotlinx.html.P
+import kotlinx.html.li
+import kotlinx.html.ul
+
+// show
+
+fun <T> HtmlBlockTag.showGenderMap(
+    label: String,
+    map: GenderMap<T>,
+    content: LI.(Gender, T) -> Unit,
+) {
+    field(label) {
+        showGenderMap(map, content)
+    }
+}
+
+fun <T> HtmlBlockTag.showGenderMap(
+    map: GenderMap<T>,
+    content: LI.(Gender, T) -> Unit,
+) {
+    ul {
+        map.getMap()
+            .filterValues { it != null }
+            .forEach { (key, value) ->
+                li {
+                    content(key, value)
+                }
+            }
+    }
+}
+
+// edit
+
+fun <T> FORM.selectGenderMap(
+    label: String,
+    map: GenderMap<T>,
+    param: String,
+    content: P.(String, T) -> Unit,
+) {
+    showDetails(label) {
+        showMap(map.getMap()) { gender, value ->
+            field(gender.toString()) {
+                content("$param-$gender", value)
+            }
+        }
+    }
+}
+
+
+// parse
+
+fun <T> parseGenderMap(
+    param: String,
+    parseGender: (String) -> T,
+): GenderMap<T> {
+    val female = parseGender(param + "-" + Gender.Female)
+    val genderless = parseGender(param + "-" + Gender.Genderless)
+    val male = parseGender(param + "-" + Gender.Male)
+
+    return GenderMap(female, genderless, male)
+}
+

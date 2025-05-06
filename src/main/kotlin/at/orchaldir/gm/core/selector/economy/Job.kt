@@ -37,7 +37,7 @@ fun State.getJobs(standard: StandardOfLivingId) = getJobStorage()
 
 fun State.getJobs(uniform: UniformId) = getJobStorage()
     .getAll()
-    .filter { it.uniform == uniform }
+    .filter { it.uniforms.contains(uniform) }
 
 
 

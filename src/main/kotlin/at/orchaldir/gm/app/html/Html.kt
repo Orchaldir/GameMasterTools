@@ -96,24 +96,6 @@ fun HtmlBlockTag.showDetails(
     }
 }
 
-
-// lists
-
-fun <T> HtmlBlockTag.showGenderMap(
-    map: GenderMap<T>,
-    content: LI.(Gender, T) -> Unit,
-) {
-    ul {
-        map.getMap()
-            .filterValues { it != null }
-            .forEach { (key, value) ->
-                li {
-                    content(key, value)
-                }
-            }
-    }
-}
-
 // maps
 
 fun <K, V> HtmlBlockTag.showMap(

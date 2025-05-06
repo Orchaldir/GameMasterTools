@@ -2,10 +2,12 @@ package at.orchaldir.gm.app.html.model.culture
 
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
+import at.orchaldir.gm.core.model.item.UniformId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -34,10 +36,9 @@ fun HtmlBlockTag.editFashion(
 
 // parse
 
-fun parseFashionId(
-    parameters: Parameters,
-    param: String,
-) = FashionId(parseInt(parameters, param))
+fun parseFashionId(parameters: Parameters, param: String) = parseOptionalFashionId(parameters, param) ?: FashionId(0)
+fun parseOptionalFashionId(parameters: Parameters, param: String) =
+    parseOptionalInt(parameters, param)?.let { FashionId(it) }
 
 fun parseFashion(id: FashionId, parameters: Parameters) = Fashion(
     id,

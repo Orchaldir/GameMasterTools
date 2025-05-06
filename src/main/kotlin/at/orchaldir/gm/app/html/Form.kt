@@ -59,20 +59,6 @@ fun <T> HtmlBlockTag.selectOptional(
     }
 }
 
-fun <T> FORM.selectGenderMap(
-    text: String,
-    map: GenderMap<T>,
-    content: P.(Gender, T) -> Unit,
-) {
-    showDetails(text) {
-        showMap(map.getMap()) { gender, value ->
-            field(gender.toString()) {
-                content(gender, value)
-            }
-        }
-    }
-}
-
 // rarity map
 
 inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOptionalOneOf(
