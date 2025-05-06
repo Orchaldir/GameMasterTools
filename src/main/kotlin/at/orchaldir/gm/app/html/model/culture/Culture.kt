@@ -120,10 +120,8 @@ private fun HtmlBlockTag.showNamesByGender(
     label: String,
     namesByGender: GenderMap<NameListId>,
 ) {
-    showDetails(label) {
-        showGenderMap(namesByGender) { gender, id ->
-            fieldLink(gender.toString(), call, state, id)
-        }
+    showGenderMap(label, namesByGender) { gender, id ->
+        fieldLink(gender.toString(), call, state, id)
     }
 }
 
@@ -131,10 +129,8 @@ private fun HtmlBlockTag.showStyleByGender(
     label: String,
     namesByGender: GenderMap<String>,
 ) {
-    showDetails(label) {
-        showGenderMap(namesByGender) { gender, text ->
-            field(gender.toString(), text)
-        }
+    showGenderMap(label, namesByGender) { gender, text ->
+        field(gender.toString(), text)
     }
 }
 
