@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteJob
-import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
@@ -10,8 +9,6 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
-import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
@@ -29,21 +26,20 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-
-private val STATE = State(
-    listOf(
-        Storage(CALENDAR0),
-        Storage(Business(BUSINESS_ID_0)),
-        Storage(Character(CHARACTER_ID_0)),
-        Storage(Job(JOB_ID_0)),
-        Storage(Spell(SPELL_ID_0)),
-        Storage(Uniform(UNIFORM_ID_0)),
-    ),
-    data = Data(Economy(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0)))),
-)
 
 class JobTest {
+
+    private val STATE = State(
+        listOf(
+            Storage(CALENDAR0),
+            Storage(Business(BUSINESS_ID_0)),
+            Storage(Character(CHARACTER_ID_0)),
+            Storage(Job(JOB_ID_0)),
+            Storage(Spell(SPELL_ID_0)),
+            Storage(Uniform(UNIFORM_ID_0)),
+        ),
+        data = Data(Economy(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0)))),
+    )
 
     @Nested
     inner class DeleteTest {
