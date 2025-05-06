@@ -55,6 +55,9 @@ fun createRegularPolygonPoints(center: Point2d, radius: Distance, sides: Int, fi
 fun createSquare(center: Point2d, radius: Distance) =
     createRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
 
+fun createCutoffSquare(center: Point2d, radius: Distance) =
+    subdividePolygon(createRegularPolygon(center, radius, 4, SQUARE_ORIENTATION), 1)
+
 fun createRoundedSquare(center: Point2d, radius: Distance) =
     createRoundedRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
 
@@ -65,9 +68,3 @@ fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation =
 
 fun createRoundedTriangle(center: Point2d, radius: Distance, firstCorner: Orientation = AT_TOP) =
     createRoundedRegularPolygon(center, radius, 3, firstCorner)
-
-fun createTrianglePoints(center: Point2d, radius: Distance, firstCorner: Orientation) = listOf(
-    center.createPolar(radius, firstCorner),
-    center.createPolar(radius, firstCorner + ONE_THIRD_CIRCLE),
-    center.createPolar(radius, firstCorner + TWO_THIRD_CIRCLE),
-)

@@ -10,6 +10,7 @@ enum class Shape {
     Triangle,
     RoundedTriangle,
     Square,
+    CutoffSquare,
     RoundedSquare,
     Diamond,
     RoundedDiamond,
@@ -33,7 +34,7 @@ enum class Shape {
     fun getSides() = when (this) {
         Circle -> 0
         Triangle, RoundedTriangle -> 3
-        Square, RoundedSquare, Diamond, RoundedDiamond -> 4
+        Square, CutoffSquare, RoundedSquare, Diamond, RoundedDiamond -> 4
         Pentagon -> 5
         Hexagon -> 6
         Heptagon -> 7

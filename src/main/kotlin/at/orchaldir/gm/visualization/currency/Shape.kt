@@ -56,6 +56,7 @@ private fun createShapePolygon(
     Shape.Triangle -> createTriangle(center, radius)
     Shape.RoundedTriangle -> createRoundedTriangle(center, radius)
     Shape.Square -> createSquare(center, radius)
+    Shape.CutoffSquare -> createCutoffSquare(center, radius)
     Shape.RoundedSquare -> createRoundedSquare(center, radius)
     Shape.Diamond -> createDiamond(center, radius)
     Shape.RoundedDiamond -> createRoundedDiamond(center, radius)
