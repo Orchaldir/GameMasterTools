@@ -27,6 +27,9 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
+import at.orchaldir.gm.core.model.item.Uniform
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -139,6 +142,7 @@ val ELEMENTS =
         TEXT_TYPE,
         TITLE_TYPE,
         TOWN_TYPE,
+        UNIFORM_TYPE,
     )
 private const val DATA = "Data"
 
@@ -198,6 +202,7 @@ data class State(
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
     fun getTitleStorage() = getStorage<TitleId, Title>(TITLE_TYPE)
     fun getTownStorage() = getStorage<TownId, Town>(TOWN_TYPE)
+    fun getUniformStorage() = getStorage<UniformId, Uniform>(UNIFORM_TYPE)
 
     fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(id: ID) = getStorage<ID, ELEMENT>(id.type())
 
@@ -302,6 +307,7 @@ data class State(
         getStreetTemplateStorage().getAll().forEach { validateStreetTemplate(this, it) }
         getTextStorage().getAll().forEach { validateText(this, it) }
         getTownStorage().getAll().forEach { validateTown(this, it) }
+        //TODO: getUniformStorage().getAll().forEach { validateUniform(this, it) }
         validateData(this, data)
     }
 
@@ -342,6 +348,7 @@ data class State(
         saveStorage(path, getTextStorage())
         saveStorage(path, getTitleStorage())
         saveStorage(path, getTownStorage())
+        saveStorage(path, getUniformStorage())
         save(path, DATA, data)
     }
 }
@@ -383,6 +390,7 @@ fun createStorage(type: String) = when (type) {
     TEXT_TYPE -> Storage(TextId(0))
     TITLE_TYPE -> Storage(TitleId(0))
     TOWN_TYPE -> Storage(TownId(0))
+    UNIFORM_TYPE -> Storage(UniformId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
@@ -427,5 +435,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
     TITLE_TYPE -> loadStorage<TitleId, Title>(path, TitleId(0))
     TOWN_TYPE -> loadStorage<TownId, Town>(path, TownId(0))
+    UNIFORM_TYPE -> loadStorage<UniformId, Uniform>(path, UniformId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
