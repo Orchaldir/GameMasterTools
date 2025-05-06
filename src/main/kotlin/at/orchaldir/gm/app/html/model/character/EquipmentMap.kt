@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.model.character
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
-import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -20,9 +19,10 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showEquipmentMap(
     call: ApplicationCall,
     state: State,
+    label: String,
     equipmentMap: EquipmentMap<EquipmentId>,
 ) {
-    showMap("Equipped", equipmentMap.getEquipmentWithSlotSets()) { item, slotSets ->
+    showMap(label, equipmentMap.getEquipmentWithSlotSets()) { item, slotSets ->
         link(call, state, item)
 
         if (slotSets.size > 1) {
@@ -38,15 +38,13 @@ fun HtmlBlockTag.showEquipmentMap(
 fun FORM.editEquipmentMap(
     state: State,
     equipmentMap: EquipmentMap<EquipmentId>,
-    fashion: Fashion?,
 ) {
-    EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, fashion, it) }
+    EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, it) }
 }
 
 private fun FORM.selectEquipment(
     state: State,
     equipmentMap: EquipmentMap<EquipmentId>,
-    fashion: Fashion?,
     type: EquipmentDataType,
 ) {
     // ignore fashion for testing

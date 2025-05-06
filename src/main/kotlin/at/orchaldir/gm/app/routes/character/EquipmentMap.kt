@@ -90,8 +90,6 @@ private fun HTML.showEquipmentMapEditor(
     equipmentMap: EquipmentMap<EquipmentId>,
 ) {
     val equipped = state.getEquipment(equipmentMap)
-    val culture = state.getCultureStorage().getOrThrow(character.culture)
-    val fashion = state.getFashionStorage().getOptional(culture.getFashion(character))
     val backLink = href(call, character.id)
     val previewLink = call.application.href(CharacterRoutes.Equipment.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Equipment.Update(character.id))
@@ -105,7 +103,7 @@ private fun HTML.showEquipmentMapEditor(
         formWithPreview(previewLink, updateLink, backLink) {
             button("Random", generateLink)
 
-            editEquipmentMap(state, equipmentMap, fashion)
+            editEquipmentMap(state, equipmentMap)
         }
     }
 }
