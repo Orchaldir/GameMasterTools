@@ -262,23 +262,20 @@ private fun FORM.editClothingOptions(
 ) {
     h2 { +"Fashion" }
 
-    showMap(culture.fashion.getMap()) { gender, fashionId ->
-        field(gender.toString()) {
-            val selectId = "$FASHION-$gender"
-            select {
-                id = selectId
-                name = selectId
+    selectGenderMap(culture.fashion, FASHION) { genderParam, fashionId ->
+        select {
+            id = genderParam
+            name = genderParam
+            option {
+                label = "None"
+                value = ""
+                selected = fashionId == null
+            }
+            state.getFashionStorage().getAll().forEach { fashion ->
                 option {
-                    label = "None"
-                    value = ""
-                    selected = fashionId == null
-                }
-                state.getFashionStorage().getAll().forEach { fashion ->
-                    option {
-                        label = fashion.name.text
-                        value = fashion.id.value.toString()
-                        selected = fashion.id == fashionId
-                    }
+                    label = fashion.name.text
+                    value = fashion.id.value.toString()
+                    selected = fashion.id == fashionId
                 }
             }
         }

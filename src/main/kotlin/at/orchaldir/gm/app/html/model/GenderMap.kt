@@ -44,17 +44,25 @@ fun <T> HtmlBlockTag.showGenderMap(
 
 // edit
 
-fun <T> FORM.selectGenderMap(
+fun <T> HtmlBlockTag.selectGenderMap(
     label: String,
     map: GenderMap<T>,
     param: String,
     content: P.(String, T) -> Unit,
 ) {
     showDetails(label, true) {
-        showMap(map.getMap()) { gender, value ->
-            field(gender.toString()) {
-                content(createParam(param, gender), value)
-            }
+        selectGenderMap(map, param, content)
+    }
+}
+
+fun <T> HtmlBlockTag.selectGenderMap(
+    map: GenderMap<T>,
+    param: String,
+    content: P.(String, T) -> Unit,
+) {
+    showMap(map.getMap()) { gender, value ->
+        field(gender.toString()) {
+            content(createParam(param, gender), value)
         }
     }
 }
