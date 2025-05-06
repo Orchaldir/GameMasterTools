@@ -20,12 +20,28 @@ enum class Shape {
     Hexagon,
     Heptagon,
     Octagon,
+    ScallopedOctagon,
     Dodecagonal;
 
-    fun isRounded() = this == RoundedTriangle || this == RoundedSquare || this == RoundedDiamond
+    fun isRounded() =
+        this == RoundedTriangle || this == RoundedSquare || this == RoundedDiamond || this == ScallopedOctagon
+
+    fun isScalloped() = this == ScallopedOctagon
 
     fun calculateArea(radius: Distance) =
         Math.PI.toFloat() * radius.toMeters().pow(2)
+
+    fun calculateIncircle(radius: Distance, sides: Int): Distance {
+        require(sides >= 3) { "Requires at least 3 sides!" }
+        val angle = FULL_CIRCLE.div(sides * 2.0f)
+        val incircleRadius = radius * angle.cos()
+
+        if (isScalloped()) {
+            return incircleRadius * 0.8f
+        }
+
+        return incircleRadius
+    }
 
     fun calculateVolume(radius: Distance, thickness: Distance) =
         calculateArea(radius) * thickness.toMeters()
@@ -40,16 +56,10 @@ enum class Shape {
         Pentagon -> 5
         Hexagon -> 6
         Heptagon -> 7
-        Octagon -> 8
+        Octagon, ScallopedOctagon -> 8
         Dodecagonal -> 12
     }
 
     fun hasCornerAtTop() = !(this == Square || this == RoundedSquare)
 }
 
-fun calculateIncircle(radius: Distance, sides: Int): Distance {
-    require(sides >= 3) { "Requires at least 3 sides!" }
-    val angle = FULL_CIRCLE.div(sides * 2.0f)
-
-    return radius * angle.cos()
-}

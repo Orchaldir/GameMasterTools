@@ -44,6 +44,23 @@ fun createRoundedRegularPolygon(center: Point2d, radius: Distance, sides: Int, f
         )
     )
 
+fun createScallopedRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
+    Polygon2d(
+        subdividePolygon(
+            createRegularPolygonPoints(center, radius, sides, firstCorner),
+            ::scallopSegment,
+        )
+    )
+
+private fun scallopSegment(first: Point2d, second: Point2d, result: MutableList<Point2d>) {
+    val half = (first + second) / 2.0f
+    val diff = second - first
+    val normal = diff.normal()
+
+    result.add(half + normal / 5.0f)
+    result.add(second)
+}
+
 fun createRegularPolygonPoints(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation): List<Point2d> {
     require(sides >= 3) { "A regular polygon needs at least 3 sides!" }
 

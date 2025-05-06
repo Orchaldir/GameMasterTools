@@ -30,6 +30,8 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
     fun length() = Distance.fromMeters(hypot(x, y))
     fun calculateDistance(other: Point2d) = minus(other).length()
 
+    fun normal() = Point2d(-y, x)
+
     fun normalize(): Point2d {
         val length = length()
 

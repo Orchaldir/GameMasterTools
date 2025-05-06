@@ -62,5 +62,6 @@ private fun createShapePolygon(
     Shape.Diamond -> createDiamond(center, radius)
     Shape.CutoffDiamond -> createCutoffDiamond(center, radius)
     Shape.RoundedDiamond -> createRoundedDiamond(center, radius)
+    Shape.ScallopedOctagon -> createScallopedRegularPolygon(center, radius, 8)
     else -> createRegularPolygon(center, radius, shape.getSides())
 }
