@@ -42,5 +42,8 @@ val UPDATE_JOB: Reducer<UpdateJob, State> = { state, action ->
 }
 
 fun validateJob(state: State, job: Job) {
-    job.spells.getValidValues().forEach { state.getSpellStorage().require(it) }
+    job.spells.getValidValues()
+        .forEach { state.getSpellStorage().require(it) }
+    job.uniforms.getValues()
+        .forEach { state.getUniformStorage().requireOptional(it) }
 }
