@@ -87,6 +87,7 @@ import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodical
 import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodicalIssue
 import at.orchaldir.gm.core.reducer.item.validateEquipment
 import at.orchaldir.gm.core.reducer.item.validateText
+import at.orchaldir.gm.core.reducer.item.validateUniform
 import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
 import at.orchaldir.gm.core.reducer.religion.validateDomain
@@ -307,7 +308,7 @@ data class State(
         getStreetTemplateStorage().getAll().forEach { validateStreetTemplate(this, it) }
         getTextStorage().getAll().forEach { validateText(this, it) }
         getTownStorage().getAll().forEach { validateTown(this, it) }
-        //TODO: getUniformStorage().getAll().forEach { validateUniform(this, it) }
+        getUniformStorage().getAll().forEach { validateUniform(this, it) }
         validateData(this, data)
     }
 

@@ -27,5 +27,9 @@ val ITEM_REDUCER: Reducer<ItemAction, State> = { state, action ->
         is CreateText -> CREATE_TEXT(state, action)
         is DeleteText -> DELETE_TEXT(state, action)
         is UpdateText -> UPDATE_TEXT(state, action)
+        // uniform
+        is CreateUniform -> CREATE_UNIFORM(state, action)
+        is DeleteUniform -> DELETE_UNIFORM(state, action)
+        is UpdateUniform -> UPDATE_UNIFORM(state, action)
     }
 }
