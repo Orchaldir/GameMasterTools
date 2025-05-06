@@ -6,6 +6,11 @@
    "name": "Test",
    "equipmentMap": {
     "map": {
+     "0": [
+      [
+       "Belt"
+      ]
+     ],
      "5": [
       [
        "Foot"
