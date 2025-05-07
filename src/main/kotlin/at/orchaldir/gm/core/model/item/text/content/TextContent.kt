@@ -20,14 +20,14 @@ sealed class TextContent {
     }
 
     fun spells() = when (this) {
-        is AbstractChapters -> chapters.fold(setOf()) { sum, chapter -> sum + chapter.spells }
-        is AbstractText -> spells
+        is AbstractChapters -> chapters.fold(setOf()) { sum, chapter -> sum + chapter.content.spells }
+        is AbstractText -> content.spells
         UndefinedTextContent -> emptySet()
     }
 
     fun contains(spell: SpellId) = when (this) {
-        is AbstractChapters -> chapters.any { it.spells.contains(spell) }
-        is AbstractText -> spells.contains(spell)
+        is AbstractChapters -> chapters.any { it.content.spells.contains(spell) }
+        is AbstractText -> content.spells.contains(spell)
         UndefinedTextContent -> false
     }
 }
@@ -35,8 +35,7 @@ sealed class TextContent {
 @Serializable
 @SerialName("Abstract")
 data class AbstractText(
-    val pages: Int,
-    val spells: Set<SpellId> = emptySet(),
+    val content: AbstractContent,
 ) : TextContent()
 
 @Serializable

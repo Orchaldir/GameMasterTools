@@ -6,6 +6,9 @@ import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.content.AbstractChapter
+import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
+import at.orchaldir.gm.core.model.item.text.content.AbstractContent
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
@@ -110,11 +113,17 @@ private fun checkTextContent(
     content: TextContent,
 ) {
     when (content) {
-        is AbstractText -> {
-            require(content.pages >= MIN_CONTENT_PAGES) { "The abstract text requires at least $MIN_CONTENT_PAGES pages!" }
-            content.spells.forEach { state.getSpellStorage().require(it) { "Contains unknown Spell ${it.value}!" } }
-        }
-
+        is AbstractText -> checkAbstractContent(state, content.content)
+        is AbstractChapters -> content.chapters.forEach { checkAbstractContent(state, it.content) }
         UndefinedTextContent -> doNothing()
     }
+}
+
+
+private fun checkAbstractContent(
+    state: State,
+    content: AbstractContent,
+) {
+    require(content.pages >= MIN_CONTENT_PAGES) { "The abstract text requires at least $MIN_CONTENT_PAGES pages!" }
+    content.spells.forEach { state.getSpellStorage().require(it) { "Contains unknown Spell ${it.value}!" } }
 }
