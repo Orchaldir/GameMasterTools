@@ -66,16 +66,28 @@ data class PagesBuilder(
         return this
     }
 
+    fun addLineBreak(): PagesBuilder {
+        if (currentPage.isNotEmpty()) {
+            startNewPage()
+        }
+
+        return this
+    }
+
     fun build() = Pages(pages + Page(currentPage))
 
     fun count() = pages.size + currentPage.isNotEmpty().toInt()
 
     private fun checkEndOfPage() {
         if (currentPosition.y >= aabb.getEnd().y) {
-            currentPosition = aabb.start
-            pages.add(Page(currentPage))
-            currentPage = mutableListOf()
+            startNewPage()
         }
+    }
+
+    private fun startNewPage() {
+        currentPosition = aabb.start
+        pages.add(Page(currentPage))
+        currentPage = mutableListOf()
     }
 
 }
