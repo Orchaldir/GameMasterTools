@@ -8,10 +8,8 @@ import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.convert
-import at.orchaldir.gm.utils.renderer.renderWrappedString
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeBookPage(
@@ -23,8 +21,8 @@ fun visualizeBookPage(
     visualizePage(state, book)
 
     when (content) {
-        is AbstractText -> visualizeAbstractText(state, book, content, page)
-        is AbstractChapters -> visualizeAbstractChapters(state, book, content, page)
+        is AbstractText -> visualizeAbstractText(state, content, page)
+        is AbstractChapters -> visualizeAbstractChapters(state, content, page)
         UndefinedTextContent -> doNothing()
     }
 }
@@ -41,7 +39,6 @@ private fun visualizePage(
 
 private fun visualizeAbstractText(
     state: TextRenderState,
-    book: Book,
     content: AbstractText,
     page: Int,
 ) {
@@ -59,7 +56,6 @@ private fun visualizeAbstractText(
 
 private fun visualizeAbstractChapters(
     state: TextRenderState,
-    book: Book,
     content: AbstractChapters,
     page: Int,
 ) {
