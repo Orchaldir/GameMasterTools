@@ -29,12 +29,14 @@ data class RenderStringOptions(
 fun FontOption.convert(
     state: State,
     verticalAlignment: VerticalAlignment = VerticalAlignment.Center,
+    horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Center,
 ) = when (this) {
     is SolidFont -> RenderStringOptions(
         color.toRender(),
         size.toMeters(),
         state.getFontStorage().getOptional(font),
-        verticalAlignment
+        verticalAlignment,
+        horizontalAlignment,
     )
 
     is FontWithBorder -> RenderStringOptions(
@@ -42,6 +44,7 @@ fun FontOption.convert(
         size.toMeters(),
         state.getFontStorage().getOptional(font),
         verticalAlignment,
+        horizontalAlignment,
     )
 
     is HollowFont -> RenderStringOptions(
@@ -49,5 +52,6 @@ fun FontOption.convert(
         size.toMeters(),
         state.getFontStorage().getOptional(font),
         verticalAlignment,
+        horizontalAlignment,
     )
 }

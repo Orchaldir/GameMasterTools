@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
+import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -53,7 +54,7 @@ private fun visualizeAbstractText(
         text,
         state.aabb.start,
         Distance.fromMeters(state.aabb.size.width),
-        content.style.main.convert(state.state, VerticalAlignment.Top),
+        content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start),
     )
 }
 
