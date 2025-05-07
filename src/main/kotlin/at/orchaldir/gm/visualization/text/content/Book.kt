@@ -54,7 +54,7 @@ private fun visualizeAbstractText(
         .addBreak(content.style.main.getFontSize())
         .addString(state.config.exampleString, options)
         .build()
-        .render(state.renderer.getLayer(), 0)
+        .render(state.renderer.getLayer(), page)
 }
 
 private fun visualizeAbstractChapters(
@@ -75,6 +75,6 @@ private fun visualizeAbstractChapters(
         .addBreak(content.style.main.getFontSize())
         .addString(state.config.exampleString, mainOptions)
         .build()
-        .render(state.renderer.getLayer(), 0)
+        .render(state.renderer.getLayer(), page)
 }
 
