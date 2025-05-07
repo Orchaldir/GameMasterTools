@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AbstractContent(
-    val pages: Int,
+    val pages: Int = 100,
     val spells: Set<SpellId> = emptySet(),
 )

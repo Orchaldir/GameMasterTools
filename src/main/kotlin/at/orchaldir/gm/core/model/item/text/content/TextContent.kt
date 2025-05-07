@@ -44,7 +44,7 @@ sealed class TextContent {
 @Serializable
 @SerialName("Abstract")
 data class AbstractText(
-    val content: AbstractContent,
+    val content: AbstractContent = AbstractContent(),
     val style: ContentStyle = ContentStyle(),
 ) : TextContent()
 
