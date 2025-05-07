@@ -38,7 +38,7 @@ data class Pages(
 data class PagesBuilder(
     private val aabb: AABB,
     private var currentPosition: Point2d = aabb.start,
-    private val currentPage: MutableList<PageEntry> = mutableListOf(),
+    private var currentPage: MutableList<PageEntry> = mutableListOf(),
     private val pages: MutableList<Page> = mutableListOf(),
 ) {
 
@@ -50,6 +50,8 @@ data class PagesBuilder(
             currentPage.add(PageEntry(currentPosition, line, options))
 
             currentPosition += step
+
+            checkEndOfPage()
         }
 
         return this
@@ -58,9 +60,19 @@ data class PagesBuilder(
     fun addBreak(distance: Distance): PagesBuilder {
         currentPosition = currentPosition.addHeight(distance)
 
+        checkEndOfPage()
+
         return this
     }
 
     fun build() = Pages(pages + Page(currentPage))
+
+    private fun checkEndOfPage() {
+        if (currentPosition.y >= aabb.getEnd().y) {
+            currentPosition = aabb.start
+            pages.add(Page(currentPage))
+            currentPage = mutableListOf()
+        }
+    }
 
 }
