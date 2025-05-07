@@ -19,6 +19,12 @@ sealed class TextContent {
         UndefinedTextContent -> TextContentType.Undefined
     }
 
+    fun pages() = when (this) {
+        is AbstractChapters -> chapters.fold(0) { sum, chapter -> sum + chapter.content.pages }
+        is AbstractText -> content.pages
+        UndefinedTextContent -> 0
+    }
+
     fun spells() = when (this) {
         is AbstractChapters -> chapters.fold(setOf()) { sum, chapter -> sum + chapter.content.spells }
         is AbstractText -> content.spells

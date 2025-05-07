@@ -164,6 +164,7 @@ private fun HTML.showAllTexts(
                 th { +"Language" }
                 th { +"Format" }
                 th { +"Materials" }
+                th { +"Pages" }
                 th { +"Spells" }
             }
             texts.forEach { text ->
@@ -187,6 +188,7 @@ private fun HTML.showAllTexts(
                     td { link(call, state, text.language) }
                     tdEnum(text.format.getType())
                     tdInlineLinks(call, state, text.materials())
+                    tdSkipZero(text.content.pages())
                     tdSkipZero(text.content.spells().size)
                 }
             }
