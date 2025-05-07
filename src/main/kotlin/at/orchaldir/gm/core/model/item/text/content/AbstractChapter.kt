@@ -8,3 +8,5 @@ data class AbstractChapter(
     val title: NotEmptyString,
     val content: AbstractContent,
 )
+
+fun createDefaultChapterTitle(index: Int): String = "${index + 1}.Chapter"

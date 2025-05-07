@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.item.text.content.AbstractText
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.TextContentType
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
+import at.orchaldir.gm.core.model.item.text.content.createDefaultChapterTitle
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.selector.util.sortSpells
 import at.orchaldir.gm.utils.doNothing
@@ -52,7 +53,7 @@ private fun HtmlBlockTag.showAbstractChapter(
     chapter: AbstractChapter,
     index: Int,
 ) {
-    showDetails("${index + 1}.Chapter") {
+    showDetails(createDefaultChapterTitle(index)) {
         field("Pages", chapter.title)
         showAbstractContent(call, state, chapter.content)
     }
@@ -99,7 +100,7 @@ private fun HtmlBlockTag.editAbstractChapter(
     index: Int,
     param: String,
 ) {
-    showDetails("${index + 1}.Chapter") {
+    showDetails(createDefaultChapterTitle(index), true) {
         selectNotEmptyString("Title", chapter.title, combine(param, TITLE))
         editAbstractContent(state, chapter.content, param)
     }
@@ -133,15 +134,15 @@ fun parseTextContent(parameters: Parameters) = when (parse(parameters, CONTENT, 
 
     TextContentType.AbstractChapters -> AbstractChapters(
         parseList(parameters, CONTENT, 0) { index, chapterParam ->
-            parseAbstractChapter(parameters, chapterParam)
+            parseAbstractChapter(parameters, chapterParam, index)
         }
     )
 
     TextContentType.Undefined -> UndefinedTextContent
 }
 
-private fun parseAbstractChapter(parameters: Parameters, param: String) = AbstractChapter(
-    parseNotEmptyString(parameters, combine(param, TITLE)),
+private fun parseAbstractChapter(parameters: Parameters, param: String, index: Int) = AbstractChapter(
+    parseNotEmptyString(parameters, combine(param, TITLE), createDefaultChapterTitle(index)),
     parseAbstractContent(parameters, param),
 )
 
