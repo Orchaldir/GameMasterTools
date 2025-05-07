@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.item.text.content.AbstractChapter
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Size2i.Companion.fromMillimeters
-import at.orchaldir.gm.visualization.text.visualizeTextContent
+import at.orchaldir.gm.visualization.text.content.visualizeTextContent
 import java.io.File
 
 private val ID = TextId(0)

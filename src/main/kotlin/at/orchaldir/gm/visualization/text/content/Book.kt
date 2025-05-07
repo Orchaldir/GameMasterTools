@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.text.book
+package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters

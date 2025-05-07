@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.text
+package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
@@ -9,7 +9,9 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.text.book.visualizeBookPage
+import at.orchaldir.gm.visualization.text.TextRenderConfig
+import at.orchaldir.gm.visualization.text.TextRenderState
+import at.orchaldir.gm.visualization.text.resolveTextData
 
 fun visualizeTextContent(
     state: State,
