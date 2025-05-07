@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
+import at.orchaldir.gm.core.model.item.text.content.AbstractContent
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
@@ -210,21 +211,24 @@ class TextTest {
         inner class ContentTest {
             @Test
             fun `Too few pages`() {
-                val action = UpdateText(Text(TEXT_ID_0, content = AbstractText(0)))
+                val content = AbstractText(AbstractContent(0))
+                val action = UpdateText(Text(TEXT_ID_0, content = content))
 
                 assertIllegalArgument("The abstract text requires at least 1 pages!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
             fun `Unknown spell`() {
-                val action = UpdateText(Text(TEXT_ID_0, content = AbstractText(100, setOf(SPELL_ID_1))))
+                val content = AbstractText(AbstractContent(100, setOf(SPELL_ID_1)))
+                val action = UpdateText(Text(TEXT_ID_0, content = content))
 
                 assertIllegalArgument("Contains unknown Spell 1!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
-            fun `Known spell`() {
-                val text = Text(TEXT_ID_0, content = AbstractText(100, setOf(SPELL_ID_0)))
+            fun `Successful update`() {
+                val content = AbstractText(AbstractContent(100, setOf(SPELL_ID_0)))
+                val text = Text(TEXT_ID_0, content = content)
                 val action = UpdateText(text)
 
                 assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(TEXT_ID_0))
