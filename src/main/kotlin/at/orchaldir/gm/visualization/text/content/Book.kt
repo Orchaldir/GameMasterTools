@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -72,14 +73,20 @@ private fun visualizeAbstractChapters(
     val builder = PagesBuilder(innerAABB)
 
     content.chapters.forEach { chapter ->
-        val maxPage = min(builder.count() + chapter.content.pages, page + 1)
+        val maxPage = builder.count() + chapter.content.pages
 
         builder
             .addLineBreak()
             .addString(chapter.title.text, titleOptions)
             .addBreak(content.style.main.getFontSize())
 
-        while (builder.count() <= maxPage) {
+        while (builder.count() < maxPage) {
+            builder
+                .addString(state.config.exampleString, mainOptions)
+                .addBreak(content.style.main.getFontSize())
+        }
+
+        while (!builder.hasReached(state.config.lastPageFillFactor)) {
             builder
                 .addString(state.config.exampleString, mainOptions)
                 .addBreak(content.style.main.getFontSize())

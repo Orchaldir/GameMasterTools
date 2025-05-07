@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -77,6 +78,8 @@ data class PagesBuilder(
     fun build() = Pages(pages + Page(currentPage))
 
     fun count() = pages.size + currentPage.isNotEmpty().toInt()
+
+    fun hasReached(factor: Factor) = ((currentPosition.y - aabb.start.y) / aabb.size.height) >= factor.toNumber()
 
     private fun checkEndOfPage() {
         if (currentPosition.y >= aabb.getEnd().y) {

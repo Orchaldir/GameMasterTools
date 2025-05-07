@@ -25,6 +25,7 @@ data class TextRenderConfig(
     val sewingRadius: SizeConfig<Factor>,
     val sewingLength: SizeConfig<Factor>,
     val exampleString: String,
+    val lastPageFillFactor: Factor,
 ) {
 
     fun calculatePaddedSize(format: TextFormat) = addPadding(calculateSize(format))
