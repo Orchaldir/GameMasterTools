@@ -4,7 +4,6 @@ import at.orchaldir.gm.utils.math.Point2d
 import org.junit.jupiter.api.Assertions.assertTrue
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 
 inline fun <reified T : Throwable> assertFailMessage(message: String, block: () -> Unit) {
