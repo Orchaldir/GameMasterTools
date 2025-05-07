@@ -29,7 +29,7 @@ fun main() {
         content = content,
     )
 
-    val svg = visualizeTextContent(State(), TEXT_CONFIG, text, 0)
+    val svg = visualizeTextContent(State(), TEXT_CONFIG, text)
 
     File("book-abstract-text-pages.svg").writeText(svg.export())
 }

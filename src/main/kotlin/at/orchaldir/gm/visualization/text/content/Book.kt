@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
+import kotlin.math.min
 
 fun visualizeBookPage(
     state: TextRenderState,
@@ -46,8 +47,9 @@ private fun visualizeAbstractText(
     val innerAABB = state.aabb.shrink(margin)
     val options = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val builder = PagesBuilder(innerAABB)
+    val maxPage = min(content.content.pages, page + 1)
 
-    while (builder.count() <= page) {
+    while (builder.count() <= maxPage) {
         builder
             .addString(state.config.exampleString, options)
             .addBreak(content.style.main.getFontSize())
