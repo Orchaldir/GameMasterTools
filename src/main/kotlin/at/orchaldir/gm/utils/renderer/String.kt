@@ -45,10 +45,10 @@ fun renderWrappedString(
     position: Point2d,
     maxWidth: Distance,
     options: RenderStringOptions,
-) {
+): Point2d {
     val lines = wrapString(string, maxWidth, options.size)
 
-    renderWrappedString(renderer, lines, position, options)
+    return renderWrappedString(renderer, lines, position, options)
 }
 
 fun renderWrappedString(
@@ -56,8 +56,7 @@ fun renderWrappedString(
     lines: List<String>,
     position: Point2d,
     options: RenderStringOptions,
-) {
-
+): Point2d {
     val step = Point2d(0.0f, options.size)
     var currentPosition = when (options.verticalAlignment) {
         VerticalAlignment.Top -> position
@@ -74,6 +73,8 @@ fun renderWrappedString(
 
         currentPosition += step
     }
+
+    return currentPosition
 }
 
 fun wrapString(
