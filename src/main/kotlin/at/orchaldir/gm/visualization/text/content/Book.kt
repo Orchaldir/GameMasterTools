@@ -3,13 +3,14 @@ package at.orchaldir.gm.visualization.text.content
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
 import kotlin.math.min
@@ -48,13 +49,9 @@ private fun visualizeAbstractText(
     val innerAABB = state.aabb.shrink(margin)
     val options = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val builder = PagesBuilder(innerAABB)
-    val maxPage = min(content.content.pages, page + 1)
+    val maxPage = min(content.content.pages, page + 2)
 
-    while (builder.count() <= maxPage) {
-        builder
-            .addString(state.config.exampleString, options)
-            .addBreak(content.style.main.getFontSize())
-    }
+    visualizeAbstractContent(state, builder, content.style, options, maxPage)
 
     builder
         .build()
@@ -80,21 +77,31 @@ private fun visualizeAbstractChapters(
             .addString(chapter.title.text, titleOptions)
             .addBreak(content.style.main.getFontSize())
 
-        while (builder.count() < maxPage) {
-            builder
-                .addString(state.config.exampleString, mainOptions)
-                .addBreak(content.style.main.getFontSize())
-        }
-
-        while (!builder.hasReached(state.config.lastPageFillFactor)) {
-            builder
-                .addString(state.config.exampleString, mainOptions)
-                .addBreak(content.style.main.getFontSize())
-        }
+        visualizeAbstractContent(state, builder, content.style, mainOptions, maxPage)
     }
 
     builder
         .build()
         .render(state.renderer.getLayer(), page)
+}
+
+private fun visualizeAbstractContent(
+    state: TextRenderState,
+    builder: PagesBuilder,
+    style: ContentStyle,
+    options: RenderStringOptions,
+    maxPage: Int,
+) {
+    while (builder.count() < maxPage) {
+        builder
+            .addString(state.config.exampleString, options)
+            .addBreak(style.main.getFontSize())
+    }
+
+    while (!builder.hasReached(state.config.lastPageFillFactor)) {
+        builder
+            .addString(state.config.exampleString, options)
+            .addBreak(style.main.getFontSize())
+    }
 }
 
