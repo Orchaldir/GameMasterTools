@@ -11,6 +11,13 @@ fun visualizeBookPage(
     content: TextContent,
     page: Int,
 ) {
+    visualizePage(state, book)
+}
+
+private fun visualizePage(
+    state: TextRenderState,
+    book: Book,
+) {
     val color = book.page.getColor(state.state)
     val options = FillAndBorder(color.toRender(), state.config.line)
 
