@@ -24,6 +24,7 @@ data class TextRenderConfig(
     val bossesRadius: SizeConfig<Factor>,
     val sewingRadius: SizeConfig<Factor>,
     val sewingLength: SizeConfig<Factor>,
+    val exampleString: String,
 ) {
 
     fun calculatePaddedSize(format: TextFormat) = addPadding(calculateSize(format))

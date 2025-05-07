@@ -14,9 +14,6 @@ import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.utils.renderer.renderWrappedString
 import at.orchaldir.gm.visualization.text.TextRenderState
 
-private val text =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Nulla dapibus mauris vitae metus gravida sodales. Fusce vitae dapibus sapien, nec eleifend quam. Vestibulum ac malesuada nisi. Integer tempor, libero et pretium accumsan, elit risus accumsan risus, eget tempus orci ligula eu lectus. Suspendisse ut aliquet libero. Nam nec metus eu magna scelerisque iaculis et id tortor. Maecenas non scelerisque eros. Nunc quis lacinia purus. Aenean porta et sapien non aliquam. Etiam vestibulum tempus quam sit amet cursus. Proin convallis tincidunt dolor vitae lacinia. Pellentesque eu elit blandit, porta orci vel, vulputate purus. Sed maximus venenatis velit. Maecenas pellentesque leo sed nisl ultricies porta."
-
 fun visualizeBookPage(
     state: TextRenderState,
     book: Book,
@@ -54,7 +51,7 @@ private fun visualizeAbstractText(
 
     val nextStart = renderWrappedString(
         state.renderer.getLayer(),
-        text,
+        state.config.exampleString,
         innerAABB.start,
         Distance.fromMeters(innerAABB.size.width),
         options,
@@ -62,7 +59,7 @@ private fun visualizeAbstractText(
 
     renderWrappedString(
         state.renderer.getLayer(),
-        text,
+        state.config.exampleString,
         nextStart,
         Distance.fromMeters(innerAABB.size.width),
         options,
@@ -90,7 +87,7 @@ private fun visualizeAbstractChapters(
 
     nextStart = renderWrappedString(
         state.renderer.getLayer(),
-        text,
+        state.config.exampleString,
         nextStart,
         Distance.fromMeters(innerAABB.size.width),
         mainOptions,
@@ -98,7 +95,7 @@ private fun visualizeAbstractChapters(
 
     renderWrappedString(
         state.renderer.getLayer(),
-        text,
+        state.config.exampleString,
         nextStart,
         Distance.fromMeters(innerAABB.size.width),
         mainOptions,
