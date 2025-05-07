@@ -104,7 +104,7 @@ fun parseFontOption(parameters: Parameters, param: String) =
         FontOptionType.Solid -> SolidFont(
             parseFontSize(parameters, param),
             parseFontColor(parameters, param),
-            parseFontId(parameters, combine(param, FONT)),
+            parseOptionalFontId(parameters, combine(param, FONT)),
         )
 
         FontOptionType.Border -> FontWithBorder(
@@ -112,14 +112,14 @@ fun parseFontOption(parameters: Parameters, param: String) =
             parseBorderThickness(parameters, param),
             parseFontColor(parameters, param),
             parseBorderColor(parameters, param),
-            parseFontId(parameters, combine(param, FONT)),
+            parseOptionalFontId(parameters, combine(param, FONT)),
         )
 
         FontOptionType.Hollow -> HollowFont(
             parseFontSize(parameters, param),
             parseBorderThickness(parameters, param),
             parseBorderColor(parameters, param),
-            parseFontId(parameters, combine(param, FONT)),
+            parseOptionalFontId(parameters, combine(param, FONT)),
         )
     }
 
