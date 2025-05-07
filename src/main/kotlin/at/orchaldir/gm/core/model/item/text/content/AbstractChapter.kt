@@ -7,6 +7,9 @@ import kotlinx.serialization.Serializable
 data class AbstractChapter(
     val title: NotEmptyString,
     val content: AbstractContent,
-)
+) {
+    constructor(index: Int, content: AbstractContent) :
+            this(NotEmptyString.init(createDefaultChapterTitle(index)), content)
+}
 
 fun createDefaultChapterTitle(index: Int): String = "${index + 1}.Chapter"

@@ -11,8 +11,11 @@ import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
+import at.orchaldir.gm.core.model.item.text.content.AbstractChapter
+import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractContent
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.createDefaultChapterTitle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.language.Language
@@ -219,10 +222,19 @@ class TextTest {
 
             @Test
             fun `Unknown spell`() {
-                val content = AbstractText(AbstractContent(100, setOf(SPELL_ID_1)))
+                val content = AbstractText(AbstractContent(100, setOf(UNKNOWN_SPELL_ID)))
                 val action = UpdateText(Text(TEXT_ID_0, content = content))
 
-                assertIllegalArgument("Contains unknown Spell 1!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Contains unknown Spell 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Unknown spell in chapter`() {
+                val chapter = AbstractChapter(0, AbstractContent(100, setOf(UNKNOWN_SPELL_ID)))
+                val content = AbstractChapters(listOf(chapter))
+                val action = UpdateText(Text(TEXT_ID_0, content = content))
+
+                assertIllegalArgument("Contains unknown Spell 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
