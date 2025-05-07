@@ -73,7 +73,7 @@ private fun visualizeAbstractChapters(
     val builder = PagesBuilder(innerAABB)
 
     content.chapters.forEach { chapter ->
-        val maxPage = builder.count() + chapter.content.pages
+        val maxPage = min(builder.count() + chapter.content.pages, page + 2)
 
         builder
             .addLineBreak()
