@@ -9,9 +9,9 @@ import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.wrapString
 
 data class PageEntry(
-    var position: Point2d,
-    val line: String,
-    val options: RenderStringOptions,
+    private var position: Point2d,
+    private val line: String,
+    private val options: RenderStringOptions,
 ) {
 
     fun render(renderer: LayerRenderer) = renderer
@@ -20,7 +20,7 @@ data class PageEntry(
 }
 
 data class Page(
-    val entries: List<PageEntry>,
+    private val entries: List<PageEntry>,
 ) {
 
     fun render(renderer: LayerRenderer) = entries.forEach { it.render(renderer) }
