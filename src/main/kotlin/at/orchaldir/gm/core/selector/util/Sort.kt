@@ -434,6 +434,8 @@ fun State.sortTexts(
         when (sort) {
             SortText.Name -> compareBy { it.name.text }
             SortText.Age -> getAgeComparator()
+            SortText.Pages -> compareByDescending { it.content.pages() }
+            SortText.Spells -> compareByDescending { it.content.spells().size }
         })
 
 // title

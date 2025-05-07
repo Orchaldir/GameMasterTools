@@ -112,6 +112,8 @@ enum class SortSpell {
 enum class SortText {
     Name,
     Age,
+    Pages,
+    Spells,
 }
 
 enum class SortTitle {
