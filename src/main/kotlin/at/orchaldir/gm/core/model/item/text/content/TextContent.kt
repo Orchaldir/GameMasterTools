@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.model.item.text.content
 
+import at.orchaldir.gm.core.model.font.FontOption
+import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -42,12 +45,15 @@ sealed class TextContent {
 @SerialName("Abstract")
 data class AbstractText(
     val content: AbstractContent,
+    val style: ContentStyle = ContentStyle(),
 ) : TextContent()
 
 @Serializable
 @SerialName("AbstractChapters")
 data class AbstractChapters(
     val chapters: List<AbstractChapter> = emptyList(),
+    val style: ContentStyle = ContentStyle(),
+    val titleStyle: FontOption = SolidFont(Distance.fromMillimeters(8)),
 ) : TextContent()
 
 @Serializable

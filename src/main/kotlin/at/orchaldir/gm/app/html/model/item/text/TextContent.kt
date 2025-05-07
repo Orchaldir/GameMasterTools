@@ -1,10 +1,13 @@
 package at.orchaldir.gm.app.html.model.item.text
 
 import at.orchaldir.gm.app.CONTENT
+import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.PAGES
 import at.orchaldir.gm.app.SPELLS
+import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.font.parseFontOption
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -132,12 +135,15 @@ private fun HtmlBlockTag.editSpells(
 fun parseTextContent(parameters: Parameters) = when (parse(parameters, CONTENT, TextContentType.Undefined)) {
     TextContentType.AbstractText -> AbstractText(
         parseAbstractContent(parameters, CONTENT),
+        parseContentStyle(parameters, combine(CONTENT, STYLE)),
     )
 
     TextContentType.AbstractChapters -> AbstractChapters(
         parseList(parameters, CONTENT, 0) { index, chapterParam ->
             parseAbstractChapter(parameters, chapterParam, index)
-        }
+        },
+        parseContentStyle(parameters, combine(CONTENT, STYLE)),
+        parseFontOption(parameters, combine(CONTENT, TITLE)),
     )
 
     TextContentType.Undefined -> UndefinedTextContent
@@ -151,4 +157,8 @@ private fun parseAbstractChapter(parameters: Parameters, param: String, index: I
 private fun parseAbstractContent(parameters: Parameters, param: String) = AbstractContent(
     parseInt(parameters, combine(param, PAGES), 100),
     parseElements(parameters, combine(param, SPELLS)) { parseSpellId(it) },
+)
+
+private fun parseContentStyle(parameters: Parameters, param: String) = ContentStyle(
+    parseFontOption(parameters, combine(param, MAIN)),
 )
