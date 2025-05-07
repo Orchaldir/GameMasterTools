@@ -39,12 +39,21 @@ fun HtmlBlockTag.showTextContent(
 
         when (content) {
             is AbstractText -> showAbstractContent(call, state, content.content)
-            is AbstractChapters -> content.chapters
-                .withIndex()
-                .forEach { showAbstractChapter(call, state, it.value, it.index) }
+            is AbstractChapters -> showAbstractChapters(call, state, content)
             UndefinedTextContent -> doNothing()
         }
     }
+}
+
+private fun HtmlBlockTag.showAbstractChapters(
+    call: ApplicationCall,
+    state: State,
+    chapters: AbstractChapters,
+) {
+    chapters.chapters
+        .withIndex()
+        .forEach { showAbstractChapter(call, state, it.value, it.index) }
+    field("Total Pages", chapters.chapters.sumOf { it.content.pages })
 }
 
 private fun HtmlBlockTag.showAbstractChapter(
@@ -54,7 +63,7 @@ private fun HtmlBlockTag.showAbstractChapter(
     index: Int,
 ) {
     showDetails(createDefaultChapterTitle(index)) {
-        field("Pages", chapter.title)
+        field("Title", chapter.title)
         showAbstractContent(call, state, chapter.content)
     }
 }
