@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.text
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
-import at.orchaldir.gm.core.selector.item.getAuthorName
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
@@ -70,6 +69,3 @@ fun visualizeTextFormat(
         UndefinedTextFormat -> doNothing()
     }
 }
-
-private fun resolveTextData(state: State, text: Text) =
-    ResolvedTextData(text.name(state), state.getAuthorName(text))
