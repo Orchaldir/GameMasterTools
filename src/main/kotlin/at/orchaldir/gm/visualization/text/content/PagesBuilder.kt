@@ -37,26 +37,26 @@ data class Pages(
 
 data class PagesBuilder(
     private val aabb: AABB,
-    private var currentPosition: Point2d = Point2d(),
+    private var currentPosition: Point2d = aabb.start,
     private val currentPage: MutableList<PageEntry> = mutableListOf(),
     private val pages: MutableList<Page> = mutableListOf(),
 ) {
 
     fun addString(string: String, options: RenderStringOptions): PagesBuilder {
-        val step = Distance.fromMeters(options.size)
+        val step = Point2d(0.0f, options.size)
         val lines = wrapString(string, Distance.fromMeters(aabb.size.width), options.size)
 
         for (line in lines) {
             currentPage.add(PageEntry(currentPosition, line, options))
 
-            currentPosition.addHeight(step)
+            currentPosition += step
         }
 
         return this
     }
 
     fun addBreak(distance: Distance): PagesBuilder {
-        currentPosition += distance
+        currentPosition = currentPosition.addHeight(distance)
 
         return this
     }

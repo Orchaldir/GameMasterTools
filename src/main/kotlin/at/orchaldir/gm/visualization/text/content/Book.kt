@@ -49,21 +49,12 @@ private fun visualizeAbstractText(
     val innerAABB = state.aabb.shrink(margin)
     val options = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
 
-    val nextStart = renderWrappedString(
-        state.renderer.getLayer(),
-        state.config.exampleString,
-        innerAABB.start,
-        Distance.fromMeters(innerAABB.size.width),
-        options,
-    ).addHeight(content.style.main.getFontSize())
-
-    renderWrappedString(
-        state.renderer.getLayer(),
-        state.config.exampleString,
-        nextStart,
-        Distance.fromMeters(innerAABB.size.width),
-        options,
-    )
+    PagesBuilder(innerAABB)
+        .addString(state.config.exampleString, options)
+        .addBreak(content.style.main.getFontSize())
+        .addString(state.config.exampleString, options)
+        .build()
+        .render(state.renderer.getLayer(), 0)
 }
 
 private fun visualizeAbstractChapters(
@@ -77,28 +68,13 @@ private fun visualizeAbstractChapters(
     val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
 
-    var nextStart = renderWrappedString(
-        state.renderer.getLayer(),
-        content.chapters[0].title.text,
-        innerAABB.start,
-        Distance.fromMeters(innerAABB.size.width),
-        titleOptions,
-    ).addHeight(content.style.main.getFontSize())
-
-    nextStart = renderWrappedString(
-        state.renderer.getLayer(),
-        state.config.exampleString,
-        nextStart,
-        Distance.fromMeters(innerAABB.size.width),
-        mainOptions,
-    ).addHeight(content.style.main.getFontSize())
-
-    renderWrappedString(
-        state.renderer.getLayer(),
-        state.config.exampleString,
-        nextStart,
-        Distance.fromMeters(innerAABB.size.width),
-        mainOptions,
-    )
+    PagesBuilder(innerAABB)
+        .addString(content.chapters[0].title.text, titleOptions)
+        .addBreak(content.style.main.getFontSize())
+        .addString(state.config.exampleString, mainOptions)
+        .addBreak(content.style.main.getFontSize())
+        .addString(state.config.exampleString, mainOptions)
+        .build()
+        .render(state.renderer.getLayer(), 0)
 }
 
