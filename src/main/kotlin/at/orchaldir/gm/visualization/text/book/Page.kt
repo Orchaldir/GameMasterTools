@@ -49,11 +49,14 @@ private fun visualizeAbstractText(
     content: AbstractText,
     page: Int,
 ) {
+    val margin = state.aabb.convertMinSide(content.style.margin)
+    val innerAABB = state.aabb.shrink(margin)
+
     renderWrappedString(
         state.renderer.getLayer(),
         text,
-        state.aabb.start,
-        Distance.fromMeters(state.aabb.size.width),
+        innerAABB.start,
+        Distance.fromMeters(innerAABB.size.width),
         content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start),
     )
 }
