@@ -69,13 +69,23 @@ private fun visualizeAbstractChapters(
     val innerAABB = state.aabb.shrink(margin)
     val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
+    val builder = PagesBuilder(innerAABB)
 
-    PagesBuilder(innerAABB)
-        .addString(content.chapters[0].title.text, titleOptions)
-        .addBreak(content.style.main.getFontSize())
-        .addString(state.config.exampleString, mainOptions)
-        .addBreak(content.style.main.getFontSize())
-        .addString(state.config.exampleString, mainOptions)
+    content.chapters.forEach { chapter ->
+        val maxPage = min(builder.count() + chapter.content.pages, page + 1)
+
+        builder
+            .addString(chapter.title.text, titleOptions)
+            .addBreak(content.style.main.getFontSize())
+
+        while (builder.count() <= maxPage) {
+            builder
+                .addString(state.config.exampleString, mainOptions)
+                .addBreak(content.style.main.getFontSize())
+        }
+    }
+
+    builder
         .build()
         .render(state.renderer.getLayer(), page)
 }
