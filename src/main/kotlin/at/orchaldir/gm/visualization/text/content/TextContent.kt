@@ -43,6 +43,7 @@ fun visualizeTextContent(
     content: TextContent,
     page: Int,
 ) {
+    require(page < content.pages())
     val inner = AABB.fromCenter(state.aabb.getCenter(), state.config.calculateSize(format))
     val innerState = state.copy(aabb = inner)
 

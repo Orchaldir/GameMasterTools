@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.wrapString
+import at.orchaldir.gm.utils.toInt
 
 data class PageEntry(
     private var position: Point2d,
@@ -66,6 +67,8 @@ data class PagesBuilder(
     }
 
     fun build() = Pages(pages + Page(currentPage))
+
+    fun count() = pages.size + currentPage.isNotEmpty().toInt()
 
     private fun checkEndOfPage() {
         if (currentPosition.y >= aabb.getEnd().y) {

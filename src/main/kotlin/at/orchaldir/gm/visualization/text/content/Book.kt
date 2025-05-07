@@ -45,11 +45,15 @@ private fun visualizeAbstractText(
     val margin = state.aabb.convertMinSide(content.style.margin)
     val innerAABB = state.aabb.shrink(margin)
     val options = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
+    val builder = PagesBuilder(innerAABB)
 
-    PagesBuilder(innerAABB)
-        .addString(state.config.exampleString, options)
-        .addBreak(content.style.main.getFontSize())
-        .addString(state.config.exampleString, options)
+    while (builder.count() <= page) {
+        builder
+            .addString(state.config.exampleString, options)
+            .addBreak(content.style.main.getFontSize())
+    }
+
+    builder
         .build()
         .render(state.renderer.getLayer(), page)
 }
