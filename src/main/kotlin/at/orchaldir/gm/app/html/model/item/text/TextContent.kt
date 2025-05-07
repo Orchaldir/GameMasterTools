@@ -143,7 +143,6 @@ fun parseTextContent(parameters: Parameters) = when (parse(parameters, CONTENT, 
             parseAbstractChapter(parameters, chapterParam, index)
         },
         parseContentStyle(parameters, combine(CONTENT, STYLE)),
-        parseFontOption(parameters, combine(CONTENT, TITLE)),
     )
 
     TextContentType.Undefined -> UndefinedTextContent
@@ -161,4 +160,5 @@ private fun parseAbstractContent(parameters: Parameters, param: String) = Abstra
 
 private fun parseContentStyle(parameters: Parameters, param: String) = ContentStyle(
     parseFontOption(parameters, combine(param, MAIN)),
+    parseFontOption(parameters, combine(param, TITLE)),
 )

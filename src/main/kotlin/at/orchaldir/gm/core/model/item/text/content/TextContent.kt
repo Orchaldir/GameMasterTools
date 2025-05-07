@@ -53,7 +53,6 @@ data class AbstractText(
 data class AbstractChapters(
     val chapters: List<AbstractChapter> = emptyList(),
     val style: ContentStyle = ContentStyle(),
-    val titleStyle: FontOption = SolidFont(Distance.fromMillimeters(8)),
 ) : TextContent()
 
 @Serializable

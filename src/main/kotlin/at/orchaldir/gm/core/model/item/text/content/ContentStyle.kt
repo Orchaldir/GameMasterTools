@@ -8,4 +8,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ContentStyle(
     val main: FontOption = SolidFont(Distance.fromMillimeters(4)),
+    val titleStyle: FontOption = SolidFont(Distance.fromMillimeters(8)),
 )
