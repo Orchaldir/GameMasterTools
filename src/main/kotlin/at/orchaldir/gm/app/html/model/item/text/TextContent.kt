@@ -10,14 +10,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.content.AbstractChapter
-import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
-import at.orchaldir.gm.core.model.item.text.content.AbstractContent
-import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.content.TextContent
-import at.orchaldir.gm.core.model.item.text.content.TextContentType
-import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
-import at.orchaldir.gm.core.model.item.text.content.createDefaultChapterTitle
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.selector.util.sortSpells
 import at.orchaldir.gm.utils.doNothing
