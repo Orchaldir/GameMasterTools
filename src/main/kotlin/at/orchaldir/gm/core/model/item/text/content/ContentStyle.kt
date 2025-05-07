@@ -9,6 +9,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ContentStyle(
     val main: FontOption = SolidFont(Distance.fromMillimeters(5)),
-    val titleStyle: FontOption = SolidFont(Distance.fromMillimeters(10)),
+    val title: FontOption = SolidFont(Distance.fromMillimeters(10)),
     val margin: Factor = Factor.fromPercentage(10),
 )

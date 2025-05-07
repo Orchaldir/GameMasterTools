@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.utils.renderer.renderWrappedString
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -28,7 +27,7 @@ fun visualizeBookPage(
 
     when (content) {
         is AbstractText -> visualizeAbstractText(state, book, content, page)
-        is AbstractChapters -> doNothing()
+        is AbstractChapters -> visualizeAbstractChapters(state, book, content, page)
         UndefinedTextContent -> doNothing()
     }
 }
@@ -67,6 +66,42 @@ private fun visualizeAbstractText(
         nextStart,
         Distance.fromMeters(innerAABB.size.width),
         options,
+    )
+}
+
+private fun visualizeAbstractChapters(
+    state: TextRenderState,
+    book: Book,
+    content: AbstractChapters,
+    page: Int,
+) {
+    val margin = state.aabb.convertMinSide(content.style.margin)
+    val innerAABB = state.aabb.shrink(margin)
+    val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
+    val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
+
+    var nextStart = renderWrappedString(
+        state.renderer.getLayer(),
+        content.chapters[0].title.text,
+        innerAABB.start,
+        Distance.fromMeters(innerAABB.size.width),
+        titleOptions,
+    ).addHeight(content.style.main.getFontSize())
+
+    nextStart = renderWrappedString(
+        state.renderer.getLayer(),
+        text,
+        nextStart,
+        Distance.fromMeters(innerAABB.size.width),
+        mainOptions,
+    ).addHeight(content.style.main.getFontSize())
+
+    renderWrappedString(
+        state.renderer.getLayer(),
+        text,
+        nextStart,
+        Distance.fromMeters(innerAABB.size.width),
+        mainOptions,
     )
 }
 
