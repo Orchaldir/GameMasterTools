@@ -12,11 +12,13 @@ import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.visualization.text.content.visualizeTextContent
 import at.orchaldir.gm.visualization.text.visualizeText
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
 import io.ktor.http.*
@@ -231,12 +233,9 @@ private fun HTML.showTextDetails(
     val backLink = call.application.href(TextRoutes.All())
     val deleteLink = call.application.href(TextRoutes.Delete(text.id))
     val editLink = call.application.href(TextRoutes.Edit(text.id))
-    val svg = visualizeText(state, TEXT_CONFIG, text)
 
     simpleHtml("Text: ${text.name(state)}") {
-        if (text.format !is UndefinedTextFormat) {
-            svg(svg, 20)
-        }
+        visualizeFrontAndContent(state, text, 20, 0)
         showText(call, state, text)
 
         action(editLink, "Edit")
@@ -257,7 +256,6 @@ private fun HTML.showTextEditor(
     val backLink = href(call, text.id)
     val previewLink = call.application.href(TextRoutes.Preview(text.id))
     val updateLink = call.application.href(TextRoutes.Update(text.id))
-    val svg = visualizeText(state, TEXT_CONFIG, text)
 
     simpleHtmlEditor(text, true) {
         split({
@@ -265,8 +263,24 @@ private fun HTML.showTextEditor(
                 editText(state, text)
             }
         }, {
-            svg(svg, 50)
+            visualizeFrontAndContent(state, text, 50, 0)
         })
 
+    }
+}
+
+private fun HtmlBlockTag.visualizeFrontAndContent(
+    state: State,
+    text: Text,
+    width: Int,
+    page: Int,
+) {
+    if (text.format !is UndefinedTextFormat) {
+        val frontSvg = visualizeText(state, TEXT_CONFIG, text)
+        svg(frontSvg, width)
+    }
+    if (text.content !is UndefinedTextContent) {
+        val contentSvg = visualizeTextContent(state, TEXT_CONFIG, text, page)
+        svg(contentSvg, width)
     }
 }
