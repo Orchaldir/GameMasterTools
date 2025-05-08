@@ -53,6 +53,8 @@ private fun visualizeAbstractText(
     builder
         .build()
         .render(state.renderer.getLayer(), page)
+
+    visualizePageNumbering(state, margin, content.style, content.pageNumbering, page)
 }
 
 private fun visualizeAbstractChapters(

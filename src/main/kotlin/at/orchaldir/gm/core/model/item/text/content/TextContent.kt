@@ -50,6 +50,7 @@ sealed class TextContent {
 data class AbstractText(
     val content: AbstractContent = AbstractContent(),
     val style: ContentStyle = ContentStyle(),
+    val pageNumbering: PageNumbering = NoPageNumbering,
 ) : TextContent()
 
 @Serializable
