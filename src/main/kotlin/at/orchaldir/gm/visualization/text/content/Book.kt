@@ -43,7 +43,8 @@ private fun visualizeAbstractText(
 ) {
     val margin = state.aabb.convertMinSide(content.style.margin)
     val innerAABB = state.aabb.shrink(margin)
-    val options = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
+    val alignment = content.style.getHorizontalAlignment()
+    val options = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
     val builder = PagesBuilder(innerAABB)
     val maxPage = min(content.content.pages, page + 2)
 
@@ -62,7 +63,8 @@ private fun visualizeAbstractChapters(
     val margin = state.aabb.convertMinSide(content.style.margin)
     val innerAABB = state.aabb.shrink(margin)
     val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
-    val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Justified)
+    val alignment = content.style.getHorizontalAlignment()
+    val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
     val builder = PagesBuilder(innerAABB)
 
     content.chapters.forEach { chapter ->
