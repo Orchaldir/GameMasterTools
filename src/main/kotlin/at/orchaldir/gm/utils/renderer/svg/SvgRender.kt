@@ -220,6 +220,31 @@ class SvgRenderer(
         return this
     }
 
+    override fun renderString(
+        text: String,
+        start: Point2d,
+        width: Distance,
+        options: RenderStringOptions,
+    ): LayerRenderer {
+        val position = when (options.horizontalAlignment) {
+            HorizontalAlignment.Start, HorizontalAlignment.Justified -> start
+            HorizontalAlignment.Center -> start.addWidth(width / 2.0f)
+            HorizontalAlignment.End -> start.addWidth(width)
+        }
+        inlineTag(
+            "text",
+            text,
+            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" style=\"%s\" text-anchor=\"%s\"",
+            position.x,
+            position.y,
+            toSvg(options.verticalAlignment),
+            toSvg(options),
+            toSvg(options.horizontalAlignment),
+        )
+
+        return this
+    }
+
     override fun renderTeardrop(aabb: AABB, options: RenderOptions): LayerRenderer {
         val polygon = Polygon2dBuilder()
             .addLeftPoint(aabb, CENTER, START, true)

@@ -93,7 +93,7 @@ data class PagesBuilder(
 
             currentPosition += step
 
-            checkEndOfPage()
+            checkEndOfPage(options.size)
         }
 
         return this
@@ -124,8 +124,8 @@ data class PagesBuilder(
 
     fun hasReached(factor: Factor) = ((currentPosition.y - aabb.start.y) / aabb.size.height) >= factor.toNumber()
 
-    private fun checkEndOfPage() {
-        if (currentPosition.y >= aabb.getEnd().y) {
+    private fun checkEndOfPage(bonus: Float = 0.0f) {
+        if (currentPosition.y + bonus >= aabb.getEnd().y) {
             startNewPage()
         }
     }

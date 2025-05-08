@@ -112,11 +112,13 @@ private fun checkTextContent(
         is AbstractText -> {
             checkAbstractContent(state, content.content)
             checkStyle(state, content.style)
+            checkPageNumbering(state, content.pageNumbering)
         }
 
         is AbstractChapters -> {
             content.chapters.forEach { checkAbstractContent(state, it.content) }
             checkStyle(state, content.style)
+            checkPageNumbering(state, content.pageNumbering)
         }
 
         UndefinedTextContent -> doNothing()
@@ -137,6 +139,15 @@ private fun checkStyle(
 ) {
     checkFontOption(state, style.main)
     checkFontOption(state, style.title)
+}
+
+private fun checkPageNumbering(
+    state: State,
+    pageNumbering: PageNumbering,
+) = if (pageNumbering is SimplePageNumbering) {
+    checkFontOption(state, pageNumbering.fontOption)
+} else {
+    doNothing()
 }
 
 private fun checkFontOption(

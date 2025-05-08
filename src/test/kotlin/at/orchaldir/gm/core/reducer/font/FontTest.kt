@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
 import at.orchaldir.gm.core.model.item.text.content.ContentStyle
+import at.orchaldir.gm.core.model.item.text.content.SimplePageNumbering
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
@@ -65,6 +66,14 @@ class FontTest {
         @Test
         fun `Cannot delete, if used by a book's content`() {
             val content = AbstractText(style = ContentStyle(title = font))
+            val state = STATE.updateStorage(Storage(Text(TEXT_ID_0, content = content)))
+
+            assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete, if used by a book's page numbering`() {
+            val content = AbstractText(pageNumbering = SimplePageNumbering(font))
             val state = STATE.updateStorage(Storage(Text(TEXT_ID_0, content = content)))
 
             assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }

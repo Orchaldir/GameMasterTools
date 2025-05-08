@@ -116,6 +116,9 @@
       "size": 5000,
       "font": 0
      }
+    },
+    "pageNumbering": {
+     "type": "Reusing"
     }
    }
   },

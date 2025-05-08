@@ -33,8 +33,8 @@ sealed class TextContent {
     }
 
     fun contains(font: FontId) = when (this) {
-        is AbstractChapters -> style.contains(font)
-        is AbstractText -> style.contains(font)
+        is AbstractChapters -> style.contains(font) || pageNumbering.contains(font)
+        is AbstractText -> style.contains(font) || pageNumbering.contains(font)
         UndefinedTextContent -> false
     }
 
@@ -50,6 +50,7 @@ sealed class TextContent {
 data class AbstractText(
     val content: AbstractContent = AbstractContent(),
     val style: ContentStyle = ContentStyle(),
+    val pageNumbering: PageNumbering = NoPageNumbering,
 ) : TextContent()
 
 @Serializable
@@ -57,6 +58,7 @@ data class AbstractText(
 data class AbstractChapters(
     val chapters: List<AbstractChapter> = emptyList(),
     val style: ContentStyle = ContentStyle(),
+    val pageNumbering: PageNumbering = NoPageNumbering,
 ) : TextContent()
 
 @Serializable
