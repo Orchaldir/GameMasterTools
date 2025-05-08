@@ -16,10 +16,11 @@ data class PageEntry(
     private var position: Point2d,
     private val line: String,
     private val options: RenderStringOptions,
+    private val isLastLine: Boolean,
 ) {
 
     fun render(renderer: LayerRenderer, width: Distance) =
-        if (options.horizontalAlignment == HorizontalAlignment.Justified) {
+        if (options.horizontalAlignment == HorizontalAlignment.Justified && !isLastLine) {
             val lineLength = calculateLength(line, options.size)
             val diff = width.toMeters() - lineLength
             val words = line.split(' ')
@@ -51,7 +52,7 @@ data class PageEntry(
             simpleRender(renderer)
         }
 
-    fun simpleRender(renderer: LayerRenderer): LayerRenderer = renderer
+    private fun simpleRender(renderer: LayerRenderer): LayerRenderer = renderer
         .renderString(line, position, zero(), options)
 
 }
@@ -60,16 +61,8 @@ data class Page(
     private val entries: List<PageEntry>,
 ) {
 
-    fun render(renderer: LayerRenderer, width: Distance) {
-        val lastIndex = entries.size - 1
-        entries.withIndex().forEach {
-            if (it.index < lastIndex) {
-                it.value.render(renderer, width)
-            } else {
-                it.value.simpleRender(renderer)
-            }
-        }
-    }
+    fun render(renderer: LayerRenderer, width: Distance) = entries
+        .forEach { it.render(renderer, width) }
 
 }
 
@@ -92,9 +85,11 @@ data class PagesBuilder(
     fun addString(string: String, options: RenderStringOptions): PagesBuilder {
         val step = Point2d(0.0f, options.size)
         val lines = wrapString(string, Distance.fromMeters(aabb.size.width), options.size)
+        val lastIndex = lines.size - 1
 
-        for (line in lines) {
-            currentPage.add(PageEntry(currentPosition, line, options))
+        lines.withIndex().forEach {
+            val isLastLine = it.index == lastIndex
+            currentPage.add(PageEntry(currentPosition, it.value, options, isLastLine))
 
             currentPosition += step
 
