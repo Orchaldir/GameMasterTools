@@ -7,12 +7,14 @@ import at.orchaldir.gm.core.model.item.text.content.InitialPosition
 import at.orchaldir.gm.core.model.item.text.content.LargeInitial
 import at.orchaldir.gm.core.model.item.text.content.NormalInitial
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
+import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.ZERO
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.calculateLength
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
@@ -109,7 +111,7 @@ data class PagesBuilder(
         is FontInitial -> addParagraphWithInitial(
             string,
             options,
-            initial.fontOption.convert(state),
+            initial.fontOption.convert(state, VerticalAlignment.Top),
             initial.position,
         )
     }
@@ -131,12 +133,29 @@ data class PagesBuilder(
 
         currentPage.add(PageEntry(currentPosition, initialChar, updatedInitialOptions))
 
+        when (position) {
+            InitialPosition.Baseline -> doNothing()
+            InitialPosition.Margin -> addParagraph(rest, mainOptions)
+            InitialPosition.DroCap -> doNothing()
+        }
+
         return this
     }
 
-    fun addParagraph(string: String, options: RenderStringOptions): PagesBuilder {
+    fun addParagraph(
+        string: String,
+        options: RenderStringOptions,
+        indentedLines: Int = 0,
+        indentedDistance: Distance = ZERO,
+    ): PagesBuilder {
         val step = Point2d(0.0f, options.size)
-        val lines = wrapString(string, Distance.fromMeters(aabb.size.width), options.size)
+        val lines = wrapString(
+            string,
+            Distance.fromMeters(aabb.size.width),
+            options.size,
+            indentedLines,
+            indentedDistance,
+        )
         val lastIndex = lines.size - 1
 
         lines.withIndex().forEach {
