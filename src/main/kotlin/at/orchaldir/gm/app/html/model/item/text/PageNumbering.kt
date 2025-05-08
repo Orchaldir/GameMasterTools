@@ -19,7 +19,6 @@ import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 
@@ -35,10 +34,10 @@ fun HtmlBlockTag.showPageNumbering(
 
         when (data) {
             NoPageNumbering -> doNothing()
-            is PageNumberingReusingFont -> field("Horizontal Alignment", data.horizontalAlignment)
+            is PageNumberingReusingFont -> field("Horizontal Alignment", data.alignment)
             is SimplePageNumbering -> {
                 showFontOption(call, state, "Font", data.fontOption)
-                field("Horizontal Alignment", data.horizontalAlignment)
+                field("Horizontal Alignment", data.alignment)
             }
         }
     }
@@ -57,10 +56,10 @@ fun HtmlBlockTag.editPageNumbering(
 
         when (data) {
             NoPageNumbering -> doNothing()
-            is PageNumberingReusingFont -> selectHorizontalAlignment(param, data.horizontalAlignment)
+            is PageNumberingReusingFont -> selectHorizontalAlignment(param, data.alignment)
             is SimplePageNumbering -> {
                 editFontOption(state, "Font", data.fontOption, param)
-                selectHorizontalAlignment(param, data.horizontalAlignment)
+                selectHorizontalAlignment(param, data.alignment)
             }
         }
     }
@@ -73,7 +72,7 @@ private fun DETAILS.selectHorizontalAlignment(
     selectValue(
         "Horizontal Alignment",
         combine(param, ALIGNMENT),
-        HorizontalAlignment.entries,
+        HorizontalAlignment.entries - HorizontalAlignment.Justified,
         alignment,
         true,
     )

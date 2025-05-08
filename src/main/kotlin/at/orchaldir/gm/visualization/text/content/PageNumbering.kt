@@ -23,7 +23,7 @@ fun visualizePageNumbering(
         state,
         margin,
         style.main,
-        pageNumbering.horizontalAlignment,
+        pageNumbering.alignment,
         page,
     )
 
@@ -31,7 +31,7 @@ fun visualizePageNumbering(
         state,
         margin,
         pageNumbering.fontOption,
-        pageNumbering.horizontalAlignment,
+        pageNumbering.alignment,
         page,
     )
 }

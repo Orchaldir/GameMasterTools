@@ -30,12 +30,27 @@ data object NoPageNumbering : PageNumbering()
 @Serializable
 @SerialName("Reusing")
 data class PageNumberingReusingFont(
-    val horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Center,
-) : PageNumbering()
+    val alignment: HorizontalAlignment = HorizontalAlignment.Center,
+) : PageNumbering() {
 
+    init {
+        validateHorizontalAlignment(alignment)
+    }
+
+}
 @Serializable
 @SerialName("Simple")
 data class SimplePageNumbering(
     val fontOption: FontOption = SolidFont(Distance.fromMillimeters(5)),
-    val horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Center,
-) : PageNumbering()
+    val alignment: HorizontalAlignment = HorizontalAlignment.Center,
+) : PageNumbering() {
+
+    init {
+        validateHorizontalAlignment(alignment)
+    }
+
+}
+
+private fun validateHorizontalAlignment(alignment: HorizontalAlignment) {
+    require(alignment != HorizontalAlignment.Justified) { "Page numbering doesn't support Justified!" }
+}
