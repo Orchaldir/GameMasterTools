@@ -81,6 +81,8 @@ private fun visualizeAbstractChapters(
     builder
         .build()
         .render(state.renderer.getLayer(), page)
+
+    visualizePageNumbering(state, innerAABB, content.style, content.pageNumbering, page)
 }
 
 private fun visualizeAbstractContent(
