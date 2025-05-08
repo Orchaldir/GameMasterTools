@@ -16,7 +16,7 @@ val MAX_INITIAL_SIZE: Factor = fromPercentage(500)
 enum class InitialType {
     Normal,
     Large,
-    Simple,
+    Font,
 }
 
 @Serializable
@@ -25,7 +25,7 @@ sealed class Initial {
     fun getType() = when (this) {
         NormalInitial -> InitialType.Normal
         is LargeInitial -> InitialType.Large
-        is FontInitial -> InitialType.Simple
+        is FontInitial -> InitialType.Font
     }
 
     fun contains(font: FontId) = when (this) {

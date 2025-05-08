@@ -1,7 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text.content
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.font.FontWithBorder
+import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
@@ -12,7 +12,6 @@ import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.prototypes.visualization.text.renderTextContentTable
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Size2i
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
@@ -21,10 +20,8 @@ fun main() {
         page = ColorItemPart(Color.AntiqueWhite),
         size = Size2i.Companion.fromMillimeters(125, 190)
     )
-    val font = FontWithBorder(
-        fromMillimeters(15),
-        fromMicrometers(100),
-        Color.Gold,
+    val font = SolidFont(
+        fromMillimeters(20),
         Color.Red,
     )
     val initial0 = LargeInitial(fromPercentage(200))
