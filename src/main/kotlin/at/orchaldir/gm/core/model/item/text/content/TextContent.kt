@@ -57,6 +57,7 @@ data class AbstractText(
 data class AbstractChapters(
     val chapters: List<AbstractChapter> = emptyList(),
     val style: ContentStyle = ContentStyle(),
+    val pageNumbering: PageNumbering = NoPageNumbering,
 ) : TextContent()
 
 @Serializable
