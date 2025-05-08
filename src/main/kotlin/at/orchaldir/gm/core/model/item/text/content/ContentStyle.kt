@@ -18,6 +18,7 @@ data class ContentStyle(
     val title: FontOption = SolidFont(Distance.fromMillimeters(10)),
     val isJustified: Boolean = true,
     val margin: Factor = DEFAULT_MARGIN,
+    val initial: Initial = NormalInitial,
 ) {
 
     init {
@@ -25,7 +26,9 @@ data class ContentStyle(
         require(margin <= MAX_MARGIN) { "Margin is too large!" }
     }
 
-    fun contains(font: FontId) = main.font() == font || title.font() == font
+    fun contains(font: FontId) = main.font() == font ||
+            title.font() == font ||
+            initial.contains(font)
 
     fun getHorizontalAlignment() = if (isJustified) {
         HorizontalAlignment.Justified
