@@ -25,18 +25,25 @@ data class PageEntry(
             val words = line.split(' ')
             val step = Point2d(diff / (words.size - 1), 0.0f)
             var currentPosition = position
+            val lastIndex = words.size - 1
 
             words.withIndex().forEach { entry ->
                 val word = entry.value
-                val text = if (entry.index == 0) {
-                    word
+
+                if (lastIndex == entry.index) {
+                    val lastOptions = options.copy(horizontalAlignment = HorizontalAlignment.End)
+                    renderer.renderString(word, position.addWidth(width), zero(), lastOptions)
                 } else {
-                    " $word"
+                    val text = if (entry.index == 0) {
+                        word
+                    } else {
+                        " $word"
+                    }
+
+                    renderer.renderString(text, currentPosition, zero(), options)
+
+                    currentPosition += step.addWidth(Distance.fromMeters(calculateLength(word, options.size)))
                 }
-
-                renderer.renderString(text, currentPosition, zero(), options)
-
-                currentPosition += step.addWidth(Distance.fromMeters(calculateLength(word, options.size)))
             }
 
 
