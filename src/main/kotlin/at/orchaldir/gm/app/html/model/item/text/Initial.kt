@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.model.item.text
 
+import at.orchaldir.gm.app.FONT
 import at.orchaldir.gm.app.INITIAL
 import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.SIZE
@@ -75,7 +76,7 @@ fun HtmlBlockTag.editInitial(
             }
 
             is FontInitial -> {
-                editFontOption(state, "Font", initial.fontOption, param)
+                editFontOption(state, "Font", initial.fontOption, combine(param, FONT))
                 selectPosition(param, initial.position)
             }
         }
@@ -109,7 +110,7 @@ fun parseInitial(parameters: Parameters, param: String): Initial {
         )
 
         InitialType.Font -> FontInitial(
-            parseFontOption(parameters, param),
+            parseFontOption(parameters, combine(param, FONT)),
             parsePosition(parameters, param),
         )
     }

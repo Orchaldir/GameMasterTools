@@ -117,8 +117,13 @@
       "font": 0
      },
      "initial": {
-      "type": "Large",
-      "size": 50000
+      "type": "Font",
+      "fontOption": {
+       "type": "Solid",
+       "size": 25000,
+       "color": "OrangeRed",
+       "font": 0
+      }
      }
     },
     "pageNumbering": {

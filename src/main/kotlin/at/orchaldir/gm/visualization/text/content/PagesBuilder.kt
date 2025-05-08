@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.item.text.content.LargeInitial
 import at.orchaldir.gm.core.model.item.text.content.NormalInitial
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
@@ -139,7 +138,10 @@ data class PagesBuilder(
 
         when (position) {
             InitialPosition.Baseline -> {
-                addBreak(fromMeters(initialOptions.size * 0.8f - mainOptions.size))
+                val updatedInitialSize = initialOptions.size * 0.8f
+                if (updatedInitialSize > mainOptions.size) {
+                    addBreak(fromMeters(updatedInitialSize - mainOptions.size))
+                }
                 addParagraph(
                     rest,
                     mainOptions,
