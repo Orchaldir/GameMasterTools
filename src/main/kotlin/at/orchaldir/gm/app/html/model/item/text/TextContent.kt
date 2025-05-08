@@ -111,7 +111,7 @@ fun FORM.editTextContent(
             UndefinedTextContent -> doNothing()
             is AbstractText -> {
                 editAbstractContent(state, content.content, CONTENT)
-                editStyle(state, content.style, CONTENT)
+                editStyle(state, content.style, combine(CONTENT, STYLE))
             }
 
             is AbstractChapters -> editAbstractChapters(state, content)
@@ -133,7 +133,7 @@ private fun DETAILS.editAbstractChapters(
     ) { index, chapterParam, chapter ->
         editAbstractChapter(state, chapter, index, chapterParam)
     }
-    editStyle(state, content.style, CONTENT)
+    editStyle(state, content.style, combine(CONTENT, STYLE))
 }
 
 private fun HtmlBlockTag.editAbstractChapter(
