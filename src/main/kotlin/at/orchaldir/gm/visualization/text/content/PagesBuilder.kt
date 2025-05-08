@@ -82,7 +82,7 @@ data class PagesBuilder(
     private val pages: MutableList<Page> = mutableListOf(),
 ) {
 
-    fun addString(string: String, options: RenderStringOptions): PagesBuilder {
+    fun addParagraph(string: String, options: RenderStringOptions): PagesBuilder {
         val step = Point2d(0.0f, options.size)
         val lines = wrapString(string, Distance.fromMeters(aabb.size.width), options.size)
         val lastIndex = lines.size - 1

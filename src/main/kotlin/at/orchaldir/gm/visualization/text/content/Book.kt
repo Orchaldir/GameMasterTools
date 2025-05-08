@@ -74,7 +74,7 @@ private fun visualizeAbstractChapters(
 
         builder
             .addPageBreak()
-            .addString(chapter.title.text, titleOptions)
+            .addParagraph(chapter.title.text, titleOptions)
             .addBreak(content.style.main.getFontSize())
 
         visualizeAbstractContent(state, builder, content.style, mainOptions, maxPage)
@@ -96,13 +96,13 @@ private fun visualizeAbstractContent(
 ) {
     while (builder.count() < maxPage) {
         builder
-            .addString(state.config.exampleString, options)
+            .addParagraph(state.config.exampleString, options)
             .addBreak(style.main.getFontSize())
     }
 
     while (!builder.hasReached(state.config.lastPageFillFactor)) {
         builder
-            .addString(state.config.exampleString, options)
+            .addParagraph(state.config.exampleString, options)
             .addBreak(style.main.getFontSize())
     }
 }
