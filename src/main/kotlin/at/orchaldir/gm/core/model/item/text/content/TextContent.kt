@@ -1,7 +1,11 @@
 package at.orchaldir.gm.core.model.item.text.content
 
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.font.SolidFont
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.Scroll
+import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
@@ -32,6 +36,12 @@ sealed class TextContent {
         is AbstractChapters -> chapters.fold(setOf()) { sum, chapter -> sum + chapter.content.spells }
         is AbstractText -> content.spells
         UndefinedTextContent -> emptySet()
+    }
+
+    fun contains(font: FontId) = when (this) {
+        is AbstractChapters -> style.contains(font)
+        is AbstractText -> style.contains(font)
+        UndefinedTextContent -> false
     }
 
     fun contains(spell: SpellId) = when (this) {

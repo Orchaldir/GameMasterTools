@@ -16,7 +16,7 @@ fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
 
 fun State.countTexts(font: FontId) = getTextStorage()
     .getAll()
-    .count { c -> c.format.contains(font) }
+    .count { c -> c.contains(font) }
 
 fun State.countTexts(language: LanguageId) = getTextStorage()
     .getAll()

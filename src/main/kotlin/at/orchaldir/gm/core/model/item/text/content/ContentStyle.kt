@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.content
 
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.utils.math.Factor
@@ -21,5 +22,7 @@ data class ContentStyle(
         require(margin >= MIN_MARGIN) { "Margin is too small!" }
         require(margin <= MAX_MARGIN) { "Margin is too large!" }
     }
+
+    fun contains(font: FontId) = main.font() == font || title.font() == font
 
 }

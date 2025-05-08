@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.item.text
 import at.orchaldir.gm.app.html.model.displayDate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
@@ -57,7 +58,8 @@ data class Text(
 
     override fun creator() = origin.creator()
     override fun startDate() = date
-
     override fun parts() = format.parts()
+
+    fun contains(font: FontId) = format.contains(font) || content.contains(font)
 
 }
