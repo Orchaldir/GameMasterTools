@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 
 enum class PageNumberingType {
     None,
+    ReusingFont,
     Simple,
 }
 
@@ -17,6 +18,7 @@ sealed class PageNumbering {
 
     fun getType() = when (this) {
         NoPageNumbering -> PageNumberingType.None
+        is PageNumberingReusingFont -> PageNumberingType.ReusingFont
         is SimplePageNumbering -> PageNumberingType.Simple
     }
 }
@@ -26,11 +28,14 @@ sealed class PageNumbering {
 data object NoPageNumbering : PageNumbering()
 
 @Serializable
+@SerialName("Reusing")
+data class PageNumberingReusingFont(
+    val horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Center,
+) : PageNumbering()
+
+@Serializable
 @SerialName("Simple")
 data class SimplePageNumbering(
     val fontOption: FontOption = SolidFont(Distance.fromMillimeters(5)),
     val horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Center,
 ) : PageNumbering()
-
-
-
