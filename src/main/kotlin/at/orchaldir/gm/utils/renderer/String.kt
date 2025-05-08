@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.ZERO
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 
 fun renderWrappedStrings(
@@ -81,11 +82,14 @@ fun wrapString(
     string: String,
     maxWidth: Distance,
     fontSize: Float,
+    indentedLines: Int = 0,
+    indentedDistance: Distance = ZERO,
 ): List<String> {
     val split = string.split(' ')
     val lines = mutableListOf<String>()
     val maxLength = maxWidth.toMeters()
     var line = ""
+    var currentIndent = calculateIndent(0, indentedLines, indentedDistance)
 
     for (word in split) {
         val newLine = if (line.isEmpty()) {
@@ -94,7 +98,7 @@ fun wrapString(
             "$line $word"
         }
 
-        val length = calculateLength(newLine, fontSize)
+        val length = calculateLength(newLine, fontSize) + currentIndent
 
         if (length > maxLength) {
             if (line.isEmpty()) {
@@ -103,6 +107,8 @@ fun wrapString(
                 lines.add(line)
                 line = word
             }
+
+            currentIndent = calculateIndent(lines.size, indentedLines, indentedDistance)
         } else {
             line = newLine
         }
@@ -113,6 +119,12 @@ fun wrapString(
     }
 
     return lines
+}
+
+private fun calculateIndent(current: Int, indented: Int, distance: Distance): Float = if (current < indented) {
+    distance.toMeters()
+} else {
+    0.0f
 }
 
 fun calculateLength(text: String, fontSize: Float): Float {
