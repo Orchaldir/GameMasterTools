@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.font.FontOption
+import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
@@ -15,6 +17,7 @@ import at.orchaldir.gm.core.model.item.text.content.AbstractChapter
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractContent
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.language.Language
@@ -22,23 +25,26 @@ import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
-private val STATE = State(
-    listOf(
-        Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, date = DAY1))),
-        Storage(CALENDAR0),
-        Storage(Business(BUSINESS_ID_0, startDate = DAY2)),
-        Storage(Character(CHARACTER_ID_0)),
-        Storage(Language(LANGUAGE_ID_0)),
-        Storage(Spell(SPELL_ID_0)),
-    )
-)
-
 class TextTest {
+
+    private val STATE = State(
+        listOf(
+            Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, date = DAY1))),
+            Storage(CALENDAR0),
+            Storage(Business(BUSINESS_ID_0, startDate = DAY2)),
+            Storage(Character(CHARACTER_ID_0)),
+            Storage(Language(LANGUAGE_ID_0)),
+            Storage(Spell(SPELL_ID_0)),
+        )
+    )
+    val unknownFont = SolidFont(fromMillimeters(2), font = UNKNOWN_FONT_ID)
 
     @Nested
     inner class DeleteTest {
@@ -220,11 +226,27 @@ class TextTest {
             }
 
             @Test
+            fun `Unknown main font`() {
+                val content = AbstractText(style = ContentStyle(unknownFont))
+                val action = UpdateText(Text(TEXT_ID_0, content = content))
+
+                assertIllegalArgument("Requires unknown Font 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Unknown title font`() {
+                val content = AbstractText(style = ContentStyle(title = unknownFont))
+                val action = UpdateText(Text(TEXT_ID_0, content = content))
+
+                assertIllegalArgument("Requires unknown Font 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
             fun `Unknown spell`() {
                 val content = AbstractText(AbstractContent(100, setOf(UNKNOWN_SPELL_ID)))
                 val action = UpdateText(Text(TEXT_ID_0, content = content))
 
-                assertIllegalArgument("Contains unknown Spell 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Requires unknown Spell 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
@@ -233,7 +255,7 @@ class TextTest {
                 val content = AbstractChapters(listOf(chapter))
                 val action = UpdateText(Text(TEXT_ID_0, content = content))
 
-                assertIllegalArgument("Contains unknown Spell 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Requires unknown Spell 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
