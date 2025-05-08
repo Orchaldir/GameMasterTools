@@ -12,6 +12,7 @@ import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.prototypes.visualization.text.renderTextContentTable
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
@@ -22,7 +23,7 @@ fun main() {
     )
     val font = FontWithBorder(
         fromMillimeters(15),
-        fromMillimeters(1),
+        fromMicrometers(100),
         Color.Gold,
         Color.Red,
     )

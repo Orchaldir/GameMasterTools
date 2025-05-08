@@ -127,6 +127,7 @@ data class PagesBuilder(
     ): PagesBuilder {
         val initialChar = string.take(1)
         val rest = string.drop(1)
+        val initialLength = calculateLength(initialChar, initialOptions.size) * 1.5f
 
         val updatedInitialOptions = when (position) {
             InitialPosition.Baseline -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.Start)
@@ -143,7 +144,7 @@ data class PagesBuilder(
                     rest,
                     mainOptions,
                     1,
-                    fromMeters(initialOptions.size),
+                    fromMeters(initialLength),
                 )
             }
             InitialPosition.Margin -> addParagraph(rest, mainOptions)
@@ -151,7 +152,7 @@ data class PagesBuilder(
                 rest,
                 mainOptions,
                 ceil(initialOptions.size / mainOptions.size).toInt(),
-                fromMeters(initialOptions.size),
+                fromMeters(initialLength),
             )
         }
 
