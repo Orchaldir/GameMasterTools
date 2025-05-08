@@ -6,12 +6,15 @@ import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.START
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizePageNumbering(
     state: TextRenderState,
-    innerAABB: AABB,
+    margin: Distance,
     style: ContentStyle,
     pageNumbering: PageNumbering,
     page: Int,
@@ -19,7 +22,7 @@ fun visualizePageNumbering(
     NoPageNumbering -> doNothing()
     is PageNumberingReusingFont -> visualizePageNumbering(
         state,
-        innerAABB,
+        margin,
         style.main,
         pageNumbering.horizontalAlignment,
         page,
@@ -27,7 +30,7 @@ fun visualizePageNumbering(
 
     is SimplePageNumbering -> visualizePageNumbering(
         state,
-        innerAABB,
+        margin,
         pageNumbering.fontOption,
         pageNumbering.horizontalAlignment,
         page,
@@ -36,11 +39,21 @@ fun visualizePageNumbering(
 
 private fun visualizePageNumbering(
     state: TextRenderState,
-    innerAABB: AABB,
+    margin: Distance,
     fontOption: FontOption,
     horizontalAlignment: HorizontalAlignment,
     page: Int,
 ) {
     val options = fontOption.convert(state.state, VerticalAlignment.Center, horizontalAlignment)
+    val start = state.aabb.getPoint(START, END)
+        .addWidth(margin)
+        .minusHeight(margin / 2.0f)
 
+    state.renderer.getLayer()
+        .renderString(
+            (page + 1).toString(),
+            start,
+            Distance.fromMeters(state.aabb.size.width) - margin * 2.0f,
+            options
+        )
 }

@@ -83,5 +83,12 @@ interface LayerRenderer {
         options: RenderStringOptions,
     ): LayerRenderer
 
+    fun renderString(
+        text: String,
+        start: Point2d,
+        width: Distance,
+        options: RenderStringOptions,
+    ): LayerRenderer
+
     fun renderTeardrop(aabb: AABB, options: RenderOptions): LayerRenderer
 }
