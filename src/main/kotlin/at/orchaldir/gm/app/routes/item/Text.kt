@@ -291,11 +291,15 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
         svg(contentSvg, width)
 
         if (showActions) {
+            val pages = text.content.pages()
+
+            field("Page", "${page + 1} of $pages")
+
             if (page > 0) {
                 val previousPageLink = call.application.href(TextRoutes.Details(text.id, page - 1))
                 action(previousPageLink, "Previous Page")
             }
-            if (page < text.content.pages()) {
+            if (page < pages) {
                 val nextPageLink = call.application.href(TextRoutes.Details(text.id, page + 1))
                 action(nextPageLink, "Next Page")
             }
