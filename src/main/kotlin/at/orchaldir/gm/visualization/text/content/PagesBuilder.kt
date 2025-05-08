@@ -1,11 +1,13 @@
 package at.orchaldir.gm.visualization.text.content
 
+import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
+import at.orchaldir.gm.utils.renderer.calculateLength
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.wrapString
 import at.orchaldir.gm.utils.toInt
@@ -16,7 +18,33 @@ data class PageEntry(
     private val options: RenderStringOptions,
 ) {
 
-    fun render(renderer: LayerRenderer) = renderer
+    fun render(renderer: LayerRenderer, width: Distance) =
+        if (options.horizontalAlignment == HorizontalAlignment.Justified) {
+            val lineLength = calculateLength(line, options.size)
+            val diff = width.toMeters() - lineLength
+            val words = line.split(' ')
+            val step = Point2d(diff / (words.size - 1), 0.0f)
+            var currentPosition = position
+
+            words.withIndex().forEach { entry ->
+                val word = entry.value
+                val text = if (entry.index == 0) {
+                    word
+                } else {
+                    " $word"
+                }
+
+                renderer.renderString(text, currentPosition, zero(), options)
+
+                currentPosition += step.addWidth(Distance.fromMeters(calculateLength(word, options.size)))
+            }
+
+
+        } else {
+            simpleRender(renderer)
+        }
+
+    private fun simpleRender(renderer: LayerRenderer): LayerRenderer = renderer
         .renderString(line, position, zero(), options)
 
 }
@@ -25,15 +53,16 @@ data class Page(
     private val entries: List<PageEntry>,
 ) {
 
-    fun render(renderer: LayerRenderer) = entries.forEach { it.render(renderer) }
+    fun render(renderer: LayerRenderer, width: Distance) = entries.forEach { it.render(renderer, width) }
 
 }
 
 data class Pages(
+    private val width: Distance,
     private val pages: List<Page>,
 ) {
 
-    fun render(renderer: LayerRenderer, index: Int) = pages[index].render(renderer)
+    fun render(renderer: LayerRenderer, index: Int) = pages[index].render(renderer, width)
 
 }
 
@@ -75,7 +104,10 @@ data class PagesBuilder(
         return this
     }
 
-    fun build() = Pages(pages + Page(currentPage))
+    fun build() = Pages(
+        Distance.fromMeters(aabb.size.width),
+        pages + Page(currentPage),
+    )
 
     fun count() = pages.size + currentPage.isNotEmpty().toInt()
 

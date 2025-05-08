@@ -62,7 +62,7 @@ private fun visualizeAbstractChapters(
     val margin = state.aabb.convertMinSide(content.style.margin)
     val innerAABB = state.aabb.shrink(margin)
     val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
-    val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
+    val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Justified)
     val builder = PagesBuilder(innerAABB)
 
     content.chapters.forEach { chapter ->
