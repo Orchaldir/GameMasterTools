@@ -47,7 +47,11 @@ class TextRoutes {
     class Gallery(val parent: TextRoutes = TextRoutes())
 
     @Resource("details")
-    class Details(val id: TextId, val parent: TextRoutes = TextRoutes())
+    class Details(
+        val id: TextId,
+        val page: Int = 0,
+        val parent: TextRoutes = TextRoutes(),
+    )
 
     @Resource("new")
     class New(val parent: TextRoutes = TextRoutes())
@@ -88,7 +92,7 @@ fun Application.configureTextRouting() {
             val text = state.getTextStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTextDetails(call, state, text)
+                showTextDetails(call, state, text, details.page)
             }
         }
         get<TextRoutes.New> {
@@ -229,13 +233,14 @@ private fun HTML.showTextDetails(
     call: ApplicationCall,
     state: State,
     text: Text,
+    page: Int,
 ) {
     val backLink = call.application.href(TextRoutes.All())
     val deleteLink = call.application.href(TextRoutes.Delete(text.id))
     val editLink = call.application.href(TextRoutes.Edit(text.id))
 
     simpleHtml("Text: ${text.name(state)}") {
-        visualizeFrontAndContent(state, text, 20, 0)
+        visualizeFrontAndContent(call, state, text, 20, page, true)
         showText(call, state, text)
 
         action(editLink, "Edit")
@@ -263,17 +268,19 @@ private fun HTML.showTextEditor(
                 editText(state, text)
             }
         }, {
-            visualizeFrontAndContent(state, text, 40, 0)
+            visualizeFrontAndContent(call, state, text, 40, 0)
         })
 
     }
 }
 
 private fun HtmlBlockTag.visualizeFrontAndContent(
+    call: ApplicationCall,
     state: State,
     text: Text,
     width: Int,
     page: Int,
+    showActions: Boolean = false,
 ) {
     if (text.format !is UndefinedTextFormat) {
         val frontSvg = visualizeText(state, TEXT_CONFIG, text)
@@ -282,5 +289,16 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
     if (text.content !is UndefinedTextContent) {
         val contentSvg = visualizeTextContent(state, TEXT_CONFIG, text, page)
         svg(contentSvg, width)
+
+        if (showActions) {
+            if (page > 0) {
+                val previousPageLink = call.application.href(TextRoutes.Details(text.id, page - 1))
+                action(previousPageLink, "Previous Page")
+            }
+            if (page < text.content.pages()) {
+                val nextPageLink = call.application.href(TextRoutes.Details(text.id, page + 1))
+                action(nextPageLink, "Next Page")
+            }
+        }
     }
 }
