@@ -91,9 +91,11 @@ private fun HtmlBlockTag.showStyle(
     state: State,
     style: ContentStyle,
 ) {
-    showFontOption(call, state, "Main Font", style.main)
-    showFontOption(call, state, "Title Font", style.title)
-    fieldFactor("Margin", style.margin)
+    showDetails("Style") {
+        showFontOption(call, state, "Main Font", style.main)
+        showFontOption(call, state, "Title Font", style.title)
+        fieldFactor("Margin", style.margin)
+    }
 }
 
 // edit
@@ -170,17 +172,19 @@ private fun HtmlBlockTag.editStyle(
     style: ContentStyle,
     param: String,
 ) {
-    editFontOption(state, "Main Font", style.main, combine(param, MAIN))
-    editFontOption(state, "Title Font", style.title, combine(param, TITLE))
-    selectFactor(
-        "Margin",
-        combine(param, SIDE),
-        style.margin,
-        MIN_MARGIN,
-        MAX_MARGIN,
-        fromPermille(1),
-        true
-    )
+    showDetails("Style", true) {
+        editFontOption(state, "Main Font", style.main, combine(param, MAIN))
+        editFontOption(state, "Title Font", style.title, combine(param, TITLE))
+        selectFactor(
+            "Margin",
+            combine(param, SIDE),
+            style.margin,
+            MIN_MARGIN,
+            MAX_MARGIN,
+            fromPermille(1),
+            true
+        )
+    }
 }
 
 // parse
