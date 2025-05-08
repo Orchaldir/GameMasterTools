@@ -42,7 +42,7 @@ data class PageEntry(
 
                     renderer.renderString(text, currentPosition, zero(), options)
 
-                    currentPosition += step.addWidth(Distance.fromMeters(calculateLength(word, options.size)))
+                    currentPosition += step.addWidth(Distance.fromMeters(calculateLength(text, options.size)))
                 }
             }
 
