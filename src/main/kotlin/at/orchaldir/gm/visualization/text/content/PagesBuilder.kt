@@ -139,7 +139,7 @@ data class PagesBuilder(
 
         when (position) {
             InitialPosition.Baseline -> {
-                addBreak(fromMeters(initialOptions.size - mainOptions.size))
+                addBreak(fromMeters(initialOptions.size * 0.8f - mainOptions.size))
                 addParagraph(
                     rest,
                     mainOptions,
