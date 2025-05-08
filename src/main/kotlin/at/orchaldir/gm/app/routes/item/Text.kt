@@ -263,7 +263,7 @@ private fun HTML.showTextEditor(
                 editText(state, text)
             }
         }, {
-            visualizeFrontAndContent(state, text, 50, 0)
+            visualizeFrontAndContent(state, text, 40, 0)
         })
 
     }
