@@ -104,7 +104,7 @@ fun parseInitial(parameters: Parameters, param: String): Initial {
     return when (parse(parameters, param, InitialType.Normal)) {
         InitialType.Normal -> NormalInitial
         InitialType.Large -> LargeInitial(
-            parseFactor(parameters, combine(param, SIZE)),
+            parseFactor(parameters, combine(param, SIZE), DEFAULT_INITIAL_SIZE),
             parsePosition(parameters, param),
         )
 
