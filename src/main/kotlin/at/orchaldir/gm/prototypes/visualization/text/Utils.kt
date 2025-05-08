@@ -9,7 +9,7 @@ import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
 
-fun renderTextTable(
+fun renderTextFormatTable(
     filename: String,
     state: State,
     config: TextRenderConfig,
@@ -39,7 +39,7 @@ fun renderResolvedTextTable(
     }
 }
 
-fun <C, R> renderTextTable(
+fun <C, R> renderTextFormatTable(
     filename: String,
     state: State,
     config: TextRenderConfig,

@@ -15,7 +15,7 @@ import at.orchaldir.gm.visualization.text.ResolvedTextData
 fun main() {
     val size = Size2i.fromMillimeters(125, 190)
 
-    renderTextTable(
+    renderTextFormatTable(
         "book-typographies-simple.svg",
         State(),
         TEXT_CONFIG,
