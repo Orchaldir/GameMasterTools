@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.content
 
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
@@ -20,6 +21,12 @@ sealed class PageNumbering {
         NoPageNumbering -> PageNumberingType.None
         is PageNumberingReusingFont -> PageNumberingType.ReusingFont
         is SimplePageNumbering -> PageNumberingType.Simple
+    }
+
+    fun contains(font: FontId) = when (this) {
+        NoPageNumbering -> false
+        is PageNumberingReusingFont -> false
+        is SimplePageNumbering -> fontOption.font() == font
     }
 }
 

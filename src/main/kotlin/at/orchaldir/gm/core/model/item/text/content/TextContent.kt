@@ -33,8 +33,8 @@ sealed class TextContent {
     }
 
     fun contains(font: FontId) = when (this) {
-        is AbstractChapters -> style.contains(font)
-        is AbstractText -> style.contains(font)
+        is AbstractChapters -> style.contains(font) || pageNumbering.contains(font)
+        is AbstractText -> style.contains(font) || pageNumbering.contains(font)
         UndefinedTextContent -> false
     }
 
