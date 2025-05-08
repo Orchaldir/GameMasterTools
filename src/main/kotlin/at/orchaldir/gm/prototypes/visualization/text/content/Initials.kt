@@ -29,6 +29,11 @@ fun main() {
     val initial0 = LargeInitial(fromPercentage(200))
     val initial1 = LargeInitial(fromPercentage(300))
     val initial2 = FontInitial(font)
+    val initials = listOf(
+        Pair("200%", initial0),
+        Pair("300%", initial1),
+        Pair("Font", initial2),
+    )
 
     renderTextContentTable(
         "book-initials.svg",
@@ -36,7 +41,7 @@ fun main() {
         TEXT_CONFIG,
         book,
         addNames(InitialPosition.entries),
-        addNames(listOf(initial0, initial1, initial2)),
+        initials,
     ) { position, initial ->
         val update = when (initial) {
             NormalInitial -> initial
