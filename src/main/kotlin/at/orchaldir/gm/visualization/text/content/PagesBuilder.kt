@@ -51,7 +51,7 @@ data class PageEntry(
             simpleRender(renderer)
         }
 
-    private fun simpleRender(renderer: LayerRenderer): LayerRenderer = renderer
+    fun simpleRender(renderer: LayerRenderer): LayerRenderer = renderer
         .renderString(line, position, zero(), options)
 
 }
@@ -60,7 +60,16 @@ data class Page(
     private val entries: List<PageEntry>,
 ) {
 
-    fun render(renderer: LayerRenderer, width: Distance) = entries.forEach { it.render(renderer, width) }
+    fun render(renderer: LayerRenderer, width: Distance) {
+        val lastIndex = entries.size - 1
+        entries.withIndex().forEach {
+            if (it.index < lastIndex) {
+                it.value.render(renderer, width)
+            } else {
+                it.value.simpleRender(renderer)
+            }
+        }
+    }
 
 }
 
