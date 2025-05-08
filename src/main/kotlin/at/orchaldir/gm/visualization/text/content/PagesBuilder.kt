@@ -1,6 +1,13 @@
 package at.orchaldir.gm.visualization.text.content
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.text.content.FontInitial
+import at.orchaldir.gm.core.model.item.text.content.Initial
+import at.orchaldir.gm.core.model.item.text.content.InitialPosition
+import at.orchaldir.gm.core.model.item.text.content.LargeInitial
+import at.orchaldir.gm.core.model.item.text.content.NormalInitial
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
@@ -9,6 +16,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.calculateLength
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
+import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.utils.renderer.wrapString
 import at.orchaldir.gm.utils.toInt
 
@@ -16,7 +24,7 @@ data class PageEntry(
     private var position: Point2d,
     private val line: String,
     private val options: RenderStringOptions,
-    private val isLastLine: Boolean,
+    private val isLastLine: Boolean = false,
 ) {
 
     fun render(renderer: LayerRenderer, width: Distance) =
@@ -76,11 +84,55 @@ data class Pages(
 }
 
 data class PagesBuilder(
+    val state: State,
     private val aabb: AABB,
     private var currentPosition: Point2d = aabb.start,
     private var currentPage: MutableList<PageEntry> = mutableListOf(),
     private val pages: MutableList<Page> = mutableListOf(),
 ) {
+    fun addParagraphWithInitial(
+        string: String,
+        options: RenderStringOptions,
+        initial: Initial,
+    ) = when (initial) {
+        NormalInitial -> addParagraph(string, options)
+        is LargeInitial -> {
+            val initialSize = options.size * initial.size.toNumber()
+            addParagraphWithInitial(
+                string,
+                options,
+                options.copy(size = initialSize),
+                initial.position,
+            )
+        }
+
+        is FontInitial -> addParagraphWithInitial(
+            string,
+            options,
+            initial.fontOption.convert(state),
+            initial.position,
+        )
+    }
+
+    private fun addParagraphWithInitial(
+        string: String,
+        mainOptions: RenderStringOptions,
+        initialOptions: RenderStringOptions,
+        position: InitialPosition,
+    ): PagesBuilder {
+        val initialChar = string.take(1)
+        val rest = string.drop(1)
+
+        val updatedInitialOptions = when (position) {
+            InitialPosition.Baseline -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.Start)
+            InitialPosition.Margin -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.End)
+            InitialPosition.DroCap -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.Start)
+        }
+
+        currentPage.add(PageEntry(currentPosition, initialChar, updatedInitialOptions))
+
+        return this
+    }
 
     fun addParagraph(string: String, options: RenderStringOptions): PagesBuilder {
         val step = Point2d(0.0f, options.size)
