@@ -38,6 +38,7 @@ data class PageNumberingReusingFont(
     }
 
 }
+
 @Serializable
 @SerialName("Simple")
 data class SimplePageNumbering(
