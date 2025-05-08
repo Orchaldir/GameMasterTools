@@ -1,10 +1,6 @@
 package at.orchaldir.gm.visualization.text.book
 
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.FontOption
-import at.orchaldir.gm.core.model.font.FontWithBorder
-import at.orchaldir.gm.core.model.font.HollowFont
-import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
@@ -12,10 +8,6 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.renderer.model.BorderOnly
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.utils.renderer.renderWrappedString
 import at.orchaldir.gm.utils.renderer.renderWrappedStrings

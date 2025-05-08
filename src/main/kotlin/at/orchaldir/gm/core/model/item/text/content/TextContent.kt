@@ -1,13 +1,7 @@
 package at.orchaldir.gm.core.model.item.text.content
 
 import at.orchaldir.gm.core.model.font.FontId
-import at.orchaldir.gm.core.model.font.FontOption
-import at.orchaldir.gm.core.model.font.SolidFont
-import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.Scroll
-import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

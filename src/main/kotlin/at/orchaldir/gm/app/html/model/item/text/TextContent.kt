@@ -1,12 +1,6 @@
 package at.orchaldir.gm.app.html.model.item.text
 
-import at.orchaldir.gm.app.CONTENT
-import at.orchaldir.gm.app.MAIN
-import at.orchaldir.gm.app.PAGES
-import at.orchaldir.gm.app.SIDE
-import at.orchaldir.gm.app.SPELLS
-import at.orchaldir.gm.app.STYLE
-import at.orchaldir.gm.app.TITLE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.font.editFontOption
@@ -23,7 +17,6 @@ import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.selector.util.sortSpells
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -47,6 +40,7 @@ fun HtmlBlockTag.showTextContent(
                 showAbstractContent(call, state, content.content)
                 showStyle(call, state, content.style)
             }
+
             is AbstractChapters -> showAbstractChapters(call, state, content)
             UndefinedTextContent -> doNothing()
         }

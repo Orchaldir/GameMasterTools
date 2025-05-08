@@ -1,26 +1,18 @@
 package at.orchaldir.gm.app.html.model.font
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldColor
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.fieldDistance
 import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
-import at.orchaldir.gm.app.html.optionalFieldLink
-import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectOptionalElement
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.*
-import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.CallContext
+import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show

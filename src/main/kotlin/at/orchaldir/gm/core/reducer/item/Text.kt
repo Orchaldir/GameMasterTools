@@ -118,6 +118,7 @@ private fun checkTextContent(
             content.chapters.forEach { checkAbstractContent(state, it.content) }
             checkStyle(state, content.style)
         }
+
         UndefinedTextContent -> doNothing()
     }
 }
