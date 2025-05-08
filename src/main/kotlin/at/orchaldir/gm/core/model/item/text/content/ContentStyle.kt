@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.item.text.content
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.font.SolidFont
+import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
@@ -15,6 +16,7 @@ val MAX_MARGIN = Factor.fromPercentage(20)
 data class ContentStyle(
     val main: FontOption = SolidFont(Distance.fromMillimeters(5)),
     val title: FontOption = SolidFont(Distance.fromMillimeters(10)),
+    val isJustified: Boolean = true,
     val margin: Factor = DEFAULT_MARGIN,
 ) {
 
@@ -24,5 +26,11 @@ data class ContentStyle(
     }
 
     fun contains(font: FontId) = main.font() == font || title.font() == font
+
+    fun getHorizontalAlignment() = if (isJustified) {
+        HorizontalAlignment.Justified
+    } else {
+        HorizontalAlignment.Start
+    }
 
 }
