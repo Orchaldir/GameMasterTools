@@ -314,7 +314,7 @@ class SvgRenderer(
 
     private fun toSvg(alignment: HorizontalAlignment): String {
         return when (alignment) {
-            HorizontalAlignment.Start -> "start"
+            HorizontalAlignment.Start, HorizontalAlignment.Justified -> "start"
             HorizontalAlignment.Center -> "middle"
             HorizontalAlignment.End -> "end"
         }
