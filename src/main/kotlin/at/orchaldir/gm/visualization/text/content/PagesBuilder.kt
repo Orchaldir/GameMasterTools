@@ -107,7 +107,7 @@ data class PagesBuilder(
         return this
     }
 
-    fun addLineBreak(): PagesBuilder {
+    fun addPageBreak(): PagesBuilder {
         if (currentPage.isNotEmpty()) {
             startNewPage()
         }

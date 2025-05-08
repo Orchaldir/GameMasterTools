@@ -73,7 +73,7 @@ private fun visualizeAbstractChapters(
         val maxPage = min(builder.count() + chapter.content.pages, page + 2)
 
         builder
-            .addLineBreak()
+            .addPageBreak()
             .addString(chapter.title.text, titleOptions)
             .addBreak(content.style.main.getFontSize())
 
