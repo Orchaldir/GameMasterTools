@@ -55,7 +55,7 @@ data class PageEntry(
 
                     renderer.renderString(text, currentPosition, zero(), options)
 
-                    currentPosition += step.addWidth(Distance.fromMeters(calculateLength(text, options.size)))
+                    currentPosition += step.addWidth(fromMeters(calculateLength(text, options.size)))
                 }
             }
 
@@ -170,7 +170,7 @@ data class PagesBuilder(
         val step = Point2d(0.0f, options.size)
         val lines = wrapString(
             string,
-            Distance.fromMeters(aabb.size.width),
+            fromMeters(aabb.size.width),
             options.size,
             indentedLines,
             indentedDistance,
