@@ -39,6 +39,7 @@ fun HtmlBlockTag.showTextContent(
             is AbstractText -> {
                 showAbstractContent(call, state, content.content)
                 showStyle(call, state, content.style)
+                showPageNumbering(call, state, content.pageNumbering)
             }
 
             is AbstractChapters -> showAbstractChapters(call, state, content)
@@ -57,6 +58,7 @@ private fun HtmlBlockTag.showAbstractChapters(
         .forEach { showAbstractChapter(call, state, it.value, it.index) }
     field("Total Pages", chapters.chapters.sumOf { it.content.pages })
     showStyle(call, state, chapters.style)
+    showPageNumbering(call, state, chapters.pageNumbering)
 }
 
 private fun HtmlBlockTag.showAbstractChapter(
@@ -107,6 +109,7 @@ fun FORM.editTextContent(
             is AbstractText -> {
                 editAbstractContent(state, content.content, CONTENT)
                 editStyle(state, content.style, combine(CONTENT, STYLE))
+                editPageNumbering(state, content.pageNumbering)
             }
 
             is AbstractChapters -> editAbstractChapters(state, content)
@@ -129,6 +132,7 @@ private fun DETAILS.editAbstractChapters(
         editAbstractChapter(state, chapter, index, chapterParam)
     }
     editStyle(state, content.style, combine(CONTENT, STYLE))
+    editPageNumbering(state, content.pageNumbering)
 }
 
 private fun HtmlBlockTag.editAbstractChapter(
@@ -194,6 +198,7 @@ fun parseTextContent(parameters: Parameters) = when (parse(parameters, CONTENT, 
     TextContentType.AbstractText -> AbstractText(
         parseAbstractContent(parameters, CONTENT),
         parseContentStyle(parameters, combine(CONTENT, STYLE)),
+        parsePageNumbering(parameters),
     )
 
     TextContentType.AbstractChapters -> AbstractChapters(
@@ -201,6 +206,7 @@ fun parseTextContent(parameters: Parameters) = when (parse(parameters, CONTENT, 
             parseAbstractChapter(parameters, chapterParam, index)
         },
         parseContentStyle(parameters, combine(CONTENT, STYLE)),
+        parsePageNumbering(parameters),
     )
 
     TextContentType.Undefined -> UndefinedTextContent
