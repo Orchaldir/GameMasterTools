@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.content.*
@@ -108,17 +109,39 @@ private fun checkTextContent(
     content: TextContent,
 ) {
     when (content) {
-        is AbstractText -> checkAbstractContent(state, content.content)
-        is AbstractChapters -> content.chapters.forEach { checkAbstractContent(state, it.content) }
+        is AbstractText -> {
+            checkAbstractContent(state, content.content)
+            checkStyle(state, content.style)
+        }
+
+        is AbstractChapters -> {
+            content.chapters.forEach { checkAbstractContent(state, it.content) }
+            checkStyle(state, content.style)
+        }
+
         UndefinedTextContent -> doNothing()
     }
 }
-
 
 private fun checkAbstractContent(
     state: State,
     content: AbstractContent,
 ) {
     require(content.pages >= MIN_CONTENT_PAGES) { "The abstract text requires at least $MIN_CONTENT_PAGES pages!" }
-    content.spells.forEach { state.getSpellStorage().require(it) { "Contains unknown Spell ${it.value}!" } }
+    content.spells.forEach { state.getSpellStorage().require(it) }
+}
+
+private fun checkStyle(
+    state: State,
+    style: ContentStyle,
+) {
+    checkFontOption(state, style.main)
+    checkFontOption(state, style.title)
+}
+
+private fun checkFontOption(
+    state: State,
+    option: FontOption,
+) {
+    state.getFontStorage().requireOptional(option.font())
 }

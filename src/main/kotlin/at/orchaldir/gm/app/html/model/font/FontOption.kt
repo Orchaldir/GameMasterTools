@@ -1,12 +1,10 @@
 package at.orchaldir.gm.app.html.model.font
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldDistance
 import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
-import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectOptionalElement
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -14,7 +12,59 @@ import at.orchaldir.gm.core.model.font.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
+import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+
+// show
+
+fun HtmlBlockTag.showFontOption(
+    call: ApplicationCall,
+    state: State,
+    text: String,
+    options: FontOption,
+) {
+    showDetails(text) {
+        showFontOption(call, state, options)
+    }
+}
+
+fun HtmlBlockTag.showFontOption(
+    call: ApplicationCall,
+    state: State,
+    option: FontOption,
+) {
+    field("Font Option", option.getType())
+
+    when (option) {
+        is SolidFont -> {
+            fieldColor(option.color, "Font Color")
+            showSharedFontOptions(call, state, option.font, option.size)
+        }
+
+        is FontWithBorder -> {
+            fieldColor(option.fill, "Fill Color")
+            fieldColor(option.border, "Border Color")
+            showSharedFontOptions(call, state, option.font, option.size)
+            fieldDistance("Border Thickness", option.thickness)
+        }
+
+        is HollowFont -> {
+            fieldColor(option.border, "Border Color")
+            showSharedFontOptions(call, state, option.font, option.size)
+            fieldDistance("Border Thickness", option.thickness)
+        }
+    }
+}
+
+private fun HtmlBlockTag.showSharedFontOptions(
+    call: ApplicationCall,
+    state: State,
+    fontId: FontId?,
+    size: Distance,
+) {
+    optionalFieldLink("Font", call, state, fontId)
+    fieldDistance("Font Size", size)
+}
 
 // edit
 

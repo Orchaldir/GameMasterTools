@@ -1,7 +1,7 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.visualization.toInt
+import at.orchaldir.gm.utils.toInt
 
 class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
 

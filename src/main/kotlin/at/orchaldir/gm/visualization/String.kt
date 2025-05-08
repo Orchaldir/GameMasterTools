@@ -24,7 +24,3 @@ fun visualizeString(
     return builder.finish()
 }
 
-fun Boolean.toInt() = when (this) {
-    true -> 1
-    false -> 0
-}

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.content
 
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.magic.SpellId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -31,6 +32,12 @@ sealed class TextContent {
         UndefinedTextContent -> emptySet()
     }
 
+    fun contains(font: FontId) = when (this) {
+        is AbstractChapters -> style.contains(font)
+        is AbstractText -> style.contains(font)
+        UndefinedTextContent -> false
+    }
+
     fun contains(spell: SpellId) = when (this) {
         is AbstractChapters -> chapters.any { it.content.spells.contains(spell) }
         is AbstractText -> content.spells.contains(spell)
@@ -41,13 +48,15 @@ sealed class TextContent {
 @Serializable
 @SerialName("Abstract")
 data class AbstractText(
-    val content: AbstractContent,
+    val content: AbstractContent = AbstractContent(),
+    val style: ContentStyle = ContentStyle(),
 ) : TextContent()
 
 @Serializable
 @SerialName("AbstractChapters")
 data class AbstractChapters(
     val chapters: List<AbstractChapter> = emptyList(),
+    val style: ContentStyle = ContentStyle(),
 ) : TextContent()
 
 @Serializable

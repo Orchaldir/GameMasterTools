@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AbstractChapter(
     val title: NotEmptyString,
-    val content: AbstractContent,
+    val content: AbstractContent = AbstractContent(),
 ) {
-    constructor(index: Int, content: AbstractContent) :
+    constructor(index: Int, content: AbstractContent = AbstractContent()) :
             this(NotEmptyString.init(createDefaultChapterTitle(index)), content)
 }
 

@@ -28,3 +28,8 @@ fun <T, U> List<T>.combine(other: List<U>): List<Pair<T, U>> {
 
     return newList
 }
+
+fun Boolean.toInt() = when (this) {
+    true -> 1
+    false -> 0
+}

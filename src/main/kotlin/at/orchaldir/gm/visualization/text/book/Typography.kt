@@ -1,9 +1,6 @@
 package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.font.FontOption
-import at.orchaldir.gm.core.model.font.FontWithBorder
-import at.orchaldir.gm.core.model.font.HollowFont
-import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
@@ -11,10 +8,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.renderer.model.BorderOnly
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
+import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.utils.renderer.renderWrappedString
 import at.orchaldir.gm.utils.renderer.renderWrappedStrings
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -94,8 +88,8 @@ private fun visualizeSimpleTypography(
         VerticalAlignment.Top, VerticalAlignment.Bottom -> alignment
         VerticalAlignment.Center -> VerticalAlignment.Top
     }
-    val authorEntry = Pair(state.data.getAuthorOrUnknown(), convert(state, simple.author, entryAlignment))
-    val titleEntry = Pair(state.data.title, convert(state, simple.title, entryAlignment))
+    val authorEntry = Pair(state.data.getAuthorOrUnknown(), simple.author.convert(state.state, entryAlignment))
+    val titleEntry = Pair(state.data.title, simple.title.convert(state.state, entryAlignment))
     val entries = when (simple.order) {
         TypographyOrder.AuthorFirst -> listOf(authorEntry, titleEntry)
         TypographyOrder.TitleFirst -> listOf(titleEntry, authorEntry)
@@ -136,7 +130,7 @@ private fun renderString(
     option: FontOption,
     verticalAlignment: VerticalAlignment = VerticalAlignment.Center,
 ) {
-    val textOptions = convert(state, option, verticalAlignment)
+    val textOptions = option.convert(state.state, verticalAlignment)
 
     renderWrappedString(state.renderer.getLayer(), string, position, width, textOptions)
 }
@@ -159,14 +153,14 @@ private fun visualizeString(
 
     when (option) {
         is SimpleStringRenderOption -> {
-            val textOptions = convert(state, option.font)
+            val textOptions = option.font.convert(state.state)
             val center = calculateCenter(state, option.x, option.y)
 
             renderer.renderString(text, center, option.orientation, textOptions)
         }
 
         is WrappedStringRenderOption -> {
-            val textOptions = convert(state, option.font)
+            val textOptions = option.font.convert(state.state)
             val center = calculateCenter(state, option.x, option.y)
 
             renderWrappedString(renderer, text, center, option.width, textOptions)
@@ -180,30 +174,4 @@ private fun calculateCenter(
     y: Distance,
 ) = state.aabb.start + Point2d(x, y)
 
-private fun convert(
-    state: TextRenderState,
-    option: FontOption,
-    verticalAlignment: VerticalAlignment = VerticalAlignment.Center,
-) = when (option) {
-    is SolidFont -> RenderStringOptions(
-        option.color.toRender(),
-        option.size.toMeters(),
-        state.state.getFontStorage().getOptional(option.font),
-        verticalAlignment
-    )
-
-    is FontWithBorder -> RenderStringOptions(
-        FillAndBorder(option.fill.toRender(), LineOptions(option.border.toRender(), option.thickness)),
-        option.size.toMeters(),
-        state.state.getFontStorage().getOptional(option.font),
-        verticalAlignment,
-    )
-
-    is HollowFont -> RenderStringOptions(
-        BorderOnly(LineOptions(option.border.toRender(), option.thickness)),
-        option.size.toMeters(),
-        state.state.getFontStorage().getOptional(option.font),
-        verticalAlignment,
-    )
-}
 

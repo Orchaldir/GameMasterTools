@@ -37,7 +37,7 @@ sealed class FontOption {
 @SerialName("Solid")
 data class SolidFont(
     val size: Distance,
-    val color: Color = Color.White,
+    val color: Color = Color.Black,
     val font: FontId? = null,
 ) : FontOption()
 

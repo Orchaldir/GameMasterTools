@@ -52,7 +52,6 @@
    "content": {
     "type": "Abstract",
     "content": {
-     "pages": 100,
      "spells": [
       1
      ]
@@ -110,6 +109,13 @@
      "spells": [
       1
      ]
+    },
+    "style": {
+     "main": {
+      "type": "Solid",
+      "size": 5000,
+      "font": 0
+     }
     }
    }
   },
@@ -163,7 +169,6 @@
    "content": {
     "type": "Abstract",
     "content": {
-     "pages": 100,
      "spells": [
       1
      ]
@@ -229,7 +234,6 @@
    "content": {
     "type": "Abstract",
     "content": {
-     "pages": 100,
      "spells": [
       2,
       4,

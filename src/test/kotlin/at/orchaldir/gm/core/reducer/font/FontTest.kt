@@ -13,6 +13,8 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
+import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
@@ -32,6 +34,7 @@ class FontTest {
     @Nested
     inner class DeleteTest {
         val action = DeleteFont(FONT_ID_0)
+        val font = SolidFont(fromCentimeters(1), font = FONT_ID_0)
 
         @Test
         fun `Can delete an existing font`() {
@@ -52,10 +55,17 @@ class FontTest {
         }
 
         @Test
-        fun `Cannot delete, if used by a text`() {
-            val font = SolidFont(fromCentimeters(1), font = FONT_ID_0)
+        fun `Cannot delete, if used by a book cover`() {
             val book = Book(Hardcover(typography = SimpleTitleTypography(font)))
             val state = STATE.updateStorage(Storage(Text(TEXT_ID_0, format = book)))
+
+            assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete, if used by a book's content`() {
+            val content = AbstractText(style = ContentStyle(title = font))
+            val state = STATE.updateStorage(Storage(Text(TEXT_ID_0, content = content)))
 
             assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
         }
