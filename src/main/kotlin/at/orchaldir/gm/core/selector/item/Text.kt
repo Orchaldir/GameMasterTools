@@ -79,7 +79,7 @@ fun State.getOriginal(text: Text) = when (text.origin) {
 
 fun State.getTexts(font: FontId) = getTextStorage()
     .getAll()
-    .filter { b -> b.format.contains(font) }
+    .filter { b -> b.contains(font) }
 
 fun State.getTexts(language: LanguageId) = getTextStorage()
     .getAll()
