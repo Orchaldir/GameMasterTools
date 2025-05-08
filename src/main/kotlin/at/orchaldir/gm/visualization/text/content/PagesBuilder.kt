@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.ZERO
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.calculateLength
@@ -21,15 +22,17 @@ import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.utils.renderer.wrapString
 import at.orchaldir.gm.utils.toInt
+import kotlin.math.ceil
 
 data class PageEntry(
     private var position: Point2d,
+    private val width: Distance,
     private val line: String,
     private val options: RenderStringOptions,
     private val isLastLine: Boolean = false,
 ) {
 
-    fun render(renderer: LayerRenderer, width: Distance) =
+    fun render(renderer: LayerRenderer) =
         if (options.horizontalAlignment == HorizontalAlignment.Justified && !isLastLine) {
             val lineLength = calculateLength(line, options.size)
             val diff = width.toMeters() - lineLength
@@ -71,23 +74,23 @@ data class Page(
     private val entries: List<PageEntry>,
 ) {
 
-    fun render(renderer: LayerRenderer, width: Distance) = entries
-        .forEach { it.render(renderer, width) }
+    fun render(renderer: LayerRenderer) = entries
+        .forEach { it.render(renderer) }
 
 }
 
 data class Pages(
-    private val width: Distance,
     private val pages: List<Page>,
 ) {
 
-    fun render(renderer: LayerRenderer, index: Int) = pages[index].render(renderer, width)
+    fun render(renderer: LayerRenderer, index: Int) = pages[index].render(renderer)
 
 }
 
 data class PagesBuilder(
-    val state: State,
+    private val state: State,
     private val aabb: AABB,
+    private val width: Distance = fromMeters(aabb.size.width),
     private var currentPosition: Point2d = aabb.start,
     private var currentPage: MutableList<PageEntry> = mutableListOf(),
     private val pages: MutableList<Page> = mutableListOf(),
@@ -128,15 +131,20 @@ data class PagesBuilder(
         val updatedInitialOptions = when (position) {
             InitialPosition.Baseline -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.Start)
             InitialPosition.Margin -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.End)
-            InitialPosition.DroCap -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.Start)
+            InitialPosition.DropCap -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.Start)
         }
 
-        currentPage.add(PageEntry(currentPosition, initialChar, updatedInitialOptions))
+        currentPage.add(PageEntry(currentPosition, width, initialChar, updatedInitialOptions))
 
         when (position) {
             InitialPosition.Baseline -> doNothing()
             InitialPosition.Margin -> addParagraph(rest, mainOptions)
-            InitialPosition.DroCap -> doNothing()
+            InitialPosition.DropCap -> addParagraph(
+                rest,
+                mainOptions,
+                ceil(initialOptions.size / mainOptions.size).toInt(),
+                Distance.fromMeters(initialOptions.size),
+            )
         }
 
         return this
@@ -160,7 +168,21 @@ data class PagesBuilder(
 
         lines.withIndex().forEach {
             val isLastLine = it.index == lastIndex
-            currentPage.add(PageEntry(currentPosition, it.value, options, isLastLine))
+
+            val entry = if (it.index < indentedLines) {
+                PageEntry(
+                    currentPosition.addWidth(indentedDistance),
+                    width - indentedDistance,
+                    it.value,
+                    options,
+                    isLastLine
+                )
+            } else {
+                PageEntry(currentPosition, width, it.value, options, isLastLine)
+            }
+
+            currentPage.add(entry)
+
 
             currentPosition += step
 
@@ -187,7 +209,6 @@ data class PagesBuilder(
     }
 
     fun build() = Pages(
-        Distance.fromMeters(aabb.size.width),
         pages + Page(currentPage),
     )
 

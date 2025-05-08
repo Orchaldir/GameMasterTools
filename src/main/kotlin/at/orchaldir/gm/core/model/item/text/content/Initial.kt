@@ -43,7 +43,7 @@ data object NormalInitial : Initial()
 @SerialName("Large")
 data class LargeInitial(
     val size: Factor = DEFAULT_INITIAL_SIZE,
-    val position: InitialPosition = InitialPosition.DroCap,
+    val position: InitialPosition = InitialPosition.DropCap,
 ) : Initial() {
 
     init {
@@ -57,5 +57,5 @@ data class LargeInitial(
 @SerialName("Font")
 data class FontInitial(
     val fontOption: FontOption = SolidFont(Distance.fromMillimeters(10)),
-    val position: InitialPosition = InitialPosition.DroCap,
+    val position: InitialPosition = InitialPosition.DropCap,
 ) : Initial()
