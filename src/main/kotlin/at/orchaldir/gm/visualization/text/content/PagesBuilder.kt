@@ -137,13 +137,21 @@ data class PagesBuilder(
         currentPage.add(PageEntry(currentPosition, width, initialChar, updatedInitialOptions))
 
         when (position) {
-            InitialPosition.Baseline -> doNothing()
+            InitialPosition.Baseline -> {
+                addBreak(fromMeters(initialOptions.size - mainOptions.size))
+                addParagraph(
+                    rest,
+                    mainOptions,
+                    1,
+                    fromMeters(initialOptions.size),
+                )
+            }
             InitialPosition.Margin -> addParagraph(rest, mainOptions)
             InitialPosition.DropCap -> addParagraph(
                 rest,
                 mainOptions,
                 ceil(initialOptions.size / mainOptions.size).toInt(),
-                Distance.fromMeters(initialOptions.size),
+                fromMeters(initialOptions.size),
             )
         }
 
