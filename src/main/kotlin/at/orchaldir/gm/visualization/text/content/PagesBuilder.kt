@@ -75,6 +75,10 @@ data class PagesBuilder(
         indentedDistance: Distance = ZERO_DISTANCE,
     ): PagesBuilder {
         val step = Point2d.yAxis(options.size)
+        val offset = when (options.horizontalAlignment) {
+            HorizontalAlignment.Center -> Point2d.xAxis(width / 2.0f)
+            else -> Point2d()
+        }
         val lines = wrapString(
             string,
             aabb.size.width,
@@ -89,14 +93,14 @@ data class PagesBuilder(
 
             val entry = if (it.index < indentedLines) {
                 PageEntry(
-                    currentPosition.addWidth(indentedDistance),
+                    currentPosition.addWidth(indentedDistance) + offset,
                     width - indentedDistance,
                     it.value,
                     options,
                     isLastLine
                 )
             } else {
-                PageEntry(currentPosition, width, it.value, options, isLastLine)
+                PageEntry(currentPosition + offset, width, it.value, options, isLastLine)
             }
 
             currentPage.add(entry)
