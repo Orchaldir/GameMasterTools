@@ -40,7 +40,7 @@ data class BodyConfig(
     }
 
     fun getDistanceFromNeckToBottom(head: AABB) =
-        Distance.fromMeters(head.size.height * (1.0f - headHeight.toNumber()) / headHeight.toNumber())
+        head.size.height * (FULL - headHeight) / headHeight
 
     fun getArmStarts(aabb: AABB, body: Body): Pair<Point2d, Point2d> {
         val armWidth = aabb.convertWidth(getArmWidth(body))
@@ -89,7 +89,7 @@ data class BodyConfig(
     fun getMirroredArmPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
         val torso = getTorsoAabb(aabb, body)
         val size = getArmSize(aabb, body)
-        val offset = Point2d(size.width / 2.0f, 0.0f)
+        val offset = Point2d.xAxis(size.width / 2.0f)
         val shoulderWidth = getShoulderWidth(body.bodyShape)
         val (left, right) = torso.getMirroredPoints(shoulderWidth, vertical)
 
@@ -99,7 +99,7 @@ data class BodyConfig(
     fun getMirroredLegPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
         val torso = getTorsoAabb(aabb, body)
         val size = getLegSize(aabb, body)
-        val offset = Point2d(0.0f, size.height * vertical.toNumber())
+        val offset = Point2d.yAxis(size.height * vertical)
         val (left, right) = torso.getMirroredPoints(HALF, END)
 
         return Pair(left + offset, right + offset)

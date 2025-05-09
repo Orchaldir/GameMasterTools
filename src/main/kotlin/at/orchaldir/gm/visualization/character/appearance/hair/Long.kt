@@ -71,7 +71,7 @@ private fun visualizeWavy(
     val width = state.aabb.convertWidth(FULL + padding * 2.0f) / 2.0f
     val waveAmplitude = width / 3.0f
     val bottomCenter = state.aabb.getPoint(CENTER, END).addHeight(height)
-    val segments = 2 * (height.toMeters() / state.aabb.size.height + 1.0f).roundToInt()
+    val segments = 2 * (height.toMeters() / state.aabb.size.height.toMeters() + 1.0f).roundToInt()
     val splitter = SegmentSplitter.fromStartAndEnd(topCenter, bottomCenter, segments)
     val orientation = Orientation.fromDegree(-90.0f)
     val builder = Polygon2dBuilder()

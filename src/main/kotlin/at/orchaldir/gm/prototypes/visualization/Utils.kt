@@ -24,8 +24,8 @@ fun <T> renderTable(
     val maxColumns = rows.maxOf { it.size }
     val totalSize = Size2d(renderSize.width * maxColumns, renderSize.height * rows.size)
     val builder = SvgBuilder(totalSize)
-    val columnStep = Point2d(renderSize.width, 0.0f)
-    val rowStep = Point2d(0.0f, renderSize.height)
+    val columnStep = Point2d.xAxis(renderSize.width)
+    val rowStep = Point2d.yAxis(renderSize.height)
     var startOfRow = Point2d()
 
     rows.forEach { row ->
@@ -60,13 +60,13 @@ fun <C, R> renderTable(
     }
     val totalSize = Size2d(renderSize.width * columns.size, renderSize.height * rows.size * rowSize)
     val builder = SvgBuilder(totalSize)
-    val columnStep = Point2d(renderSize.width, 0.0f)
-    val rowStep = Point2d(0.0f, renderSize.height)
+    val columnStep = Point2d.xAxis(renderSize.width)
+    val rowStep = Point2d.yAxis(renderSize.height)
     var startOfRow = Point2d()
     val textSize = renderSize.width / 10.0f
     val halfTextSize = textSize / 2.0f
-    val textOptions = RenderStringOptions(Color.Black.toRender(), fromMeters(textSize))
-    val verticalOptions = RenderStringOptions(Color.Black.toRender(), fromMeters(textSize), horizontalAlignment = End)
+    val textOptions = RenderStringOptions(Color.Black.toRender(), textSize)
+    val verticalOptions = RenderStringOptions(Color.Black.toRender(), textSize, horizontalAlignment = End)
     val columnTextOffset = Point2d(renderSize.width, halfTextSize)
     val columnOrientation = Orientation.zero()
     val rowOrientation = Orientation.fromDegree(270.0f)
@@ -93,7 +93,7 @@ fun <C, R> renderTable(
             start += columnStep
         }
 
-        val textCenter = Point2d(halfTextSize, start.y + renderSize.height / 2.0f)
+        val textCenter = Point2d(halfTextSize.toMeters(), start.y + renderSize.height.toMeters() / 2.0f)
         layer.renderString(rowName, textCenter, rowOrientation, textOptions)
 
         if (backToo) {

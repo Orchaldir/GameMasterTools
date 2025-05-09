@@ -19,7 +19,7 @@ class SvgTest {
 
     @Test
     fun `Test empty svg`() {
-        val builder = SvgBuilder(Size2d(100.0f, 150.0f))
+        val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
         val svg = builder.finish()
 
         assertEquals(
@@ -31,8 +31,8 @@ class SvgTest {
     @Test
     fun `Render a rectangle`() {
         val options = BorderOnly(LineOptions(Green.toRender(), 10.0f))
-        val aabb = AABB(Point2d(100.0f, 200.0f), Size2d(20.0f, 40.0f))
-        val builder = SvgBuilder(Size2d(100.0f, 150.0f))
+        val aabb = AABB.fromMeters(100.0f, 200.0f, 20.0f, 40.0f)
+        val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
         builder.getLayer().renderRectangle(aabb, options)
         val svg = builder.finish()
 
@@ -50,16 +50,16 @@ class SvgTest {
 
         @Test
         fun `Render a circle`() {
-            val builder = SvgBuilder(Size2d(100.0f, 150.0f))
-            builder.getLayer().renderCircle(Point2d(110.0f, 220.0f), fromMillimeters(10000), options)
+            val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
+            builder.getLayer().renderCircle(Point2d.fromMeters(110.0f, 220.0f), fromMillimeters(10000), options)
 
             testCircle(builder)
         }
 
         @Test
         fun `Render an aabb as a circle`() {
-            val aabb = AABB(Point2d(100.0f, 200.0f), Size2d(20.0f, 40.0f))
-            val builder = SvgBuilder(Size2d(100.0f, 150.0f))
+            val aabb = AABB.fromMeters(100.0f, 200.0f, 20.0f, 40.0f)
+            val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
             builder.getLayer().renderCircle(aabb, options)
 
             testCircle(builder)
@@ -80,8 +80,8 @@ class SvgTest {
     @Test
     fun `Render an ellipse`() {
         val options = NoBorder(Green.toRender())
-        val aabb = AABB(Point2d(100.0f, 200.0f), Size2d(20.0f, 40.0f))
-        val builder = SvgBuilder(Size2d(100.0f, 150.0f))
+        val aabb = AABB.fromMeters(100.0f, 200.0f, 20.0f, 40.0f)
+        val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
 
         builder.getLayer().renderEllipse(aabb, options)
 
@@ -96,7 +96,7 @@ class SvgTest {
     @Test
     fun `Render a line`() {
         val options = LineOptions(Black.toRender(), 0.5f)
-        val builder = SvgBuilder(Size2d(100.0f, 150.0f))
+        val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
 
         builder.getLayer().renderLine(listOf(Point2d(1.2f, 3.4f), Point2d(10.0f, 20.0f)), options)
 
@@ -110,7 +110,7 @@ class SvgTest {
 
     @Test
     fun `Render a polygon`() {
-        val builder = SvgBuilder(Size2d(100.0f, 150.0f))
+        val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
         val corners = listOf(Point2d(1.2f, 3.4f), Point2d(10.0f, 20.0f), Point2d(30.0f, 40.0f))
 
         builder.getLayer().renderPolygon(Polygon2d(corners), options)
@@ -125,7 +125,7 @@ class SvgTest {
 
     @Test
     fun `Render a string`() {
-        val builder = SvgBuilder(Size2d(100.0f, 150.0f))
+        val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
 
         builder.getLayer().renderString(
             "test",

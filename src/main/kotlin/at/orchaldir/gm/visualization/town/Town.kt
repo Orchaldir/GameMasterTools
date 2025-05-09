@@ -22,7 +22,7 @@ import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
-const val TILE_SIZE = 20.0f
+val TILE_SIZE = Distance.fromMeters(20)
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
@@ -42,7 +42,7 @@ data class TownRenderer(
     )
 
     constructor(town: Town) : this(
-        TileMap2dRenderer(Distance.fromMeters(TILE_SIZE), Distance.fromMeters(1.0f)),
+        TileMap2dRenderer(TILE_SIZE, Distance.fromMeters(1.0f)),
         town,
     )
 

@@ -237,7 +237,7 @@ private fun HTML.showGallery(
     val charactersWithSize =
         sortedCharacters.map { Triple(it, it.name(state), calculatePaddedSize(CHARACTER_CONFIG, it.appearance)) }
     val maxSize = charactersWithSize
-        .maxBy { it.third.baseSize.height }
+        .maxBy { it.third.baseSize.height.value() }
         .third
         .getFullSize()
     val backLink = call.application.href(CharacterRoutes.All())

@@ -85,7 +85,7 @@ data class Pages(
 data class PagesBuilder(
     private val state: State,
     private val aabb: AABB,
-    private val width: Distance = fromMeters(aabb.size.width),
+    private val width: Distance = aabb.size.width,
     private var currentPosition: Point2d = aabb.start,
     private var currentPage: MutableList<PageEntry> = mutableListOf(),
     private val pages: MutableList<Page> = mutableListOf(),
@@ -167,7 +167,7 @@ data class PagesBuilder(
         val step = Point2d(0.0f, options.size.toMeters())
         val lines = wrapString(
             string,
-            fromMeters(aabb.size.width),
+            aabb.size.width,
             options.size,
             indentedLines,
             indentedDistance,
@@ -222,7 +222,8 @@ data class PagesBuilder(
 
     fun count() = pages.size + currentPage.isNotEmpty().toInt()
 
-    fun hasReached(factor: Factor) = ((currentPosition.y - aabb.start.y) / aabb.size.height) >= factor.toNumber()
+    fun hasReached(factor: Factor) =
+        ((currentPosition.y - aabb.start.y) / aabb.size.height.toMeters()) >= factor.toNumber()
 
     private fun checkEndOfPage(bonus: Distance = ZERO) {
         if (currentPosition.y + bonus.toMeters() >= aabb.getEnd().y) {

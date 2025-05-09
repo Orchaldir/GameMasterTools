@@ -4,7 +4,6 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
-import kotlin.math.min
 
 private val TWO = fromPercentage(200)
 
@@ -15,7 +14,7 @@ private val TWO = fromPercentage(200)
 data class AABB(val start: Point2d, val size: Size2d) {
 
     constructor(size: Size2d) : this(Point2d(0.0f, 0.0f), size)
-    constructor(x: Float, y: Float, width: Float, height: Float) : this(Point2d(x, y), Size2d(width, height))
+    constructor(x: Float, y: Float, width: Distance, height: Distance) : this(Point2d(x, y), Size2d(width, height))
     constructor(x: Float, y: Float, size: Size2d) : this(Point2d(x, y), size)
 
     companion object {
@@ -29,9 +28,12 @@ data class AABB(val start: Point2d, val size: Size2d) {
             val diff = end - start
             return AABB(
                 start,
-                Size2d(diff.x, diff.y)
+                Size2d(Distance.fromMeters(diff.x), Distance.fromMeters(diff.y)),
             )
         }
+
+        fun fromMeters(x: Float, y: Float, width: Float, height: Float) =
+            AABB(Point2d.fromMeters(x, y), Size2d.fromMeters(width, height))
 
         fun fromRadius(center: Point2d, radius: Distance) =
             fromRadii(center, radius, radius)
@@ -47,15 +49,13 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun getEnd() = start + size
 
-    fun getInnerRadius() = Distance.fromMeters(minOf(size.width, size.height) / 2.0f)
+    fun getInnerRadius() = size.minSize() / 2.0f
 
-    fun convertWidth(factor: Factor) = convertSide(size.width, factor)
+    fun convertWidth(factor: Factor) = size.width * factor
 
-    fun convertHeight(factor: Factor) = convertSide(size.height, factor)
+    fun convertHeight(factor: Factor) = size.height * factor
 
-    fun convertMinSide(factor: Factor) = convertSide(min(size.width, size.height), factor)
-
-    private fun convertSide(side: Float, factor: Factor) = Distance.fromMeters(side * factor.toNumber())
+    fun convertMinSide(factor: Factor) = size.minSize() * factor
 
     fun getCorners(): List<Point2d> {
         return listOf(
@@ -67,8 +67,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun getPoint(horizontal: Factor, vertical: Factor) = Point2d(
-        start.x + size.width * horizontal.toNumber(),
-        start.y + size.height * vertical.toNumber(),
+        start.x + (size.width * horizontal).toMeters(),
+        start.y + (size.height * vertical).toMeters(),
     )
 
     fun getMirroredPoints(width: Factor, vertical: Factor): Pair<Point2d, Point2d> {
@@ -79,19 +79,19 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun mirrorHorizontally(polygon: Polygon2d): Polygon2d {
-        val mirrorY = start.y + size.height / 2.0f
+        val mirrorY = start.y + size.height.toMeters() / 2.0f
 
         return Polygon2d(polygon.corners.map { Point2d(it.x, 2.0f * mirrorY - it.y) })
     }
 
     fun mirrorVertically(polygon: Polygon2d): Polygon2d {
-        val mirrorX = start.x + size.width / 2.0f
+        val mirrorX = start.x + size.width.toMeters() / 2.0f
 
         return Polygon2d(polygon.corners.map { Point2d(2.0f * mirrorX - it.x, it.y) })
     }
 
     fun mirrorVertically(point: Point2d): Point2d {
-        val mirrorX = start.x + size.width / 2.0f
+        val mirrorX = start.x + size.width.toMeters() / 2.0f
 
         return Point2d(2.0f * mirrorX - point.x, point.y)
     }

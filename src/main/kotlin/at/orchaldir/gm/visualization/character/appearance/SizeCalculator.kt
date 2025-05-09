@@ -7,42 +7,39 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.ZERO
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 
 class PaddedSize(
     val baseSize: Size2d,
-    var universial: Float = 0.0f,
-    var top: Float = 0.0f,
-    var bottom: Float = 0.0f,
-    var left: Float = 0.0f,
-    var right: Float = 0.0f,
+    var universial: Distance = ZERO,
+    var top: Distance = ZERO,
+    var bottom: Distance = ZERO,
+    var left: Distance = ZERO,
+    var right: Distance = ZERO,
 ) {
     fun addUniversial(padding: Distance) {
-        val meters = padding.toMeters()
-        universial += meters
+        universial += padding
     }
 
     fun addToSide(padding: Distance) {
-        val meters = padding.toMeters()
-        left += meters
-        right += meters
+        left += padding
+        right += padding
     }
 
     fun addToTop(padding: Distance) {
-        val meters = padding.toMeters()
-        top += meters
+        top += padding
     }
 
     fun addToTopAndSide(padding: Distance) {
-        val meters = padding.toMeters()
-        top += meters
-        left += meters
-        right += meters
+        top += padding
+        left += padding
+        right += padding
     }
 
     fun getInnerSize() = baseSize.addWidth(left + right).addHeight(top + bottom)
     fun getInnerAABB() = AABB(Point2d.square(universial), getInnerSize())
-    fun getFullSize() = getInnerSize() + Distance.fromMeters(2.0f * universial)
+    fun getFullSize() = getInnerSize() + universial * 2.0f
     fun getFullAABB() = AABB(getFullSize())
 }
 
@@ -130,7 +127,7 @@ private fun handleHorns(
 
         is CrownOfHorns -> {
             val bonus = headHeight * horns.length
-            paddedSize.top += bonus.toMeters()
+            paddedSize.top += bonus
         }
     }
 }

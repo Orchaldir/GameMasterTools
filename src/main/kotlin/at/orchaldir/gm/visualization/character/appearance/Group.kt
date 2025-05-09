@@ -24,20 +24,20 @@ fun visualizeGroup(
         .associateWith { calculatePaddedSize(config, it) }
     val maxSize = paddedSizeMap
         .values
-        .maxBy { it.baseSize.height }
+        .maxBy { it.baseSize.height.value() }
         .getFullSize()
     val groupSize = maxSize.copy(width = maxSize.width * number)
     val builder = SvgBuilder(groupSize)
-    var start = Point2d(config.padding, Distance.fromMeters(groupSize.height) - config.padding)
+    var start = Point2d(config.padding, groupSize.height - config.padding)
 
     appearances.forEach { appearance ->
         val size = appearance.getSize2d()
-        val aabb = AABB(start - Point2d(0.0f, size.height), size)
+        val aabb = AABB(start - Point2d.yAxis(size.height), size)
         val renderState = CharacterRenderState(state, aabb, config, builder, renderFront, equipped)
 
         visualizeAppearance(renderState, appearance, paddedSizeMap.getValue(appearance))
 
-        start += Point2d(size.width, 0.0f)
+        start += Point2d.xAxis(size.width)
     }
 
     return builder.finish()

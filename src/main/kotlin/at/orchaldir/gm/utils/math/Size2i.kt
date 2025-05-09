@@ -20,6 +20,6 @@ data class Size2i(val width: Distance, val height: Distance) {
         fun square(distance: Distance) = Size2i(distance, distance)
     }
 
-    fun toSize2d() = Size2d(width.toMeters(), height.toMeters())
+    fun toSize2d() = Size2d(width, height)
 
 }

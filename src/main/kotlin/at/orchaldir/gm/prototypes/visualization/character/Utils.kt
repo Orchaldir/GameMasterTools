@@ -19,6 +19,8 @@ import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import at.orchaldir.gm.visualization.character.appearance.calculatePaddedSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 
+private val MIN_SIZE = fromMillimeters(1)
+
 fun renderCharacterTable(
     state: State,
     filename: String,
@@ -26,7 +28,7 @@ fun renderCharacterTable(
     appearances: List<List<Appearance>>,
 ) {
     val paddedSizeMap = mutableMapOf<Appearance, PaddedSize>()
-    val size = appearances.fold(Size2d.square(0.001f)) { rowSize, list ->
+    val size = appearances.fold(Size2d.square(MIN_SIZE)) { rowSize, list ->
         list.fold(rowSize) { columnSize, appearance ->
             val paddedSize = calculatePaddedSize(config, appearance)
             paddedSizeMap[appearance] = paddedSize
@@ -68,7 +70,7 @@ fun <C, R> renderCharacterTable(
 ) {
     val height = fromMillimeters(2000)
     val dataMap = mutableMapOf<Pair<R, C>, Triple<Appearance, EquipmentMap<EquipmentData>, PaddedSize>>()
-    var maxSize = Size2d.square(0.001f)
+    var maxSize = Size2d.square(MIN_SIZE)
 
     rows.forEach { (_, row) ->
         columns.forEach { (_, column) ->

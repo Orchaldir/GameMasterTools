@@ -1,6 +1,8 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -9,16 +11,16 @@ class Size2dTest {
 
     @Test
     fun `Create square`() {
-        val result = Size2d(5.0f, 5.0f)
+        val distance = fromMeters(5)
+        val result = Size2d(distance, distance)
 
-        assertEquals(result, Size2d.square(5.0f))
-        assertEquals(result, Size2d.square(fromMillimeters(5000)))
+        assertEquals(result, Size2d.square(distance))
     }
 
     @Test
     fun `Scale size`() {
-        val input = Size2d(10.0f, 20.0f)
-        val result = Size2d(15.0f, 60.0f)
+        val input = Size2d(fromMeters(10), fromMeters(20))
+        val result = Size2d(fromMeters(15), fromMeters(60))
 
         assertEquals(result, input.scale(fromPercentage(150), fromPercentage(300)))
     }

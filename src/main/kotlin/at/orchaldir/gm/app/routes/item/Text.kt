@@ -216,7 +216,10 @@ private fun HTML.showGallery(
 ) {
     val texts = state.sortTexts()
         .filter { it.format !is UndefinedTextFormat }
-    val maxSize = Size2d.square(texts.maxOf { TEXT_CONFIG.calculateSize(it.format).height })
+    val maxHeight = texts
+        .map { TEXT_CONFIG.calculateSize(it.format).height }
+        .maxBy { it.value() }
+    val maxSize = Size2d.square(maxHeight)
     val size = TEXT_CONFIG.addPadding(maxSize)
     val backLink = call.application.href(TextRoutes.All())
 

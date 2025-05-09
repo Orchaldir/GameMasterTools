@@ -52,7 +52,7 @@ fun visualizeTextContent(
     val builder = SvgBuilder(paddedContentSize)
     val data = resolveTextData(state, text)
     var start = Point2d()
-    val step = Point2d(pageSize.width, 0.0f)
+    val step = Point2d.xAxis(pageSize.width)
 
     builder.getLayer().renderRectangle(AABB(paddedContentSize), BorderOnly(config.line))
 
