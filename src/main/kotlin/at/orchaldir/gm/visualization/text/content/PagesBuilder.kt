@@ -38,6 +38,8 @@ data class PagesBuilder(
             InitialPosition.DropCap -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.Start)
         }
 
+        checkEndOfPage(initialOptions.size)
+
         currentPage.add(StringPageEntry(currentPosition, width, initialChar, updatedInitialOptions))
 
         when (position) {
