@@ -45,7 +45,7 @@ private fun visualizeAbstractText(
     val innerAABB = state.aabb.shrink(margin)
     val alignment = content.style.getHorizontalAlignment()
     val options = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
-    val builder = PagesBuilder(state.state, innerAABB)
+    val builder = PagesBuilder(innerAABB)
     val maxPage = min(content.content.pages, page + 2)
 
     visualizeAbstractContent(state, builder, content.style, options, maxPage)
@@ -67,7 +67,7 @@ private fun visualizeAbstractChapters(
     val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val alignment = content.style.getHorizontalAlignment()
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
-    val builder = PagesBuilder(state.state, innerAABB)
+    val builder = PagesBuilder(innerAABB)
 
     content.chapters.forEach { chapter ->
         val maxPage = min(builder.count() + chapter.content.pages, page + 2)
@@ -95,15 +95,23 @@ private fun visualizeAbstractContent(
     maxPage: Int,
 ) {
     while (builder.count() < maxPage) {
-        builder
-            .addParagraphWithInitial(state.config.exampleString, options, style.initials)
-            .addBreak(style.main.getFontSize())
+        visualizeParagraphWithInitial(
+            state,
+            builder,
+            options,
+            state.config.exampleString,
+            style.initials,
+        )
     }
 
     while (!builder.hasReached(state.config.lastPageFillFactor)) {
-        builder
-            .addParagraphWithInitial(state.config.exampleString, options, style.initials)
-            .addBreak(style.main.getFontSize())
+        visualizeParagraphWithInitial(
+            state,
+            builder,
+            options,
+            state.config.exampleString,
+            style.initials,
+        )
     }
 }
 

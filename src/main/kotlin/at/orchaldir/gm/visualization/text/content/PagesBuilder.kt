@@ -1,9 +1,7 @@
 package at.orchaldir.gm.visualization.text.content
 
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
-import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
@@ -11,44 +9,19 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.calculateLength
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
-import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.utils.renderer.wrapString
 import at.orchaldir.gm.utils.toInt
 import kotlin.math.ceil
 
 data class PagesBuilder(
-    private val state: State,
     private val aabb: AABB,
     private val width: Distance = aabb.size.width,
     private var currentPosition: Point2d = aabb.start,
     private var currentPage: MutableList<PageEntry> = mutableListOf(),
     private val pages: MutableList<Page> = mutableListOf(),
 ) {
+
     fun addParagraphWithInitial(
-        string: String,
-        options: RenderStringOptions,
-        initials: Initials,
-    ) = when (initials) {
-        NormalInitials -> addParagraph(string, options)
-        is LargeInitials -> {
-            val initialSize = options.size * initials.size.toNumber()
-            addParagraphWithInitial(
-                string,
-                options,
-                options.copy(size = initialSize),
-                initials.position,
-            )
-        }
-
-        is FontInitials -> addParagraphWithInitial(
-            string,
-            options,
-            initials.fontOption.convert(state, VerticalAlignment.Top),
-            initials.position,
-        )
-    }
-
-    private fun addParagraphWithInitial(
         string: String,
         mainOptions: RenderStringOptions,
         initialOptions: RenderStringOptions,
