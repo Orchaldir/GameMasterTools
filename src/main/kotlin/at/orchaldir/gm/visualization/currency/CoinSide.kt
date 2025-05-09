@@ -119,7 +119,7 @@ private fun visualizeText(
     val factor = 0.75.pow((text.length - 2).toDouble()).toFloat()
     val options = RenderStringOptions(
         BorderOnly(LineOptions(Color.Black.toRender(), HUNDRED_µM)),
-        size.toMeters() * factor,
+        size * factor,
         state.state.getFontStorage().getOptional(font),
     )
 

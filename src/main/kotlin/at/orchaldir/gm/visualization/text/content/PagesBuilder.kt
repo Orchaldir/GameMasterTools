@@ -30,9 +30,9 @@ data class PageEntry(
     fun render(renderer: LayerRenderer) =
         if (options.horizontalAlignment == HorizontalAlignment.Justified && !isLastLine) {
             val lineLength = calculateLength(line, options.size)
-            val diff = width.toMeters() - lineLength
+            val diff = width - lineLength
             val words = line.split(' ')
-            val step = Point2d(diff / (words.size - 1), 0.0f)
+            val step = Point2d(diff.toMeters() / (words.size - 1), 0.0f)
             var currentPosition = position
             val lastIndex = words.size - 1
 
@@ -51,7 +51,7 @@ data class PageEntry(
 
                     renderer.renderString(text, currentPosition, zero(), options)
 
-                    currentPosition += step.addWidth(fromMeters(calculateLength(text, options.size)))
+                    currentPosition += step.addWidth(calculateLength(text, options.size))
                 }
             }
 
@@ -136,13 +136,13 @@ data class PagesBuilder(
             InitialPosition.Baseline -> {
                 val updatedInitialSize = initialOptions.size * 0.8f
                 if (updatedInitialSize > mainOptions.size) {
-                    addBreak(fromMeters(updatedInitialSize - mainOptions.size))
+                    addBreak(updatedInitialSize - mainOptions.size)
                 }
                 addParagraph(
                     rest,
                     mainOptions,
                     1,
-                    fromMeters(initialLength),
+                    initialLength,
                 )
             }
 
@@ -150,8 +150,8 @@ data class PagesBuilder(
             InitialPosition.DropCap -> addParagraph(
                 rest,
                 mainOptions,
-                ceil(initialOptions.size / mainOptions.size).toInt(),
-                fromMeters(initialLength),
+                ceil(initialOptions.size.toMeters() / mainOptions.size.toMeters()).toInt(),
+                initialLength,
             )
         }
 
@@ -164,7 +164,7 @@ data class PagesBuilder(
         indentedLines: Int = 0,
         indentedDistance: Distance = ZERO,
     ): PagesBuilder {
-        val step = Point2d(0.0f, options.size)
+        val step = Point2d(0.0f, options.size.toMeters())
         val lines = wrapString(
             string,
             fromMeters(aabb.size.width),
@@ -224,8 +224,8 @@ data class PagesBuilder(
 
     fun hasReached(factor: Factor) = ((currentPosition.y - aabb.start.y) / aabb.size.height) >= factor.toNumber()
 
-    private fun checkEndOfPage(bonus: Float = 0.0f) {
-        if (currentPosition.y + bonus >= aabb.getEnd().y) {
+    private fun checkEndOfPage(bonus: Distance = ZERO) {
+        if (currentPosition.y + bonus.toMeters() >= aabb.getEnd().y) {
             startNewPage()
         }
     }

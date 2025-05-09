@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -17,7 +18,7 @@ fun visualizeString(
     val size = Size2d(string.length * fontSize, fontSize)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
-    val option = RenderStringOptions(Color.Black.toRender(), fontSize, font)
+    val option = RenderStringOptions(Color.Black.toRender(), fromMeters(fontSize), font)
 
     builder.getLayer().renderString(string, aabb.getCenter(), zero(), option)
 

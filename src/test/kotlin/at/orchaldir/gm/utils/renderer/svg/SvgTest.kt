@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.renderer.model.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -126,7 +127,12 @@ class SvgTest {
     fun `Render a string`() {
         val builder = SvgBuilder(Size2d(100.0f, 150.0f))
 
-        builder.getLayer().renderString("test", Point2d(1.0f, 2.0f), zero(), RenderStringOptions(Blue.toRender(), 0.3f))
+        builder.getLayer().renderString(
+            "test",
+            Point2d(1.0f, 2.0f),
+            zero(),
+            RenderStringOptions(Blue.toRender(), fromMeters(0.3f)),
+        )
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">

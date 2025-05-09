@@ -350,7 +350,7 @@ class SvgRenderer(
             "%s%s;font-size:%.3fpx",
             toSvg(options.renderOptions),
             toSvg(options.font),
-            options.size,
+            options.size.toMeters(),
         )
 
     private fun toSvg(font: Font?) = if (font != null) {
