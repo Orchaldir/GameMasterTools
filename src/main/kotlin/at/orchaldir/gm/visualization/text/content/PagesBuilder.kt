@@ -1,11 +1,7 @@
 package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.content.FontInitials
-import at.orchaldir.gm.core.model.item.text.content.Initials
-import at.orchaldir.gm.core.model.item.text.content.InitialPosition
-import at.orchaldir.gm.core.model.item.text.content.LargeInitials
-import at.orchaldir.gm.core.model.item.text.content.NormalInitials
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.AABB
@@ -149,6 +145,7 @@ data class PagesBuilder(
                     fromMeters(initialLength),
                 )
             }
+
             InitialPosition.Margin -> addParagraph(rest, mainOptions)
             InitialPosition.DropCap -> addParagraph(
                 rest,

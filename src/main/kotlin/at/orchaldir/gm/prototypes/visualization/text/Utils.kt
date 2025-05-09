@@ -1,9 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextFormat
-import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
