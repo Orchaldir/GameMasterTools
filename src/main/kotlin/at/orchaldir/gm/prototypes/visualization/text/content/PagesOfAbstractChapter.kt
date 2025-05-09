@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.model.item.text.content.AbstractChapter
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractContent
 import at.orchaldir.gm.core.model.item.text.content.PageNumberingReusingFont
+import at.orchaldir.gm.core.model.item.text.content.SimpleTableOfContents
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
@@ -28,7 +30,8 @@ fun main() {
     val chapter1 = AbstractChapter(1, AbstractContent(3))
     val chapters = AbstractChapters(
         listOf(chapter0, chapter1),
-        pageNumbering = PageNumberingReusingFont()
+        pageNumbering = PageNumberingReusingFont(),
+        tableOfContents = SimpleTableOfContents(),
     )
     val text = Text(
         ID,

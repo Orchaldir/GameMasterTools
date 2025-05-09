@@ -1,18 +1,14 @@
 package at.orchaldir.gm.core.model.item.text.content
 
 import at.orchaldir.gm.core.model.font.FontId
-import at.orchaldir.gm.core.model.font.FontOption
-import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.name.NotEmptyString
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
 enum class TableOfContentsType {
     None,
-    ReusingFont,
+    Simple,
 }
 
 @Serializable
@@ -20,12 +16,12 @@ sealed class TableOfContents {
 
     fun getType() = when (this) {
         NoTableOfContents -> TableOfContentsType.None
-        is TableOfContentsReusingFont -> TableOfContentsType.ReusingFont
+        is SimpleTableOfContents -> TableOfContentsType.Simple
     }
 
     fun contains(font: FontId) = when (this) {
         NoTableOfContents -> false
-        is TableOfContentsReusingFont -> false
+        is SimpleTableOfContents -> false
     }
 }
 
@@ -34,9 +30,9 @@ sealed class TableOfContents {
 data object NoTableOfContents : TableOfContents()
 
 @Serializable
-@SerialName("ReusingFont")
-data class TableOfContentsReusingFont(
-    val title: NotEmptyString,
+@SerialName("Simple")
+data class SimpleTableOfContents(
+    val title: NotEmptyString = NotEmptyString.init("Table of Contents"),
     val data: TocData = TocData.NamePage,
     val line: TocLine = TocLine.Dots,
 ) : TableOfContents()
