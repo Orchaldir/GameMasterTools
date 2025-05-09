@@ -103,13 +103,33 @@
     }
    },
    "content": {
-    "type": "Abstract",
-    "content": {
-     "pages": 400,
-     "spells": [
-      1
-     ]
-    },
+    "type": "AbstractChapters",
+    "chapters": [
+     {
+      "title": "Introduction",
+      "content": {
+       "pages": 8
+      }
+     },
+     {
+      "title": "1.Chapter",
+      "content": {
+       "pages": 78
+      }
+     },
+     {
+      "title": "2.Chapter",
+      "content": {
+       "pages": 96
+      }
+     },
+     {
+      "title": "Conclusion",
+      "content": {
+       "pages": 17
+      }
+     }
+    ],
     "style": {
      "main": {
       "type": "Solid",
@@ -128,6 +148,9 @@
     },
     "pageNumbering": {
      "type": "Reusing"
+    },
+    "tableOfContents": {
+     "type": "Simple"
     }
    }
   },

@@ -44,11 +44,12 @@ private fun visualizeAbstractText(
     val margin = state.aabb.convertMinSide(content.style.margin)
     val innerAABB = state.aabb.shrink(margin)
     val alignment = content.style.getHorizontalAlignment()
-    val options = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
-    val builder = PagesBuilder(state.state, innerAABB)
+    val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
+    val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
+    val builder = PagesBuilder(innerAABB)
     val maxPage = min(content.content.pages, page + 2)
 
-    visualizeAbstractContent(state, builder, content.style, options, maxPage)
+    visualizeAbstractContent(state, builder, content.style, mainOptions, initialOptions, maxPage)
 
     builder
         .build()
@@ -64,10 +65,13 @@ private fun visualizeAbstractChapters(
 ) {
     val margin = state.aabb.convertMinSide(content.style.margin)
     val innerAABB = state.aabb.shrink(margin)
-    val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val alignment = content.style.getHorizontalAlignment()
+    val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
-    val builder = PagesBuilder(state.state, innerAABB)
+    val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
+    val builder = PagesBuilder(innerAABB)
+
+    visualizeTableOfContents(state, builder, content, titleOptions, mainOptions)
 
     content.chapters.forEach { chapter ->
         val maxPage = min(builder.count() + chapter.content.pages, page + 2)
@@ -77,7 +81,7 @@ private fun visualizeAbstractChapters(
             .addParagraph(chapter.title.text, titleOptions)
             .addBreak(content.style.main.getFontSize())
 
-        visualizeAbstractContent(state, builder, content.style, mainOptions, maxPage)
+        visualizeAbstractContent(state, builder, content.style, mainOptions, initialOptions, maxPage)
     }
 
     builder
@@ -91,19 +95,28 @@ private fun visualizeAbstractContent(
     state: TextRenderState,
     builder: PagesBuilder,
     style: ContentStyle,
-    options: RenderStringOptions,
+    mainOptions: RenderStringOptions,
+    initialOptions: RenderStringOptions,
     maxPage: Int,
 ) {
     while (builder.count() < maxPage) {
-        builder
-            .addParagraphWithInitial(state.config.exampleString, options, style.initials)
-            .addBreak(style.main.getFontSize())
+        visualizeParagraphWithInitial(
+            builder,
+            mainOptions,
+            initialOptions,
+            state.config.exampleString,
+            style.initials,
+        )
     }
 
     while (!builder.hasReached(state.config.lastPageFillFactor)) {
-        builder
-            .addParagraphWithInitial(state.config.exampleString, options, style.initials)
-            .addBreak(style.main.getFontSize())
+        visualizeParagraphWithInitial(
+            builder,
+            mainOptions,
+            initialOptions,
+            state.config.exampleString,
+            style.initials,
+        )
     }
 }
 

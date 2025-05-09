@@ -21,7 +21,9 @@ sealed class TextContent {
     }
 
     fun pages() = when (this) {
-        is AbstractChapters -> chapters.fold(0) { sum, chapter -> sum + chapter.content.pages }
+        is AbstractChapters -> chapters.fold(0) { sum, chapter -> sum + chapter.content.pages } +
+                tableOfContents.pages()
+
         is AbstractText -> content.pages
         UndefinedTextContent -> 0
     }
@@ -33,7 +35,7 @@ sealed class TextContent {
     }
 
     fun contains(font: FontId) = when (this) {
-        is AbstractChapters -> style.contains(font) || pageNumbering.contains(font)
+        is AbstractChapters -> style.contains(font) || pageNumbering.contains(font) || tableOfContents.contains(font)
         is AbstractText -> style.contains(font) || pageNumbering.contains(font)
         UndefinedTextContent -> false
     }
@@ -59,7 +61,16 @@ data class AbstractChapters(
     val chapters: List<AbstractChapter> = emptyList(),
     val style: ContentStyle = ContentStyle(),
     val pageNumbering: PageNumbering = NoPageNumbering,
-) : TextContent()
+    val tableOfContents: TableOfContents = NoTableOfContents,
+) : TextContent() {
+
+    init {
+        if (pageNumbering == NoPageNumbering) {
+            require(tableOfContents == NoTableOfContents) { "Table of Contents requires page numbering!" }
+        }
+    }
+
+}
 
 @Serializable
 @SerialName("Undefined")

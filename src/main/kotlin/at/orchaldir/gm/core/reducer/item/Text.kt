@@ -119,6 +119,7 @@ private fun checkTextContent(
             content.chapters.forEach { checkAbstractContent(state, it.content) }
             checkStyle(state, content.style)
             checkPageNumbering(state, content.pageNumbering)
+            checkTableOfContents(state, content.tableOfContents)
         }
 
         UndefinedTextContent -> doNothing()
@@ -156,6 +157,16 @@ private fun checkInitials(
     initials: Initials,
 ) = if (initials is FontInitials) {
     checkFontOption(state, initials.fontOption)
+} else {
+    doNothing()
+}
+
+private fun checkTableOfContents(
+    state: State,
+    toc: TableOfContents,
+) = if (toc is ComplexTableOfContents) {
+    checkFontOption(state, toc.mainOptions)
+    checkFontOption(state, toc.titleOptions)
 } else {
     doNothing()
 }
