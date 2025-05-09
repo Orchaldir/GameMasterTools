@@ -71,7 +71,7 @@ private fun visualizeAbstractChapters(
     val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
 
-    visualizeTableOfContents(builder, content, titleOptions, mainOptions)
+    visualizeTableOfContents(state, builder, content, titleOptions, mainOptions)
 
     content.chapters.forEach { chapter ->
         val maxPage = min(builder.count() + chapter.content.pages, page + 2)
