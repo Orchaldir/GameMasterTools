@@ -4,4 +4,5 @@ enum class TocLine {
     Empty,
     Line,
     Dots,
+    SpacedDots,
 }

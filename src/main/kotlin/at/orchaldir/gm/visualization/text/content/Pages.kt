@@ -79,23 +79,26 @@ data class TocPageEntry(
         when (line) {
             TocLine.Empty -> doNothing()
             TocLine.Line -> doNothing()
-            TocLine.Dots -> {
-                val leftLength = calculateLength(left, options.size)
-                val rightLength = calculateLength(right, options.size)
-                val dotLength = calculateLength('.', options.size)
-                val lineLength = width - (leftLength + rightLength)
-                val numberOfDots = (lineLength.toMeters() / dotLength.toMeters()).toInt() / 2
-                val dots = ".".repeat(numberOfDots)
-
-                renderer.renderString(
-                    dots,
-                    position.addWidth(leftLength + lineLength / 2.0f),
-                    zero(),
-                    options.copy(horizontalAlignment = HorizontalAlignment.Center),
-                )
-            }
+            TocLine.Dots -> renderSymbols(renderer, ".", 2)
+            TocLine.SpacedDots -> renderSymbols(renderer, ". ", 3)
         }
 
+    }
+
+    private fun renderSymbols(renderer: LayerRenderer, symbol: String, divider: Int) {
+        val leftLength = calculateLength(left, options.size)
+        val rightLength = calculateLength(right, options.size)
+        val dotLength = calculateLength('.', options.size)
+        val lineLength = width - (leftLength + rightLength)
+        val numberOfDots = (lineLength.toMeters() / dotLength.toMeters()).toInt() / divider
+        val dots = symbol.repeat(numberOfDots)
+
+        renderer.renderString(
+            dots,
+            position.addWidth(leftLength + lineLength / 2.0f),
+            zero(),
+            options.copy(horizontalAlignment = HorizontalAlignment.Center),
+        )
     }
 }
 
