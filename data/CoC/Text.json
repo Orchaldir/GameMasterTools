@@ -116,7 +116,7 @@
       "size": 5000,
       "font": 0
      },
-     "initial": {
+     "initials": {
       "type": "Font",
       "fontOption": {
        "type": "Solid",
