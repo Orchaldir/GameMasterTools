@@ -32,7 +32,7 @@ data object NoTableOfContents : TableOfContents()
 @Serializable
 @SerialName("Simple")
 data class SimpleTableOfContents(
-    val title: NotEmptyString = NotEmptyString.init("Table of Contents"),
     val data: TocData = TocData.NamePage,
     val line: TocLine = TocLine.Dots,
+    val title: NotEmptyString = NotEmptyString.init("Table of Contents"),
 ) : TableOfContents()
