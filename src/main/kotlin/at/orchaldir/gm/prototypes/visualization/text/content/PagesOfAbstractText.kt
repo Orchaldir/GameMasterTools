@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.content.AbstractContent
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
 import at.orchaldir.gm.core.model.item.text.content.ContentStyle
-import at.orchaldir.gm.core.model.item.text.content.LargeInitial
+import at.orchaldir.gm.core.model.item.text.content.LargeInitials
 import at.orchaldir.gm.core.model.item.text.content.MAX_INITIAL_SIZE
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
@@ -27,7 +27,7 @@ fun main() {
     )
     val content = AbstractText(
         AbstractContent(10),
-        ContentStyle(initial = LargeInitial(MAX_INITIAL_SIZE))
+        ContentStyle(initials = LargeInitials(MAX_INITIAL_SIZE))
     )
     val text = Text(
         ID,

@@ -96,13 +96,13 @@ private fun visualizeAbstractContent(
 ) {
     while (builder.count() < maxPage) {
         builder
-            .addParagraphWithInitial(state.config.exampleString, options, style.initial)
+            .addParagraphWithInitial(state.config.exampleString, options, style.initials)
             .addBreak(style.main.getFontSize())
     }
 
     while (!builder.hasReached(state.config.lastPageFillFactor)) {
         builder
-            .addParagraphWithInitial(state.config.exampleString, options, style.initial)
+            .addParagraphWithInitial(state.config.exampleString, options, style.initials)
             .addBreak(style.main.getFontSize())
     }
 }

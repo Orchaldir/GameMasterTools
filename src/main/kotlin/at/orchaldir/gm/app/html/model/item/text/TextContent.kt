@@ -92,7 +92,7 @@ private fun HtmlBlockTag.showStyle(
         showFontOption(call, state, "Title Font", style.title)
         field("Is Justified?", style.isJustified)
         fieldFactor("Margin", style.margin)
-        showInitial(call, state, style.initial)
+        showInitials(call, state, style.initials)
     }
 }
 
@@ -190,7 +190,7 @@ private fun HtmlBlockTag.editStyle(
             fromPermille(1),
             true
         )
-        editInitial(state, style.initial, param)
+        editInitials(state, style.initials, param)
     }
 }
 
@@ -229,5 +229,5 @@ private fun parseContentStyle(parameters: Parameters, param: String) = ContentSt
     parseFontOption(parameters, combine(param, TITLE)),
     parseBool(parameters, combine(param, ALIGNMENT)),
     parseFactor(parameters, combine(param, SIDE), DEFAULT_MARGIN),
-    parseInitial(parameters, param),
+    parseInitials(parameters, param),
 )

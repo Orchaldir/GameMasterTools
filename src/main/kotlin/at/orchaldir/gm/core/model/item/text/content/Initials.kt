@@ -13,38 +13,38 @@ val MIN_INITIAL_SIZE: Factor = fromPercentage(150)
 val DEFAULT_INITIAL_SIZE: Factor = fromPercentage(200)
 val MAX_INITIAL_SIZE: Factor = fromPercentage(500)
 
-enum class InitialType {
+enum class InitialsType {
     Normal,
     Large,
     Font,
 }
 
 @Serializable
-sealed class Initial {
+sealed class Initials {
 
     fun getType() = when (this) {
-        NormalInitial -> InitialType.Normal
-        is LargeInitial -> InitialType.Large
-        is FontInitial -> InitialType.Font
+        NormalInitials -> InitialsType.Normal
+        is LargeInitials -> InitialsType.Large
+        is FontInitials -> InitialsType.Font
     }
 
     fun contains(font: FontId) = when (this) {
-        NormalInitial -> false
-        is LargeInitial -> false
-        is FontInitial -> fontOption.font() == font
+        NormalInitials -> false
+        is LargeInitials -> false
+        is FontInitials -> fontOption.font() == font
     }
 }
 
 @Serializable
 @SerialName("Normal")
-data object NormalInitial : Initial()
+data object NormalInitials : Initials()
 
 @Serializable
 @SerialName("Large")
-data class LargeInitial(
+data class LargeInitials(
     val size: Factor = DEFAULT_INITIAL_SIZE,
     val position: InitialPosition = InitialPosition.DropCap,
-) : Initial() {
+) : Initials() {
 
     init {
         require(size >= MIN_INITIAL_SIZE) { "Size is too small!" }
@@ -55,7 +55,7 @@ data class LargeInitial(
 
 @Serializable
 @SerialName("Font")
-data class FontInitial(
+data class FontInitials(
     val fontOption: FontOption = SolidFont(Distance.fromMillimeters(10)),
     val position: InitialPosition = InitialPosition.DropCap,
-) : Initial()
+) : Initials()

@@ -24,9 +24,9 @@ fun main() {
         fromMillimeters(20),
         Color.Red,
     )
-    val initial0 = LargeInitial(fromPercentage(200))
-    val initial1 = LargeInitial(fromPercentage(300))
-    val initial2 = FontInitial(font)
+    val initial0 = LargeInitials(fromPercentage(200))
+    val initial1 = LargeInitials(fromPercentage(300))
+    val initial2 = FontInitials(font)
     val initials = listOf(
         Pair("200%", initial0),
         Pair("300%", initial1),
@@ -42,12 +42,12 @@ fun main() {
         initials,
     ) { position, initial ->
         val update = when (initial) {
-            NormalInitial -> initial
-            is FontInitial -> initial.copy(position = position)
-            is LargeInitial -> initial.copy(position = position)
+            NormalInitials -> initial
+            is FontInitials -> initial.copy(position = position)
+            is LargeInitials -> initial.copy(position = position)
         }
         AbstractText(
-            style = ContentStyle(initial = update),
+            style = ContentStyle(initials = update),
         )
     }
 }

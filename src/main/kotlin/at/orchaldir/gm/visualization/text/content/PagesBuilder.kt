@@ -1,11 +1,11 @@
 package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.content.FontInitial
-import at.orchaldir.gm.core.model.item.text.content.Initial
+import at.orchaldir.gm.core.model.item.text.content.FontInitials
+import at.orchaldir.gm.core.model.item.text.content.Initials
 import at.orchaldir.gm.core.model.item.text.content.InitialPosition
-import at.orchaldir.gm.core.model.item.text.content.LargeInitial
-import at.orchaldir.gm.core.model.item.text.content.NormalInitial
+import at.orchaldir.gm.core.model.item.text.content.LargeInitials
+import at.orchaldir.gm.core.model.item.text.content.NormalInitials
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.AABB
@@ -97,24 +97,24 @@ data class PagesBuilder(
     fun addParagraphWithInitial(
         string: String,
         options: RenderStringOptions,
-        initial: Initial,
-    ) = when (initial) {
-        NormalInitial -> addParagraph(string, options)
-        is LargeInitial -> {
-            val initialSize = options.size * initial.size.toNumber()
+        initials: Initials,
+    ) = when (initials) {
+        NormalInitials -> addParagraph(string, options)
+        is LargeInitials -> {
+            val initialSize = options.size * initials.size.toNumber()
             addParagraphWithInitial(
                 string,
                 options,
                 options.copy(size = initialSize),
-                initial.position,
+                initials.position,
             )
         }
 
-        is FontInitial -> addParagraphWithInitial(
+        is FontInitials -> addParagraphWithInitial(
             string,
             options,
-            initial.fontOption.convert(state, VerticalAlignment.Top),
-            initial.position,
+            initials.fontOption.convert(state, VerticalAlignment.Top),
+            initials.position,
         )
     }
 

@@ -26,24 +26,24 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showInitial(
+fun HtmlBlockTag.showInitials(
     call: ApplicationCall,
     state: State,
-    initial: Initial,
+    initials: Initials,
 ) {
     showDetails("Initials") {
-        field("Type", initial.getType())
+        field("Type", initials.getType())
 
-        when (initial) {
-            NormalInitial -> doNothing()
-            is LargeInitial -> {
-                fieldFactor("Size", initial.size)
-                field("Position", initial.position)
+        when (initials) {
+            NormalInitials -> doNothing()
+            is LargeInitials -> {
+                fieldFactor("Size", initials.size)
+                field("Position", initials.position)
             }
 
-            is FontInitial -> {
-                showFontOption(call, state, "Font", initial.fontOption)
-                field("Position", initial.position)
+            is FontInitials -> {
+                showFontOption(call, state, "Font", initials.fontOption)
+                field("Position", initials.position)
             }
         }
     }
@@ -51,33 +51,33 @@ fun HtmlBlockTag.showInitial(
 
 // edit
 
-fun HtmlBlockTag.editInitial(
+fun HtmlBlockTag.editInitials(
     state: State,
-    initial: Initial,
+    initials: Initials,
     param: String,
 ) {
     val param = combine(param, INITIAL)
 
-    showDetails("Initial", true) {
-        selectValue("Type", param, InitialType.entries, initial.getType(), true)
+    showDetails("Initials", true) {
+        selectValue("Type", param, InitialsType.entries, initials.getType(), true)
 
-        when (initial) {
-            NormalInitial -> doNothing()
-            is LargeInitial -> {
+        when (initials) {
+            NormalInitials -> doNothing()
+            is LargeInitials -> {
                 selectFactor(
                     "Size",
                     combine(param, SIZE),
-                    initial.size,
+                    initials.size,
                     MIN_INITIAL_SIZE,
                     MAX_INITIAL_SIZE,
                     update = true,
                 )
-                selectPosition(param, initial.position)
+                selectPosition(param, initials.position)
             }
 
-            is FontInitial -> {
-                editFontOption(state, "Font", initial.fontOption, combine(param, FONT))
-                selectPosition(param, initial.position)
+            is FontInitials -> {
+                editFontOption(state, "Font", initials.fontOption, combine(param, FONT))
+                selectPosition(param, initials.position)
             }
         }
     }
@@ -99,17 +99,17 @@ private fun DETAILS.selectPosition(
 
 // parse
 
-fun parseInitial(parameters: Parameters, param: String): Initial {
+fun parseInitials(parameters: Parameters, param: String): Initials {
     val param = combine(param, INITIAL)
 
-    return when (parse(parameters, param, InitialType.Normal)) {
-        InitialType.Normal -> NormalInitial
-        InitialType.Large -> LargeInitial(
+    return when (parse(parameters, param, InitialsType.Normal)) {
+        InitialsType.Normal -> NormalInitials
+        InitialsType.Large -> LargeInitials(
             parseFactor(parameters, combine(param, SIZE), DEFAULT_INITIAL_SIZE),
             parsePosition(parameters, param),
         )
 
-        InitialType.Font -> FontInitial(
+        InitialsType.Font -> FontInitials(
             parseFontOption(parameters, combine(param, FONT)),
             parsePosition(parameters, param),
         )
