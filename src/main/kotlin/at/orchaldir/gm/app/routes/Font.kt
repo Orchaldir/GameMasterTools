@@ -20,7 +20,6 @@ import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.util.sortFonts
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*

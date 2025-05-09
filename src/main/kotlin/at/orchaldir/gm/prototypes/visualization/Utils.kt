@@ -6,9 +6,6 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
-import at.orchaldir.gm.utils.math.unit.convertFromMeters
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder

@@ -29,7 +29,7 @@ import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.http.content.*
 import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.request.path
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
