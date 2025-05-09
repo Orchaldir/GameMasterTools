@@ -23,6 +23,7 @@ sealed class TextContent {
     fun pages() = when (this) {
         is AbstractChapters -> chapters.fold(0) { sum, chapter -> sum + chapter.content.pages } +
                 tableOfContents.pages()
+
         is AbstractText -> content.pages
         UndefinedTextContent -> 0
     }

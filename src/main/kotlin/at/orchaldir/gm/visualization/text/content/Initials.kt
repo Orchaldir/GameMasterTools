@@ -34,6 +34,7 @@ fun visualizeParagraphWithInitial(
             initialOptions,
             initials.position,
         )
+
         is FontInitials -> builder.addParagraphWithInitial(
             string,
             mainOptions,

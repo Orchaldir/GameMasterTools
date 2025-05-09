@@ -11,7 +11,6 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.calculateLength
 import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.utils.renderer.model.RenderColor
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 
 interface PageEntry {
@@ -94,6 +93,7 @@ data class TocPageEntry(
 
                 renderer.renderLine(points, lineOptions)
             }
+
             TocLine.Dots -> renderSymbols(renderer, ".", 2)
             TocLine.SpacedDots -> renderSymbols(renderer, ". ", 3)
         }
