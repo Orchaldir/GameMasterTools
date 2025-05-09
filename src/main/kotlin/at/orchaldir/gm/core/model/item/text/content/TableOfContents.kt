@@ -19,6 +19,11 @@ sealed class TableOfContents {
         is SimpleTableOfContents -> TableOfContentsType.Simple
     }
 
+    fun pages() = when (this) {
+        NoTableOfContents -> 0
+        is SimpleTableOfContents -> 1
+    }
+
     fun contains(font: FontId) = when (this) {
         NoTableOfContents -> false
         is SimpleTableOfContents -> false
