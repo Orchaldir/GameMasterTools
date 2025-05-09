@@ -34,7 +34,7 @@ sealed class TableOfContents {
     fun contains(font: FontId) = when (this) {
         NoTableOfContents -> false
         is SimpleTableOfContents -> false
-        is ComplexTableOfContents -> false
+        is ComplexTableOfContents -> mainOptions.font() == font || titleOptions.font() == font
     }
 }
 

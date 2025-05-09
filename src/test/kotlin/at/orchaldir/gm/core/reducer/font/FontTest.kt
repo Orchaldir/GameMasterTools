@@ -13,9 +13,12 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
+import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.ComplexTableOfContents
 import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.model.item.text.content.FontInitials
+import at.orchaldir.gm.core.model.item.text.content.PageNumberingReusingFont
 import at.orchaldir.gm.core.model.item.text.content.SimplePageNumbering
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -80,6 +83,26 @@ class FontTest {
         @Test
         fun `Cannot delete, if used by a book's initials`() {
             val content = AbstractText(style = ContentStyle(initials = FontInitials(font)))
+
+            cannotDeleteText(Text(TEXT_ID_0, content = content))
+        }
+
+        @Test
+        fun `Cannot delete, if used by a book's table of content - main`() {
+            val content = AbstractChapters(
+                pageNumbering = PageNumberingReusingFont(),
+                tableOfContents = ComplexTableOfContents(mainOptions = font),
+            )
+
+            cannotDeleteText(Text(TEXT_ID_0, content = content))
+        }
+
+        @Test
+        fun `Cannot delete, if used by a book's table of content - title`() {
+            val content = AbstractChapters(
+                pageNumbering = PageNumberingReusingFont(),
+                tableOfContents = ComplexTableOfContents(titleOptions = font),
+            )
 
             cannotDeleteText(Text(TEXT_ID_0, content = content))
         }
