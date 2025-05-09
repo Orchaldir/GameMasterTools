@@ -13,13 +13,7 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
-import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
-import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.content.ComplexTableOfContents
-import at.orchaldir.gm.core.model.item.text.content.ContentStyle
-import at.orchaldir.gm.core.model.item.text.content.FontInitials
-import at.orchaldir.gm.core.model.item.text.content.PageNumberingReusingFont
-import at.orchaldir.gm.core.model.item.text.content.SimplePageNumbering
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
