@@ -139,6 +139,7 @@ private fun checkStyle(
 ) {
     checkFontOption(state, style.main)
     checkFontOption(state, style.title)
+    checkInitials(state, style.initials)
 }
 
 private fun checkPageNumbering(
@@ -146,6 +147,15 @@ private fun checkPageNumbering(
     pageNumbering: PageNumbering,
 ) = if (pageNumbering is SimplePageNumbering) {
     checkFontOption(state, pageNumbering.fontOption)
+} else {
+    doNothing()
+}
+
+private fun checkInitials(
+    state: State,
+    initials: Initials,
+) = if (initials is FontInitials) {
+    checkFontOption(state, initials.fontOption)
 } else {
     doNothing()
 }

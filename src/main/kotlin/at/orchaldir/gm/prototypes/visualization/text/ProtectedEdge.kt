@@ -18,7 +18,7 @@ private val ID = MaterialId(0)
 fun main() {
     val bookSize = Size2i.fromMillimeters(125, 190)
 
-    renderTextTable(
+    renderTextFormatTable(
         "book-protect-edges.svg",
         State(),
         TEXT_CONFIG,

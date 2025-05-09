@@ -18,7 +18,7 @@ fun main() {
     val leather = ColorItemPart(Color.SaddleBrown)
     val sewingPattern = SimpleSewingPattern(ColorItemPart(Color.White))
 
-    renderTextTable(
+    renderTextFormatTable(
         "book-bindings.svg",
         State(),
         TEXT_CONFIG,

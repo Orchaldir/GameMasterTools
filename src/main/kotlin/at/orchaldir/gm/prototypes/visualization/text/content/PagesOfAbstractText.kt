@@ -6,8 +6,7 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
-import at.orchaldir.gm.core.model.item.text.content.AbstractContent
-import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2i.Companion.fromMillimeters
@@ -22,7 +21,10 @@ fun main() {
         page = ColorItemPart(Color.AntiqueWhite),
         size = fromMillimeters(125, 190)
     )
-    val content = AbstractText(AbstractContent(10))
+    val content = AbstractText(
+        AbstractContent(10),
+        ContentStyle(initials = LargeInitials(MAX_INITIAL_SIZE))
+    )
     val text = Text(
         ID,
         format = book,

@@ -17,7 +17,7 @@ private val ID = MaterialId(0)
 fun main() {
     val size = Size2i.fromMillimeters(125, 190)
 
-    renderTextTable(
+    renderTextFormatTable(
         "book-leather-bindings.svg",
         State(),
         TEXT_CONFIG,

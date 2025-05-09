@@ -115,6 +115,15 @@
       "type": "Solid",
       "size": 5000,
       "font": 0
+     },
+     "initials": {
+      "type": "Font",
+      "fontOption": {
+       "type": "Solid",
+       "size": 25000,
+       "color": "OrangeRed",
+       "font": 0
+      }
      }
     },
     "pageNumbering": {

@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
 import at.orchaldir.gm.core.model.item.text.content.ContentStyle
+import at.orchaldir.gm.core.model.item.text.content.FontInitials
 import at.orchaldir.gm.core.model.item.text.content.SimplePageNumbering
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -58,23 +59,33 @@ class FontTest {
         @Test
         fun `Cannot delete, if used by a book cover`() {
             val book = Book(Hardcover(typography = SimpleTitleTypography(font)))
-            val state = STATE.updateStorage(Storage(Text(TEXT_ID_0, format = book)))
 
-            assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
+            cannotDeleteText(Text(TEXT_ID_0, format = book))
         }
 
         @Test
         fun `Cannot delete, if used by a book's content`() {
             val content = AbstractText(style = ContentStyle(title = font))
-            val state = STATE.updateStorage(Storage(Text(TEXT_ID_0, content = content)))
 
-            assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
+            cannotDeleteText(Text(TEXT_ID_0, content = content))
         }
 
         @Test
         fun `Cannot delete, if used by a book's page numbering`() {
             val content = AbstractText(pageNumbering = SimplePageNumbering(font))
-            val state = STATE.updateStorage(Storage(Text(TEXT_ID_0, content = content)))
+
+            cannotDeleteText(Text(TEXT_ID_0, content = content))
+        }
+
+        @Test
+        fun `Cannot delete, if used by a book's initials`() {
+            val content = AbstractText(style = ContentStyle(initials = FontInitials(font)))
+
+            cannotDeleteText(Text(TEXT_ID_0, content = content))
+        }
+
+        private fun cannotDeleteText(text: Text) {
+            val state = STATE.updateStorage(Storage(text))
 
             assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
         }

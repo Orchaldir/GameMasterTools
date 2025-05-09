@@ -24,7 +24,7 @@ fun main() {
         )
     )
 
-    renderTextTable(
+    renderTextFormatTable(
         "scroll-formats.svg",
         State(),
         TEXT_CONFIG,

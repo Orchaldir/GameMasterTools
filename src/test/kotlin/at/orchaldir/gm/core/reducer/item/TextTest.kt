@@ -244,6 +244,14 @@ class TextTest {
             }
 
             @Test
+            fun `Unknown initials font`() {
+                val content = AbstractText(style = ContentStyle(initials = FontInitials(unknownFont)))
+                val action = UpdateText(Text(TEXT_ID_0, content = content))
+
+                assertIllegalArgument("Requires unknown Font 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
             fun `Unknown spell`() {
                 val content = AbstractText(AbstractContent(100, setOf(UNKNOWN_SPELL_ID)))
                 val action = UpdateText(Text(TEXT_ID_0, content = content))
