@@ -67,8 +67,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun getPoint(horizontal: Factor, vertical: Factor) = Point2d(
-        start.x + (size.width * horizontal).toMeters(),
-        start.y + (size.height * vertical).toMeters(),
+        start.x + size.width.toMeters() * horizontal.toNumber(),
+        start.y + size.height.toMeters() * vertical.toNumber(),
     )
 
     fun getMirroredPoints(width: Factor, vertical: Factor): Pair<Point2d, Point2d> {
