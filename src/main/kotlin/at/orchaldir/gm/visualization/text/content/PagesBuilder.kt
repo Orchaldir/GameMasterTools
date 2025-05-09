@@ -38,7 +38,7 @@ data class PagesBuilder(
             InitialPosition.DropCap -> initialOptions.copy(horizontalAlignment = HorizontalAlignment.Start)
         }
 
-        currentPage.add(PageEntry(currentPosition, width, initialChar, updatedInitialOptions))
+        currentPage.add(StringPageEntry(currentPosition, width, initialChar, updatedInitialOptions))
 
         when (position) {
             InitialPosition.Baseline -> {
@@ -92,7 +92,7 @@ data class PagesBuilder(
             val isLastLine = it.index == lastIndex
 
             val entry = if (it.index < indentedLines) {
-                PageEntry(
+                StringPageEntry(
                     currentPosition.addWidth(indentedDistance) + offset,
                     width - indentedDistance,
                     it.value,
@@ -100,7 +100,7 @@ data class PagesBuilder(
                     isLastLine
                 )
             } else {
-                PageEntry(currentPosition + offset, width, it.value, options, isLastLine)
+                StringPageEntry(currentPosition + offset, width, it.value, options, isLastLine)
             }
 
             currentPage.add(entry)

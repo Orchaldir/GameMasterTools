@@ -8,15 +8,21 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.calculateLength
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 
-data class PageEntry(
+interface PageEntry {
+
+    fun render(renderer: LayerRenderer)
+
+}
+
+data class StringPageEntry(
     private var position: Point2d,
     private val width: Distance,
     private val line: String,
     private val options: RenderStringOptions,
     private val isLastLine: Boolean = false,
-) {
+) : PageEntry {
 
-    fun render(renderer: LayerRenderer) =
+    override fun render(renderer: LayerRenderer) {
         if (options.horizontalAlignment == HorizontalAlignment.Justified && !isLastLine) {
             val lineLength = calculateLength(line, options.size)
             val diff = width - lineLength
@@ -43,11 +49,10 @@ data class PageEntry(
                     currentPosition += step.addWidth(calculateLength(text, options.size))
                 }
             }
-
-
         } else {
             simpleRender(renderer)
         }
+    }
 
     private fun simpleRender(renderer: LayerRenderer): LayerRenderer = renderer
         .renderString(line, position, zero(), options)
