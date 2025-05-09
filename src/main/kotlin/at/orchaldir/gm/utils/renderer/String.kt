@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.ZERO
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 
 fun renderWrappedStrings(
@@ -26,7 +26,7 @@ fun renderWrappedStrings(
     var currentPosition = when (alignment) {
         VerticalAlignment.Top, VerticalAlignment.Bottom -> position
         VerticalAlignment.Center -> {
-            val totalSize = linesEntries.fold(ZERO) { value, (lines, options) ->
+            val totalSize = linesEntries.fold(ZERO_DISTANCE) { value, (lines, options) ->
                 value + options.size * lines.size
             }
             position - Point2d(0.0f, totalSize.toMeters() / 2.0f)
@@ -83,7 +83,7 @@ fun wrapString(
     maxWidth: Distance,
     fontSize: Distance,
     indentedLines: Int = 0,
-    indentedDistance: Distance = ZERO,
+    indentedDistance: Distance = ZERO_DISTANCE,
 ): List<String> {
     val split = string.split(' ')
     val lines = mutableListOf<String>()
@@ -123,7 +123,7 @@ fun wrapString(
 private fun calculateIndent(current: Int, indented: Int, distance: Distance) = if (current < indented) {
     distance
 } else {
-    ZERO
+    ZERO_DISTANCE
 }
 
 fun calculateLength(text: String, fontSize: Distance): Distance {

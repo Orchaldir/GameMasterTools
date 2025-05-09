@@ -8,7 +8,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.Serializable
 import java.util.*
 
-val ZERO = fromMillimeters(0)
+val ZERO_DISTANCE = fromMillimeters(0)
 val HUNDRED_µM = fromMicrometers(100)
 val ONE_MM = fromMillimeters(1)
 val ONE_CM = fromCentimeters(1)
@@ -118,6 +118,6 @@ fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SIX_STEP
 
 fun maxOf(distances: Collection<Distance>) = distances.maxBy { it.value() }
 
-fun sumOf(distances: Collection<Distance>) = distances.fold(ZERO) { sum, distance ->
+fun sumOf(distances: Collection<Distance>) = distances.fold(ZERO_DISTANCE) { sum, distance ->
     sum + distance
 }

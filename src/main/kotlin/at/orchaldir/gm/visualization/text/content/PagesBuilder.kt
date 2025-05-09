@@ -9,8 +9,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
-import at.orchaldir.gm.utils.math.unit.ZERO
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.calculateLength
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
@@ -162,7 +161,7 @@ data class PagesBuilder(
         string: String,
         options: RenderStringOptions,
         indentedLines: Int = 0,
-        indentedDistance: Distance = ZERO,
+        indentedDistance: Distance = ZERO_DISTANCE,
     ): PagesBuilder {
         val step = Point2d(0.0f, options.size.toMeters())
         val lines = wrapString(
@@ -225,7 +224,7 @@ data class PagesBuilder(
     fun hasReached(factor: Factor) =
         ((currentPosition.y - aabb.start.y) / aabb.size.height.toMeters()) >= factor.toNumber()
 
-    private fun checkEndOfPage(bonus: Distance = ZERO) {
+    private fun checkEndOfPage(bonus: Distance = ZERO_DISTANCE) {
         if (currentPosition.y + bonus.toMeters() >= aabb.getEnd().y) {
             startNewPage()
         }

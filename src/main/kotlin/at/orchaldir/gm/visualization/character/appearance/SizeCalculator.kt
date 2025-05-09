@@ -7,16 +7,16 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.ZERO
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 
 class PaddedSize(
     val baseSize: Size2d,
-    var universial: Distance = ZERO,
-    var top: Distance = ZERO,
-    var bottom: Distance = ZERO,
-    var left: Distance = ZERO,
-    var right: Distance = ZERO,
+    var universial: Distance = ZERO_DISTANCE,
+    var top: Distance = ZERO_DISTANCE,
+    var bottom: Distance = ZERO_DISTANCE,
+    var left: Distance = ZERO_DISTANCE,
+    var right: Distance = ZERO_DISTANCE,
 ) {
     fun addUniversial(padding: Distance) {
         universial += padding
