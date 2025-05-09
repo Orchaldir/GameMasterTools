@@ -5,16 +5,13 @@ import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.*
-import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
-import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
-private val ID = MaterialId(0)
-
 fun main() {
-    val size = Size2i.fromMillimeters(125, 190)
+    val size = Size2d.fromMillimeters(125, 190)
     val leather = ColorItemPart(Color.SaddleBrown)
     val sewingPattern = SimpleSewingPattern(ColorItemPart(Color.White))
 
@@ -22,7 +19,7 @@ fun main() {
         "book-bindings.svg",
         State(),
         TEXT_CONFIG,
-        size.toSize2d() + fromMillimeters(50),
+        size + fromMillimeters(50),
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(BookBindingType.entries),
     ) { color, type ->

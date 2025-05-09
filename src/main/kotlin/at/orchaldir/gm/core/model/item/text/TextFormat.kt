@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.book.BookBinding
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormat
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -44,7 +43,7 @@ data class Book(
     val binding: BookBinding,
     val pages: Int = 100,
     val page: ColorItemPart = ColorItemPart(),
-    val size: Size2i = Size2i.square(fromMillimeters(100)),
+    val size: Size2d = Size2d.square(fromMillimeters(100)),
 ) : TextFormat() {
 
     override fun parts() = binding.parts() + page

@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.item.text.book.typography.StringRenderOption
 import at.orchaldir.gm.core.model.item.text.book.typography.WrappedStringRenderOption
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
-import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.visualization.text.ResolvedTextData
@@ -31,7 +31,7 @@ private val bottomAuthor = SimpleStringRenderOption(
 )
 
 fun main() {
-    val bookSize = Size2i.fromMillimeters(200, 300)
+    val bookSize = Size2d.fromMillimeters(200, 300)
     val texts = listOf(
         createRow(bookSize) { size -> SolidFont(size, Color.White) },
         createRow(bookSize) { size -> FontWithBorder(size, fromMillimeters(2), Color.Gold, Color.Black) },
@@ -50,7 +50,7 @@ fun main() {
 }
 
 private fun createRow(
-    bookSize: Size2i,
+    bookSize: Size2d,
     createFont: (Distance) -> FontOption,
 ) = listOf(
     createTypography(
@@ -86,7 +86,7 @@ private fun createRow(
     ),
 )
 
-private fun createWrappedTitle(bookSize: Size2i, data: ResolvedTextData) = createTypography(
+private fun createWrappedTitle(bookSize: Size2d, data: ResolvedTextData) = createTypography(
     bookSize,
     WrappedStringRenderOption(
         fromMillimeters(100),
@@ -99,7 +99,7 @@ private fun createWrappedTitle(bookSize: Size2i, data: ResolvedTextData) = creat
 )
 
 private fun createTypography(
-    size: Size2i,
+    size: Size2d,
     titleOption: StringRenderOption,
     authorOption: StringRenderOption,
     data: ResolvedTextData,

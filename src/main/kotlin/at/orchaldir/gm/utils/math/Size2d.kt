@@ -15,6 +15,11 @@ data class Size2d(val width: Distance, val height: Distance) {
         fun fromMeters(width: Float, height: Float) =
             Size2d(Distance.fromMeters(width), Distance.fromMeters(height))
 
+        fun fromMillimeters(width: Long, height: Long) = Size2d(
+            Distance.fromMillimeters(width),
+            Distance.fromMillimeters(height),
+        )
+
         fun square(distance: Distance) = Size2d(distance, distance)
     }
 

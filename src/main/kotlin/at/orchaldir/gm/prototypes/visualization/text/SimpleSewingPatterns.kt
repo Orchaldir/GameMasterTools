@@ -8,22 +8,19 @@ import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.StitchType.Empty
 import at.orchaldir.gm.core.model.item.text.book.StitchType.Kettle
-import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
-private val ID = MaterialId(0)
-
 fun main() {
-    val size = Size2i.fromMillimeters(125, 190)
+    val size = Size2d.fromMillimeters(125, 190)
 
     renderTextFormatTable(
         "book-sewing-patterns-simple.svg",
         State(),
         TEXT_CONFIG,
-        size.toSize2d() + fromMillimeters(50),
+        size + fromMillimeters(50),
         listOf(
             Pair("Small + Short", Pair(Size.Small, Size.Small)),
             Pair("Small + Medium", Pair(Size.Small, Size.Medium)),

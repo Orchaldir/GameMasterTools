@@ -11,14 +11,14 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.prototypes.visualization.text.renderTextContentTable
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
     val book = Book(
         Hardcover(),
         page = ColorItemPart(Color.AntiqueWhite),
-        size = Size2i.Companion.fromMillimeters(125, 190)
+        size = Size2d.fromMillimeters(125, 190)
     )
     val font = SolidFont(
         fromMillimeters(20),
