@@ -83,14 +83,14 @@ data class TocPageEntry(
                 val leftLength = calculateLength(left, options.size)
                 val rightLength = calculateLength(right, options.size)
                 val dotLength = calculateLength('.', options.size)
-                val lineLength = width - (leftLength + rightLength) * 1.5f
-                val numberOfDots = (lineLength.toMeters() / dotLength.toMeters()).toInt()
+                val lineLength = width - (leftLength + rightLength)
+                val numberOfDots = (lineLength.toMeters() / dotLength.toMeters()).toInt() / 2
                 val dots = ".".repeat(numberOfDots)
 
                 renderer.renderString(
                     dots,
-                    position.addWidth(leftLength),
-                    lineLength,
+                    position.addWidth(leftLength + lineLength / 2.0f),
+                    zero(),
                     options.copy(horizontalAlignment = HorizontalAlignment.Center),
                 )
             }
