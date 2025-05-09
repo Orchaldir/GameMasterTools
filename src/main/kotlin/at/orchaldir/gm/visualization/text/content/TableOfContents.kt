@@ -69,6 +69,8 @@ private fun visualizeTocLine(
     data: TocData,
     line: TocLine,
     page: Int,
-) = builder
-    .addParagraph("${chapter.title.text} $page", options)
-    .addBreak(options.size)
+) = when (data) {
+    TocData.NamePage -> builder.addTocEntry(chapter.title.text, page.toString(), options)
+    TocData.IndexNamePage -> builder.addTocEntry(chapter.title.text, page.toString(), options)
+    TocData.PageName -> builder.addTocEntry(page.toString(), chapter.title.text, options)
+}.addBreak(options.size)

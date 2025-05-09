@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
+import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -35,7 +36,7 @@ data class StringPageEntry(
                 val word = entry.value
 
                 if (lastIndex == entry.index) {
-                    val lastOptions = options.copy(horizontalAlignment = HorizontalAlignment.End)
+                    val lastOptions = options.copy(horizontalAlignment = End)
                     renderer.renderString(word, position.addWidth(width), zero(), lastOptions)
                 } else {
                     val text = if (entry.index == 0) {
@@ -57,6 +58,21 @@ data class StringPageEntry(
     private fun simpleRender(renderer: LayerRenderer): LayerRenderer = renderer
         .renderString(line, position, zero(), options)
 
+}
+
+data class TocPageEntry(
+    private var position: Point2d,
+    private val width: Distance,
+    private val left: String,
+    private val right: String,
+    private val options: RenderStringOptions,
+) : PageEntry {
+
+    override fun render(renderer: LayerRenderer) {
+        renderer
+            .renderString(left, position, width, options)
+            .renderString(right, position, width, options.copy(horizontalAlignment = End))
+    }
 }
 
 data class Page(

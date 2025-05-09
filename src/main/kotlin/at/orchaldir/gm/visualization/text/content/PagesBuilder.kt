@@ -130,6 +130,16 @@ data class PagesBuilder(
         return this
     }
 
+    fun addTocEntry(
+        left: String,
+        right: String,
+        options: RenderStringOptions,
+    ): PagesBuilder {
+        currentPage.add(TocPageEntry(currentPosition, width, left, right, options))
+
+        return addBreak(options.size)
+    }
+
     fun build() = Pages(
         pages + Page(currentPage),
     )
