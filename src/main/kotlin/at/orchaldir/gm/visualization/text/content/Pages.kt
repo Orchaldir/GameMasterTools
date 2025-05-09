@@ -1,7 +1,9 @@
 package at.orchaldir.gm.visualization.text.content
 
+import at.orchaldir.gm.core.model.item.text.content.TocLine
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -65,6 +67,7 @@ data class TocPageEntry(
     private val width: Distance,
     private val left: String,
     private val right: String,
+    private val line: TocLine,
     private val options: RenderStringOptions,
 ) : PageEntry {
 
@@ -72,6 +75,27 @@ data class TocPageEntry(
         renderer
             .renderString(left, position, width, options)
             .renderString(right, position, width, options.copy(horizontalAlignment = End))
+
+        when (line) {
+            TocLine.Empty -> doNothing()
+            TocLine.Line -> doNothing()
+            TocLine.Dots -> {
+                val leftLength = calculateLength(left, options.size)
+                val rightLength = calculateLength(right, options.size)
+                val dotLength = calculateLength('.', options.size)
+                val lineLength = width - (leftLength + rightLength) * 1.5f
+                val numberOfDots = (lineLength.toMeters() / dotLength.toMeters()).toInt()
+                val dots = ".".repeat(numberOfDots)
+
+                renderer.renderString(
+                    dots,
+                    position.addWidth(leftLength),
+                    lineLength,
+                    options.copy(horizontalAlignment = HorizontalAlignment.Center),
+                )
+            }
+        }
+
     }
 }
 

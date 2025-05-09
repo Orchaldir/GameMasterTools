@@ -70,7 +70,7 @@ private fun visualizeTocLine(
     line: TocLine,
     page: Int,
 ) = when (data) {
-    TocData.NamePage -> builder.addTocEntry(chapter.title.text, page.toString(), options)
-    TocData.IndexNamePage -> builder.addTocEntry(chapter.title.text, page.toString(), options)
-    TocData.PageName -> builder.addTocEntry(page.toString(), chapter.title.text, options)
+    TocData.NamePage -> builder.addTocEntry(chapter.title.text, page.toString(), line, options)
+    TocData.IndexNamePage -> builder.addTocEntry(chapter.title.text, page.toString(), line, options)
+    TocData.PageName -> builder.addTocEntry(page.toString(), chapter.title.text, line, options)
 }.addBreak(options.size)

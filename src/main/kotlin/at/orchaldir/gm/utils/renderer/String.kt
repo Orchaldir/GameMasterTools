@@ -130,12 +130,21 @@ fun calculateLength(text: String, fontSize: Distance): Distance {
     return fontSize * calculatePicaSize(text) / 1000.0f
 }
 
+fun calculateLength(c: Char, fontSize: Distance): Distance {
+    return fontSize * calculatePicaSize(c) / 1000.0f
+}
+
 private fun calculatePicaSize(text: String): Int {
-    val lookup = " .:,;'^`!|jl/\\i-()JfIt[]?{}sr*a\"ce_gFzLxkP+0123456789<=>~qvy\$SbduEphonTBCXY#VRKZN%GUAHD@OQ&wmMW"
     var result = 0
     for (c in text) {
-        val index = lookup.indexOf(c)
-        result += (if (index < 0) 60 else index) * 7 + 200
+        result += calculatePicaSize(c)
     }
     return result
+}
+
+private fun calculatePicaSize(c: Char): Int {
+    val lookup = " .:,;'^`!|jl/\\i-()JfIt[]?{}sr*a\"ce_gFzLxkP+0123456789<=>~qvy\$SbduEphonTBCXY#VRKZN%GUAHD@OQ&wmMW"
+    val index = lookup.indexOf(c)
+
+    return (if (index < 0) 60 else index) * 7 + 200
 }

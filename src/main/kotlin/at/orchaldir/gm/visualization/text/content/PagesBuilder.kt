@@ -133,9 +133,10 @@ data class PagesBuilder(
     fun addTocEntry(
         left: String,
         right: String,
+        line: TocLine,
         options: RenderStringOptions,
     ): PagesBuilder {
-        currentPage.add(TocPageEntry(currentPosition, width, left, right, options))
+        currentPage.add(TocPageEntry(currentPosition, width, left, right, line, options))
 
         return addBreak(options.size)
     }
