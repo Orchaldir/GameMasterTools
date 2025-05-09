@@ -82,11 +82,13 @@ data class TocPageEntry(
         when (line) {
             TocLine.Empty -> doNothing()
             TocLine.Line -> {
-                val leftLength = calculateLength(left, options.size) * 1.5f
-                val rightLength = calculateLength(right, options.size) * 1.5f
+                val leftLength = calculateLength(left, options.size)
+                val rightLength = calculateLength(right, options.size)
+                val padding = leftLength.max(rightLength) * 0.5f
+                val start = position.addHeight(options.size / 3.0f)
                 val points = listOf(
-                    position.addWidth(leftLength),
-                    position.addWidth(width - rightLength),
+                    start.addWidth(leftLength + padding),
+                    start.addWidth(width - rightLength - padding),
                 )
                 val lineOptions = LineOptions(Color.Black.toRender(), options.size / 20.0f)
 
