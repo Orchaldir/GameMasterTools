@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.item.text.content.TocLine
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.utils.doNothing
@@ -9,6 +10,8 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.calculateLength
+import at.orchaldir.gm.utils.renderer.model.LineOptions
+import at.orchaldir.gm.utils.renderer.model.RenderColor
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 
 interface PageEntry {
@@ -78,7 +81,17 @@ data class TocPageEntry(
 
         when (line) {
             TocLine.Empty -> doNothing()
-            TocLine.Line -> doNothing()
+            TocLine.Line -> {
+                val leftLength = calculateLength(left, options.size) * 1.5f
+                val rightLength = calculateLength(right, options.size) * 1.5f
+                val points = listOf(
+                    position.addWidth(leftLength),
+                    position.addWidth(width - rightLength),
+                )
+                val lineOptions = LineOptions(Color.Black.toRender(), options.size / 20.0f)
+
+                renderer.renderLine(points, lineOptions)
+            }
             TocLine.Dots -> renderSymbols(renderer, ".", 2)
             TocLine.SpacedDots -> renderSymbols(renderer, ". ", 3)
         }
