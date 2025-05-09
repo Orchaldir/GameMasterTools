@@ -59,6 +59,7 @@ private fun HtmlBlockTag.showAbstractChapters(
     field("Total Pages", chapters.chapters.sumOf { it.content.pages })
     showStyle(call, state, chapters.style)
     showPageNumbering(call, state, chapters.pageNumbering)
+    showTableOfContents(call, state, chapters.tableOfContents)
 }
 
 private fun HtmlBlockTag.showAbstractChapter(
@@ -134,6 +135,7 @@ private fun DETAILS.editAbstractChapters(
     }
     editStyle(state, content.style, combine(CONTENT, STYLE))
     editPageNumbering(state, content.pageNumbering)
+    editTableOfContents(state, content.tableOfContents)
 }
 
 private fun HtmlBlockTag.editAbstractChapter(
@@ -209,6 +211,7 @@ fun parseTextContent(parameters: Parameters) = when (parse(parameters, CONTENT, 
         },
         parseContentStyle(parameters, combine(CONTENT, STYLE)),
         parsePageNumbering(parameters),
+        parseTableOfContents(parameters),
     )
 
     TextContentType.Undefined -> UndefinedTextContent
