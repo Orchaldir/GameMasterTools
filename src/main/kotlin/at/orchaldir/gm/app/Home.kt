@@ -109,8 +109,9 @@ fun Application.configureRouting() {
 
 fun Application.configureStatusPages() {
     install(StatusPages) {
-        exception<IllegalArgumentException> { call, cause ->
-            call.respond(HttpStatusCode.BadRequest, cause.message ?: "Unknown error")
+        exception<Throwable> { call, cause ->
+            logger.error { "Exception: $cause" }
+            call.respondText(text = "500: $cause", status = HttpStatusCode.InternalServerError)
         }
     }
 }
