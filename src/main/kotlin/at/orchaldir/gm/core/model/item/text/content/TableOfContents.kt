@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val DEFAULT_TOC_TITLE = NotEmptyString.init("Table of Contents")
 
 enum class TableOfContentsType {
     None,
@@ -46,7 +47,7 @@ data object NoTableOfContents : TableOfContents()
 data class SimpleTableOfContents(
     val data: TocData = TocData.NamePage,
     val line: TocLine = TocLine.Dots,
-    val title: NotEmptyString = NotEmptyString.init("Table of Contents"),
+    val title: NotEmptyString = DEFAULT_TOC_TITLE,
 ) : TableOfContents()
 
 @Serializable
@@ -54,7 +55,7 @@ data class SimpleTableOfContents(
 data class ComplexTableOfContents(
     val data: TocData = TocData.NamePage,
     val line: TocLine = TocLine.Dots,
-    val title: NotEmptyString = NotEmptyString.init("Table of Contents"),
+    val title: NotEmptyString = DEFAULT_TOC_TITLE,
     val mainOptions: FontOption = SolidFont(Distance.fromMillimeters(5)),
     val titleOptions: FontOption = SolidFont(Distance.fromMillimeters(10)),
 ) : TableOfContents()

@@ -110,8 +110,11 @@ fun parseTableOfContents(parameters: Parameters) = when (parse(parameters, TOC, 
     )
 }
 
-private fun parseData(parameters: Parameters): TocData = parse(parameters, combine(TOC, FORMAT), TocData.NamePage)
+private fun parseData(parameters: Parameters) =
+    parse(parameters, combine(TOC, FORMAT), TocData.NamePage)
 
-private fun parseLine(parameters: Parameters): TocLine = parse(parameters, combine(TOC, LINE), TocLine.Dots)
+private fun parseLine(parameters: Parameters) =
+    parse(parameters, combine(TOC, LINE), TocLine.Dots)
 
-private fun parseTitle(parameters: Parameters): NotEmptyString = parseNotEmptyString(parameters, combine(TOC, TITLE))
+private fun parseTitle(parameters: Parameters) =
+    parseNotEmptyString(parameters, combine(TOC, TITLE), DEFAULT_TOC_TITLE.text)
