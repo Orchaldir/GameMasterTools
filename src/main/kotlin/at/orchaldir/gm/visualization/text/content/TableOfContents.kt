@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.item.text.content.SimpleTableOfContents
 import at.orchaldir.gm.core.model.item.text.content.TocData
 import at.orchaldir.gm.core.model.item.text.content.TocLine
 import at.orchaldir.gm.core.model.name.NotEmptyString
-import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.Center
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
@@ -71,6 +70,5 @@ private fun visualizeTocLine(
     page: Int,
 ) = when (data) {
     TocData.NamePage -> builder.addTocEntry(chapter.title.text, page.toString(), line, options)
-    TocData.IndexNamePage -> builder.addTocEntry(chapter.title.text, page.toString(), line, options)
     TocData.PageName -> builder.addTocEntry(page.toString(), chapter.title.text, line, options)
 }.addBreak(options.size)
