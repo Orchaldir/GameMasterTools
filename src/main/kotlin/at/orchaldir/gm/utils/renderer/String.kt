@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.ZERO
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 
 fun renderWrappedStrings(
@@ -26,17 +26,17 @@ fun renderWrappedStrings(
     var currentPosition = when (alignment) {
         VerticalAlignment.Top, VerticalAlignment.Bottom -> position
         VerticalAlignment.Center -> {
-            val totalSize = linesEntries.fold(0.0f) { value, (lines, options) ->
-                value + lines.size * options.size
+            val totalSize = linesEntries.fold(ZERO_DISTANCE) { value, (lines, options) ->
+                value + options.size * lines.size
             }
-            position - Point2d(0.0f, totalSize / 2)
+            position - Point2d.yAxis(totalSize / 2.0f)
         }
     }
 
     for ((lines, options) in linesEntries) {
         renderWrappedString(renderer, lines, currentPosition, options)
 
-        currentPosition += Point2d(0.0f, lines.size * options.size * direction)
+        currentPosition += Point2d.yAxis(options.size * (direction * lines.size))
     }
 }
 
@@ -58,7 +58,7 @@ fun renderWrappedString(
     position: Point2d,
     options: RenderStringOptions,
 ): Point2d {
-    val step = Point2d(0.0f, options.size)
+    val step = Point2d.yAxis(options.size)
     var currentPosition = when (options.verticalAlignment) {
         VerticalAlignment.Top -> position
         VerticalAlignment.Center -> {
@@ -81,13 +81,12 @@ fun renderWrappedString(
 fun wrapString(
     string: String,
     maxWidth: Distance,
-    fontSize: Float,
+    fontSize: Distance,
     indentedLines: Int = 0,
-    indentedDistance: Distance = ZERO,
+    indentedDistance: Distance = ZERO_DISTANCE,
 ): List<String> {
     val split = string.split(' ')
     val lines = mutableListOf<String>()
-    val maxLength = maxWidth.toMeters()
     var line = ""
     var currentIndent = calculateIndent(0, indentedLines, indentedDistance)
 
@@ -100,7 +99,7 @@ fun wrapString(
 
         val length = calculateLength(newLine, fontSize) + currentIndent
 
-        if (length > maxLength) {
+        if (length > maxWidth) {
             if (line.isEmpty()) {
                 lines.add(word)
             } else {
@@ -121,13 +120,13 @@ fun wrapString(
     return lines
 }
 
-private fun calculateIndent(current: Int, indented: Int, distance: Distance): Float = if (current < indented) {
-    distance.toMeters()
+private fun calculateIndent(current: Int, indented: Int, distance: Distance) = if (current < indented) {
+    distance
 } else {
-    0.0f
+    ZERO_DISTANCE
 }
 
-fun calculateLength(text: String, fontSize: Float): Float {
+fun calculateLength(text: String, fontSize: Distance): Distance {
     return fontSize * calculatePicaSize(text) / 1000.0f
 }
 

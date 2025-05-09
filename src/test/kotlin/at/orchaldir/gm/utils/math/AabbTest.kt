@@ -7,9 +7,9 @@ import kotlin.test.assertEquals
 
 class AabbTest {
 
-    private val aabb = AABB(2.0f, 3.0f, 30.0f, 60.0f)
+    private val aabb = AABB.fromMeters(2.0f, 3.0f, 30.0f, 60.0f)
     private val center = Point2d(17.0f, 33.0f)
-    private val size = Size2d(30.0f, 60.0f)
+    private val size = Size2d.fromMeters(30.0f, 60.0f)
 
     @Test
     fun `Create with size`() {
@@ -54,17 +54,17 @@ class AabbTest {
 
     @Test
     fun `Shrink by a distance`() {
-        assertEquals(AABB(3.0f, 4.0f, 28.0f, 58.0f), aabb.shrink(fromMillimeters(1000)))
+        assertEquals(AABB.fromMeters(3.0f, 4.0f, 28.0f, 58.0f), aabb.shrink(fromMillimeters(1000)))
     }
 
     @Test
     fun `Shrink by a factor`() {
-        assertEquals(AABB(9.5f, 18.0f, 15.0f, 30.0f), aabb.shrink(fromPercentage(50)))
+        assertEquals(AABB.fromMeters(9.5f, 18.0f, 15.0f, 30.0f), aabb.shrink(fromPercentage(50)))
     }
 
     @Test
     fun `Shrink by another factor`() {
-        assertEquals(AABB(3.5f, 6.0f, 27.0f, 54.0f), aabb.shrink(fromPercentage(10)))
+        assertEquals(AABB.fromMeters(3.5f, 6.0f, 27.0f, 54.0f), aabb.shrink(fromPercentage(10)))
     }
 
     @Test
@@ -89,7 +89,8 @@ class AabbTest {
     }
 
     private fun assertInnerRadius(width: Float, height: Float) {
-        assertEquals(fromMillimeters(3000), AABB(2.0f, 3.0f, width, height).getInnerRadius())
+        val aabb = AABB.fromMeters(2.0f, 3.0f, width, height)
+        assertEquals(fromMillimeters(3000), aabb.getInnerRadius())
     }
 
 }

@@ -4,10 +4,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
+import at.orchaldir.gm.utils.math.unit.Distance
 
 data class RenderStringOptions(
     val renderOptions: RenderOptions,
-    val size: Float,
+    val size: Distance,
     val font: Font? = null,
     val verticalAlignment: VerticalAlignment = VerticalAlignment.Center,
     val horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Center,
@@ -15,7 +16,7 @@ data class RenderStringOptions(
 
     constructor(
         color: RenderColor,
-        size: Float,
+        size: Distance,
         font: Font? = null,
         verticalAlignment: VerticalAlignment = VerticalAlignment.Center,
         horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Center,
@@ -29,7 +30,7 @@ fun FontOption.convert(
 ) = when (this) {
     is SolidFont -> RenderStringOptions(
         color.toRender(),
-        size.toMeters(),
+        size,
         state.getFontStorage().getOptional(font),
         verticalAlignment,
         horizontalAlignment,
@@ -37,7 +38,7 @@ fun FontOption.convert(
 
     is FontWithBorder -> RenderStringOptions(
         FillAndBorder(fill.toRender(), LineOptions(border.toRender(), thickness)),
-        size.toMeters(),
+        size,
         state.getFontStorage().getOptional(font),
         verticalAlignment,
         horizontalAlignment,
@@ -45,7 +46,7 @@ fun FontOption.convert(
 
     is HollowFont -> RenderStringOptions(
         BorderOnly(LineOptions(border.toRender(), thickness)),
-        size.toMeters(),
+        size,
         state.getFontStorage().getOptional(font),
         verticalAlignment,
         horizontalAlignment,

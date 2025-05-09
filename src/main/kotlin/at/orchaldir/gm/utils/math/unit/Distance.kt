@@ -8,7 +8,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.Serializable
 import java.util.*
 
-val ZERO = fromMillimeters(0)
+val ZERO_DISTANCE = fromMillimeters(0)
 val HUNDRED_µM = fromMicrometers(100)
 val ONE_MM = fromMillimeters(1)
 val ONE_CM = fromCentimeters(1)
@@ -64,11 +64,20 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
     operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(factor: Int) = Distance(micrometers * factor)
     operator fun div(factor: Float) = Distance((micrometers / factor).toLong())
+    operator fun div(factor: Factor) = div(factor.toNumber())
     operator fun div(factor: Int) = Distance(micrometers / factor)
 
     operator fun compareTo(other: Distance): Int = micrometers.compareTo(other.micrometers)
 
+    fun isZero() = micrometers == 0L
+
     fun max(other: Distance) = if (micrometers >= other.micrometers) {
+        this
+    } else {
+        other
+    }
+
+    fun min(other: Distance) = if (micrometers <= other.micrometers) {
         this
     } else {
         other
@@ -111,6 +120,6 @@ fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SIX_STEP
 
 fun maxOf(distances: Collection<Distance>) = distances.maxBy { it.value() }
 
-fun sumOf(distances: Collection<Distance>) = distances.fold(ZERO) { sum, distance ->
+fun sumOf(distances: Collection<Distance>) = distances.fold(ZERO_DISTANCE) { sum, distance ->
     sum + distance
 }

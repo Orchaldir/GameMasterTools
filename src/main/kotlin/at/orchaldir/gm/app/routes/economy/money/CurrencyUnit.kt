@@ -202,7 +202,7 @@ private fun HTML.showGallery(
         .filter { it.format != UndefinedCurrencyFormat }
     val maxSize = units
         .map { CURRENCY_CONFIG.calculatePaddedSize(it.format) }
-        .maxBy { it.height }
+        .maxBy { it.height.value() }
     val backLink = call.application.href(CurrencyUnitRoutes.All())
 
     simpleHtml("Currency Units") {

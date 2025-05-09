@@ -29,6 +29,7 @@ import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.http.content.*
 import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -109,8 +110,9 @@ fun Application.configureRouting() {
 
 fun Application.configureStatusPages() {
     install(StatusPages) {
-        exception<IllegalArgumentException> { call, cause ->
-            call.respond(HttpStatusCode.BadRequest, cause.message ?: "Unknown error")
+        exception<Throwable> { call, cause ->
+            logger.error(cause) { "Caught exception for ${call.request.path()}" }
+            call.respondText(text = "$cause", status = HttpStatusCode.InternalServerError)
         }
     }
 }

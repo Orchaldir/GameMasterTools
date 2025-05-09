@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.util.sortFonts
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -39,6 +40,7 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 
 private val logger = KotlinLogging.logger {}
 private const val example = "abcdefghijklmnopqrstuvwxyz"
+private val FONT_SIZE = fromMeters(40)
 
 @Resource("/$FONT_TYPE")
 class FontRoutes {
@@ -218,7 +220,7 @@ private fun HTML.showAllFonts(
                 tr {
                     td { link(call, font) }
                     td { showOptionalDate(call, state, font.date) }
-                    td { svg(visualizeString(example, font, 40.0f), 100) }
+                    td { svg(visualizeString(example, font, FONT_SIZE), 100) }
                     tdSkipZero(state.countCurrencyUnits(font.id))
                     tdSkipZero(state.countTexts(font.id))
                 }
@@ -241,7 +243,7 @@ private fun HTML.showFontDetails(
     val uploaderLink = call.application.href(FontRoutes.Uploader(font.id))
 
     simpleHtmlDetails(font) {
-        svg(visualizeString(example, font, 40.0f), 100)
+        svg(visualizeString(example, font, FONT_SIZE), 100)
 
         showFont(call, state, font)
 

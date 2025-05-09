@@ -52,7 +52,7 @@ private fun visualizePageNumbering(
         .renderString(
             (page + 1).toString(),
             start,
-            Distance.fromMeters(state.aabb.size.width) - margin * 2.0f,
+            state.aabb.size.width - margin * 2.0f,
             options
         )
 }

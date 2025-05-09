@@ -9,8 +9,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
-import at.orchaldir.gm.utils.math.unit.ZERO
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.calculateLength
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
@@ -30,9 +29,9 @@ data class PageEntry(
     fun render(renderer: LayerRenderer) =
         if (options.horizontalAlignment == HorizontalAlignment.Justified && !isLastLine) {
             val lineLength = calculateLength(line, options.size)
-            val diff = width.toMeters() - lineLength
+            val diff = width - lineLength
             val words = line.split(' ')
-            val step = Point2d(diff / (words.size - 1), 0.0f)
+            val step = Point2d.xAxis(diff / (words.size - 1))
             var currentPosition = position
             val lastIndex = words.size - 1
 
@@ -51,7 +50,7 @@ data class PageEntry(
 
                     renderer.renderString(text, currentPosition, zero(), options)
 
-                    currentPosition += step.addWidth(fromMeters(calculateLength(text, options.size)))
+                    currentPosition += step.addWidth(calculateLength(text, options.size))
                 }
             }
 
@@ -85,7 +84,7 @@ data class Pages(
 data class PagesBuilder(
     private val state: State,
     private val aabb: AABB,
-    private val width: Distance = fromMeters(aabb.size.width),
+    private val width: Distance = aabb.size.width,
     private var currentPosition: Point2d = aabb.start,
     private var currentPage: MutableList<PageEntry> = mutableListOf(),
     private val pages: MutableList<Page> = mutableListOf(),
@@ -135,14 +134,16 @@ data class PagesBuilder(
         when (position) {
             InitialPosition.Baseline -> {
                 val updatedInitialSize = initialOptions.size * 0.8f
+
                 if (updatedInitialSize > mainOptions.size) {
-                    addBreak(fromMeters(updatedInitialSize - mainOptions.size))
+                    addBreak(updatedInitialSize - mainOptions.size)
                 }
+
                 addParagraph(
                     rest,
                     mainOptions,
                     1,
-                    fromMeters(initialLength),
+                    initialLength,
                 )
             }
 
@@ -150,8 +151,8 @@ data class PagesBuilder(
             InitialPosition.DropCap -> addParagraph(
                 rest,
                 mainOptions,
-                ceil(initialOptions.size / mainOptions.size).toInt(),
-                fromMeters(initialLength),
+                ceil(initialOptions.size.toMeters() / mainOptions.size.toMeters()).toInt(),
+                initialLength,
             )
         }
 
@@ -162,12 +163,12 @@ data class PagesBuilder(
         string: String,
         options: RenderStringOptions,
         indentedLines: Int = 0,
-        indentedDistance: Distance = ZERO,
+        indentedDistance: Distance = ZERO_DISTANCE,
     ): PagesBuilder {
-        val step = Point2d(0.0f, options.size)
+        val step = Point2d.yAxis(options.size)
         val lines = wrapString(
             string,
-            fromMeters(aabb.size.width),
+            aabb.size.width,
             options.size,
             indentedLines,
             indentedDistance,
@@ -222,10 +223,11 @@ data class PagesBuilder(
 
     fun count() = pages.size + currentPage.isNotEmpty().toInt()
 
-    fun hasReached(factor: Factor) = ((currentPosition.y - aabb.start.y) / aabb.size.height) >= factor.toNumber()
+    fun hasReached(factor: Factor) =
+        ((currentPosition.y - aabb.start.y) / aabb.size.height.toMeters()) >= factor.toNumber()
 
-    private fun checkEndOfPage(bonus: Float = 0.0f) {
-        if (currentPosition.y + bonus >= aabb.getEnd().y) {
+    private fun checkEndOfPage(bonus: Distance = ZERO_DISTANCE) {
+        if (currentPosition.y + bonus.toMeters() >= aabb.getEnd().y) {
             startNewPage()
         }
     }

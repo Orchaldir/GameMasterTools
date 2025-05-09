@@ -36,8 +36,8 @@ interface LayerRenderer {
     fun renderEllipse(aabb: AABB, options: RenderOptions): LayerRenderer =
         renderEllipse(
             aabb.getCenter(),
-            Distance.fromMeters(aabb.size.width / 2.0f),
-            Distance.fromMeters(aabb.size.height / 2.0f),
+            aabb.size.width / 2.0f,
+            aabb.size.height / 2.0f,
             options,
         )
 
@@ -50,8 +50,8 @@ interface LayerRenderer {
     fun renderPointedOval(aabb: AABB, options: RenderOptions): LayerRenderer =
         renderPointedOval(
             aabb.getCenter(),
-            Distance.fromMeters(aabb.size.width / 2.0f),
-            Distance.fromMeters(aabb.size.height / 2.0f),
+            aabb.size.width / 2.0f,
+            aabb.size.height / 2.0f,
             options,
         )
 

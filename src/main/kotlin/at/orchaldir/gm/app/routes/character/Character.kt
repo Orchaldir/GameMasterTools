@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.character.canCreateCharacter
 import at.orchaldir.gm.core.selector.character.getAgeInYears
+import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
@@ -237,7 +238,7 @@ private fun HTML.showGallery(
     val charactersWithSize =
         sortedCharacters.map { Triple(it, it.name(state), calculatePaddedSize(CHARACTER_CONFIG, it.appearance)) }
     val maxSize = charactersWithSize
-        .maxBy { it.third.baseSize.height }
+        .maxBy { it.third.baseSize.height.value() }
         .third
         .getFullSize()
     val backLink = call.application.href(CharacterRoutes.All())
@@ -245,8 +246,9 @@ private fun HTML.showGallery(
     simpleHtml("Characters") {
         showGallery(call, charactersWithSize) { (character, _, paddedSize) ->
             val equipment = state.getEquipment(character)
+            val appearance = state.getAppearanceForAge(character)
 
-            visualizeAppearance(state, CHARACTER_CONFIG, maxSize, character.appearance, paddedSize, equipment)
+            visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearance, paddedSize, equipment)
         }
 
         back(backLink)

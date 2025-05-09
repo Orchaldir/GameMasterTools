@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
 import at.orchaldir.gm.visualization.renderRoundedPolygon
+import kotlin.math.max
 
 fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: Ponytail) {
     val config = state.config
@@ -95,8 +96,8 @@ private fun getBraid(
     val braid = state.config.head.hair.braidWidth
     val half = braid / 2.0f
     val aabb = state.aabb
-    val length = lengthDistance.toMeters() / aabb.size.height + 1.0 - startY.toNumber()
-    val n = Math.max((length / braid.toNumber()).toInt(), 1)
+    val length = lengthDistance.toMeters() / aabb.size.height.toMeters() + 1.0 - startY.toNumber()
+    val n = max((length / braid.toNumber()).toInt(), 1)
     var x = startX
     var y = startY
     var step = offset

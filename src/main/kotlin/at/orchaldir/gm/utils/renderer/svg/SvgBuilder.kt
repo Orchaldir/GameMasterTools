@@ -3,6 +3,7 @@ package at.orchaldir.gm.utils.renderer.svg
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.*
@@ -95,8 +96,8 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     private fun getStartLine() = String.format(
         LOCALE,
         "<svg viewBox=\"0 0 %.3f %.3f\" xmlns=\"http://www.w3.org/2000/svg\">",
-        size.width,
-        size.height
+        size.width.toMeters(),
+        size.height.toMeters(),
     )
 
     private fun addPatternLines(renderer: SvgRenderer, fill: RenderFill, name: String) {
@@ -155,7 +156,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
             "id=\"%s\" viewBox=\"0,0,100,100\" width=\"%s\" height=\"%s\" patternUnits=\"userSpaceOnUse\"",
             name, tiles.width, tiles.width
         ) { tag ->
-            val full = AABB(Size2d.square(100.0f))
+            val full = AABB(Size2d.square(Distance.fromMeters(100)))
             val tile = full.shrink(tiles.borderPercentage)
 
             if (tiles.background != null) {

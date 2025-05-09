@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.Size2i.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
 import java.io.File
 
@@ -27,7 +27,7 @@ fun main() {
 
     val book = Book(
         binding,
-        size = fromMillimeters(125, 190)
+        size = Size2d.fromMillimeters(125, 190)
     )
 
     val svg = visualizeTextFormat(State(), TEXT_CONFIG, book)

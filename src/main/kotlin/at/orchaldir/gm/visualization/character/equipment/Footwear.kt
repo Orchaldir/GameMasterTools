@@ -99,7 +99,7 @@ fun visualizeSoles(
     val width = state.aabb.convertHeight(config.body.getFootRadius(body) * 2.0f)
     val height = state.aabb.convertHeight(config.equipment.footwear.heightSole)
     val size = Size2d(width, height)
-    val offset = Point2d(0.0f, size.height / 2.0f)
+    val offset = Point2d.yAxis(size.height / 2.0f)
     val leftAABB = AABB.fromCenter(left + offset, size)
     val rightAABB = AABB.fromCenter(right + offset, size)
     val layer = state.renderer.getLayer(EQUIPMENT_LAYER)

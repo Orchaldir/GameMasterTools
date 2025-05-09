@@ -65,11 +65,11 @@ private fun visualizePointedSideways(
 ) {
     val center = state.aabb.getPoint(FULL, state.config.head.earY)
     val radius = state.config.head.ears.getRoundRadius(state.aabb, size)
-    val offset = Point2d(0.0f, radius.toMeters())
+    val offset = Point2d.yAxis(radius)
     val top = center - offset
     val bottom = center + offset
-    val length = radius.toMeters() * state.config.head.ears.pointedLength.toNumber()
-    val tip = top + Point2d(length, 0.0f)
+    val length = radius * state.config.head.ears.pointedLength
+    val tip = top + Point2d.xAxis(length)
 
     renderMirroredPolygons(state.renderer, option, state.aabb, listOf(top, bottom, tip))
 }

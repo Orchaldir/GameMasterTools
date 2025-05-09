@@ -33,7 +33,7 @@ data class TextRenderConfig(
     fun addPadding(size: Size2d) = size + padding * 2
 
     fun calculateSize(format: TextFormat) = when (format) {
-        is Book -> format.size.toSize2d()
+        is Book -> format.size
         is Scroll -> format.calculateSize()
         UndefinedTextFormat -> square(padding * 2)
     }

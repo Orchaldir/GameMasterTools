@@ -7,22 +7,19 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BossesShape
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleBossesPattern
-import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
-private val ID = MaterialId(0)
-
 fun main() {
-    val bookSize = Size2i.fromMillimeters(125, 190)
+    val bookSize = Size2d.fromMillimeters(125, 190)
 
     renderTextFormatTable(
         "book-bosses-patterns.svg",
         State(),
         TEXT_CONFIG,
-        bookSize.toSize2d() + fromMillimeters(50),
+        bookSize + fromMillimeters(50),
         listOf(
             Pair("Circle + Short", Pair(BossesShape.Circle, Size.Small)),
             Pair("Circle + Medium", Pair(BossesShape.Circle, Size.Medium)),

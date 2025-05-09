@@ -16,7 +16,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ONE_M
 import at.orchaldir.gm.utils.math.unit.SiPrefix
-import at.orchaldir.gm.utils.math.unit.ZERO
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -119,7 +119,7 @@ private fun HtmlBlockTag.editStringSharedOptions(
 }
 
 private fun HtmlBlockTag.selectDistance(label: String, param: String, value: Distance) {
-    selectDistance(label, param, value, ZERO, ONE_M, siPrefix, update = true)
+    selectDistance(label, param, value, ZERO_DISTANCE, ONE_M, siPrefix, update = true)
 }
 
 // parse

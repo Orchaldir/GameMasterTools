@@ -14,6 +14,11 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
         fun square(size: Float) = Point2d(size, size)
 
         fun square(distance: Distance) = square(distance.toMeters())
+
+        fun fromMeters(x: Float, y: Float) = Point2d(x, y)
+
+        fun xAxis(distance: Distance) = Point2d(distance.toMeters(), 0.0f)
+        fun yAxis(distance: Distance) = Point2d(0.0f, distance.toMeters())
     }
 
     fun addWidth(distance: Distance) = Point2d(x + distance.toMeters(), y)
@@ -47,11 +52,11 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
 
     operator fun plus(distance: Distance) = Point2d(x + distance.toMeters(), y + distance.toMeters())
     operator fun plus(other: Point2d) = Point2d(x + other.x, y + other.y)
-    operator fun plus(size: Size2d) = Point2d(x + size.width, y + size.height)
+    operator fun plus(size: Size2d) = Point2d(x + size.width.toMeters(), y + size.height.toMeters())
 
     operator fun minus(distance: Distance) = Point2d(x - distance.toMeters(), y - distance.toMeters())
     operator fun minus(other: Point2d) = Point2d(x - other.x, y - other.y)
-    operator fun minus(size: Size2d) = Point2d(x - size.width, y - size.height)
+    operator fun minus(size: Size2d) = Point2d(x - size.width.toMeters(), y - size.height.toMeters())
 
     operator fun times(factor: Int) = Point2d(x * factor, y * factor)
     operator fun times(factor: Float) = Point2d(x * factor, y * factor)

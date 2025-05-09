@@ -19,7 +19,7 @@ private const val PERCENTAGE_FACTOR = 100
 private const val PERMILLE_FACTOR = 10
 
 /**
- * A number stored as permyriad (1 in 10k), but mostly used ro represent percentage.
+ * A number stored as permyriad (1 in 10k), but mostly used to represent percentage.
  */
 @JvmInline
 @Serializable

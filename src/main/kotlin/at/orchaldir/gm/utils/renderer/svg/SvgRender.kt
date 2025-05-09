@@ -168,8 +168,8 @@ class SvgRenderer(
             "x=\"%.3f\" y=\"%.3f\" width=\"%.4f\" height=\"%.4f\" style=\"%s\"",
             aabb.start.x,
             aabb.start.y,
-            aabb.size.width,
-            aabb.size.height,
+            aabb.size.width.toMeters(),
+            aabb.size.height.toMeters(),
             toSvg(options),
         )
 
@@ -350,7 +350,7 @@ class SvgRenderer(
             "%s%s;font-size:%.3fpx",
             toSvg(options.renderOptions),
             toSvg(options.font),
-            options.size,
+            options.size.toMeters(),
         )
 
     private fun toSvg(font: Font?) = if (font != null) {
