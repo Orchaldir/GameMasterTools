@@ -44,7 +44,7 @@ data class BodyConfig(
 
     fun getArmStarts(aabb: AABB, body: Body): Pair<Point2d, Point2d> {
         val armWidth = aabb.convertWidth(getArmWidth(body))
-        val offset = Point2d(armWidth.toMeters(), 0.0f)
+        val offset = Point2d.xAxis(armWidth)
         val shoulderWidth = getShoulderWidth(body.bodyShape)
         val torso = getTorsoAabb(aabb, body)
         val points = torso.getMirroredPoints(shoulderWidth, START)

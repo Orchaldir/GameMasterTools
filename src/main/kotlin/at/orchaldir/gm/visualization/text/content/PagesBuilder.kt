@@ -31,7 +31,7 @@ data class PageEntry(
             val lineLength = calculateLength(line, options.size)
             val diff = width - lineLength
             val words = line.split(' ')
-            val step = Point2d(diff.toMeters() / (words.size - 1), 0.0f)
+            val step = Point2d.xAxis(diff / (words.size - 1))
             var currentPosition = position
             val lastIndex = words.size - 1
 
@@ -134,9 +134,11 @@ data class PagesBuilder(
         when (position) {
             InitialPosition.Baseline -> {
                 val updatedInitialSize = initialOptions.size * 0.8f
+
                 if (updatedInitialSize > mainOptions.size) {
                     addBreak(updatedInitialSize - mainOptions.size)
                 }
+
                 addParagraph(
                     rest,
                     mainOptions,
@@ -163,7 +165,7 @@ data class PagesBuilder(
         indentedLines: Int = 0,
         indentedDistance: Distance = ZERO_DISTANCE,
     ): PagesBuilder {
-        val step = Point2d(0.0f, options.size.toMeters())
+        val step = Point2d.yAxis(options.size)
         val lines = wrapString(
             string,
             aabb.size.width,

@@ -98,8 +98,8 @@ data class TownRenderer(
     fun renderStreets(
         render: (AABB, StreetTile, Int) -> Unit,
     ) {
-        val right = Point2d(tileRenderer.tileSize.toMeters() / 2, 0.0f)
-        val down = Point2d(0.0f, tileRenderer.tileSize.toMeters() / 2)
+        val right = Point2d.xAxis(tileRenderer.tileSize / 2)
+        val down = Point2d.yAxis(tileRenderer.tileSize / 2)
 
         tileRenderer.render(town.map) { index, x, y, aabb, tile ->
             if (tile.construction is StreetTile) {

@@ -115,7 +115,7 @@ fun convertRoundedPolygonToPath(corners: List<Point2d>, builder: PathBuilder): S
         val index = (i + 1) % corners.size
         val corner = corners[index]
 
-        if (previous.calculateDistance(corner).toMeters() == 0.0f) {
+        if (previous.calculateDistance(corner).isZero()) {
             isSharp = true
 
             if (!isStart) {

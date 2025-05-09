@@ -29,14 +29,14 @@ fun renderWrappedStrings(
             val totalSize = linesEntries.fold(ZERO_DISTANCE) { value, (lines, options) ->
                 value + options.size * lines.size
             }
-            position - Point2d(0.0f, totalSize.toMeters() / 2.0f)
+            position - Point2d.yAxis(totalSize / 2.0f)
         }
     }
 
     for ((lines, options) in linesEntries) {
         renderWrappedString(renderer, lines, currentPosition, options)
 
-        currentPosition += Point2d(0.0f, options.size.toMeters() * direction * lines.size)
+        currentPosition += Point2d.yAxis(options.size * (direction * lines.size))
     }
 }
 
@@ -58,7 +58,7 @@ fun renderWrappedString(
     position: Point2d,
     options: RenderStringOptions,
 ): Point2d {
-    val step = Point2d(0.0f, options.size.toMeters())
+    val step = Point2d.yAxis(options.size)
     var currentPosition = when (options.verticalAlignment) {
         VerticalAlignment.Top -> position
         VerticalAlignment.Center -> {

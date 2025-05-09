@@ -103,7 +103,7 @@ fun visualizeAppearance(
         UndefinedAppearance -> {
             val height = state.config.padding
             val options = RenderStringOptions(Black.toRender(), height * 2.0f)
-            val center = state.aabb.getCenter() + Point2d(0.0f, height.toMeters() * 0.25f)
+            val center = state.aabb.getCenter() + Point2d.yAxis(height * 0.25f)
             state.renderer.getLayer().renderString("?", center, Orientation.zero(), options)
         }
 

@@ -13,7 +13,7 @@ private val TWO = fromPercentage(200)
 @Serializable
 data class AABB(val start: Point2d, val size: Size2d) {
 
-    constructor(size: Size2d) : this(Point2d(0.0f, 0.0f), size)
+    constructor(size: Size2d) : this(Point2d(), size)
     constructor(x: Float, y: Float, width: Distance, height: Distance) : this(Point2d(x, y), Size2d(width, height))
     constructor(x: Float, y: Float, size: Size2d) : this(Point2d(x, y), size)
 
