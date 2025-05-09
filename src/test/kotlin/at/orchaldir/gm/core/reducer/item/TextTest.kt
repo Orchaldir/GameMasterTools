@@ -221,34 +221,22 @@ class TextTest {
 
             @Test
             fun `Unknown main font`() {
-                val content = AbstractText(style = ContentStyle(unknownFont))
-                val action = UpdateText(Text(TEXT_ID_0, content = content))
-
-                assertIllegalArgument("Requires unknown Font 99!") { REDUCER.invoke(STATE, action) }
+                testUnknownFont(AbstractText(style = ContentStyle(unknownFont)))
             }
 
             @Test
             fun `Unknown title font`() {
-                val content = AbstractText(style = ContentStyle(title = unknownFont))
-                val action = UpdateText(Text(TEXT_ID_0, content = content))
-
-                assertIllegalArgument("Requires unknown Font 99!") { REDUCER.invoke(STATE, action) }
+                testUnknownFont(AbstractText(style = ContentStyle(title = unknownFont)))
             }
 
             @Test
             fun `Unknown page numbering font`() {
-                val content = AbstractText(pageNumbering = SimplePageNumbering(unknownFont))
-                val action = UpdateText(Text(TEXT_ID_0, content = content))
-
-                assertIllegalArgument("Requires unknown Font 99!") { REDUCER.invoke(STATE, action) }
+                testUnknownFont(AbstractText(pageNumbering = SimplePageNumbering(unknownFont)))
             }
 
             @Test
             fun `Unknown initials font`() {
-                val content = AbstractText(style = ContentStyle(initials = FontInitials(unknownFont)))
-                val action = UpdateText(Text(TEXT_ID_0, content = content))
-
-                assertIllegalArgument("Requires unknown Font 99!") { REDUCER.invoke(STATE, action) }
+                testUnknownFont(AbstractText(style = ContentStyle(initials = FontInitials(unknownFont))))
             }
 
             @Test
@@ -257,6 +245,21 @@ class TextTest {
                     pageNumbering = PageNumberingReusingFont(),
                     tableOfContents = ComplexTableOfContents(mainOptions = unknownFont),
                 )
+
+                testUnknownFont(content)
+            }
+
+            @Test
+            fun `Unknown title font for table of contents`() {
+                val content = AbstractChapters(
+                    pageNumbering = PageNumberingReusingFont(),
+                    tableOfContents = ComplexTableOfContents(titleOptions = unknownFont),
+                )
+
+                testUnknownFont(content)
+            }
+
+            private fun testUnknownFont(content: TextContent) {
                 val action = UpdateText(Text(TEXT_ID_0, content = content))
 
                 assertIllegalArgument("Requires unknown Font 99!") { REDUCER.invoke(STATE, action) }
