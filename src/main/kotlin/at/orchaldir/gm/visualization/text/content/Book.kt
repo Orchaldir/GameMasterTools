@@ -44,11 +44,12 @@ private fun visualizeAbstractText(
     val margin = state.aabb.convertMinSide(content.style.margin)
     val innerAABB = state.aabb.shrink(margin)
     val alignment = content.style.getHorizontalAlignment()
-    val options = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
+    val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
+    val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
     val maxPage = min(content.content.pages, page + 2)
 
-    visualizeAbstractContent(state, builder, content.style, options, maxPage)
+    visualizeAbstractContent(state, builder, content.style, mainOptions, initialOptions, maxPage)
 
     builder
         .build()
@@ -67,6 +68,7 @@ private fun visualizeAbstractChapters(
     val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val alignment = content.style.getHorizontalAlignment()
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
+    val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
 
     content.chapters.forEach { chapter ->
@@ -77,7 +79,7 @@ private fun visualizeAbstractChapters(
             .addParagraph(chapter.title.text, titleOptions)
             .addBreak(content.style.main.getFontSize())
 
-        visualizeAbstractContent(state, builder, content.style, mainOptions, maxPage)
+        visualizeAbstractContent(state, builder, content.style, mainOptions, initialOptions, maxPage)
     }
 
     builder
@@ -91,14 +93,15 @@ private fun visualizeAbstractContent(
     state: TextRenderState,
     builder: PagesBuilder,
     style: ContentStyle,
-    options: RenderStringOptions,
+    mainOptions: RenderStringOptions,
+    initialOptions: RenderStringOptions,
     maxPage: Int,
 ) {
     while (builder.count() < maxPage) {
         visualizeParagraphWithInitial(
-            state,
             builder,
-            options,
+            mainOptions,
+            initialOptions,
             state.config.exampleString,
             style.initials,
         )
@@ -106,9 +109,9 @@ private fun visualizeAbstractContent(
 
     while (!builder.hasReached(state.config.lastPageFillFactor)) {
         visualizeParagraphWithInitial(
-            state,
             builder,
-            options,
+            mainOptions,
+            initialOptions,
             state.config.exampleString,
             style.initials,
         )

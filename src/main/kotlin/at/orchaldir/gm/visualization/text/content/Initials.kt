@@ -9,32 +9,38 @@ import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
 
-fun visualizeParagraphWithInitial(
+fun calculateInitialsOptions(
     state: TextRenderState,
-    builder: PagesBuilder,
     options: RenderStringOptions,
+    initials: Initials,
+) = when (initials) {
+    NormalInitials -> options
+    is LargeInitials -> options.copy(size = options.size * initials.size)
+    is FontInitials -> initials.fontOption.convert(state.state, VerticalAlignment.Top)
+}
+
+fun visualizeParagraphWithInitial(
+    builder: PagesBuilder,
+    mainOptions: RenderStringOptions,
+    initialOptions: RenderStringOptions,
     string: String,
     initials: Initials,
 ) {
     when (initials) {
-        NormalInitials -> builder.addParagraph(string, options)
-        is LargeInitials -> {
-            val initialSize = options.size * initials.size.toNumber()
-            builder.addParagraphWithInitial(
-                string,
-                options,
-                options.copy(size = initialSize),
-                initials.position,
-            )
-        }
-
+        NormalInitials -> builder.addParagraph(string, mainOptions)
+        is LargeInitials -> builder.addParagraphWithInitial(
+            string,
+            mainOptions,
+            initialOptions,
+            initials.position,
+        )
         is FontInitials -> builder.addParagraphWithInitial(
             string,
-            options,
-            initials.fontOption.convert(state.state, VerticalAlignment.Top),
+            mainOptions,
+            initialOptions,
             initials.position,
         )
     }
 
-    builder.addBreak(options.size)
+    builder.addBreak(mainOptions.size)
 }
