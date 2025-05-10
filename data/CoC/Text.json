@@ -136,6 +136,11 @@
       "size": 5000,
       "font": 0
      },
+     "title": {
+      "type": "Solid",
+      "size": 10000,
+      "font": 0
+     },
      "initials": {
       "type": "Font",
       "fontOption": {

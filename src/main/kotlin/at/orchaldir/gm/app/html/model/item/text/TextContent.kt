@@ -94,6 +94,8 @@ private fun HtmlBlockTag.showStyle(
         field("Is Justified?", style.isJustified)
         fieldFactor("Margin", style.margin)
         showInitials(call, state, style.initials)
+        field("Min Paragraph Length", style.minParagraphLength)
+        field("Max Paragraph Length", style.maxParagraphLength)
     }
 }
 
@@ -193,6 +195,24 @@ private fun HtmlBlockTag.editStyle(
             true
         )
         editInitials(state, style.initials, param)
+        selectInt(
+            "Min Paragraph Length",
+            style.minParagraphLength,
+            1,
+            1000,
+            1,
+            combine(param, MIN),
+            true,
+        )
+        selectInt(
+            "Max Paragraph Length",
+            style.maxParagraphLength,
+            style.minParagraphLength,
+            1000,
+            1,
+            combine(param, MAX),
+            true,
+        )
     }
 }
 
@@ -233,4 +253,6 @@ private fun parseContentStyle(parameters: Parameters, param: String) = ContentSt
     parseBool(parameters, combine(param, ALIGNMENT)),
     parseFactor(parameters, combine(param, SIDE), DEFAULT_MARGIN),
     parseInitials(parameters, param),
+    parseInt(parameters, combine(param, MIN), MIN_PARAGRAPH_LENGTH),
+    parseInt(parameters, combine(param, MAX), MAX_PARAGRAPH_LENGTH),
 )

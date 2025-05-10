@@ -28,6 +28,8 @@ value class Orientation private constructor(private val degree: Float) {
     fun toDegree() = degree
     fun toRadians() = Math.toRadians(degree.toDouble()).toFloat()
 
+    fun isZero() = degree == 0.0f
+
     fun normalizeZeroToTwoPi() = Orientation(
         if (degree < 0.0f) {
             val n = ceil(degree.absoluteValue / 360.0f)

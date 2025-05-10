@@ -24,7 +24,7 @@ data class TextRenderConfig(
     val bossesRadius: SizeConfig<Factor>,
     val sewingRadius: SizeConfig<Factor>,
     val sewingLength: SizeConfig<Factor>,
-    val exampleString: String,
+    val exampleStrings: List<String>,
     val lastPageFillFactor: Factor,
 ) {
 
