@@ -91,7 +91,7 @@ private fun visualizeReptile(state: CharacterRenderState, snout: Snout) {
     val noseWidth = state.aabb.convertHeight(fromPercentage(5))
     val noseHeight = noseWidth / 2.0f
     val (left, right) = state.aabb.getMirroredPoints(fromPercentage(20), fromPercentage(60))
-    val orientation = Orientation.fromDegree(45.0f)
+    val orientation = Orientation.fromDegrees(45.0f)
     val renderer = state.renderer.getLayer()
 
     visualizeMaleMouth(state, Size.Medium)

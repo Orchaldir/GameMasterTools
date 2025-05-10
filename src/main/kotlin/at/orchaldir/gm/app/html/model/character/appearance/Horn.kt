@@ -137,7 +137,7 @@ private fun HtmlBlockTag.editHornShape(
 private fun HtmlBlockTag.selectOrientation(param: String, offset: Orientation, maxValue: Float) {
     selectFloat(
         "Orientation",
-        offset.toDegree(),
+        offset.toDegrees(),
         -maxValue,
         maxValue,
         1.0f,

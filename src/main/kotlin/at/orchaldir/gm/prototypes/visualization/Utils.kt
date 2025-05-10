@@ -66,7 +66,7 @@ fun <C, R> renderTable(
     val verticalOptions = RenderStringOptions(Color.Black.toRender(), textSize, horizontalAlignment = End)
     val columnTextOffset = Point2d(renderSize.width, halfTextSize)
     val columnOrientation = Orientation.zero()
-    val rowOrientation = Orientation.fromDegree(270.0f)
+    val rowOrientation = Orientation.fromDegrees(270.0f)
     val layer = builder.getLayer(TEXT_LAYER)
 
     rows.forEach { (rowName, row) ->

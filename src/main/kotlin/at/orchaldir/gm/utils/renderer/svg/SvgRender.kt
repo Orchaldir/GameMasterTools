@@ -321,7 +321,7 @@ class SvgRenderer(
     private fun rotateAroundCenter(center: Point2d, orientation: Orientation) =
         formatAttributes(
             "rotate(%.3f,%.3f,%.3f)",
-            orientation.toDegree(),
+            orientation.toDegrees(),
             center.x,
             center.y,
         )

@@ -6,36 +6,36 @@ import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 
-val ZERO_ORIENTATION = Orientation.fromDegree(0)
-val QUARTER_CIRCLE = Orientation.fromDegree(90)
-val ONE_THIRD_CIRCLE = Orientation.fromDegree(120)
-val HALF_CIRCLE = Orientation.fromDegree(180)
-val TWO_THIRD_CIRCLE = Orientation.fromDegree(240)
-val FULL_CIRCLE = Orientation.fromDegree(360)
+val ZERO_ORIENTATION = Orientation.fromDegrees(0)
+val QUARTER_CIRCLE = Orientation.fromDegrees(90)
+val ONE_THIRD_CIRCLE = Orientation.fromDegrees(120)
+val HALF_CIRCLE = Orientation.fromDegrees(180)
+val TWO_THIRD_CIRCLE = Orientation.fromDegrees(240)
+val FULL_CIRCLE = Orientation.fromDegrees(360)
 
 @JvmInline
 @Serializable
-value class Orientation private constructor(private val millidegree: Long) {
+value class Orientation private constructor(private val millidegrees: Long) {
 
     companion object {
-        fun fromDegree(degree: Float) = Orientation(convertFromDegrees(degree))
-        fun fromDegree(degree: Long) = Orientation(convertFromDegrees(degree))
+        fun fromDegrees(degrees: Float) = Orientation(convertFromDegrees(degrees))
+        fun fromDegrees(degrees: Long) = Orientation(convertFromDegrees(degrees))
 
-        fun fromRadians(radians: Float) = fromDegree(Math.toDegrees(radians.toDouble()).toFloat())
+        fun fromRadians(radians: Float) = fromDegrees(Math.toDegrees(radians.toDouble()).toFloat())
 
         fun zero() = ZERO_ORIENTATION
     }
 
-    fun value() = millidegree
+    fun value() = millidegrees
 
-    fun toDegree() = convertToDegrees(millidegree)
-    fun toRadians() = Math.toRadians(toDegree().toDouble()).toFloat()
+    fun toDegrees() = convertToDegrees(millidegrees)
+    fun toRadians() = Math.toRadians(toDegrees().toDouble()).toFloat()
 
-    fun isZero() = millidegree == 0L
+    fun isZero() = millidegrees == 0L
 
     fun normalizeZeroToTwoPi(): Orientation {
-        val degree = toDegree()
-        return fromDegree(
+        val degree = toDegrees()
+        return fromDegrees(
             if (degree < 0.0f) {
                 val n = ceil(degree.absoluteValue / 360.0f)
                 degree + 360.0f * n
@@ -48,16 +48,16 @@ value class Orientation private constructor(private val millidegree: Long) {
     fun cos() = cos(toRadians())
     fun sin() = sin(toRadians())
 
-    operator fun unaryMinus() = Orientation(-millidegree)
+    operator fun unaryMinus() = Orientation(-millidegrees)
 
-    operator fun plus(other: Orientation) = Orientation(millidegree + other.millidegree)
-    operator fun minus(other: Orientation) = Orientation(millidegree - other.millidegree)
-    operator fun times(factor: Float) = Orientation((millidegree * factor).toLong())
-    operator fun div(factor: Int) = Orientation(millidegree / factor)
-    operator fun div(factor: Float) = Orientation((millidegree / factor).toLong())
+    operator fun plus(other: Orientation) = Orientation(millidegrees + other.millidegrees)
+    operator fun minus(other: Orientation) = Orientation(millidegrees - other.millidegrees)
+    operator fun times(factor: Float) = Orientation((millidegrees * factor).toLong())
+    operator fun div(factor: Int) = Orientation(millidegrees / factor)
+    operator fun div(factor: Float) = Orientation((millidegrees / factor).toLong())
 }
 
 fun convertFromDegrees(degrees: Long) = downThreeSteps(degrees)
 fun convertFromDegrees(degrees: Float) = downThreeSteps(degrees)
 
-fun convertToDegrees(millidegree: Long) = upThreeSteps(millidegree)
+fun convertToDegrees(millidegrees: Long) = upThreeSteps(millidegrees)

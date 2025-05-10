@@ -92,7 +92,7 @@ private fun <T> parseRarityMap(
 //
 
 fun parseOrientation(parameters: Parameters, param: String, default: Orientation = Orientation.zero()) =
-    parameters[param]?.toFloat()?.let { Orientation.fromDegree(it) } ?: default
+    parameters[param]?.toFloat()?.let { Orientation.fromDegrees(it) } ?: default
 
 fun <ID : Id<ID>> parseElements(parameters: Parameters, param: String, parseId: (String) -> ID) =
     parameters.getAll(param)

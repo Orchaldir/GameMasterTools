@@ -9,24 +9,24 @@ import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegree
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
-    val mouflon = CurvedHorn(fromDegree(180.0f))
-    val waterBuffalo = CurvedHorn(fromDegree(-120.0f))
+    val mouflon = CurvedHorn(fromDegrees(180.0f))
+    val waterBuffalo = CurvedHorn(fromDegrees(-120.0f))
     val wave = SpiralHorn(4, fromPercentage(10))
 
     HornPosition.entries.forEach { position ->
         val horns = mutableListOf<Appearance>()
 
-        horns.add(createTwoHorns(position, fromDegree(0.0f), StraightHorn))
-        horns.add(createTwoHorns(position, fromDegree(10.0f), StraightHorn))
-        horns.add(createTwoHorns(position, fromDegree(-10.0f), StraightHorn))
-        horns.add(createTwoHorns(position, fromDegree(-40.0f), mouflon))
-        horns.add(createTwoHorns(position, fromDegree(0.0f), waterBuffalo))
-        horns.add(createTwoHorns(position, fromDegree(0.0f), wave))
+        horns.add(createTwoHorns(position, fromDegrees(0.0f), StraightHorn))
+        horns.add(createTwoHorns(position, fromDegrees(10.0f), StraightHorn))
+        horns.add(createTwoHorns(position, fromDegrees(-10.0f), StraightHorn))
+        horns.add(createTwoHorns(position, fromDegrees(-40.0f), mouflon))
+        horns.add(createTwoHorns(position, fromDegrees(0.0f), waterBuffalo))
+        horns.add(createTwoHorns(position, fromDegrees(0.0f), wave))
 
         appearances.add(horns)
     }
