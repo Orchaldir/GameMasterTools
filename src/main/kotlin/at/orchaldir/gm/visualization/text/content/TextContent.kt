@@ -39,12 +39,12 @@ fun visualizeTextContent(
         return
     }
 
-    val inner = AABB.fromCenter(state.aabb.getCenter(), state.config.calculateSize(format))
+    val inner = AABB.fromCenter(state.aabb.getCenter(), state.config.calculateOpenSize(format))
     val innerState = state.copy(aabb = inner)
 
     when (format) {
         is Book -> visualizeBookPage(innerState, format, content, page)
-        is Scroll -> doNothing()
+        is Scroll -> visualizeScrollContent(innerState, format, content, listOf(page))
         UndefinedTextFormat -> doNothing()
     }
 }

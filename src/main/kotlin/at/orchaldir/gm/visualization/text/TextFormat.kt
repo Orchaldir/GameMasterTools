@@ -15,13 +15,13 @@ fun visualizeText(
     state: State,
     config: TextRenderConfig,
     text: Text,
-) = visualizeTextFormat(state, config, text, config.calculatePaddedSize(text.format))
+) = visualizeTextFormat(state, config, text, config.calculatePaddedClosedSize(text.format))
 
 fun visualizeTextFormat(
     state: State,
     config: TextRenderConfig,
     format: TextFormat,
-) = visualizeTextFormat(state, config, format, config.calculatePaddedSize(format))
+) = visualizeTextFormat(state, config, format, config.calculatePaddedClosedSize(format))
 
 fun visualizeTextFormat(
     state: State,
@@ -58,7 +58,7 @@ fun visualizeTextFormat(
     state: TextRenderState,
     format: TextFormat,
 ) {
-    val inner = AABB.fromCenter(state.aabb.getCenter(), state.config.calculateSize(format))
+    val inner = AABB.fromCenter(state.aabb.getCenter(), state.config.calculateClosedSize(format))
     val innerState = state.copy(aabb = inner)
 
     state.renderer.getLayer().renderRectangle(state.aabb, BorderOnly(state.config.line))

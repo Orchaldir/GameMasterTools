@@ -28,13 +28,19 @@ data class TextRenderConfig(
     val lastPageFillFactor: Factor,
 ) {
 
-    fun calculatePaddedSize(format: TextFormat) = addPadding(calculateSize(format))
+    fun calculatePaddedClosedSize(format: TextFormat) = addPadding(calculateClosedSize(format))
 
     fun addPadding(size: Size2d) = size + padding * 2
 
-    fun calculateSize(format: TextFormat) = when (format) {
+    fun calculateClosedSize(format: TextFormat) = when (format) {
         is Book -> format.size
         is Scroll -> format.calculateClosedSize()
+        UndefinedTextFormat -> square(padding * 2)
+    }
+
+    fun calculateOpenSize(format: TextFormat) = when (format) {
+        is Book -> format.size
+        is Scroll -> format.calculateOpenSize(1)
         UndefinedTextFormat -> square(padding * 2)
     }
 

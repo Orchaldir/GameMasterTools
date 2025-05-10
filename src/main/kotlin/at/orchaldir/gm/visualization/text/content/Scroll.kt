@@ -74,7 +74,7 @@ private fun visualizeScrollContent(
     return builder.finish()
 }
 
-private fun visualizeScrollContent(
+fun visualizeScrollContent(
     state: TextRenderState,
     scroll: Scroll,
     content: TextContent,

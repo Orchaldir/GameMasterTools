@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
@@ -55,7 +54,7 @@ fun visualizeBookContent(
     pagesIndices: List<Int>,
 ): Svg {
     val pages = pagesIndices.size
-    val pageSize = config.calculateSize(text.format)
+    val pageSize = config.calculateClosedSize(text.format)
     val contentSize = Size2d(pageSize.width * pages, pageSize.height)
     val paddedPageSize = config.addPadding(pageSize)
     val paddedContentSize = config.addPadding(contentSize)

@@ -217,7 +217,7 @@ private fun HTML.showGallery(
     val texts = state.sortTexts()
         .filter { it.format !is UndefinedTextFormat }
     val maxHeight = texts
-        .map { TEXT_CONFIG.calculateSize(it.format).height }
+        .map { TEXT_CONFIG.calculateClosedSize(it.format).height }
         .maxBy { it.value() }
     val maxSize = Size2d.square(maxHeight)
     val size = TEXT_CONFIG.addPadding(maxSize)
