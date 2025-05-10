@@ -13,7 +13,7 @@ import at.orchaldir.gm.visualization.text.TextRenderState
 import kotlin.math.min
 import kotlin.random.Random
 
-fun visualizeBookPage(
+fun visualizePage(
     state: TextRenderState,
     book: Book,
     content: TextContent,

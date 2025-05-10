@@ -33,5 +33,5 @@ fun main() {
 
     val svg = visualizeTextContent(State(), TEXT_CONFIG, text)
 
-    File("book-abstract-text-pages.svg").writeText(svg.export())
+    File("book-abstract-text.svg").writeText(svg.export())
 }
