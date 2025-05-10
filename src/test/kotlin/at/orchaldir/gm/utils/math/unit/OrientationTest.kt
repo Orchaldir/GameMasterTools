@@ -2,9 +2,7 @@ package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromRadians
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
