@@ -39,33 +39,14 @@ fun visualizeTextContent(
     return builder.finish()
 }
 
-fun visualizeTextContent(
+fun visualizeAllPagesOfText(
     state: State,
     config: TextRenderConfig,
     text: Text,
-): Svg {
-    val pages = text.content.pages()
-    val pageSize = config.calculateSize(text.format)
-    val contentSize = Size2d(pageSize.width * pages, pageSize.height)
-    val paddedPageSize = config.addPadding(pageSize)
-    val paddedContentSize = config.addPadding(contentSize)
-    val builder = SvgBuilder(paddedContentSize)
-    val data = resolveTextData(state, text)
-    var start = Point2d()
-    val step = Point2d.xAxis(pageSize.width)
-
-    builder.getLayer().renderRectangle(AABB(paddedContentSize), BorderOnly(config.line))
-
-    repeat(pages) { page ->
-        val aabb = AABB(start, paddedPageSize)
-        val renderState = TextRenderState(state, aabb, config, builder, data)
-
-        visualizeTextContent(renderState, text.format, text.content, page)
-
-        start += step
-    }
-
-    return builder.finish()
+) = when (text.format) {
+    UndefinedTextFormat -> null
+    is Book -> visualizeAllPagesOfBook(state, config, text, text.format)
+    is Scroll -> visualizeAllPagesOfScroll(state, config, text, text.format)
 }
 
 fun visualizeTextContent(

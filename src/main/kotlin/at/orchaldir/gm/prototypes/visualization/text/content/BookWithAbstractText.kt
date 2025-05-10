@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.visualization.text.content.visualizeTextContent
+import at.orchaldir.gm.visualization.text.content.visualizeAllPagesOfText
 import java.io.File
 
 private val ID = TextId(0)
@@ -31,7 +31,7 @@ fun main() {
         content = content,
     )
 
-    val svg = visualizeTextContent(State(), TEXT_CONFIG, text)
+    val svg = visualizeAllPagesOfText(State(), TEXT_CONFIG, text)!!
 
     File("book-abstract-text.svg").writeText(svg.export())
 }
