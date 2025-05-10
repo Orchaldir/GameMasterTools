@@ -15,7 +15,7 @@ import kotlin.random.Random
 fun visualizeAbstractText(
     state: TextRenderState,
     content: AbstractText,
-    page: Int,
+    pageIndex: Int,
 ) {
     val margin = state.aabb.convertMinSide(content.style.margin)
     val innerAABB = state.aabb.shrink(margin)
@@ -24,7 +24,7 @@ fun visualizeAbstractText(
     val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
     val generator = RandomNumberGenerator(Random(state.data.id))
-    val maxPage = min(content.content.pages, page + 2)
+    val maxPage = min(content.content.pages, pageIndex + 2)
 
     visualizeAbstractContent(
         state,
@@ -38,15 +38,15 @@ fun visualizeAbstractText(
 
     builder
         .build()
-        .render(state.renderer.getLayer(), page)
+        .render(state.renderer.getLayer(), pageIndex)
 
-    visualizePageNumbering(state, margin, content.style, content.pageNumbering, page)
+    visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
 }
 
 fun visualizeAbstractChapters(
     state: TextRenderState,
     content: AbstractChapters,
-    page: Int,
+    pageIndex: Int,
 ) {
     val margin = state.aabb.convertMinSide(content.style.margin)
     val innerAABB = state.aabb.shrink(margin)
@@ -60,7 +60,7 @@ fun visualizeAbstractChapters(
     visualizeTableOfContents(state, builder, content, titleOptions, mainOptions)
 
     content.chapters.forEach { chapter ->
-        val maxPage = min(builder.count() + chapter.content.pages, page + 2)
+        val maxPage = min(builder.count() + chapter.content.pages, pageIndex + 2)
 
         builder
             .addPageBreak()
@@ -80,9 +80,9 @@ fun visualizeAbstractChapters(
 
     builder
         .build()
-        .render(state.renderer.getLayer(), page)
+        .render(state.renderer.getLayer(), pageIndex)
 
-    visualizePageNumbering(state, margin, content.style, content.pageNumbering, page)
+    visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
 }
 
 private fun visualizeAbstractContent(

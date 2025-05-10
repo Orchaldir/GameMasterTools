@@ -14,8 +14,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
-import at.orchaldir.gm.visualization.text.content.visualizeScrollContent
+import at.orchaldir.gm.visualization.text.content.visualizeAllPagesOfScroll
 import java.io.File
 
 private val ID = TextId(0)
@@ -41,7 +40,7 @@ fun main() {
         content = chapters,
     )
 
-    val svg = visualizeScrollContent(State(), TEXT_CONFIG, text, scroll)
+    val svg = visualizeAllPagesOfScroll(State(), TEXT_CONFIG, text, scroll)
 
     File("scroll-abstract-chapters.svg").writeText(svg.export())
 }

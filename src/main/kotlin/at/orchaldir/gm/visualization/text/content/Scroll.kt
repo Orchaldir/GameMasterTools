@@ -19,17 +19,44 @@ import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.text.resolveTextData
 import at.orchaldir.gm.visualization.text.scroll.visualizeOpenScroll
 
-fun visualizeScrollContent(
+fun visualizeAllPagesOfScroll(
     state: State,
     config: TextRenderConfig,
     text: Text,
     scroll: Scroll,
+) = visualizeScrollContent(
+    state,
+    config,
+    text,
+    scroll,
+    (0..<text.content.pages()).toList(),
+)
+
+fun visualizePageOfScroll(
+    state: State,
+    config: TextRenderConfig,
+    text: Text,
+    scroll: Scroll,
+    pageIndex: Int,
+) = visualizeScrollContent(
+    state,
+    config,
+    text,
+    scroll,
+    listOf(pageIndex),
+)
+
+private fun visualizeScrollContent(
+    state: State,
+    config: TextRenderConfig,
+    text: Text,
+    scroll: Scroll,
+    pagesIndices: List<Int>,
 ): Svg {
-    val pages = text.content.pages()
+    val pages = pagesIndices.size
     val pageSize = scroll.calculatePageSize()
     val scrollSize = scroll.calculateSize()
     val contentSize = Size2d(scrollSize.width + pageSize.width * pages, scrollSize.height)
-    val paddedPageSize = config.addPadding(pageSize)
     val paddedContentSize = config.addPadding(contentSize)
     val builder = SvgBuilder(paddedContentSize)
     val data = resolveTextData(state, text)
@@ -52,13 +79,13 @@ fun visualizeScrollContent(
     var start = pagesStart
     val step = Point2d.xAxis(pageSize.width)
 
-    repeat(pages) { page ->
+    pagesIndices.forEach { pageIndex ->
         val aabb = AABB(start, pageSize)
         val renderState = TextRenderState(state, aabb, config, builder, data)
 
         when (text.content) {
-            is AbstractText -> visualizeAbstractText(renderState, text.content, page)
-            is AbstractChapters -> visualizeAbstractChapters(renderState, text.content, page)
+            is AbstractText -> visualizeAbstractText(renderState, text.content, pageIndex)
+            is AbstractChapters -> visualizeAbstractChapters(renderState, text.content, pageIndex)
             UndefinedTextContent -> doNothing()
         }
 

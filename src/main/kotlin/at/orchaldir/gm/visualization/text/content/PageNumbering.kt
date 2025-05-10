@@ -16,7 +16,7 @@ fun visualizePageNumbering(
     margin: Distance,
     style: ContentStyle,
     pageNumbering: PageNumbering,
-    page: Int,
+    pageIndex: Int,
 ) = when (pageNumbering) {
     NoPageNumbering -> doNothing()
     is PageNumberingReusingFont -> visualizePageNumbering(
@@ -24,7 +24,7 @@ fun visualizePageNumbering(
         margin,
         style.main,
         pageNumbering.alignment,
-        page,
+        pageIndex,
     )
 
     is SimplePageNumbering -> visualizePageNumbering(
@@ -32,7 +32,7 @@ fun visualizePageNumbering(
         margin,
         pageNumbering.fontOption,
         pageNumbering.alignment,
-        page,
+        pageIndex,
     )
 }
 
@@ -41,16 +41,17 @@ private fun visualizePageNumbering(
     margin: Distance,
     fontOption: FontOption,
     horizontalAlignment: HorizontalAlignment,
-    page: Int,
+    pageIndex: Int,
 ) {
     val options = fontOption.convert(state.state, VerticalAlignment.Center, horizontalAlignment)
     val start = state.aabb.getPoint(START, END)
         .addWidth(margin)
         .minusHeight(margin / 2.0f)
+    val page = pageIndex + 1
 
     state.renderer.getLayer()
         .renderString(
-            (page + 1).toString(),
+            page.toString(),
             start,
             state.aabb.size.width - margin * 2.0f,
             options
