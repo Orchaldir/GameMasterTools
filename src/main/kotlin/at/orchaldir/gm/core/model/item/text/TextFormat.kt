@@ -5,10 +5,15 @@ import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.book.BookBinding
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormat
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -60,7 +65,7 @@ data class Scroll(
     val main: ColorItemPart = ColorItemPart(),
 ) : TextFormat() {
 
-    fun calculateWidthOfOneRod(): Distance = format.calculateWidthOfOneRod(rollDiameter)
+    fun calculateWidthOfOneRod() = format.calculateWidthOfOneRod(rollDiameter)
 
     fun calculatePageSize() = Size2d(pageWidth, rollLength)
     fun calculateRollSize() = Size2d(rollDiameter, rollLength)
@@ -70,6 +75,12 @@ data class Scroll(
         val fullWidth = format.calculateWidth(rollDiameter)
 
         return Size2d(fullWidth, fullLength)
+    }
+
+    fun calculateHandleLength() = when (format) {
+        ScrollWithoutRod -> ZERO_DISTANCE
+        is ScrollWithOneRod -> format.handle.calculateHandleLength()
+        is ScrollWithTwoRods -> format.handle.calculateHandleLength()
     }
 
     override fun parts() = format.parts() + main

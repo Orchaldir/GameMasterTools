@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
@@ -10,6 +11,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.text.TextRenderConfig
@@ -38,6 +40,14 @@ fun visualizeScrollContent(
     builder.getLayer().renderRectangle(AABB(paddedContentSize), BorderOnly(config.line))
 
     visualizeOpenScroll(scrollRenderState, scroll)
+
+    val color = scroll.main.getColor(state)
+    val options = FillAndBorder(color.toRender(), config.line)
+    val pagesStart = scrollAabb.start + Point2d(scroll.calculateWidthOfOneRod(), scroll.calculateHandleLength())
+    val pagesSize = pageSize.replaceWidth(pageSize.width * pages)
+    val pagesAabb = AABB(pagesStart, pagesSize)
+
+    builder.getLayer().renderRectangle(pagesAabb, options)
 
     var start = Point2d()
     val step = Point2d.xAxis(pageSize.width)
