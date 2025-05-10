@@ -146,13 +146,9 @@ private fun createParagraph(
     generator: RandomNumberGenerator,
     style: ContentStyle,
 ): String {
-    var paragraph = ""
     val sentences = generator.getNumber(style.minParagraphLength, style.maxParagraphLength + 1)
 
-    repeat(sentences) {
-        paragraph += generator.select(state.config.exampleStrings)
-    }
-
-    return paragraph
+    return (0..<sentences)
+        .joinToString(" ") { generator.select(state.config.exampleStrings) }
 }
 
