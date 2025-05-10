@@ -208,6 +208,14 @@ fun FORM.editTextFormat(
             is Scroll -> {
                 selectDistance("Roll Length", LENGTH, format.rollLength, min, max, prefix, true)
                 selectDistance("Roll Diameter", DIAMETER, format.rollDiameter, min, max, prefix, true)
+                selectFactor(
+                    "Page Width",
+                    WIDTH,
+                    format.pageWidth,
+                    MIN_PAGE_WIDTH_FACTOR,
+                    MAX_PAGE_WIDTH_FACTOR,
+                    update = true,
+                )
                 editColorItemPart(state, format.main, SCROLL)
                 editScrollFormat(state, format.format)
             }
@@ -405,6 +413,7 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseScrollFormat(parameters),
         parseDistance(parameters, LENGTH, prefix, 200),
         parseDistance(parameters, DIAMETER, prefix, 50),
+        parseFactor(parameters, WIDTH, DEFAULT_PAGE_WIDTH_FACTOR),
         parseColorItemPart(parameters, SCROLL),
     )
 

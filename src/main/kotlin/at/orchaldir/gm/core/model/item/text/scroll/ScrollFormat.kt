@@ -31,6 +31,12 @@ sealed class ScrollFormat : MadeFromParts {
         is ScrollWithOneRod -> handle.calculateDiameter(rollDiameter)
         is ScrollWithTwoRods -> handle.calculateDiameter(rollDiameter) * 2
     }
+
+    fun calculateWidthOfOneRod(rollDiameter: Distance) = when (this) {
+        ScrollWithoutRod -> rollDiameter
+        is ScrollWithOneRod -> handle.calculateDiameter(rollDiameter)
+        is ScrollWithTwoRods -> handle.calculateDiameter(rollDiameter)
+    }
 }
 
 @Serializable

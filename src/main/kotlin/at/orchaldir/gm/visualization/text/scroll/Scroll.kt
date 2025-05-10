@@ -17,6 +17,35 @@ fun visualizeScroll(
     }
 }
 
+fun visualizeOpenScroll(
+    state: TextRenderState,
+    scroll: Scroll,
+) {
+    when (scroll.format) {
+        is ScrollWithoutRod -> visualizeRoll(left(state, scroll), scroll)
+        is ScrollWithOneRod -> visualizeOneRod(left(state, scroll), scroll, scroll.format)
+        is ScrollWithTwoRods -> {
+            visualizeRod(left(state, scroll), scroll, scroll.format.handle)
+            visualizeRod(right(state, scroll), scroll, scroll.format.handle)
+        }
+    }
+}
+
+private fun left(
+    state: TextRenderState,
+    scroll: Scroll,
+) = state.copy(aabb = state.aabb.replaceWidth(scroll.calculateWidthOfOneRod()))
+
+private fun right(
+    state: TextRenderState,
+    scroll: Scroll,
+): TextRenderState {
+    val size = state.aabb.size.replaceWidth(scroll.calculateWidthOfOneRod())
+    val start = state.aabb.getPoint(FULL, START).minusWidth(size.width)
+
+    return state.copy(aabb = AABB(start, size))
+}
+
 private fun visualizeRoll(
     state: TextRenderState,
     scroll: Scroll,
@@ -35,6 +64,18 @@ private fun visualizeOneRod(
 }
 
 private fun visualizeTwoRods(
+    state: TextRenderState,
+    scroll: Scroll,
+    format: ScrollWithTwoRods,
+) {
+    val first = state.aabb.splitHorizontal(START, HALF)
+    val second = state.aabb.splitHorizontal(HALF, END)
+
+    visualizeRod(state.copy(aabb = first), scroll, format.handle)
+    visualizeRod(state.copy(aabb = second), scroll, format.handle)
+}
+
+private fun visualizeTwoOpenRods(
     state: TextRenderState,
     scroll: Scroll,
     format: ScrollWithTwoRods,

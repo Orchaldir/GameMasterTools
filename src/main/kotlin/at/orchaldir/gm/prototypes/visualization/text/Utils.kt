@@ -17,7 +17,7 @@ fun renderTextFormatTable(
     config: TextRenderConfig,
     texts: List<List<TextFormat>>,
 ) {
-    val size = config.calculatePaddedSize(texts[0][0])
+    val size = config.calculatePaddedClosedSize(texts[0][0])
 
     renderTable(filename, size, texts) { aabb, renderer, format ->
         val state = TextRenderState(state, aabb, config, renderer)
@@ -32,7 +32,7 @@ fun renderResolvedTextTable(
     config: TextRenderConfig,
     texts: List<List<Pair<TextFormat, ResolvedTextData>>>,
 ) {
-    val size = config.calculatePaddedSize(texts[0][0].first)
+    val size = config.calculatePaddedClosedSize(texts[0][0].first)
 
     renderTable(filename, size, texts) { aabb, renderer, (format, data) ->
         val state = TextRenderState(state, aabb, config, renderer, data)
@@ -69,7 +69,7 @@ fun <C, R> renderTextContentTable(
     page: Int = 0,
     create: (C, R) -> TextContent,
 ) {
-    val size = config.calculatePaddedSize(format)
+    val size = config.calculatePaddedClosedSize(format)
 
     renderTable(filename, size, rows, columns, false) { aabb, renderer, _, column, row ->
         val content = create(column, row)

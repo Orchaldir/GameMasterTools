@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.visualization.text.content.visualizeTextContent
+import at.orchaldir.gm.visualization.text.content.visualizePageOfContent
 import at.orchaldir.gm.visualization.text.visualizeText
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
 import io.ktor.http.*
@@ -217,7 +217,7 @@ private fun HTML.showGallery(
     val texts = state.sortTexts()
         .filter { it.format !is UndefinedTextFormat }
     val maxHeight = texts
-        .map { TEXT_CONFIG.calculateSize(it.format).height }
+        .map { TEXT_CONFIG.calculateClosedSize(it.format).height }
         .maxBy { it.value() }
     val maxSize = Size2d.square(maxHeight)
     val size = TEXT_CONFIG.addPadding(maxSize)
@@ -285,12 +285,12 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
     page: Int,
     showActions: Boolean = false,
 ) {
-    if (text.format !is UndefinedTextFormat) {
+    if (text.format is Book || (text.format is Scroll && text.content is UndefinedTextContent)) {
         val frontSvg = visualizeText(state, TEXT_CONFIG, text)
         svg(frontSvg, width)
     }
     if (text.content !is UndefinedTextContent) {
-        val contentSvg = visualizeTextContent(state, TEXT_CONFIG, text, page)
+        val contentSvg = visualizePageOfContent(state, TEXT_CONFIG, text, page)!!
         svg(contentSvg, width)
 
         if (showActions) {
@@ -298,15 +298,15 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
 
             field("Page", "${page + 1} of $pages")
 
-            if (page > 0) {
-                val firstPageLink = call.application.href(TextRoutes.Details(text.id, 0))
-                val previousPageLink = call.application.href(TextRoutes.Details(text.id, page - 1))
-                action(firstPageLink, "First Page")
-                action(previousPageLink, "Previous Page")
-            }
             if (page < pages) {
                 val nextPageLink = call.application.href(TextRoutes.Details(text.id, page + 1))
                 action(nextPageLink, "Next Page")
+            }
+            if (page > 0) {
+                val firstPageLink = call.application.href(TextRoutes.Details(text.id, 0))
+                val previousPageLink = call.application.href(TextRoutes.Details(text.id, page - 1))
+                action(previousPageLink, "Previous Page")
+                action(firstPageLink, "First Page")
             }
         }
     }
