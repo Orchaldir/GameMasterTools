@@ -82,6 +82,13 @@ data class Scroll(
         return Size2d(fullWidth, fullLength)
     }
 
+    fun calculateOpenSize(pages: Int): Size2d {
+        val pageSize = calculatePageSize()
+        val scrollSize = calculateClosedSize()
+
+        return Size2d(scrollSize.width + pageSize.width * pages, scrollSize.height)
+    }
+
     override fun parts() = format.parts() + main
 
 }

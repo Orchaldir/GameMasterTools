@@ -55,8 +55,7 @@ private fun visualizeScrollContent(
 ): Svg {
     val pages = pagesIndices.size
     val pageSize = scroll.calculatePageSize()
-    val scrollSize = scroll.calculateClosedSize()
-    val contentSize = Size2d(scrollSize.width + pageSize.width * pages, scrollSize.height)
+    val contentSize = scroll.calculateOpenSize(pages)
     val paddedContentSize = config.addPadding(contentSize)
     val builder = SvgBuilder(paddedContentSize)
     val data = resolveTextData(state, text)
