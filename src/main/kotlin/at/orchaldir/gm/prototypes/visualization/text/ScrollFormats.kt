@@ -40,7 +40,7 @@ fun main() {
             },
             rollLength,
             rollDiameter,
-            ColorItemPart(color),
+            main = ColorItemPart(color),
         )
     }
 }

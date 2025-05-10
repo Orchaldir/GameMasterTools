@@ -405,6 +405,7 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseScrollFormat(parameters),
         parseDistance(parameters, LENGTH, prefix, 200),
         parseDistance(parameters, DIAMETER, prefix, 50),
+        parseDistance(parameters, WIDTH, prefix, 50),
         parseColorItemPart(parameters, SCROLL),
     )
 
