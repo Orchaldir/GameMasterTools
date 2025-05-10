@@ -8,7 +8,11 @@ import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormat
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -16,6 +20,9 @@ import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_PAGE_WIDTH_FACTOR = fromPercentage(10)
+val DEFAULT_PAGE_WIDTH_FACTOR = HALF
+val MAX_PAGE_WIDTH_FACTOR = fromPercentage(1000)
 const val MIN_PAGES = 10
 const val MIN_CONTENT_PAGES = 1
 
@@ -60,9 +67,13 @@ data class Scroll(
     val format: ScrollFormat,
     val rollLength: Distance = fromCentimeters(30),
     val rollDiameter: Distance = fromCentimeters(5),
-    val pageWidth: Distance = rollLength / 2.0f,
+    val pageWidth: Factor = DEFAULT_PAGE_WIDTH_FACTOR,
     val main: ColorItemPart = ColorItemPart(),
 ) : TextFormat() {
+
+    init {
+        checkFactor(pageWidth, "page width", MIN_PAGE_WIDTH_FACTOR, MAX_PAGE_WIDTH_FACTOR)
+    }
 
     fun calculateWidthOfOneRod() = format.calculateWidthOfOneRod(rollDiameter)
 
@@ -71,8 +82,9 @@ data class Scroll(
         is ScrollWithOneRod -> format.handle.calculateHandleLength()
         is ScrollWithTwoRods -> format.handle.calculateHandleLength()
     }
+    fun calculatePageWidth() = rollLength * pageWidth
 
-    fun calculatePageSize() = Size2d(pageWidth, rollLength)
+    fun calculatePageSize() = Size2d(calculatePageWidth(), rollLength)
     fun calculateRollSize() = Size2d(rollDiameter, rollLength)
 
     fun calculateClosedSize(): Size2d {
