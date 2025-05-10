@@ -5,11 +5,11 @@ import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -54,42 +54,59 @@ private fun visualizeScrollContent(
     pagesIndices: List<Int>,
 ): Svg {
     val pages = pagesIndices.size
-    val pageSize = scroll.calculatePageSize()
     val contentSize = scroll.calculateOpenSize(pages)
     val paddedContentSize = config.addPadding(contentSize)
     val builder = SvgBuilder(paddedContentSize)
     val data = resolveTextData(state, text)
     val paddedAabb = AABB(paddedContentSize)
     val scrollAabb = AABB.fromCenter(paddedAabb.getCenter(), contentSize)
-    val scrollRenderState = TextRenderState(state, scrollAabb, config, builder, data)
+    val renderState = TextRenderState(state, scrollAabb, config, builder, data)
 
     builder.getLayer().renderRectangle(AABB(paddedContentSize), BorderOnly(config.line))
 
-    visualizeOpenScroll(scrollRenderState, scroll)
+    visualizeScrollContent(
+        renderState,
+        scroll,
+        text.content,
+        pagesIndices,
+    )
 
-    val pageColor = scroll.main.getColor(state)
-    val pageOptions = FillAndBorder(pageColor.toRender(), config.line)
+    return builder.finish()
+}
+
+private fun visualizeScrollContent(
+    state: TextRenderState,
+    scroll: Scroll,
+    content: TextContent,
+    pagesIndices: List<Int>,
+) {
+    val pages = pagesIndices.size
+    val pageSize = scroll.calculatePageSize()
+    val scrollAabb = state.aabb
+
+    visualizeOpenScroll(state, scroll)
+
+    val pageColor = scroll.main.getColor(state.state)
+    val pageOptions = FillAndBorder(pageColor.toRender(), state.config.line)
     val pagesStart = scrollAabb.start + Point2d(scroll.calculateWidthOfOneRod(), scroll.calculateHandleLength())
     val pagesSize = pageSize.replaceWidth(pageSize.width * pages)
     val pagesAabb = AABB(pagesStart, pagesSize)
 
-    builder.getLayer().renderRectangle(pagesAabb, pageOptions)
+    state.renderer.getLayer().renderRectangle(pagesAabb, pageOptions)
 
     var start = pagesStart
     val step = Point2d.xAxis(pageSize.width)
 
     pagesIndices.forEach { pageIndex ->
-        val aabb = AABB(start, pageSize)
-        val renderState = TextRenderState(state, aabb, config, builder, data)
+        val pageAabb = AABB(start, pageSize)
+        val renderState = state.copy(aabb = pageAabb)
 
-        when (text.content) {
-            is AbstractText -> visualizeAbstractText(renderState, text.content, pageIndex)
-            is AbstractChapters -> visualizeAbstractChapters(renderState, text.content, pageIndex)
+        when (content) {
+            is AbstractText -> visualizeAbstractText(renderState, content, pageIndex)
+            is AbstractChapters -> visualizeAbstractChapters(renderState, content, pageIndex)
             UndefinedTextContent -> doNothing()
         }
 
         start += step
     }
-
-    return builder.finish()
 }
