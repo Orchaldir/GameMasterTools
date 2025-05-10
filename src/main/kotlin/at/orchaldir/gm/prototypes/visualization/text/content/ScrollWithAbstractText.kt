@@ -21,7 +21,7 @@ import java.io.File
 private val ID = TextId(0)
 
 fun main() {
-    val font = SolidFont(Distance.fromMillimeters(10), Color.Blue)
+    SolidFont(Distance.fromMillimeters(10), Color.Blue)
     val segment = HandleSegment(fromCentimeters(5), fromCentimeters(2), Color.SaddleBrown)
     val handle = ScrollHandle(segment)
     val scroll = Scroll(

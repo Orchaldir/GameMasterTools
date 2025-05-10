@@ -82,6 +82,7 @@ data class Scroll(
         is ScrollWithOneRod -> format.handle.calculateHandleLength()
         is ScrollWithTwoRods -> format.handle.calculateHandleLength()
     }
+
     fun calculatePageWidth() = rollLength * pageWidth
 
     fun calculatePageSize() = Size2d(calculatePageWidth(), rollLength)

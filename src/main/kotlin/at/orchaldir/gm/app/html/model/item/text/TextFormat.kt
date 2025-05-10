@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
