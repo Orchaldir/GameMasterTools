@@ -60,6 +60,8 @@ data class Scroll(
     val main: ColorItemPart = ColorItemPart(),
 ) : TextFormat() {
 
+    fun calculateWidthOfOneRod(): Distance = format.calculateWidthOfOneRod(rollDiameter)
+
     fun calculatePageSize() = Size2d(pageWidth, rollLength)
     fun calculateRollSize() = Size2d(rollDiameter, rollLength)
 
