@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
@@ -59,8 +60,8 @@ data class Book(
 @SerialName("Scroll")
 data class Scroll(
     val format: ScrollFormat,
-    val rollLength: Distance = fromMeters(1),
-    val rollDiameter: Distance = fromMillimeters(200),
+    val rollLength: Distance = fromCentimeters(30),
+    val rollDiameter: Distance = fromCentimeters(5),
     val pageWidth: Distance = rollLength / 2.0f,
     val main: ColorItemPart = ColorItemPart(),
 ) : TextFormat() {
