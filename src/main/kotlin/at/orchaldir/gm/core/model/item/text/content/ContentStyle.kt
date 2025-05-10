@@ -11,8 +11,8 @@ import kotlinx.serialization.Serializable
 val MIN_MARGIN = Factor.fromPercentage(1)
 val DEFAULT_MARGIN = Factor.fromPercentage(10)
 val MAX_MARGIN = Factor.fromPercentage(20)
-const val MIN_PARAGRAPH_LENGTH = 4
-const val MAX_PARAGRAPH_LENGTH = 10
+const val MIN_PARAGRAPH_LENGTH = 8
+const val MAX_PARAGRAPH_LENGTH = 16
 
 @Serializable
 data class ContentStyle(
