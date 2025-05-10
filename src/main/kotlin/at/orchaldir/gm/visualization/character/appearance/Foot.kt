@@ -2,9 +2,13 @@ package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.ClawedFoot
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.SizeConfig
@@ -38,8 +42,8 @@ fun visualizeFeet(
 ) {
     val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, END)
     val radius = state.aabb.convertHeight(state.config.body.getFootRadius(body))
-    val offset = Orientation.fromDegree(0.0f)
-    val angle = Orientation.fromDegree(180.0f)
+    val offset = Orientation.fromDegrees(0)
+    val angle = Orientation.fromDegrees(180)
     val layer = state.renderer.getLayer(layerIndex)
 
     layer.renderCircleArc(left, radius, offset, angle, options)

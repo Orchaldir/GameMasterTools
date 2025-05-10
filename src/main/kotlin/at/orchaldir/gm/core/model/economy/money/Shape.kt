@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.economy.money
 
-import at.orchaldir.gm.utils.math.FULL_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.FULL_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlin.math.pow
 

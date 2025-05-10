@@ -1,7 +1,11 @@
 package at.orchaldir.gm.utils.renderer
 
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Line2d
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions

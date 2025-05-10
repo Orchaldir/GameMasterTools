@@ -10,13 +10,11 @@ import at.orchaldir.gm.core.model.character.appearance.FeatureColorType.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Cat
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Rat
+import at.orchaldir.gm.core.model.character.appearance.wing.WingsLayout
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
-import at.orchaldir.gm.core.model.race.appearance.FeatureColorOptions
-import at.orchaldir.gm.core.model.race.appearance.HairOptions
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.model.race.appearance.TailOptions
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -60,6 +58,7 @@ class RaceAppearanceTest {
 
     @Nested
     inner class UpdateTest {
+        val state = State(Storage(RaceAppearance(RACE_APPEARANCE_ID_0)))
 
         @Test
         fun `Cannot update unknown id`() {
@@ -70,16 +69,22 @@ class RaceAppearanceTest {
 
         @Test
         fun `No tail options for for a simple tail shape`() {
-            val state = State(Storage(RaceAppearance(RACE_APPEARANCE_ID_0)))
-            val tailOptions = TailOptions(simpleShapes = OneOf(Rat))
-            val action = UpdateRaceAppearance(RaceAppearance(RACE_APPEARANCE_ID_0, tail = tailOptions))
+            val options = TailOptions(simpleShapes = OneOf(Rat))
+            val action = UpdateRaceAppearance(RaceAppearance(RACE_APPEARANCE_ID_0, tail = options))
 
             assertIllegalArgument("No options for Rat tail!") { REDUCER.invoke(state, action) }
         }
 
         @Test
+        fun `Having wings requires wing types`() {
+            val options = WingOptions(layouts = OneOf(WingsLayout.Two))
+            val action = UpdateRaceAppearance(RaceAppearance(RACE_APPEARANCE_ID_0, wing = options))
+
+            assertIllegalArgument("Having wings requires wing types!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Reuse hair color option requires hair`() {
-            val state = State(Storage(RaceAppearance(RACE_APPEARANCE_ID_0)))
             val tailOptions = TailOptions(simpleOptions = mapOf(Cat to FeatureColorOptions(Hair)))
             val action = UpdateRaceAppearance(
                 RaceAppearance(
@@ -94,7 +99,6 @@ class RaceAppearanceTest {
 
         @Test
         fun `Update is valid`() {
-            val state = State(Storage(RaceAppearance(RACE_APPEARANCE_ID_0)))
             val appearance = RaceAppearance(RACE_APPEARANCE_ID_0, NAME)
             val action = UpdateRaceAppearance(appearance)
 

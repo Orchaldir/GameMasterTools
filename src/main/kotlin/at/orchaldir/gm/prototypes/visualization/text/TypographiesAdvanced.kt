@@ -12,10 +12,10 @@ import at.orchaldir.gm.core.model.item.text.book.typography.SimpleStringRenderOp
 import at.orchaldir.gm.core.model.item.text.book.typography.StringRenderOption
 import at.orchaldir.gm.core.model.item.text.book.typography.WrappedStringRenderOption
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import at.orchaldir.gm.visualization.text.ResolvedTextData
 
 private val topAuthor = SimpleStringRenderOption(
@@ -79,7 +79,7 @@ private fun createRow(
             fromMillimeters(100),
             fromMillimeters(150),
             createFont(fromMillimeters(80)),
-            fromDegree(20.0f)
+            fromDegrees(20)
         ),
         bottomAuthor,
         ResolvedTextData("Title"),

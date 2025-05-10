@@ -3,9 +3,9 @@ package at.orchaldir.gm.prototypes.visualization
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -66,7 +66,7 @@ fun <C, R> renderTable(
     val verticalOptions = RenderStringOptions(Color.Black.toRender(), textSize, horizontalAlignment = End)
     val columnTextOffset = Point2d(renderSize.width, halfTextSize)
     val columnOrientation = Orientation.zero()
-    val rowOrientation = Orientation.fromDegree(270.0f)
+    val rowOrientation = Orientation.fromDegrees(270)
     val layer = builder.getLayer(TEXT_LAYER)
 
     rows.forEach { (rowName, row) ->

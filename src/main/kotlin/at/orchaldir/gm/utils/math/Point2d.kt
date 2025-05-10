@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Orientation
 import kotlinx.serialization.Serializable
 import kotlin.math.atan2
 import kotlin.math.hypot

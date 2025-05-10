@@ -4,8 +4,12 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.Snout
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.CENTER
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -89,7 +93,7 @@ private fun visualizeReptile(state: CharacterRenderState, snout: Snout) {
     val noseWidth = state.aabb.convertHeight(fromPercentage(5))
     val noseHeight = noseWidth / 2.0f
     val (left, right) = state.aabb.getMirroredPoints(fromPercentage(20), fromPercentage(60))
-    val orientation = Orientation.fromDegree(45.0f)
+    val orientation = Orientation.fromDegrees(45)
     val renderer = state.renderer.getLayer()
 
     visualizeMaleMouth(state, Size.Medium)

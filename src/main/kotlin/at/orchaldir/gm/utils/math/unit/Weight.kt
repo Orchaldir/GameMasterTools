@@ -6,9 +6,6 @@ import java.util.*
 
 val WEIGHTLESS = Weight.fromKilograms(0)
 
-private const val FACTOR = 1000
-private const val SQUARED = FACTOR * FACTOR
-
 @JvmInline
 @Serializable
 value class Weight private constructor(private val milligrams: Long) : SiUnit<Weight> {
@@ -80,9 +77,9 @@ fun convertToGrams(milligrams: Long) = upThreeSteps(milligrams)
 fun convertToCentigrams(milligrams: Long) = up(milligrams)
 fun convertToMicrograms(milligrams: Long) = downThreeSteps(milligrams)
 
-fun formatWeight(milligrams: Long) = if (milligrams >= SQUARED) {
+fun formatWeight(milligrams: Long) = if (milligrams >= SI_SIX_STEPS) {
     String.format(Locale.US, "%.1f kg", convertToKilograms(milligrams))
-} else if (milligrams >= FACTOR) {
+} else if (milligrams >= SI_THREE_STEPS) {
     String.format(Locale.US, "%.1f g", convertToGrams(milligrams))
 } else {
     String.format(Locale.US, "%d mg", milligrams)

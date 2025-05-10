@@ -12,8 +12,13 @@ import at.orchaldir.gm.core.model.item.equipment.style.HoopEarring
 import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
@@ -34,7 +39,7 @@ data class EarringConfig(
     fun calculatePosition(aabb: AABB, head: HeadConfig, earRadius: Distance): Pair<Point2d, Point2d> {
         val (left, right) = aabb.getMirroredPoints(FULL, head.earY)
         val offset = earRadius * 0.7f
-        val orientation = Orientation.fromDegree(30.0f)
+        val orientation = Orientation.fromDegrees(30)
 
         return Pair(
             left.createPolar(offset, HALF_CIRCLE - orientation),

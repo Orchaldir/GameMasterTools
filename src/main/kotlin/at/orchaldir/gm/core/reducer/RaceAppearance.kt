@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.character.appearance.FeatureColorType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.race.appearance.WingOptions
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -45,6 +46,7 @@ val UPDATE_RACE_APPEARANCE: Reducer<UpdateRaceAppearance, State> = { state, acti
 
 fun validateRaceAppearance(appearance: RaceAppearance) {
     checkTails(appearance)
+    checkWings(appearance.wing)
 }
 
 private fun checkTails(appearance: RaceAppearance) {
@@ -57,5 +59,11 @@ private fun checkTails(appearance: RaceAppearance) {
         options.simpleOptions.forEach { (shape, shapeOptions) ->
             require(shapeOptions.types != FeatureColorType.Hair) { "Tail options for $shape require hair!" }
         }
+    }
+}
+
+private fun checkWings(options: WingOptions) {
+    if (options.hasWings()) {
+        require(options.types.isNotEmpty()) { "Having wings requires wing types!" }
     }
 }

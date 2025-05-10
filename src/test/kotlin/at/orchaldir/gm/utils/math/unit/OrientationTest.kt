@@ -1,8 +1,8 @@
-package at.orchaldir.gm.utils.math
+package at.orchaldir.gm.utils.math.unit
 
-import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
-import at.orchaldir.gm.utils.math.Orientation.Companion.fromRadians
-import org.junit.jupiter.api.Assertions.assertEquals
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromRadians
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
@@ -14,9 +14,9 @@ class OrientationTest {
 
     @Test
     fun `Create degrees`() {
-        val orientation = fromDegree(180.0f)
+        val orientation = fromDegrees(180)
 
-        assertEquals(180.0f, orientation.toDegree())
+        assertEquals(180.0f, orientation.toDegrees())
         assertEquals(pi, orientation.toRadians())
     }
 
@@ -24,8 +24,14 @@ class OrientationTest {
     fun `Create radians`() {
         val orientation = fromRadians(pi)
 
-        assertEquals(180.0f, orientation.toDegree())
+        assertEquals(180.0f, orientation.toDegrees())
         assertEquals(pi, orientation.toRadians())
+    }
+
+    @Test
+    fun `Is zero`() {
+        assertTrue(ZERO_ORIENTATION.isZero())
+        assertFalse(fromDegrees(90).isZero())
     }
 
     @Nested
@@ -57,7 +63,7 @@ class OrientationTest {
         }
 
         private fun assertNormalize(input: Float, output: Float) {
-            assertEquals(fromDegree(output), fromDegree(input).normalizeZeroToTwoPi())
+            assertEquals(fromDegrees(output), fromDegrees(input).normalizeZeroToTwoPi())
         }
 
     }
@@ -81,11 +87,11 @@ class OrientationTest {
     }
 
     private fun testCos(degrees: Float, result: Float) {
-        assertEquals(result, fromDegree(degrees).cos(), DELTA)
+        assertEquals(result, fromDegrees(degrees).cos(), DELTA)
     }
 
     private fun testSin(degrees: Float, result: Float) {
-        assertEquals(result, fromDegree(degrees).sin(), DELTA)
+        assertEquals(result, fromDegrees(degrees).sin(), DELTA)
     }
 
 }

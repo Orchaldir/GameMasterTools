@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.Orientation
 import io.ktor.http.*
 
 fun combine(param0: String, param1: String) = "$param0-$param1"
@@ -90,9 +89,6 @@ private fun <T> parseRarityMap(
     }
 
 //
-
-fun parseOrientation(parameters: Parameters, param: String, default: Orientation = Orientation.zero()) =
-    parameters[param]?.toFloat()?.let { Orientation.fromDegree(it) } ?: default
 
 fun <ID : Id<ID>> parseElements(parameters: Parameters, param: String, parseId: (String) -> ID) =
     parameters.getAll(param)

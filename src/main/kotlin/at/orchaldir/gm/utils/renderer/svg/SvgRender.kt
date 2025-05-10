@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 import java.util.*
@@ -320,7 +321,7 @@ class SvgRenderer(
     private fun rotateAroundCenter(center: Point2d, orientation: Orientation) =
         formatAttributes(
             "rotate(%.3f,%.3f,%.3f)",
-            orientation.toDegree(),
+            orientation.toDegrees(),
             center.x,
             center.y,
         )

@@ -2,6 +2,9 @@ package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.FULL_CIRCLE
+import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 
 private val AT_TOP = -QUARTER_CIRCLE
 private val SQUARE_ORIENTATION = QUARTER_CIRCLE / 2.0f

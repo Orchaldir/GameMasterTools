@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.LongHairStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
@@ -73,7 +74,7 @@ private fun visualizeWavy(
     val bottomCenter = state.aabb.getPoint(CENTER, END).addHeight(height)
     val segments = 2 * (height.toMeters() / state.aabb.size.height.toMeters() + 1.0f).roundToInt()
     val splitter = SegmentSplitter.fromStartAndEnd(topCenter, bottomCenter, segments)
-    val orientation = Orientation.fromDegree(-90.0f)
+    val orientation = Orientation.fromDegrees(-90)
     val builder = Polygon2dBuilder()
         .addLeftPoint(state.aabb, CENTER, -padding)
         .addLeftAndRightPoint(topCenter, orientation, width)
