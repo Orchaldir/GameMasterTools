@@ -31,7 +31,8 @@ fun visualizeScrollContent(
     val paddedContentSize = config.addPadding(contentSize)
     val builder = SvgBuilder(paddedContentSize)
     val data = resolveTextData(state, text)
-    val scrollAabb = AABB(paddedContentSize)
+    val paddedAabb = AABB(paddedContentSize)
+    val scrollAabb = AABB.fromCenter(paddedAabb.getCenter(), contentSize)
     val scrollRenderState = TextRenderState(state, scrollAabb, config, builder, data)
 
     builder.getLayer().renderRectangle(AABB(paddedContentSize), BorderOnly(config.line))
