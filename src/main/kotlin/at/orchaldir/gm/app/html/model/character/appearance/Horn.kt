@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Orientation
+import at.orchaldir.gm.utils.math.unit.Orientation
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag

@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.ClawedFoot
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.SizeConfig

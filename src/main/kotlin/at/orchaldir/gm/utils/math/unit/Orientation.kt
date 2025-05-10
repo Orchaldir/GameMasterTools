@@ -1,4 +1,4 @@
-package at.orchaldir.gm.utils.math
+package at.orchaldir.gm.utils.math.unit
 
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue

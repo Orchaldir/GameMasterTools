@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.ZERO_ORIENTATION
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.HUNDRED_µM
 import at.orchaldir.gm.utils.renderer.LayerRenderer

@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.character.appearance.horn
 import at.orchaldir.gm.core.model.character.appearance.FeatureColor
 import at.orchaldir.gm.core.model.character.appearance.ReuseSkinColor
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Orientation
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

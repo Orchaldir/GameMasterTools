@@ -2,7 +2,7 @@ package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.core.model.util.Color.*
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Orientation.Companion.zero
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Size2d

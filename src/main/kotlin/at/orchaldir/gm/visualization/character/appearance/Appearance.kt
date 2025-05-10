@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.util.Color.Black
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Orientation
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly

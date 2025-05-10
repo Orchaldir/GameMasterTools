@@ -3,7 +3,7 @@ package at.orchaldir.gm.prototypes.visualization
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Orientation
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer

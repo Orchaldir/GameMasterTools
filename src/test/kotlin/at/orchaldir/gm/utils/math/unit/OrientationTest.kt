@@ -1,7 +1,7 @@
-package at.orchaldir.gm.utils.math
+package at.orchaldir.gm.utils.math.unit
 
-import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
-import at.orchaldir.gm.utils.math.Orientation.Companion.fromRadians
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegree
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromRadians
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue

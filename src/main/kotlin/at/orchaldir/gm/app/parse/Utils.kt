@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.Orientation
+import at.orchaldir.gm.utils.math.unit.Orientation
 import io.ktor.http.*
 
 fun combine(param0: String, param1: String) = "$param0-$param1"

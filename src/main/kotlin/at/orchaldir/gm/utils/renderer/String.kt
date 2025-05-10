@@ -1,7 +1,7 @@
 package at.orchaldir.gm.utils.renderer
 
 import at.orchaldir.gm.core.model.util.VerticalAlignment
-import at.orchaldir.gm.utils.math.Orientation.Companion.zero
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE

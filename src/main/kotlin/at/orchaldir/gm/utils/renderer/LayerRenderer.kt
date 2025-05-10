@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.renderer
 
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
