@@ -82,11 +82,7 @@ class SvgRenderer(
             center.y,
             radiusX.toMeters(),
             radiusY.toMeters(),
-            if (orientation != null) {
-                formatAttributes(" transform=\"%s\"", rotateAroundCenter(center, orientation))
-            } else {
-                ""
-            },
+            toSvg(orientation, center),
             toSvg(options),
         )
 
@@ -208,11 +204,11 @@ class SvgRenderer(
         inlineTag(
             "text",
             text,
-            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"%s\" style=\"%s\" text-anchor=\"%s\"",
+            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\"%s style=\"%s\" text-anchor=\"%s\"",
             position.x,
             position.y,
             toSvg(options.verticalAlignment),
-            rotateAroundCenter(position, orientation),
+            toSvg(orientation, position),
             toSvg(options),
             toSvg(options.horizontalAlignment),
         )
@@ -328,6 +324,15 @@ class SvgRenderer(
             center.x,
             center.y,
         )
+
+    private fun toSvg(
+        orientation: Orientation?,
+        center: Point2d,
+    ) = if (orientation != null && !orientation.isZero()) {
+        formatAttributes(" transform=\"%s\"", rotateAroundCenter(center, orientation))
+    } else {
+        ""
+    }
 
     private fun toSvg(verticalAlignment: VerticalAlignment): String {
         return when (verticalAlignment) {
