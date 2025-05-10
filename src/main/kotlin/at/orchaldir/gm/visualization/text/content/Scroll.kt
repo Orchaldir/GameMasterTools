@@ -1,12 +1,8 @@
 package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
@@ -41,16 +37,25 @@ fun visualizeScrollContent(
 
     visualizeOpenScroll(scrollRenderState, scroll)
 
-    val color = scroll.main.getColor(state)
-    val options = FillAndBorder(color.toRender(), config.line)
+    val pageColor = scroll.main.getColor(state)
+    val pageOptions = FillAndBorder(pageColor.toRender(), config.line)
     val pagesStart = scrollAabb.start + Point2d(scroll.calculateWidthOfOneRod(), scroll.calculateHandleLength())
     val pagesSize = pageSize.replaceWidth(pageSize.width * pages)
     val pagesAabb = AABB(pagesStart, pagesSize)
 
-    builder.getLayer().renderRectangle(pagesAabb, options)
+    builder.getLayer().renderRectangle(pagesAabb, pageOptions)
 
-    var start = Point2d()
+    var start = pagesStart
     val step = Point2d.xAxis(pageSize.width)
+
+    repeat(pages) { page ->
+        val aabb = AABB(start, pageSize)
+        val renderState = TextRenderState(state, aabb, config, builder, data)
+
+        visualizeTextContent(renderState, text.format, text.content, page)
+
+        start += step
+    }
 
     return builder.finish()
 }

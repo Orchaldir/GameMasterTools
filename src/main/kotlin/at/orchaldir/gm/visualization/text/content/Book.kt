@@ -13,13 +13,13 @@ import at.orchaldir.gm.visualization.text.TextRenderState
 import kotlin.math.min
 import kotlin.random.Random
 
-fun visualizePage(
+fun visualizeBookPage(
     state: TextRenderState,
     book: Book,
     content: TextContent,
     page: Int,
 ) {
-    visualizePage(state, book)
+    visualizeBookPage(state, book)
 
     when (content) {
         is AbstractText -> visualizeAbstractText(state, content, page)
@@ -28,7 +28,7 @@ fun visualizePage(
     }
 }
 
-private fun visualizePage(
+private fun visualizeBookPage(
     state: TextRenderState,
     book: Book,
 ) {

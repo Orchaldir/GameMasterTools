@@ -82,7 +82,7 @@ fun visualizeTextContent(
     val innerState = state.copy(aabb = inner)
 
     when (format) {
-        is Book -> visualizePage(innerState, format, content, page)
+        is Book -> visualizeBookPage(innerState, format, content, page)
         is Scroll -> doNothing()
         UndefinedTextFormat -> doNothing()
     }
