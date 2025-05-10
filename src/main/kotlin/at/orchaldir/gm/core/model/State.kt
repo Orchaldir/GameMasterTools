@@ -277,38 +277,41 @@ data class State(
 
     fun validate() {
         logger.info { "Validate state" }
+
         require(ELEMENTS.size == storageMap.size) { "Wrong number element storages!" }
-        getArchitecturalStyleStorage().getAll().forEach { validateArchitecturalStyle(this, it) }
-        getArticleStorage().getAll().forEach { validateArticle(this, it) }
-        getBuildingStorage().getAll().forEach { validateBuilding(this, it) }
-        getBusinessStorage().getAll().forEach { validateBusiness(this, it) }
-        getCalendarStorage().getAll().forEach { validateCalendar(this, it) }
-        getCharacterStorage().getAll().forEach { validateCharacter(this, it) }
-        getCultureStorage().getAll().forEach { validateCulture(this, it) }
-        getCurrencyStorage().getAll().forEach { validateCurrency(this, it) }
-        getCurrencyUnitStorage().getAll().forEach { validateCurrencyUnit(this, it) }
-        getDomainStorage().getAll().forEach { validateDomain(this, it) }
-        getEquipmentStorage().getAll().forEach { validateEquipment(this, it) }
-        getFashionStorage().getAll().forEach { validateFashion(this, it) }
-        getFontStorage().getAll().forEach { validateFont(this, it) }
-        getGodStorage().getAll().forEach { validateGod(this, it) }
-        getHolidayStorage().getAll().forEach { validateHoliday(this, it) }
-        getJobStorage().getAll().forEach { validateJob(this, it) }
-        getLanguageStorage().getAll().forEach { validateLanguage(this, it) }
-        getMoonStorage().getAll().forEach { validateMoon(this, it) }
-        getMountainStorage().getAll().forEach { validateMountain(this, it) }
-        getOrganizationStorage().getAll().forEach { validateOrganization(this, it) }
-        getPantheonStorage().getAll().forEach { validatePantheon(this, it) }
-        getPeriodicalStorage().getAll().forEach { validatePeriodical(this, it) }
-        getPeriodicalIssueStorage().getAll().forEach { validatePeriodicalIssue(this, it) }
-        getPlaneStorage().getAll().forEach { validatePlane(this, it) }
-        getRaceStorage().getAll().forEach { validateRace(this, it) }
-        getRaceAppearanceStorage().getAll().forEach { validateRaceAppearance(it) }
-        getSpellStorage().getAll().forEach { validateSpell(this, it) }
-        getStreetTemplateStorage().getAll().forEach { validateStreetTemplate(this, it) }
-        getTextStorage().getAll().forEach { validateText(this, it) }
-        getTownStorage().getAll().forEach { validateTown(this, it) }
-        getUniformStorage().getAll().forEach { validateUniform(this, it) }
+
+        validate(getArchitecturalStyleStorage()) { validateArchitecturalStyle(this, it) }
+        validate(getArticleStorage()) { validateArticle(this, it) }
+        validate(getBuildingStorage()) { validateBuilding(this, it) }
+        validate(getBusinessStorage()) { validateBusiness(this, it) }
+        validate(getCalendarStorage()) { validateCalendar(this, it) }
+        validate(getCharacterStorage()) { validateCharacter(this, it) }
+        validate(getCultureStorage()) { validateCulture(this, it) }
+        validate(getCurrencyStorage()) { validateCurrency(this, it) }
+        validate(getCurrencyUnitStorage()) { validateCurrencyUnit(this, it) }
+        validate(getDomainStorage()) { validateDomain(this, it) }
+        validate(getEquipmentStorage()) { validateEquipment(this, it) }
+        validate(getFashionStorage()) { validateFashion(this, it) }
+        validate(getFontStorage()) { validateFont(this, it) }
+        validate(getGodStorage()) { validateGod(this, it) }
+        validate(getHolidayStorage()) { validateHoliday(this, it) }
+        validate(getJobStorage()) { validateJob(this, it) }
+        validate(getLanguageStorage()) { validateLanguage(this, it) }
+        validate(getMoonStorage()) { validateMoon(this, it) }
+        validate(getMountainStorage()) { validateMountain(this, it) }
+        validate(getOrganizationStorage()) { validateOrganization(this, it) }
+        validate(getPantheonStorage()) { validatePantheon(this, it) }
+        validate(getPeriodicalStorage()) { validatePeriodical(this, it) }
+        validate(getPeriodicalIssueStorage()) { validatePeriodicalIssue(this, it) }
+        validate(getPlaneStorage()) { validatePlane(this, it) }
+        validate(getRaceStorage()) { validateRace(this, it) }
+        validate(getRaceAppearanceStorage()) { validateRaceAppearance(it) }
+        validate(getSpellStorage()) { validateSpell(this, it) }
+        validate(getStreetTemplateStorage()) { validateStreetTemplate(this, it) }
+        validate(getTextStorage()) { validateText(this, it) }
+        validate(getTownStorage()) { validateTown(this, it) }
+        validate(getUniformStorage()) { validateUniform(this, it) }
+
         validateData(this, data)
     }
 
@@ -438,4 +441,18 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     TOWN_TYPE -> loadStorage<TownId, Town>(path, TownId(0))
     UNIFORM_TYPE -> loadStorage<UniformId, Uniform>(path, UniformId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
+}
+
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> validate(
+    storage: Storage<ID, ELEMENT>,
+    validate: (ELEMENT) -> Unit,
+) {
+    storage.getAll().forEach {
+        try {
+            validate(it)
+        } catch (e: Exception) {
+            logger.error { "${storage.getType()} ${it.id().value()} is invalid: ${e.message}" }
+            throw e
+        }
+    }
 }
