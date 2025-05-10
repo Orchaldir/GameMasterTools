@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 data class ResolvedTextData(
     val title: String = "Title",
     val author: String? = null,
+    val id: Int = 0,
 ) {
     fun getAuthorOrUnknown() = author ?: "Unknown"
 }
@@ -22,4 +23,4 @@ data class TextRenderState(
 )
 
 fun resolveTextData(state: State, text: Text) =
-    ResolvedTextData(text.name(state), state.getAuthorName(text))
+    ResolvedTextData(text.name(state), state.getAuthorName(text), text.id.value)

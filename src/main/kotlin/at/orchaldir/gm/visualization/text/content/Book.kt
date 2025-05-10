@@ -4,12 +4,14 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
+import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
 import kotlin.math.min
+import kotlin.random.Random
 
 fun visualizeBookPage(
     state: TextRenderState,
@@ -47,9 +49,18 @@ private fun visualizeAbstractText(
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
     val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
+    val generator = RandomNumberGenerator(Random(state.data.id))
     val maxPage = min(content.content.pages, page + 2)
 
-    visualizeAbstractContent(state, builder, content.style, mainOptions, initialOptions, maxPage)
+    visualizeAbstractContent(
+        state,
+        generator,
+        builder,
+        content.style,
+        mainOptions,
+        initialOptions,
+        maxPage,
+    )
 
     builder
         .build()
@@ -70,6 +81,7 @@ private fun visualizeAbstractChapters(
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
     val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
+    val generator = RandomNumberGenerator(Random(state.data.id))
 
     visualizeTableOfContents(state, builder, content, titleOptions, mainOptions)
 
@@ -81,7 +93,15 @@ private fun visualizeAbstractChapters(
             .addParagraph(chapter.title.text, titleOptions)
             .addBreak(content.style.main.getFontSize())
 
-        visualizeAbstractContent(state, builder, content.style, mainOptions, initialOptions, maxPage)
+        visualizeAbstractContent(
+            state,
+            generator,
+            builder,
+            content.style,
+            mainOptions,
+            initialOptions,
+            maxPage,
+        )
     }
 
     builder
@@ -93,6 +113,7 @@ private fun visualizeAbstractChapters(
 
 private fun visualizeAbstractContent(
     state: TextRenderState,
+    generator: RandomNumberGenerator,
     builder: PagesBuilder,
     style: ContentStyle,
     mainOptions: RenderStringOptions,
@@ -104,7 +125,7 @@ private fun visualizeAbstractContent(
             builder,
             mainOptions,
             initialOptions,
-            state.config.exampleString,
+            createParagraph(state, generator, style),
             style.initials,
         )
     }
@@ -114,9 +135,24 @@ private fun visualizeAbstractContent(
             builder,
             mainOptions,
             initialOptions,
-            state.config.exampleString,
+            createParagraph(state, generator, style),
             style.initials,
         )
     }
+}
+
+private fun createParagraph(
+    state: TextRenderState,
+    generator: RandomNumberGenerator,
+    style: ContentStyle,
+): String {
+    var paragraph = ""
+    val sentences = generator.getNumber(style.minParagraphLength, style.maxParagraphLength + 1)
+
+    repeat(sentences) {
+        paragraph += generator.select(state.config.exampleStrings)
+    }
+
+    return paragraph
 }
 

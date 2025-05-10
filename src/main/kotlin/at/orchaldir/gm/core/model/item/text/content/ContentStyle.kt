@@ -19,6 +19,8 @@ data class ContentStyle(
     val isJustified: Boolean = true,
     val margin: Factor = DEFAULT_MARGIN,
     val initials: Initials = NormalInitials,
+    val minParagraphLength: Int = 4,
+    val maxParagraphLength: Int = 10,
 ) {
 
     init {

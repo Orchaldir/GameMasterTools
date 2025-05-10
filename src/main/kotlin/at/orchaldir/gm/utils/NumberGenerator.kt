@@ -7,6 +7,8 @@ import kotlin.random.Random
 sealed class NumberGenerator {
     abstract fun getNumber(until: Int = Int.MAX_VALUE): Int
 
+    fun getNumber(from: Int, until: Int) = from + getNumber(until - from)
+
     fun <T> select(list: List<T>) = list[getNumber(list.size)]
 }
 
