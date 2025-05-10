@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -13,6 +12,16 @@ import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.text.resolveTextData
+
+fun visualizeAllPagesOfText(
+    state: State,
+    config: TextRenderConfig,
+    text: Text,
+) = when (text.format) {
+    UndefinedTextFormat -> null
+    is Book -> visualizeAllPagesOfBook(state, config, text, text.format)
+    is Scroll -> visualizeAllPagesOfScroll(state, config, text, text.format)
+}
 
 fun visualizeTextContent(
     state: State,
@@ -37,16 +46,6 @@ fun visualizeTextContent(
     visualizeTextContent(renderState, text.format, text.content, page)
 
     return builder.finish()
-}
-
-fun visualizeAllPagesOfText(
-    state: State,
-    config: TextRenderConfig,
-    text: Text,
-) = when (text.format) {
-    UndefinedTextFormat -> null
-    is Book -> visualizeAllPagesOfBook(state, config, text, text.format)
-    is Scroll -> visualizeAllPagesOfScroll(state, config, text, text.format)
 }
 
 fun visualizeTextContent(
