@@ -27,20 +27,16 @@ fun main() {
         ScrollWithTwoRods(handle),
         main = ColorItemPart(Color.AntiqueWhite),
     )
-    val chapter0 = AbstractChapter(0, AbstractContent(2))
-    val chapter1 = AbstractChapter(1, AbstractContent(3))
-    val chapters = AbstractChapters(
-        listOf(chapter0, chapter1),
-        pageNumbering = PageNumberingReusingFont(),
-        tableOfContents = ComplexTableOfContents(titleOptions = font),
+    val content = AbstractText(
+        AbstractContent(5),
     )
     val text = Text(
         ID,
         format = scroll,
-        content = chapters,
+        content = content,
     )
 
     val svg = visualizeAllPagesOfScroll(State(), TEXT_CONFIG, text, scroll)
 
-    File("scroll-abstract-chapters.svg").writeText(svg.export())
+    File("scroll-abstract-text.svg").writeText(svg.export())
 }
