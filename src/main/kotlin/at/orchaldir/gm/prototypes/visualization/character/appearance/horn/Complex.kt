@@ -14,19 +14,19 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
-    val mouflon = CurvedHorn(fromDegrees(180.0f))
-    val waterBuffalo = CurvedHorn(fromDegrees(-120.0f))
+    val mouflon = CurvedHorn(fromDegrees(180))
+    val waterBuffalo = CurvedHorn(fromDegrees(-120))
     val wave = SpiralHorn(4, fromPercentage(10))
 
     HornPosition.entries.forEach { position ->
         val horns = mutableListOf<Appearance>()
 
-        horns.add(createTwoHorns(position, fromDegrees(0.0f), StraightHorn))
-        horns.add(createTwoHorns(position, fromDegrees(10.0f), StraightHorn))
-        horns.add(createTwoHorns(position, fromDegrees(-10.0f), StraightHorn))
-        horns.add(createTwoHorns(position, fromDegrees(-40.0f), mouflon))
-        horns.add(createTwoHorns(position, fromDegrees(0.0f), waterBuffalo))
-        horns.add(createTwoHorns(position, fromDegrees(0.0f), wave))
+        horns.add(createTwoHorns(position, fromDegrees(0), StraightHorn))
+        horns.add(createTwoHorns(position, fromDegrees(10), StraightHorn))
+        horns.add(createTwoHorns(position, fromDegrees(-10), StraightHorn))
+        horns.add(createTwoHorns(position, fromDegrees(-40), mouflon))
+        horns.add(createTwoHorns(position, fromDegrees(0), waterBuffalo))
+        horns.add(createTwoHorns(position, fromDegrees(0), wave))
 
         appearances.add(horns)
     }

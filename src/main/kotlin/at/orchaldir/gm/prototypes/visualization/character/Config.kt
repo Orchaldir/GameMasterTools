@@ -200,10 +200,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         fromPercentage(20),
         HornConfig(
             fromPercentage(20),
-            complexHorn(HornPosition.Top, 10.0f, StraightHorn, 20),
-            complexHorn(HornPosition.Top, 0.0f, CurvedHorn(fromDegrees(270.0f)), 15),
-            complexHorn(HornPosition.Top, 20.0f, SpiralHorn(4, fromPercentage(10)), 20),
-            complexHorn(HornPosition.Side, 0.0f, CurvedHorn(fromDegrees(-120.0f)), 20),
+            complexHorn(HornPosition.Top, 10, StraightHorn, 20),
+            complexHorn(HornPosition.Top, 0, CurvedHorn(fromDegrees(270)), 15),
+            complexHorn(HornPosition.Top, 20, SpiralHorn(4, fromPercentage(10)), 20),
+            complexHorn(HornPosition.Side, 0, CurvedHorn(fromDegrees(-120)), 20),
         ),
         MouthConfig(
             withFactor(0.3f, 0.35f, 0.4f),
@@ -231,7 +231,7 @@ val EYES: List<Pair<String, Eyes>> = listOf(
 
 private fun createOneEye(size: Size) = Pair("One $size", OneEye(size = size))
 
-private fun complexHorn(position: HornPosition, degree: Float, shape: HornShape, width: Int) = ComplexHorn(
+private fun complexHorn(position: HornPosition, degree: Long, shape: HornShape, width: Int) = ComplexHorn(
     fromPercentage(100),
     fromPercentage(width),
     position,

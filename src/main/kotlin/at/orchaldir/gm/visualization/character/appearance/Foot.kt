@@ -39,8 +39,8 @@ fun visualizeFeet(
 ) {
     val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, END)
     val radius = state.aabb.convertHeight(state.config.body.getFootRadius(body))
-    val offset = Orientation.fromDegrees(0.0f)
-    val angle = Orientation.fromDegrees(180.0f)
+    val offset = Orientation.fromDegrees(0)
+    val angle = Orientation.fromDegrees(180)
     val layer = state.renderer.getLayer(layerIndex)
 
     layer.renderCircleArc(left, radius, offset, angle, options)

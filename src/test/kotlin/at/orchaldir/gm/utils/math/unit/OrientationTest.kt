@@ -16,7 +16,7 @@ class OrientationTest {
 
     @Test
     fun `Create degrees`() {
-        val orientation = fromDegrees(180.0f)
+        val orientation = fromDegrees(180)
 
         assertEquals(180.0f, orientation.toDegrees())
         assertEquals(pi, orientation.toRadians())
@@ -33,7 +33,7 @@ class OrientationTest {
     @Test
     fun `Is zero`() {
         assertTrue(ZERO_ORIENTATION.isZero())
-        assertFalse(fromDegrees(90.0f).isZero())
+        assertFalse(fromDegrees(90).isZero())
     }
 
     @Nested

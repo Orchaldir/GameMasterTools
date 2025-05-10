@@ -79,7 +79,7 @@ private fun createRow(
             fromMillimeters(100),
             fromMillimeters(150),
             createFont(fromMillimeters(80)),
-            fromDegrees(20.0f)
+            fromDegrees(20)
         ),
         bottomAuthor,
         ResolvedTextData("Title"),

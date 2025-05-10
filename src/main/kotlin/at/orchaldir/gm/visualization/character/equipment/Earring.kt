@@ -36,7 +36,7 @@ data class EarringConfig(
     fun calculatePosition(aabb: AABB, head: HeadConfig, earRadius: Distance): Pair<Point2d, Point2d> {
         val (left, right) = aabb.getMirroredPoints(FULL, head.earY)
         val offset = earRadius * 0.7f
-        val orientation = Orientation.fromDegrees(30.0f)
+        val orientation = Orientation.fromDegrees(30)
 
         return Pair(
             left.createPolar(offset, HALF_CIRCLE - orientation),

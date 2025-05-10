@@ -22,7 +22,7 @@ class Point2dTest {
     fun `Create with polar coordinates`() {
         val start = Point2d(2.0f, 4.0f)
 
-        val result = start.createPolar(fromMillimeters(5000), Orientation.fromDegrees(180.0f))
+        val result = start.createPolar(fromMillimeters(5000), Orientation.fromDegrees(180))
 
         assertEquals(-3.0f, result.x, 0.0001f)
         assertEquals(4.0f, result.y, 0.0001f)

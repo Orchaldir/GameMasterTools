@@ -20,6 +20,7 @@ value class Orientation private constructor(private val millidegrees: Long) {
     companion object {
         fun fromDegrees(degrees: Float) = Orientation(convertFromDegrees(degrees))
         fun fromDegrees(degrees: Long) = Orientation(convertFromDegrees(degrees))
+        fun fromMillidegrees(degrees: Long) = Orientation(degrees)
 
         fun fromRadians(radians: Float) = fromDegrees(Math.toDegrees(radians.toDouble()).toFloat())
 
