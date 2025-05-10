@@ -3,6 +3,10 @@ package at.orchaldir.gm.visualization.text.content
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
+import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
@@ -52,7 +56,11 @@ fun visualizeScrollContent(
         val aabb = AABB(start, pageSize)
         val renderState = TextRenderState(state, aabb, config, builder, data)
 
-        visualizeTextContent(renderState, text.format, text.content, page)
+        when (text.content) {
+            is AbstractText -> visualizeAbstractText(renderState, text.content, page)
+            is AbstractChapters -> visualizeAbstractChapters(renderState, text.content, page)
+            UndefinedTextContent -> doNothing()
+        }
 
         start += step
     }
