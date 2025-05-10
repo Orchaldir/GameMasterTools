@@ -3,10 +3,11 @@ package at.orchaldir.gm.app.html.model.character.appearance
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseFactor
+import at.orchaldir.gm.app.html.model.parseOrientation
+import at.orchaldir.gm.app.html.model.selectOrientation
 import at.orchaldir.gm.app.html.model.selectPercentage
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseOrientation
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateHorn
 import at.orchaldir.gm.core.generator.generateHorns
@@ -15,7 +16,10 @@ import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.FULL_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
@@ -90,7 +94,7 @@ private fun FORM.editHorn(
                 selectHornLength(param, horn.length)
                 selectHornWidth(param, horn.relativeWidth)
                 selectValue("Position", combine(param, POSITION), HornPosition.entries, horn.position, true)
-                selectOrientation(param, horn.orientationOffset, 90.0f)
+                selectOrientation(param, horn.orientationOffset, QUARTER_CIRCLE)
                 editHornShape(horn.shape, param)
                 selectFeatureColor(state, options.colors, horn.color, combine(param, COLOR))
             }
@@ -109,7 +113,7 @@ private fun HtmlBlockTag.editHornShape(
 
         when (shape) {
             StraightHorn -> doNothing()
-            is CurvedHorn -> selectOrientation(param, shape.change, 360.0f)
+            is CurvedHorn -> selectOrientation(param, shape.change, FULL_CIRCLE)
             is SpiralHorn -> {
                 selectInt(
                     "Cycles",
@@ -134,14 +138,14 @@ private fun HtmlBlockTag.editHornShape(
     }
 }
 
-private fun HtmlBlockTag.selectOrientation(param: String, offset: Orientation, maxValue: Float) {
-    selectFloat(
+private fun HtmlBlockTag.selectOrientation(param: String, offset: Orientation, maxValue: Orientation) {
+    selectOrientation(
         "Orientation",
-        offset.toDegrees(),
+        combine(param, ORIENTATION),
+        offset,
         -maxValue,
         maxValue,
-        1.0f,
-        combine(param, ORIENTATION),
+        fromDegrees(1),
         true,
     )
 }

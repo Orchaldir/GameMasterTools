@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math.unit
 
 import kotlinx.serialization.Serializable
+import java.util.Locale
 import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.cos
@@ -56,9 +57,17 @@ value class Orientation private constructor(private val millidegrees: Long) {
     operator fun times(factor: Float) = Orientation((millidegrees * factor).toLong())
     operator fun div(factor: Int) = Orientation(millidegrees / factor)
     operator fun div(factor: Float) = Orientation((millidegrees / factor).toLong())
+
+    override fun toString() = formatOrientation(millidegrees)
 }
 
 fun convertFromDegrees(degrees: Long) = downThreeSteps(degrees)
 fun convertFromDegrees(degrees: Float) = downThreeSteps(degrees)
 
 fun convertToDegrees(millidegrees: Long) = upThreeSteps(millidegrees)
+
+fun formatOrientation(millidegrees: Long) = if (millidegrees >= SI_THREE_STEPS) {
+    String.format(Locale.US, "%.1f°", convertToDegrees(millidegrees))
+} else {
+    String.format(Locale.US, "%d m°", millidegrees)
+}
