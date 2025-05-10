@@ -5,13 +5,8 @@ import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.renderer.model.BorderOnly
-import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.TextRenderState
-import at.orchaldir.gm.visualization.text.resolveTextData
 
 fun visualizeAllPagesOfText(
     state: State,
@@ -23,29 +18,15 @@ fun visualizeAllPagesOfText(
     is Scroll -> visualizeAllPagesOfScroll(state, config, text, text.format)
 }
 
-fun visualizeTextContent(
+fun visualizePageOfContent(
     state: State,
     config: TextRenderConfig,
     text: Text,
     page: Int,
-) = visualizeTextContent(state, config, text, config.calculatePaddedSize(text.format), page)
-
-fun visualizeTextContent(
-    state: State,
-    config: TextRenderConfig,
-    text: Text,
-    size: Size2d,
-    page: Int,
-): Svg {
-    val aabb = AABB(size)
-    val builder = SvgBuilder(size)
-    val data = resolveTextData(state, text)
-    val renderState = TextRenderState(state, aabb, config, builder, data)
-    builder.getLayer().renderRectangle(AABB(size), BorderOnly(config.line))
-
-    visualizeTextContent(renderState, text.format, text.content, page)
-
-    return builder.finish()
+) = when (text.format) {
+    UndefinedTextFormat -> null
+    is Book -> visualizePageOfBook(state, config, text, text.format, page)
+    is Scroll -> visualizePageOfScroll(state, config, text, text.format, page)
 }
 
 fun visualizeTextContent(

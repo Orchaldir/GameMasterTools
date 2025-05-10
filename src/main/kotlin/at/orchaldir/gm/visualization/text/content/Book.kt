@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
@@ -24,8 +25,36 @@ fun visualizeAllPagesOfBook(
     config: TextRenderConfig,
     text: Text,
     book: Book,
+) = visualizeBookContent(
+    state,
+    config,
+    text,
+    book,
+    (0..<text.content.pages()).toList(),
+)
+
+fun visualizePageOfBook(
+    state: State,
+    config: TextRenderConfig,
+    text: Text,
+    book: Book,
+    pageIndex: Int,
+) = visualizeBookContent(
+    state,
+    config,
+    text,
+    book,
+    listOf(pageIndex),
+)
+
+fun visualizeBookContent(
+    state: State,
+    config: TextRenderConfig,
+    text: Text,
+    book: Book,
+    pagesIndices: List<Int>,
 ): Svg {
-    val pages = text.content.pages()
+    val pages = pagesIndices.size
     val pageSize = config.calculateSize(text.format)
     val contentSize = Size2d(pageSize.width * pages, pageSize.height)
     val paddedPageSize = config.addPadding(pageSize)
@@ -37,12 +66,12 @@ fun visualizeAllPagesOfBook(
 
     builder.getLayer().renderRectangle(AABB(paddedContentSize), BorderOnly(config.line))
 
-    repeat(pages) { page ->
+    pagesIndices.forEach { pageIndex ->
         val paddedAabb = AABB(start, paddedPageSize)
         val inner = AABB.fromCenter(paddedAabb.getCenter(), pageSize)
         val renderState = TextRenderState(state, inner, config, builder, data)
 
-        visualizeBookPage(renderState, book, text.content, page)
+        visualizeBookPage(renderState, book, text.content, pageIndex)
 
         start += step
     }

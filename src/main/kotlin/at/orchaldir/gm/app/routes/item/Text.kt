@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.visualization.text.content.visualizeTextContent
+import at.orchaldir.gm.visualization.text.content.visualizePageOfContent
 import at.orchaldir.gm.visualization.text.visualizeText
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
 import io.ktor.http.*
@@ -290,7 +290,7 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
         svg(frontSvg, width)
     }
     if (text.content !is UndefinedTextContent) {
-        val contentSvg = visualizeTextContent(state, TEXT_CONFIG, text, page)
+        val contentSvg = visualizePageOfContent(state, TEXT_CONFIG, text, page)!!
         svg(contentSvg, width)
 
         if (showActions) {
