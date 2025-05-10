@@ -298,15 +298,15 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
 
             field("Page", "${page + 1} of $pages")
 
-            if (page > 0) {
-                val firstPageLink = call.application.href(TextRoutes.Details(text.id, 0))
-                val previousPageLink = call.application.href(TextRoutes.Details(text.id, page - 1))
-                action(firstPageLink, "First Page")
-                action(previousPageLink, "Previous Page")
-            }
             if (page < pages) {
                 val nextPageLink = call.application.href(TextRoutes.Details(text.id, page + 1))
                 action(nextPageLink, "Next Page")
+            }
+            if (page > 0) {
+                val firstPageLink = call.application.href(TextRoutes.Details(text.id, 0))
+                val previousPageLink = call.application.href(TextRoutes.Details(text.id, page - 1))
+                action(previousPageLink, "Previous Page")
+                action(firstPageLink, "First Page")
             }
         }
     }
