@@ -587,6 +587,9 @@
     "layouts": {
      "Two": "Common"
     },
+    "types": {
+     "Bird": "Common"
+    },
     "birdColors": {
      "DimGray": "Common",
      "Gold": "Rare",
