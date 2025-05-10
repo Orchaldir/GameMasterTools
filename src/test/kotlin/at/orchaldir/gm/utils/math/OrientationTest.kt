@@ -3,6 +3,8 @@ package at.orchaldir.gm.utils.math
 import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
 import at.orchaldir.gm.utils.math.Orientation.Companion.fromRadians
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
@@ -26,6 +28,12 @@ class OrientationTest {
 
         assertEquals(180.0f, orientation.toDegree())
         assertEquals(pi, orientation.toRadians())
+    }
+
+    @Test
+    fun `Is zero`() {
+        assertTrue(ZERO_ORIENTATION.isZero())
+        assertFalse(fromDegree(90.0f).isZero())
     }
 
     @Nested
