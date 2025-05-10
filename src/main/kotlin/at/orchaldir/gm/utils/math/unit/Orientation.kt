@@ -1,7 +1,7 @@
 package at.orchaldir.gm.utils.math.unit
 
 import kotlinx.serialization.Serializable
-import java.util.Locale
+import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.cos
