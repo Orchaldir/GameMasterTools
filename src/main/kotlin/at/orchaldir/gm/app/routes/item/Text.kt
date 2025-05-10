@@ -285,7 +285,7 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
     page: Int,
     showActions: Boolean = false,
 ) {
-    if (text.format !is UndefinedTextFormat) {
+    if (text.format is Book || (text.format is Scroll && text.content is UndefinedTextContent)) {
         val frontSvg = visualizeText(state, TEXT_CONFIG, text)
         svg(frontSvg, width)
     }
