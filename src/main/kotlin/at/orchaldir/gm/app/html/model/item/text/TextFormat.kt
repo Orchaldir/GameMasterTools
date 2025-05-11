@@ -22,8 +22,6 @@ import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 
-private const val min = 10L
-private const val max = 2000L
 private val prefix = SiPrefix.Milli
 
 // show
@@ -202,12 +200,28 @@ fun FORM.editTextFormat(
                 selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
                 editColorItemPart(state, format.page, PAGE, "Page")
                 editBinding(state, format.binding, hasAuthor)
-                selectSize(SIZE, format.size, min, max, prefix, true)
+                selectSize(SIZE, format.size, MIN_TEXT_SIZE, MAX_TEXT_SIZE, prefix, true)
             }
 
             is Scroll -> {
-                selectDistance("Roll Length", LENGTH, format.rollLength, min, max, prefix, true)
-                selectDistance("Roll Diameter", DIAMETER, format.rollDiameter, min, max, prefix, true)
+                selectDistance(
+                    "Roll Length",
+                    LENGTH,
+                    format.rollLength,
+                    MIN_TEXT_SIZE,
+                    MAX_TEXT_SIZE,
+                    prefix,
+                    true,
+                )
+                selectDistance(
+                    "Roll Diameter",
+                    DIAMETER,
+                    format.rollDiameter,
+                    MIN_TEXT_SIZE,
+                    MAX_TEXT_SIZE,
+                    prefix,
+                    true,
+                )
                 selectFactor(
                     "Page Width",
                     WIDTH,
@@ -420,15 +434,15 @@ private fun HtmlBlockTag.editScrollHandle(
 fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
     TextFormatType.Book -> Book(
         parseBinding(parameters),
-        parseInt(parameters, PAGES, 100),
+        parseInt(parameters, PAGES, DEFAULT_PAGES),
         parseColorItemPart(parameters, PAGE),
-        parseSize(parameters, SIZE, prefix),
+        parseSize(parameters, SIZE, prefix, DEFAULT_BOOK_SIZE),
     )
 
     TextFormatType.Scroll -> Scroll(
         parseScrollFormat(parameters),
-        parseDistance(parameters, LENGTH, prefix, 200),
-        parseDistance(parameters, DIAMETER, prefix, 50),
+        parseDistance(parameters, LENGTH, prefix, DEFAULT_ROLL_LENGTH),
+        parseDistance(parameters, DIAMETER, prefix, DEFAULT_ROLL_DIAMETER),
         parseFactor(parameters, WIDTH, DEFAULT_PAGE_WIDTH_FACTOR),
         parseColorItemPart(parameters, SCROLL),
     )

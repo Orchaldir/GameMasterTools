@@ -20,10 +20,18 @@ import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_TEXT_SIZE = fromCentimeters(1)
+val DEFAULT_BOOK_SIZE = fromCentimeters(10)
+val DEFAULT_ROLL_LENGTH = fromCentimeters(30)
+val DEFAULT_ROLL_DIAMETER = fromCentimeters(5)
+val MAX_TEXT_SIZE = fromCentimeters(2000)
+
 val MIN_PAGE_WIDTH_FACTOR = fromPercentage(10)
 val DEFAULT_PAGE_WIDTH_FACTOR = HALF
 val MAX_PAGE_WIDTH_FACTOR = fromPercentage(1000)
+
 const val MIN_PAGES = 10
+const val DEFAULT_PAGES = 100
 const val MIN_CONTENT_PAGES = 1
 
 enum class TextFormatType {
@@ -52,9 +60,9 @@ sealed class TextFormat : MadeFromParts {
 @SerialName("Book")
 data class Book(
     val binding: BookBinding,
-    val pages: Int = 100,
+    val pages: Int = DEFAULT_PAGES,
     val page: ColorItemPart = ColorItemPart(),
-    val size: Size2d = Size2d.square(fromMillimeters(100)),
+    val size: Size2d = Size2d.square(DEFAULT_BOOK_SIZE),
 ) : TextFormat() {
 
     override fun parts() = binding.parts() + page
@@ -65,15 +73,11 @@ data class Book(
 @SerialName("Scroll")
 data class Scroll(
     val format: ScrollFormat,
-    val rollLength: Distance = fromCentimeters(30),
-    val rollDiameter: Distance = fromCentimeters(5),
+    val rollLength: Distance = DEFAULT_ROLL_LENGTH,
+    val rollDiameter: Distance = DEFAULT_ROLL_DIAMETER,
     val pageWidth: Factor = DEFAULT_PAGE_WIDTH_FACTOR,
     val main: ColorItemPart = ColorItemPart(),
 ) : TextFormat() {
-
-    init {
-        checkFactor(pageWidth, "page width", MIN_PAGE_WIDTH_FACTOR, MAX_PAGE_WIDTH_FACTOR)
-    }
 
     fun calculateWidthOfOneRod() = format.calculateWidthOfOneRod(rollDiameter)
 

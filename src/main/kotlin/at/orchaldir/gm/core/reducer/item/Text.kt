@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -88,7 +89,11 @@ private fun checkTextFormat(format: TextFormat) {
             }
         }
 
-        is Scroll -> checkScrollFormat(format.format)
+        is Scroll -> {
+            checkFactor(format.pageWidth, "page width", MIN_PAGE_WIDTH_FACTOR, MAX_PAGE_WIDTH_FACTOR)
+            checkScrollFormat(format.format)
+        }
+
         UndefinedTextFormat -> doNothing()
     }
 }
