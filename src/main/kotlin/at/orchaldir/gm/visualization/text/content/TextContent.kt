@@ -45,7 +45,7 @@ fun visualizeTextContent(
 
     when (format) {
         is Book -> visualizeBookPage(innerState, format, content, pages, pageIndex)
-        is Scroll -> visualizeScrollContent(innerState, format, content, listOf(pageIndex))
+        is Scroll -> visualizeScrollContent(innerState, format, content, pages, listOf(pageIndex))
         UndefinedTextFormat -> doNothing()
     }
 }
