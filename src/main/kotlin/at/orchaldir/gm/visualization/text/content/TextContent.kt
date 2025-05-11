@@ -33,18 +33,19 @@ fun visualizeTextContent(
     state: TextRenderState,
     format: TextFormat,
     content: TextContent,
-    page: Int,
+    pageIndex: Int,
 ) {
-    if (page >= content.pages()) {
+    if (pageIndex >= content.pages()) {
         return
     }
 
     val inner = AABB.fromCenter(state.aabb.getCenter(), state.config.calculateOpenSize(format))
     val innerState = state.copy(aabb = inner)
+    val pages = buildPages(innerState, content, pageIndex)!!
 
     when (format) {
-        is Book -> visualizeBookPage(innerState, format, content, page)
-        is Scroll -> visualizeScrollContent(innerState, format, content, listOf(page))
+        is Book -> visualizeBookPage(innerState, format, content, pages, pageIndex)
+        is Scroll -> visualizeScrollContent(innerState, format, content, listOf(pageIndex))
         UndefinedTextFormat -> doNothing()
     }
 }

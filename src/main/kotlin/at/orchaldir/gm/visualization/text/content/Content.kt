@@ -3,13 +3,27 @@ package at.orchaldir.gm.visualization.text.content
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.Chapters
 import at.orchaldir.gm.core.model.item.text.content.ContentStyle
+import at.orchaldir.gm.core.model.item.text.content.TextContent
+import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
 import kotlin.math.min
+
+fun buildPages(
+    state: TextRenderState,
+    content: TextContent,
+    maxPageIndex: Int,
+): Pages? = when (content) {
+    is AbstractChapters -> buildPagesForAbstractChapters(state, content, maxPageIndex)
+    is AbstractText -> buildPagesForAbstractText(state, content, maxPageIndex)
+    is Chapters -> TODO()
+    UndefinedTextContent -> null
+}
 
 fun visualizeAbstractText(
     state: TextRenderState,
