@@ -1,10 +1,6 @@
 package at.orchaldir.gm.utils.math.unit
 
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.checkFactor
+import at.orchaldir.gm.utils.math.*
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 

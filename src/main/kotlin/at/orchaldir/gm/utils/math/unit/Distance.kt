@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.Serializable
 import java.util.*
 import kotlin.math.absoluteValue
-import kotlin.math.pow
 
 val ZERO_DISTANCE = fromMillimeters(0)
 val HUNDRED_µM = fromMicrometers(100)

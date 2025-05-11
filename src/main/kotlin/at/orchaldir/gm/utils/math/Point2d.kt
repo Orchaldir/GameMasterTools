@@ -61,6 +61,7 @@ data class Point2d(val x: Distance = ZERO_DISTANCE, val y: Distance = ZERO_DISTA
             x.toMeters().toDouble(),
         ).toFloat()
     )
+
     fun calculateOrientation(other: Point2d) = (other - this).calculateOrientation()
 
     operator fun plus(distance: Distance) = Point2d(x + distance, y + distance)

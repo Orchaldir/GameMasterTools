@@ -6,11 +6,7 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.race.CreatedRace
-import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
-import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
-import at.orchaldir.gm.core.model.race.ModifiedRace
-import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
