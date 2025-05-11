@@ -97,6 +97,21 @@ fun buildPagesForAbstractChapters(
     maxPageIndex,
 )
 
+fun visualizeSimpleChapters(
+    state: TextRenderState,
+    content: SimpleChapters,
+    pages: Pages,
+    maxPageIndex: Int,
+) {
+    val margin = state.calculateMargin(content.style)
+
+    state.renderer.createGroup(state.aabb.start) { layer ->
+        pages.render(layer, maxPageIndex)
+    }
+
+    visualizePageNumbering(state, margin, content.style, content.pageNumbering, maxPageIndex)
+}
+
 fun buildPagesForSimpleChapters(
     state: TextRenderState,
     content: SimpleChapters,
@@ -109,7 +124,7 @@ fun buildPagesForSimpleChapters(
     maxPageIndex,
 )
 
-fun buildPagesForChapters(
+private fun buildPagesForChapters(
     state: TextRenderState,
     chapters: List<Chapter>,
     style: ContentStyle,

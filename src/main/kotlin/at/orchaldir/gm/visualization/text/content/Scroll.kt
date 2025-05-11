@@ -110,7 +110,7 @@ fun visualizeScrollContent(
         when (content) {
             is AbstractText -> visualizeAbstractText(renderState, content, pages, pageIndex)
             is AbstractChapters -> visualizeAbstractChapters(renderState, content, pages, pageIndex)
-            is SimpleChapters -> doNothing()
+            is SimpleChapters -> visualizeSimpleChapters(renderState, content, pages, pageIndex)
             UndefinedTextContent -> doNothing()
         }
 

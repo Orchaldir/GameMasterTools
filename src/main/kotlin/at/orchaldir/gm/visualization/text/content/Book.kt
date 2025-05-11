@@ -93,7 +93,7 @@ fun visualizeBookPage(
     when (content) {
         is AbstractText -> visualizeAbstractText(state, content, pages, page)
         is AbstractChapters -> visualizeAbstractChapters(state, content, pages, page)
-        is SimpleChapters -> doNothing()
+        is SimpleChapters -> visualizeSimpleChapters(state, content, pages, page)
         UndefinedTextContent -> doNothing()
     }
 }
