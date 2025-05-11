@@ -68,15 +68,7 @@ data class AbstractChapters(
     val style: ContentStyle = ContentStyle(),
     val pageNumbering: PageNumbering = NoPageNumbering,
     val tableOfContents: TableOfContents = NoTableOfContents,
-) : TextContent() {
-
-    init {
-        if (pageNumbering == NoPageNumbering) {
-            require(tableOfContents == NoTableOfContents) { "Table of Contents requires page numbering!" }
-        }
-    }
-
-}
+) : TextContent()
 
 @Serializable
 @SerialName("Chapters")
@@ -86,15 +78,7 @@ data class Chapters(
     val pages: Int = 0, // auto calculated
     val pageNumbering: PageNumbering = NoPageNumbering,
     val tableOfContents: TableOfContents = NoTableOfContents,
-) : TextContent() {
-
-    init {
-        if (pageNumbering == NoPageNumbering) {
-            require(tableOfContents == NoTableOfContents) { "Table of Contents requires page numbering!" }
-        }
-    }
-
-}
+) : TextContent()
 
 @Serializable
 @SerialName("Undefined")

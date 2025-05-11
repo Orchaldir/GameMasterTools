@@ -25,14 +25,6 @@ data class ContentStyle(
     val maxParagraphLength: Int = MAX_PARAGRAPH_LENGTH,
 ) {
 
-    init {
-        require(margin >= MIN_MARGIN) { "Margin is too small!" }
-        require(margin <= MAX_MARGIN) { "Margin is too large!" }
-        require(maxParagraphLength >= minParagraphLength) {
-            "The max paragraph length must be greater or equal than the min!"
-        }
-    }
-
     fun contains(font: FontId) = main.font() == font ||
             title.font() == font ||
             initials.contains(font)

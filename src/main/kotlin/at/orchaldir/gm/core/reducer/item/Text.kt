@@ -137,9 +137,14 @@ private fun checkTextContent(
             content.chapters.forEach { checkAbstractContent(state, it.content) }
             checkStyle(state, content.style)
             checkPageNumbering(state, content.pageNumbering)
-            checkTableOfContents(state, content.tableOfContents)
+            checkTableOfContents(state, content.pageNumbering, content.tableOfContents)
         }
-        is Chapters -> doNothing()
+
+        is Chapters -> {
+            checkStyle(state, content.style)
+            checkPageNumbering(state, content.pageNumbering)
+            checkTableOfContents(state, content.pageNumbering, content.tableOfContents)
+        }
 
         UndefinedTextContent -> doNothing()
     }
@@ -160,6 +165,11 @@ private fun checkStyle(
     checkFontOption(state, style.main)
     checkFontOption(state, style.title)
     checkInitials(state, style.initials)
+    require(style.margin >= MIN_MARGIN) { "Margin is too small!" }
+    require(style.margin <= MAX_MARGIN) { "Margin is too large!" }
+    require(style.maxParagraphLength >= style.minParagraphLength) {
+        "The max paragraph length must be greater or equal than the min!"
+    }
 }
 
 private fun checkPageNumbering(
@@ -182,12 +192,17 @@ private fun checkInitials(
 
 private fun checkTableOfContents(
     state: State,
+    pageNumbering: PageNumbering,
     toc: TableOfContents,
-) = if (toc is ComplexTableOfContents) {
-    checkFontOption(state, toc.mainOptions)
-    checkFontOption(state, toc.titleOptions)
-} else {
-    doNothing()
+) {
+    if (toc is ComplexTableOfContents) {
+        checkFontOption(state, toc.mainOptions)
+        checkFontOption(state, toc.titleOptions)
+    }
+
+    if (pageNumbering == NoPageNumbering) {
+        require(toc == NoTableOfContents) { "Table of Contents requires page numbering!" }
+    }
 }
 
 private fun checkFontOption(
