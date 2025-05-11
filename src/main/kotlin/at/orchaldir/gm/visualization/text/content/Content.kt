@@ -28,17 +28,6 @@ fun buildPages(
 fun visualizeAbstractText(
     state: TextRenderState,
     content: AbstractText,
-    pageIndex: Int,
-) = visualizeAbstractText(
-    state,
-    content,
-    buildPagesForAbstractText(state, content, pageIndex),
-    pageIndex,
-)
-
-fun visualizeAbstractText(
-    state: TextRenderState,
-    content: AbstractText,
     pages: Pages,
     pageIndex: Int,
 ) {
@@ -78,17 +67,6 @@ fun buildPagesForAbstractText(
     return builder
         .build()
 }
-
-fun visualizeAbstractChapters(
-    state: TextRenderState,
-    content: AbstractChapters,
-    pageIndex: Int,
-) = visualizeAbstractChapters(
-    state,
-    content,
-    buildPagesForAbstractChapters(state, content, pageIndex),
-    pageIndex,
-)
 
 fun visualizeAbstractChapters(
     state: TextRenderState,
