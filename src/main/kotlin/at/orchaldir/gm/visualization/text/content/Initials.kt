@@ -19,7 +19,7 @@ fun calculateInitialsOptions(
     is FontInitials -> initials.fontOption.convert(state.state, VerticalAlignment.Top)
 }
 
-fun visualizeParagraphWithInitial(
+fun buildParagraphWithInitial(
     builder: PagesBuilder,
     mainOptions: RenderStringOptions,
     initialOptions: RenderStringOptions,

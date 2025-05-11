@@ -38,7 +38,7 @@ fun buildPagesForAbstractText(
     val generator = state.createTextGenerator()
     val maxPage = min(content.content.pages, pageIndex + 2)
 
-    visualizeAbstractContent(
+    buildAbstractContent(
         state,
         generator,
         builder,
@@ -79,7 +79,7 @@ fun buildPagesForAbstractChapters(
     val builder = PagesBuilder(innerAABB)
     val generator = state.createTextGenerator()
 
-    visualizeTableOfContents(state, builder, content, titleOptions, mainOptions)
+    buildTableOfContents(state, builder, content, titleOptions, mainOptions)
 
     content.chapters.forEach { chapter ->
         val maxPage = min(builder.count() + chapter.content.pages, pageIndex + 2)
@@ -89,7 +89,7 @@ fun buildPagesForAbstractChapters(
             .addParagraph(chapter.title.text, titleOptions)
             .addBreak(content.style.main.getFontSize())
 
-        visualizeAbstractContent(
+        buildAbstractContent(
             state,
             generator,
             builder,
@@ -104,7 +104,7 @@ fun buildPagesForAbstractChapters(
         .build()
 }
 
-private fun visualizeAbstractContent(
+private fun buildAbstractContent(
     state: TextRenderState,
     generator: TextGenerator,
     builder: PagesBuilder,
@@ -114,7 +114,7 @@ private fun visualizeAbstractContent(
     maxPage: Int,
 ) {
     while (builder.count() < maxPage || !builder.hasReached(state.config.lastPageFillFactor)) {
-        visualizeParagraphWithInitial(
+        buildParagraphWithInitial(
             builder,
             mainOptions,
             initialOptions,

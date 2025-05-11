@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
 
-fun visualizeTableOfContents(
+fun buildTableOfContents(
     state: TextRenderState,
     builder: PagesBuilder,
     chapters: AbstractChapters,
@@ -18,7 +18,7 @@ fun visualizeTableOfContents(
 ) {
     when (val toc = chapters.tableOfContents) {
         NoTableOfContents -> doNothing()
-        is SimpleTableOfContents -> visualizeTableOfContents(
+        is SimpleTableOfContents -> buildTableOfContents(
             builder,
             toc.title,
             chapters.chapters,
@@ -28,7 +28,7 @@ fun visualizeTableOfContents(
             toc.line,
         )
 
-        is ComplexTableOfContents -> visualizeTableOfContents(
+        is ComplexTableOfContents -> buildTableOfContents(
             builder,
             toc.title,
             chapters.chapters,
@@ -40,7 +40,7 @@ fun visualizeTableOfContents(
     }
 }
 
-private fun visualizeTableOfContents(
+private fun buildTableOfContents(
     builder: PagesBuilder,
     title: NotEmptyString,
     chapters: List<AbstractChapter>,
@@ -55,7 +55,7 @@ private fun visualizeTableOfContents(
     var page = 2
 
     chapters.forEach { chapter ->
-        visualizeTocLine(
+        buildTocLine(
             builder,
             chapter,
             mainOptions,
@@ -70,7 +70,7 @@ private fun visualizeTableOfContents(
     builder.addPageBreak()
 }
 
-private fun visualizeTocLine(
+private fun buildTocLine(
     builder: PagesBuilder,
     chapter: AbstractChapter,
     options: RenderStringOptions,
