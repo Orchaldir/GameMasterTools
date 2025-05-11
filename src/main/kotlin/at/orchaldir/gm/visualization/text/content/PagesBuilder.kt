@@ -150,10 +150,10 @@ data class PagesBuilder(
     fun count() = pages.size + currentPage.isNotEmpty().toInt()
 
     fun hasReached(factor: Factor) =
-        ((currentPosition.y - aabb.start.y) / aabb.size.height.toMeters()) >= factor.toNumber()
+        ((currentPosition.y - aabb.start.y).toMeters() / aabb.size.height.toMeters()) >= factor.toNumber()
 
     private fun checkEndOfPage(bonus: Distance = ZERO_DISTANCE) {
-        if (currentPosition.y + bonus.toMeters() >= aabb.getEnd().y) {
+        if (currentPosition.y + bonus >= aabb.getEnd().y) {
             startNewPage()
         }
     }

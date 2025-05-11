@@ -80,11 +80,11 @@ private fun visualizePointedUpwards(
     option: RenderOptions,
 ) {
     val center = state.aabb.getPoint(FULL, state.config.head.earY)
-    val radius = state.config.head.ears.getRoundRadius(state.aabb, size).toMeters()
-    val offset = Point2d(0.0f, radius)
+    val radius = state.config.head.ears.getRoundRadius(state.aabb, size)
+    val offset = Point2d.yAxis(radius)
     val top = center - offset
     val bottom = center + offset
-    val length = radius * state.config.head.ears.pointedLength.toNumber()
+    val length = radius * state.config.head.ears.pointedLength
     val outerTop = top + Point2d(radius, -length)
     val outerBottom = bottom + Point2d(radius, -radius)
 

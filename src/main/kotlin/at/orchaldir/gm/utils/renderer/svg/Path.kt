@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Orientation
 import java.lang.Float.min
 import kotlin.math.pow
@@ -14,11 +15,10 @@ fun convertCircleArcToPath(
 ): String {
     val start = center.createPolar(radius, offset)
     val end = center.createPolar(radius, offset + angle)
-    val radiusMeter = radius.toMeters()
 
     return PathBuilder()
         .moveTo(start.x, start.y)
-        .ellipticalArc(end.x, end.y, radiusMeter, radiusMeter)
+        .ellipticalArc(end.x, end.y, radius, radius)
         .close()
         .build()
 }
@@ -37,10 +37,10 @@ fun convertHollowRectangleToPath(
     height: Distance,
     thickness: Distance,
 ): String {
-    val halfWidth = width.toMeters() / 2.0f
-    val halfHeight = height.toMeters() / 2.0f
-    val halfInnerWidth = halfWidth - thickness.toMeters()
-    val halfInnerHeight = halfHeight - thickness.toMeters()
+    val halfWidth = width / 2.0f
+    val halfHeight = height / 2.0f
+    val halfInnerWidth = halfWidth - thickness
+    val halfInnerHeight = halfHeight - thickness
 
     return PathBuilder()
         .moveTo(center.x - halfWidth, center.y - halfHeight)
@@ -62,7 +62,7 @@ fun convertLineToPath(line: List<Point2d>) = convertCornersToPath(line)
 fun convertPointedOvalToPath(center: Point2d, radiusX: Distance, radiusY: Distance): String {
     val metersX = radiusX.toMeters()
     val metersY = radiusY.toMeters()
-    val radius = (metersX.pow(2.0f) + metersY.pow(2.0f)) / (2.0f * min(metersX, metersY))
+    val radius = fromMeters(metersX.pow(2.0f) + metersY.pow(2.0f)) / (2.0f * min(metersX, metersY))
     val aabb = AABB.fromRadii(center, radiusX, radiusY)
     val left = if (metersX > metersY) {
         aabb.getPoint(START, CENTER)
@@ -88,17 +88,29 @@ fun convertRingToPath(
     outerRadius: Distance,
     innerRadius: Distance,
 ): String {
-    val outer = outerRadius.toMeters()
-    val inner = innerRadius.toMeters()
 
     return PathBuilder()
-        .moveTo(center.x, center.y - outer)
-        .ellipticalArc(center.x, center.y + outer, outer, outer, largeArcFlag = true)
-        .ellipticalArc(center.x, center.y - outer, outer, outer, largeArcFlag = true)
+        .moveTo(center.x, center.y - outerRadius)
+        .ellipticalArc(center.x, center.y + outerRadius, outerRadius, outerRadius, largeArcFlag = true)
+        .ellipticalArc(center.x, center.y - outerRadius, outerRadius, outerRadius, largeArcFlag = true)
         .close()
-        .moveTo(center.x, center.y - inner)
-        .ellipticalArc(center.x, center.y + inner, inner, inner, largeArcFlag = true, sweepFlag = true)
-        .ellipticalArc(center.x, center.y - inner, inner, inner, largeArcFlag = true, sweepFlag = true)
+        .moveTo(center.x, center.y - innerRadius)
+        .ellipticalArc(
+            center.x,
+            center.y + innerRadius,
+            innerRadius,
+            innerRadius,
+            largeArcFlag = true,
+            sweepFlag = true
+        )
+        .ellipticalArc(
+            center.x,
+            center.y - innerRadius,
+            innerRadius,
+            innerRadius,
+            largeArcFlag = true,
+            sweepFlag = true
+        )
         .close()
         .build()
 }

@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.Serializable
 import java.util.*
 import kotlin.math.absoluteValue
+import kotlin.math.pow
 
 val ZERO_DISTANCE = fromMillimeters(0)
 val HUNDRED_µM = fromMicrometers(100)
@@ -55,6 +56,7 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
 
     override fun toString() = formatMicrometersAsMeters(micrometers)
 
+    operator fun unaryMinus() = Distance(-micrometers)
     override operator fun plus(other: Distance) = Distance(micrometers + other.micrometers)
     override operator fun minus(other: Distance) = Distance(micrometers - other.micrometers)
     operator fun times(factor: Float) = Distance((micrometers * factor).toLong())

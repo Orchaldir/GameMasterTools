@@ -1,21 +1,22 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.toInt
 
 class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
 
     fun moveTo(point: Point2d) = moveTo(point.x, point.y)
 
-    fun moveTo(x: Float, y: Float): PathBuilder {
-        val part = String.format(LOCALE, "M %.4f %.4f", x, y)
+    fun moveTo(x: Distance, y: Distance): PathBuilder {
+        val part = String.format(LOCALE, "M %.4f %.4f", x.toMeters(), y.toMeters())
         return add(part)
     }
 
     fun lineTo(point: Point2d) = lineTo(point.x, point.y)
 
-    fun lineTo(x: Float, y: Float): PathBuilder {
-        val part = String.format(LOCALE, "L %.4f %.4f", x, y)
+    fun lineTo(x: Distance, y: Distance): PathBuilder {
+        val part = String.format(LOCALE, "L %.4f %.4f", x.toMeters(), y.toMeters())
         return add(part)
     }
 
@@ -25,10 +26,10 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
     }
 
     fun ellipticalArc(
-        endX: Float,
-        endY: Float,
-        radiusX: Float,
-        radiusY: Float,
+        endX: Distance,
+        endY: Distance,
+        radiusX: Distance,
+        radiusY: Distance,
         xAxisRotation: Float = 0.0f,
         largeArcFlag: Boolean = false,
         sweepFlag: Boolean = false,

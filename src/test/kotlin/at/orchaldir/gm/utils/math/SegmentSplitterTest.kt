@@ -1,16 +1,17 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.utils.math.Point2d.Companion.fromMeters
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class SegmentSplitterTest {
 
-    private val start = Point2d(10.0f, 20f)
-    private val end = Point2d(50.0f, 20f)
-    private val center0 = Point2d(20.0f, 20f)
-    private val center1 = Point2d(40.0f, 20f)
+    private val start = fromMeters(10.0f, 20f)
+    private val end = fromMeters(50.0f, 20f)
+    private val center0 = fromMeters(20.0f, 20f)
+    private val center1 = fromMeters(40.0f, 20f)
 
     private val splitter = SegmentSplitter.fromStartAndEnd(
         start,
@@ -47,7 +48,7 @@ class SegmentSplitterTest {
 
     @Test
     fun `Get all corners`() {
-        assertEquals(listOf(start, Point2d(30.0f, 20f), end), splitter.getCorners())
+        assertEquals(listOf(start, fromMeters(30.0f, 20f), end), splitter.getCorners())
     }
 
 }

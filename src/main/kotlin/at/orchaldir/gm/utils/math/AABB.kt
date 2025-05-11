@@ -14,8 +14,12 @@ private val TWO = fromPercentage(200)
 data class AABB(val start: Point2d, val size: Size2d) {
 
     constructor(size: Size2d) : this(Point2d(), size)
-    constructor(x: Float, y: Float, width: Distance, height: Distance) : this(Point2d(x, y), Size2d(width, height))
-    constructor(x: Float, y: Float, size: Size2d) : this(Point2d(x, y), size)
+    constructor(x: Float, y: Float, width: Distance, height: Distance) : this(
+        Point2d.fromMeters(x, y),
+        Size2d(width, height)
+    )
+
+    constructor(x: Float, y: Float, size: Size2d) : this(Point2d.fromMeters(x, y), size)
 
     companion object {
         fun fromCenter(center: Point2d, size: Size2d) = AABB(
@@ -28,7 +32,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
             val diff = end - start
             return AABB(
                 start,
-                Size2d(Distance.fromMeters(diff.x), Distance.fromMeters(diff.y)),
+                Size2d(diff.x, diff.y),
             )
         }
 
@@ -67,8 +71,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun getPoint(horizontal: Factor, vertical: Factor) = Point2d(
-        start.x + size.width.toMeters() * horizontal.toNumber(),
-        start.y + size.height.toMeters() * vertical.toNumber(),
+        start.x + size.width * horizontal,
+        start.y + size.height * vertical,
     )
 
     fun getMirroredPoints(width: Factor, vertical: Factor): Pair<Point2d, Point2d> {
@@ -79,21 +83,21 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun mirrorHorizontally(polygon: Polygon2d): Polygon2d {
-        val mirrorY = start.y + size.height.toMeters() / 2.0f
+        val mirrorY = start.y + size.height / 2.0f
 
-        return Polygon2d(polygon.corners.map { Point2d(it.x, 2.0f * mirrorY - it.y) })
+        return Polygon2d(polygon.corners.map { Point2d(it.x, mirrorY * 2.0f - it.y) })
     }
 
     fun mirrorVertically(polygon: Polygon2d): Polygon2d {
-        val mirrorX = start.x + size.width.toMeters() / 2.0f
+        val mirrorX = start.x + size.width / 2.0f
 
-        return Polygon2d(polygon.corners.map { Point2d(2.0f * mirrorX - it.x, it.y) })
+        return Polygon2d(polygon.corners.map { Point2d(mirrorX * 2.0f - it.x, it.y) })
     }
 
     fun mirrorVertically(point: Point2d): Point2d {
-        val mirrorX = start.x + size.width.toMeters() / 2.0f
+        val mirrorX = start.x + size.width / 2.0f
 
-        return Point2d(2.0f * mirrorX - point.x, point.y)
+        return Point2d(mirrorX * 2.0f - point.x, point.y)
     }
 
     operator fun plus(offset: Point2d) = AABB(start + offset, size)

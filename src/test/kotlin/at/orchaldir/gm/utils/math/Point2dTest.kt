@@ -10,21 +10,24 @@ class Point2dTest {
 
     @Test
     fun `Calculate the length`() {
-        assertEquals(fromMeters(5.0f), Point2d(-3.0f, 4.0f).length())
+        assertEquals(fromMeters(5.0f), Point2d.fromMeters(-3.0f, 4.0f).length())
     }
 
     @Test
     fun `Calculate the distance`() {
-        assertEquals(fromMeters(5.0f), Point2d(2.0f, 3.0f).calculateDistance(Point2d(5.0f, 7.0f)))
+        val a = Point2d.fromMeters(2.0f, 3.0f)
+        val b = Point2d.fromMeters(5.0f, 7.0f)
+
+        assertEquals(fromMeters(5.0f), a.calculateDistance(b))
     }
 
     @Test
     fun `Create with polar coordinates`() {
-        val start = Point2d(2.0f, 4.0f)
+        val start = Point2d.fromMeters(2.0f, 4.0f)
 
         val result = start.createPolar(fromMillimeters(5000), Orientation.fromDegrees(180))
 
-        assertEquals(-3.0f, result.x, 0.0001f)
-        assertEquals(4.0f, result.y, 0.0001f)
+        assertEquals(-3.0f, result.x.toMeters(), 0.0001f)
+        assertEquals(4.0f, result.y.toMeters(), 0.0001f)
     }
 }
