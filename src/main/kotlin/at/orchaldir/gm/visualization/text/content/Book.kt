@@ -85,7 +85,7 @@ fun visualizeBookPage(
     content: TextContent,
     page: Int,
 ) {
-    visualizeBookPage(state, book)
+    visualizeBlankBookPage(state, book)
 
     when (content) {
         is AbstractText -> visualizeAbstractText(state, content, page)
@@ -95,7 +95,7 @@ fun visualizeBookPage(
     }
 }
 
-private fun visualizeBookPage(
+private fun visualizeBlankBookPage(
     state: TextRenderState,
     book: Book,
 ) {
