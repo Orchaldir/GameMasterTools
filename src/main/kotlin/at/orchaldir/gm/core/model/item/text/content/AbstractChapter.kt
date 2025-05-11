@@ -11,5 +11,3 @@ data class AbstractChapter(
     constructor(index: Int, content: AbstractContent = AbstractContent()) :
             this(NotEmptyString.init(createDefaultChapterTitle(index)), content)
 }
-
-fun createDefaultChapterTitle(index: Int): String = "${index + 1}.Chapter"
