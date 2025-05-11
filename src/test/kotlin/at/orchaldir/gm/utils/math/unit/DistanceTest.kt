@@ -16,13 +16,20 @@ class DistanceTest {
     )
 
     @Test
-    fun `Millimeters to string`() {
+    fun `Distance to string`() {
         assertEquals("123 μm", fromMicrometers(123).toString())
         assertEquals("1.50 mm", fromMillimeters(1.5f).toString())
         assertEquals("12.00 mm", fromMillimeters(12).toString())
         assertEquals("123.00 mm", fromMillimeters(123).toString())
         assertEquals("1.23 m", fromMillimeters(1234).toString())
         assertEquals("12.35 m", fromMillimeters(12345).toString())
+    }
+
+    @Test
+    fun `Negative distance to string`() {
+        assertEquals("-123 μm", fromMicrometers(-123).toString())
+        assertEquals("-123.00 mm", fromMillimeters(-123).toString())
+        assertEquals("-1.23 m", fromMillimeters(-1234).toString())
     }
 
     @Test

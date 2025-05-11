@@ -90,7 +90,7 @@ fun <C, R> renderTable(
             start += columnStep
         }
 
-        val textCenter = Point2d(halfTextSize.toMeters(), start.y + renderSize.height.toMeters() / 2.0f)
+        val textCenter = Point2d(halfTextSize, start.y + renderSize.height / 2.0f)
         layer.renderString(rowName, textCenter, rowOrientation, textOptions)
 
         if (backToo) {

@@ -23,7 +23,7 @@ class AppearanceTest {
         listOf(
             Storage(CALENDAR0),
             Storage(Character(CHARACTER_ID_0)),
-            Storage(Race(RACE_ID_0, height = Distribution.fromMeters(1.0f, 0.1f))),
+            Storage(Race(RACE_ID_0, height = Distribution.fromMeters(1.0f))),
         )
     )
     private val appearance = HeadOnly(Head(), fromMillimeters(1000))
@@ -45,7 +45,7 @@ class AppearanceTest {
 
     @Test
     fun `Character's height is invalid!`() {
-        val appearance = HeadOnly(Head(), fromMillimeters(1101))
+        val appearance = HeadOnly(Head(), fromMillimeters(1201))
         val action = UpdateAppearance(CHARACTER_ID_0, appearance)
 
         assertIllegalArgument("Character's height is invalid!") { REDUCER.invoke(state, action) }

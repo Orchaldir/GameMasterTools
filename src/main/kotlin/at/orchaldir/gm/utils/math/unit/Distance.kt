@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.Serializable
 import java.util.*
+import kotlin.math.absoluteValue
 
 val ZERO_DISTANCE = fromMillimeters(0)
 val HUNDRED_µM = fromMicrometers(100)
@@ -18,10 +19,6 @@ val ONE_M = fromMeters(1)
 @JvmInline
 @Serializable
 value class Distance private constructor(private val micrometers: Long) : SiUnit<Distance> {
-
-    init {
-        require(micrometers >= 0) { "Distance must be >= 0 μm!" }
-    }
 
     companion object {
         fun fromKilometers(kilometers: Long) = Distance(convertFromKilometers(kilometers))
@@ -58,10 +55,11 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
 
     override fun toString() = formatMicrometersAsMeters(micrometers)
 
+    operator fun unaryMinus() = Distance(-micrometers)
     override operator fun plus(other: Distance) = Distance(micrometers + other.micrometers)
     override operator fun minus(other: Distance) = Distance(micrometers - other.micrometers)
     operator fun times(factor: Float) = Distance((micrometers * factor).toLong())
-    operator fun times(factor: Factor) = times(factor.toNumber())
+    override operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(factor: Int) = Distance(micrometers * factor)
     operator fun div(factor: Float) = Distance((micrometers / factor).toLong())
     operator fun div(factor: Factor) = div(factor.toNumber())
@@ -109,12 +107,16 @@ fun convertToMeters(micrometers: Long) = upSixSteps(micrometers)
 fun convertToCentimeters(millimeters: Long) = up(upThreeSteps(millimeters))
 fun convertToMillimeters(micrometers: Long) = upThreeSteps(micrometers)
 
-fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SIX_STEPS) {
-    String.format(Locale.US, "%.2f m", convertToMeters(micrometers))
-} else if (micrometers > SI_THREE_STEPS) {
-    String.format(Locale.US, "%.2f mm", convertToMillimeters(micrometers))
-} else {
-    String.format(Locale.US, "%d μm", micrometers)
+fun formatMicrometersAsMeters(micrometers: Long): String {
+    val abs = micrometers.absoluteValue
+
+    return if (abs > SI_SIX_STEPS) {
+        String.format(Locale.US, "%.2f m", convertToMeters(micrometers))
+    } else if (abs > SI_THREE_STEPS) {
+        String.format(Locale.US, "%.2f mm", convertToMillimeters(micrometers))
+    } else {
+        String.format(Locale.US, "%d μm", micrometers)
+    }
 }
 
 

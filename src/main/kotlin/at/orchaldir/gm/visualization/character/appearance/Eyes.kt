@@ -26,9 +26,9 @@ data class EyesConfig(
         val diameter = aabb.convertWidth(diameter.convert(size))
 
         return when (shape) {
-            EyeShape.Almond -> Size2d(diameter, diameter * almondHeight.toNumber())
+            EyeShape.Almond -> Size2d(diameter, diameter * almondHeight)
             EyeShape.Circle -> square(diameter)
-            EyeShape.Ellipse -> Size2d(diameter, diameter * ellipseHeight.toNumber())
+            EyeShape.Ellipse -> Size2d(diameter, diameter * ellipseHeight)
         }
     }
 
@@ -112,7 +112,7 @@ private fun visualizeEyeShape(state: CharacterRenderState, eyeShape: EyeShape, c
 private fun visualizePupil(state: CharacterRenderState, pupilShape: PupilShape, color: Color, layer: Int) {
     val options = NoBorder(color.toRender())
     val aabb = state.aabb
-    val slitWidth = aabb.size.width * state.config.head.eyes.slitFactor.toNumber()
+    val slitWidth = aabb.size.width * state.config.head.eyes.slitFactor
     val renderer = state.renderer.getLayer(layer)
 
     when (pupilShape) {

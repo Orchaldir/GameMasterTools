@@ -16,6 +16,8 @@ import kotlinx.serialization.Serializable
 import kotlin.math.pow
 
 const val RACE_TYPE = "Race"
+val MIN_RACE_HEIGHT = Distance.fromCentimeters(10)
+val MAX_RACE_HEIGHT = Distance.fromCentimeters(500)
 
 @JvmInline
 @Serializable
@@ -32,7 +34,7 @@ data class Race(
     val id: RaceId,
     val name: Name = Name.init("Race ${id.value}"),
     val genders: OneOf<Gender> = OneOf(Gender.entries),
-    val height: Distribution<Distance> = Distribution.fromMeters(1.8f, 0.2f),
+    val height: Distribution<Distance> = Distribution.fromMeters(1.8f),
     val weight: Weight = Weight.fromKilograms(75.0f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,

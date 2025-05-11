@@ -24,33 +24,46 @@ fun FORM.selectDistanceDistribution(
     label: String,
     param: String,
     distribution: Distribution<Distance>,
-    min: Long,
-    max: Long,
-    maxOffset: Long,
+    min: Distance,
+    max: Distance,
     prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
-) {
-    field(label) {
-        selectDistance(combine(param, CENTER), distribution.center, min, max, prefix, update)
-        +" +- "
-        selectDistance(combine(param, OFFSET), distribution.offset, 0, maxOffset, prefix, update)
-    }
-}
+) = selectDistanceDistribution(
+    label,
+    param,
+    distribution,
+    min.convertToLong(prefix),
+    max.convertToLong(prefix),
+    prefix,
+    update
+)
 
-fun FORM.selectWeightDistribution(
+fun FORM.selectDistanceDistribution(
     label: String,
     param: String,
-    distribution: Distribution<Weight>,
-    min: Long,
-    max: Long,
-    maxOffset: Long,
+    distribution: Distribution<Distance>,
+    minHeight: Long,
+    maxHeight: Long,
     prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) {
     field(label) {
-        selectWeight(combine(param, CENTER), distribution.center, min, max, prefix, update)
+        selectDistance(
+            combine(param, CENTER),
+            distribution.center,
+            minHeight,
+            maxHeight,
+            prefix,
+            update,
+        )
         +" +- "
-        selectWeight(combine(param, OFFSET), distribution.offset, 0, maxOffset, prefix, update)
+        selectFactor(
+            combine(param, OFFSET),
+            distribution.offset,
+            MIN_DISTRIBUTION_FACTOR,
+            MAX_DISTRIBUTION_FACTOR,
+            update = update,
+        )
     }
 }
 
@@ -63,6 +76,6 @@ fun <T : SiUnit<T>> parseDistribution(
     parseUnit: (Parameters, String, SiPrefix) -> T,
 ) = Distribution(
     parseUnit(parameters, combine(param, CENTER), prefix),
-    parseUnit(parameters, combine(param, OFFSET), prefix),
+    parseFactor(parameters, combine(param, OFFSET), MIN_DISTRIBUTION_FACTOR),
 )
 

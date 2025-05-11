@@ -73,15 +73,15 @@ fun visualizeClaws(
     val stepLength = length / foot.count
     val step = Point2d(stepLength, fromMillimeters(0))
     var position = center - step * ((foot.count - 1) / 2.0f)
-    val clawLength = (radius * state.config.body.foot.clawSize.convert(foot.size)).toMeters()
+    val clawLength = (radius * state.config.body.foot.clawSize.convert(foot.size))
     val clawLengthHalf = clawLength / 2.0f
-    val clawWidth = clawLength * state.config.body.foot.clawLengthToWidth.toNumber()
+    val clawWidth = clawLength * state.config.body.foot.clawLengthToWidth
     val clawWidthHalf = clawWidth / 2.0f
 
     repeat(foot.count) {
         val points = listOf(
             position + Point2d(-clawWidthHalf, -clawLengthHalf),
-            position + Point2d(0.0f, clawLengthHalf),
+            position + Point2d.yAxis(clawLengthHalf),
             position + Point2d(clawWidthHalf, -clawLengthHalf),
         )
         val polygon = Polygon2d(points)

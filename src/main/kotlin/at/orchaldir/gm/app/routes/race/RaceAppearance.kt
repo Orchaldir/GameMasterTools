@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -218,7 +219,7 @@ private fun HtmlBlockTag.showRandomExamples(
         appearance,
         AppearanceFashion(),
         Gender.Male,
-        Distribution.fromMeters(1.0f, 0.0f),
+        Distribution.fromMeters(1.0f, ZERO),
     )
 
     repeat(n) {
@@ -261,7 +262,7 @@ private fun getSvg(
         appearance,
         AppearanceFashion(),
         Gender.Male,
-        Distribution.fromMeters(1.0f, 0.0f),
+        Distribution.fromMeters(1.0f, ZERO),
     )
 
     return visualizeCharacter(state, CHARACTER_CONFIG, generator.generate())

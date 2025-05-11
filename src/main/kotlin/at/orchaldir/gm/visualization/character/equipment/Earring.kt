@@ -189,5 +189,5 @@ fun calculateMaxDrop(
     earRadius: Distance,
 ): Distance {
     val minEnd = start.addHeight(earRadius)
-    return Distance.fromMeters(aabb.getEnd().y - minEnd.y)
+    return aabb.getEnd().y - minEnd.y
 }

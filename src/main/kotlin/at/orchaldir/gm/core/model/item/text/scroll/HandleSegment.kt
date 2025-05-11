@@ -8,6 +8,9 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 
+val MIN_SEGMENT_DISTANCE = Distance.fromCentimeters(1)
+val MAX_SEGMENT_DISTANCE = Distance.fromCentimeters(200)
+
 @Serializable
 data class HandleSegment(
     val length: Distance,

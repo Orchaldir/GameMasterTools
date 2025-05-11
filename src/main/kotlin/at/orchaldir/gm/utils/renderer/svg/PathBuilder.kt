@@ -1,34 +1,42 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.toInt
 
 class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
 
     fun moveTo(point: Point2d) = moveTo(point.x, point.y)
 
-    fun moveTo(x: Float, y: Float): PathBuilder {
-        val part = String.format(LOCALE, "M %.4f %.4f", x, y)
+    fun moveTo(x: Distance, y: Distance): PathBuilder {
+        val part = String.format(LOCALE, "M %.4f %.4f", x.toMeters(), y.toMeters())
         return add(part)
     }
 
     fun lineTo(point: Point2d) = lineTo(point.x, point.y)
 
-    fun lineTo(x: Float, y: Float): PathBuilder {
-        val part = String.format(LOCALE, "L %.4f %.4f", x, y)
+    fun lineTo(x: Distance, y: Distance): PathBuilder {
+        val part = String.format(LOCALE, "L %.4f %.4f", x.toMeters(), y.toMeters())
         return add(part)
     }
 
     fun curveTo(control: Point2d, end: Point2d): PathBuilder {
-        val part = String.format(LOCALE, "Q %.4f %.4f %.4f %.4f", control.x, control.y, end.x, end.y)
+        val part = String.format(
+            LOCALE,
+            "Q %.4f %.4f %.4f %.4f",
+            control.x.toMeters(),
+            control.y.toMeters(),
+            end.x.toMeters(),
+            end.y.toMeters(),
+        )
         return add(part)
     }
 
     fun ellipticalArc(
-        endX: Float,
-        endY: Float,
-        radiusX: Float,
-        radiusY: Float,
+        endX: Distance,
+        endY: Distance,
+        radiusX: Distance,
+        radiusY: Distance,
         xAxisRotation: Float = 0.0f,
         largeArcFlag: Boolean = false,
         sweepFlag: Boolean = false,
@@ -36,13 +44,13 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
         val part = String.format(
             LOCALE,
             "A %.4f %.4f %.4f %d %d %.4f %.4f",
-            radiusX,
-            radiusY,
+            radiusX.toMeters(),
+            radiusY.toMeters(),
             xAxisRotation,
             largeArcFlag.toInt(),
             sweepFlag.toInt(),
-            endX,
-            endY,
+            endX.toMeters(),
+            endY.toMeters(),
         )
         return add(part)
     }
