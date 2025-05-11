@@ -32,8 +32,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1700000,
-    "offset": 200000
+    "center": 1700000
    },
    "lifeStages": {
     "type": "Default",
@@ -60,8 +59,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1200000,
-    "offset": 200000
+    "center": 1200000
    },
    "lifeStages": {
     "type": "Default",
@@ -86,8 +84,7 @@
     "Genderless": "Common"
    },
    "height": {
-    "center": 2000000,
-    "offset": 200000
+    "center": 2000000
    },
    "lifeStages": {
     "type": "Immutable",
@@ -136,8 +133,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1600000,
-    "offset": 200000
+    "center": 1600000
    },
    "lifeStages": {
     "type": "Default",
@@ -169,8 +165,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1050000,
-    "offset": 100000
+    "center": 1050000
    },
    "lifeStages": {
     "type": "Default",
@@ -197,8 +192,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1150000,
-    "offset": 100000
+    "center": 1150000
    },
    "lifeStages": {
     "type": "Default",
@@ -224,8 +218,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1900000,
-    "offset": 200000
+    "center": 1900000
    },
    "lifeStages": {
     "type": "Default",
@@ -252,8 +245,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1500000,
-    "offset": 200000
+    "center": 1500000
    },
    "lifeStages": {
     "type": "Default",
@@ -280,8 +272,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1100000,
-    "offset": 200000
+    "center": 1100000
    },
    "lifeStages": {
     "type": "Default",
@@ -308,8 +299,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1700000,
-    "offset": 200000
+    "center": 1700000
    },
    "lifeStages": {
     "type": "Default",
@@ -336,8 +326,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 2100000,
-    "offset": 200000
+    "center": 2100000
    },
    "lifeStages": {
     "type": "Default",
@@ -363,8 +352,7 @@
     "Genderless": "Common"
    },
    "height": {
-    "center": 1600000,
-    "offset": 500000
+    "center": 1600000
    },
    "lifeStages": {
     "type": "Immutable",
@@ -390,8 +378,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 2100000,
-    "offset": 200000
+    "center": 2100000
    },
    "lifeStages": {
     "type": "Default",
@@ -440,8 +427,7 @@
     "Male": "Uncommon"
    },
    "height": {
-    "center": 1700000,
-    "offset": 200000
+    "center": 1700000
    },
    "lifeStages": {
     "type": "Default",
@@ -466,8 +452,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 2700000,
-    "offset": 400000
+    "center": 2700000
    },
    "lifeStages": {
     "type": "Default",
@@ -494,8 +479,7 @@
     "Male": "Common"
    },
    "height": {
-    "center": 1100000,
-    "offset": 200000
+    "center": 1100000
    },
    "lifeStages": {
     "type": "Default",
