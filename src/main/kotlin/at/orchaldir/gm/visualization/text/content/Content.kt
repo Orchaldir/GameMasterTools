@@ -97,7 +97,14 @@ fun buildPagesForAbstractChapters(
     val builder = PagesBuilder(innerAABB)
     val generator = state.createTextGenerator()
 
-    buildTableOfContents(state, builder, content, titleOptions, mainOptions)
+    buildTableOfContents(
+        state,
+        builder,
+        content.chapters,
+        content.tableOfContents,
+        titleOptions,
+        mainOptions,
+    )
 
     content.chapters.forEach { chapter ->
         val maxPage = min(builder.count() + chapter.content.pages, pageIndex + 2)

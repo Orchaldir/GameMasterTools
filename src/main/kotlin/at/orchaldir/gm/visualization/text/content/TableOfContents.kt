@@ -12,16 +12,17 @@ import at.orchaldir.gm.visualization.text.TextRenderState
 fun buildTableOfContents(
     state: TextRenderState,
     builder: PagesBuilder,
-    chapters: AbstractChapters,
+    chapters: List<Chapter>,
+    toc: TableOfContents,
     titleOptions: RenderStringOptions,
     mainOptions: RenderStringOptions,
 ) {
-    when (val toc = chapters.tableOfContents) {
+    when (toc) {
         NoTableOfContents -> doNothing()
         is SimpleTableOfContents -> buildTableOfContents(
             builder,
             toc.title,
-            chapters.chapters,
+            chapters,
             titleOptions,
             mainOptions,
             toc.data,
@@ -31,7 +32,7 @@ fun buildTableOfContents(
         is ComplexTableOfContents -> buildTableOfContents(
             builder,
             toc.title,
-            chapters.chapters,
+            chapters,
             toc.titleOptions.convert(state.state),
             toc.mainOptions.convert(state.state, horizontalAlignment = HorizontalAlignment.Start),
             toc.data,
@@ -43,7 +44,7 @@ fun buildTableOfContents(
 private fun buildTableOfContents(
     builder: PagesBuilder,
     title: NotEmptyString,
-    chapters: List<AbstractChapter>,
+    chapters: List<Chapter>,
     titleOptions: RenderStringOptions,
     mainOptions: RenderStringOptions,
     data: TocData,
@@ -64,7 +65,7 @@ private fun buildTableOfContents(
             page,
         )
 
-        page += chapter.content.pages
+        page += chapter.pages()
     }
 
     builder.addPageBreak()
@@ -72,12 +73,12 @@ private fun buildTableOfContents(
 
 private fun buildTocLine(
     builder: PagesBuilder,
-    chapter: AbstractChapter,
+    chapter: Chapter,
     options: RenderStringOptions,
     data: TocData,
     line: TocLine,
     page: Int,
 ) = when (data) {
-    TocData.NamePage -> builder.addTocEntry(chapter.title.text, page.toString(), line, options)
-    TocData.PageName -> builder.addTocEntry(page.toString(), chapter.title.text, line, options)
+    TocData.NamePage -> builder.addTocEntry(chapter.title().text, page.toString(), line, options)
+    TocData.PageName -> builder.addTocEntry(page.toString(), chapter.title().text, line, options)
 }.addBreak(options.size)
