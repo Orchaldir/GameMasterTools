@@ -109,6 +109,7 @@ fun convertToMeters(micrometers: Long) = upSixSteps(micrometers)
 fun convertToCentimeters(millimeters: Long) = up(upThreeSteps(millimeters))
 fun convertToMillimeters(micrometers: Long) = upThreeSteps(micrometers)
 
+// TODO
 fun formatMicrometersAsMeters(micrometers: Long) = if (micrometers > SI_SIX_STEPS) {
     String.format(Locale.US, "%.2f m", convertToMeters(micrometers))
 } else if (micrometers > SI_THREE_STEPS) {

@@ -9,6 +9,9 @@ import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
+import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
+import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT_OFFSET
+import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.*
@@ -119,9 +122,9 @@ fun FORM.editRace(
         "Height",
         HEIGHT,
         race.height,
-        10,
-        500,
-        100,
+        MIN_RACE_HEIGHT,
+        MAX_RACE_HEIGHT,
+        MAX_RACE_HEIGHT_OFFSET,
         heightPrefix,
         true
     )

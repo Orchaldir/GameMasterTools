@@ -12,10 +12,15 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.Weight
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
+import at.orchaldir.gm.utils.math.unit.checkDistance
 import kotlinx.serialization.Serializable
 import kotlin.math.pow
 
 const val RACE_TYPE = "Race"
+val MIN_RACE_HEIGHT = Distance.fromCentimeters(10)
+val MAX_RACE_HEIGHT = Distance.fromCentimeters(500)
+val MAX_RACE_HEIGHT_OFFSET = Distance.fromCentimeters(100)
 
 @JvmInline
 @Serializable
@@ -37,6 +42,11 @@ data class Race(
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
 ) : ElementWithSimpleName<RaceId>, Created, HasStartDate {
+
+    init {
+        checkDistance(height.center, "height", MIN_RACE_HEIGHT, MAX_RACE_HEIGHT)
+        checkDistance(height.offset, "height offset", ZERO_DISTANCE, MAX_RACE_HEIGHT_OFFSET)
+    }
 
     override fun id() = id
     override fun name() = name.text
