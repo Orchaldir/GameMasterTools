@@ -12,7 +12,6 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.checkDistance
 import kotlinx.serialization.Serializable
 import kotlin.math.pow
 
@@ -40,10 +39,6 @@ data class Race(
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
 ) : ElementWithSimpleName<RaceId>, Created, HasStartDate {
-
-    init {
-        checkDistance(height.center, "height", MIN_RACE_HEIGHT, MAX_RACE_HEIGHT)
-    }
 
     override fun id() = id
     override fun name() = name.text

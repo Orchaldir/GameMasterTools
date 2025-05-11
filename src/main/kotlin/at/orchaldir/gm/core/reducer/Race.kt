@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.race.CreatedRace
+import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
+import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
 import at.orchaldir.gm.core.model.race.ModifiedRace
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.*
@@ -15,6 +17,7 @@ import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -50,6 +53,7 @@ val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
 
 fun validateRace(state: State, race: Race) {
     checkDate(state, race.startDate(), "Race")
+    checkHeight(race)
     checkLifeStages(state, race.lifeStages)
     checkOrigin(state, race)
 }
@@ -67,6 +71,10 @@ fun checkLifeStages(state: State, lifeStages: LifeStages) {
 
         is ImmutableLifeStage -> doNothing()
     }
+}
+
+private fun checkHeight(race: Race) {
+    checkDistance(race.height.center, "height", MIN_RACE_HEIGHT, MAX_RACE_HEIGHT)
 }
 
 private fun checkMaxAge(lifeStages: List<LifeStage>) {
