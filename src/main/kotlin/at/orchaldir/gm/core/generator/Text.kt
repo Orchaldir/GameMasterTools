@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.generator
 
+import at.orchaldir.gm.core.model.item.text.content.ContentEntry
 import at.orchaldir.gm.core.model.item.text.content.ContentStyle
+import at.orchaldir.gm.core.model.item.text.content.Paragraph
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import kotlin.random.Random
@@ -21,11 +23,21 @@ data class TextGenerator(
         }
     }
 
-    fun generateParagraph(style: ContentStyle): String {
+    fun generateParagraphAsString(style: ContentStyle): String {
         val sentences = generator.getNumber(style.minParagraphLength, style.maxParagraphLength + 1)
 
         return (0..<sentences)
             .joinToString(" ") { generator.select(exampleStrings) }
+    }
+
+    fun generateParagraph(style: ContentStyle) =
+        Paragraph.fromString(generateParagraphAsString(style))
+
+    fun generateParagraphs(style: ContentStyle, minParagraphs: Int, maxParagraphs: Int): List<ContentEntry> {
+        val paragraphs = generator.getNumber(minParagraphs, maxParagraphs + 1)
+
+        return (0..<paragraphs)
+            .map { generateParagraph(style) }
     }
 
 }

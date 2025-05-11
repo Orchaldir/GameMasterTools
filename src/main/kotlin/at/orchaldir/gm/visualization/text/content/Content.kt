@@ -98,7 +98,7 @@ private fun visualizeAbstractContent(
             builder,
             mainOptions,
             initialOptions,
-            generator.generateParagraph(style),
+            generator.generateParagraphAsString(style),
             style.initials,
         )
     }

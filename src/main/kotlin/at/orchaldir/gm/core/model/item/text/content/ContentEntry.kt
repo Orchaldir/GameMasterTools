@@ -20,4 +20,10 @@ sealed class ContentEntry {
 @SerialName("Paragraph")
 data class Paragraph(
     val text: NotEmptyString,
-) : ContentEntry()
+) : ContentEntry() {
+
+    companion object {
+        fun fromString(text: String) = Paragraph(NotEmptyString.init(text))
+    }
+
+}
