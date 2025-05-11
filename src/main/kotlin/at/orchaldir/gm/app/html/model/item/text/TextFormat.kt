@@ -392,8 +392,24 @@ private fun HtmlBlockTag.editScrollHandle(
     handle: ScrollHandle,
 ) {
     editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
-        selectDistance("Length", combine(segmentParam, LENGTH), segment.length, min, max, prefix, true)
-        selectDistance("Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, prefix, true)
+        selectDistance(
+            "Length",
+            combine(segmentParam, LENGTH),
+            segment.length,
+            MIN_SEGMENT_DISTANCE,
+            MAX_SEGMENT_DISTANCE,
+            prefix,
+            true,
+        )
+        selectDistance(
+            "Diameter",
+            combine(segmentParam, DIAMETER),
+            segment.diameter,
+            MIN_SEGMENT_DISTANCE,
+            MAX_SEGMENT_DISTANCE,
+            prefix,
+            true,
+        )
         editColorItemPart(state, segment.main, segmentParam)
         selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape, true)
     }
