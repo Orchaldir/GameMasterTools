@@ -8,6 +8,8 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.zero
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.model.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -75,6 +77,27 @@ class SvgTest {
                 svg.export()
             )
         }
+    }
+
+    @Test
+    fun `Render an circle arc`() {
+        val options = NoBorder(Green.toRender())
+        val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
+
+        builder.getLayer().renderCircleArc(
+            Point2d.fromMeters(110.0f, 220.0f),
+            fromMillimeters(10000),
+            ZERO_ORIENTATION,
+            QUARTER_CIRCLE,
+            options,
+        )
+
+        assertEquals(
+            """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 120.0000 220.0000 A 10.0000 10.0000 0.0000 0 0 110.0000 230.0000 Z" style="fill:green"/>
+</svg>""",
+            builder.finish().export()
+        )
     }
 
     @Test

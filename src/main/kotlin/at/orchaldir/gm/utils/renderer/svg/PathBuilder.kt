@@ -37,13 +37,13 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
         val part = String.format(
             LOCALE,
             "A %.4f %.4f %.4f %d %d %.4f %.4f",
-            radiusX,
-            radiusY,
+            radiusX.toMeters(),
+            radiusY.toMeters(),
             xAxisRotation,
             largeArcFlag.toInt(),
             sweepFlag.toInt(),
-            endX,
-            endY,
+            endX.toMeters(),
+            endY.toMeters(),
         )
         return add(part)
     }
