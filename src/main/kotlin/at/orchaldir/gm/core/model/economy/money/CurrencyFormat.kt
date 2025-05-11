@@ -3,12 +3,9 @@ package at.orchaldir.gm.core.model.economy.money
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
-import at.orchaldir.gm.utils.math.unit.checkDistance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -81,12 +78,6 @@ data class Coin(
     val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
-    init {
-        checkRadius(radius)
-        checkThickness(thickness)
-        checkRimFactor(rimFactor)
-    }
-
     fun calculateInnerShapeRadius(inner: Shape) = calculateInnerRadius(radius, shape, inner)
 
 }
@@ -104,13 +95,6 @@ data class HoledCoin(
     val hasHoleRim: Boolean = true,
     val front: HoledCoinSide = HoledCoinSide(),
 ) : CurrencyFormat() {
-
-    init {
-        checkRadius(radius)
-        checkThickness(thickness)
-        checkRadiusFactor(holeFactor, "hole")
-        checkRimFactor(rimFactor)
-    }
 
     fun calculateInnerShapeRadius(other: Shape) = calculateInnerRadius(radius, shape, other)
 
@@ -132,31 +116,11 @@ data class BiMetallicCoin(
     val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
-    init {
-        require(material != innerMaterial) { "Outer & inner material are the same!" }
-        checkRadius(radius)
-        checkThickness(thickness)
-        checkRimFactor(rimFactor)
-        checkRadiusFactor(innerFactor, "inner")
-    }
-
     fun calculateInnerShapeRadius(other: Shape) = calculateInnerRadius(radius, shape, other)
 
     fun calculateInnerRadius() = calculateInnerShapeRadius(innerShape) * innerFactor
 
 }
-
-private fun checkRadius(radius: Distance) =
-    checkDistance(radius, "radius", MIN_RADIUS, MAX_RADIUS)
-
-private fun checkThickness(thickness: Distance) =
-    checkDistance(thickness, "thickness", MIN_THICKNESS, MAX_THICKNESS)
-
-private fun checkRimFactor(factor: Factor) =
-    checkFactor(factor, "rim", ZERO, MAX_RIM_FACTOR)
-
-private fun checkRadiusFactor(factor: Factor, label: String) =
-    checkFactor(factor, label, MIN_RADIUS_FACTOR, MAX_RADIUS_FACTOR)
 
 private fun calculateInnerRadius(radius: Distance, outer: Shape, inner: Shape): Distance {
     val outerSides = outer.getSides()
