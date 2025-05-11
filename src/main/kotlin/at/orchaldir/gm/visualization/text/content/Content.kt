@@ -3,8 +3,10 @@ package at.orchaldir.gm.visualization.text.content
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
+import at.orchaldir.gm.core.model.item.text.content.Chapter
 import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.item.text.content.ContentStyle
+import at.orchaldir.gm.core.model.item.text.content.TableOfContents
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
@@ -72,53 +74,67 @@ fun visualizeAbstractChapters(
     state: TextRenderState,
     content: AbstractChapters,
     pages: Pages,
-    pageIndex: Int,
+    maxPageIndex: Int,
 ) {
     val margin = state.calculateMargin(content.style)
 
     state.renderer.createGroup(state.aabb.start) { layer ->
-        pages.render(layer, pageIndex)
+        pages.render(layer, maxPageIndex)
     }
 
-    visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
+    visualizePageNumbering(state, margin, content.style, content.pageNumbering, maxPageIndex)
 }
 
 fun buildPagesForAbstractChapters(
     state: TextRenderState,
     content: AbstractChapters,
-    pageIndex: Int,
+    maxPageIndex: Int,
+) = buildPagesForChapters(
+    state,
+    content.chapters,
+    content.style,
+    content.tableOfContents,
+    maxPageIndex,
+)
+
+fun buildPagesForChapters(
+    state: TextRenderState,
+    chapters: List<Chapter>,
+    style: ContentStyle,
+    tableOfContents: TableOfContents,
+    maxPageIndex: Int,
 ): Pages {
-    val margin = state.calculateMargin(content.style)
+    val margin = state.calculateMargin(style)
     val innerAABB = state.aabb.shrink(margin)
-    val alignment = content.style.getHorizontalAlignment()
-    val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
-    val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
-    val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
+    val alignment = style.getHorizontalAlignment()
+    val titleOptions = style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
+    val mainOptions = style.main.convert(state.state, VerticalAlignment.Top, alignment)
+    val initialOptions = calculateInitialsOptions(state, mainOptions, style.initials)
     val builder = PagesBuilder(innerAABB)
     val generator = state.createTextGenerator()
 
     buildTableOfContents(
         state,
         builder,
-        content.chapters,
-        content.tableOfContents,
+        chapters,
+        tableOfContents,
         titleOptions,
         mainOptions,
     )
 
-    content.chapters.forEach { chapter ->
-        val maxPage = min(builder.count() + chapter.content.pages, pageIndex + 2)
+    chapters.forEach { chapter ->
+        val maxPage = min(builder.count() + chapter.pages(), maxPageIndex + 2)
 
         builder
             .addPageBreak()
-            .addParagraph(chapter.title.text, titleOptions)
-            .addBreak(content.style.main.getFontSize())
+            .addParagraph(chapter.title().text, titleOptions)
+            .addBreak(style.main.getFontSize())
 
         buildAbstractContent(
             state,
             generator,
             builder,
-            content.style,
+            style,
             mainOptions,
             initialOptions,
             maxPage,
