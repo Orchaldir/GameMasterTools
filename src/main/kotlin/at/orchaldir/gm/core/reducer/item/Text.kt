@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -102,6 +103,14 @@ private fun checkScrollFormat(format: ScrollFormat) {
 
 private fun checkScrollHandle(handle: ScrollHandle) {
     require(handle.segments.isNotEmpty()) { "A scroll handle needs at least 1 segment!" }
+    handle.segments.withIndex().forEach {
+        checkHandleSegment(it.value, it.index + 1)
+    }
+}
+
+private fun checkHandleSegment(segment: HandleSegment, number: Int) {
+    checkDistance(segment.length, "$number.segment's length", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
+    checkDistance(segment.diameter, "$number.segment's diameter", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
 }
 
 private fun checkTextContent(
