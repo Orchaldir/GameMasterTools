@@ -146,13 +146,13 @@ data class PagesBuilder(
     }
 
     fun startChapter(): PagesBuilder {
-        chapterStart = currentPage.size
+        chapterStart = pages.size
 
         return this
     }
 
     fun endChapter(): PagesBuilder {
-        val pages = currentPage.size - chapterStart + 1
+        val pages = pages.size - chapterStart + 1
         chapters.add(pages)
 
         return this
