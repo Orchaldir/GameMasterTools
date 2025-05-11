@@ -29,10 +29,11 @@ fun main() {
     )
     val generator = TextGenerator.create(TEXT_CONFIG.exampleStrings, 0)
     val style = ContentStyle()
-    val chapter0 = SimpleChapter(0, generator.generateParagraphs(style, 10, 20))
-    val chapter1 = SimpleChapter(1, generator.generateParagraphs(style, 10, 20))
-    val chapters = SimpleChapters(
-        listOf(chapter0, chapter1),
+    val chapters = (0..<2).withIndex().map {
+        SimpleChapter(it.index, generator.generateParagraphs(style, 3, 7))
+    }
+    val content = SimpleChapters(
+        chapters,
         pageNumbering = PageNumberingReusingFont(),
         tableOfContents = ComplexTableOfContents(titleOptions = font),
     )
@@ -42,7 +43,7 @@ fun main() {
         Text(
             ID,
             format = book,
-            content = chapters,
+            content = content,
         )
     )
 
