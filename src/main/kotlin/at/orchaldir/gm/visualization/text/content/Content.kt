@@ -96,7 +96,9 @@ fun visualizeAbstractChapters(
 ) {
     val margin = state.calculateMargin(content.style)
 
-    pages.render(state.renderer.getLayer(), pageIndex)
+    state.renderer.createGroup(state.aabb.start) { layer ->
+        pages.render(layer, pageIndex)
+    }
 
     visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
 }

@@ -322,8 +322,8 @@ class SvgRenderer(
         formatAttributes(
             "rotate(%.3f,%.3f,%.3f)",
             orientation.toDegrees(),
-            center.x,
-            center.y,
+            center.x.toMeters(),
+            center.y.toMeters(),
         )
 
     private fun toSvg(
