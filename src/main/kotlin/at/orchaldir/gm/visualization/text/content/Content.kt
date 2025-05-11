@@ -23,7 +23,7 @@ fun buildPages(
 ): Pages? = when (content) {
     is AbstractChapters -> buildPagesForAbstractChapters(state, content, maxPageIndex)
     is AbstractText -> buildPagesForAbstractText(state, content, maxPageIndex)
-    is SimpleChapters -> TODO()
+    is SimpleChapters -> buildPagesForSimpleChapters(state, content, maxPageIndex)
     UndefinedTextContent -> null
 }
 
@@ -88,6 +88,18 @@ fun visualizeAbstractChapters(
 fun buildPagesForAbstractChapters(
     state: TextRenderState,
     content: AbstractChapters,
+    maxPageIndex: Int,
+) = buildPagesForChapters(
+    state,
+    content.chapters,
+    content.style,
+    content.tableOfContents,
+    maxPageIndex,
+)
+
+fun buildPagesForSimpleChapters(
+    state: TextRenderState,
+    content: SimpleChapters,
     maxPageIndex: Int,
 ) = buildPagesForChapters(
     state,
