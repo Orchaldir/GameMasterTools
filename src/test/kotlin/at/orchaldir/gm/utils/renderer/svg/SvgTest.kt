@@ -18,6 +18,13 @@ import org.junit.jupiter.api.Test
 class SvgTest {
 
     private val options = FillAndBorder(Blue.toRender(), LineOptions(Red.toRender(), 5.0f))
+    val polygon = Polygon2d(
+        listOf(
+            Point2d.fromMeters(1.2f, 3.4f),
+            Point2d.fromMeters(10.0f, 20.0f),
+            Point2d.fromMeters(30.0f, 40.0f),
+        )
+    )
 
     @Test
     fun `Test empty svg`() {
@@ -134,14 +141,26 @@ class SvgTest {
     @Test
     fun `Render a polygon`() {
         val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
-        val corners =
-            listOf(Point2d.fromMeters(1.2f, 3.4f), Point2d.fromMeters(10.0f, 20.0f), Point2d.fromMeters(30.0f, 40.0f))
 
-        builder.getLayer().renderPolygon(Polygon2d(corners), options)
+        builder.getLayer().renderPolygon(polygon, options)
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
   <path d="M 1.2000 3.4000 L 10.0000 20.0000 L 30.0000 40.0000 Z" style="fill:blue;stroke:red;stroke-width:5.0000"/>
+</svg>""",
+            builder.finish().export()
+        )
+    }
+
+    @Test
+    fun `Render a rounded polygon`() {
+        val builder = SvgBuilder(Size2d.fromMeters(100.0f, 150.0f))
+
+        builder.getLayer().renderRoundedPolygon(polygon, options)
+
+        assertEquals(
+            """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 5.6000 11.7000 Q 10.0000 20.0000 20.0000 30.0000 Q 30.0000 40.0000 15.6000 21.7000 Q 1.2000 3.4000 5.6000 11.7000" style="fill:blue;stroke:red;stroke-width:5.0000"/>
 </svg>""",
             builder.finish().export()
         )

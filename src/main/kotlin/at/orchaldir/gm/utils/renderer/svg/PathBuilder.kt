@@ -21,7 +21,14 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
     }
 
     fun curveTo(control: Point2d, end: Point2d): PathBuilder {
-        val part = String.format(LOCALE, "Q %.4f %.4f %.4f %.4f", control.x, control.y, end.x, end.y)
+        val part = String.format(
+            LOCALE,
+            "Q %.4f %.4f %.4f %.4f",
+            control.x.toMeters(),
+            control.y.toMeters(),
+            end.x.toMeters(),
+            end.y.toMeters(),
+        )
         return add(part)
     }
 
