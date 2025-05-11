@@ -45,7 +45,7 @@ class AppearanceTest {
 
     @Test
     fun `Character's height is invalid!`() {
-        val appearance = HeadOnly(Head(), fromMillimeters(1101))
+        val appearance = HeadOnly(Head(), fromMillimeters(1201))
         val action = UpdateAppearance(CHARACTER_ID_0, appearance)
 
         assertIllegalArgument("Character's height is invalid!") { REDUCER.invoke(state, action) }
