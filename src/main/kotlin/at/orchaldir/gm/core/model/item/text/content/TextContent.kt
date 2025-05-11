@@ -27,7 +27,7 @@ sealed class TextContent {
                 tableOfContents.pages()
 
         is AbstractText -> content.pages
-        is Chapters -> 0 // TODO
+        is Chapters -> pages
         UndefinedTextContent -> 0
     }
 
@@ -83,6 +83,7 @@ data class AbstractChapters(
 data class Chapters(
     val chapters: List<Chapter> = emptyList(),
     val style: ContentStyle = ContentStyle(),
+    val pages: Int = 0, // auto calculated
     val pageNumbering: PageNumbering = NoPageNumbering,
     val tableOfContents: TableOfContents = NoTableOfContents,
 ) : TextContent() {
