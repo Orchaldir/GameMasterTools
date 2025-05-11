@@ -23,7 +23,7 @@ class AppearanceTest {
         listOf(
             Storage(CALENDAR0),
             Storage(Character(CHARACTER_ID_0)),
-            Storage(Race(RACE_ID_0, height = Distribution.fromMeters(1.0f, 0.1f))),
+            Storage(Race(RACE_ID_0, height = Distribution.fromMeters(1.0f))),
         )
     )
     private val appearance = HeadOnly(Head(), fromMillimeters(1000))
