@@ -128,6 +128,7 @@ data class Page(
 
 data class Pages(
     private val pages: List<Page>,
+    val chapters: List<Int>,
 ) {
 
     fun render(renderer: LayerRenderer, index: Int) = pages[index].render(renderer)

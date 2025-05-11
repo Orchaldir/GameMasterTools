@@ -13,12 +13,19 @@ import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.requireExists
+import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.checkSize
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
+import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.text.TextRenderConfig
+import at.orchaldir.gm.visualization.text.TextRenderState
+import at.orchaldir.gm.visualization.text.content.buildPages
+import at.orchaldir.gm.visualization.text.resolveTextData
 
 val CREATE_TEXT: Reducer<CreateText, State> = { state, _ ->
     val text = Text(state.getTextStorage().nextId)
@@ -34,11 +41,25 @@ val DELETE_TEXT: Reducer<DeleteText, State> = { state, action ->
 }
 
 val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
-    val text = action.text
+    val text = updatePageCount(state, TEXT_CONFIG, action.text)
     state.getTextStorage().require(text.id)
     validateText(state, text)
 
     noFollowUps(state.updateStorage(state.getTextStorage().update(text)))
+}
+
+fun updatePageCount(state: State, config: TextRenderConfig, text: Text) = if (text.content is SimpleChapters) {
+    val data = resolveTextData(state, text)
+    val pageSize = config.calculateClosedSize(text.format)
+    val builderState = TextRenderState(state, AABB(pageSize), config, SvgBuilder(pageSize), data)
+    val pages = buildPages(builderState, text.content)!!
+    val chapters = text.content.chapters
+        .zip(pages.chapters)
+        .map { (chapter, pages) -> chapter.copy(pages = pages) }
+
+    text.copy(content = text.content.copy(chapters = chapters))
+} else {
+    text
 }
 
 fun validateText(state: State, text: Text) {
@@ -141,6 +162,7 @@ private fun checkTextContent(
         }
 
         is SimpleChapters -> {
+            require(content.pages() > 0) { "The simple chapters require at least 1 page!" }
             checkStyle(state, content.style)
             checkPageNumbering(state, content.pageNumbering)
             checkTableOfContents(state, content.pageNumbering, content.tableOfContents)

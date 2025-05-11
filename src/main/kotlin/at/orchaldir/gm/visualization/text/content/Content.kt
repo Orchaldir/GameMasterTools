@@ -19,7 +19,7 @@ import kotlin.math.min
 fun buildPages(
     state: TextRenderState,
     content: TextContent,
-    maxPageIndex: Int,
+    maxPageIndex: Int? = null,
 ): Pages? = when (content) {
     is AbstractChapters -> buildPagesForAbstractChapters(state, content, maxPageIndex)
     is AbstractText -> buildPagesForAbstractText(state, content, maxPageIndex)
@@ -45,7 +45,7 @@ fun visualizeAbstractText(
 fun buildPagesForAbstractText(
     state: TextRenderState,
     content: AbstractText,
-    maxPageIndex: Int,
+    maxPageIndex: Int?,
 ): Pages {
     val margin = state.calculateMargin(content.style)
     val innerAABB = state.aabb.shrink(margin)
@@ -54,7 +54,11 @@ fun buildPagesForAbstractText(
     val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
     val generator = state.createTextGenerator()
-    val maxPage = min(content.content.pages, maxPageIndex + 2)
+    val maxPage = if (maxPageIndex != null) {
+        min(content.content.pages, maxPageIndex + 2)
+    } else {
+        content.content.pages
+    }
 
     buildAbstractContent(
         state,
@@ -88,7 +92,7 @@ fun visualizeAbstractChapters(
 fun buildPagesForAbstractChapters(
     state: TextRenderState,
     content: AbstractChapters,
-    maxPageIndex: Int,
+    maxPageIndex: Int?,
 ) = buildPagesForChapters(
     state,
     content.chapters,
@@ -115,7 +119,7 @@ fun visualizeSimpleChapters(
 fun buildPagesForSimpleChapters(
     state: TextRenderState,
     content: SimpleChapters,
-    maxPageIndex: Int,
+    maxPageIndex: Int?,
 ) = buildPagesForChapters(
     state,
     content.chapters,
@@ -129,7 +133,7 @@ private fun buildPagesForChapters(
     chapters: List<Chapter>,
     style: ContentStyle,
     tableOfContents: TableOfContents,
-    maxPageIndex: Int,
+    maxPageIndex: Int?,
 ): Pages {
     val margin = state.calculateMargin(style)
     val innerAABB = state.aabb.shrink(margin)
@@ -150,10 +154,16 @@ private fun buildPagesForChapters(
     )
 
     chapters.forEach { chapter ->
-        val maxPage = min(builder.count() + chapter.pages(), maxPageIndex + 2)
+        val maxChapterPages = builder.count() + chapter.pages()
+        val maxPage = if (maxPageIndex != null) {
+            min(maxChapterPages, maxPageIndex + 2)
+        } else {
+            maxChapterPages
+        }
 
         builder
             .addPageBreak()
+            .startChapter()
             .addParagraph(chapter.title().text, titleOptions)
             .addBreak(style.main.getFontSize())
 
@@ -166,6 +176,8 @@ private fun buildPagesForChapters(
             initialOptions,
             maxPage,
         )
+
+        builder.endChapter()
     }
 
     return builder
