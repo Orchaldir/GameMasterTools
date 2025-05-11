@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils.math.unit
 
+import at.orchaldir.gm.utils.math.Factor
+
 const val SI_STEP = 10
 const val SI_THREE_STEPS = 1000
 const val SI_SIX_STEPS = SI_THREE_STEPS * SI_THREE_STEPS
@@ -12,6 +14,7 @@ interface SiUnit<T> {
 
     operator fun plus(other: T): T
     operator fun minus(other: T): T
+    operator fun times(factor: Factor): T
 
 }
 

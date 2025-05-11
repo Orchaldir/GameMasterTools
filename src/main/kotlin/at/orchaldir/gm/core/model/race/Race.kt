@@ -9,10 +9,10 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import kotlinx.serialization.Serializable
 import kotlin.math.pow
@@ -20,7 +20,7 @@ import kotlin.math.pow
 const val RACE_TYPE = "Race"
 val MIN_RACE_HEIGHT = Distance.fromCentimeters(10)
 val MAX_RACE_HEIGHT = Distance.fromCentimeters(500)
-val MAX_RACE_HEIGHT_OFFSET = Distance.fromCentimeters(100)
+val DEFAULT_HEIGHT_OFFSET = Factor.fromPercentage(20)
 
 @JvmInline
 @Serializable
@@ -37,7 +37,7 @@ data class Race(
     val id: RaceId,
     val name: Name = Name.init("Race ${id.value}"),
     val genders: OneOf<Gender> = OneOf(Gender.entries),
-    val height: Distribution<Distance> = Distribution.fromMeters(1.8f, 0.2f),
+    val height: Distribution<Distance> = Distribution.fromMeters(1.8f, DEFAULT_HEIGHT_OFFSET),
     val weight: Weight = Weight.fromKilograms(75.0f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
@@ -45,7 +45,6 @@ data class Race(
 
     init {
         checkDistance(height.center, "height", MIN_RACE_HEIGHT, MAX_RACE_HEIGHT)
-        checkDistance(height.offset, "height offset", ZERO_DISTANCE, MAX_RACE_HEIGHT_OFFSET)
     }
 
     override fun id() = id

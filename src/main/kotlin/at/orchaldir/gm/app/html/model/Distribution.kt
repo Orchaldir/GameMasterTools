@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
-import kotlin.math.min
 
 // show
 
@@ -27,7 +26,6 @@ fun FORM.selectDistanceDistribution(
     distribution: Distribution<Distance>,
     min: Distance,
     max: Distance,
-    maxOffset: Distance,
     prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) = selectDistanceDistribution(
@@ -36,7 +34,6 @@ fun FORM.selectDistanceDistribution(
     distribution,
     min.convertToLong(prefix),
     max.convertToLong(prefix),
-    maxOffset.convertToLong(prefix),
     prefix,
     update
 )
@@ -47,7 +44,6 @@ fun FORM.selectDistanceDistribution(
     distribution: Distribution<Distance>,
     minHeight: Long,
     maxHeight: Long,
-    maxOffset: Long,
     prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) {
@@ -61,13 +57,12 @@ fun FORM.selectDistanceDistribution(
             update,
         )
         +" +- "
-        selectDistance(
+        selectFactor(
             combine(param, OFFSET),
             distribution.offset,
-            0,
-            min(maxOffset, distribution.center.value() - 1),
-            prefix,
-            update,
+            MIN_DISTRIBUTION_FACTOR,
+            MAX_DISTRIBUTION_FACTOR,
+            update = update,
         )
     }
 }
@@ -81,6 +76,6 @@ fun <T : SiUnit<T>> parseDistribution(
     parseUnit: (Parameters, String, SiPrefix) -> T,
 ) = Distribution(
     parseUnit(parameters, combine(param, CENTER), prefix),
-    parseUnit(parameters, combine(param, OFFSET), prefix),
+    parseFactor(parameters, combine(param, OFFSET), MIN_DISTRIBUTION_FACTOR),
 )
 

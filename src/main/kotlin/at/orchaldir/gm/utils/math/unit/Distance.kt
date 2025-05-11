@@ -61,7 +61,7 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
     override operator fun plus(other: Distance) = Distance(micrometers + other.micrometers)
     override operator fun minus(other: Distance) = Distance(micrometers - other.micrometers)
     operator fun times(factor: Float) = Distance((micrometers * factor).toLong())
-    operator fun times(factor: Factor) = times(factor.toNumber())
+    override operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(factor: Int) = Distance(micrometers * factor)
     operator fun div(factor: Float) = Distance((micrometers / factor).toLong())
     operator fun div(factor: Factor) = div(factor.toNumber())
