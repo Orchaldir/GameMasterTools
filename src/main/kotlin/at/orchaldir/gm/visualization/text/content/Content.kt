@@ -141,7 +141,7 @@ fun buildPagesForSimpleChapters(
     content.style,
     content.tableOfContents,
     maxPageIndex,
-) { builder, mainOptions, initialOptions, chapter, maxPage ->
+) { builder, mainOptions, initialOptions, chapter, _ ->
     chapter.entries.forEach { entry ->
         when (entry) {
             is Paragraph -> buildParagraphWithInitial(
