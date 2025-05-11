@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.text
 
+import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.selector.item.getAuthorName
@@ -20,7 +21,15 @@ data class TextRenderState(
     val config: TextRenderConfig,
     val renderer: MultiLayerRenderer,
     val data: ResolvedTextData = ResolvedTextData(),
-)
+) {
+
+    fun createTextGenerator(chapter: Int = 0) = TextGenerator.create(
+        config.exampleStrings,
+        data.id,
+        chapter,
+    )
+
+}
 
 fun resolveTextData(state: State, text: Text) =
     ResolvedTextData(text.name(state), state.getAuthorName(text), text.id.value)

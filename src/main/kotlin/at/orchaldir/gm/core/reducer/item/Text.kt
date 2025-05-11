@@ -139,6 +139,7 @@ private fun checkTextContent(
             checkPageNumbering(state, content.pageNumbering)
             checkTableOfContents(state, content.tableOfContents)
         }
+        is Chapters -> doNothing()
 
         UndefinedTextContent -> doNothing()
     }

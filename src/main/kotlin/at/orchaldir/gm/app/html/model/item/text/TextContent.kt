@@ -43,6 +43,7 @@ fun HtmlBlockTag.showTextContent(
             }
 
             is AbstractChapters -> showAbstractChapters(call, state, content)
+            is Chapters -> doNothing()
             UndefinedTextContent -> doNothing()
         }
     }
@@ -117,6 +118,7 @@ fun FORM.editTextContent(
             }
 
             is AbstractChapters -> editAbstractChapters(state, content)
+            is Chapters -> doNothing()
         }
     }
 }
@@ -234,6 +236,7 @@ fun parseTextContent(parameters: Parameters) = when (parse(parameters, CONTENT, 
         parseTableOfContents(parameters),
     )
 
+    TextContentType.Chapters -> UndefinedTextContent
     TextContentType.Undefined -> UndefinedTextContent
 }
 
