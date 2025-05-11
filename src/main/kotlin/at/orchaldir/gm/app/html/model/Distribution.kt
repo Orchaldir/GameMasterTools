@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlin.math.min
 
 // show
 
@@ -44,33 +45,30 @@ fun FORM.selectDistanceDistribution(
     label: String,
     param: String,
     distribution: Distribution<Distance>,
-    min: Long,
-    max: Long,
+    minHeight: Long,
+    maxHeight: Long,
     maxOffset: Long,
     prefix: SiPrefix = SiPrefix.Base,
     update: Boolean = false,
 ) {
     field(label) {
-        selectDistance(combine(param, CENTER), distribution.center, min, max, prefix, update)
+        selectDistance(
+            combine(param, CENTER),
+            distribution.center,
+            minHeight,
+            maxHeight,
+            prefix,
+            update,
+        )
         +" +- "
-        selectDistance(combine(param, OFFSET), distribution.offset, 0, maxOffset, prefix, update)
-    }
-}
-
-fun FORM.selectWeightDistribution(
-    label: String,
-    param: String,
-    distribution: Distribution<Weight>,
-    min: Long,
-    max: Long,
-    maxOffset: Long,
-    prefix: SiPrefix = SiPrefix.Base,
-    update: Boolean = false,
-) {
-    field(label) {
-        selectWeight(combine(param, CENTER), distribution.center, min, max, prefix, update)
-        +" +- "
-        selectWeight(combine(param, OFFSET), distribution.offset, 0, maxOffset, prefix, update)
+        selectDistance(
+            combine(param, OFFSET),
+            distribution.offset,
+            0,
+            min(maxOffset, distribution.center.value() - 1),
+            prefix,
+            update,
+        )
     }
 }
 
