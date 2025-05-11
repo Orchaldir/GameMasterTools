@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.item.text.scroll.HandleSegment
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.reducer.item.updatePageCount
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.visualization.text.content.visualizeAllPagesOfScroll
@@ -20,7 +19,6 @@ import java.io.File
 private val ID = TextId(0)
 
 fun main() {
-    val state = State()
     val segment = HandleSegment(fromCentimeters(5), fromCentimeters(2), Color.SaddleBrown)
     val handle = ScrollHandle(segment)
     val scroll = Scroll(
@@ -30,15 +28,13 @@ fun main() {
     val content = AbstractText(
         AbstractContent(5),
     )
-    val text = updatePageCount(
-        state, TEXT_CONFIG, Text(
-            ID,
-            format = scroll,
-            content = content,
-        )
+    val text = Text(
+        ID,
+        format = scroll,
+        content = content,
     )
 
-    val svg = visualizeAllPagesOfScroll(state, TEXT_CONFIG, text, scroll)
+    val svg = visualizeAllPagesOfScroll(State(), TEXT_CONFIG, text, scroll)
 
     File("scroll-abstract-text.svg").writeText(svg.export())
 }

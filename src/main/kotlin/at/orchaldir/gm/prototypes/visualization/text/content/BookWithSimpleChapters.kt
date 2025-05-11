@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.reducer.item.updatePageCount
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -19,6 +20,7 @@ import java.io.File
 private val ID = TextId(0)
 
 fun main() {
+    val state = State()
     val font = SolidFont(Distance.fromMillimeters(10), Color.Blue)
     val book = Book(
         Hardcover(),
@@ -34,10 +36,14 @@ fun main() {
         pageNumbering = PageNumberingReusingFont(),
         tableOfContents = ComplexTableOfContents(titleOptions = font),
     )
-    val text = Text(
-        ID,
-        format = book,
-        content = chapters,
+    val text = updatePageCount(
+        state,
+        TEXT_CONFIG,
+        Text(
+            ID,
+            format = book,
+            content = chapters,
+        )
     )
 
     val svg = visualizeAllPagesOfText(State(), TEXT_CONFIG, text)!!
