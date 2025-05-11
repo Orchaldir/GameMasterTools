@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.checkFactor
+import at.orchaldir.gm.utils.math.checkSize
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -74,6 +75,7 @@ private fun checkTextFormat(format: TextFormat) {
     when (format) {
         is Book -> {
             require(format.pages >= MIN_PAGES) { "The text requires at least $MIN_PAGES pages!" }
+            checkSize(format.size, "size", MIN_TEXT_SIZE, MAX_TEXT_SIZE)
 
             when (format.binding) {
                 is CopticBinding -> {
@@ -90,6 +92,8 @@ private fun checkTextFormat(format: TextFormat) {
         }
 
         is Scroll -> {
+            checkDistance(format.rollLength, "rollLength", MIN_TEXT_SIZE, MAX_TEXT_SIZE)
+            checkDistance(format.rollDiameter, "rollDiameter", MIN_TEXT_SIZE, MAX_TEXT_SIZE)
             checkFactor(format.pageWidth, "page width", MIN_PAGE_WIDTH_FACTOR, MAX_PAGE_WIDTH_FACTOR)
             checkScrollFormat(format.format)
         }

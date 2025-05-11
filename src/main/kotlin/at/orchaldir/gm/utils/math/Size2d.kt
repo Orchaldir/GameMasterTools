@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.checkDistance
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -41,4 +42,9 @@ data class Size2d(val width: Distance, val height: Distance) {
 
     fun minSize() = width.min(height)
     fun maxSize() = width.max(height)
+}
+
+fun checkSize(size: Size2d, label: String, min: Distance, max: Distance) {
+    checkDistance(size.width, "$label's width", min, max)
+    checkDistance(size.height, "$label's height", min, max)
 }
