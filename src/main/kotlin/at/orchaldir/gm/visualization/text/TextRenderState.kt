@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.text
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.selector.item.getAuthorName
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
@@ -22,6 +23,8 @@ data class TextRenderState(
     val renderer: MultiLayerRenderer,
     val data: ResolvedTextData = ResolvedTextData(),
 ) {
+
+    fun calculateMargin(style: ContentStyle) = aabb.convertMinSide(style.margin)
 
     fun createTextGenerator(chapter: Int = 0) = TextGenerator.create(
         config.exampleStrings,

@@ -16,7 +16,20 @@ fun visualizeAbstractText(
     content: AbstractText,
     pageIndex: Int,
 ) {
-    val margin = state.aabb.convertMinSide(content.style.margin)
+    val margin = state.calculateMargin(content.style)
+
+    buildPagesForAbstractText(state, content, pageIndex)
+        .render(state.renderer.getLayer(), pageIndex)
+
+    visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
+}
+
+fun buildPagesForAbstractText(
+    state: TextRenderState,
+    content: AbstractText,
+    pageIndex: Int,
+): Pages {
+    val margin = state.calculateMargin(content.style)
     val innerAABB = state.aabb.shrink(margin)
     val alignment = content.style.getHorizontalAlignment()
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
@@ -35,11 +48,8 @@ fun visualizeAbstractText(
         maxPage,
     )
 
-    builder
+    return builder
         .build()
-        .render(state.renderer.getLayer(), pageIndex)
-
-    visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
 }
 
 fun visualizeAbstractChapters(
@@ -47,7 +57,20 @@ fun visualizeAbstractChapters(
     content: AbstractChapters,
     pageIndex: Int,
 ) {
-    val margin = state.aabb.convertMinSide(content.style.margin)
+    val margin = state.calculateMargin(content.style)
+
+    buildPagesForAbstractChapters(state, content, pageIndex)
+        .render(state.renderer.getLayer(), pageIndex)
+
+    visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
+}
+
+fun buildPagesForAbstractChapters(
+    state: TextRenderState,
+    content: AbstractChapters,
+    pageIndex: Int,
+): Pages {
+    val margin = state.calculateMargin(content.style)
     val innerAABB = state.aabb.shrink(margin)
     val alignment = content.style.getHorizontalAlignment()
     val titleOptions = content.style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
@@ -77,11 +100,8 @@ fun visualizeAbstractChapters(
         )
     }
 
-    builder
+    return builder
         .build()
-        .render(state.renderer.getLayer(), pageIndex)
-
-    visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
 }
 
 private fun visualizeAbstractContent(
