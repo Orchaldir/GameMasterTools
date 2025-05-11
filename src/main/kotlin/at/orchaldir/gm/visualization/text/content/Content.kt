@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.text.content.AbstractText
 import at.orchaldir.gm.core.model.item.text.content.Chapter
 import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.item.text.content.ContentStyle
+import at.orchaldir.gm.core.model.item.text.content.Paragraph
 import at.orchaldir.gm.core.model.item.text.content.TableOfContents
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
@@ -93,13 +94,27 @@ fun buildPagesForAbstractChapters(
     state: TextRenderState,
     content: AbstractChapters,
     maxPageIndex: Int?,
-) = buildPagesForChapters(
-    state,
-    content.chapters,
-    content.style,
-    content.tableOfContents,
-    maxPageIndex,
-)
+): Pages {
+    val generator = state.createTextGenerator()
+
+    return buildPagesForChapters(
+        state,
+        content.chapters,
+        content.style,
+        content.tableOfContents,
+        maxPageIndex,
+    ) { builder, mainOptions, initialOptions, _, maxPage ->
+        buildAbstractContent(
+            state,
+            generator,
+            builder,
+            content.style,
+            mainOptions,
+            initialOptions,
+            maxPage,
+        )
+    }
+}
 
 fun visualizeSimpleChapters(
     state: TextRenderState,
@@ -126,14 +141,27 @@ fun buildPagesForSimpleChapters(
     content.style,
     content.tableOfContents,
     maxPageIndex,
-)
+) { builder, mainOptions, initialOptions, chapter, maxPage ->
+    chapter.entries.forEach { entry ->
+        when (entry) {
+            is Paragraph -> buildParagraphWithInitial(
+                builder,
+                mainOptions,
+                initialOptions,
+                entry.text.text,
+                content.style.initials,
+            )
+        }
+    }
+}
 
-private fun buildPagesForChapters(
+private fun <C : Chapter> buildPagesForChapters(
     state: TextRenderState,
-    chapters: List<Chapter>,
+    chapters: List<C>,
     style: ContentStyle,
     tableOfContents: TableOfContents,
     maxPageIndex: Int?,
+    buildChapter: (PagesBuilder, RenderStringOptions, RenderStringOptions, C, Int) -> Unit,
 ): Pages {
     val margin = state.calculateMargin(style)
     val innerAABB = state.aabb.shrink(margin)
@@ -142,7 +170,6 @@ private fun buildPagesForChapters(
     val mainOptions = style.main.convert(state.state, VerticalAlignment.Top, alignment)
     val initialOptions = calculateInitialsOptions(state, mainOptions, style.initials)
     val builder = PagesBuilder(innerAABB)
-    val generator = state.createTextGenerator()
 
     buildTableOfContents(
         state,
@@ -167,13 +194,11 @@ private fun buildPagesForChapters(
             .addParagraph(chapter.title().text, titleOptions)
             .addBreak(style.main.getFontSize())
 
-        buildAbstractContent(
-            state,
-            generator,
+        buildChapter(
             builder,
-            style,
             mainOptions,
             initialOptions,
+            chapter,
             maxPage,
         )
 
