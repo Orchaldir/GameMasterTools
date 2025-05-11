@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.content.Chapters
+import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.utils.doNothing
@@ -93,7 +93,7 @@ fun visualizeBookPage(
     when (content) {
         is AbstractText -> visualizeAbstractText(state, content, pages, page)
         is AbstractChapters -> visualizeAbstractChapters(state, content, pages, page)
-        is Chapters -> doNothing()
+        is SimpleChapters -> doNothing()
         UndefinedTextContent -> doNothing()
     }
 }

@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.content.Chapters
+import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.utils.doNothing
@@ -110,7 +110,7 @@ fun visualizeScrollContent(
         when (content) {
             is AbstractText -> visualizeAbstractText(renderState, content, pages, pageIndex)
             is AbstractChapters -> visualizeAbstractChapters(renderState, content, pages, pageIndex)
-            is Chapters -> doNothing()
+            is SimpleChapters -> doNothing()
             UndefinedTextContent -> doNothing()
         }
 

@@ -43,7 +43,7 @@ fun HtmlBlockTag.showTextContent(
             }
 
             is AbstractChapters -> showAbstractChapters(call, state, content)
-            is Chapters -> doNothing()
+            is SimpleChapters -> doNothing()
             UndefinedTextContent -> doNothing()
         }
     }
@@ -118,7 +118,7 @@ fun FORM.editTextContent(
             }
 
             is AbstractChapters -> editAbstractChapters(state, content)
-            is Chapters -> doNothing()
+            is SimpleChapters -> doNothing()
         }
     }
 }

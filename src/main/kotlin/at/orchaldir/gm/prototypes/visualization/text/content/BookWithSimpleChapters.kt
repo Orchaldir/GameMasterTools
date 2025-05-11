@@ -27,9 +27,9 @@ fun main() {
     )
     val generator = TextGenerator.create(TEXT_CONFIG.exampleStrings, 0)
     val style = ContentStyle()
-    val chapter0 = Chapter(0, generator.generateParagraphs(style, 10, 20))
-    val chapter1 = Chapter(1, generator.generateParagraphs(style, 10, 20))
-    val chapters = Chapters(
+    val chapter0 = SimpleChapter(0, generator.generateParagraphs(style, 10, 20))
+    val chapter1 = SimpleChapter(1, generator.generateParagraphs(style, 10, 20))
+    val chapters = SimpleChapters(
         listOf(chapter0, chapter1),
         pageNumbering = PageNumberingReusingFont(),
         tableOfContents = ComplexTableOfContents(titleOptions = font),
@@ -42,5 +42,5 @@ fun main() {
 
     val svg = visualizeAllPagesOfText(State(), TEXT_CONFIG, text)!!
 
-    File("book-chapters.svg").writeText(svg.export())
+    File("book-simple-chapters.svg").writeText(svg.export())
 }

@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.name.NotEmptyString
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Chapter(
+data class SimpleChapter(
     val title: NotEmptyString,
     val entries: List<ContentEntry>,
 ) {
