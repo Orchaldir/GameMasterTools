@@ -49,7 +49,7 @@ data class Point2d(val x: Distance = ZERO_DISTANCE, val y: Distance = ZERO_DISTA
         val length = length()
 
         if (length.value() > 0) {
-            return this / length.toMeters()
+            return this / length
         }
 
         return square(0.0f)
@@ -75,4 +75,6 @@ data class Point2d(val x: Distance = ZERO_DISTANCE, val y: Distance = ZERO_DISTA
     operator fun times(factor: Float) = Point2d(x * factor, y * factor)
     operator fun times(distance: Distance) = times(distance.toMeters())
     operator fun div(factor: Float) = Point2d(x / factor, y / factor)
+    operator fun div(factor: Factor) = div(factor.toNumber())
+    operator fun div(distance: Distance) = div(distance.toMeters())
 }

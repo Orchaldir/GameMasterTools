@@ -25,7 +25,7 @@ data class Size2d(val width: Distance, val height: Distance) {
     }
 
     fun scale(horizontal: Factor, vertical: Factor) =
-        Size2d(width * horizontal.toNumber(), height * vertical.toNumber())
+        Size2d(width * horizontal, height * vertical)
 
     fun addWidth(distance: Distance) = Size2d(width + distance, height)
     fun addHeight(distance: Distance) = Size2d(width, height + distance)
@@ -33,8 +33,8 @@ data class Size2d(val width: Distance, val height: Distance) {
     operator fun plus(distance: Distance) = Size2d(width + distance, height + distance)
     operator fun plus(size: Size2d) = Size2d(width + size.width, height + size.height)
     operator fun minus(distance: Distance) = Size2d(width - distance, height - distance)
-    operator fun times(factor: Factor) = Size2d(width * factor.toNumber(), height * factor.toNumber())
-    operator fun div(factor: Factor) = Size2d(width / factor.toNumber(), height / factor.toNumber())
+    operator fun times(factor: Factor) = Size2d(width * factor, height * factor)
+    operator fun div(factor: Factor) = Size2d(width / factor, height / factor)
 
     fun replaceWidth(width: Distance) = copy(width = width)
 
