@@ -15,11 +15,22 @@ fun visualizeAbstractText(
     state: TextRenderState,
     content: AbstractText,
     pageIndex: Int,
+) = visualizeAbstractText(
+    state,
+    content,
+    buildPagesForAbstractText(state, content, pageIndex),
+    pageIndex,
+)
+
+fun visualizeAbstractText(
+    state: TextRenderState,
+    content: AbstractText,
+    pages: Pages,
+    pageIndex: Int,
 ) {
     val margin = state.calculateMargin(content.style)
 
-    buildPagesForAbstractText(state, content, pageIndex)
-        .render(state.renderer.getLayer(), pageIndex)
+    pages.render(state.renderer.getLayer(), pageIndex)
 
     visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
 }
@@ -56,11 +67,22 @@ fun visualizeAbstractChapters(
     state: TextRenderState,
     content: AbstractChapters,
     pageIndex: Int,
+) = visualizeAbstractChapters(
+    state,
+    content,
+    buildPagesForAbstractChapters(state, content, pageIndex),
+    pageIndex,
+)
+
+fun visualizeAbstractChapters(
+    state: TextRenderState,
+    content: AbstractChapters,
+    pages: Pages,
+    pageIndex: Int,
 ) {
     val margin = state.calculateMargin(content.style)
 
-    buildPagesForAbstractChapters(state, content, pageIndex)
-        .render(state.renderer.getLayer(), pageIndex)
+    pages.render(state.renderer.getLayer(), pageIndex)
 
     visualizePageNumbering(state, margin, content.style, content.pageNumbering, pageIndex)
 }
