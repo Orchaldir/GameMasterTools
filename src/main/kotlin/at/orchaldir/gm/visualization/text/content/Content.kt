@@ -38,7 +38,7 @@ fun visualizeAbstractText(
 fun buildPagesForAbstractText(
     state: TextRenderState,
     content: AbstractText,
-    pageIndex: Int,
+    maxPageIndex: Int,
 ): Pages {
     val margin = state.calculateMargin(content.style)
     val innerAABB = state.aabb.shrink(margin)
@@ -47,7 +47,7 @@ fun buildPagesForAbstractText(
     val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
     val generator = state.createTextGenerator()
-    val maxPage = min(content.content.pages, pageIndex + 2)
+    val maxPage = min(content.content.pages, maxPageIndex + 2)
 
     buildAbstractContent(
         state,
