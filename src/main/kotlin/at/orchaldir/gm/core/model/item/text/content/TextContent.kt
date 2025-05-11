@@ -23,11 +23,9 @@ sealed class TextContent {
     }
 
     fun pages() = when (this) {
-        is AbstractChapters -> chapters.fold(0) { sum, chapter -> sum + chapter.content.pages } +
-                tableOfContents.pages()
-
+        is AbstractChapters -> countPages(this.chapters, this.tableOfContents)
         is AbstractText -> content.pages
-        is SimpleChapters -> pages
+        is SimpleChapters -> countPages(this.chapters, this.tableOfContents)
         UndefinedTextContent -> 0
     }
 
@@ -75,7 +73,6 @@ data class AbstractChapters(
 data class SimpleChapters(
     val chapters: List<SimpleChapter> = emptyList(),
     val style: ContentStyle = ContentStyle(),
-    val pages: Int = 0, // auto calculated
     val pageNumbering: PageNumbering = NoPageNumbering,
     val tableOfContents: TableOfContents = NoTableOfContents,
 ) : TextContent()
@@ -83,3 +80,8 @@ data class SimpleChapters(
 @Serializable
 @SerialName("Undefined")
 data object UndefinedTextContent : TextContent()
+
+private fun countPages(
+    chapters: List<Chapter>,
+    toc: TableOfContents,
+) = chapters.fold(0) { sum, chapter -> sum + chapter.pages() } + toc.pages()
