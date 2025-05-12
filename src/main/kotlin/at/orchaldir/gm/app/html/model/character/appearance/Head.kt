@@ -81,7 +81,7 @@ private fun FORM.editNormalBeard(
         "Style",
         combine(BEARD, STYLE),
         fashion?.beardStyles,
-        beard.style.getType()
+        beard.style.getType(),
     )
     selectColor("Color", combine(BEARD, COLOR), raceAppearance.hair.colors, beard.color)
 
