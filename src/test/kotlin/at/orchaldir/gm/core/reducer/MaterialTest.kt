@@ -52,7 +52,7 @@ class MaterialTest {
             )
             val action = DeleteMaterial(MATERIAL_ID_0)
 
-            assertIllegalArgument("Material 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Material 0, because it is used!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -66,7 +66,7 @@ class MaterialTest {
             )
             val action = DeleteMaterial(MATERIAL_ID_0)
 
-            assertIllegalArgument("Material 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Material 0, because it is used!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -80,7 +80,7 @@ class MaterialTest {
             )
             val action = DeleteMaterial(MATERIAL_ID_0)
 
-            assertIllegalArgument("Material 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Material 0, because it is used!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -94,7 +94,7 @@ class MaterialTest {
             )
             val action = DeleteMaterial(MATERIAL_ID_0)
 
-            assertIllegalArgument("Material 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Material 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 
