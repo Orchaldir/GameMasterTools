@@ -147,7 +147,7 @@ fun buildPagesForSimpleChapters(
             is Quote -> builder.addParagraph(
                 entry.text.text,
                 quoteOptions,
-            )
+            ).addBreak(quoteOptions.size)
         }
     }
 }
