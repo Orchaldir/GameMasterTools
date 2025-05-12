@@ -204,7 +204,6 @@ private fun HtmlBlockTag.selectRadius(radius: Distance) {
         MIN_RADIUS,
         MAX_RADIUS,
         SiPrefix.Milli,
-        true
     )
 }
 
@@ -216,7 +215,6 @@ private fun HtmlBlockTag.selectThickness(thickness: Distance) {
         MIN_THICKNESS,
         MAX_THICKNESS,
         SiPrefix.Micro,
-        true
     )
 }
 

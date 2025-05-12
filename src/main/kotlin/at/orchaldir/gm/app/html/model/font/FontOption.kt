@@ -119,7 +119,6 @@ private fun HtmlBlockTag.selectBorderThickness(
         HUNDRED_µM,
         ONE_CM,
         SiPrefix.Micro,
-        update = true,
     )
 }
 
@@ -143,7 +142,6 @@ private fun HtmlBlockTag.editSharedFontOptions(
         ONE_MM,
         ONE_M,
         SiPrefix.Milli,
-        update = true
     )
 }
 

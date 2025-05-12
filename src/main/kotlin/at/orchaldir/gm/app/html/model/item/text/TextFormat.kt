@@ -211,7 +211,6 @@ fun FORM.editTextFormat(
                     MIN_TEXT_SIZE,
                     MAX_TEXT_SIZE,
                     prefix,
-                    true,
                 )
                 selectDistance(
                     "Roll Diameter",
@@ -220,7 +219,6 @@ fun FORM.editTextFormat(
                     MIN_TEXT_SIZE,
                     MAX_TEXT_SIZE,
                     prefix,
-                    true,
                 )
                 selectFactor(
                     "Page Width",
@@ -408,7 +406,6 @@ private fun HtmlBlockTag.editScrollHandle(
             MIN_SEGMENT_DISTANCE,
             MAX_SEGMENT_DISTANCE,
             prefix,
-            true,
         )
         selectDistance(
             "Diameter",
@@ -417,7 +414,6 @@ private fun HtmlBlockTag.editScrollHandle(
             MIN_SEGMENT_DISTANCE,
             MAX_SEGMENT_DISTANCE,
             prefix,
-            true,
         )
         editColorItemPart(state, segment.main, segmentParam)
         selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape)

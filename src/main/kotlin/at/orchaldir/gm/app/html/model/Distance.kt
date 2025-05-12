@@ -23,10 +23,9 @@ fun HtmlBlockTag.selectDistance(
     minValue: Distance,
     maxValue: Distance,
     prefix: SiPrefix,
-    update: Boolean = false,
 ) {
     field(label) {
-        selectDistance(param, distance, minValue, maxValue, prefix, update)
+        selectDistance(param, distance, minValue, maxValue, prefix)
     }
 }
 
@@ -36,14 +35,12 @@ fun HtmlBlockTag.selectDistance(
     minValue: Distance,
     maxValue: Distance,
     prefix: SiPrefix,
-    update: Boolean = false,
 ) = selectDistance(
     param,
     current,
     minValue.convertToLong(prefix),
     maxValue.convertToLong(prefix),
     prefix,
-    update,
 )
 
 fun HtmlBlockTag.selectDistance(
@@ -53,10 +50,9 @@ fun HtmlBlockTag.selectDistance(
     minValue: Long,
     maxValue: Long,
     prefix: SiPrefix,
-    update: Boolean = false,
 ) {
     field(label) {
-        selectDistance(param, distance, minValue, maxValue, prefix, update)
+        selectDistance(param, distance, minValue, maxValue, prefix)
     }
 }
 
@@ -66,7 +62,6 @@ fun HtmlBlockTag.selectDistance(
     minValue: Long,
     maxValue: Long,
     prefix: SiPrefix,
-    update: Boolean = false,
 ) {
     val unit = Distance.resolveUnit(prefix)
     val text = current.toString()

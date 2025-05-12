@@ -54,7 +54,6 @@ fun FORM.selectDistanceDistribution(
             minHeight,
             maxHeight,
             prefix,
-            update,
         )
         +" +- "
         selectFactor(

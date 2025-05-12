@@ -118,7 +118,7 @@ private fun HtmlBlockTag.editStringSharedOptions(
 }
 
 private fun HtmlBlockTag.selectDistance(label: String, param: String, value: Distance) {
-    selectDistance(label, param, value, ZERO_DISTANCE, ONE_M, siPrefix, update = true)
+    selectDistance(label, param, value, ZERO_DISTANCE, ONE_M, siPrefix)
 }
 
 // parse
