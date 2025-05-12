@@ -263,7 +263,7 @@ private fun checkSimpleChapter(
         val entry = it.value
         val entryNumber = it.index + 1
 
-        if (entry is Quote) {
+        if (entry is QuoteEntry) {
             validateCreator(
                 state,
                 entry.source,

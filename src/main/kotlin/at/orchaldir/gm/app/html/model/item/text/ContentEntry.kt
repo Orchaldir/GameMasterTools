@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.text.content.ContentEntry
 import at.orchaldir.gm.core.model.item.text.content.ContentEntryType
 import at.orchaldir.gm.core.model.item.text.content.Paragraph
-import at.orchaldir.gm.core.model.item.text.content.Quote
+import at.orchaldir.gm.core.model.item.text.content.QuoteEntry
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import io.ktor.http.Parameters
 import io.ktor.server.application.ApplicationCall
@@ -37,7 +37,7 @@ fun HtmlBlockTag.showContentEntries(
     fieldList("Entries", entries) { entry ->
         when (entry) {
             is Paragraph -> field("Text", entry.text)
-            is Quote -> {
+            is QuoteEntry -> {
                 field("Text", entry.text)
                 fieldCreator(call, state, entry.source, "Source")
             }
@@ -69,7 +69,7 @@ fun HtmlBlockTag.editContentEntries(
 
         when (entry) {
             is Paragraph -> editText(entryParam, entry.text)
-            is Quote -> {
+            is QuoteEntry -> {
                 editText(entryParam, entry.text)
                 selectCreator(
                     state,
@@ -111,7 +111,7 @@ private fun parseContentEntry(parameters: Parameters, param: String) =
             parseNotEmptyString(parameters, param, "Text"),
         )
 
-        ContentEntryType.Quote -> Quote(
+        ContentEntryType.Quote -> QuoteEntry(
             parseNotEmptyString(parameters, param, "Text"),
             parseCreator(parameters, combine(param, CREATOR))
         )

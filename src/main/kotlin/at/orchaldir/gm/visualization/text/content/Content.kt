@@ -166,13 +166,13 @@ private fun buildEntry(
         style.initials,
     )
 
-    is Quote -> buildQuote(state, builder, entry, quoteOptions)
+    is QuoteEntry -> buildQuote(state, builder, entry, quoteOptions)
 }
 
 private fun buildQuote(
     state: TextRenderState,
     builder: PagesBuilder,
-    quote: Quote,
+    quote: QuoteEntry,
     quoteOptions: RenderStringOptions,
 ) {
     builder.addParagraph("\"${quote.text.text}\"", quoteOptions)
@@ -186,7 +186,7 @@ private fun buildQuote(
 
 private fun getQuoteSource(
     state: TextRenderState,
-    quote: Quote,
+    quote: QuoteEntry,
 ) = when (quote.source) {
     is CreatedByBusiness -> state.state.getElementName(quote.source.business)
     is CreatedByCharacter -> state.state.getElementName(quote.source.character)

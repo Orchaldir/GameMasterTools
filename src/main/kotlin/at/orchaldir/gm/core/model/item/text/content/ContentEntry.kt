@@ -17,12 +17,12 @@ sealed class ContentEntry {
 
     fun getType() = when (this) {
         is Paragraph -> ContentEntryType.Paragraph
-        is Quote -> ContentEntryType.Quote
+        is QuoteEntry -> ContentEntryType.Quote
     }
 
     fun <ID : Id<ID>> isSourceOfQuote(id: ID) = when (this) {
         is Paragraph -> false
-        is Quote -> source.isId(id)
+        is QuoteEntry -> source.isId(id)
     }
 }
 
@@ -40,14 +40,14 @@ data class Paragraph(
 
 @Serializable
 @SerialName("Quote")
-data class Quote(
+data class QuoteEntry(
     val text: NotEmptyString,
     val source: Creator = UndefinedCreator,
 ) : ContentEntry() {
 
     companion object {
         fun fromString(text: String, creator: Creator = UndefinedCreator) =
-            Quote(NotEmptyString.init(text), creator)
+            QuoteEntry(NotEmptyString.init(text), creator)
     }
 
 }
