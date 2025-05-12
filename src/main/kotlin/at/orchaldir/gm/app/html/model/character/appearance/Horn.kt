@@ -142,7 +142,6 @@ private fun HtmlBlockTag.selectOrientation(param: String, offset: Orientation, m
         -maxValue,
         maxValue,
         fromDegrees(1),
-        true,
     )
 }
 

@@ -23,10 +23,9 @@ fun HtmlBlockTag.selectOrientation(
     minValue: Orientation,
     maxValue: Orientation,
     step: Orientation = fromMillidegrees(1),
-    update: Boolean = false,
 ) {
     field(label) {
-        selectOrientation(param, current, minValue, maxValue, step, update)
+        selectOrientation(param, current, minValue, maxValue, step)
     }
 }
 
@@ -36,7 +35,6 @@ fun HtmlBlockTag.selectOrientation(
     minValue: Orientation,
     maxValue: Orientation,
     step: Orientation = fromMillidegrees(1),
-    update: Boolean = false,
 ) {
     selectLong(
         current.value(),
