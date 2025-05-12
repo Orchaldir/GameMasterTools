@@ -34,10 +34,10 @@ fun FORM.editNameList(nameList: NameList) {
     selectName(nameList.name)
     h2 { +"Names" }
     textArea {
-        id = "names"
-        name = "names"
+        id = NAMES
+        name = NAMES
         cols = "30"
-        rows = (nameList.name.text.length + 5).toString()
+        rows = (nameList.names.size + 5).toString()
         +nameList.names.joinToString("\n") { it.text }
     }
 }
