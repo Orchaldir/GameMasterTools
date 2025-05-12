@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.unit.*
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -149,16 +150,16 @@ private fun HtmlBlockTag.editSharedFontOptions(
 
 // parse
 
-fun parseFontOption(parameters: Parameters, param: String) =
+fun parseFontOption(parameters: Parameters, param: String, defaultSize: Distance = fromMillimeters(10)) =
     when (parse(parameters, combine(param, TYPE), FontOptionType.Solid)) {
         FontOptionType.Solid -> SolidFont(
-            parseFontSize(parameters, param),
+            parseFontSize(parameters, param, defaultSize),
             parseFontColor(parameters, param),
             parseOptionalFontId(parameters, combine(param, FONT)),
         )
 
         FontOptionType.Border -> FontWithBorder(
-            parseFontSize(parameters, param),
+            parseFontSize(parameters, param, defaultSize),
             parseBorderThickness(parameters, param),
             parseFontColor(parameters, param),
             parseBorderColor(parameters, param),
@@ -166,7 +167,7 @@ fun parseFontOption(parameters: Parameters, param: String) =
         )
 
         FontOptionType.Hollow -> HollowFont(
-            parseFontSize(parameters, param),
+            parseFontSize(parameters, param, defaultSize),
             parseBorderThickness(parameters, param),
             parseBorderColor(parameters, param),
             parseOptionalFontId(parameters, combine(param, FONT)),
@@ -176,8 +177,8 @@ fun parseFontOption(parameters: Parameters, param: String) =
 private fun parseBorderThickness(parameters: Parameters, param: String) =
     parseDistance(parameters, combine(param, BORDER, SIZE), SiPrefix.Micro, 1)
 
-private fun parseFontSize(parameters: Parameters, param: String) =
-    parseDistance(parameters, combine(param, SIZE), SiPrefix.Milli, 10)
+private fun parseFontSize(parameters: Parameters, param: String, defaultSize: Distance) =
+    parseDistance(parameters, combine(param, SIZE), SiPrefix.Milli, defaultSize)
 
 private fun parseFontColor(parameters: Parameters, param: String) =
     parse(parameters, combine(param, COLOR), Color.Black)
