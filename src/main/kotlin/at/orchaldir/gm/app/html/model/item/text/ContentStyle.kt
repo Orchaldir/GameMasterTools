@@ -134,8 +134,18 @@ fun parseContentStyle(parameters: Parameters, param: String) = ContentStyle(
 )
 
 fun parseContentGeneration(parameters: Parameters, param: String) = ContentGeneration(
-    parseParagraphGeneration(parameters, combine(param, MAIN)),
-    parseParagraphGeneration(parameters, combine(param, QUOTE)),
+    parseParagraphGeneration(
+        parameters,
+        combine(param, MAIN),
+        MIN_PARAGRAPH_LENGTH,
+        MAX_PARAGRAPH_LENGTH,
+    ),
+    parseParagraphGeneration(
+        parameters,
+        combine(param, QUOTE),
+        MIN_QUOTE_LENGTH,
+        MAX_QUOTE_LENGTH,
+    ),
     parseOneOf(
         parameters,
         combine(param, TYPE),
@@ -144,7 +154,7 @@ fun parseContentGeneration(parameters: Parameters, param: String) = ContentGener
     ),
 )
 
-fun parseParagraphGeneration(parameters: Parameters, param: String) = ParagraphGeneration(
-    parseInt(parameters, combine(param, MIN), MIN_PARAGRAPH_LENGTH),
-    parseInt(parameters, combine(param, MAX), MAX_PARAGRAPH_LENGTH),
+fun parseParagraphGeneration(parameters: Parameters, param: String, min: Int, max: Int) = ParagraphGeneration(
+    parseInt(parameters, combine(param, MIN), min),
+    parseInt(parameters, combine(param, MAX), max),
 )
