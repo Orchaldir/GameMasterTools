@@ -49,7 +49,7 @@ class TextRoutes {
     @Resource("details")
     class Details(
         val id: TextId,
-        val page: Int = 0,
+        val pageIndex: Int = 0,
         val parent: TextRoutes = TextRoutes(),
     )
 
@@ -92,7 +92,7 @@ fun Application.configureTextRouting() {
             val text = state.getTextStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTextDetails(call, state, text, details.page)
+                showTextDetails(call, state, text, details.pageIndex)
             }
         }
         get<TextRoutes.New> {
@@ -236,14 +236,14 @@ private fun HTML.showTextDetails(
     call: ApplicationCall,
     state: State,
     text: Text,
-    page: Int,
+    pageIndex: Int,
 ) {
     val backLink = call.application.href(TextRoutes.All())
     val deleteLink = call.application.href(TextRoutes.Delete(text.id))
     val editLink = call.application.href(TextRoutes.Edit(text.id))
 
     simpleHtml("Text: ${text.name(state)}") {
-        visualizeFrontAndContent(call, state, text, 20, page, true)
+        visualizeFrontAndContent(call, state, text, 20, pageIndex, true)
         showText(call, state, text)
 
         action(editLink, "Edit")
@@ -282,7 +282,7 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
     state: State,
     text: Text,
     width: Int,
-    page: Int,
+    pageIndex: Int,
     showActions: Boolean = false,
 ) {
     if (text.format is Book || (text.format is Scroll && text.content is UndefinedTextContent)) {
@@ -290,21 +290,21 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
         svg(frontSvg, width)
     }
     if (text.content !is UndefinedTextContent) {
-        val contentSvg = visualizePageOfContent(state, TEXT_CONFIG, text, page)!!
+        val contentSvg = visualizePageOfContent(state, TEXT_CONFIG, text, pageIndex)!!
         svg(contentSvg, width)
 
         if (showActions) {
             val pages = text.content.pages()
 
-            field("Page", "${page + 1} of $pages")
+            field("Page", "${pageIndex + 1} of $pages")
 
-            if (page < pages) {
-                val nextPageLink = call.application.href(TextRoutes.Details(text.id, page + 1))
+            if (pageIndex < pages - 1) {
+                val nextPageLink = call.application.href(TextRoutes.Details(text.id, pageIndex + 1))
                 action(nextPageLink, "Next Page")
             }
-            if (page > 0) {
+            if (pageIndex > 0) {
                 val firstPageLink = call.application.href(TextRoutes.Details(text.id, 0))
-                val previousPageLink = call.application.href(TextRoutes.Details(text.id, page - 1))
+                val previousPageLink = call.application.href(TextRoutes.Details(text.id, pageIndex - 1))
                 action(previousPageLink, "Previous Page")
                 action(firstPageLink, "First Page")
             }

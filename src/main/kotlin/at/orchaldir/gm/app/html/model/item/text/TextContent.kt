@@ -186,7 +186,7 @@ private fun HtmlBlockTag.editSimpleChapter(
     index: Int,
     param: String,
 ) {
-    showDetails(createDefaultChapterTitle(index)) {
+    showDetails(createDefaultChapterTitle(index), true) {
         selectNotEmptyString("Title", chapter.title, combine(param, TITLE))
         field("Pages", chapter.pages)
         editList(
