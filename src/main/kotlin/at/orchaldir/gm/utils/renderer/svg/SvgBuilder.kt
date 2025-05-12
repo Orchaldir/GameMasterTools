@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer
@@ -44,9 +45,24 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
 
     // layers
 
-    override fun getLayer(layer: Int): LayerRenderer = SvgRenderer(fonts, patterns, layers.computeIfAbsent(layer) {
+    override fun getLayer(layer: Int) = SvgRenderer(fonts, patterns, layers.computeIfAbsent(layer) {
         mutableListOf()
     }, step, step)
+
+    // group
+
+    override fun createGroup(position: Point2d, layerIndex: Int, content: (LayerRenderer) -> Unit) {
+        val layer = getLayer(layerIndex)
+
+        layer.tag(
+            "g",
+            "transform=\"translate(%.3f,%.3f)\"",
+            position.x.toMeters(),
+            position.y.toMeters(),
+        ) {
+            content(it)
+        }
+    }
 
     // links
 

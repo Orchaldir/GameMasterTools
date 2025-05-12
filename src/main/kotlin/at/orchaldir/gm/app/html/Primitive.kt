@@ -196,6 +196,22 @@ fun HtmlBlockTag.selectLong(
 
 // select text
 
+fun HtmlBlockTag.editTextArea(
+    param: String,
+    columnCount: Int,
+    rowCount: Int,
+    text: String,
+) {
+    textArea {
+        id = param
+        name = param
+        cols = columnCount.toString()
+        rows = rowCount.toString()
+        onChange = ON_CHANGE_SCRIPT
+        +text
+    }
+}
+
 fun HtmlBlockTag.selectChar(
     label: String,
     char: Char,
@@ -220,6 +236,13 @@ fun HtmlBlockTag.selectNotEmptyString(
     param: String,
 ) {
     selectString(label, string.text, param)
+}
+
+fun HtmlBlockTag.selectNotEmptyString(
+    string: NotEmptyString,
+    param: String,
+) {
+    selectString(string.text, param)
 }
 
 fun HtmlBlockTag.selectName(label: String, name: Name, param: String) {
@@ -260,6 +283,7 @@ private fun HtmlBlockTag.selectString(
             maxLength = "$max"
         }
         value = text
+        onChange = ON_CHANGE_SCRIPT
     }
 }
 

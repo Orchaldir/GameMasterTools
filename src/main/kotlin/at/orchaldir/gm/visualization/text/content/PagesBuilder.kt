@@ -20,6 +20,8 @@ data class PagesBuilder(
     private var currentPosition: Point2d = aabb.start,
     private var currentPage: MutableList<PageEntry> = mutableListOf(),
     private val pages: MutableList<Page> = mutableListOf(),
+    private var chapterStart: Int = 0,
+    private val chapters: MutableList<Int> = mutableListOf(),
 ) {
 
     fun addParagraphWithInitial(
@@ -143,8 +145,22 @@ data class PagesBuilder(
         return addBreak(options.size)
     }
 
+    fun startChapter(): PagesBuilder {
+        chapterStart = pages.size
+
+        return this
+    }
+
+    fun endChapter(): PagesBuilder {
+        val pages = pages.size - chapterStart + 1
+        chapters.add(pages)
+
+        return this
+    }
+
     fun build() = Pages(
         pages + Page(currentPage),
+        chapters,
     )
 
     fun count() = pages.size + currentPage.isNotEmpty().toInt()

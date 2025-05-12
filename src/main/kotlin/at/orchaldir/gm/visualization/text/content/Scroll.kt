@@ -3,10 +3,7 @@ package at.orchaldir.gm.visualization.text.content
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
-import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.content.TextContent
-import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
@@ -53,14 +50,17 @@ private fun visualizeScrollContent(
     scroll: Scroll,
     pagesIndices: List<Int>,
 ): Svg {
-    val pages = pagesIndices.size
-    val contentSize = scroll.calculateOpenSize(pages)
+    val numberOfPages = pagesIndices.size
+    val contentSize = scroll.calculateOpenSize(numberOfPages)
+    val pageSize = scroll.calculatePageSize()
     val paddedContentSize = config.addPadding(contentSize)
     val builder = SvgBuilder(paddedContentSize)
     val data = resolveTextData(state, text)
     val paddedAabb = AABB(paddedContentSize)
     val scrollAabb = AABB.fromCenter(paddedAabb.getCenter(), contentSize)
     val renderState = TextRenderState(state, scrollAabb, config, builder, data)
+    val builderState = TextRenderState(state, AABB(pageSize), config, builder, data)
+    val pages = buildPages(builderState, text.content, pagesIndices.last())!!
 
     builder.getLayer().renderRectangle(AABB(paddedContentSize), BorderOnly(config.line))
 
@@ -68,6 +68,7 @@ private fun visualizeScrollContent(
         renderState,
         scroll,
         text.content,
+        pages,
         pagesIndices,
     )
 
@@ -78,9 +79,10 @@ fun visualizeScrollContent(
     state: TextRenderState,
     scroll: Scroll,
     content: TextContent,
+    pages: Pages,
     pagesIndices: List<Int>,
 ) {
-    val pages = pagesIndices.size
+    val numberOfPages = pagesIndices.size
     val pageSize = scroll.calculatePageSize()
     val scrollAabb = state.aabb
 
@@ -89,7 +91,7 @@ fun visualizeScrollContent(
     val pageColor = scroll.main.getColor(state.state)
     val pageOptions = FillAndBorder(pageColor.toRender(), state.config.line)
     val pagesStart = scrollAabb.start + Point2d(scroll.calculateWidthOfOneRod(), scroll.calculateHandleLength())
-    val pagesSize = pageSize.replaceWidth(pageSize.width * pages)
+    val pagesSize = pageSize.replaceWidth(pageSize.width * numberOfPages)
     val pagesAabb = AABB(pagesStart, pagesSize)
 
     state.renderer.getLayer().renderRectangle(pagesAabb, pageOptions)
@@ -102,8 +104,9 @@ fun visualizeScrollContent(
         val renderState = state.copy(aabb = pageAabb)
 
         when (content) {
-            is AbstractText -> visualizeAbstractText(renderState, content, pageIndex)
-            is AbstractChapters -> visualizeAbstractChapters(renderState, content, pageIndex)
+            is AbstractText -> visualizeAbstractText(renderState, content, pages, pageIndex)
+            is AbstractChapters -> visualizeAbstractChapters(renderState, content, pages, pageIndex)
+            is SimpleChapters -> visualizeSimpleChapters(renderState, content, pages, pageIndex)
             UndefinedTextContent -> doNothing()
         }
 

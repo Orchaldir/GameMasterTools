@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.NAMES
-import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameList
@@ -13,7 +10,9 @@ import at.orchaldir.gm.core.selector.culture.getCultures
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.*
+import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -33,13 +32,12 @@ fun HtmlBlockTag.showNameList(
 fun FORM.editNameList(nameList: NameList) {
     selectName(nameList.name)
     h2 { +"Names" }
-    textArea {
-        id = "names"
-        name = "names"
-        cols = "30"
-        rows = (nameList.name.text.length + 5).toString()
-        +nameList.names.joinToString("\n") { it.text }
-    }
+    editTextArea(
+        NAMES,
+        30,
+        nameList.names.size + 5,
+        nameList.names.joinToString("\n") { it.text },
+    )
 }
 
 // parse

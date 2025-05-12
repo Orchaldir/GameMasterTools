@@ -9,29 +9,30 @@ import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
 
-fun visualizeTableOfContents(
+fun buildTableOfContents(
     state: TextRenderState,
     builder: PagesBuilder,
-    chapters: AbstractChapters,
+    chapters: List<Chapter>,
+    toc: TableOfContents,
     titleOptions: RenderStringOptions,
     mainOptions: RenderStringOptions,
 ) {
-    when (val toc = chapters.tableOfContents) {
+    when (toc) {
         NoTableOfContents -> doNothing()
-        is SimpleTableOfContents -> visualizeTableOfContents(
+        is SimpleTableOfContents -> buildTableOfContents(
             builder,
             toc.title,
-            chapters.chapters,
+            chapters,
             titleOptions,
             mainOptions,
             toc.data,
             toc.line,
         )
 
-        is ComplexTableOfContents -> visualizeTableOfContents(
+        is ComplexTableOfContents -> buildTableOfContents(
             builder,
             toc.title,
-            chapters.chapters,
+            chapters,
             toc.titleOptions.convert(state.state),
             toc.mainOptions.convert(state.state, horizontalAlignment = HorizontalAlignment.Start),
             toc.data,
@@ -40,10 +41,10 @@ fun visualizeTableOfContents(
     }
 }
 
-private fun visualizeTableOfContents(
+private fun buildTableOfContents(
     builder: PagesBuilder,
     title: NotEmptyString,
-    chapters: List<AbstractChapter>,
+    chapters: List<Chapter>,
     titleOptions: RenderStringOptions,
     mainOptions: RenderStringOptions,
     data: TocData,
@@ -55,7 +56,7 @@ private fun visualizeTableOfContents(
     var page = 2
 
     chapters.forEach { chapter ->
-        visualizeTocLine(
+        buildTocLine(
             builder,
             chapter,
             mainOptions,
@@ -64,20 +65,20 @@ private fun visualizeTableOfContents(
             page,
         )
 
-        page += chapter.content.pages
+        page += chapter.pages()
     }
 
     builder.addPageBreak()
 }
 
-private fun visualizeTocLine(
+private fun buildTocLine(
     builder: PagesBuilder,
-    chapter: AbstractChapter,
+    chapter: Chapter,
     options: RenderStringOptions,
     data: TocData,
     line: TocLine,
     page: Int,
 ) = when (data) {
-    TocData.NamePage -> builder.addTocEntry(chapter.title.text, page.toString(), line, options)
-    TocData.PageName -> builder.addTocEntry(page.toString(), chapter.title.text, line, options)
+    TocData.NamePage -> builder.addTocEntry(chapter.title().text, page.toString(), line, options)
+    TocData.PageName -> builder.addTocEntry(page.toString(), chapter.title().text, line, options)
 }.addBreak(options.size)

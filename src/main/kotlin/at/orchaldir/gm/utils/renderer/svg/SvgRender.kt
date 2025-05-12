@@ -26,7 +26,7 @@ class SvgRenderer(
     override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions): LayerRenderer {
         selfClosingTag(
             "circle",
-            "cx=\"%.3f\" cy=\"%.3f\" r=\"%.4f\" style=\"%s\"",
+            "cx=\"%.4f\" cy=\"%.4f\" r=\"%.4f\" style=\"%s\"",
             center.x.toMeters(),
             center.y.toMeters(),
             radius.toMeters(),
@@ -78,7 +78,7 @@ class SvgRenderer(
     ): LayerRenderer {
         selfClosingTag(
             "ellipse",
-            "cx=\"%.3f\" cy=\"%.3f\" rx=\"%.4f\" ry=\"%.4f\"%s style=\"%s\"",
+            "cx=\"%.4f\" cy=\"%.4f\" rx=\"%.4f\" ry=\"%.4f\"%s style=\"%s\"",
             center.x.toMeters(),
             center.y.toMeters(),
             radiusX.toMeters(),
@@ -162,7 +162,7 @@ class SvgRenderer(
     override fun renderRectangle(aabb: AABB, options: RenderOptions): LayerRenderer {
         selfClosingTag(
             "rect",
-            "x=\"%.3f\" y=\"%.3f\" width=\"%.4f\" height=\"%.4f\" style=\"%s\"",
+            "x=\"%.4f\" y=\"%.4f\" width=\"%.4f\" height=\"%.4f\" style=\"%s\"",
             aabb.start.x.toMeters(),
             aabb.start.y.toMeters(),
             aabb.size.width.toMeters(),
@@ -205,7 +205,7 @@ class SvgRenderer(
         inlineTag(
             "text",
             text,
-            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\"%s style=\"%s\" text-anchor=\"%s\"",
+            "x=\"%.4f\" y=\"%.4f\" alignment-baseline=\"%s\"%s style=\"%s\" text-anchor=\"%s\"",
             position.x.toMeters(),
             position.y.toMeters(),
             toSvg(options.verticalAlignment),
@@ -231,7 +231,7 @@ class SvgRenderer(
         inlineTag(
             "text",
             text,
-            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" style=\"%s\" text-anchor=\"%s\"",
+            "x=\"%.4f\" y=\"%.4f\" alignment-baseline=\"%s\" style=\"%s\" text-anchor=\"%s\"",
             position.x.toMeters(),
             position.y.toMeters(),
             toSvg(options.verticalAlignment),
@@ -322,8 +322,8 @@ class SvgRenderer(
         formatAttributes(
             "rotate(%.3f,%.3f,%.3f)",
             orientation.toDegrees(),
-            center.x,
-            center.y,
+            center.x.toMeters(),
+            center.y.toMeters(),
         )
 
     private fun toSvg(

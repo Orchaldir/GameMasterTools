@@ -3,10 +3,7 @@ package at.orchaldir.gm.visualization.text.content
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
-import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.content.TextContent
-import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
@@ -53,15 +50,17 @@ fun visualizeBookContent(
     book: Book,
     pagesIndices: List<Int>,
 ): Svg {
-    val pages = pagesIndices.size
+    val numberOfPages = pagesIndices.size
     val pageSize = config.calculateClosedSize(text.format)
-    val contentSize = Size2d(pageSize.width * pages, pageSize.height)
+    val contentSize = Size2d(pageSize.width * numberOfPages, pageSize.height)
     val paddedPageSize = config.addPadding(pageSize)
     val paddedContentSize = config.addPadding(contentSize)
     val builder = SvgBuilder(paddedContentSize)
     val data = resolveTextData(state, text)
     var start = Point2d()
     val step = Point2d.xAxis(pageSize.width)
+    val builderState = TextRenderState(state, AABB(pageSize), config, builder, data)
+    val pages = buildPages(builderState, text.content, pagesIndices.last())!!
 
     builder.getLayer().renderRectangle(AABB(paddedContentSize), BorderOnly(config.line))
 
@@ -70,7 +69,7 @@ fun visualizeBookContent(
         val inner = AABB.fromCenter(paddedAabb.getCenter(), pageSize)
         val renderState = TextRenderState(state, inner, config, builder, data)
 
-        visualizeBookPage(renderState, book, text.content, pageIndex)
+        visualizeBookPage(renderState, book, text.content, pages, pageIndex)
 
         start += step
     }
@@ -82,18 +81,20 @@ fun visualizeBookPage(
     state: TextRenderState,
     book: Book,
     content: TextContent,
+    pages: Pages,
     page: Int,
 ) {
-    visualizeBookPage(state, book)
+    visualizeBlankBookPage(state, book)
 
     when (content) {
-        is AbstractText -> visualizeAbstractText(state, content, page)
-        is AbstractChapters -> visualizeAbstractChapters(state, content, page)
+        is AbstractText -> visualizeAbstractText(state, content, pages, page)
+        is AbstractChapters -> visualizeAbstractChapters(state, content, pages, page)
+        is SimpleChapters -> visualizeSimpleChapters(state, content, pages, page)
         UndefinedTextContent -> doNothing()
     }
 }
 
-private fun visualizeBookPage(
+private fun visualizeBlankBookPage(
     state: TextRenderState,
     book: Book,
 ) {

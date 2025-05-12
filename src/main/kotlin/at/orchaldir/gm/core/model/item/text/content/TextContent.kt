@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 enum class TextContentType {
     AbstractChapters,
     AbstractText,
+    Chapters,
     Undefined,
 }
 
@@ -17,32 +18,35 @@ sealed class TextContent {
     fun getType() = when (this) {
         is AbstractChapters -> TextContentType.AbstractChapters
         is AbstractText -> TextContentType.AbstractText
+        is SimpleChapters -> TextContentType.Chapters
         UndefinedTextContent -> TextContentType.Undefined
     }
 
     fun pages() = when (this) {
-        is AbstractChapters -> chapters.fold(0) { sum, chapter -> sum + chapter.content.pages } +
-                tableOfContents.pages()
-
+        is AbstractChapters -> countPages(this.chapters, this.tableOfContents)
         is AbstractText -> content.pages
+        is SimpleChapters -> countPages(this.chapters, this.tableOfContents)
         UndefinedTextContent -> 0
     }
 
     fun spells() = when (this) {
         is AbstractChapters -> chapters.fold(setOf()) { sum, chapter -> sum + chapter.content.spells }
         is AbstractText -> content.spells
+        is SimpleChapters -> emptySet()
         UndefinedTextContent -> emptySet()
     }
 
     fun contains(font: FontId) = when (this) {
         is AbstractChapters -> style.contains(font) || pageNumbering.contains(font) || tableOfContents.contains(font)
         is AbstractText -> style.contains(font) || pageNumbering.contains(font)
+        is SimpleChapters -> style.contains(font) || pageNumbering.contains(font) || tableOfContents.contains(font)
         UndefinedTextContent -> false
     }
 
     fun contains(spell: SpellId) = when (this) {
         is AbstractChapters -> chapters.any { it.content.spells.contains(spell) }
         is AbstractText -> content.spells.contains(spell)
+        is SimpleChapters -> false
         UndefinedTextContent -> false
     }
 }
@@ -62,16 +66,22 @@ data class AbstractChapters(
     val style: ContentStyle = ContentStyle(),
     val pageNumbering: PageNumbering = NoPageNumbering,
     val tableOfContents: TableOfContents = NoTableOfContents,
-) : TextContent() {
+) : TextContent()
 
-    init {
-        if (pageNumbering == NoPageNumbering) {
-            require(tableOfContents == NoTableOfContents) { "Table of Contents requires page numbering!" }
-        }
-    }
-
-}
+@Serializable
+@SerialName("SimpleChapters")
+data class SimpleChapters(
+    val chapters: List<SimpleChapter> = emptyList(),
+    val style: ContentStyle = ContentStyle(),
+    val pageNumbering: PageNumbering = NoPageNumbering,
+    val tableOfContents: TableOfContents = NoTableOfContents,
+) : TextContent()
 
 @Serializable
 @SerialName("Undefined")
 data object UndefinedTextContent : TextContent()
+
+private fun countPages(
+    chapters: List<Chapter>,
+    toc: TableOfContents,
+) = chapters.fold(0) { sum, chapter -> sum + chapter.pages() } + toc.pages()
