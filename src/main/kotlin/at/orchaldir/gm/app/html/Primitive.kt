@@ -267,6 +267,7 @@ private fun HtmlBlockTag.selectString(
             maxLength = "$max"
         }
         value = text
+        onChange = ON_CHANGE_SCRIPT
     }
 }
 
