@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.model.font.showFontOption
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.selectFactor
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
@@ -29,9 +30,27 @@ fun HtmlBlockTag.showContentStyle(
         field("Is Justified?", style.isJustified)
         fieldFactor("Margin", style.margin)
         showInitials(call, state, style.initials)
-        // TODO
-        //field("Min Paragraph Length", style.minParagraphLength)
-        //field("Max Paragraph Length", style.maxParagraphLength)
+        showContentGeneration(style.generation)
+    }
+}
+
+fun HtmlBlockTag.showContentGeneration(
+    generation: ContentGeneration,
+) {
+    showDetails("Generation") {
+        showParagraphGeneration(generation.main, "Main")
+        showParagraphGeneration(generation.quote, "Quote")
+        showRarityMap("Rarity", generation.rarity)
+    }
+}
+
+fun HtmlBlockTag.showParagraphGeneration(
+    generation: ParagraphGeneration,
+    noun: String,
+) {
+    showDetails(noun) {
+        field("Min Length", generation.minLength)
+        field("Max Length", generation.maxLength)
     }
 }
 
@@ -60,24 +79,43 @@ fun HtmlBlockTag.editContentStyle(
             fromPermille(1),
         )
         editInitials(state, style.initials, param)
-        /*
+        editContentGeneration(style.generation, param)
+    }
+}
+
+fun HtmlBlockTag.editContentGeneration(
+    generation: ContentGeneration,
+    param: String,
+) {
+    showDetails("Generation") {
+        editParagraphGeneration(generation.main, "Main", combine(param, MAIN))
+        editParagraphGeneration(generation.quote, "Quote", combine(param, QUOTE))
+        selectRarityMap("Rarity", combine(param, TYPE), generation.rarity)
+    }
+}
+
+fun HtmlBlockTag.editParagraphGeneration(
+    generation: ParagraphGeneration,
+    noun: String,
+    param: String,
+) {
+    showDetails(noun) {
         selectInt(
-            "Min Paragraph Length",
-            style.minParagraphLength,
+            "Min Length",
+            generation.minLength,
             1,
             1000,
             1,
             combine(param, MIN),
         )
         selectInt(
-            "Max Paragraph Length",
-            style.maxParagraphLength,
-            style.minParagraphLength,
+            "Max Length",
+            generation.maxLength,
+            generation.minLength,
             1000,
             1,
             combine(param, MAX),
         )
-        */
     }
 }
 
@@ -90,6 +128,16 @@ fun parseContentStyle(parameters: Parameters, param: String) = ContentStyle(
     parseBool(parameters, combine(param, ALIGNMENT)),
     parseFactor(parameters, combine(param, SIDE), DEFAULT_MARGIN),
     parseInitials(parameters, param),
-    // parseInt(parameters, combine(param, MIN), MIN_PARAGRAPH_LENGTH),
-    //parseInt(parameters, combine(param, MAX), MAX_PARAGRAPH_LENGTH),
+    parseContentGeneration(parameters, param),
+)
+
+fun parseContentGeneration(parameters: Parameters, param: String) = ContentGeneration(
+    parseParagraphGeneration(parameters, combine(param, MAIN)),
+    parseParagraphGeneration(parameters, combine(param, QUOTE)),
+    parseOneOf(parameters, combine(param, TYPE), ContentEntryType::valueOf),
+)
+
+fun parseParagraphGeneration(parameters: Parameters, param: String) = ParagraphGeneration(
+    parseInt(parameters, combine(param, MIN), MIN_PARAGRAPH_LENGTH),
+    parseInt(parameters, combine(param, MAX), MAX_PARAGRAPH_LENGTH),
 )
