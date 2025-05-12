@@ -126,7 +126,7 @@ fun FORM.editRace(
         heightPrefix,
         true
     )
-    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix, true)
+    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix)
     editRaceOrigin(state, race)
     editLifeStages(state, race)
 }

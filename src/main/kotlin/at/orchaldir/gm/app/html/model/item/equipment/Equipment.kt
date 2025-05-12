@@ -98,7 +98,7 @@ fun FORM.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base, true)
+    selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base)
     selectValue(
         "Equipment",
         combine(EQUIPMENT, TYPE),
