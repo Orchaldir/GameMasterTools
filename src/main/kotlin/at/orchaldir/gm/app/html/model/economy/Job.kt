@@ -108,7 +108,6 @@ private fun HtmlBlockTag.editSalary(
         combine(PRICE, TYPE),
         state.data.economy.defaultIncomeType.getValidTypes(),
         income.getType(),
-        true
     )
     when (income) {
         UndefinedIncome -> doNothing()

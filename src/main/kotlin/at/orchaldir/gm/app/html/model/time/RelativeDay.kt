@@ -32,7 +32,7 @@ fun HtmlBlockTag.showRelativeDate(
 // edit
 
 fun HtmlBlockTag.selectRelativeDate(param: String, relativeDate: RelativeDate, calendar: Calendar) {
-    selectValue("Relative Date", combine(param, TYPE), RelativeDateType.entries, relativeDate.getType(), true) { type ->
+    selectValue("Relative Date", combine(param, TYPE), RelativeDateType.entries, relativeDate.getType()) { type ->
         when (type) {
             RelativeDateType.DayInMonth, RelativeDateType.DayInYear -> false
             RelativeDateType.WeekdayInMonth -> calendar.days.getType() == DaysType.DayOfTheMonth

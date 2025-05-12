@@ -490,7 +490,6 @@ private fun HtmlBlockTag.editFeatureColor(
             setOf(FeatureColorType.Overwrite, FeatureColorType.Skin)
         },
         options.types,
-        true,
     )
 
     if (options.types == FeatureColorType.Overwrite) {

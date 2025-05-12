@@ -98,7 +98,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
     val organizations = state.getExistingOrganizations(date)
         .filter { it.id != created }
 
-    selectValue("$noun Type", CREATOR, CreatorType.entries, creator.getType(), true) { type ->
+    selectValue("$noun Type", CREATOR, CreatorType.entries, creator.getType()) { type ->
         when (type) {
             CreatorType.Undefined -> false
             CreatorType.CreatedByBusiness -> businesses.isEmpty()
@@ -116,7 +116,6 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             combine(CREATOR, BUSINESS),
             state.sortBusinesses(businesses),
             creator.business,
-            true
         )
 
         is CreatedByCharacter -> selectElement(
@@ -125,7 +124,6 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             combine(CREATOR, CHARACTER),
             characters,
             creator.character,
-            true
         )
 
         is CreatedByGod -> selectElement(
@@ -134,7 +132,6 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             combine(CREATOR, GOD),
             state.sortGods(gods),
             creator.god,
-            true
         )
 
         is CreatedByOrganization -> selectElement(
@@ -143,7 +140,6 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             combine(CREATOR, ORGANIZATION),
             state.sortOrganizations(organizations),
             creator.organization,
-            true
         )
 
         is CreatedByTown -> selectElement(
@@ -152,7 +148,6 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             combine(CREATOR, TOWN),
             towns,
             creator.town,
-            true
         )
 
         UndefinedCreator -> doNothing()

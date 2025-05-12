@@ -172,7 +172,7 @@ fun <T> HtmlBlockTag.selectRarityMap(
 ) {
     showDetails(enum, true) {
         showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
-            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities()) { rarity ->
                 label = rarity.toString()
                 value = "$currentValue-$rarity"
                 selected = rarity == currentRarity
@@ -190,7 +190,7 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectRarityMap(
 ) {
     showDetails(enum, true) {
         showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
-            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities()) { rarity ->
                 label = rarity.toString()
                 value = "$currentValue-$rarity"
                 selected = rarity == currentRarity
@@ -222,7 +222,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     showDetails(enum, true) {
         showMap(rarityMap.getRarityFor(ids)) { id, currentRarity ->
             val element = storage.getOrThrow(id)
-            selectValue(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+            selectValue(getName(element), selectId, rarityMap.getAvailableRarities()) { rarity ->
                 label = rarity.toString()
                 value = "${id.value()}-$rarity"
                 selected = rarity == currentRarity

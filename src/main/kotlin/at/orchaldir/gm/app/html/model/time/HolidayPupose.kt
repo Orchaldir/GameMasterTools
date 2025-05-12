@@ -51,7 +51,7 @@ fun HtmlBlockTag.editHolidayPurpose(
     state: State,
     purpose: HolidayPurpose,
 ) {
-    selectValue("Purpose", PURPOSE, HolidayPurposeType.entries, purpose.getType(), true)
+    selectValue("Purpose", PURPOSE, HolidayPurposeType.entries, purpose.getType())
 
     when (purpose) {
         Anniversary -> doNothing()

@@ -192,7 +192,7 @@ fun FORM.editTextFormat(
     hasAuthor: Boolean,
 ) {
     showDetails("Format", true) {
-        selectValue("Type", FORMAT, TextFormatType.entries, format.getType(), true)
+        selectValue("Type", FORMAT, TextFormatType.entries, format.getType())
 
         when (format) {
             UndefinedTextFormat -> doNothing()
@@ -243,7 +243,7 @@ private fun HtmlBlockTag.editBinding(
     hasAuthor: Boolean,
 ) {
     showDetails("Binding", true) {
-        selectValue("Type", BINDING, BookBindingType.entries, binding.getType(), true)
+        selectValue("Type", BINDING, BookBindingType.entries, binding.getType())
 
         when (binding) {
             is CopticBinding -> {
@@ -265,7 +265,6 @@ private fun HtmlBlockTag.editBinding(
                     combine(LEATHER, BINDING),
                     LeatherBindingStyle.entries,
                     binding.style,
-                    true
                 )
             }
         }
@@ -289,13 +288,13 @@ private fun HtmlBlockTag.editBossesPattern(
     bosses: BossesPattern,
 ) {
     showDetails("Bosses", true) {
-        selectValue("Pattern", BOSSES, BossesPatternType.entries, bosses.getType(), true)
+        selectValue("Pattern", BOSSES, BossesPatternType.entries, bosses.getType())
 
         when (bosses) {
             is NoBosses -> doNothing()
             is SimpleBossesPattern -> {
-                selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
-                selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
+                selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape)
+                selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size)
                 editColorItemPart(state, bosses.boss, BOSSES)
                 selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
 
@@ -313,12 +312,12 @@ private fun HtmlBlockTag.editEdgeProtection(
     protection: EdgeProtection,
 ) {
     showDetails("Edge Protection", true) {
-        selectValue("Type", EDGE, EdgeProtectionType.entries, protection.getType(), true)
+        selectValue("Type", EDGE, EdgeProtectionType.entries, protection.getType())
 
         when (protection) {
             NoEdgeProtection -> doNothing()
             is ProtectedCorners -> {
-                selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape, true)
+                selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape)
                 selectPercentage(
                     "Corner Size",
                     combine(EDGE, SIZE),
@@ -349,30 +348,29 @@ private fun HtmlBlockTag.editEdgeProtection(
 
 private fun HtmlBlockTag.editSewingPattern(state: State, pattern: SewingPattern) {
     showDetails("Sewing Pattern", true) {
-        selectValue("Type", SEWING, SewingPatternType.entries, pattern.getType(), true)
+        selectValue("Type", SEWING, SewingPatternType.entries, pattern.getType())
 
         when (pattern) {
             is SimpleSewingPattern -> {
                 editColorItemPart(state, pattern.thread, SEWING, "Thread")
-                selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
-                selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
+                selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size)
+                selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length)
                 editSewingPattern(pattern.stitches) { elementParam, element ->
-                    selectValue("Stitch", elementParam, StitchType.entries, element, true)
+                    selectValue("Stitch", elementParam, StitchType.entries, element)
                 }
             }
 
             is ComplexSewingPattern -> {
                 editSewingPattern(pattern.stitches) { elementParam, element ->
                     editColorItemPart(state, element.thread, elementParam, "Thread")
-                    selectValue("Size", combine(elementParam, SIZE), Size.entries, element.size, true)
+                    selectValue("Size", combine(elementParam, SIZE), Size.entries, element.size)
                     selectValue(
                         "Distance Between Edge & Hole",
                         combine(elementParam, LENGTH),
                         Size.entries,
                         element.length,
-                        true
                     )
-                    selectValue("Stitch", elementParam, StitchType.entries, element.stitch, true)
+                    selectValue("Stitch", elementParam, StitchType.entries, element.stitch)
                 }
             }
         }
@@ -392,7 +390,7 @@ private fun HtmlBlockTag.editScrollFormat(
     state: State,
     format: ScrollFormat,
 ) {
-    selectValue("Scroll Format", SCROLL, ScrollFormatType.entries, format.getType(), true)
+    selectValue("Scroll Format", SCROLL, ScrollFormatType.entries, format.getType())
 
     when (format) {
         is ScrollWithOneRod -> editScrollHandle(state, format.handle)
@@ -425,7 +423,7 @@ private fun HtmlBlockTag.editScrollHandle(
             true,
         )
         editColorItemPart(state, segment.main, segmentParam)
-        selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape, true)
+        selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape)
     }
 }
 

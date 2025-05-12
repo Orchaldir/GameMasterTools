@@ -152,7 +152,7 @@ private fun FORM.editDays(
     val days = calendar.days
     val supportsDayOfTheMonth = supportsDayOfTheMonth(holidays)
 
-    selectValue("Days", DAYS, DaysType.entries, days.getType(), true) {
+    selectValue("Days", DAYS, DaysType.entries, days.getType()) {
         it == DaysType.DayOfTheMonth && !supportsDayOfTheMonth
     }
     when (days) {
@@ -171,7 +171,7 @@ private fun FORM.editDays(
 
 private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     val minMonths = getMinNumberOfMonths(holidays)
-    selectValue("Months Type", combine(MONTHS, TYPE), MonthsType.entries, calendar.months.getType(), true)
+    selectValue("Months Type", combine(MONTHS, TYPE), MonthsType.entries, calendar.months.getType())
     selectInt("Months", calendar.months.getSize(), minMonths, 100, 1, MONTHS, true)
 
     when (val months = calendar.months) {
@@ -207,7 +207,7 @@ private fun FORM.editOrigin(
     val origin = calendar.origin
     val possibleParents = state.getPossibleParents(calendar.id)
 
-    selectValue("Origin", ORIGIN, CalendarOriginType.entries, origin.getType(), true) {
+    selectValue("Origin", ORIGIN, CalendarOriginType.entries, origin.getType()) {
         when (it) {
             Improved -> possibleParents.isEmpty()
             Original -> false

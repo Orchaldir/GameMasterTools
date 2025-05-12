@@ -137,7 +137,7 @@ private fun FORM.editTerrain(
     val rivers = state.getRiverStorage().getAll()
     val mountains = state.getMountainStorage().getAll()
 
-    selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, terrainType, true) { type ->
+    selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, terrainType) { type ->
         when (type) {
             TerrainType.Hill, TerrainType.Mountain -> mountains.isEmpty()
             TerrainType.Plain -> false
@@ -187,7 +187,7 @@ private fun <ID : Id<ID>> FORM.selectTerrain(
     options: Collection<ElementWithSimpleName<ID>>,
     id: Int,
 ) {
-    selectValue(text, TERRAIN, options, true) { m ->
+    selectValue(text, TERRAIN, options) { m ->
         label = m.name()
         value = m.id().value().toString()
         selected = id == m.id().value()

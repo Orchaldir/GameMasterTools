@@ -75,7 +75,7 @@ fun HtmlBlockTag.selectFill(label: String, fill: Fill, param: String = FILL) {
 }
 
 fun HtmlBlockTag.selectOptionalFill(fill: Fill?, param: String = FILL) {
-    selectOptionalValue("Fill Type", combine(param, TYPE), fill?.getType(), FillType.entries, true)
+    selectOptionalValue("Fill Type", combine(param, TYPE), fill?.getType(), FillType.entries)
 
     if (fill != null) {
         selectFillData(fill, param)
@@ -83,7 +83,7 @@ fun HtmlBlockTag.selectOptionalFill(fill: Fill?, param: String = FILL) {
 }
 
 fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
-    selectValue("Fill Type", combine(param, TYPE), FillType.entries, fill.getType(), true)
+    selectValue("Fill Type", combine(param, TYPE), FillType.entries, fill.getType())
     selectFillData(fill, param)
 }
 

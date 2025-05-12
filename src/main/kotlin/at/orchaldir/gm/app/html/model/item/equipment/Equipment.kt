@@ -104,7 +104,6 @@ fun FORM.editEquipment(
         combine(EQUIPMENT, TYPE),
         EquipmentDataType.entries,
         equipment.data.getType(),
-        true
     )
 
     editEquipmentData(state, equipment)
@@ -124,19 +123,19 @@ private fun FORM.editEquipmentData(
         is Glasses -> editGlasses(state, data)
 
         is Gloves -> {
-            selectValue("Style", GLOVES, GloveStyle.entries, data.style, true)
+            selectValue("Style", GLOVES, GloveStyle.entries, data.style)
             editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is Hat -> {
-            selectValue("Style", HAT, HatStyle.entries, data.style, true)
+            selectValue("Style", HAT, HatStyle.entries, data.style)
             editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is Necklace -> editNecklace(state, data)
 
         is Pants -> {
-            selectValue("Style", PANTS, PantsStyle.entries, data.style, true)
+            selectValue("Style", PANTS, PantsStyle.entries, data.style)
             editFillItemPart(state, data.main, MAIN, "Main")
         }
 
@@ -150,20 +149,20 @@ private fun FORM.editEquipmentData(
         }
 
         is Skirt -> {
-            selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, data.style, true)
+            selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, data.style)
             editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is Socks -> {
-            selectValue("Style", STYLE, SocksStyle.entries, data.style, true)
+            selectValue("Style", STYLE, SocksStyle.entries, data.style)
             editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is SuitJacket -> editSuitJacket(state, data)
 
         is Tie -> {
-            selectValue("Style", STYLE, TieStyle.entries, data.style, true)
-            selectValue("Size", SIZE, Size.entries, data.size, true)
+            selectValue("Style", STYLE, TieStyle.entries, data.style)
+            selectValue("Size", SIZE, Size.entries, data.size)
             editFillItemPart(state, data.main, MAIN, "Main")
             editFillItemPart(state, data.knot, KNOT, "Knot")
         }

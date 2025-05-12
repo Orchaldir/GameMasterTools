@@ -52,7 +52,7 @@ fun HtmlBlockTag.editPageNumbering(
     val param = combine(PAGE, NUMBER)
 
     showDetails("Page Numbering", true) {
-        selectValue("Type", param, PageNumberingType.entries, data.getType(), true)
+        selectValue("Type", param, PageNumberingType.entries, data.getType())
 
         when (data) {
             NoPageNumbering -> doNothing()
@@ -74,7 +74,6 @@ private fun DETAILS.selectHorizontalAlignment(
         combine(param, ALIGNMENT),
         HorizontalAlignment.entries - HorizontalAlignment.Justified,
         alignment,
-        true,
     )
 }
 

@@ -58,7 +58,7 @@ fun HtmlBlockTag.selectFactor(
     update: Boolean = false,
 ) {
     val values = (minValue.toPermyriad()..maxValue.toPermyriad() step stepValue.toPermyriad()).toList()
-    selectValue(param, values, update) { v ->
+    selectValue(param, values) { v ->
         label = formatAsFactor(v)
         value = v.toString()
         selected = v == current.toPermyriad()

@@ -315,7 +315,7 @@ private fun HTML.showBuildingLotEditor(
 private fun FORM.selectAddress(state: State, building: Building) {
     val streets = state.getStreets(building.lot.town)
 
-    selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, building.address.getType(), true) { type ->
+    selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, building.address.getType()) { type ->
         when (type) {
             AddressType.Street -> streets.isEmpty()
             AddressType.Crossing -> streets.size < 2
@@ -339,7 +339,6 @@ private fun FORM.selectAddress(state: State, building: Building) {
                     "${index + 1}.Street",
                     combine(ADDRESS, STREET, index),
                     streets,
-                    true
                 ) { street ->
                     val alreadyUsed = previous.contains(street.id)
                     label = street.name(state)
@@ -353,7 +352,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
 
         NoAddress -> doNothing()
         is StreetAddress -> {
-            selectElement(state, "Street", combine(ADDRESS, STREET), streets, address.street, true)
+            selectElement(state, "Street", combine(ADDRESS, STREET), streets, address.street)
             selectHouseNumber(
                 address.houseNumber,
                 state.getHouseNumbersUsedByOthers(building.lot.town, address),
@@ -370,7 +369,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
 private fun FORM.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Set<Int>) {
     val numbers = (1..1000).toList() - usedHouseNumbers
 
-    selectValue("Street", combine(ADDRESS, NUMBER), numbers, true) { number ->
+    selectValue("Street", combine(ADDRESS, NUMBER), numbers) { number ->
         label = number.toString()
         value = number.toString()
         selected = number == currentHouseNumber

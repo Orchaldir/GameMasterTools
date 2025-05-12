@@ -41,11 +41,11 @@ fun FORM.editGlasses(
     glasses: Glasses,
 ) {
     showDetails("Lenses", true) {
-        selectValue("Shape", SHAPE, LensShape.entries, glasses.lensShape, true)
+        selectValue("Shape", SHAPE, LensShape.entries, glasses.lensShape)
         editFillItemPart(state, glasses.lens, LENS)
     }
     showDetails("Frame", true) {
-        selectValue("Shape", FRAME, FrameType.entries, glasses.frameType, true)
+        selectValue("Shape", FRAME, FrameType.entries, glasses.frameType)
         editColorItemPart(state, glasses.frame, FRAME)
     }
 }

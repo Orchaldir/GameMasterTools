@@ -89,8 +89,8 @@ private fun FORM.editBody(
     body: Body,
 ) {
     h2 { +"Body" }
-    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), body.bodyShape, true)
-    selectValue("Width", BODY_WIDTH, Size.entries, body.width, true)
+    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), body.bodyShape)
+    selectValue("Width", BODY_WIDTH, Size.entries, body.width)
     editFoot(raceAppearance.foot, body.foot)
 }
 
@@ -126,7 +126,7 @@ private fun FORM.editTails(
             val colorOptions = options.getFeatureColorOptions(tails.shape)
 
             selectFromOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
-            selectValue("Size", combine(TAIL, SIZE), Size.entries, tails.size, true)
+            selectValue("Size", combine(TAIL, SIZE), Size.entries, tails.size)
             selectFeatureColor(state, colorOptions, tails.color, TAIL)
         }
     }
@@ -147,7 +147,7 @@ private fun FORM.editWings(
         NoWings -> doNothing()
         is OneWing -> {
             editWing(state, wingOptions, wings.wing, WING)
-            selectValue("Wing Side", combine(WING, SIDE), Side.entries, wings.side, true)
+            selectValue("Wing Side", combine(WING, SIDE), Side.entries, wings.side)
         }
 
         is TwoWings -> editWing(state, wingOptions, wings.wing, WING)

@@ -50,7 +50,7 @@ private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
     when (ears) {
         is NormalEars -> {
             selectFromOneOf("Ear Shape", combine(EAR, SHAPE), raceAppearance.earShapes, ears.shape, true)
-            selectValue("Ear Size", combine(EAR, SIZE), Size.entries, ears.size, true)
+            selectValue("Ear Size", combine(EAR, SIZE), Size.entries, ears.size)
         }
 
         else -> doNothing()
@@ -140,7 +140,7 @@ private fun FORM.editEyes(
     when (eyes) {
         is OneEye -> {
             editEye(raceAppearance.eye, eyes.eye)
-            selectValue("Eye Size", combine(EYE, SIZE), Size.entries, eyes.size, true)
+            selectValue("Eye Size", combine(EYE, SIZE), Size.entries, eyes.size)
         }
 
         is TwoEyes -> {
@@ -220,7 +220,7 @@ private fun FORM.editNormalHair(
                 cut.style,
                 true,
             )
-            selectValue("Bun Size", combine(BUN, SIZE), Size.entries, cut.size, true)
+            selectValue("Bun Size", combine(BUN, SIZE), Size.entries, cut.size)
         }
 
         is LongHairCut -> {
@@ -312,8 +312,8 @@ private fun FORM.editMouth(
 }
 
 private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
-    selectValue("Width", combine(MOUTH, WIDTH), Size.entries, size, true)
-    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, teethColor, true)
+    selectValue("Width", combine(MOUTH, WIDTH), Size.entries, size)
+    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, teethColor)
 }
 
 // parse

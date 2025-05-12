@@ -149,7 +149,6 @@ fun HtmlBlockTag.editCurrencyFormat(
             FORMAT,
             CurrencyFormatType.entries,
             format.getType(),
-            true
         )
 
         when (format) {
@@ -196,7 +195,7 @@ fun HtmlBlockTag.editCurrencyFormat(
 }
 
 private fun HtmlBlockTag.selectShape(shape: Shape, param: String) {
-    selectValue("Shape", param, Shape.entries, shape, true)
+    selectValue("Shape", param, Shape.entries, shape)
 }
 
 private fun HtmlBlockTag.selectRadius(radius: Distance) {

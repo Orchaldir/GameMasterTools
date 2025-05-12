@@ -90,7 +90,6 @@ private fun FORM.editMembers(
             combine(memberParam, CHARACTER),
             potentialCharacters,
             characterId,
-            true,
         )
         selectHistory(
             state,

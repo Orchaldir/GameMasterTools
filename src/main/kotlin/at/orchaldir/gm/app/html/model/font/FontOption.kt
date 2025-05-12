@@ -85,7 +85,7 @@ fun HtmlBlockTag.editFontOption(
     option: FontOption,
     param: String,
 ) {
-    selectValue("Font Option", combine(param, TYPE), FontOptionType.entries, option.getType(), true)
+    selectValue("Font Option", combine(param, TYPE), FontOptionType.entries, option.getType())
 
     when (option) {
         is SolidFont -> {
@@ -135,7 +135,6 @@ private fun HtmlBlockTag.editSharedFontOptions(
         combine(param, FONT),
         state.getFontStorage().getAll(),
         fontId,
-        true,
     )
     selectDistance(
         "Font Size",

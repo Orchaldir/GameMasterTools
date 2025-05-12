@@ -142,7 +142,7 @@ private fun FORM.editLifeStages(
 
     h2 { +"Life Stages" }
 
-    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, lifeStages.getType(), true)
+    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, lifeStages.getType())
 
     when (lifeStages) {
         is ImmutableLifeStage -> {
@@ -235,7 +235,6 @@ private fun HtmlBlockTag.selectAppearance(
         combine(RACE, APPEARANCE, index),
         state.getRaceAppearanceStorage().getAll().sortedBy { it.name.text },
         raceAppearanceId,
-        true,
     )
 }
 

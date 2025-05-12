@@ -55,7 +55,7 @@ private fun HtmlBlockTag.showButtons(
 
 fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
     showDetails("Opening Style", true) {
-        selectValue("Type", combine(OPENING, STYLE), OpeningType.entries, openingStyle.getType(), true)
+        selectValue("Type", combine(OPENING, STYLE), OpeningType.entries, openingStyle.getType())
 
         when (openingStyle) {
             NoOpening -> doNothing()
@@ -67,7 +67,6 @@ fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
                     SPACE_BETWEEN_COLUMNS,
                     Size.entries,
                     openingStyle.spaceBetweenColumns,
-                    true
                 )
             }
 
@@ -78,21 +77,21 @@ fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
 
 private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn) {
     selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER), true)
-    selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size, true)
+    selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size)
     editColorItemPart(state, buttonColumn.button.part, BUTTON, "Button")
 }
 
 
 fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
-    selectValue("Neckline Style", combine(NECKLINE, STYLE), options, current, true)
+    selectValue("Neckline Style", combine(NECKLINE, STYLE), options, current)
 }
 
 fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
-    selectValue("Sleeve Style", combine(SLEEVE, STYLE), options, current, true)
+    selectValue("Sleeve Style", combine(SLEEVE, STYLE), options, current)
 }
 
 fun FORM.selectPocketStyle(options: Collection<PocketStyle>, current: PocketStyle) {
-    selectValue("Pocket Style", combine(POCKET, STYLE), options, current, true)
+    selectValue("Pocket Style", combine(POCKET, STYLE), options, current)
 }
 
 fun HtmlBlockTag.selectMaterial(
@@ -101,7 +100,7 @@ fun HtmlBlockTag.selectMaterial(
     param: String = MATERIAL,
     label: String = "Material",
 ) {
-    selectElement(state, label, param, state.sortMaterial(), materialId, true)
+    selectElement(state, label, param, state.sortMaterial(), materialId)
 }
 
 // parse

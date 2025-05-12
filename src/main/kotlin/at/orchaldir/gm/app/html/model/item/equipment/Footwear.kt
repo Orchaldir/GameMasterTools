@@ -35,7 +35,7 @@ fun FORM.editFootwear(
     state: State,
     footwear: Footwear,
 ) {
-    selectValue("Style", FOOTWEAR, FootwearStyle.entries, footwear.style, true)
+    selectValue("Style", FOOTWEAR, FootwearStyle.entries, footwear.style)
     editFillItemPart(state, footwear.shaft, SHAFT, "Shaft")
     if (footwear.style.hasSole()) {
         editColorItemPart(state, footwear.sole, SOLE, "Sole")

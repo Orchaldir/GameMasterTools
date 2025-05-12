@@ -81,7 +81,7 @@ private fun FORM.editHorn(
     noun: String,
 ) {
     showDetails(noun, true) {
-        selectValue("Type", combine(param, TYPE), HornType.entries, horn.getType(), true)
+        selectValue("Type", combine(param, TYPE), HornType.entries, horn.getType())
 
         when (horn) {
             is SimpleHorn -> {
@@ -93,7 +93,7 @@ private fun FORM.editHorn(
             is ComplexHorn -> {
                 selectHornLength(param, horn.length)
                 selectHornWidth(param, horn.relativeWidth)
-                selectValue("Position", combine(param, POSITION), HornPosition.entries, horn.position, true)
+                selectValue("Position", combine(param, POSITION), HornPosition.entries, horn.position)
                 selectOrientation(param, horn.orientationOffset, QUARTER_CIRCLE)
                 editHornShape(horn.shape, param)
                 selectFeatureColor(state, options.colors, horn.color, combine(param, COLOR))
@@ -109,7 +109,7 @@ private fun HtmlBlockTag.editHornShape(
     val param = combine(parentParam, SHAPE)
 
     showDetails("Shape", true) {
-        selectValue("Type", combine(param, TYPE), HornShapeType.entries, shape.getType(), true)
+        selectValue("Type", combine(param, TYPE), HornShapeType.entries, shape.getType())
 
         when (shape) {
             StraightHorn -> doNothing()
