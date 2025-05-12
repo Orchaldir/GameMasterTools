@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text.content
 
+import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.SolidFont
@@ -27,13 +28,20 @@ fun main() {
         page = ColorItemPart(Color.AntiqueWhite),
         size = Size2d.fromMillimeters(125, 190)
     )
-    val generator = TextGenerator.create(TEXT_CONFIG.exampleStrings, 0)
-    val style = ContentStyle()
+    val generator = TextGenerator.create(
+        TEXT_CONFIG.exampleStrings,
+        RarityGenerator.empty(5),
+        0,
+    )
+    val style = ContentStyle(
+        quote = SolidFont(DEFAULT_MAIN_SIZE, Color.Crimson),
+    )
     val chapters = (0..<2).withIndex().map {
-        SimpleChapter(it.index, generator.generateParagraphs(style, 3, 7))
+        SimpleChapter(it.index, generator.generateEntries(style, 6, 7))
     }
     val content = SimpleChapters(
         chapters,
+        style,
         pageNumbering = PageNumberingReusingFont(),
         tableOfContents = ComplexTableOfContents(titleOptions = font),
     )

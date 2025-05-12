@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -23,6 +24,7 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
@@ -46,6 +48,8 @@ import at.orchaldir.gm.core.model.world.town.TownId
 
 val ARCHITECTURAL_ID0 = ArchitecturalStyleId(0)
 val ARCHITECTURAL_ID1 = ArchitecturalStyleId(1)
+val ARTICLE_ID_0 = ArticleId(0)
+val UNKNOWN_ARTICLE_ID = ArticleId(99)
 val BUILDING_ID_0 = BuildingId(0)
 val BUILDING_ID_1 = BuildingId(1)
 val UNKNOWN_BUILDING_ID = BuildingId(99)
@@ -102,6 +106,8 @@ val UNKNOWN_PERSONALITY_ID = PersonalityTraitId(99)
 val PLANE_ID_0 = PlaneId(0)
 val PLANE_ID_1 = PlaneId(1)
 val UNKNOWN_PLANE_ID = PlaneId(99)
+val QUOTE_ID_0 = QuoteId(0)
+val UNKNOWN_QUOTE_ID = QuoteId(99)
 val RACE_ID_0 = RaceId(0)
 val RACE_ID_1 = RaceId(1)
 val RACE_ID_2 = RaceId(2)

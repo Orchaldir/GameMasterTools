@@ -87,6 +87,7 @@ fun Application.module() {
     configurePeriodicalIssueRouting()
     configurePersonalityRouting()
     configurePlaneRouting()
+    configureQuoteRouting()
     configureRaceRouting()
     configureRaceAppearanceRouting()
     configureRiverRouting()

@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.utils.redux.Reducer
@@ -18,7 +20,7 @@ val CREATE_EQUIPMENT: Reducer<CreateEquipment, State> = { state, _ ->
 
 val DELETE_EQUIPMENT: Reducer<DeleteEquipment, State> = { state, action ->
     state.getEquipmentStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Equipment ${action.id.value} is used" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getEquipmentStorage().remove(action.id)))
 }

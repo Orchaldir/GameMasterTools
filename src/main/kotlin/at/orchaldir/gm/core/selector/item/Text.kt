@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.util.*
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
@@ -25,6 +26,10 @@ fun State.countTexts(language: LanguageId) = getTextStorage()
 fun State.countTexts(material: MaterialId) = getTextStorage()
     .getAll()
     .count { it.contains(material) }
+
+fun State.countTexts(quote: QuoteId) = getTextStorage()
+    .getAll()
+    .count { it.content.contains(quote) }
 
 fun State.countTexts(spell: SpellId) = getTextStorage()
     .getAll()
@@ -85,6 +90,10 @@ fun State.getTexts(language: LanguageId) = getTextStorage()
     .getAll()
     .filter { b -> b.language == language }
 
+fun State.getTextsContaining(quote: QuoteId) = getTextStorage()
+    .getAll()
+    .filter { it.contains(quote) }
+
 fun State.getTextsContaining(spell: SpellId) = getTextStorage()
     .getAll()
     .filter { b -> b.content.contains(spell) }
@@ -100,3 +109,4 @@ fun State.getTranslationsOf(text: TextId) = getTextStorage()
 fun State.getTextsPublishedBy(publisher: BusinessId) = getTextStorage()
     .getAll()
     .filter { it.publisher == publisher }
+

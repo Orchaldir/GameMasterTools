@@ -62,7 +62,7 @@ private fun HtmlBlockTag.showSimpleChapters(
 ) {
     chapters.chapters
         .withIndex()
-        .forEach { showSimpleChapter(it.value, it.index) }
+        .forEach { showSimpleChapter(call, state, it.value, it.index) }
     field("Total Pages", chapters.pages())
     showContentStyle(call, state, chapters.style)
     showPageNumbering(call, state, chapters.pageNumbering)
@@ -82,17 +82,15 @@ private fun HtmlBlockTag.showAbstractChapter(
 }
 
 private fun HtmlBlockTag.showSimpleChapter(
+    call: ApplicationCall,
+    state: State,
     chapter: SimpleChapter,
     index: Int,
 ) {
     showDetails(createDefaultChapterTitle(index)) {
         field("Title", chapter.title)
         field("Pages", chapter.pages)
-        fieldList("Entries", chapter.entries) { entry ->
-            when (entry) {
-                is Paragraph -> +entry.text.text
-            }
-        }
+        showContentEntries(call, state, chapter.entries)
     }
 }
 
@@ -136,7 +134,7 @@ private fun DETAILS.editAbstractChapters(
         "Chapter",
         CONTENT,
         content.chapters,
-        0,
+        1,
         100,
         1
     ) { index, chapterParam, chapter ->
@@ -156,11 +154,11 @@ private fun HtmlBlockTag.editSimpleChapters(
         "Chapter",
         CONTENT,
         chapters.chapters,
-        0,
+        1,
         100,
         1
     ) { index, chapterParam, chapter ->
-        editSimpleChapter(chapter, index, chapterParam)
+        editSimpleChapter(state, chapter, index, chapterParam)
     }
 
     field("Total Pages", chapters.pages())
@@ -182,6 +180,7 @@ private fun HtmlBlockTag.editAbstractChapter(
 }
 
 private fun HtmlBlockTag.editSimpleChapter(
+    state: State,
     chapter: SimpleChapter,
     index: Int,
     param: String,
@@ -189,23 +188,7 @@ private fun HtmlBlockTag.editSimpleChapter(
     showDetails(createDefaultChapterTitle(index), true) {
         selectNotEmptyString("Title", chapter.title, combine(param, TITLE))
         field("Pages", chapter.pages)
-        editList(
-            "Entries",
-            combine(CONTENT, index),
-            chapter.entries,
-            0,
-            10000,
-            1
-        ) { index, entryParam, entry ->
-            when (entry) {
-                is Paragraph -> editTextArea(
-                    entryParam,
-                    90,
-                    10,
-                    entry.text.text
-                )
-            }
-        }
+        editContentEntries(state, chapter.entries, combine(CONTENT, index))
     }
 }
 
@@ -265,9 +248,7 @@ private fun parseAbstractChapter(parameters: Parameters, param: String, index: I
 
 private fun parseSimpleChapter(parameters: Parameters, param: String, index: Int) = SimpleChapter(
     parseNotEmptyString(parameters, combine(param, TITLE), createDefaultChapterTitle(index)),
-    parseList(parameters, combine(CONTENT, index), 0) { index, entryParam ->
-        Paragraph(parseNotEmptyString(parameters, entryParam, "Text"))
-    },
+    parseContentEntries(parameters, combine(CONTENT, index)),
 )
 
 private fun parseAbstractContent(parameters: Parameters, param: String) = AbstractContent(

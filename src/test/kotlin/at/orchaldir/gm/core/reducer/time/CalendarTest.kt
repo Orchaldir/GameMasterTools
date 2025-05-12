@@ -50,7 +50,7 @@ class CalendarTest {
             )
             val action = DeleteCalendar(CALENDAR_ID_0)
 
-            assertIllegalArgument("Calendar 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Calendar 0, because it is used!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -59,7 +59,7 @@ class CalendarTest {
             val state = State(listOf(Storage(culture), Storage(Calendar(CALENDAR_ID_0))))
             val action = DeleteCalendar(CALENDAR_ID_0)
 
-            assertIllegalArgument("Calendar 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Calendar 0, because it is used!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -68,7 +68,7 @@ class CalendarTest {
             val state = State(listOf(Storage(holiday), Storage(Calendar(CALENDAR_ID_0))))
             val action = DeleteCalendar(CALENDAR_ID_0)
 
-            assertIllegalArgument("Calendar 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Calendar 0, because it is used!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -77,7 +77,7 @@ class CalendarTest {
             val state = State(listOf(Storage(periodical), Storage(Calendar(CALENDAR_ID_0))))
             val action = DeleteCalendar(CALENDAR_ID_0)
 
-            assertIllegalArgument("Calendar 0 is used") {
+            assertIllegalArgument("Cannot delete Calendar 0, because it is used!") {
                 REDUCER.invoke(state, action)
             }
         }

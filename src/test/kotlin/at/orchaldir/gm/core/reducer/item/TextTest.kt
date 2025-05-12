@@ -61,7 +61,7 @@ class TextTest {
                 Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, origin = origin)))
             )
 
-            assertIllegalArgument("The text 0 is used") {
+            assertIllegalArgument("Cannot delete Text 0, because it is used!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -217,6 +217,16 @@ class TextTest {
                 val action = UpdateText(Text(TEXT_ID_0, content = content))
 
                 assertIllegalArgument("The abstract text requires at least 1 pages!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Unknown quote`() {
+                val quote = LinkedQuote(UNKNOWN_QUOTE_ID)
+                val chapter = SimpleChapter(0, listOf(quote))
+                val content = SimpleChapters(listOf(chapter))
+                val action = UpdateText(Text(TEXT_ID_0, content = content))
+
+                assertIllegalArgument("Requires unknown Quote 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test

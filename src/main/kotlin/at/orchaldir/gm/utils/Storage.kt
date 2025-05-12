@@ -50,6 +50,8 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun getSize() = elements.size
 
+    fun isEmpty() = elements.isEmpty()
+
     fun getType() = nextId.type()
     fun getPlural() = nextId.plural()
 

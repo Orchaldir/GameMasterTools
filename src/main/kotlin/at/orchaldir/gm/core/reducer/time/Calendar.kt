@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.reducer.checkRelativeDate
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.time.calendar.canDelete
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
@@ -21,7 +23,7 @@ val CREATE_CALENDAR: Reducer<CreateCalendar, State> = { state, _ ->
 
 val DELETE_CALENDAR: Reducer<DeleteCalendar, State> = { state, action ->
     state.getCalendarStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Calendar ${action.id.value} is used" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getCalendarStorage().remove(action.id)))
 }

@@ -2,8 +2,9 @@ package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.*
-import at.orchaldir.gm.core.model.util.HorizontalAlignment
-import at.orchaldir.gm.core.model.util.VerticalAlignment
+import at.orchaldir.gm.core.model.quote.Quote
+import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.HorizontalAlignment.Center
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -44,6 +45,7 @@ fun buildPagesForAbstractText(
     val innerAABB = state.aabb.shrink(margin)
     val alignment = content.style.getHorizontalAlignment()
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
+    val quoteOptions = content.style.quote.convert(state.state, VerticalAlignment.Top, Center)
     val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
     val generator = state.createTextGenerator()
@@ -59,6 +61,7 @@ fun buildPagesForAbstractText(
         builder,
         content.style,
         mainOptions,
+        quoteOptions,
         initialOptions,
         maxPage,
     )
@@ -95,13 +98,14 @@ fun buildPagesForAbstractChapters(
         content.style,
         content.tableOfContents,
         maxPageIndex,
-    ) { builder, mainOptions, initialOptions, _, maxPage ->
+    ) { builder, mainOptions, quoteOptions, initialOptions, _, maxPage ->
         buildAbstractContent(
             state,
             generator,
             builder,
             content.style,
             mainOptions,
+            quoteOptions,
             initialOptions,
             maxPage,
         )
@@ -133,18 +137,69 @@ fun buildPagesForSimpleChapters(
     content.style,
     content.tableOfContents,
     maxPageIndex,
-) { builder, mainOptions, initialOptions, chapter, _ ->
+) { builder, mainOptions, quoteOptions, initialOptions, chapter, _ ->
     chapter.entries.forEach { entry ->
-        when (entry) {
-            is Paragraph -> buildParagraphWithInitial(
-                builder,
-                mainOptions,
-                initialOptions,
-                entry.text.text,
-                content.style.initials,
-            )
-        }
+        buildEntry(state, builder, content.style, mainOptions, quoteOptions, initialOptions, entry)
     }
+}
+
+private fun buildEntry(
+    state: TextRenderState,
+    builder: PagesBuilder,
+    style: ContentStyle,
+    mainOptions: RenderStringOptions,
+    quoteOptions: RenderStringOptions,
+    initialOptions: RenderStringOptions,
+    entry: ContentEntry,
+) = when (entry) {
+    is Paragraph -> buildParagraphWithInitial(
+        builder,
+        mainOptions,
+        initialOptions,
+        entry.text.text,
+        style.initials,
+    )
+
+    is SimpleQuote -> buildSimpleQuote(builder, entry, quoteOptions)
+    is LinkedQuote -> buildLinkedQuote(state, builder, entry, quoteOptions)
+}
+
+private fun buildSimpleQuote(
+    builder: PagesBuilder,
+    simpleQuote: SimpleQuote,
+    quoteOptions: RenderStringOptions,
+) {
+    builder.addParagraph("\"${simpleQuote.text.text}\"", quoteOptions)
+    builder.addBreak(quoteOptions.size)
+}
+
+private fun buildLinkedQuote(
+    state: TextRenderState,
+    builder: PagesBuilder,
+    linkedQuote: LinkedQuote,
+    quoteOptions: RenderStringOptions,
+) {
+    val quote = state.state.getQuoteStorage().getOrThrow(linkedQuote.quote)
+
+    builder.addParagraph("\"${quote.text.text}\"", quoteOptions)
+
+    getQuoteSource(state, quote)?.let {
+        builder.addParagraph(it, quoteOptions)
+    }
+
+    builder.addBreak(quoteOptions.size)
+}
+
+private fun getQuoteSource(
+    state: TextRenderState,
+    quote: Quote,
+) = when (quote.source) {
+    is CreatedByBusiness -> state.state.getElementName(quote.source.business)
+    is CreatedByCharacter -> state.state.getElementName(quote.source.character)
+    is CreatedByGod -> state.state.getElementName(quote.source.god)
+    is CreatedByOrganization -> state.state.getElementName(quote.source.organization)
+    is CreatedByTown -> state.state.getElementName(quote.source.town)
+    UndefinedCreator -> null
 }
 
 private fun <C : Chapter> buildPagesForChapters(
@@ -153,13 +208,14 @@ private fun <C : Chapter> buildPagesForChapters(
     style: ContentStyle,
     tableOfContents: TableOfContents,
     maxPageIndex: Int?,
-    buildChapter: (PagesBuilder, RenderStringOptions, RenderStringOptions, C, Int) -> Unit,
+    buildChapter: (PagesBuilder, RenderStringOptions, RenderStringOptions, RenderStringOptions, C, Int) -> Unit,
 ): Pages {
     val margin = state.calculateMargin(style)
     val innerAABB = state.aabb.shrink(margin)
     val alignment = style.getHorizontalAlignment()
     val titleOptions = style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val mainOptions = style.main.convert(state.state, VerticalAlignment.Top, alignment)
+    val quoteOptions = style.quote.convert(state.state, VerticalAlignment.Top, Center)
     val initialOptions = calculateInitialsOptions(state, mainOptions, style.initials)
     val builder = PagesBuilder(innerAABB)
 
@@ -189,6 +245,7 @@ private fun <C : Chapter> buildPagesForChapters(
         buildChapter(
             builder,
             mainOptions,
+            quoteOptions,
             initialOptions,
             chapter,
             maxPage,
@@ -207,16 +264,19 @@ private fun buildAbstractContent(
     builder: PagesBuilder,
     style: ContentStyle,
     mainOptions: RenderStringOptions,
+    quoteOptions: RenderStringOptions,
     initialOptions: RenderStringOptions,
     maxPage: Int,
 ) {
     while (builder.count() < maxPage || !builder.hasReached(state.config.lastPageFillFactor)) {
-        buildParagraphWithInitial(
+        buildEntry(
+            state,
             builder,
+            style,
             mainOptions,
+            quoteOptions,
             initialOptions,
-            generator.generateParagraphAsString(style),
-            style.initials,
+            generator.generateEntry(style),
         )
     }
 }

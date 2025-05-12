@@ -60,7 +60,12 @@ class StreetTest {
                 )
             )
 
-            assertFailMessage<IllegalArgumentException>("Street 0 is used") { REDUCER.invoke(state, action) }
+            assertFailMessage<IllegalArgumentException>("Cannot delete Street 0, because it is used!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
         }
     }
 

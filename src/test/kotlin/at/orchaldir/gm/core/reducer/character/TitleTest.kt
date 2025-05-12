@@ -39,7 +39,7 @@ class TitleTest {
         fun `Cannot delete, if used by a character`() {
             val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, title = TITLE_ID_0)))
 
-            assertIllegalArgument("Title 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Title 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 
