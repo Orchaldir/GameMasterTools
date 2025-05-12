@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -17,7 +19,7 @@ val CREATE_RIVER: Reducer<CreateRiver, State> = { state, _ ->
 
 val DELETE_RIVER: Reducer<DeleteRiver, State> = { state, action ->
     state.getRiverStorage().require(action.id)
-    require(state.canDelete(action.id)) { "River ${action.id.value} is used" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getRiverStorage().remove(action.id)))
 }

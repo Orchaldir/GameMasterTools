@@ -53,7 +53,7 @@ class EquipmentTest {
                     )
                 )
 
-            assertIllegalArgument("Equipment 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Equipment 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 

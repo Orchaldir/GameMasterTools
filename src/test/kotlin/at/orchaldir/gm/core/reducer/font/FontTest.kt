@@ -50,7 +50,7 @@ class FontTest {
             val coin = Coin(front = ShowValue(FONT_ID_0))
             val state = STATE.updateStorage(Storage(CurrencyUnit(CURRENCY_UNIT_ID_0, format = coin)))
 
-            assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Font 0, because it is used!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -104,7 +104,7 @@ class FontTest {
         private fun cannotDeleteText(text: Text) {
             val state = STATE.updateStorage(Storage(text))
 
-            assertIllegalArgument("Font 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Font 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 

@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -17,7 +19,7 @@ val CREATE_STREET: Reducer<CreateStreet, State> = { state, _ ->
 
 val DELETE_STREET: Reducer<DeleteStreet, State> = { state, action ->
     state.getStreetStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Street ${action.id.value} is used" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getStreetStorage().remove(action.id)))
 }

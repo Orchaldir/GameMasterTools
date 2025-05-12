@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.DeleteMountain
 import at.orchaldir.gm.core.action.UpdateMountain
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.Mountain
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -17,7 +19,7 @@ val CREATE_MOUNTAIN: Reducer<CreateMountain, State> = { state, _ ->
 
 val DELETE_MOUNTAIN: Reducer<DeleteMountain, State> = { state, action ->
     state.getMountainStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Mountain ${action.id.value} is used" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getMountainStorage().remove(action.id)))
 }

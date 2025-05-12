@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.culture.fashion.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -21,7 +23,7 @@ val CREATE_FASHION: Reducer<CreateFashion, State> = { state, _ ->
 
 val DELETE_FASHION: Reducer<DeleteFashion, State> = { state, action ->
     state.getFashionStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Fashion ${action.id.value} is used" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getFashionStorage().remove(action.id)))
 }

@@ -61,7 +61,7 @@ class TextTest {
                 Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, origin = origin)))
             )
 
-            assertIllegalArgument("The text 0 is used") {
+            assertIllegalArgument("Cannot delete Text 0, because it is used!") {
                 REDUCER.invoke(state, action)
             }
         }

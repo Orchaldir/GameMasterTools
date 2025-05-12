@@ -44,7 +44,7 @@ class FashionTest {
             val state = State(listOf(Storage(culture), Storage(Fashion(FASHION_ID_0))))
             val action = DeleteFashion(FASHION_ID_0)
 
-            assertIllegalArgument("Fashion 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Fashion 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 

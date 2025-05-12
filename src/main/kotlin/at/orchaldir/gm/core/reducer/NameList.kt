@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.NameList
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -17,7 +18,7 @@ val CREATE_NAME_LIST: Reducer<CreateNameList, State> = { state, _ ->
 
 val DELETE_NAME_LIST: Reducer<DeleteNameList, State> = { state, action ->
     state.getNameListStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Name list ${action.id.value} is used" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getNameListStorage().remove(action.id)))
 }

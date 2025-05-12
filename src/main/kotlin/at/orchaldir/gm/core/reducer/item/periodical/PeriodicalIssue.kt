@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodicalIssue
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.utils.redux.Reducer
@@ -19,7 +21,7 @@ val CREATE_PERIODICAL_ISSUE: Reducer<CreatePeriodicalIssue, State> = { state, _ 
 
 val DELETE_PERIODICAL_ISSUE: Reducer<DeletePeriodicalIssue, State> = { state, action ->
     state.getPeriodicalIssueStorage().require(action.id)
-    require(state.canDeletePeriodicalIssue(action.id)) { "The periodical issue ${action.id.value} is used" }
+    validateCanDelete(state.canDeletePeriodicalIssue(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getPeriodicalIssueStorage().remove(action.id)))
 }
