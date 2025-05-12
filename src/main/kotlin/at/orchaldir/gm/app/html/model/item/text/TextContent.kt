@@ -88,11 +88,7 @@ private fun HtmlBlockTag.showSimpleChapter(
     showDetails(createDefaultChapterTitle(index)) {
         field("Title", chapter.title)
         field("Pages", chapter.pages)
-        fieldList("Entries", chapter.entries) { entry ->
-            when (entry) {
-                is Paragraph -> +entry.text.text
-            }
-        }
+        showContentEntries(chapter.entries)
     }
 }
 
@@ -189,23 +185,7 @@ private fun HtmlBlockTag.editSimpleChapter(
     showDetails(createDefaultChapterTitle(index), true) {
         selectNotEmptyString("Title", chapter.title, combine(param, TITLE))
         field("Pages", chapter.pages)
-        editList(
-            "Entries",
-            combine(CONTENT, index),
-            chapter.entries,
-            0,
-            10000,
-            1
-        ) { index, entryParam, entry ->
-            when (entry) {
-                is Paragraph -> editTextArea(
-                    entryParam,
-                    90,
-                    10,
-                    entry.text.text
-                )
-            }
-        }
+        editContentEntries(chapter.entries, combine(CONTENT, index))
     }
 }
 
@@ -265,9 +245,7 @@ private fun parseAbstractChapter(parameters: Parameters, param: String, index: I
 
 private fun parseSimpleChapter(parameters: Parameters, param: String, index: Int) = SimpleChapter(
     parseNotEmptyString(parameters, combine(param, TITLE), createDefaultChapterTitle(index)),
-    parseList(parameters, combine(CONTENT, index), 0) { index, entryParam ->
-        Paragraph(parseNotEmptyString(parameters, entryParam, "Text"))
-    },
+    parseContentEntries(parameters, combine(CONTENT, index)),
 )
 
 private fun parseAbstractContent(parameters: Parameters, param: String) = AbstractContent(
