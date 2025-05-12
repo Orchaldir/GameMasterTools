@@ -25,7 +25,7 @@ fun HtmlBlockTag.showContentEntries(
 
 // edit
 
-fun DETAILS.editContentEntries(
+fun HtmlBlockTag.editContentEntries(
     entries: List<ContentEntry>,
     param: String,
 ) {
