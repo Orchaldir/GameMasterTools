@@ -8,6 +8,9 @@ import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
 import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.magic.MAGIC_REDUCER
 import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
+import at.orchaldir.gm.core.reducer.quote.CREATE_QUOTE
+import at.orchaldir.gm.core.reducer.quote.DELETE_QUOTE
+import at.orchaldir.gm.core.reducer.quote.UPDATE_QUOTE
 import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
 import at.orchaldir.gm.core.reducer.time.CREATE_CALENDAR
 import at.orchaldir.gm.core.reducer.time.DELETE_CALENDAR
@@ -66,6 +69,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreatePersonalityTrait -> CREATE_PERSONALITY_TRAIT(state, action)
         is DeletePersonalityTrait -> DELETE_PERSONALITY_TRAIT(state, action)
         is UpdatePersonalityTrait -> UPDATE_PERSONALITY_TRAIT(state, action)
+        // quote
+        is CreateQuote -> CREATE_QUOTE(state, action)
+        is DeleteQuote -> DELETE_QUOTE(state, action)
+        is UpdateQuote -> UPDATE_QUOTE(state, action)
         // race
         is CreateRace -> CREATE_RACE(state, action)
         is CloneRace -> CLONE_RACE(state, action)

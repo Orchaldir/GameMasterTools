@@ -25,7 +25,7 @@ value class QuoteId(val value: Int) : Id<QuoteId> {
 @Serializable
 data class Quote(
     val id: QuoteId,
-    val text: NotEmptyString,
+    val text: NotEmptyString = NotEmptyString.init("Quote ${id.value}"),
     val source: Creator = UndefinedCreator,
     val date: Date? = null,
 ) : ElementWithSimpleName<QuoteId>, Created, HasStartDate {

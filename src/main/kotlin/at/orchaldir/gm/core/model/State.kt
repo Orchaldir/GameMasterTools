@@ -52,6 +52,9 @@ import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.quote.QUOTE_TYPE
+import at.orchaldir.gm.core.model.quote.Quote
+import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -90,6 +93,7 @@ import at.orchaldir.gm.core.reducer.item.validateText
 import at.orchaldir.gm.core.reducer.item.validateUniform
 import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
+import at.orchaldir.gm.core.reducer.quote.validateQuote
 import at.orchaldir.gm.core.reducer.religion.validateDomain
 import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
@@ -134,6 +138,7 @@ val ELEMENTS =
         PERIODICAL_ISSUE_TYPE,
         PERSONALITY_TRAIT_TYPE,
         PLANE_TYPE,
+        QUOTE_TYPE,
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
         RIVER_TYPE,
@@ -194,6 +199,7 @@ data class State(
     fun getPeriodicalIssueStorage() = getStorage<PeriodicalIssueId, PeriodicalIssue>(PERIODICAL_ISSUE_TYPE)
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT_TYPE)
     fun getPlaneStorage() = getStorage<PlaneId, Plane>(PLANE_TYPE)
+    fun getQuoteStorage() = getStorage<QuoteId, Quote>(QUOTE_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
@@ -304,6 +310,7 @@ data class State(
         validate(getPeriodicalStorage()) { validatePeriodical(this, it) }
         validate(getPeriodicalIssueStorage()) { validatePeriodicalIssue(this, it) }
         validate(getPlaneStorage()) { validatePlane(this, it) }
+        validate(getQuoteStorage()) { validateQuote(this, it) }
         validate(getRaceStorage()) { validateRace(this, it) }
         validate(getRaceAppearanceStorage()) { validateRaceAppearance(it) }
         validate(getSpellStorage()) { validateSpell(this, it) }
@@ -343,6 +350,7 @@ data class State(
         saveStorage(path, getPeriodicalIssueStorage())
         saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getPlaneStorage())
+        saveStorage(path, getQuoteStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
         saveStorage(path, getRiverStorage())
@@ -385,6 +393,7 @@ fun createStorage(type: String) = when (type) {
     PERIODICAL_ISSUE_TYPE -> Storage(PeriodicalIssueId(0))
     PERSONALITY_TRAIT_TYPE -> Storage(PersonalityTraitId(0))
     PLANE_TYPE -> Storage(PlaneId(0))
+    QUOTE_TYPE -> Storage(QuoteId(0))
     RACE_TYPE -> Storage(RaceId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
     RIVER_TYPE -> Storage(RiverId(0))
@@ -430,6 +439,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     )
 
     PLANE_TYPE -> loadStorage<PlaneId, Plane>(path, PlaneId(0))
+    QUOTE_TYPE -> loadStorage<QuoteId, Quote>(path, QuoteId(0))
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))

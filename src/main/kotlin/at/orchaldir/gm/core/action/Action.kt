@@ -41,6 +41,8 @@ import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.quote.Quote
+import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
@@ -158,6 +160,11 @@ data class UpdateNameList(val nameList: NameList) : Action()
 data object CreatePersonalityTrait : Action()
 data class DeletePersonalityTrait(val id: PersonalityTraitId) : Action()
 data class UpdatePersonalityTrait(val trait: PersonalityTrait) : Action()
+
+// quote
+data object CreateQuote : Action()
+data class DeleteQuote(val id: QuoteId) : Action()
+data class UpdateQuote(val quote: Quote) : Action()
 
 // race
 data object CreateRace : Action()
