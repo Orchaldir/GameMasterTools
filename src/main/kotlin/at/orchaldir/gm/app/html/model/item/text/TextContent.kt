@@ -134,7 +134,7 @@ private fun DETAILS.editAbstractChapters(
         "Chapter",
         CONTENT,
         content.chapters,
-        0,
+        1,
         100,
         1
     ) { index, chapterParam, chapter ->
@@ -154,7 +154,7 @@ private fun HtmlBlockTag.editSimpleChapters(
         "Chapter",
         CONTENT,
         chapters.chapters,
-        0,
+        1,
         100,
         1
     ) { index, chapterParam, chapter ->
