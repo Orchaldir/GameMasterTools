@@ -180,7 +180,7 @@ private fun parseFontSize(parameters: Parameters, param: String) =
     parseDistance(parameters, combine(param, SIZE), SiPrefix.Milli, 10)
 
 private fun parseFontColor(parameters: Parameters, param: String) =
-    parse(parameters, combine(param, COLOR), Color.White)
+    parse(parameters, combine(param, COLOR), Color.Black)
 
 private fun parseBorderColor(parameters: Parameters, param: String) =
-    parse(parameters, combine(param, BORDER, COLOR), Color.White)
+    parse(parameters, combine(param, BORDER, COLOR), Color.Blue)
