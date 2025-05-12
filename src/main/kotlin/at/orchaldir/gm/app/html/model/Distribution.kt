@@ -27,7 +27,6 @@ fun FORM.selectDistanceDistribution(
     min: Distance,
     max: Distance,
     prefix: SiPrefix = SiPrefix.Base,
-    update: Boolean = false,
 ) = selectDistanceDistribution(
     label,
     param,
@@ -35,7 +34,6 @@ fun FORM.selectDistanceDistribution(
     min.convertToLong(prefix),
     max.convertToLong(prefix),
     prefix,
-    update
 )
 
 fun FORM.selectDistanceDistribution(
@@ -45,7 +43,6 @@ fun FORM.selectDistanceDistribution(
     minHeight: Long,
     maxHeight: Long,
     prefix: SiPrefix = SiPrefix.Base,
-    update: Boolean = false,
 ) {
     field(label) {
         selectDistance(

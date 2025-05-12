@@ -124,7 +124,6 @@ fun FORM.editRace(
         MIN_RACE_HEIGHT,
         MAX_RACE_HEIGHT,
         heightPrefix,
-        true
     )
     selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix)
     editRaceOrigin(state, race)
