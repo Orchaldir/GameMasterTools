@@ -52,7 +52,7 @@ fun parseQuoteId(value: String) = QuoteId(value.toInt())
 fun parseQuoteId(parameters: Parameters, param: String) = QuoteId(parseInt(parameters, param))
 
 
-fun parseQuote(state: State, parameters: Parameters, id: QuoteId) = Quote(
+fun parseQuote(parameters: Parameters, state: State, id: QuoteId) = Quote(
     id,
     parseNotEmptyString(parameters, NAME, "Text"),
     parseCreator(parameters, CREATOR),

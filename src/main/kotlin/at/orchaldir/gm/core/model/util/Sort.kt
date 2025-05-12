@@ -96,6 +96,11 @@ enum class SortPlane {
     Name,
 }
 
+enum class SortQuote {
+    Name,
+    Age,
+}
+
 enum class SortRace {
     Age,
     Height,

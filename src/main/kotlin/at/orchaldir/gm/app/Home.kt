@@ -57,6 +57,7 @@ fun Application.configureRouting() {
                     h2 { +"Elements" }
                     fieldStorageLink(call, state.getFontStorage(), FontRoutes.All())
                     fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
+                    fieldStorageLink(call, state.getQuoteStorage(), QuoteRoutes.All())
                     h3 { +"Characters" }
                     fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes.All())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())

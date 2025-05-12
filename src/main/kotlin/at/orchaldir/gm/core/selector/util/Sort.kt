@@ -24,6 +24,7 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
@@ -387,6 +388,22 @@ fun State.sortPlanes(
         when (sort) {
             SortPlane.Name -> compareBy { it.name.text }
         })
+
+// quote
+
+fun State.sortQuotes(sort: SortQuote = SortQuote.Name) =
+    sortQuotes(getQuoteStorage().getAll(), sort)
+
+fun State.sortQuotes(
+    businesses: Collection<Quote>,
+    sort: SortQuote = SortQuote.Name,
+) = businesses
+    .sortedWith(
+        when (sort) {
+            SortQuote.Name -> compareBy { it.text.text }
+            SortQuote.Age -> getAgeComparator()
+        }
+    )
 
 // race
 

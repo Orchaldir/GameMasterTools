@@ -45,6 +45,7 @@ import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
@@ -337,6 +338,7 @@ fun <ID : Id<ID>> href(
     is PeriodicalIssueId -> call.application.href(PeriodicalIssueRoutes.Details(id))
     is PersonalityTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
     is PlaneId -> call.application.href(PlaneRoutes.Details(id))
+    is QuoteId -> call.application.href(QuoteRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
