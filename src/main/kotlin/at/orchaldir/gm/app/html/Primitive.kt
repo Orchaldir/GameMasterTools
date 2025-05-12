@@ -207,6 +207,7 @@ fun HtmlBlockTag.editTextArea(
         name = param
         cols = columnCount.toString()
         rows = rowCount.toString()
+        onChange = ON_CHANGE_SCRIPT
         +text
     }
 }
