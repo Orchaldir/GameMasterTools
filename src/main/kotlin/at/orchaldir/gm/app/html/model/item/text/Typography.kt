@@ -29,7 +29,7 @@ fun HtmlBlockTag.editTypography(
     typography: Typography,
     hasAuthor: Boolean,
 ) {
-    selectValue("Typography", TYPOGRAPHY, TypographyType.entries, typography.getType(), true) { type ->
+    selectValue("Typography", TYPOGRAPHY, TypographyType.entries, typography.getType()) { type ->
         when (type) {
             TypographyType.Simple, TypographyType.Advanced -> !hasAuthor
             else -> false
@@ -60,12 +60,12 @@ fun HtmlBlockTag.editSimpleTypography(
 ) {
     editFontOption(state, "Title", typography.title, TILE)
     editFontOption(state, "Author", typography.author, CREATOR)
-    selectValue("Typography Order", combine(TYPOGRAPHY, ORDER), TypographyOrder.entries, typography.order, true)
+    selectValue("Typography Order", combine(TYPOGRAPHY, ORDER), TypographyOrder.entries, typography.order)
     editTypographyLayout(typography.layout, hasAuthor)
 }
 
 private fun HtmlBlockTag.editTypographyLayout(layout: TypographyLayout, hasAuthor: Boolean) {
-    selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, layout, true) { l ->
+    selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, layout) { l ->
         !hasAuthor && l == TypographyLayout.TopAndBottom
     }
 }
@@ -90,7 +90,6 @@ fun HtmlBlockTag.editStringRenderOption(
             combine(param, TYPE),
             StringRenderOptionType.entries,
             option.getType(),
-            true
         )
 
         when (option) {
@@ -119,7 +118,7 @@ private fun HtmlBlockTag.editStringSharedOptions(
 }
 
 private fun HtmlBlockTag.selectDistance(label: String, param: String, value: Distance) {
-    selectDistance(label, param, value, ZERO_DISTANCE, ONE_M, siPrefix, update = true)
+    selectDistance(label, param, value, ZERO_DISTANCE, ONE_M, siPrefix)
 }
 
 // parse

@@ -100,7 +100,7 @@ fun HtmlBlockTag.selectOwner(
     owner: Owner,
     start: Date?,
 ) {
-    selectValue("Owner Type", param, OwnerType.entries, owner.getType(), true)
+    selectValue("Owner Type", param, OwnerType.entries, owner.getType())
 
     when (owner) {
         is OwnedByBusiness -> selectElement(
@@ -109,7 +109,6 @@ fun HtmlBlockTag.selectOwner(
             combine(param, BUSINESS),
             state.getExistingElements(state.getBusinessStorage(), start),
             owner.business,
-            false
         )
 
         is OwnedByCharacter -> selectElement(
@@ -118,7 +117,6 @@ fun HtmlBlockTag.selectOwner(
             combine(param, CHARACTER),
             state.getLiving(start),
             owner.character,
-            false
         )
 
         is OwnedByOrganization -> selectElement(
@@ -127,7 +125,6 @@ fun HtmlBlockTag.selectOwner(
             combine(param, ORGANIZATION),
             state.getExistingOrganizations(start),
             owner.organization,
-            false
         )
 
         is OwnedByTown -> selectElement(
@@ -136,7 +133,6 @@ fun HtmlBlockTag.selectOwner(
             combine(param, TOWN),
             state.getExistingTowns(start),
             owner.town,
-            false
         )
 
         NoOwner, UndefinedOwner -> doNothing()

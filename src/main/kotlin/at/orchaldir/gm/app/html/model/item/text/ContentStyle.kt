@@ -48,7 +48,6 @@ fun HtmlBlockTag.editContentStyle(
             "Is Justified?",
             style.isJustified,
             combine(param, ALIGNMENT),
-            update = true,
         )
         selectFactor(
             "Margin",
@@ -57,7 +56,6 @@ fun HtmlBlockTag.editContentStyle(
             MIN_MARGIN,
             MAX_MARGIN,
             fromPermille(1),
-            true
         )
         editInitials(state, style.initials, param)
         selectInt(
@@ -67,7 +65,6 @@ fun HtmlBlockTag.editContentStyle(
             1000,
             1,
             combine(param, MIN),
-            true,
         )
         selectInt(
             "Max Paragraph Length",
@@ -76,7 +73,6 @@ fun HtmlBlockTag.editContentStyle(
             1000,
             1,
             combine(param, MAX),
-            true,
         )
     }
 }

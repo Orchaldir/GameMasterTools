@@ -39,7 +39,7 @@ fun HtmlBlockTag.editPlaneAlignmentPattern(
     pattern: PlaneAlignmentPattern,
 ) {
     showDetails("Alignment Pattern", true) {
-        selectValue("Type", PATTERN, PlaneAlignmentPatternType.entries, pattern.getType(), true)
+        selectValue("Type", PATTERN, PlaneAlignmentPatternType.entries, pattern.getType())
         when (pattern) {
             is FixedAlignment -> selectValue(
                 "Alignment",

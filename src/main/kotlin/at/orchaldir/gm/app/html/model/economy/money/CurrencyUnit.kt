@@ -122,7 +122,6 @@ fun FORM.editCurrencyUnit(
             10000,
             1,
             NUMBER,
-            update = true,
         )
         selectInt(
             "Denomination",
@@ -131,7 +130,6 @@ fun FORM.editCurrencyUnit(
             currency.countDenominations() - 1,
             1,
             combine(DENOMINATION, NUMBER),
-            update = true,
         )
         fieldValue(state, unit)
     }
@@ -149,7 +147,6 @@ fun HtmlBlockTag.editCurrencyFormat(
             FORMAT,
             CurrencyFormatType.entries,
             format.getType(),
-            true
         )
 
         when (format) {
@@ -172,7 +169,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                 showDetails("Hole", true) {
                     selectShape(format.holeShape, combine(HOLE, SHAPE))
                     selectRadiusFactor(format.holeFactor)
-                    selectBool("Has rim?", format.hasHoleRim, combine(HOLE, EDGE), update = true)
+                    selectBool("Has rim?", format.hasHoleRim, combine(HOLE, EDGE))
                 }
             }
 
@@ -196,7 +193,7 @@ fun HtmlBlockTag.editCurrencyFormat(
 }
 
 private fun HtmlBlockTag.selectShape(shape: Shape, param: String) {
-    selectValue("Shape", param, Shape.entries, shape, true)
+    selectValue("Shape", param, Shape.entries, shape)
 }
 
 private fun HtmlBlockTag.selectRadius(radius: Distance) {
@@ -207,7 +204,6 @@ private fun HtmlBlockTag.selectRadius(radius: Distance) {
         MIN_RADIUS,
         MAX_RADIUS,
         SiPrefix.Milli,
-        true
     )
 }
 
@@ -219,7 +215,6 @@ private fun HtmlBlockTag.selectThickness(thickness: Distance) {
         MIN_THICKNESS,
         MAX_THICKNESS,
         SiPrefix.Micro,
-        true
     )
 }
 
@@ -231,7 +226,6 @@ private fun HtmlBlockTag.selectRimFactor(factor: Factor) {
         ZERO,
         MAX_RIM_FACTOR,
         fromPermille(1),
-        true,
     )
 }
 
@@ -243,7 +237,6 @@ private fun DETAILS.selectRadiusFactor(factor: Factor) {
         MIN_RADIUS_FACTOR,
         MAX_RADIUS_FACTOR,
         fromPercentage(1),
-        true,
     )
 }
 

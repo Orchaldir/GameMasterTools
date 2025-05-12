@@ -40,7 +40,7 @@ fun FORM.editDress(
     dress: Dress,
 ) {
     selectNecklineStyle(NecklineStyle.entries, dress.necklineStyle)
-    selectValue("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, dress.skirtStyle, true)
+    selectValue("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, dress.skirtStyle)
     selectSleeveStyle(
         dress.necklineStyle.getSupportsSleevesStyles(),
         dress.sleeveStyle,

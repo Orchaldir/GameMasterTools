@@ -65,7 +65,6 @@ private fun FORM.selectEquipment(
                     param + bodySlots.joinToString("_"),
                     options,
                     false,
-                    true,
                 ) { id ->
                     val equipment = state.getEquipmentStorage().getOrThrow(id)
                     label = equipment.name.text

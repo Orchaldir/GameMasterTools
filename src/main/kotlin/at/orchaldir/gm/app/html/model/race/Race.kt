@@ -124,9 +124,8 @@ fun FORM.editRace(
         MIN_RACE_HEIGHT,
         MAX_RACE_HEIGHT,
         heightPrefix,
-        true
     )
-    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix, true)
+    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix)
     editRaceOrigin(state, race)
     editLifeStages(state, race)
 }
@@ -142,7 +141,7 @@ private fun FORM.editLifeStages(
 
     h2 { +"Life Stages" }
 
-    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, lifeStages.getType(), true)
+    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, lifeStages.getType())
 
     when (lifeStages) {
         is ImmutableLifeStage -> {
@@ -199,12 +198,11 @@ private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: Color
         combine(LIFE_STAGE, combine(HAIR, COLOR), index),
         label,
         Color.entries,
-        true
     )
 }
 
 private fun FORM.selectNumberOfLifeStages(number: Int) {
-    selectInt("Life Stages", number, 2, 100, 1, LIFE_STAGE, true)
+    selectInt("Life Stages", number, 2, 100, 1, LIFE_STAGE)
 }
 
 private fun HtmlBlockTag.selectMaxAge(
@@ -214,14 +212,14 @@ private fun HtmlBlockTag.selectMaxAge(
     minAge: Int,
     maxAge: Int,
 ) {
-    selectInt(label, age, minAge, maxAge, 1, combine(LIFE_STAGE, AGE, index), true)
+    selectInt(label, age, minAge, maxAge, 1, combine(LIFE_STAGE, AGE, index))
 }
 
 private fun LI.selectRelativeSize(
     size: Factor,
     index: Int,
 ) {
-    selectPercentage("Relative Size", combine(LIFE_STAGE, SIZE, index), size, 1, 100, 1, true)
+    selectPercentage("Relative Size", combine(LIFE_STAGE, SIZE, index), size, 1, 100, 1)
 }
 
 private fun HtmlBlockTag.selectAppearance(
@@ -235,7 +233,6 @@ private fun HtmlBlockTag.selectAppearance(
         combine(RACE, APPEARANCE, index),
         state.getRaceAppearanceStorage().getAll().sortedBy { it.name.text },
         raceAppearanceId,
-        true,
     )
 }
 

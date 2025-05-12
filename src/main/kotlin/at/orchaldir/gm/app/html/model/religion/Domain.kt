@@ -37,7 +37,7 @@ fun FORM.editDomain(
     domain: Domain,
 ) {
     selectName(domain.name)
-    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), domain.spells, false) { it.name.text }
+    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), domain.spells) { it.name.text }
     selectElements(state, "Jobs", JOB, state.sortJobs(), domain.jobs)
 }
 

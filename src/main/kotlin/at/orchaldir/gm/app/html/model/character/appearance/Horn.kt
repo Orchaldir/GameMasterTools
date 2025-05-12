@@ -36,7 +36,7 @@ fun FORM.editHorns(
 
     h2 { +"Horns" }
 
-    selectFromOneOf("Type", combine(HORN, LAYOUT), options.layouts, horns.getType(), true)
+    selectFromOneOf("Type", combine(HORN, LAYOUT), options.layouts, horns.getType())
     when (horns) {
         NoHorns -> doNothing()
         is TwoHorns -> editHorn(state, options, horns.horn, HORN, "Horn")
@@ -51,7 +51,6 @@ fun FORM.editHorns(
                 combine(CROWN, FRONT),
                 options.crownFront,
                 horns.front,
-                true
             ) { number ->
                 label = number.toString()
                 value = number.toString()
@@ -61,7 +60,6 @@ fun FORM.editHorns(
                 combine(CROWN, BACK),
                 options.crownBack,
                 horns.back,
-                true
             ) { number ->
                 label = number.toString()
                 value = number.toString()
@@ -81,19 +79,19 @@ private fun FORM.editHorn(
     noun: String,
 ) {
     showDetails(noun, true) {
-        selectValue("Type", combine(param, TYPE), HornType.entries, horn.getType(), true)
+        selectValue("Type", combine(param, TYPE), HornType.entries, horn.getType())
 
         when (horn) {
             is SimpleHorn -> {
                 selectHornLength(param, horn.length)
-                selectFromOneOf("Simple Type", combine(param, SHAPE), options.simpleTypes, horn.simpleType, true)
+                selectFromOneOf("Simple Type", combine(param, SHAPE), options.simpleTypes, horn.simpleType)
                 selectFeatureColor(state, options.colors, horn.color, combine(param, COLOR))
             }
 
             is ComplexHorn -> {
                 selectHornLength(param, horn.length)
                 selectHornWidth(param, horn.relativeWidth)
-                selectValue("Position", combine(param, POSITION), HornPosition.entries, horn.position, true)
+                selectValue("Position", combine(param, POSITION), HornPosition.entries, horn.position)
                 selectOrientation(param, horn.orientationOffset, QUARTER_CIRCLE)
                 editHornShape(horn.shape, param)
                 selectFeatureColor(state, options.colors, horn.color, combine(param, COLOR))
@@ -109,7 +107,7 @@ private fun HtmlBlockTag.editHornShape(
     val param = combine(parentParam, SHAPE)
 
     showDetails("Shape", true) {
-        selectValue("Type", combine(param, TYPE), HornShapeType.entries, shape.getType(), true)
+        selectValue("Type", combine(param, TYPE), HornShapeType.entries, shape.getType())
 
         when (shape) {
             StraightHorn -> doNothing()
@@ -122,7 +120,6 @@ private fun HtmlBlockTag.editHornShape(
                     MAX_SPIRAL_CYCLES,
                     1,
                     combine(param, NUMBER),
-                    true,
                 )
                 selectPercentage(
                     "Amplitude",
@@ -131,7 +128,6 @@ private fun HtmlBlockTag.editHornShape(
                     1,
                     100,
                     1,
-                    true,
                 )
             }
         }
@@ -146,7 +142,6 @@ private fun HtmlBlockTag.selectOrientation(param: String, offset: Orientation, m
         -maxValue,
         maxValue,
         fromDegrees(1),
-        true,
     )
 }
 
@@ -158,7 +153,6 @@ fun HtmlBlockTag.selectHornLength(param: String, length: Factor) {
         10,
         200,
         5,
-        true,
     )
 }
 
@@ -170,7 +164,6 @@ fun HtmlBlockTag.selectHornWidth(param: String, width: Factor) {
         1,
         50,
         1,
-        true,
     )
 }
 
@@ -182,7 +175,6 @@ fun HtmlBlockTag.selectCrownLength(length: Factor) {
         1,
         50,
         1,
-        true,
     )
 }
 

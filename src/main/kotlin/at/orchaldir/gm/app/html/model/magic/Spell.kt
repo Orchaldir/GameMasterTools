@@ -92,7 +92,7 @@ private fun HtmlBlockTag.editOrigin(
 ) {
     val availableSpells = state.getExistingSpell(spell.date).filter { it.id != spell.id }
 
-    selectValue("Spell Origin", ORIGIN, SpellOriginType.entries, spell.origin.getType(), true) { type ->
+    selectValue("Spell Origin", ORIGIN, SpellOriginType.entries, spell.origin.getType()) { type ->
         when (type) {
             SpellOriginType.Modified, SpellOriginType.Translated -> availableSpells.isEmpty()
             else -> false

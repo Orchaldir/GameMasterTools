@@ -80,7 +80,7 @@ fun HtmlBlockTag.selectHousingStatus(
     val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
     val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
 
-    selectValue("Housing Status", param, HousingStatusType.entries, housingStatus.getType(), true) { type ->
+    selectValue("Housing Status", param, HousingStatusType.entries, housingStatus.getType()) { type ->
         when (type) {
             HousingStatusType.Undefined -> false
             HousingStatusType.Homeless -> false
@@ -92,7 +92,7 @@ fun HtmlBlockTag.selectHousingStatus(
         UndefinedHousingStatus -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
-            selectElement("Apartment House", combine(param, BUILDING), apartments, housingStatus.building, true)
+            selectElement("Apartment House", combine(param, BUILDING), apartments, housingStatus.building)
 
             val apartmentHouse = state.getBuildingStorage().getOrThrow(housingStatus.building)
 

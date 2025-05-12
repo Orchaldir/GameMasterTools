@@ -75,7 +75,7 @@ fun HtmlBlockTag.selectFill(label: String, fill: Fill, param: String = FILL) {
 }
 
 fun HtmlBlockTag.selectOptionalFill(fill: Fill?, param: String = FILL) {
-    selectOptionalValue("Fill Type", combine(param, TYPE), fill?.getType(), FillType.entries, true)
+    selectOptionalValue("Fill Type", combine(param, TYPE), fill?.getType(), FillType.entries)
 
     if (fill != null) {
         selectFillData(fill, param)
@@ -83,7 +83,7 @@ fun HtmlBlockTag.selectOptionalFill(fill: Fill?, param: String = FILL) {
 }
 
 fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
-    selectValue("Fill Type", combine(param, TYPE), FillType.entries, fill.getType(), true)
+    selectValue("Fill Type", combine(param, TYPE), FillType.entries, fill.getType())
     selectFillData(fill, param)
 }
 
@@ -102,7 +102,6 @@ private fun HtmlBlockTag.selectFillData(
                 0,
                 100,
                 1,
-                true,
             )
         }
 
@@ -120,9 +119,8 @@ private fun HtmlBlockTag.selectFillData(
                 combine(param, COLOR, 1),
                 "Background Color",
                 Color.entries - fill.fill,
-                true
             )
-            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE), true)
+            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE))
             selectPercentage(
                 "Border in Percentage",
                 combine(param, PATTERN, BORDER),
@@ -130,7 +128,6 @@ private fun HtmlBlockTag.selectFillData(
                 1,
                 90,
                 1,
-                true
             )
         }
     }
@@ -139,7 +136,7 @@ private fun HtmlBlockTag.selectFillData(
 private fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: UByte, param: String) {
     selectColor(color0, combine(param, COLOR, 0), "1.Stripe Color", Color.entries - color1)
     selectColor(color1, combine(param, COLOR, 1), "2.Stripe Color", Color.entries - color0)
-    selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(param, PATTERN, WIDTH), true)
+    selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(param, PATTERN, WIDTH))
 }
 
 // parse

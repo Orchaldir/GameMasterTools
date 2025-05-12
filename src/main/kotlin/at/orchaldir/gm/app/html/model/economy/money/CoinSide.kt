@@ -66,7 +66,6 @@ fun HtmlBlockTag.editCoinSide(
         combine(param, TYPE),
         CoinSideType.entries,
         side.getType(),
-        true
     )
 
     val font = when (side) {
@@ -83,7 +82,6 @@ fun HtmlBlockTag.editCoinSide(
         combine(param, FONT),
         state.getFontStorage().getAll(),
         font,
-        true,
     )
 }
 

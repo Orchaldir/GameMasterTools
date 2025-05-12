@@ -80,20 +80,20 @@ fun FORM.editEarring(
     state: State,
     earring: Earring,
 ) {
-    selectValue("Style", STYLE, EarringStyleType.entries, earring.style.getType(), true)
+    selectValue("Style", STYLE, EarringStyleType.entries, earring.style.getType())
 
     when (val style = earring.style) {
         is DangleEarring -> editDangleEarring(state, style)
         is DropEarring -> editDropEarring(state, style)
         is HoopEarring -> {
-            selectFactor("Diameter", LENGTH, style.length, ZERO, ONE, ONE_PERCENT, true)
-            selectValue("Thickness", SIZE, Size.entries, style.thickness, true)
+            selectFactor("Diameter", LENGTH, style.length, ZERO, ONE, ONE_PERCENT)
+            selectValue("Thickness", SIZE, Size.entries, style.thickness)
             editColorItemPart(state, style.wire, WIRE, "Wire")
         }
 
         is StudEarring -> {
             editOrnament(state, style.ornament)
-            selectValue("Size", SIZE, Size.entries, style.size, true)
+            selectValue("Size", SIZE, Size.entries, style.size)
         }
     }
 }
@@ -105,7 +105,7 @@ fun FORM.editDangleEarring(
     editOrnament(state, style.top, TOP, "Top Ornament")
     editOrnament(state, style.bottom, BOTTOM, "Bottom Ornament")
     editList("Sizes", SIZE, style.sizes, 1, 10, 1) { index, param, size ->
-        selectValue("$index.Size", param, Size.entries, size, true)
+        selectValue("$index.Size", param, Size.entries, size)
     }
     editColorItemPart(state, style.wire, WIRE, "Wire")
 }
@@ -116,14 +116,14 @@ fun FORM.editDropEarring(
 ) {
     selectDropSize("Top Size", style.topSize, TOP)
     selectDropSize("Bottom Size", style.bottomSize, BOTTOM)
-    selectFactor("Wire Length", LENGTH, style.wireLength, ZERO, ONE, ONE_PERCENT, true)
+    selectFactor("Wire Length", LENGTH, style.wireLength, ZERO, ONE, ONE_PERCENT)
     editOrnament(state, style.top, TOP, "Top Ornament")
     editOrnament(state, style.bottom, BOTTOM, "Bottom Ornament")
     editColorItemPart(state, style.wire, WIRE, "Wire")
 }
 
 private fun FORM.selectDropSize(label: String, size: Factor, param: String) {
-    selectFactor(label, combine(param, SIZE), size, ZERO, ONE, ONE_PERCENT, true)
+    selectFactor(label, combine(param, SIZE), size, ZERO, ONE, ONE_PERCENT)
 }
 
 

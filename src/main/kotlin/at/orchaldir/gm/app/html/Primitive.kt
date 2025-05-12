@@ -71,10 +71,9 @@ fun HtmlBlockTag.selectBool(
     value: Boolean,
     param: String,
     isDisabled: Boolean = false,
-    update: Boolean = false,
 ) {
     field(label) {
-        selectBool(value, param, isDisabled, update)
+        selectBool(value, param, isDisabled)
     }
 }
 
@@ -82,16 +81,13 @@ fun HtmlBlockTag.selectBool(
     isChecked: Boolean,
     param: String,
     isDisabled: Boolean = false,
-    update: Boolean = false,
 ) {
     checkBoxInput {
         name = param
         value = "true"
         checked = isChecked
         disabled = isDisabled
-        if (update) {
-            onChange = ON_CHANGE_SCRIPT
-        }
+        onChange = ON_CHANGE_SCRIPT
     }
 }
 
@@ -102,10 +98,9 @@ fun HtmlBlockTag.selectFloat(
     maxNumber: Float,
     step: Float,
     param: String,
-    update: Boolean = false,
 ) {
     field(label) {
-        selectFloat(number, minNumber, maxNumber, step, param, update)
+        selectFloat(number, minNumber, maxNumber, step, param)
     }
 }
 
@@ -115,16 +110,13 @@ fun HtmlBlockTag.selectFloat(
     maxNumber: Float,
     stepValue: Float,
     param: String,
-    update: Boolean = false,
 ) {
     numberInput(name = param) {
         min = "$minNumber"
         max = "$maxNumber"
         step = stepValue.toString()
         value = number.toString()
-        if (update) {
-            onChange = ON_CHANGE_SCRIPT
-        }
+        onChange = ON_CHANGE_SCRIPT
     }
 }
 
@@ -135,10 +127,9 @@ fun HtmlBlockTag.selectInt(
     maxNumber: Int,
     stepNumber: Int,
     param: String,
-    update: Boolean = false,
 ) {
     field(label) {
-        selectInt(number, minNumber, maxNumber, stepNumber, param, update)
+        selectInt(number, minNumber, maxNumber, stepNumber, param)
     }
 }
 
@@ -148,16 +139,13 @@ fun HtmlBlockTag.selectInt(
     maxNumber: Int,
     stepNumber: Int,
     param: String,
-    update: Boolean = false,
 ) {
     numberInput(name = param) {
         min = "$minNumber"
         max = "$maxNumber"
         step = stepNumber.toString()
         value = number.toString()
-        if (update) {
-            onChange = ON_CHANGE_SCRIPT
-        }
+        onChange = ON_CHANGE_SCRIPT
     }
 }
 
@@ -168,10 +156,9 @@ fun HtmlBlockTag.selectLong(
     maxNumber: Long,
     stepNumber: Long,
     param: String,
-    update: Boolean = false,
 ) {
     field(label) {
-        selectLong(number, minNumber, maxNumber, stepNumber, param, update)
+        selectLong(number, minNumber, maxNumber, stepNumber, param)
     }
 }
 
@@ -181,16 +168,13 @@ fun HtmlBlockTag.selectLong(
     maxNumber: Long,
     stepNumber: Long,
     param: String,
-    update: Boolean = false,
 ) {
     numberInput(name = param) {
         min = "$minNumber"
         max = "$maxNumber"
         step = stepNumber.toString()
         value = number.toString()
-        if (update) {
-            onChange = ON_CHANGE_SCRIPT
-        }
+        onChange = ON_CHANGE_SCRIPT
     }
 }
 

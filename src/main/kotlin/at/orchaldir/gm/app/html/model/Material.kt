@@ -35,7 +35,6 @@ fun HtmlBlockTag.editMaterial(material: Material) {
         1,
         25000,
         SiPrefix.Kilo,
-        true,
     )
 }
 

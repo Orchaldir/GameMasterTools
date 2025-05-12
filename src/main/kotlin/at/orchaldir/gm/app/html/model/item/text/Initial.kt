@@ -59,7 +59,7 @@ fun HtmlBlockTag.editInitials(
     val param = combine(param, INITIAL)
 
     showDetails("Initials", true) {
-        selectValue("Type", param, InitialsType.entries, initials.getType(), true)
+        selectValue("Type", param, InitialsType.entries, initials.getType())
 
         when (initials) {
             NormalInitials -> doNothing()
@@ -70,7 +70,6 @@ fun HtmlBlockTag.editInitials(
                     initials.size,
                     MIN_INITIAL_SIZE,
                     MAX_INITIAL_SIZE,
-                    update = true,
                 )
                 selectPosition(param, initials.position)
             }
@@ -92,7 +91,6 @@ private fun DETAILS.selectPosition(
         combine(param, POSITION),
         InitialPosition.entries,
         position,
-        true,
     )
 }
 

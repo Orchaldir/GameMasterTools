@@ -48,7 +48,7 @@ private fun HtmlBlockTag.editSkinInternal(
     skin: Skin,
     param: String,
 ) {
-    selectFromOneOf("Type", combine(param, TYPE), options.skinTypes, skin.getType(), true)
+    selectFromOneOf("Type", combine(param, TYPE), options.skinTypes, skin.getType())
 
     when (skin) {
         is ExoticSkin -> selectColor(
@@ -66,7 +66,6 @@ private fun HtmlBlockTag.editSkinInternal(
             state.getMaterialStorage(),
             options.materials,
             skin.material,
-            true
         ) { material -> material.name.text }
 
         is NormalSkin -> {
@@ -75,7 +74,6 @@ private fun HtmlBlockTag.editSkinInternal(
                 combine(param, COLOR),
                 options.normalColors,
                 skin.color,
-                true
             ) { skinColor ->
                 label = skinColor.name
                 value = skinColor.toString()

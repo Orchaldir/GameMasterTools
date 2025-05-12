@@ -56,8 +56,8 @@ fun FORM.editNecklace(
     state: State,
     necklace: Necklace,
 ) {
-    selectValue("Style", STYLE, NecklaceStyleType.entries, necklace.style.getType(), true)
-    selectValue("Length", LENGTH, NecklaceLength.entries, necklace.length, true)
+    selectValue("Style", STYLE, NecklaceStyleType.entries, necklace.style.getType())
+    selectValue("Length", LENGTH, NecklaceLength.entries, necklace.length)
 
     when (val style = necklace.style) {
         is DangleNecklace -> {
@@ -72,14 +72,14 @@ fun FORM.editNecklace(
 
         is PendantNecklace -> {
             editOrnament(state, style.ornament)
-            selectValue("Size", SIZE, Size.entries, style.size, true)
+            selectValue("Size", SIZE, Size.entries, style.size)
             editJewelryLine(state, style.line, "Line", LINE)
         }
 
         is StrandNecklace -> {
-            selectInt("Number of Strands", style.strands, 1, 3, 1, NUMBER, true)
+            selectInt("Number of Strands", style.strands, 1, 3, 1, NUMBER)
             editJewelryLine(state, style.line, "Strands", LINE)
-            selectValue("Padding between Strands", SIZE, Size.entries, style.padding, true)
+            selectValue("Padding between Strands", SIZE, Size.entries, style.padding)
         }
     }
 }

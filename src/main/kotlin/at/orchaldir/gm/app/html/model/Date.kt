@@ -481,7 +481,7 @@ private fun HtmlBlockTag.selectCenturyIndex(
         Int.MAX_VALUE
     }
 
-    selectInt(century.centuryIndex, minIndex, maxIndex, 1, decadeParam, true)
+    selectInt(century.centuryIndex, minIndex, maxIndex, 1, decadeParam)
     +"xx"
 }
 
@@ -516,7 +516,7 @@ private fun HtmlBlockTag.selectDecadeIndex(
         Int.MAX_VALUE
     }
 
-    selectInt(decade.decadeIndex, minIndex, maxIndex, 1, decadeParam, true)
+    selectInt(decade.decadeIndex, minIndex, maxIndex, 1, decadeParam)
     +"0s"
 }
 
@@ -546,7 +546,7 @@ private fun HtmlBlockTag.selectYearIndex(
         Int.MAX_VALUE
     }
 
-    selectInt(year.yearIndex + 1, minIndex, maxIndex, 1, yearParam, true)
+    selectInt(year.yearIndex + 1, minIndex, maxIndex, 1, yearParam)
 }
 
 fun HtmlBlockTag.selectMonthIndex(
@@ -621,7 +621,6 @@ private fun HtmlBlockTag.selectWeekIndex(
         maxWeekIndex + 1,
         1,
         combine(param, WEEK),
-        true,
     )
 }
 
@@ -681,7 +680,7 @@ fun HtmlBlockTag.selectDayIndex(
     minDayIndex: Int,
     maxDayIndex: Int,
 ) {
-    selectInt(dayIndex + 1, minDayIndex + 1, maxDayIndex + 1, 1, combine(param, DAY), true)
+    selectInt(dayIndex + 1, minDayIndex + 1, maxDayIndex + 1, 1, combine(param, DAY))
 }
 
 // parse optional

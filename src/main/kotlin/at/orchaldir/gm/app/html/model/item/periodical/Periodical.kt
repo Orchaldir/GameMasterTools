@@ -56,9 +56,9 @@ fun FORM.editPeriodical(
     selectName(periodical.name)
     selectOwnership(state, periodical.ownership, date)
     selectElement(state, "Language", LANGUAGE, state.getLanguageStorage().getAll(), periodical.language)
-    selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), periodical.calendar, true)
+    selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), periodical.calendar)
     selectOptionalDate(calendar, "Date", periodical.date, DATE)
-    selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency, true)
+    selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency)
 }
 
 // parse

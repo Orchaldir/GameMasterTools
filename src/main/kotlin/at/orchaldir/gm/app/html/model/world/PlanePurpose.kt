@@ -93,7 +93,7 @@ fun HtmlBlockTag.editPlanePurpose(
     val gods = state.sortGods()
 
     showDetails("Purpose", true) {
-        selectValue("Type", PURPOSE, PlanePurposeType.entries, plane.purpose.getType(), true) {
+        selectValue("Type", PURPOSE, PlanePurposeType.entries, plane.purpose.getType()) {
             when (it) {
                 Demi, Reflective -> otherPlanes.isEmpty()
                 Heart -> gods.isEmpty()

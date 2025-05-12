@@ -147,7 +147,12 @@ fun FORM.editCulture(
 ) {
     selectName(culture.name)
     selectElement(state, "Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll(), culture.calendar)
-    selectRarityMap("Languages", LANGUAGES, state.getLanguageStorage(), culture.languages) { it.name.text }
+    selectRarityMap(
+        "Languages",
+        LANGUAGES,
+        state.getLanguageStorage(),
+        culture.languages,
+    ) { it.name.text }
     editHolidays(state, culture.holidays)
     editNamingConvention(culture.namingConvention, state)
     editClothingOptions(state, culture)
@@ -158,11 +163,11 @@ private fun FORM.editNamingConvention(
     state: State,
 ) {
     h2 { +"Naming Convention" }
-    selectValue("Type", NAMING_CONVENTION, NamingConventionType.entries, namingConvention.getType(), true)
+    selectValue("Type", NAMING_CONVENTION, NamingConventionType.entries, namingConvention.getType())
 
     when (namingConvention) {
         is FamilyConvention -> {
-            selectValue("Name Order", combine(NAME, ORDER), NameOrder.entries, namingConvention.nameOrder, true)
+            selectValue("Name Order", combine(NAME, ORDER), NameOrder.entries, namingConvention.nameOrder)
             selectRarityMap("Middle Name Options", MIDDLE_NAME, namingConvention.middleNameOptions)
             selectNamesByGender(state, "Given Names", namingConvention.givenNames, NAMES)
             field("Family Names") {
@@ -203,7 +208,7 @@ private fun FORM.selectGenonymConvention(
     names: GenderMap<NameListId>,
 ) {
     selectValue("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries, lookupDistance)
-    selectValue("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, style.getType(), true)
+    selectValue("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, style.getType())
 
     when (style) {
         is ChildOfStyle -> selectWordsByGender("Words", style.words, WORD)

@@ -55,7 +55,7 @@ fun HtmlBlockTag.editTableOfContents(
     toc: TableOfContents,
 ) {
     showDetails("Table Of Contents", true) {
-        selectValue("Type", TOC, TableOfContentsType.entries, toc.getType(), true)
+        selectValue("Type", TOC, TableOfContentsType.entries, toc.getType())
 
         when (toc) {
             NoTableOfContents -> doNothing()
@@ -79,14 +79,12 @@ private fun HtmlBlockTag.editCommonData(
         combine(TOC, FORMAT),
         TocData.entries,
         data,
-        true,
     )
     selectValue(
         "Line",
         combine(TOC, LINE),
         TocLine.entries,
         line,
-        true,
     )
     selectNotEmptyString("Title", title, combine(TOC, TITLE))
 }

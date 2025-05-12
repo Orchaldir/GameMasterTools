@@ -76,7 +76,7 @@ fun FORM.editRaceOrigin(
     val possibleParents = state.sortRaces(state.getPossibleParents(race.id))
 
     showDetails("Origin", true) {
-        selectValue("Type", ORIGIN, RaceOriginType.entries, race.origin.getType(), true) {
+        selectValue("Type", ORIGIN, RaceOriginType.entries, race.origin.getType()) {
             when (it) {
                 Evolved, Modified -> possibleParents.isEmpty()
                 Hybrid -> possibleParents.size < 2
@@ -95,8 +95,8 @@ fun FORM.editRaceOrigin(
                 val withoutFirst = possibleParents.filter { it.id != origin.first }
                 val withoutSecond = possibleParents.filter { it.id != origin.second }
 
-                selectElement(state, "First", combine(ORIGIN, 0), withoutSecond, origin.first, true)
-                selectElement(state, "Second", combine(ORIGIN, 1), withoutFirst, origin.second, true)
+                selectElement(state, "First", combine(ORIGIN, 0), withoutSecond, origin.first)
+                selectElement(state, "Second", combine(ORIGIN, 1), withoutFirst, origin.second)
             }
 
             is ModifiedRace -> {

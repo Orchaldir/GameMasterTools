@@ -139,7 +139,7 @@ fun <T> HtmlBlockTag.editList(
     step: Int,
     editElement: HtmlBlockTag.(Int, String, T) -> Unit,
 ) {
-    selectInt("$label Number", elements.size, minSize, maxSize, step, combine(param, NUMBER), true)
+    selectInt("$label Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
 
     showListWithIndex(elements) { index, element ->
         val elementParam = combine(param, index)

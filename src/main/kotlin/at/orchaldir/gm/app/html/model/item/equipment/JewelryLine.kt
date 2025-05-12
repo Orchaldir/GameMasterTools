@@ -59,21 +59,21 @@ fun FORM.editJewelryLine(
     param: String,
 ) {
     showDetails(label, true) {
-        selectValue("Style", combine(param, STYLE), JewelryLineType.entries, line.getType(), true)
+        selectValue("Style", combine(param, STYLE), JewelryLineType.entries, line.getType())
 
         when (line) {
             is Chain -> {
-                selectValue("Thickness", combine(param, SIZE), Size.entries, line.thickness, true)
+                selectValue("Thickness", combine(param, SIZE), Size.entries, line.thickness)
                 editColorItemPart(state, line.main, combine(param, MAIN), "Main")
             }
 
             is OrnamentLine -> {
                 editOrnament(state, line.ornament, param = combine(param, ORNAMENT))
-                selectValue("Size", combine(param, SIZE), Size.entries, line.size, true)
+                selectValue("Size", combine(param, SIZE), Size.entries, line.size)
             }
 
             is Wire -> {
-                selectValue("Thickness", combine(param, SIZE), Size.entries, line.thickness, true)
+                selectValue("Thickness", combine(param, SIZE), Size.entries, line.thickness)
                 editColorItemPart(state, line.main, combine(param, MAIN), "Main")
             }
         }

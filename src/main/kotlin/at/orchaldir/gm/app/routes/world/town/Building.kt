@@ -82,8 +82,8 @@ private fun HTML.showBuildingEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectInt("Width", size.width, 1, 10, 1, WIDTH, true)
-                selectInt("Height", size.height, 1, 10, 1, HEIGHT, true)
+                selectInt("Width", size.width, 1, 10, 1, WIDTH)
+                selectInt("Height", size.height, 1, 10, 1, HEIGHT)
             }
             back(backLink)
         }, {

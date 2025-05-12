@@ -54,11 +54,11 @@ fun FORM.selectVitalStatus(
     character: Character,
 ) {
     val vitalStatus = character.vitalStatus
-    selectValue("Vital Status", VITAL, VitalStatusType.entries, vitalStatus.getType(), true)
+    selectValue("Vital Status", VITAL, VitalStatusType.entries, vitalStatus.getType())
 
     if (vitalStatus is Dead) {
         selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
-        selectValue("Cause of death", DEATH, CauseOfDeathType.entries, vitalStatus.cause.getType(), true)
+        selectValue("Cause of death", DEATH, CauseOfDeathType.entries, vitalStatus.cause.getType())
 
         if (vitalStatus.cause is Murder) {
             selectElement(

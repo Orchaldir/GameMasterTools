@@ -69,7 +69,7 @@ fun FORM.editText(
     editOrigin(state, text)
     selectOptionalDate(state, "Date", text.date, DATE)
     selectOptionalElement(state, "Publisher", BUSINESS, businesses, text.publisher)
-    selectElement(state, "Language", LANGUAGE, languages, text.language, true)
+    selectElement(state, "Language", LANGUAGE, languages, text.language)
     editTextFormat(state, text.format, hasAuthor)
     editTextContent(state, text.content)
 }
@@ -78,7 +78,7 @@ private fun FORM.editOrigin(
     state: State,
     text: Text,
 ) {
-    selectValue("Origin", ORIGIN, TextOriginType.entries, text.origin.getType(), true)
+    selectValue("Origin", ORIGIN, TextOriginType.entries, text.origin.getType())
 
     when (text.origin) {
         is OriginalText -> selectCreator(state, text.origin.author, text.id, text.date, "Author")

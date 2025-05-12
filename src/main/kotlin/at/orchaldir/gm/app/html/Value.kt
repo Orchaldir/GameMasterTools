@@ -13,7 +13,6 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
     param: String,
     elements: Collection<ELEMENT>,
     selectedIds: Set<ID>,
-    update: Boolean = false,
 ) {
     showDetails(labelText, true) {
         elements.forEach { element ->
@@ -22,9 +21,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
                     name = param
                     value = element.id().value().toString()
                     checked = selectedIds.contains(element.id())
-                    if (update) {
-                        onChange = ON_CHANGE_SCRIPT
-                    }
+                    onChange = ON_CHANGE_SCRIPT
                     +element.name(state)
                 }
             }
@@ -57,9 +54,8 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     selectId: String,
     elements: Collection<Pair<ELEMENT, String>>,
     current: ID,
-    update: Boolean = false,
 ) {
-    selectValue(labelText, selectId, elements, update) { (element, name) ->
+    selectValue(labelText, selectId, elements) { (element, name) ->
         label = name
         value = element.id().value().toString()
         selected = element.id() == current
@@ -74,14 +70,12 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
     selectId: String,
     elements: Collection<ELEMENT>,
     current: ID?,
-    update: Boolean = false,
 ) {
     selectOptionalValue(
         labelText,
         selectId,
         current?.let { state.getStorage<ID, ELEMENT>(current).get(current) },
         elements,
-        update,
     ) { element ->
         label = element.name(state)
         value = element.id().value().toString()
@@ -93,13 +87,11 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
     selectId: String,
     elements: Collection<ELEMENT>,
     current: ID?,
-    update: Boolean = false,
 ) {
     selectOptionalValue(
         selectId,
         current?.let { state.getStorage<ID, ELEMENT>(current).get(current) },
         elements,
-        update,
     ) { element ->
         label = element.name(state)
         value = element.id().value().toString()
@@ -112,9 +104,8 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     selectId: String,
     elements: Collection<ELEMENT>,
     current: ID,
-    update: Boolean = false,
 ) {
-    selectValue(labelText, selectId, elements, update) { element ->
+    selectValue(labelText, selectId, elements) { element ->
         label = element.name(state)
         value = element.id().value().toString()
         selected = element.id() == current
@@ -123,28 +114,13 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
 
 // enum
 
-fun <T : Enum<T>> HtmlBlockTag.selectValue(
-    labelText: String,
-    selectId: String,
-    values: Collection<T>,
-    current: T,
-    update: Boolean = false,
-) {
-    selectValue(labelText, selectId, values, update) { type ->
-        label = type.name
-        value = type.name
-        selected = type == current
-    }
-}
-
 fun <T : Enum<T>> HtmlBlockTag.selectOptionalValue(
     fieldLabel: String,
     selectId: String,
     selectedValue: T?,
     values: Collection<T>,
-    update: Boolean = false,
 ) {
-    selectOptionalValue(fieldLabel, selectId, selectedValue, values, update) { type ->
+    selectOptionalValue(fieldLabel, selectId, selectedValue, values) { type ->
         label = type.name
         value = type.name
     }
@@ -155,10 +131,9 @@ fun <T : Enum<T>> HtmlBlockTag.selectValue(
     selectId: String,
     values: Collection<T>,
     current: T,
-    update: Boolean = false,
-    isDisabled: (T) -> Boolean,
+    isDisabled: (T) -> Boolean = { false },
 ) {
-    selectValue(labelText, selectId, values, update) { type ->
+    selectValue(labelText, selectId, values) { type ->
         label = type.name
         value = type.name
         selected = type == current
@@ -173,11 +148,10 @@ fun <T> HtmlBlockTag.selectOptionalValue(
     selectId: String,
     selectedValue: T?,
     values: Collection<T>,
-    update: Boolean = false,
     content: OPTION.(T) -> Unit,
 ) {
     field(fieldLabel) {
-        selectOptionalValue(selectId, selectedValue, values, update, content)
+        selectOptionalValue(selectId, selectedValue, values, content)
     }
 }
 
@@ -185,15 +159,12 @@ fun <T> HtmlBlockTag.selectOptionalValue(
     selectId: String,
     selectedValue: T?,
     values: Collection<T>,
-    update: Boolean = false,
     content: OPTION.(T) -> Unit,
 ) {
     select {
         id = selectId
         name = selectId
-        if (update) {
-            onChange = ON_CHANGE_SCRIPT
-        }
+        onChange = ON_CHANGE_SCRIPT
         option {
             label = "None"
             value = ""
@@ -212,26 +183,22 @@ fun <T> HtmlBlockTag.selectValue(
     label: String,
     selectId: String,
     values: Collection<T>,
-    update: Boolean = false,
     content: OPTION.(T) -> Unit,
 ) {
     field(label) {
-        selectValue(selectId, values, update, content)
+        selectValue(selectId, values, content)
     }
 }
 
 fun <T> HtmlBlockTag.selectValue(
     selectId: String,
     values: Collection<T>,
-    update: Boolean = false,
     content: OPTION.(T) -> Unit,
 ) {
     select {
         id = selectId
         name = selectId
-        if (update) {
-            onChange = ON_CHANGE_SCRIPT
-        }
+        onChange = ON_CHANGE_SCRIPT
         values.forEach { value ->
             option {
                 content(value)
@@ -244,26 +211,22 @@ fun <T> HtmlBlockTag.selectWithIndex(
     label: String,
     selectId: String,
     values: Collection<T>,
-    update: Boolean = false,
     content: OPTION.(Int, T) -> Unit,
 ) {
     field(label) {
-        selectWithIndex(selectId, values, update, content)
+        selectWithIndex(selectId, values, content)
     }
 }
 
 fun <T> HtmlBlockTag.selectWithIndex(
     selectId: String,
     values: Collection<T>,
-    update: Boolean = false,
     content: OPTION.(Int, T) -> Unit,
 ) {
     select {
         id = selectId
         name = selectId
-        if (update) {
-            onChange = ON_CHANGE_SCRIPT
-        }
+        onChange = ON_CHANGE_SCRIPT
         values.withIndex().forEach {
             option {
                 content(it.index, it.value)

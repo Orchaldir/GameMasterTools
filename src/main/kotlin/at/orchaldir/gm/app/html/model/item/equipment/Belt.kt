@@ -83,13 +83,13 @@ private fun FORM.editBuckle(
     buckle: Buckle,
 ) {
     showDetails("Buckle", true) {
-        selectValue("Type", combine(BUCKLE, TYPE), BuckleType.entries, buckle.getType(), true)
+        selectValue("Type", combine(BUCKLE, TYPE), BuckleType.entries, buckle.getType())
 
         when (buckle) {
             NoBuckle -> doNothing()
             is SimpleBuckle -> {
-                selectValue("Shape", combine(BUCKLE, SHAPE), BuckleShape.entries, buckle.shape, true)
-                selectValue("Size", combine(BUCKLE, SIZE), Size.entries, buckle.size, true)
+                selectValue("Shape", combine(BUCKLE, SHAPE), BuckleShape.entries, buckle.shape)
+                selectValue("Size", combine(BUCKLE, SIZE), Size.entries, buckle.size)
                 editFillItemPart(state, buckle.part, BUCKLE)
             }
         }
@@ -100,12 +100,12 @@ private fun FORM.editBeltHoles(
     holes: BeltHoles,
 ) {
     showDetails("Belt Holes", true) {
-        selectValue("Type", combine(HOLE, TYPE), BeltHolesType.entries, holes.getType(), true)
+        selectValue("Type", combine(HOLE, TYPE), BeltHolesType.entries, holes.getType())
 
         when (holes) {
             NoBeltHoles -> doNothing()
             is OneRowOfBeltHoles -> {
-                selectValue("Size", combine(HOLE, SIZE), Size.entries, holes.size, true)
+                selectValue("Size", combine(HOLE, SIZE), Size.entries, holes.size)
                 selectBorderColor(holes.border)
             }
 

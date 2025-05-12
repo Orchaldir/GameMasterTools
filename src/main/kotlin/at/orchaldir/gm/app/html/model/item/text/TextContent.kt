@@ -112,7 +112,7 @@ fun FORM.editTextContent(
     content: TextContent,
 ) {
     showDetails("Content", true) {
-        selectValue("Type", CONTENT, TextContentType.entries, content.getType(), true)
+        selectValue("Type", CONTENT, TextContentType.entries, content.getType())
 
         when (content) {
             UndefinedTextContent -> doNothing()

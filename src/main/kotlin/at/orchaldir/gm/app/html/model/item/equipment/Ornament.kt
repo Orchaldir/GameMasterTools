@@ -51,16 +51,16 @@ fun HtmlBlockTag.editOrnament(
     label: String = "Ornament",
 ) {
     showDetails(label, true) {
-        selectValue("Type", combine(param, TYPE), OrnamentType.entries, ornament.getType(), true)
+        selectValue("Type", combine(param, TYPE), OrnamentType.entries, ornament.getType())
 
         when (ornament) {
             is SimpleOrnament -> {
-                selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape, true)
+                selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape)
                 editFillItemPart(state, ornament.part, param)
             }
 
             is OrnamentWithBorder -> {
-                selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape, true)
+                selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape)
                 editFillItemPart(state, ornament.center, param)
                 editColorItemPart(state, ornament.border, combine(param, BORDER))
             }

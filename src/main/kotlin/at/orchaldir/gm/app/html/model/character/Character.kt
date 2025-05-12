@@ -219,7 +219,7 @@ fun FORM.editCharacter(
 
     selectCharacterName(state, character)
     selectOptionalElement(state, "Title", TITLE, state.getTitleStorage().getAll(), character.title)
-    selectElement(state, "Race", RACE, state.sortRaces(races), character.race, true)
+    selectElement(state, "Race", RACE, state.sortRaces(races), character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
     selectVitalStatus(state, character)
@@ -258,7 +258,7 @@ private fun FORM.selectOrigin(
     character: Character,
     race: Race,
 ) {
-    selectValue("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
+    selectValue("Origin", ORIGIN, CharacterOriginType.entries) { type ->
         label = type.name
         value = type.name
         disabled = when (type) {
@@ -297,7 +297,6 @@ private fun FORM.selectOrigin(
             LIFE_STAGE,
             null,
             race.lifeStages.lifeStages.withIndex().toList(),
-            true,
         ) { stage ->
             label = stage.value.name.text
             value = stage.index.toString()

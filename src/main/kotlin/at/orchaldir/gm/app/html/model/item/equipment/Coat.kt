@@ -37,7 +37,7 @@ fun FORM.editCoat(
     state: State,
     data: Coat,
 ) {
-    selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
+    selectValue("Length", LENGTH, OuterwearLength.entries, data.length)
     selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
     selectOpeningStyle(state, data.openingStyle)

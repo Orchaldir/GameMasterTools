@@ -63,14 +63,14 @@ fun FORM.selectBuildingPurpose(state: State, building: Building) {
     val inhabitants = state.getCharactersLivingIn(building.id)
     val availableBusinesses = state.getBusinessesWithoutBuilding() + purpose.getBusinesses()
 
-    selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, purpose.getType(), true) { type ->
+    selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, purpose.getType()) { type ->
         (!type.isHome() && inhabitants.isNotEmpty()) || (type.isBusiness() && availableBusinesses.isEmpty())
     }
 
     when (purpose) {
         is ApartmentHouse -> {
             val min = state.getMinNumberOfApartment(building.id)
-            selectInt("Apartments", purpose.apartments, min, 1000, 1, combine(PURPOSE, NUMBER), true)
+            selectInt("Apartments", purpose.apartments, min, 1000, 1, combine(PURPOSE, NUMBER))
         }
 
         is BusinessAndHome -> selectBusiness(availableBusinesses, state, purpose.business)
@@ -90,7 +90,6 @@ private fun FORM.selectBusiness(
         "Business",
         combine(PURPOSE, BUSINESS),
         availableBusinesses,
-        false
     ) { business ->
         label = state.getBusinessStorage().getOrThrow(business).name(state)
         value = business.value().toString()

@@ -61,7 +61,7 @@ fun HtmlBlockTag.editBeliefStatus(
     status: BeliefStatus,
     start: Date?,
 ) {
-    selectValue("Belief Status", param, BeliefStatusType.entries, status.getType(), true)
+    selectValue("Belief Status", param, BeliefStatusType.entries, status.getType())
 
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()

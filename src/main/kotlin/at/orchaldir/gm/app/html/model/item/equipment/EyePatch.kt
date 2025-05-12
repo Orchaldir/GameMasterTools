@@ -97,18 +97,18 @@ private fun FORM.editStyle(
     style: EyePatchStyle,
 ) {
     showDetails("Style", true) {
-        selectValue("Type", STYLE, EyePatchStyleType.entries, style.getType(), true)
+        selectValue("Type", STYLE, EyePatchStyleType.entries, style.getType())
 
         when (style) {
             is SimpleEyePatch -> {
-                selectValue("Shape", SHAPE, VALID_LENSES, style.shape, true)
+                selectValue("Shape", SHAPE, VALID_LENSES, style.shape)
                 editFillItemPart(state, style.main, MAIN, "Main")
             }
 
             is OrnamentAsEyePatch -> editOrnament(state, style.ornament)
             is EyePatchWithEye -> {
                 editNormalEye(EyeOptions(), style.eye)
-                selectValue("Shape", SHAPE, VALID_LENSES, style.shape, true)
+                selectValue("Shape", SHAPE, VALID_LENSES, style.shape)
                 editFillItemPart(state, style.main, MAIN, "Main")
             }
         }
@@ -120,17 +120,17 @@ private fun FORM.editFixation(
     fixation: EyePatchFixation,
 ) {
     showDetails("Fixation", true) {
-        selectValue("Type", FIXATION, EyePatchFixationType.entries, fixation.getType(), true)
+        selectValue("Type", FIXATION, EyePatchFixationType.entries, fixation.getType())
 
         when (fixation) {
             NoFixation -> doNothing()
             is OneBand -> {
-                selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size, true)
+                selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size)
                 editColorItemPart(state, fixation.band, FIXATION, "Band")
             }
 
             is DiagonalBand -> {
-                selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size, true)
+                selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size)
                 editColorItemPart(state, fixation.band, FIXATION, "Band")
             }
 

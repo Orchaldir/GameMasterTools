@@ -114,7 +114,7 @@ private fun FORM.editOrigin(
         .sortedBy { it.name.text }
     val planes = state.sortPlanes()
 
-    selectValue("Origin", ORIGIN, entries, language.origin.getType(), true) {
+    selectValue("Origin", ORIGIN, entries, language.origin.getType()) {
         when (it) {
             Combined -> possibleParents.size < 2
             Evolved -> possibleParents.isEmpty()

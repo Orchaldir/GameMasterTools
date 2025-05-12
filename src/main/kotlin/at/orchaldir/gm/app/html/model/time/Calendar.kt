@@ -152,14 +152,14 @@ private fun FORM.editDays(
     val days = calendar.days
     val supportsDayOfTheMonth = supportsDayOfTheMonth(holidays)
 
-    selectValue("Days", DAYS, DaysType.entries, days.getType(), true) {
+    selectValue("Days", DAYS, DaysType.entries, days.getType()) {
         it == DaysType.DayOfTheMonth && !supportsDayOfTheMonth
     }
     when (days) {
         DayOfTheMonth -> doNothing()
         is Weekdays -> {
             val minNumber = getMinNumberOfWeekdays(holidays)
-            selectInt("Weekdays", days.weekDays.size, minNumber, 100, 1, combine(WEEK, DAYS), true)
+            selectInt("Weekdays", days.weekDays.size, minNumber, 100, 1, combine(WEEK, DAYS))
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
                     selectName(day.name, combine(WEEK, DAY, index))
@@ -171,8 +171,8 @@ private fun FORM.editDays(
 
 private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     val minMonths = getMinNumberOfMonths(holidays)
-    selectValue("Months Type", combine(MONTHS, TYPE), MonthsType.entries, calendar.months.getType(), true)
-    selectInt("Months", calendar.months.getSize(), minMonths, 100, 1, MONTHS, true)
+    selectValue("Months Type", combine(MONTHS, TYPE), MonthsType.entries, calendar.months.getType())
+    selectInt("Months", calendar.months.getSize(), minMonths, 100, 1, MONTHS)
 
     when (val months = calendar.months) {
         is ComplexMonths -> months.months.withIndex().forEach { (index, month) ->
@@ -180,7 +180,7 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
             p {
                 selectName(month.name, combine(MONTH, NAME, index))
                 +": "
-                selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index), true)
+                selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index))
                 +"days"
             }
         }
@@ -207,7 +207,7 @@ private fun FORM.editOrigin(
     val origin = calendar.origin
     val possibleParents = state.getPossibleParents(calendar.id)
 
-    selectValue("Origin", ORIGIN, CalendarOriginType.entries, origin.getType(), true) {
+    selectValue("Origin", ORIGIN, CalendarOriginType.entries, origin.getType()) {
         when (it) {
             Improved -> possibleParents.isEmpty()
             Original -> false

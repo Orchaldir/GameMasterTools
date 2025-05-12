@@ -37,7 +37,7 @@ fun HtmlBlockTag.selectColor(
     rarityMap: OneOf<Color>,
     current: Color,
 ) {
-    selectFromOneOf(labelText, selectId, rarityMap, current, true) { c ->
+    selectFromOneOf(labelText, selectId, rarityMap, current) { c ->
         label = c.name
         value = c.toString()
         style = "background-color:$c"
@@ -50,7 +50,7 @@ fun HtmlBlockTag.selectColor(
     labelText: String = "Color",
     values: Collection<Color> = Color.entries,
 ) {
-    selectValue(labelText, selectId, values, true) { c ->
+    selectValue(labelText, selectId, values) { c ->
         label = c.name
         value = c.toString()
         selected = current == c
@@ -63,14 +63,12 @@ fun HtmlBlockTag.selectOptionalColor(
     selectId: String = COLOR,
     fieldLabel: String = "Color",
     values: Collection<Color> = Color.entries,
-    update: Boolean = true,
 ) {
     selectOptionalValue(
         fieldLabel,
         selectId,
         selectedValue,
         values,
-        update,
     ) { color ->
         label = color.name
         value = color.name

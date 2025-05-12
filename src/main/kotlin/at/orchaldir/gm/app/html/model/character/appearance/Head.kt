@@ -45,12 +45,12 @@ fun FORM.editHead(
 private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
     h2 { +"Ears" }
 
-    selectFromOneOf("Type", combine(EAR, TYPE), raceAppearance.earsLayout, ears.getType(), true)
+    selectFromOneOf("Type", combine(EAR, TYPE), raceAppearance.earsLayout, ears.getType())
 
     when (ears) {
         is NormalEars -> {
-            selectFromOneOf("Ear Shape", combine(EAR, SHAPE), raceAppearance.earShapes, ears.shape, true)
-            selectValue("Ear Size", combine(EAR, SIZE), Size.entries, ears.size, true)
+            selectFromOneOf("Ear Shape", combine(EAR, SHAPE), raceAppearance.earShapes, ears.shape)
+            selectValue("Ear Size", combine(EAR, SIZE), Size.entries, ears.size)
         }
 
         else -> doNothing()
@@ -64,7 +64,7 @@ private fun FORM.editBeard(
 ) {
     h2 { +"Beard" }
 
-    selectFromOneOf("Type", BEARD, raceAppearance.hair.beardTypes, beard.getType(), true)
+    selectFromOneOf("Type", BEARD, raceAppearance.hair.beardTypes, beard.getType())
 
     when (beard) {
         NoBeard -> doNothing()
@@ -82,7 +82,6 @@ private fun FORM.editNormalBeard(
         combine(BEARD, STYLE),
         fashion?.beardStyles,
         beard.style.getType(),
-        true
     )
     selectColor("Color", combine(BEARD, COLOR), raceAppearance.hair.colors, beard.color)
 
@@ -93,14 +92,12 @@ private fun FORM.editNormalBeard(
                 combine(FULL, STYLE),
                 fashion?.fullBeardStyles,
                 style.style,
-                true
             )
             selectFromOptionalOneOf(
                 "Beard Length",
                 combine(BEARD, LENGTH),
                 fashion?.beardLength,
                 style.length,
-                true
             )
         }
 
@@ -119,14 +116,14 @@ private fun HtmlBlockTag.selectGoateeStyle(
     fashion: BeardFashion?,
     current: GoateeStyle,
 ) {
-    selectFromOptionalOneOf("Goatee", combine(GOATEE, STYLE), fashion?.goateeStyles, current, true)
+    selectFromOptionalOneOf("Goatee", combine(GOATEE, STYLE), fashion?.goateeStyles, current)
 }
 
 private fun HtmlBlockTag.selectMoustacheStyle(
     fashion: BeardFashion?,
     current: MoustacheStyle,
 ) {
-    selectFromOptionalOneOf("Moustache", combine(MOUSTACHE, STYLE), fashion?.moustacheStyles, current, true)
+    selectFromOptionalOneOf("Moustache", combine(MOUSTACHE, STYLE), fashion?.moustacheStyles, current)
 }
 
 private fun FORM.editEyes(
@@ -135,12 +132,12 @@ private fun FORM.editEyes(
 ) {
     h2 { +"Eyes" }
 
-    selectFromOneOf("Layout", combine(EYE, LAYOUT), raceAppearance.eyesLayout, eyes.getType(), true)
+    selectFromOneOf("Layout", combine(EYE, LAYOUT), raceAppearance.eyesLayout, eyes.getType())
 
     when (eyes) {
         is OneEye -> {
             editEye(raceAppearance.eye, eyes.eye)
-            selectValue("Eye Size", combine(EYE, SIZE), Size.entries, eyes.size, true)
+            selectValue("Eye Size", combine(EYE, SIZE), Size.entries, eyes.size)
         }
 
         is TwoEyes -> {
@@ -155,13 +152,13 @@ private fun FORM.editEye(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
-    selectFromOneOf("Eye Type", combine(EYE, TYPE), eyeOptions.eyeTypes, eye.getType(), true)
+    selectFromOneOf("Eye Type", combine(EYE, TYPE), eyeOptions.eyeTypes, eye.getType())
 
     when (eye) {
         is NormalEye -> editNormalEye(eyeOptions, eye)
 
         is SimpleEye -> {
-            selectFromOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
+            selectFromOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape) { shape ->
                 label = shape.name
                 value = shape.toString()
             }
@@ -175,8 +172,8 @@ fun HtmlBlockTag.editNormalEye(
     eye: NormalEye,
 ) {
     showDetails("Eye", true) {
-        selectFromOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true)
-        selectFromOneOf("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, eye.pupilShape, true)
+        selectFromOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape)
+        selectFromOneOf("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, eye.pupilShape)
         selectColor("Eye Color", combine(PUPIL, COLOR), eyeOptions.eyeColors, eye.pupilColor)
         selectColor("Sclera Color", combine(PUPIL, SCLERA), eyeOptions.scleraColors, eye.scleraColor)
     }
@@ -189,7 +186,7 @@ private fun FORM.editHair(
 ) {
     h2 { +"Hair" }
 
-    selectFromOneOf("Type", HAIR, raceAppearance.hair.hairTypes, hair.getType(), true)
+    selectFromOneOf("Type", HAIR, raceAppearance.hair.hairTypes, hair.getType())
 
     when (hair) {
         NoHair -> doNothing()
@@ -207,7 +204,6 @@ private fun FORM.editNormalHair(
         combine(HAIR, STYLE),
         fashion?.hairStyles,
         hair.cut.getType(),
-        true,
     )
     selectColor("Color", combine(HAIR, COLOR), raceAppearance.hair.colors, hair.color)
 
@@ -218,9 +214,8 @@ private fun FORM.editNormalHair(
                 combine(BUN, STYLE),
                 fashion?.bunStyles,
                 cut.style,
-                true,
             )
-            selectValue("Bun Size", combine(BUN, SIZE), Size.entries, cut.size, true)
+            selectValue("Bun Size", combine(BUN, SIZE), Size.entries, cut.size)
         }
 
         is LongHairCut -> {
@@ -229,7 +224,6 @@ private fun FORM.editNormalHair(
                 combine(LONG, STYLE),
                 fashion?.longHairStyles,
                 cut.style,
-                true,
             )
             selectHairLength(fashion, cut.length)
         }
@@ -240,14 +234,12 @@ private fun FORM.editNormalHair(
                 combine(PONYTAIL, STYLE),
                 fashion?.ponytailStyles,
                 cut.style,
-                true,
             )
             selectFromOptionalOneOf(
                 "Ponytail Position",
                 combine(PONYTAIL, POSITION),
                 fashion?.ponytailPositions,
                 cut.position,
-                true,
             )
             selectHairLength(fashion, cut.length)
         }
@@ -257,7 +249,6 @@ private fun FORM.editNormalHair(
             combine(SHORT, STYLE),
             fashion?.shortHairStyles,
             cut.style,
-            true,
         )
     }
 }
@@ -271,7 +262,6 @@ private fun FORM.selectHairLength(
         combine(HAIR, LENGTH),
         fashion?.hairLengths,
         length,
-        true,
     )
 }
 
@@ -283,7 +273,7 @@ private fun FORM.editMouth(
     h2 { +"Mouth" }
     val mouthOptions = raceAppearance.mouth
 
-    selectFromOneOf("Type", combine(MOUTH, TYPE), mouthOptions.mouthTypes, mouth.getType(), true)
+    selectFromOneOf("Type", combine(MOUTH, TYPE), mouthOptions.mouthTypes, mouth.getType())
 
     when (mouth) {
         NoMouth -> doNothing()
@@ -300,20 +290,20 @@ private fun FORM.editMouth(
         }
 
         is Beak -> {
-            selectFromOneOf("Beak Shape", combine(BEAK, SHAPE), mouthOptions.beakShapes, mouth.shape, true)
-            selectFromOneOf("Beak Color", combine(BEAK, COLOR), mouthOptions.beakColors, mouth.color, true)
+            selectFromOneOf("Beak Shape", combine(BEAK, SHAPE), mouthOptions.beakShapes, mouth.shape)
+            selectFromOneOf("Beak Color", combine(BEAK, COLOR), mouthOptions.beakColors, mouth.color)
         }
 
         is Snout -> {
-            selectFromOneOf("Snout Shape", combine(SNOUT, SHAPE), mouthOptions.snoutShapes, mouth.shape, true)
-            selectFromOneOf("Snout Color", combine(SNOUT, COLOR), mouthOptions.snoutColors, mouth.color, true)
+            selectFromOneOf("Snout Shape", combine(SNOUT, SHAPE), mouthOptions.snoutShapes, mouth.shape)
+            selectFromOneOf("Snout Color", combine(SNOUT, COLOR), mouthOptions.snoutColors, mouth.color)
         }
     }
 }
 
 private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
-    selectValue("Width", combine(MOUTH, WIDTH), Size.entries, size, true)
-    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, teethColor, true)
+    selectValue("Width", combine(MOUTH, WIDTH), Size.entries, size)
+    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, teethColor)
 }
 
 // parse

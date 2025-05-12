@@ -23,10 +23,9 @@ fun HtmlBlockTag.selectWeight(
     minValue: Long,
     maxValue: Long,
     prefix: SiPrefix,
-    update: Boolean = false,
 ) {
     field(label) {
-        selectWeight(param, current, minValue, maxValue, prefix, update)
+        selectWeight(param, current, minValue, maxValue, prefix)
     }
 }
 
@@ -36,12 +35,11 @@ fun HtmlBlockTag.selectWeight(
     minValue: Long,
     maxValue: Long,
     prefix: SiPrefix,
-    update: Boolean = false,
 ) {
     val unit = Weight.resolveUnit(prefix)
     val text = current.toString()
     val currentValue = current.convertToLong(prefix)
-    selectLong(currentValue, minValue, maxValue, 1, param, update)
+    selectLong(currentValue, minValue, maxValue, 1, param)
     +"$unit ($text)"
 }
 

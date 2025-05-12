@@ -24,14 +24,12 @@ fun HtmlBlockTag.selectSize(
     minValue: Distance,
     maxVale: Distance,
     prefix: SiPrefix,
-    update: Boolean = false,
 ) = selectSize(
     param,
     size,
     minValue.convertToLong(prefix),
     maxVale.convertToLong(prefix),
     prefix,
-    update,
 )
 
 fun HtmlBlockTag.selectSize(
@@ -40,10 +38,9 @@ fun HtmlBlockTag.selectSize(
     minValue: Long,
     maxVale: Long,
     prefix: SiPrefix,
-    update: Boolean = false,
 ) {
-    selectDistance("Width", combine(param, WIDTH), size.width, minValue, maxVale, prefix, update)
-    selectDistance("Height", combine(param, HEIGHT), size.height, minValue, maxVale, prefix, update)
+    selectDistance("Width", combine(param, WIDTH), size.width, minValue, maxVale, prefix)
+    selectDistance("Height", combine(param, HEIGHT), size.height, minValue, maxVale, prefix)
 }
 
 // parse

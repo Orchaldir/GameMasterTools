@@ -95,13 +95,12 @@ private fun HTML.showStreetEditor(
     simpleHtml("Edit Streets of Town ${town.name()}") {
         split({
             formWithPreview(previewLink, createLink, backLink, "Create new Street") {
-                selectElement(state, "Type", TYPE, state.getStreetTemplateStorage().getAll(), selectedType, true)
+                selectElement(state, "Type", TYPE, state.getStreetTemplateStorage().getAll(), selectedType)
                 selectOptionalValue(
                     "Street",
                     STREET,
                     selectedStreet,
                     state.getStreetStorage().getAll(),
-                    true
                 ) { street ->
                     label = street.name(state)
                     value = street.id.value.toString()
