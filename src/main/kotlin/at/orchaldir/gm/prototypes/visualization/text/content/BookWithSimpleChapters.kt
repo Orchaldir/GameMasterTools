@@ -34,10 +34,9 @@ fun main() {
         RarityGenerator.empty(5),
         0,
     )
-    val rarity = OneOf(listOf(ContentEntryType.Paragraph, ContentEntryType.Quote))
-    val style = ContentStyle(generation = ContentGeneration(rarity = rarity))
+    val style = ContentStyle()
     val chapters = (0..<2).withIndex().map {
-        SimpleChapter(it.index, generator.generateEntries(style, 3, 7))
+        SimpleChapter(it.index, generator.generateEntries(style, 6, 7))
     }
     val content = SimpleChapters(
         chapters,
