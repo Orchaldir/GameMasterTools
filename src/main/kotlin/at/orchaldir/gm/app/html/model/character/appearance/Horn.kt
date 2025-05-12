@@ -36,7 +36,7 @@ fun FORM.editHorns(
 
     h2 { +"Horns" }
 
-    selectFromOneOf("Type", combine(HORN, LAYOUT), options.layouts, horns.getType(), true)
+    selectFromOneOf("Type", combine(HORN, LAYOUT), options.layouts, horns.getType())
     when (horns) {
         NoHorns -> doNothing()
         is TwoHorns -> editHorn(state, options, horns.horn, HORN, "Horn")
@@ -51,7 +51,6 @@ fun FORM.editHorns(
                 combine(CROWN, FRONT),
                 options.crownFront,
                 horns.front,
-                true
             ) { number ->
                 label = number.toString()
                 value = number.toString()
@@ -61,7 +60,6 @@ fun FORM.editHorns(
                 combine(CROWN, BACK),
                 options.crownBack,
                 horns.back,
-                true
             ) { number ->
                 label = number.toString()
                 value = number.toString()
@@ -86,7 +84,7 @@ private fun FORM.editHorn(
         when (horn) {
             is SimpleHorn -> {
                 selectHornLength(param, horn.length)
-                selectFromOneOf("Simple Type", combine(param, SHAPE), options.simpleTypes, horn.simpleType, true)
+                selectFromOneOf("Simple Type", combine(param, SHAPE), options.simpleTypes, horn.simpleType)
                 selectFeatureColor(state, options.colors, horn.color, combine(param, COLOR))
             }
 

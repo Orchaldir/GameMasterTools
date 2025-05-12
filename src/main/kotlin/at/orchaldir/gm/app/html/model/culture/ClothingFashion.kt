@@ -62,8 +62,8 @@ fun HtmlBlockTag.editClothingFashion(
         .filter { state.isAvailable(it) }
         .toSet()
 
-    selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets, true, availableSets)
-    selectRarityMap("Accessories", ACCESSORY_RARITY, fashion.accessories, true, availableAccessories)
+    selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets, availableSets)
+    selectRarityMap("Accessories", ACCESSORY_RARITY, fashion.accessories, availableAccessories)
 
     EquipmentDataType.entries.forEach { type ->
         if (MAIN_EQUIPMENT.contains(type) || fashion.accessories.isAvailable(type)) {
@@ -81,7 +81,13 @@ private fun HtmlBlockTag.selectEquipmentType(
 
     if (items.isNotEmpty()) {
         val options = style.getOptions(type)
-        selectRarityMap(type.name, type.name, state.getEquipmentStorage(), items, options) { it.name.text }
+        selectRarityMap(
+            type.name,
+            type.name,
+            state.getEquipmentStorage(),
+            items,
+            options,
+        ) { it.name.text }
     }
 }
 

@@ -96,7 +96,7 @@ fun FORM.editJob(
     selectGenderMap("Uniforms", job.uniforms, UNIFORM) { genderParam, uniform ->
         selectOptionalElement(state, genderParam, state.sortUniforms(), uniform)
     }
-    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name.text }
+    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells) { it.name.text }
 }
 
 private fun HtmlBlockTag.editSalary(

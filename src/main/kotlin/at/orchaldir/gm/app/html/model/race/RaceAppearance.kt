@@ -290,7 +290,7 @@ fun FORM.editRaceAppearance(
     appearance: RaceAppearance,
     eyeOptions: EyeOptions,
 ) {
-    selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes, true)
+    selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes)
 
     editEars(appearance)
     editEyes(appearance, eyeOptions)
@@ -306,10 +306,10 @@ fun FORM.editRaceAppearance(
 private fun FORM.editEars(appearance: RaceAppearance) {
     h3 { +"Ears" }
 
-    selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout, true)
+    selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout)
 
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
-        selectRarityMap("Ear Shapes", combine(EAR, SHAPE), appearance.earShapes, true)
+        selectRarityMap("Ear Shapes", combine(EAR, SHAPE), appearance.earShapes)
     }
 }
 
@@ -319,16 +319,16 @@ private fun FORM.editEyes(
 ) {
     h3 { +"Eyes" }
 
-    selectRarityMap("Layout", combine(EYE, LAYOUT), appearance.eyesLayout, true)
+    selectRarityMap("Layout", combine(EYE, LAYOUT), appearance.eyesLayout)
 
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
-        selectRarityMap("Eye Types", combine(EYE, TYPE), eyeOptions.eyeTypes, true)
-        selectRarityMap("Eye Shapes", combine(EYE, SHAPE), eyeOptions.eyeShapes, true)
-        selectRarityMap("Eye Colors", combine(PUPIL, COLOR), eyeOptions.eyeColors, true)
+        selectRarityMap("Eye Types", combine(EYE, TYPE), eyeOptions.eyeTypes)
+        selectRarityMap("Eye Shapes", combine(EYE, SHAPE), eyeOptions.eyeShapes)
+        selectRarityMap("Eye Colors", combine(PUPIL, COLOR), eyeOptions.eyeColors)
 
         if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
-            selectRarityMap("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, true)
-            selectRarityMap("Sclera Colors", combine(SCLERA, COLOR), eyeOptions.scleraColors, true)
+            selectRarityMap("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes)
+            selectRarityMap("Sclera Colors", combine(SCLERA, COLOR), eyeOptions.scleraColors)
         }
     }
 }
@@ -336,7 +336,7 @@ private fun FORM.editEyes(
 private fun FORM.editFeet(appearance: RaceAppearance) {
     h3 { +"Feet" }
 
-    selectRarityMap("Type", FOOT, appearance.foot.footTypes, true)
+    selectRarityMap("Type", FOOT, appearance.foot.footTypes)
 
     if (appearance.foot.footTypes.isAvailable(FootType.Clawed)) {
         selectInt(
@@ -347,19 +347,19 @@ private fun FORM.editFeet(appearance: RaceAppearance) {
             1,
             combine(FOOT, CLAWS, NUMBER),
         )
-        selectRarityMap("Claw Size", combine(FOOT, CLAWS, SIZE), appearance.foot.clawSizes, true)
-        selectRarityMap("Claw Color", combine(FOOT, CLAWS, COLOR), appearance.foot.clawColors, true)
+        selectRarityMap("Claw Size", combine(FOOT, CLAWS, SIZE), appearance.foot.clawSizes)
+        selectRarityMap("Claw Color", combine(FOOT, CLAWS, COLOR), appearance.foot.clawColors)
     }
 }
 
 private fun FORM.editHair(appearance: RaceAppearance) {
     h3 { +"Hair" }
 
-    selectRarityMap("Beard", BEARD, appearance.hair.beardTypes, true)
-    selectRarityMap("Hair", HAIR, appearance.hair.hairTypes, true)
+    selectRarityMap("Beard", BEARD, appearance.hair.beardTypes)
+    selectRarityMap("Hair", HAIR, appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        selectRarityMap("Colors", combine(HAIR, COLOR), appearance.hair.colors, true)
+        selectRarityMap("Colors", combine(HAIR, COLOR), appearance.hair.colors)
     }
 }
 
@@ -370,11 +370,11 @@ private fun FORM.editHorns(state: State, appearance: RaceAppearance) {
     val requiresNormalHorns = requiresNormalHorns(appearance)
     val requiresCrown = options.layouts.isAvailable(HornsLayout.Crown)
 
-    selectRarityMap("Layouts", HORN, options.layouts, true)
+    selectRarityMap("Layouts", HORN, options.layouts)
 
     if (requiresNormalHorns) {
         showDetails("Simple Horns", true) {
-            selectRarityMap("Simple Horn Types", combine(HORN, SHAPE), options.simpleTypes, true)
+            selectRarityMap("Simple Horn Types", combine(HORN, SHAPE), options.simpleTypes)
             selectHornLength(HORN, options.simpleLength)
         }
     }
@@ -383,8 +383,8 @@ private fun FORM.editHorns(state: State, appearance: RaceAppearance) {
         val values = VALID_CROWN_HORNS.toSet()
         showDetails("Crown", true) {
             selectCrownLength(options.crownLength)
-            selectRarityMap("Horns in Crown (Front)", combine(CROWN, FRONT), options.crownFront, values, true)
-            selectRarityMap("Horns in Crown (Back)", combine(CROWN, BACK), options.crownFront, values, true)
+            selectRarityMap("Horns in Crown (Front)", combine(CROWN, FRONT), options.crownFront, values)
+            selectRarityMap("Horns in Crown (Back)", combine(CROWN, BACK), options.crownFront, values)
         }
     }
 
@@ -397,16 +397,16 @@ private fun FORM.editHorns(state: State, appearance: RaceAppearance) {
 private fun FORM.editMouth(mouthOptions: MouthOptions) {
     h3 { +"Mouth" }
 
-    selectRarityMap("Types", combine(MOUTH, TYPE), mouthOptions.mouthTypes, true)
+    selectRarityMap("Types", combine(MOUTH, TYPE), mouthOptions.mouthTypes)
 
     if (mouthOptions.mouthTypes.isAvailable(MouthType.Beak)) {
-        selectRarityMap("Beak Shapes", combine(BEAK, SHAPE), mouthOptions.beakShapes, true)
-        selectRarityMap("Beak Colors", combine(BEAK, COLOR), mouthOptions.beakColors, true)
+        selectRarityMap("Beak Shapes", combine(BEAK, SHAPE), mouthOptions.beakShapes)
+        selectRarityMap("Beak Colors", combine(BEAK, COLOR), mouthOptions.beakColors)
     }
 
     if (mouthOptions.mouthTypes.isAvailable(MouthType.Snout)) {
-        selectRarityMap("Snout Shapes", combine(SNOUT, SHAPE), mouthOptions.snoutShapes, true)
-        selectRarityMap("Snout Colors", combine(SNOUT, COLOR), mouthOptions.snoutColors, true)
+        selectRarityMap("Snout Shapes", combine(SNOUT, SHAPE), mouthOptions.snoutShapes)
+        selectRarityMap("Snout Colors", combine(SNOUT, COLOR), mouthOptions.snoutColors)
     }
 }
 
@@ -417,19 +417,18 @@ private fun FORM.editSkin(state: State, appearance: RaceAppearance) {
 }
 
 private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, param: String) {
-    selectRarityMap("Type", combine(param, TYPE), options.skinTypes, true)
+    selectRarityMap("Type", combine(param, TYPE), options.skinTypes)
 
     if (options.skinTypes.isAvailable(SkinType.Exotic)) {
         selectRarityMap(
             "Exotic Skin Colors",
             combine(param, EXOTIC, COLOR),
             options.exoticColors,
-            true,
         )
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        selectRarityMap("Fur Colors", combine(param, FUR, COLOR), options.furColors, true)
+        selectRarityMap("Fur Colors", combine(param, FUR, COLOR), options.furColors)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Material)) {
@@ -438,7 +437,6 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
             combine(param, MATERIAL),
             state.getMaterialStorage(),
             options.materials,
-            true,
         ) { element -> element.name.text }
     }
 
@@ -447,12 +445,11 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
             "Normal Skin Colors",
             combine(param, NORMAL, COLOR),
             options.normalColors,
-            true,
         )
     }
 
     if (options.skinTypes.isAvailable(SkinType.Scales)) {
-        selectRarityMap("Scale Colors", combine(param, SCALE, COLOR), options.scalesColors, true)
+        selectRarityMap("Scale Colors", combine(param, SCALE, COLOR), options.scalesColors)
     }
 }
 
@@ -461,10 +458,10 @@ private fun FORM.editTails(state: State, appearance: RaceAppearance) {
 
     val options = appearance.tail
 
-    selectRarityMap("Layout", combine(TAIL, LAYOUT), options.layouts, true)
+    selectRarityMap("Layout", combine(TAIL, LAYOUT), options.layouts)
 
     if (options.layouts.isAvailable(TailsLayout.Simple)) {
-        selectRarityMap("Simple Shape", combine(TAIL, SHAPE), options.simpleShapes, true)
+        selectRarityMap("Simple Shape", combine(TAIL, SHAPE), options.simpleShapes)
 
         options.simpleOptions.forEach { (shape, simpleOptions) ->
             showDetails("$shape Tail", true) {
@@ -503,20 +500,20 @@ private fun FORM.editWings(state: State, appearance: RaceAppearance) {
 
     val options = appearance.wing
 
-    selectRarityMap("Layout", combine(WING, LAYOUT), options.layouts, true)
+    selectRarityMap("Layout", combine(WING, LAYOUT), options.layouts)
 
     if (!options.hasWings()) {
         return
     }
 
-    selectRarityMap("Types", combine(WING, TYPE), options.types, true)
+    selectRarityMap("Types", combine(WING, TYPE), options.types)
 
     if (options.types.isAvailable(WingType.Bat)) {
         editFeatureColor(state, options.batColors, appearance.hair, combine(WING, BAT))
     }
 
     if (options.types.isAvailable(WingType.Bird)) {
-        selectRarityMap("Bird Wing Colors", combine(WING, BIRD, COLOR), options.birdColors, true)
+        selectRarityMap("Bird Wing Colors", combine(WING, BIRD, COLOR), options.birdColors)
     }
 
     if (options.types.isAvailable(WingType.Butterfly)) {
@@ -524,7 +521,6 @@ private fun FORM.editWings(state: State, appearance: RaceAppearance) {
             "Butterfly Wing Colors",
             combine(WING, BUTTERFLY, COLOR),
             options.butterflyColors,
-            true
         )
     }
 }

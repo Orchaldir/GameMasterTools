@@ -50,7 +50,6 @@ fun FORM.editAppearance(
         APPEARANCE,
         raceAppearance.appearanceTypes,
         appearance.getType(),
-        true
     )
 
     when (appearance) {
@@ -97,12 +96,12 @@ private fun FORM.editBody(
 private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
     h2 { +"Feet" }
 
-    selectFromOneOf("Type", FOOT, footOptions.footTypes, foot.getType(), true)
+    selectFromOneOf("Type", FOOT, footOptions.footTypes, foot.getType())
 
     when (foot) {
         is ClawedFoot -> {
-            selectFromOneOf("Claw Size", combine(FOOT, CLAWS, SIZE), footOptions.clawSizes, foot.size, true)
-            selectFromOneOf("Claw Color", combine(FOOT, CLAWS, COLOR), footOptions.clawColors, foot.color, true)
+            selectFromOneOf("Claw Size", combine(FOOT, CLAWS, SIZE), footOptions.clawSizes, foot.size)
+            selectFromOneOf("Claw Color", combine(FOOT, CLAWS, COLOR), footOptions.clawColors, foot.color)
         }
 
         else -> doNothing()
@@ -118,14 +117,14 @@ private fun FORM.editTails(
 
     h2 { +"Tails" }
 
-    selectFromOneOf("Layout", combine(TAIL, LAYOUT), options.layouts, tails.getType(), true)
+    selectFromOneOf("Layout", combine(TAIL, LAYOUT), options.layouts, tails.getType())
 
     when (tails) {
         NoTails -> doNothing()
         is SimpleTail -> {
             val colorOptions = options.getFeatureColorOptions(tails.shape)
 
-            selectFromOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
+            selectFromOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape)
             selectValue("Size", combine(TAIL, SIZE), Size.entries, tails.size)
             selectFeatureColor(state, colorOptions, tails.color, TAIL)
         }
@@ -141,7 +140,7 @@ private fun FORM.editWings(
 
     h2 { +"Wings" }
 
-    selectFromOneOf("Layout", combine(WING, LAYOUT), wingOptions.layouts, wings.getType(), true)
+    selectFromOneOf("Layout", combine(WING, LAYOUT), wingOptions.layouts, wings.getType())
 
     when (wings) {
         NoWings -> doNothing()
@@ -178,7 +177,7 @@ private fun FORM.selectWingType(
     currentType: WingType,
     param: String,
 ) {
-    selectFromOneOf("Type", param, wingOptions.types, currentType, true)
+    selectFromOneOf("Type", param, wingOptions.types, currentType)
 }
 
 // parse
