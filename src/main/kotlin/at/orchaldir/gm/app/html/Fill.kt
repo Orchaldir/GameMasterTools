@@ -120,7 +120,6 @@ private fun HtmlBlockTag.selectFillData(
                 combine(param, COLOR, 1),
                 "Background Color",
                 Color.entries - fill.fill,
-                true
             )
             selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE))
             selectPercentage(

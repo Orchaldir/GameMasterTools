@@ -199,7 +199,6 @@ private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: Color
         combine(LIFE_STAGE, combine(HAIR, COLOR), index),
         label,
         Color.entries,
-        true
     )
 }
 
