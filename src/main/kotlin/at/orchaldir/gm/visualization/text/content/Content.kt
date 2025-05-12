@@ -2,8 +2,14 @@ package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.*
+import at.orchaldir.gm.core.model.util.CreatedByBusiness
+import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CreatedByGod
+import at.orchaldir.gm.core.model.util.CreatedByOrganization
+import at.orchaldir.gm.core.model.util.CreatedByTown
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.Center
+import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
@@ -144,19 +150,36 @@ fun buildPagesForSimpleChapters(
                 entry.text.text,
                 content.style.initials,
             )
-            is Quote -> buildQuote(builder, entry, quoteOptions)
+            is Quote -> buildQuote(state, builder, entry, quoteOptions)
         }
     }
 }
 
 private fun buildQuote(
+    state: TextRenderState,
     builder: PagesBuilder,
     quote: Quote,
     quoteOptions: RenderStringOptions,
 ) {
-    builder
-        .addParagraph("\"${quote.text.text}\"", quoteOptions)
-        .addBreak(quoteOptions.size)
+    builder.addParagraph("\"${quote.text.text}\"", quoteOptions)
+
+    getQuoteSource(state, quote)?.let {
+        builder.addParagraph(it, quoteOptions)
+    }
+
+    builder.addBreak(quoteOptions.size)
+}
+
+private fun getQuoteSource(
+    state: TextRenderState,
+    quote: Quote,
+) = when (quote.source) {
+    is CreatedByBusiness -> state.state.getElementName(quote.source.business)
+    is CreatedByCharacter -> state.state.getElementName(quote.source.character)
+    is CreatedByGod -> state.state.getElementName(quote.source.god)
+    is CreatedByOrganization -> state.state.getElementName(quote.source.organization)
+    is CreatedByTown -> state.state.getElementName(quote.source.town)
+    UndefinedCreator -> null
 }
 
 private fun <C : Chapter> buildPagesForChapters(

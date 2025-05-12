@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.model.item.text
 
-import at.orchaldir.gm.app.CONTENT
 import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.editList
@@ -16,15 +15,11 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.periodical.ArticleContentType
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
-import at.orchaldir.gm.core.model.item.periodical.FullArticleContent
-import at.orchaldir.gm.core.model.item.periodical.UndefinedArticleContent
 import at.orchaldir.gm.core.model.item.text.content.ContentEntry
 import at.orchaldir.gm.core.model.item.text.content.ContentEntryType
 import at.orchaldir.gm.core.model.item.text.content.Paragraph
 import at.orchaldir.gm.core.model.item.text.content.Quote
-import at.orchaldir.gm.core.model.item.text.content.TextContentType
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import io.ktor.http.Parameters
 import io.ktor.server.application.ApplicationCall
@@ -44,7 +39,7 @@ fun HtmlBlockTag.showContentEntries(
             is Paragraph -> field("Text", entry.text)
             is Quote -> {
                 field("Text", entry.text)
-                fieldCreator(call, state, entry.creator, "Source")
+                fieldCreator(call, state, entry.source, "Source")
             }
         }
     }
@@ -78,7 +73,7 @@ fun HtmlBlockTag.editContentEntries(
                 editText(entryParam, entry.text)
                 selectCreator(
                     state,
-                    entry.creator,
+                    entry.source,
                     IGNORE,
                     null,
                     "Source",

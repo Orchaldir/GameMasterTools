@@ -36,7 +36,7 @@ data class Paragraph(
 @SerialName("Quote")
 data class Quote(
     val text: NotEmptyString,
-    val creator: Creator = UndefinedCreator,
+    val source: Creator = UndefinedCreator,
 ) : ContentEntry() {
 
     companion object {
