@@ -3,11 +3,7 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.html.editTextArea
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseNotEmptyString
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.quote.QuoteId

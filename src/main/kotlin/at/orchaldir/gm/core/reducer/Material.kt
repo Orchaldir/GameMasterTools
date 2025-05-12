@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.canDeleteMaterial
-import at.orchaldir.gm.core.selector.quote.canDeleteQuote
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.FontOption
-import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.content.*

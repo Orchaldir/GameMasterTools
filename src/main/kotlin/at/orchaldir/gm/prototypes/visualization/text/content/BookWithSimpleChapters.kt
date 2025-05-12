@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.reducer.item.updatePageCount
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d

@@ -3,15 +3,8 @@ package at.orchaldir.gm.visualization.text.content
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.quote.Quote
-import at.orchaldir.gm.core.model.util.CreatedByBusiness
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
-import at.orchaldir.gm.core.model.util.CreatedByGod
-import at.orchaldir.gm.core.model.util.CreatedByOrganization
-import at.orchaldir.gm.core.model.util.CreatedByTown
-import at.orchaldir.gm.core.model.util.HorizontalAlignment
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.Center
-import at.orchaldir.gm.core.model.util.UndefinedCreator
-import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState

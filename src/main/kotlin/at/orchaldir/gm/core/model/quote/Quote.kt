@@ -2,11 +2,7 @@ package at.orchaldir.gm.core.model.quote
 
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Created
-import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.core.model.util.HasStartDate
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

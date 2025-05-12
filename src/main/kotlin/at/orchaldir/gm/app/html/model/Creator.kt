@@ -175,6 +175,7 @@ fun parseCreator(
         CreatorType.CreatedByGod -> CreatedByGod(
             parseGodId(parameters, combine(param, GOD)),
         )
+
         CreatorType.CreatedByOrganization -> CreatedByOrganization(
             parseOrganizationId(parameters, combine(param, ORGANIZATION))
         )

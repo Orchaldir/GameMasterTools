@@ -2,28 +2,16 @@ package at.orchaldir.gm.app.html.model.item.text
 
 import at.orchaldir.gm.app.QUOTE
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.editList
-import at.orchaldir.gm.app.html.editTextArea
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldLink
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseQuoteId
-import at.orchaldir.gm.app.html.parseList
-import at.orchaldir.gm.app.html.parseNotEmptyString
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
-import at.orchaldir.gm.core.model.item.text.content.ContentEntry
-import at.orchaldir.gm.core.model.item.text.content.ContentEntryType
-import at.orchaldir.gm.core.model.item.text.content.LinkedQuote
-import at.orchaldir.gm.core.model.item.text.content.Paragraph
-import at.orchaldir.gm.core.model.item.text.content.SimpleQuote
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.name.NotEmptyString
-import io.ktor.http.Parameters
-import io.ktor.server.application.ApplicationCall
+import io.ktor.http.*
+import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 val IGNORE = ArticleId(Int.MAX_VALUE)

@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.item.periodical
 
 import at.orchaldir.gm.core.model.item.text.content.ContentEntry
-import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.quote.QuoteId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

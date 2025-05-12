@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.generator
 
-import at.orchaldir.gm.core.model.item.text.content.ContentEntry
-import at.orchaldir.gm.core.model.item.text.content.ContentEntryType
-import at.orchaldir.gm.core.model.item.text.content.ContentStyle
-import at.orchaldir.gm.core.model.item.text.content.Paragraph
-import at.orchaldir.gm.core.model.item.text.content.ParagraphGeneration
-import at.orchaldir.gm.core.model.item.text.content.SimpleQuote
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.utils.NumberGenerator
