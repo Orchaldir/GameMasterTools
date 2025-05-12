@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -143,6 +144,7 @@ fun buildPagesForSimpleChapters(
                 entry.text.text,
                 content.style.initials,
             )
+            is Quote -> doNothing()
         }
     }
 }

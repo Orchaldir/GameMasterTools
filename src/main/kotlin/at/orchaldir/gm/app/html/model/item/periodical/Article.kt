@@ -31,14 +31,18 @@ fun HtmlBlockTag.showArticle(
 ) {
     optionalFieldLink("Author", call, state, article.author)
     optionalField(call, state, "Date", article.date)
-    showContent(article.content)
+    showContent(call, state, article.content)
 
     fieldList(call, state, state.getPeriodicalIssues(article.id))
 }
 
-private fun HtmlBlockTag.showContent(content: ArticleContent) {
+private fun HtmlBlockTag.showContent(
+    call: ApplicationCall,
+    state: State,
+    content: ArticleContent,
+) {
     when (content) {
-        is FullArticleContent -> showContentEntries(content.entries)
+        is FullArticleContent -> showContentEntries(call, state, content.entries)
         UndefinedArticleContent -> doNothing()
     }
 }
@@ -58,10 +62,14 @@ fun FORM.editArticle(
         article.author,
     )
     selectOptionalDate(state, "Date", article.date, DATE)
-    editContent(article.content, CONTENT)
+    editContent(state, article.content, CONTENT)
 }
 
-private fun HtmlBlockTag.editContent(content: ArticleContent, param: String) {
+private fun HtmlBlockTag.editContent(
+    state: State,
+    content: ArticleContent,
+    param: String,
+) {
     selectValue(
         "Type",
         param,
@@ -70,7 +78,7 @@ private fun HtmlBlockTag.editContent(content: ArticleContent, param: String) {
     )
 
     when (content) {
-        is FullArticleContent -> editContentEntries(content.entries, param)
+        is FullArticleContent -> editContentEntries(state, content.entries, param)
         UndefinedArticleContent -> doNothing()
     }
 }

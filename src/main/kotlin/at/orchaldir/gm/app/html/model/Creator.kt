@@ -88,6 +88,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
     created: ID,
     date: Date?,
     noun: String,
+    param: String = CREATOR,
 ) {
     val businesses = state.getOpenBusinesses(date)
         .filter { it.id != created }
@@ -98,7 +99,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
     val organizations = state.getExistingOrganizations(date)
         .filter { it.id != created }
 
-    selectValue("$noun Type", CREATOR, CreatorType.entries, creator.getType()) { type ->
+    selectValue("$noun Type", param, CreatorType.entries, creator.getType()) { type ->
         when (type) {
             CreatorType.Undefined -> false
             CreatorType.CreatedByBusiness -> businesses.isEmpty()
@@ -113,7 +114,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
         is CreatedByBusiness -> selectElement(
             state,
             noun,
-            combine(CREATOR, BUSINESS),
+            combine(param, BUSINESS),
             state.sortBusinesses(businesses),
             creator.business,
         )
@@ -121,7 +122,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
         is CreatedByCharacter -> selectElement(
             state,
             noun,
-            combine(CREATOR, CHARACTER),
+            combine(param, CHARACTER),
             characters,
             creator.character,
         )
@@ -129,7 +130,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
         is CreatedByGod -> selectElement(
             state,
             noun,
-            combine(CREATOR, GOD),
+            combine(param, GOD),
             state.sortGods(gods),
             creator.god,
         )
@@ -137,7 +138,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
         is CreatedByOrganization -> selectElement(
             state,
             noun,
-            combine(CREATOR, ORGANIZATION),
+            combine(param, ORGANIZATION),
             state.sortOrganizations(organizations),
             creator.organization,
         )
@@ -145,7 +146,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
         is CreatedByTown -> selectElement(
             state,
             noun,
-            combine(CREATOR, TOWN),
+            combine(param, TOWN),
             towns,
             creator.town,
         )
@@ -156,19 +157,29 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
 
 // parse
 
-fun parseCreator(parameters: Parameters): Creator {
-    return when (parse(parameters, CREATOR, CreatorType.Undefined)) {
+fun parseCreator(
+    parameters: Parameters,
+    param: String = CREATOR,
+): Creator {
+    return when (parse(parameters, param, CreatorType.Undefined)) {
         CreatorType.Undefined -> UndefinedCreator
-        CreatorType.CreatedByBusiness -> CreatedByBusiness(parseBusinessId(parameters, combine(CREATOR, BUSINESS)))
-        CreatorType.CreatedByCharacter -> CreatedByCharacter(parseCharacterId(parameters, combine(CREATOR, CHARACTER)))
-        CreatorType.CreatedByGod -> CreatedByGod(parseGodId(parameters, combine(CREATOR, GOD)))
-        CreatorType.CreatedByOrganization -> CreatedByOrganization(
-            parseOrganizationId(
-                parameters,
-                combine(CREATOR, ORGANIZATION)
-            )
+        CreatorType.CreatedByBusiness -> CreatedByBusiness(
+            parseBusinessId(parameters, combine(param, BUSINESS)),
         )
 
-        CreatorType.CreatedByTown -> CreatedByTown(parseTownId(parameters, combine(CREATOR, TOWN)))
+        CreatorType.CreatedByCharacter -> CreatedByCharacter(
+            parseCharacterId(parameters, combine(param, CHARACTER)),
+        )
+
+        CreatorType.CreatedByGod -> CreatedByGod(
+            parseGodId(parameters, combine(param, GOD)),
+        )
+        CreatorType.CreatedByOrganization -> CreatedByOrganization(
+            parseOrganizationId(parameters, combine(param, ORGANIZATION))
+        )
+
+        CreatorType.CreatedByTown -> CreatedByTown(
+            parseTownId(parameters, combine(param, TOWN)),
+        )
     }
 }

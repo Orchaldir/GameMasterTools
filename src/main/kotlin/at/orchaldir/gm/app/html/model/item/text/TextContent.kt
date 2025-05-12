@@ -62,7 +62,7 @@ private fun HtmlBlockTag.showSimpleChapters(
 ) {
     chapters.chapters
         .withIndex()
-        .forEach { showSimpleChapter(it.value, it.index) }
+        .forEach { showSimpleChapter(call, state, it.value, it.index) }
     field("Total Pages", chapters.pages())
     showContentStyle(call, state, chapters.style)
     showPageNumbering(call, state, chapters.pageNumbering)
@@ -82,13 +82,15 @@ private fun HtmlBlockTag.showAbstractChapter(
 }
 
 private fun HtmlBlockTag.showSimpleChapter(
+    call: ApplicationCall,
+    state: State,
     chapter: SimpleChapter,
     index: Int,
 ) {
     showDetails(createDefaultChapterTitle(index)) {
         field("Title", chapter.title)
         field("Pages", chapter.pages)
-        showContentEntries(chapter.entries)
+        showContentEntries(call, state, chapter.entries)
     }
 }
 
@@ -156,7 +158,7 @@ private fun HtmlBlockTag.editSimpleChapters(
         100,
         1
     ) { index, chapterParam, chapter ->
-        editSimpleChapter(chapter, index, chapterParam)
+        editSimpleChapter(state, chapter, index, chapterParam)
     }
 
     field("Total Pages", chapters.pages())
@@ -178,6 +180,7 @@ private fun HtmlBlockTag.editAbstractChapter(
 }
 
 private fun HtmlBlockTag.editSimpleChapter(
+    state: State,
     chapter: SimpleChapter,
     index: Int,
     param: String,
@@ -185,7 +188,7 @@ private fun HtmlBlockTag.editSimpleChapter(
     showDetails(createDefaultChapterTitle(index), true) {
         selectNotEmptyString("Title", chapter.title, combine(param, TITLE))
         field("Pages", chapter.pages)
-        editContentEntries(chapter.entries, combine(CONTENT, index))
+        editContentEntries(state, chapter.entries, combine(CONTENT, index))
     }
 }
 
