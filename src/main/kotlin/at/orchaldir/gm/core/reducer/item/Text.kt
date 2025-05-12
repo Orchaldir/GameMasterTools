@@ -259,12 +259,9 @@ private fun checkSimpleChapter(
 ) {
     require(chapter.entries.isNotEmpty()) { "The $number.simple chapter is empty!" }
 
-    chapter.entries.withIndex().forEach {
-        val entry = it.value
-        val entryNumber = it.index + 1
-
-        if (entry is LinkedQuote) {
-            state.getQuoteStorage().require(entry.quote)
+    chapter.entries.forEach {
+        if (it is LinkedQuote) {
+            state.getQuoteStorage().require(it.quote)
         }
     }
 }

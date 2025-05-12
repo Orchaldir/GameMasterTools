@@ -49,6 +49,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 val ARCHITECTURAL_ID0 = ArchitecturalStyleId(0)
 val ARCHITECTURAL_ID1 = ArchitecturalStyleId(1)
 val ARTICLE_ID_0 = ArticleId(0)
+val UNKNOWN_ARTICLE_ID = ArticleId(99)
 val BUILDING_ID_0 = BuildingId(0)
 val BUILDING_ID_1 = BuildingId(1)
 val UNKNOWN_BUILDING_ID = BuildingId(99)
