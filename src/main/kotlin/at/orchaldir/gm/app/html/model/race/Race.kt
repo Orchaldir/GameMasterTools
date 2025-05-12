@@ -220,7 +220,7 @@ private fun LI.selectRelativeSize(
     size: Factor,
     index: Int,
 ) {
-    selectPercentage("Relative Size", combine(LIFE_STAGE, SIZE, index), size, 1, 100, 1, true)
+    selectPercentage("Relative Size", combine(LIFE_STAGE, SIZE, index), size, 1, 100, 1)
 }
 
 private fun HtmlBlockTag.selectAppearance(

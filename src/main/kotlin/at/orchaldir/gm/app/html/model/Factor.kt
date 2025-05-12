@@ -24,7 +24,6 @@ fun HtmlBlockTag.selectPercentage(
     minValue: Int,
     maxValue: Int,
     step: Int = 1,
-    update: Boolean = false,
 ) = selectFactor(
     label,
     param,
@@ -32,7 +31,6 @@ fun HtmlBlockTag.selectPercentage(
     fromPercentage(minValue),
     fromPercentage(maxValue),
     fromPercentage(step),
-    update,
 )
 
 fun HtmlBlockTag.selectFactor(
@@ -42,10 +40,9 @@ fun HtmlBlockTag.selectFactor(
     minValue: Factor,
     maxValue: Factor,
     step: Factor = fromPercentage(1),
-    update: Boolean = false,
 ) {
     field(label) {
-        selectFactor(param, current, minValue, maxValue, step, update)
+        selectFactor(param, current, minValue, maxValue, step)
     }
 }
 
@@ -55,7 +52,6 @@ fun HtmlBlockTag.selectFactor(
     minValue: Factor,
     maxValue: Factor,
     stepValue: Factor = fromPercentage(1),
-    update: Boolean = false,
 ) {
     val values = (minValue.toPermyriad()..maxValue.toPermyriad() step stepValue.toPermyriad()).toList()
     selectValue(param, values) { v ->

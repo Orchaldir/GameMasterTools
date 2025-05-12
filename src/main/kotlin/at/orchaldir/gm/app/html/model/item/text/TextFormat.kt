@@ -228,7 +228,6 @@ fun FORM.editTextFormat(
                     format.pageWidth,
                     MIN_PAGE_WIDTH_FACTOR,
                     MAX_PAGE_WIDTH_FACTOR,
-                    update = true,
                 )
                 editColorItemPart(state, format.main, SCROLL)
                 editScrollFormat(state, format.format)
@@ -325,7 +324,6 @@ private fun HtmlBlockTag.editEdgeProtection(
                     1,
                     50,
                     1,
-                    true,
                 )
                 editColorItemPart(state, protection.main, EDGE)
             }
@@ -338,7 +336,6 @@ private fun HtmlBlockTag.editEdgeProtection(
                     1,
                     20,
                     1,
-                    true,
                 )
                 editColorItemPart(state, protection.main, EDGE)
             }

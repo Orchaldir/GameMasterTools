@@ -56,7 +56,6 @@ fun HtmlBlockTag.editContentStyle(
             MIN_MARGIN,
             MAX_MARGIN,
             fromPermille(1),
-            true
         )
         editInitials(state, style.initials, param)
         selectInt(

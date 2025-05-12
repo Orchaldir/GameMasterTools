@@ -228,7 +228,6 @@ private fun HtmlBlockTag.selectRimFactor(factor: Factor) {
         ZERO,
         MAX_RIM_FACTOR,
         fromPermille(1),
-        true,
     )
 }
 
@@ -240,7 +239,6 @@ private fun DETAILS.selectRadiusFactor(factor: Factor) {
         MIN_RADIUS_FACTOR,
         MAX_RADIUS_FACTOR,
         fromPercentage(1),
-        true,
     )
 }
 

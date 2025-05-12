@@ -86,7 +86,7 @@ fun FORM.editEarring(
         is DangleEarring -> editDangleEarring(state, style)
         is DropEarring -> editDropEarring(state, style)
         is HoopEarring -> {
-            selectFactor("Diameter", LENGTH, style.length, ZERO, ONE, ONE_PERCENT, true)
+            selectFactor("Diameter", LENGTH, style.length, ZERO, ONE, ONE_PERCENT)
             selectValue("Thickness", SIZE, Size.entries, style.thickness)
             editColorItemPart(state, style.wire, WIRE, "Wire")
         }
@@ -116,14 +116,14 @@ fun FORM.editDropEarring(
 ) {
     selectDropSize("Top Size", style.topSize, TOP)
     selectDropSize("Bottom Size", style.bottomSize, BOTTOM)
-    selectFactor("Wire Length", LENGTH, style.wireLength, ZERO, ONE, ONE_PERCENT, true)
+    selectFactor("Wire Length", LENGTH, style.wireLength, ZERO, ONE, ONE_PERCENT)
     editOrnament(state, style.top, TOP, "Top Ornament")
     editOrnament(state, style.bottom, BOTTOM, "Bottom Ornament")
     editColorItemPart(state, style.wire, WIRE, "Wire")
 }
 
 private fun FORM.selectDropSize(label: String, size: Factor, param: String) {
-    selectFactor(label, combine(param, SIZE), size, ZERO, ONE, ONE_PERCENT, true)
+    selectFactor(label, combine(param, SIZE), size, ZERO, ONE, ONE_PERCENT)
 }
 
 

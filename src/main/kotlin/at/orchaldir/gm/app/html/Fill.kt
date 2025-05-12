@@ -102,7 +102,6 @@ private fun HtmlBlockTag.selectFillData(
                 0,
                 100,
                 1,
-                true,
             )
         }
 
@@ -129,7 +128,6 @@ private fun HtmlBlockTag.selectFillData(
                 1,
                 90,
                 1,
-                true
             )
         }
     }

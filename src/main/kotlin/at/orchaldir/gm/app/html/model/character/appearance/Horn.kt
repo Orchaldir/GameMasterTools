@@ -128,7 +128,6 @@ private fun HtmlBlockTag.editHornShape(
                     1,
                     100,
                     1,
-                    true,
                 )
             }
         }
@@ -155,7 +154,6 @@ fun HtmlBlockTag.selectHornLength(param: String, length: Factor) {
         10,
         200,
         5,
-        true,
     )
 }
 
@@ -167,7 +165,6 @@ fun HtmlBlockTag.selectHornWidth(param: String, width: Factor) {
         1,
         50,
         1,
-        true,
     )
 }
 
@@ -179,7 +176,6 @@ fun HtmlBlockTag.selectCrownLength(length: Factor) {
         1,
         50,
         1,
-        true,
     )
 }
 

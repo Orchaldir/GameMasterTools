@@ -62,7 +62,6 @@ fun FORM.selectDistanceDistribution(
             distribution.offset,
             MIN_DISTRIBUTION_FACTOR,
             MAX_DISTRIBUTION_FACTOR,
-            update = update,
         )
     }
 }

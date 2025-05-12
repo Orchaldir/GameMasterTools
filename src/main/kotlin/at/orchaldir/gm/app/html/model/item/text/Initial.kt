@@ -70,7 +70,6 @@ fun HtmlBlockTag.editInitials(
                     initials.size,
                     MIN_INITIAL_SIZE,
                     MAX_INITIAL_SIZE,
-                    update = true,
                 )
                 selectPosition(param, initials.position)
             }
