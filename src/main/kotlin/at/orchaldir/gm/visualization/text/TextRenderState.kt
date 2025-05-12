@@ -28,6 +28,7 @@ data class TextRenderState(
 
     fun createTextGenerator(chapter: Int = 0) = TextGenerator.create(
         config.exampleStrings,
+        state.rarityGenerator,
         data.id,
         chapter,
     )

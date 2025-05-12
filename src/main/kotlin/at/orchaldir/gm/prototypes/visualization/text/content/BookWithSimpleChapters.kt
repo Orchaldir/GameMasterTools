@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text.content
 
+import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.SolidFont
@@ -9,8 +10,8 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.content.*
-import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.reducer.item.updatePageCount
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
@@ -28,23 +29,18 @@ fun main() {
         page = ColorItemPart(Color.AntiqueWhite),
         size = Size2d.fromMillimeters(125, 190)
     )
-    val generator = TextGenerator.create(TEXT_CONFIG.exampleStrings, 0)
-    val style = ContentStyle()
-    val chapters = (0..<2).withIndex().map {
-        SimpleChapter(it.index, generator.generateParagraphs(style, 3, 7))
-    }
-    val lastChapter = SimpleChapter(
-        NotEmptyString.init("Conclusion"),
-        listOf(
-            generator.generateParagraph(style),
-            Quote(
-                generator.generateNotEmptyString(style),
-            ),
-            generator.generateParagraph(style),
-        ),
+    val generator = TextGenerator.create(
+        TEXT_CONFIG.exampleStrings,
+        RarityGenerator.empty(5),
+        0,
     )
+    val rarity = OneOf(listOf(ContentEntryType.Paragraph, ContentEntryType.Quote))
+    val style = ContentStyle(generation = ContentGeneration(rarity = rarity))
+    val chapters = (0..<2).withIndex().map {
+        SimpleChapter(it.index, generator.generateEntries(style, 3, 7))
+    }
     val content = SimpleChapters(
-        chapters + lastChapter,
+        chapters,
         pageNumbering = PageNumberingReusingFont(),
         tableOfContents = ComplexTableOfContents(titleOptions = font),
     )

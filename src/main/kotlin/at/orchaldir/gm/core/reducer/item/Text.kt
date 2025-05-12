@@ -189,9 +189,12 @@ private fun checkStyle(
     checkInitials(state, style.initials)
     require(style.margin >= MIN_MARGIN) { "Margin is too small!" }
     require(style.margin <= MAX_MARGIN) { "Margin is too large!" }
+    /* TODO
     require(style.maxParagraphLength >= style.minParagraphLength) {
         "The max paragraph length must be greater or equal than the min!"
     }
+
+     */
 }
 
 private fun checkPageNumbering(

@@ -222,7 +222,7 @@ private fun buildAbstractContent(
             builder,
             mainOptions,
             initialOptions,
-            generator.generateString(style),
+            generator.generateString(style.generation.main),
             style.initials,
         )
     }
