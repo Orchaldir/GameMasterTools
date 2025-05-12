@@ -222,6 +222,13 @@ fun HtmlBlockTag.selectNotEmptyString(
     selectString(label, string.text, param)
 }
 
+fun HtmlBlockTag.selectNotEmptyString(
+    string: NotEmptyString,
+    param: String,
+) {
+    selectString(string.text, param)
+}
+
 fun HtmlBlockTag.selectName(label: String, name: Name, param: String) {
     selectString(label, name.text, param, 1)
 }

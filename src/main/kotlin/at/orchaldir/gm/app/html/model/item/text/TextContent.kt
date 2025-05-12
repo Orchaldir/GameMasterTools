@@ -43,7 +43,7 @@ fun HtmlBlockTag.showTextContent(
             }
 
             is AbstractChapters -> showAbstractChapters(call, state, content)
-            is SimpleChapters -> doNothing()
+            is SimpleChapters -> showSimpleChapters(call, state, content)
             UndefinedTextContent -> doNothing()
         }
     }
@@ -57,7 +57,21 @@ private fun HtmlBlockTag.showAbstractChapters(
     chapters.chapters
         .withIndex()
         .forEach { showAbstractChapter(call, state, it.value, it.index) }
-    field("Total Pages", chapters.chapters.sumOf { it.content.pages })
+    field("Total Pages", chapters.pages())
+    showStyle(call, state, chapters.style)
+    showPageNumbering(call, state, chapters.pageNumbering)
+    showTableOfContents(call, state, chapters.tableOfContents)
+}
+
+private fun HtmlBlockTag.showSimpleChapters(
+    call: ApplicationCall,
+    state: State,
+    chapters: SimpleChapters,
+) {
+    chapters.chapters
+        .withIndex()
+        .forEach { showSimpleChapter(it.value, it.index) }
+    field("Total Pages", chapters.pages())
     showStyle(call, state, chapters.style)
     showPageNumbering(call, state, chapters.pageNumbering)
     showTableOfContents(call, state, chapters.tableOfContents)
@@ -72,6 +86,21 @@ private fun HtmlBlockTag.showAbstractChapter(
     showDetails(createDefaultChapterTitle(index)) {
         field("Title", chapter.title)
         showAbstractContent(call, state, chapter.content)
+    }
+}
+
+private fun HtmlBlockTag.showSimpleChapter(
+    chapter: SimpleChapter,
+    index: Int,
+) {
+    showDetails(createDefaultChapterTitle(index)) {
+        field("Title", chapter.title)
+        field("Pages", chapter.pages)
+        fieldList("Entries", chapter.entries) { entry ->
+            when (entry) {
+                is Paragraph -> +entry.text.text
+            }
+        }
     }
 }
 
@@ -118,7 +147,7 @@ fun FORM.editTextContent(
             }
 
             is AbstractChapters -> editAbstractChapters(state, content)
-            is SimpleChapters -> doNothing()
+            is SimpleChapters -> editSimpleChapters(state, content)
         }
     }
 }
@@ -137,9 +166,31 @@ private fun DETAILS.editAbstractChapters(
     ) { index, chapterParam, chapter ->
         editAbstractChapter(state, chapter, index, chapterParam)
     }
+
     editStyle(state, content.style, combine(CONTENT, STYLE))
     editPageNumbering(state, content.pageNumbering)
     editTableOfContents(state, content.tableOfContents)
+}
+
+private fun HtmlBlockTag.editSimpleChapters(
+    state: State,
+    chapters: SimpleChapters,
+) {
+    editList(
+        "Chapter",
+        CONTENT,
+        chapters.chapters,
+        0,
+        100,
+        1
+    ) { index, chapterParam, chapter ->
+        editSimpleChapter(chapter, index, chapterParam)
+    }
+
+    field("Total Pages", chapters.pages())
+    editStyle(state, chapters.style, combine(CONTENT, STYLE))
+    editPageNumbering(state, chapters.pageNumbering)
+    editTableOfContents(state, chapters.tableOfContents)
 }
 
 private fun HtmlBlockTag.editAbstractChapter(
@@ -151,6 +202,29 @@ private fun HtmlBlockTag.editAbstractChapter(
     showDetails(createDefaultChapterTitle(index), true) {
         selectNotEmptyString("Title", chapter.title, combine(param, TITLE))
         editAbstractContent(state, chapter.content, param)
+    }
+}
+
+private fun HtmlBlockTag.editSimpleChapter(
+    chapter: SimpleChapter,
+    index: Int,
+    param: String,
+) {
+    showDetails(createDefaultChapterTitle(index)) {
+        selectNotEmptyString("Title", chapter.title, combine(param, TITLE))
+        field("Pages", chapter.pages)
+        editList(
+            "Entries",
+            combine(CONTENT, index),
+            chapter.entries,
+            0,
+            10000,
+            1
+        ) { index, entryParam, entry ->
+            when (entry) {
+                is Paragraph -> selectNotEmptyString(entry.text, entryParam)
+            }
+        }
     }
 }
 
@@ -236,13 +310,28 @@ fun parseTextContent(parameters: Parameters) = when (parse(parameters, CONTENT, 
         parseTableOfContents(parameters),
     )
 
-    TextContentType.Chapters -> UndefinedTextContent
+    TextContentType.Chapters -> SimpleChapters(
+        parseList(parameters, CONTENT, 0) { index, chapterParam ->
+            parseSimpleChapter(parameters, chapterParam, index)
+        },
+        parseContentStyle(parameters, combine(CONTENT, STYLE)),
+        parsePageNumbering(parameters),
+        parseTableOfContents(parameters),
+    )
+
     TextContentType.Undefined -> UndefinedTextContent
 }
 
 private fun parseAbstractChapter(parameters: Parameters, param: String, index: Int) = AbstractChapter(
     parseNotEmptyString(parameters, combine(param, TITLE), createDefaultChapterTitle(index)),
     parseAbstractContent(parameters, param),
+)
+
+private fun parseSimpleChapter(parameters: Parameters, param: String, index: Int) = SimpleChapter(
+    parseNotEmptyString(parameters, combine(param, TITLE), createDefaultChapterTitle(index)),
+    parseList(parameters, combine(CONTENT, index), 0) { index, entryParam ->
+        Paragraph(parseNotEmptyString(parameters, entryParam, "Text"))
+    },
 )
 
 private fun parseAbstractContent(parameters: Parameters, param: String) = AbstractContent(
