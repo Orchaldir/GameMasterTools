@@ -6,6 +6,10 @@ import at.orchaldir.gm.core.model.quote.QuoteId
 
 fun State.canDeleteArticle(article: ArticleId) = true
 
+fun State.countArticles(quote: QuoteId) = getArticleStorage()
+    .getAll()
+    .count { it.content.contains(quote) }
+
 fun State.getArticlesContaining(quote: QuoteId) = getArticleStorage()
     .getAll()
     .filter { it.content.contains(quote) }

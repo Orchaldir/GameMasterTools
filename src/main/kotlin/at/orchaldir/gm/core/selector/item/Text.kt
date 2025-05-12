@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.util.*
 
@@ -26,6 +27,10 @@ fun State.countTexts(language: LanguageId) = getTextStorage()
 fun State.countTexts(material: MaterialId) = getTextStorage()
     .getAll()
     .count { it.contains(material) }
+
+fun State.countTexts(quote: QuoteId) = getTextStorage()
+    .getAll()
+    .count { it.content.contains(quote) }
 
 fun State.countTexts(spell: SpellId) = getTextStorage()
     .getAll()

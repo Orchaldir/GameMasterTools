@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -47,6 +48,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 
 val ARCHITECTURAL_ID0 = ArchitecturalStyleId(0)
 val ARCHITECTURAL_ID1 = ArchitecturalStyleId(1)
+val ARTICLE_ID_0 = ArticleId(0)
 val BUILDING_ID_0 = BuildingId(0)
 val BUILDING_ID_1 = BuildingId(1)
 val UNKNOWN_BUILDING_ID = BuildingId(99)
