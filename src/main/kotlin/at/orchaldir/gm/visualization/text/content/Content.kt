@@ -51,6 +51,7 @@ fun buildPagesForAbstractText(
     val innerAABB = state.aabb.shrink(margin)
     val alignment = content.style.getHorizontalAlignment()
     val mainOptions = content.style.main.convert(state.state, VerticalAlignment.Top, alignment)
+    val quoteOptions = content.style.quote.convert(state.state, VerticalAlignment.Top, Center)
     val initialOptions = calculateInitialsOptions(state, mainOptions, content.style.initials)
     val builder = PagesBuilder(innerAABB)
     val generator = state.createTextGenerator()
@@ -66,6 +67,7 @@ fun buildPagesForAbstractText(
         builder,
         content.style,
         mainOptions,
+        quoteOptions,
         initialOptions,
         maxPage,
     )
@@ -102,13 +104,14 @@ fun buildPagesForAbstractChapters(
         content.style,
         content.tableOfContents,
         maxPageIndex,
-    ) { builder, mainOptions, _, initialOptions, _, maxPage ->
+    ) { builder, mainOptions, quoteOptions, initialOptions, _, maxPage ->
         buildAbstractContent(
             state,
             generator,
             builder,
             content.style,
             mainOptions,
+            quoteOptions,
             initialOptions,
             maxPage,
         )
@@ -142,17 +145,28 @@ fun buildPagesForSimpleChapters(
     maxPageIndex,
 ) { builder, mainOptions, quoteOptions, initialOptions, chapter, _ ->
     chapter.entries.forEach { entry ->
-        when (entry) {
-            is Paragraph -> buildParagraphWithInitial(
-                builder,
-                mainOptions,
-                initialOptions,
-                entry.text.text,
-                content.style.initials,
-            )
-            is Quote -> buildQuote(state, builder, entry, quoteOptions)
-        }
+        buildEntry(state, builder, content.style, mainOptions, quoteOptions, initialOptions, entry)
     }
+}
+
+private fun buildEntry(
+    state: TextRenderState,
+    builder: PagesBuilder,
+    style: ContentStyle,
+    mainOptions: RenderStringOptions,
+    quoteOptions: RenderStringOptions,
+    initialOptions: RenderStringOptions,
+    entry: ContentEntry,
+) = when (entry) {
+    is Paragraph -> buildParagraphWithInitial(
+        builder,
+        mainOptions,
+        initialOptions,
+        entry.text.text,
+        style.initials,
+    )
+
+    is Quote -> buildQuote(state, builder, entry, quoteOptions)
 }
 
 private fun buildQuote(
@@ -244,16 +258,19 @@ private fun buildAbstractContent(
     builder: PagesBuilder,
     style: ContentStyle,
     mainOptions: RenderStringOptions,
+    quoteOptions: RenderStringOptions,
     initialOptions: RenderStringOptions,
     maxPage: Int,
 ) {
     while (builder.count() < maxPage || !builder.hasReached(state.config.lastPageFillFactor)) {
-        buildParagraphWithInitial(
+        buildEntry(
+            state,
             builder,
+            style,
             mainOptions,
+            quoteOptions,
             initialOptions,
-            generator.generateString(style.generation.main),
-            style.initials,
+            generator.generateEntry(style),
         )
     }
 }
