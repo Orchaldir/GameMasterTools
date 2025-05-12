@@ -196,6 +196,21 @@ fun HtmlBlockTag.selectLong(
 
 // select text
 
+fun HtmlBlockTag.editTextArea(
+    param: String,
+    columnCount: Int,
+    rowCount: Int,
+    text: String,
+) {
+    textArea {
+        id = param
+        name = param
+        cols = columnCount.toString()
+        rows = rowCount.toString()
+        +text
+    }
+}
+
 fun HtmlBlockTag.selectChar(
     label: String,
     char: Char,

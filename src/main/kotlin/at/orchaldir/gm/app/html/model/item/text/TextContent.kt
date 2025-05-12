@@ -198,7 +198,12 @@ private fun HtmlBlockTag.editSimpleChapter(
             1
         ) { index, entryParam, entry ->
             when (entry) {
-                is Paragraph -> selectNotEmptyString(entry.text, entryParam)
+                is Paragraph -> editTextArea(
+                    entryParam,
+                    90,
+                    10,
+                    entry.text.text
+                )
             }
         }
     }

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.NAMES
+import at.orchaldir.gm.app.html.editTextArea
 import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
@@ -33,13 +34,12 @@ fun HtmlBlockTag.showNameList(
 fun FORM.editNameList(nameList: NameList) {
     selectName(nameList.name)
     h2 { +"Names" }
-    textArea {
-        id = NAMES
-        name = NAMES
-        cols = "30"
-        rows = (nameList.names.size + 5).toString()
-        +nameList.names.joinToString("\n") { it.text }
-    }
+    editTextArea(
+        NAMES,
+        30,
+        nameList.names.size + 5,
+        nameList.names.joinToString("\n") { it.text },
+    )
 }
 
 // parse
