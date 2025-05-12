@@ -1,11 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.NAMES
-import at.orchaldir.gm.app.html.editTextArea
-import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameList
@@ -14,7 +10,9 @@ import at.orchaldir.gm.core.selector.culture.getCultures
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.*
+import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 

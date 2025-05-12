@@ -1,15 +1,7 @@
 package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.generator.TextGenerator
-import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
-import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.content.Chapter
-import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
-import at.orchaldir.gm.core.model.item.text.content.ContentStyle
-import at.orchaldir.gm.core.model.item.text.content.Paragraph
-import at.orchaldir.gm.core.model.item.text.content.TableOfContents
-import at.orchaldir.gm.core.model.item.text.content.TextContent
-import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
