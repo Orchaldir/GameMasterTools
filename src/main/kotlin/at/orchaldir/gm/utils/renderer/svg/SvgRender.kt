@@ -353,7 +353,7 @@ class SvgRenderer(
 
     private fun toSvg(options: RenderStringOptions) =
         formatAttributes(
-            "%s%s;font-size:%.4fpx",
+            "%s%s;font-size:%.3fpx",
             toSvg(options.renderOptions),
             toSvg(options.font),
             options.size.toMeters(),
