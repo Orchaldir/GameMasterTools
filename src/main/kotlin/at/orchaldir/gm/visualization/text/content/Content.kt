@@ -3,8 +3,8 @@ package at.orchaldir.gm.visualization.text.content
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
+import at.orchaldir.gm.core.model.util.HorizontalAlignment.Center
 import at.orchaldir.gm.core.model.util.VerticalAlignment
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -96,7 +96,7 @@ fun buildPagesForAbstractChapters(
         content.style,
         content.tableOfContents,
         maxPageIndex,
-    ) { builder, mainOptions, initialOptions, _, maxPage ->
+    ) { builder, mainOptions, _, initialOptions, _, maxPage ->
         buildAbstractContent(
             state,
             generator,
@@ -134,7 +134,7 @@ fun buildPagesForSimpleChapters(
     content.style,
     content.tableOfContents,
     maxPageIndex,
-) { builder, mainOptions, initialOptions, chapter, _ ->
+) { builder, mainOptions, quoteOptions, initialOptions, chapter, _ ->
     chapter.entries.forEach { entry ->
         when (entry) {
             is Paragraph -> buildParagraphWithInitial(
@@ -144,7 +144,10 @@ fun buildPagesForSimpleChapters(
                 entry.text.text,
                 content.style.initials,
             )
-            is Quote -> doNothing()
+            is Quote -> builder.addParagraph(
+                entry.text.text,
+                quoteOptions,
+            )
         }
     }
 }
@@ -155,13 +158,14 @@ private fun <C : Chapter> buildPagesForChapters(
     style: ContentStyle,
     tableOfContents: TableOfContents,
     maxPageIndex: Int?,
-    buildChapter: (PagesBuilder, RenderStringOptions, RenderStringOptions, C, Int) -> Unit,
+    buildChapter: (PagesBuilder, RenderStringOptions, RenderStringOptions, RenderStringOptions, C, Int) -> Unit,
 ): Pages {
     val margin = state.calculateMargin(style)
     val innerAABB = state.aabb.shrink(margin)
     val alignment = style.getHorizontalAlignment()
     val titleOptions = style.title.convert(state.state, VerticalAlignment.Top, HorizontalAlignment.Start)
     val mainOptions = style.main.convert(state.state, VerticalAlignment.Top, alignment)
+    val quoteOptions = style.quote.convert(state.state, VerticalAlignment.Top, Center)
     val initialOptions = calculateInitialsOptions(state, mainOptions, style.initials)
     val builder = PagesBuilder(innerAABB)
 
@@ -191,6 +195,7 @@ private fun <C : Chapter> buildPagesForChapters(
         buildChapter(
             builder,
             mainOptions,
+            quoteOptions,
             initialOptions,
             chapter,
             maxPage,
@@ -217,7 +222,7 @@ private fun buildAbstractContent(
             builder,
             mainOptions,
             initialOptions,
-            generator.generateParagraphAsString(style),
+            generator.generateString(style),
             style.initials,
         )
     }

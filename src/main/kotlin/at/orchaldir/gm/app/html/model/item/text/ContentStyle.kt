@@ -81,6 +81,7 @@ fun HtmlBlockTag.editContentStyle(
 
 fun parseContentStyle(parameters: Parameters, param: String) = ContentStyle(
     parseFontOption(parameters, combine(param, MAIN), DEFAULT_MAIN_SIZE),
+    parseFontOption(parameters, combine(param, QUOTE), DEFAULT_MAIN_SIZE),
     parseFontOption(parameters, combine(param, TITLE), DEFAULT_TITLE_SIZE),
     parseBool(parameters, combine(param, ALIGNMENT)),
     parseFactor(parameters, combine(param, SIDE), DEFAULT_MARGIN),

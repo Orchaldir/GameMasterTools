@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.content.*
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.reducer.item.updatePageCount
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
@@ -32,8 +33,18 @@ fun main() {
     val chapters = (0..<2).withIndex().map {
         SimpleChapter(it.index, generator.generateParagraphs(style, 3, 7))
     }
+    val lastChapter = SimpleChapter(
+        NotEmptyString.init("Conclusion"),
+        listOf(
+            generator.generateParagraph(style),
+            Quote(
+                generator.generateNotEmptyString(style),
+            ),
+            generator.generateParagraph(style),
+        ),
+    )
     val content = SimpleChapters(
-        chapters,
+        chapters + lastChapter,
         pageNumbering = PageNumberingReusingFont(),
         tableOfContents = ComplexTableOfContents(titleOptions = font),
     )

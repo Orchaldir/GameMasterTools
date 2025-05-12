@@ -19,6 +19,7 @@ const val MAX_PARAGRAPH_LENGTH = 16
 @Serializable
 data class ContentStyle(
     val main: FontOption = SolidFont(DEFAULT_MAIN_SIZE),
+    val quote: FontOption = SolidFont(DEFAULT_MAIN_SIZE),
     val title: FontOption = SolidFont(DEFAULT_TITLE_SIZE),
     val isJustified: Boolean = true,
     val margin: Factor = DEFAULT_MARGIN,
@@ -28,6 +29,7 @@ data class ContentStyle(
 ) {
 
     fun contains(font: FontId) = main.font() == font ||
+            quote.font() == font ||
             title.font() == font ||
             initials.contains(font)
 
