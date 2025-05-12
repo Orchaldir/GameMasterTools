@@ -134,7 +134,12 @@ fun parseContentStyle(parameters: Parameters, param: String) = ContentStyle(
 fun parseContentGeneration(parameters: Parameters, param: String) = ContentGeneration(
     parseParagraphGeneration(parameters, combine(param, MAIN)),
     parseParagraphGeneration(parameters, combine(param, QUOTE)),
-    parseOneOf(parameters, combine(param, TYPE), ContentEntryType::valueOf),
+    parseOneOf(
+        parameters,
+        combine(param, TYPE),
+        ContentEntryType::valueOf,
+        listOf(ContentEntryType.Paragraph),
+    ),
 )
 
 fun parseParagraphGeneration(parameters: Parameters, param: String) = ParagraphGeneration(
