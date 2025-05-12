@@ -1,15 +1,14 @@
 package at.orchaldir.gm.core.model.item.text.content
 
 import at.orchaldir.gm.core.model.name.NotEmptyString
-import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.UndefinedCreator
-import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.core.model.quote.QuoteId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class ContentEntryType {
     Paragraph,
-    Quote,
+    SimpleQuote,
+    LinkedQuote,
 }
 
 @Serializable
@@ -17,12 +16,13 @@ sealed class ContentEntry {
 
     fun getType() = when (this) {
         is Paragraph -> ContentEntryType.Paragraph
-        is QuoteEntry -> ContentEntryType.Quote
+        is SimpleQuote -> ContentEntryType.SimpleQuote
+        is LinkedQuote -> ContentEntryType.LinkedQuote
     }
 
-    fun <ID : Id<ID>> isSourceOfQuote(id: ID) = when (this) {
-        is Paragraph -> false
-        is QuoteEntry -> source.isId(id)
+    fun contains(id: QuoteId) = when (this) {
+        is LinkedQuote -> quote == id
+        else -> false
     }
 }
 
@@ -39,15 +39,19 @@ data class Paragraph(
 }
 
 @Serializable
-@SerialName("Quote")
-data class QuoteEntry(
+@SerialName("SimpleQuote")
+data class SimpleQuote(
     val text: NotEmptyString,
-    val source: Creator = UndefinedCreator,
 ) : ContentEntry() {
 
     companion object {
-        fun fromString(text: String, creator: Creator = UndefinedCreator) =
-            QuoteEntry(NotEmptyString.init(text), creator)
+        fun fromString(text: String) = SimpleQuote(NotEmptyString.init(text))
     }
 
 }
+
+@Serializable
+@SerialName("LinkedQuote")
+data class LinkedQuote(
+    val quote: QuoteId,
+) : ContentEntry()

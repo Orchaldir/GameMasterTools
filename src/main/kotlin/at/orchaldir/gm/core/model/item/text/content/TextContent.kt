@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.item.text.content
 
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.core.model.quote.QuoteId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -51,10 +51,10 @@ sealed class TextContent {
         UndefinedTextContent -> false
     }
 
-    fun <ID : Id<ID>> isSourceOfQuote(id: ID) = when (this) {
+    fun isSourceOfQuote(quote: QuoteId) = when (this) {
         is SimpleChapters -> chapters.any { chapter ->
             chapter.entries.any { entry ->
-                entry.isSourceOfQuote(id)
+                entry.contains(quote)
             }
         }
 

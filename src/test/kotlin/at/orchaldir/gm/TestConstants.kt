@@ -23,6 +23,7 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
@@ -102,6 +103,8 @@ val UNKNOWN_PERSONALITY_ID = PersonalityTraitId(99)
 val PLANE_ID_0 = PlaneId(0)
 val PLANE_ID_1 = PlaneId(1)
 val UNKNOWN_PLANE_ID = PlaneId(99)
+val QUOTE_ID_0 = QuoteId(0)
+val UNKNOWN_QUOTE_ID = QuoteId(99)
 val RACE_ID_0 = RaceId(0)
 val RACE_ID_1 = RaceId(1)
 val RACE_ID_2 = RaceId(2)

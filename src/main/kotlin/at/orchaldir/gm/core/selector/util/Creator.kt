@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Created
-import at.orchaldir.gm.core.selector.item.isSourceOfQuote
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -13,11 +12,11 @@ fun <ID : Id<ID>> State.isCreator(id: ID) = isCreator(getArticleStorage(), id)
         || isCreator(getLanguageStorage(), id)
         || isCreator(getOrganizationStorage(), id)
         || isCreator(getPlaneStorage(), id)
+        || isCreator(getQuoteStorage(), id)
         || isCreator(getRaceStorage(), id)
         || isCreator(getSpellStorage(), id)
         || isCreator(getTextStorage(), id)
         || isCreator(getTownStorage(), id)
-        || isSourceOfQuote(id)
 
 fun <ID : Id<ID>, ELEMENT, CREATOR : Id<CREATOR>> isCreator(storage: Storage<ID, ELEMENT>, id: CREATOR) where
         ELEMENT : Element<ID>,
@@ -45,13 +44,11 @@ fun <ID : Id<ID>> checkIfCreatorCanBeDeleted(
     checkCreator(state.getBuildingStorage(), noun, creator)
     checkCreator(state.getBusinessStorage(), noun, creator)
     checkCreator(state.getLanguageStorage(), noun, creator)
+    checkCreator(state.getQuoteStorage(), noun, creator)
     checkCreator(state.getRaceStorage(), noun, creator)
     checkCreator(state.getSpellStorage(), noun, creator)
     checkCreator(state.getTownStorage(), noun, creator)
     checkCreator(state.getTextStorage(), noun, creator)
-    require(!state.isSourceOfQuote(creator)) {
-        "Cannot delete ${creator.type()} ${creator.value()}, because it is the source of quotes!"
-    }
 }
 
 private fun <ID0, ID1, ELEMENT> checkCreator(

@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.*
+import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.util.CreatedByBusiness
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.CreatedByGod
@@ -166,15 +167,27 @@ private fun buildEntry(
         style.initials,
     )
 
-    is QuoteEntry -> buildQuote(state, builder, entry, quoteOptions)
+    is SimpleQuote -> buildSimpleQuote(builder, entry, quoteOptions)
+    is LinkedQuote -> buildLinkedQuote(state, builder, entry, quoteOptions)
 }
 
-private fun buildQuote(
-    state: TextRenderState,
+private fun buildSimpleQuote(
     builder: PagesBuilder,
-    quote: QuoteEntry,
+    simpleQuote: SimpleQuote,
     quoteOptions: RenderStringOptions,
 ) {
+    builder.addParagraph("\"${simpleQuote.text.text}\"", quoteOptions)
+    builder.addBreak(quoteOptions.size)
+}
+
+private fun buildLinkedQuote(
+    state: TextRenderState,
+    builder: PagesBuilder,
+    linkedQuote: LinkedQuote,
+    quoteOptions: RenderStringOptions,
+) {
+    val quote = state.state.getQuoteStorage().getOrThrow(linkedQuote.quote)
+
     builder.addParagraph("\"${quote.text.text}\"", quoteOptions)
 
     getQuoteSource(state, quote)?.let {
@@ -186,7 +199,7 @@ private fun buildQuote(
 
 private fun getQuoteSource(
     state: TextRenderState,
-    quote: QuoteEntry,
+    quote: Quote,
 ) = when (quote.source) {
     is CreatedByBusiness -> state.state.getElementName(quote.source.business)
     is CreatedByCharacter -> state.state.getElementName(quote.source.character)

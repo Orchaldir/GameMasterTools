@@ -22,7 +22,7 @@ data class ContentGeneration(
     val rarity: OneOf<ContentEntryType> = OneOf.init(
         mapOf(
             ContentEntryType.Paragraph to Rarity.Common,
-            ContentEntryType.Quote to Rarity.Rare,
+            ContentEntryType.SimpleQuote to Rarity.Rare,
         )
     ),
 )

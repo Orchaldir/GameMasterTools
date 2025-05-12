@@ -14,13 +14,11 @@ import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TranslatedText
-import at.orchaldir.gm.core.model.item.text.content.QuoteEntry
-import at.orchaldir.gm.core.model.item.text.content.SimpleChapter
-import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
@@ -79,6 +77,7 @@ class CharacterTest {
     inner class DeleteTest {
 
         private val action = DeleteCharacter(CHARACTER_ID_0)
+        private val createdByCharacter = CreatedByCharacter(CHARACTER_ID_0)
 
         @Test
         fun `Can delete an existing character`() {
@@ -87,7 +86,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete an inventor`() {
-            val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), DAY0)
+            val origin = InventedLanguage(createdByCharacter, DAY0)
             val newState = state.updateStorage(Storage(Language(LANGUAGE_ID_0, origin = origin)))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Language)!") {
@@ -97,7 +96,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete an author`() {
-            val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_0))
+            val origin = OriginalText(createdByCharacter)
             val newState = state.updateStorage(Storage(Text(TEXT_ID_0, origin = origin)))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Text)!") {
@@ -107,7 +106,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete a translator`() {
-            val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedText(TEXT_ID_1, createdByCharacter)
             val newState = state.updateStorage(Storage(Text(TEXT_ID_0, origin = origin)))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Text)!") {
@@ -117,7 +116,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete a builder`() {
-            val building = Building(BUILDING_ID_0, builder = CreatedByCharacter(CHARACTER_ID_0))
+            val building = Building(BUILDING_ID_0, builder = createdByCharacter)
             val newState = state.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Building)!") {
@@ -127,10 +126,20 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete a town founder`() {
-            val town = Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0))
+            val town = Town(TOWN_ID_0, founder = createdByCharacter)
             val newState = state.updateStorage(Storage(town))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Town)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete the source of a quote`() {
+            val quote = Quote(QUOTE_ID_0, source = createdByCharacter)
+            val newState = state.updateStorage(Storage(quote))
+
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Quote)!") {
                 REDUCER.invoke(newState, action)
             }
         }
@@ -141,19 +150,6 @@ class CharacterTest {
             val newState = state.updateStorage(Storage(organization))
 
             assertIllegalArgument("Cannot delete Character 0, because he is a member of an organization!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a source of a quote`() {
-            val quote = QuoteEntry.fromString("Test", CreatedByCharacter(CHARACTER_ID_0))
-            val chapter = SimpleChapter(0, listOf(quote))
-            val content = SimpleChapters(listOf(chapter))
-            val text = Text(TEXT_ID_0, content = content)
-            val newState = state.updateStorage(Storage(text))
-
-            assertIllegalArgument("Cannot delete Character 0, because it is the source of quotes!") {
                 REDUCER.invoke(newState, action)
             }
         }

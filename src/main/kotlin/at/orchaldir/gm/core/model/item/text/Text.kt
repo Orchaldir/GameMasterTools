@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
@@ -61,7 +62,6 @@ data class Text(
     override fun parts() = format.parts()
 
     fun contains(font: FontId) = format.contains(font) || content.contains(font)
-
-    fun <ID : Id<ID>> isSourceOfQuote(id: ID) = content.isSourceOfQuote(id)
+    fun contains(quote: QuoteId) = content.isSourceOfQuote(quote)
 
 }

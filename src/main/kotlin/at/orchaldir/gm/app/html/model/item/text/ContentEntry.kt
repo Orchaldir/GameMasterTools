@@ -1,16 +1,16 @@
 package at.orchaldir.gm.app.html.model.item.text
 
-import at.orchaldir.gm.app.CREATOR
+import at.orchaldir.gm.app.QUOTE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.editList
 import at.orchaldir.gm.app.html.editTextArea
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.model.fieldCreator
-import at.orchaldir.gm.app.html.model.parseCreator
-import at.orchaldir.gm.app.html.model.selectCreator
+import at.orchaldir.gm.app.html.model.parseQuoteId
 import at.orchaldir.gm.app.html.parseList
 import at.orchaldir.gm.app.html.parseNotEmptyString
+import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -18,8 +18,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.text.content.ContentEntry
 import at.orchaldir.gm.core.model.item.text.content.ContentEntryType
+import at.orchaldir.gm.core.model.item.text.content.LinkedQuote
 import at.orchaldir.gm.core.model.item.text.content.Paragraph
-import at.orchaldir.gm.core.model.item.text.content.QuoteEntry
+import at.orchaldir.gm.core.model.item.text.content.SimpleQuote
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import io.ktor.http.Parameters
 import io.ktor.server.application.ApplicationCall
@@ -37,10 +38,8 @@ fun HtmlBlockTag.showContentEntries(
     fieldList("Entries", entries) { entry ->
         when (entry) {
             is Paragraph -> field("Text", entry.text)
-            is QuoteEntry -> {
-                field("Text", entry.text)
-                fieldCreator(call, state, entry.source, "Source")
-            }
+            is SimpleQuote -> field("Text", entry.text)
+            is LinkedQuote -> fieldLink("Quote", call, state, entry.quote)
         }
     }
 }
@@ -69,17 +68,14 @@ fun HtmlBlockTag.editContentEntries(
 
         when (entry) {
             is Paragraph -> editText(entryParam, entry.text)
-            is QuoteEntry -> {
-                editText(entryParam, entry.text)
-                selectCreator(
-                    state,
-                    entry.source,
-                    IGNORE,
-                    null,
-                    "Source",
-                    combine(entryParam, CREATOR),
-                )
-            }
+            is SimpleQuote -> editText(entryParam, entry.text)
+            is LinkedQuote -> selectElement(
+                state,
+                "Quote",
+                QUOTE,
+                state.getQuoteStorage().getAll(),
+                entry.quote,
+            )
         }
     }
 }
@@ -111,8 +107,9 @@ private fun parseContentEntry(parameters: Parameters, param: String) =
             parseNotEmptyString(parameters, param, "Text"),
         )
 
-        ContentEntryType.Quote -> QuoteEntry(
+        ContentEntryType.SimpleQuote -> SimpleQuote(
             parseNotEmptyString(parameters, param, "Text"),
-            parseCreator(parameters, combine(param, CREATOR))
         )
+
+        ContentEntryType.LinkedQuote -> LinkedQuote(parseQuoteId(parameters, QUOTE))
     }

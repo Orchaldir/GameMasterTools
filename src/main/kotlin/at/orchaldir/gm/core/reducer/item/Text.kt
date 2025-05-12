@@ -263,14 +263,8 @@ private fun checkSimpleChapter(
         val entry = it.value
         val entryNumber = it.index + 1
 
-        if (entry is QuoteEntry) {
-            validateCreator(
-                state,
-                entry.source,
-                ArticleId(Int.MAX_VALUE),
-                null,
-                "the source of the $entryNumber.entry of the $number.simple chapter"
-            )
+        if (entry is LinkedQuote) {
+            state.getQuoteStorage().require(entry.quote)
         }
     }
 }

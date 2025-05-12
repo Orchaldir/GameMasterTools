@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.text.content.ContentEntryType
 import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.model.item.text.content.Paragraph
 import at.orchaldir.gm.core.model.item.text.content.ParagraphGeneration
-import at.orchaldir.gm.core.model.item.text.content.QuoteEntry
+import at.orchaldir.gm.core.model.item.text.content.SimpleQuote
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.utils.NumberGenerator
@@ -58,11 +58,11 @@ data class TextGenerator(
     }
 
     fun generateQuote(style: ContentStyle) =
-        QuoteEntry.fromString(generateString(style.generation.quote))
+        SimpleQuote.fromString(generateString(style.generation.quote))
 
     fun generateEntry(style: ContentStyle) = when (generate(style.generation.rarity)) {
         ContentEntryType.Paragraph -> generateParagraph(style)
-        ContentEntryType.Quote -> generateQuote(style)
+        ContentEntryType.SimpleQuote, ContentEntryType.LinkedQuote -> generateQuote(style)
     }
 
     fun generateEntries(style: ContentStyle, minEntries: Int, maxEntries: Int): List<ContentEntry> {
