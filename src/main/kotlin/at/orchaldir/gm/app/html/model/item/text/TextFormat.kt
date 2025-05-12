@@ -200,7 +200,7 @@ fun FORM.editTextFormat(
                 selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
                 editColorItemPart(state, format.page, PAGE, "Page")
                 editBinding(state, format.binding, hasAuthor)
-                selectSize(SIZE, format.size, MIN_TEXT_SIZE, MAX_TEXT_SIZE, prefix, true)
+                selectSize(SIZE, format.size, MIN_TEXT_SIZE, MAX_TEXT_SIZE, prefix)
             }
 
             is Scroll -> {
