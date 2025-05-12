@@ -51,6 +51,12 @@ fun HtmlBlockTag.editContentEntries(
     entries: List<ContentEntry>,
     param: String,
 ) {
+    val entryTypes = if (state.getQuoteStorage().isEmpty()) {
+        ContentEntryType.entries - ContentEntryType.LinkedQuote
+    } else {
+        ContentEntryType.entries
+    }
+
     editList(
         "Entries",
         param,
@@ -62,7 +68,7 @@ fun HtmlBlockTag.editContentEntries(
         selectValue(
             "Type",
             combine(entryParam, TYPE),
-            ContentEntryType.entries,
+            entryTypes,
             entry.getType(),
         )
 
