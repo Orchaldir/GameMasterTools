@@ -1,20 +1,17 @@
 package at.orchaldir.gm.core.reducer.item
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.ARTICLE_ID_0
+import at.orchaldir.gm.UNKNOWN_ARTICLE_ID
+import at.orchaldir.gm.UNKNOWN_QUOTE_ID
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteArticle
 import at.orchaldir.gm.core.action.UpdateArticle
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.FullArticleContent
 import at.orchaldir.gm.core.model.item.text.content.LinkedQuote
-import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse
