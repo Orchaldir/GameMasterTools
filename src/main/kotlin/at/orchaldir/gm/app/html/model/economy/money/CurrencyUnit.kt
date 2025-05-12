@@ -122,7 +122,6 @@ fun FORM.editCurrencyUnit(
             10000,
             1,
             NUMBER,
-            update = true,
         )
         selectInt(
             "Denomination",
@@ -131,7 +130,6 @@ fun FORM.editCurrencyUnit(
             currency.countDenominations() - 1,
             1,
             combine(DENOMINATION, NUMBER),
-            update = true,
         )
         fieldValue(state, unit)
     }
@@ -171,7 +169,7 @@ fun HtmlBlockTag.editCurrencyFormat(
                 showDetails("Hole", true) {
                     selectShape(format.holeShape, combine(HOLE, SHAPE))
                     selectRadiusFactor(format.holeFactor)
-                    selectBool("Has rim?", format.hasHoleRim, combine(HOLE, EDGE), update = true)
+                    selectBool("Has rim?", format.hasHoleRim, combine(HOLE, EDGE))
                 }
             }
 

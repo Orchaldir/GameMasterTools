@@ -76,7 +76,7 @@ fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
 }
 
 private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn) {
-    selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER), true)
+    selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER))
     selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size)
     editColorItemPart(state, buttonColumn.button.part, BUTTON, "Button")
 }

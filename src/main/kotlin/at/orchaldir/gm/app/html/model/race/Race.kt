@@ -204,7 +204,7 @@ private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: Color
 }
 
 private fun FORM.selectNumberOfLifeStages(number: Int) {
-    selectInt("Life Stages", number, 2, 100, 1, LIFE_STAGE, true)
+    selectInt("Life Stages", number, 2, 100, 1, LIFE_STAGE)
 }
 
 private fun HtmlBlockTag.selectMaxAge(
@@ -214,7 +214,7 @@ private fun HtmlBlockTag.selectMaxAge(
     minAge: Int,
     maxAge: Int,
 ) {
-    selectInt(label, age, minAge, maxAge, 1, combine(LIFE_STAGE, AGE, index), true)
+    selectInt(label, age, minAge, maxAge, 1, combine(LIFE_STAGE, AGE, index))
 }
 
 private fun LI.selectRelativeSize(

@@ -50,7 +50,7 @@ fun <T> HtmlBlockTag.selectOptional(
     content: HtmlBlockTag.(T) -> Unit,
 ) {
     field(fieldLabel) {
-        selectBool(value != null, combine(param, AVAILABLE), isDisabled = false, update = true)
+        selectBool(value != null, combine(param, AVAILABLE), isDisabled = false)
         if (value != null) {
             content(value)
         }

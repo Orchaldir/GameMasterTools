@@ -24,8 +24,8 @@ fun HtmlBlockTag.editDenomination(
     param: String,
 ) {
     selectNotEmptyString("Denomination", denomination.text, combine(param, NAME))
-    selectBool("Is prefix", denomination.isPrefix, combine(param, PREFIX), update = true)
-    selectBool("Has Space", denomination.hasSpace, combine(param, SPACE), update = true)
+    selectBool("Is prefix", denomination.isPrefix, combine(param, PREFIX))
+    selectBool("Has Space", denomination.hasSpace, combine(param, SPACE))
     field("Example", denomination.display(1))
 }
 

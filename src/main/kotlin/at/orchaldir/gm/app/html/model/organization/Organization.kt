@@ -74,11 +74,11 @@ private fun FORM.editMembers(
 
     h2 { +"Members" }
 
-    selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK, true)
+    selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK)
     showListWithIndex(organization.memberRanks) { index, rank ->
         selectName("Name", rank.name, combine(RANK, NAME, index))
     }
-    selectInt("Members", organization.members.size, 0, maxMembers, 1, MEMBER, true)
+    selectInt("Members", organization.members.size, 0, maxMembers, 1, MEMBER)
     showListWithIndex(organization.members.entries) { memberIndex, (characterId, history) ->
         val character = state.getCharacterStorage().getOrThrow(characterId)
         val potentialCharacters = state.sortCharacters(state.getCharacterStorage().get(notMembers + characterId))

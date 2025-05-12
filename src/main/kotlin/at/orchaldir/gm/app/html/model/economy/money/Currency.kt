@@ -92,7 +92,6 @@ private fun FORM.editDenominations(currency: Currency) {
             100000,
             1,
             combine(param, NUMBER),
-            true
         )
     }
 }

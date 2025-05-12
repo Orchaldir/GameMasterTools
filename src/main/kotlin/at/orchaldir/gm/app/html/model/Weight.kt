@@ -41,7 +41,7 @@ fun HtmlBlockTag.selectWeight(
     val unit = Weight.resolveUnit(prefix)
     val text = current.toString()
     val currentValue = current.convertToLong(prefix)
-    selectLong(currentValue, minValue, maxValue, 1, param, update)
+    selectLong(currentValue, minValue, maxValue, 1, param)
     +"$unit ($text)"
 }
 

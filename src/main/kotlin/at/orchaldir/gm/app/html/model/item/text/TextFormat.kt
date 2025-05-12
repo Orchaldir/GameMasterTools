@@ -296,11 +296,11 @@ private fun HtmlBlockTag.editBossesPattern(
                 selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape)
                 selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size)
                 editColorItemPart(state, bosses.boss, BOSSES)
-                selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
+                selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER))
 
                 showListWithIndex(bosses.pattern) { index, count ->
                     val countParam = combine(BOSSES, index)
-                    selectInt("Count", count, 1, 20, 1, countParam, true)
+                    selectInt("Count", count, 1, 20, 1, countParam)
                 }
             }
         }

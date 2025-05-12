@@ -77,7 +77,7 @@ fun FORM.editNecklace(
         }
 
         is StrandNecklace -> {
-            selectInt("Number of Strands", style.strands, 1, 3, 1, NUMBER, true)
+            selectInt("Number of Strands", style.strands, 1, 3, 1, NUMBER)
             editJewelryLine(state, style.line, "Strands", LINE)
             selectValue("Padding between Strands", SIZE, Size.entries, style.padding)
         }

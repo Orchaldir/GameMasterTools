@@ -70,7 +70,7 @@ fun FORM.selectBuildingPurpose(state: State, building: Building) {
     when (purpose) {
         is ApartmentHouse -> {
             val min = state.getMinNumberOfApartment(building.id)
-            selectInt("Apartments", purpose.apartments, min, 1000, 1, combine(PURPOSE, NUMBER), true)
+            selectInt("Apartments", purpose.apartments, min, 1000, 1, combine(PURPOSE, NUMBER))
         }
 
         is BusinessAndHome -> selectBusiness(availableBusinesses, state, purpose.business)

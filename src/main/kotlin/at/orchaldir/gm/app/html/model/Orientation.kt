@@ -44,7 +44,6 @@ fun HtmlBlockTag.selectOrientation(
         maxValue.value(),
         step.value(),
         param,
-        update,
     )
     +current.toString()
 }

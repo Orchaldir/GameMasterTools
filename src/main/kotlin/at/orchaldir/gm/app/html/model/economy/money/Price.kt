@@ -34,7 +34,7 @@ fun HtmlBlockTag.editPrice(
     ) {
     val currency = state.getDefaultCurrency()
     field(label) {
-        selectInt(price.value, min, max, 1, param, true)
+        selectInt(price.value, min, max, 1, param)
         +" = "
         +currency.display(price)
     }

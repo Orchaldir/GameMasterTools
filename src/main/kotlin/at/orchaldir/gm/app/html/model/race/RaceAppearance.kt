@@ -346,7 +346,6 @@ private fun FORM.editFeet(appearance: RaceAppearance) {
             5,
             1,
             combine(FOOT, CLAWS, NUMBER),
-            true,
         )
         selectRarityMap("Claw Size", combine(FOOT, CLAWS, SIZE), appearance.foot.clawSizes, true)
         selectRarityMap("Claw Color", combine(FOOT, CLAWS, COLOR), appearance.foot.clawColors, true)

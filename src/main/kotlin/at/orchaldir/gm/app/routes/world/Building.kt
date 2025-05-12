@@ -302,8 +302,8 @@ private fun HTML.showBuildingLotEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectInt("Width", size.width, 1, 10, 1, WIDTH, true)
-                selectInt("Height", size.height, 1, 10, 1, HEIGHT, true)
+                selectInt("Width", size.width, 1, 10, 1, WIDTH)
+                selectInt("Height", size.height, 1, 10, 1, HEIGHT)
             }
             back(backLink)
         }, {
@@ -331,7 +331,6 @@ private fun FORM.selectAddress(state: State, building: Building) {
                 min(3, streets.size),
                 1,
                 combine(ADDRESS, STREET, NUMBER),
-                true
             )
             val previous = mutableListOf<StreetId>()
             address.streets.withIndex().forEach { (index, streetId) ->

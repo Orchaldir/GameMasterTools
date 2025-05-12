@@ -122,7 +122,7 @@ private fun HtmlBlockTag.selectFillData(
                 Color.entries - fill.fill,
                 true
             )
-            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE), true)
+            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE))
             selectPercentage(
                 "Border in Percentage",
                 combine(param, PATTERN, BORDER),
@@ -139,7 +139,7 @@ private fun HtmlBlockTag.selectFillData(
 private fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: UByte, param: String) {
     selectColor(color0, combine(param, COLOR, 0), "1.Stripe Color", Color.entries - color1)
     selectColor(color1, combine(param, COLOR, 1), "2.Stripe Color", Color.entries - color0)
-    selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(param, PATTERN, WIDTH), true)
+    selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(param, PATTERN, WIDTH))
 }
 
 // parse

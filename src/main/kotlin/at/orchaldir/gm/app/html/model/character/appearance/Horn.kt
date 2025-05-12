@@ -122,7 +122,6 @@ private fun HtmlBlockTag.editHornShape(
                     MAX_SPIRAL_CYCLES,
                     1,
                     combine(param, NUMBER),
-                    true,
                 )
                 selectPercentage(
                     "Amplitude",
