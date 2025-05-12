@@ -34,12 +34,15 @@ fun main() {
         RarityGenerator.empty(5),
         0,
     )
-    val style = ContentStyle()
+    val style = ContentStyle(
+        quote = SolidFont(DEFAULT_MAIN_SIZE, Color.Crimson),
+    )
     val chapters = (0..<2).withIndex().map {
         SimpleChapter(it.index, generator.generateEntries(style, 6, 7))
     }
     val content = SimpleChapters(
         chapters,
+        style,
         pageNumbering = PageNumberingReusingFont(),
         tableOfContents = ComplexTableOfContents(titleOptions = font),
     )
