@@ -144,12 +144,19 @@ fun buildPagesForSimpleChapters(
                 entry.text.text,
                 content.style.initials,
             )
-            is Quote -> builder.addParagraph(
-                entry.text.text,
-                quoteOptions,
-            ).addBreak(quoteOptions.size)
+            is Quote -> buildQuote(builder, entry, quoteOptions)
         }
     }
+}
+
+private fun buildQuote(
+    builder: PagesBuilder,
+    quote: Quote,
+    quoteOptions: RenderStringOptions,
+) {
+    builder
+        .addParagraph("\"${quote.text.text}\"", quoteOptions)
+        .addBreak(quoteOptions.size)
 }
 
 private fun <C : Chapter> buildPagesForChapters(
