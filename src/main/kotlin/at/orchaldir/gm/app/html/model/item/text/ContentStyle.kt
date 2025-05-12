@@ -26,6 +26,7 @@ fun HtmlBlockTag.showContentStyle(
 ) {
     showDetails("Style") {
         showFontOption(call, state, "Main Font", style.main)
+        showFontOption(call, state, "Quote Font", style.quote)
         showFontOption(call, state, "Title Font", style.title)
         field("Is Justified?", style.isJustified)
         fieldFactor("Margin", style.margin)
@@ -64,6 +65,7 @@ fun HtmlBlockTag.editContentStyle(
 ) {
     showDetails("Style", true) {
         editFontOption(state, "Main Font", style.main, combine(param, MAIN))
+        editFontOption(state, "Quote Font", style.quote, combine(param, QUOTE))
         editFontOption(state, "Title Font", style.title, combine(param, TITLE))
         selectBool(
             "Is Justified?",
@@ -87,7 +89,7 @@ fun HtmlBlockTag.editContentGeneration(
     generation: ContentGeneration,
     param: String,
 ) {
-    showDetails("Generation") {
+    showDetails("Generation", true) {
         editParagraphGeneration(generation.main, "Main", combine(param, MAIN))
         editParagraphGeneration(generation.quote, "Quote", combine(param, QUOTE))
         selectRarityMap("Rarity", combine(param, TYPE), generation.rarity)
@@ -99,7 +101,7 @@ fun HtmlBlockTag.editParagraphGeneration(
     noun: String,
     param: String,
 ) {
-    showDetails(noun) {
+    showDetails(noun, true) {
         selectInt(
             "Min Length",
             generation.minLength,
