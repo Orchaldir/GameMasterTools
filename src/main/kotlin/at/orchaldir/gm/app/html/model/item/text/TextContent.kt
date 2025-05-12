@@ -2,13 +2,7 @@ package at.orchaldir.gm.app.html.model.item.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldFactor
-import at.orchaldir.gm.app.html.model.font.editFontOption
-import at.orchaldir.gm.app.html.model.font.parseFontOption
-import at.orchaldir.gm.app.html.model.font.showFontOption
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
-import at.orchaldir.gm.app.html.model.parseFactor
-import at.orchaldir.gm.app.html.model.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
@@ -17,13 +11,11 @@ import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.selector.util.sortSpells
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
-
 
 // show
 
@@ -38,7 +30,7 @@ fun HtmlBlockTag.showTextContent(
         when (content) {
             is AbstractText -> {
                 showAbstractContent(call, state, content.content)
-                showStyle(call, state, content.style)
+                showContentStyle(call, state, content.style)
                 showPageNumbering(call, state, content.pageNumbering)
             }
 
@@ -58,7 +50,7 @@ private fun HtmlBlockTag.showAbstractChapters(
         .withIndex()
         .forEach { showAbstractChapter(call, state, it.value, it.index) }
     field("Total Pages", chapters.pages())
-    showStyle(call, state, chapters.style)
+    showContentStyle(call, state, chapters.style)
     showPageNumbering(call, state, chapters.pageNumbering)
     showTableOfContents(call, state, chapters.tableOfContents)
 }
@@ -72,7 +64,7 @@ private fun HtmlBlockTag.showSimpleChapters(
         .withIndex()
         .forEach { showSimpleChapter(it.value, it.index) }
     field("Total Pages", chapters.pages())
-    showStyle(call, state, chapters.style)
+    showContentStyle(call, state, chapters.style)
     showPageNumbering(call, state, chapters.pageNumbering)
     showTableOfContents(call, state, chapters.tableOfContents)
 }
@@ -113,22 +105,6 @@ private fun HtmlBlockTag.showAbstractContent(
     fieldIdList(call, state, content.spells)
 }
 
-private fun HtmlBlockTag.showStyle(
-    call: ApplicationCall,
-    state: State,
-    style: ContentStyle,
-) {
-    showDetails("Style") {
-        showFontOption(call, state, "Main Font", style.main)
-        showFontOption(call, state, "Title Font", style.title)
-        field("Is Justified?", style.isJustified)
-        fieldFactor("Margin", style.margin)
-        showInitials(call, state, style.initials)
-        field("Min Paragraph Length", style.minParagraphLength)
-        field("Max Paragraph Length", style.maxParagraphLength)
-    }
-}
-
 // edit
 
 fun FORM.editTextContent(
@@ -142,7 +118,7 @@ fun FORM.editTextContent(
             UndefinedTextContent -> doNothing()
             is AbstractText -> {
                 editAbstractContent(state, content.content, CONTENT)
-                editStyle(state, content.style, combine(CONTENT, STYLE))
+                editContentStyle(state, content.style, combine(CONTENT, STYLE))
                 editPageNumbering(state, content.pageNumbering)
             }
 
@@ -167,7 +143,7 @@ private fun DETAILS.editAbstractChapters(
         editAbstractChapter(state, chapter, index, chapterParam)
     }
 
-    editStyle(state, content.style, combine(CONTENT, STYLE))
+    editContentStyle(state, content.style, combine(CONTENT, STYLE))
     editPageNumbering(state, content.pageNumbering)
     editTableOfContents(state, content.tableOfContents)
 }
@@ -188,7 +164,7 @@ private fun HtmlBlockTag.editSimpleChapters(
     }
 
     field("Total Pages", chapters.pages())
-    editStyle(state, chapters.style, combine(CONTENT, STYLE))
+    editContentStyle(state, chapters.style, combine(CONTENT, STYLE))
     editPageNumbering(state, chapters.pageNumbering)
     editTableOfContents(state, chapters.tableOfContents)
 }
@@ -247,51 +223,6 @@ private fun HtmlBlockTag.editSpells(
     }
 }
 
-private fun HtmlBlockTag.editStyle(
-    state: State,
-    style: ContentStyle,
-    param: String,
-) {
-    showDetails("Style", true) {
-        editFontOption(state, "Main Font", style.main, combine(param, MAIN))
-        editFontOption(state, "Title Font", style.title, combine(param, TITLE))
-        selectBool(
-            "Is Justified?",
-            style.isJustified,
-            combine(param, ALIGNMENT),
-            update = true,
-        )
-        selectFactor(
-            "Margin",
-            combine(param, SIDE),
-            style.margin,
-            MIN_MARGIN,
-            MAX_MARGIN,
-            fromPermille(1),
-            true
-        )
-        editInitials(state, style.initials, param)
-        selectInt(
-            "Min Paragraph Length",
-            style.minParagraphLength,
-            1,
-            1000,
-            1,
-            combine(param, MIN),
-            true,
-        )
-        selectInt(
-            "Max Paragraph Length",
-            style.maxParagraphLength,
-            style.minParagraphLength,
-            1000,
-            1,
-            combine(param, MAX),
-            true,
-        )
-    }
-}
-
 // parse
 
 fun parseTextContent(parameters: Parameters) = when (parse(parameters, CONTENT, TextContentType.Undefined)) {
@@ -337,14 +268,4 @@ private fun parseSimpleChapter(parameters: Parameters, param: String, index: Int
 private fun parseAbstractContent(parameters: Parameters, param: String) = AbstractContent(
     parseInt(parameters, combine(param, PAGES), 100),
     parseElements(parameters, combine(param, SPELLS)) { parseSpellId(it) },
-)
-
-private fun parseContentStyle(parameters: Parameters, param: String) = ContentStyle(
-    parseFontOption(parameters, combine(param, MAIN)),
-    parseFontOption(parameters, combine(param, TITLE)),
-    parseBool(parameters, combine(param, ALIGNMENT)),
-    parseFactor(parameters, combine(param, SIDE), DEFAULT_MARGIN),
-    parseInitials(parameters, param),
-    parseInt(parameters, combine(param, MIN), MIN_PARAGRAPH_LENGTH),
-    parseInt(parameters, combine(param, MAX), MAX_PARAGRAPH_LENGTH),
 )
