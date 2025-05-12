@@ -220,6 +220,18 @@ class TextTest {
             }
 
             @Test
+            fun `Unknown character in quote`() {
+                val quote = Quote.fromString("Test", CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+                val chapter = SimpleChapter(0, listOf(quote))
+                val content = SimpleChapters(listOf(chapter))
+                val action = UpdateText(Text(TEXT_ID_0, content = content))
+
+                assertIllegalArgument("Cannot use an unknown character 99 as the source of the 1.entry of the 1.simple chapter!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+
+            @Test
             fun `Unknown main font`() {
                 testUnknownFont(AbstractText(style = ContentStyle(unknownFont)))
             }

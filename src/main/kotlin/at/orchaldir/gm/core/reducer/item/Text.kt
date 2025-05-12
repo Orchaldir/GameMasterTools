@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.FontOption
+import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.content.*
@@ -163,6 +164,9 @@ private fun checkTextContent(
 
         is SimpleChapters -> {
             require(content.pages() > 0) { "The simple chapters require at least 1 page!" }
+            content.chapters.withIndex().forEach {
+                checkSimpleChapter(state, it.value, it.index + 1)
+            }
             checkStyle(state, content.style)
             checkPageNumbering(state, content.pageNumbering)
             checkTableOfContents(state, content.pageNumbering, content.tableOfContents)
@@ -189,12 +193,23 @@ private fun checkStyle(
     checkInitials(state, style.initials)
     require(style.margin >= MIN_MARGIN) { "Margin is too small!" }
     require(style.margin <= MAX_MARGIN) { "Margin is too large!" }
-    /* TODO
-    require(style.maxParagraphLength >= style.minParagraphLength) {
-        "The max paragraph length must be greater or equal than the min!"
-    }
+    checkContentGeneration(style.generation)
+}
 
-     */
+private fun checkContentGeneration(
+    generation: ContentGeneration,
+) {
+    checkParagraphGeneration(generation.main, "main")
+    checkParagraphGeneration(generation.quote, "quote")
+}
+
+private fun checkParagraphGeneration(
+    generation: ParagraphGeneration,
+    text: String,
+) {
+    require(generation.maxLength >= generation.minLength) {
+        "The $text max paragraph length must be greater or equal than the min!"
+    }
 }
 
 private fun checkPageNumbering(
@@ -235,4 +250,27 @@ private fun checkFontOption(
     option: FontOption,
 ) {
     state.getFontStorage().requireOptional(option.font())
+}
+
+private fun checkSimpleChapter(
+    state: State,
+    chapter: SimpleChapter,
+    number: Int,
+) {
+    require(chapter.entries.isNotEmpty()) { "The $number.simple chapter is empty!" }
+
+    chapter.entries.withIndex().forEach {
+        val entry = it.value
+        val entryNumber = it.index + 1
+
+        if (entry is Quote) {
+            validateCreator(
+                state,
+                entry.source,
+                ArticleId(Int.MAX_VALUE),
+                null,
+                "the source of the $entryNumber.entry of the $number.simple chapter"
+            )
+        }
+    }
 }
