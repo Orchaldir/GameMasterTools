@@ -2,5 +2,10 @@ package at.orchaldir.gm.core.selector.item.periodical
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
+import at.orchaldir.gm.core.model.quote.QuoteId
 
 fun State.canDeleteArticle(article: ArticleId) = true
+
+fun State.getArticlesContaining(quote: QuoteId) = getArticleStorage()
+    .getAll()
+    .filter { it.content.contains(quote) }

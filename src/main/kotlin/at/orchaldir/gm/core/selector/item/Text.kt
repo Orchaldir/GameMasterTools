@@ -88,7 +88,7 @@ fun State.getTexts(language: LanguageId) = getTextStorage()
 
 fun State.getTextsContaining(quote: QuoteId) = getTextStorage()
     .getAll()
-    .any { it.contains(quote) }
+    .filter { it.contains(quote) }
 
 fun State.getTextsContaining(spell: SpellId) = getTextStorage()
     .getAll()

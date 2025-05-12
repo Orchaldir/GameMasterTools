@@ -62,6 +62,6 @@ data class Text(
     override fun parts() = format.parts()
 
     fun contains(font: FontId) = format.contains(font) || content.contains(font)
-    fun contains(quote: QuoteId) = content.isSourceOfQuote(quote)
+    fun contains(quote: QuoteId) = content.contains(quote)
 
 }

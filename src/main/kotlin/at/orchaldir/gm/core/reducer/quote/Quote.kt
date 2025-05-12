@@ -11,9 +11,9 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_QUOTE: Reducer<CreateQuote, State> = { state, _ ->
-    val material = Quote(state.getQuoteStorage().nextId)
+    val quote = Quote(state.getQuoteStorage().nextId)
 
-    noFollowUps(state.updateStorage(state.getQuoteStorage().add(material)))
+    noFollowUps(state.updateStorage(state.getQuoteStorage().add(quote)))
 }
 
 val DELETE_QUOTE: Reducer<DeleteQuote, State> = { state, action ->

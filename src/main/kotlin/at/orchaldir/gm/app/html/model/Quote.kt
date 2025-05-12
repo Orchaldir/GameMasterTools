@@ -5,11 +5,14 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.html.editTextArea
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseNotEmptyString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.quote.QuoteId
+import at.orchaldir.gm.core.selector.item.getTextsContaining
+import at.orchaldir.gm.core.selector.item.periodical.getArticlesContaining
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -21,9 +24,14 @@ fun HtmlBlockTag.showQuote(
     state: State,
     quote: Quote,
 ) {
+    val articles = state.getArticlesContaining(quote.id)
+    val texts = state.getTextsContaining(quote.id)
+
     field("Text", quote.text)
     fieldCreator(call, state, quote.source, "Source")
     optionalField(call, state, "Date", quote.date)
+    fieldList(call, state, articles)
+    fieldList(call, state, texts)
 }
 
 // edit

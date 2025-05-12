@@ -44,14 +44,7 @@ sealed class TextContent {
         UndefinedTextContent -> false
     }
 
-    fun contains(spell: SpellId) = when (this) {
-        is AbstractChapters -> chapters.any { it.content.spells.contains(spell) }
-        is AbstractText -> content.spells.contains(spell)
-        is SimpleChapters -> false
-        UndefinedTextContent -> false
-    }
-
-    fun isSourceOfQuote(quote: QuoteId) = when (this) {
+    fun contains(quote: QuoteId) = when (this) {
         is SimpleChapters -> chapters.any { chapter ->
             chapter.entries.any { entry ->
                 entry.contains(quote)
@@ -59,6 +52,13 @@ sealed class TextContent {
         }
 
         else -> false
+    }
+
+    fun contains(spell: SpellId) = when (this) {
+        is AbstractChapters -> chapters.any { it.content.spells.contains(spell) }
+        is AbstractText -> content.spells.contains(spell)
+        is SimpleChapters -> false
+        UndefinedTextContent -> false
     }
 }
 
