@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.text.content
 
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -48,6 +49,16 @@ sealed class TextContent {
         is AbstractText -> content.spells.contains(spell)
         is SimpleChapters -> false
         UndefinedTextContent -> false
+    }
+
+    fun <ID : Id<ID>> isSourceOfQuote(id: ID) = when (this) {
+        is SimpleChapters -> chapters.any { chapter ->
+            chapter.entries.any { entry ->
+                entry.isSourceOfQuote(id)
+            }
+        }
+
+        else -> false
     }
 }
 

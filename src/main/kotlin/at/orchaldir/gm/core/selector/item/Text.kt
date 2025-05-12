@@ -11,6 +11,9 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
 
@@ -100,3 +103,7 @@ fun State.getTranslationsOf(text: TextId) = getTextStorage()
 fun State.getTextsPublishedBy(publisher: BusinessId) = getTextStorage()
     .getAll()
     .filter { it.publisher == publisher }
+
+fun <ID : Id<ID>> State.isSourceOfQuote(id: ID) = getTextStorage()
+    .getAll()
+    .any { it.isSourceOfQuote(id) }

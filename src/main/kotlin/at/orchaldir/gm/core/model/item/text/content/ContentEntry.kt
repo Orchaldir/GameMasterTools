@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.item.text.content
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -17,6 +18,11 @@ sealed class ContentEntry {
     fun getType() = when (this) {
         is Paragraph -> ContentEntryType.Paragraph
         is Quote -> ContentEntryType.Quote
+    }
+
+    fun <ID : Id<ID>> isSourceOfQuote(id: ID) = when (this) {
+        is Paragraph -> false
+        is Quote -> source.isId(id)
     }
 }
 

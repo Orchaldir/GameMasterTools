@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
@@ -14,6 +15,9 @@ import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TranslatedText
+import at.orchaldir.gm.core.model.item.text.content.Quote
+import at.orchaldir.gm.core.model.item.text.content.SimpleChapter
+import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
@@ -138,6 +142,19 @@ class CharacterTest {
             val newState = state.updateStorage(Storage(organization))
 
             assertIllegalArgument("Cannot delete Character 0, because he is a member of an organization!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a source of a quote`() {
+            val quote = Quote.fromString("Test", CreatedByCharacter(CHARACTER_ID_0))
+            val chapter = SimpleChapter(0, listOf(quote))
+            val content = SimpleChapters(listOf(chapter))
+            val text = Text(TEXT_ID_0, content = content)
+            val newState = state.updateStorage(Storage(text))
+
+            assertIllegalArgument("Cannot delete Character 0, because it is the source of quotes!") {
                 REDUCER.invoke(newState, action)
             }
         }

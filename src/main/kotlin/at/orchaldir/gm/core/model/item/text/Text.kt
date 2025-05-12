@@ -62,4 +62,6 @@ data class Text(
 
     fun contains(font: FontId) = format.contains(font) || content.contains(font)
 
+    fun <ID : Id<ID>> isSourceOfQuote(id: ID) = content.isSourceOfQuote(id)
+
 }
