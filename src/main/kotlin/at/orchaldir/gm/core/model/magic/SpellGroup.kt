@@ -22,7 +22,7 @@ value class SpellGroupId(val value: Int) : Id<SpellGroupId> {
 data class SpellGroup(
     val id: SpellGroupId,
     val name: Name = Name.init("Spell Group ${id.value}"),
-    val spells: SomeOf<SpellId> = SomeOf(),
+    val spells: Set<SpellId> = emptySet(),
 ) : ElementWithSimpleName<SpellGroupId> {
 
     override fun id() = id

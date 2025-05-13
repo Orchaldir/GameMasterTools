@@ -33,5 +33,5 @@ val UPDATE_SPELL_GROUP: Reducer<UpdateSpellGroup, State> = { state, action ->
 }
 
 fun validateSpellGroup(state: State, group: SpellGroup) {
-    group.spells.getValidValues().forEach { state.getSpellStorage().require(it) }
+    state.getSpellStorage().require(group.spells)
 }
