@@ -4,6 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.UpdateDomain
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.SomeOf
@@ -19,6 +21,8 @@ class DomainTest {
         listOf(
             Storage(CALENDAR0),
             Storage(Domain(DOMAIN_ID_0)),
+            Storage(Spell(SPELL_ID_0)),
+            Storage(Job(JOB_ID_0)),
         )
     )
 
@@ -72,7 +76,12 @@ class DomainTest {
 
         @Test
         fun `Update a domain`() {
-            val domain = Domain(DOMAIN_ID_0, NAME)
+            val domain = Domain(
+                DOMAIN_ID_0,
+                NAME,
+                SomeOf(SPELL_ID_0),
+                setOf(JOB_ID_0),
+            )
             val action = UpdateDomain(domain)
 
             assertEquals(domain, REDUCER.invoke(STATE, action).first.getDomainStorage().get(DOMAIN_ID_0))
