@@ -166,7 +166,7 @@ private fun HTML.showAllUniforms(
             }
             uniforms.forEach { uniform ->
                 tr {
-                    td { link(call, state, uniform) }
+                    tdLink(call, state, uniform)
                     tdSkipZero(uniform.equipmentMap.getAllEquipment().size)
                 }
             }

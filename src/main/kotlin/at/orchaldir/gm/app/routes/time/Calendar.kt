@@ -152,7 +152,7 @@ private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
                 val example = convertDate(defaultCalendar, calendar, state.getCurrentDate())
 
                 tr {
-                    td { link(call, calendar) }
+                    tdLink(call, state, calendar)
                     td {
                         if (calendar == defaultCalendar) {
                             +"yes"

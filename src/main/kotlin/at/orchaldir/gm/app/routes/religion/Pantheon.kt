@@ -157,7 +157,7 @@ private fun HTML.showAllPantheons(
             }
             pantheons.forEach { pantheon ->
                 tr {
-                    td { link(call, state, pantheon) }
+                    tdLink(call, state, pantheon)
                     tdString(pantheon.title)
                     tdSkipZero(pantheon.gods.size)
                     tdSkipZero(state.getBelievers(pantheon.id).size)

@@ -138,7 +138,7 @@ private fun HTML.showAllTowns(
             }
             towns.forEach { town ->
                 tr {
-                    td { link(call, town) }
+                    tdLink(call, state, town)
                     td { showDate(call, state, town.startDate()) }
                     td { showCreator(call, state, town.founder, false) }
                     tdSkipZero(state.countBuildings(town.id))

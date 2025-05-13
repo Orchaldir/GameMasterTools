@@ -154,7 +154,7 @@ private fun HTML.showAllPeriodicalIssues(
             periodicals.forEach { issue ->
                 tr {
                     td { link(call, issue.id, issue.dateAsName(state)) }
-                    td { link(call, state, issue.periodical) }
+                    tdLink(call, state, issue.periodical)
                 }
             }
         }

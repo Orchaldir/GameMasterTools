@@ -155,7 +155,7 @@ private fun HTML.showAllRaces(
             }
             races.forEach { race ->
                 tr {
-                    td { link(call, state, race) }
+                    tdLink(call, state, race)
                     td { +race.genders.getValidValues().joinToString() }
                     tdSkipZero(race.lifeStages.getMaxAge())
                     td { +race.height.center.toString() }
@@ -165,7 +165,7 @@ private fun HTML.showAllRaces(
                         title = state.getAgeInYears(race.startDate())?.let { "$it years ago" } ?: ""
                         showOptionalDate(call, state, race.startDate())
                     }
-                    td { link(call, state, race.lifeStages.getRaceAppearance()) }
+                    tdLink(call, state, race.lifeStages.getRaceAppearance())
                     tdSkipZero(state.getCharacters(race.id).size)
                 }
             }

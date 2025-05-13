@@ -125,11 +125,11 @@ private fun HTML.showAllMoons(
             }
             moons.forEach { moon ->
                 tr {
-                    td { link(call, moon) }
+                    tdLink(call, state, moon)
                     tdString(moon.title)
                     td { +"${moon.getCycle()} days" }
                     td { showColor(moon.color) }
-                    td { optionalLink(call, state, moon.plane) }
+                    tdLink(call, state, moon.plane)
                 }
             }
         }

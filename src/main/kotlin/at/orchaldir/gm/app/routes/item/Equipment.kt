@@ -166,7 +166,7 @@ private fun HTML.showAllEquipment(
             }
             equipmentList.forEach { equipment ->
                 tr {
-                    td { link(call, equipment) }
+                    tdLink(call, state, equipment)
                     tdEnum(equipment.data.getType())
                     td(equipment.weight)
                     tdInlineLinks(call, state, equipment.data.materials())

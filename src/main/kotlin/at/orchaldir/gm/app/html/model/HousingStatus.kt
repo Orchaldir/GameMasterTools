@@ -24,17 +24,6 @@ import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
-fun HtmlBlockTag.showInhabitantCount(
-    state: State,
-    building: BuildingId,
-) {
-    val count = state.countCharactersLivingInHouse(building)
-
-    if (count > 0) {
-        +count.toString()
-    }
-}
-
 fun HtmlBlockTag.showHousingStatusHistory(
     call: ApplicationCall,
     state: State,

@@ -47,7 +47,7 @@ fun HtmlBlockTag.showEconomy(
         }
         economy.standardsOfLiving.forEach { standard ->
             tr {
-                td { link(call, state, standard) }
+                tdLink(call, state, standard)
                 td { +currency.display(standard.maxYearlyIncome) }
                 tdSkipZero(state.countJobs(standard.id))
             }

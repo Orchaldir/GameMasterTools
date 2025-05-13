@@ -164,7 +164,7 @@ private fun HTML.showAllGods(
                         .get(god.domains)
                         .sortedBy { it.name.text }
 
-                    td { link(call, state, god) }
+                    tdLink(call, state, god)
                     tdString(god.title)
                     tdLinks(call, state, pantheons)
                     tdEnum(god.gender)

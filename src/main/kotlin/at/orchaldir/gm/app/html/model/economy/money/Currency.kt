@@ -56,7 +56,7 @@ private fun HtmlBlockTag.showUnits(
             val denomination = currency.getDenomination(unit.denomination)
             tr {
                 td { +denomination.display(unit.number) }
-                td { link(call, state, unit) }
+                tdLink(call, state, unit)
             }
         }
     }

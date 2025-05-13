@@ -161,7 +161,7 @@ private fun HTML.showAllOrganizations(
             }
             organizations.forEach { organization ->
                 tr {
-                    td { link(call, state, organization) }
+                    tdLink(call, state, organization)
                     td { showOptionalDate(call, state, organization.date) }
                     tdSkipZero(state.getAgeInYears(organization.date))
                     td { showCreator(call, state, organization.founder, false) }

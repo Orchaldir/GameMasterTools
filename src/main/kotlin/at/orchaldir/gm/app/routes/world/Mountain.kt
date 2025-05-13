@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.MOUNTAIN_TYPE
 import at.orchaldir.gm.core.model.world.terrain.Mountain
 import at.orchaldir.gm.core.model.world.terrain.MountainId
+import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
@@ -129,12 +130,8 @@ private fun HTML.showAllMountains(
             }
             mountains.forEach { mountain ->
                 tr {
-                    td { link(call, mountain) }
-                    td {
-                        state.getMaterialStorage().get(mountain.resources)
-                            .sortedBy { it.name.text }
-                            .map { link(call, state, it) }
-                    }
+                    tdLink(call, state, mountain)
+                    tdInlineLinks(call, state, mountain.resources)
                 }
             }
         }

@@ -153,7 +153,7 @@ private fun HTML.showAllPlanes(
             }
             planes.forEach { plane ->
                 tr {
-                    td { link(call, state, plane) }
+                    tdLink(call, state, plane)
                     tdString(plane.title)
                     td { displayPlanePurpose(call, state, plane.purpose, false) }
                     td {
@@ -161,7 +161,7 @@ private fun HTML.showAllPlanes(
                             displayPlaneAlignmentPattern(plane.purpose.pattern)
                         }
                     }
-                    td { state.getPlanarAlignment(plane, day)?.let { +it.name } }
+                    tdOptionalEnum(state.getPlanarAlignment(plane, day))
                 }
             }
         }

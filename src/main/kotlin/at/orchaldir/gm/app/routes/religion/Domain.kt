@@ -151,7 +151,7 @@ private fun HTML.showAllDomains(
             }
             domains.forEach { domain ->
                 tr {
-                    td { link(call, state, domain) }
+                    tdLink(call, state, domain)
                     tdSkipZero(domain.spells.getSize())
                     tdSkipZero(domain.jobs.size)
                     tdSkipZero(state.getGodsWith(domain.id).size)

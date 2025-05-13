@@ -158,10 +158,10 @@ private fun HTML.showAllPeriodicals(
             }
             periodicals.forEach { periodical ->
                 tr {
-                    td { link(call, state, periodical) }
+                    tdLink(call, state, periodical)
                     td { showOptionalDate(call, state, periodical.calendar, periodical.startDate()) }
                     td { showOwner(call, state, periodical.ownership.current, false) }
-                    td { link(call, state, periodical.language) }
+                    tdLink(call, state, periodical.language)
                     tdEnum(periodical.frequency)
                     tdSkipZero(state.countPeriodicalIssues(periodical.id))
                 }

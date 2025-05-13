@@ -154,7 +154,7 @@ private fun HTML.showAllSpellGroups(
             }
             groups.forEach { group ->
                 tr {
-                    td { link(call, state, group) }
+                    tdLink(call, state, group)
                     tdSkipZero(group.spells.size)
                 }
             }

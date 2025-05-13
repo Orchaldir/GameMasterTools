@@ -155,7 +155,7 @@ private fun HTML.showAllTitles(
             }
             titles.forEach { title ->
                 tr {
-                    td { link(call, state, title) }
+                    tdLink(call, state, title)
                     tdString(title.text)
                     tdEnum(title.position)
                     tdChar(title.separator)

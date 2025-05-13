@@ -165,7 +165,7 @@ private fun HTML.showAllSpells(
             }
             spells.forEach { spell ->
                 tr {
-                    td { link(call, state, spell) }
+                    tdLink(call, state, spell)
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
                     td { showOrigin(call, state, spell.origin) }

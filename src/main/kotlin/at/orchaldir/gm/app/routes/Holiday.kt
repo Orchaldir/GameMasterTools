@@ -141,8 +141,8 @@ private fun HTML.showAllHolidays(
             }
             holidays.forEach { holiday ->
                 tr {
-                    td { link(call, holiday) }
-                    td { link(call, state, holiday.calendar) }
+                    tdLink(call, state, holiday)
+                    tdLink(call, state, holiday.calendar)
                     td { +holiday.relativeDate.display(calendar) }
                     td { displayHolidayPurpose(call, state, holiday.purpose) }
                 }

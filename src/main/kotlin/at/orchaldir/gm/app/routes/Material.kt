@@ -159,7 +159,7 @@ private fun HTML.showAllMaterials(
             }
             materials.forEach { material ->
                 tr {
-                    td { link(call, state, material) }
+                    tdLink(call, state, material)
                     tdEnum(material.category)
                     td { showColor(material.color) }
                     td(material.density)
