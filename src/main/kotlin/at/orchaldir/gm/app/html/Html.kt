@@ -203,6 +203,18 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> TR.tdLink(
     }
 }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>> TR.tdLinks(
+    call: ApplicationCall,
+    state: State,
+    elements: Collection<ELEMENT>,
+) {
+    td {
+        showList(elements) {
+            link(call, state, it)
+        }
+    }
+}
+
 fun <ID : Id<ID>> TR.tdInlineLinks(
     call: ApplicationCall,
     state: State,
