@@ -46,7 +46,7 @@ class DomainTest {
         fun `Cannot delete a domain used by a god`() {
             val state = STATE.updateStorage(Storage(God(GOD_ID_0, domains = setOf(DOMAIN_ID_0))))
 
-            assertIllegalArgument("The domain 0 is used!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Domain 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 

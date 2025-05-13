@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.DeletePantheon
 import at.orchaldir.gm.core.action.UpdatePantheon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -17,7 +19,8 @@ val CREATE_PANTHEON: Reducer<CreatePantheon, State> = { state, _ ->
 
 val DELETE_PANTHEON: Reducer<DeletePantheon, State> = { state, action ->
     state.getPantheonStorage().require(action.id)
-    require(state.canDeletePantheon(action.id)) { "The pantheon ${action.id.value} is used!" }
+
+    validateCanDelete(state.canDeletePantheon(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getPantheonStorage().remove(action.id)))
 }

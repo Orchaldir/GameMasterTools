@@ -47,7 +47,7 @@ class PeriodicalTest {
                 )
             )
 
-            assertIllegalArgument("The periodical 0 is used!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Periodical 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 

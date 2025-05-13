@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.*
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.world.canDeletePlane
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
@@ -21,7 +23,7 @@ val CREATE_PLANE: Reducer<CreatePlane, State> = { state, _ ->
 val DELETE_PLANE: Reducer<DeletePlane, State> = { state, action ->
     state.getPlaneStorage().require(action.id)
 
-    require(state.canDeletePlane(action.id)) { "Plane ${action.id.value} is used!" }
+    validateCanDelete(state.canDeletePlane(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getPlaneStorage().remove(action.id)))
 }

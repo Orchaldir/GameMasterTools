@@ -48,12 +48,22 @@ class ArchitecturalStyleTest {
         fun `Cannot delete a style used by building`() {
             val newState = state.updateStorage(Storage(Building(BuildingId(0), style = ARCHITECTURAL_ID0)))
 
-            assertIllegalArgument("Architectural Style 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete Architectural Style 0, because it is used!") {
+                REDUCER.invoke(
+                    newState,
+                    action
+                )
+            }
         }
 
         @Test
         fun `Cannot delete a revived style`() {
-            assertIllegalArgument("Architectural Style 0 is used!") { REDUCER.invoke(revivalState, action) }
+            assertIllegalArgument("Cannot delete Architectural Style 0, because it is used!") {
+                REDUCER.invoke(
+                    revivalState,
+                    action
+                )
+            }
         }
 
         @Test

@@ -49,7 +49,7 @@ class CultureTest {
             val action = DeleteCulture(CULTURE_ID_0)
             val state = STATE.updateStorage(Storage(Character(CharacterId(0), culture = CULTURE_ID_0)))
 
-            assertIllegalArgument("Culture 0 is used by characters") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Culture 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 

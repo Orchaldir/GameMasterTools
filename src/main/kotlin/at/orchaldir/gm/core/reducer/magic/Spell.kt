@@ -7,7 +7,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -21,7 +23,7 @@ val CREATE_SPELL: Reducer<CreateSpell, State> = { state, _ ->
 
 val DELETE_SPELL: Reducer<DeleteSpell, State> = { state, action ->
     state.getSpellStorage().require(action.id)
-    require(state.canDeleteSpell(action.id)) { "The spell ${action.id.value} is used!" }
+    validateCanDelete(state.canDeleteSpell(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getSpellStorage().remove(action.id)))
 }

@@ -52,7 +52,7 @@ class HolidayTest {
             val culture = Culture(CULTURE_ID_0, holidays = setOf(HOLIDAY_ID_0))
             val newState = state.updateStorage(Storage(culture))
 
-            assertIllegalArgument("Holiday 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete Holiday 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test
@@ -60,7 +60,7 @@ class HolidayTest {
             val organization = Organization(ORGANIZATION_ID_0, holidays = setOf(HOLIDAY_ID_0))
             val newState = state.updateStorage(Storage(organization))
 
-            assertIllegalArgument("Holiday 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete Holiday 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
     }
 
