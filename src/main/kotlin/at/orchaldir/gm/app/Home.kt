@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.item.*
+import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
@@ -85,6 +86,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getJobStorage(), JobRoutes.All())
                     h3 { +"Magic" }
                     fieldStorageLink(call, state.getSpellStorage(), SpellRoutes.All())
+                    fieldStorageLink(call, state.getSpellGroupStorage(), SpellGroupRoutes.All())
                     h3 { +"Religion" }
                     fieldStorageLink(call, state.getDomainStorage(), DomainRoutes.All())
                     fieldStorageLink(call, state.getGodStorage(), GodRoutes.All())

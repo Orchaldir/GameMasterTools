@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.routes.economy.StandardOfLivingRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.item.*
+import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
@@ -41,6 +42,7 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.NameListId
@@ -343,6 +345,7 @@ fun <ID : Id<ID>> href(
     is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is SpellId -> call.application.href(SpellRoutes.Details(id))
+    is SpellGroupId -> call.application.href(SpellGroupRoutes.Details(id))
     is StandardOfLivingId -> call.application.href(StandardOfLivingRoutes.Details(id))
     is StreetId -> call.application.href(StreetRoutes.Details(id))
     is StreetTemplateId -> call.application.href(StreetTemplateRoutes.Details(id))

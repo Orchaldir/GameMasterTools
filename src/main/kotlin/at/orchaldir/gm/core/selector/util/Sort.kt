@@ -22,6 +22,7 @@ import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
+import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
@@ -215,6 +216,7 @@ fun State.sortDomains(
     .sortedWith(
         when (sort) {
             SortDomain.Name -> compareBy { it.name.text }
+            SortDomain.Spells -> compareByDescending { it.spells.getSize() }
         })
 
 // equipment
@@ -436,6 +438,21 @@ fun State.sortSpells(
         when (sort) {
             SortSpell.Name -> compareBy { it.name.text }
             SortSpell.Age -> getAgeComparator()
+        })
+
+// spell group
+
+fun State.sortSpellGroups(sort: SortSpellGroup = SortSpellGroup.Name) =
+    sortSpellGroups(getSpellGroupStorage().getAll(), sort)
+
+fun State.sortSpellGroups(
+    groups: Collection<SpellGroup>,
+    sort: SortSpellGroup = SortSpellGroup.Name,
+) = groups
+    .sortedWith(
+        when (sort) {
+            SortSpellGroup.Name -> compareBy { it.name.text }
+            SortSpellGroup.Spells -> compareByDescending { it.spells.size }
         })
 
 // text

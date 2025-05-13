@@ -40,6 +40,7 @@ enum class SortCurrencyUnit {
 
 enum class SortDomain {
     Name,
+    Spells,
 }
 
 enum class SortEquipment {
@@ -112,6 +113,11 @@ enum class SortRace {
 enum class SortSpell {
     Name,
     Age,
+}
+
+enum class SortSpellGroup {
+    Name,
+    Spells,
 }
 
 enum class SortText {
