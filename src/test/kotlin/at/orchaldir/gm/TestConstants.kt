@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.Name
@@ -117,6 +118,8 @@ val UNKNOWN_RIVER_ID = RiverId(99)
 val SPELL_ID_0 = SpellId(0)
 val SPELL_ID_1 = SpellId(1)
 val UNKNOWN_SPELL_ID = SpellId(99)
+val SPELL_GROUP_ID_0 = SpellGroupId(0)
+val UNKNOWN_SPELL_GROUP_ID = SpellGroupId(99)
 val STANDARD_ID_0 = StandardOfLivingId(0)
 val STANDARD_ID_1 = StandardOfLivingId(1)
 val UNKNOWN_STANDARD_ID = StandardOfLivingId(99)
