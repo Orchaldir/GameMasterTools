@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -30,7 +31,7 @@ val CLONE_RACE_APPEARANCE: Reducer<CloneRaceAppearance, State> = { state, action
 
 val DELETE_RACE_APPEARANCE: Reducer<DeleteRaceAppearance, State> = { state, action ->
     state.getRaceAppearanceStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Race Appearance ${action.id.value} cannot be deleted" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getRaceAppearanceStorage().remove(action.id)))
 }

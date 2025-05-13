@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -22,7 +23,7 @@ val CREATE_HOLIDAY: Reducer<CreateHoliday, State> = { state, _ ->
 
 val DELETE_HOLIDAY: Reducer<DeleteHoliday, State> = { state, action ->
     state.getHolidayStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Holiday ${action.id.value} is used!" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getHolidayStorage().remove(action.id)))
 }

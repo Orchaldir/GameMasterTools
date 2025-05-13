@@ -45,7 +45,7 @@ class GodTest {
             val plane = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
             val newState = state.updateStorage(Storage(plane))
 
-            assertIllegalArgument("The god 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test
@@ -53,7 +53,7 @@ class GodTest {
             val plane = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
             val newState = state.updateStorage(Storage(plane))
 
-            assertIllegalArgument("The god 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test
@@ -61,7 +61,7 @@ class GodTest {
             val plane = Holiday(HOLIDAY_ID_0, purpose = HolidayOfGod(GOD_ID_0))
             val newState = state.updateStorage(Storage(plane))
 
-            assertIllegalArgument("The god 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test

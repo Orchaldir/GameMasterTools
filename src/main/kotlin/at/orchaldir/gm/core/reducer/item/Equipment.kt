@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.utils.redux.Reducer

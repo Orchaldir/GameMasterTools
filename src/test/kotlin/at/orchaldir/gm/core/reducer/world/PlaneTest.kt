@@ -39,7 +39,7 @@ class PlaneTest {
         fun `Cannot delete the plane linked to a moon`() {
             val newState = state.updateStorage(Storage(Moon(MOON_ID_0, plane = PLANE_ID_0)))
 
-            assertIllegalArgument("Plane 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete Plane 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test
@@ -47,7 +47,7 @@ class PlaneTest {
             val plane = Plane(PLANE_ID_1, purpose = Demiplane(PLANE_ID_0))
             val newState = state.updateStorage(Storage(listOf(Plane(PLANE_ID_0), plane)))
 
-            assertIllegalArgument("Plane 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete Plane 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test
@@ -55,14 +55,14 @@ class PlaneTest {
             val plane = Plane(PLANE_ID_1, purpose = ReflectivePlane(PLANE_ID_0))
             val newState = state.updateStorage(Storage(listOf(Plane(PLANE_ID_0), plane)))
 
-            assertIllegalArgument("Plane 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete Plane 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test
         fun `Cannot delete the origin of a language`() {
             val newState = state.updateStorage(Storage(Language(LANGUAGE_ID_0, origin = PlanarLanguage(PLANE_ID_0))))
 
-            assertIllegalArgument("Plane 0 is used!") { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Cannot delete Plane 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test

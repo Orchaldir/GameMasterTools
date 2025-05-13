@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.core.model.culture.name.isAnyGenonym
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
@@ -39,7 +40,8 @@ val CLONE_CULTURE: Reducer<CloneCulture, State> = { state, action ->
 
 val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
     state.getCultureStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Culture ${action.id.value} is used by characters" }
+
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getCultureStorage().remove(action.id)))
 }

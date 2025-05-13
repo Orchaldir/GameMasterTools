@@ -4,10 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.magic.InventedSpell
-import at.orchaldir.gm.core.model.magic.ModifiedSpell
-import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.magic.TranslatedSpell
+import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.SomeOf
@@ -47,7 +44,7 @@ class SpellTest {
             val spell1 = Spell(SPELL_ID_1, origin = ModifiedSpell(UndefinedCreator, SPELL_ID_0))
             val state = STATE.updateStorage(Storage(listOf(spell0, spell1)))
 
-            assertIllegalArgument("The spell 0 is used!") {
+            assertIllegalArgument("Cannot delete Spell 0, because it is used!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -57,16 +54,23 @@ class SpellTest {
             val spell1 = Spell(SPELL_ID_1, origin = TranslatedSpell(UndefinedCreator, SPELL_ID_0))
             val state = STATE.updateStorage(Storage(listOf(spell0, spell1)))
 
-            assertIllegalArgument("The spell 0 is used!") {
+            assertIllegalArgument("Cannot delete Spell 0, because it is used!") {
                 REDUCER.invoke(state, action)
             }
         }
 
         @Test
-        fun `Cannot delete a spell known by a domain`() {
+        fun `Cannot delete a spell used by a domain`() {
             val state = STATE.updateStorage(Storage(Domain(DOMAIN_ID_0, spells = SomeOf(SPELL_ID_0))))
 
-            assertIllegalArgument("The spell 0 is used!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Spell 0, because it is used!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete a spell used by a spell group`() {
+            val state = STATE.updateStorage(Storage(SpellGroup(SPELL_GROUP_ID_0, spells = setOf(SPELL_ID_0))))
+
+            assertIllegalArgument("Cannot delete Spell 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 

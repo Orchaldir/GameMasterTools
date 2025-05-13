@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.SortGod
 import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
+import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -146,6 +147,7 @@ private fun HTML.showAllGods(
             tr {
                 th { +"Name" }
                 th { +"Title" }
+                th { +"Pantheons" }
                 th { +"Gender" }
                 th { +"Personality" }
                 th { +"Domain" }
@@ -153,25 +155,21 @@ private fun HTML.showAllGods(
             }
             gods.forEach { god ->
                 tr {
+                    val pantheons = state.getPantheonsContaining(god.id)
+                        .sortedBy { it.name.text }
+                    val personality = state.getPersonalityTraitStorage()
+                        .get(god.personality)
+                        .sortedBy { it.name.text }
+                    val domains = state.getDomainStorage()
+                        .get(god.domains)
+                        .sortedBy { it.name.text }
+
                     td { link(call, state, god) }
                     tdString(god.title)
+                    tdLinks(call, state, pantheons)
                     tdEnum(god.gender)
-                    td {
-                        showList(
-                            state.getPersonalityTraitStorage()
-                                .get(god.personality)
-                                .sortedBy { it.name.text }) {
-                            link(call, it)
-                        }
-                    }
-                    td {
-                        showList(
-                            state.getDomainStorage()
-                                .get(god.domains)
-                                .sortedBy { it.name.text }) {
-                            link(call, it)
-                        }
-                    }
+                    tdLinks(call, state, personality)
+                    tdLinks(call, state, domains)
                     tdSkipZero(state.getBelievers(god.id).size)
                 }
             }

@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
 import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
 import at.orchaldir.gm.utils.redux.Reducer
@@ -20,7 +21,7 @@ val CREATE_PERIODICAL: Reducer<CreatePeriodical, State> = { state, _ ->
 
 val DELETE_PERIODICAL: Reducer<DeletePeriodical, State> = { state, action ->
     state.getPeriodicalStorage().require(action.id)
-    require(state.canDeletePeriodical(action.id)) { "The periodical ${action.id.value} is used!" }
+    validateCanDelete(state.canDeletePeriodical(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getPeriodicalStorage().remove(action.id)))
 }

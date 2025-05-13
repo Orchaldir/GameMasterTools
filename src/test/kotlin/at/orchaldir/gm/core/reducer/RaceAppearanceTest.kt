@@ -52,7 +52,9 @@ class RaceAppearanceTest {
             )
             val action = DeleteRaceAppearance(RACE_APPEARANCE_ID_0)
 
-            assertIllegalArgument("Race Appearance 0 cannot be deleted") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Race Appearance 0, because it is used!") {
+                REDUCER.invoke(state, action)
+            }
         }
     }
 

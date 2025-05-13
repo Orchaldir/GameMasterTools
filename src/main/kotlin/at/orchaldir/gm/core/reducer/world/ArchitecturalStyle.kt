@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getBuildings
@@ -24,7 +25,7 @@ val CREATE_ARCHITECTURAL_STYLE: Reducer<CreateArchitecturalStyle, State> = { sta
 val DELETE_ARCHITECTURAL_STYLE: Reducer<DeleteArchitecturalStyle, State> = { state, action ->
     state.getArchitecturalStyleStorage().require(action.id)
 
-    require(state.canDelete(action.id)) { "Architectural Style ${action.id.value} is used!" }
+    validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().remove(action.id)))
 }

@@ -20,6 +20,8 @@ import at.orchaldir.gm.core.selector.economy.getJobsContaining
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
+import at.orchaldir.gm.core.selector.magic.countSpellGroups
+import at.orchaldir.gm.core.selector.magic.getSpellGroups
 import at.orchaldir.gm.core.selector.magic.getSpellsBasedOn
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
@@ -156,6 +158,7 @@ private fun HTML.showAllSpells(
                 th { +"Date" }
                 th { +"Language" }
                 th { +"Origin" }
+                th { +"Groups" }
                 th { +"Domains" }
                 th { +"Jobs" }
                 th { +"Texts" }
@@ -166,6 +169,7 @@ private fun HTML.showAllSpells(
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
                     td { showOrigin(call, state, spell.origin) }
+                    tdSkipZero(state.countSpellGroups(spell.id))
                     tdSkipZero(state.countDomains(spell.id))
                     tdSkipZero(state.countJobs(spell.id))
                     tdSkipZero(state.countTexts(spell.id))
@@ -194,6 +198,7 @@ private fun HTML.showSpellDetails(
         showSpell(call, state, spell)
 
         fieldList(call, state, "Domains containing it", state.getDomainsAssociatedWith(spell.id))
+        fieldList(call, state, "Spell Groups containing it", state.getSpellGroups(spell.id))
         fieldList(call, state, "Jobs using it", state.getJobsContaining(spell.id))
         fieldList(call, state, "Spells based on it", state.getSpellsBasedOn(spell.id))
         fieldList("Texts containing it", state.getTextsContaining(spell.id)) { text ->

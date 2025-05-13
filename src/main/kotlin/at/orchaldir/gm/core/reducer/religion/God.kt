@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer
@@ -20,7 +21,7 @@ val DELETE_GOD: Reducer<DeleteGod, State> = { state, action ->
     state.getGodStorage().require(action.id)
 
     checkIfCreatorCanBeDeleted(state, action.id)
-    require(state.canDeleteGod(action.id)) { "The god ${action.id.value} is used!" }
+    validateCanDelete(state.canDeleteGod(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getGodStorage().remove(action.id)))
 }

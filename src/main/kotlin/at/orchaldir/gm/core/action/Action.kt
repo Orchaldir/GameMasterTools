@@ -33,6 +33,8 @@ import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.Spell
+import at.orchaldir.gm.core.model.magic.SpellGroup
+import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -244,6 +246,11 @@ sealed class MagicAction : Action()
 data object CreateSpell : MagicAction()
 data class DeleteSpell(val id: SpellId) : MagicAction()
 data class UpdateSpell(val spell: Spell) : MagicAction()
+
+// spell group
+data object CreateSpellGroup : MagicAction()
+data class DeleteSpellGroup(val id: SpellGroupId) : MagicAction()
+data class UpdateSpellGroup(val group: SpellGroup) : MagicAction()
 
 //-- organization --
 
