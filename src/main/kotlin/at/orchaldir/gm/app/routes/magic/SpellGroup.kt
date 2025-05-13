@@ -143,7 +143,7 @@ private fun HTML.showAllSpellGroups(
     val groups = state.sortSpellGroups(sort)
     val createLink = call.application.href(SpellGroupRoutes.New())
 
-    simpleHtml("SpellGroups") {
+    simpleHtml("Spell Groups") {
         field("Count", groups.size)
         showSortTableLinks(call, SortSpellGroup.entries, SpellGroupRoutes(), SpellGroupRoutes::All)
 
