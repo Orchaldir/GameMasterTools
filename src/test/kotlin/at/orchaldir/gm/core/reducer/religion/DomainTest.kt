@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateDomain
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -53,6 +54,20 @@ class DomainTest {
             val action = UpdateDomain(Domain(UNKNOWN_DOMAIN_ID))
 
             assertIllegalArgument("Requires unknown Domain 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot use an unknown job`() {
+            val action = UpdateDomain(Domain(DOMAIN_ID_0, jobs = setOf(UNKNOWN_JOB_ID)))
+
+            assertIllegalArgument("Requires unknown Job 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot use an unknown spell`() {
+            val action = UpdateDomain(Domain(DOMAIN_ID_0, spells = SomeOf(UNKNOWN_SPELL_ID)))
+
+            assertIllegalArgument("Requires unknown Spell 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
