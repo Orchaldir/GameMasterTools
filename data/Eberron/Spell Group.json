@@ -23,7 +23,10 @@
   },
   "5": {
    "id": 5,
-   "name": "Illusion"
+   "name": "Illusion",
+   "spells": [
+    3
+   ]
   },
   "6": {
    "id": 6,
