@@ -4,11 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.magic.InventedSpell
-import at.orchaldir.gm.core.model.magic.ModifiedSpell
-import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.magic.SpellGroup
-import at.orchaldir.gm.core.model.magic.TranslatedSpell
+import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.SomeOf
