@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDeleteSpell(spell: SpellId) = getSpellsBasedOn(spell).isEmpty()
         && countDomains(spell) == 0
+        && countSpellGroups(spell) == 0
 
 fun countEachLanguage(spells: Collection<Spell>) = spells
     .filter { it.language != null }

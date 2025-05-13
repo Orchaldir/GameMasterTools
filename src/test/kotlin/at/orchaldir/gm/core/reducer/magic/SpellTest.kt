@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.ModifiedSpell
 import at.orchaldir.gm.core.model.magic.Spell
+import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.magic.TranslatedSpell
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
@@ -65,6 +66,13 @@ class SpellTest {
         @Test
         fun `Cannot delete a spell used by a domain`() {
             val state = STATE.updateStorage(Storage(Domain(DOMAIN_ID_0, spells = SomeOf(SPELL_ID_0))))
+
+            assertIllegalArgument("The spell 0 is used!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete a spell used by a spell group`() {
+            val state = STATE.updateStorage(Storage(SpellGroup(SPELL_GROUP_ID_0, spells = setOf(SPELL_ID_0))))
 
             assertIllegalArgument("The spell 0 is used!") { REDUCER.invoke(state, action) }
         }
