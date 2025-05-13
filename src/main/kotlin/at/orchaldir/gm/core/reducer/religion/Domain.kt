@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.action.UpdateDomain
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps

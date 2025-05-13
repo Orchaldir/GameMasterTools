@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.action.UpdatePantheon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
