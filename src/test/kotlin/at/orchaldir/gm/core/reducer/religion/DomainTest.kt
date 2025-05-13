@@ -12,16 +12,14 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-private val domain0 = Domain(DOMAIN_ID_0)
-private val STATE = State(
-    listOf(
-        Storage(CALENDAR0),
-        Storage(domain0),
-        Storage(domain0),
-    )
-)
-
 class DomainTest {
+
+    private val STATE = State(
+        listOf(
+            Storage(CALENDAR0),
+            Storage(Domain(DOMAIN_ID_0)),
+        )
+    )
 
     @Nested
     inner class DeleteTest {
@@ -34,7 +32,9 @@ class DomainTest {
 
         @Test
         fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Domain 0!") { REDUCER.invoke(State(), action) }
+            val action = DeleteDomain(UNKNOWN_DOMAIN_ID)
+
+            assertIllegalArgument("Requires unknown Domain 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -50,10 +50,9 @@ class DomainTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateDomain(Domain(DOMAIN_ID_0))
-            val state = STATE.removeStorage(DOMAIN_ID_0)
+            val action = UpdateDomain(Domain(UNKNOWN_DOMAIN_ID))
 
-            assertIllegalArgument("Requires unknown Domain 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Domain 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

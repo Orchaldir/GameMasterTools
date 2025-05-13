@@ -63,7 +63,7 @@ class SpellTest {
         }
 
         @Test
-        fun `Cannot delete a spell known by a domain`() {
+        fun `Cannot delete a spell used by a domain`() {
             val state = STATE.updateStorage(Storage(Domain(DOMAIN_ID_0, spells = SomeOf(SPELL_ID_0))))
 
             assertIllegalArgument("The spell 0 is used!") { REDUCER.invoke(state, action) }
