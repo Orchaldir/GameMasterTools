@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.selector.economy.getJobsContaining
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
+import at.orchaldir.gm.core.selector.magic.countSpellGroups
 import at.orchaldir.gm.core.selector.magic.getSpellGroups
 import at.orchaldir.gm.core.selector.magic.getSpellsBasedOn
 import at.orchaldir.gm.core.selector.religion.countDomains
@@ -157,6 +158,7 @@ private fun HTML.showAllSpells(
                 th { +"Date" }
                 th { +"Language" }
                 th { +"Origin" }
+                th { +"Groups" }
                 th { +"Domains" }
                 th { +"Jobs" }
                 th { +"Texts" }
@@ -167,6 +169,7 @@ private fun HTML.showAllSpells(
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
                     td { showOrigin(call, state, spell.origin) }
+                    tdSkipZero(state.countSpellGroups(spell.id))
                     tdSkipZero(state.countDomains(spell.id))
                     tdSkipZero(state.countJobs(spell.id))
                     tdSkipZero(state.countTexts(spell.id))
