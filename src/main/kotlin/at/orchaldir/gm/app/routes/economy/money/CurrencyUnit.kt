@@ -183,8 +183,8 @@ private fun HTML.showAllCurrencies(
                     td { +denomination.display(unit.number) }
                     td(state.calculateWeight(unit))
                     tdEnum(unit.format.getType())
-                    tdInlineLinks(call, state, unit.format.getMaterials())
-                    tdInlineLinks(call, state, unit.format.getFonts())
+                    tdInlineIds(call, state, unit.format.getMaterials())
+                    tdInlineIds(call, state, unit.format.getFonts())
                 }
             }
         }

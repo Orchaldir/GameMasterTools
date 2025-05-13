@@ -159,7 +159,7 @@ private fun HTML.showAllStreetTemplates(
                 tr {
                     tdLink(call, state, template)
                     td { showColor(template.color) }
-                    tdInlineLinks(call, state, template.materialCost.materials())
+                    tdInlineIds(call, state, template.materialCost.materials())
                 }
             }
         }

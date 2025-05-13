@@ -193,7 +193,7 @@ private fun HTML.showAllTexts(
                     tdLink(call, state, text.publisher)
                     tdLink(call, state, text.language)
                     tdEnum(text.format.getType())
-                    tdInlineLinks(call, state, text.materials())
+                    tdInlineIds(call, state, text.materials())
                     tdSkipZero(text.content.pages())
                     tdSkipZero(text.content.spells().size)
                 }

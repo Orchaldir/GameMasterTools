@@ -154,6 +154,14 @@
   "24": {
    "id": 24,
    "name": "Wuura’gaa"
+  },
+  "25": {
+   "id": 25,
+   "name": "Mabran",
+   "origin": {
+    "type": "Planar",
+    "plane": 7
+   }
   }
  }
 }

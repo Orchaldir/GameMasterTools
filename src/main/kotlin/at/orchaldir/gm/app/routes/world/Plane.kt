@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.world.plane.IndependentPlane
 import at.orchaldir.gm.core.model.world.plane.PLANE_TYPE
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.selector.getPlanarLanguages
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.core.selector.world.canDeletePlane
@@ -150,6 +151,7 @@ private fun HTML.showAllPlanes(
                 th { +"Purpose" }
                 th { +"Alignment" }
                 th { +"Current" }
+                th { +"Languages" }
             }
             planes.forEach { plane ->
                 tr {
@@ -162,6 +164,7 @@ private fun HTML.showAllPlanes(
                         }
                     }
                     tdOptionalEnum(state.getPlanarAlignment(plane, day))
+                    tdInlineElements(call, state, state.getPlanarLanguages(plane.id))
                 }
             }
         }
