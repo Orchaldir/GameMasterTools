@@ -5,11 +5,7 @@ import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
-import at.orchaldir.gm.core.model.util.CreatedByRealm
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.OwnedByRealm
-import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
