@@ -36,6 +36,7 @@ val UPDATE_GOD: Reducer<UpdateGod, State> = { state, action ->
 }
 
 fun validateGod(state: State, god: God) {
-    god.domains.forEach { state.getDomainStorage().require(it) }
-    god.personality.forEach { state.getPersonalityTraitStorage().require(it) }
+    state.getDomainStorage().require(god.domains)
+    state.getPersonalityTraitStorage().require(god.personality)
+    state.getDataSourceStorage().require(god.sources)
 }

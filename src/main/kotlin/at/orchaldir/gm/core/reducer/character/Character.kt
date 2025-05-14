@@ -57,6 +57,7 @@ fun validateCharacter(
     validateCharacterData(state, character)
     validateCharacterAppearance(state, character.appearance, character.race)
     validateCharacterEquipment(state, character.equipmentMap)
+    state.getDataSourceStorage().require(character.sources)
 }
 
 fun validateCharacterData(

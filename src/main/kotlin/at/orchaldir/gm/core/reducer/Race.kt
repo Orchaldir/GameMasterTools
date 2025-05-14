@@ -52,6 +52,7 @@ fun validateRace(state: State, race: Race) {
     checkHeight(race)
     checkLifeStages(state, race.lifeStages)
     checkOrigin(state, race)
+    state.getDataSourceStorage().require(race.sources)
 }
 
 fun checkLifeStages(state: State, lifeStages: LifeStages) {

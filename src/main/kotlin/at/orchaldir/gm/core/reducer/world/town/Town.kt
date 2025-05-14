@@ -48,6 +48,7 @@ fun validateTown(state: State, town: Town) {
     checkDate(state, town.foundingDate, "Town")
     validateCreator(state, town.founder, town.id, town.foundingDate, "founder")
     town.map.tiles.forEach { validateTownTile(state, it) }
+    state.getDataSourceStorage().require(town.sources)
 }
 
 private fun validateTownTile(state: State, tile: TownTile) {

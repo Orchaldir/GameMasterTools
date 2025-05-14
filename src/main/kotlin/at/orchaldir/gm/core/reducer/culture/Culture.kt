@@ -73,6 +73,7 @@ fun validateCulture(state: State, culture: Culture) {
         .require(culture.languages.getValidValues())
     state.getNameListStorage()
         .require(culture.namingConvention.getNameLists())
+    state.getDataSourceStorage().require(culture.sources)
 }
 
 private fun changeNames(

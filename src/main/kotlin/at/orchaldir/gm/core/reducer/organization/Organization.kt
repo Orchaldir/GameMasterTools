@@ -46,7 +46,8 @@ fun validateOrganization(
     validateCreator(state, organization.founder, organization.id, organization.date, "founder")
     validateRanks(state, organization)
     validateMembers(state, organization)
-    organization.holidays.forEach { state.getHolidayStorage().require(it) }
+    state.getHolidayStorage().require(organization.holidays)
+    state.getDataSourceStorage().require(organization.sources)
 }
 
 private fun validateRanks(state: State, organization: Organization) {

@@ -63,11 +63,7 @@ fun HtmlBlockTag.showDataSources(
     state: State,
     sources: Set<DataSourceId>,
 ) {
-    if (sources.isNotEmpty()) {
-        h2 { +"Data Sources" }
-
-        showIdList(call, state, sources)
-    }
+    fieldIdList(call, state, sources)
 }
 
 // edit
@@ -79,9 +75,7 @@ fun HtmlBlockTag.editDataSource(state: State, source: DataSource) {
 }
 
 fun HtmlBlockTag.editDataSources(state: State, sources: Set<DataSourceId>) {
-    h2 { +"Data Sources" }
-
-    selectElements(state, SOURCE, state.sortDataSources(), sources)
+    selectElements(state, "Data Sources", SOURCE, state.sortDataSources(), sources)
 }
 
 // parse
