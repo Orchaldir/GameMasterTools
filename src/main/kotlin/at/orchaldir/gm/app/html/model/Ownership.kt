@@ -162,10 +162,10 @@ private fun parseOwner(parameters: Parameters, state: State, param: String): Own
         OwnerType.Business -> OwnedByBusiness(parseBusinessId(parameters, combine(param, BUSINESS)))
         OwnerType.Character -> OwnedByCharacter(parseCharacterId(parameters, combine(param, CHARACTER)))
         OwnerType.Organization -> OwnedByOrganization(
-        parseOrganizationId(parameters, combine(param, ORGANIZATION))
-    )
+            parseOrganizationId(parameters, combine(param, ORGANIZATION))
+        )
 
         OwnerType.Realm -> OwnedByRealm(parseRealmId(parameters, combine(param, REALM)))
         OwnerType.Town -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
         OwnerType.Undefined -> UndefinedOwner
-}
+    }
