@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.town.StreetTile
@@ -26,6 +27,7 @@ class OwnerTest {
             Storage(Business(BUSINESS_ID_0, startDate = DAY0)),
             Storage(Character(CHARACTER_ID_2, birthDate = DAY0)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
+            Storage(Realm(REALM_ID_0, date = DAY0)),
             Storage(listOf(StreetTemplate(STREET_TYPE_ID_0), StreetTemplate(STREET_TYPE_ID_0))),
             Storage(
                 Town(
@@ -39,6 +41,7 @@ class OwnerTest {
     private val OWNED_BY_BUSINESS = History<Owner>(OwnedByBusiness(BUSINESS_ID_0))
     private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER_ID_2))
     private val OWNED_BY_ORGANIZATION = History<Owner>(OwnedByOrganization(ORGANIZATION_ID_0))
+    private val OWNED_BY_REALM = History<Owner>(OwnedByRealm(REALM_ID_0))
     private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN_ID_0))
     private val CHARACTER_AS_PREVIOUS = History(
         OwnedByTown(TOWN_ID_0),
@@ -77,6 +80,15 @@ class OwnerTest {
 
         assertIllegalArgument("Cannot use an unknown Organization 0 as owner!") {
             checkOwnership(state, OWNED_BY_ORGANIZATION, DAY0)
+        }
+    }
+
+    @Test
+    fun `Owner is an unknown Realm`() {
+        val state = STATE.removeStorage(REALM_ID_0)
+
+        assertIllegalArgument("Cannot use an unknown Realm 0 as owner!") {
+            checkOwnership(state, OWNED_BY_REALM, DAY0)
         }
     }
 
@@ -189,6 +201,11 @@ class OwnerTest {
     @Test
     fun `Successfully updated with organization as owner`() {
         testSuccess(OWNED_BY_ORGANIZATION)
+    }
+
+    @Test
+    fun `Successfully updated with realm as owner`() {
+        testSuccess(OWNED_BY_REALM)
     }
 
     @Test
