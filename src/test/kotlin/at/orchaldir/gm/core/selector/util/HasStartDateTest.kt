@@ -56,21 +56,25 @@ class HasStartDateTest {
             assertTrue(state.exists(elementWithStartDay, null))
         }
 
-        @Test
-        fun `Element doesn't exist if it starts after a range`() {
-            assertFalse(state.exists(elementWithStartDay, earlyRange))
-        }
+        @Nested
+        inner class ElementWithSpecificDayVsRangeTest {
 
-        @Test
-        fun `Element exist if it's start overlaps with the range`() {
-            assertTrue(state.exists(elementWithStartDay, rangeEndsAt))
-            assertTrue(state.exists(elementWithStartDay, rangeOverlaps))
-            assertTrue(state.exists(elementWithStartDay, rangeStartsAt))
-        }
+            @Test
+            fun `Element with specific day doesn't exist if it starts after a range`() {
+                assertFalse(state.exists(elementWithStartDay, earlyRange))
+            }
 
-        @Test
-        fun `Element exist if it starts before the range`() {
-            assertTrue(state.exists(elementWithStartDay, lateRange))
+            @Test
+            fun `Element with specific day exist if it's start overlaps with the range`() {
+                assertTrue(state.exists(elementWithStartDay, rangeEndsAt))
+                assertTrue(state.exists(elementWithStartDay, rangeOverlaps))
+                assertTrue(state.exists(elementWithStartDay, rangeStartsAt))
+            }
+
+            @Test
+            fun `Element with specific day exist if it starts before the range`() {
+                assertTrue(state.exists(elementWithStartDay, lateRange))
+            }
         }
     }
 }
