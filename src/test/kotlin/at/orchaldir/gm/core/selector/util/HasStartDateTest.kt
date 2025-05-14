@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.selector.util
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.CALENDAR0
+import at.orchaldir.gm.CALENDAR_ID_0
+import at.orchaldir.gm.QUOTE_ID_0
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.quote.Quote

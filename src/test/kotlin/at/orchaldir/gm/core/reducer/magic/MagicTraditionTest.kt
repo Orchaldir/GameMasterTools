@@ -4,7 +4,6 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.action.UpdateMagicTradition
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.reducer.REDUCER
