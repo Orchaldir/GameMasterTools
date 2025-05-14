@@ -20,11 +20,12 @@ value class DataSourceId(val value: Int) : Id<DataSourceId> {
 @Serializable
 data class DataSource(
     val id: DataSourceId,
-    val text: Name = Name.init("DataSource ${id.value}"),
+    val name: Name = Name.init("DataSource ${id.value}"),
     val year: Int = 0,
+    val edition: Int? = null,
 ) : ElementWithSimpleName<DataSourceId> {
 
     override fun id() = id
-    override fun name() = text.text
+    override fun name() = name.text
 
 }

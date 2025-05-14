@@ -31,6 +31,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
+import at.orchaldir.gm.core.model.source.DataSource
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
@@ -202,6 +203,23 @@ fun State.sortCurrencyUnits(
             SortCurrencyUnit.Name -> compareBy { it.name.text }
             SortCurrencyUnit.Value -> compareByDescending { it.denomination * 1000 + it.number }
             SortCurrencyUnit.Weight -> compareByDescending { calculateWeight(it).value() }
+        }
+    )
+
+// quote
+
+fun State.sortDataSources(sort: SortDataSource = SortDataSource.Name) =
+    sortDataSources(getDataSourceStorage().getAll(), sort)
+
+fun State.sortDataSources(
+    sources: Collection<DataSource>,
+    sort: SortDataSource = SortDataSource.Name,
+) = sources
+    .sortedWith(
+        when (sort) {
+            SortDataSource.Name -> compareBy { it.name.text }
+            SortDataSource.Year -> compareBy { it.year }
+            SortDataSource.Edition -> compareBy { it.edition }
         }
     )
 

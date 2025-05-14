@@ -57,6 +57,7 @@ fun Application.configureRouting() {
                 simpleHtml(APP_TITLE) {
                     action(dataLink, "Data")
                     h2 { +"Elements" }
+                    fieldStorageLink(call, state.getDataSourceStorage(), DataSourceRoutes.All())
                     fieldStorageLink(call, state.getFontStorage(), FontRoutes.All())
                     fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
                     fieldStorageLink(call, state.getQuoteStorage(), QuoteRoutes.All())

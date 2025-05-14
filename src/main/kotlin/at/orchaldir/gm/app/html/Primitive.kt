@@ -53,8 +53,8 @@ fun HtmlBlockTag.field(name: String, value: String) = field(name) {
     +value
 }
 
-fun <T : Enum<T>> HtmlBlockTag.optionalField(name: String, value: T?) =
-    optionalField(name, value?.name)
+fun <T> HtmlBlockTag.optionalField(name: String, value: T?) =
+    optionalField(name, value?.toString())
 
 private fun HtmlBlockTag.optionalField(name: String, value: String?) {
     if (value != null) {
@@ -117,6 +117,19 @@ fun HtmlBlockTag.selectFloat(
         step = stepValue.toString()
         value = number.toString()
         onChange = ON_CHANGE_SCRIPT
+    }
+}
+
+fun HtmlBlockTag.selectOptionalInt(
+    label: String,
+    number: Int?,
+    minNumber: Int,
+    maxNumber: Int,
+    stepNumber: Int,
+    param: String,
+) {
+    selectOptional(label, number, param) {
+        selectInt(it, minNumber, maxNumber, stepNumber, param)
     }
 }
 
