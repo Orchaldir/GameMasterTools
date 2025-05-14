@@ -4,6 +4,10 @@
   "0": {
    "id": 0,
    "name": "Arcanix Tradition",
+   "date": {
+    "type": "Century",
+    "century": 0
+   },
    "groups": [
     1,
     2,

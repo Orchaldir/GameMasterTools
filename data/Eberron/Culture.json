@@ -70,6 +70,42 @@
     "22": "Common",
     "24": "Uncommon"
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Karrnathi",
+   "languages": {
+    "1": "Everyone",
+    "7": "Common",
+    "9": "Uncommon",
+    "11": "Common",
+    "13": "Common",
+    "14": "Uncommon"
+   },
+   "namingConvention": {
+    "type": "Family",
+    "givenNames": {
+     "female": 7,
+     "genderless": 6,
+     "male": 6
+    },
+    "familyNames": 8
+   },
+   "fashion": {
+    "female": 1,
+    "genderless": 0,
+    "male": 0
+   },
+   "holidays": [
+    5,
+    10,
+    8,
+    7,
+    0,
+    3,
+    9,
+    2
+   ]
   }
  }
 }

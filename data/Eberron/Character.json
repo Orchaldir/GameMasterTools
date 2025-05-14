@@ -1001,6 +1001,37 @@
      "pantheon": 5
     }
    }
+  },
+  "15": {
+   "id": 15,
+   "name": {
+    "type": "Family",
+    "given": "Galifar",
+    "middle": null,
+    "family": "Wynarn"
+   },
+   "birthDate": {
+    "type": "Year",
+    "year": -45
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Year",
+     "year": 52
+    },
+    "cause": {
+     "type": "OldAge"
+    }
+   },
+   "culture": 3,
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
+   },
+   "title": 0
   }
  }
 }
