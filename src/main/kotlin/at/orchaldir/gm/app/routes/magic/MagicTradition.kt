@@ -5,6 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.magic.editMagicTradition
 import at.orchaldir.gm.app.html.model.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.model.magic.showMagicTradition
+import at.orchaldir.gm.app.html.model.showCreator
+import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CreateMagicTradition
 import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.action.UpdateMagicTradition
@@ -151,11 +153,15 @@ private fun HTML.showAllMagicTraditions(
         table {
             tr {
                 th { +"Name" }
+                th { +"Date" }
+                th { +"Founder" }
                 th { +"Groups" }
             }
             traditions.forEach { tradition ->
                 tr {
                     tdLink(call, state, tradition)
+                    td { showOptionalDate(call, state, tradition.startDate()) }
+                    td { showCreator(call, state, tradition.founder, false) }
                     tdSkipZero(tradition.groups.size)
                 }
             }

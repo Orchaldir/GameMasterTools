@@ -340,6 +340,7 @@ fun State.sortMagicTraditions(
     .sortedWith(
         when (sort) {
             SortMagicTradition.Name -> compareBy { it.name.text }
+            SortMagicTradition.Age -> getAgeComparator()
             SortMagicTradition.Groups -> compareByDescending { it.groups.size }
         })
 

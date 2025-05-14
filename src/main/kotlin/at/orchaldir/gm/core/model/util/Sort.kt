@@ -66,6 +66,7 @@ enum class SortJob {
 
 enum class SortMagicTradition {
     Name,
+    Age,
     Groups,
 }
 
