@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.source
 
 import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
