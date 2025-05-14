@@ -52,8 +52,8 @@ class MagicTraditionTest {
 
         @Test
         fun `Cannot use an unknown spell`() {
-            val action =
-                UpdateMagicTradition(MagicTradition(MAGIC_TRADITION_ID_0, groups = setOf(UNKNOWN_SPELL_GROUP_ID)))
+            val tradition = MagicTradition(MAGIC_TRADITION_ID_0, groups = setOf(UNKNOWN_SPELL_GROUP_ID))
+            val action = UpdateMagicTradition(tradition)
 
             assertIllegalArgument("Requires unknown Spell Group 99!") { REDUCER.invoke(STATE, action) }
         }
