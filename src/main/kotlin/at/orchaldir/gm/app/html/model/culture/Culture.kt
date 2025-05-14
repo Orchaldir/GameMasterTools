@@ -38,10 +38,10 @@ fun HtmlBlockTag.showCulture(
         link(call, state, l)
     }
     showHolidays(call, state, culture.holidays)
+    showDataSources(call, state, culture.sources)
     showNamingConvention(culture.namingConvention, call, state)
     showClothingOptions(call, state, culture)
     showUsages(call, state, culture)
-    showDataSources(call, state, culture.sources)
 }
 
 private fun HtmlBlockTag.showUsages(
@@ -162,9 +162,9 @@ fun FORM.editCulture(
         culture.languages,
     ) { it.name.text }
     editHolidays(state, culture.holidays)
+    editDataSources(state, culture.sources)
     editNamingConvention(culture.namingConvention, state)
     editClothingOptions(state, culture)
-    editDataSources(state, culture.sources)
 }
 
 private fun FORM.editNamingConvention(
