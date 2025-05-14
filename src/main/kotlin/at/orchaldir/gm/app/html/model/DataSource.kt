@@ -8,7 +8,12 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.source.DataSource
 import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
+import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.selector.util.sortDataSources
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -23,6 +28,25 @@ fun HtmlBlockTag.showDataSource(
 ) {
     field("Year", source.year)
     optionalField("Edition", source.edition)
+
+    h2 { +"Content" }
+
+    showDataSourceContent(call, state, state.getMagicTraditionStorage(), source.id)
+}
+
+
+fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showDataSourceContent(
+    call: ApplicationCall,
+    state: State,
+    storage: Storage<ID, ELEMENT>,
+    source: DataSourceId,
+) where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasDataSources {
+    val elements = storage.getAll()
+        .filter { it.sources().contains(source) }
+
+    fieldList(call, state, elements)
 }
 
 fun HtmlBlockTag.showDataSources(

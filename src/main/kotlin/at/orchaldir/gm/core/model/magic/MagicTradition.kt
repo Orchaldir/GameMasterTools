@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.magic
 
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -27,11 +28,12 @@ data class MagicTradition(
     val founder: Creator = UndefinedCreator,
     val groups: Set<SpellGroupId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<MagicTraditionId>, Created, HasStartDate {
+) : ElementWithSimpleName<MagicTraditionId>, Created, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = founder
     override fun startDate() = date
+    override fun sources() = sources
 
 }
