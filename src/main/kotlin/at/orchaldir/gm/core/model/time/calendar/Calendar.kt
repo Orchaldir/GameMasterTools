@@ -88,16 +88,16 @@ data class Calendar(
 
     fun compareTo(a: Date, b: Date) = getStartDay(a).compareTo(getStartDay(b))
 
-    fun isAfter(a: Date, b: Date) = compareTo(a, b) > 0
-    fun isAfterOptional(a: Date?, b: Date?) = if (a != null && b != null) {
-        compareTo(a, b) > 0
+    fun isAfter(after: Date, before: Date) = compareTo(after, before) > 0
+    fun isAfterOptional(after: Date?, b: Date?) = if (after != null && b != null) {
+        compareTo(after, b) > 0
     } else {
         true
     }
 
-    fun isAfterOrEqual(a: Date, b: Date) = compareTo(a, b) >= 0
-    fun isAfterOrEqualOptional(a: Date?, b: Date?) = if (a != null && b != null) {
-        compareTo(a, b) >= 0
+    fun isAfterOrEqual(after: Date, before: Date) = compareTo(after, before) >= 0
+    fun isAfterOrEqualOptional(after: Date?, before: Date?) = if (after != null && before != null) {
+        compareTo(after, before) >= 0
     } else {
         true
     }

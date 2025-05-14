@@ -162,24 +162,16 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
             }
             styles.forEach { style ->
                 tr {
-                    td { link(call, style) }
+                    tdLink(call, state, style)
                     td { showOptionalDate(call, state, style.start) }
                     td { showOptionalDate(call, state, style.end) }
-                    td { style.revival?.let { link(call, state, it) } }
-                    td { countBuildings(state, style) }
+                    tdLink(call, state, style.revival)
+                    tdSkipZero(state.getBuildings(style.id).size)
                 }
             }
         }
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HtmlBlockTag.countBuildings(state: State, style: ArchitecturalStyle) {
-    val count = state.getBuildings(style.id).size
-
-    if (count > 0) {
-        +count.toString()
     }
 }
 

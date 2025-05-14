@@ -25,7 +25,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.table
+import kotlinx.html.th
+import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -155,7 +158,7 @@ private fun HTML.showAllTitles(
             }
             titles.forEach { title ->
                 tr {
-                    td { link(call, state, title) }
+                    tdLink(call, state, title)
                     tdString(title.text)
                     tdEnum(title.position)
                     tdChar(title.separator)

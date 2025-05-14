@@ -152,7 +152,7 @@ private fun HTML.showAllArticles(
             }
             articles.forEach { article ->
                 tr {
-                    td { link(call, state, article) }
+                    tdLink(call, state, article)
                     td { showOptionalDate(call, state, article.date) }
                 }
             }

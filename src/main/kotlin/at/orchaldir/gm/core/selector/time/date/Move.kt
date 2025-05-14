@@ -76,6 +76,13 @@ fun Calendar.getEndDay(date: Date) = when (date) {
     is Century -> getEndDayOfCentury(date)
 }
 
+// day range
+
+fun Calendar.getDayRange(date: Date) = DayRange(
+    getStartDay(date),
+    getEndDay(date),
+)
+
 // week
 
 fun Calendar.getStartDayOfWeek(week: Week): Day {

@@ -218,7 +218,7 @@ private fun HTML.showAllFonts(
             }
             fonts.forEach { font ->
                 tr {
-                    td { link(call, font) }
+                    tdLink(call, state, font)
                     td { showOptionalDate(call, state, font.date) }
                     td { svg(visualizeString(example, font, FONT_SIZE), 100) }
                     tdSkipZero(state.countCurrencyUnits(font.id))

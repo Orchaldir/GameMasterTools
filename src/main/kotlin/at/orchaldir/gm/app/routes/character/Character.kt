@@ -196,14 +196,14 @@ private fun HTML.showAllCharacters(
                         }
                     }
                     td { optionalLink(call, state, character.title) }
-                    td { link(call, state, character.race) }
+                    tdLink(call, state, character.race)
                     tdEnum(character.gender)
                     td {
                         if (character.sexuality != SexualOrientation.Heterosexual) {
                             +character.sexuality.toString()
                         }
                     }
-                    td { link(call, state, character.culture) }
+                    tdLink(call, state, character.culture)
                     td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }
                     tdSkipZero(state.getAgeInYears(character))

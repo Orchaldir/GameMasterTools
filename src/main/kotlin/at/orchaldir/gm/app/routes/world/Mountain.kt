@@ -129,12 +129,8 @@ private fun HTML.showAllMountains(
             }
             mountains.forEach { mountain ->
                 tr {
-                    td { link(call, mountain) }
-                    td {
-                        state.getMaterialStorage().get(mountain.resources)
-                            .sortedBy { it.name.text }
-                            .map { link(call, state, it) }
-                    }
+                    tdLink(call, state, mountain)
+                    tdInlineIds(call, state, mountain.resources)
                 }
             }
         }

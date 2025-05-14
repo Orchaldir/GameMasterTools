@@ -150,7 +150,7 @@ private fun HTML.showAllQuotes(
             }
             qquotes.forEach { quote ->
                 tr {
-                    td { link(call, state, quote) }
+                    tdLink(call, state, quote)
                     td { showOptionalDate(call, state, quote.startDate()) }
                     td { showCreator(call, state, quote.source, false) }
                 }

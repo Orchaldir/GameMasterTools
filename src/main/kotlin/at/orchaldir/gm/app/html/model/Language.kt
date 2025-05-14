@@ -67,6 +67,7 @@ fun HtmlBlockTag.displayOrigin(
     call: ApplicationCall,
     state: State,
     language: Language,
+    showOriginal: Boolean = true,
 ) {
     when (val origin = language.origin) {
         is CombinedLanguage -> {
@@ -87,7 +88,10 @@ fun HtmlBlockTag.displayOrigin(
             showCreator(call, state, origin.inventor)
         }
 
-        OriginalLanguage -> +"Original"
+        OriginalLanguage -> if (showOriginal) {
+            +"Original"
+        }
+
         is PlanarLanguage -> {
             +"Part of "
             link(call, state, origin.plane)

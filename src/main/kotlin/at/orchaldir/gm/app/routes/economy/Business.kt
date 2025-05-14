@@ -158,7 +158,7 @@ private fun HTML.showAllBusinesses(
             }
             businesses.forEach { business ->
                 tr {
-                    td { link(call, state, business) }
+                    tdLink(call, state, business)
                     td { showOptionalDate(call, state, business.startDate()) }
                     td { showCreator(call, state, business.founder, false) }
                     td { showOwner(call, state, business.ownership.current, false) }

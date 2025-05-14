@@ -170,7 +170,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                         }
                     }
                     tdOptionalEnum(job.preferredGender)
-                    tdInlineLinks(call, state, job.uniforms.getValues().filterNotNull())
+                    tdInlineIds(call, state, job.uniforms.getValues().filterNotNull())
                     tdSkipZero(state.countCharacters(job.id))
                     tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(job.spells.getRarityMap().size)

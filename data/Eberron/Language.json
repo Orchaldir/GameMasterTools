@@ -148,12 +148,44 @@
    "name": "Druidic",
    "origin": {
     "type": "Planar",
-    "plane": 13
+    "plane": 6
    }
   },
   "24": {
    "id": 24,
    "name": "Wuura’gaa"
+  },
+  "25": {
+   "id": 25,
+   "name": "Mabran",
+   "origin": {
+    "type": "Planar",
+    "plane": 7
+   }
+  },
+  "26": {
+   "id": 26,
+   "name": "Sylvan",
+   "origin": {
+    "type": "Planar",
+    "plane": 11
+   }
+  },
+  "27": {
+   "id": 27,
+   "name": "Daan",
+   "origin": {
+    "type": "Planar",
+    "plane": 0
+   }
+  },
+  "28": {
+   "id": 28,
+   "name": "Kythric",
+   "origin": {
+    "type": "Planar",
+    "plane": 5
+   }
   }
  }
 }

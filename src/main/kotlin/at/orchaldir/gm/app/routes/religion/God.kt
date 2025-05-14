@@ -26,7 +26,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.table
+import kotlinx.html.th
+import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -164,7 +167,7 @@ private fun HTML.showAllGods(
                         .get(god.domains)
                         .sortedBy { it.name.text }
 
-                    td { link(call, state, god) }
+                    tdLink(call, state, god)
                     tdString(god.title)
                     tdLinks(call, state, pantheons)
                     tdEnum(god.gender)

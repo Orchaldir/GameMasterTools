@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.race.Race
@@ -140,6 +141,16 @@ class CharacterTest {
             val newState = state.updateStorage(Storage(quote))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Quote)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete the founder of a magic tradition`() {
+            val tradition = MagicTradition(UNKNOWN_MAGIC_TRADITION_ID, founder = createdByCharacter)
+            val newState = state.updateStorage(Storage(tradition))
+
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Magic Tradition)!") {
                 REDUCER.invoke(newState, action)
             }
         }

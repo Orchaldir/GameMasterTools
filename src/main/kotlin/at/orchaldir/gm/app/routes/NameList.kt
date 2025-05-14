@@ -129,7 +129,7 @@ private fun HTML.showAllNameLists(
             }
             nameLists.forEach { nameList ->
                 tr {
-                    td { link(call, state, nameList) }
+                    tdLink(call, state, nameList)
                     tdSkipZero(nameList.names.size)
                 }
             }

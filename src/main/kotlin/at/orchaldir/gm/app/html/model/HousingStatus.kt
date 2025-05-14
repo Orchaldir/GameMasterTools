@@ -12,8 +12,6 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
-import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.selector.character.countCharactersLivingInHouse
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
@@ -23,17 +21,6 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
-
-fun HtmlBlockTag.showInhabitantCount(
-    state: State,
-    building: BuildingId,
-) {
-    val count = state.countCharactersLivingInHouse(building)
-
-    if (count > 0) {
-        +count.toString()
-    }
-}
 
 fun HtmlBlockTag.showHousingStatusHistory(
     call: ApplicationCall,

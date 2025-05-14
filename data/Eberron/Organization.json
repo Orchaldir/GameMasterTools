@@ -339,6 +339,18 @@
   "29": {
    "id": 29,
    "name": "The Gatekeepers"
+  },
+  "30": {
+   "id": 30,
+   "name": "Arcane Congress",
+   "founder": {
+    "type": "Character",
+    "character": 15
+   },
+   "date": {
+    "type": "Year",
+    "year": 14
+   }
   }
  }
 }

@@ -161,9 +161,9 @@ private fun HTML.showAllCultures(
             }
             cultures.forEach { culture ->
                 tr {
-                    td { link(call, state, culture.id) }
-                    td { link(call, state, culture.calendar) }
-                    tdInlineLinks(call, state, culture.languages.getValuesFor(Rarity.Everyone))
+                    tdLink(call, state, culture.id)
+                    tdLink(call, state, culture.calendar)
+                    tdInlineIds(call, state, culture.languages.getValuesFor(Rarity.Everyone))
                     tdEnum(culture.namingConvention.getType())
                     tdSkipZero(culture.holidays.size)
                     tdSkipZero(state.getCharacters(culture.id).size)

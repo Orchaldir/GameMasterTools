@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
 
-fun State.canDeleteSpellGroup(group: SpellGroupId) = true
+fun State.canDeleteSpellGroup(group: SpellGroupId) = countMagicTraditions(group) == 0
 
 fun State.countSpellGroups(spell: SpellId) = getSpellGroupStorage()
     .getAll()

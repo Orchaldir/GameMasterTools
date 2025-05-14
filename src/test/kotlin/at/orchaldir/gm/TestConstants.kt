@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -86,6 +87,8 @@ val UNKNOWN_JOB_ID = JobId(99)
 val LANGUAGE_ID_0 = LanguageId(0)
 val LANGUAGE_ID_1 = LanguageId(1)
 val UNKNOWN_LANGUAGE_ID = LanguageId(99)
+val MAGIC_TRADITION_ID_0 = MagicTraditionId(0)
+val UNKNOWN_MAGIC_TRADITION_ID = MagicTraditionId(99)
 val MATERIAL_ID_0 = MaterialId(0)
 val MATERIAL_ID_1 = MaterialId(1)
 val MOON_ID_0 = MoonId(0)

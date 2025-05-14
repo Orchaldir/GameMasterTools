@@ -175,7 +175,7 @@ private fun HTML.showAllTexts(
             }
             texts.forEach { text ->
                 tr {
-                    td { link(call, state, text) }
+                    tdLink(call, state, text)
                     td { showOptionalDate(call, state, text.date) }
                     td {
                         when (text.origin) {
@@ -190,10 +190,10 @@ private fun HTML.showAllTexts(
                             }
                         }
                     }
-                    td { optionalLink(call, state, text.publisher) }
-                    td { link(call, state, text.language) }
+                    tdLink(call, state, text.publisher)
+                    tdLink(call, state, text.language)
                     tdEnum(text.format.getType())
-                    tdInlineLinks(call, state, text.materials())
+                    tdInlineIds(call, state, text.materials())
                     tdSkipZero(text.content.pages())
                     tdSkipZero(text.content.spells().size)
                 }

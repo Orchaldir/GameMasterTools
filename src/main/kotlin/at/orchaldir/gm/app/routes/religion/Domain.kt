@@ -25,7 +25,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.table
+import kotlinx.html.th
+import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -151,7 +154,7 @@ private fun HTML.showAllDomains(
             }
             domains.forEach { domain ->
                 tr {
-                    td { link(call, state, domain) }
+                    tdLink(call, state, domain)
                     tdSkipZero(domain.spells.getSize())
                     tdSkipZero(domain.jobs.size)
                     tdSkipZero(state.getGodsWith(domain.id).size)

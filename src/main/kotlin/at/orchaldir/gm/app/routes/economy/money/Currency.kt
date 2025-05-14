@@ -153,7 +153,7 @@ private fun HTML.showAllCurrencies(
             }
             currencies.forEach { currency ->
                 tr {
-                    td { link(call, state, currency) }
+                    tdLink(call, state, currency)
                     td { showOptionalDate(call, state, currency.startDate) }
                     td { showOptionalDate(call, state, currency.endDate) }
                 }

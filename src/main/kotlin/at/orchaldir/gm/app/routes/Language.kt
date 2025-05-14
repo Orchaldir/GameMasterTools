@@ -155,8 +155,8 @@ private fun HTML.showAllLanguages(
             }
             languages.forEach { language ->
                 tr {
-                    td { link(call, state, language) }
-                    td { displayOrigin(call, state, language) }
+                    tdLink(call, state, language)
+                    td { displayOrigin(call, state, language, false) }
                     tdSkipZero(state.countCharacters(language.id))
                     tdSkipZero(state.countCultures(language.id))
                     tdSkipZero(state.countChildren(language.id))

@@ -76,6 +76,12 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
     }
 
+    getMagicTraditionStorage().getAll().forEach { tradition ->
+        addPossibleEvent(events, default, calendar, tradition.startDate()) {
+            StartEvent(it, tradition.id)
+        }
+    }
+
     getPeriodicalStorage().getAll().forEach { periodical ->
         val periodicalCalendar = getCalendarStorage().getOrThrow(periodical.calendar)
 

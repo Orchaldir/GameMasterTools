@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortBuilding
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.character.countCharactersLivingInHouse
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
@@ -202,11 +203,11 @@ private fun HTML.showAllBuildings(
                 tr {
                     td { link(call, building.id, name) }
                     td { showOptionalDate(call, state, building.constructionDate) }
-                    td { link(call, state, building.lot.town) }
+                    tdLink(call, state, building.lot.town)
                     td { showAddress(call, state, building, false) }
                     tdEnum(building.purpose.getType())
-                    td { showInhabitantCount(state, building.id) }
-                    td { optionalLink(call, state, building.style) }
+                    tdSkipZero(state.countCharactersLivingInHouse(building.id))
+                    tdLink(call, state, building.style)
                     td { showOwner(call, state, building.ownership.current, false) }
                     td { showCreator(call, state, building.builder, false) }
                 }

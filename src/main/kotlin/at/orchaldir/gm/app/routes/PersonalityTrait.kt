@@ -125,7 +125,7 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
             }
             personalityTraits.forEach { trait ->
                 tr {
-                    td { link(call, state, trait) }
+                    tdLink(call, state, trait)
                     tdSkipZero(state.getCharacters(trait.id).size)
                     tdSkipZero(state.getGodsWith(trait.id).size)
                 }
