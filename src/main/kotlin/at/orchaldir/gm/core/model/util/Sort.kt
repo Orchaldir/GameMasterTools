@@ -83,6 +83,11 @@ enum class SortMaterial {
     Equipment,
 }
 
+enum class SortRealm {
+    Name,
+    Age,
+}
+
 enum class SortOrganization {
     Age,
     Name,

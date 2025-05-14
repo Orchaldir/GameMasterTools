@@ -28,6 +28,7 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
@@ -312,6 +313,21 @@ fun State.sortJobs(
 
             SortJob.Characters -> compareByDescending { countCharacters(it.id) }
             SortJob.Spells -> compareByDescending { it.spells.getSize() }
+        })
+
+// realm
+
+fun State.sortRealms(sort: SortRealm = SortRealm.Name) =
+    sortRealms(getRealmStorage().getAll(), sort)
+
+fun State.sortRealms(
+    realms: Collection<Realm>,
+    sort: SortRealm = SortRealm.Name,
+) = realms
+    .sortedWith(
+        when (sort) {
+            SortRealm.Name -> compareBy { it.name.text }
+            SortRealm.Age -> getAgeComparator()
         })
 
 // organization
