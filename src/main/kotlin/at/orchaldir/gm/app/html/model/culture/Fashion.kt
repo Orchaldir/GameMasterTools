@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html.model.culture
 
 import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.parseOptionalInt
+import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -36,7 +36,7 @@ fun HtmlBlockTag.editFashion(
 
 fun parseFashionId(parameters: Parameters, param: String) = parseOptionalFashionId(parameters, param) ?: FashionId(0)
 fun parseOptionalFashionId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { FashionId(it) }
+    parseSimpleOptionalInt(parameters, param)?.let { FashionId(it) }
 
 fun parseFashion(id: FashionId, parameters: Parameters) = Fashion(
     id,

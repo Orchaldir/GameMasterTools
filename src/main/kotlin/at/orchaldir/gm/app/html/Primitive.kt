@@ -295,7 +295,11 @@ fun parseFloat(parameters: Parameters, param: String, default: Float = 0.0f) = p
 
 fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default
 
-fun parseOptionalInt(parameters: Parameters, param: String): Int? {
+fun parseOptionalInt(parameters: Parameters, param: String, default: Int) = parseOptional(parameters, param) {
+    parseInt(parameters, param, default)
+}
+
+fun parseSimpleOptionalInt(parameters: Parameters, param: String): Int? {
     val value = parameters[param]
 
     if (value.isNullOrEmpty()) {

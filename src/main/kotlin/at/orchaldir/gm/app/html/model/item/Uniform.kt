@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.model.character.editEquipmentMap
 import at.orchaldir.gm.app.html.model.character.parseEquipmentMap
 import at.orchaldir.gm.app.html.model.character.showEquipmentMap
 import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.parseOptionalInt
+import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
@@ -42,7 +42,7 @@ fun FORM.editUniform(
 
 fun parseUniformId(parameters: Parameters, param: String) = parseOptionalUniformId(parameters, param) ?: UniformId(0)
 fun parseOptionalUniformId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { UniformId(it) }
+    parseSimpleOptionalInt(parameters, param)?.let { UniformId(it) }
 
 fun parseUniform(parameters: Parameters, id: UniformId) = Uniform(
     id,

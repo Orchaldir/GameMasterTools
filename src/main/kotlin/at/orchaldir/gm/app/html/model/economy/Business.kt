@@ -56,7 +56,7 @@ fun FORM.editBusiness(
 
 fun parseBusinessId(parameters: Parameters, param: String) = parseOptionalBusinessId(parameters, param) ?: BusinessId(0)
 fun parseOptionalBusinessId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { BusinessId(it) }
+    parseSimpleOptionalInt(parameters, param)?.let { BusinessId(it) }
 
 fun parseBusiness(parameters: Parameters, state: State, id: BusinessId): Business {
     val startDate = parseOptionalDate(parameters, state, DATE)

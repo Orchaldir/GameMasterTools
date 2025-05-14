@@ -152,7 +152,7 @@ fun parseLanguageId(value: String) = LanguageId(value.toInt())
 fun parseLanguageId(parameters: Parameters, param: String) = LanguageId(parseInt(parameters, param))
 
 fun parseOptionalLanguageId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { LanguageId(it) }
+    parseSimpleOptionalInt(parameters, param)?.let { LanguageId(it) }
 
 fun parseLanguage(parameters: Parameters, state: State, id: LanguageId) = Language(
     id,

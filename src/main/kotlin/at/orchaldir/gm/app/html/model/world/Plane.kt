@@ -49,7 +49,7 @@ fun HtmlBlockTag.editPlane(
 
 fun parsePlaneId(parameters: Parameters, param: String) = parseOptionalPlaneId(parameters, param) ?: PlaneId(0)
 fun parseOptionalPlaneId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { PlaneId(it) }
+    parseSimpleOptionalInt(parameters, param)?.let { PlaneId(it) }
 
 fun parsePlane(parameters: Parameters, id: PlaneId) = Plane(
     id,

@@ -246,7 +246,7 @@ fun parseCurrencyUnitId(parameters: Parameters, param: String) =
     parseOptionalCurrencyUnitId(parameters, param) ?: CurrencyUnitId(0)
 
 fun parseOptionalCurrencyUnitId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { CurrencyUnitId(it) }
+    parseSimpleOptionalInt(parameters, param)?.let { CurrencyUnitId(it) }
 
 fun parseCurrencyUnit(parameters: Parameters, id: CurrencyUnitId): CurrencyUnit = CurrencyUnit(
     id,

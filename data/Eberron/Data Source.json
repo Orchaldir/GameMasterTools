@@ -1,5 +1,23 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Exploring Eberron",
+   "year": 2020,
+   "edition": 5
+  },
+  "1": {
+   "id": 1,
+   "name": "Frontiers of Eberron",
+   "year": 2024,
+   "edition": 5
+  },
+  "2": {
+   "id": 2,
+   "name": "Chronicles of Eberron",
+   "year": 2022,
+   "edition": 5
+  }
  }
 }

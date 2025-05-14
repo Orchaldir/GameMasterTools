@@ -100,7 +100,7 @@ private fun FORM.editDenominations(currency: Currency) {
 
 fun parseCurrencyId(parameters: Parameters, param: String) = parseOptionalCurrencyId(parameters, param) ?: CurrencyId(0)
 fun parseOptionalCurrencyId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { CurrencyId(it) }
+    parseSimpleOptionalInt(parameters, param)?.let { CurrencyId(it) }
 
 fun parseCurrency(parameters: Parameters, state: State, id: CurrencyId): Currency {
     var lastThreshold = 0

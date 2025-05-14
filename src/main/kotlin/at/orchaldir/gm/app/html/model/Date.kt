@@ -737,18 +737,6 @@ fun parseOptionalDay(
     parseDay(parameters, calendar, param)
 }
 
-private fun <T> parseOptional(
-    parameters: Parameters,
-    param: String,
-    content: () -> T,
-): T? {
-    if (!parseBool(parameters, combine(param, AVAILABLE))) {
-        return null
-    }
-
-    return content()
-}
-
 // parse
 
 fun parseDate(

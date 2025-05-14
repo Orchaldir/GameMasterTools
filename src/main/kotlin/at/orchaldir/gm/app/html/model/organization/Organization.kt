@@ -156,4 +156,4 @@ private fun parseMembers(
     return members
 }
 
-fun parseMemberRank(parameters: Parameters, state: State, param: String) = parseOptionalInt(parameters, param)
+fun parseMemberRank(parameters: Parameters, state: State, param: String) = parseSimpleOptionalInt(parameters, param)

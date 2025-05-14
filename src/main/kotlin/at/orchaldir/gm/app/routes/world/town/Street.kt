@@ -45,7 +45,7 @@ fun Application.configureStreetEditorRouting() {
             val town = state.getTownStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val typeId = parseInt(params, TYPE, 0)
-            val streetId = parseOptionalInt(params, STREET)
+            val streetId = parseSimpleOptionalInt(params, STREET)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showStreetEditor(call, state, town, StreetTemplateId(typeId), streetId?.let { StreetId(it) })

@@ -38,5 +38,5 @@ fun parseDataSource(parameters: Parameters, state: State, id: DataSourceId) = Da
     id,
     parseName(parameters),
     parseInt(parameters, DATE),
-    parseOptionalInt(parameters, NUMBER),
+    parseOptionalInt(parameters, NUMBER, 0),
 )
