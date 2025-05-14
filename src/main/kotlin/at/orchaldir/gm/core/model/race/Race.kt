@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
+import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -38,11 +40,13 @@ data class Race(
     val weight: Weight = Weight.fromKilograms(75.0f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
-) : ElementWithSimpleName<RaceId>, Created, HasStartDate {
+    val sources: Set<DataSourceId> = emptySet(),
+) : ElementWithSimpleName<RaceId>, Created, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = origin.creator()
+    override fun sources() = sources
     override fun startDate() = origin.startDate()
 
     fun calculateBodyMassIndex() = weight.toKilograms() / height.center.toMeters().pow(2)

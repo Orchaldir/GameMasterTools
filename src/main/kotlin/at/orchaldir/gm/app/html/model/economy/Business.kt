@@ -38,6 +38,7 @@ fun HtmlBlockTag.showBusiness(
     fieldList(call, state, "Published Texts", published)
 
     showOwnedElements(call, state, business.id, true)
+    showDataSources(call, state, business.sources)
 }
 
 // edit
@@ -50,6 +51,7 @@ fun FORM.editBusiness(
     selectOptionalDate(state, "Start", business.startDate(), DATE)
     selectCreator(state, business.founder, business.id, business.startDate(), "Founder")
     selectOwnership(state, business.ownership, business.startDate())
+    editDataSources(state, business.sources)
 }
 
 // parse
@@ -67,5 +69,6 @@ fun parseBusiness(parameters: Parameters, state: State, id: BusinessId): Busines
         startDate,
         parseCreator(parameters),
         parseOwnership(parameters, state, startDate),
+        parseDataSources(parameters),
     )
 }

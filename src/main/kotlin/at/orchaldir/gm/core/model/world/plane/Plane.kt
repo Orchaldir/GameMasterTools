@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.world.plane
 
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
@@ -25,10 +27,12 @@ data class Plane(
     val name: Name = Name.init("Plane ${id.value}"),
     val title: NotEmptyString? = null,
     val purpose: PlanePurpose = MaterialPlane,
-) : ElementWithSimpleName<PlaneId>, Created {
+    val sources: Set<DataSourceId> = emptySet(),
+) : ElementWithSimpleName<PlaneId>, Created, HasDataSources {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = purpose.creator()
+    override fun sources() = sources
 
 }

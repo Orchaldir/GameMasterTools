@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.economy.business
 
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -26,12 +28,13 @@ data class Business(
     private val startDate: Date? = null,
     val founder: Creator = UndefinedCreator,
     val ownership: History<Owner> = History(UndefinedOwner),
-) : ElementWithSimpleName<BusinessId>, Created, HasOwner, HasStartDate {
+    val sources: Set<DataSourceId> = emptySet(),
+) : ElementWithSimpleName<BusinessId>, Created, HasDataSources, HasOwner, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
-
     override fun creator() = founder
+    override fun sources() = sources
     override fun owner() = ownership
     override fun startDate() = startDate
 

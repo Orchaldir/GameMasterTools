@@ -218,6 +218,7 @@ private fun HTML.showTownDetails(
 
             showOwnedElements(call, state, town.id)
             showCreated(call, state, town.id)
+            showDataSources(call, state, town.sources)
 
             back(backLink)
         }, {
@@ -242,6 +243,7 @@ private fun HTML.showTownEditor(
                 selectName(town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)
                 selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
+                editDataSources(state, town.sources)
             }
         }, {
             svg(visualizeTownWithLinks(call, state, town), 90)

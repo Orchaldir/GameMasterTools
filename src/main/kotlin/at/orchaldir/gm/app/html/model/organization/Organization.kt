@@ -35,6 +35,7 @@ fun HtmlBlockTag.showOrganization(
     showCreated(call, state, organization.id)
     showMembers(call, state, organization)
     showOwnedElements(call, state, organization.id)
+    showDataSources(call, state, organization.sources)
 }
 
 
@@ -62,6 +63,7 @@ fun FORM.editOrganization(
     selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
     editMembers(state, organization)
     editHolidays(state, organization.holidays)
+    editDataSources(state, organization.sources)
 }
 
 private fun FORM.editMembers(
@@ -119,6 +121,7 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId) 
         parseRanks(parameters),
         parseMembers(state, parameters, id),
         parseHolidays(parameters),
+        parseDataSources(parameters),
     )
 
 private fun parseRanks(parameters: Parameters): List<MemberRank> {

@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.model.organization
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -29,12 +31,13 @@ data class Organization(
     val memberRanks: List<MemberRank> = listOf(MemberRank()),
     val members: Map<CharacterId, History<Int?>> = emptyMap(),
     val holidays: Set<HolidayId> = emptySet(),
-) : ElementWithSimpleName<OrganizationId>, Created, HasStartDate {
+    val sources: Set<DataSourceId> = emptySet(),
+) : ElementWithSimpleName<OrganizationId>, Created, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
-
     override fun creator() = founder
+    override fun sources() = sources
     override fun startDate() = date
 
     fun countAllMembers() = members.count { it.value.isMemberCurrently() }

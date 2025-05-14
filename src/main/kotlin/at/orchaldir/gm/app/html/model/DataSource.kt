@@ -31,7 +31,15 @@ fun HtmlBlockTag.showDataSource(
 
     h2 { +"Content" }
 
+    showDataSourceContent(call, state, state.getBusinessStorage(), source.id)
+    showDataSourceContent(call, state, state.getCultureStorage(), source.id)
+    showDataSourceContent(call, state, state.getGodStorage(), source.id)
     showDataSourceContent(call, state, state.getMagicTraditionStorage(), source.id)
+    showDataSourceContent(call, state, state.getOrganizationStorage(), source.id)
+    showDataSourceContent(call, state, state.getPlaneStorage(), source.id)
+    showDataSourceContent(call, state, state.getRaceStorage(), source.id)
+    showDataSourceContent(call, state, state.getSpellStorage(), source.id)
+    showDataSourceContent(call, state, state.getTownStorage(), source.id)
 }
 
 
@@ -55,7 +63,7 @@ fun HtmlBlockTag.showDataSources(
     sources: Set<DataSourceId>,
 ) {
     if (sources.isNotEmpty()) {
-        h2 { +"Usage" }
+        h2 { +"Data Sources" }
 
         showIdList(call, state, sources)
     }
