@@ -98,7 +98,7 @@ fun Application.configureOrganizationRouting() {
 
             STORE.dispatch(DeleteOrganization(delete.id))
 
-            call.respondRedirect(call.application.href(OrganizationRoutes()))
+            call.respondRedirect(call.application.href(OrganizationRoutes.All()))
 
             STORE.getState().save()
         }

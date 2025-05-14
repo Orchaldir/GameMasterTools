@@ -70,6 +70,7 @@ fun Application.module() {
     configureAppearanceRouting()
     configureCalendarRouting()
     configureCultureRouting()
+    configureDataSourceRouting()
     configureDomainRouting()
     configureEquipmentRouting()
     configureFashionRouting()

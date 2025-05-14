@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.model.parseCreator
+import at.orchaldir.gm.app.html.model.parseDataSources
 import at.orchaldir.gm.app.html.model.parseDate
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
@@ -23,4 +24,5 @@ fun parseTown(parameters: Parameters, state: State, oldTown: Town) = oldTown.cop
     name = parseName(parameters),
     foundingDate = parseDate(parameters, state, DATE),
     founder = parseCreator(parameters),
+    sources = parseDataSources(parameters),
 )

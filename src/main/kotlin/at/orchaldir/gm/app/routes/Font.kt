@@ -114,7 +114,7 @@ fun Application.configureFontRouting() {
 
             STORE.dispatch(DeleteFont(delete.id))
 
-            call.respondRedirect(call.application.href(FontRoutes()))
+            call.respondRedirect(call.application.href(FontRoutes.All()))
 
             STORE.getState().save()
         }

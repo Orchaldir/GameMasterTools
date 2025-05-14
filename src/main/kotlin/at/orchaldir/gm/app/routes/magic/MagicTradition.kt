@@ -97,7 +97,7 @@ fun Application.configureMagicTraditionRouting() {
 
             STORE.dispatch(DeleteMagicTradition(delete.id))
 
-            call.respondRedirect(call.application.href(MagicTraditionRoutes()))
+            call.respondRedirect(call.application.href(MagicTraditionRoutes.All()))
 
             STORE.getState().save()
         }

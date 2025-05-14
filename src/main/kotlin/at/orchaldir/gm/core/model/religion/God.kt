@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
@@ -29,11 +31,12 @@ data class God(
     val gender: Gender = Gender.Genderless,
     val personality: Set<PersonalityTraitId> = emptySet(),
     val domains: Set<DomainId> = emptySet(),
-) : ElementWithSimpleName<GodId>, HasStartDate {
+    val sources: Set<DataSourceId> = emptySet(),
+) : ElementWithSimpleName<GodId>, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
-
+    override fun sources() = sources
     override fun startDate() = null
 
 }

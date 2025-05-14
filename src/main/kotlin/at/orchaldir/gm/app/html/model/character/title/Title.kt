@@ -43,7 +43,7 @@ fun FORM.editTitle(
 
 fun parseTitleId(parameters: Parameters, param: String) = parseOptionalTitleId(parameters, param) ?: TitleId(0)
 fun parseOptionalTitleId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { TitleId(it) }
+    parseSimpleOptionalInt(parameters, param)?.let { TitleId(it) }
 
 fun parseTitle(parameters: Parameters, state: State, id: TitleId) = Title(
     id,

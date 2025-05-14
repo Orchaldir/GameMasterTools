@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import io.ktor.http.*
 import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
@@ -219,4 +220,17 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     }
 }
 
+// parse
+
+fun <T> parseOptional(
+    parameters: Parameters,
+    param: String,
+    content: () -> T,
+): T? {
+    if (!parseBool(parameters, combine(param, AVAILABLE))) {
+        return null
+    }
+
+    return content()
+}
 

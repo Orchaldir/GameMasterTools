@@ -38,9 +38,17 @@ fun HtmlBlockTag.showCulture(
         link(call, state, l)
     }
     showHolidays(call, state, culture.holidays)
+    showDataSources(call, state, culture.sources)
     showNamingConvention(culture.namingConvention, call, state)
     showClothingOptions(call, state, culture)
+    showUsages(call, state, culture)
+}
 
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    culture: Culture,
+) {
     h2 { +"Usage" }
 
     fieldList(call, state, state.getCharacters(culture.id))
@@ -154,6 +162,7 @@ fun FORM.editCulture(
         culture.languages,
     ) { it.name.text }
     editHolidays(state, culture.holidays)
+    editDataSources(state, culture.sources)
     editNamingConvention(culture.namingConvention, state)
     editClothingOptions(state, culture)
 }
@@ -284,7 +293,8 @@ fun parseCulture(
     parseSomeOf(parameters, LANGUAGES, ::parseLanguageId),
     parseNamingConvention(parameters),
     parseClothingStyles(parameters),
-    parseHolidays(parameters)
+    parseHolidays(parameters),
+    parseDataSources(parameters),
 )
 
 fun parseNamingConvention(

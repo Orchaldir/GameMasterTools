@@ -4,11 +4,8 @@ import at.orchaldir.gm.app.DOMAIN
 import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.parseGender
-import at.orchaldir.gm.app.html.model.editPersonality
-import at.orchaldir.gm.app.html.model.parsePersonality
-import at.orchaldir.gm.app.html.model.showCreated
-import at.orchaldir.gm.app.html.model.showPersonality
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -46,6 +43,7 @@ fun HtmlBlockTag.showGod(
     fieldList(call, state, "Believers", state.getBelievers(god.id))
 
     showCreated(call, state, god.id)
+    showDataSources(call, state, god.sources)
 }
 
 // edit
@@ -60,6 +58,7 @@ fun FORM.editGod(
     selectValue("Gender", GENDER, Gender.entries, god.gender)
     editPersonality(call, state, god.personality)
     selectElements(state, "Domains", DOMAIN, state.sortDomains(), god.domains)
+    editDataSources(state, god.sources)
 }
 
 // parse
@@ -75,4 +74,5 @@ fun parseGod(parameters: Parameters, id: GodId) = God(
     parseGender(parameters),
     parsePersonality(parameters),
     parseElements(parameters, DOMAIN, ::parseDomainId),
+    parseDataSources(parameters),
 )

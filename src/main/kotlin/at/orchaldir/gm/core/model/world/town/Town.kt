@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.world.town
 
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.*
@@ -32,13 +34,13 @@ data class Town(
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
     val foundingDate: Date = Year(0),
     val founder: Creator = UndefinedCreator,
-) : ElementWithSimpleName<TownId>, Created, HasStartDate {
+    val sources: Set<DataSourceId> = emptySet(),
+) : ElementWithSimpleName<TownId>, Created, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
-
     override fun creator() = founder
-
+    override fun sources() = sources
     override fun startDate() = foundingDate
 
     fun canBuild(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuild() }

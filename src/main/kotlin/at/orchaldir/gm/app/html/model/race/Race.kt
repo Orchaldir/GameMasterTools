@@ -38,6 +38,7 @@ fun HtmlBlockTag.showRace(
     field("BMI", String.format("%.1f", race.calculateBodyMassIndex()))
     showRaceOrigin(call, state, race.origin)
     showLifeStages(call, state, race)
+    showDataSources(call, state, race.sources)
 }
 
 private fun HtmlBlockTag.showLifeStages(
@@ -128,6 +129,7 @@ fun FORM.editRace(
     selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix)
     editRaceOrigin(state, race)
     editLifeStages(state, race)
+    editDataSources(state, race.sources)
 }
 
 
@@ -248,6 +250,7 @@ fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
     parseWeight(parameters, WEIGHT, weightPrefix),
     parseLifeStages(parameters),
     parseRaceOrigin(parameters, state),
+    parseDataSources(parameters),
 )
 
 private fun parseLifeStages(parameters: Parameters): LifeStages {

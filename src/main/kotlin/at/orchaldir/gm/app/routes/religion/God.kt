@@ -94,7 +94,7 @@ fun Application.configureGodRouting() {
 
             STORE.dispatch(DeleteGod(delete.id))
 
-            call.respondRedirect(call.application.href(GodRoutes()))
+            call.respondRedirect(call.application.href(GodRoutes.All()))
 
             STORE.getState().save()
         }

@@ -34,4 +34,5 @@ val UPDATE_MAGIC_TRADITION: Reducer<UpdateMagicTradition, State> = { state, acti
 
 fun validateMagicTradition(state: State, tradition: MagicTradition) {
     state.getSpellGroupStorage().require(tradition.groups)
+    state.getDataSourceStorage().require(tradition.sources)
 }

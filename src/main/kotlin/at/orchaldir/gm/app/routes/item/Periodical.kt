@@ -98,7 +98,7 @@ fun Application.configurePeriodicalRouting() {
 
             STORE.dispatch(DeletePeriodical(delete.id))
 
-            call.respondRedirect(call.application.href(PeriodicalRoutes()))
+            call.respondRedirect(call.application.href(PeriodicalRoutes.All()))
 
             STORE.getState().save()
         }

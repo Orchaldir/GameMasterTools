@@ -55,6 +55,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
@@ -324,6 +325,7 @@ fun <ID : Id<ID>> href(
     is CultureId -> call.application.href(CultureRoutes.Details(id))
     is CurrencyId -> call.application.href(CurrencyRoutes.Details(id))
     is CurrencyUnitId -> call.application.href(CurrencyUnitRoutes.Details(id))
+    is DataSourceId -> call.application.href(DataSourceRoutes.Details(id))
     is DomainId -> call.application.href(DomainRoutes.Details(id))
     is EquipmentId -> call.application.href(EquipmentRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))

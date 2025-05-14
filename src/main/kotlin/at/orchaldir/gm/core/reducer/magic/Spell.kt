@@ -39,6 +39,7 @@ fun validateSpell(state: State, spell: Spell) {
     checkDate(state, spell.startDate(), "Spell")
     checkOrigin(state, spell)
     state.getLanguageStorage().requireOptional(spell.language)
+    state.getDataSourceStorage().require(spell.sources)
 }
 
 private fun checkOrigin(state: State, spell: Spell) {

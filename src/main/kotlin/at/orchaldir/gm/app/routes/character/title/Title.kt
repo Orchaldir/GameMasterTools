@@ -99,7 +99,7 @@ fun Application.configureTitleRouting() {
 
             STORE.dispatch(DeleteTitle(delete.id))
 
-            call.respondRedirect(call.application.href(TitleRoutes()))
+            call.respondRedirect(call.application.href(TitleRoutes.All()))
 
             STORE.getState().save()
         }

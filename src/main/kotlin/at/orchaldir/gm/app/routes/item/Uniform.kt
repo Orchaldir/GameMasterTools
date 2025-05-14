@@ -110,7 +110,7 @@ fun Application.configureUniformRouting() {
 
             STORE.dispatch(DeleteUniform(delete.id))
 
-            call.respondRedirect(call.application.href(UniformRoutes()))
+            call.respondRedirect(call.application.href(UniformRoutes.All()))
 
             STORE.getState().save()
         }

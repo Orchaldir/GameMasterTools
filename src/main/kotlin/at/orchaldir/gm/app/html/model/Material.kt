@@ -43,7 +43,7 @@ fun HtmlBlockTag.editMaterial(material: Material) {
 fun parseMaterialId(value: String) = MaterialId(value.toInt())
 fun parseMaterialId(parameters: Parameters, param: String) = MaterialId(parseInt(parameters, param))
 fun parseOptionalMaterialId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { MaterialId(it) }
+    parseSimpleOptionalInt(parameters, param)?.let { MaterialId(it) }
 
 fun parseMaterial(id: MaterialId, parameters: Parameters): Material {
     val density = parseWeight(parameters, DENSITY, SiPrefix.Kilo)

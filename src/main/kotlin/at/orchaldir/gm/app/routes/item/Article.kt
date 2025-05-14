@@ -96,7 +96,7 @@ fun Application.configureArticleRouting() {
 
             STORE.dispatch(DeleteArticle(delete.id))
 
-            call.respondRedirect(call.application.href(ArticleRoutes()))
+            call.respondRedirect(call.application.href(ArticleRoutes.All()))
 
             STORE.getState().save()
         }

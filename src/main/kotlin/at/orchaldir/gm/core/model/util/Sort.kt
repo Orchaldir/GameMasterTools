@@ -38,6 +38,12 @@ enum class SortCurrencyUnit {
     Weight,
 }
 
+enum class SortDataSource {
+    Name,
+    Year,
+    Edition,
+}
+
 enum class SortDomain {
     Name,
     Spells,

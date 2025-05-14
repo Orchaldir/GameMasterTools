@@ -28,6 +28,7 @@ fun HtmlBlockTag.showSpell(
     optionalField(call, state, "Date", spell.date)
     optionalFieldLink("Language", call, state, spell.language)
     fieldSpellOrigin(call, state, spell.origin)
+    showDataSources(call, state, spell.sources)
 }
 
 private fun HtmlBlockTag.fieldSpellOrigin(
@@ -84,6 +85,7 @@ fun FORM.editSpell(
     selectOptionalDate(state, "Date", spell.date, DATE)
     selectOptionalElement(state, "Language", LANGUAGE, state.getLanguageStorage().getAll(), spell.language)
     editOrigin(state, spell)
+    editDataSources(state, spell.sources)
 }
 
 private fun HtmlBlockTag.editOrigin(
@@ -144,6 +146,7 @@ fun parseSpell(parameters: Parameters, state: State, id: SpellId) = Spell(
     parseOptionalDate(parameters, state, DATE),
     parseOptionalLanguageId(parameters, LANGUAGE),
     parseOrigin(parameters),
+    parseDataSources(parameters),
 )
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, SpellOriginType.Undefined)) {
