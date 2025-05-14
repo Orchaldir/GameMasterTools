@@ -93,7 +93,7 @@ fun Application.configureDataSourceRouting() {
 
             STORE.dispatch(DeleteDataSource(delete.id))
 
-            call.respondRedirect(call.application.href(DataSourceRoutes()))
+            call.respondRedirect(call.application.href(DataSourceRoutes.All()))
 
             STORE.getState().save()
         }

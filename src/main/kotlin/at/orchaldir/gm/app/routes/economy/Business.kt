@@ -99,7 +99,7 @@ fun Application.configureBusinessRouting() {
 
             STORE.dispatch(DeleteBusiness(delete.id))
 
-            call.respondRedirect(call.application.href(BusinessRoutes()))
+            call.respondRedirect(call.application.href(BusinessRoutes.All()))
 
             STORE.getState().save()
         }

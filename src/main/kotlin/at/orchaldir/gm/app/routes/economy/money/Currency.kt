@@ -96,7 +96,7 @@ fun Application.configureCurrencyRouting() {
 
             STORE.dispatch(DeleteCurrency(delete.id))
 
-            call.respondRedirect(call.application.href(CurrencyRoutes()))
+            call.respondRedirect(call.application.href(CurrencyRoutes.All()))
 
             STORE.getState().save()
         }

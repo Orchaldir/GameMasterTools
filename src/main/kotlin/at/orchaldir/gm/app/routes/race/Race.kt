@@ -89,7 +89,7 @@ fun Application.configureRaceRouting() {
 
             STORE.dispatch(DeleteRace(delete.id))
 
-            call.respondRedirect(call.application.href(RaceRoutes()))
+            call.respondRedirect(call.application.href(RaceRoutes.All()))
 
             STORE.getState().save()
         }

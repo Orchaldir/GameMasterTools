@@ -99,7 +99,7 @@ fun Application.configurePantheonRouting() {
 
             STORE.dispatch(DeletePantheon(delete.id))
 
-            call.respondRedirect(call.application.href(PantheonRoutes()))
+            call.respondRedirect(call.application.href(PantheonRoutes.All()))
 
             STORE.getState().save()
         }

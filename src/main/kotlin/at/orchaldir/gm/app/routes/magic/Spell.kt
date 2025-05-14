@@ -100,7 +100,7 @@ fun Application.configureSpellRouting() {
 
             STORE.dispatch(DeleteSpell(delete.id))
 
-            call.respondRedirect(call.application.href(SpellRoutes()))
+            call.respondRedirect(call.application.href(SpellRoutes.All()))
 
             STORE.getState().save()
         }

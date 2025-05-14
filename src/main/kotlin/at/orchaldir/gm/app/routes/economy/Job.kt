@@ -98,7 +98,7 @@ fun Application.configureJobRouting() {
 
             STORE.dispatch(DeleteJob(delete.id))
 
-            call.respondRedirect(call.application.href(JobRoutes()))
+            call.respondRedirect(call.application.href(JobRoutes.All()))
 
             STORE.getState().save()
         }

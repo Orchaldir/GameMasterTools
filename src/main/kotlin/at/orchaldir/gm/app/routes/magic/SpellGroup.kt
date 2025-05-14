@@ -98,7 +98,7 @@ fun Application.configureSpellGroupRouting() {
 
             STORE.dispatch(DeleteSpellGroup(delete.id))
 
-            call.respondRedirect(call.application.href(SpellGroupRoutes()))
+            call.respondRedirect(call.application.href(SpellGroupRoutes.All()))
 
             STORE.getState().save()
         }

@@ -91,7 +91,7 @@ fun Application.configurePlaneRouting() {
 
             STORE.dispatch(DeletePlane(delete.id))
 
-            call.respondRedirect(call.application.href(PlaneRoutes()))
+            call.respondRedirect(call.application.href(PlaneRoutes.All()))
 
             STORE.getState().save()
         }

@@ -95,7 +95,7 @@ fun Application.configurePeriodicalIssueRouting() {
 
             STORE.dispatch(DeletePeriodicalIssue(delete.id))
 
-            call.respondRedirect(call.application.href(PeriodicalIssueRoutes()))
+            call.respondRedirect(call.application.href(PeriodicalIssueRoutes.All()))
 
             STORE.getState().save()
         }

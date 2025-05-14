@@ -109,7 +109,7 @@ fun Application.configureTextRouting() {
 
             STORE.dispatch(DeleteText(delete.id))
 
-            call.respondRedirect(call.application.href(TextRoutes()))
+            call.respondRedirect(call.application.href(TextRoutes.All()))
 
             STORE.getState().save()
         }

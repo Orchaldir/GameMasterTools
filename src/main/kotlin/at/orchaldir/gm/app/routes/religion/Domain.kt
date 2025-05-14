@@ -93,7 +93,7 @@ fun Application.configureDomainRouting() {
 
             STORE.dispatch(DeleteDomain(delete.id))
 
-            call.respondRedirect(call.application.href(DomainRoutes()))
+            call.respondRedirect(call.application.href(DomainRoutes.All()))
 
             STORE.getState().save()
         }

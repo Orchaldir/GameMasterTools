@@ -93,7 +93,7 @@ fun Application.configureQuoteRouting() {
 
             STORE.dispatch(DeleteQuote(delete.id))
 
-            call.respondRedirect(call.application.href(QuoteRoutes()))
+            call.respondRedirect(call.application.href(QuoteRoutes.All()))
 
             STORE.getState().save()
         }

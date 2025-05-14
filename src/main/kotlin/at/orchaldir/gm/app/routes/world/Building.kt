@@ -133,7 +133,7 @@ fun Application.configureBuildingRouting() {
 
             STORE.dispatch(DeleteBuilding(delete.id))
 
-            call.respondRedirect(call.application.href(BuildingRoutes()))
+            call.respondRedirect(call.application.href(BuildingRoutes.All()))
 
             STORE.getState().save()
         }
