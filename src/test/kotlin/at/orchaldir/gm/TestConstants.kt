@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
@@ -116,6 +117,8 @@ val RACE_ID_0 = RaceId(0)
 val RACE_ID_1 = RaceId(1)
 val RACE_ID_2 = RaceId(2)
 val RACE_APPEARANCE_ID_0 = RaceAppearanceId(0)
+val REALM_ID_0 = RealmId(0)
+val UNKNOWN_REALM_ID = RealmId(99)
 val RIVER_ID_0 = RiverId(0)
 val UNKNOWN_RIVER_ID = RiverId(99)
 val SPELL_ID_0 = SpellId(0)

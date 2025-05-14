@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -81,6 +82,16 @@ class CreatorTest {
             val newState = STATE.updateStorage(Storage(quote))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Quote)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Created a realm`() {
+            val realm = Realm(REALM_ID_0, founder = createdByCharacter)
+            val newState = STATE.updateStorage(Storage(realm))
+
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Realm)!") {
                 REDUCER.invoke(newState, action)
             }
         }
