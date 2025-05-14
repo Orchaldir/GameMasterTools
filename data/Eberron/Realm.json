@@ -1,5 +1,17 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Galifar",
+   "founder": {
+    "type": "Character",
+    "character": 15
+   },
+   "date": {
+    "type": "Year",
+    "year": 0
+   }
+  }
  }
 }
