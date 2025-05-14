@@ -9,10 +9,6 @@ import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.item.text.OriginalText
-import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -44,33 +40,24 @@ class BusinessTest {
             assertIllegalArgument("Requires unknown Business 0!") { REDUCER.invoke(State(), action) }
         }
 
+        // see CreatorTest for other elements
         @Test
-        fun `Cannot delete an inventor`() {
-            val origin = InventedLanguage(CreatedByBusiness(BUSINESS_ID_0), DAY0)
-            val state = State(
-                listOf(
-                    Storage(listOf(Business(BUSINESS_ID_0))),
-                    Storage(listOf(Language(LANGUAGE_ID_0, origin = origin)))
-                )
-            )
+        fun `Cannot delete a business that created another element`() {
+            val newState = createState(Building(BUILDING_ID_0, builder = CreatedByBusiness(BUSINESS_ID_0)))
 
-            assertIllegalArgument("Cannot delete Business 0, because of created elements (Language)!") {
-                REDUCER.invoke(state, action)
+            assertIllegalArgument("Cannot delete Business 0, because of created elements (Building)!") {
+                REDUCER.invoke(newState, action)
             }
         }
 
+        // see OwnershipTest for other elements
         @Test
-        fun `Cannot delete an author`() {
-            val origin = OriginalText(CreatedByBusiness(BUSINESS_ID_0))
-            val state = State(
-                listOf(
-                    Storage(listOf(Business(BUSINESS_ID_0))),
-                    Storage(listOf(Text(TEXT_ID_0, origin = origin)))
-                )
-            )
+        fun `Cannot delete a business that owns another element`() {
+            val ownership = History<Owner>(OwnedByBusiness(BUSINESS_ID_0))
+            val newState = createState(Building(BUILDING_ID_0, ownership = ownership))
 
-            assertIllegalArgument("Cannot delete Business 0, because of created elements (Text)!") {
-                REDUCER.invoke(state, action)
+            assertIllegalArgument("Cannot delete Business 0, because of owned elements (Building)!") {
+                REDUCER.invoke(newState, action)
             }
         }
 
@@ -80,18 +67,6 @@ class BusinessTest {
 
             assertIllegalArgument("Cannot delete Business 0, because it has a building!") {
                 REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a business that build a building`() {
-            val state = createState(Building(BUILDING_ID_0, builder = CreatedByBusiness(BUSINESS_ID_0)))
-
-            assertIllegalArgument("Cannot delete Business 0, because of created elements (Building)!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
             }
         }
 
@@ -156,7 +131,7 @@ class BusinessTest {
             val action = UpdateBusiness(Business(BUSINESS_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
-            assertIllegalArgument("Cannot use an unknown character 0 as Founder!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown Character 0 as Founder!") { REDUCER.invoke(state, action) }
         }
 
         @Test

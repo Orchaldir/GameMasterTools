@@ -59,6 +59,7 @@ fun State.getAuthorName(text: Text) = when (val origin = getOriginal(text).origi
         is CreatedByCharacter -> getElementName(origin.author.character)
         is CreatedByGod -> getElementName(origin.author.god)
         is CreatedByOrganization -> getElementName(origin.author.organization)
+        is CreatedByRealm -> getElementName(origin.author.realm)
         is CreatedByTown -> getElementName(origin.author.town)
         UndefinedCreator -> null
     }

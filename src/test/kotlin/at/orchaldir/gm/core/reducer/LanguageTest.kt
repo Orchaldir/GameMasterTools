@@ -121,7 +121,7 @@ class LanguageTest {
             val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_1), DAY0)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown character 1 as Inventor!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot use an unknown Character 1 as Inventor!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

@@ -198,6 +198,7 @@ private fun getQuoteSource(
     is CreatedByCharacter -> state.state.getElementName(quote.source.character)
     is CreatedByGod -> state.state.getElementName(quote.source.god)
     is CreatedByOrganization -> state.state.getElementName(quote.source.organization)
+    is CreatedByRealm -> state.state.getElementName(quote.source.realm)
     is CreatedByTown -> state.state.getElementName(quote.source.town)
     UndefinedCreator -> null
 }

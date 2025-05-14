@@ -295,7 +295,7 @@ class BuildingTest {
             val action = ACTION.copy(builder = CreatedByCharacter(CHARACTER_ID_0), ownership = History(UndefinedOwner))
             val state = STATE.removeStorage(CHARACTER_TYPE)
 
-            assertIllegalArgument("Cannot use an unknown character 0 as Builder!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown Character 0 as Builder!") { REDUCER.invoke(state, action) }
         }
 
         @Test

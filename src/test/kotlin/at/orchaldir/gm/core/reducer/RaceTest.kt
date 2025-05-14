@@ -120,7 +120,7 @@ class RaceTest {
             val origin = CreatedRace(CreatedByCharacter(CHARACTER_ID_0), DAY0)
             val action = UpdateRace(Race(RACE_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown character 0 as Creator!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown Character 0 as Creator!") { REDUCER.invoke(state, action) }
         }
 
         @Test

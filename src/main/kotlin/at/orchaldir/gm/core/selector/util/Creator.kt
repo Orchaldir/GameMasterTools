@@ -14,6 +14,7 @@ fun <ID : Id<ID>> State.isCreator(id: ID) = isCreator(getArticleStorage(), id)
         || isCreator(getOrganizationStorage(), id)
         || isCreator(getPlaneStorage(), id)
         || isCreator(getQuoteStorage(), id)
+        || isCreator(getRealmStorage(), id)
         || isCreator(getRaceStorage(), id)
         || isCreator(getSpellStorage(), id)
         || isCreator(getTextStorage(), id)
@@ -48,9 +49,10 @@ fun <ID : Id<ID>> checkIfCreatorCanBeDeleted(
     checkCreator(state.getMagicTraditionStorage(), noun, creator)
     checkCreator(state.getQuoteStorage(), noun, creator)
     checkCreator(state.getRaceStorage(), noun, creator)
+    checkCreator(state.getRealmStorage(), noun, creator)
     checkCreator(state.getSpellStorage(), noun, creator)
-    checkCreator(state.getTownStorage(), noun, creator)
     checkCreator(state.getTextStorage(), noun, creator)
+    checkCreator(state.getTownStorage(), noun, creator)
 }
 
 private fun <ID0, ID1, ELEMENT> checkCreator(

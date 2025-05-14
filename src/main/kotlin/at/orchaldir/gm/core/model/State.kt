@@ -59,6 +59,9 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.realm.REALM_TYPE
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.source.DataSource
@@ -97,6 +100,7 @@ import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.core.reducer.magic.validateSpellGroup
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
 import at.orchaldir.gm.core.reducer.quote.validateQuote
+import at.orchaldir.gm.core.reducer.realm.validateRealm
 import at.orchaldir.gm.core.reducer.religion.validateDomain
 import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
@@ -146,6 +150,7 @@ val ELEMENTS =
         QUOTE_TYPE,
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
+        REALM_TYPE,
         RIVER_TYPE,
         SPELL_TYPE,
         SPELL_GROUP_TYPE,
@@ -210,6 +215,7 @@ data class State(
     fun getQuoteStorage() = getStorage<QuoteId, Quote>(QUOTE_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
+    fun getRealmStorage() = getStorage<RealmId, Realm>(REALM_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
     fun getSpellStorage() = getStorage<SpellId, Spell>(SPELL_TYPE)
     fun getSpellGroupStorage() = getStorage<SpellGroupId, SpellGroup>(SPELL_GROUP_TYPE)
@@ -323,6 +329,7 @@ data class State(
         validate(getQuoteStorage()) { validateQuote(this, it) }
         validate(getRaceStorage()) { validateRace(this, it) }
         validate(getRaceAppearanceStorage()) { validateRaceAppearance(it) }
+        validate(getRealmStorage()) { validateRealm(this, it) }
         validate(getSpellStorage()) { validateSpell(this, it) }
         validate(getSpellGroupStorage()) { validateSpellGroup(this, it) }
         validate(getStreetTemplateStorage()) { validateStreetTemplate(this, it) }
@@ -366,6 +373,7 @@ data class State(
         saveStorage(path, getQuoteStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
+        saveStorage(path, getRealmStorage())
         saveStorage(path, getRiverStorage())
         saveStorage(path, getSpellStorage())
         saveStorage(path, getSpellGroupStorage())
@@ -412,6 +420,7 @@ fun createStorage(type: String) = when (type) {
     QUOTE_TYPE -> Storage(QuoteId(0))
     RACE_TYPE -> Storage(RaceId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
+    REALM_TYPE -> Storage(RealmId(0))
     RIVER_TYPE -> Storage(RiverId(0))
     SPELL_TYPE -> Storage(SpellId(0))
     SPELL_GROUP_TYPE -> Storage(SpellGroupId(0))
@@ -461,6 +470,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     QUOTE_TYPE -> loadStorage<QuoteId, Quote>(path, QuoteId(0))
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
+    REALM_TYPE -> loadStorage<RealmId, Realm>(path, RealmId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))
     SPELL_TYPE -> loadStorage<SpellId, Spell>(path, SpellId(0))
     SPELL_GROUP_TYPE -> loadStorage<SpellGroupId, SpellGroup>(path, SpellGroupId(0))

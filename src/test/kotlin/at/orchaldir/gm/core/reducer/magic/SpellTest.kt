@@ -110,7 +110,7 @@ class SpellTest {
             val spell = Spell(SPELL_ID_0, origin = InventedSpell(CreatedByCharacter(CHARACTER_ID_0)))
             val action = UpdateSpell(spell)
 
-            assertIllegalArgument("Cannot use an unknown character 0 as Inventor!") {
+            assertIllegalArgument("Cannot use an unknown Character 0 as Inventor!") {
                 REDUCER.invoke(STATE, action)
             }
         }
