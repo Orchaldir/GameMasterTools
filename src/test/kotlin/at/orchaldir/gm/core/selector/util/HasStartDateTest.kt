@@ -19,13 +19,31 @@ class HasStartDateTest {
             Storage(CALENDAR0),
             data = Data(time = Time(CALENDAR_ID_0)),
         )
+        val elementWithNull = Quote(QUOTE_ID_0)
         val elementWithStartDay = Quote(QUOTE_ID_0, date = DAY1)
+
+        @Test
+        fun `Exists element without date at specific day`() {
+            assertTrue(state.exists(elementWithNull, DAY0))
+            assertTrue(state.exists(elementWithNull, DAY1))
+            assertTrue(state.exists(elementWithNull, DAY2))
+        }
+
+        @Test
+        fun `Exists element without date at unknown day`() {
+            assertTrue(state.exists(elementWithNull, null))
+        }
 
         @Test
         fun `Exists element with specific day at specific day`() {
             assertFalse(state.exists(elementWithStartDay, DAY0))
             assertTrue(state.exists(elementWithStartDay, DAY1))
             assertTrue(state.exists(elementWithStartDay, DAY2))
+        }
+
+        @Test
+        fun `Exists element with specific day at unknown day`() {
+            assertTrue(state.exists(elementWithStartDay, null))
         }
     }
 }
