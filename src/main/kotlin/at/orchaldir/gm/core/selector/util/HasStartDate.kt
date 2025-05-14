@@ -2,14 +2,23 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.date.getEndDay
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
-fun <ELEMENT : HasStartDate> State.exists(element: ELEMENT, date: Date?) = getDefaultCalendar()
-    .isAfterOrEqualOptional(date, element.startDate())
+fun <ELEMENT : HasStartDate> State.exists(element: ELEMENT, date: Date?) = if (date == null) {
+    true
+} else {
+    val endDay = getDefaultCalendar().getEndDay(date)
+    exists(element, endDay)
+}
+
+fun <ELEMENT : HasStartDate> State.exists(element: ELEMENT, day: Day) = getDefaultCalendar()
+    .isAfterOrEqualOptional(day, element.startDate())
 
 fun <ID, ELEMENT> State.getExistingElements(storage: Storage<ID, ELEMENT>, date: Date?)
         where ID : Id<ID>,
@@ -20,7 +29,8 @@ fun <ID, ELEMENT> State.getExistingElements(storage: Storage<ID, ELEMENT>, date:
 fun <ELEMENT : HasStartDate> State.getExistingElements(elements: Collection<ELEMENT>, date: Date?) = if (date == null) {
     elements
 } else {
-    elements.filter { exists(it, date) }
+    val endDay = getDefaultCalendar().getEndDay(date)
+    elements.filter { exists(it, endDay) }
 }
 
 fun <ID, ELEMENT> State.requireExists(storage: Storage<ID, ELEMENT>, id: ID, date: Date?): ELEMENT

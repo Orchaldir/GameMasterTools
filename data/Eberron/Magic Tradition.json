@@ -8,6 +8,10 @@
     "type": "Century",
     "century": 0
    },
+   "founder": {
+    "type": "Organization",
+    "organization": 30
+   },
    "groups": [
     1,
     2,
