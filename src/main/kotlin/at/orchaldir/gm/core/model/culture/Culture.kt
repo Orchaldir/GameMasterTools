@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -35,6 +36,7 @@ data class Culture(
     val namingConvention: NamingConvention = NoNamingConvention,
     val fashion: GenderMap<FashionId?> = GenderMap(null),
     val holidays: Set<HolidayId> = emptySet(),
+    val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<CultureId> {
 
     override fun id() = id

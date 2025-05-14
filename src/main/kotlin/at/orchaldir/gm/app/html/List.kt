@@ -74,6 +74,18 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldIdList(
     }
 }
 
+fun <ID : Id<ID>> HtmlBlockTag.showIdList(
+    call: ApplicationCall,
+    state: State,
+    ids: Collection<ID>,
+) {
+    if (ids.isNotEmpty()) {
+        showList(ids) {
+            link(call, state, it)
+        }
+    }
+}
+
 fun <T> HtmlBlockTag.fieldList(
     label: String,
     elements: Collection<T>,
