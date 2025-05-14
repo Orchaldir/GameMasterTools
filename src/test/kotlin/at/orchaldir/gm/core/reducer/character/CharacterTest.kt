@@ -20,8 +20,6 @@ import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
-import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -31,9 +29,7 @@ import kotlin.test.assertFailsWith
 class CharacterTest {
 
     private val LANGUAGES = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native)
-    private val OWNER = History<Owner>(OwnedByCharacter(CHARACTER_ID_0))
-    private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByCharacter(CHARACTER_ID_0), Day(0))))
-    val state = State(
+    private val state = State(
         listOf(
             Storage(listOf(Character(CHARACTER_ID_0))),
             Storage(listOf(Language(LANGUAGE_ID_0)))
@@ -89,6 +85,18 @@ class CharacterTest {
             }
         }
 
+        // see OwnershipTest for other elements
+        @Test
+        fun `Cannot delete a character that owns another element`() {
+            val ownership = History<Owner>(OwnedByCharacter(CHARACTER_ID_0))
+            val building = Building(BUILDING_ID_0, ownership = ownership)
+            val newState = state.updateStorage(Storage(building))
+
+            assertIllegalArgument("Cannot delete Character 0, because of owned elements (Building)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
         @Test
         fun `Cannot delete a member of an organization`() {
             val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(0)))
@@ -98,57 +106,6 @@ class CharacterTest {
                 REDUCER.invoke(newState, action)
             }
         }
-
-        @Nested
-        inner class BuildingOwnerTest {
-
-            @Test
-            fun `Cannot delete a building owner`() {
-                val state = createState(Building(BUILDING_ID_0, ownership = OWNER))
-
-                assertIllegalArgument("Cannot delete Character 0, because of owned elements (Building)!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-
-            @Test
-            fun `Cannot delete a previous building owner`() {
-                val state = createState(Building(BUILDING_ID_0, ownership = PREVIOUS_OWNER))
-
-                assertIllegalArgument("Cannot delete Character 0, because of previously owned elements (Building)!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-        }
-
-        @Nested
-        inner class BusinessOwnerTest {
-
-            @Test
-            fun `Cannot delete a business owner`() {
-                val state = createState(Business(BUSINESS_ID_0, ownership = OWNER))
-
-                assertIllegalArgument("Cannot delete Character 0, because of owned elements (Business)!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-
-            @Test
-            fun `Cannot delete a previous business owner`() {
-                val state = createState(Business(BUSINESS_ID_0, ownership = PREVIOUS_OWNER))
-
-                assertIllegalArgument("Cannot delete Character 0, because of previously owned elements (Business)!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-        }
-
-        private fun <ID : Id<ID>, ELEMENT : Element<ID>> createState(element: ELEMENT) = State(
-            listOf(
-                Storage(listOf(Character(CHARACTER_ID_0))),
-                Storage(listOf(element))
-            )
-        )
 
         @Nested
         inner class DeleteFamilyMemberTest {

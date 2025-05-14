@@ -62,15 +62,25 @@ class TownTest {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
+        // see CreatorTest for other elements
         @Test
-        fun `Cannot delete a town that build a building`() {
+        fun `Cannot delete a town that created another element`() {
             val state = createState(Building(BUILDING_ID_0, builder = CreatedByTown(TOWN_ID_0)))
 
             assertIllegalArgument("Cannot delete Town 0, because of created elements (Building)!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        // see OwnershipTest for other elements
+        @Test
+        fun `Cannot delete a town that owns another element`() {
+            val ownership = History<Owner>(OwnedByTown(TOWN_ID_0))
+            val building = Building(BUILDING_ID_0, ownership = ownership)
+            val newState = STATE.updateStorage(Storage(building))
+
+            assertIllegalArgument("Cannot delete Town 0, because of owned elements (Building)!") {
+                REDUCER.invoke(newState, action)
             }
         }
 
@@ -92,50 +102,6 @@ class TownTest {
 
             assertIllegalArgument("Cannot delete Town 0, because it has or had employees!") {
                 REDUCER.invoke(state, action)
-            }
-        }
-
-        @Nested
-        inner class BuildingOwnerTest {
-
-            @Test
-            fun `Cannot delete a building owner`() {
-                val state = createState(Building(BUILDING_ID_0, ownership = OWNER))
-
-                assertIllegalArgument("Cannot delete Town 0, because of owned elements (Building)!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-
-            @Test
-            fun `Cannot delete a previous building owner`() {
-                val state = createState(Building(BUILDING_ID_0, ownership = PREVIOUS_OWNER))
-
-                assertIllegalArgument("Cannot delete Town 0, because of previously owned elements (Building)!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-        }
-
-        @Nested
-        inner class BusinessOwnerTest {
-
-            @Test
-            fun `Cannot delete a business owner`() {
-                val state = createState(Business(BUSINESS_ID_0, ownership = OWNER))
-
-                assertIllegalArgument("Cannot delete Town 0, because of owned elements (Business)!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-
-            @Test
-            fun `Cannot delete a previous business owner`() {
-                val state = createState(Business(BUSINESS_ID_0, ownership = PREVIOUS_OWNER))
-
-                assertIllegalArgument("Cannot delete Town 0, because of previously owned elements (Business)!") {
-                    REDUCER.invoke(state, action)
-                }
             }
         }
 
