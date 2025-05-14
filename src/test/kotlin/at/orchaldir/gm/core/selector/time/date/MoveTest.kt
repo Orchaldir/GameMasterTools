@@ -93,6 +93,35 @@ class MoveTest {
     }
 
     @Nested
+    inner class GetDayRangeTest {
+
+        @Test
+        fun `Test day`() {
+            assertEquals(
+                DayRange(Day(7), Day(7)),
+                calendar1.getDayRange(Day(7)),
+            )
+        }
+
+        @Test
+        fun `Test week`() {
+            assertEquals(
+                DayRange(Day(0), Day(1)),
+                calendar1.getDayRange(Week(0)),
+            )
+        }
+
+        @Test
+        fun `Test year`() {
+            assertEquals(
+                DayRange(Day(5), Day(9)),
+                calendar1.getDayRange(Year(1)),
+            )
+        }
+
+    }
+
+    @Nested
     inner class WeekTest {
 
         @Nested
