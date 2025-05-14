@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.time.date.Day
@@ -104,6 +105,26 @@ class OwnerTest {
             val newState = STATE.updateStorage(Storage(business))
 
             assertIllegalArgument("Cannot delete Character 2, because of previously owned elements (Business)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Owns a periodical`() {
+            val periodical = Periodical(PERIODICAL_ID_0, ownership = owner)
+            val newState = STATE.updateStorage(Storage(periodical))
+
+            assertIllegalArgument("Cannot delete Character 2, because of owned elements (Periodical)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Owned a periodical`() {
+            val periodical = Periodical(PERIODICAL_ID_0, ownership = previousOwner)
+            val newState = STATE.updateStorage(Storage(periodical))
+
+            assertIllegalArgument("Cannot delete Character 2, because of previously owned elements (Periodical)!") {
                 REDUCER.invoke(newState, action)
             }
         }
