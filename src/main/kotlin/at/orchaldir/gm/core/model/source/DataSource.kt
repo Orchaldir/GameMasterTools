@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val DATA_SOURCE_TYPE = "DataSource"
+const val DATA_SOURCE_TYPE = "Data Source"
 
 @JvmInline
 @Serializable
