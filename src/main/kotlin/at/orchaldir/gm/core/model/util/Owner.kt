@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.util
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
@@ -14,6 +15,7 @@ enum class OwnerType {
     Business,
     Character,
     Organization,
+    Realm,
     Town,
 }
 
@@ -24,24 +26,26 @@ sealed class Owner {
         NoOwner -> OwnerType.None
         is OwnedByBusiness -> OwnerType.Business
         is OwnedByCharacter -> OwnerType.Character
-        is OwnedByTown -> OwnerType.Town
         is OwnedByOrganization -> OwnerType.Organization
+        is OwnedByRealm -> OwnerType.Realm
+        is OwnedByTown -> OwnerType.Town
         UndefinedOwner -> OwnerType.Undefined
     }
 
     fun canDelete() = when (this) {
-        NoOwner -> true
         is OwnedByBusiness -> false
         is OwnedByCharacter -> false
         is OwnedByOrganization -> false
+        is OwnedByRealm -> false
         is OwnedByTown -> false
-        UndefinedOwner -> true
+        NoOwner, UndefinedOwner -> true
     }
 
     fun <ID : Id<ID>> isOwnedBy(id: ID) = when (this) {
         is OwnedByBusiness -> business == id
         is OwnedByCharacter -> character == id
         is OwnedByOrganization -> organization == id
+        is OwnedByRealm -> realm == id
         is OwnedByTown -> town == id
         NoOwner, UndefinedOwner -> false
     }
@@ -69,6 +73,10 @@ data class OwnedByCharacter(val character: CharacterId) : Owner()
 @Serializable
 @SerialName("Organization")
 data class OwnedByOrganization(val organization: OrganizationId) : Owner()
+
+@Serializable
+@SerialName("Realm")
+data class OwnedByRealm(val realm: RealmId) : Owner()
 
 @Serializable
 @SerialName("Town")

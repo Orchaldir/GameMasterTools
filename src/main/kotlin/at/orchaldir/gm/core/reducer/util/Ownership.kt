@@ -41,6 +41,7 @@ private fun checkOwner(
         is OwnedByBusiness -> checkOwner(state.getBusinessStorage(), owner.business, noun)
         is OwnedByCharacter -> checkOwner(state.getCharacterStorage(), owner.character, noun)
         is OwnedByOrganization -> checkOwner(state.getOrganizationStorage(), owner.organization, noun)
+        is OwnedByRealm -> checkOwner(state.getRealmStorage(), owner.realm, noun)
         is OwnedByTown -> checkOwner(state.getTownStorage(), owner.town, noun)
     }
     val exists = state.exists(element, date)
@@ -58,6 +59,7 @@ private fun checkOwner(
         is OwnedByBusiness -> checkOwner(state.getBusinessStorage(), owner.business, noun)
         is OwnedByCharacter -> checkOwner(state.getCharacterStorage(), owner.character, noun)
         is OwnedByOrganization -> checkOwner(state.getOrganizationStorage(), owner.organization, noun)
+        is OwnedByRealm -> checkOwner(state.getRealmStorage(), owner.realm, noun)
         is OwnedByTown -> checkOwner(state.getTownStorage(), owner.town, noun)
     }
 }

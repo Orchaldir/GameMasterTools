@@ -6,15 +6,18 @@ import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.character.parseCharacterId
 import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId
+import at.orchaldir.gm.app.html.model.realm.parseRealmId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
+import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.getOwned
 import at.orchaldir.gm.core.selector.util.getPreviouslyOwned
@@ -77,8 +80,9 @@ fun HtmlBlockTag.showOwner(
         NoOwner -> +"None"
         is OwnedByBusiness -> link(call, state, owner.business)
         is OwnedByCharacter -> link(call, state, owner.character)
-        is OwnedByTown -> link(call, state, owner.town)
         is OwnedByOrganization -> link(call, state, owner.organization)
+        is OwnedByRealm -> link(call, state, owner.realm)
+        is OwnedByTown -> link(call, state, owner.town)
         UndefinedOwner -> if (showUndefined) {
             +"Undefined"
         }
@@ -127,6 +131,14 @@ fun HtmlBlockTag.selectOwner(
             owner.organization,
         )
 
+        is OwnedByRealm -> selectElement(
+            state,
+            "Owner",
+            combine(param, REALM),
+            state.getExistingRealms(start),
+            owner.realm,
+        )
+
         is OwnedByTown -> selectElement(
             state,
             "Owner",
@@ -144,14 +156,16 @@ fun HtmlBlockTag.selectOwner(
 fun parseOwnership(parameters: Parameters, state: State, startDate: Date?) =
     parseHistory(parameters, OWNER, state, startDate, ::parseOwner)
 
-private fun parseOwner(parameters: Parameters, state: State, param: String): Owner = when (parameters[param]) {
-    OwnerType.None.toString() -> NoOwner
-    OwnerType.Business.toString() -> OwnedByBusiness(parseBusinessId(parameters, combine(param, BUSINESS)))
-    OwnerType.Character.toString() -> OwnedByCharacter(parseCharacterId(parameters, combine(param, CHARACTER)))
-    OwnerType.Organization.toString() -> OwnedByOrganization(
+private fun parseOwner(parameters: Parameters, state: State, param: String): Owner =
+    when (parse(parameters, param, OwnerType.Undefined)) {
+        OwnerType.None -> NoOwner
+        OwnerType.Business -> OwnedByBusiness(parseBusinessId(parameters, combine(param, BUSINESS)))
+        OwnerType.Character -> OwnedByCharacter(parseCharacterId(parameters, combine(param, CHARACTER)))
+        OwnerType.Organization -> OwnedByOrganization(
         parseOrganizationId(parameters, combine(param, ORGANIZATION))
     )
 
-    OwnerType.Town.toString() -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
-    else -> UndefinedOwner
+        OwnerType.Realm -> OwnedByRealm(parseRealmId(parameters, combine(param, REALM)))
+        OwnerType.Town -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
+        OwnerType.Undefined -> UndefinedOwner
 }
