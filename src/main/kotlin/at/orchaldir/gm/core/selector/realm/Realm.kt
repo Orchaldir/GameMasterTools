@@ -5,8 +5,10 @@ import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
+import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
 
 fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
+        && !isCurrentOrFormerOwner(realm)
 
 fun State.getExistingRealms(date: Date?) = getExistingElements(getRealmStorage().getAll(), date)
 

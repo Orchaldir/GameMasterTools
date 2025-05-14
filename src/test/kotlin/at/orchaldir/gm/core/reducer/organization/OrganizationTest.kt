@@ -10,6 +10,9 @@ import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.CreatedByOrganization
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.core.model.util.OwnedByOrganization
+import at.orchaldir.gm.core.model.util.OwnedByRealm
+import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -46,11 +49,23 @@ class OrganizationTest {
 
         // see CreatorTest for other elements
         @Test
-        fun `Cannot delete a organization that created another element`() {
+        fun `Cannot delete an organization that created another element`() {
             val building = Building(BUILDING_ID_0, builder = CreatedByOrganization(ORGANIZATION_ID_0))
             val newState = state.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete Organization 0, because of created elements (Building)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        // see OwnershipTest for other elements
+        @Test
+        fun `Cannot delete an organization that owns another element`() {
+            val ownership = History<Owner>(OwnedByOrganization(ORGANIZATION_ID_0))
+            val building = Building(BUILDING_ID_0, ownership = ownership)
+            val newState = state.updateStorage(Storage(building))
+
+            assertIllegalArgument("Cannot delete Organization 0, because of owned elements (Building)!") {
                 REDUCER.invoke(newState, action)
             }
         }
@@ -100,67 +115,72 @@ class OrganizationTest {
             assertIllegalArgument("Requires unknown Holiday 99!") { REDUCER.invoke(state, action) }
         }
 
-        @Test
-        fun `Organization must have at least 1 rank`() {
-            val organization = Organization(ORGANIZATION_ID_0, memberRanks = emptyList())
-            val action = UpdateOrganization(organization)
+        @Nested
+        inner class MembersTest {
 
-            assertIllegalArgument("Organization must have at least 1 rank!") { REDUCER.invoke(state, action) }
-        }
+            @Test
+            fun `Organization must have at least 1 rank`() {
+                val organization = Organization(ORGANIZATION_ID_0, memberRanks = emptyList())
+                val action = UpdateOrganization(organization)
 
-        @Test
-        fun `Member must exist`() {
-            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(UNKNOWN_CHARACTER_ID to History(0)))
-            val action = UpdateOrganization(organization)
+                assertIllegalArgument("Organization must have at least 1 rank!") { REDUCER.invoke(state, action) }
+            }
 
-            assertIllegalArgument("Cannot use an unknown character 99 as member!") { REDUCER.invoke(state, action) }
-        }
+            @Test
+            fun `Member must exist`() {
+                val organization = Organization(ORGANIZATION_ID_0, members = mapOf(UNKNOWN_CHARACTER_ID to History(0)))
+                val action = UpdateOrganization(organization)
 
-        @Test
-        fun `Rank must exist`() {
-            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(unknownRank)))
-            val action = UpdateOrganization(organization)
+                assertIllegalArgument("Cannot use an unknown character 99 as member!") { REDUCER.invoke(state, action) }
+            }
 
-            assertIllegalArgument("Cannot use an unknown rank 42!") { REDUCER.invoke(state, action) }
-        }
+            @Test
+            fun `Rank must exist`() {
+                val organization =
+                    Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(unknownRank)))
+                val action = UpdateOrganization(organization)
 
-        @Test
-        fun `Previous rank must exist`() {
-            val history: History<Int?> = History(0, HistoryEntry(unknownRank, DAY1))
-            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
-            val action = UpdateOrganization(organization)
+                assertIllegalArgument("Cannot use an unknown rank 42!") { REDUCER.invoke(state, action) }
+            }
 
-            assertIllegalArgument("Cannot use an unknown 1.previous rank 42!") { REDUCER.invoke(state, action) }
-        }
+            @Test
+            fun `Previous rank must exist`() {
+                val history: History<Int?> = History(0, HistoryEntry(unknownRank, DAY1))
+                val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
+                val action = UpdateOrganization(organization)
 
-        @Test
-        fun `A member without history must have a rank now`() {
-            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(null)))
-            val action = UpdateOrganization(organization)
+                assertIllegalArgument("Cannot use an unknown 1.previous rank 42!") { REDUCER.invoke(state, action) }
+            }
 
-            assertIllegalArgument("Member 0 was never a member!") { REDUCER.invoke(state, action) }
-        }
+            @Test
+            fun `A member without history must have a rank now`() {
+                val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(null)))
+                val action = UpdateOrganization(organization)
 
-        @Test
-        fun `A member history entry cannot be before the organization or character existed`() {
-            val history: History<Int?> = History(0, HistoryEntry(null, DAY0))
-            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
-            val action = UpdateOrganization(organization)
+                assertIllegalArgument("Member 0 was never a member!") { REDUCER.invoke(state, action) }
+            }
 
-            assertIllegalArgument("1.previous rank's until is too early!") { REDUCER.invoke(state, action) }
-        }
+            @Test
+            fun `A member history entry cannot be before the organization or character existed`() {
+                val history: History<Int?> = History(0, HistoryEntry(null, DAY0))
+                val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
+                val action = UpdateOrganization(organization)
 
-        @Test
-        fun `A member cannot have the same rank twice after each other`() {
-            val history: History<Int?> = History(0, HistoryEntry(0, DAY2))
-            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
-            val action = UpdateOrganization(organization)
+                assertIllegalArgument("1.previous rank's until is too early!") { REDUCER.invoke(state, action) }
+            }
 
-            assertIllegalArgument("The rank is the same as the previous one for member 0!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+            @Test
+            fun `A member cannot have the same rank twice after each other`() {
+                val history: History<Int?> = History(0, HistoryEntry(0, DAY2))
+                val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
+                val action = UpdateOrganization(organization)
+
+                assertIllegalArgument("The rank is the same as the previous one for member 0!") {
+                    REDUCER.invoke(
+                        state,
+                        action
+                    )
+                }
             }
         }
 

@@ -7,6 +7,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.CreatedByRealm
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.OwnedByRealm
+import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -46,6 +49,18 @@ class RealmTest {
             val newState = STATE.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete Realm 0, because of created elements (Building)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        // see OwnershipTest for other elements
+        @Test
+        fun `Cannot delete a realm that owns another element`() {
+            val ownership = History<Owner>(OwnedByRealm(REALM_ID_0))
+            val building = Building(BUILDING_ID_0, ownership = ownership)
+            val newState = STATE.updateStorage(Storage(building))
+
+            assertIllegalArgument("Cannot delete Realm 0, because of owned elements (Building)!") {
                 REDUCER.invoke(newState, action)
             }
         }
