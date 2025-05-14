@@ -75,6 +75,7 @@ fun HtmlBlockTag.showData(
     showAge(state, character, race)
     showHousingStatusHistory(call, state, character.housingStatus)
     showEmploymentStatusHistory(call, state, character.employmentStatus)
+    showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
@@ -251,6 +252,8 @@ fun FORM.editCharacter(
             character.sexuality,
         )
     }
+
+    editDataSources(state, character.sources)
 }
 
 private fun FORM.selectOrigin(
@@ -384,6 +387,7 @@ fun parseCharacter(
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
         title = parseOptionalTitleId(parameters, TITLE),
+        sources = parseDataSources(parameters),
     )
 }
 

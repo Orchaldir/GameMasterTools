@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
@@ -58,7 +60,8 @@ data class Character(
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val title: TitleId? = null,
-) : Element<CharacterId>, HasStartDate {
+    val sources: Set<DataSourceId> = emptySet(),
+) : Element<CharacterId>, HasDataSources, HasStartDate {
 
     override fun id() = id
 
@@ -92,6 +95,7 @@ data class Character(
         }
     }
 
+    override fun sources() = sources
     override fun startDate() = birthDate
 
     fun getAge(state: State, currentDay: Day): Duration {

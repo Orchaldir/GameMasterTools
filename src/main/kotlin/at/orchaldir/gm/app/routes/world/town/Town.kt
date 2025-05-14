@@ -173,6 +173,8 @@ private fun HTML.showTownDetails(
             fieldAge("Age", state.getAgeInYears(town))
             fieldCreator(call, state, town.founder, "Founder")
             field("Size", town.map.size.format())
+            showDataSources(call, state, town.sources)
+
             action(editLink, "Edit Town")
             if (state.canDelete(town.id)) {
                 action(deleteLink, "Delete")
@@ -218,7 +220,6 @@ private fun HTML.showTownDetails(
 
             showOwnedElements(call, state, town.id)
             showCreated(call, state, town.id)
-            showDataSources(call, state, town.sources)
 
             back(backLink)
         }, {
