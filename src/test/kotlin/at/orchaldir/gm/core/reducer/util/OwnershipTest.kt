@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
@@ -63,14 +64,46 @@ class OwnerTest {
     @Nested
     inner class CanDeleteOwnerTest {
         private val action = DeleteCharacter(CHARACTER_ID_2)
+        val ownedByCharacter = OwnedByCharacter(CHARACTER_ID_2)
+        private val owner = History<Owner>(ownedByCharacter)
+        private val previousOwner = History(UndefinedOwner, listOf(HistoryEntry(ownedByCharacter, Day(0))))
 
         @Test
         fun `Owns a building`() {
-            val ownership = History<Owner>(OwnedByCharacter(CHARACTER_ID_2))
-            val building = Building(BUILDING_ID_0, ownership = ownership)
+            val building = Building(BUILDING_ID_0, ownership = owner)
             val newState = STATE.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete Character 2, because of owned elements (Building)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Owned a building`() {
+            val building = Building(BUILDING_ID_0, ownership = previousOwner)
+            val newState = STATE.updateStorage(Storage(building))
+
+            assertIllegalArgument("Cannot delete Character 2, because of previously owned elements (Building)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Owns a business`() {
+            val business = Business(BUSINESS_ID_0, ownership = owner)
+            val newState = STATE.updateStorage(Storage(business))
+
+            assertIllegalArgument("Cannot delete Character 2, because of owned elements (Business)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Owned a business`() {
+            val business = Business(BUSINESS_ID_0, ownership = previousOwner)
+            val newState = STATE.updateStorage(Storage(business))
+
+            assertIllegalArgument("Cannot delete Character 2, because of previously owned elements (Business)!") {
                 REDUCER.invoke(newState, action)
             }
         }
