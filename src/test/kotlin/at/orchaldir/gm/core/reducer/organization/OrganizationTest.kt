@@ -44,6 +44,7 @@ class OrganizationTest {
             assertIllegalArgument("Requires unknown Organization 0!") { REDUCER.invoke(State(), action) }
         }
 
+        // see CreatorTest for other elements
         @Test
         fun `Cannot delete a organization that created another element`() {
             val building = Building(BUILDING_ID_0, builder = CreatedByOrganization(ORGANIZATION_ID_0))
