@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CreatedByRealm
+import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -35,6 +37,17 @@ class RealmTest {
             val action = DeleteRealm(UNKNOWN_REALM_ID)
 
             assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        // see CreatorTest for other elements
+        @Test
+        fun `Cannot delete a realm that created another element`() {
+            val building = Building(BUILDING_ID_0, builder = CreatedByRealm(REALM_ID_0))
+            val newState = STATE.updateStorage(Storage(building))
+
+            assertIllegalArgument("Cannot delete Realm 0, because of created elements (Building)!") {
+                REDUCER.invoke(newState, action)
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.realm.canDeleteRealm
+import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -20,6 +21,7 @@ val CREATE_REALM: Reducer<CreateRealm, State> = { state, _ ->
 val DELETE_REALM: Reducer<DeleteRealm, State> = { state, action ->
     state.getRealmStorage().require(action.id)
 
+    checkIfCreatorCanBeDeleted(state, action.id)
     validateCanDelete(state.canDeleteRealm(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getRealmStorage().remove(action.id)))
