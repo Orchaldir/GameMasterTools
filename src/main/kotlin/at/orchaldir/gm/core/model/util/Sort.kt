@@ -64,6 +64,11 @@ enum class SortJob {
     Spells,
 }
 
+enum class SortMagicTradition {
+    Name,
+    Groups,
+}
+
 enum class SortMaterial {
     Name,
     Density,

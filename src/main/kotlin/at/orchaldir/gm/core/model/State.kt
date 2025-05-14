@@ -128,8 +128,8 @@ val ELEMENTS =
         HOLIDAY_TYPE,
         JOB_TYPE,
         LANGUAGE_TYPE,
-        MATERIAL_TYPE,
         MAGIC_TRADITION_TYPE,
+        MATERIAL_TYPE,
         MOON_TYPE,
         MOUNTAIN_TYPE,
         NAME_LIST_TYPE,
@@ -191,8 +191,8 @@ data class State(
     fun getHolidayStorage() = getStorage<HolidayId, Holiday>(HOLIDAY_TYPE)
     fun getJobStorage() = getStorage<JobId, Job>(JOB_TYPE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE_TYPE)
-    fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
     fun getMagicTraditionStorage() = getStorage<MagicTraditionId, MagicTradition>(MAGIC_TRADITION_TYPE)
+    fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON_TYPE)
     fun getMountainStorage() = getStorage<MountainId, Mountain>(MOUNTAIN_TYPE)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST_TYPE)
@@ -346,8 +346,8 @@ data class State(
         saveStorage(path, getHolidayStorage())
         saveStorage(path, getJobStorage())
         saveStorage(path, getLanguageStorage())
-        saveStorage(path, getMaterialStorage())
         saveStorage(path, getMagicTraditionStorage())
+        saveStorage(path, getMaterialStorage())
         saveStorage(path, getMoonStorage())
         saveStorage(path, getMountainStorage())
         saveStorage(path, getNameListStorage())
@@ -391,8 +391,8 @@ fun createStorage(type: String) = when (type) {
     HOLIDAY_TYPE -> Storage(HolidayId(0))
     JOB_TYPE -> Storage(JobId(0))
     LANGUAGE_TYPE -> Storage(LanguageId(0))
-    MATERIAL_TYPE -> Storage(MaterialId(0))
     MAGIC_TRADITION_TYPE -> Storage(MagicTraditionId(0))
+    MATERIAL_TYPE -> Storage(MaterialId(0))
     MOON_TYPE -> Storage(MoonId(0))
     MOUNTAIN_TYPE -> Storage(MountainId(0))
     NAME_LIST_TYPE -> Storage(NameListId(0))
@@ -435,8 +435,8 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     HOLIDAY_TYPE -> loadStorage<HolidayId, Holiday>(path, HolidayId(0))
     JOB_TYPE -> loadStorage<JobId, Job>(path, JobId(0))
     LANGUAGE_TYPE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
-    MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))
     MAGIC_TRADITION_TYPE -> loadStorage<MagicTraditionId, MagicTradition>(path, MagicTraditionId(0))
+    MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))
     MOON_TYPE -> loadStorage<MoonId, Moon>(path, MoonId(0))
     MOUNTAIN_TYPE -> loadStorage<MountainId, Mountain>(path, MountainId(0))
     NAME_LIST_TYPE -> loadStorage<NameListId, NameList>(path, NameListId(0))

@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.material.Material
@@ -325,6 +326,21 @@ fun State.sortPantheons(
             SortPantheon.Name -> compareBy { it.name.text }
             SortPantheon.Gods -> compareBy { it.gods.size }
             SortPantheon.Believers -> compareByDescending { getBelievers(it.id).size }
+        })
+
+// magic tradition
+
+fun State.sortMagicTraditions(sort: SortMagicTradition = SortMagicTradition.Name) =
+    sortMagicTraditions(getMagicTraditionStorage().getAll(), sort)
+
+fun State.sortMagicTraditions(
+    traditions: Collection<MagicTradition>,
+    sort: SortMagicTradition = SortMagicTradition.Name,
+) = traditions
+    .sortedWith(
+        when (sort) {
+            SortMagicTradition.Name -> compareBy { it.name.text }
+            SortMagicTradition.Groups -> compareByDescending { it.groups.size }
         })
 
 // material

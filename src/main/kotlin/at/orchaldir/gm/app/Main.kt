@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.routes.economy.configureStandardOfLivingRouting
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyRouting
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyUnitRouting
 import at.orchaldir.gm.app.routes.item.*
+import at.orchaldir.gm.app.routes.magic.configureMagicTraditionRouting
 import at.orchaldir.gm.app.routes.magic.configureSpellGroupRouting
 import at.orchaldir.gm.app.routes.magic.configureSpellRouting
 import at.orchaldir.gm.app.routes.organization.configureOrganizationRouting
@@ -78,6 +79,7 @@ fun Application.module() {
     configureEquipmentRouting()
     configureJobRouting()
     configureLanguageRouting()
+    configureMagicTraditionRouting()
     configureMaterialRouting()
     configureMoonRouting()
     configureMountainRouting()
