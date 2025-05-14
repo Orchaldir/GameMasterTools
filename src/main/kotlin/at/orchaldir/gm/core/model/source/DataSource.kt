@@ -21,7 +21,7 @@ value class DataSourceId(val value: Int) : Id<DataSourceId> {
 data class DataSource(
     val id: DataSourceId,
     val text: Name = Name.init("DataSource ${id.value}"),
-    val year: Int,
+    val year: Int = 0,
 ) : ElementWithSimpleName<DataSourceId> {
 
     override fun id() = id

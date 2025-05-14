@@ -12,6 +12,9 @@ import at.orchaldir.gm.core.reducer.quote.CREATE_QUOTE
 import at.orchaldir.gm.core.reducer.quote.DELETE_QUOTE
 import at.orchaldir.gm.core.reducer.quote.UPDATE_QUOTE
 import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
+import at.orchaldir.gm.core.reducer.source.CREATE_DATA_SOURCE
+import at.orchaldir.gm.core.reducer.source.DELETE_DATA_SOURCE
+import at.orchaldir.gm.core.reducer.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.time.CREATE_CALENDAR
 import at.orchaldir.gm.core.reducer.time.DELETE_CALENDAR
 import at.orchaldir.gm.core.reducer.time.UPDATE_CALENDAR
@@ -41,6 +44,12 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CloneCulture -> CLONE_CULTURE(state, action)
         is DeleteCulture -> DELETE_CULTURE(state, action)
         is UpdateCulture -> UPDATE_CULTURE(state, action)
+        // data
+        is UpdateData -> UPDATE_DATA(state, action)
+        // data source
+        is CreateDataSource -> CREATE_DATA_SOURCE(state, action)
+        is DeleteDataSource -> DELETE_DATA_SOURCE(state, action)
+        is UpdateDataSource -> UPDATE_DATA_SOURCE(state, action)
         // fashion
         is CreateFashion -> CREATE_FASHION(state, action)
         is DeleteFashion -> DELETE_FASHION(state, action)
@@ -87,8 +96,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateTitle -> CREATE_TITLE(state, action)
         is DeleteTitle -> DELETE_TITLE(state, action)
         is UpdateTitle -> UPDATE_TITLE(state, action)
-        // time
-        is UpdateData -> UPDATE_DATA(state, action)
         // sub reducers
         is ItemAction -> ITEM_REDUCER(state, action)
         is EconomyAction -> ECONOMY_REDUCER(state, action)

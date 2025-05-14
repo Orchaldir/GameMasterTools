@@ -47,6 +47,8 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.*
+import at.orchaldir.gm.core.model.source.DataSource
+import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Date
@@ -124,6 +126,11 @@ data class UpdateTitle(val title: Title) : Action()
 
 // data
 data class UpdateData(val data: Data) : Action()
+
+// data source
+data object CreateDataSource : Action()
+data class DeleteDataSource(val id: DataSourceId) : Action()
+data class UpdateDataSource(val source: DataSource) : Action()
 
 // fashion
 data object CreateFashion : Action()
