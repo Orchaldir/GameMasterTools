@@ -89,7 +89,7 @@ class OrganizationTest {
             val organization = Organization(ORGANIZATION_ID_0, founder = CreatedByCharacter(UNKNOWN_CHARACTER_ID))
             val action = UpdateOrganization(organization)
 
-            assertIllegalArgument("Cannot use an unknown character 99 as founder!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown Character 99 as founder!") { REDUCER.invoke(state, action) }
         }
 
         @Test

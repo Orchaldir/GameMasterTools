@@ -16,14 +16,13 @@ fun <ID : Id<ID>> validateCreator(
     noun: String,
 ) {
     when (creator) {
-        is CreatedByBusiness -> checkCreatorElement(state, creator.business, created, noun, "business", date)
+        is CreatedByBusiness -> checkCreatorElement(state, creator.business, created, noun, date)
 
         is CreatedByCharacter -> checkCreatorElement(
             state,
             creator.character,
             created,
             noun,
-            "character",
             date
         )
 
@@ -32,7 +31,6 @@ fun <ID : Id<ID>> validateCreator(
             creator.god,
             created,
             noun,
-            "god",
             date
         )
 
@@ -41,11 +39,10 @@ fun <ID : Id<ID>> validateCreator(
             creator.organization,
             created,
             noun,
-            "organization",
             date
         )
 
-        is CreatedByTown -> checkCreatorElement(state, creator.town, created, noun, "town", date)
+        is CreatedByTown -> checkCreatorElement(state, creator.town, created, noun, date)
 
         UndefinedCreator -> doNothing()
     }
@@ -56,9 +53,10 @@ private fun <ID0, ID1, ELEMENT> checkCreatorElement(
     creator: ID0,
     created: ID1,
     noun: String,
-    typeNoun: String,
     date: Date?,
 ) where ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>, ELEMENT : HasStartDate {
+    val typeNoun = creator.type()
+
     require(creator != created) { "The $typeNoun cannot create itself!" }
     val element = state
         .getStorage<ID0, ELEMENT>(creator)

@@ -209,7 +209,7 @@ class TownTest {
         fun `Founder must exist`() {
             val action = UpdateTown(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
 
-            assertIllegalArgument("Cannot use an unknown character 0 as founder!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot use an unknown Character 0 as founder!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

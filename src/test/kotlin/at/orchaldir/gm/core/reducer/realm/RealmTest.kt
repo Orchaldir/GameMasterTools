@@ -53,7 +53,7 @@ class RealmTest {
             val realm = Realm(REALM_ID_0, founder = CreatedByCharacter(UNKNOWN_CHARACTER_ID))
             val action = UpdateRealm(realm)
 
-            assertIllegalArgument("Cannot use an unknown character 99 as founder!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot use an unknown Character 99 as founder!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
