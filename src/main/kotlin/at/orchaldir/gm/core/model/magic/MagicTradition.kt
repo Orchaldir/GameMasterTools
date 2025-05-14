@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.magic
 
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -25,6 +26,7 @@ data class MagicTradition(
     val date: Date? = null,
     val founder: Creator = UndefinedCreator,
     val groups: Set<SpellGroupId> = emptySet(),
+    val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<MagicTraditionId>, Created, HasStartDate {
 
     override fun id() = id

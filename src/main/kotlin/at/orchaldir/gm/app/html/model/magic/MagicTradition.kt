@@ -24,6 +24,7 @@ fun HtmlBlockTag.showMagicTradition(
     optionalField(call, state, "Date", tradition.date)
     fieldCreator(call, state, tradition.founder, "Founder")
     fieldIdList(call, state, tradition.groups)
+    showDataSources(call, state, tradition.sources)
 }
 
 // edit
@@ -36,8 +37,8 @@ fun FORM.editMagicTradition(
     selectOptionalDate(state, "Date", tradition.date, DATE)
     selectCreator(state, tradition.founder, tradition.id, tradition.date, "Founder")
     selectElements(state, "Spell Groups", SPELLS, state.sortSpellGroups(), tradition.groups)
+    editDataSources(state, tradition.sources)
 }
-
 
 // parse
 
@@ -51,4 +52,5 @@ fun parseMagicTradition(parameters: Parameters, state: State, id: MagicTradition
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
     parseElements(parameters, SPELLS, ::parseSpellGroupId),
+    parseDataSources(parameters),
 )
