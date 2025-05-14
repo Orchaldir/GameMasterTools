@@ -22,6 +22,7 @@ class HasStartDateTest {
         val day2 = Day(1)
         val earlyRange = DayRange(-10, -1)
         val rangeEndsAt = DayRange(-1, 0)
+        val rangeOverlaps = DayRange(-1, 1)
         val rangeStartsAt = DayRange(0, 1)
         val lateRange = DayRange(1, 10)
         val state = State(
@@ -56,10 +57,19 @@ class HasStartDateTest {
         }
 
         @Test
-        fun `Exists element with specific day at date range`() {
+        fun `Element doesn't exist if it starts after a range`() {
             assertFalse(state.exists(elementWithStartDay, earlyRange))
+        }
+
+        @Test
+        fun `Element exist if it's start overlaps with the range`() {
             assertTrue(state.exists(elementWithStartDay, rangeEndsAt))
+            assertTrue(state.exists(elementWithStartDay, rangeOverlaps))
             assertTrue(state.exists(elementWithStartDay, rangeStartsAt))
+        }
+
+        @Test
+        fun `Element exist if it starts before the range`() {
             assertTrue(state.exists(elementWithStartDay, lateRange))
         }
     }
