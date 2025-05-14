@@ -45,7 +45,7 @@ class OrganizationTest {
         }
 
         @Test
-        fun `Cannot delete a organization that build a building`() {
+        fun `Cannot delete a organization that created another element`() {
             val building = Building(BUILDING_ID_0, builder = CreatedByOrganization(ORGANIZATION_ID_0))
             val newState = state.updateStorage(Storage(building))
 
