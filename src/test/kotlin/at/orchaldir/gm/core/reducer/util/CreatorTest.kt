@@ -10,7 +10,9 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.MagicTradition
+import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.realm.Realm
@@ -57,6 +59,16 @@ class CreatorTest {
         }
 
         @Test
+        fun `Created a business`() {
+            val business = Business(BUSINESS_ID_0, founder = createdByCharacter)
+            val newState = STATE.updateStorage(Storage(business))
+
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Business)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
         fun `Created a language`() {
             val origin = InventedLanguage(createdByCharacter, DAY0)
             val newState = STATE.updateStorage(Storage(Language(LANGUAGE_ID_0, origin = origin)))
@@ -92,6 +104,16 @@ class CreatorTest {
             val newState = STATE.updateStorage(Storage(realm))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Realm)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Created a spell`() {
+            val spell = Spell(SPELL_ID_0, origin = InventedSpell(createdByCharacter))
+            val newState = STATE.updateStorage(Storage(spell))
+
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Spell)!") {
                 REDUCER.invoke(newState, action)
             }
         }
