@@ -32,6 +32,8 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.magic.MagicTradition
+import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.magic.SpellGroupId
@@ -241,6 +243,11 @@ data class UpdateJob(val job: Job) : EconomyAction()
 //-- magic --
 
 sealed class MagicAction : Action()
+
+// magic tradition
+data object CreateMagicTradition : MagicAction()
+data class DeleteMagicTradition(val id: MagicTraditionId) : MagicAction()
+data class UpdateMagicTradition(val tradition: MagicTradition) : MagicAction()
 
 // spell
 data object CreateSpell : MagicAction()

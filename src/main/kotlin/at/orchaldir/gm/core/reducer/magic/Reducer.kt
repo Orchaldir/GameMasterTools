@@ -6,6 +6,10 @@ import at.orchaldir.gm.utils.redux.Reducer
 
 val MAGIC_REDUCER: Reducer<MagicAction, State> = { state, action ->
     when (action) {
+        // magic tradition
+        is CreateMagicTradition -> CREATE_MAGIC_TRADITION(state, action)
+        is DeleteMagicTradition -> DELETE_MAGIC_TRADITION(state, action)
+        is UpdateMagicTradition -> UPDATE_MAGIC_TRADITION(state, action)
         // spell
         is CreateSpell -> CREATE_SPELL(state, action)
         is DeleteSpell -> DELETE_SPELL(state, action)
