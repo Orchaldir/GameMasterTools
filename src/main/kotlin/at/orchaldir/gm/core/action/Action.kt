@@ -46,6 +46,8 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.source.DataSource
 import at.orchaldir.gm.core.model.source.DataSourceId
@@ -269,6 +271,15 @@ sealed class OrganizationAction : Action()
 data object CreateOrganization : OrganizationAction()
 data class DeleteOrganization(val id: OrganizationId) : OrganizationAction()
 data class UpdateOrganization(val organization: Organization) : OrganizationAction()
+
+//-- realm --
+
+sealed class RealmAction : Action()
+
+// realm
+data object CreateRealm : RealmAction()
+data class DeleteRealm(val id: RealmId) : RealmAction()
+data class UpdateRealm(val realm: Realm) : RealmAction()
 
 //-- religion --
 

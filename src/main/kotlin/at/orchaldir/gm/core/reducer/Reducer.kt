@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
 import at.orchaldir.gm.core.reducer.quote.CREATE_QUOTE
 import at.orchaldir.gm.core.reducer.quote.DELETE_QUOTE
 import at.orchaldir.gm.core.reducer.quote.UPDATE_QUOTE
+import at.orchaldir.gm.core.reducer.realm.REALM_REDUCER
 import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
 import at.orchaldir.gm.core.reducer.source.CREATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.source.DELETE_DATA_SOURCE
@@ -101,6 +102,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is EconomyAction -> ECONOMY_REDUCER(state, action)
         is MagicAction -> MAGIC_REDUCER(state, action)
         is OrganizationAction -> ORGANIZATION_REDUCER(state, action)
+        is RealmAction -> REALM_REDUCER(state, action)
         is ReligionAction -> RELIGION_REDUCER(state, action)
         is WorldAction -> WORLD_REDUCER(state, action)
     }
