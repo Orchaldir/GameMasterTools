@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.util.SortWar
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -141,6 +142,7 @@ private fun HTML.showAllWars(
     state: State,
     sort: SortWar,
 ) {
+    val calendar = state.getDefaultCalendar()
     val wars = state.sortWars(sort)
     val createLink = call.application.href(WarRoutes.New())
 
@@ -153,12 +155,14 @@ private fun HTML.showAllWars(
                 th { +"Name" }
                 th { +"Start" }
                 th { +"End" }
+                th { +"Years" }
             }
             wars.forEach { war ->
                 tr {
                     tdLink(call, state, war)
                     td { showOptionalDate(call, state, war.startDate) }
                     td { showOptionalDate(call, state, war.endDate) }
+                    tdSkipZero(calendar.getYears(war.getDuration(state)))
                 }
             }
         }

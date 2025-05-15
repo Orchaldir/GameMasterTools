@@ -7,10 +7,12 @@ import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -23,8 +25,11 @@ fun HtmlBlockTag.showWar(
     state: State,
     war: War,
 ) {
+    val calendar = state.getDefaultCalendar()
+
     optionalField(call, state, "Start Date", war.startDate)
     optionalField(call, state, "End Date", war.endDate)
+    fieldAge("Duration", calendar.getYears(war.getDuration(state)))
     showDataSources(call, state, war.sources)
 }
 
