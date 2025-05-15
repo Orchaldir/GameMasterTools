@@ -100,6 +100,7 @@ import at.orchaldir.gm.core.reducer.organization.validateOrganization
 import at.orchaldir.gm.core.reducer.quote.validateQuote
 import at.orchaldir.gm.core.reducer.realm.validateRealm
 import at.orchaldir.gm.core.reducer.realm.validateTown
+import at.orchaldir.gm.core.reducer.realm.validateWar
 import at.orchaldir.gm.core.reducer.religion.validateDomain
 import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
@@ -160,6 +161,7 @@ val ELEMENTS =
         TOWN_TYPE,
         TOWN_MAP_TYPE,
         UNIFORM_TYPE,
+        WAR_TYPE,
     )
 private const val DATA = "Data"
 
@@ -226,6 +228,7 @@ data class State(
     fun getTownStorage() = getStorage<TownId, Town>(TOWN_TYPE)
     fun getTownMapStorage() = getStorage<TownMapId, TownMap>(TOWN_MAP_TYPE)
     fun getUniformStorage() = getStorage<UniformId, Uniform>(UNIFORM_TYPE)
+    fun getWarStorage() = getStorage<WarId, War>(WAR_TYPE)
 
     fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(id: ID) = getStorage<ID, ELEMENT>(id.type())
 
@@ -338,6 +341,7 @@ data class State(
         validate(getTownStorage()) { validateTown(this, it) }
         validate(getTownMapStorage()) { validateTownMap(this, it) }
         validate(getUniformStorage()) { validateUniform(this, it) }
+        validate(getWarStorage()) { validateWar(this, it) }
 
         validateData(this, data)
     }
@@ -386,6 +390,7 @@ data class State(
         saveStorage(path, getTownStorage())
         saveStorage(path, getTownMapStorage())
         saveStorage(path, getUniformStorage())
+        saveStorage(path, getWarStorage())
         save(path, DATA, data)
     }
 }
@@ -434,6 +439,7 @@ fun createStorage(type: String) = when (type) {
     TOWN_TYPE -> Storage(TownId(0))
     TOWN_MAP_TYPE -> Storage(TownMapId(0))
     UNIFORM_TYPE -> Storage(UniformId(0))
+    WAR_TYPE -> Storage(WarId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
@@ -485,6 +491,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     TOWN_TYPE -> loadStorage<TownId, Town>(path, TownId(0))
     TOWN_MAP_TYPE -> loadStorage<TownMapId, TownMap>(path, TownMapId(0))
     UNIFORM_TYPE -> loadStorage<UniformId, Uniform>(path, UniformId(0))
+    WAR_TYPE -> loadStorage<WarId, War>(path, WarId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
