@@ -131,6 +131,7 @@ private fun HTML.showTownMapDetails(
 ) {
     val backLink = call.application.href(TownMapRoutes.All())
     val deleteLink = call.application.href(TownMapRoutes.Delete(townMap.id))
+    val editLink = call.application.href(TownMapRoutes.Edit(townMap.id))
     val editAbstractBuildingsLink = call.application.href(AbstractBuildingRoutes.Edit(townMap.id))
     val editBuildingsLink = call.application.href(TownMapRoutes.BuildingRoutes.Edit(townMap.id))
     val editStreetsLink = call.application.href(TownMapRoutes.StreetRoutes.Edit(townMap.id))
@@ -143,6 +144,7 @@ private fun HTML.showTownMapDetails(
             action(editAbstractBuildingsLink, "Edit Abstract Buildings")
             action(editBuildingsLink, "Edit Buildings")
 
+            action(editLink, "Edit")
             if (state.canDeleteTownMap(townMap.id)) {
                 action(deleteLink, "Delete")
             }
@@ -178,7 +180,7 @@ private fun HTML.showTownMapEditor(
             form {
                 editTownMap(state, townMap)
 
-                action(updateLink, "Update")
+                button("Update", updateLink)
                 back(backLink)
             }
         }, {
