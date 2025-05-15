@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.quote.QuoteId
+import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
@@ -40,7 +42,8 @@ data class Text(
     val language: LanguageId = LanguageId(0),
     val format: TextFormat = UndefinedTextFormat,
     val content: TextContent = UndefinedTextContent,
-) : ElementWithSimpleName<TextId>, Created, HasStartDate, MadeFromParts {
+    val sources: Set<DataSourceId> = emptySet(),
+) : ElementWithSimpleName<TextId>, Created, HasDataSources, HasStartDate, MadeFromParts {
 
     override fun id() = id
     override fun name() = name.text
@@ -58,6 +61,7 @@ data class Text(
     }
 
     override fun creator() = origin.creator()
+    override fun sources() = sources
     override fun startDate() = date
     override fun parts() = format.parts()
 

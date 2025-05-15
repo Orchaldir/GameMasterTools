@@ -4,7 +4,10 @@
   "0": {
    "id": 0,
    "name": "Mar'saval Scroll",
-   "language": 2
+   "language": 2,
+   "sources": [
+    3
+   ]
   }
  }
 }
