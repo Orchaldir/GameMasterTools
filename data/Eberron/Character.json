@@ -1042,11 +1042,24 @@
     "family": "Wynarn"
    },
    "birthDate": {
-    "type": "Day",
-    "day": 334992
+    "type": "Decade",
+    "decade": 83
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Year",
+     "year": 893
+    },
+    "cause": {
+     "type": "OldAge"
+    }
    },
    "culture": 1,
-   "title": 0
+   "title": 0,
+   "sources": [
+    3
+   ]
   }
  }
 }
