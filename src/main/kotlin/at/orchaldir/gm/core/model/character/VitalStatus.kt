@@ -20,6 +20,11 @@ sealed class VitalStatus {
         is Alive -> null
         is Dead -> cause
     }
+
+    fun getDeathDate() = when (this) {
+        is Alive -> null
+        is Dead -> deathDay
+    }
 }
 
 @Serializable

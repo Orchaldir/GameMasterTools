@@ -178,6 +178,7 @@ private fun HTML.showAllCharacters(
                 th { +"Culture" }
                 th { +"Belief" }
                 th { +"Birthdate" }
+                th { +"Deathdate" }
                 th { +"Age" }
                 th { +"Housing Status" }
                 th { +"Employment Status" }
@@ -206,6 +207,7 @@ private fun HTML.showAllCharacters(
                     tdLink(call, state, character.culture)
                     td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }
+                    td { showOptionalDate(call, state, character.vitalStatus.getDeathDate()) }
                     tdSkipZero(state.getAgeInYears(character))
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false, false) }
