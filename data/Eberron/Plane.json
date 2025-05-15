@@ -14,7 +14,10 @@
      "waning": 100,
      "remote": 100
     }
-   }
+   },
+   "languages": [
+    27
+   ]
   },
   "1": {
    "id": 1,
@@ -26,7 +29,10 @@
      "type": "Fixed",
      "alignment": "Remote"
     }
-   }
+   },
+   "languages": [
+    4
+   ]
   },
   "2": {
    "id": 2,
@@ -49,7 +55,10 @@
    "title": "The Sea of Fire",
    "purpose": {
     "type": "Independent"
-   }
+   },
+   "languages": [
+    29
+   ]
   },
   "4": {
    "id": 4,
@@ -57,7 +66,10 @@
    "title": "The Eternal Dawn",
    "purpose": {
     "type": "Independent"
-   }
+   },
+   "languages": [
+    17
+   ]
   },
   "5": {
    "id": 5,
@@ -65,7 +77,10 @@
    "title": "The Churning Chaos",
    "purpose": {
     "type": "Independent"
-   }
+   },
+   "languages": [
+    28
+   ]
   },
   "6": {
    "id": 6,
@@ -73,7 +88,10 @@
    "title": "The Twilight Forest",
    "purpose": {
     "type": "Independent"
-   }
+   },
+   "languages": [
+    23
+   ]
   },
   "7": {
    "id": 7,
@@ -81,7 +99,10 @@
    "title": "The Endless Night",
    "purpose": {
     "type": "Independent"
-   }
+   },
+   "languages": [
+    25
+   ]
   },
   "8": {
    "id": 8,
@@ -89,7 +110,10 @@
    "title": "The Plain of Ice",
    "purpose": {
     "type": "Independent"
-   }
+   },
+   "languages": [
+    29
+   ]
   },
   "9": {
    "id": 9,
@@ -104,7 +128,11 @@
      "waning": 18,
      "remote": 1
     }
-   }
+   },
+   "languages": [
+    17,
+    15
+   ]
   },
   "10": {
    "id": 10,
@@ -112,7 +140,10 @@
    "title": "The Azure Sky",
    "purpose": {
     "type": "Independent"
-   }
+   },
+   "languages": [
+    17
+   ]
   },
   "11": {
    "id": 11,
@@ -127,7 +158,10 @@
      "waning": 102,
      "remote": 14
     }
-   }
+   },
+   "languages": [
+    26
+   ]
   },
   "12": {
    "id": 12,
@@ -139,7 +173,10 @@
      "type": "Fixed",
      "alignment": "Remote"
     }
-   }
+   },
+   "languages": [
+    10
+   ]
   },
   "13": {
    "id": 13,
