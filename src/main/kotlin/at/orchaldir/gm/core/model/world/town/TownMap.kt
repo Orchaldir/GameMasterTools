@@ -51,6 +51,7 @@ data class TownMap(
                 town.name()
             }
         }
+
     override fun startDate() = date
 
     fun canBuild(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuild() }

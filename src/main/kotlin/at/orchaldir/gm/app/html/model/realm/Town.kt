@@ -1,15 +1,10 @@
 package at.orchaldir.gm.app.html.model.town
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.world.showBuildingsOfTownMap
 import at.orchaldir.gm.app.html.model.world.showCharactersOfTownMap
-import at.orchaldir.gm.app.html.optionalFieldLink
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.parseSimpleOptionalInt
-import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId

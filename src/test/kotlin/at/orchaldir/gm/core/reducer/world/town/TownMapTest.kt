@@ -124,10 +124,7 @@ class TownMapTest {
             val action = UpdateTownMap(map0)
 
             assertIllegalArgument("Multiple maps have the same town & date combination!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+                REDUCER.invoke(state, action)
             }
         }
 

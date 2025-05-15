@@ -6,9 +6,7 @@ import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
-import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes.Add
-import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes.Edit
-import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes.Remove
+import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes.*
 import at.orchaldir.gm.core.action.AddAbstractBuilding
 import at.orchaldir.gm.core.action.RemoveAbstractBuilding
 import at.orchaldir.gm.core.model.State

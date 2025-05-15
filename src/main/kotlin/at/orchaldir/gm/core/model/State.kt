@@ -59,12 +59,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.realm.REALM_TYPE
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TOWN_TYPE
-import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.source.DataSource
