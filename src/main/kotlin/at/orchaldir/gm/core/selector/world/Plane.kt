@@ -14,6 +14,14 @@ fun State.canDeletePlane(plane: PlaneId) = getDemiplanes(plane).isEmpty()
         && getReflections(plane).isEmpty()
         && getMoons(plane).isEmpty()
 
+// count
+
+fun State.countPlanes(language: LanguageId) = getPlaneStorage()
+    .getAll()
+    .count { it.languages.contains(language) }
+
+// get
+
 fun State.getDemiplanes(plane: PlaneId) = getPlaneStorage()
     .getAll()
     .filter { it.purpose is Demiplane && it.purpose.plane == plane }

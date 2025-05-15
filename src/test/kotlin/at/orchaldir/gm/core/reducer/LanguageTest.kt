@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -17,27 +18,32 @@ import kotlin.test.assertEquals
 
 class LanguageTest {
 
+    private val state = State(
+        listOf(
+            Storage(CALENDAR0),
+            Storage(Character(CHARACTER_ID_0)),
+            Storage(Culture(CULTURE_ID_0)),
+            Storage(Language(LANGUAGE_ID_0)),
+        )
+    )
+
     @Nested
     inner class DeleteTest {
+        val action = DeleteLanguage(LANGUAGE_ID_0)
 
         @Test
         fun `Can delete an existing language`() {
-            val state = State(Storage(Language(LANGUAGE_ID_0)))
-            val action = DeleteLanguage(LANGUAGE_ID_0)
-
             assertEquals(0, REDUCER.invoke(state, action).first.getLanguageStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteLanguage(LANGUAGE_ID_0)
-
             assertIllegalArgument("Requires unknown Language 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete a language with children`() {
-            val state = State(
+            val state = state.updateStorage(
                 Storage(
                     listOf(
                         Language(LANGUAGE_ID_0),
@@ -45,7 +51,6 @@ class LanguageTest {
                     )
                 )
             )
-            val action = DeleteLanguage(LANGUAGE_ID_0)
 
             assertIllegalArgument("Cannot delete Language 0, because it has children!") {
                 REDUCER.invoke(
@@ -58,14 +63,7 @@ class LanguageTest {
         @Test
         fun `Cannot delete a language known by a character`() {
             val character = Character(CHARACTER_ID_0, languages = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native))
-            val state = State(
-                listOf(
-                    Storage(character),
-                    Storage(Culture(CULTURE_ID_0)),
-                    Storage(Language(LANGUAGE_ID_0)),
-                )
-            )
-            val action = DeleteLanguage(LANGUAGE_ID_0)
+            val state = state.updateStorage(Storage(character))
 
             assertIllegalArgument("Cannot delete Language 0, because it is known by characters!") {
                 REDUCER.invoke(state, action)
@@ -74,22 +72,30 @@ class LanguageTest {
 
         @Test
         fun `Cannot delete a language used by a periodical`() {
-            val periodical = Periodical(PERIODICAL_ID_0, language = LANGUAGE_ID_1)
-            val state = State(listOf(Storage(periodical), Storage(Language(LANGUAGE_ID_1))))
-            val action = DeleteLanguage(LANGUAGE_ID_1)
+            val periodical = Periodical(PERIODICAL_ID_0, language = LANGUAGE_ID_0)
+            val state = state.updateStorage(Storage(periodical))
 
-            assertIllegalArgument("Cannot delete Language 1, because it is used by a periodical!") {
+            assertIllegalArgument("Cannot delete Language 0, because it is used by a periodical!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a language used by a plane`() {
+            val plane = Plane(PLANE_ID_0, languages = setOf(LANGUAGE_ID_0))
+            val state = state.updateStorage(Storage(plane))
+
+            assertIllegalArgument("Cannot delete Language 0, because it is used by a plane!") {
                 REDUCER.invoke(state, action)
             }
         }
 
         @Test
         fun `Cannot delete a language used by a text`() {
-            val text = Text(TEXT_ID_0, language = LANGUAGE_ID_1)
-            val state = State(listOf(Storage(text), Storage(Language(LANGUAGE_ID_1))))
-            val action = DeleteLanguage(LANGUAGE_ID_1)
+            val text = Text(TEXT_ID_0, language = LANGUAGE_ID_0)
+            val state = state.updateStorage(Storage(text))
 
-            assertIllegalArgument("Cannot delete Language 1, because it is used by a text!") {
+            assertIllegalArgument("Cannot delete Language 0, because it is used by a text!") {
                 REDUCER.invoke(
                     state,
                     action
@@ -101,19 +107,11 @@ class LanguageTest {
     @Nested
     inner class UpdateTest {
 
-        val STATE = State(
-            listOf(
-                Storage(CALENDAR0),
-                Storage(Character(CHARACTER_ID_0)),
-                Storage(Language(LANGUAGE_ID_0)),
-            )
-        )
-
         @Test
         fun `Cannot update unknown id`() {
             val action = UpdateLanguage(Language(LANGUAGE_ID_1))
 
-            assertIllegalArgument("Requires unknown Language 1!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Language 1!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -121,7 +119,7 @@ class LanguageTest {
             val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_1), DAY0)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown Character 1 as Inventor!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot use an unknown Character 1 as Inventor!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -129,14 +127,14 @@ class LanguageTest {
             val origin = EvolvedLanguage(LANGUAGE_ID_1)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown parent language 1!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot use an unknown parent language 1!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `A language cannot be its own parent`() {
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = EvolvedLanguage(LANGUAGE_ID_0)))
 
-            assertIllegalArgument("A language cannot be its own parent!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("A language cannot be its own parent!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -144,19 +142,12 @@ class LanguageTest {
             val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), FUTURE_DAY_0)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertIllegalArgument("Date (Language) is in the future!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
-        fun `The plane of a planar language must exist`() {
-            val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = PlanarLanguage(UNKNOWN_PLANE_ID)))
-
-            assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Date (Language) is in the future!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Parent language exist`() {
-            val state = STATE.updateStorage(Storage(listOf(Language(LANGUAGE_ID_0), Language(LANGUAGE_ID_1))))
+            val state = state.updateStorage(Storage(listOf(Language(LANGUAGE_ID_0), Language(LANGUAGE_ID_1))))
             val language = Language(LANGUAGE_ID_0, origin = EvolvedLanguage(LANGUAGE_ID_1))
             val action = UpdateLanguage(language)
 
