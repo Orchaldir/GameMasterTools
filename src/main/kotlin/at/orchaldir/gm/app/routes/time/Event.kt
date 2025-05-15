@@ -30,7 +30,6 @@ import at.orchaldir.gm.core.selector.sort
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
-import io.ktor.server.resources.*
 import kotlinx.html.*
 
 fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {

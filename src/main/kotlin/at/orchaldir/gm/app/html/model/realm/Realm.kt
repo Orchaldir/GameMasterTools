@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.selector.realm.getWars
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.application.call
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
