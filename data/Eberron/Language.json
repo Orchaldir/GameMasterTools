@@ -32,8 +32,7 @@
    "id": 4,
    "name": "Quori",
    "origin": {
-    "type": "Planar",
-    "plane": 1
+    "type": "Planar"
    }
   },
   "5": {
@@ -75,8 +74,7 @@
    "id": 10,
    "name": "Daelkyr",
    "origin": {
-    "type": "Planar",
-    "plane": 12
+    "type": "Planar"
    }
   },
   "11": {
@@ -100,8 +98,7 @@
    "name": "Infernal",
    "title": "Khyber's Speech",
    "origin": {
-    "type": "Planar",
-    "plane": 9
+    "type": "Planar"
    }
   },
   "16": {
@@ -113,8 +110,7 @@
    "name": "Celestial",
    "title": "Tongue of Siberys",
    "origin": {
-    "type": "Planar",
-    "plane": 9
+    "type": "Planar"
    }
   },
   "18": {
@@ -149,8 +145,7 @@
    "id": 23,
    "name": "Druidic",
    "origin": {
-    "type": "Planar",
-    "plane": 6
+    "type": "Planar"
    }
   },
   "24": {
@@ -161,32 +156,28 @@
    "id": 25,
    "name": "Mabran",
    "origin": {
-    "type": "Planar",
-    "plane": 7
+    "type": "Planar"
    }
   },
   "26": {
    "id": 26,
    "name": "Sylvan",
    "origin": {
-    "type": "Planar",
-    "plane": 11
+    "type": "Planar"
    }
   },
   "27": {
    "id": 27,
    "name": "Daan",
    "origin": {
-    "type": "Planar",
-    "plane": 0
+    "type": "Planar"
    }
   },
   "28": {
    "id": 28,
    "name": "Kythric",
    "origin": {
-    "type": "Planar",
-    "plane": 5
+    "type": "Planar"
    }
   }
  }
