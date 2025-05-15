@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "The Last War",
+   "startDate": {
+    "type": "Year",
+    "year": 893
+   },
+   "endDate": {
+    "type": "Year",
+    "year": 995
+   },
+   "realms": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "sources": [
+    3
+   ]
+  }
+ }
+}

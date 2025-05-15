@@ -128,6 +128,16 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
     }
 
+    getWarStorage().getAll().forEach { war ->
+        addPossibleEvent(events, default, calendar, war.startDate) {
+            StartEvent(it, war.id)
+        }
+
+        addPossibleEvent(events, default, calendar, war.endDate) {
+            EndEvent(it, war.id)
+        }
+    }
+
     return events
 }
 

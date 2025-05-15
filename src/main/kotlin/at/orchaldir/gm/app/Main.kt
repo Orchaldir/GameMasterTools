@@ -19,6 +19,7 @@ import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.routes.race.configureRaceRouting
 import at.orchaldir.gm.app.routes.realm.configureRealmRouting
 import at.orchaldir.gm.app.routes.realm.configureTownRouting
+import at.orchaldir.gm.app.routes.realm.configureWarRouting
 import at.orchaldir.gm.app.routes.religion.configureDomainRouting
 import at.orchaldir.gm.app.routes.religion.configureGodRouting
 import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
@@ -111,6 +112,7 @@ fun Application.module() {
     configureTownRouting()
     configureTownMapRouting()
     configureUniformRouting()
+    configureWarRouting()
 }
 
 fun Application.configureSerialization() {

@@ -38,8 +38,10 @@ fun HtmlBlockTag.showDataSource(
     showDataSourceContent(call, state, state.getOrganizationStorage(), source.id)
     showDataSourceContent(call, state, state.getPlaneStorage(), source.id)
     showDataSourceContent(call, state, state.getRaceStorage(), source.id)
+    showDataSourceContent(call, state, state.getRealmStorage(), source.id)
     showDataSourceContent(call, state, state.getSpellStorage(), source.id)
     showDataSourceContent(call, state, state.getTownStorage(), source.id)
+    showDataSourceContent(call, state, state.getWarStorage(), source.id)
 }
 
 

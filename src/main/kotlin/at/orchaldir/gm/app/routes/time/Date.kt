@@ -64,7 +64,7 @@ fun HTML.showDate(
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val events = state.getEvents(calendar, date)
-    val backLink = call.application.href(TimeRoutes())
+    val backLink = call.application.href(TimeRoutes.ShowEvents())
     val upDate = calendar.moveUp(date)
 
     simpleHtml("$label: " + display(calendar, date)) {

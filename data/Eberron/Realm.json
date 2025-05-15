@@ -12,6 +12,41 @@
     "type": "Year",
     "year": 0
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Aundair",
+   "sources": [
+    3
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Breland",
+   "sources": [
+    3
+   ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Cyre",
+   "sources": [
+    3
+   ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Karrnath",
+   "sources": [
+    3
+   ]
+  },
+  "5": {
+   "id": 5,
+   "name": "Thrane",
+   "sources": [
+    3
+   ]
   }
  }
 }

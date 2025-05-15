@@ -30,10 +30,12 @@ import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.source.DataSource
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
@@ -52,25 +54,20 @@ import at.orchaldir.gm.core.selector.world.countBuildings
 
 // generic
 
-fun <Element : HasStartDate> State.getAgeComparator(valueForNull: Int = Int.MAX_VALUE): Comparator<Element> {
+fun <Element : HasStartDate> State.getStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
+    getDateComparator<Element>(valueForNull) { it.startDate() }
+
+fun <Element : HasComplexStartDate> State.getComplexStartAgeComparator(valueForNull: Int = Int.MAX_VALUE) =
+    getDateComparator<Element>(valueForNull) { it.startDate(this) }
+
+fun <T> State.getDateComparator(
+    valueForNull: Int = Int.MAX_VALUE,
+    getDate: (T) -> Date?,
+): Comparator<T> {
     val sorter = getDefaultCalendar().createSorter()
 
     return compareBy { element ->
-        val date = element.startDate()
-
-        if (date == null) {
-            valueForNull
-        } else {
-            sorter(date)
-        }
-    }
-}
-
-fun <Element : HasComplexStartDate> State.getComplexAgeComparator(valueForNull: Int = Int.MAX_VALUE): Comparator<Element> {
-    val sorter = getDefaultCalendar().createSorter()
-
-    return compareBy { element ->
-        val date = element.startDate(this)
+        val date = getDate(element)
 
         if (date == null) {
             valueForNull
@@ -92,7 +89,7 @@ fun State.sortArchitecturalStyles(
     .sortedWith(
         when (sort) {
             SortArchitecturalStyle.Name -> compareBy { it.name.text }
-            SortArchitecturalStyle.Start -> getAgeComparator()
+            SortArchitecturalStyle.Start -> getStartDateComparator()
             SortArchitecturalStyle.End -> compareBy { it.end?.year }
         })
 
@@ -108,7 +105,7 @@ fun State.sortArticles(
     .sortedWith(
         when (sort) {
             SortArticle.Title -> compareBy { it.title.text }
-            SortArticle.Date -> getAgeComparator()
+            SortArticle.Date -> getStartDateComparator()
         }
     )
 
@@ -150,7 +147,7 @@ fun State.sortBusinesses(
     .sortedWith(
         when (sort) {
             SortBusiness.Name -> compareBy { it.name.text }
-            SortBusiness.Age -> getAgeComparator()
+            SortBusiness.Age -> getStartDateComparator()
             SortBusiness.Employees -> compareByDescending { getEmployees(it.id).size }
         }
     )
@@ -158,7 +155,7 @@ fun State.sortBusinesses(
 // character
 
 fun State.getCharacterAgePairComparator(): Comparator<Pair<Character, String>> {
-    val comparator = getAgeComparator<Character>()
+    val comparator = getStartDateComparator<Character>()
     return Comparator { a: Pair<Character, String>, b: Pair<Character, String> -> comparator.compare(a.first, b.first) }
 }
 
@@ -196,7 +193,7 @@ fun State.sortCurrencies(
     .sortedWith(
         when (sort) {
             SortCurrency.Name -> compareBy { it.name.text }
-            SortCurrency.Date -> getAgeComparator()
+            SortCurrency.Date -> getStartDateComparator()
         }
     )
 
@@ -275,7 +272,7 @@ fun State.sortFonts(
     .sortedWith(
         when (sort) {
             SortFont.Name -> compareBy { it.name.text }
-            SortFont.Age -> getAgeComparator()
+            SortFont.Age -> getStartDateComparator()
         })
 
 // god
@@ -337,7 +334,7 @@ fun State.sortRealms(
     .sortedWith(
         when (sort) {
             SortRealm.Name -> compareBy { it.name.text }
-            SortRealm.Age -> getAgeComparator()
+            SortRealm.Age -> getStartDateComparator()
         })
 
 // organization
@@ -352,7 +349,7 @@ fun State.sortOrganizations(
     .sortedWith(
         when (sort) {
             SortOrganization.Name -> compareBy { it.name.text }
-            SortOrganization.Age -> getAgeComparator()
+            SortOrganization.Age -> getStartDateComparator()
             SortOrganization.Members -> compareByDescending { it.countAllMembers() }
         })
 
@@ -384,7 +381,7 @@ fun State.sortMagicTraditions(
     .sortedWith(
         when (sort) {
             SortMagicTradition.Name -> compareBy { it.name.text }
-            SortMagicTradition.Age -> getAgeComparator()
+            SortMagicTradition.Age -> getStartDateComparator()
             SortMagicTradition.Groups -> compareByDescending { it.groups.size }
         })
 
@@ -418,7 +415,7 @@ fun State.sortPeriodicals(
     .sortedWith(
         when (sort) {
             SortPeriodical.Name -> compareBy { it.name.text }
-            SortPeriodical.Age -> getAgeComparator()
+            SortPeriodical.Age -> getStartDateComparator()
         }
     )
 
@@ -434,7 +431,7 @@ fun State.sortPeriodicalIssues(
     .sortedWith(
         when (sort) {
             SortPeriodicalIssue.Periodical -> compareBy { getPeriodicalStorage().getOrThrow(it.periodical).name.text }
-            SortPeriodicalIssue.Date -> getComplexAgeComparator()
+            SortPeriodicalIssue.Date -> getComplexStartAgeComparator()
         }
     )
 
@@ -464,7 +461,7 @@ fun State.sortQuotes(
     .sortedWith(
         when (sort) {
             SortQuote.Name -> compareBy { it.text.text }
-            SortQuote.Age -> getAgeComparator()
+            SortQuote.Age -> getStartDateComparator()
         }
     )
 
@@ -479,7 +476,7 @@ fun State.sortRaces(
 ) = races
     .sortedWith(
         when (sort) {
-            SortRace.Age -> getAgeComparator()
+            SortRace.Age -> getStartDateComparator()
             SortRace.Height -> compareByDescending { it.height.center.value() }
             SortRace.Weight -> compareByDescending { it.weight.value() }
             SortRace.MaxLifeSpan -> compareByDescending { it.lifeStages.getMaxAge() }
@@ -498,7 +495,7 @@ fun State.sortSpells(
     .sortedWith(
         when (sort) {
             SortSpell.Name -> compareBy { it.name.text }
-            SortSpell.Age -> getAgeComparator()
+            SortSpell.Age -> getStartDateComparator()
         })
 
 // spell group
@@ -528,7 +525,7 @@ fun State.sortTexts(
     .sortedWith(
         when (sort) {
             SortText.Name -> compareBy { it.name.text }
-            SortText.Age -> getAgeComparator()
+            SortText.Age -> getStartDateComparator()
             SortText.Pages -> compareByDescending { it.content.pages() }
             SortText.Spells -> compareByDescending { it.content.spells().size }
         })
@@ -561,7 +558,7 @@ fun State.sortTowns(
     .sortedWith(
         when (sort) {
             SortTown.Name -> compareBy { it.name.text }
-            SortTown.Date -> getAgeComparator()
+            SortTown.Date -> getStartDateComparator()
             SortTown.Residents -> compareByDescending { countResident(it.id) }
             SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
         })
@@ -578,7 +575,7 @@ fun State.sortTownMaps(
     .sortedWith(
         when (sort) {
             SortTownMap.Name -> compareByDescending<TownMap> { it.name(this) }
-                .thenComparing(getAgeComparator())
+                .thenComparing(getStartDateComparator())
         })
 
 // uniform
@@ -593,4 +590,20 @@ fun State.sortUniforms(
     .sortedWith(
         when (sort) {
             SortUniform.Name -> compareBy { it.name.text }
+        })
+
+// war
+
+fun State.sortWars(sort: SortWar = SortWar.Name) =
+    sortWars(getWarStorage().getAll(), sort)
+
+fun State.sortWars(
+    wars: Collection<War>,
+    sort: SortWar = SortWar.Name,
+) = wars
+    .sortedWith(
+        when (sort) {
+            SortWar.Name -> compareBy { it.name.text }
+            SortWar.Start -> getStartDateComparator()
+            SortWar.End -> getDateComparator { it.endDate }
         })

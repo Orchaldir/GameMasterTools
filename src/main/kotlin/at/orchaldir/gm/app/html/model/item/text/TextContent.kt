@@ -253,5 +253,5 @@ private fun parseSimpleChapter(parameters: Parameters, param: String, index: Int
 
 private fun parseAbstractContent(parameters: Parameters, param: String) = AbstractContent(
     parseInt(parameters, combine(param, PAGES), 100),
-    parseElements(parameters, combine(param, SPELLS)) { parseSpellId(it) },
+    parseElements(parameters, combine(param, SPELLS), ::parseSpellId),
 )

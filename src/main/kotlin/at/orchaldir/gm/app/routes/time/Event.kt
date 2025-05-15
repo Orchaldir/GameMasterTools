@@ -30,20 +30,18 @@ import at.orchaldir.gm.core.selector.sort
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
-import io.ktor.server.resources.*
 import kotlinx.html.*
 
 fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val events = state.getEvents(calendar)
-    val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Events") {
         fieldLink("Calendar", call, state, calendar)
         fieldCurrentDate(call, state)
         showEvents(events, call, state, calendar)
-        back(backLink)
+        back("/")
     }
 }
 

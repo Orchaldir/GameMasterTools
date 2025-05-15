@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.model.realm
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
@@ -8,6 +9,9 @@ import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.util.SortWar
+import at.orchaldir.gm.core.selector.realm.getWars
+import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -20,8 +24,11 @@ fun HtmlBlockTag.showRealm(
     state: State,
     realm: Realm,
 ) {
+    val wars = state.sortWars(state.getWars(realm.id), SortWar.Start)
+
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
+    fieldList(call, state, wars)
     showCreated(call, state, realm.id)
     showOwnedElements(call, state, realm.id)
     showDataSources(call, state, realm.sources)
@@ -42,6 +49,7 @@ fun FORM.editRealm(
 // parse
 
 fun parseRealmId(parameters: Parameters, param: String) = RealmId(parseInt(parameters, param))
+fun parseRealmId(value: String) = RealmId(value.toInt())
 
 fun parseRealm(parameters: Parameters, state: State, id: RealmId) = Realm(
     id,

@@ -14,5 +14,9 @@ val REALM_REDUCER: Reducer<RealmAction, State> = { state, action ->
         is CreateTown -> CREATE_TOWN(state, action)
         is DeleteTown -> DELETE_TOWN(state, action)
         is UpdateTown -> UPDATE_TOWN(state, action)
+        // war
+        is CreateWar -> CREATE_WAR(state, action)
+        is DeleteWar -> DELETE_WAR(state, action)
+        is UpdateWar -> UPDATE_WAR(state, action)
     }
 }
