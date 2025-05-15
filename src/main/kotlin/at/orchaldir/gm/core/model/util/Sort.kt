@@ -156,6 +156,10 @@ enum class SortTown {
     Residents,
 }
 
+enum class SortTownMap {
+    Name,
+}
+
 enum class SortUniform {
     Name,
 }

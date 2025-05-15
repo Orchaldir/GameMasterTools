@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.town
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.MAP
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.world.parseOptionalTownMapId
 import at.orchaldir.gm.app.html.optionalFieldLink
@@ -13,6 +14,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.selector.util.sortTownMaps
+import at.orchaldir.gm.core.selector.world.getTownMaps
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -27,6 +30,7 @@ fun HtmlBlockTag.showTown(
 ) {
     fieldCreator(call, state, town.founder, "Founder")
     optionalField(call, state, "Date", town.foundingDate)
+    fieldList(call, state, state.sortTownMaps(state.getTownMaps(town.id)))
 
     showCreated(call, state, town.id)
     showOwnedElements(call, state, town.id)

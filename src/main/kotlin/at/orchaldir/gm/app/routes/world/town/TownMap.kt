@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.html.model.world.editTownMap
 import at.orchaldir.gm.app.html.model.world.parseTownMap
 import at.orchaldir.gm.app.html.model.world.showTownMap
-import at.orchaldir.gm.app.routes.realm.TownRoutes
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
@@ -14,8 +13,10 @@ import at.orchaldir.gm.core.action.CreateTownMap
 import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.util.sortTownMaps
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTemplateFill
 import at.orchaldir.gm.visualization.town.showTerrainName
@@ -112,8 +113,9 @@ fun Application.configureTownMapRouting() {
 private fun HTML.showAllTownMaps(
     call: ApplicationCall,
     state: State,
+    sort: SortTownMap = SortTownMap.Name,
 ) {
-    val townMaps = state.getTownMapStorage().getAll()
+    val townMaps = state.sortTownMaps(sort)
     val createLink = call.application.href(TownMapRoutes.New())
 
     simpleHtml("Town Maps") {

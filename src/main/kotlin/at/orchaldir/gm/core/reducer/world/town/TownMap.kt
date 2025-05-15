@@ -34,6 +34,7 @@ val UPDATE_TOWN_MAP: Reducer<UpdateTownMap, State> = { state, action ->
 }
 
 fun validateTownMap(state: State, townMap: TownMap) {
+    state.getTownStorage().requireOptional(townMap.town)
     townMap.map.tiles.forEach { validateTownTile(state, it) }
 }
 
