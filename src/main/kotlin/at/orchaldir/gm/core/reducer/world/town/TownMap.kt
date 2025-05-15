@@ -35,8 +35,21 @@ val UPDATE_TOWN_MAP: Reducer<UpdateTownMap, State> = { state, action ->
 
 fun validateTownMap(state: State, townMap: TownMap) {
     state.getTownStorage().requireOptional(townMap.town)
+    require(!hasDuplicateTownAndDate(state, townMap)) { "Multiple maps have the same town & date combination!" }
     townMap.map.tiles.forEach { validateTownTile(state, it) }
 }
+
+private fun hasDuplicateTownAndDate(state: State, townMap: TownMap) = state
+    .getTownMapStorage()
+    .getAll()
+    .filter { it.id != townMap.id }
+    .any {
+        if (it.town != null) {
+            it.town == townMap.town && it.date == townMap.date
+        } else {
+            false
+        }
+    }
 
 private fun validateTownTile(state: State, tile: TownTile) {
     validateConstruction(state, tile.construction)
