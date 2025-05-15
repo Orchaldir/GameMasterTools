@@ -52,7 +52,9 @@ import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.world.countBuildings
+import kotlin.comparisons.compareByDescending
 
 // generic
 
@@ -156,7 +158,7 @@ fun State.sortBusinesses(
 
 // character
 
-fun State.getCharacterAgePairComparator(): Comparator<Pair<Character, String>> {
+fun State.getCharacterStartDatePairComparator(): Comparator<Pair<Character, String>> {
     val comparator = getStartDateComparator<Character>()
     return Comparator { a: Pair<Character, String>, b: Pair<Character, String> -> comparator.compare(a.first, b.first) }
 }
@@ -167,21 +169,26 @@ fun State.sortCharacters(sort: SortCharacter = SortCharacter.Name) =
 fun State.sortCharacters(
     characters: Collection<Character>,
     sort: SortCharacter = SortCharacter.Name,
-) = characters
-    .map {
-        val name = when (it.name) {
-            is FamilyName -> it.name.family.text + it.name.given.text + it.name.middle?.text
-            is Genonym -> it.name.given.text
-            is Mononym -> it.name.name.text
-        }.lowercase()
-        Pair(it, name)
-    }
-    .sortedWith(
-        when (sort) {
-            SortCharacter.Name -> compareBy { it.second }
-            SortCharacter.Age -> getCharacterAgePairComparator()
-        })
-    .map { it.first }
+): List<Character> {
+    val currentDay = getCurrentDate()
+
+    return characters
+        .map {
+            val name = when (it.name) {
+                is FamilyName -> it.name.family.text + it.name.given.text + it.name.middle?.text
+                is Genonym -> it.name.given.text
+                is Mononym -> it.name.name.text
+            }.lowercase()
+            Pair(it, name)
+        }
+        .sortedWith(
+            when (sort) {
+                SortCharacter.Name -> compareBy { it.second }
+                SortCharacter.Start -> getCharacterStartDatePairComparator()
+                SortCharacter.Age -> compareByDescending { it.first.getAge(this, currentDay).day }
+            })
+        .map { it.first }
+}
 
 // currency
 
