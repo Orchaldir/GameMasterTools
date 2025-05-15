@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -57,6 +58,16 @@ class RealmTest {
             val newState = STATE.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete Realm 0, because of owned elements (Building)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a realm that participated in a war`() {
+            val war = War(WAR_ID_0, realms = setOf(REALM_ID_0))
+            val newState = STATE.updateStorage(Storage(war))
+
+            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
                 REDUCER.invoke(newState, action)
             }
         }

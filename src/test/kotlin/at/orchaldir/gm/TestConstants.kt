@@ -31,6 +31,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
@@ -149,6 +150,8 @@ val TOWN_MAP_ID_1 = TownMapId(1)
 val UNKNOWN_TOWN_MAP_ID = TownMapId(99)
 val UNIFORM_ID_0 = UniformId(0)
 val UNKNOWN_UNIFORM_ID = UniformId(99)
+val WAR_ID_0 = WarId(0)
+val UNKNOWN_WAR_ID = WarId(99)
 
 val NAME = Name.init("Test")
 
