@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.Id
@@ -26,7 +25,7 @@ value class TownId(val value: Int) : Id<TownId> {
 data class Town(
     val id: TownId,
     val name: Name = Name.init("Town ${id.value}"),
-    val date: Date? = null,
+    val foundingDate: Date? = null,
     val founder: Creator = UndefinedCreator,
     val map: TownMapId? = null,
     val sources: Set<DataSourceId> = emptySet(),
@@ -36,6 +35,6 @@ data class Town(
     override fun name() = name.text
     override fun creator() = founder
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate() = foundingDate
 
 }

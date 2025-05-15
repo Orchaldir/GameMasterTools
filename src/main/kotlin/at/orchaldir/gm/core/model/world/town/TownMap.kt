@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.update
 import kotlinx.serialization.Serializable
 
-const val TOWN_MAP_TYPE = "TownMap Map"
+const val TOWN_MAP_TYPE = "Town Map"
 
 @JvmInline
 @Serializable

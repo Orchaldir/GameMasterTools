@@ -15,7 +15,7 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
-    val town = Town(state.getTownStorage().nextId, date = state.getCurrentDate())
+    val town = Town(state.getTownStorage().nextId, foundingDate = state.getCurrentDate())
 
     noFollowUps(state.updateStorage(state.getTownStorage().add(town)))
 }
@@ -43,7 +43,7 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
 }
 
 fun validateTown(state: State, town: Town) {
-    checkDate(state, town.date, "Town")
-    validateCreator(state, town.founder, town.id, town.date, "founder")
+    checkDate(state, town.foundingDate, "Town")
+    validateCreator(state, town.founder, town.id, town.foundingDate, "founder")
     state.getDataSourceStorage().require(town.sources)
 }

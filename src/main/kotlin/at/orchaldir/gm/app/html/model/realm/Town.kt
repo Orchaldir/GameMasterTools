@@ -24,7 +24,7 @@ fun HtmlBlockTag.showTown(
     town: Town,
 ) {
     fieldCreator(call, state, town.founder, "Founder")
-    optionalField(call, state, "Date", town.date)
+    optionalField(call, state, "Date", town.foundingDate)
     optionalFieldLink(call, state, town.map)
 
     showCreated(call, state, town.id)
@@ -39,8 +39,8 @@ fun FORM.editTown(
     town: Town,
 ) {
     selectName(town.name)
-    selectOptionalDate(state, "Date", town.date, DATE)
-    selectCreator(state, town.founder, town.id, town.date, "Founder")
+    selectOptionalDate(state, "Date", town.foundingDate, DATE)
+    selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
     editDataSources(state, town.sources)
 }
 

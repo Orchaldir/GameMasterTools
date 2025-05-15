@@ -123,7 +123,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getTownStorage().getAll().forEach { town ->
-        addPossibleEvent(events, default, calendar, town.date) {
+        addPossibleEvent(events, default, calendar, town.foundingDate) {
             StartEvent(it, town.id)
         }
     }
