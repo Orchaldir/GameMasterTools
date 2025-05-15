@@ -40,6 +40,7 @@ fun HtmlBlockTag.showDataSource(
     showDataSourceContent(call, state, state.getRaceStorage(), source.id)
     showDataSourceContent(call, state, state.getSpellStorage(), source.id)
     showDataSourceContent(call, state, state.getTownStorage(), source.id)
+    showDataSourceContent(call, state, state.getWarStorage(), source.id)
 }
 
 
