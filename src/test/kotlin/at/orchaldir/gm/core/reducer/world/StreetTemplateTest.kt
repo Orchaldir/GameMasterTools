@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.NAME
 import at.orchaldir.gm.STREET_TYPE_ID_0
-import at.orchaldir.gm.TOWN_ID_0
 import at.orchaldir.gm.TOWN_MAP_ID_0
 import at.orchaldir.gm.assertFailMessage
 import at.orchaldir.gm.core.action.DeleteStreetTemplate
