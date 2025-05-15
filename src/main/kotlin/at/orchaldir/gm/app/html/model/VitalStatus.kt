@@ -98,7 +98,7 @@ fun FORM.selectVitalStatus(
                 state,
                 "Killer",
                 KILLER,
-                state.getCharacterStorage().getAllExcept(character.id),
+                characters,
                 vitalStatus.cause.killer,
             )
 
