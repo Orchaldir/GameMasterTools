@@ -116,9 +116,20 @@ private fun checkCauseOfDeath(
             require(calendar.isAfterOrEqual(it, character.birthDate)) { "Character died before its origin!" }
         }
 
-        if (dead.cause is Murder) {
-            state.getCharacterStorage()
-                .require(dead.cause.killer) { "Cannot use an unknown killer ${dead.cause.killer}!" }
+        when (dead.cause) {
+            Accident -> doNothing()
+            DeathByIllness -> doNothing()
+            is DeathByWar -> {
+                state.getWarStorage()
+                    .require(dead.cause.war) { "Cannot die from an unknown War ${dead.cause.war.value}!" }
+            }
+
+            is Murder -> {
+                state.getCharacterStorage()
+                    .require(dead.cause.killer) { "Cannot use an unknown killer ${dead.cause.killer.value}!" }
+            }
+
+            OldAge -> doNothing()
         }
     }
 }
