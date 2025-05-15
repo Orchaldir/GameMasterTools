@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -29,29 +29,32 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureBuildingEditorRouting() {
     routing {
-        get<TownRoutes.BuildingRoutes.Edit> { edit ->
+        get<TownMapRoutes.BuildingRoutes.Edit> { edit ->
             logger.info { "Get the building editor for town ${edit.id.value}" }
 
             val state = STORE.getState()
-            val town = state.getTownStorage().getOrThrow(edit.id)
+            val townMap = state.getTownMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBuildingEditor(call, state, town, MapSize2d.square(1))
+                showBuildingEditor(call, state, townMap, MapSize2d.square(1))
             }
         }
-        post<TownRoutes.BuildingRoutes.Preview> { preview ->
+        post<TownMapRoutes.BuildingRoutes.Preview> { preview ->
             logger.info { "Preview the building editor for town ${preview.id.value}" }
 
             val state = STORE.getState()
-            val town = state.getTownStorage().getOrThrow(preview.id)
+            val townMap = state.getTownMapStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
-            val size = MapSize2d(parseInt(params, WIDTH, 1), parseInt(params, HEIGHT, 1))
+            val size = MapSize2d(
+                parseInt(params, WIDTH, 1),
+                parseInt(params, HEIGHT, 1),
+            )
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBuildingEditor(call, state, town, size)
+                showBuildingEditor(call, state, townMap, size)
             }
         }
-        get<TownRoutes.BuildingRoutes.Add> { add ->
+        get<TownMapRoutes.BuildingRoutes.Add> { add ->
             logger.info { "Add new building" }
 
             STORE.dispatch(AddBuilding(add.town, add.tileIndex, add.size))
@@ -60,8 +63,8 @@ fun Application.configureBuildingEditorRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 val state = STORE.getState()
-                val town = state.getTownStorage().getOrThrow(add.town)
-                showBuildingEditor(call, state, town, add.size)
+                val townMap = state.getTownMapStorage().getOrThrow(add.town)
+                showBuildingEditor(call, state, townMap, add.size)
             }
         }
     }
@@ -70,13 +73,13 @@ fun Application.configureBuildingEditorRouting() {
 private fun HTML.showBuildingEditor(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    townMap: TownMap,
     size: MapSize2d,
 ) {
-    val backLink = href(call, town.id)
-    val previewLink = call.application.href(TownRoutes.BuildingRoutes.Preview(town.id))
+    val backLink = href(call, townMap.id)
+    val previewLink = call.application.href(TownMapRoutes.BuildingRoutes.Preview(townMap.id))
 
-    simpleHtml("Edit Buildings of Town ${town.name()}") {
+    simpleHtml("Edit Buildings of Town ${townMap.name()}") {
         split({
             form {
                 id = "editor"
@@ -87,7 +90,7 @@ private fun HTML.showBuildingEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeBuildingEditor(call, state, town, size), 90)
+            svg(visualizeBuildingEditor(call, state, townMap, size), 90)
         })
     }
 }
@@ -95,14 +98,14 @@ private fun HTML.showBuildingEditor(
 fun visualizeBuildingEditor(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    townMap: TownMap,
     size: MapSize2d,
 ): Svg {
     return visualizeTown(
-        town, state.getBuildings(town.id),
+        townMap, state.getBuildings(townMap.id),
         tileLinkLookup = { index, _ ->
-            if (town.canBuild(index, size)) {
-                call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
+            if (townMap.canBuild(index, size)) {
+                call.application.href(TownMapRoutes.BuildingRoutes.Add(townMap.id, index, size))
             } else {
                 null
             }

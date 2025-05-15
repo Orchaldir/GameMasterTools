@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.countEachMaterialCategory
 import at.orchaldir.gm.core.selector.countEachPersonalityForCharacters
@@ -180,8 +180,8 @@ fun HtmlBlockTag.showSpellOriginCount(characters: Collection<Spell>) =
 fun HtmlBlockTag.showStreetTemplateCount(
     call: ApplicationCall,
     state: State,
-    town: TownId,
-) = showCount(call, state, "Street Templates", state.countEachStreetTemplate(town))
+    townMap: TownMapId,
+) = showCount(call, state, "Street Templates", state.countEachStreetTemplate(townMap))
 
 fun HtmlBlockTag.showTownCount(
     call: ApplicationCall,

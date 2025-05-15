@@ -6,15 +6,16 @@ import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
-import at.orchaldir.gm.app.routes.world.town.TownRoutes.AbstractBuildingRoutes.Add
-import at.orchaldir.gm.app.routes.world.town.TownRoutes.AbstractBuildingRoutes.Remove
+import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes.Add
+import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes.Edit
+import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes.Remove
 import at.orchaldir.gm.core.action.AddAbstractBuilding
 import at.orchaldir.gm.core.action.RemoveAbstractBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.AbstractBuildingTile
 import at.orchaldir.gm.core.model.world.town.NoConstruction
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.visualizeTown
@@ -32,14 +33,14 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureAbstractBuildingEditorRouting() {
     routing {
-        get<TownRoutes.AbstractBuildingRoutes.Edit> { edit ->
+        get<Edit> { edit ->
             logger.info { "Get the abstract building editor for town ${edit.id.value}" }
 
             val state = STORE.getState()
-            val town = state.getTownStorage().getOrThrow(edit.id)
+            val townMap = state.getTownMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAbstractBuildingEditor(call, state, town)
+                showAbstractBuildingEditor(call, state, townMap)
             }
         }
         get<Add> { add ->
@@ -62,20 +63,20 @@ fun Application.configureAbstractBuildingEditorRouting() {
 }
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.redirectToEdit(
-    townId: TownId,
+    townMapId: TownMapId,
 ) {
-    call.respondRedirect(call.application.href(TownRoutes.AbstractBuildingRoutes.Edit(townId)))
+    call.respondRedirect(call.application.href(Edit(townMapId)))
 }
 
 private fun HTML.showAbstractBuildingEditor(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    townMap: TownMap,
 ) {
-    val backLink = href(call, town.id)
+    val backLink = href(call, townMap.id)
 
-    simpleHtml("Edit Abstract Buildings of Town ${town.name()}") {
-        svg(visualizeAbstractBuildingEditor(call, state, town), 90)
+    simpleHtml("Edit Abstract Buildings of Town ${townMap.name()}") {
+        svg(visualizeAbstractBuildingEditor(call, state, townMap), 90)
         back(backLink)
     }
 }
@@ -83,7 +84,7 @@ private fun HTML.showAbstractBuildingEditor(
 fun visualizeAbstractBuildingEditor(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    town: TownMap,
 ): Svg {
     return visualizeTown(
         town, state.getBuildings(town.id),

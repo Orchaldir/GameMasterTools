@@ -62,6 +62,9 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.REALM_TYPE
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.realm.TOWN_TYPE
+import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.source.DataSource
@@ -78,9 +81,9 @@ import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.street.*
 import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.model.world.town.TOWN_TYPE
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TOWN_MAP_TYPE
+import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.core.reducer.character.validateCharacter
 import at.orchaldir.gm.core.reducer.culture.validateCulture
@@ -101,12 +104,13 @@ import at.orchaldir.gm.core.reducer.magic.validateSpellGroup
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
 import at.orchaldir.gm.core.reducer.quote.validateQuote
 import at.orchaldir.gm.core.reducer.realm.validateRealm
+import at.orchaldir.gm.core.reducer.realm.validateTown
 import at.orchaldir.gm.core.reducer.religion.validateDomain
 import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
 import at.orchaldir.gm.core.reducer.time.validateCalendar
 import at.orchaldir.gm.core.reducer.world.*
-import at.orchaldir.gm.core.reducer.world.town.validateTown
+import at.orchaldir.gm.core.reducer.world.town.validateTownMap
 import at.orchaldir.gm.core.save
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
@@ -159,6 +163,7 @@ val ELEMENTS =
         TEXT_TYPE,
         TITLE_TYPE,
         TOWN_TYPE,
+        TOWN_MAP_TYPE,
         UNIFORM_TYPE,
     )
 private const val DATA = "Data"
@@ -224,6 +229,7 @@ data class State(
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
     fun getTitleStorage() = getStorage<TitleId, Title>(TITLE_TYPE)
     fun getTownStorage() = getStorage<TownId, Town>(TOWN_TYPE)
+    fun getTownMapStorage() = getStorage<TownMapId, TownMap>(TOWN_MAP_TYPE)
     fun getUniformStorage() = getStorage<UniformId, Uniform>(UNIFORM_TYPE)
 
     fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(id: ID) = getStorage<ID, ELEMENT>(id.type())
@@ -335,6 +341,7 @@ data class State(
         validate(getStreetTemplateStorage()) { validateStreetTemplate(this, it) }
         validate(getTextStorage()) { validateText(this, it) }
         validate(getTownStorage()) { validateTown(this, it) }
+        validate(getTownMapStorage()) { validateTownMap(this, it) }
         validate(getUniformStorage()) { validateUniform(this, it) }
 
         validateData(this, data)
@@ -382,6 +389,7 @@ data class State(
         saveStorage(path, getTextStorage())
         saveStorage(path, getTitleStorage())
         saveStorage(path, getTownStorage())
+        saveStorage(path, getTownMapStorage())
         saveStorage(path, getUniformStorage())
         save(path, DATA, data)
     }
@@ -429,6 +437,7 @@ fun createStorage(type: String) = when (type) {
     TEXT_TYPE -> Storage(TextId(0))
     TITLE_TYPE -> Storage(TitleId(0))
     TOWN_TYPE -> Storage(TownId(0))
+    TOWN_MAP_TYPE -> Storage(TownMapId(0))
     UNIFORM_TYPE -> Storage(UniformId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
@@ -479,6 +488,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
     TITLE_TYPE -> loadStorage<TitleId, Title>(path, TitleId(0))
     TOWN_TYPE -> loadStorage<TownId, Town>(path, TownId(0))
+    TOWN_MAP_TYPE -> loadStorage<TownMapId, TownMap>(path, TownMapId(0))
     UNIFORM_TYPE -> loadStorage<UniformId, Uniform>(path, UniformId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }

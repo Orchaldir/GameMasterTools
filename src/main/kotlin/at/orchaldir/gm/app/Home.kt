@@ -20,13 +20,14 @@ import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.app.routes.realm.RealmRoutes
+import at.orchaldir.gm.app.routes.realm.TownRoutes
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
 import at.orchaldir.gm.app.routes.world.*
-import at.orchaldir.gm.app.routes.world.town.TownRoutes
+import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -93,6 +94,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getSpellGroupStorage(), SpellGroupRoutes.All())
                     h3 { +"Realms" }
                     fieldStorageLink(call, state.getRealmStorage(), RealmRoutes.All())
+                    fieldStorageLink(call, state.getTownStorage(), TownRoutes.All())
                     h3 { +"Religions" }
                     fieldStorageLink(call, state.getDomainStorage(), DomainRoutes.All())
                     fieldStorageLink(call, state.getGodStorage(), GodRoutes.All())
@@ -110,7 +112,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
                     fieldStorageLink(call, state.getStreetStorage(), StreetRoutes())
                     fieldStorageLink(call, state.getStreetTemplateStorage(), StreetTemplateRoutes())
-                    fieldStorageLink(call, state.getTownStorage(), TownRoutes.All())
+                    fieldStorageLink(call, state.getTownMapStorage(), TownMapRoutes.All())
                 }
             }
         }

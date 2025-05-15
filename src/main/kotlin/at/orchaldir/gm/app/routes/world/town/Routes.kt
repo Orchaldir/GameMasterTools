@@ -4,68 +4,58 @@ import at.orchaldir.gm.core.model.util.SortTown
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
-import at.orchaldir.gm.core.model.world.town.TOWN_TYPE
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TOWN_MAP_TYPE
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.map.MapSize2d
 import io.ktor.resources.*
 
-@Resource("/$TOWN_TYPE")
-class TownRoutes {
+@Resource("/$TOWN_MAP_TYPE")
+class TownMapRoutes {
     @Resource("all")
     class All(
-        val sort: SortTown = SortTown.Name,
-        val parent: TownRoutes = TownRoutes(),
+        val parent: TownMapRoutes = TownMapRoutes(),
     )
 
     @Resource("details")
-    class Details(val id: TownId, val parent: TownRoutes = TownRoutes())
+    class Details(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())
 
     @Resource("new")
-    class New(val parent: TownRoutes = TownRoutes())
+    class New(val parent: TownMapRoutes = TownMapRoutes())
 
     @Resource("delete")
-    class Delete(val id: TownId, val parent: TownRoutes = TownRoutes())
-
-    @Resource("edit")
-    class Edit(val id: TownId, val parent: TownRoutes = TownRoutes())
-
-    @Resource("preview")
-    class Preview(val id: TownId, val parent: TownRoutes = TownRoutes())
-
-    @Resource("update")
-    class Update(val id: TownId, val parent: TownRoutes = TownRoutes())
+    class Delete(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())
 
     @Resource("/abstract")
-    class AbstractBuildingRoutes(val parent: TownRoutes = TownRoutes()) {
+    class AbstractBuildingRoutes(val parent: TownMapRoutes = TownMapRoutes()) {
         @Resource("edit")
-        class Edit(val id: TownId, val parent: AbstractBuildingRoutes = AbstractBuildingRoutes())
+        class Edit(val id: TownMapId, val parent: AbstractBuildingRoutes = AbstractBuildingRoutes())
 
         @Resource("add")
         class Add(
-            val town: TownId,
+            val town: TownMapId,
             val tileIndex: Int,
             val parent: AbstractBuildingRoutes = AbstractBuildingRoutes(),
         )
 
         @Resource("remove")
         class Remove(
-            val town: TownId,
+            val town: TownMapId,
             val tileIndex: Int,
             val parent: AbstractBuildingRoutes = AbstractBuildingRoutes(),
         )
     }
 
     @Resource("/building")
-    class BuildingRoutes(val parent: TownRoutes = TownRoutes()) {
+    class BuildingRoutes(val parent: TownMapRoutes = TownMapRoutes()) {
         @Resource("edit")
-        class Edit(val id: TownId, val parent: BuildingRoutes = BuildingRoutes())
+        class Edit(val id: TownMapId, val parent: BuildingRoutes = BuildingRoutes())
 
         @Resource("preview")
-        class Preview(val id: TownId, val parent: BuildingRoutes = BuildingRoutes())
+        class Preview(val id: TownMapId, val parent: BuildingRoutes = BuildingRoutes())
 
         @Resource("add")
         class Add(
-            val town: TownId,
+            val town: TownMapId,
             val tileIndex: Int,
             val size: MapSize2d,
             val parent: BuildingRoutes = BuildingRoutes(),
@@ -73,16 +63,16 @@ class TownRoutes {
     }
 
     @Resource("/street")
-    class StreetRoutes(val parent: TownRoutes = TownRoutes()) {
+    class StreetRoutes(val parent: TownMapRoutes = TownMapRoutes()) {
         @Resource("edit")
-        class Edit(val id: TownId, val parent: StreetRoutes = StreetRoutes())
+        class Edit(val id: TownMapId, val parent: StreetRoutes = StreetRoutes())
 
         @Resource("preview")
-        class Preview(val id: TownId, val parent: StreetRoutes = StreetRoutes())
+        class Preview(val id: TownMapId, val parent: StreetRoutes = StreetRoutes())
 
         @Resource("add")
         class Add(
-            val id: TownId,
+            val id: TownMapId,
             val tileIndex: Int,
             val typeId: StreetTemplateId,
             val streetId: StreetId? = null,
@@ -91,7 +81,7 @@ class TownRoutes {
 
         @Resource("remove")
         class Remove(
-            val id: TownId,
+            val id: TownMapId,
             val tileIndex: Int,
             val typeId: StreetTemplateId,
             val streetId: StreetId? = null,
@@ -100,16 +90,16 @@ class TownRoutes {
     }
 
     @Resource("/terrain")
-    class TerrainRoutes(val parent: TownRoutes = TownRoutes()) {
+    class TerrainRoutes(val parent: TownMapRoutes = TownMapRoutes()) {
         @Resource("edit")
-        class Edit(val id: TownId, val parent: TerrainRoutes = TerrainRoutes())
+        class Edit(val id: TownMapId, val parent: TerrainRoutes = TerrainRoutes())
 
         @Resource("preview")
-        class Preview(val id: TownId, val parent: TerrainRoutes = TerrainRoutes())
+        class Preview(val id: TownMapId, val parent: TerrainRoutes = TerrainRoutes())
 
         @Resource("update")
         class Update(
-            val id: TownId,
+            val id: TownMapId,
             val terrainType: TerrainType,
             val terrainId: Int,
             val tileIndex: Int,
@@ -117,6 +107,6 @@ class TownRoutes {
         )
 
         @Resource("resize")
-        class Resize(val id: TownId, val parent: TerrainRoutes = TerrainRoutes())
+        class Resize(val id: TownMapId, val parent: TerrainRoutes = TerrainRoutes())
     }
 }

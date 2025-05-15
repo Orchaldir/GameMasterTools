@@ -1,23 +1,21 @@
-package at.orchaldir.gm.core.reducer.world.town
+package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
-    val town = Town(state.getTownStorage().nextId, foundingDate = state.getCurrentDate())
+    val town = Town(state.getTownStorage().nextId, date = state.getCurrentDate())
 
     noFollowUps(state.updateStorage(state.getTownStorage().add(town)))
 }
@@ -45,30 +43,7 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
 }
 
 fun validateTown(state: State, town: Town) {
-    checkDate(state, town.foundingDate, "Town")
-    validateCreator(state, town.founder, town.id, town.foundingDate, "founder")
-    town.map.tiles.forEach { validateTownTile(state, it) }
+    checkDate(state, town.date, "Town")
+    validateCreator(state, town.founder, town.id, town.date, "founder")
     state.getDataSourceStorage().require(town.sources)
-}
-
-private fun validateTownTile(state: State, tile: TownTile) {
-    validateConstruction(state, tile.construction)
-    validateTerrain(state, tile.terrain)
-}
-
-private fun validateConstruction(state: State, construction: Construction) = when (construction) {
-    AbstractBuildingTile -> doNothing()
-    is BuildingTile -> state.getBuildingStorage().require(construction.building)
-    NoConstruction -> doNothing()
-    is StreetTile -> {
-        state.getStreetTemplateStorage().require(construction.templateId)
-        state.getStreetStorage().requireOptional(construction.streetId)
-    }
-}
-
-private fun validateTerrain(state: State, terrain: Terrain) = when (terrain) {
-    is HillTerrain -> state.getMountainStorage().require(terrain.mountain)
-    is MountainTerrain -> state.getMountainStorage().require(terrain.mountain)
-    PlainTerrain -> doNothing()
-    is RiverTerrain -> state.getRiverStorage().require(terrain.river)
 }

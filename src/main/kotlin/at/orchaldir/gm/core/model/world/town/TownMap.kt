@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.model.world.town
 
-import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.source.DataSourceId
-import at.orchaldir.gm.core.model.source.HasDataSources
-import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.time.date.Year
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
 import at.orchaldir.gm.utils.Id
@@ -15,33 +10,26 @@ import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.update
 import kotlinx.serialization.Serializable
 
-const val TOWN_TYPE = "Town"
+const val TOWN_MAP_TYPE = "TownMap Map"
 
 @JvmInline
 @Serializable
-value class TownId(val value: Int) : Id<TownId> {
+value class TownMapId(val value: Int) : Id<TownMapId> {
 
-    override fun next() = TownId(value + 1)
-    override fun type() = TOWN_TYPE
+    override fun next() = TownMapId(value + 1)
+    override fun type() = TOWN_MAP_TYPE
     override fun value() = value
 
 }
 
 @Serializable
-data class Town(
-    val id: TownId,
-    val name: Name = Name.init("Town ${id.value}"),
+data class TownMap(
+    val id: TownMapId,
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
-    val foundingDate: Date = Year(0),
-    val founder: Creator = UndefinedCreator,
-    val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TownId>, Created, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<TownMapId> {
 
     override fun id() = id
-    override fun name() = name.text
-    override fun creator() = founder
-    override fun sources() = sources
-    override fun startDate() = foundingDate
+    override fun name() = "Town ${id.value}"
 
     fun canBuild(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuild() }
     fun canResize(index: Int, size: MapSize2d, building: BuildingId) =
@@ -57,7 +45,7 @@ data class Town(
         ?.all { check(map.getRequiredTile(it)) }
         ?: false
 
-    fun build(index: Int, construction: Construction): Town {
+    fun build(index: Int, construction: Construction): TownMap {
         val oldTile = map.getRequiredTile(index)
 
         require(oldTile.canBuild()) { "Tile $index is not empty!" }
@@ -67,7 +55,7 @@ data class Town(
         return updateTile(index, tile)
     }
 
-    fun build(index: Int, size: MapSize2d, construction: Construction): Town {
+    fun build(index: Int, size: MapSize2d, construction: Construction): TownMap {
         val tiles = mutableMapOf<Int, TownTile>()
 
         map.size.toIndices(index, size)?.forEach { tileIndex ->
@@ -81,7 +69,7 @@ data class Town(
         return updateTiles(tiles)
     }
 
-    fun removeAbstractBuilding(index: Int): Town {
+    fun removeAbstractBuilding(index: Int): TownMap {
         val oldTile = map.getRequiredTile(index)
 
         require(oldTile.construction is AbstractBuildingTile) { "Tile $index is not an abstract building!" }
@@ -91,7 +79,7 @@ data class Town(
         return updateTile(index, tile)
     }
 
-    fun removeBuilding(building: BuildingId): Town {
+    fun removeBuilding(building: BuildingId): TownMap {
         return copy(map = map.copy(tiles = map.tiles.map { tile ->
             if (tile.construction is BuildingTile && tile.construction.building == building) {
                 tile.copy(construction = NoConstruction)
@@ -101,7 +89,7 @@ data class Town(
         }))
     }
 
-    fun removeStreet(index: Int): Town {
+    fun removeStreet(index: Int): TownMap {
         val oldTile = map.getRequiredTile(index)
 
         require(oldTile.construction is StreetTile) { "Tile $index is not a street!" }
@@ -111,20 +99,20 @@ data class Town(
         return updateTile(index, tile)
     }
 
-    fun setTerrain(index: Int, terrain: Terrain): Town {
+    fun setTerrain(index: Int, terrain: Terrain): TownMap {
         val oldTile = map.getRequiredTile(index)
         val tile = oldTile.copy(terrain = terrain)
 
         return updateTile(index, tile)
     }
 
-    private fun updateTile(index: Int, tile: TownTile): Town {
+    private fun updateTile(index: Int, tile: TownTile): TownMap {
         val tiles = map.tiles.update(index, tile)
 
         return copy(map = map.copy(tiles = tiles))
     }
 
-    private fun updateTiles(tiles: Map<Int, TownTile>): Town {
+    private fun updateTiles(tiles: Map<Int, TownTile>): TownMap {
         return copy(map = map.copy(tiles = map.tiles.update(tiles)))
     }
 

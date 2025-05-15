@@ -13,12 +13,13 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -61,7 +62,16 @@ fun State.countEmployees(town: TownId) = getCharacterStorage()
     .getAll()
     .count { c -> c.employmentStatus.current.isEmployedAt(town) }
 
-fun State.countResident(town: TownId) = getCharacterStorage()
+fun State.countResident(townId: TownId): Int {
+    val townMap = getTownStorage()
+        .get(townId)
+        ?.map
+        ?: return 0
+
+    return countResident(townMap)
+}
+
+fun State.countResident(town: TownMapId) = getCharacterStorage()
     .getAll()
     .count { isResident(it, town) }
 
@@ -151,10 +161,20 @@ fun State.getCharactersPreviouslyLivingIn(building: BuildingId) = getCharacterSt
     .getAll()
     .filter { c -> c.housingStatus.previousEntries.any { it.entry.isLivingIn(building) } }
 
-fun State.getResident(town: TownId) = getCharacterStorage().getAll()
-    .filter { isResident(it, town) }
+fun State.getResident(townId: TownId): List<Character> {
+    val townMap = getTownStorage()
+        .get(townId)
+        ?.map
+        ?: return emptyList()
 
-fun State.isResident(character: Character, town: TownId) = character.housingStatus.current.getBuilding()
+    return getResident(townMap)
+}
+
+fun State.getResident(townMap: TownMapId) = getCharacterStorage()
+    .getAll()
+    .filter { isResident(it, townMap) }
+
+fun State.isResident(character: Character, town: TownMapId) = character.housingStatus.current.getBuilding()
     ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
     ?: false
 
@@ -180,11 +200,11 @@ fun State.getPreviousEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.employmentStatus.previousEntries.any { it.entry.isEmployedAt(business) } }
 
-fun State.getWorkingIn(town: TownId) = getCharacterStorage()
+fun State.getWorkingIn(town: TownMapId) = getCharacterStorage()
     .getAll()
     .filter { isWorkingIn(it, town) }
 
-fun State.isWorkingIn(character: Character, town: TownId) = character.employmentStatus.current.getBusiness()
+fun State.isWorkingIn(character: Character, town: TownMapId) = character.employmentStatus.current.getBusiness()
     ?.let {
         getBuildingStorage().getAll().any { building -> building.purpose.contains(it) && building.lot.town == town }
     }

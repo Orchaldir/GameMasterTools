@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
@@ -37,7 +38,6 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
-import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countResident
 import at.orchaldir.gm.core.selector.character.getBelievers

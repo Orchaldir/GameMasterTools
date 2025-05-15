@@ -8,15 +8,15 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val ADD_ABSTRACT_BUILDING: Reducer<AddAbstractBuilding, State> = { state, action ->
-    val oldTown = state.getTownStorage().getOrThrow(action.town)
-    val town = oldTown.build(action.tileIndex, AbstractBuildingTile)
+    val oldMap = state.getTownMapStorage().getOrThrow(action.town)
+    val map = oldMap.build(action.tileIndex, AbstractBuildingTile)
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
+    noFollowUps(state.updateStorage(state.getTownStorage().update(map)))
 }
 
 val REMOVE_ABSTRACT_BUILDING: Reducer<RemoveAbstractBuilding, State> = { state, action ->
-    val oldTown = state.getTownStorage().getOrThrow(action.town)
-    val town = oldTown.removeAbstractBuilding(action.tileIndex)
+    val oldMap = state.getTownMapStorage().getOrThrow(action.town)
+    val map = oldMap.removeAbstractBuilding(action.tileIndex)
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
+    noFollowUps(state.updateStorage(state.getTownStorage().update(map)))
 }

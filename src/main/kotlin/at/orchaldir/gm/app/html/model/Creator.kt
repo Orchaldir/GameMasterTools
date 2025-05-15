@@ -7,9 +7,9 @@ import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId
 import at.orchaldir.gm.app.html.model.realm.parseRealmId
 import at.orchaldir.gm.app.html.model.religion.parseGodId
+import at.orchaldir.gm.app.html.model.town.parseTownId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
@@ -17,8 +17,8 @@ import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
+import at.orchaldir.gm.core.selector.realm.getExistingTowns
 import at.orchaldir.gm.core.selector.util.*
-import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
