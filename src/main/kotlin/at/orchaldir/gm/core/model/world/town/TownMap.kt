@@ -2,8 +2,11 @@ package at.orchaldir.gm.core.model.world.town
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -28,6 +31,7 @@ value class TownMapId(val value: Int) : Id<TownMapId> {
 data class TownMap(
     val id: TownMapId,
     val town: TownId? = null,
+    val date: Date? = null,
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
 ) : Element<TownMapId> {
 
@@ -36,7 +40,15 @@ data class TownMap(
         if (town == null) {
             "Town Map ${id.value}"
         } else {
-            state.getTownStorage().getOrThrow(town).name()
+            val town = state.getTownStorage().getOrThrow(town)
+
+            if (date != null) {
+                val calendar = state.getDefaultCalendar()
+                val dateText = display(calendar, date)
+                "${town.name} ($dateText)"
+            } else {
+                town.name()
+            }
         }
 
     fun canBuild(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuild() }

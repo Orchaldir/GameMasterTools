@@ -1,9 +1,13 @@
 package at.orchaldir.gm.app.html.model.world
 
+import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.optionalField
+import at.orchaldir.gm.app.html.model.parseOptionalDate
+import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.model.town.parseOptionalTownId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -25,6 +29,7 @@ fun HtmlBlockTag.showTownMap(
     townMap: TownMap,
 ) {
     optionalFieldLink(call, state, townMap.town)
+    optionalField(call, state, "Date", townMap.date)
     field("Size", townMap.map.size.format())
 }
 
@@ -35,6 +40,7 @@ fun FORM.editTownMap(
     townMap: TownMap,
 ) {
     selectOptionalElement(state, "Town", TOWN, state.sortTowns(), townMap.town)
+    selectOptionalDate(state, "Date", townMap.date, DATE)
 }
 
 // parse
@@ -44,5 +50,7 @@ fun parseOptionalTownMapId(parameters: Parameters, param: String) =
 
 fun parseTerrainType(parameters: Parameters) = parse(parameters, combine(TERRAIN, TYPE), TerrainType.Plain)
 
-fun parseTownMap(parameters: Parameters, state: State, oldTownMap: TownMap) =
-    oldTownMap.copy(town = parseOptionalTownId(parameters, TOWN))
+fun parseTownMap(parameters: Parameters, state: State, oldTownMap: TownMap) = oldTownMap.copy(
+    town = parseOptionalTownId(parameters, TOWN),
+    date = parseOptionalDate(parameters, state, DATE),
+)
