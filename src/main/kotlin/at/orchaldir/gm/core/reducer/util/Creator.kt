@@ -18,6 +18,7 @@ fun <ID : Id<ID>> validateCreator(
     when (creator) {
         is CreatedByBusiness -> checkCreatorElement(state, creator.business, created, noun, date)
         is CreatedByCharacter -> checkCreatorElement(state, creator.character, created, noun, date)
+        is CreatedByCulture -> checkCreatorElement(state, creator.culture, created, noun, date)
         is CreatedByGod -> checkCreatorElement(state, creator.god, created, noun, date)
         is CreatedByOrganization -> checkCreatorElement(state, creator.organization, created, noun, date)
         is CreatedByRealm -> checkCreatorElement(state, creator.realm, created, noun, date)

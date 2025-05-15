@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.character.parseCharacterId
+import at.orchaldir.gm.app.html.model.culture.parseCulture
+import at.orchaldir.gm.app.html.model.culture.parseCultureId
 import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId
 import at.orchaldir.gm.app.html.model.realm.parseRealmId
@@ -48,6 +50,7 @@ fun HtmlBlockTag.showCreator(
     when (creator) {
         is CreatedByBusiness -> link(call, state, creator.business)
         is CreatedByCharacter -> link(call, state, creator.character)
+        is CreatedByCulture -> link(call, state, creator.culture)
         is CreatedByGod -> link(call, state, creator.god)
         is CreatedByOrganization -> link(call, state, creator.organization)
         is CreatedByRealm -> link(call, state, creator.realm)
@@ -99,6 +102,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
     val businesses = state.getOpenBusinesses(date)
         .filter { it.id != created }
     val characters = state.getLiving(date)
+    val cultures = state.getCultureStorage().getAll()
     val gods = state.getGodStorage().getAll()
     val organizations = state.getExistingOrganizations(date)
         .filter { it.id != created }
@@ -112,6 +116,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             CreatorType.Undefined -> false
             CreatorType.CreatedByBusiness -> businesses.isEmpty()
             CreatorType.CreatedByCharacter -> characters.isEmpty()
+            CreatorType.CreatedByCulture -> cultures.isEmpty()
             CreatorType.CreatedByGod -> gods.isEmpty()
             CreatorType.CreatedByOrganization -> organizations.isEmpty()
             CreatorType.CreatedByRealm -> realms.isEmpty()
@@ -134,6 +139,14 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             combine(param, CHARACTER),
             characters,
             creator.character,
+        )
+
+        is CreatedByCulture -> selectElement(
+            state,
+            noun,
+            combine(param, CULTURE),
+            cultures,
+            creator.culture,
         )
 
         is CreatedByGod -> selectElement(
@@ -186,6 +199,10 @@ fun parseCreator(
 
         CreatorType.CreatedByCharacter -> CreatedByCharacter(
             parseCharacterId(parameters, combine(param, CHARACTER)),
+        )
+
+        CreatorType.CreatedByCulture -> CreatedByCulture(
+            parseCultureId(parameters, combine(param, CULTURE)),
         )
 
         CreatorType.CreatedByGod -> CreatedByGod(

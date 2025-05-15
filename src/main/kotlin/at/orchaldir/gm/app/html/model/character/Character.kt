@@ -4,6 +4,8 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.title.parseOptionalTitleId
+import at.orchaldir.gm.app.html.model.culture.parseCultureId
+import at.orchaldir.gm.app.html.model.race.parseRaceId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
@@ -360,8 +362,7 @@ fun parseCharacter(
     val character = state.getCharacterStorage().getOrThrow(id)
 
     val name = parseCharacterName(parameters)
-    val race = RaceId(parameters.getOrFail(RACE).toInt())
-    val culture = CultureId(parameters.getOrFail(CULTURE).toInt())
+    val race = parseRaceId(parameters, RACE)
     val origin = when (parse(parameters, ORIGIN, Undefined)) {
         CharacterOriginType.Born -> {
             val father = parseCharacterId(parameters, FATHER)
@@ -381,7 +382,7 @@ fun parseCharacter(
         origin = origin,
         birthDate = birthDate,
         vitalStatus = parseVitalStatus(parameters, state),
-        culture = culture,
+        culture = parseCultureId(parameters, CULTURE),
         personality = parsePersonality(parameters),
         housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),

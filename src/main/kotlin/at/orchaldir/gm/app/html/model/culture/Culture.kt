@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -42,6 +43,7 @@ fun HtmlBlockTag.showCulture(
     showNamingConvention(culture.namingConvention, call, state)
     showClothingOptions(call, state, culture)
     showUsages(call, state, culture)
+    showCreated(call, state, culture.id)
 }
 
 private fun HtmlBlockTag.showUsages(
@@ -282,6 +284,9 @@ private fun FORM.editClothingOptions(
 }
 
 // parse
+
+fun parseCultureId(parameters: Parameters, param: String) = CultureId(parseInt(parameters, param))
+fun parseCultureId(value: String) = CultureId(value.toInt())
 
 fun parseCulture(
     parameters: Parameters,
