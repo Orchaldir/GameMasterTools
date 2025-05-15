@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

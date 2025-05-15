@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
 import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
 import at.orchaldir.gm.core.model.world.town.AbstractBuildingTile
 import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
@@ -33,15 +33,15 @@ private val DEFAULT_TILE_TEXT: (Int, TownTile) -> String? = { _, _ -> null }
 data class TownRenderer(
     private val tileRenderer: TileMap2dRenderer,
     private val svgBuilder: SvgBuilder,
-    private val town: Town,
+    private val town: TownMap,
 ) {
-    constructor(tileMapRenderer: TileMap2dRenderer, town: Town) : this(
+    constructor(tileMapRenderer: TileMap2dRenderer, town: TownMap) : this(
         tileMapRenderer,
         SvgBuilder(tileMapRenderer.calculateMapSize(town.map)),
         town,
     )
 
-    constructor(town: Town) : this(
+    constructor(town: TownMap) : this(
         TileMap2dRenderer(TILE_SIZE, Distance.fromMeters(1.0f)),
         town,
     )
@@ -148,7 +148,7 @@ fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
 }
 
 fun visualizeTown(
-    town: Town,
+    town: TownMap,
     buildings: List<Building> = emptyList(),
     tileColorLookup: (TownTile) -> Color = TownTile::getColor,
     tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,

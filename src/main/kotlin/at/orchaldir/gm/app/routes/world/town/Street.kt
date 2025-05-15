@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -28,30 +28,30 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureStreetEditorRouting() {
     routing {
-        get<TownRoutes.StreetRoutes.Edit> { edit ->
+        get<TownMapRoutes.StreetRoutes.Edit> { edit ->
             logger.info { "Get the street editor for town ${edit.id.value}" }
 
             val state = STORE.getState()
-            val town = state.getTownStorage().getOrThrow(edit.id)
+            val townMap = state.getTownMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetEditor(call, state, town, StreetTemplateId(0), null)
+                showStreetEditor(call, state, townMap, StreetTemplateId(0), null)
             }
         }
-        post<TownRoutes.StreetRoutes.Preview> { preview ->
+        post<TownMapRoutes.StreetRoutes.Preview> { preview ->
             logger.info { "Preview the street editor for town ${preview.id.value}" }
 
             val state = STORE.getState()
-            val town = state.getTownStorage().getOrThrow(preview.id)
+            val townMap = state.getTownMapStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val typeId = parseInt(params, TYPE, 0)
             val streetId = parseSimpleOptionalInt(params, STREET)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetEditor(call, state, town, StreetTemplateId(typeId), streetId?.let { StreetId(it) })
+                showStreetEditor(call, state, townMap, StreetTemplateId(typeId), streetId?.let { StreetId(it) })
             }
         }
-        get<TownRoutes.StreetRoutes.Add> { add ->
+        get<TownMapRoutes.StreetRoutes.Add> { add ->
             logger.info { "Set tile ${add.tileIndex} to street ${add.typeId.value} for town ${add.id.value}" }
 
             STORE.dispatch(AddStreetTile(add.id, add.tileIndex, add.typeId, add.streetId))
@@ -60,11 +60,11 @@ fun Application.configureStreetEditorRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 val state = STORE.getState()
-                val town = state.getTownStorage().getOrThrow(add.id)
+                val town = state.getTownMapStorage().getOrThrow(add.id)
                 showStreetEditor(call, state, town, add.typeId, add.streetId)
             }
         }
-        get<TownRoutes.StreetRoutes.Remove> { remove ->
+        get<TownMapRoutes.StreetRoutes.Remove> { remove ->
             logger.info { "Remove street from tile ${remove.tileIndex} for town ${remove.id.value}" }
 
             STORE.dispatch(RemoveStreetTile(remove.id, remove.tileIndex))
@@ -73,7 +73,7 @@ fun Application.configureStreetEditorRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 val state = STORE.getState()
-                val town = state.getTownStorage().getOrThrow(remove.id)
+                val town = state.getTownMapStorage().getOrThrow(remove.id)
                 showStreetEditor(call, state, town, remove.typeId, remove.streetId)
             }
         }
@@ -83,16 +83,16 @@ fun Application.configureStreetEditorRouting() {
 private fun HTML.showStreetEditor(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    townMap: TownMap,
     selectedType: StreetTemplateId,
     selectedStreetId: StreetId?,
 ) {
     val selectedStreet = state.getStreetStorage().getOptional(selectedStreetId)
-    val backLink = href(call, town.id)
-    val previewLink = call.application.href(TownRoutes.StreetRoutes.Preview(town.id))
+    val backLink = href(call, townMap.id)
+    val previewLink = call.application.href(TownMapRoutes.StreetRoutes.Preview(townMap.id))
     val createLink = call.application.href(StreetRoutes.New())
 
-    simpleHtml("Edit Streets of Town ${town.name()}") {
+    simpleHtml("Edit Streets of Town Map ${townMap.name(state)}") {
         split({
             formWithPreview(previewLink, createLink, backLink, "Create new Street") {
                 selectElement(state, "Type", TYPE, state.getStreetTemplateStorage().getAll(), selectedType)
@@ -107,7 +107,7 @@ private fun HTML.showStreetEditor(
                 }
             }
         }, {
-            svg(visualizeStreetEditor(call, state, town, selectedType, selectedStreetId), 90)
+            svg(visualizeStreetEditor(call, state, townMap, selectedType, selectedStreetId), 90)
         })
     }
 }
@@ -115,14 +115,14 @@ private fun HTML.showStreetEditor(
 fun visualizeStreetEditor(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    townMap: TownMap,
     selectedType: StreetTemplateId,
     selectedStreet: StreetId?,
 ) = visualizeTown(
-    town, state.getBuildings(town.id),
+    townMap, state.getBuildings(townMap.id),
     tileLinkLookup = { index, tile ->
         if (tile.canBuild()) {
-            call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedType, selectedStreet))
+            call.application.href(TownMapRoutes.StreetRoutes.Add(townMap.id, index, selectedType, selectedStreet))
         } else {
             null
         }
@@ -137,7 +137,7 @@ fun visualizeStreetEditor(
         }
     },
     streetLinkLookup = { _, index ->
-        call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedType, selectedStreet))
+        call.application.href(TownMapRoutes.StreetRoutes.Remove(townMap.id, index, selectedType, selectedStreet))
     },
     streetTooltipLookup = { street, _ ->
         state.getStreetStorage().getOptional(street.streetId)?.name(state)

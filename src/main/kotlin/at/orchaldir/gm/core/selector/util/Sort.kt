@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
@@ -37,7 +38,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
-import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countResident
 import at.orchaldir.gm.core.selector.character.getBelievers
@@ -51,9 +52,18 @@ import at.orchaldir.gm.core.selector.world.countBuildings
 
 // generic
 
-fun <Element : HasStartDate> State.getAgeComparator(): Comparator<Element> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Element, b: Element -> calendar.compareToOptional(a.startDate(), b.startDate()) }
+fun <Element : HasStartDate> State.getAgeComparator(valueForNull: Int = Int.MAX_VALUE): Comparator<Element> {
+    val sorter = getDefaultCalendar().createSorter()
+
+    return compareBy { element ->
+        val date = element.startDate()
+
+        if (date == null) {
+            valueForNull
+        } else {
+            sorter(date)
+        }
+    }
 }
 
 fun <Element : HasComplexStartDate> State.getComplexAgeComparator(valueForNull: Int = Int.MAX_VALUE): Comparator<Element> {
@@ -554,6 +564,21 @@ fun State.sortTowns(
             SortTown.Date -> getAgeComparator()
             SortTown.Residents -> compareByDescending { countResident(it.id) }
             SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
+        })
+
+// town
+
+fun State.sortTownMaps(sort: SortTownMap = SortTownMap.Name) =
+    sortTownMaps(getTownMapStorage().getAll(), sort)
+
+fun State.sortTownMaps(
+    towns: Collection<TownMap>,
+    sort: SortTownMap = SortTownMap.Name,
+) = towns
+    .sortedWith(
+        when (sort) {
+            SortTownMap.Name -> compareByDescending<TownMap> { it.name(this) }
+                .thenComparing(getAgeComparator())
         })
 
 // uniform

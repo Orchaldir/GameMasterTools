@@ -48,6 +48,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.source.DataSource
 import at.orchaldir.gm.core.model.source.DataSourceId
@@ -67,8 +69,8 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.Resize
 
@@ -281,6 +283,11 @@ data object CreateRealm : RealmAction()
 data class DeleteRealm(val id: RealmId) : RealmAction()
 data class UpdateRealm(val realm: Realm) : RealmAction()
 
+// town
+data object CreateTown : RealmAction()
+data class DeleteTown(val id: TownId) : RealmAction()
+data class UpdateTown(val town: Town) : RealmAction()
+
 //-- religion --
 
 sealed class ReligionAction : Action()
@@ -340,26 +347,26 @@ data class DeleteStreetTemplate(val id: StreetTemplateId) : WorldAction()
 data class UpdateStreetTemplate(val template: StreetTemplate) : WorldAction()
 
 // town
-data object CreateTown : WorldAction()
-data class DeleteTown(val id: TownId) : WorldAction()
-data class UpdateTown(val town: Town) : WorldAction()
+data object CreateTownMap : WorldAction()
+data class DeleteTownMap(val id: TownMapId) : WorldAction()
+data class UpdateTownMap(val townMap: TownMap) : WorldAction()
 
 // town's abstract buildings
 
 data class AddAbstractBuilding(
-    val town: TownId,
+    val town: TownMapId,
     val tileIndex: Int,
 ) : WorldAction()
 
 data class RemoveAbstractBuilding(
-    val town: TownId,
+    val town: TownMapId,
     val tileIndex: Int,
 ) : WorldAction()
 
 // town's buildings
 
 data class AddBuilding(
-    val town: TownId,
+    val town: TownMapId,
     val tileIndex: Int,
     val size: MapSize2d,
 ) : WorldAction()
@@ -402,28 +409,28 @@ data class UpdateBuildingLot(
 // town's streets
 
 data class AddStreetTile(
-    val town: TownId,
+    val town: TownMapId,
     val tileIndex: Int,
     val type: StreetTemplateId,
     val street: StreetId?,
 ) : WorldAction()
 
 data class RemoveStreetTile(
-    val town: TownId,
+    val town: TownMapId,
     val tileIndex: Int,
 ) : WorldAction()
 
 // town's terrain
 
-data class ResizeTown(
-    val town: TownId,
+data class ResizeTerrain(
+    val town: TownMapId,
     val resize: Resize,
     val terrainType: TerrainType = TerrainType.Plain,
     val terrainId: Int = 0,
 ) : WorldAction()
 
 data class SetTerrainTile(
-    val town: TownId,
+    val town: TownMapId,
     val terrainType: TerrainType,
     val terrainId: Int,
     val tileIndex: Int,

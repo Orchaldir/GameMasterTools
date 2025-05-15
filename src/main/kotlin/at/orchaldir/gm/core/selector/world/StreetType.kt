@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMapId
 
 fun State.canDelete(template: StreetTemplateId) = getTowns(template).isEmpty()
 
@@ -11,7 +11,7 @@ fun State.getStreetTemplatesMadeOf(material: MaterialId) = getStreetTemplateStor
     .getAll()
     .filter { it.materialCost.contains(material) }
 
-fun State.countEachStreetTemplate(town: TownId) = getTownStorage()
+fun State.countEachStreetTemplate(town: TownMapId) = getTownMapStorage()
     .getOrThrow(town)
     .map.tiles
     .mapNotNull { it.construction.getOptionalStreetTemplate() }

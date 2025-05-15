@@ -25,7 +25,7 @@ class AbstractBuildingTest {
             Storage(CALENDAR0),
             Storage(Street(STREET_ID_0)),
             Storage(StreetTemplate(STREET_TYPE_ID_0)),
-            Storage(Town(TOWN_ID_0)),
+            Storage(TownMap(TOWN_MAP_ID_0)),
         )
     )
 
@@ -34,20 +34,17 @@ class AbstractBuildingTest {
 
         @Test
         fun `Cannot update unknown town`() {
-            val action = AddAbstractBuilding(UNKNOWN_TOWN_ID, 0)
+            val action = AddAbstractBuilding(UNKNOWN_TOWN_MAP_ID, 0)
 
-            assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Town Map 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Tile is outside the map`() {
-            val action = AddAbstractBuilding(TOWN_ID_0, 100)
+            val action = AddAbstractBuilding(TOWN_MAP_ID_0, 100)
 
             assertIllegalArgument("Tile 100 is outside the map!") {
-                REDUCER.invoke(
-                    STATE,
-                    action
-                )
+                REDUCER.invoke(STATE, action)
             }
         }
 
@@ -68,9 +65,9 @@ class AbstractBuildingTest {
 
         private fun testTileNotEmpty(townTile: TownTile) {
             val map = TileMap2d(townTile)
-            val town = Town(TOWN_ID_0, map = map)
+            val town = TownMap(TOWN_MAP_ID_0, map = map)
             val state = STATE.updateStorage(Storage(town))
-            val action = AddAbstractBuilding(TOWN_ID_0, 0)
+            val action = AddAbstractBuilding(TOWN_MAP_ID_0, 0)
 
             assertIllegalArgument("Tile 0 is not empty!") { REDUCER.invoke(state, action) }
         }
@@ -78,13 +75,14 @@ class AbstractBuildingTest {
         @Test
         fun `Successfully set an abstract building`() {
             val map = TileMap2d(EMPTY)
-            val town = Town(TOWN_ID_0, map = map)
+            val town = TownMap(TOWN_MAP_ID_0, map = map)
             val state = STATE.updateStorage(Storage(town))
-            val action = AddAbstractBuilding(TOWN_ID_0, 0)
+            val action = AddAbstractBuilding(TOWN_MAP_ID_0, 0)
 
             assertEquals(
                 AbstractBuildingTile,
-                REDUCER.invoke(state, action).first.getTownStorage().getOrThrow(TOWN_ID_0).map.getTile(0)?.construction
+                REDUCER.invoke(state, action).first.getTownMapStorage()
+                    .getOrThrow(TOWN_MAP_ID_0).map.getTile(0)?.construction
             )
         }
     }
@@ -94,21 +92,21 @@ class AbstractBuildingTest {
 
         @Test
         fun `Cannot update unknown town`() {
-            val action = RemoveAbstractBuilding(TOWN_ID_0, 0)
+            val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
-            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Tile is outside the map`() {
-            val action = RemoveAbstractBuilding(TOWN_ID_0, 100)
+            val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 100)
 
             assertIllegalArgument("Tile 100 is outside the map!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Tile is already empty`() {
-            val action = RemoveAbstractBuilding(TOWN_ID_0, 0)
+            val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
             assertIllegalArgument("Tile 0 is not an abstract building!") { REDUCER.invoke(STATE, action) }
         }
@@ -124,20 +122,23 @@ class AbstractBuildingTest {
         }
 
         private fun testWrongType(tile: TownTile) {
-            val town = Town(TOWN_ID_0, map = TileMap2d(tile))
+            val town = TownMap(TOWN_MAP_ID_0, map = TileMap2d(tile))
             val state = State(Storage(town))
-            val action = RemoveAbstractBuilding(TOWN_ID_0, 0)
+            val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
             assertIllegalArgument("Tile 0 is not an abstract building!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Successfully removed an abstract building`() {
-            val town = Town(TOWN_ID_0, map = TileMap2d(ABSTRACT_TILE))
+            val town = TownMap(TOWN_MAP_ID_0, map = TileMap2d(ABSTRACT_TILE))
             val state = State(Storage(town))
-            val action = RemoveAbstractBuilding(TOWN_ID_0, 0)
+            val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
-            assertEquals(EMPTY, REDUCER.invoke(state, action).first.getTownStorage().get(TOWN_ID_0)?.map?.getTile(0))
+            assertEquals(
+                EMPTY,
+                REDUCER.invoke(state, action).first.getTownMapStorage().get(TOWN_MAP_ID_0)?.map?.getTile(0)
+            )
         }
 
     }

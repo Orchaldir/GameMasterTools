@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.Mountain
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -46,7 +46,7 @@ class MountainTest {
             val state = State(
                 listOf(
                     Storage(Mountain(ID0)),
-                    Storage(Town(TownId(0), map = TileMap2d(TownTile(MountainTerrain(ID0)))))
+                    Storage(TownMap(TownMapId(0), map = TileMap2d(TownTile(MountainTerrain(ID0)))))
                 )
             )
 

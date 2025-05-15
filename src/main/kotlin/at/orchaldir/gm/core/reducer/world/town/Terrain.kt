@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.reducer.world.town
 
-import at.orchaldir.gm.core.action.ResizeTown
+import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
@@ -10,23 +10,23 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
-    val oldTown = state.getTownStorage().getOrThrow(action.town)
+    val oldMap = state.getTownMapStorage().getOrThrow(action.town)
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
-    val newTown = oldTown.setTerrain(action.tileIndex, terrain)
+    val map = oldMap.setTerrain(action.tileIndex, terrain)
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(newTown)))
+    noFollowUps(state.updateStorage(state.getTownMapStorage().update(map)))
 }
 
-val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
-    val oldTown = state.getTownStorage().getOrThrow(action.town)
+val RESIZE_TERRAIN: Reducer<ResizeTerrain, State> = { state, action ->
+    val oldMap = state.getTownMapStorage().getOrThrow(action.town)
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
     val tile = TownTile(terrain)
 
-    val newMap = oldTown.map.resize(action.resize, tile)
-    val newTown = oldTown.copy(map = newMap)
+    val newTileMap = oldMap.map.resize(action.resize, tile)
+    val newMap = oldMap.copy(map = newTileMap)
     val newBuildings = state.getBuildings(action.town)
         .map { building ->
-            val newIndex = oldTown.map.getIndexAfterResize(building.lot.tileIndex, action.resize)
+            val newIndex = oldMap.map.getIndexAfterResize(building.lot.tileIndex, action.resize)
 
             if (newIndex != null) {
                 building.copy(lot = building.lot.copy(tileIndex = newIndex))
@@ -39,7 +39,7 @@ val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().update(newBuildings),
-                state.getTownStorage().update(newTown),
+                state.getTownMapStorage().update(newMap),
             )
         )
     )

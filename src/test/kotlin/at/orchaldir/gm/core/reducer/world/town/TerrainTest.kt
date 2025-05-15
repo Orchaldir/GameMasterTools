@@ -1,14 +1,14 @@
 package at.orchaldir.gm.core.reducer.world.town
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.ResizeTown
+import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingLot
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.BuildingTile
-import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
@@ -33,8 +33,8 @@ class TerrainTest {
 
         @Test
         fun `Cannot update unknown town`() {
-            val action = SetTerrainTile(TOWN_ID_0, TerrainType.Plain, 0, 0)
-            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(State(), action) }
+            val action = SetTerrainTile(TOWN_MAP_ID_0, TerrainType.Plain, 0, 0)
+            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -94,12 +94,12 @@ class TerrainTest {
         ) {
             val oldMap = TileMap2d(MapSize2d(2, 1), listOf(EMPTY, EMPTY))
             val newMap = TileMap2d(MapSize2d(2, 1), listOf(EMPTY, TownTile(result)))
-            val oldTown = Town(TOWN_ID_0, map = oldMap)
-            val newTown = Town(TOWN_ID_0, map = newMap)
+            val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
+            val newTown = TownMap(TOWN_MAP_ID_0, map = newMap)
             val state = State(listOf(Storage(element), Storage(oldTown)))
-            val action = SetTerrainTile(TOWN_ID_0, type, 0, 1)
+            val action = SetTerrainTile(TOWN_MAP_ID_0, type, 0, 1)
 
-            assertEquals(newTown, REDUCER.invoke(state, action).first.getTownStorage().get(TOWN_ID_0))
+            assertEquals(newTown, REDUCER.invoke(state, action).first.getTownMapStorage().get(TOWN_MAP_ID_0))
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> testOutside(
@@ -124,9 +124,9 @@ class TerrainTest {
             message: String,
         ) {
             val oldMap = TileMap2d(MapSize2d(2, 1), listOf(EMPTY, EMPTY))
-            val oldTown = Town(TOWN_ID_0, map = oldMap)
+            val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
             val state = State(listOf(Storage(river), Storage(oldTown)))
-            val action = SetTerrainTile(TOWN_ID_0, type, terrainIndex, tileIndex)
+            val action = SetTerrainTile(TOWN_MAP_ID_0, type, terrainIndex, tileIndex)
 
             assertIllegalArgument(message) { REDUCER.invoke(state, action) }
         }
@@ -137,17 +137,17 @@ class TerrainTest {
 
         @Test
         fun `Cannot resize unknown town`() {
-            val action = ResizeTown(TOWN_ID_0, Resize(1))
+            val action = ResizeTerrain(TOWN_MAP_ID_0, Resize(1))
 
-            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Resize would reduce width to 0`() {
             val oldMap = TileMap2d(MapSize2d(2, 1), EMPTY)
-            val oldTown = Town(TOWN_ID_0, map = oldMap)
+            val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
             val state = State(listOf(Storage(oldTown)))
-            val action = ResizeTown(TOWN_ID_0, Resize(-2), TerrainType.Plain, 0)
+            val action = ResizeTerrain(TOWN_MAP_ID_0, Resize(-2), TerrainType.Plain, 0)
 
             assertIllegalArgument("Width must be greater or equal 0!") { REDUCER.invoke(state, action) }
         }
@@ -155,9 +155,9 @@ class TerrainTest {
         @Test
         fun `Resize would reduce height to 0`() {
             val oldMap = TileMap2d(MapSize2d(1, 2), EMPTY)
-            val oldTown = Town(TOWN_ID_0, map = oldMap)
+            val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
             val state = State(listOf(Storage(oldTown)))
-            val action = ResizeTown(TOWN_ID_0, Resize(heightEnd = -2), TerrainType.Plain, 0)
+            val action = ResizeTerrain(TOWN_MAP_ID_0, Resize(heightEnd = -2), TerrainType.Plain, 0)
 
             assertIllegalArgument("Height must be greater or equal 0!") { REDUCER.invoke(state, action) }
         }
@@ -167,7 +167,7 @@ class TerrainTest {
             testResize(
                 MapSize2d(2, 1),
                 listOf(EMPTY, EMPTY),
-                ResizeTown(TOWN_ID_0, Resize(1), TerrainType.River, 0),
+                ResizeTerrain(TOWN_MAP_ID_0, Resize(1), TerrainType.River, 0),
                 MapSize2d(3, 1),
                 listOf(RIVER_TILE, EMPTY, EMPTY),
             )
@@ -178,7 +178,7 @@ class TerrainTest {
             testResize(
                 MapSize2d(2, 1),
                 listOf(EMPTY, RIVER_TILE),
-                ResizeTown(TOWN_ID_0, Resize(-1), TerrainType.Mountain, 1),
+                ResizeTerrain(TOWN_MAP_ID_0, Resize(-1), TerrainType.Mountain, 1),
                 MapSize2d(1, 1),
                 listOf(RIVER_TILE),
             )
@@ -189,7 +189,7 @@ class TerrainTest {
             testResize(
                 MapSize2d(2, 1),
                 listOf(EMPTY, EMPTY),
-                ResizeTown(TOWN_ID_0, Resize(widthEnd = 1), TerrainType.River, 0),
+                ResizeTerrain(TOWN_MAP_ID_0, Resize(widthEnd = 1), TerrainType.River, 0),
                 MapSize2d(3, 1),
                 listOf(EMPTY, EMPTY, RIVER_TILE),
             )
@@ -200,7 +200,7 @@ class TerrainTest {
             testResize(
                 MapSize2d(2, 1),
                 listOf(RIVER_TILE, EMPTY),
-                ResizeTown(TOWN_ID_0, Resize(widthEnd = -1), TerrainType.Mountain, 1),
+                ResizeTerrain(TOWN_MAP_ID_0, Resize(widthEnd = -1), TerrainType.Mountain, 1),
                 MapSize2d(1, 1),
                 listOf(RIVER_TILE),
             )
@@ -211,7 +211,7 @@ class TerrainTest {
             testResize(
                 MapSize2d(2, 1),
                 listOf(EMPTY, EMPTY),
-                ResizeTown(TOWN_ID_0, Resize(heightStart = 1), TerrainType.River, 0),
+                ResizeTerrain(TOWN_MAP_ID_0, Resize(heightStart = 1), TerrainType.River, 0),
                 MapSize2d(2, 2),
                 listOf(RIVER_TILE, RIVER_TILE, EMPTY, EMPTY),
             )
@@ -222,7 +222,7 @@ class TerrainTest {
             testResize(
                 MapSize2d(1, 2),
                 listOf(EMPTY, RIVER_TILE),
-                ResizeTown(TOWN_ID_0, Resize(heightStart = -1), TerrainType.Mountain, 1),
+                ResizeTerrain(TOWN_MAP_ID_0, Resize(heightStart = -1), TerrainType.Mountain, 1),
                 MapSize2d(1, 1),
                 listOf(RIVER_TILE),
             )
@@ -233,7 +233,7 @@ class TerrainTest {
             testResize(
                 MapSize2d(2, 1),
                 listOf(EMPTY, EMPTY),
-                ResizeTown(TOWN_ID_0, Resize(heightEnd = 1), TerrainType.River, 0),
+                ResizeTerrain(TOWN_MAP_ID_0, Resize(heightEnd = 1), TerrainType.River, 0),
                 MapSize2d(2, 2),
                 listOf(EMPTY, EMPTY, RIVER_TILE, RIVER_TILE),
             )
@@ -244,7 +244,7 @@ class TerrainTest {
             testResize(
                 MapSize2d(1, 2),
                 listOf(RIVER_TILE, EMPTY),
-                ResizeTown(TOWN_ID_0, Resize(heightEnd = -1), TerrainType.Mountain, 1),
+                ResizeTerrain(TOWN_MAP_ID_0, Resize(heightEnd = -1), TerrainType.Mountain, 1),
                 MapSize2d(1, 1),
                 listOf(RIVER_TILE),
             )
@@ -259,25 +259,25 @@ class TerrainTest {
                     EMPTY, EMPTY, EMPTY, BUILDING_TILE
                 )
             )
-            val oldTown = Town(TOWN_ID_0, map = oldMap)
-            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_ID_0, 1, square(1)))
-            val newBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_ID_0, 7, square(1)))
+            val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
+            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0, 1, square(1)))
+            val newBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0, 7, square(1)))
             val state = State(listOf(Storage(oldBuilding), Storage(oldTown)))
-            val action = ResizeTown(TOWN_ID_0, Resize(2, 0, 1, 0), TerrainType.Plain, 0)
+            val action = ResizeTerrain(TOWN_MAP_ID_0, Resize(2, 0, 1, 0), TerrainType.Plain, 0)
 
             val newState = REDUCER.invoke(state, action).first
 
             assertEquals(newBuilding, newState.getBuildingStorage().getOrThrow(BUILDING_ID_0))
-            assertEquals(newMap, newState.getTownStorage().getOrThrow(TOWN_ID_0).map)
+            assertEquals(newMap, newState.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
         }
 
         @Test
         fun `Resize would remove a building`() {
             val oldMap = TileMap2d(MapSize2d(2, 1), listOf(EMPTY, BUILDING_TILE))
-            val oldTown = Town(TOWN_ID_0, map = oldMap)
-            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_ID_0, 1, square(1)))
+            val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
+            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0, 1, square(1)))
             val state = State(listOf(Storage(oldBuilding), Storage(oldTown)))
-            val action = ResizeTown(TOWN_ID_0, Resize(0, -1, 0, 0), TerrainType.Plain, 0)
+            val action = ResizeTerrain(TOWN_MAP_ID_0, Resize(0, -1, 0, 0), TerrainType.Plain, 0)
 
             assertIllegalState("Resize would remove building 0!") { REDUCER.invoke(state, action) }
         }
@@ -285,16 +285,16 @@ class TerrainTest {
         private fun testResize(
             oldSize: MapSize2d,
             oldTiles: List<TownTile>,
-            action: ResizeTown,
+            action: ResizeTerrain,
             newSize: MapSize2d,
             newTiles: List<TownTile>,
         ) {
             val oldMap = TileMap2d(oldSize, oldTiles)
             val newMap = TileMap2d(newSize, newTiles)
-            val oldTown = Town(TOWN_ID_0, map = oldMap)
+            val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
             val state = State(listOf(Storage(River(RIVER_ID_0)), Storage(Mountain(MOUNTAIN_ID_1)), Storage(oldTown)))
 
-            assertEquals(newMap, REDUCER.invoke(state, action).first.getTownStorage().getOrThrow(TOWN_ID_0).map)
+            assertEquals(newMap, REDUCER.invoke(state, action).first.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
         }
 
     }

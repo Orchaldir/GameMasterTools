@@ -17,13 +17,14 @@ import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.realm.RealmRoutes
+import at.orchaldir.gm.app.routes.realm.TownRoutes
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
 import at.orchaldir.gm.app.routes.world.*
-import at.orchaldir.gm.app.routes.world.town.TownRoutes
+import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
@@ -54,6 +55,7 @@ import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
@@ -70,7 +72,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.date.resolve
 import at.orchaldir.gm.utils.Element
@@ -100,6 +102,16 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
 ) {
     field(label) {
         link(call, state, id)
+    }
+}
+
+fun <ID : Id<ID>> HtmlBlockTag.optionalFieldLink(
+    call: ApplicationCall,
+    state: State,
+    id: ID?,
+) {
+    if (id != null) {
+        fieldLink(id.type(), call, state, id)
     }
 }
 
@@ -360,6 +372,7 @@ fun <ID : Id<ID>> href(
     is TextId -> call.application.href(TextRoutes.Details(id))
     is TitleId -> call.application.href(TitleRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
+    is TownMapId -> call.application.href(TownMapRoutes.Details(id))
     is UniformId -> call.application.href(UniformRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }
