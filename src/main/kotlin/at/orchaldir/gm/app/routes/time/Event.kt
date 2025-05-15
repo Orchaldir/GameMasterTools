@@ -37,13 +37,12 @@ fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val events = state.getEvents(calendar)
-    val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Events") {
         fieldLink("Calendar", call, state, calendar)
         fieldCurrentDate(call, state)
         showEvents(events, call, state, calendar)
-        back(backLink)
+        back("/")
     }
 }
 
