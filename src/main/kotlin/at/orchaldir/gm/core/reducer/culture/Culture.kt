@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.canDelete
+import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 import mu.KotlinLogging
@@ -41,6 +42,7 @@ val CLONE_CULTURE: Reducer<CloneCulture, State> = { state, action ->
 val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
     state.getCultureStorage().require(action.id)
 
+    checkIfCreatorCanBeDeleted(state, action.id)
     validateCanDelete(state.canDelete(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getCultureStorage().remove(action.id)))
