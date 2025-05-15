@@ -70,6 +70,12 @@ enum class SortJob {
     Spells,
 }
 
+enum class SortLanguage {
+    Name,
+    Characters,
+    Cultures,
+}
+
 enum class SortMagicTradition {
     Name,
     Age,

@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.model.displayOrigin
 import at.orchaldir.gm.app.html.model.editLanguage
 import at.orchaldir.gm.app.html.model.parseLanguage
 import at.orchaldir.gm.app.html.model.showLanguage
+import at.orchaldir.gm.app.routes.world.PlaneRoutes
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
@@ -13,6 +14,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.util.SortLanguage
+import at.orchaldir.gm.core.model.util.SortPlane
 import at.orchaldir.gm.core.selector.canDeleteLanguage
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.countChildren
@@ -20,6 +23,7 @@ import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
 import at.orchaldir.gm.core.selector.magic.countSpells
+import at.orchaldir.gm.core.selector.util.sortLanguages
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -36,6 +40,12 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/$LANGUAGE_TYPE")
 class LanguageRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortLanguage = SortLanguage.Name,
+        val parent: LanguageRoutes = LanguageRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: LanguageId, val parent: LanguageRoutes = LanguageRoutes())
 
@@ -57,11 +67,11 @@ class LanguageRoutes {
 
 fun Application.configureLanguageRouting() {
     routing {
-        get<LanguageRoutes> {
+        get<LanguageRoutes.All> { all ->
             logger.info { "Get all languages" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllLanguages(call, STORE.getState())
+                showAllLanguages(call, STORE.getState(), all.sort)
             }
         }
         get<LanguageRoutes.Details> { details ->
@@ -135,12 +145,14 @@ fun Application.configureLanguageRouting() {
 private fun HTML.showAllLanguages(
     call: ApplicationCall,
     state: State,
+    sort: SortLanguage = SortLanguage.Name,
 ) {
-    val languages = STORE.getState().getLanguageStorage().getAll().sortedBy { it.name.text }
+    val languages = state.sortLanguages(sort)
     val createLink = call.application.href(LanguageRoutes.New())
 
     simpleHtml("Languages") {
         field("Count", languages.size)
+        showSortTableLinks(call, SortLanguage.entries, LanguageRoutes(), LanguageRoutes::All)
 
         table {
             tr {

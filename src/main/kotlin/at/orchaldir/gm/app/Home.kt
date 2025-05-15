@@ -73,7 +73,7 @@ fun Application.configureRouting() {
                     h3 { +"Cultures" }
                     fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
                     fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
-                    fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes())
+                    fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes.All())
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
                     h3 { +"Items" }
                     fieldStorageLink(call, state.getEquipmentStorage(), EquipmentRoutes())
