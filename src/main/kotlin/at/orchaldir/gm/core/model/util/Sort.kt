@@ -163,3 +163,9 @@ enum class SortTownMap {
 enum class SortUniform {
     Name,
 }
+
+enum class SortWar {
+    Name,
+    Start,
+    End,
+}

@@ -1,5 +1,20 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Last War",
+   "startDate": {
+    "type": "Year",
+    "year": 893
+   },
+   "endDate": {
+    "type": "Year",
+    "year": 995
+   },
+   "sources": [
+    3
+   ]
+  }
  }
 }

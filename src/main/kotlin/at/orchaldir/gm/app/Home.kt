@@ -21,6 +21,7 @@ import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.app.routes.realm.RealmRoutes
 import at.orchaldir.gm.app.routes.realm.TownRoutes
+import at.orchaldir.gm.app.routes.realm.WarRoutes
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
@@ -95,6 +96,7 @@ fun Application.configureRouting() {
                     h3 { +"Realms" }
                     fieldStorageLink(call, state.getRealmStorage(), RealmRoutes.All())
                     fieldStorageLink(call, state.getTownStorage(), TownRoutes.All())
+                    fieldStorageLink(call, state.getWarStorage(), WarRoutes.All())
                     h3 { +"Religions" }
                     fieldStorageLink(call, state.getDomainStorage(), DomainRoutes.All())
                     fieldStorageLink(call, state.getGodStorage(), GodRoutes.All())

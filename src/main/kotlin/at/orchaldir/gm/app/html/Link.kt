@@ -18,6 +18,7 @@ import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.realm.RealmRoutes
 import at.orchaldir.gm.app.routes.realm.TownRoutes
+import at.orchaldir.gm.app.routes.realm.WarRoutes
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
@@ -56,6 +57,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
@@ -374,5 +376,6 @@ fun <ID : Id<ID>> href(
     is TownId -> call.application.href(TownRoutes.Details(id))
     is TownMapId -> call.application.href(TownMapRoutes.Details(id))
     is UniformId -> call.application.href(UniformRoutes.Details(id))
+    is WarId -> call.application.href(WarRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }

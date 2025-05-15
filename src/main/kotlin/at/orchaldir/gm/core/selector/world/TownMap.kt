@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.selector.util.getAgeComparator
+import at.orchaldir.gm.core.selector.util.getStartDateComparator
 
 fun State.canDeleteTownMap(town: TownMapId) = getBuildings(town).isEmpty()
 
@@ -23,7 +23,7 @@ fun countEachTown(buildings: Collection<Building>) = buildings
 
 fun State.getCurrentTownMap(town: TownId): TownMap? {
     return getTownMaps(town)
-        .maxWithOrNull(getAgeComparator())
+        .maxWithOrNull(getStartDateComparator())
 }
 
 fun State.getTownMaps(town: TownId) = getTownMapStorage()
