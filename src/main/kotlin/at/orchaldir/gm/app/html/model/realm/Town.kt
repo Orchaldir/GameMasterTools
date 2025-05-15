@@ -7,10 +7,12 @@ import at.orchaldir.gm.app.html.model.world.parseOptionalTownMapId
 import at.orchaldir.gm.app.html.optionalFieldLink
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -47,6 +49,8 @@ fun FORM.editTown(
 // parse
 
 fun parseTownId(parameters: Parameters, param: String) = TownId(parseInt(parameters, param))
+fun parseOptionalTownId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { TownId(it) }
 
 fun parseTown(parameters: Parameters, state: State, id: TownId) = Town(
     id,

@@ -2,11 +2,15 @@ package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.world.editTownMap
+import at.orchaldir.gm.app.html.model.world.parseTownMap
+import at.orchaldir.gm.app.html.model.world.showTownMap
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
 import at.orchaldir.gm.core.action.CreateTownMap
 import at.orchaldir.gm.core.action.DeleteTownMap
+import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countResident
@@ -17,7 +21,10 @@ import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.request.receiveParameters
 import io.ktor.server.resources.*
+import io.ktor.server.resources.get
+import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
@@ -63,6 +70,29 @@ fun Application.configureTownMapRouting() {
 
             STORE.getState().save()
         }
+        get<TownMapRoutes.Edit> { edit ->
+            logger.info { "Get editor for town map ${edit.id.value}" }
+
+            val state = STORE.getState()
+            val town = state.getTownMapStorage().getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showTownMapEditor(call, state, town)
+            }
+        }
+        post<TownMapRoutes.Update> { update ->
+            logger.info { "Update town map ${update.id.value}" }
+
+            val state = STORE.getState()
+            val oldTownMap = state.getTownMapStorage().getOrThrow(update.id)
+            val townMap = parseTownMap(call.receiveParameters(), state, oldTownMap)
+
+            STORE.dispatch(UpdateTownMap(townMap))
+
+            call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
+        }
     }
 }
 
@@ -97,44 +127,65 @@ private fun HTML.showAllTownMaps(
 private fun HTML.showTownMapDetails(
     call: ApplicationCall,
     state: State,
-    town: TownMap,
+    townMap: TownMap,
 ) {
     val backLink = call.application.href(TownMapRoutes.All())
-    val deleteLink = call.application.href(TownMapRoutes.Delete(town.id))
-    val editAbstractBuildingsLink = call.application.href(AbstractBuildingRoutes.Edit(town.id))
-    val editBuildingsLink = call.application.href(TownMapRoutes.BuildingRoutes.Edit(town.id))
-    val editStreetsLink = call.application.href(TownMapRoutes.StreetRoutes.Edit(town.id))
-    val editTerrainLink = call.application.href(TownMapRoutes.TerrainRoutes.Edit(town.id))
+    val deleteLink = call.application.href(TownMapRoutes.Delete(townMap.id))
+    val editAbstractBuildingsLink = call.application.href(AbstractBuildingRoutes.Edit(townMap.id))
+    val editBuildingsLink = call.application.href(TownMapRoutes.BuildingRoutes.Edit(townMap.id))
+    val editStreetsLink = call.application.href(TownMapRoutes.StreetRoutes.Edit(townMap.id))
+    val editTerrainLink = call.application.href(TownMapRoutes.TerrainRoutes.Edit(townMap.id))
 
-    simpleHtml("town") {
+    simpleHtml("Show Town Map ${townMap.name(state)}") {
         split({
-            field("Size", town.map.size.format())
+            showTownMap(call, state, townMap)
 
             action(editAbstractBuildingsLink, "Edit Abstract Buildings")
             action(editBuildingsLink, "Edit Buildings")
 
-            if (state.canDeleteTownMap(town.id)) {
+            if (state.canDeleteTownMap(townMap.id)) {
                 action(deleteLink, "Delete")
             }
 
             h2 { +"Terrain" }
 
-            fieldList(call, state, state.getMountains(town.id).sortedBy { it.name.text })
-            fieldList(call, state, state.getRivers(town.id).sortedBy { it.name.text })
-            fieldList(call, state, state.getStreets(town.id).sortedBy { it.name(state) })
+            fieldList(call, state, state.getMountains(townMap.id).sortedBy { it.name.text })
+            fieldList(call, state, state.getRivers(townMap.id).sortedBy { it.name.text })
+            fieldList(call, state, state.getStreets(townMap.id).sortedBy { it.name(state) })
 
-            showStreetTemplateCount(call, state, town.id)
+            showStreetTemplateCount(call, state, townMap.id)
 
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
 
             back(backLink)
         }, {
-            svg(visualizeTownWithLinks(call, state, town), 90)
+            svg(visualizeTownWithLinks(call, state, townMap), 90)
         })
     }
 }
 
+private fun HTML.showTownMapEditor(
+    call: ApplicationCall,
+    state: State,
+    townMap: TownMap,
+) {
+    val backLink = href(call, townMap.id)
+    val updateLink = call.application.href(TownMapRoutes.Update(townMap.id))
+
+    simpleHtml("Edit Town Map ${townMap.name(state)}") {
+        split({
+            form {
+                editTownMap(state, townMap)
+
+                action(updateLink, "Update")
+                back(backLink)
+            }
+        }, {
+            svg(visualizeTownWithLinks(call, state, townMap), 90)
+        })
+    }
+}
 
 private fun visualizeTownWithLinks(
     call: ApplicationCall,

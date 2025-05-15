@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.world.town
 
 import at.orchaldir.gm.core.action.CreateTownMap
 import at.orchaldir.gm.core.action.DeleteTownMap
+import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.*
@@ -23,8 +24,17 @@ val DELETE_TOWN_MAP: Reducer<DeleteTownMap, State> = { state, action ->
     noFollowUps(state.updateStorage(state.getTownMapStorage().remove(action.id)))
 }
 
-fun validateTownMap(state: State, town: TownMap) {
-    town.map.tiles.forEach { validateTownTile(state, it) }
+val UPDATE_TOWN_MAP: Reducer<UpdateTownMap, State> = { state, action ->
+    val townMap = action.townMap
+    state.getTownMapStorage().require(townMap.id)
+
+    validateTownMap(state, townMap)
+
+    noFollowUps(state.updateStorage(state.getTownMapStorage().update(townMap)))
+}
+
+fun validateTownMap(state: State, townMap: TownMap) {
+    townMap.map.tiles.forEach { validateTownTile(state, it) }
 }
 
 private fun validateTownTile(state: State, tile: TownTile) {

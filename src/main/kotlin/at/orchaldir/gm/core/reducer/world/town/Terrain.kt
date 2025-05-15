@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.reducer.world.town
 
-import at.orchaldir.gm.core.action.ResizeTown
+import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
@@ -17,7 +17,7 @@ val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
     noFollowUps(state.updateStorage(state.getTownMapStorage().update(map)))
 }
 
-val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
+val RESIZE_TERRAIN: Reducer<ResizeTerrain, State> = { state, action ->
     val oldMap = state.getTownMapStorage().getOrThrow(action.town)
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
     val tile = TownTile(terrain)

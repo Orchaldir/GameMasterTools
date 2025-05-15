@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.html.model.world.parseTerrainType
 import at.orchaldir.gm.app.routes.world.MountainRoutes
 import at.orchaldir.gm.app.routes.world.RiverRoutes
-import at.orchaldir.gm.core.action.ResizeTown
+import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
@@ -37,7 +37,7 @@ private val logger = KotlinLogging.logger {}
 fun Application.configureTerrainRouting() {
     routing {
         get<TownMapRoutes.TerrainRoutes.Edit> { edit ->
-            logger.info { "Get the terrain editor for town ${edit.id.value}" }
+            logger.info { "Get the terrain editor for town map ${edit.id.value}" }
 
             val state = STORE.getState()
             val town = state.getTownMapStorage().getOrThrow(edit.id)
@@ -47,7 +47,7 @@ fun Application.configureTerrainRouting() {
             }
         }
         post<TownMapRoutes.TerrainRoutes.Preview> { preview ->
-            logger.info { "Preview the terrain editor for town ${preview.id.value}" }
+            logger.info { "Preview the terrain editor for town map ${preview.id.value}" }
 
             val state = STORE.getState()
             val townMap = state.getTownMapStorage().getOrThrow(preview.id)
@@ -60,7 +60,7 @@ fun Application.configureTerrainRouting() {
             }
         }
         get<TownMapRoutes.TerrainRoutes.Update> { update ->
-            logger.info { "Update the terrain to ${update.terrainType} with id ${update.terrainId} for tile ${update.tileIndex} for town ${update.id.value}" }
+            logger.info { "Update the terrain to ${update.terrainType} with id ${update.terrainId} for tile ${update.tileIndex} for town map ${update.id.value}" }
 
             STORE.dispatch(SetTerrainTile(update.id, update.terrainType, update.terrainId, update.tileIndex))
 
@@ -73,7 +73,7 @@ fun Application.configureTerrainRouting() {
             }
         }
         post<TownMapRoutes.TerrainRoutes.Resize> { update ->
-            logger.info { "Resize the terrain of town ${update.id.value}" }
+            logger.info { "Resize the terrain of town map ${update.id.value}" }
 
             val params = call.receiveParameters()
             val terrainType = parseTerrainType(params)
@@ -86,7 +86,7 @@ fun Application.configureTerrainRouting() {
             )
 
 
-            STORE.dispatch(ResizeTown(update.id, resize, terrainType, terrainId))
+            STORE.dispatch(ResizeTerrain(update.id, resize, terrainType, terrainId))
 
             STORE.getState().save()
 

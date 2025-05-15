@@ -25,6 +25,12 @@ class TownMapRoutes {
     @Resource("delete")
     class Delete(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())
 
+    @Resource("edit")
+    class Edit(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())
+
+    @Resource("update")
+    class Update(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())
+
     @Resource("/abstract")
     class AbstractBuildingRoutes(val parent: TownMapRoutes = TownMapRoutes()) {
         @Resource("edit")

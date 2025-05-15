@@ -38,6 +38,7 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         // town
         is CreateTownMap -> CREATE_TOWN_MAP(state, action)
         is DeleteTownMap -> DELETE_TOWN_MAP(state, action)
+        is UpdateTownMap -> UPDATE_TOWN_MAP(state, action)
         // town's abstract buildings
         is AddAbstractBuilding -> ADD_ABSTRACT_BUILDING(state, action)
         is RemoveAbstractBuilding -> REMOVE_ABSTRACT_BUILDING(state, action)
@@ -50,7 +51,7 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is AddStreetTile -> ADD_STREET_TILE(state, action)
         is RemoveStreetTile -> REMOVE_STREET_TILE(state, action)
         // town's terrain
-        is ResizeTown -> RESIZE_TERRAIN(state, action)
+        is ResizeTerrain -> RESIZE_TERRAIN(state, action)
         is SetTerrainTile -> SET_TERRAIN_TILE(state, action)
     }
 }

@@ -69,6 +69,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.Resize
@@ -348,6 +349,7 @@ data class UpdateStreetTemplate(val template: StreetTemplate) : WorldAction()
 // town
 data object CreateTownMap : WorldAction()
 data class DeleteTownMap(val id: TownMapId) : WorldAction()
+data class UpdateTownMap(val townMap: TownMap) : WorldAction()
 
 // town's abstract buildings
 
@@ -420,7 +422,7 @@ data class RemoveStreetTile(
 
 // town's terrain
 
-data class ResizeTown(
+data class ResizeTerrain(
     val town: TownMapId,
     val resize: Resize,
     val terrainType: TerrainType = TerrainType.Plain,
