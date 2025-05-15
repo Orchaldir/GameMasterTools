@@ -875,7 +875,7 @@ private fun parseCenturyIndex(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, CENTURY))
 
 private fun parseEraIndex(parameters: Parameters, param: String) =
-    parseInt(parameters, combine(param, ERA))
+    parseInt(parameters, combine(param, ERA), 1)
 
 private fun parseIndexFromInt(parameters: Parameters, param: String, type: String) =
     parseInt(parameters, combine(param, type), 1) - 1
