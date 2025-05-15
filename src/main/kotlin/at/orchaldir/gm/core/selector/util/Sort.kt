@@ -51,9 +51,18 @@ import at.orchaldir.gm.core.selector.world.countBuildings
 
 // generic
 
-fun <Element : HasStartDate> State.getAgeComparator(): Comparator<Element> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Element, b: Element -> calendar.compareToOptional(a.startDate(), b.startDate()) }
+fun <Element : HasStartDate> State.getAgeComparator(valueForNull: Int = Int.MAX_VALUE): Comparator<Element> {
+    val sorter = getDefaultCalendar().createSorter()
+
+    return compareBy { element ->
+        val date = element.startDate()
+
+        if (date == null) {
+            valueForNull
+        } else {
+            sorter(date)
+        }
+    }
 }
 
 fun <Element : HasComplexStartDate> State.getComplexAgeComparator(valueForNull: Int = Int.MAX_VALUE): Comparator<Element> {

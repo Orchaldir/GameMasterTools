@@ -8,22 +8,35 @@ fun Calendar.createSorter(): (Date) -> Int {
     val daysPerWeek = days.getDaysPerWeek()
 
     return { date ->
-        when (date) {
-            is Day -> date.day
-            is DayRange -> date.startDay.day
-            is Week -> date.week * daysPerWeek
-            is Month -> getStartDayOfMonth(date).day
-            is Year -> {
-                date.year * daysPerYear
-            }
+        getDateValue(date, daysPerWeek, daysPerYear)
+    }
+}
 
-            is Decade -> {
-                date.decade * daysPerYear * 10
-            }
+fun Calendar.getDateValue(date: Date): Int {
+    val daysPerYear = getDaysPerYear()
+    val daysPerWeek = days.getDaysPerWeek()
 
-            is Century -> {
-                date.century * daysPerYear * 100
-            }
-        }
+    return getDateValue(date, daysPerWeek, daysPerYear)
+}
+
+private fun Calendar.getDateValue(
+    date: Date,
+    daysPerWeek: Int,
+    daysPerYear: Int,
+) = when (date) {
+    is Day -> date.day
+    is DayRange -> date.startDay.day
+    is Week -> date.week * daysPerWeek
+    is Month -> getStartDayOfMonth(date).day
+    is Year -> {
+        date.year * daysPerYear
+    }
+
+    is Decade -> {
+        date.decade * daysPerYear * 10
+    }
+
+    is Century -> {
+        date.century * daysPerYear * 100
     }
 }

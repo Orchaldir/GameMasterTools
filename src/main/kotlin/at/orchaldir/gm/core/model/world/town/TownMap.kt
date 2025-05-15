@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.world.town
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -33,7 +34,7 @@ data class TownMap(
     val town: TownId? = null,
     val date: Date? = null,
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
-) : Element<TownMapId> {
+) : Element<TownMapId>, HasStartDate {
 
     override fun id() = id
     override fun name(state: State) =
@@ -50,6 +51,7 @@ data class TownMap(
                 town.name()
             }
         }
+    override fun startDate() = date
 
     fun canBuild(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuild() }
     fun canResize(index: Int, size: MapSize2d, building: BuildingId) =
@@ -135,6 +137,5 @@ data class TownMap(
     private fun updateTiles(tiles: Map<Int, TownTile>): TownMap {
         return copy(map = map.copy(tiles = map.tiles.update(tiles)))
     }
-
 
 }

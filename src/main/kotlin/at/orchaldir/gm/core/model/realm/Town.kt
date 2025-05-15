@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -27,7 +26,6 @@ data class Town(
     val name: Name = Name.init("Town ${id.value}"),
     val foundingDate: Date? = null,
     val founder: Creator = UndefinedCreator,
-    val map: TownMapId? = null,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<TownId>, Created, HasDataSources, HasStartDate {
 

@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.selector.character.countResident
 import at.orchaldir.gm.core.selector.realm.canDeleteTown
 import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.core.selector.world.countBuildings
+import at.orchaldir.gm.core.selector.world.getLatestTownMaps
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -161,7 +162,7 @@ private fun HTML.showAllTowns(
                     tdLink(call, state, town)
                     td { showOptionalDate(call, state, town.startDate()) }
                     td { showCreator(call, state, town.founder, false) }
-                    tdLink(call, state, town.map)
+                    tdLink(call, state, state.getLatestTownMaps(town.id)?.id)
                     tdSkipZero(state.countBuildings(town.id))
                     tdSkipZero(state.countResident(town.id))
                 }

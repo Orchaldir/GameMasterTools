@@ -17,11 +17,10 @@ fun State.canDelete(building: Building) = building.ownership.current.canDelete()
         && getCharactersPreviouslyLivingIn(building.id).isEmpty()
 
 fun State.countBuildings(townId: TownId): Int {
-    val townMap = getTownStorage().get(townId)
-        ?.map
+    val townMap = getLatestTownMaps(townId)
         ?: return 0
 
-    return countBuildings(townMap)
+    return countBuildings(townMap.id)
 }
 
 fun State.countBuildings(townMap: TownMapId) = getBuildingStorage()

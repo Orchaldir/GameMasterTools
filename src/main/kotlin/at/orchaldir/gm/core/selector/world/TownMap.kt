@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
@@ -8,14 +9,26 @@ import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.selector.util.getAgeComparator
 
 fun State.canDeleteTownMap(town: TownMapId) = getBuildings(town).isEmpty()
 
-// get
+// count
 
 fun countEachTown(buildings: Collection<Building>) = buildings
     .groupingBy { it.lot.town }
     .eachCount()
+
+// get
+
+fun State.getLatestTownMaps(town: TownId): TownMap? {
+    return getTownMaps(town)
+        .maxWithOrNull(getAgeComparator())
+}
+
+fun State.getTownMaps(town: TownId) = getTownMapStorage()
+    .getAll()
+    .filter { it.town == town }
 
 fun State.getTowns(mountain: MountainId) = getTownMapStorage()
     .getAll()

@@ -27,7 +27,6 @@ fun HtmlBlockTag.showTown(
 ) {
     fieldCreator(call, state, town.founder, "Founder")
     optionalField(call, state, "Date", town.foundingDate)
-    optionalFieldLink(call, state, town.map)
 
     showCreated(call, state, town.id)
     showOwnedElements(call, state, town.id)
@@ -57,6 +56,5 @@ fun parseTown(parameters: Parameters, state: State, id: TownId) = Town(
     parseName(parameters),
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
-    parseOptionalTownMapId(parameters, MAP),
     parseDataSources(parameters),
 )
