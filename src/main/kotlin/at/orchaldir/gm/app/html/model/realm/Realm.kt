@@ -42,6 +42,7 @@ fun FORM.editRealm(
 // parse
 
 fun parseRealmId(parameters: Parameters, param: String) = RealmId(parseInt(parameters, param))
+fun parseRealmId(value: String) = RealmId(value.toInt())
 
 fun parseRealm(parameters: Parameters, state: State, id: RealmId) = Realm(
     id,

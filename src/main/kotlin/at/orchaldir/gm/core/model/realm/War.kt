@@ -31,6 +31,7 @@ data class War(
     val name: Name = Name.init("War ${id.value}"),
     val startDate: Date? = null,
     val endDate: Date? = null,
+    val realms: Set<RealmId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<WarId>, HasDataSources, HasStartDate {
 
