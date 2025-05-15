@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
+import at.orchaldir.gm.core.selector.world.getCurrentTownMap
+import at.orchaldir.gm.core.selector.world.getTownMaps
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -29,6 +31,9 @@ val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
 
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)
+    require(state.getTownMaps(action.id).isEmpty()) {
+        "Cannot delete Town ${action.id.value}, because it has a town map!"
+    }
 
     noFollowUps(state.updateStorage(state.getTownStorage().remove(action.id)))
 }

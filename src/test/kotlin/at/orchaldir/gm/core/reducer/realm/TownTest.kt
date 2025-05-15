@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -70,6 +71,15 @@ class TownTest {
 
             assertIllegalArgument("Cannot delete Town 0, because of owned elements (Building)!") {
                 REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a town with a town map`() {
+            val state = createState(TownMap(TOWN_MAP_ID_0, TOWN_ID_0))
+
+            assertIllegalArgument("Cannot delete Town 0, because it has a town map!") {
+                REDUCER.invoke(state, action)
             }
         }
 
