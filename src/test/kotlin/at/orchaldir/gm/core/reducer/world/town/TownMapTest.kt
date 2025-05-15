@@ -112,7 +112,7 @@ class TownMapTest {
             val town = TownMap(TOWN_MAP_ID_0, town = UNKNOWN_TOWN_ID)
             val action = UpdateTownMap(town)
 
-            assertIllegalArgument("Cannot use an unknown Town 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

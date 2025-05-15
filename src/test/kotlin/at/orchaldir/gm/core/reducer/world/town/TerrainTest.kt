@@ -34,7 +34,7 @@ class TerrainTest {
         @Test
         fun `Cannot update unknown town`() {
             val action = SetTerrainTile(TOWN_MAP_ID_0, TerrainType.Plain, 0, 0)
-            assertIllegalArgument("Requires unknown TownMap 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -139,7 +139,7 @@ class TerrainTest {
         fun `Cannot resize unknown town`() {
             val action = ResizeTerrain(TOWN_MAP_ID_0, Resize(1))
 
-            assertIllegalArgument("Requires unknown TownMap 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test

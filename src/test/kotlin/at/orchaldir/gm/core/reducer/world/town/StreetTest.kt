@@ -36,7 +36,7 @@ class StreetTest {
         fun `Cannot update unknown town`() {
             val action = AddStreetTile(UNKNOWN_TOWN_MAP_ID, 0, STREET_TYPE_ID_0, STREET_ID_0)
 
-            assertIllegalArgument("Requires unknown TownMap 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Town Map 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -110,7 +110,7 @@ class StreetTest {
         fun `Cannot update unknown town`() {
             val action = RemoveStreetTile(TOWN_MAP_ID_0, 0)
 
-            assertIllegalArgument("Requires unknown TownMap 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test

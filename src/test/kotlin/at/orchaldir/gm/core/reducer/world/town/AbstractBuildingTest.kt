@@ -36,7 +36,7 @@ class AbstractBuildingTest {
         fun `Cannot update unknown town`() {
             val action = AddAbstractBuilding(UNKNOWN_TOWN_MAP_ID, 0)
 
-            assertIllegalArgument("Requires unknown TownMap 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Town Map 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -94,7 +94,7 @@ class AbstractBuildingTest {
         fun `Cannot update unknown town`() {
             val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
-            assertIllegalArgument("Requires unknown TownMap 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
