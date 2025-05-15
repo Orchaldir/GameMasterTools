@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.DEATH
-import at.orchaldir.gm.app.KILLER
-import at.orchaldir.gm.app.VITAL
-import at.orchaldir.gm.app.WAR
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.character.parseCharacterId
@@ -15,9 +11,10 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.selector.character.getLiving
+import at.orchaldir.gm.core.selector.realm.getExistingWars
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
-import at.orchaldir.gm.core.selector.util.sortWars
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -41,6 +38,7 @@ fun HtmlBlockTag.showVitalStatus(
                     link(call, state, vitalStatus.cause.war)
                 }
             }
+
             is Murder -> {
                 field("Cause of Death") {
                     +"Killed by "
@@ -67,8 +65,23 @@ fun FORM.selectVitalStatus(
     selectValue("Vital Status", VITAL, VitalStatusType.entries, vitalStatus.getType())
 
     if (vitalStatus is Dead) {
+        val characters = state.getLiving(vitalStatus.deathDay)
+            .filter { it.id != character.id }
+        val wars = state.getExistingWars(vitalStatus.deathDay)
+
         selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
-        selectValue("Cause of death", DEATH, CauseOfDeathType.entries, vitalStatus.cause.getType())
+        selectValue(
+            "Cause of death",
+            DEATH,
+            CauseOfDeathType.entries,
+            vitalStatus.cause.getType(),
+        ) { type ->
+            when (type) {
+                CauseOfDeathType.Murder -> characters.isEmpty()
+                CauseOfDeathType.War -> wars.isEmpty()
+                else -> false
+            }
+        }
 
         when (vitalStatus.cause) {
             Accident -> doNothing()
@@ -77,7 +90,7 @@ fun FORM.selectVitalStatus(
                 state,
                 "War",
                 WAR,
-                state.sortWars(),
+                wars,
                 vitalStatus.cause.war,
             )
 
