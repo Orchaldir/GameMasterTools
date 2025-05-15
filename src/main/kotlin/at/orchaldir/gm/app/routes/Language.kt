@@ -191,7 +191,7 @@ private fun HTML.showLanguageDetails(
     state: State,
     language: Language,
 ) {
-    val backLink = call.application.href(LanguageRoutes())
+    val backLink = call.application.href(LanguageRoutes.All())
     val deleteLink = call.application.href(LanguageRoutes.Delete(language.id))
     val editLink = call.application.href(LanguageRoutes.Edit(language.id))
 
