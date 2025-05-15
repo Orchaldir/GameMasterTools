@@ -11,12 +11,12 @@ val ADD_ABSTRACT_BUILDING: Reducer<AddAbstractBuilding, State> = { state, action
     val oldMap = state.getTownMapStorage().getOrThrow(action.town)
     val map = oldMap.build(action.tileIndex, AbstractBuildingTile)
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(map)))
+    noFollowUps(state.updateStorage(state.getTownMapStorage().update(map)))
 }
 
 val REMOVE_ABSTRACT_BUILDING: Reducer<RemoveAbstractBuilding, State> = { state, action ->
     val oldMap = state.getTownMapStorage().getOrThrow(action.town)
     val map = oldMap.removeAbstractBuilding(action.tileIndex)
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(map)))
+    noFollowUps(state.updateStorage(state.getTownMapStorage().update(map)))
 }

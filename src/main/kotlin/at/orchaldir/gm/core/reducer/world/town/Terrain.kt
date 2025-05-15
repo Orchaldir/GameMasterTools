@@ -14,7 +14,7 @@ val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
     val map = oldMap.setTerrain(action.tileIndex, terrain)
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(map)))
+    noFollowUps(state.updateStorage(state.getTownMapStorage().update(map)))
 }
 
 val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
@@ -39,7 +39,7 @@ val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().update(newBuildings),
-                state.getTownStorage().update(newMap),
+                state.getTownMapStorage().update(newMap),
             )
         )
     )

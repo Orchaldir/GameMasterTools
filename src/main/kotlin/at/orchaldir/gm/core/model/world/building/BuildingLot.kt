@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.world.building
 
-import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.MapSize2d.Companion.square

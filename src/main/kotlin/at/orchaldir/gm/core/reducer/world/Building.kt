@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
@@ -25,8 +25,8 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 
 val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     val buildingId = state.getBuildingStorage().nextId
-    val oldTown = state.getTownStorage().getOrThrow(action.town)
-    val town = oldTown.build(action.tileIndex, action.size, BuildingTile(buildingId))
+    val oldTownMap = state.getTownMapStorage().getOrThrow(action.town)
+    val townMap = oldTownMap.build(action.tileIndex, action.size, BuildingTile(buildingId))
     val lot = BuildingLot(action.town, action.tileIndex, action.size)
     val building = Building(buildingId, lot = lot, constructionDate = state.getCurrentDate())
 
@@ -34,7 +34,7 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().add(building),
-                state.getTownStorage().update(town),
+                state.getTownMapStorage().update(townMap),
             )
         )
     )
@@ -43,8 +43,8 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
 val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
     val id = action.id
     val building = state.getBuildingStorage().getOrThrow(id)
-    val oldTown = state.getTownStorage().getOrThrow(building.lot.town)
-    val town = oldTown.removeBuilding(building.id)
+    val oldTownMap = state.getTownMapStorage().getOrThrow(building.lot.town)
+    val townMap = oldTownMap.removeBuilding(building.id)
 
     validateCanDelete(state.getCharactersLivingIn(id).isEmpty(), id, "it has inhabitants")
     validateCanDelete(state.getCharactersPreviouslyLivingIn(id).isEmpty(), id, "it had inhabitants")
@@ -53,7 +53,7 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().remove(id),
-                state.getTownStorage().update(town),
+                state.getTownMapStorage().update(townMap),
             )
         )
     )
@@ -82,17 +82,17 @@ fun validateBuilding(
 
 val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
-    val oldTown = state.getTownStorage().getOrThrow(oldBuilding.lot.town)
+    val oldTownMap = state.getTownMapStorage().getOrThrow(oldBuilding.lot.town)
     val building = action.applyTo(oldBuilding)
 
-    val town = oldTown.removeBuilding(action.id)
+    val townMap = oldTownMap.removeBuilding(action.id)
         .build(action.tileIndex, action.size, BuildingTile(oldBuilding.id))
 
     noFollowUps(
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().update(building),
-                state.getTownStorage().update(town),
+                state.getTownMapStorage().update(townMap),
             )
         )
     )
@@ -108,7 +108,7 @@ private fun checkArchitecturalStyle(state: State, building: Building) {
 
 private fun checkAddress(
     state: State,
-    townId: TownId,
+    townMapId: TownMapId,
     oldAddress: Address,
     address: Address,
 ) {
@@ -118,7 +118,7 @@ private fun checkAddress(
 
             address.streets.forEach { street ->
                 state.getStreetStorage().require(street)
-                checkIfStreetIsPartOfTown(state, townId, street)
+                checkIfStreetIsPartOfTown(state, townMapId, street)
             }
         }
 
@@ -127,17 +127,17 @@ private fun checkAddress(
             state.getStreetStorage().require(address.street)
 
             if (!(oldAddress is StreetAddress && oldAddress.houseNumber == address.houseNumber)) {
-                require(!state.getUsedHouseNumbers(townId, address.street).contains(address.houseNumber)) {
+                require(!state.getUsedHouseNumbers(townMapId, address.street).contains(address.houseNumber)) {
                     "House number ${address.houseNumber} already used for street ${address.street.value}!"
                 }
             }
 
-            checkIfStreetIsPartOfTown(state, townId, address.street)
+            checkIfStreetIsPartOfTown(state, townMapId, address.street)
         }
 
         is TownAddress -> {
             if (!(oldAddress is TownAddress && oldAddress.houseNumber == address.houseNumber)) {
-                require(!state.getUsedHouseNumbers(townId).contains(address.houseNumber)) {
+                require(!state.getUsedHouseNumbers(townMapId).contains(address.houseNumber)) {
                     "House number ${address.houseNumber} already used for the town!"
                 }
             }
@@ -147,11 +147,11 @@ private fun checkAddress(
 
 private fun checkIfStreetIsPartOfTown(
     state: State,
-    townId: TownId,
+    townMapId: TownMapId,
     streetId: StreetId,
 ) {
-    require(state.getStreetIds(townId).contains(streetId)) {
-        "Street ${streetId.value} is not part of town ${townId.value}!"
+    require(state.getStreetIds(townMapId).contains(streetId)) {
+        "Street ${streetId.value} is not part of town ${townMapId.value}!"
     }
 }
 

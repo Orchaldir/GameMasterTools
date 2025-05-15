@@ -4,15 +4,15 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.StreetAddress
 import at.orchaldir.gm.core.model.world.building.TownAddress
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMapId
 
-fun State.getHouseNumbersUsedByOthers(town: TownId, address: StreetAddress) =
+fun State.getHouseNumbersUsedByOthers(town: TownMapId, address: StreetAddress) =
     getUsedHouseNumbers(town, address.street) - address.houseNumber
 
-fun State.getHouseNumbersUsedByOthers(town: TownId, address: TownAddress) =
+fun State.getHouseNumbersUsedByOthers(town: TownMapId, address: TownAddress) =
     getUsedHouseNumbers(town) - address.houseNumber
 
-fun State.getUsedHouseNumbers(town: TownId, street: StreetId) = getBuildings(town)
+fun State.getUsedHouseNumbers(town: TownMapId, street: StreetId) = getBuildings(town)
     .mapNotNull {
         if (it.address is StreetAddress && it.address.street == street) {
             it.address.houseNumber
@@ -22,7 +22,7 @@ fun State.getUsedHouseNumbers(town: TownId, street: StreetId) = getBuildings(tow
     }
     .toSet()
 
-fun State.getUsedHouseNumbers(town: TownId) = getBuildings(town)
+fun State.getUsedHouseNumbers(town: TownMapId) = getBuildings(town)
     .mapNotNull {
         if (it.address is TownAddress) {
             it.address.houseNumber

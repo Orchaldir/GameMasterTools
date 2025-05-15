@@ -15,12 +15,12 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
     val oldMap = state.getTownMapStorage().getOrThrow(action.town)
     val map = oldMap.build(action.tileIndex, StreetTile(action.type, action.street))
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(map)))
+    noFollowUps(state.updateStorage(state.getTownMapStorage().update(map)))
 }
 
 val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
     val oldMap = state.getTownMapStorage().getOrThrow(action.town)
     val map = oldMap.removeStreet(action.tileIndex)
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(map)))
+    noFollowUps(state.updateStorage(state.getTownMapStorage().update(map)))
 }
