@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.PLANE
+import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.world.parsePlaneId
 import at.orchaldir.gm.app.parse.parse
@@ -40,6 +41,7 @@ fun HtmlBlockTag.showLanguage(
     val spells = state.getSpells(language.id)
     val texts = state.getTexts(language.id)
 
+    optionalField("Title", language.title)
     showOrigin(call, state, language)
 
     fieldList(call, state, "Child Languages", children)
@@ -106,6 +108,7 @@ fun FORM.editLanguage(
     language: Language,
 ) {
     selectName(language.name)
+    selectOptionalNotEmptyString("Title", language.title, TITLE)
     editOrigin(state, language)
 }
 
@@ -157,6 +160,7 @@ fun parseOptionalLanguageId(parameters: Parameters, param: String) =
 fun parseLanguage(parameters: Parameters, state: State, id: LanguageId) = Language(
     id,
     parseName(parameters),
+    parseOptionalNotEmptyString(parameters, TITLE),
     parseOrigin(parameters, state),
 )
 

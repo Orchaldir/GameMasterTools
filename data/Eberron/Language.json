@@ -98,6 +98,7 @@
   "15": {
    "id": 15,
    "name": "Infernal",
+   "title": "Khyber's Speech",
    "origin": {
     "type": "Planar",
     "plane": 9
@@ -110,6 +111,7 @@
   "17": {
    "id": 17,
    "name": "Celestial",
+   "title": "Tongue of Siberys",
    "origin": {
     "type": "Planar",
     "plane": 9
