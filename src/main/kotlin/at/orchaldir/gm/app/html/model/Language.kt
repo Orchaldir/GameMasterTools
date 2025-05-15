@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.magic.getSpells
 import at.orchaldir.gm.core.selector.util.sortPlanes
+import at.orchaldir.gm.core.selector.world.getPlanes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -36,6 +37,7 @@ fun HtmlBlockTag.showLanguage(
     val characters = state.getCharacters(language.id)
     val cultures = state.getCultures(language.id)
     val periodicals = state.getPeriodicals(language.id)
+    val planes = state.getPlanes(language.id)
     val spells = state.getSpells(language.id)
     val texts = state.getTexts(language.id)
 
@@ -49,6 +51,7 @@ fun HtmlBlockTag.showLanguage(
     fieldList(call, state, characters)
     fieldList(call, state, cultures)
     fieldList(call, state, periodicals)
+    fieldList(call, state, planes)
     fieldList(call, state, spells)
     fieldList(call, state, texts)
 }

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
@@ -28,6 +29,12 @@ fun State.getPrisonPlane(god: GodId) = getPlaneStorage()
 fun State.getReflections(plane: PlaneId) = getPlaneStorage()
     .getAll()
     .filter { it.purpose is ReflectivePlane && it.purpose.plane == plane }
+
+fun State.getPlanes(language: LanguageId) = getPlaneStorage()
+    .getAll()
+    .filter { it.languages.contains(language) }
+
+// alignment
 
 fun State.getPlanarAlignments(day: Day): Map<Plane, PlanarAlignment> {
     val results = mutableMapOf<Plane, PlanarAlignment>()
@@ -70,4 +77,3 @@ fun State.getPlanarAlignments(year: Year): Map<Plane, PlanarAlignment> {
 
     return results
 }
-
