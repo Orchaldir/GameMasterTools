@@ -234,7 +234,7 @@ private fun HTML.showBuildingDetails(
 
     simpleHtml("Building: ${building.name(state)}") {
         split({
-            fieldLink("Town", call, state, building.lot.town)
+            fieldLink("Town Map", call, state, building.lot.town)
             fieldAddress(call, state, building)
             optionalField(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state, building.constructionDate)
