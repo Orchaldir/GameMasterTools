@@ -3,10 +3,13 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.quote.QuoteId
+import at.orchaldir.gm.core.model.quote.QuoteType
 import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.item.periodical.getArticlesContaining
 import io.ktor.http.*
@@ -24,6 +27,7 @@ fun HtmlBlockTag.showQuote(
     val texts = state.getTextsContaining(quote.id)
 
     field("Text", quote.text)
+    field("Type", quote.type)
     fieldCreator(call, state, quote.source, "Source")
     optionalField(call, state, "Date", quote.date)
     fieldList(call, state, articles)
@@ -39,6 +43,7 @@ fun HtmlBlockTag.editQuote(state: State, quote: Quote) {
         10,
         quote.text.text,
     )
+    selectValue("Type", TYPE, QuoteType.entries, quote.type)
     selectCreator(
         state,
         quote.source,
@@ -59,6 +64,7 @@ fun parseQuoteId(parameters: Parameters, param: String) = QuoteId(parseInt(param
 fun parseQuote(parameters: Parameters, state: State, id: QuoteId) = Quote(
     id,
     parseNotEmptyString(parameters, NAME, "Text"),
+    parse(parameters, TYPE, QuoteType.Quote),
     parseCreator(parameters, CREATOR),
     parseOptionalDate(parameters, state, DATE),
 )
