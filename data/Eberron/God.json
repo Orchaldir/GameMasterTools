@@ -281,6 +281,9 @@
    "id": 25,
    "name": "Khyber",
    "gender": "Female",
+   "personality": [
+    31
+   ],
    "sources": [
     3
    ]
