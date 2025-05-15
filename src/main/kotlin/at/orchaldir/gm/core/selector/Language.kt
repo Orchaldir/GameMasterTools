@@ -36,7 +36,3 @@ fun State.getDefaultLanguages(character: Character) = getCultureStorage()
 
 fun State.getPossibleParents(language: LanguageId) = getLanguageStorage()
     .getAllExcept(language)
-
-fun State.getPlanarLanguages(plane: PlaneId) = getLanguageStorage()
-    .getAll()
-    .filter { it.origin is PlanarLanguage && it.origin.plane == plane }

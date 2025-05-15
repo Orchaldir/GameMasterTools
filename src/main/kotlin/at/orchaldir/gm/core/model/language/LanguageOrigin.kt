@@ -24,7 +24,7 @@ sealed class LanguageOrigin : Created {
         is EvolvedLanguage -> LanguageOriginType.Evolved
         is InventedLanguage -> LanguageOriginType.Invented
         OriginalLanguage -> LanguageOriginType.Original
-        is PlanarLanguage -> LanguageOriginType.Planar
+        PlanarLanguage -> LanguageOriginType.Planar
     }
 
     fun isChildOf(language: LanguageId) = when (this) {
@@ -62,4 +62,4 @@ data object OriginalLanguage : LanguageOrigin()
 
 @Serializable
 @SerialName("Planar")
-data class PlanarLanguage(val plane: PlaneId) : LanguageOrigin()
+data object PlanarLanguage : LanguageOrigin()

@@ -58,7 +58,6 @@ private fun checkOrigin(
 ) {
     when (val origin = language.origin) {
         is InventedLanguage -> validateCreator(state, origin.inventor, language.id, origin.date, "Inventor")
-        is PlanarLanguage -> state.getPlaneStorage().require(origin.plane)
         is EvolvedLanguage -> {
             require(origin.parent != language.id) { "A language cannot be its own parent!" }
             require(

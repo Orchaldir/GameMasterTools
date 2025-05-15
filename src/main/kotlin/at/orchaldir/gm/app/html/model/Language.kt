@@ -3,10 +3,8 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.ORIGIN
-import at.orchaldir.gm.app.PLANE
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.world.parsePlaneId
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
@@ -94,9 +92,8 @@ fun HtmlBlockTag.displayOrigin(
             +"Original"
         }
 
-        is PlanarLanguage -> {
-            +"Part of "
-            link(call, state, origin.plane)
+        PlanarLanguage -> {
+            +"Planar"
         }
     }
 }
@@ -142,8 +139,6 @@ private fun FORM.editOrigin(
             selectDate(state, "Date", origin.date, DATE)
         }
 
-        is PlanarLanguage -> selectElement(state, "Plane", PLANE, planes, origin.plane)
-
         else -> doNothing()
     }
 }
@@ -178,5 +173,5 @@ private fun parseOrigin(parameters: Parameters, state: State) = when (parse(para
     )
 
     Original -> OriginalLanguage
-    Planar -> PlanarLanguage(parsePlaneId(parameters, PLANE))
+    Planar -> PlanarLanguage
 }
