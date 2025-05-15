@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.routes.world.town
 
+import at.orchaldir.gm.app.routes.realm.TownRoutes
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.SortTown
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
@@ -27,6 +29,9 @@ class TownMapRoutes {
 
     @Resource("edit")
     class Edit(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())
+
+    @Resource("preview")
+    class Preview(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())
 
     @Resource("update")
     class Update(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())

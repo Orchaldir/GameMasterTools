@@ -45,7 +45,7 @@ data class TownMap(
             if (date != null) {
                 val calendar = state.getDefaultCalendar()
                 val dateText = display(calendar, date)
-                "${town.name} ($dateText)"
+                "${town.name.text} ($dateText)"
             } else {
                 town.name()
             }

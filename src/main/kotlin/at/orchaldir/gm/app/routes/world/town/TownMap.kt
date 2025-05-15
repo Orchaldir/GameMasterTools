@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.world.editTownMap
 import at.orchaldir.gm.app.html.model.world.parseTownMap
 import at.orchaldir.gm.app.html.model.world.showTownMap
+import at.orchaldir.gm.app.routes.realm.TownRoutes
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
@@ -74,10 +75,21 @@ fun Application.configureTownMapRouting() {
             logger.info { "Get editor for town map ${edit.id.value}" }
 
             val state = STORE.getState()
-            val town = state.getTownMapStorage().getOrThrow(edit.id)
+            val townMap = state.getTownMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTownMapEditor(call, state, town)
+                showTownMapEditor(call, state, townMap)
+            }
+        }
+        post<TownMapRoutes.Preview> { preview ->
+            logger.info { "Preview town map ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val oldTownMap = state.getTownMapStorage().getOrThrow(preview.id)
+            val townMap = parseTownMap(call.receiveParameters(), state, oldTownMap)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showTownMapEditor(call, state, townMap)
             }
         }
         post<TownMapRoutes.Update> { update ->
@@ -175,15 +187,13 @@ private fun HTML.showTownMapEditor(
     townMap: TownMap,
 ) {
     val backLink = href(call, townMap.id)
+    val previewLink = call.application.href(TownMapRoutes.Preview(townMap.id))
     val updateLink = call.application.href(TownMapRoutes.Update(townMap.id))
 
     simpleHtml("Edit Town Map ${townMap.name(state)}") {
         split({
-            form {
+            formWithPreview(previewLink, updateLink, backLink) {
                 editTownMap(state, townMap)
-
-                button("Update", updateLink)
-                back(backLink)
             }
         }, {
             svg(visualizeTownWithLinks(call, state, townMap), 90)
