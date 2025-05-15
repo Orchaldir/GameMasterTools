@@ -1048,8 +1048,8 @@
    "vitalStatus": {
     "type": "Dead",
     "deathDay": {
-     "type": "Year",
-     "year": 893
+     "type": "Day",
+     "day": 300115
     },
     "cause": {
      "type": "OldAge"
