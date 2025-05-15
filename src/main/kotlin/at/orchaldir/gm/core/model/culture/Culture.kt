@@ -10,8 +10,10 @@ import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -38,11 +40,12 @@ data class Culture(
     val fashion: GenderMap<FashionId?> = GenderMap(null),
     val holidays: Set<HolidayId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<CultureId>, HasDataSources {
+) : ElementWithSimpleName<CultureId>, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
+    override fun startDate() = null
 
     fun getFashion(character: Character) = fashion.get(character.gender)
 

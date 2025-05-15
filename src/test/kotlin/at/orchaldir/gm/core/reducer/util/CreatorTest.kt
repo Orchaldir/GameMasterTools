@@ -4,6 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
+import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
@@ -32,6 +34,7 @@ class CreatorTest {
             Storage(Business(BUSINESS_ID_0, startDate = DAY1)),
             Storage(CALENDAR0),
             Storage(Character(CHARACTER_ID_0, birthDate = DAY1)),
+            Storage(Culture(CULTURE_ID_0)),
             Storage(God(GOD_ID_0)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY1)),
             Storage(Realm(REALM_ID_0, date = DAY1)),
@@ -41,6 +44,7 @@ class CreatorTest {
 
     private val createdByBusiness = CreatedByBusiness(BUSINESS_ID_0)
     private val createdByCharacter = CreatedByCharacter(CHARACTER_ID_0)
+    private val createdByCulture = CreatedByCulture(CULTURE_ID_0)
     private val createdByGod = CreatedByGod(GOD_ID_0)
     private val createdByOrganization = CreatedByOrganization(ORGANIZATION_ID_0)
     private val createdByRealm = CreatedByRealm(REALM_ID_0)
@@ -208,6 +212,24 @@ class CreatorTest {
             @Test
             fun `Creator is valid`() {
                 validateCreator(STATE, createdByCharacter, BUILDING_ID_0, DAY2, "Builder")
+            }
+        }
+
+        @Nested
+        inner class CreatedByCultureTest {
+
+            @Test
+            fun `Creator is an unknown culture`() {
+                val state = STATE.removeStorage(CULTURE_TYPE)
+
+                assertIllegalArgument("Cannot use an unknown Culture 0 as Builder!") {
+                    validateCreator(state, createdByCulture, BUILDING_ID_0, DAY0, "Builder")
+                }
+            }
+
+            @Test
+            fun `Creator is valid`() {
+                validateCreator(STATE, createdByCulture, BUILDING_ID_0, DAY2, "Builder")
             }
         }
 
