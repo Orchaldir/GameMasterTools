@@ -57,7 +57,7 @@ class WarTest {
         }
 
         @Test
-        fun `Update a realm`() {
+        fun `Update a war`() {
             val war = War(WAR_ID_0, NAME)
             val action = UpdateWar(war)
 
