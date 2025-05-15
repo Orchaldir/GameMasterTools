@@ -34,7 +34,7 @@ private val logger = KotlinLogging.logger {}
 fun Application.configureAbstractBuildingEditorRouting() {
     routing {
         get<Edit> { edit ->
-            logger.info { "Get the abstract building editor for town ${edit.id.value}" }
+            logger.info { "Get the abstract building editor for town map ${edit.id.value}" }
 
             val state = STORE.getState()
             val townMap = state.getTownMapStorage().getOrThrow(edit.id)
@@ -44,7 +44,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             }
         }
         get<Add> { add ->
-            logger.info { "Add a new abstract building" }
+            logger.info { "Add a new abstract building to town map ${add.town.value}" }
 
             STORE.dispatch(AddAbstractBuilding(add.town, add.tileIndex))
             STORE.getState().save()
@@ -52,7 +52,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             redirectToEdit(add.town)
         }
         get<Remove> { remove ->
-            logger.info { "Remove an abstract building" }
+            logger.info { "Remove an abstract building from town map ${remove.town.value}" }
 
             STORE.dispatch(RemoveAbstractBuilding(remove.town, remove.tileIndex))
             STORE.getState().save()
@@ -75,7 +75,7 @@ private fun HTML.showAbstractBuildingEditor(
 ) {
     val backLink = href(call, townMap.id)
 
-    simpleHtml("Edit Abstract Buildings of Town ${townMap.name()}") {
+    simpleHtml("Edit Abstract Buildings of Town ${townMap.name(state)}") {
         svg(visualizeAbstractBuildingEditor(call, state, townMap), 90)
         back(backLink)
     }

@@ -1,8 +1,10 @@
 package at.orchaldir.gm.core.model.world.town
 
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.MapSize2d.Companion.square
@@ -25,11 +27,17 @@ value class TownMapId(val value: Int) : Id<TownMapId> {
 @Serializable
 data class TownMap(
     val id: TownMapId,
+    val town: TownId? = null,
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
-) : ElementWithSimpleName<TownMapId> {
+) : Element<TownMapId> {
 
     override fun id() = id
-    override fun name() = "Town ${id.value}"
+    override fun name(state: State) =
+        if (town == null) {
+            "Town Map ${id.value}"
+        } else {
+            state.getTownStorage().getOrThrow(town).name()
+        }
 
     fun canBuild(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuild() }
     fun canResize(index: Int, size: MapSize2d, building: BuildingId) =

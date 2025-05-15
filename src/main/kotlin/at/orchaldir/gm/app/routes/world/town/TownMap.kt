@@ -106,7 +106,7 @@ private fun HTML.showTownMapDetails(
     val editStreetsLink = call.application.href(TownMapRoutes.StreetRoutes.Edit(town.id))
     val editTerrainLink = call.application.href(TownMapRoutes.TerrainRoutes.Edit(town.id))
 
-    simpleHtmlDetails(town) {
+    simpleHtml("town") {
         split({
             field("Size", town.map.size.format())
 

@@ -106,7 +106,7 @@ private fun HTML.showTerrainEditor(
     val previewLink = call.application.href(TownMapRoutes.TerrainRoutes.Preview(townMap.id))
     val resizeLink = call.application.href(TownMapRoutes.TerrainRoutes.Resize(townMap.id))
 
-    simpleHtml("Edit Terrain of Town ${townMap.name()}") {
+    simpleHtml("Edit Terrain of Town Map ${townMap.name(state)}") {
         split({
             formWithPreview(previewLink, resizeLink, backLink, "Resize") {
                 editTerrain(call, state, terrainType, terrainId, townMap)
