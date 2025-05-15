@@ -42,4 +42,5 @@ fun validateWar(state: State, war: War) {
     require(state.getDefaultCalendar().isAfterOrEqualOptional(war.endDate, war.startDate)) {
         "The end of the war must be before its start!"
     }
+    state.getRealmStorage().require(war.realms)
 }
