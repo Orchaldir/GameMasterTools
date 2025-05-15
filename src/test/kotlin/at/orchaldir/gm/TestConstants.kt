@@ -30,6 +30,7 @@ import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
@@ -47,7 +48,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMapId
 
 val ARCHITECTURAL_ID0 = ArchitecturalStyleId(0)
 val ARCHITECTURAL_ID1 = ArchitecturalStyleId(1)
@@ -143,6 +144,9 @@ val UNKNOWN_TITLE_ID = TitleId(99)
 val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
 val UNKNOWN_TOWN_ID = TownId(99)
+val TOWN_MAP_ID_0 = TownMapId(0)
+val TOWN_MAP_ID_1 = TownMapId(1)
+val UNKNOWN_TOWN_MAP_ID = TownMapId(99)
 val UNIFORM_ID_0 = UniformId(0)
 val UNKNOWN_UNIFORM_ID = UniformId(99)
 

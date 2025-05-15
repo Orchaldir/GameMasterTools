@@ -8,24 +8,17 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
-import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.map.MapSize2d
-import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class OwnerTest {
-
-    private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0))
-    private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1))
 
     private val STATE = State(
         listOf(
@@ -35,13 +28,7 @@ class OwnerTest {
             Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
             Storage(Realm(REALM_ID_0, date = DAY0)),
             Storage(listOf(StreetTemplate(STREET_TYPE_ID_0), StreetTemplate(STREET_TYPE_ID_0))),
-            Storage(
-                Town(
-                    TOWN_ID_0,
-                    foundingDate = DAY0,
-                    map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1))
-                )
-            ),
+            Storage(Town(TOWN_ID_0, foundingDate = DAY0)),
         )
     )
     private val OWNED_BY_BUSINESS = History<Owner>(OwnedByBusiness(BUSINESS_ID_0))

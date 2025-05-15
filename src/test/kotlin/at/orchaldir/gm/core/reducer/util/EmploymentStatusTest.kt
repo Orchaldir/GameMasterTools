@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.EmployedByTown
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

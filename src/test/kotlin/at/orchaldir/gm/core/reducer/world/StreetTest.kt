@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.STREET_ID_0
 import at.orchaldir.gm.STREET_TYPE_ID_0
+import at.orchaldir.gm.TOWN_MAP_ID_0
 import at.orchaldir.gm.assertFailMessage
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
@@ -9,8 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -48,15 +48,11 @@ class StreetTest {
         @Test
         fun `Cannot delete, if used by a town`() {
             val action = DeleteStreet(STREET_ID_0)
+            val map = TileMap2d(TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0)))
             val state = State(
                 listOf(
                     Storage(Street(STREET_ID_0)),
-                    Storage(
-                        Town(
-                            TownId(0),
-                            map = TileMap2d(TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0)))
-                        )
-                    )
+                    Storage(TownMap(TOWN_MAP_ID_0, map = map))
                 )
             )
 

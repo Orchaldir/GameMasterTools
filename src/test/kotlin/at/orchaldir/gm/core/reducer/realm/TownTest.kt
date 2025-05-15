@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.world.town
+package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteTown
@@ -9,23 +9,15 @@ import at.orchaldir.gm.core.model.character.EmployedByTown
 import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
-import at.orchaldir.gm.core.model.world.terrain.HillTerrain
-import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
-import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
-import at.orchaldir.gm.core.model.world.town.BuildingTile
-import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -33,8 +25,6 @@ import kotlin.test.assertFailsWith
 
 class TownTest {
 
-    private val OWNER = History<Owner>(OwnedByTown(TOWN_ID_0))
-    private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByTown(TOWN_ID_0), Day(0))))
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
@@ -123,51 +113,6 @@ class TownTest {
             val action = UpdateTown(Town(TOWN_ID_0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
-        }
-
-        @Nested
-        inner class MapTest {
-
-            @Test
-            fun `Building must exist`() {
-                testValid("Building", TownTile(construction = BuildingTile(UNKNOWN_BUILDING_ID)))
-            }
-
-            @Test
-            fun `Hill must exist`() {
-                val terrain = HillTerrain(UNKNOWN_MOUNTAIN_ID)
-                testValid("Mountain", TownTile(terrain))
-            }
-
-            @Test
-            fun `Mountain must exist`() {
-                val terrain = MountainTerrain(UNKNOWN_MOUNTAIN_ID)
-                testValid("Mountain", TownTile(terrain))
-            }
-
-            @Test
-            fun `River must exist`() {
-                val terrain = RiverTerrain(UNKNOWN_RIVER_ID)
-                testValid("River", TownTile(terrain))
-            }
-
-            @Test
-            fun `Street template must exist`() {
-                testValid("Street Template", TownTile(construction = StreetTile(UNKNOWN_STREET_TYPE_ID)))
-            }
-
-            @Test
-            fun `Street must exist`() {
-                val construction = StreetTile(STREET_TYPE_ID_0, UNKNOWN_STREET_ID)
-                testValid("Street", TownTile(construction = construction))
-            }
-
-            private fun testValid(noun: String, tile: TownTile) {
-                val map = TileMap2d(tile)
-                val action = UpdateTown(Town(TOWN_ID_0, map = map))
-
-                assertIllegalArgument("Requires unknown $noun 99!") { REDUCER.invoke(STATE, action) }
-            }
         }
 
         @Test
