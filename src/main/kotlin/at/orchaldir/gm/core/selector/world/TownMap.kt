@@ -21,7 +21,7 @@ fun countEachTown(buildings: Collection<Building>) = buildings
 
 // get
 
-fun State.getCurrentTownMaps(town: TownId): TownMap? {
+fun State.getCurrentTownMap(town: TownId): TownMap? {
     return getTownMaps(town)
         .maxWithOrNull(getAgeComparator())
 }
