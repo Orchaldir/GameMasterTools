@@ -15,11 +15,14 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.util.sortTowns
+import at.orchaldir.gm.core.selector.world.getBuildings
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -31,6 +34,29 @@ fun HtmlBlockTag.showTownMap(
     optionalFieldLink(call, state, townMap.town)
     optionalField(call, state, "Date", townMap.date)
     field("Size", townMap.map.size.format())
+
+    showBuildingsOfTownMap(call, state, townMap)
+}
+
+fun HtmlBlockTag.showBuildingsOfTownMap(
+    call: ApplicationCall,
+    state: State,
+    townMap: TownMap,
+) {
+    val buildings = state.getBuildings(townMap.id)
+
+    h2 { +"Buildings" }
+
+    showDetails("Buildings") {
+        showList(state.sortBuildings(buildings)) { (building, name) ->
+            link(call, building.id, name)
+        }
+    }
+
+    showArchitecturalStyleCount(call, state, buildings)
+    showCreatorCount(call, state, buildings, "Builder")
+    showBuildingPurposeCount(buildings)
+    showBuildingOwnershipCount(call, state, buildings)
 }
 
 // edit

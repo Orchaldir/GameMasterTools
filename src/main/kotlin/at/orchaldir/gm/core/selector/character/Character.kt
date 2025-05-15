@@ -26,7 +26,7 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
-import at.orchaldir.gm.core.selector.world.getLatestTownMaps
+import at.orchaldir.gm.core.selector.world.getCurrentTownMaps
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun State.canCreateCharacter() = getCultureStorage().getSize() > 0
@@ -64,7 +64,7 @@ fun State.countEmployees(town: TownId) = getCharacterStorage()
     .count { c -> c.employmentStatus.current.isEmployedAt(town) }
 
 fun State.countResident(townId: TownId): Int {
-    val townMap = getLatestTownMaps(townId)
+    val townMap = getCurrentTownMaps(townId)
         ?: return 0
 
     return countResident(townMap.id)
@@ -161,7 +161,7 @@ fun State.getCharactersPreviouslyLivingIn(building: BuildingId) = getCharacterSt
     .filter { c -> c.housingStatus.previousEntries.any { it.entry.isLivingIn(building) } }
 
 fun State.getResident(townId: TownId): List<Character> {
-    val townMap = getLatestTownMaps(townId)
+    val townMap = getCurrentTownMaps(townId)
         ?: return emptyList()
 
     return getResident(townMap.id)
