@@ -108,14 +108,16 @@ private fun HTML.showAllTownMaps(
         table {
             tr {
                 th { +"Name" }
+                th { +"Town" }
                 th { +"Buildings" }
                 th { +"Residents" }
             }
-            townMaps.forEach { town ->
+            townMaps.forEach { townMap ->
                 tr {
-                    tdLink(call, state, town)
-                    tdSkipZero(state.countBuildings(town.id))
-                    tdSkipZero(state.countResident(town.id))
+                    tdLink(call, state, townMap)
+                    tdLink(call, state, townMap.town)
+                    tdSkipZero(state.countBuildings(townMap.id))
+                    tdSkipZero(state.countResident(townMap.id))
                 }
             }
         }
