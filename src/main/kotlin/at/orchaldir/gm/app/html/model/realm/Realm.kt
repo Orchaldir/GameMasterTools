@@ -10,9 +10,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.selector.realm.*
-import at.orchaldir.gm.core.selector.util.sortRealms
-import at.orchaldir.gm.core.selector.util.sortTownMaps
-import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -35,17 +32,13 @@ fun HtmlBlockTag.showRealm(
         link(call, state, owner)
     }
 
-
-    val ownedTowns = state.sortTowns(state.getOwnedTowns(realm.id))
-    val prevOwnedTowns = state.sortTowns(state.getPreviousOwnedTowns(realm.id))
     val wars = state.sortWars(state.getWars(realm.id))
 
-    fieldList(call, state, "Owned Towns", ownedTowns)
-    fieldList(call, state, "Previous Owned Towns", prevOwnedTowns)
     fieldList(call, state, wars)
+    showDataSources(call, state, realm.sources)
+
     showCreated(call, state, realm.id)
     showOwnedElements(call, state, realm.id)
-    showDataSources(call, state, realm.sources)
 }
 
 // edit
