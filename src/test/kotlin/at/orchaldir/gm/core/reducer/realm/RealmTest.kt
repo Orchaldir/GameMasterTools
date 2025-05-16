@@ -119,11 +119,11 @@ class RealmTest {
 
         @Test
         fun `Cannot have the same owner 2 times in a row`() {
-            val history = History<RealmId?>(REALM_ID_0, HistoryEntry(REALM_ID_1, DAY0))
+            val history = History<RealmId?>(REALM_ID_1, HistoryEntry(REALM_ID_1, DAY0))
             val realm = Realm(REALM_ID_0, owner = history)
             val action = UpdateRealm(realm)
 
-            assertIllegalArgument("A realm cannot own itself!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot have the same owner 2 times in a row!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
