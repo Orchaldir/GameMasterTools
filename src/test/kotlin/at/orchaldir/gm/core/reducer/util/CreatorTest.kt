@@ -25,9 +25,11 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -123,6 +125,8 @@ class CreatorTest {
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> test(element: ELEMENT) {
             val newState = STATE.updateStorage(Storage(element))
+
+            assertTrue(newState.isCreator(CHARACTER_ID_0))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (${element.id().type()})!") {
                 REDUCER.invoke(newState, action)
