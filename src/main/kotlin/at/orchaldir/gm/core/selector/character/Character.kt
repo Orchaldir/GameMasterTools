@@ -138,6 +138,10 @@ fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.title == titleId }
 
+fun State.getCharactersKilledInCatastrophe(catastrophe: CatastropheId) = getCharacterStorage()
+    .getAll()
+    .filter { it.vitalStatus.isCausedBy(catastrophe) }
+
 fun State.getCharactersKilledInWar(war: WarId) = getCharacterStorage()
     .getAll()
     .filter { it.vitalStatus.isCausedBy(war) }

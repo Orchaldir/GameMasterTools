@@ -32,7 +32,7 @@ fun HtmlBlockTag.showWar(
     optionalField(call, state, "End Date", war.endDate)
     fieldAge("Duration", calendar.getYears(war.getDuration(state)))
     fieldIdList(call, state, war.realms)
-    fieldList(call, state, "Killed in War", state.getCharactersKilledInWar(war.id))
+    fieldList(call, state, "Killed Characters", state.getCharactersKilledInWar(war.id))
     showDataSources(call, state, war.sources)
 }
 

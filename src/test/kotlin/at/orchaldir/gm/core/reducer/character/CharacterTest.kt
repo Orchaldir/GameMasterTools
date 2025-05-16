@@ -356,6 +356,11 @@ class CharacterTest {
             }
 
             @Test
+            fun `Catastrophe doesn't exist`() {
+                testFailToDie(Day(5), DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
+            }
+
+            @Test
             fun `Killer doesn't exist`() {
                 testFailToDie(Day(5), Murder(CHARACTER_ID_2))
             }
