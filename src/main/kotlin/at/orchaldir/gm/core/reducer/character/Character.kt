@@ -13,6 +13,9 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -116,18 +119,23 @@ private fun checkCauseOfDeath(
             require(calendar.isAfterOrEqual(it, character.birthDate)) { "Character died before its origin!" }
         }
 
-        when (dead.cause) {
+        when (val cause = dead.cause) {
             Accident -> doNothing()
+            is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
             DeathByIllness -> doNothing()
-            is DeathByWar -> state.getWarStorage()
-                .require(dead.cause.war) { "Cannot die from an unknown War ${dead.cause.war.value}!" }
-
-            is Murder -> state.getCharacterStorage()
-                .require(dead.cause.killer) { "Cannot use an unknown killer ${dead.cause.killer.value}!" }
-
+            is DeathByWar -> checkCauseElement(state.getWarStorage(), cause.war)
+            is Murder -> checkCauseElement(state.getCharacterStorage(), cause.killer)
             OldAge -> doNothing()
         }
     }
+}
+
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> checkCauseElement(
+    storage: Storage<ID, ELEMENT>,
+    id: ID,
+) {
+    storage
+        .require(id) { "Cannot die from an unknown ${id.type()} ${id.value()}!" }
 }
 
 

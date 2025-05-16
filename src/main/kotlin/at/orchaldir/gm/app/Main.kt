@@ -17,6 +17,7 @@ import at.orchaldir.gm.app.routes.magic.configureSpellRouting
 import at.orchaldir.gm.app.routes.organization.configureOrganizationRouting
 import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.routes.race.configureRaceRouting
+import at.orchaldir.gm.app.routes.realm.configureCatastropheRouting
 import at.orchaldir.gm.app.routes.realm.configureRealmRouting
 import at.orchaldir.gm.app.routes.realm.configureTownRouting
 import at.orchaldir.gm.app.routes.realm.configureWarRouting
@@ -64,6 +65,7 @@ fun Application.module() {
     configureBuildingRouting()
     configureBuildingEditorRouting()
     configureBusinessRouting()
+    configureCatastropheRouting()
     configureCharacterRouting()
     configureCurrencyRouting()
     configureCurrencyUnitRouting()

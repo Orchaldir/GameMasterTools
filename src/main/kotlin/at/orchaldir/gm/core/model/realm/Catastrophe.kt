@@ -4,37 +4,40 @@ import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartAndEndDate
+import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val WAR_TYPE = "War"
+const val CATASTROPHE_TYPE = "Catastrophe"
 
 @JvmInline
 @Serializable
-value class WarId(val value: Int) : Id<WarId> {
+value class CatastropheId(val value: Int) : Id<CatastropheId> {
 
-    override fun next() = WarId(value + 1)
-    override fun type() = WAR_TYPE
+    override fun next() = CatastropheId(value + 1)
+    override fun type() = CATASTROPHE_TYPE
     override fun value() = value
 
 }
 
 @Serializable
-data class War(
-    val id: WarId,
-    val name: Name = Name.init("War ${id.value}"),
+data class Catastrophe(
+    val id: CatastropheId,
+    val name: Name = Name.init("Catastrophe ${id.value}"),
     val startDate: Date? = null,
     val endDate: Date? = null,
-    val realms: Set<RealmId> = emptySet(),
+    val cause: CauseOfCatastrophe = UndefinedCauseOfCatastrophe,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<WarId>, HasDataSources, HasStartAndEndDate {
+) : ElementWithSimpleName<CatastropheId>, Created, HasDataSources, HasStartAndEndDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
     override fun startDate() = startDate
     override fun endDate() = endDate
+    override fun creator() = cause.creator() ?: UndefinedCreator
 
 }

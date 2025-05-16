@@ -98,6 +98,7 @@ import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.core.reducer.magic.validateSpellGroup
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
 import at.orchaldir.gm.core.reducer.quote.validateQuote
+import at.orchaldir.gm.core.reducer.realm.validateCatastrophe
 import at.orchaldir.gm.core.reducer.realm.validateRealm
 import at.orchaldir.gm.core.reducer.realm.validateTown
 import at.orchaldir.gm.core.reducer.realm.validateWar
@@ -123,6 +124,7 @@ val ELEMENTS =
         BUILDING_TYPE,
         BUSINESS_TYPE,
         CALENDAR_TYPE,
+        CATASTROPHE_TYPE,
         CHARACTER_TYPE,
         CULTURE_TYPE,
         CURRENCY_TYPE,
@@ -190,6 +192,7 @@ data class State(
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING_TYPE)
     fun getBusinessStorage() = getStorage<BusinessId, Business>(BUSINESS_TYPE)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
+    fun getCatastropheStorage() = getStorage<CatastropheId, Catastrophe>(CATASTROPHE_TYPE)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
     fun getCurrencyStorage() = getStorage<CurrencyId, Currency>(CURRENCY_TYPE)
@@ -310,6 +313,7 @@ data class State(
         validate(getBuildingStorage()) { validateBuilding(this, it) }
         validate(getBusinessStorage()) { validateBusiness(this, it) }
         validate(getCalendarStorage()) { validateCalendar(this, it) }
+        validate(getCatastropheStorage()) { validateCatastrophe(this, it) }
         validate(getCharacterStorage()) { validateCharacter(this, it) }
         validate(getCultureStorage()) { validateCulture(this, it) }
         validate(getCurrencyStorage()) { validateCurrency(this, it) }
@@ -352,6 +356,7 @@ data class State(
         saveStorage(path, getBuildingStorage())
         saveStorage(path, getBusinessStorage())
         saveStorage(path, getCalendarStorage())
+        saveStorage(path, getCatastropheStorage())
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCultureStorage())
         saveStorage(path, getCurrencyStorage())
@@ -401,6 +406,7 @@ fun createStorage(type: String) = when (type) {
     BUILDING_TYPE -> Storage(BuildingId(0))
     BUSINESS_TYPE -> Storage(BusinessId(0))
     CALENDAR_TYPE -> Storage(CalendarId(0))
+    CATASTROPHE_TYPE -> Storage(CatastropheId(0))
     CHARACTER_TYPE -> Storage(CharacterId(0))
     CULTURE_TYPE -> Storage(CultureId(0))
     CURRENCY_TYPE -> Storage(CurrencyId(0))
@@ -449,6 +455,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     BUILDING_TYPE -> loadStorage<BuildingId, Building>(path, BuildingId(0))
     BUSINESS_TYPE -> loadStorage<BusinessId, Business>(path, BusinessId(0))
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
+    CATASTROPHE_TYPE -> loadStorage<CatastropheId, Catastrophe>(path, CatastropheId(0))
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))
     CURRENCY_TYPE -> loadStorage<CurrencyId, Currency>(path, CurrencyId(0))

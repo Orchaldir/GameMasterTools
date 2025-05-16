@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.realm.WarId
@@ -63,6 +64,8 @@ val UNKNOWN_BUSINESS_ID = BusinessId(99)
 val CALENDAR_ID_0 = CalendarId(0)
 val CALENDAR_ID_1 = CalendarId(1)
 val UNKNOWN_CALENDAR_ID = CalendarId(99)
+val CATASTROPHE_ID_0 = CatastropheId(0)
+val UNKNOWN_CATASTROPHE_ID = CatastropheId(99)
 val CHARACTER_ID_0 = CharacterId(0)
 val CHARACTER_ID_1 = CharacterId(1)
 val CHARACTER_ID_2 = CharacterId(2)

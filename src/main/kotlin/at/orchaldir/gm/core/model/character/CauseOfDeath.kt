@@ -1,11 +1,13 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class CauseOfDeathType {
     Accident,
+    Catastrophe,
     Illness,
     Murder,
     OldAge,
@@ -16,6 +18,7 @@ enum class CauseOfDeathType {
 sealed class CauseOfDeath {
     fun getType() = when (this) {
         is Accident -> CauseOfDeathType.Accident
+        is DeathByCatastrophe -> CauseOfDeathType.Catastrophe
         is DeathByIllness -> CauseOfDeathType.Illness
         is DeathByWar -> CauseOfDeathType.War
         is Murder -> CauseOfDeathType.Murder
@@ -26,6 +29,12 @@ sealed class CauseOfDeath {
 @Serializable
 @SerialName("Accident")
 data object Accident : CauseOfDeath()
+
+@Serializable
+@SerialName("Catastrophe")
+data class DeathByCatastrophe(
+    val catastrophe: CatastropheId,
+) : CauseOfDeath()
 
 @Serializable
 @SerialName("Illness")

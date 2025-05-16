@@ -10,10 +10,7 @@ import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.model.event.EndEvent
-import at.orchaldir.gm.core.model.event.Event
-import at.orchaldir.gm.core.model.event.OwnershipChangedEvent
-import at.orchaldir.gm.core.model.event.StartEvent
+import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -84,15 +81,24 @@ private fun TD.showEvent(
     event: Event<*>,
 ) = when (event) {
     is StartEvent<*> -> displayEvent(
-        call, state,
+        call,
+        state,
         event,
-        getStartText(event)
+        getStartText(event),
     )
 
     is EndEvent<*> -> displayEvent(
-        call, state,
+        call,
+        state,
         event,
-        getEndText(event)
+        getEndText(event),
+    )
+
+    is SameStartAndEndEvent<*> -> displayEvent(
+        call,
+        state,
+        event,
+        "happened",
     )
 
     is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)

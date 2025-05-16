@@ -17,13 +17,19 @@ import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
+import at.orchaldir.gm.core.model.realm.Catastrophe
+import at.orchaldir.gm.core.model.realm.CreatedCatastrophe
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.selector.util.isCreator
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -56,100 +62,73 @@ class CreatorTest {
 
         @Test
         fun `Created a building`() {
-            val building = Building(BUILDING_ID_0, builder = createdByCharacter)
-            val newState = STATE.updateStorage(Storage(building))
-
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(Building(BUILDING_ID_0, builder = createdByCharacter))
         }
 
         @Test
         fun `Created a business`() {
-            val business = Business(BUSINESS_ID_0, founder = createdByCharacter)
-            val newState = STATE.updateStorage(Storage(business))
+            test(Business(BUSINESS_ID_0, founder = createdByCharacter))
+        }
 
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Business)!") {
-                REDUCER.invoke(newState, action)
-            }
+        @Test
+        fun `Created a catastrophe`() {
+            val cause = CreatedCatastrophe(CreatedByCharacter(CHARACTER_ID_0))
+
+            test(Catastrophe(CATASTROPHE_ID_0, cause = cause))
         }
 
         @Test
         fun `Created a language`() {
             val origin = InventedLanguage(createdByCharacter, DAY0)
-            val newState = STATE.updateStorage(Storage(Language(LANGUAGE_ID_0, origin = origin)))
 
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Language)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(Language(LANGUAGE_ID_0, origin = origin))
         }
 
         @Test
         fun `Created a magic tradition`() {
-            val tradition = MagicTradition(UNKNOWN_MAGIC_TRADITION_ID, founder = createdByCharacter)
-            val newState = STATE.updateStorage(Storage(tradition))
-
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Magic Tradition)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(MagicTradition(UNKNOWN_MAGIC_TRADITION_ID, founder = createdByCharacter))
         }
 
         @Test
         fun `Created a quote`() {
-            val quote = Quote(QUOTE_ID_0, source = createdByCharacter)
-            val newState = STATE.updateStorage(Storage(quote))
-
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Quote)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(Quote(QUOTE_ID_0, source = createdByCharacter))
         }
 
         @Test
         fun `Created a realm`() {
-            val realm = Realm(REALM_ID_0, founder = createdByCharacter)
-            val newState = STATE.updateStorage(Storage(realm))
-
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Realm)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(Realm(REALM_ID_0, founder = createdByCharacter))
         }
 
         @Test
         fun `Created a spell`() {
-            val spell = Spell(SPELL_ID_0, origin = InventedSpell(createdByCharacter))
-            val newState = STATE.updateStorage(Storage(spell))
-
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Spell)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(Spell(SPELL_ID_0, origin = InventedSpell(createdByCharacter)))
         }
 
         @Test
         fun `Created an original text`() {
             val origin = OriginalText(createdByCharacter)
-            val newState = STATE.updateStorage(Storage(Text(TEXT_ID_0, origin = origin)))
 
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Text)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(Text(TEXT_ID_0, origin = origin))
         }
 
         @Test
         fun `Created an translated text`() {
             val origin = TranslatedText(TEXT_ID_1, createdByCharacter)
-            val newState = STATE.updateStorage(Storage(Text(TEXT_ID_0, origin = origin)))
 
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Text)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(Text(TEXT_ID_0, origin = origin))
         }
 
         @Test
         fun `Created a town`() {
-            val town = Town(TOWN_ID_0, founder = createdByCharacter)
-            val newState = STATE.updateStorage(Storage(town))
+            test(Town(TOWN_ID_0, founder = createdByCharacter))
+        }
 
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Town)!") {
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> test(element: ELEMENT) {
+            val newState = STATE.updateStorage(Storage(element))
+
+            assertTrue(newState.isCreator(CHARACTER_ID_0))
+
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (${element.id().type()})!") {
                 REDUCER.invoke(newState, action)
             }
         }

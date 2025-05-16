@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.War
@@ -96,7 +97,7 @@ fun State.sortArchitecturalStyles(
             SortArchitecturalStyle.End -> compareBy { it.end?.year }
         })
 
-// periodical
+// article
 
 fun State.sortArticles(sort: SortArticle = SortArticle.Title) =
     sortArticles(getArticleStorage().getAll(), sort)
@@ -154,6 +155,22 @@ fun State.sortBusinesses(
             SortBusiness.Employees -> compareByDescending { getEmployees(it.id).size }
         }
     )
+
+// catastrophe
+
+fun State.sortCatastrophes(sort: SortCatastrophe = SortCatastrophe.Name) =
+    sortCatastrophes(getCatastropheStorage().getAll(), sort)
+
+fun State.sortCatastrophes(
+    catastrophes: Collection<Catastrophe>,
+    sort: SortCatastrophe = SortCatastrophe.Name,
+) = catastrophes
+    .sortedWith(
+        when (sort) {
+            SortCatastrophe.Name -> compareBy { it.name.text }
+            SortCatastrophe.Start -> getStartDateComparator()
+            SortCatastrophe.End -> getDateComparator { it.endDate }
+        })
 
 // character
 

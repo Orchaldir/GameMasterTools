@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer
@@ -39,8 +39,6 @@ val UPDATE_WAR: Reducer<UpdateWar, State> = { state, action ->
 }
 
 fun validateWar(state: State, war: War) {
-    require(state.getDefaultCalendar().isAfterOrEqualOptional(war.endDate, war.startDate)) {
-        "The end of the war must be before its start!"
-    }
+    validateHasStartAndEnd(state, war)
     state.getRealmStorage().require(war.realms)
 }

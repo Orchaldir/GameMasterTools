@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
+import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getBuildings
@@ -53,7 +54,7 @@ fun validateArchitecturalStyle(
             .require(it) { "Cannot revive unknown architectural style ${it.value}!" }
     }
 
-    require(calendar.isAfterOptional(style.end, style.start)) { "Architectural style must end after it started!" }
+    validateHasStartAndEnd(state, style)
 }
 
 fun checkStartDate(state: State, style: ArchitecturalStyle, building: BuildingId, constructionDate: Date?) =

@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.character.parseCharacterId
+import at.orchaldir.gm.app.html.model.realm.parseCatastropheId
 import at.orchaldir.gm.app.html.model.realm.parseWarId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
@@ -12,6 +13,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.selector.character.getLiving
+import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
 import at.orchaldir.gm.core.selector.realm.getExistingWars
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
@@ -31,6 +33,13 @@ fun HtmlBlockTag.showVitalStatus(
 
         when (vitalStatus.cause) {
             is Accident -> showCauseOfDeath("Accident")
+            is DeathByCatastrophe -> {
+                field("Cause of Death") {
+                    +"Killed by "
+                    link(call, state, vitalStatus.cause.catastrophe)
+                }
+            }
+
             is DeathByIllness -> showCauseOfDeath("Illness")
             is DeathByWar -> {
                 field("Cause of Death") {
@@ -65,6 +74,7 @@ fun FORM.selectVitalStatus(
     selectValue("Vital Status", VITAL, VitalStatusType.entries, vitalStatus.getType())
 
     if (vitalStatus is Dead) {
+        val catastrophes = state.getExistingCatastrophes(vitalStatus.deathDay)
         val characters = state.getLiving(vitalStatus.deathDay)
             .filter { it.id != character.id }
         val wars = state.getExistingWars(vitalStatus.deathDay)
@@ -77,6 +87,7 @@ fun FORM.selectVitalStatus(
             vitalStatus.cause.getType(),
         ) { type ->
             when (type) {
+                CauseOfDeathType.Catastrophe -> catastrophes.isEmpty()
                 CauseOfDeathType.Murder -> characters.isEmpty()
                 CauseOfDeathType.War -> wars.isEmpty()
                 else -> false
@@ -86,6 +97,14 @@ fun FORM.selectVitalStatus(
         when (vitalStatus.cause) {
             Accident -> doNothing()
             DeathByIllness -> doNothing()
+            is DeathByCatastrophe -> selectElement(
+                state,
+                "Catastrophe",
+                CATASTROPHE,
+                catastrophes,
+                vitalStatus.cause.catastrophe,
+            )
+
             is DeathByWar -> selectElement(
                 state,
                 "War",
@@ -119,6 +138,10 @@ fun parseVitalStatus(
             parseDeathDay(parameters, state),
             when (parse(parameters, DEATH, CauseOfDeathType.OldAge)) {
                 CauseOfDeathType.Accident -> Accident
+                CauseOfDeathType.Catastrophe -> DeathByCatastrophe(
+                    parseCatastropheId(parameters, CATASTROPHE),
+                )
+
                 CauseOfDeathType.Illness -> DeathByIllness
                 CauseOfDeathType.Murder -> Murder(
                     parseCharacterId(parameters, KILLER),
