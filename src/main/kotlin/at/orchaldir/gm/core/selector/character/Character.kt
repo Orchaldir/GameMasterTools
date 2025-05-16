@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.Duration
@@ -106,6 +107,10 @@ fun State.countEachLanguage(characters: Collection<Character>) = characters
     .groupingBy { it }
     .eachCount()
 
+fun State.countCharactersKilledInWar(war: WarId) = getCharacterStorage()
+    .getAll()
+    .count { it.vitalStatus.isCausedBy(war) }
+
 // get characters
 
 fun State.getCharacters(culture: CultureId) = getCharacterStorage()
@@ -127,6 +132,10 @@ fun State.getCharacters(race: RaceId) = getCharacterStorage()
 fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.title == titleId }
+
+fun State.getCharactersKilledInWar(war: WarId) = getCharacterStorage()
+    .getAll()
+    .filter { it.vitalStatus.isCausedBy(war) }
 
 // belief status
 
