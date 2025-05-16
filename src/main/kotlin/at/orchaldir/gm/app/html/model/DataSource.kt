@@ -31,6 +31,7 @@ fun HtmlBlockTag.showDataSource(
     h2 { +"Content" }
 
     showDataSourceContent(call, state, state.getBusinessStorage(), source.id)
+    showDataSourceContent(call, state, state.getCatastropheStorage(), source.id)
     showDataSourceContent(call, state, state.getCultureStorage(), source.id)
     showDataSourceContent(call, state, state.getCharacterStorage(), source.id)
     showDataSourceContent(call, state, state.getGodStorage(), source.id)
