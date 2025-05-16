@@ -47,4 +47,9 @@ fun validateRealm(state: State, realm: Realm) {
             state.requireExists(state.getTownStorage(), townId, date)
         }
     }
+    checkHistory(state, realm.owner, realm.date, "owner") { _, realmId, _, date ->
+        if (realmId != null) {
+            state.requireExists(state.getRealmStorage(), realmId, date)
+        }
+    }
 }
