@@ -19,14 +19,16 @@ fun <T> HtmlBlockTag.showHistory(
     label: String,
     showEntry: HtmlBlockTag.(ApplicationCall, State, T) -> Unit,
 ) {
-    fieldList("Previous $label", history.previousEntries) { previous ->
-        +"Until "
-        showDate(call, state, previous.until)
-        +": "
-        showEntry(call, state, previous.entry)
-    }
-    field(label) {
-        showEntry(call, state, history.current)
+    showDetails(label, true) {
+        fieldList("Previously", history.previousEntries) { previous ->
+            +"Until "
+            showDate(call, state, previous.until)
+            +": "
+            showEntry(call, state, previous.entry)
+        }
+        field("Currently") {
+            showEntry(call, state, history.current)
+        }
     }
 }
 
@@ -39,18 +41,21 @@ fun <T> HtmlBlockTag.selectHistory(
     selectEntry: HtmlBlockTag.(State, String, T, Date?) -> Unit,
 ) {
     val previousOwnersParam = combine(param, HISTORY)
-    selectInt("Previous $label Entries", history.previousEntries.size, 0, 100, 1, previousOwnersParam)
     var minDate = startDate?.next()
 
-    showListWithIndex(history.previousEntries) { index, previous ->
-        val previousParam = combine(previousOwnersParam, index)
-        selectEntry(state, previousParam, previous.entry, minDate)
-        selectDate(state, "Until", previous.until, combine(previousParam, DATE), minDate)
+    showDetails(label, true) {
+        selectInt("Previously", history.previousEntries.size, 0, 100, 1, previousOwnersParam)
 
-        minDate = previous.until.next()
+        showListWithIndex(history.previousEntries) { index, previous ->
+            val previousParam = combine(previousOwnersParam, index)
+            selectEntry(state, previousParam, previous.entry, minDate)
+            selectDate(state, "Until", previous.until, combine(previousParam, DATE), minDate)
+
+            minDate = previous.until.next()
+        }
+
+        selectEntry(state, param, history.current, minDate)
     }
-
-    selectEntry(state, param, history.current, minDate)
 }
 
 fun <T> parseHistory(
