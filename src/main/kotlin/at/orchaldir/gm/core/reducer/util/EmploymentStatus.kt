@@ -19,7 +19,7 @@ private fun checkEmploymentStatus(
     state: State,
     status: EmploymentStatus,
     noun: String,
-    date: Date,
+    date: Date?,
 ) {
     when (status) {
         UndefinedEmploymentStatus -> doNothing()
@@ -35,7 +35,7 @@ private fun checkEmploymentStatus(
 private fun checkEmployed(
     state: State,
     noun: String,
-    date: Date,
+    date: Date?,
     jobId: JobId,
     businessId: BusinessId?,
 ) {
