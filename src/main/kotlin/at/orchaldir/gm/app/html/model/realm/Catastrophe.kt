@@ -31,6 +31,7 @@ fun HtmlBlockTag.showCatastrophe(
     optionalField(call, state, "Start Date", catastrophe.startDate)
     optionalField(call, state, "End Date", catastrophe.endDate)
     fieldAge("Duration", calendar.getYears(catastrophe.getDuration(state)))
+    showCauseOfCatastrophe(call, state, catastrophe.cause)
     fieldList(call, state, "Killed Characters", state.getCharactersKilledInCatastrophe(catastrophe.id))
     showDataSources(call, state, catastrophe.sources)
 }
@@ -44,6 +45,7 @@ fun FORM.editCatastrophe(
     selectName(catastrophe.name)
     selectOptionalDate(state, "Start Date", catastrophe.startDate, combine(START, DATE))
     selectOptionalDate(state, "End Date", catastrophe.endDate, combine(END, DATE))
+    editCauseOfCatastrophe(state, catastrophe)
     editDataSources(state, catastrophe.sources)
 }
 
@@ -56,5 +58,6 @@ fun parseCatastrophe(parameters: Parameters, state: State, id: CatastropheId) = 
     parseName(parameters),
     parseOptionalDate(parameters, state, combine(START, DATE)),
     parseOptionalDate(parameters, state, combine(END, DATE)),
+    parseCauseOfCatastrophe(parameters),
     parseDataSources(parameters),
 )

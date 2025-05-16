@@ -27,7 +27,7 @@ data class Catastrophe(
     val name: Name = Name.init("Catastrophe ${id.value}"),
     val startDate: Date? = null,
     val endDate: Date? = null,
-    val origin: CatastropheOrigin = UndefinedCatastropheOrigin,
+    val cause: CauseOfCatastrophe = UndefinedCauseOfCatastrophe,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<CatastropheId>, HasDataSources, HasStartAndEndDate {
 
