@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.religion.GodId
@@ -106,6 +107,10 @@ fun State.countEachLanguage(characters: Collection<Character>) = characters
     .flatMap { getKnownLanguages(it).keys }
     .groupingBy { it }
     .eachCount()
+
+fun State.countCharactersKilledInCatastrophe(catastrophe: CatastropheId) = getCharacterStorage()
+    .getAll()
+    .count { it.vitalStatus.isCausedBy(catastrophe) }
 
 fun State.countCharactersKilledInWar(war: WarId) = getCharacterStorage()
     .getAll()

@@ -4,6 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.Dead
+import at.orchaldir.gm.core.model.character.DeathByCatastrophe
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -25,7 +28,7 @@ class CatastropheTest {
         val action = DeleteCatastrophe(CATASTROPHE_ID_0)
 
         @Test
-        fun `Can delete an existing war`() {
+        fun `Can delete an existing catastrophe`() {
             assertEquals(0, REDUCER.invoke(STATE, action).first.getCatastropheStorage().getSize())
         }
 
@@ -35,18 +38,17 @@ class CatastropheTest {
 
             assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
         }
-        /*
-                @Test
-                fun `Cannot delete a member of an organization`() {
-                    val dead = Dead(DAY0, DeathByCatastrophe(CATASTROPHE_ID_0))
-                    val organization = Character(CHARACTER_ID_0, vitalStatus = dead)
-                    val newState = STATE.updateStorage(Storage(organization))
 
-                    assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
-                        REDUCER.invoke(newState, action)
-                    }
-                }
-        */
+        @Test
+        fun `Cannot delete a catastrophe that killed a character`() {
+            val dead = Dead(DAY0, DeathByCatastrophe(CATASTROPHE_ID_0))
+            val organization = Character(CHARACTER_ID_0, vitalStatus = dead)
+            val newState = STATE.updateStorage(Storage(organization))
+
+            assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
     }
 
     @Nested
@@ -60,11 +62,11 @@ class CatastropheTest {
         }
 
         @Test
-        fun `Update a war`() {
-            val war = Catastrophe(CATASTROPHE_ID_0, NAME)
-            val action = UpdateCatastrophe(war)
+        fun `Update a catastrophe`() {
+            val catastrophe = Catastrophe(CATASTROPHE_ID_0, NAME)
+            val action = UpdateCatastrophe(catastrophe)
 
-            assertEquals(war, REDUCER.invoke(STATE, action).first.getCatastropheStorage().get(CATASTROPHE_ID_0))
+            assertEquals(catastrophe, REDUCER.invoke(STATE, action).first.getCatastropheStorage().get(CATASTROPHE_ID_0))
         }
     }
 

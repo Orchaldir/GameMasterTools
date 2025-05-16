@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
 import kotlinx.serialization.SerialName
@@ -27,6 +28,8 @@ sealed class VitalStatus {
         is Dead -> deathDay
     }
 
+    fun isCausedBy(catastrophe: CatastropheId) =
+        this is Dead && cause is DeathByCatastrophe && cause.catastrophe == catastrophe
     fun isCausedBy(war: WarId) = this is Dead && cause is DeathByWar && cause.war == war
 }
 

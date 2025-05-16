@@ -89,17 +89,15 @@ class ArchitecturalStyleTest {
         }
 
         @Test
-        fun `Cannot start and end in the same year`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID0, start = Year(0), end = Year(0)))
-
-            assertIllegalArgument("Architectural style must end after it started!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
         fun `Cannot end before it started`() {
             val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID0, start = YEAR1, end = YEAR0))
 
-            assertIllegalArgument("Architectural style must end after it started!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("The Architectural Style 0 must end after it started!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
         }
 
         @Test

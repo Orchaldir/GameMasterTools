@@ -40,7 +40,7 @@ class WarTest {
         }
 
         @Test
-        fun `Cannot delete a member of an organization`() {
+        fun `Cannot delete a war that killed a character`() {
             val dead = Dead(DAY0, DeathByWar(WAR_ID_0))
             val organization = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = STATE.updateStorage(Storage(organization))

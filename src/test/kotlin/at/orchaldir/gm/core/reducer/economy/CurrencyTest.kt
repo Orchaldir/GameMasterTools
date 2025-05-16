@@ -63,7 +63,7 @@ class CurrencyTest {
         fun `Start date is after end date`() {
             val action = UpdateCurrency(Currency(CURRENCY_ID_0, startDate = DAY2, endDate = DAY1))
 
-            assertIllegalArgument("Start date is after end date!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("The Currency 0 must end after it started!") { REDUCER.invoke(state, action) }
         }
 
         @Test
