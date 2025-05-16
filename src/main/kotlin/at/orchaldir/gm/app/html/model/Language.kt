@@ -3,9 +3,8 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.ORIGIN
-import at.orchaldir.gm.app.PLANE
+import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.world.parsePlaneId
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
@@ -18,7 +17,7 @@ import at.orchaldir.gm.core.selector.getPossibleParents
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.magic.getSpells
-import at.orchaldir.gm.core.selector.util.sortPlanes
+import at.orchaldir.gm.core.selector.world.getPlanes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -37,9 +36,11 @@ fun HtmlBlockTag.showLanguage(
     val characters = state.getCharacters(language.id)
     val cultures = state.getCultures(language.id)
     val periodicals = state.getPeriodicals(language.id)
+    val planes = state.getPlanes(language.id)
     val spells = state.getSpells(language.id)
     val texts = state.getTexts(language.id)
 
+    optionalField("Title", language.title)
     showOrigin(call, state, language)
 
     fieldList(call, state, "Child Languages", children)
@@ -49,6 +50,7 @@ fun HtmlBlockTag.showLanguage(
     fieldList(call, state, characters)
     fieldList(call, state, cultures)
     fieldList(call, state, periodicals)
+    fieldList(call, state, planes)
     fieldList(call, state, spells)
     fieldList(call, state, texts)
 }
@@ -92,9 +94,8 @@ fun HtmlBlockTag.displayOrigin(
             +"Original"
         }
 
-        is PlanarLanguage -> {
-            +"Part of "
-            link(call, state, origin.plane)
+        PlanarLanguage -> {
+            +"Planar"
         }
     }
 }
@@ -106,6 +107,7 @@ fun FORM.editLanguage(
     language: Language,
 ) {
     selectName(language.name)
+    selectOptionalNotEmptyString("Title", language.title, TITLE)
     editOrigin(state, language)
 }
 
@@ -116,7 +118,6 @@ private fun FORM.editOrigin(
     val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.getPossibleParents(language.id)
         .sortedBy { it.name.text }
-    val planes = state.sortPlanes()
 
     selectValue("Origin", ORIGIN, entries, language.origin.getType()) {
         when (it) {
@@ -139,8 +140,6 @@ private fun FORM.editOrigin(
             selectDate(state, "Date", origin.date, DATE)
         }
 
-        is PlanarLanguage -> selectElement(state, "Plane", PLANE, planes, origin.plane)
-
         else -> doNothing()
     }
 }
@@ -157,6 +156,7 @@ fun parseOptionalLanguageId(parameters: Parameters, param: String) =
 fun parseLanguage(parameters: Parameters, state: State, id: LanguageId) = Language(
     id,
     parseName(parameters),
+    parseOptionalNotEmptyString(parameters, TITLE),
     parseOrigin(parameters, state),
 )
 
@@ -174,5 +174,5 @@ private fun parseOrigin(parameters: Parameters, state: State) = when (parse(para
     )
 
     Original -> OriginalLanguage
-    Planar -> PlanarLanguage(parsePlaneId(parameters, PLANE))
+    Planar -> PlanarLanguage
 }

@@ -4,6 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.Dead
+import at.orchaldir.gm.core.model.character.DeathByWar
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -35,6 +38,18 @@ class WarTest {
 
             assertIllegalArgument("Requires unknown War 99!") { REDUCER.invoke(STATE, action) }
         }
+
+        @Test
+        fun `Cannot delete a member of an organization`() {
+            val dead = Dead(DAY0, DeathByWar(WAR_ID_0))
+            val organization = Character(CHARACTER_ID_0, vitalStatus = dead)
+            val newState = STATE.updateStorage(Storage(organization))
+
+            assertIllegalArgument("Cannot delete War 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
     }
 
     @Nested

@@ -3,8 +3,10 @@ package at.orchaldir.gm.visualization.text.content
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.quote.Quote
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.Center
+import at.orchaldir.gm.core.model.util.VerticalAlignment
+import at.orchaldir.gm.core.selector.util.getCreatorName
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -193,15 +195,7 @@ private fun buildLinkedQuote(
 private fun getQuoteSource(
     state: TextRenderState,
     quote: Quote,
-) = when (quote.source) {
-    is CreatedByBusiness -> state.state.getElementName(quote.source.business)
-    is CreatedByCharacter -> state.state.getElementName(quote.source.character)
-    is CreatedByGod -> state.state.getElementName(quote.source.god)
-    is CreatedByOrganization -> state.state.getElementName(quote.source.organization)
-    is CreatedByRealm -> state.state.getElementName(quote.source.realm)
-    is CreatedByTown -> state.state.getElementName(quote.source.town)
-    UndefinedCreator -> null
-}
+) = state.state.getCreatorName(quote.source)
 
 private fun <C : Chapter> buildPagesForChapters(
     state: TextRenderState,

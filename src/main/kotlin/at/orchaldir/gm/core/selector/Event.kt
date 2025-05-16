@@ -54,7 +54,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
 
         if (character.vitalStatus is Dead) {
-            addEvent(events, default, calendar, character.birthDate) {
+            addEvent(events, default, calendar, character.vitalStatus.deathDay) {
                 EndEvent(it, character.id)
             }
         }

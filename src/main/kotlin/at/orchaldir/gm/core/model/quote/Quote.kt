@@ -22,6 +22,7 @@ value class QuoteId(val value: Int) : Id<QuoteId> {
 data class Quote(
     val id: QuoteId,
     val text: NotEmptyString = NotEmptyString.init("Quote ${id.value}"),
+    val type: QuoteType = QuoteType.Quote,
     val source: Creator = UndefinedCreator,
     val date: Date? = null,
 ) : ElementWithSimpleName<QuoteId>, Created, HasStartDate {

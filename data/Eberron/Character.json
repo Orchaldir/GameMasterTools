@@ -1032,6 +1032,34 @@
     }
    },
    "title": 0
+  },
+  "16": {
+   "id": 16,
+   "name": {
+    "type": "Family",
+    "given": "Jarot",
+    "middle": null,
+    "family": "Wynarn"
+   },
+   "birthDate": {
+    "type": "Decade",
+    "decade": 83
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Day",
+     "day": 300115
+    },
+    "cause": {
+     "type": "OldAge"
+    }
+   },
+   "culture": 1,
+   "title": 0,
+   "sources": [
+    3
+   ]
   }
  }
 }

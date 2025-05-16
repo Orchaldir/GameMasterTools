@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
@@ -45,11 +46,13 @@ import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countResident
 import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.world.countBuildings
 
 // generic
@@ -154,7 +157,7 @@ fun State.sortBusinesses(
 
 // character
 
-fun State.getCharacterAgePairComparator(): Comparator<Pair<Character, String>> {
+fun State.getCharacterStartDatePairComparator(): Comparator<Pair<Character, String>> {
     val comparator = getStartDateComparator<Character>()
     return Comparator { a: Pair<Character, String>, b: Pair<Character, String> -> comparator.compare(a.first, b.first) }
 }
@@ -165,21 +168,26 @@ fun State.sortCharacters(sort: SortCharacter = SortCharacter.Name) =
 fun State.sortCharacters(
     characters: Collection<Character>,
     sort: SortCharacter = SortCharacter.Name,
-) = characters
-    .map {
-        val name = when (it.name) {
-            is FamilyName -> it.name.family.text + it.name.given.text + it.name.middle?.text
-            is Genonym -> it.name.given.text
-            is Mononym -> it.name.name.text
-        }.lowercase()
-        Pair(it, name)
-    }
-    .sortedWith(
-        when (sort) {
-            SortCharacter.Name -> compareBy { it.second }
-            SortCharacter.Age -> getCharacterAgePairComparator()
-        })
-    .map { it.first }
+): List<Character> {
+    val currentDay = getCurrentDate()
+
+    return characters
+        .map {
+            val name = when (it.name) {
+                is FamilyName -> it.name.family.text + it.name.given.text + it.name.middle?.text
+                is Genonym -> it.name.given.text
+                is Mononym -> it.name.name.text
+            }.lowercase()
+            Pair(it, name)
+        }
+        .sortedWith(
+            when (sort) {
+                SortCharacter.Name -> compareBy { it.second }
+                SortCharacter.Start -> getCharacterStartDatePairComparator()
+                SortCharacter.Age -> compareByDescending { it.first.getAge(this, currentDay).day }
+            })
+        .map { it.first }
+}
 
 // currency
 
@@ -322,51 +330,20 @@ fun State.sortJobs(
             SortJob.Spells -> compareByDescending { it.spells.getSize() }
         })
 
-// realm
+// language
 
-fun State.sortRealms(sort: SortRealm = SortRealm.Name) =
-    sortRealms(getRealmStorage().getAll(), sort)
+fun State.sortLanguages(sort: SortLanguage = SortLanguage.Name) =
+    sortLanguages(getLanguageStorage().getAll(), sort)
 
-fun State.sortRealms(
-    realms: Collection<Realm>,
-    sort: SortRealm = SortRealm.Name,
-) = realms
+fun State.sortLanguages(
+    planes: Collection<Language>,
+    sort: SortLanguage = SortLanguage.Name,
+) = planes
     .sortedWith(
         when (sort) {
-            SortRealm.Name -> compareBy { it.name.text }
-            SortRealm.Age -> getStartDateComparator()
-        })
-
-// organization
-
-fun State.sortOrganizations(sort: SortOrganization = SortOrganization.Name) =
-    sortOrganizations(getOrganizationStorage().getAll(), sort)
-
-fun State.sortOrganizations(
-    organizations: Collection<Organization>,
-    sort: SortOrganization = SortOrganization.Name,
-) = organizations
-    .sortedWith(
-        when (sort) {
-            SortOrganization.Name -> compareBy { it.name.text }
-            SortOrganization.Age -> getStartDateComparator()
-            SortOrganization.Members -> compareByDescending { it.countAllMembers() }
-        })
-
-// domain
-
-fun State.sortPantheons(sort: SortPantheon = SortPantheon.Name) =
-    sortPantheons(getPantheonStorage().getAll(), sort)
-
-fun State.sortPantheons(
-    domains: Collection<Pantheon>,
-    sort: SortPantheon = SortPantheon.Name,
-) = domains
-    .sortedWith(
-        when (sort) {
-            SortPantheon.Name -> compareBy { it.name.text }
-            SortPantheon.Gods -> compareBy { it.gods.size }
-            SortPantheon.Believers -> compareByDescending { getBelievers(it.id).size }
+            SortLanguage.Name -> compareBy { it.name.text }
+            SortLanguage.Characters -> compareByDescending { countCharacters(it.id) }
+            SortLanguage.Cultures -> compareByDescending { countCultures(it.id) }
         })
 
 // magic tradition
@@ -402,6 +379,38 @@ fun State.sortMaterial(
             SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }
         }
     )
+
+// organization
+
+fun State.sortOrganizations(sort: SortOrganization = SortOrganization.Name) =
+    sortOrganizations(getOrganizationStorage().getAll(), sort)
+
+fun State.sortOrganizations(
+    organizations: Collection<Organization>,
+    sort: SortOrganization = SortOrganization.Name,
+) = organizations
+    .sortedWith(
+        when (sort) {
+            SortOrganization.Name -> compareBy { it.name.text }
+            SortOrganization.Age -> getStartDateComparator()
+            SortOrganization.Members -> compareByDescending { it.countAllMembers() }
+        })
+
+// pantheon
+
+fun State.sortPantheons(sort: SortPantheon = SortPantheon.Name) =
+    sortPantheons(getPantheonStorage().getAll(), sort)
+
+fun State.sortPantheons(
+    domains: Collection<Pantheon>,
+    sort: SortPantheon = SortPantheon.Name,
+) = domains
+    .sortedWith(
+        when (sort) {
+            SortPantheon.Name -> compareBy { it.name.text }
+            SortPantheon.Gods -> compareBy { it.gods.size }
+            SortPantheon.Believers -> compareByDescending { getBelievers(it.id).size }
+        })
 
 // periodical
 
@@ -481,6 +490,21 @@ fun State.sortRaces(
             SortRace.Weight -> compareByDescending { it.weight.value() }
             SortRace.MaxLifeSpan -> compareByDescending { it.lifeStages.getMaxAge() }
             SortRace.Name -> compareBy { it.name.text }
+        })
+
+// realm
+
+fun State.sortRealms(sort: SortRealm = SortRealm.Name) =
+    sortRealms(getRealmStorage().getAll(), sort)
+
+fun State.sortRealms(
+    realms: Collection<Realm>,
+    sort: SortRealm = SortRealm.Name,
+) = realms
+    .sortedWith(
+        when (sort) {
+            SortRealm.Name -> compareBy { it.name.text }
+            SortRealm.Age -> getStartDateComparator()
         })
 
 // spell
@@ -563,7 +587,7 @@ fun State.sortTowns(
             SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
         })
 
-// town
+// town map
 
 fun State.sortTownMaps(sort: SortTownMap = SortTownMap.Name) =
     sortTownMaps(getTownMapStorage().getAll(), sort)

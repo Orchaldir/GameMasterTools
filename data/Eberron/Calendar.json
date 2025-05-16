@@ -60,6 +60,10 @@
      "text": "YK",
      "isPrefix": false
     }
+   },
+   "defaultFormat": {
+    "separator": " ",
+    "displayMonthNames": true
    }
   }
  }

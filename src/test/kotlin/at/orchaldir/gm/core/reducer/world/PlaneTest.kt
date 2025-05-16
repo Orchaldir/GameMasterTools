@@ -4,8 +4,6 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.*
@@ -59,13 +57,6 @@ class PlaneTest {
         }
 
         @Test
-        fun `Cannot delete the origin of a language`() {
-            val newState = state.updateStorage(Storage(Language(LANGUAGE_ID_0, origin = PlanarLanguage(PLANE_ID_0))))
-
-            assertIllegalArgument("Cannot delete Plane 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-
-        @Test
         fun `Cannot delete unknown id`() {
             val action = DeletePlane(UNKNOWN_PLANE_ID)
 
@@ -96,6 +87,14 @@ class PlaneTest {
             val action = UpdatePlane(plane)
 
             assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `A language of a plane must exist `() {
+            val plane = Plane(PLANE_ID_0, languages = setOf(UNKNOWN_LANGUAGE_ID))
+            val action = UpdatePlane(plane)
+
+            assertIllegalArgument("Requires unknown Language 99!") { REDUCER.invoke(state, action) }
         }
 
         @Nested

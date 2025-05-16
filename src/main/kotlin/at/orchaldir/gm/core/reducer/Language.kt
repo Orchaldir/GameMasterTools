@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
@@ -15,6 +14,7 @@ import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.countChildren
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
+import at.orchaldir.gm.core.selector.world.countPlanes
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -30,6 +30,7 @@ val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
     validateCanDelete(state.countCharacters(action.id), action.id, "it is known by characters")
     validateCanDelete(state.countChildren(action.id), action.id, "it has children")
     validateCanDelete(state.countPeriodicals(action.id), action.id, "it is used by a periodical")
+    validateCanDelete(state.countPlanes(action.id), action.id, "it is used by a plane")
     validateCanDelete(state.countTexts(action.id), action.id, "it is used by a text")
 
     noFollowUps(state.updateStorage(state.getLanguageStorage().remove(action.id)))
@@ -58,7 +59,6 @@ private fun checkOrigin(
 ) {
     when (val origin = language.origin) {
         is InventedLanguage -> validateCreator(state, origin.inventor, language.id, origin.date, "Inventor")
-        is PlanarLanguage -> state.getPlaneStorage().require(origin.plane)
         is EvolvedLanguage -> {
             require(origin.parent != language.id) { "A language cannot be its own parent!" }
             require(

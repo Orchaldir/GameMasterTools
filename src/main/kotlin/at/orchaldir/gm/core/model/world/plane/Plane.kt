@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.plane
 
+import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.source.DataSourceId
@@ -27,6 +28,7 @@ data class Plane(
     val name: Name = Name.init("Plane ${id.value}"),
     val title: NotEmptyString? = null,
     val purpose: PlanePurpose = MaterialPlane,
+    val languages: Set<LanguageId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<PlaneId>, Created, HasDataSources {
 

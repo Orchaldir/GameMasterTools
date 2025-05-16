@@ -361,6 +361,11 @@ class CharacterTest {
             }
 
             @Test
+            fun `War doesn't exist`() {
+                testFailToDie(Day(5), DeathByWar(UNKNOWN_WAR_ID))
+            }
+
+            @Test
             fun `Died from old age`() {
                 testDie(Day(5), OldAge)
             }

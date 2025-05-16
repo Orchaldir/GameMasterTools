@@ -33,6 +33,8 @@ fun HtmlBlockTag.showText(
     fieldList("Translations", state.getTranslationsOf(text.id)) { text ->
         link(call, text.id, text.getNameWithDate(state))
     }
+
+    showDataSources(call, state, text.sources)
 }
 
 private fun HtmlBlockTag.showOrigin(
@@ -72,6 +74,7 @@ fun FORM.editText(
     selectElement(state, "Language", LANGUAGE, languages, text.language)
     editTextFormat(state, text.format, hasAuthor)
     editTextContent(state, text.content)
+    editDataSources(state, text.sources)
 }
 
 private fun FORM.editOrigin(
@@ -105,6 +108,7 @@ fun parseText(parameters: Parameters, state: State, id: TextId) =
         parseLanguageId(parameters, LANGUAGE),
         parseTextFormat(parameters),
         parseTextContent(parameters),
+        parseDataSources(parameters),
     )
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, TextOriginType.Original)) {

@@ -11,7 +11,8 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.quote.QuoteId
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.selector.util.getCreatorName
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
 
@@ -54,16 +55,7 @@ fun State.getAuthorName(id: TextId): String? {
 }
 
 fun State.getAuthorName(text: Text) = when (val origin = getOriginal(text).origin) {
-    is OriginalText -> when (origin.author) {
-        is CreatedByBusiness -> getElementName(origin.author.business)
-        is CreatedByCharacter -> getElementName(origin.author.character)
-        is CreatedByGod -> getElementName(origin.author.god)
-        is CreatedByOrganization -> getElementName(origin.author.organization)
-        is CreatedByRealm -> getElementName(origin.author.realm)
-        is CreatedByTown -> getElementName(origin.author.town)
-        UndefinedCreator -> null
-    }
-
+    is OriginalText -> getCreatorName(origin.author)
     else -> error("The original text must be an original text!")
 }
 

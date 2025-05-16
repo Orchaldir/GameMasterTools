@@ -38,6 +38,7 @@ val UPDATE_PLANE: Reducer<UpdatePlane, State> = { state, action ->
 
 fun validatePlane(state: State, plane: Plane) {
     checkPurpose(state, plane)
+    state.getLanguageStorage().require(plane.languages)
     state.getDataSourceStorage().require(plane.sources)
 }
 

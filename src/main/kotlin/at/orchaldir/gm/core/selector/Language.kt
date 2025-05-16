@@ -4,9 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.model.util.Rarity
-import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.item.countTexts
@@ -36,7 +34,3 @@ fun State.getDefaultLanguages(character: Character) = getCultureStorage()
 
 fun State.getPossibleParents(language: LanguageId) = getLanguageStorage()
     .getAllExcept(language)
-
-fun State.getPlanarLanguages(plane: PlaneId) = getLanguageStorage()
-    .getAll()
-    .filter { it.origin is PlanarLanguage && it.origin.plane == plane }

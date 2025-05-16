@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
-import at.orchaldir.gm.core.model.world.plane.PlaneId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -24,7 +23,7 @@ sealed class LanguageOrigin : Created {
         is EvolvedLanguage -> LanguageOriginType.Evolved
         is InventedLanguage -> LanguageOriginType.Invented
         OriginalLanguage -> LanguageOriginType.Original
-        is PlanarLanguage -> LanguageOriginType.Planar
+        PlanarLanguage -> LanguageOriginType.Planar
     }
 
     fun isChildOf(language: LanguageId) = when (this) {
@@ -62,4 +61,4 @@ data object OriginalLanguage : LanguageOrigin()
 
 @Serializable
 @SerialName("Planar")
-data class PlanarLanguage(val plane: PlaneId) : LanguageOrigin()
+data object PlanarLanguage : LanguageOrigin()

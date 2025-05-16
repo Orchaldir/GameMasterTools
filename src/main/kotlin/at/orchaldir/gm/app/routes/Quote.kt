@@ -145,12 +145,14 @@ private fun HTML.showAllQuotes(
         table {
             tr {
                 th { +"Text" }
+                th { +"Type" }
                 th { +"Start" }
                 th { +"Source" }
             }
             qquotes.forEach { quote ->
                 tr {
                     tdLink(call, state, quote)
+                    tdEnum(quote.type)
                     td { showOptionalDate(call, state, quote.startDate()) }
                     td { showCreator(call, state, quote.source, false) }
                 }

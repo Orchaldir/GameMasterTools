@@ -222,9 +222,7 @@ fun HtmlBlockTag.selectOptionalNotEmptyString(
     string: NotEmptyString?,
     param: String,
 ) {
-    selectOptional(label, string, param) {
-        selectString(it.text, param)
-    }
+    selectString(label, string?.text ?: "", param, 0)
 }
 
 fun HtmlBlockTag.selectNotEmptyString(
@@ -337,8 +335,15 @@ fun parseChar(parameters: Parameters, param: String, default: Char): Char {
     }
 }
 
-fun parseOptionalNotEmptyString(parameters: Parameters, param: String) =
-    parameters[param]?.let { NotEmptyString.init(it) }
+fun parseOptionalNotEmptyString(parameters: Parameters, param: String) = parameters[param]
+    ?.trim()
+    ?.let { name ->
+        if (name.isEmpty()) {
+            null
+        } else {
+            NotEmptyString.init(name)
+        }
+    }
 
 fun parseNotEmptyString(parameters: Parameters, param: String) = NotEmptyString.init(parameters.getOrFail(param))
 

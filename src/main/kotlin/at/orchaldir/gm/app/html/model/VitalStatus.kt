@@ -1,20 +1,21 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.DEATH
-import at.orchaldir.gm.app.KILLER
-import at.orchaldir.gm.app.VITAL
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.character.parseCharacterId
+import at.orchaldir.gm.app.html.model.realm.parseWarId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.selector.character.getLiving
+import at.orchaldir.gm.core.selector.realm.getExistingWars
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -31,6 +32,13 @@ fun HtmlBlockTag.showVitalStatus(
         when (vitalStatus.cause) {
             is Accident -> showCauseOfDeath("Accident")
             is DeathByIllness -> showCauseOfDeath("Illness")
+            is DeathByWar -> {
+                field("Cause of Death") {
+                    +"Died during "
+                    link(call, state, vitalStatus.cause.war)
+                }
+            }
+
             is Murder -> {
                 field("Cause of Death") {
                     +"Killed by "
@@ -57,17 +65,44 @@ fun FORM.selectVitalStatus(
     selectValue("Vital Status", VITAL, VitalStatusType.entries, vitalStatus.getType())
 
     if (vitalStatus is Dead) {
-        selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
-        selectValue("Cause of death", DEATH, CauseOfDeathType.entries, vitalStatus.cause.getType())
+        val characters = state.getLiving(vitalStatus.deathDay)
+            .filter { it.id != character.id }
+        val wars = state.getExistingWars(vitalStatus.deathDay)
 
-        if (vitalStatus.cause is Murder) {
-            selectElement(
+        selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
+        selectValue(
+            "Cause of death",
+            DEATH,
+            CauseOfDeathType.entries,
+            vitalStatus.cause.getType(),
+        ) { type ->
+            when (type) {
+                CauseOfDeathType.Murder -> characters.isEmpty()
+                CauseOfDeathType.War -> wars.isEmpty()
+                else -> false
+            }
+        }
+
+        when (vitalStatus.cause) {
+            Accident -> doNothing()
+            DeathByIllness -> doNothing()
+            is DeathByWar -> selectElement(
+                state,
+                "War",
+                WAR,
+                wars,
+                vitalStatus.cause.war,
+            )
+
+            is Murder -> selectElement(
                 state,
                 "Killer",
                 KILLER,
-                state.getCharacterStorage().getAllExcept(character.id),
+                characters,
                 vitalStatus.cause.killer,
             )
+
+            OldAge -> doNothing()
         }
     }
 }
@@ -90,6 +125,9 @@ fun parseVitalStatus(
                 )
 
                 CauseOfDeathType.OldAge -> OldAge
+                CauseOfDeathType.War -> DeathByWar(
+                    parseWarId(parameters, WAR),
+                )
             },
         )
     }

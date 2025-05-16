@@ -33,7 +33,7 @@ fun FORM.editPantheon(
     pantheon: Pantheon,
 ) {
     selectName(pantheon.name)
-    selectOptionalNotEmptyString("Optional Title", pantheon.title, TITLE)
+    selectOptionalNotEmptyString("Title", pantheon.title, TITLE)
     selectElements(state, "Member Gods", GOD, state.sortGods(), pantheon.gods)
 }
 

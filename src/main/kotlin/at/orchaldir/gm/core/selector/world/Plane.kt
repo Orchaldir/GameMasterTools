@@ -1,19 +1,26 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.world.plane.*
-import at.orchaldir.gm.core.selector.getPlanarLanguages
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getStartYear
 import at.orchaldir.gm.utils.doNothing
 
 fun State.canDeletePlane(plane: PlaneId) = getDemiplanes(plane).isEmpty()
         && getReflections(plane).isEmpty()
-        && getPlanarLanguages(plane).isEmpty()
         && getMoons(plane).isEmpty()
+
+// count
+
+fun State.countPlanes(language: LanguageId) = getPlaneStorage()
+    .getAll()
+    .count { it.languages.contains(language) }
+
+// get
 
 fun State.getDemiplanes(plane: PlaneId) = getPlaneStorage()
     .getAll()
@@ -30,6 +37,12 @@ fun State.getPrisonPlane(god: GodId) = getPlaneStorage()
 fun State.getReflections(plane: PlaneId) = getPlaneStorage()
     .getAll()
     .filter { it.purpose is ReflectivePlane && it.purpose.plane == plane }
+
+fun State.getPlanes(language: LanguageId) = getPlaneStorage()
+    .getAll()
+    .filter { it.languages.contains(language) }
+
+// alignment
 
 fun State.getPlanarAlignments(day: Day): Map<Plane, PlanarAlignment> {
     val results = mutableMapOf<Plane, PlanarAlignment>()
@@ -72,4 +85,3 @@ fun State.getPlanarAlignments(year: Year): Map<Plane, PlanarAlignment> {
 
     return results
 }
-

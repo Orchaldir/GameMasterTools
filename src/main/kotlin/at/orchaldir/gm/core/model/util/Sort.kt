@@ -24,6 +24,7 @@ enum class SortBusiness {
 
 enum class SortCharacter {
     Name,
+    Start,
     Age,
 }
 
@@ -68,6 +69,12 @@ enum class SortJob {
     Income,
     Characters,
     Spells,
+}
+
+enum class SortLanguage {
+    Name,
+    Characters,
+    Cultures,
 }
 
 enum class SortMagicTradition {

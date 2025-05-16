@@ -1,15 +1,18 @@
 package at.orchaldir.gm.app.html.model.world
 
+import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.editDataSources
 import at.orchaldir.gm.app.html.model.parseDataSources
+import at.orchaldir.gm.app.html.model.parseLanguageId
 import at.orchaldir.gm.app.html.model.showDataSources
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
-import at.orchaldir.gm.core.selector.getPlanarLanguages
 import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.core.selector.util.sortLanguages
 import at.orchaldir.gm.core.selector.world.getDemiplanes
 import at.orchaldir.gm.core.selector.world.getMoons
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
@@ -30,11 +33,11 @@ fun HtmlBlockTag.showPlane(
     optionalField("Title", plane.title)
     showPlanePurpose(call, state, plane.purpose)
     optionalField("Current Alignment", state.getPlanarAlignment(plane, currentDate))
+    fieldIdList(call, state, plane.languages)
 
     fieldList(call, state, "Demiplanes", state.getDemiplanes(plane.id))
     fieldList(call, state, "Reflection", state.getReflections(plane.id))
     fieldList(call, state, "Associated Moons", state.getMoons(plane.id))
-    fieldList(call, state, "Associated Languages", state.getPlanarLanguages(plane.id))
     showDataSources(call, state, plane.sources)
 }
 
@@ -47,6 +50,13 @@ fun HtmlBlockTag.editPlane(
     selectName(plane.name)
     selectOptionalNotEmptyString("Optional Title", plane.title, TITLE)
     editPlanePurpose(state, plane)
+    selectElements(
+        state,
+        "Languages",
+        LANGUAGES,
+        state.sortLanguages(),
+        plane.languages,
+    )
     editDataSources(state, plane.sources)
 }
 
@@ -61,5 +71,6 @@ fun parsePlane(parameters: Parameters, id: PlaneId) = Plane(
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),
     parsePlanePurpose(parameters),
+    parseElements(parameters, LANGUAGES, ::parseLanguageId),
     parseDataSources(parameters),
 )

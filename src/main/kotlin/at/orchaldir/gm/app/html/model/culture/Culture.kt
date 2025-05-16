@@ -42,6 +42,7 @@ fun HtmlBlockTag.showCulture(
     showNamingConvention(culture.namingConvention, call, state)
     showClothingOptions(call, state, culture)
     showUsages(call, state, culture)
+    showCreated(call, state, culture.id)
 }
 
 private fun HtmlBlockTag.showUsages(
@@ -282,6 +283,9 @@ private fun FORM.editClothingOptions(
 }
 
 // parse
+
+fun parseCultureId(parameters: Parameters, param: String) = CultureId(parseInt(parameters, param))
+fun parseCultureId(value: String) = CultureId(value.toInt())
 
 fun parseCulture(
     parameters: Parameters,
