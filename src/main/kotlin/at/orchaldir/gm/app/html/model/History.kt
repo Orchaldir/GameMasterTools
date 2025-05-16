@@ -12,6 +12,25 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
+// show
+
+fun <T> HtmlBlockTag.showHistory(
+    call: ApplicationCall,
+    state: State,
+    history: History<T?>,
+    label: String,
+    nullLabel: String,
+    showEntry: HtmlBlockTag.(ApplicationCall, State, T) -> Unit,
+) {
+    showHistory(call, state, history, label) { _, _, entry ->
+        if (entry != null) {
+            showEntry(call, state, entry)
+        } else {
+            +nullLabel
+        }
+    }
+}
+
 fun <T> HtmlBlockTag.showHistory(
     call: ApplicationCall,
     state: State,
@@ -31,6 +50,8 @@ fun <T> HtmlBlockTag.showHistory(
         }
     }
 }
+
+// edit
 
 fun <T> HtmlBlockTag.selectHistory(
     state: State,
@@ -57,6 +78,8 @@ fun <T> HtmlBlockTag.selectHistory(
         selectEntry(state, param, history.current, minDate)
     }
 }
+
+// parse
 
 fun <T> parseHistory(
     parameters: Parameters,

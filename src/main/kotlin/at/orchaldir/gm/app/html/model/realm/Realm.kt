@@ -30,19 +30,11 @@ fun HtmlBlockTag.showRealm(
 ) {
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
-    showHistory(call, state, realm.capital, "Capital") { _, _, town ->
-        if (town != null) {
-            link(call, state, town)
-        } else {
-            +"None"
-        }
+    showHistory(call, state, realm.capital, "Capital", "None") { _, _, town ->
+        link(call, state, town)
     }
-    showHistory(call, state, realm.owner, "Owner") { _, _, owner ->
-        if (owner != null) {
-            link(call, state, owner)
-        } else {
-            +"Independent"
-        }
+    showHistory(call, state, realm.owner, "Owner", "Independent") { _, _, owner ->
+        link(call, state, owner)
     }
 
     val wars = state.sortWars(state.getWars(realm.id), SortWar.Start)
