@@ -156,6 +156,7 @@ private fun HTML.showAllRealms(
                 th { +"Date" }
                 th { +"Age" }
                 th { +"Founder" }
+                th { +"Capital" }
             }
             realms.forEach { realm ->
                 tr {
@@ -163,6 +164,7 @@ private fun HTML.showAllRealms(
                     td { showOptionalDate(call, state, realm.date) }
                     tdSkipZero(state.getAgeInYears(realm.date))
                     td { showCreator(call, state, realm.founder, false) }
+                    tdLink(call, state, realm.capital.current)
                 }
             }
         }

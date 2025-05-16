@@ -8,6 +8,8 @@ import at.orchaldir.gm.app.html.model.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
+import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCapital
 import at.orchaldir.gm.core.selector.util.sortTownMaps
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap
 import at.orchaldir.gm.core.selector.world.getTownMaps
@@ -25,6 +27,8 @@ fun HtmlBlockTag.showTown(
 ) {
     fieldCreator(call, state, town.founder, "Founder")
     optionalField(call, state, "Date", town.foundingDate)
+    fieldList(call, state, "Capital of", state.getRealmsWithCapital(town.id))
+    fieldList(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
 
     val currentOptionalTownMaps = state.getCurrentTownMap(town.id)
 

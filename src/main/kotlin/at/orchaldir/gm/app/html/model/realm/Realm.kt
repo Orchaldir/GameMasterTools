@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.town.parseTownId
 import at.orchaldir.gm.app.html.optionalFieldLink
+import at.orchaldir.gm.app.html.optionalLink
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.selectName
@@ -32,7 +33,7 @@ fun HtmlBlockTag.showRealm(
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showHistory(call, state, realm.capital, "Capital") { call, state, town ->
-        optionalFieldLink(call, state, town)
+        optionalLink(call, state, town)
     }
 
     val wars = state.sortWars(state.getWars(realm.id), SortWar.Start)
