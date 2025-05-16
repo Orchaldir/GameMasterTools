@@ -57,6 +57,21 @@
   "3": {
    "id": 3,
    "name": "Cyre",
+   "capital": {
+    "current": 2
+   },
+   "owner": {
+    "current": 0,
+    "previousEntries": [
+     {
+      "entry": 0,
+      "until": {
+       "type": "Year",
+       "year": 893
+      }
+     }
+    ]
+   },
    "sources": [
     3
    ]
