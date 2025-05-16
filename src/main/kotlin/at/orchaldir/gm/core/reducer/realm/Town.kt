@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
@@ -14,6 +15,7 @@ import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCapital
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
+import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.core.selector.world.getTownMaps
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -55,4 +57,9 @@ fun validateTown(state: State, town: Town) {
     checkDate(state, town.foundingDate, "Town")
     validateCreator(state, town.founder, town.id, town.foundingDate, "founder")
     state.getDataSourceStorage().require(town.sources)
+    checkHistory(state, town.owner, town.foundingDate, "owner") { _, realmId, _, date ->
+        if (realmId != null) {
+            state.requireExists(state.getRealmStorage(), realmId, date)
+        }
+    }
 }
