@@ -22,6 +22,12 @@ enum class SortBusiness {
     Employees,
 }
 
+enum class SortCatastrophe {
+    Name,
+    Start,
+    End,
+}
+
 enum class SortCharacter {
     Name,
     Start,
