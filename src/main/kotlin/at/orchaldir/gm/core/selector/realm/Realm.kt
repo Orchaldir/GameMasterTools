@@ -14,6 +14,8 @@ fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
         && countWars(realm) == 0
         && getSubRealms(realm).isEmpty()
         && getPreviousSubRealms(realm).isEmpty()
+        && getOwnedTowns(realm).isEmpty()
+        && getPreviousOwnedTowns(realm).isEmpty()
 
 fun State.getExistingRealms(date: Date?) = getExistingElements(getRealmStorage().getAll(), date)
 
