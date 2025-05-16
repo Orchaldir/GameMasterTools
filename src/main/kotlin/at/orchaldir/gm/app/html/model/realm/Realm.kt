@@ -35,14 +35,11 @@ fun HtmlBlockTag.showRealm(
         link(call, state, owner)
     }
 
-    val subRealms = state.sortRealms(state.getSubRealms(realm.id))
-    val prevSubRealms = state.sortRealms(state.getPreviousSubRealms(realm.id))
+
     val ownedTowns = state.sortTowns(state.getOwnedTowns(realm.id))
     val prevOwnedTowns = state.sortTowns(state.getPreviousOwnedTowns(realm.id))
     val wars = state.sortWars(state.getWars(realm.id))
 
-    fieldList(call, state, "Subrealms", subRealms)
-    fieldList(call, state, "Previous Subrealms", prevSubRealms)
     fieldList(call, state, "Owned Towns", ownedTowns)
     fieldList(call, state, "Previous Owned Towns", prevOwnedTowns)
     fieldList(call, state, wars)
