@@ -17,11 +17,12 @@ import kotlin.test.assertEquals
 
 class RealmTest {
 
-    val realm1 = Realm(REALM_ID_1)
+    private val realm0 = Realm(REALM_ID_0)
+    private val realm1 = Realm(REALM_ID_1)
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(listOf(Realm(REALM_ID_0), realm1)),
+            Storage(listOf(realm0, realm1)),
         )
     )
 
@@ -60,6 +61,27 @@ class RealmTest {
             val newState = STATE.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete Realm 0, because of owned elements (Building)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a realm that owns another realm`() {
+            val newRealm1 = Realm(REALM_ID_1, owner = History(REALM_ID_0))
+            val newState = STATE.updateStorage(Storage(listOf(realm0, newRealm1)))
+
+            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a realm that owned another realm`() {
+            val history = History(null, HistoryEntry(REALM_ID_0, DAY0))
+            val newRealm1 = Realm(REALM_ID_1, owner = history)
+            val newState = STATE.updateStorage(Storage(listOf(realm0, newRealm1)))
+
+            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
                 REDUCER.invoke(newState, action)
             }
         }

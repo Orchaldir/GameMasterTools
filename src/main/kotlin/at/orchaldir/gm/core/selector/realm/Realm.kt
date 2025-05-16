@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
 fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
         && !isCurrentOrFormerOwner(realm)
         && countWars(realm) == 0
+        && getSubRealms(realm).isEmpty()
+        && getPreviousSubRealms(realm).isEmpty()
 
 fun State.getExistingRealms(date: Date?) = getExistingElements(getRealmStorage().getAll(), date)
 
