@@ -17,6 +17,8 @@ import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
+import at.orchaldir.gm.core.model.realm.Catastrophe
+import at.orchaldir.gm.core.model.realm.CreatedCatastrophe
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.religion.God
@@ -70,6 +72,17 @@ class CreatorTest {
             val newState = STATE.updateStorage(Storage(business))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Business)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Created a catastrophe`() {
+            val cause = CreatedCatastrophe(CreatedByCharacter(CHARACTER_ID_0))
+            val catastrophe = Catastrophe(CATASTROPHE_ID_0, cause = cause)
+            val newState = STATE.updateStorage(Storage(catastrophe))
+
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Catastrophe)!") {
                 REDUCER.invoke(newState, action)
             }
         }
