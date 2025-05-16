@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteCurrency
 import at.orchaldir.gm.core.action.UpdateCurrency
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
+import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -40,9 +41,7 @@ fun validateCurrency(
     state: State,
     currency: Currency,
 ) {
-    require(state.getDefaultCalendar().isAfterOptional(currency.endDate, currency.startDate)) {
-        "Start date is after end date!"
-    }
+    validateHasStartAndEnd(state, currency)
     val currencyUnits = state.getCurrencyUnits(currency.id)
     val minSubDenomination = currencyUnits.maxOfOrNull { it.denomination } ?: 0
     require(currency.subDenominations.size >= minSubDenomination) {
