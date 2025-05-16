@@ -1,5 +1,20 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "The Mourning",
+   "startDate": {
+    "type": "Day",
+    "day": 333695
+   },
+   "endDate": {
+    "type": "Day",
+    "day": 333695
+   },
+   "sources": [
+    3
+   ]
+  }
  }
 }
