@@ -24,9 +24,14 @@ class SameStartAndEndEvent<ID : Id<ID>>(
     id: ID,
 ) : Event<ID>(date, id)
 
-class OwnershipChangedEvent<ID : Id<ID>>(
+enum class HistoryEventType {
+    Ownership,
+}
+
+class HistoryEvent<ID : Id<ID>, T>(
     date: Date,
     id: ID,
-    val from: Owner,
-    val to: Owner,
+    val type: HistoryEventType,
+    val from: T,
+    val to: T,
 ) : Event<ID>(date, id)

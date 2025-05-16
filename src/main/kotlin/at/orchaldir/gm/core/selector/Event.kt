@@ -193,9 +193,10 @@ private fun <ID : Id<ID>> addOwnershipEvent(
 ) {
     if (entry != null) {
         addEvent(events, from, to, entry.until) {
-            OwnershipChangedEvent(
+            HistoryEvent(
                 it,
                 id,
+                HistoryEventType.Ownership,
                 entry.entry,
                 owner,
             )

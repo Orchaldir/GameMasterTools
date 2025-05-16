@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.getEvents
 import at.orchaldir.gm.core.selector.sort
@@ -101,7 +102,7 @@ private fun TD.showEvent(
         "happened",
     )
 
-    is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)
+    is HistoryEvent<*, *> -> handleOwnershipChanged(call, state, event)
 }
 
 private fun getStartText(event: StartEvent<*>): String = when (event.id) {
@@ -134,12 +135,12 @@ private fun <ID : Id<ID>> HtmlBlockTag.displayEvent(
 private fun <ID : Id<ID>> HtmlBlockTag.handleOwnershipChanged(
     call: ApplicationCall,
     state: State,
-    event: OwnershipChangedEvent<ID>,
+    event: HistoryEvent<ID, *>,
 ) {
     link(call, state, event.id)
     +"'s owner changed from "
-    showOwner(call, state, event.from)
+    showOwner(call, state, event.from as Owner)
     +" to "
-    showOwner(call, state, event.to)
+    showOwner(call, state, event.to as Owner)
     +"."
 }
