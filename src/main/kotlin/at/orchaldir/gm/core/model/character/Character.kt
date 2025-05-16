@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
+import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.getGenonymName
@@ -61,7 +62,7 @@ data class Character(
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val title: TitleId? = null,
     val sources: Set<DataSourceId> = emptySet(),
-) : Element<CharacterId>, HasDataSources, HasStartDate {
+) : Element<CharacterId>, HasDataSources, HasStartAndEndDate {
 
     override fun id() = id
 
@@ -97,6 +98,7 @@ data class Character(
 
     override fun sources() = sources
     override fun startDate() = birthDate
+    override fun endDate() = vitalStatus.getDeathDate()
 
     fun getAge(state: State, currentDay: Day): Duration {
         val defaultCalendar = state.getDefaultCalendar()

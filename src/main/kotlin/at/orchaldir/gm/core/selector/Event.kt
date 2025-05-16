@@ -1,13 +1,14 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.event.EndEvent
 import at.orchaldir.gm.core.model.event.Event
 import at.orchaldir.gm.core.model.event.OwnershipChangedEvent
+import at.orchaldir.gm.core.model.event.SameStartAndEndEvent
 import at.orchaldir.gm.core.model.event.StartEvent
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
@@ -23,13 +24,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     val default = getDefaultCalendar()
 
     getArchitecturalStyleStorage().getAll().forEach { style ->
-        addPossibleEvent(events, default, calendar, style.start) {
-            StartEvent(it, style.id)
-        }
-
-        addPossibleEvent(events, default, calendar, style.end) {
-            EndEvent(it, style.id)
-        }
+        handleStartAndEnd(events, default, calendar, style, style.id)
     }
 
     getBuildingStorage().getAll().forEach { building ->
@@ -49,25 +44,11 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getCharacterStorage().getAll().forEach { character ->
-        addEvent(events, default, calendar, character.birthDate) {
-            StartEvent(it, character.id)
-        }
-
-        if (character.vitalStatus is Dead) {
-            addEvent(events, default, calendar, character.vitalStatus.deathDay) {
-                EndEvent(it, character.id)
-            }
-        }
+        handleStartAndEnd(events, default, calendar, character, character.id)
     }
 
     getCurrencyStorage().getAll().forEach { currency ->
-        addPossibleEvent(events, default, calendar, currency.startDate) {
-            StartEvent(it, currency.id)
-        }
-
-        addPossibleEvent(events, default, calendar, currency.endDate) {
-            EndEvent(it, currency.id)
-        }
+        handleStartAndEnd(events, default, calendar, currency, currency.id)
     }
 
     getFontStorage().getAll().forEach { font ->
@@ -129,16 +110,35 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getWarStorage().getAll().forEach { war ->
-        addPossibleEvent(events, default, calendar, war.startDate) {
-            StartEvent(it, war.id)
-        }
-
-        addPossibleEvent(events, default, calendar, war.endDate) {
-            EndEvent(it, war.id)
-        }
+        handleStartAndEnd(events, default, calendar, war, war.id)
     }
 
     return events
+}
+
+private fun <ID : Id<ID>, T : HasStartAndEndDate> handleStartAndEnd(
+    events: MutableList<Event<*>>,
+    from: Calendar,
+    to: Calendar,
+    element: T,
+    id: ID,
+) {
+    val startDate = element.startDate()
+    val endDate = element.endDate()
+
+    if (startDate == endDate) {
+        addPossibleEvent(events, from, to, startDate) {
+            SameStartAndEndEvent(it, id)
+        }
+    } else {
+        addPossibleEvent(events, from, to, startDate) {
+            StartEvent(it, id)
+        }
+
+        addPossibleEvent(events, from, to, endDate) {
+            EndEvent(it, id)
+        }
+    }
 }
 
 private fun addPossibleEvent(

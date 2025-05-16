@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.world.building
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -26,10 +27,11 @@ data class ArchitecturalStyle(
     val start: Year? = null,
     val end: Year? = null,
     val revival: ArchitecturalStyleId? = null,
-) : ElementWithSimpleName<ArchitecturalStyleId>, HasStartDate {
+) : ElementWithSimpleName<ArchitecturalStyleId>, HasStartAndEndDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun startDate() = start
+    override fun endDate() = end
 
 }

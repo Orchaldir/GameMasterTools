@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.economy.money
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -28,7 +29,7 @@ data class Currency(
     val subDenominations: List<Pair<Denomination, Int>> = emptyList(),
     val startDate: Date? = null,
     val endDate: Date? = null,
-) : ElementWithSimpleName<CurrencyId>, HasStartDate {
+) : ElementWithSimpleName<CurrencyId>, HasStartAndEndDate {
 
     init {
         var min = 1
@@ -41,6 +42,7 @@ data class Currency(
     override fun id() = id
     override fun name() = name.text
     override fun startDate() = startDate
+    override fun endDate() = endDate
 
     fun countDenominations() = subDenominations.size + 1
     fun getDenomination(index: Int): Denomination {

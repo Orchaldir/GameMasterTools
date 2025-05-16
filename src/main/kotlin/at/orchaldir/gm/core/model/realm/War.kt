@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getEndDay
@@ -34,23 +35,12 @@ data class War(
     val endDate: Date? = null,
     val realms: Set<RealmId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<WarId>, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<WarId>, HasDataSources, HasStartAndEndDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
     override fun startDate() = startDate
-
-    fun getDuration(state: State): Duration {
-        val calendar = state.getDefaultCalendar()
-
-        return if (startDate != null && endDate != null) {
-            calendar.getDuration(startDate, calendar.getEndDay(endDate))
-        } else if (startDate != null) {
-            calendar.getDuration(startDate, state.getCurrentDate())
-        } else {
-            Duration(0)
-        }
-    }
+    override fun endDate() = endDate
 
 }

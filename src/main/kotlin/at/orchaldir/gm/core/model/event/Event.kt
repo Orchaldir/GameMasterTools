@@ -19,6 +19,11 @@ class EndEvent<ID : Id<ID>>(
     id: ID,
 ) : Event<ID>(date, id)
 
+class SameStartAndEndEvent<ID : Id<ID>>(
+    date: Date,
+    id: ID,
+) : Event<ID>(date, id)
+
 class OwnershipChangedEvent<ID : Id<ID>>(
     date: Date,
     id: ID,
