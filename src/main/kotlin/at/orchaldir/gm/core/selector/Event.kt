@@ -89,6 +89,8 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         addPossibleEvent(events, default, calendar, realm.startDate()) {
             StartEvent(it, realm.id)
         }
+
+        addHistoricEvents(events, default, calendar, realm.id, realm.capital, HistoryEventType.Capital)
     }
 
     getSpellStorage().getAll().forEach { spell ->
