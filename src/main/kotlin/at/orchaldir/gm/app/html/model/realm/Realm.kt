@@ -9,11 +9,7 @@ import at.orchaldir.gm.app.html.model.town.parseOptionalTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.selector.realm.getExistingRealms
-import at.orchaldir.gm.core.selector.realm.getExistingTowns
-import at.orchaldir.gm.core.selector.realm.getPreviousSubRealms
-import at.orchaldir.gm.core.selector.realm.getSubRealms
-import at.orchaldir.gm.core.selector.realm.getWars
+import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.util.sortRealms
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*

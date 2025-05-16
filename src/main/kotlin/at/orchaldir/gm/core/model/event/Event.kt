@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.event
 
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.utils.Id
 
 sealed class Event<ID : Id<ID>>(
