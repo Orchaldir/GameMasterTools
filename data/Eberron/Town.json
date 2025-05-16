@@ -8,6 +8,9 @@
     "type": "Year",
     "year": 991
    },
+   "owner": {
+    "current": 2
+   },
    "sources": [
     1
    ]
@@ -18,12 +21,18 @@
    "foundingDate": {
     "type": "Year",
     "year": 969
+   },
+   "owner": {
+    "current": 2
    }
   },
   "2": {
    "id": 2,
    "name": "Metrol",
    "title": "The Rising City",
+   "owner": {
+    "current": 3
+   },
    "sources": [
     3
    ]

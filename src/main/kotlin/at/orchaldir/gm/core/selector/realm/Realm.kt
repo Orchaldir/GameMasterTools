@@ -7,12 +7,15 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
+import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
         && !isCurrentOrFormerOwner(realm)
         && countWars(realm) == 0
         && getSubRealms(realm).isEmpty()
         && getPreviousSubRealms(realm).isEmpty()
+        && getOwnedTowns(realm).isEmpty()
+        && getPreviousOwnedTowns(realm).isEmpty()
 
 fun State.getExistingRealms(date: Date?) = getExistingElements(getRealmStorage().getAll(), date)
 
@@ -24,9 +27,21 @@ fun State.getRealmsWithPreviousCapital(town: TownId) = getRealmStorage()
     .getAll()
     .filter { it.capital.previousEntries.any { it.entry == town } }
 
+fun <ID : Id<ID>> State.getSubRealms(id: ID) = if (id is RealmId) {
+    getSubRealms(id)
+} else {
+    emptyList()
+}
+
 fun State.getSubRealms(realm: RealmId) = getRealmStorage()
     .getAll()
     .filter { it.owner.current == realm }
+
+fun <ID : Id<ID>> State.getPreviousSubRealms(id: ID) = if (id is RealmId) {
+    getPreviousSubRealms(id)
+} else {
+    emptyList()
+}
 
 fun State.getPreviousSubRealms(realm: RealmId) = getRealmStorage()
     .getAll()

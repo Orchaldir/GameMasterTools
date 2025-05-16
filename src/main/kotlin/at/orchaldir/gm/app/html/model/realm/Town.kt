@@ -1,14 +1,17 @@
 package at.orchaldir.gm.app.html.model.town
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.realm.parseOptionalRealmId
 import at.orchaldir.gm.app.html.model.world.showBuildingsOfTownMap
 import at.orchaldir.gm.app.html.model.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCapital
 import at.orchaldir.gm.core.selector.util.sortTownMaps
@@ -29,6 +32,9 @@ fun HtmlBlockTag.showTown(
     optionalField("Title", town.title)
     fieldCreator(call, state, town.founder, "Founder")
     optionalField(call, state, "Date", town.foundingDate)
+    showHistory(call, state, town.owner, "Owner", "Independent") { _, _, owner ->
+        link(call, state, owner)
+    }
     fieldList(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldList(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
 
@@ -58,6 +64,15 @@ fun FORM.editTown(
     selectOptionalNotEmptyString("Optional Title", town.title, TITLE)
     selectOptionalDate(state, "Date", town.foundingDate, DATE)
     selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
+    selectHistory(state, OWNER, town.owner, town.foundingDate, "Owner") { _, param, owner, start ->
+        selectOptionalElement(
+            state,
+            "Realm",
+            param,
+            state.getExistingRealms(start),
+            owner,
+        )
+    }
     editDataSources(state, town.sources)
 }
 
@@ -67,11 +82,18 @@ fun parseTownId(parameters: Parameters, param: String) = TownId(parseInt(paramet
 fun parseOptionalTownId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { TownId(it) }
 
-fun parseTown(parameters: Parameters, state: State, id: TownId) = Town(
-    id,
-    parseName(parameters),
-    parseOptionalNotEmptyString(parameters, TITLE),
-    parseOptionalDate(parameters, state, DATE),
-    parseCreator(parameters),
-    parseDataSources(parameters),
-)
+fun parseTown(parameters: Parameters, state: State, id: TownId): Town {
+    val date = parseOptionalDate(parameters, state, DATE)
+
+    return Town(
+        id,
+        parseName(parameters),
+        parseOptionalNotEmptyString(parameters, TITLE),
+        date,
+        parseCreator(parameters),
+        parseHistory(parameters, OWNER, state, date) { _, _, param ->
+            parseOptionalRealmId(parameters, param)
+        },
+        parseDataSources(parameters),
+    )
+}

@@ -154,6 +154,7 @@ private fun HTML.showAllTowns(
                 th { +"Title" }
                 th { +"Date" }
                 th { +"Founder" }
+                th { +"Owner" }
                 th { +"Map" }
                 th { +"Buildings" }
                 th { +"Residents" }
@@ -164,6 +165,7 @@ private fun HTML.showAllTowns(
                     tdString(town.title)
                     td { showOptionalDate(call, state, town.startDate()) }
                     td { showCreator(call, state, town.founder, false) }
+                    tdLink(call, state, town.owner.current)
                     tdLink(call, state, state.getCurrentTownMap(town.id)?.id)
                     tdSkipZero(state.countBuildings(town.id))
                     tdSkipZero(state.countResident(town.id))

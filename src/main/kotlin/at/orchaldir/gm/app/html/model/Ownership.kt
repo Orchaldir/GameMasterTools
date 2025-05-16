@@ -17,11 +17,8 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
-import at.orchaldir.gm.core.selector.realm.getExistingRealms
-import at.orchaldir.gm.core.selector.realm.getExistingTowns
-import at.orchaldir.gm.core.selector.util.getExistingElements
-import at.orchaldir.gm.core.selector.util.getOwned
-import at.orchaldir.gm.core.selector.util.getPreviouslyOwned
+import at.orchaldir.gm.core.selector.realm.*
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -44,11 +41,17 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     val previousBusinesses = getPreviouslyOwned(state.getBusinessStorage(), owner)
     val periodicals = getOwned(state.getPeriodicalStorage(), owner)
     val previousPeriodicals = getPreviouslyOwned(state.getPeriodicalStorage(), owner)
+    val realms = state.sortRealms(state.getSubRealms(owner))
+    val previousRealms = state.sortRealms(state.getPreviousSubRealms(owner))
+    val towns = state.sortTowns(state.getOwnedTowns(owner))
+    val previousTowns = state.sortTowns(state.getPreviousOwnedTowns(owner))
 
     if (!alwaysShowTitle &&
         buildings.isEmpty() && previousBuildings.isEmpty() &&
         businesses.isEmpty() && previousBusinesses.isEmpty() &&
-        periodicals.isEmpty() && previousPeriodicals.isEmpty()
+        periodicals.isEmpty() && previousPeriodicals.isEmpty() &&
+        realms.isEmpty() && previousRealms.isEmpty() &&
+        towns.isEmpty() && previousTowns.isEmpty()
     ) {
         return
     }
@@ -61,6 +64,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     fieldList(call, state, "Previously owned Businesses", previousBusinesses)
     fieldList(call, state, "Owned Periodicals", periodicals)
     fieldList(call, state, "Previously owned Periodicals", previousPeriodicals)
+    fieldList(call, state, "Realms", realms)
+    fieldList(call, state, "Previous Realms", previousRealms)
+    fieldList(call, state, "Towns", towns)
+    fieldList(call, state, "Previous Towns", previousTowns)
 }
 
 

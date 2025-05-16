@@ -28,6 +28,7 @@ data class Town(
     val title: NotEmptyString? = null,
     val foundingDate: Date? = null,
     val founder: Creator = UndefinedCreator,
+    val owner: History<RealmId?> = History(null),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<TownId>, Created, HasDataSources, HasStartDate {
 

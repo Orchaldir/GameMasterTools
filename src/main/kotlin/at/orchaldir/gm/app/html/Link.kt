@@ -79,6 +79,7 @@ import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.date.resolve
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -189,28 +190,38 @@ fun HtmlBlockTag.link(
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    state: State,
     calendar: Calendar,
     date: Date,
 ) {
     val calendarDate = calendar.resolve(date)
 
-    link(call, calendar.id, date, display(calendar, calendarDate))
+    link(call, state, calendar.id, date, display(calendar, calendarDate))
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    state: State,
     calendar: CalendarId,
     date: Date,
     text: String,
 ) {
-    when (date) {
-        is Day -> link(call, calendar, date, text)
-        is DayRange -> link(call, calendar, date, text)
-        is Week -> link(call, calendar, date, text)
-        is Month -> link(call, calendar, date, text)
-        is Year -> link(call, calendar, date, text)
-        is Decade -> link(call, calendar, date, text)
-        is Century -> link(call, calendar, date, text)
+    val years = state.getCalendarStorage()
+        .getOrThrow(calendar)
+        .getDurationInYears(date, state.getCurrentDate())
+
+    span {
+        title = "$years years ago"
+
+        when (date) {
+            is Day -> link(call, calendar, date, text)
+            is DayRange -> link(call, calendar, date, text)
+            is Week -> link(call, calendar, date, text)
+            is Month -> link(call, calendar, date, text)
+            is Year -> link(call, calendar, date, text)
+            is Decade -> link(call, calendar, date, text)
+            is Century -> link(call, calendar, date, text)
+        }
     }
 }
 

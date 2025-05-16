@@ -154,6 +154,13 @@ class TownTest {
         }
 
         @Test
+        fun `Owner must exist`() {
+            val action = UpdateTown(Town(TOWN_ID_0, owner = History(UNKNOWN_REALM_ID)))
+
+            assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Date is in the future`() {
             val action = UpdateTown(Town(TOWN_ID_0, foundingDate = FUTURE_DAY_0))
 

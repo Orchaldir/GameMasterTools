@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.routes.time
 
-import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.field
 import at.orchaldir.gm.core.model.State
@@ -24,44 +23,56 @@ import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.*
 
-fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day) {
-    val state = STORE.getState()
+fun HTML.showDay(
+    call: ApplicationCall,
+    state: State,
+    calendarId: CalendarId,
+    day: Day,
+) {
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolveDay(day)
 
-    showDate(call, calendarId, day, "Day") {
+    showDate(call, state, calendarId, day, "Day") {
         visualizeMonth(call, state, calendar, displayDay.month, day)
     }
 }
 
-fun HTML.showWeek(call: ApplicationCall, calendarId: CalendarId, week: Week) {
-    val state = STORE.getState()
+fun HTML.showWeek(
+    call: ApplicationCall,
+    state: State,
+    calendarId: CalendarId,
+    week: Week,
+) {
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val month = calendar.resolveDay(calendar.getStartDayOfWeek(week)).month
 
-    showDate(call, calendarId, week, "Week") {
+    showDate(call, state, calendarId, week, "Week") {
         visualizeMonth(call, state, calendar, month, week)
     }
 }
 
-fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, month: Month) {
-    val state = STORE.getState()
+fun HTML.showMonth(
+    call: ApplicationCall,
+    state: State,
+    calendarId: CalendarId,
+    month: Month,
+) {
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayMonth = calendar.resolveMonth(month)
 
-    showDate(call, calendarId, month, "Month") {
+    showDate(call, state, calendarId, month, "Month") {
         visualizeMonth(call, state, calendar, displayMonth)
     }
 }
 
 fun HTML.showDate(
     call: ApplicationCall,
+    state: State,
     calendarId: CalendarId,
     date: Date,
     label: String,
     content: HtmlBlockTag.() -> Unit = {},
 ) {
-    val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val events = state.getEvents(calendar, date)
     val backLink = call.application.href(TimeRoutes.ShowEvents())
@@ -71,18 +82,18 @@ fun HTML.showDate(
         fieldLink("Calendar", call, state, calendar)
 
         if (date !is Day) {
-            field(call, "Start", calendar, calendar.getStartDay(date))
-            field(call, "End", calendar, calendar.getEndDay(date))
+            field(call, state, "Start", calendar, calendar.getStartDay(date))
+            field(call, state, "End", calendar, calendar.getEndDay(date))
         } else if (calendarId != state.getDefaultCalendarId()) {
             val convertedDate = state.convertDateToDefault(calendar, date)
             field(call, state, "In default calendar", convertedDate)
         }
 
-        addLinkAction(call, calendarId, "Next $label", date.next())
-        addLinkAction(call, calendarId, "Previous $label", date.previous())
+        addLinkAction(call, state, calendarId, "Next $label", date.next())
+        addLinkAction(call, state, calendarId, "Previous $label", date.previous())
 
         if (upDate != null) {
-            action { link(call, calendarId, upDate, "Up") }
+            action { link(call, state, calendarId, upDate, "Up") }
         }
 
         content()
@@ -97,12 +108,13 @@ fun HTML.showDate(
 
 private fun HtmlBlockTag.addLinkAction(
     call: ApplicationCall,
+    state: State,
     calendarId: CalendarId,
     label: String,
     date: Date?,
 ) {
     if (date != null) {
-        action { link(call, calendarId, date, label) }
+        action { link(call, state, calendarId, date, label) }
     }
 }
 

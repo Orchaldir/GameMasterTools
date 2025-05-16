@@ -49,49 +49,49 @@ fun Application.configureTimeRouting() {
             logger.info { "Show the day ${data.day.day} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDay(call, data.calendar, data.day)
+                showDay(call, STORE.getState(), data.calendar, data.day)
             }
         }
         get<TimeRoutes.ShowDayRange> { data ->
             logger.info { "Show the range ${data.start}-${data.end} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDate(call, data.calendar, DayRange(data.start, data.end), "Range")
+                showDate(call, STORE.getState(), data.calendar, DayRange(data.start, data.end), "Range")
             }
         }
         get<TimeRoutes.ShowWeek> { data ->
             logger.info { "Show the week ${data.week.week} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showWeek(call, data.calendar, data.week)
+                showWeek(call, STORE.getState(), data.calendar, data.week)
             }
         }
         get<TimeRoutes.ShowMonth> { data ->
             logger.info { "Show the month ${data.month.month} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMonth(call, data.calendar, data.month)
+                showMonth(call, STORE.getState(), data.calendar, data.month)
             }
         }
         get<TimeRoutes.ShowYear> { data ->
             logger.info { "Show the year ${data.year.year} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDate(call, data.calendar, data.year, "Year")
+                showDate(call, STORE.getState(), data.calendar, data.year, "Year")
             }
         }
         get<TimeRoutes.ShowDecade> { data ->
             logger.info { "Show the decade ${data.decade} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDate(call, data.calendar, data.decade, "Decade")
+                showDate(call, STORE.getState(), data.calendar, data.decade, "Decade")
             }
         }
         get<TimeRoutes.ShowCentury> { data ->
             logger.info { "Show the century ${data.century} for calendar ${data.calendar.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showDate(call, data.calendar, data.century, "Century")
+                showDate(call, STORE.getState(), data.calendar, data.century, "Century")
             }
         }
         get<TimeRoutes.ShowEvents> { data ->
