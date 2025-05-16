@@ -42,7 +42,7 @@ val UPDATE_REALM: Reducer<UpdateRealm, State> = { state, action ->
 
 fun validateRealm(state: State, realm: Realm) {
     validateCreator(state, realm.founder, realm.id, realm.date, "founder")
-    checkHistory(state, realm.capital, realm.date, "capital") { _, townId, noun, date ->
+    checkHistory(state, realm.capital, realm.date, "capital") { _, townId, _, date ->
         if (townId != null) {
             state.requireExists(state.getTownStorage(), townId, date)
         }

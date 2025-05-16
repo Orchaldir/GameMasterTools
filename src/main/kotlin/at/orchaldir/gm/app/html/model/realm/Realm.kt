@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.model.realm
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
@@ -9,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.SortWar
+import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
 import at.orchaldir.gm.core.selector.realm.getWars
 import at.orchaldir.gm.core.selector.util.sortWars
@@ -26,8 +28,11 @@ fun HtmlBlockTag.showRealm(
 ) {
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
-    showHistory(call, state, realm.capital, "Capital") { call, state, town ->
+    showHistory(call, state, realm.capital, "Capital") { _, _, town ->
         optionalLink(call, state, town)
+    }
+    showHistory(call, state, realm.owner, "Owner") { _, _, owner ->
+        optionalLink(call, state, owner)
     }
 
     val wars = state.sortWars(state.getWars(realm.id), SortWar.Start)
@@ -47,13 +52,22 @@ fun FORM.editRealm(
     selectName(realm.name)
     selectOptionalDate(state, "Date", realm.date, DATE)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
-    selectHistory(state, TOWN, realm.capital, realm.date, "Capital") { state, param, town, start ->
+    selectHistory(state, TOWN, realm.capital, realm.date, "Capital") { _, param, town, start ->
         selectOptionalElement(
             state,
             "Town",
             param,
             state.getExistingTowns(start),
             town,
+        )
+    }
+    selectHistory(state, OWNER, realm.owner, realm.date, "Owner") { _, param, owner, start ->
+        selectOptionalElement(
+            state,
+            "Realm",
+            param,
+            state.getExistingRealms(start),
+            owner,
         )
     }
     editDataSources(state, realm.sources)
@@ -74,6 +88,9 @@ fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
         date,
         parseHistory(parameters, TOWN, state, date) { _, _, param ->
             parseTownId(parameters, param)
+        },
+        parseHistory(parameters, OWNER, state, date) { _, _, param ->
+            parseRealmId(parameters, param)
         },
         parseDataSources(parameters),
     )
