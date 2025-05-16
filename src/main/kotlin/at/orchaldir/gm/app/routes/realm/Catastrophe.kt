@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.realm.displayCauseOfCatastrophe
 import at.orchaldir.gm.app.html.model.realm.editCatastrophe
 import at.orchaldir.gm.app.html.model.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.model.realm.showCatastrophe
@@ -157,6 +158,7 @@ private fun HTML.showAllCatastrophes(
                 th { +"Start" }
                 th { +"End" }
                 th { +"Years" }
+                th { +"Cause" }
             }
             catastrophes.forEach { catastrophe ->
                 tr {
@@ -164,6 +166,7 @@ private fun HTML.showAllCatastrophes(
                     td { showOptionalDate(call, state, catastrophe.startDate) }
                     td { showOptionalDate(call, state, catastrophe.endDate) }
                     tdSkipZero(calendar.getYears(catastrophe.getDuration(state)))
+                    td { displayCauseOfCatastrophe(call, state, catastrophe.cause, false) }
                 }
             }
         }
