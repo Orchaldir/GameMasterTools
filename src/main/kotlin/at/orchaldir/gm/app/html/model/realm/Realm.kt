@@ -5,10 +5,12 @@ import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.town.parseOptionalTownId
 import at.orchaldir.gm.app.html.model.town.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.SortWar
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
@@ -77,6 +79,8 @@ fun FORM.editRealm(
 
 fun parseRealmId(parameters: Parameters, param: String) = RealmId(parseInt(parameters, param))
 fun parseRealmId(value: String) = RealmId(value.toInt())
+fun parseOptionalRealmId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { RealmId(it) }
 
 fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
     val date = parseOptionalDate(parameters, state, DATE)
@@ -87,10 +91,10 @@ fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
         parseCreator(parameters),
         date,
         parseHistory(parameters, TOWN, state, date) { _, _, param ->
-            parseTownId(parameters, param)
+            parseOptionalTownId(parameters, param)
         },
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
-            parseRealmId(parameters, param)
+            parseOptionalRealmId(parameters, param)
         },
         parseDataSources(parameters),
     )
