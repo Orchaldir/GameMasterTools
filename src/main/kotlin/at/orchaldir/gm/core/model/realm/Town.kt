@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.realm
 
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.name.NotEmptyString
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
@@ -24,6 +25,7 @@ value class TownId(val value: Int) : Id<TownId> {
 data class Town(
     val id: TownId,
     val name: Name = Name.init("Town ${id.value}"),
+    val title: NotEmptyString? = null,
     val foundingDate: Date? = null,
     val founder: Creator = UndefinedCreator,
     val sources: Set<DataSourceId> = emptySet(),
