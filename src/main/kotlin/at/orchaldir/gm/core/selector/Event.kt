@@ -43,6 +43,10 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         addOwnershipEvents(events, default, calendar, business.id, business.ownership)
     }
 
+    getCatastropheStorage().getAll().forEach { catastrophe ->
+        handleStartAndEnd(events, default, calendar, catastrophe, catastrophe.id)
+    }
+
     getCharacterStorage().getAll().forEach { character ->
         handleStartAndEnd(events, default, calendar, character, character.id)
     }
