@@ -17,7 +17,7 @@ private fun checkHousingStatus(
     state: State,
     housingStatus: HousingStatus,
     noun: String,
-    date: Date,
+    date: Date?,
 ) {
     val building = when (housingStatus) {
         UndefinedHousingStatus -> return

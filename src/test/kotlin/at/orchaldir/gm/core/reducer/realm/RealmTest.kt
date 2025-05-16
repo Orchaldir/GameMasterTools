@@ -84,11 +84,19 @@ class RealmTest {
         }
 
         @Test
-        fun `Founder must exist`() {
+        fun `The Founder must exist`() {
             val realm = Realm(REALM_ID_0, founder = CreatedByCharacter(UNKNOWN_CHARACTER_ID))
             val action = UpdateRealm(realm)
 
             assertIllegalArgument("Cannot use an unknown Character 99 as founder!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The Capital must exist`() {
+            val realm = Realm(REALM_ID_0, capital = History(UNKNOWN_TOWN_ID))
+            val action = UpdateRealm(realm)
+
+            assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
@@ -13,3 +14,10 @@ fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
 
 fun State.getExistingRealms(date: Date?) = getExistingElements(getRealmStorage().getAll(), date)
 
+fun State.getRealmsWithCapital(town: TownId) = getRealmStorage()
+    .getAll()
+    .filter { it.capital.current == town }
+
+fun State.getRealmsWithPreviousCapital(town: TownId) = getRealmStorage()
+    .getAll()
+    .filter { it.capital.previousEntries.any { it.entry == town } }

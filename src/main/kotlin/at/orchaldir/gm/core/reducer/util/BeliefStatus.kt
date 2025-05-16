@@ -16,7 +16,7 @@ private fun checkBeliefStatus(
     state: State,
     status: BeliefStatus,
     noun: String,
-    date: Date,
+    date: Date?,
 ) {
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()

@@ -5,11 +5,13 @@ import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.realm.canDeleteRealm
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
+import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -40,4 +42,9 @@ val UPDATE_REALM: Reducer<UpdateRealm, State> = { state, action ->
 
 fun validateRealm(state: State, realm: Realm) {
     validateCreator(state, realm.founder, realm.id, realm.date, "founder")
+    checkHistory(state, realm.capital, realm.date, "capital") { _, townId, noun, date ->
+        if (townId != null) {
+            state.requireExists(state.getTownStorage(), townId, date)
+        }
+    }
 }

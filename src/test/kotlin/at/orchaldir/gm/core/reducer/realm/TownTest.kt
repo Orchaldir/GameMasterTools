@@ -9,7 +9,9 @@ import at.orchaldir.gm.core.model.character.EmployedByTown
 import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.Street
@@ -79,6 +81,25 @@ class TownTest {
             val state = createState(TownMap(TOWN_MAP_ID_0, TOWN_ID_0))
 
             assertIllegalArgument("Cannot delete Town 0, because it has a town map!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a town that is a capital`() {
+            val state = createState(Realm(REALM_ID_0, capital = History(TOWN_ID_0)))
+
+            assertIllegalArgument("Cannot delete Town 0, because it is a capital!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a town that was a capital`() {
+            val history = History<TownId?>(null, HistoryEntry(TOWN_ID_0, DAY0))
+            val state = createState(Realm(REALM_ID_0, capital = history))
+
+            assertIllegalArgument("Cannot delete Town 0, because it was a capital!") {
                 REDUCER.invoke(state, action)
             }
         }

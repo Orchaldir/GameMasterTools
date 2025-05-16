@@ -8,9 +8,9 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 fun <T> checkHistory(
     state: State,
     history: History<T>,
-    startDate: Date,
+    startDate: Date?,
     noun: String,
-    checkEntry: (State, T, String, Date) -> Unit,
+    checkEntry: (State, T, String, Date?) -> Unit,
 ) {
     val calendar = state.getDefaultCalendar()
     var min = startDate
@@ -18,7 +18,7 @@ fun <T> checkHistory(
     history.previousEntries.withIndex().forEach { (index, previous) ->
         val previousNoun = createPreviousNoun(index, noun)
         checkEntry(state, previous.entry, previousNoun, min)
-        require(calendar.compareTo(previous.until, min) > 0) { "$previousNoun's until is too early!" }
+        require(calendar.compareToOptional(previous.until, min) > 0) { "$previousNoun's until is too early!" }
 
         min = previous.until
     }

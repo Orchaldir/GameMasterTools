@@ -1,15 +1,15 @@
 package at.orchaldir.gm.app.html.model.realm
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.TOWN
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.model.town.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.SortWar
+import at.orchaldir.gm.core.selector.realm.getExistingTowns
 import at.orchaldir.gm.core.selector.realm.getWars
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
@@ -24,10 +24,14 @@ fun HtmlBlockTag.showRealm(
     state: State,
     realm: Realm,
 ) {
-    val wars = state.sortWars(state.getWars(realm.id), SortWar.Start)
-
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
+    showHistory(call, state, realm.capital, "Capital") { call, state, town ->
+        optionalLink(call, state, town)
+    }
+
+    val wars = state.sortWars(state.getWars(realm.id), SortWar.Start)
+
     fieldList(call, state, wars)
     showCreated(call, state, realm.id)
     showOwnedElements(call, state, realm.id)
@@ -43,6 +47,15 @@ fun FORM.editRealm(
     selectName(realm.name)
     selectOptionalDate(state, "Date", realm.date, DATE)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
+    selectHistory(state, TOWN, realm.capital, realm.date, "Capital") { state, param, town, start ->
+        selectOptionalElement(
+            state,
+            "Town",
+            param,
+            state.getExistingTowns(start),
+            town,
+        )
+    }
     editDataSources(state, realm.sources)
 }
 
@@ -51,10 +64,17 @@ fun FORM.editRealm(
 fun parseRealmId(parameters: Parameters, param: String) = RealmId(parseInt(parameters, param))
 fun parseRealmId(value: String) = RealmId(value.toInt())
 
-fun parseRealm(parameters: Parameters, state: State, id: RealmId) = Realm(
-    id,
-    parseName(parameters),
-    parseCreator(parameters),
-    parseOptionalDate(parameters, state, DATE),
-    parseDataSources(parameters),
-)
+fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
+    val date = parseOptionalDate(parameters, state, DATE)
+
+    return Realm(
+        id,
+        parseName(parameters),
+        parseCreator(parameters),
+        date,
+        parseHistory(parameters, TOWN, state, date) { _, _, param ->
+            parseTownId(parameters, param)
+        },
+        parseDataSources(parameters),
+    )
+}

@@ -151,6 +151,7 @@ private fun HTML.showAllTowns(
         table {
             tr {
                 th { +"Name" }
+                th { +"Title" }
                 th { +"Date" }
                 th { +"Founder" }
                 th { +"Map" }
@@ -160,6 +161,7 @@ private fun HTML.showAllTowns(
             towns.forEach { town ->
                 tr {
                     tdLink(call, state, town)
+                    tdString(town.title)
                     td { showOptionalDate(call, state, town.startDate()) }
                     td { showCreator(call, state, town.founder, false) }
                     tdLink(call, state, state.getCurrentTownMap(town.id)?.id)
