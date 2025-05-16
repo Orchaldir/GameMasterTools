@@ -66,7 +66,7 @@ fun HtmlBlockTag.showEvents(
                     if (date is Day && date == currentDate) {
                         link(call, calendar.id, date, "Today")
                     } else {
-                        link(call, calendar, date)
+                        link(call, state, calendar, date)
                     }
                 }
                 td {

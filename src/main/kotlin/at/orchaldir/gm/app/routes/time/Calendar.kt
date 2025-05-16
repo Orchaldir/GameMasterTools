@@ -161,7 +161,7 @@ private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
                     tdSkipZero(calendar.getDaysPerYear())
                     tdSkipZero(calendar.getMonthsPerYear())
                     td { showDate(call, state, calendar.getStartDateInDefaultCalendar()) }
-                    td { showDate(call, calendar, example) }
+                    td { showDate(call, state, calendar, example) }
                 }
             }
         }
