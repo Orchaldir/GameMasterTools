@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 
 fun <T> checkHistory(
@@ -14,16 +15,32 @@ fun <T> checkHistory(
 ) {
     val calendar = state.getDefaultCalendar()
     var min = startDate
+    var previous: HistoryEntry<T>? = null
 
-    history.previousEntries.withIndex().forEach { (index, previous) ->
+    history.previousEntries.withIndex().forEach { (index, entry) ->
         val previousNoun = createPreviousNoun(index, noun)
-        checkEntry(state, previous.entry, previousNoun, min)
-        require(calendar.compareToOptional(previous.until, min) > 0) { "$previousNoun's until is too early!" }
+        checkEntry(state, entry.entry, previousNoun, min)
+        require(calendar.compareToOptional(entry.until, min) > 0) { "$previousNoun's until is too early!" }
 
-        min = previous.until
+        compareWithPreviousValue(previous, entry.entry, noun)
+        previous = entry
+
+        min = entry.until
     }
 
+    compareWithPreviousValue(previous, history.current, noun)
+
     checkEntry(state, history.current, noun, min)
+}
+
+private fun <T> compareWithPreviousValue(
+    previous: HistoryEntry<T>?,
+    value: T,
+    noun: String,
+) {
+    if (previous != null) {
+        require(previous.entry != value) { "Cannot have the same $noun 2 times in a row!" }
+    }
 }
 
 fun <T> checkHistory(

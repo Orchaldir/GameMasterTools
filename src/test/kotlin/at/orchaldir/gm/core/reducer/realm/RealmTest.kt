@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -16,10 +17,11 @@ import kotlin.test.assertEquals
 
 class RealmTest {
 
+    val realm1 = Realm(REALM_ID_1)
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(Realm(REALM_ID_0)),
+            Storage(listOf(Realm(REALM_ID_0), realm1)),
         )
     )
 
@@ -29,7 +31,7 @@ class RealmTest {
 
         @Test
         fun `Can delete an existing realm`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getRealmStorage().getSize())
+            assertEquals(1, REDUCER.invoke(STATE, action).first.getRealmStorage().getSize())
         }
 
         @Test
@@ -110,6 +112,15 @@ class RealmTest {
         @Test
         fun `A realm cannot own itself`() {
             val realm = Realm(REALM_ID_0, owner = History(REALM_ID_0))
+            val action = UpdateRealm(realm)
+
+            assertIllegalArgument("A realm cannot own itself!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot have the same owner 2 times in a row`() {
+            val history = History<RealmId?>(REALM_ID_0, HistoryEntry(REALM_ID_1, DAY0))
+            val realm = Realm(REALM_ID_0, owner = history)
             val action = UpdateRealm(realm)
 
             assertIllegalArgument("A realm cannot own itself!") { REDUCER.invoke(STATE, action) }
