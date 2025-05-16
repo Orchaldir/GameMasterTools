@@ -26,6 +26,7 @@ data class Realm(
     val name: Name = Name.init("Realm ${id.value}"),
     val founder: Creator = UndefinedCreator,
     val date: Date? = null,
+    val capital: History<TownId?> = History(null),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<RealmId>, Created, HasDataSources, HasStartDate {
 

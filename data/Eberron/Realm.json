@@ -11,6 +11,9 @@
    "date": {
     "type": "Year",
     "year": 0
+   },
+   "capital": {
+    "current": 2
    }
   },
   "1": {
