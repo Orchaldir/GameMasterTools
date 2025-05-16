@@ -108,6 +108,14 @@ class RealmTest {
         }
 
         @Test
+        fun `A realm cannot own itself`() {
+            val realm = Realm(REALM_ID_0, owner = History(REALM_ID_0))
+            val action = UpdateRealm(realm)
+
+            assertIllegalArgument("A realm cannot own itself!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Update a realm`() {
             val realm = Realm(REALM_ID_0, NAME)
             val action = UpdateRealm(realm)
