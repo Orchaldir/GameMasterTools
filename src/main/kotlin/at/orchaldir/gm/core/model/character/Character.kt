@@ -20,7 +20,6 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.HasStartAndEndDate
-import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.getGenonymName
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar

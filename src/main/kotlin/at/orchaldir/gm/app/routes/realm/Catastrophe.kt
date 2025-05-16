@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
-import at.orchaldir.gm.core.model.realm.WAR_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe

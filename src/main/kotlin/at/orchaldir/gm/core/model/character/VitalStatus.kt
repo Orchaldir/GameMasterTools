@@ -30,6 +30,7 @@ sealed class VitalStatus {
 
     fun isCausedBy(catastrophe: CatastropheId) =
         this is Dead && cause is DeathByCatastrophe && cause.catastrophe == catastrophe
+
     fun isCausedBy(war: WarId) = this is Dead && cause is DeathByWar && cause.war == war
 }
 

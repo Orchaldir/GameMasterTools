@@ -1,18 +1,16 @@
 package at.orchaldir.gm.app.html.model.realm
 
 import at.orchaldir.gm.app.ORIGIN
-import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.model.parseCreator
+import at.orchaldir.gm.app.html.model.selectCreator
+import at.orchaldir.gm.app.html.model.showCreator
+import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.AccidentalCatastrophe
-import at.orchaldir.gm.core.model.realm.Catastrophe
-import at.orchaldir.gm.core.model.realm.CauseOfCatastrophe
-import at.orchaldir.gm.core.model.realm.CauseOfCatastropheType
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.realm.CauseOfCatastropheType.Undefined
-import at.orchaldir.gm.core.model.realm.CreatedCatastrophe
-import at.orchaldir.gm.core.model.realm.NaturalDisaster
-import at.orchaldir.gm.core.model.realm.UndefinedCauseOfCatastrophe
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
