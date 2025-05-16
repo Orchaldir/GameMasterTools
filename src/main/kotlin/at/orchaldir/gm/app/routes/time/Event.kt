@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -139,6 +140,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleHistoricEvent(
 ) {
     when (event.type) {
         HistoryEventType.Capital -> handleCapitalChanged(call, state, event as HistoryEvent<ID, TownId?>)
+        HistoryEventType.OwnerRealm -> handleRealmOwnershipChanged(call, state, event as HistoryEvent<ID, RealmId?>)
         HistoryEventType.Ownership -> handleOwnershipChanged(call, state, event as HistoryEvent<ID, Owner>)
     }
 }
@@ -164,7 +166,29 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleCapitalChanged(
         link(call, state, event.to)
         +" as capital."
     }
+}
 
+private fun <ID : Id<ID>> HtmlBlockTag.handleRealmOwnershipChanged(
+    call: ApplicationCall,
+    state: State,
+    event: HistoryEvent<ID, RealmId?>,
+) {
+    if (event.from != null && event.to != null) {
+        link(call, state, event.id)
+        +"'s owner changed from "
+        link(call, state, event.from)
+        +" to "
+        link(call, state, event.to)
+        +"."
+    } else if (event.from != null) {
+        link(call, state, event.id)
+        +" becomes independent."
+    } else if (event.to != null) {
+        link(call, state, event.id)
+        +" joins "
+        link(call, state, event.to)
+        +"."
+    }
 }
 
 private fun <ID : Id<ID>> HtmlBlockTag.handleOwnershipChanged(
