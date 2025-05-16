@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.model.displayOrigin
 import at.orchaldir.gm.app.html.model.editLanguage
 import at.orchaldir.gm.app.html.model.parseLanguage
 import at.orchaldir.gm.app.html.model.showLanguage
-import at.orchaldir.gm.app.routes.world.PlaneRoutes
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
@@ -15,7 +14,6 @@ import at.orchaldir.gm.core.model.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.util.SortLanguage
-import at.orchaldir.gm.core.model.util.SortPlane
 import at.orchaldir.gm.core.selector.canDeleteLanguage
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.countChildren

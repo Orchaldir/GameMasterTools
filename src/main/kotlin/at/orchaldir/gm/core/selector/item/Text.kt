@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.quote.QuoteId
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.selector.util.getCreatorName
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()

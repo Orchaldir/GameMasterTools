@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.SimpleAging

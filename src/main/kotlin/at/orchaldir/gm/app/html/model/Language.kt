@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.selector.getPossibleParents
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.magic.getSpells
-import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.core.selector.world.getPlanes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -119,7 +118,6 @@ private fun FORM.editOrigin(
     val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.getPossibleParents(language.id)
         .sortedBy { it.name.text }
-    val planes = state.sortPlanes()
 
     selectValue("Origin", ORIGIN, entries, language.origin.getType()) {
         when (it) {

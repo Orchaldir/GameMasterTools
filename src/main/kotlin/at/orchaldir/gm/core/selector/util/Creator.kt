@@ -1,20 +1,10 @@
 package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Created
-import at.orchaldir.gm.core.model.util.CreatedByBusiness
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
-import at.orchaldir.gm.core.model.util.CreatedByCulture
-import at.orchaldir.gm.core.model.util.CreatedByGod
-import at.orchaldir.gm.core.model.util.CreatedByOrganization
-import at.orchaldir.gm.core.model.util.CreatedByRealm
-import at.orchaldir.gm.core.model.util.CreatedByTown
-import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun <ID : Id<ID>> State.isCreator(id: ID) = isCreator(getArticleStorage(), id)
         || isCreator(getBuildingStorage(), id)

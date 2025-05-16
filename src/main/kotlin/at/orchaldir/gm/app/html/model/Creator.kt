@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.character.parseCharacterId
-import at.orchaldir.gm.app.html.model.culture.parseCulture
 import at.orchaldir.gm.app.html.model.culture.parseCultureId
 import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId

@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.HasStartDate

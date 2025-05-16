@@ -124,6 +124,7 @@ private fun checkCauseOfDeath(
 
             is Murder -> state.getCharacterStorage()
                 .require(dead.cause.killer) { "Cannot use an unknown killer ${dead.cause.killer.value}!" }
+
             OldAge -> doNothing()
         }
     }
