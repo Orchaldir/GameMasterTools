@@ -17,6 +17,8 @@ interface HasStartAndEndDate : HasStartDate {
 
     fun endDate(): Date?
 
+    fun hasSameStartAndEnd() = startDate() != null && startDate() == endDate()
+
     fun getDuration(state: State): Duration {
         val calendar = state.getDefaultCalendar()
         val startDate = startDate()
