@@ -169,11 +169,8 @@ class OrganizationTest {
                 val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
                 val action = UpdateOrganization(organization)
 
-                assertIllegalArgument("The rank is the same as the previous one for member 0!") {
-                    REDUCER.invoke(
-                        state,
-                        action
-                    )
+                assertIllegalArgument("Cannot have the same rank 2 times in a row!") {
+                    REDUCER.invoke(state, action)
                 }
             }
         }

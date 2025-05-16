@@ -22,7 +22,7 @@ interface HasStartAndEndDate : HasStartDate {
     fun getDuration(state: State): Duration {
         val calendar = state.getDefaultCalendar()
         val startDate = startDate()
-        val endDate = startDate()
+        val endDate = endDate()
 
         return if (startDate != null && endDate != null) {
             calendar.getDuration(startDate, calendar.getEndDay(endDate))

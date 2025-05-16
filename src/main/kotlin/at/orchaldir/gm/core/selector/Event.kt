@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
-import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.convertDate
 import at.orchaldir.gm.core.selector.time.date.createSorter
@@ -28,7 +27,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
             StartEvent(it, building.id)
         }
 
-        addOwnershipEvents(events, default, calendar, building.id, building.ownership)
+        addHistoricEvents(events, default, calendar, building.id, building.ownership, HistoryEventType.Ownership)
     }
 
     getBusinessStorage().getAll().forEach { business ->
@@ -36,7 +35,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
             StartEvent(it, business.id)
         }
 
-        addOwnershipEvents(events, default, calendar, business.id, business.ownership)
+        addHistoricEvents(events, default, calendar, business.id, business.ownership, HistoryEventType.Ownership)
     }
 
     getCatastropheStorage().getAll().forEach { catastrophe ->
@@ -70,7 +69,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
             StartEvent(it, periodical.id)
         }
 
-        addOwnershipEvents(events, default, calendar, periodical.id, periodical.ownership)
+        addHistoricEvents(events, default, calendar, periodical.id, periodical.ownership, HistoryEventType.Ownership)
     }
 
     getOrganizationStorage().getAll().forEach { organization ->
@@ -89,6 +88,9 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         addPossibleEvent(events, default, calendar, realm.startDate()) {
             StartEvent(it, realm.id)
         }
+
+        addHistoricEvents(events, default, calendar, realm.id, realm.capital, HistoryEventType.Capital)
+        addHistoricEvents(events, default, calendar, realm.id, realm.owner, HistoryEventType.OwnerRealm)
     }
 
     getSpellStorage().getAll().forEach { spell ->
@@ -165,37 +167,40 @@ private fun addEvent(
     events.add(create(convertedDate))
 }
 
-private fun <ID : Id<ID>> addOwnershipEvents(
+private fun <ID : Id<ID>, T> addHistoricEvents(
     events: MutableList<Event<*>>,
     from: Calendar,
     to: Calendar,
     id: ID,
-    ownership: History<Owner>,
+    ownership: History<T>,
+    type: HistoryEventType,
 ) {
-    var lastPrevious: HistoryEntry<Owner>? = null
+    var lastPrevious: HistoryEntry<T>? = null
 
     for (previous in ownership.previousEntries) {
-        addOwnershipEvent(events, from, to, id, lastPrevious, previous.entry)
+        addHistoricEvent(events, from, to, id, lastPrevious, previous.entry, type)
 
         lastPrevious = previous
     }
 
-    addOwnershipEvent(events, from, to, id, lastPrevious, ownership.current)
+    addHistoricEvent(events, from, to, id, lastPrevious, ownership.current, type)
 }
 
-private fun <ID : Id<ID>> addOwnershipEvent(
+private fun <ID : Id<ID>, T> addHistoricEvent(
     events: MutableList<Event<*>>,
     from: Calendar,
     to: Calendar,
     id: ID,
-    entry: HistoryEntry<Owner>?,
-    owner: Owner,
+    entry: HistoryEntry<T>?,
+    owner: T,
+    type: HistoryEventType,
 ) {
     if (entry != null) {
         addEvent(events, from, to, entry.until) {
-            OwnershipChangedEvent(
+            HistoryEvent(
                 it,
                 id,
+                type,
                 entry.entry,
                 owner,
             )

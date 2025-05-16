@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -16,10 +17,12 @@ import kotlin.test.assertEquals
 
 class RealmTest {
 
+    private val realm0 = Realm(REALM_ID_0)
+    private val realm1 = Realm(REALM_ID_1)
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(Realm(REALM_ID_0)),
+            Storage(listOf(realm0, realm1)),
         )
     )
 
@@ -29,7 +32,7 @@ class RealmTest {
 
         @Test
         fun `Can delete an existing realm`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getRealmStorage().getSize())
+            assertEquals(1, REDUCER.invoke(STATE, action).first.getRealmStorage().getSize())
         }
 
         @Test
@@ -58,6 +61,27 @@ class RealmTest {
             val newState = STATE.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete Realm 0, because of owned elements (Building)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a realm that owns another realm`() {
+            val newRealm1 = Realm(REALM_ID_1, owner = History(REALM_ID_0))
+            val newState = STATE.updateStorage(Storage(listOf(realm0, newRealm1)))
+
+            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a realm that owned another realm`() {
+            val history = History(null, HistoryEntry(REALM_ID_0, DAY0))
+            val newRealm1 = Realm(REALM_ID_1, owner = history)
+            val newState = STATE.updateStorage(Storage(listOf(realm0, newRealm1)))
+
+            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
                 REDUCER.invoke(newState, action)
             }
         }
@@ -97,6 +121,31 @@ class RealmTest {
             val action = UpdateRealm(realm)
 
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The realm owning this realm must exist`() {
+            val realm = Realm(REALM_ID_0, owner = History(UNKNOWN_REALM_ID))
+            val action = UpdateRealm(realm)
+
+            assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `A realm cannot own itself`() {
+            val realm = Realm(REALM_ID_0, owner = History(REALM_ID_0))
+            val action = UpdateRealm(realm)
+
+            assertIllegalArgument("A realm cannot own itself!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot have the same owner 2 times in a row`() {
+            val history = History<RealmId?>(REALM_ID_1, HistoryEntry(REALM_ID_1, DAY0))
+            val realm = Realm(REALM_ID_0, owner = history)
+            val action = UpdateRealm(realm)
+
+            assertIllegalArgument("Cannot have the same owner 2 times in a row!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

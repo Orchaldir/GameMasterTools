@@ -19,6 +19,18 @@
   "1": {
    "id": 1,
    "name": "Aundair",
+   "owner": {
+    "current": null,
+    "previousEntries": [
+     {
+      "entry": 0,
+      "until": {
+       "type": "Year",
+       "year": 893
+      }
+     }
+    ]
+   },
    "sources": [
     3
    ]
@@ -26,6 +38,18 @@
   "2": {
    "id": 2,
    "name": "Breland",
+   "owner": {
+    "current": null,
+    "previousEntries": [
+     {
+      "entry": 0,
+      "until": {
+       "type": "Year",
+       "year": 893
+      }
+     }
+    ]
+   },
    "sources": [
     3
    ]
@@ -33,6 +57,21 @@
   "3": {
    "id": 3,
    "name": "Cyre",
+   "capital": {
+    "current": 2
+   },
+   "owner": {
+    "current": null,
+    "previousEntries": [
+     {
+      "entry": 0,
+      "until": {
+       "type": "Year",
+       "year": 893
+      }
+     }
+    ]
+   },
    "sources": [
     3
    ]
@@ -40,6 +79,18 @@
   "4": {
    "id": 4,
    "name": "Karrnath",
+   "owner": {
+    "current": null,
+    "previousEntries": [
+     {
+      "entry": 0,
+      "until": {
+       "type": "Year",
+       "year": 893
+      }
+     }
+    ]
+   },
    "sources": [
     3
    ]
@@ -47,6 +98,18 @@
   "5": {
    "id": 5,
    "name": "Thrane",
+   "owner": {
+    "current": null,
+    "previousEntries": [
+     {
+      "entry": 0,
+      "until": {
+       "type": "Year",
+       "year": 893
+      }
+     }
+    ]
+   },
    "sources": [
     3
    ]

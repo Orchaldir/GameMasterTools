@@ -17,10 +17,12 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.getEvents
 import at.orchaldir.gm.core.selector.sort
@@ -101,7 +103,7 @@ private fun TD.showEvent(
         "happened",
     )
 
-    is OwnershipChangedEvent<*> -> handleOwnershipChanged(call, state, event)
+    is HistoryEvent<*, *> -> handleHistoricEvent(call, state, event)
 }
 
 private fun getStartText(event: StartEvent<*>): String = when (event.id) {
@@ -131,10 +133,68 @@ private fun <ID : Id<ID>> HtmlBlockTag.displayEvent(
     +" $text."
 }
 
+private fun <ID : Id<ID>> HtmlBlockTag.handleHistoricEvent(
+    call: ApplicationCall,
+    state: State,
+    event: HistoryEvent<ID, *>,
+) {
+    when (event.type) {
+        HistoryEventType.Capital -> handleCapitalChanged(call, state, event as HistoryEvent<ID, TownId?>)
+        HistoryEventType.OwnerRealm -> handleRealmOwnershipChanged(call, state, event as HistoryEvent<ID, RealmId?>)
+        HistoryEventType.Ownership -> handleOwnershipChanged(call, state, event as HistoryEvent<ID, Owner>)
+    }
+}
+
+private fun <ID : Id<ID>> HtmlBlockTag.handleCapitalChanged(
+    call: ApplicationCall,
+    state: State,
+    event: HistoryEvent<ID, TownId?>,
+) {
+    if (event.from != null && event.to != null) {
+        link(call, state, event.id)
+        +"'s capital changed from "
+        link(call, state, event.from)
+        +" to "
+        link(call, state, event.to)
+        +"."
+    } else if (event.from != null) {
+        link(call, state, event.id)
+        +" lost its capital."
+    } else if (event.to != null) {
+        link(call, state, event.id)
+        +" gains "
+        link(call, state, event.to)
+        +" as capital."
+    }
+}
+
+private fun <ID : Id<ID>> HtmlBlockTag.handleRealmOwnershipChanged(
+    call: ApplicationCall,
+    state: State,
+    event: HistoryEvent<ID, RealmId?>,
+) {
+    if (event.from != null && event.to != null) {
+        link(call, state, event.id)
+        +"'s owner changed from "
+        link(call, state, event.from)
+        +" to "
+        link(call, state, event.to)
+        +"."
+    } else if (event.from != null) {
+        link(call, state, event.id)
+        +" becomes independent."
+    } else if (event.to != null) {
+        link(call, state, event.id)
+        +" joins "
+        link(call, state, event.to)
+        +"."
+    }
+}
+
 private fun <ID : Id<ID>> HtmlBlockTag.handleOwnershipChanged(
     call: ApplicationCall,
     state: State,
-    event: OwnershipChangedEvent<ID>,
+    event: HistoryEvent<ID, Owner>,
 ) {
     link(call, state, event.id)
     +"'s owner changed from "

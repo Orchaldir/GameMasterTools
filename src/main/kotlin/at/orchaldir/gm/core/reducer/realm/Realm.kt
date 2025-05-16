@@ -42,9 +42,15 @@ val UPDATE_REALM: Reducer<UpdateRealm, State> = { state, action ->
 
 fun validateRealm(state: State, realm: Realm) {
     validateCreator(state, realm.founder, realm.id, realm.date, "founder")
-    checkHistory(state, realm.capital, realm.date, "capital") { _, townId, noun, date ->
+    checkHistory(state, realm.capital, realm.date, "capital") { _, townId, _, date ->
         if (townId != null) {
             state.requireExists(state.getTownStorage(), townId, date)
+        }
+    }
+    checkHistory(state, realm.owner, realm.date, "owner") { _, realmId, _, date ->
+        if (realmId != null) {
+            state.requireExists(state.getRealmStorage(), realmId, date)
+            require(realm.id != realmId) { "A realm cannot own itself!" }
         }
     }
 }

@@ -64,14 +64,11 @@ private fun validateMembers(state: State, organization: Organization) {
         }
 
         val startDate = state.getDefaultCalendar().max(character.birthDate, organization.date)
-        var lastRank: Int? = -1
 
         checkHistory(state, history, startDate, "rank") { _, rank, noun, _ ->
             if (rank != null) {
                 validateRank(organization, noun, rank)
             }
-            require(rank != lastRank) { "The $noun is the same as the previous one for member ${characterId.value}!" }
-            lastRank = rank
         }
     }
 }

@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.event
 
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.utils.Id
 
 sealed class Event<ID : Id<ID>>(
@@ -24,9 +23,16 @@ class SameStartAndEndEvent<ID : Id<ID>>(
     id: ID,
 ) : Event<ID>(date, id)
 
-class OwnershipChangedEvent<ID : Id<ID>>(
+enum class HistoryEventType {
+    Capital,
+    OwnerRealm,
+    Ownership,
+}
+
+class HistoryEvent<ID : Id<ID>, T>(
     date: Date,
     id: ID,
-    val from: Owner,
-    val to: Owner,
+    val type: HistoryEventType,
+    val from: T,
+    val to: T,
 ) : Event<ID>(date, id)
