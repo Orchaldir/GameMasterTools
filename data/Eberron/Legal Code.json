@@ -15,6 +15,18 @@
    "sources": [
     3
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Code of Kaius",
+   "creator": {
+    "type": "Realm",
+    "realm": 4
+   },
+   "date": {
+    "type": "Century",
+    "century": 9
+   }
   }
  }
 }
