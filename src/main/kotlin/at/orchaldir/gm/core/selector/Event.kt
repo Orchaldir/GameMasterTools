@@ -68,6 +68,12 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
     }
 
+    getOrganizationStorage().getAll().forEach { organization ->
+        addPossibleEvent(events, default, calendar, organization.startDate()) {
+            StartEvent(it, organization.id)
+        }
+    }
+
     getPeriodicalStorage().getAll().forEach { periodical ->
         val periodicalCalendar = getCalendarStorage().getOrThrow(periodical.calendar)
 
@@ -76,12 +82,6 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
 
         addHistoricEvents(events, default, calendar, periodical.id, periodical.ownership, HistoryEventType.Ownership)
-    }
-
-    getOrganizationStorage().getAll().forEach { organization ->
-        addPossibleEvent(events, default, calendar, organization.startDate()) {
-            StartEvent(it, organization.id)
-        }
     }
 
     getRaceStorage().getAll().forEach { race ->
@@ -96,6 +96,8 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
 
         addHistoricEvents(events, default, calendar, realm.id, realm.capital, HistoryEventType.Capital)
+        addHistoricEvents(events, default, calendar, realm.id, realm.currency, HistoryEventType.Currency)
+        addHistoricEvents(events, default, calendar, realm.id, realm.legalCode, HistoryEventType.LegalCode)
         addHistoricEvents(events, default, calendar, realm.id, realm.owner, HistoryEventType.OwnerRealm)
     }
 

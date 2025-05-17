@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
@@ -17,6 +18,7 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -140,8 +142,56 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleHistoricEvent(
 ) {
     when (event.type) {
         HistoryEventType.Capital -> handleCapitalChanged(call, state, event as HistoryEvent<ID, TownId?>)
+        HistoryEventType.Currency -> handleRealmChanged(
+            call,
+            state,
+            event as HistoryEvent<ID, CurrencyId?>,
+            "currency",
+            "?",
+            "adopts the currency"
+        )
+
+        HistoryEventType.LegalCode -> handleRealmChanged(
+            call,
+            state,
+            event as HistoryEvent<ID, LegalCodeId?>,
+            "legal code",
+            "lawless",
+            "adopts the legal code"
+        )
         HistoryEventType.OwnerRealm -> handleRealmOwnershipChanged(call, state, event as HistoryEvent<ID, RealmId?>)
         HistoryEventType.Ownership -> handleOwnershipChanged(call, state, event as HistoryEvent<ID, Owner>)
+    }
+}
+
+private fun <ID0 : Id<ID0>, ID1 : Id<ID1>> HtmlBlockTag.handleRealmChanged(
+    call: ApplicationCall,
+    state: State,
+    event: HistoryEvent<ID0, ID1?>,
+    changeNoun: String,
+    becomesNull: String,
+    notNullVerb: String,
+    notNullVerbSuffix: String? = null,
+) {
+    if (event.from != null && event.to != null) {
+        link(call, state, event.id)
+        +"'s $changeNoun changed from "
+        link(call, state, event.from)
+        +" to "
+        link(call, state, event.to)
+        +"."
+    } else if (event.from != null) {
+        link(call, state, event.id)
+        +" $becomesNull."
+    } else if (event.to != null) {
+        link(call, state, event.id)
+        +" $notNullVerb "
+        link(call, state, event.to)
+        if (notNullVerbSuffix != null) {
+            +" $notNullVerb."
+        } else {
+            +"."
+        }
     }
 }
 

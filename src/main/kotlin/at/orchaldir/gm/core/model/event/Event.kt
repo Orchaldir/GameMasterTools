@@ -25,6 +25,8 @@ class SameStartAndEndEvent<ID : Id<ID>>(
 
 enum class HistoryEventType {
     Capital,
+    Currency,
+    LegalCode,
     OwnerRealm,
     Ownership,
 }
