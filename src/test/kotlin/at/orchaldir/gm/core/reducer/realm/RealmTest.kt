@@ -4,10 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.realm.War
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -184,6 +181,24 @@ class RealmTest {
             val action = UpdateRealm(realm)
 
             assertIllegalArgument("Requires unknown Currency 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The catastrophe that destroyed the realm must exist`() {
+            val status = DestroyedByCatastrophe(UNKNOWN_CATASTROPHE_ID, DAY0)
+            val realm = Realm(REALM_ID_0, status = status)
+            val action = UpdateRealm(realm)
+
+            assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The war that destroyed the realm must exist`() {
+            val status = DestroyedByWar(UNKNOWN_WAR_ID, DAY0)
+            val realm = Realm(REALM_ID_0, status = status)
+            val action = UpdateRealm(realm)
+
+            assertIllegalArgument("Requires unknown War 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

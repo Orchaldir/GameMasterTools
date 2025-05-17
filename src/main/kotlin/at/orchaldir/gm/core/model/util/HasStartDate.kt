@@ -32,6 +32,10 @@ interface HasStartAndEndDate : HasStartDate {
             Duration(0)
         }
     }
+
+    fun getAgeInYears(state: State) = state
+        .getDefaultCalendar()
+        .getYears(getDuration(state))
 }
 
 interface HasComplexStartDate {

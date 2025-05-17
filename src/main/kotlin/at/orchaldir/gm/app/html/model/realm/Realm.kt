@@ -27,6 +27,7 @@ fun HtmlBlockTag.showRealm(
 ) {
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
+    showRealmStatus(call, state, realm.status)
     showHistory(call, state, realm.capital, "Capital", "None") { _, _, town ->
         link(call, state, town)
     }
@@ -56,8 +57,9 @@ fun FORM.editRealm(
     realm: Realm,
 ) {
     selectName(realm.name)
-    selectOptionalDate(state, "Date", realm.date, DATE)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
+    selectOptionalDate(state, "Date", realm.date, DATE)
+    editRealmStatus(state, realm.status, realm.date)
     selectHistory(state, TOWN, realm.capital, realm.date, "Capital") { _, param, town, start ->
         selectOptionalElement(
             state,
@@ -113,6 +115,7 @@ fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
         parseName(parameters),
         parseCreator(parameters),
         date,
+        parseRealmStatus(parameters, state),
         parseHistory(parameters, TOWN, state, date) { _, _, param ->
             parseOptionalTownId(parameters, param)
         },

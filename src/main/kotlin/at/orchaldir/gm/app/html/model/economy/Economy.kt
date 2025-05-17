@@ -36,13 +36,7 @@ fun HtmlBlockTag.showEconomy(
     table {
         tr {
             th { +"Name" }
-            th {
-                +"Max"
-                br { }
-                +"Yearly"
-                br { }
-                +"Income"
-            }
+            thMultiLines(listOf("Max", "Yearly", "Income"))
             th { +"Jobs" }
         }
         economy.standardsOfLiving.forEach { standard ->
