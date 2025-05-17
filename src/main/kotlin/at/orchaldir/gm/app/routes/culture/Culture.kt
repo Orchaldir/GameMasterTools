@@ -151,11 +151,7 @@ private fun HTML.showAllCultures(
                 th { +"Name" }
                 th { +"Calendar" }
                 th { +"Languages" }
-                th {
-                    +"Naming"
-                    br { }
-                    +"Convention"
-                }
+                thMultiLines(listOf("Naming", "Convention"))
                 th { +"Holidays" }
                 th { +"Characters" }
             }

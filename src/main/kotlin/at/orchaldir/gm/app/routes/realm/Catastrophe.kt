@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe
+import at.orchaldir.gm.core.selector.character.countCharactersKilledInCatastrophe
 import at.orchaldir.gm.core.selector.realm.canDeleteCatastrophe
 import at.orchaldir.gm.core.selector.realm.countRealmsDestroyedByCatastrophe
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -159,14 +160,8 @@ private fun HTML.showAllCatastrophes(
                 th { +"End" }
                 th { +"Years" }
                 th { +"Cause" }
-                th {
-                    listOf("Destroyed", "Realms").withIndex().forEach { entry ->
-                        if (entry.index > 0) {
-                            br { }
-                        }
-                        +entry.value
-                    }
-                }
+                thMultiLines(listOf("Destroyed", "Realms"))
+                thMultiLines(listOf("Killed", "Characters"))
             }
             catastrophes.forEach { catastrophe ->
                 tr {
@@ -176,6 +171,7 @@ private fun HTML.showAllCatastrophes(
                     tdSkipZero(calendar.getYears(catastrophe.getDuration(state)))
                     td { displayCauseOfCatastrophe(call, state, catastrophe.cause, false) }
                     tdSkipZero(state.countRealmsDestroyedByCatastrophe(catastrophe.id))
+                    tdSkipZero(state.countCharactersKilledInCatastrophe(catastrophe.id))
                 }
             }
         }

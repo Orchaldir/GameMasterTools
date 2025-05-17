@@ -169,6 +169,17 @@ inline fun <T : Enum<T>, U, reified V : Any> HtmlBlockTag.showSortTableLinks(
     }
 }
 
+fun TR.thMultiLines(lines: List<String>) {
+    th {
+        lines.withIndex().forEach { entry ->
+            if (entry.index > 0) {
+                br { }
+            }
+            +entry.value
+        }
+    }
+}
+
 fun TR.tdChar(char: Char) {
     tdString("\"$char\"")
 }

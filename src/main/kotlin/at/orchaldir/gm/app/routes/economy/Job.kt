@@ -148,11 +148,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
         table {
             tr {
                 th { +"Name" }
-                th {
-                    +"Yearly"
-                    br { }
-                    +"Income"
-                }
+                thMultiLines(listOf("Yearly", "Income"))
                 th { +"Gender" }
                 th { +"Uniform" }
                 th { +"Characters" }
