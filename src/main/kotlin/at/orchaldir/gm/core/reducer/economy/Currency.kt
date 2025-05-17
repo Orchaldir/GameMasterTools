@@ -5,9 +5,11 @@ import at.orchaldir.gm.core.action.DeleteCurrency
 import at.orchaldir.gm.core.action.UpdateCurrency
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
+import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
+import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -20,9 +22,8 @@ val CREATE_CURRENCY: Reducer<CreateCurrency, State> = { state, _ ->
 val DELETE_CURRENCY: Reducer<DeleteCurrency, State> = { state, action ->
     state.getCurrencyStorage().require(action.id)
 
-    require(state.countCurrencyUnits(action.id) == 0) {
-        "Cannot delete currency ${action.id.value}, because it has units!"
-    }
+    validateCanDelete(state.countCurrencyUnits(action.id) == 0, action.id, "it has units")
+    validateCanDelete(state.countRealmsWithCurrencyAtAnyTime(action.id) == 0, action.id, "it is used by a realm")
 
     noFollowUps(state.updateStorage(state.getCurrencyStorage().remove(action.id)))
 }
