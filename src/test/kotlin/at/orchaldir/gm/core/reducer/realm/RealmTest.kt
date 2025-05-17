@@ -4,12 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.DestroyedByCatastrophe
-import at.orchaldir.gm.core.model.realm.DestroyedByWar
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.realm.War
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -179,6 +174,7 @@ class RealmTest {
 
             assertIllegalArgument("Requires unknown Legal Code 99!") { REDUCER.invoke(STATE, action) }
         }
+
         @Test
         fun `The currency must exist`() {
             val realm = Realm(REALM_ID_0, currency = History(UNKNOWN_CURRENCY_ID))
