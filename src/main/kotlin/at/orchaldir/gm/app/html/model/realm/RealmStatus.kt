@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.model.realm.RealmStatusType.Undefined
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
 import at.orchaldir.gm.core.selector.realm.getExistingWars
@@ -62,8 +61,28 @@ fun FORM.editRealmStatus(
     status: RealmStatus,
     startDate: Date?,
 ) {
+    val endDate = status.endDate()
+    val catastrophes = state.getExistingCatastrophes(endDate)
+    val wars = state.getExistingWars(endDate)
+    val type = status.getType()
+    val validType = if (
+        (type == RealmStatusType.Catastrophe && catastrophes.isEmpty()) ||
+        (type == RealmStatusType.War && wars.isEmpty())
+    ) {
+        RealmStatusType.Undefined
+    } else {
+        type
+    }
+
     showDetails("Status", true) {
-        selectValue("Type", END, RealmStatusType.entries, status.getType())
+        selectValue("Type", END, RealmStatusType.entries, validType) { type ->
+            when (type) {
+                RealmStatusType.Living -> false
+                RealmStatusType.Catastrophe -> catastrophes.isEmpty()
+                RealmStatusType.War -> wars.isEmpty()
+                RealmStatusType.Undefined -> false
+            }
+        }
 
         when (status) {
             LivingRealm -> doNothing()
@@ -72,7 +91,7 @@ fun FORM.editRealmStatus(
                     state,
                     "Catastrophe",
                     combine(END, CATASTROPHE),
-                    state.getExistingCatastrophes(status.date),
+                    catastrophes,
                     status.catastrophe,
                 )
                 selectEndDate(state, startDate, status.date)
@@ -83,7 +102,7 @@ fun FORM.editRealmStatus(
                     state,
                     "War",
                     combine(END, WAR),
-                    state.getExistingWars(status.date),
+                    wars,
                     status.war,
                 )
                 selectEndDate(state, startDate, status.date)
@@ -120,7 +139,7 @@ fun parseRealmStatus(parameters: Parameters, state: State) = when (parse(paramet
         parseEndDate(parameters, state),
     )
 
-    Undefined -> UndefinedEndOfRealm(
+    RealmStatusType.Undefined -> UndefinedEndOfRealm(
         parseEndDate(parameters, state),
     )
 }
