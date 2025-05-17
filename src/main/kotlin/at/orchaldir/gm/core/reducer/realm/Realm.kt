@@ -53,4 +53,9 @@ fun validateRealm(state: State, realm: Realm) {
             require(realm.id != realmId) { "A realm cannot own itself!" }
         }
     }
+    checkHistory(state, realm.legalCode, realm.date, "legal code") { _, code, _, date ->
+        if (code != null) {
+            state.requireExists(state.getLegalCodeStorage(), code, date)
+        }
+    }
 }
