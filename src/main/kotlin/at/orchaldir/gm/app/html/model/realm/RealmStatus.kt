@@ -5,8 +5,9 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.WAR
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.parseOptionalDate
-import at.orchaldir.gm.app.html.model.selectOptionalDate
+import at.orchaldir.gm.app.html.model.optionalField
+import at.orchaldir.gm.app.html.model.parseDate
+import at.orchaldir.gm.app.html.model.selectDate
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -31,6 +32,7 @@ fun HtmlBlockTag.showRealmStatus(
     field("Status") {
         displayRealmStatus(call, state, status)
     }
+    optionalField(call, state, "End Date", status.endDate())
 }
 
 fun HtmlBlockTag.displayRealmStatus(
@@ -119,8 +121,8 @@ fun FORM.editRealmStatus(
 private fun DETAILS.selectEndDate(
     state: State,
     startDate: Date?,
-    date: Date?,
-) = selectOptionalDate(
+    date: Date,
+) = selectDate(
     state,
     "Date",
     date,
@@ -150,4 +152,4 @@ fun parseRealmStatus(parameters: Parameters, state: State) = when (parse(paramet
 private fun parseEndDate(
     parameters: Parameters,
     state: State,
-) = parseOptionalDate(parameters, state, combine(END, DATE))
+) = parseDate(parameters, state, combine(END, DATE))

@@ -42,18 +42,18 @@ data object LivingRealm : RealmStatus()
 @SerialName("Catastrophe")
 data class DestroyedByCatastrophe(
     val catastrophe: CatastropheId,
-    val date: Date? = null,
+    val date: Date,
 ) : RealmStatus()
 
 @Serializable
 @SerialName("War")
 data class DestroyedByWar(
     val war: WarId,
-    val date: Date? = null,
+    val date: Date,
 ) : RealmStatus()
 
 @Serializable
 @SerialName("UndefinedEnd")
 data class UndefinedEndOfRealm(
-    val date: Date? = null,
+    val date: Date,
 ) : RealmStatus()
