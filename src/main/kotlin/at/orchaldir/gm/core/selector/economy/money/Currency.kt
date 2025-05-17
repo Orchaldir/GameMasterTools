@@ -5,8 +5,16 @@ import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.economy.money.Price
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDeleteCurrency(id: CurrencyId) = countCurrencyUnits(id) == 0
+
+// get
+
+fun State.getExistingCurrency(date: Date?) = getExistingElements(getCurrencyStorage().getAll(), date)
+
+// display
 
 fun Currency.display(price: Price) = display(price.value)
 

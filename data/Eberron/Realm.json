@@ -15,6 +15,9 @@
    "capital": {
     "current": 2
    },
+   "currency": {
+    "current": 0
+   },
    "legalCode": {
     "current": 0
    }
@@ -33,6 +36,9 @@
       }
      }
     ]
+   },
+   "currency": {
+    "current": 0
    },
    "legalCode": {
     "current": 0
@@ -55,6 +61,9 @@
       }
      }
     ]
+   },
+   "currency": {
+    "current": 0
    },
    "legalCode": {
     "current": 0
@@ -81,6 +90,9 @@
      }
     ]
    },
+   "currency": {
+    "current": 0
+   },
    "legalCode": {
     "current": 0
    },
@@ -102,6 +114,9 @@
       }
      }
     ]
+   },
+   "currency": {
+    "current": 0
    },
    "legalCode": {
     "current": 1,
@@ -133,6 +148,9 @@
       }
      }
     ]
+   },
+   "currency": {
+    "current": 0
    },
    "legalCode": {
     "current": 0

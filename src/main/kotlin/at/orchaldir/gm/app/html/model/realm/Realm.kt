@@ -1,15 +1,18 @@
 package at.orchaldir.gm.app.html.model.realm
 
+import at.orchaldir.gm.app.CURRENCY
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.LEGAL_CODE
 import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.economy.money.parseOptionalCurrencyId
 import at.orchaldir.gm.app.html.model.realm.parseOptionalTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.selector.economy.money.getExistingCurrency
 import at.orchaldir.gm.core.selector.realm.getExistingLegalCodes
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
@@ -34,6 +37,9 @@ fun HtmlBlockTag.showRealm(
     }
     showHistory(call, state, realm.owner, "Owner", "Independent") { _, _, owner ->
         link(call, state, owner)
+    }
+    showHistory(call, state, realm.currency, "Currency", "?") { _, _, currency ->
+        link(call, state, currency)
     }
     showHistory(call, state, realm.legalCode, "Legal Code", "Lawless") { _, _, code ->
         link(call, state, code)
@@ -75,6 +81,16 @@ fun FORM.editRealm(
             owner,
         )
     }
+
+    selectHistory(state, CURRENCY, realm.currency, realm.date, "Currency") { _, param, currency, start ->
+        selectOptionalElement(
+            state,
+            "Currency",
+            param,
+            state.getExistingCurrency(start),
+            currency,
+        )
+    }
     selectHistory(state, LEGAL_CODE, realm.legalCode, realm.date, "Legal Code") { _, param, code, start ->
         selectOptionalElement(
             state,
@@ -107,6 +123,9 @@ fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
         },
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
             parseOptionalRealmId(parameters, param)
+        },
+        parseHistory(parameters, CURRENCY, state, date) { _, _, param ->
+            parseOptionalCurrencyId(parameters, param)
         },
         parseHistory(parameters, LEGAL_CODE, state, date) { _, _, param ->
             parseOptionalLegalCodeId(parameters, param)
