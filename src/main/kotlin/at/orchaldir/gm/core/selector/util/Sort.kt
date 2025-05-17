@@ -52,7 +52,8 @@ import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
-import at.orchaldir.gm.core.selector.realm.countRealmsWithAnyLegalCode
+import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
+import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getCurrentDate
@@ -221,6 +222,7 @@ fun State.sortCurrencies(
         when (sort) {
             SortCurrency.Name -> compareBy { it.name.text }
             SortCurrency.Date -> getStartDateComparator()
+            SortCurrency.Realms -> compareByDescending { countRealmsWithCurrencyAtAnyTime(it.id) }
         }
     )
 
@@ -378,7 +380,7 @@ fun State.sortLegalCodes(
         when (sort) {
             SortLegalCode.Name -> compareBy { it.name.text }
             SortLegalCode.Date -> getStartDateComparator()
-            SortLegalCode.Realms -> compareByDescending { countRealmsWithAnyLegalCode(it.id) }
+            SortLegalCode.Realms -> compareByDescending { countRealmsWithLegalCodeAtAnyTime(it.id) }
         })
 
 // magic tradition

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
@@ -20,7 +21,11 @@ fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
 
 // count
 
-fun State.countRealmsWithAnyLegalCode(code: LegalCodeId) = getRealmStorage()
+fun State.countRealmsWithCurrencyAtAnyTime(currency: CurrencyId) = getRealmStorage()
+    .getAll()
+    .count { it.currency.current == currency || it.currency.previousEntries.any { it.entry == currency } }
+
+fun State.countRealmsWithLegalCodeAtAnyTime(code: LegalCodeId) = getRealmStorage()
     .getAll()
     .count { it.legalCode.current == code || it.legalCode.previousEntries.any { it.entry == code } }
 
@@ -35,6 +40,14 @@ fun State.getRealmsWithLegalCode(code: LegalCodeId) = getRealmStorage()
 fun State.getRealmsWithPreviousLegalCode(code: LegalCodeId) = getRealmStorage()
     .getAll()
     .filter { it.legalCode.previousEntries.any { it.entry == code } }
+
+fun State.getRealmsWithCurrency(code: CurrencyId) = getRealmStorage()
+    .getAll()
+    .filter { it.currency.current == code }
+
+fun State.getRealmsWithPreviousCurrency(code: CurrencyId) = getRealmStorage()
+    .getAll()
+    .filter { it.currency.previousEntries.any { it.entry == code } }
 
 fun State.getRealmsWithCapital(town: TownId) = getRealmStorage()
     .getAll()

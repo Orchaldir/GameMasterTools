@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.util.SortCurrency
 import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrency
+import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.util.sortCurrencies
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -150,12 +151,14 @@ private fun HTML.showAllCurrencies(
                 th { +"Name" }
                 th { +"Start" }
                 th { +"End" }
+                th { +"Realms" }
             }
             currencies.forEach { currency ->
                 tr {
                     tdLink(call, state, currency)
                     td { showOptionalDate(call, state, currency.startDate) }
                     td { showOptionalDate(call, state, currency.endDate) }
+                    tdSkipZero(state.countRealmsWithCurrencyAtAnyTime(currency.id))
                 }
             }
         }

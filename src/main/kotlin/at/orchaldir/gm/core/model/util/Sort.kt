@@ -37,6 +37,7 @@ enum class SortCharacter {
 enum class SortCurrency {
     Name,
     Date,
+    Realms,
 }
 
 enum class SortCurrencyUnit {
