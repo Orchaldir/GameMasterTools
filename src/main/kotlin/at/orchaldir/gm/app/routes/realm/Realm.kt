@@ -158,6 +158,7 @@ private fun HTML.showAllRealms(
                 th { +"Founder" }
                 th { +"Capital" }
                 th { +"Owner" }
+                th { +"Legal Code" }
             }
             realms.forEach { realm ->
                 tr {
@@ -167,6 +168,7 @@ private fun HTML.showAllRealms(
                     td { showCreator(call, state, realm.founder, false) }
                     tdLink(call, state, realm.capital.current)
                     tdLink(call, state, realm.owner.current)
+                    tdLink(call, state, realm.legalCode.current)
                 }
             }
         }

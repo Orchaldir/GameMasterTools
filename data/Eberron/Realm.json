@@ -14,6 +14,9 @@
    },
    "capital": {
     "current": 2
+   },
+   "legalCode": {
+    "current": 0
    }
   },
   "1": {
@@ -30,6 +33,9 @@
       }
      }
     ]
+   },
+   "legalCode": {
+    "current": 0
    },
    "sources": [
     3
@@ -49,6 +55,9 @@
       }
      }
     ]
+   },
+   "legalCode": {
+    "current": 0
    },
    "sources": [
     3
@@ -72,6 +81,9 @@
      }
     ]
    },
+   "legalCode": {
+    "current": 0
+   },
    "sources": [
     3
    ]
@@ -87,6 +99,18 @@
       "until": {
        "type": "Year",
        "year": 893
+      }
+     }
+    ]
+   },
+   "legalCode": {
+    "current": 1,
+    "previousEntries": [
+     {
+      "entry": 0,
+      "until": {
+       "type": "Century",
+       "century": 9
       }
      }
     ]
@@ -109,6 +133,9 @@
       }
      }
     ]
+   },
+   "legalCode": {
+    "current": 0
    },
    "sources": [
     3

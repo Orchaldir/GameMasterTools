@@ -28,6 +28,7 @@ data class Realm(
     val date: Date? = null,
     val capital: History<TownId?> = History(null),
     val owner: History<RealmId?> = History(null),
+    val legalCode: History<LegalCodeId?> = History(null),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<RealmId>, Created, HasDataSources, HasStartDate {
 
