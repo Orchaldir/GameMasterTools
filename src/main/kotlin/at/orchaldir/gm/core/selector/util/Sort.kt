@@ -152,7 +152,7 @@ fun State.sortBusinesses(
     .sortedWith(
         when (sort) {
             SortBusiness.Name -> compareBy { it.name.text }
-            SortBusiness.Age -> getStartDateComparator()
+            SortBusiness.Date -> getStartDateComparator()
             SortBusiness.Employees -> compareByDescending { getEmployees(it.id).size }
         }
     )
@@ -298,7 +298,7 @@ fun State.sortFonts(
     .sortedWith(
         when (sort) {
             SortFont.Name -> compareBy { it.name.text }
-            SortFont.Age -> getStartDateComparator()
+            SortFont.Date -> getStartDateComparator()
         })
 
 // god
@@ -391,7 +391,7 @@ fun State.sortMagicTraditions(
     .sortedWith(
         when (sort) {
             SortMagicTradition.Name -> compareBy { it.name.text }
-            SortMagicTradition.Age -> getStartDateComparator()
+            SortMagicTradition.Date -> getStartDateComparator()
             SortMagicTradition.Groups -> compareByDescending { it.groups.size }
         })
 
@@ -425,7 +425,7 @@ fun State.sortOrganizations(
     .sortedWith(
         when (sort) {
             SortOrganization.Name -> compareBy { it.name.text }
-            SortOrganization.Age -> getStartDateComparator()
+            SortOrganization.Date -> getStartDateComparator()
             SortOrganization.Members -> compareByDescending { it.countAllMembers() }
         })
 
@@ -457,7 +457,7 @@ fun State.sortPeriodicals(
     .sortedWith(
         when (sort) {
             SortPeriodical.Name -> compareBy { it.name.text }
-            SortPeriodical.Age -> getStartDateComparator()
+            SortPeriodical.Date -> getStartDateComparator()
         }
     )
 
@@ -503,7 +503,7 @@ fun State.sortQuotes(
     .sortedWith(
         when (sort) {
             SortQuote.Name -> compareBy { it.text.text }
-            SortQuote.Age -> getStartDateComparator()
+            SortQuote.Date -> getStartDateComparator()
         }
     )
 
@@ -537,7 +537,7 @@ fun State.sortRealms(
     .sortedWith(
         when (sort) {
             SortRealm.Name -> compareBy { it.name.text }
-            SortRealm.Age -> getStartDateComparator()
+            SortRealm.Date -> getStartDateComparator()
         })
 
 // spell
@@ -552,7 +552,7 @@ fun State.sortSpells(
     .sortedWith(
         when (sort) {
             SortSpell.Name -> compareBy { it.name.text }
-            SortSpell.Age -> getStartDateComparator()
+            SortSpell.Date -> getStartDateComparator()
         })
 
 // spell group
@@ -582,7 +582,7 @@ fun State.sortTexts(
     .sortedWith(
         when (sort) {
             SortText.Name -> compareBy { it.name.text }
-            SortText.Age -> getStartDateComparator()
+            SortText.Date -> getStartDateComparator()
             SortText.Pages -> compareByDescending { it.content.pages() }
             SortText.Spells -> compareByDescending { it.content.spells().size }
         })

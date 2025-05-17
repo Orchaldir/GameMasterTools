@@ -18,7 +18,7 @@ enum class SortBuilding {
 
 enum class SortBusiness {
     Name,
-    Age,
+    Date,
     Employees,
 }
 
@@ -62,7 +62,7 @@ enum class SortEquipment {
 
 enum class SortFont {
     Name,
-    Age,
+    Date,
 }
 
 enum class SortGod {
@@ -90,7 +90,7 @@ enum class SortLegalCode {
 
 enum class SortMagicTradition {
     Name,
-    Age,
+    Date,
     Groups,
 }
 
@@ -103,12 +103,12 @@ enum class SortMaterial {
 
 enum class SortRealm {
     Name,
-    Age,
+    Date,
 }
 
 enum class SortOrganization {
-    Age,
     Name,
+    Date,
     Members,
 }
 
@@ -120,7 +120,7 @@ enum class SortPantheon {
 
 enum class SortPeriodical {
     Name,
-    Age,
+    Date,
 }
 
 enum class SortPeriodicalIssue {
@@ -134,7 +134,7 @@ enum class SortPlane {
 
 enum class SortQuote {
     Name,
-    Age,
+    Date,
 }
 
 enum class SortRace {
@@ -147,7 +147,7 @@ enum class SortRace {
 
 enum class SortSpell {
     Name,
-    Age,
+    Date,
 }
 
 enum class SortSpellGroup {
@@ -157,7 +157,7 @@ enum class SortSpellGroup {
 
 enum class SortText {
     Name,
-    Age,
+    Date,
     Pages,
     Spells,
 }
