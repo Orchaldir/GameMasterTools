@@ -28,6 +28,8 @@ sealed class RealmStatus {
         is UndefinedEndOfRealm -> date
     }
 
+    fun isDestroyedByCatastrophe(catastrophe: CatastropheId) =
+        this is DestroyedByCatastrophe && this.catastrophe == catastrophe
     fun isDestroyedByWar(war: WarId) = this is DestroyedByWar && this.war == war
 
 }

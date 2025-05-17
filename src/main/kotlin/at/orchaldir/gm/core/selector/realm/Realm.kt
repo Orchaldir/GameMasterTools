@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
+import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
@@ -77,6 +78,10 @@ fun <ID : Id<ID>> State.getPreviousSubRealms(id: ID) = if (id is RealmId) {
 fun State.getPreviousSubRealms(realm: RealmId) = getRealmStorage()
     .getAll()
     .filter { it.owner.previousEntries.any { it.entry == realm } }
+
+fun State.getRealmsDestroyedByCatastrophe(catastrophe: CatastropheId) = getRealmStorage()
+    .getAll()
+    .filter { it.status.isDestroyedByCatastrophe(catastrophe) }
 
 fun State.getRealmsDestroyedByWar(war: WarId) = getRealmStorage()
     .getAll()
