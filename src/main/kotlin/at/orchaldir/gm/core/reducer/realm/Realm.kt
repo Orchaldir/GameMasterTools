@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
@@ -66,17 +65,16 @@ fun validateRealm(state: State, realm: Realm) {
             require(realm.id != realmId) { "A realm cannot own itself!" }
         }
     }
-    validateRealmStatus(state, realm.status, realm.date)
+    validateRealmStatus(state, realm.status)
     validateHasStartAndEnd(state, realm)
 }
 
 fun validateRealmStatus(
     state: State,
     status: RealmStatus,
-    startDate: Date?,
 ) = when (status) {
     LivingRealm -> doNothing()
-    is DestroyedByCatastrophe -> state.requireExists(state.getCatastropheStorage(), status.catastrophe, startDate)
-    is DestroyedByWar -> state.requireExists(state.getWarStorage(), status.war, startDate)
+    is DestroyedByCatastrophe -> state.requireExists(state.getCatastropheStorage(), status.catastrophe, status.date)
+    is DestroyedByWar -> state.requireExists(state.getWarStorage(), status.war, status.date)
     is UndefinedEndOfRealm -> doNothing()
 }
