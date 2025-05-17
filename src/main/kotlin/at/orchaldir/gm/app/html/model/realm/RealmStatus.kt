@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.WAR
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectOptionalDate
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
@@ -61,7 +62,7 @@ fun FORM.editRealmStatus(
     status: RealmStatus,
     startDate: Date?,
 ) {
-    showDetails("Cause", true) {
+    showDetails("Status", true) {
         selectValue("Type", END, RealmStatusType.entries, status.getType())
 
         when (status) {
@@ -70,7 +71,7 @@ fun FORM.editRealmStatus(
                 selectElement(
                     state,
                     "Catastrophe",
-                    CATASTROPHE,
+                    combine(END, CATASTROPHE),
                     state.getExistingCatastrophes(status.date),
                     status.catastrophe,
                 )
@@ -81,7 +82,7 @@ fun FORM.editRealmStatus(
                 selectElement(
                     state,
                     "War",
-                    WAR,
+                    combine(END, WAR),
                     state.getExistingWars(status.date),
                     status.war,
                 )
@@ -101,7 +102,7 @@ private fun DETAILS.selectEndDate(
     state,
     "Date",
     date,
-    DATE,
+    combine(END, DATE),
     startDate,
 )
 
@@ -110,16 +111,21 @@ private fun DETAILS.selectEndDate(
 fun parseRealmStatus(parameters: Parameters, state: State) = when (parse(parameters, END, RealmStatusType.Living)) {
     RealmStatusType.Living -> LivingRealm
     RealmStatusType.Catastrophe -> DestroyedByCatastrophe(
-        parseCatastropheId(parameters, CATASTROPHE),
-        parseOptionalDate(parameters, state, DATE),
+        parseCatastropheId(parameters, combine(END, CATASTROPHE)),
+        parseEndDate(parameters, state),
     )
 
     RealmStatusType.War -> DestroyedByWar(
-        parseWarId(parameters, WAR),
-        parseOptionalDate(parameters, state, DATE),
+        parseWarId(parameters, combine(END, WAR)),
+        parseEndDate(parameters, state),
     )
 
     Undefined -> UndefinedEndOfRealm(
-        parseOptionalDate(parameters, state, DATE),
+        parseEndDate(parameters, state),
     )
 }
+
+private fun parseEndDate(
+    parameters: Parameters,
+    state: State,
+) = parseOptionalDate(parameters, state, combine(END, DATE))

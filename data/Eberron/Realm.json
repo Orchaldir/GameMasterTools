@@ -12,6 +12,14 @@
     "type": "Year",
     "year": 0
    },
+   "status": {
+    "type": "War",
+    "war": 0,
+    "date": {
+     "type": "Year",
+     "year": 893
+    }
+   },
    "capital": {
     "current": 2
    },
@@ -20,7 +28,10 @@
    },
    "legalCode": {
     "current": 0
-   }
+   },
+   "sources": [
+    3
+   ]
   },
   "1": {
    "id": 1,
