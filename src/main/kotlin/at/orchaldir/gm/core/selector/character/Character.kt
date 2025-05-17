@@ -281,12 +281,6 @@ fun State.getOthersWithoutRelationship(character: Character) = getCharacterStora
 
 // age
 
-fun State.getAge(id: CharacterId): Duration = getAge(getCharacterStorage().getOrThrow(id))
-
-fun State.getAge(character: Character) = character.getAge(this, getCurrentDate())
-
-fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(getAge(character))
-
 fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().getOrThrow(id), date)
 
 fun State.isAlive(character: Character, date: Date) = character
@@ -305,7 +299,7 @@ fun State.getLiving(date: Date) = getCharacterStorage()
 // height
 
 fun State.scaleHeightByAge(character: Character, height: Distance): Distance {
-    val age = getAgeInYears(character)
+    val age = character.getAgeInYears(this)
     val race = getRaceStorage().getOrThrow(character.race)
 
     return scaleHeightByAge(race, height, age)
@@ -320,7 +314,7 @@ fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
 // appearance
 
 fun State.getAppearanceForAge(character: Character): Appearance {
-    val age = getAgeInYears(character)
+    val age = character.getAgeInYears(this)
     val race = getRaceStorage().getOrThrow(character.race)
     val height = scaleHeightByAge(race, character.appearance.getHeightFromSub(), age)
 

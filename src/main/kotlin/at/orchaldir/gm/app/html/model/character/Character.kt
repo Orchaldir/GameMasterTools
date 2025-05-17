@@ -109,7 +109,7 @@ private fun HtmlBlockTag.showAge(
     character: Character,
     race: Race,
 ) {
-    val age = state.getAgeInYears(character)
+    val age = character.getAgeInYears(state)
     fieldAge("Age", age)
     race.lifeStages.getLifeStage(age)?.let {
         val start = race.lifeStages.getLifeStageStartAge(age)

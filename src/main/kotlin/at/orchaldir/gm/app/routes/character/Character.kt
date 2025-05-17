@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.character.canCreateCharacter
-import at.orchaldir.gm.core.selector.character.getAgeInYears
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
@@ -208,7 +207,7 @@ private fun HTML.showAllCharacters(
                     td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }
                     td { showOptionalDate(call, state, character.vitalStatus.getDeathDate()) }
-                    tdSkipZero(state.getAgeInYears(character))
+                    tdSkipZero(character.getAgeInYears(state))
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false, false) }
                     tdSkipZero(state.getOrganizations(character.id).size)
