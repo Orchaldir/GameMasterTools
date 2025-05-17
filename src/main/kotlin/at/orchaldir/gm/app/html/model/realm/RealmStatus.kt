@@ -37,9 +37,12 @@ fun HtmlBlockTag.displayRealmStatus(
     call: ApplicationCall,
     state: State,
     status: RealmStatus,
+    showAlive: Boolean = true,
 ) {
     when (status) {
-        LivingRealm -> +"Alive"
+        LivingRealm -> if (showAlive) {
+            +"Alive"
+        }
         is DestroyedByCatastrophe -> {
             +"Destroyed by "
             link(call, state, status.catastrophe)

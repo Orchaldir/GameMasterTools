@@ -105,7 +105,8 @@ enum class SortMaterial {
 
 enum class SortRealm {
     Name,
-    Date,
+    Start,
+    End,
 }
 
 enum class SortOrganization {

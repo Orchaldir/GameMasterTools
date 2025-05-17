@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.realm.displayRealmStatus
 import at.orchaldir.gm.app.html.model.realm.editRealm
 import at.orchaldir.gm.app.html.model.realm.parseRealm
 import at.orchaldir.gm.app.html.model.realm.showRealm
@@ -153,7 +154,9 @@ private fun HTML.showAllRealms(
         table {
             tr {
                 th { +"Name" }
-                th { +"Date" }
+                th { +"Start" }
+                th { +"End" }
+                th { +"Status" }
                 th { +"Age" }
                 th { +"Founder" }
                 th { +"Capital" }
@@ -164,7 +167,9 @@ private fun HTML.showAllRealms(
             realms.forEach { realm ->
                 tr {
                     tdLink(call, state, realm)
-                    td { showOptionalDate(call, state, realm.date) }
+                    td { showOptionalDate(call, state, realm.startDate()) }
+                    td { showOptionalDate(call, state, realm.endDate()) }
+                    td { displayRealmStatus(call, state, realm.status, false) }
                     tdSkipZero(state.getAgeInYears(realm.date))
                     td { showCreator(call, state, realm.founder, false) }
                     tdLink(call, state, realm.capital.current)

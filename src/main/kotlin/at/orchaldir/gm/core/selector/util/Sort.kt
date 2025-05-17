@@ -60,6 +60,9 @@ import at.orchaldir.gm.core.selector.world.countBuildings
 fun <Element : HasStartDate> State.getStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
     getDateComparator<Element>(valueForNull) { it.startDate() }
 
+fun <Element : HasStartAndEndDate> State.getEndDateComparator(valueForNull: Int = Int.MAX_VALUE) =
+    getDateComparator<Element>(valueForNull) { it.endDate() }
+
 fun <Element : HasComplexStartDate> State.getComplexStartAgeComparator(valueForNull: Int = Int.MAX_VALUE) =
     getDateComparator<Element>(valueForNull) { it.startDate(this) }
 
@@ -93,7 +96,7 @@ fun State.sortArchitecturalStyles(
         when (sort) {
             SortArchitecturalStyle.Name -> compareBy { it.name.text }
             SortArchitecturalStyle.Start -> getStartDateComparator()
-            SortArchitecturalStyle.End -> compareBy { it.end?.year }
+            SortArchitecturalStyle.End -> getEndDateComparator()
         })
 
 // article
@@ -168,7 +171,7 @@ fun State.sortCatastrophes(
         when (sort) {
             SortCatastrophe.Name -> compareBy { it.name.text }
             SortCatastrophe.Start -> getStartDateComparator()
-            SortCatastrophe.End -> getDateComparator { it.endDate }
+            SortCatastrophe.End -> getEndDateComparator()
         })
 
 // character
@@ -537,7 +540,8 @@ fun State.sortRealms(
     .sortedWith(
         when (sort) {
             SortRealm.Name -> compareBy { it.name.text }
-            SortRealm.Date -> getStartDateComparator()
+            SortRealm.Start -> getStartDateComparator()
+            SortRealm.End -> getEndDateComparator()
         })
 
 // spell
@@ -662,5 +666,5 @@ fun State.sortWars(
         when (sort) {
             SortWar.Name -> compareBy { it.name.text }
             SortWar.Start -> getStartDateComparator()
-            SortWar.End -> getDateComparator { it.endDate }
+            SortWar.End -> getEndDateComparator()
         })
