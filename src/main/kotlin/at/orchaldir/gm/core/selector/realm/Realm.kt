@@ -27,6 +27,10 @@ fun State.countRealmsDestroyedByCatastrophe(catastrophe: CatastropheId) = getRea
     .getAll()
     .count { it.status.isDestroyedByCatastrophe(catastrophe) }
 
+fun State.countRealmsDestroyedByWar(war: WarId) = getRealmStorage()
+    .getAll()
+    .count { it.status.isDestroyedByWar(war) }
+
 fun State.countRealmsWithCurrencyAtAnyTime(currency: CurrencyId) = getRealmStorage()
     .getAll()
     .count { it.currency.current == currency || it.currency.previousEntries.any { it.entry == currency } }
