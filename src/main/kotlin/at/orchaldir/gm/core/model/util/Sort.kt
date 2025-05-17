@@ -107,6 +107,7 @@ enum class SortRealm {
     Name,
     Start,
     End,
+    Age,
 }
 
 enum class SortOrganization {

@@ -170,7 +170,7 @@ private fun HTML.showAllRealms(
                     td { showOptionalDate(call, state, realm.startDate()) }
                     td { showOptionalDate(call, state, realm.endDate()) }
                     td { displayRealmStatus(call, state, realm.status, false) }
-                    tdSkipZero(state.getAgeInYears(realm.date))
+                    tdSkipZero(realm.getAgeInYears(state))
                     td { showCreator(call, state, realm.founder, false) }
                     tdLink(call, state, realm.capital.current)
                     tdLink(call, state, realm.owner.current)

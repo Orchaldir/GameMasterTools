@@ -542,6 +542,7 @@ fun State.sortRealms(
             SortRealm.Name -> compareBy { it.name.text }
             SortRealm.Start -> getStartDateComparator()
             SortRealm.End -> getEndDateComparator()
+            SortRealm.Age -> compareByDescending { it.getAgeInYears(this) }
         })
 
 // spell
