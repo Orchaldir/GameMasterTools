@@ -29,11 +29,7 @@ import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.realm.CatastropheId
-import at.orchaldir.gm.core.model.realm.LegalCodeId
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.realm.WarId
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
