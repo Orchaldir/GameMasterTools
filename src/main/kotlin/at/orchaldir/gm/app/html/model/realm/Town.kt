@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.model.town
+package at.orchaldir.gm.app.html.model.realm
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.OWNER

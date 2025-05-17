@@ -18,6 +18,7 @@ import at.orchaldir.gm.app.routes.organization.configureOrganizationRouting
 import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.routes.race.configureRaceRouting
 import at.orchaldir.gm.app.routes.realm.configureCatastropheRouting
+import at.orchaldir.gm.app.routes.realm.configureLegalCodeRouting
 import at.orchaldir.gm.app.routes.realm.configureRealmRouting
 import at.orchaldir.gm.app.routes.realm.configureTownRouting
 import at.orchaldir.gm.app.routes.realm.configureWarRouting
@@ -85,6 +86,7 @@ fun Application.module() {
     configureEquipmentRouting()
     configureJobRouting()
     configureLanguageRouting()
+    configureLegalCodeRouting()
     configureMagicTraditionRouting()
     configureMaterialRouting()
     configureMoonRouting()

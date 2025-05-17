@@ -17,6 +17,7 @@ import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.realm.CatastropheRoutes
+import at.orchaldir.gm.app.routes.realm.LegalCodeRoutes
 import at.orchaldir.gm.app.routes.realm.RealmRoutes
 import at.orchaldir.gm.app.routes.realm.TownRoutes
 import at.orchaldir.gm.app.routes.realm.WarRoutes
@@ -57,6 +58,7 @@ import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.CatastropheId
+import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.realm.WarId
@@ -364,6 +366,7 @@ fun <ID : Id<ID>> href(
     is HolidayId -> call.application.href(HolidayRoutes.Details(id))
     is JobId -> call.application.href(JobRoutes.Details(id))
     is LanguageId -> call.application.href(LanguageRoutes.Details(id))
+    is LegalCodeId -> call.application.href(LegalCodeRoutes.Details(id))
     is MagicTraditionId -> call.application.href(MagicTraditionRoutes.Details(id))
     is MaterialId -> call.application.href(MaterialRoutes.Details(id))
     is MoonId -> call.application.href(MoonRoutes.Details(id))

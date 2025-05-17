@@ -30,6 +30,7 @@ import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.quote.Quote
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Catastrophe
+import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.War
@@ -361,6 +362,21 @@ fun State.sortLanguages(
             SortLanguage.Name -> compareBy { it.name.text }
             SortLanguage.Characters -> compareByDescending { countCharacters(it.id) }
             SortLanguage.Cultures -> compareByDescending { countCultures(it.id) }
+        })
+
+// legal code
+
+fun State.sortLegalCodes(sort: SortLegalCode = SortLegalCode.Name) =
+    sortLegalCodes(getLegalCodeStorage().getAll(), sort)
+
+fun State.sortLegalCodes(
+    realms: Collection<LegalCode>,
+    sort: SortLegalCode = SortLegalCode.Name,
+) = realms
+    .sortedWith(
+        when (sort) {
+            SortLegalCode.Name -> compareBy { it.name.text }
+            SortLegalCode.Date -> getStartDateComparator()
         })
 
 // magic tradition

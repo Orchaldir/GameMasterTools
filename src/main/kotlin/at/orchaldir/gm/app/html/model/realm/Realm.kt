@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.model.town.parseOptionalTownId
+import at.orchaldir.gm.app.html.model.realm.parseOptionalTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId

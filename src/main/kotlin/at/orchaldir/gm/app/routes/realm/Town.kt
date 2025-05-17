@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.showCreator
 import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.html.model.town.editTown
-import at.orchaldir.gm.app.html.model.town.parseTown
-import at.orchaldir.gm.app.html.model.town.showTown
+import at.orchaldir.gm.app.html.model.realm.editTown
+import at.orchaldir.gm.app.html.model.realm.parseTown
+import at.orchaldir.gm.app.html.model.realm.showTown
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown

@@ -83,6 +83,11 @@ enum class SortLanguage {
     Cultures,
 }
 
+enum class SortLegalCode {
+    Name,
+    Date,
+}
+
 enum class SortMagicTradition {
     Name,
     Age,
