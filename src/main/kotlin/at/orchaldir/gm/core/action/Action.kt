@@ -280,6 +280,11 @@ data object CreateCatastrophe : RealmAction()
 data class DeleteCatastrophe(val id: CatastropheId) : RealmAction()
 data class UpdateCatastrophe(val catastrophe: Catastrophe) : RealmAction()
 
+// legal code
+data object CreateLegalCode : RealmAction()
+data class DeleteLegalCode(val id: LegalCodeId) : RealmAction()
+data class UpdateLegalCode(val code: LegalCode) : RealmAction()
+
 // realm
 data object CreateRealm : RealmAction()
 data class DeleteRealm(val id: RealmId) : RealmAction()

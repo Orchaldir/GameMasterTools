@@ -199,7 +199,7 @@ private fun HTML.showAllFonts(
     val fonts = state.sortFonts(sort)
     val createLink = call.application.href(FontRoutes.New())
     call.application.href(FontRoutes.All(SortFont.Name))
-    call.application.href(FontRoutes.All(SortFont.Age))
+    call.application.href(FontRoutes.All(SortFont.Date))
 
     simpleHtml("Fonts") {
         field("Count", fonts.size)

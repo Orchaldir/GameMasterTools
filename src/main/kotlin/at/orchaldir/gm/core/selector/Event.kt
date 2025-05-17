@@ -56,9 +56,21 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
     }
 
+    getLegalCodeStorage().getAll().forEach { code ->
+        addPossibleEvent(events, default, calendar, code.startDate()) {
+            StartEvent(it, code.id)
+        }
+    }
+
     getMagicTraditionStorage().getAll().forEach { tradition ->
         addPossibleEvent(events, default, calendar, tradition.startDate()) {
             StartEvent(it, tradition.id)
+        }
+    }
+
+    getOrganizationStorage().getAll().forEach { organization ->
+        addPossibleEvent(events, default, calendar, organization.startDate()) {
+            StartEvent(it, organization.id)
         }
     }
 
@@ -70,12 +82,6 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
 
         addHistoricEvents(events, default, calendar, periodical.id, periodical.ownership, HistoryEventType.Ownership)
-    }
-
-    getOrganizationStorage().getAll().forEach { organization ->
-        addPossibleEvent(events, default, calendar, organization.startDate()) {
-            StartEvent(it, organization.id)
-        }
     }
 
     getRaceStorage().getAll().forEach { race ->
@@ -90,6 +96,8 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
 
         addHistoricEvents(events, default, calendar, realm.id, realm.capital, HistoryEventType.Capital)
+        addHistoricEvents(events, default, calendar, realm.id, realm.currency, HistoryEventType.Currency)
+        addHistoricEvents(events, default, calendar, realm.id, realm.legalCode, HistoryEventType.LegalCode)
         addHistoricEvents(events, default, calendar, realm.id, realm.owner, HistoryEventType.OwnerRealm)
     }
 

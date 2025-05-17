@@ -19,10 +19,7 @@ import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.app.routes.realm.CatastropheRoutes
-import at.orchaldir.gm.app.routes.realm.RealmRoutes
-import at.orchaldir.gm.app.routes.realm.TownRoutes
-import at.orchaldir.gm.app.routes.realm.WarRoutes
+import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
@@ -96,6 +93,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getSpellGroupStorage(), SpellGroupRoutes.All())
                     h3 { +"Realms" }
                     fieldStorageLink(call, state.getCatastropheStorage(), CatastropheRoutes.All())
+                    fieldStorageLink(call, state.getLegalCodeStorage(), LegalCodeRoutes.All())
                     fieldStorageLink(call, state.getRealmStorage(), RealmRoutes.All())
                     fieldStorageLink(call, state.getTownStorage(), TownRoutes.All())
                     fieldStorageLink(call, state.getWarStorage(), WarRoutes.All())

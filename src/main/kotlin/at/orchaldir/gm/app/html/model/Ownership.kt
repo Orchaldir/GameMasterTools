@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.model.character.parseCharacterId
 import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId
 import at.orchaldir.gm.app.html.model.realm.parseRealmId
-import at.orchaldir.gm.app.html.model.town.parseTownId
+import at.orchaldir.gm.app.html.model.realm.parseTownId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine

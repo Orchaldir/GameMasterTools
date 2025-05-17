@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.action.UpdateCurrency
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -39,11 +41,21 @@ class CurrencyTest {
         }
 
         @Test
-        fun `Cannot delete an currency with units`() {
+        fun `Cannot delete a currency with units`() {
             val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, currency = CURRENCY_ID_0)
             val state = state.updateStorage(Storage(unit))
 
-            assertIllegalArgument("Cannot delete currency 0, because it has units!") {
+            assertIllegalArgument("Cannot delete Currency 0, because it has units!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a currency used by a realm`() {
+            val unit = Realm(REALM_ID_0, currency = History(CURRENCY_ID_0))
+            val state = state.updateStorage(Storage(unit))
+
+            assertIllegalArgument("Cannot delete Currency 0, because it is used by a realm!") {
                 REDUCER.invoke(state, action)
             }
         }
