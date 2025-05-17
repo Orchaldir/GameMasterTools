@@ -18,6 +18,14 @@ fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
         && getOwnedTowns(realm).isEmpty()
         && getPreviousOwnedTowns(realm).isEmpty()
 
+// count
+
+fun State.getRealmsWithAnyLegalCode(code: LegalCodeId) = getRealmStorage()
+    .getAll()
+    .count { it.legalCode.current == code || it.legalCode.previousEntries.any { it.entry == code } }
+
+// get
+
 fun State.getExistingRealms(date: Date?) = getExistingElements(getRealmStorage().getAll(), date)
 
 fun State.getRealmsWithLegalCode(code: LegalCodeId) = getRealmStorage()

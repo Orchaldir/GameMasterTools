@@ -22,8 +22,6 @@ val CREATE_LEGAL_CODE: Reducer<CreateLegalCode, State> = { state, _ ->
 val DELETE_LEGAL_CODE: Reducer<DeleteLegalCode, State> = { state, action ->
     state.getLegalCodeStorage().require(action.id)
 
-    checkIfCreatorCanBeDeleted(state, action.id)
-    checkIfOwnerCanBeDeleted(state, action.id)
     validateCanDelete(state.canDeleteLegalCode(action.id), action.id)
 
     noFollowUps(state.updateStorage(state.getLegalCodeStorage().remove(action.id)))
