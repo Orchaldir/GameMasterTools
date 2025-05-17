@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
@@ -18,6 +19,14 @@ fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
         && getPreviousOwnedTowns(realm).isEmpty()
 
 fun State.getExistingRealms(date: Date?) = getExistingElements(getRealmStorage().getAll(), date)
+
+fun State.getRealmsWithLegalCode(code: LegalCodeId) = getRealmStorage()
+    .getAll()
+    .filter { it.legalCode.current == code }
+
+fun State.getRealmsWithPreviousLegalCode(code: LegalCodeId) = getRealmStorage()
+    .getAll()
+    .filter { it.legalCode.previousEntries.any { it.entry == code } }
 
 fun State.getRealmsWithCapital(town: TownId) = getRealmStorage()
     .getAll()

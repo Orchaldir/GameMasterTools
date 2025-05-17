@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.model.realm
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
@@ -9,6 +10,9 @@ import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.model.realm.LegalCodeId
+import at.orchaldir.gm.core.selector.realm.getRealmsWithLegalCode
+import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousLegalCode
+import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -19,23 +23,29 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showLegalCode(
     call: ApplicationCall,
     state: State,
-    realm: LegalCode,
+    code: LegalCode,
 ) {
-    fieldCreator(call, state, realm.creator, "Creator")
-    optionalField(call, state, "Date", realm.date)
-    showDataSources(call, state, realm.sources)
+    fieldCreator(call, state, code.creator, "Creator")
+    optionalField(call, state, "Date", code.date)
+
+    val realms = state.sortRealms(state.getRealmsWithLegalCode(code.id))
+    val prevRealms = state.sortRealms(state.getRealmsWithPreviousLegalCode(code.id))
+
+    fieldList(call, state, "Used By", realms)
+    fieldList(call, state, "Previously Used By", prevRealms)
+    showDataSources(call, state, code.sources)
 }
 
 // edit
 
 fun FORM.editLegalCode(
     state: State,
-    realm: LegalCode,
+    code: LegalCode,
 ) {
-    selectName(realm.name)
-    selectOptionalDate(state, "Date", realm.date, DATE)
-    selectCreator(state, realm.creator, realm.id, realm.date, "Creator")
-    editDataSources(state, realm.sources)
+    selectName(code.name)
+    selectOptionalDate(state, "Date", code.date, DATE)
+    selectCreator(state, code.creator, code.id, code.date, "Creator")
+    editDataSources(state, code.sources)
 }
 
 // parse
