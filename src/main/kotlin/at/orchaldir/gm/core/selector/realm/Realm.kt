@@ -23,6 +23,10 @@ fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
 
 // count
 
+fun State.countRealmsDestroyedByCatastrophe(catastrophe: CatastropheId) = getRealmStorage()
+    .getAll()
+    .count { it.status.isDestroyedByCatastrophe(catastrophe) }
+
 fun State.countRealmsWithCurrencyAtAnyTime(currency: CurrencyId) = getRealmStorage()
     .getAll()
     .count { it.currency.current == currency || it.currency.previousEntries.any { it.entry == currency } }

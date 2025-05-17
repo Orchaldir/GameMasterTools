@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.character.DeathByCatastrophe
 import at.orchaldir.gm.core.model.realm.Catastrophe
+import at.orchaldir.gm.core.model.realm.DestroyedByCatastrophe
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -43,6 +45,17 @@ class CatastropheTest {
         fun `Cannot delete a catastrophe that killed a character`() {
             val dead = Dead(DAY0, DeathByCatastrophe(CATASTROPHE_ID_0))
             val organization = Character(CHARACTER_ID_0, vitalStatus = dead)
+            val newState = STATE.updateStorage(Storage(organization))
+
+            assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a catastrophe that destroyed a realm`() {
+            val status = DestroyedByCatastrophe(CATASTROPHE_ID_0, DAY0)
+            val organization = Realm(REALM_ID_0, status = status)
             val newState = STATE.updateStorage(Storage(organization))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {

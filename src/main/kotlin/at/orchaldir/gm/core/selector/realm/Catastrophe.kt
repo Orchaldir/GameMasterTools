@@ -7,5 +7,6 @@ import at.orchaldir.gm.core.selector.character.countCharactersKilledInCatastroph
 import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDeleteCatastrophe(catastrophe: CatastropheId) = countCharactersKilledInCatastrophe(catastrophe) == 0
+        && countRealmsDestroyedByCatastrophe(catastrophe) == 0
 
 fun State.getExistingCatastrophes(date: Date?) = getExistingElements(getCatastropheStorage().getAll(), date)
