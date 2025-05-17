@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.SortRealm
 import at.orchaldir.gm.core.selector.realm.canDeleteRealm
-import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.http.*
 import io.ktor.resources.*

@@ -2,11 +2,7 @@ package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
-import at.orchaldir.gm.core.model.realm.CatastropheId
-import at.orchaldir.gm.core.model.realm.LegalCodeId
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.realm.WarId
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator

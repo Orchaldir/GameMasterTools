@@ -4,12 +4,7 @@ import at.orchaldir.gm.core.action.CreateRealm
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.DestroyedByCatastrophe
-import at.orchaldir.gm.core.model.realm.DestroyedByWar
-import at.orchaldir.gm.core.model.realm.LivingRealm
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.RealmStatus
-import at.orchaldir.gm.core.model.realm.UndefinedEndOfRealm
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCanDelete

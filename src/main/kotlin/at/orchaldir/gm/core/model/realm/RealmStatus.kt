@@ -30,6 +30,7 @@ sealed class RealmStatus {
 
     fun isDestroyedByCatastrophe(catastrophe: CatastropheId) =
         this is DestroyedByCatastrophe && this.catastrophe == catastrophe
+
     fun isDestroyedByWar(war: WarId) = this is DestroyedByWar && this.war == war
 
 }

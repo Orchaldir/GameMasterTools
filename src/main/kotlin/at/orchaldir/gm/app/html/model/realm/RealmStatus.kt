@@ -45,6 +45,7 @@ fun HtmlBlockTag.displayRealmStatus(
         LivingRealm -> if (showAlive) {
             +"Alive"
         }
+
         is DestroyedByCatastrophe -> {
             +"Destroyed by "
             link(call, state, status.catastrophe)

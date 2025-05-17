@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.selector.character.getCharactersKilledInCatastrophe
 import at.orchaldir.gm.core.selector.realm.getRealmsDestroyedByCatastrophe
-import at.orchaldir.gm.core.selector.realm.getRealmsDestroyedByWar
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.server.application.*

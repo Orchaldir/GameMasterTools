@@ -14,10 +14,8 @@ import at.orchaldir.gm.core.model.realm.WAR_TYPE
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.util.SortWar
-import at.orchaldir.gm.core.selector.character.countCharactersKilledInCatastrophe
 import at.orchaldir.gm.core.selector.character.countCharactersKilledInWar
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
-import at.orchaldir.gm.core.selector.realm.countRealmsDestroyedByCatastrophe
 import at.orchaldir.gm.core.selector.realm.countRealmsDestroyedByWar
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortWars
