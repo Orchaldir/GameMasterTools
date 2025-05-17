@@ -1,14 +1,9 @@
 package at.orchaldir.gm.app.html.model.realm
 
-import at.orchaldir.gm.app.CURRENCY
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.LEGAL_CODE
-import at.orchaldir.gm.app.OWNER
-import at.orchaldir.gm.app.TOWN
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.economy.money.parseOptionalCurrencyId
-import at.orchaldir.gm.app.html.model.realm.parseOptionalTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId

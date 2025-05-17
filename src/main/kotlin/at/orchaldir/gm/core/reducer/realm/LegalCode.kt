@@ -8,8 +8,6 @@ import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.realm.canDeleteLegalCode
-import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
-import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

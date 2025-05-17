@@ -150,6 +150,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleHistoricEvent(
             "gains",
             "as capital",
         )
+
         HistoryEventType.Currency -> handleRealmChanged(
             call,
             state,
@@ -176,6 +177,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleHistoricEvent(
             "becomes independent",
             "joins",
         )
+
         HistoryEventType.Ownership -> handleOwnershipChanged(call, state, event as HistoryEvent<ID, Owner>)
     }
 }

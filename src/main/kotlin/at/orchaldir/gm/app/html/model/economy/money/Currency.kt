@@ -12,9 +12,7 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCurrency
-import at.orchaldir.gm.core.selector.realm.getRealmsWithLegalCode
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCurrency
-import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousLegalCode
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.http.*

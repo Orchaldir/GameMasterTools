@@ -19,11 +19,7 @@ import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.app.routes.realm.CatastropheRoutes
-import at.orchaldir.gm.app.routes.realm.LegalCodeRoutes
-import at.orchaldir.gm.app.routes.realm.RealmRoutes
-import at.orchaldir.gm.app.routes.realm.TownRoutes
-import at.orchaldir.gm.app.routes.realm.WarRoutes
+import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes

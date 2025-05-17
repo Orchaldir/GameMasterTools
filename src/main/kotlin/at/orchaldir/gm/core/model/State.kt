@@ -81,7 +81,6 @@ import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.core.reducer.character.validateCharacter
-import at.orchaldir.gm.core.reducer.realm.validateLegalCode
 import at.orchaldir.gm.core.reducer.culture.validateCulture
 import at.orchaldir.gm.core.reducer.culture.validateFashion
 import at.orchaldir.gm.core.reducer.economy.validateBusiness
@@ -99,10 +98,7 @@ import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.core.reducer.magic.validateSpellGroup
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
 import at.orchaldir.gm.core.reducer.quote.validateQuote
-import at.orchaldir.gm.core.reducer.realm.validateCatastrophe
-import at.orchaldir.gm.core.reducer.realm.validateRealm
-import at.orchaldir.gm.core.reducer.realm.validateTown
-import at.orchaldir.gm.core.reducer.realm.validateWar
+import at.orchaldir.gm.core.reducer.realm.*
 import at.orchaldir.gm.core.reducer.religion.validateDomain
 import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon

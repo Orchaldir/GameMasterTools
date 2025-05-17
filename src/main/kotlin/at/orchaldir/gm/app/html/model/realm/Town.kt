@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.model.realm.parseOptionalRealmId
 import at.orchaldir.gm.app.html.model.world.showBuildingsOfTownMap
 import at.orchaldir.gm.app.html.model.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
