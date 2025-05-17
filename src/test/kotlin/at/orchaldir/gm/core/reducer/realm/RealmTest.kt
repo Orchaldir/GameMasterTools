@@ -179,6 +179,14 @@ class RealmTest {
         }
 
         @Test
+        fun `The currency must exist`() {
+            val realm = Realm(REALM_ID_0, currency = History(UNKNOWN_CURRENCY_ID))
+            val action = UpdateRealm(realm)
+
+            assertIllegalArgument("Requires unknown Currency 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Update a realm`() {
             val realm = Realm(REALM_ID_0, NAME)
             val action = UpdateRealm(realm)
