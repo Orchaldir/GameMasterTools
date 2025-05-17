@@ -141,14 +141,22 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleHistoricEvent(
     event: HistoryEvent<ID, *>,
 ) {
     when (event.type) {
-        HistoryEventType.Capital -> handleCapitalChanged(call, state, event as HistoryEvent<ID, TownId?>)
+        HistoryEventType.Capital -> handleRealmChanged(
+            call,
+            state,
+            event as HistoryEvent<ID, RealmId?>,
+            "capital",
+            "lost its capital",
+            "gains",
+            "as capital",
+        )
         HistoryEventType.Currency -> handleRealmChanged(
             call,
             state,
             event as HistoryEvent<ID, CurrencyId?>,
             "currency",
             "?",
-            "adopts the currency"
+            "adopts the currency",
         )
 
         HistoryEventType.LegalCode -> handleRealmChanged(
@@ -157,9 +165,17 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleHistoricEvent(
             event as HistoryEvent<ID, LegalCodeId?>,
             "legal code",
             "lawless",
-            "adopts the legal code"
+            "adopts the legal code",
         )
-        HistoryEventType.OwnerRealm -> handleRealmOwnershipChanged(call, state, event as HistoryEvent<ID, RealmId?>)
+
+        HistoryEventType.OwnerRealm -> handleRealmChanged(
+            call,
+            state,
+            event as HistoryEvent<ID, RealmId?>,
+            "owner",
+            "becomes independent",
+            "joins",
+        )
         HistoryEventType.Ownership -> handleOwnershipChanged(call, state, event as HistoryEvent<ID, Owner>)
     }
 }
@@ -192,52 +208,6 @@ private fun <ID0 : Id<ID0>, ID1 : Id<ID1>> HtmlBlockTag.handleRealmChanged(
         } else {
             +"."
         }
-    }
-}
-
-private fun <ID : Id<ID>> HtmlBlockTag.handleCapitalChanged(
-    call: ApplicationCall,
-    state: State,
-    event: HistoryEvent<ID, TownId?>,
-) {
-    if (event.from != null && event.to != null) {
-        link(call, state, event.id)
-        +"'s capital changed from "
-        link(call, state, event.from)
-        +" to "
-        link(call, state, event.to)
-        +"."
-    } else if (event.from != null) {
-        link(call, state, event.id)
-        +" lost its capital."
-    } else if (event.to != null) {
-        link(call, state, event.id)
-        +" gains "
-        link(call, state, event.to)
-        +" as capital."
-    }
-}
-
-private fun <ID : Id<ID>> HtmlBlockTag.handleRealmOwnershipChanged(
-    call: ApplicationCall,
-    state: State,
-    event: HistoryEvent<ID, RealmId?>,
-) {
-    if (event.from != null && event.to != null) {
-        link(call, state, event.id)
-        +"'s owner changed from "
-        link(call, state, event.from)
-        +" to "
-        link(call, state, event.to)
-        +"."
-    } else if (event.from != null) {
-        link(call, state, event.id)
-        +" becomes independent."
-    } else if (event.to != null) {
-        link(call, state, event.id)
-        +" joins "
-        link(call, state, event.to)
-        +"."
     }
 }
 
