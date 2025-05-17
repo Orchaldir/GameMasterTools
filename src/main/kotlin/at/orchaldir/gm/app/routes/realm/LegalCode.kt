@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.util.SortLegalCode
 import at.orchaldir.gm.core.selector.realm.canDeleteLegalCode
+import at.orchaldir.gm.core.selector.realm.countRealmsWithAnyLegalCode
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortLegalCodes
 import io.ktor.http.*
@@ -155,12 +156,14 @@ private fun HTML.showAllLegalCodes(
                 th { +"Name" }
                 th { +"Date" }
                 th { +"Creator" }
+                th { +"Realms" }
             }
             codes.forEach { code ->
                 tr {
                     tdLink(call, state, code)
                     td { showOptionalDate(call, state, code.date) }
                     td { showCreator(call, state, code.creator, false) }
+                    tdSkipZero(state.countRealmsWithAnyLegalCode(code.id))
                 }
             }
         }

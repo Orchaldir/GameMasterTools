@@ -86,6 +86,7 @@ enum class SortLanguage {
 enum class SortLegalCode {
     Name,
     Date,
+    Realms,
 }
 
 enum class SortMagicTradition {

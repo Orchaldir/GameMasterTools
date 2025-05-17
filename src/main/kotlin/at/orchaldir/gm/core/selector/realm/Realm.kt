@@ -20,7 +20,7 @@ fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
 
 // count
 
-fun State.getRealmsWithAnyLegalCode(code: LegalCodeId) = getRealmStorage()
+fun State.countRealmsWithAnyLegalCode(code: LegalCodeId) = getRealmStorage()
     .getAll()
     .count { it.legalCode.current == code || it.legalCode.previousEntries.any { it.entry == code } }
 
