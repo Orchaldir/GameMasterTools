@@ -56,6 +56,12 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
     }
 
+    getLegalCodeStorage().getAll().forEach { code ->
+        addPossibleEvent(events, default, calendar, code.startDate()) {
+            StartEvent(it, code.id)
+        }
+    }
+
     getMagicTraditionStorage().getAll().forEach { tradition ->
         addPossibleEvent(events, default, calendar, tradition.startDate()) {
             StartEvent(it, tradition.id)
