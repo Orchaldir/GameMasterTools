@@ -28,6 +28,8 @@ sealed class RealmStatus {
         is UndefinedEndOfRealm -> date
     }
 
+    fun isDestroyedByWar(war: WarId) = this is DestroyedByWar && this.war == war
+
 }
 
 @Serializable
