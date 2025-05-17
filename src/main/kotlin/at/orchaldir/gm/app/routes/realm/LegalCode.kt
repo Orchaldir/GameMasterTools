@@ -146,7 +146,7 @@ private fun HTML.showAllLegalCodes(
     val codes = state.sortLegalCodes(sort)
     val createLink = call.application.href(LegalCodeRoutes.New())
 
-    simpleHtml("LegalCodes") {
+    simpleHtml("Legal Codes") {
         field("Count", codes.size)
         showSortTableLinks(call, SortLegalCode.entries, LegalCodeRoutes(), LegalCodeRoutes::All)
 
