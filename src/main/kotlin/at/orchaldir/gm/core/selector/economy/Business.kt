@@ -20,17 +20,17 @@ fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
 
 fun State.getBusinessesWithoutBuilding() = getBusinessStorage().getIds() - getBusinessesWithBuilding()
 
-fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
+fun State.getBusinesses(job: JobId) = getCharacterStorage()
+    .getAll()
     .mapNotNull {
         val employmentStatus = it.employmentStatus.current
 
-        if (employmentStatus is Employed && employmentStatus.job == job) {
-            employmentStatus.business
+        if (employmentStatus.hasJob(job)) {
+            employmentStatus.getBusiness()
         } else {
             null
         }
     }
     .toSet()
-    .map { getBusinessStorage().getOrThrow(it) }
 
 fun State.getOpenBusinesses(date: Date?) = getExistingElements(getBusinessStorage().getAll(), date)
