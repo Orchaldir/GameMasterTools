@@ -3,7 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Galifar",
+   "name": "Kingdom of Galifar",
    "founder": {
     "type": "Character",
     "character": 15
@@ -36,6 +36,9 @@
   "1": {
    "id": 1,
    "name": "Aundair",
+   "capital": {
+    "current": 3
+   },
    "owner": {
     "current": null,
     "previousEntries": [
