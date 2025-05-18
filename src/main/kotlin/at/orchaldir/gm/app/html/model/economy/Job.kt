@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.economy.getBusinesses
-import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.realm.getRealms
 import at.orchaldir.gm.core.selector.realm.getTowns
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith

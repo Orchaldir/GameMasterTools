@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.realm.parseOptionalTownId
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.model.showEmployees
-import at.orchaldir.gm.app.html.model.showEmploymentStatus
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
