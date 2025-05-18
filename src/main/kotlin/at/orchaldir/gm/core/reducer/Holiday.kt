@@ -47,7 +47,9 @@ fun validateHoliday(state: State, holiday: Holiday) {
 fun checkPurpose(state: State, purpose: HolidayPurpose) {
     when (purpose) {
         Anniversary -> doNothing()
+        is HolidayOfCatastrophe -> state.getCatastropheStorage().require(purpose.catastrophe)
         is HolidayOfGod -> state.getGodStorage().require(purpose.god)
+        is HolidayOfTreaty -> state.getTreatyStorage().require(purpose.treaty)
     }
 }
 
