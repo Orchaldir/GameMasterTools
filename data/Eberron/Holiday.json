@@ -190,6 +190,10 @@
     "type": "DayInYear",
     "dayIndex": 10,
     "monthIndex": 10
+   },
+   "purpose": {
+    "type": "Treaty",
+    "treaty": 0
    }
   },
   "16": {
