@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.character.DeathByCatastrophe
+import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.holiday.HolidayOfCatastrophe
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.DestroyedByCatastrophe
 import at.orchaldir.gm.core.model.realm.Realm
@@ -56,6 +58,17 @@ class CatastropheTest {
         fun `Cannot delete a catastrophe that destroyed a realm`() {
             val status = DestroyedByCatastrophe(CATASTROPHE_ID_0, DAY0)
             val organization = Realm(REALM_ID_0, status = status)
+            val newState = STATE.updateStorage(Storage(organization))
+
+            assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a catastrophe that is remembered by a holiday`() {
+            val purpose = HolidayOfCatastrophe(CATASTROPHE_ID_0)
+            val organization = Holiday(HOLIDAY_ID_0, purpose = purpose)
             val newState = STATE.updateStorage(Storage(organization))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
