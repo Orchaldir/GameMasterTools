@@ -5,12 +5,7 @@ import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.holiday.DayInYear
-import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.HolidayOfCatastrophe
-import at.orchaldir.gm.core.model.holiday.HolidayOfGod
-import at.orchaldir.gm.core.model.holiday.HolidayOfTreaty
-import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.utils.Storage
