@@ -188,7 +188,10 @@
    "purpose": {
     "type": "Heart",
     "god": 16
-   }
+   },
+   "languages": [
+    15
+   ]
   },
   "15": {
    "id": 15,
@@ -196,7 +199,10 @@
    "purpose": {
     "type": "Heart",
     "god": 17
-   }
+   },
+   "languages": [
+    15
+   ]
   },
   "16": {
    "id": 16,
@@ -249,7 +255,10 @@
      "type": "Organization",
      "organization": 29
     }
-   }
+   },
+   "languages": [
+    10
+   ]
   },
   "22": {
    "id": 22,
@@ -263,7 +272,10 @@
      "type": "Organization",
      "organization": 29
     }
-   }
+   },
+   "languages": [
+    10
+   ]
   },
   "23": {
    "id": 23,
@@ -277,7 +289,10 @@
      "type": "Organization",
      "organization": 29
     }
-   }
+   },
+   "languages": [
+    10
+   ]
   },
   "24": {
    "id": 24,
@@ -291,7 +306,10 @@
      "type": "Organization",
      "organization": 29
     }
-   }
+   },
+   "languages": [
+    10
+   ]
   }
  }
 }
