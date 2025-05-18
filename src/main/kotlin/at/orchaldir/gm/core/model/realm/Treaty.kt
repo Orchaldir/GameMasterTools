@@ -16,6 +16,7 @@ value class TreatyId(val value: Int) : Id<TreatyId> {
 
     override fun next() = TreatyId(value + 1)
     override fun type() = TREATY_TYPE
+    override fun plural() = "Treaties"
     override fun value() = value
 
 }

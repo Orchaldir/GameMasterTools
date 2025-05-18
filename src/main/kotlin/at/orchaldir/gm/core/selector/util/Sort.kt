@@ -54,6 +54,8 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.world.countBuildings
+import kotlin.collections.sortedWith
+import kotlin.comparisons.compareBy
 
 // generic
 
@@ -638,6 +640,22 @@ fun State.sortTownMaps(
         when (sort) {
             SortTownMap.Name -> compareByDescending<TownMap> { it.name(this) }
                 .thenComparing(getStartDateComparator())
+        })
+
+// treaty
+
+fun State.sortTreaties(sort: SortTreaty = SortTreaty.Name) =
+    sortTreaties(getTreatyStorage().getAll(), sort)
+
+fun State.sortTreaties(
+    wars: Collection<Treaty>,
+    sort: SortTreaty = SortTreaty.Name,
+) = wars
+    .sortedWith(
+        when (sort) {
+            SortTreaty.Name -> compareBy { it.name.text }
+            SortTreaty.Date -> getStartDateComparator()
+            SortTreaty.Participants -> compareByDescending { it.participants.size }
         })
 
 // uniform

@@ -384,6 +384,7 @@ fun <ID : Id<ID>> href(
     is TitleId -> call.application.href(TitleRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
     is TownMapId -> call.application.href(TownMapRoutes.Details(id))
+    is TreatyId -> call.application.href(TreatyRoutes.Details(id))
     is UniformId -> call.application.href(UniformRoutes.Details(id))
     is WarId -> call.application.href(WarRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
