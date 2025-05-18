@@ -106,6 +106,9 @@ private fun HtmlBlockTag.showCharactersOfTownMap(
     residents: List<Character>,
     workers: List<Character>,
 ) {
+    if (employees.isEmpty() && residents.isEmpty() && workers.isEmpty()) {
+        return
+    }
 
     h2 { +"Characters" }
 
