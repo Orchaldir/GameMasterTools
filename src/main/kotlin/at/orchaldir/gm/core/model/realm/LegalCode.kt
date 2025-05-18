@@ -27,7 +27,7 @@ data class LegalCode(
     val creator: Creator = UndefinedCreator,
     val date: Date? = null,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<LegalCodeId>, Created, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<LegalCodeId>, Creation, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text

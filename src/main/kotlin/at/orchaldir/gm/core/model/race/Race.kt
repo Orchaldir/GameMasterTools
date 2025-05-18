@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.OneOf
@@ -41,7 +41,7 @@ data class Race(
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<RaceId>, Created, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<RaceId>, Creation, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text

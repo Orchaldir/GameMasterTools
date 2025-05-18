@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
@@ -31,7 +31,7 @@ data class Spell(
     val language: LanguageId? = null,
     val origin: SpellOrigin = UndefinedSpellOrigin,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<SpellId>, Created, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<SpellId>, Creation, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text

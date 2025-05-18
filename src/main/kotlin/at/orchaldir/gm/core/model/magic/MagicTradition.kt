@@ -28,7 +28,7 @@ data class MagicTradition(
     val founder: Creator = UndefinedCreator,
     val groups: Set<SpellGroupId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<MagicTraditionId>, Created, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<MagicTraditionId>, Creation, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text

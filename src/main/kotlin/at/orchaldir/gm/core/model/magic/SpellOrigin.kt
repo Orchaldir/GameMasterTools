@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.magic
 
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import kotlinx.serialization.SerialName
@@ -14,7 +14,7 @@ enum class SpellOriginType {
 }
 
 @Serializable
-sealed class SpellOrigin : Created {
+sealed class SpellOrigin : Creation {
 
     fun getType() = when (this) {
         is InventedSpell -> SpellOriginType.Invented

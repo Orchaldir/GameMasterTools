@@ -81,8 +81,13 @@ data class CreatedByRealm(val realm: RealmId) : Creator()
 @SerialName("Town")
 data class CreatedByTown(val town: TownId) : Creator()
 
-interface Created {
+interface ComplexCreation {
+    fun <ID : Id<ID>> isCreatedBy(id: ID): Boolean
+}
+
+interface Creation : ComplexCreation {
     fun creator(): Creator
+    override fun <ID : Id<ID>> isCreatedBy(id: ID) = creator().isId(id)
 }
 
 

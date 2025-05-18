@@ -23,17 +23,17 @@ fun <ID : Id<ID>> State.isCreator(id: ID) = isCreator(getArticleStorage(), id)
 
 fun <ID : Id<ID>, ELEMENT, CREATOR : Id<CREATOR>> isCreator(storage: Storage<ID, ELEMENT>, id: CREATOR) where
         ELEMENT : Element<ID>,
-        ELEMENT : Created = storage
+        ELEMENT : ComplexCreation = storage
     .getAll()
-    .any { it.creator().isId(id) }
+    .any { it.isCreatedBy(id) }
 
 fun <ID : Id<ID>, ELEMENT, CREATOR : Id<CREATOR>> getCreatedBy(storage: Storage<ID, ELEMENT>, creator: CREATOR) where
         ELEMENT : Element<ID>,
-        ELEMENT : Created = storage
+        ELEMENT : ComplexCreation = storage
     .getAll()
-    .filter { it.creator().isId(creator) }
+    .filter { it.isCreatedBy(creator) }
 
-fun <ELEMENT : Created> countEachCreator(collection: Collection<ELEMENT>) = collection
+fun <ELEMENT : Creation> countEachCreator(collection: Collection<ELEMENT>) = collection
     .groupingBy { it.creator() }
     .eachCount()
 
@@ -64,7 +64,7 @@ private fun <ID0, ID1, ELEMENT> checkCreator(
 ) where ID0 : Id<ID0>,
         ID1 : Id<ID1>,
         ELEMENT : Element<ID0>,
-        ELEMENT : Created {
+        ELEMENT : ComplexCreation {
     val createdNoun = storage.getType()
     require(
         !isCreator(

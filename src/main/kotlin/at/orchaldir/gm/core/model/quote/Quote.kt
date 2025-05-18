@@ -25,7 +25,7 @@ data class Quote(
     val type: QuoteType = QuoteType.Quote,
     val source: Creator = UndefinedCreator,
     val date: Date? = null,
-) : ElementWithSimpleName<QuoteId>, Created, HasStartDate {
+) : ElementWithSimpleName<QuoteId>, Creation, HasStartDate {
 
     override fun id() = id
     override fun name() = text.text

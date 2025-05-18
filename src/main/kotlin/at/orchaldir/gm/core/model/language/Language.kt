@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.language
 
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.name.NotEmptyString
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
@@ -26,7 +26,7 @@ data class Language(
     val name: Name = Name.init("Language ${id.value}"),
     val title: NotEmptyString? = null,
     val origin: LanguageOrigin = OriginalLanguage,
-) : ElementWithSimpleName<LanguageId>, Created, HasStartDate {
+) : ElementWithSimpleName<LanguageId>, Creation, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text

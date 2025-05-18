@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.text
 
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
@@ -12,7 +12,7 @@ enum class TextOriginType {
 }
 
 @Serializable
-sealed class TextOrigin : Created {
+sealed class TextOrigin : Creation {
 
     fun getType() = when (this) {
         is OriginalText -> TextOriginType.Original

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.race
 
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.UndefinedCreator
@@ -17,7 +17,7 @@ enum class RaceOriginType {
 }
 
 @Serializable
-sealed class RaceOrigin : Created, HasStartDate {
+sealed class RaceOrigin : Creation, HasStartDate {
 
     fun getType() = when (this) {
         is CreatedRace -> RaceOriginType.Created

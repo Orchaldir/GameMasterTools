@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.UndefinedCreator
@@ -43,7 +43,7 @@ data class Text(
     val format: TextFormat = UndefinedTextFormat,
     val content: TextContent = UndefinedTextContent,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TextId>, Created, HasDataSources, HasStartDate, MadeFromParts {
+) : ElementWithSimpleName<TextId>, Creation, HasDataSources, HasStartDate, MadeFromParts {
 
     override fun id() = id
     override fun name() = name.text
