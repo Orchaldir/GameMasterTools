@@ -351,6 +351,47 @@
     "type": "Year",
     "year": 14
    }
+  },
+  "31": {
+   "id": 31,
+   "name": "Arcanix",
+   "founder": {
+    "type": "Organization",
+    "organization": 30
+   },
+   "date": {
+    "type": "Century",
+    "century": 0
+   },
+   "sources": [
+    3
+   ]
+  },
+  "32": {
+   "id": 32,
+   "name": "Royal Eyes of Aundair",
+   "founder": {
+    "type": "Realm",
+    "realm": 1
+   },
+   "date": {
+    "type": "Decade",
+    "decade": 0
+   },
+   "memberRanks": [
+    {
+    },
+    {
+     "name": "Spy Master"
+    }
+   ],
+   "sources": [
+    3
+   ]
+  },
+  "33": {
+   "id": 33,
+   "name": "University of Wynarn"
   }
  }
 }
