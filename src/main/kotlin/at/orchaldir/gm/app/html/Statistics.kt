@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
@@ -51,7 +51,7 @@ fun HtmlBlockTag.showTextFormatCount(texts: Collection<Text>) =
 fun HtmlBlockTag.showTextOriginCount(texts: Collection<Text>) =
     showCount("Origin", countEachTextOrigin(texts))
 
-fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(
+fun <ELEMENT : Creation> HtmlBlockTag.showCreatorCount(
     call: ApplicationCall,
     state: State,
     collection: Collection<ELEMENT>,

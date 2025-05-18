@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
 fun State.canDeleteDataSource(source: DataSourceId) = canDeleteDataSource(getBusinessStorage(), source) &&
+        canDeleteDataSource(getCatastropheStorage(), source) &&
         canDeleteDataSource(getCultureStorage(), source) &&
         canDeleteDataSource(getCharacterStorage(), source) &&
         canDeleteDataSource(getGodStorage(), source) &&
@@ -15,8 +16,12 @@ fun State.canDeleteDataSource(source: DataSourceId) = canDeleteDataSource(getBus
         canDeleteDataSource(getOrganizationStorage(), source) &&
         canDeleteDataSource(getPlaneStorage(), source) &&
         canDeleteDataSource(getRaceStorage(), source) &&
+        canDeleteDataSource(getRealmStorage(), source) &&
         canDeleteDataSource(getSpellStorage(), source) &&
-        canDeleteDataSource(getTownStorage(), source)
+        canDeleteDataSource(getTextStorage(), source) &&
+        canDeleteDataSource(getTownStorage(), source) &&
+        canDeleteDataSource(getTreatyStorage(), source) &&
+        canDeleteDataSource(getWarStorage(), source)
 
 fun <ID : Id<ID>, ELEMENT> canDeleteDataSource(
     storage: Storage<ID, ELEMENT>,

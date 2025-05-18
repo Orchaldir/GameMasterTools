@@ -111,6 +111,7 @@ fun Application.module() {
     configureTitleRouting()
     configureTownRouting()
     configureTownMapRouting()
+    configureTreatyRouting()
     configureUniformRouting()
     configureWarRouting()
 }

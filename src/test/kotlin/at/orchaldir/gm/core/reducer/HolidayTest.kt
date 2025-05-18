@@ -5,10 +5,7 @@ import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.holiday.DayInYear
-import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.HolidayOfGod
-import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.utils.Storage
@@ -83,11 +80,27 @@ class HolidayTest {
         }
 
         @Test
-        fun `Cannot update with unknown god`() {
+        fun `Cannot use an unknown catastrophe`() {
+            val holiday = Holiday(HOLIDAY_ID_0, purpose = HolidayOfCatastrophe(UNKNOWN_CATASTROPHE_ID))
+            val action = UpdateHoliday(holiday)
+
+            assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use an unknown god`() {
             val holiday = Holiday(HOLIDAY_ID_0, purpose = HolidayOfGod(UNKNOWN_GOD_ID))
             val action = UpdateHoliday(holiday)
 
             assertIllegalArgument("Requires unknown God 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use an unknown treaty`() {
+            val holiday = Holiday(HOLIDAY_ID_0, purpose = HolidayOfTreaty(UNKNOWN_TREATY_ID))
+            val action = UpdateHoliday(holiday)
+
+            assertIllegalArgument("Requires unknown Treaty 99!") { REDUCER.invoke(state, action) }
         }
 
         @Nested

@@ -15,6 +15,24 @@
    "sources": [
     3
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "The Crystalfall",
+   "startDate": {
+    "type": "Day",
+    "day": 308148
+   },
+   "endDate": {
+    "type": "Day",
+    "day": 308148
+   },
+   "cause": {
+    "type": "Created",
+    "creator": {
+     "type": "Undefined"
+    }
+   }
   }
  }
 }

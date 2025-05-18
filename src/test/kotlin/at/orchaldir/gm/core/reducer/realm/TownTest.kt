@@ -14,8 +14,6 @@ import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.street.Street
-import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
@@ -31,8 +29,6 @@ class TownTest {
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(Street(STREET_ID_0)),
-            Storage(StreetTemplate(STREET_TYPE_ID_0)),
             Storage(Town(TOWN_ID_0)),
         )
     )

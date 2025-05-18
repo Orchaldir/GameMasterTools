@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.UndefinedCreator
@@ -31,7 +31,7 @@ data class Catastrophe(
     val endDate: Date? = null,
     val cause: CauseOfCatastrophe = UndefinedCauseOfCatastrophe,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<CatastropheId>, Created, HasDataSources, HasStartAndEndDate {
+) : ElementWithSimpleName<CatastropheId>, Creation, HasDataSources, HasStartAndEndDate {
 
     override fun id() = id
     override fun name() = name.text

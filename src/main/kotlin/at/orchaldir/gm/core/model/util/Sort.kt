@@ -182,6 +182,12 @@ enum class SortTownMap {
     Name,
 }
 
+enum class SortTreaty {
+    Name,
+    Date,
+    Participants,
+}
+
 enum class SortUniform {
     Name,
 }

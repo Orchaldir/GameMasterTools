@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.realm.Treaty
+import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
@@ -106,6 +108,17 @@ class CharacterTest {
             val newState = state.updateStorage(Storage(organization))
 
             assertIllegalArgument("Cannot delete Character 0, because he is a member of an organization!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a character that signed a treaty`() {
+            val participant = TreatyParticipant(REALM_ID_0, CHARACTER_ID_0)
+            val treaty = Treaty(TREATY_ID_0, participants = listOf(participant))
+            val newState = state.updateStorage(Storage(treaty))
+
+            assertIllegalArgument("Cannot delete Character 0, because of created elements (Treaty)!") {
                 REDUCER.invoke(newState, action)
             }
         }

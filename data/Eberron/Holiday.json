@@ -185,11 +185,15 @@
   },
   "15": {
    "id": 15,
-   "name": "Thronehold",
+   "name": "Thronehold Day",
    "relativeDate": {
     "type": "DayInYear",
     "dayIndex": 10,
     "monthIndex": 10
+   },
+   "purpose": {
+    "type": "Treaty",
+    "treaty": 0
    }
   },
   "16": {
@@ -199,6 +203,10 @@
     "type": "DayInYear",
     "dayIndex": 8,
     "monthIndex": 1
+   },
+   "purpose": {
+    "type": "Catastrophe",
+    "catastrophe": 1
    }
   },
   "17": {
@@ -208,6 +216,10 @@
     "type": "DayInYear",
     "dayIndex": 19,
     "monthIndex": 1
+   },
+   "purpose": {
+    "type": "Catastrophe",
+    "catastrophe": 0
    }
   }
  }

@@ -32,7 +32,7 @@ data class Building(
     val style: ArchitecturalStyleId? = null,
     val purpose: BuildingPurpose = SingleFamilyHouse,
     val builder: Creator = UndefinedCreator,
-) : Element<BuildingId>, Created, HasOwner, HasStartDate {
+) : Element<BuildingId>, Creation, HasOwner, HasStartDate {
 
     override fun id() = id
 

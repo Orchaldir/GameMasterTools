@@ -96,6 +96,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getLegalCodeStorage(), LegalCodeRoutes.All())
                     fieldStorageLink(call, state.getRealmStorage(), RealmRoutes.All())
                     fieldStorageLink(call, state.getTownStorage(), TownRoutes.All())
+                    fieldStorageLink(call, state.getTreatyStorage(), TreatyRoutes.All())
                     fieldStorageLink(call, state.getWarStorage(), WarRoutes.All())
                     h3 { +"Religions" }
                     fieldStorageLink(call, state.getDomainStorage(), DomainRoutes.All())

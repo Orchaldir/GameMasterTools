@@ -32,7 +32,7 @@ data class Organization(
     val members: Map<CharacterId, History<Int?>> = emptyMap(),
     val holidays: Set<HolidayId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<OrganizationId>, Created, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<OrganizationId>, Creation, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text

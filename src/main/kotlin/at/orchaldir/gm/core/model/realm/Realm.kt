@@ -33,7 +33,7 @@ data class Realm(
     val currency: History<CurrencyId?> = History(null),
     val legalCode: History<LegalCodeId?> = History(null),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<RealmId>, Created, HasDataSources, HasStartAndEndDate {
+) : ElementWithSimpleName<RealmId>, Creation, HasDataSources, HasStartAndEndDate {
 
     override fun id() = id
     override fun name() = name.text

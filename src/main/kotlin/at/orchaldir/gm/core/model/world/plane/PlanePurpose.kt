@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.world.plane
 
 import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import kotlinx.serialization.SerialName
@@ -17,7 +17,7 @@ enum class PlanePurposeType {
 }
 
 @Serializable
-sealed class PlanePurpose : Created {
+sealed class PlanePurpose : Creation {
 
     fun getType() = when (this) {
         is Demiplane -> PlanePurposeType.Demi

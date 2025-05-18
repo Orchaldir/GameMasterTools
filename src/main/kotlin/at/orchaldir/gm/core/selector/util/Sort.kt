@@ -640,6 +640,22 @@ fun State.sortTownMaps(
                 .thenComparing(getStartDateComparator())
         })
 
+// treaty
+
+fun State.sortTreaties(sort: SortTreaty = SortTreaty.Name) =
+    sortTreaties(getTreatyStorage().getAll(), sort)
+
+fun State.sortTreaties(
+    wars: Collection<Treaty>,
+    sort: SortTreaty = SortTreaty.Name,
+) = wars
+    .sortedWith(
+        when (sort) {
+            SortTreaty.Name -> compareBy { it.name.text }
+            SortTreaty.Date -> getStartDateComparator()
+            SortTreaty.Participants -> compareByDescending { it.participants.size }
+        })
+
 // uniform
 
 fun State.sortUniforms(sort: SortUniform = SortUniform.Name) =

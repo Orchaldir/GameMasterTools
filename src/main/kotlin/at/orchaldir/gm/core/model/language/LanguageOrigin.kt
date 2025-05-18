@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.language
 
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import kotlinx.serialization.SerialName
@@ -16,7 +16,7 @@ enum class LanguageOriginType {
 }
 
 @Serializable
-sealed class LanguageOrigin : Created {
+sealed class LanguageOrigin : Creation {
 
     fun getType() = when (this) {
         is CombinedLanguage -> LanguageOriginType.Combined

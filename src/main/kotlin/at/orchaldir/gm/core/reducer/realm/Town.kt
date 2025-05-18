@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCapital
-import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.core.selector.util.requireExists
@@ -21,7 +20,7 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
-    val town = Town(state.getTownStorage().nextId, foundingDate = state.getCurrentDate())
+    val town = Town(state.getTownStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getTownStorage().add(town)))
 }

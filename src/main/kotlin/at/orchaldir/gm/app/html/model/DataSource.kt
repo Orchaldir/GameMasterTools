@@ -43,6 +43,7 @@ fun HtmlBlockTag.showDataSource(
     showDataSourceContent(call, state, state.getSpellStorage(), source.id)
     showDataSourceContent(call, state, state.getTextStorage(), source.id)
     showDataSourceContent(call, state, state.getTownStorage(), source.id)
+    showDataSourceContent(call, state, state.getTreatyStorage(), source.id)
     showDataSourceContent(call, state, state.getWarStorage(), source.id)
 }
 

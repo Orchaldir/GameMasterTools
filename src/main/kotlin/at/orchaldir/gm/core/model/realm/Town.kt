@@ -30,7 +30,7 @@ data class Town(
     val founder: Creator = UndefinedCreator,
     val owner: History<RealmId?> = History(null),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TownId>, Created, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<TownId>, Creation, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text

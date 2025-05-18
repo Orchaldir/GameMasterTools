@@ -29,7 +29,7 @@ data class Business(
     val founder: Creator = UndefinedCreator,
     val ownership: History<Owner> = History(UndefinedOwner),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<BusinessId>, Created, HasDataSources, HasOwner, HasStartDate {
+) : ElementWithSimpleName<BusinessId>, Creation, HasDataSources, HasOwner, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text

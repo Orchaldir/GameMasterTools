@@ -26,7 +26,7 @@ data class Article(
     val author: CharacterId? = null,
     val date: Date? = null,
     val content: ArticleContent = UndefinedArticleContent,
-) : ElementWithSimpleName<ArticleId>, Created, HasStartDate {
+) : ElementWithSimpleName<ArticleId>, Creation, HasStartDate {
 
     override fun id() = id
     override fun name() = title.text
