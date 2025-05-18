@@ -135,33 +135,18 @@ data class Character(
 
     // employment
 
-    fun hasJob(job: JobId) = if (vitalStatus is Alive) {
-        employmentStatus.current.hasJob(job)
+    fun checkEmploymentStatus(check: (EmploymentStatus) -> Boolean) = if (vitalStatus is Alive) {
+        check(employmentStatus.current)
     } else {
         false
     }
 
-    fun hasPreviousJob(job: JobId) = (vitalStatus is Dead && employmentStatus.current.hasJob(job)) ||
-            employmentStatus.previousEntries.any { it.entry.hasJob(job) }
+    fun checkPreviousEmploymentStatus(check: (EmploymentStatus) -> Boolean) =
+        (vitalStatus is Dead && check(employmentStatus.current)) ||
+                employmentStatus.previousEntries.any { check(it.entry) }
 
-    fun isEmployedAt(business: BusinessId) = if (vitalStatus is Alive) {
-        employmentStatus.current.isEmployedAt(business)
-    } else {
-        false
-    }
-
-    fun isPreviousEmployedAt(business: BusinessId) =
-        (vitalStatus is Dead && employmentStatus.current.isEmployedAt(business)) ||
-                employmentStatus.previousEntries.any { it.entry.isEmployedAt(business) }
-
-    fun isEmployedAt(town: TownId) = if (vitalStatus is Alive) {
-        employmentStatus.current.isEmployedAt(town)
-    } else {
-        false
-    }
-
-    fun isOrWasEmployedAt(town: TownId) = employmentStatus.current.isEmployedAt(town) ||
-            employmentStatus.previousEntries.any { it.entry.isEmployedAt(town) }
+    fun checkCurrentOrPreviousEmploymentStatus(check: (EmploymentStatus) -> Boolean) =
+        check(employmentStatus.current) || employmentStatus.previousEntries.any { check(it.entry) }
 
     fun getBusiness() = if (vitalStatus is Alive) {
         employmentStatus.current.getBusiness()

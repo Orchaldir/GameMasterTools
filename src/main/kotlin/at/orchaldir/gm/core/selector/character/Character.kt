@@ -45,7 +45,7 @@ fun State.countCharacters(language: LanguageId) = getCharacterStorage()
 
 fun State.countCharacters(job: JobId) = getCharacterStorage()
     .getAll()
-    .count { it.hasJob(job) }
+    .count { it.checkEmploymentStatus { it.hasJob(job) } }
 
 fun State.countCharacters(race: RaceId) = getCharacterStorage()
     .getAll()
@@ -57,11 +57,11 @@ fun State.countCharacters(title: TitleId) = getCharacterStorage()
 
 fun State.countCurrentOrFormerEmployees(town: TownId) = getCharacterStorage()
     .getAll()
-    .count { it.isOrWasEmployedAt(town) }
+    .count { it.checkCurrentOrPreviousEmploymentStatus { it.isEmployedAt(town) } }
 
 fun State.countEmployees(town: TownId) = getCharacterStorage()
     .getAll()
-    .count { it.isEmployedAt(town) }
+    .count { it.checkEmploymentStatus { it.isEmployedAt(town) } }
 
 fun State.countResident(townId: TownId): Int {
     val townMap = getCurrentTownMap(townId)
@@ -191,23 +191,23 @@ fun State.isResident(character: Character, town: TownMapId) = character.housingS
 
 fun State.getEmployees(job: JobId) = getCharacterStorage()
     .getAll()
-    .filter { it.hasJob(job) }
+    .filter { it.checkEmploymentStatus { it.hasJob(job) } }
 
 fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
-    .filter { it.isEmployedAt(business) }
+    .filter { it.checkEmploymentStatus { it.isEmployedAt(business) } }
 
 fun State.getEmployees(town: TownId) = getCharacterStorage()
     .getAll()
-    .filter { it.isEmployedAt(town) }
+    .filter { it.checkEmploymentStatus { it.isEmployedAt(town) } }
 
 fun State.getPreviousEmployees(job: JobId) = getCharacterStorage()
     .getAll()
-    .filter { it.hasPreviousJob(job) }
+    .filter { it.checkPreviousEmploymentStatus { it.hasJob(job) } }
 
 fun State.getPreviousEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
-    .filter { it.isPreviousEmployedAt(business) }
+    .filter { it.checkPreviousEmploymentStatus { it.isEmployedAt(business) } }
 
 fun State.getWorkingIn(town: TownMapId) = getCharacterStorage()
     .getAll()
