@@ -1,5 +1,30 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "The Treaty of Thronehold",
+   "date": {
+    "type": "Year",
+    "year": 995
+   },
+   "participants": [
+    {
+     "realm": 1
+    },
+    {
+     "realm": 2
+    },
+    {
+     "realm": 4
+    },
+    {
+     "realm": 5
+    }
+   ],
+   "sources": [
+    3
+   ]
+  }
  }
 }
