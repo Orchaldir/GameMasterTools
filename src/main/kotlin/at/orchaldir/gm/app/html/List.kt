@@ -148,7 +148,7 @@ fun <T> HtmlBlockTag.editList(
     elements: Collection<T>,
     minSize: Int,
     maxSize: Int,
-    step: Int,
+    step: Int = 1,
     editElement: HtmlBlockTag.(Int, String, T) -> Unit,
 ) {
     selectInt("$label Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
