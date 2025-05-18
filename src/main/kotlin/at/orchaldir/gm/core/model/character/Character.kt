@@ -7,11 +7,14 @@ import at.orchaldir.gm.core.model.character.title.AbstractTitle
 import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.time.Duration
@@ -130,4 +133,39 @@ data class Character(
         return false
     }
 
+    // employment
+
+    fun hasJob(job: JobId) = if (vitalStatus is Alive) {
+        employmentStatus.current.hasJob(job)
+    } else {
+        false
+    }
+
+    fun hasPreviousJob(job: JobId) = (vitalStatus is Dead && employmentStatus.current.hasJob(job)) ||
+            employmentStatus.previousEntries.any { it.entry.hasJob(job) }
+
+    fun isEmployedAt(business: BusinessId) = if (vitalStatus is Alive) {
+        employmentStatus.current.isEmployedAt(business)
+    } else {
+        false
+    }
+
+    fun isPreviousEmployedAt(business: BusinessId) =
+        (vitalStatus is Dead && employmentStatus.current.isEmployedAt(business)) ||
+                employmentStatus.previousEntries.any { it.entry.isEmployedAt(business) }
+
+    fun isEmployedAt(town: TownId) = if (vitalStatus is Alive) {
+        employmentStatus.current.isEmployedAt(town)
+    } else {
+        false
+    }
+
+    fun isOrWasEmployedAt(town: TownId) = employmentStatus.current.isEmployedAt(town) ||
+            employmentStatus.previousEntries.any { it.entry.isEmployedAt(town) }
+
+    fun getBusiness() = if (vitalStatus is Alive) {
+        employmentStatus.current.getBusiness()
+    } else {
+        null
+    }
 }

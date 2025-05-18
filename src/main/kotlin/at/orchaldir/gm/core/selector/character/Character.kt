@@ -45,7 +45,7 @@ fun State.countCharacters(language: LanguageId) = getCharacterStorage()
 
 fun State.countCharacters(job: JobId) = getCharacterStorage()
     .getAll()
-    .count { it.employmentStatus.current.hasJob(job) }
+    .count { it.hasJob(job) }
 
 fun State.countCharacters(race: RaceId) = getCharacterStorage()
     .getAll()
@@ -57,11 +57,11 @@ fun State.countCharacters(title: TitleId) = getCharacterStorage()
 
 fun State.countCurrentOrFormerEmployees(town: TownId) = getCharacterStorage()
     .getAll()
-    .count { it.employmentStatus.isOrWasEmployedAt(town) }
+    .count { it.isOrWasEmployedAt(town) }
 
 fun State.countEmployees(town: TownId) = getCharacterStorage()
     .getAll()
-    .count { it.employmentStatus.current.isEmployedAt(town) }
+    .count { it.isEmployedAt(town) }
 
 fun State.countResident(townId: TownId): Int {
     val townMap = getCurrentTownMap(townId)
@@ -83,10 +83,6 @@ fun countEachCauseOfDeath(characters: Collection<Character>) = characters
 
 fun countEachCulture(characters: Collection<Character>) = characters
     .groupingBy { it.culture }
-    .eachCount()
-
-fun countEachEmploymentStatus(characters: Collection<Character>) = characters
-    .groupingBy { it.employmentStatus.current.getType() }
     .eachCount()
 
 fun countEachGender(characters: Collection<Character>) = characters
@@ -195,29 +191,29 @@ fun State.isResident(character: Character, town: TownMapId) = character.housingS
 
 fun State.getEmployees(job: JobId) = getCharacterStorage()
     .getAll()
-    .filter { it.employmentStatus.current.hasJob(job) }
+    .filter { it.hasJob(job) }
 
 fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
-    .filter { it.employmentStatus.current.isEmployedAt(business) }
+    .filter { it.isEmployedAt(business) }
 
 fun State.getEmployees(town: TownId) = getCharacterStorage()
     .getAll()
-    .filter { it.employmentStatus.current.isEmployedAt(town) }
+    .filter { it.isEmployedAt(town) }
 
 fun State.getPreviousEmployees(job: JobId) = getCharacterStorage()
     .getAll()
-    .filter { it.employmentStatus.previousEntries.any { it.entry.hasJob(job) } }
+    .filter { it.hasPreviousJob(job) }
 
 fun State.getPreviousEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
-    .filter { it.employmentStatus.previousEntries.any { it.entry.isEmployedAt(business) } }
+    .filter { it.isPreviousEmployedAt(business) }
 
 fun State.getWorkingIn(town: TownMapId) = getCharacterStorage()
     .getAll()
     .filter { isWorkingIn(it, town) }
 
-fun State.isWorkingIn(character: Character, town: TownMapId) = character.employmentStatus.current.getBusiness()
+fun State.isWorkingIn(character: Character, town: TownMapId) = character.getBusiness()
     ?.let {
         getBuildingStorage().getAll().any { building -> building.purpose.contains(it) && building.lot.town == town }
     }
