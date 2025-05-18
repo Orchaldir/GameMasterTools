@@ -54,8 +54,6 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.world.countBuildings
-import kotlin.collections.sortedWith
-import kotlin.comparisons.compareBy
 
 // generic
 

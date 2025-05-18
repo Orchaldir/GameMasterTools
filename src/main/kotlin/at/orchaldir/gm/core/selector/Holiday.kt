@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.holiday.HolidayOfCatastrophe
 import at.orchaldir.gm.core.model.holiday.HolidayOfGod
 import at.orchaldir.gm.core.model.holiday.HolidayOfTreaty
 import at.orchaldir.gm.core.model.realm.CatastropheId
-import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -36,8 +35,8 @@ fun State.getHolidays(treaty: TreatyId) = getHolidayStorage()
 fun State.getForHolidays(day: Day) = getHolidayStorage()
     .getAll()
     .filter { holiday ->
-    val calendar = getCalendarStorage().getOrThrow(holiday.calendar)
-    val displayDay = calendar.resolveDay(day)
+        val calendar = getCalendarStorage().getOrThrow(holiday.calendar)
+        val displayDay = calendar.resolveDay(day)
 
-    holiday.relativeDate.isOn(calendar, displayDay)
-}
+        holiday.relativeDate.isOn(calendar, displayDay)
+    }
