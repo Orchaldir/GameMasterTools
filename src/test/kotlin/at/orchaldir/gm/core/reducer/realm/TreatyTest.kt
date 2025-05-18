@@ -4,6 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteTreaty
 import at.orchaldir.gm.core.action.UpdateTreaty
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.holiday.HolidayOfCatastrophe
+import at.orchaldir.gm.core.model.holiday.HolidayOfTreaty
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Treaty
@@ -40,6 +43,17 @@ class TreatyTest {
         @Test
         fun `Cannot delete unknown id`() {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot delete a treaty that is celebrated by a holiday`() {
+            val purpose = HolidayOfTreaty(TREATY_ID_0)
+            val organization = Holiday(HOLIDAY_ID_0, purpose = purpose)
+            val newState = STATE.updateStorage(Storage(organization))
+
+            assertIllegalArgument("Cannot delete Treaty 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
         }
     }
 
