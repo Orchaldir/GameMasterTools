@@ -23,6 +23,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Day
@@ -118,6 +119,7 @@ private fun getStartText(event: StartEvent<*>): String = when (event.id) {
     is PeriodicalId -> "started publishing"
     is OrganizationId, is TownId -> "was founded"
     is TextId -> "was published"
+    is TreatyId -> "was signed"
     else -> "started"
 }
 

@@ -128,6 +128,12 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
     }
 
+    getTreatyStorage().getAll().forEach { treaty ->
+        addPossibleEvent(events, default, calendar, treaty.startDate()) {
+            StartEvent(it, treaty.id)
+        }
+    }
+
     getWarStorage().getAll().forEach { war ->
         handleStartAndEnd(events, default, calendar, war, war.id)
     }
