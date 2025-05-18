@@ -39,11 +39,19 @@ fun HtmlBlockTag.showEmployees(
     state: State,
     employees: Collection<Character>,
     label: String = "Employees",
+    showOptionalBusiness: Boolean = true,
+    showTown: Boolean = true,
 ) {
     fieldList(label, state.sortCharacters(employees)) { employee ->
         link(call, state, employee)
         +" as "
-        showEmploymentStatus(call, state, employee.employmentStatus.current, showTown = false)
+        showEmploymentStatus(
+            call,
+            state,
+            employee.employmentStatus.current,
+            showOptionalBusiness = showOptionalBusiness,
+            showTown = showTown,
+        )
     }
 }
 

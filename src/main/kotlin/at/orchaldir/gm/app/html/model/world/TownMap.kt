@@ -109,7 +109,7 @@ private fun HtmlBlockTag.showCharactersOfTownMap(
 
     h2 { +"Characters" }
 
-    showEmployees(call, state, employees)
+    showEmployees(call, state, employees, showTown = false)
     fieldList(call, state, "Residents", state.sortCharacters(residents))
     fieldList(call, state, "Workers, but not Residents", state.sortCharacters(workers))
 

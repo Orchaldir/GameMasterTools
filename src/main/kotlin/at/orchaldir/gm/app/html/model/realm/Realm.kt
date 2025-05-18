@@ -43,8 +43,8 @@ fun HtmlBlockTag.showRealm(
         link(call, state, code)
     }
 
-    showEmployees(call, state, state.getEmployees(realm.id))
-    showEmployees(call, state, state.getPreviousEmployees(realm.id), "Previous Employees")
+    showEmployees(call, state, state.getEmployees(realm.id), showTown = false)
+    showEmployees(call, state, state.getPreviousEmployees(realm.id), "Previous Employees", showTown = false)
 
     val wars = state.sortWars(state.getWars(realm.id))
 
