@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.html.model.optionalField
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.realm.parseOptionalTownId
 import at.orchaldir.gm.app.html.model.selectOptionalDate
-import at.orchaldir.gm.app.html.model.showEmploymentStatus
+import at.orchaldir.gm.app.html.model.showEmployees
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -105,14 +105,13 @@ private fun HtmlBlockTag.showCharactersOfTownMap(
     residents: List<Character>,
     workers: List<Character>,
 ) {
+    if (employees.isEmpty() && residents.isEmpty() && workers.isEmpty()) {
+        return
+    }
 
     h2 { +"Characters" }
 
-    fieldList("Employees", state.sortCharacters(employees)) { employee ->
-        link(call, state, employee)
-        +" as "
-        showEmploymentStatus(call, state, employee.employmentStatus.current, showTown = false)
-    }
+    showEmployees(call, state, employees, showTown = false)
     fieldList(call, state, "Residents", state.sortCharacters(residents))
     fieldList(call, state, "Workers, but not Residents", state.sortCharacters(workers))
 

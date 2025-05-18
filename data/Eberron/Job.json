@@ -234,6 +234,14 @@
     "type": "SoL",
     "standard": 3
    }
+  },
+  "28": {
+   "id": 28,
+   "name": "King",
+   "income": {
+    "type": "SoL",
+    "standard": 6
+   }
   }
  }
 }

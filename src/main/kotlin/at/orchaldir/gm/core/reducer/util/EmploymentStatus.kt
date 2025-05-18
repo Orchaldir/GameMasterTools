@@ -22,9 +22,13 @@ private fun checkEmploymentStatus(
     date: Date?,
 ) {
     when (status) {
-        UndefinedEmploymentStatus -> doNothing()
-        Unemployed -> doNothing()
+        Retired, UndefinedEmploymentStatus, Unemployed -> doNothing()
         is Employed -> checkEmployed(state, noun, date, status.job, status.business)
+        is EmployedByRealm -> {
+            checkEmployed(state, noun, date, status.job, null)
+            state.requireExists(state.getRealmStorage(), status.realm, date)
+        }
+
         is EmployedByTown -> {
             checkEmployed(state, noun, date, status.job, status.optionalBusiness)
             state.requireExists(state.getTownStorage(), status.town, date)

@@ -1,13 +1,11 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.BUSINESS
-import at.orchaldir.gm.app.EMPLOYMENT
-import at.orchaldir.gm.app.JOB
-import at.orchaldir.gm.app.TOWN
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.parseBusinessId
 import at.orchaldir.gm.app.html.model.economy.parseJobId
 import at.orchaldir.gm.app.html.model.economy.parseOptionalBusinessId
+import at.orchaldir.gm.app.html.model.realm.parseRealmId
 import at.orchaldir.gm.app.html.model.realm.parseTownId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -17,11 +15,9 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
+import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
-import at.orchaldir.gm.core.selector.util.sortBusinesses
-import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.util.sortJobs
-import at.orchaldir.gm.core.selector.util.sortTowns
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -33,17 +29,21 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showEmployees(
     call: ApplicationCall,
     state: State,
-    label: String,
     employees: Collection<Character>,
+    label: String = "Employees",
+    showOptionalBusiness: Boolean = true,
+    showTown: Boolean = true,
 ) {
-    fieldList(label, state.sortCharacters(employees)) { character ->
-        link(call, state, character)
+    fieldList(label, state.sortCharacters(employees)) { employee ->
+        link(call, state, employee)
         +" as "
-        when (val status = character.employmentStatus.current) {
-            is Employed -> link(call, state, status.job)
-            is EmployedByTown -> link(call, state, status.job)
-            else -> doNothing()
-        }
+        showEmploymentStatus(
+            call,
+            state,
+            employee.employmentStatus.current,
+            showOptionalBusiness = showOptionalBusiness,
+            showTown = showTown,
+        )
     }
 }
 
@@ -68,6 +68,15 @@ fun HtmlBlockTag.showEmploymentStatus(
             link(call, state, status.business)
         }
 
+        is EmployedByRealm -> {
+            link(call, state, status.job)
+
+            if (showTown) {
+                +" of "
+                link(call, state, status.realm)
+            }
+        }
+
         is EmployedByTown -> if (showTown) {
             if (status.optionalBusiness != null && showOptionalBusiness) {
                 link(call, state, status.job)
@@ -90,6 +99,7 @@ fun HtmlBlockTag.showEmploymentStatus(
             }
         }
 
+        Retired -> +"Retired"
         Unemployed -> +"Unemployed"
         UndefinedEmploymentStatus -> if (showUndefined) {
             +"Undefined"
@@ -108,14 +118,13 @@ fun FORM.selectEmploymentStatusHistory(
 fun HtmlBlockTag.selectEmploymentStatus(
     state: State,
     param: String,
-    employmentStatus: EmploymentStatus,
+    status: EmploymentStatus,
     start: Date?,
 ) {
-    selectValue("Employment Status", param, EmploymentStatusType.entries, employmentStatus.getType())
+    selectValue("Employment Status", param, EmploymentStatusType.entries, status.getType())
 
-    when (employmentStatus) {
-        UndefinedEmploymentStatus -> doNothing()
-        Unemployed -> doNothing()
+    when (status) {
+        Retired, UndefinedEmploymentStatus, Unemployed -> doNothing()
 
         is Employed -> {
             selectElement(
@@ -123,9 +132,20 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 "Business",
                 combine(param, BUSINESS),
                 state.sortBusinesses(state.getOpenBusinesses(start)),
-                employmentStatus.business,
+                status.business,
             )
-            selectJob(state, param, employmentStatus.job)
+            selectJob(state, param, status.job)
+        }
+
+        is EmployedByRealm -> {
+            selectElement(
+                state,
+                "Realm",
+                combine(param, REALM),
+                state.sortRealms(state.getExistingRealms(start)),
+                status.realm,
+            )
+            selectJob(state, param, status.job)
         }
 
         is EmployedByTown -> {
@@ -134,15 +154,15 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 "Town",
                 combine(param, TOWN),
                 state.sortTowns(state.getExistingTowns(start)),
-                employmentStatus.town,
+                status.town,
             )
-            selectJob(state, param, employmentStatus.job)
+            selectJob(state, param, status.job)
             selectOptionalElement(
                 state,
                 "Business",
                 combine(param, BUSINESS),
                 state.sortBusinesses(state.getOpenBusinesses(start)),
-                employmentStatus.optionalBusiness,
+                status.optionalBusiness,
             )
         }
     }
@@ -172,12 +192,18 @@ fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): 
             parseJobId(parameters, combine(param, JOB)),
         )
 
+        EmploymentStatusType.EmployedByRealm -> EmployedByRealm(
+            parseJobId(parameters, combine(param, JOB)),
+            parseRealmId(parameters, combine(param, REALM)),
+        )
+
         EmploymentStatusType.EmployedByTown -> EmployedByTown(
             parseJobId(parameters, combine(param, JOB)),
             parseTownId(parameters, combine(param, TOWN)),
             parseOptionalBusinessId(parameters, combine(param, BUSINESS)),
         )
 
+        EmploymentStatusType.Retired -> Retired
         EmploymentStatusType.Unemployed -> Unemployed
         EmploymentStatusType.Undefined -> UndefinedEmploymentStatus
     }

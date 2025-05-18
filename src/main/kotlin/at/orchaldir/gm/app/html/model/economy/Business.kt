@@ -31,7 +31,7 @@ fun HtmlBlockTag.showBusiness(
     fieldAge("Age", state, business.startDate())
     fieldCreator(call, state, business.founder, "Founder")
     showOwnership(call, state, business.ownership)
-    showEmployees(call, state, "Employees", employees)
+    showEmployees(call, state, employees, showOptionalBusiness = false)
     fieldList(call, state, "Previous Employees", previousEmployees)
     showCreated(call, state, business.id, true)
 

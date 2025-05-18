@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.EmployedByRealm
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.date.Date
@@ -90,3 +92,16 @@ fun State.getRealmsDestroyedByCatastrophe(catastrophe: CatastropheId) = getRealm
 fun State.getRealmsDestroyedByWar(war: WarId) = getRealmStorage()
     .getAll()
     .filter { it.status.isDestroyedByWar(war) }
+
+fun State.getRealms(job: JobId) = getCharacterStorage()
+    .getAll()
+    .mapNotNull {
+        val employmentStatus = it.employmentStatus.current
+
+        if (employmentStatus is EmployedByRealm && employmentStatus.job == job) {
+            employmentStatus.realm
+        } else {
+            null
+        }
+    }
+    .toSet()

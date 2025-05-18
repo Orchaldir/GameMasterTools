@@ -1025,13 +1025,36 @@
     }
    },
    "culture": 3,
+   "employmentStatus": {
+    "current": {
+     "type": "ByRealm",
+     "job": 28,
+     "realm": 0
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "ByRealm",
+       "job": 28,
+       "realm": 4
+      },
+      "until": {
+       "type": "Year",
+       "year": 0
+      }
+     }
+    ]
+   },
    "beliefStatus": {
     "current": {
      "type": "Pantheon",
      "pantheon": 0
     }
    },
-   "title": 0
+   "title": 0,
+   "sources": [
+    3
+   ]
   },
   "16": {
    "id": 16,
@@ -1056,6 +1079,50 @@
     }
    },
    "culture": 1,
+   "employmentStatus": {
+    "current": {
+     "type": "ByRealm",
+     "job": 28,
+     "realm": 0
+    }
+   },
+   "title": 0,
+   "sources": [
+    3
+   ]
+  },
+  "17": {
+   "id": 17,
+   "name": {
+    "type": "Family",
+    "given": "Aurala",
+    "middle": null,
+    "family": "Wynarn"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Decade",
+    "decade": 95
+   },
+   "culture": 5,
+   "employmentStatus": {
+    "current": {
+     "type": "ByRealm",
+     "job": 28,
+     "realm": 1
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 979
+      }
+     }
+    ]
+   },
    "title": 0,
    "sources": [
     3

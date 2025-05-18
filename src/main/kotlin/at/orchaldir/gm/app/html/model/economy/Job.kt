@@ -19,6 +19,8 @@ import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.economy.getBusinesses
+import at.orchaldir.gm.core.selector.realm.getRealms
+import at.orchaldir.gm.core.selector.realm.getTowns
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.religion.getGodsAssociatedWith
 import at.orchaldir.gm.core.selector.util.sortCharacters
@@ -72,7 +74,9 @@ private fun HtmlBlockTag.showJobUsage(
     val domains = state.getDomainsAssociatedWith(job.id)
     val gods = state.getGodsAssociatedWith(job.id)
 
-    fieldList(call, state, state.getBusinesses(job.id))
+    fieldIdList(call, state, state.getBusinesses(job.id))
+    fieldIdList(call, state, state.getTowns(job.id))
+    fieldIdList(call, state, state.getRealms(job.id))
     fieldList(call, state, "Current Characters", state.sortCharacters(characters))
     fieldList(call, state, "Previous Characters", state.sortCharacters(previousCharacters))
     fieldList(call, state, "Associated Domains", state.sortDomains(domains))

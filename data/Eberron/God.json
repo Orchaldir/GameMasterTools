@@ -272,6 +272,7 @@
   "24": {
    "id": 24,
    "name": "Eberron",
+   "title": "The Dragon Between",
    "gender": "Female",
    "sources": [
     3
@@ -280,6 +281,7 @@
   "25": {
    "id": 25,
    "name": "Khyber",
+   "title": "The Dragon Below",
    "gender": "Female",
    "personality": [
     31
@@ -291,6 +293,7 @@
   "26": {
    "id": 26,
    "name": "Siberys",
+   "title": "The Dragon Above",
    "gender": "Male"
   }
  }

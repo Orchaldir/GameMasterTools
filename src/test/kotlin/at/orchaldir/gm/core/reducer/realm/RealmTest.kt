@@ -4,6 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.EmployedByRealm
+import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -114,6 +117,18 @@ class RealmTest {
                 REDUCER.invoke(newState, action)
             }
         }
+
+        @Test
+        fun `Cannot delete a realm that employs a character`() {
+            val employmentStatus = History<EmploymentStatus>(EmployedByRealm(JOB_ID_0, REALM_ID_0))
+            val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
+            val state = STATE.updateStorage(Storage(character))
+
+            assertIllegalArgument("Cannot delete Realm 0, because it has or had employees!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
     }
 
     @Nested

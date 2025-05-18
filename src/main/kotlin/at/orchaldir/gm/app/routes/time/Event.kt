@@ -5,10 +5,12 @@ import at.orchaldir.gm.app.html.back
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.fieldCurrentDate
+import at.orchaldir.gm.app.html.model.showEmploymentStatus
 import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.event.*
@@ -160,6 +162,12 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleHistoricEvent(
             "adopts the currency",
         )
 
+        HistoryEventType.Employment -> handleJobChanged(
+            call,
+            state,
+            event as HistoryEvent<ID, EmploymentStatus>,
+        )
+
         HistoryEventType.LegalCode -> handleRealmChanged(
             call,
             state,
@@ -211,6 +219,19 @@ private fun <ID0 : Id<ID0>, ID1 : Id<ID1>> HtmlBlockTag.handleRealmChanged(
             +"."
         }
     }
+}
+
+private fun <ID : Id<ID>> HtmlBlockTag.handleJobChanged(
+    call: ApplicationCall,
+    state: State,
+    event: HistoryEvent<ID, EmploymentStatus>,
+) {
+    link(call, state, event.id)
+    +"'s job changed from "
+    showEmploymentStatus(call, state, event.from)
+    +" to "
+    showEmploymentStatus(call, state, event.to)
+    +"."
 }
 
 private fun <ID : Id<ID>> HtmlBlockTag.handleOwnershipChanged(

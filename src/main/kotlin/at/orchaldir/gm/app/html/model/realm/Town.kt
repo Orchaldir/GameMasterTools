@@ -36,6 +36,7 @@ fun HtmlBlockTag.showTown(
     }
     fieldList(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldList(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
+    showDataSources(call, state, town.sources)
 
     val currentOptionalTownMaps = state.getCurrentTownMap(town.id)
 
@@ -50,7 +51,6 @@ fun HtmlBlockTag.showTown(
 
     showCreated(call, state, town.id)
     showOwnedElements(call, state, town.id)
-    showDataSources(call, state, town.sources)
 }
 
 // edit

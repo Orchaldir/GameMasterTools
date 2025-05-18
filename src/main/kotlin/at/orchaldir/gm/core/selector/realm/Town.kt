@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.EmployedByTown
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
@@ -37,3 +39,16 @@ fun <ID : Id<ID>> State.getPreviousOwnedTowns(id: ID) = if (id is RealmId) {
 fun State.getPreviousOwnedTowns(realm: RealmId) = getTownStorage()
     .getAll()
     .filter { it.owner.previousEntries.any { it.entry == realm } }
+
+fun State.getTowns(job: JobId) = getCharacterStorage()
+    .getAll()
+    .mapNotNull {
+        val employmentStatus = it.employmentStatus.current
+
+        if (employmentStatus is EmployedByTown && employmentStatus.job == job) {
+            employmentStatus.town
+        } else {
+            null
+        }
+    }
+    .toSet()

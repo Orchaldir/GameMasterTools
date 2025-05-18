@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.History
 import kotlinx.serialization.SerialName
@@ -11,7 +12,9 @@ enum class EmploymentStatusType {
     Undefined,
     Unemployed,
     Employed,
+    EmployedByRealm,
     EmployedByTown,
+    Retired,
 }
 
 @Serializable
@@ -21,7 +24,9 @@ sealed class EmploymentStatus {
         UndefinedEmploymentStatus -> EmploymentStatusType.Undefined
         Unemployed -> EmploymentStatusType.Unemployed
         is Employed -> EmploymentStatusType.Employed
+        is EmployedByRealm -> EmploymentStatusType.EmployedByRealm
         is EmployedByTown -> EmploymentStatusType.EmployedByTown
+        Retired -> EmploymentStatusType.Retired
     }
 
     fun getBusiness() = when (this) {
@@ -32,12 +37,14 @@ sealed class EmploymentStatus {
 
     fun getJob() = when (this) {
         is Employed -> job
+        is EmployedByRealm -> job
         is EmployedByTown -> job
         else -> null
     }
 
     fun hasJob(job: JobId) = when (this) {
         is Employed -> job == this.job
+        is EmployedByRealm -> job == this.job
         is EmployedByTown -> job == this.job
         else -> false
     }
@@ -45,6 +52,11 @@ sealed class EmploymentStatus {
     fun isEmployedAt(business: BusinessId) = when (this) {
         is Employed -> business == this.business
         is EmployedByTown -> business == this.optionalBusiness
+        else -> false
+    }
+
+    fun isEmployedAt(realm: RealmId) = when (this) {
+        is EmployedByRealm -> realm == this.realm
         else -> false
     }
 
@@ -63,6 +75,13 @@ data class Employed(
 ) : EmploymentStatus()
 
 @Serializable
+@SerialName("ByRealm")
+data class EmployedByRealm(
+    val job: JobId,
+    val realm: RealmId,
+) : EmploymentStatus()
+
+@Serializable
 @SerialName("ByTown")
 data class EmployedByTown(
     val job: JobId,
@@ -71,12 +90,21 @@ data class EmployedByTown(
 ) : EmploymentStatus()
 
 @Serializable
+@SerialName("Retired")
+data object Retired : EmploymentStatus()
+
+@Serializable
 @SerialName("Unemployed")
 data object Unemployed : EmploymentStatus()
 
 @Serializable
 @SerialName("Undefined")
 data object UndefinedEmploymentStatus : EmploymentStatus()
+
+fun History<EmploymentStatus>.wasEmployedAt(realm: RealmId) = previousEntries
+    .any { it.entry.isEmployedAt(realm) }
+
+fun History<EmploymentStatus>.isOrWasEmployedAt(realm: RealmId) = current.isEmployedAt(realm) || wasEmployedAt(realm)
 
 fun History<EmploymentStatus>.wasEmployedAt(town: TownId) = previousEntries
     .any { it.entry.isEmployedAt(town) }

@@ -7,6 +7,8 @@ import at.orchaldir.gm.app.html.model.economy.money.parseOptionalCurrencyId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.economy.money.getExistingCurrency
 import at.orchaldir.gm.core.selector.realm.getExistingLegalCodes
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
@@ -40,6 +42,9 @@ fun HtmlBlockTag.showRealm(
     showHistory(call, state, realm.legalCode, "Legal Code", "Lawless") { _, _, code ->
         link(call, state, code)
     }
+
+    showEmployees(call, state, state.getEmployees(realm.id), showTown = false)
+    showEmployees(call, state, state.getPreviousEmployees(realm.id), "Previous Employees", showTown = false)
 
     val wars = state.sortWars(state.getWars(realm.id))
 

@@ -130,4 +130,24 @@ data class Character(
         return false
     }
 
+    // employment
+
+    fun checkEmploymentStatus(check: (EmploymentStatus) -> Boolean) = if (vitalStatus is Alive) {
+        check(employmentStatus.current)
+    } else {
+        false
+    }
+
+    fun checkPreviousEmploymentStatus(check: (EmploymentStatus) -> Boolean) =
+        (vitalStatus is Dead && check(employmentStatus.current)) ||
+                employmentStatus.previousEntries.any { check(it.entry) }
+
+    fun checkCurrentOrPreviousEmploymentStatus(check: (EmploymentStatus) -> Boolean) =
+        check(employmentStatus.current) || employmentStatus.previousEntries.any { check(it.entry) }
+
+    fun getBusiness() = if (vitalStatus is Alive) {
+        employmentStatus.current.getBusiness()
+    } else {
+        null
+    }
 }

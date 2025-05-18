@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
+import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
 import at.orchaldir.gm.core.selector.realm.canDeleteRealm
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
@@ -25,6 +26,8 @@ val CREATE_REALM: Reducer<CreateRealm, State> = { state, _ ->
 
 val DELETE_REALM: Reducer<DeleteRealm, State> = { state, action ->
     state.getRealmStorage().require(action.id)
+
+    validateCanDelete(state.countCurrentOrFormerEmployees(action.id) == 0, action.id, "it has or had employees")
 
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)

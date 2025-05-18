@@ -44,6 +44,15 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
 
     getCharacterStorage().getAll().forEach { character ->
         handleStartAndEnd(events, default, calendar, character, character.id)
+
+        addHistoricEvents(
+            events,
+            default,
+            calendar,
+            character.id,
+            character.employmentStatus,
+            HistoryEventType.Employment
+        )
     }
 
     getCurrencyStorage().getAll().forEach { currency ->
@@ -180,18 +189,18 @@ private fun <ID : Id<ID>, T> addHistoricEvents(
     from: Calendar,
     to: Calendar,
     id: ID,
-    ownership: History<T>,
+    history: History<T>,
     type: HistoryEventType,
 ) {
     var lastPrevious: HistoryEntry<T>? = null
 
-    for (previous in ownership.previousEntries) {
+    for (previous in history.previousEntries) {
         addHistoricEvent(events, from, to, id, lastPrevious, previous.entry, type)
 
         lastPrevious = previous
     }
 
-    addHistoricEvent(events, from, to, id, lastPrevious, ownership.current, type)
+    addHistoricEvent(events, from, to, id, lastPrevious, history.current, type)
 }
 
 private fun <ID : Id<ID>, T> addHistoricEvent(
