@@ -113,6 +113,13 @@ class RealmTest {
             test(character, "Cannot delete Realm 0, because it has or had employees!")
         }
 
+        @Test
+        fun `Cannot delete a realm that signed a treaty`() {
+            val treaty = Treaty(TREATY_ID_0, participants = listOf(TreatyParticipant(REALM_ID_0)))
+
+            test(treaty, "Cannot delete Realm 0, because of created elements (Treaty)!")
+        }
+
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> test(element: ELEMENT, message: String) {
             val state = STATE.updateStorage(Storage(element))
 
