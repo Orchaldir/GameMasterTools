@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EmployedByRealm
-import at.orchaldir.gm.core.model.character.EmployedByTown
 import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
