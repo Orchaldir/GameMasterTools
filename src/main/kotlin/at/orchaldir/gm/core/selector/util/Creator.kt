@@ -20,6 +20,7 @@ fun <ID : Id<ID>> State.isCreator(id: ID) = isCreator(getArticleStorage(), id)
         || isCreator(getSpellStorage(), id)
         || isCreator(getTextStorage(), id)
         || isCreator(getTownStorage(), id)
+        || isCreator(getTreatyStorage(), id)
 
 fun <ID : Id<ID>, ELEMENT, CREATOR : Id<CREATOR>> isCreator(storage: Storage<ID, ELEMENT>, id: CREATOR) where
         ELEMENT : Element<ID>,
@@ -55,6 +56,7 @@ fun <ID : Id<ID>> checkIfCreatorCanBeDeleted(
     checkCreator(state.getSpellStorage(), noun, creator)
     checkCreator(state.getTextStorage(), noun, creator)
     checkCreator(state.getTownStorage(), noun, creator)
+    checkCreator(state.getTreatyStorage(), noun, creator)
 }
 
 private fun <ID0, ID1, ELEMENT> checkCreator(

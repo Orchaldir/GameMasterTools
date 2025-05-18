@@ -87,6 +87,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
     fieldList(call, state, getCreatedBy(state.getSpellStorage(), id))
     fieldList(call, state, getCreatedBy(state.getTextStorage(), id))
     fieldList(call, state, getCreatedBy(state.getTownStorage(), id))
+    fieldList(call, state, getCreatedBy(state.getTreatyStorage(), id))
 }
 
 // select

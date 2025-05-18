@@ -28,11 +28,12 @@ data class Treaty(
     val date: Date? = null,
     val participants: List<TreatyParticipant> = emptyList(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TreatyId>, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<TreatyId>, ComplexCreation, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
     override fun startDate() = date
+    override fun <ID : Id<ID>> isCreatedBy(id: ID) = participants.any { it.isCreatedBy(id) }
 
 }
