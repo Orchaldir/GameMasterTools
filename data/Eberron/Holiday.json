@@ -203,6 +203,11 @@
     "type": "DayInYear",
     "dayIndex": 8,
     "monthIndex": 1
+    data
+   },
+   "purpose": {
+    "type": "Catastrophe",
+    "catastrophe": 1
    }
   },
   "17": {
@@ -212,6 +217,10 @@
     "type": "DayInYear",
     "dayIndex": 19,
     "monthIndex": 1
+   },
+   "purpose": {
+    "type": "Catastrophe",
+    "catastrophe": 0
    }
   }
  }
