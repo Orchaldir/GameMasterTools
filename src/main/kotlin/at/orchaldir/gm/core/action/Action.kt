@@ -295,6 +295,11 @@ data object CreateTown : RealmAction()
 data class DeleteTown(val id: TownId) : RealmAction()
 data class UpdateTown(val town: Town) : RealmAction()
 
+// treaty
+data object CreateTreaty : RealmAction()
+data class DeleteTreaty(val id: TreatyId) : RealmAction()
+data class UpdateTreaty(val treaty: Treaty) : RealmAction()
+
 // war
 data object CreateWar : RealmAction()
 data class DeleteWar(val id: WarId) : RealmAction()

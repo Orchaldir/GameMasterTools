@@ -25,7 +25,7 @@ data class Treaty(
     val id: TreatyId,
     val name: Name = Name.init("Treaty ${id.value}"),
     val date: Date? = null,
-    val participants: List<TreatyParticipant>,
+    val participants: List<TreatyParticipant> = emptyList(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<TreatyId>, HasDataSources, HasStartDate {
 

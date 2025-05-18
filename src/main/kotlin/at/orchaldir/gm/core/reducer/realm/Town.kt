@@ -21,7 +21,7 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
-    val town = Town(state.getTownStorage().nextId, foundingDate = state.getCurrentDate())
+    val town = Town(state.getTownStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getTownStorage().add(town)))
 }

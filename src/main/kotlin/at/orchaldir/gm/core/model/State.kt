@@ -160,6 +160,7 @@ val ELEMENTS =
         TITLE_TYPE,
         TOWN_TYPE,
         TOWN_MAP_TYPE,
+        TREATY_TYPE,
         UNIFORM_TYPE,
         WAR_TYPE,
     )
@@ -229,6 +230,7 @@ data class State(
     fun getTitleStorage() = getStorage<TitleId, Title>(TITLE_TYPE)
     fun getTownStorage() = getStorage<TownId, Town>(TOWN_TYPE)
     fun getTownMapStorage() = getStorage<TownMapId, TownMap>(TOWN_MAP_TYPE)
+    fun getTreatyStorage() = getStorage<TreatyId, Treaty>(TREATY_TYPE)
     fun getUniformStorage() = getStorage<UniformId, Uniform>(UNIFORM_TYPE)
     fun getWarStorage() = getStorage<WarId, War>(WAR_TYPE)
 
@@ -344,6 +346,7 @@ data class State(
         validate(getTextStorage()) { validateText(this, it) }
         validate(getTownStorage()) { validateTown(this, it) }
         validate(getTownMapStorage()) { validateTownMap(this, it) }
+        validate(getTreatyStorage()) { validateTreaty(this, it) }
         validate(getUniformStorage()) { validateUniform(this, it) }
         validate(getWarStorage()) { validateWar(this, it) }
 
@@ -395,6 +398,7 @@ data class State(
         saveStorage(path, getTitleStorage())
         saveStorage(path, getTownStorage())
         saveStorage(path, getTownMapStorage())
+        saveStorage(path, getTreatyStorage())
         saveStorage(path, getUniformStorage())
         saveStorage(path, getWarStorage())
         save(path, DATA, data)
@@ -446,6 +450,7 @@ fun createStorage(type: String) = when (type) {
     TITLE_TYPE -> Storage(TitleId(0))
     TOWN_TYPE -> Storage(TownId(0))
     TOWN_MAP_TYPE -> Storage(TownMapId(0))
+    TREATY_TYPE -> Storage(TreatyId(0))
     UNIFORM_TYPE -> Storage(UniformId(0))
     WAR_TYPE -> Storage(WarId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
@@ -500,6 +505,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     TITLE_TYPE -> loadStorage<TitleId, Title>(path, TitleId(0))
     TOWN_TYPE -> loadStorage<TownId, Town>(path, TownId(0))
     TOWN_MAP_TYPE -> loadStorage<TownMapId, TownMap>(path, TownMapId(0))
+    TREATY_TYPE -> loadStorage<TreatyId, Treaty>(path, TreatyId(0))
     UNIFORM_TYPE -> loadStorage<UniformId, Uniform>(path, UniformId(0))
     WAR_TYPE -> loadStorage<WarId, War>(path, WarId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
