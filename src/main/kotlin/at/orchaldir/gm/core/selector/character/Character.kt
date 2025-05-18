@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.CatastropheId
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.religion.GodId
@@ -197,6 +198,10 @@ fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
     .filter { it.checkEmploymentStatus { it.isEmployedAt(business) } }
 
+fun State.getEmployees(realm: RealmId) = getCharacterStorage()
+    .getAll()
+    .filter { it.checkEmploymentStatus { it.isEmployedAt(realm) } }
+
 fun State.getEmployees(town: TownId) = getCharacterStorage()
     .getAll()
     .filter { it.checkEmploymentStatus { it.isEmployedAt(town) } }
@@ -208,6 +213,10 @@ fun State.getPreviousEmployees(job: JobId) = getCharacterStorage()
 fun State.getPreviousEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
     .filter { it.checkPreviousEmploymentStatus { it.isEmployedAt(business) } }
+
+fun State.getPreviousEmployees(realm: RealmId) = getCharacterStorage()
+    .getAll()
+    .filter { it.checkPreviousEmploymentStatus { it.isEmployedAt(realm) } }
 
 fun State.getWorkingIn(town: TownMapId) = getCharacterStorage()
     .getAll()

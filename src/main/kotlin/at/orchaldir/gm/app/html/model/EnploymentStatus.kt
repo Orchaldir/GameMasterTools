@@ -37,18 +37,13 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showEmployees(
     call: ApplicationCall,
     state: State,
-    label: String,
     employees: Collection<Character>,
+    label: String = "Employees",
 ) {
-    fieldList(label, state.sortCharacters(employees)) { character ->
-        link(call, state, character)
+    fieldList(label, state.sortCharacters(employees)) { employee ->
+        link(call, state, employee)
         +" as "
-        when (val status = character.employmentStatus.current) {
-            is Employed -> link(call, state, status.job)
-            is EmployedByRealm -> link(call, state, status.job)
-            is EmployedByTown -> link(call, state, status.job)
-            else -> error("Unsupported employment status ${status.getType()} for an employee!")
-        }
+        showEmploymentStatus(call, state, employee.employmentStatus.current, showTown = false)
     }
 }
 
