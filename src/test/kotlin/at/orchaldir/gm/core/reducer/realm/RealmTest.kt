@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -47,11 +49,8 @@ class RealmTest {
         @Test
         fun `Cannot delete a realm that created another element`() {
             val building = Building(BUILDING_ID_0, builder = CreatedByRealm(REALM_ID_0))
-            val newState = STATE.updateStorage(Storage(building))
 
-            assertIllegalArgument("Cannot delete Realm 0, because of created elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(building, "Cannot delete Realm 0, because of created elements (Building)!")
         }
 
         // see OwnershipTest for other elements
@@ -59,11 +58,8 @@ class RealmTest {
         fun `Cannot delete a realm that owns another element`() {
             val ownership = History<Owner>(OwnedByRealm(REALM_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
-            val newState = STATE.updateStorage(Storage(building))
 
-            assertIllegalArgument("Cannot delete Realm 0, because of owned elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(building, "Cannot delete Realm 0, because of owned elements (Building)!")
         }
 
         @Test
@@ -90,41 +86,37 @@ class RealmTest {
         @Test
         fun `Cannot delete a realm that owns a town`() {
             val town = Town(TOWN_ID_0, owner = History(REALM_ID_0))
-            val newState = STATE.updateStorage(Storage(town))
 
-            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(town, "Cannot delete Realm 0, because it is used!")
         }
 
         @Test
         fun `Cannot delete a realm that owned a town`() {
             val history = History(null, HistoryEntry(REALM_ID_0, DAY0))
             val town = Town(TOWN_ID_0, owner = history)
-            val newState = STATE.updateStorage(Storage(town))
 
-            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(town, "Cannot delete Realm 0, because it is used!")
         }
 
         @Test
         fun `Cannot delete a realm that participated in a war`() {
             val war = War(WAR_ID_0, realms = setOf(REALM_ID_0))
-            val newState = STATE.updateStorage(Storage(war))
 
-            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
+            test(war, "Cannot delete Realm 0, because it is used!")
         }
 
         @Test
         fun `Cannot delete a realm that employs a character`() {
             val employmentStatus = History<EmploymentStatus>(EmployedByRealm(JOB_ID_0, REALM_ID_0))
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
-            val state = STATE.updateStorage(Storage(character))
 
-            assertIllegalArgument("Cannot delete Realm 0, because it has or had employees!") {
+            test(character, "Cannot delete Realm 0, because it has or had employees!")
+        }
+
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> test(element: ELEMENT, message: String) {
+            val state = STATE.updateStorage(Storage(element))
+
+            assertIllegalArgument(message) {
                 REDUCER.invoke(state, action)
             }
         }
