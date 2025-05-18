@@ -29,9 +29,7 @@ val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
 val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
     state.getTownStorage().require(action.id)
 
-    require(state.countCurrentOrFormerEmployees(action.id) == 0) {
-        "Cannot delete Town ${action.id.value}, because it has or had employees!"
-    }
+    validateCanDelete(state.countCurrentOrFormerEmployees(action.id) == 0, action.id, "it has or had employees")
 
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)

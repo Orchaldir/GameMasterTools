@@ -56,6 +56,10 @@ fun State.countCharacters(title: TitleId) = getCharacterStorage()
     .getAll()
     .count { it.title == title }
 
+fun State.countCurrentOrFormerEmployees(realm: RealmId) = getCharacterStorage()
+    .getAll()
+    .count { it.checkCurrentOrPreviousEmploymentStatus { it.isEmployedAt(realm) } }
+
 fun State.countCurrentOrFormerEmployees(town: TownId) = getCharacterStorage()
     .getAll()
     .count { it.checkCurrentOrPreviousEmploymentStatus { it.isEmployedAt(town) } }
