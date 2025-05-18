@@ -33,9 +33,7 @@ val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
 
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)
-    require(state.getTownMaps(action.id).isEmpty()) {
-        "Cannot delete Town ${action.id.value}, because it has a town map!"
-    }
+    validateCanDelete(state.getTownMaps(action.id).isEmpty(), action.id, "it has a town map")
     validateCanDelete(state.getRealmsWithCapital(action.id).isEmpty(), action.id, "it is a capital")
     validateCanDelete(state.getRealmsWithPreviousCapital(action.id).isEmpty(), action.id, "it was a capital")
 
