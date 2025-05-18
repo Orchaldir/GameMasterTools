@@ -5,8 +5,8 @@
    "id": 0,
    "name": "The Treaty of Thronehold",
    "date": {
-    "type": "Year",
-    "year": 995
+    "type": "Day",
+    "day": 334610
    },
    "participants": [
     {
