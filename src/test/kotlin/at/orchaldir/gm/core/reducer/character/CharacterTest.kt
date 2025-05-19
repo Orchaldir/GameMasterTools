@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.realm.Battle
+import at.orchaldir.gm.core.model.realm.BattleParticipant
 import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.model.time.Time
@@ -119,6 +121,17 @@ class CharacterTest {
             val newState = state.updateStorage(Storage(treaty))
 
             assertIllegalArgument("Cannot delete Character 0, because of created elements (Treaty)!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a character that led a battle`() {
+            val participant = BattleParticipant(REALM_ID_0, CHARACTER_ID_0)
+            val treaty = Battle(BATTLE_ID_0, participants = listOf(participant))
+            val newState = state.updateStorage(Storage(treaty))
+
+            assertIllegalArgument("Cannot delete Character 0, because of a battle!") {
                 REDUCER.invoke(newState, action)
             }
         }
@@ -381,6 +394,11 @@ class CharacterTest {
             @Test
             fun `War doesn't exist`() {
                 testFailToDie(Day(5), DeathByWar(UNKNOWN_WAR_ID))
+            }
+
+            @Test
+            fun `Battle doesn't exist`() {
+                testFailToDie(Day(5), DeathInBattle(UNKNOWN_BATTLE_ID))
             }
 
             @Test

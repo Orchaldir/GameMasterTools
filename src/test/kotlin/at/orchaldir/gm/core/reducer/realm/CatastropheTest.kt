@@ -48,8 +48,8 @@ class CatastropheTest {
         @Test
         fun `Cannot delete a catastrophe that killed a character`() {
             val dead = Dead(DAY0, DeathByCatastrophe(CATASTROPHE_ID_0))
-            val organization = Character(CHARACTER_ID_0, vitalStatus = dead)
-            val newState = STATE.updateStorage(Storage(organization))
+            val character = Character(CHARACTER_ID_0, vitalStatus = dead)
+            val newState = STATE.updateStorage(Storage(character))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
                 REDUCER.invoke(newState, action)
@@ -59,8 +59,8 @@ class CatastropheTest {
         @Test
         fun `Cannot delete a catastrophe that destroyed a realm`() {
             val status = DestroyedByCatastrophe(CATASTROPHE_ID_0, DAY0)
-            val organization = Realm(REALM_ID_0, status = status)
-            val newState = STATE.updateStorage(Storage(organization))
+            val realm = Realm(REALM_ID_0, status = status)
+            val newState = STATE.updateStorage(Storage(realm))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
                 REDUCER.invoke(newState, action)
@@ -70,8 +70,8 @@ class CatastropheTest {
         @Test
         fun `Cannot delete a catastrophe that is remembered by a holiday`() {
             val purpose = HolidayOfCatastrophe(CATASTROPHE_ID_0)
-            val organization = Holiday(HOLIDAY_ID_0, purpose = purpose)
-            val newState = STATE.updateStorage(Storage(organization))
+            val holiday = Holiday(HOLIDAY_ID_0, purpose = purpose)
+            val newState = STATE.updateStorage(Storage(holiday))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
                 REDUCER.invoke(newState, action)
@@ -80,8 +80,8 @@ class CatastropheTest {
 
         @Test
         fun `Cannot delete a catastrophe that created a region`() {
-            val organization = Region(REGION_ID_0, data = Wasteland(CATASTROPHE_ID_0))
-            val newState = STATE.updateStorage(Storage(organization))
+            val region = Region(REGION_ID_0, data = Wasteland(CATASTROPHE_ID_0))
+            val newState = STATE.updateStorage(Storage(region))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
                 REDUCER.invoke(newState, action)

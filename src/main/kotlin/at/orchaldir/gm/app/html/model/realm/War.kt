@@ -12,8 +12,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.selector.character.getCharactersKilledInWar
+import at.orchaldir.gm.core.selector.realm.getBattles
 import at.orchaldir.gm.core.selector.realm.getRealmsDestroyedByWar
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.sortBattles
 import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -27,11 +29,13 @@ fun HtmlBlockTag.showWar(
     state: State,
     war: War,
 ) {
+    val battles = state.sortBattles(state.getBattles(war.id))
     val calendar = state.getDefaultCalendar()
 
     optionalField(call, state, "Start Date", war.startDate)
     optionalField(call, state, "End Date", war.endDate)
     fieldAge("Duration", calendar.getYears(war.getDuration(state)))
+    fieldList(call, state, battles)
     fieldIdList(call, state, "Participating Realms", war.realms)
     fieldList(call, state, "Destroyed Realms", state.getRealmsDestroyedByWar(war.id))
     fieldList(call, state, "Killed Characters", state.getCharactersKilledInWar(war.id))
@@ -54,6 +58,8 @@ fun FORM.editWar(
 // parse
 
 fun parseWarId(parameters: Parameters, param: String) = WarId(parseInt(parameters, param))
+fun parseOptionalWarId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { WarId(it) }
 
 fun parseWar(parameters: Parameters, state: State, id: WarId) = War(
     id,

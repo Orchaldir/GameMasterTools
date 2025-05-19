@@ -118,6 +118,7 @@ val ELEMENTS =
     setOf(
         ARCHITECTURAL_STYLE_TYPE,
         ARTICLE_TYPE,
+        BATTLE_TYPE,
         BUILDING_TYPE,
         BUSINESS_TYPE,
         CALENDAR_TYPE,
@@ -188,6 +189,7 @@ data class State(
 
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE_TYPE)
     fun getArticleStorage() = getStorage<ArticleId, Article>(ARTICLE_TYPE)
+    fun getBattleStorage() = getStorage<BattleId, Battle>(BATTLE_TYPE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING_TYPE)
     fun getBusinessStorage() = getStorage<BusinessId, Business>(BUSINESS_TYPE)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
@@ -311,6 +313,7 @@ data class State(
 
         validate(getArchitecturalStyleStorage()) { validateArchitecturalStyle(this, it) }
         validate(getArticleStorage()) { validateArticle(this, it) }
+        validate(getBattleStorage()) { validateBattle(this, it) }
         validate(getBuildingStorage()) { validateBuilding(this, it) }
         validate(getBusinessStorage()) { validateBusiness(this, it) }
         validate(getCalendarStorage()) { validateCalendar(this, it) }
@@ -356,6 +359,7 @@ data class State(
     fun save() {
         saveStorage(path, getArchitecturalStyleStorage())
         saveStorage(path, getArticleStorage())
+        saveStorage(path, getBattleStorage())
         saveStorage(path, getBuildingStorage())
         saveStorage(path, getBusinessStorage())
         saveStorage(path, getCalendarStorage())
@@ -408,6 +412,7 @@ data class State(
 fun createStorage(type: String) = when (type) {
     ARCHITECTURAL_STYLE_TYPE -> Storage(ArchitecturalStyleId(0))
     ARTICLE_TYPE -> Storage(ArticleId(0))
+    BATTLE_TYPE -> Storage(BattleId(0))
     BUILDING_TYPE -> Storage(BuildingId(0))
     BUSINESS_TYPE -> Storage(BusinessId(0))
     CALENDAR_TYPE -> Storage(CalendarId(0))
@@ -459,6 +464,7 @@ fun createStorage(type: String) = when (type) {
 fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
     ARCHITECTURAL_STYLE_TYPE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
     ARTICLE_TYPE -> loadStorage<ArticleId, Article>(path, ArticleId(0))
+    BATTLE_TYPE -> loadStorage<BattleId, Battle>(path, BattleId(0))
     BUILDING_TYPE -> loadStorage<BuildingId, Building>(path, BuildingId(0))
     BUSINESS_TYPE -> loadStorage<BusinessId, Business>(path, BusinessId(0))
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))

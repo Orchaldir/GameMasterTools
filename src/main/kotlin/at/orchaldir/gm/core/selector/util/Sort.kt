@@ -116,6 +116,22 @@ fun State.sortArticles(
         }
     )
 
+// battle
+
+fun State.sortBattles(sort: SortBattle = SortBattle.Name) =
+    sortBattles(getBattleStorage().getAll(), sort)
+
+fun State.sortBattles(
+    battles: Collection<Battle>,
+    sort: SortBattle = SortBattle.Name,
+) = battles
+    .sortedWith(
+        when (sort) {
+            SortBattle.Name -> compareBy { it.name.text }
+            SortBattle.Date -> getStartDateComparator()
+            SortBattle.Participants -> compareByDescending { it.participants.size }
+        })
+
 // building
 
 fun State.getBuildingAgeComparator(): Comparator<Building> {
@@ -661,9 +677,9 @@ fun State.sortTreaties(sort: SortTreaty = SortTreaty.Name) =
     sortTreaties(getTreatyStorage().getAll(), sort)
 
 fun State.sortTreaties(
-    wars: Collection<Treaty>,
+    treaties: Collection<Treaty>,
     sort: SortTreaty = SortTreaty.Name,
-) = wars
+) = treaties
     .sortedWith(
         when (sort) {
             SortTreaty.Name -> compareBy { it.name.text }

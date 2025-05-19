@@ -59,6 +59,7 @@ fun Application.module() {
     configureAbstractBuildingEditorRouting()
     configureArchitecturalStyleRouting()
     configureArticleRouting()
+    configureBattleRouting()
     configureBuildingRouting()
     configureBuildingEditorRouting()
     configureBusinessRouting()

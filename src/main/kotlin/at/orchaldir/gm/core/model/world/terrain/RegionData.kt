@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.terrain
 
+import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,11 +17,16 @@ enum class RegionDataType {
 sealed class RegionData {
 
     fun getType() = when (this) {
-        Battlefield -> RegionDataType.Battlefield
+        is Battlefield -> RegionDataType.Battlefield
         Continent -> RegionDataType.Continent
         Mountain -> RegionDataType.Mountain
         UndefinedRegionData -> RegionDataType.Undefined
         is Wasteland -> RegionDataType.Wasteland
+    }
+
+    fun isCreatedBy(battle: BattleId) = when (this) {
+        is Battlefield -> this.battle == battle
+        else -> false
     }
 
     fun isCreatedBy(catastrophe: CatastropheId) = when (this) {
@@ -31,7 +37,9 @@ sealed class RegionData {
 
 @Serializable
 @SerialName("Battlefield")
-data object Battlefield : RegionData()
+data class Battlefield(
+    val battle: BattleId? = null,
+) : RegionData()
 
 @Serializable
 @SerialName("Continent")

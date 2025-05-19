@@ -6,6 +6,10 @@ import at.orchaldir.gm.utils.redux.Reducer
 
 val REALM_REDUCER: Reducer<RealmAction, State> = { state, action ->
     when (action) {
+        // battle
+        is CreateBattle -> CREATE_BATTLE(state, action)
+        is DeleteBattle -> DELETE_BATTLE(state, action)
+        is UpdateBattle -> UPDATE_BATTLE(state, action)
         // catastrophe
         is CreateCatastrophe -> CREATE_CATASTROPHE(state, action)
         is DeleteCatastrophe -> DELETE_CATASTROPHE(state, action)

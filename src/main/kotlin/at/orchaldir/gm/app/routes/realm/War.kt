@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.util.SortWar
 import at.orchaldir.gm.core.selector.character.countCharactersKilledInWar
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
+import at.orchaldir.gm.core.selector.realm.countBattles
 import at.orchaldir.gm.core.selector.realm.countRealmsDestroyedByWar
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortWars
@@ -158,6 +159,7 @@ private fun HTML.showAllWars(
                 th { +"Start" }
                 th { +"End" }
                 th { +"Years" }
+                th { +"Battles" }
                 thMultiLines(listOf("Destroyed", "Realms"))
                 thMultiLines(listOf("Killed", "Characters"))
             }
@@ -167,6 +169,7 @@ private fun HTML.showAllWars(
                     td { showOptionalDate(call, state, war.startDate) }
                     td { showOptionalDate(call, state, war.endDate) }
                     tdSkipZero(calendar.getYears(war.getDuration(state)))
+                    tdSkipZero(state.countBattles(war.id))
                     tdSkipZero(state.countRealmsDestroyedByWar(war.id))
                     tdSkipZero(state.countCharactersKilledInWar(war.id))
                 }

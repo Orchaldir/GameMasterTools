@@ -341,6 +341,7 @@ fun <ID : Id<ID>> href(
 ) = when (id) {
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
     is ArticleId -> call.application.href(ArticleRoutes.Details(id))
+    is BattleId -> call.application.href(BattleRoutes.Details(id))
     is BuildingId -> call.application.href(BuildingRoutes.Details(id))
     is BusinessId -> call.application.href(BusinessRoutes.Details(id))
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))

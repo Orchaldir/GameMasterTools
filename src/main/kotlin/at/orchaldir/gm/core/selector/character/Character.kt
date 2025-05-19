@@ -13,10 +13,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.realm.CatastropheId
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.realm.WarId
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.date.Date
@@ -24,6 +21,7 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
+import at.orchaldir.gm.core.selector.realm.countBattlesLedBy
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
@@ -37,6 +35,7 @@ fun State.canDeleteCharacter(character: CharacterId) = getChildren(character).is
         && !isCurrentOrFormerOwner(character)
         && !isCreator(character)
         && getOrganizations(character).isEmpty()
+        && countBattlesLedBy(character) == 0
 
 // count
 
@@ -107,6 +106,10 @@ fun State.countEachLanguage(characters: Collection<Character>) = characters
     .groupingBy { it }
     .eachCount()
 
+fun State.countCharactersKilledInBattle(battle: BattleId) = getCharacterStorage()
+    .getAll()
+    .count { it.vitalStatus.isCausedBy(battle) }
+
 fun State.countCharactersKilledInCatastrophe(catastrophe: CatastropheId) = getCharacterStorage()
     .getAll()
     .count { it.vitalStatus.isCausedBy(catastrophe) }
@@ -136,6 +139,10 @@ fun State.getCharacters(race: RaceId) = getCharacterStorage()
 fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
     .getAll()
     .filter { it.title == titleId }
+
+fun State.getCharactersKilledInBattle(battle: BattleId) = getCharacterStorage()
+    .getAll()
+    .filter { it.vitalStatus.isCausedBy(battle) }
 
 fun State.getCharactersKilledInCatastrophe(catastrophe: CatastropheId) = getCharacterStorage()
     .getAll()
