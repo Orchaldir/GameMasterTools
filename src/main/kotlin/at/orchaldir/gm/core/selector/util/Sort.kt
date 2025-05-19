@@ -42,6 +42,7 @@ import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countCharacters
+import at.orchaldir.gm.core.selector.character.countCharactersWithJob
 import at.orchaldir.gm.core.selector.character.countResident
 import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.character.getEmployees
@@ -364,7 +365,7 @@ fun State.sortJobs(
                 }
             }
 
-            SortJob.Characters -> compareByDescending { countCharacters(it.id) }
+            SortJob.Characters -> compareByDescending { countCharactersWithJob(it.id) }
             SortJob.Spells -> compareByDescending { it.spells.getSize() }
         })
 

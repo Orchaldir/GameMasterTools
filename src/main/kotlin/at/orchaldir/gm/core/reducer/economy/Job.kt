@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.character.countCharacters
+import at.orchaldir.gm.core.selector.character.countCharactersWithJob
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.utils.redux.Reducer
@@ -21,7 +21,7 @@ val CREATE_JOB: Reducer<CreateJob, State> = { state, _ ->
 
 val DELETE_JOB: Reducer<DeleteJob, State> = { state, action ->
     state.getJobStorage().require(action.id)
-    validateCanDelete(state.countCharacters(action.id), action.id, "it is used by a character")
+    validateCanDelete(state.countCharactersWithJob(action.id), action.id, "it is used by a character")
     validateCanDelete(state.getPreviousEmployees(action.id).isEmpty(), action.id, "it is the former job of a character")
     validateCanDelete(state.countDomains(action.id), action.id, "it is associated with a domain")
 
