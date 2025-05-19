@@ -23,6 +23,7 @@ value class RegionId(val value: Int) : Id<RegionId> {
 data class Region(
     val id: RegionId,
     val name: Name = Name.init("Mountain ${id.value}"),
+    val data: RegionData = UndefinedRegionData,
     val resources: Set<MaterialId> = emptySet(),
 ) : ElementWithSimpleName<RegionId> {
 

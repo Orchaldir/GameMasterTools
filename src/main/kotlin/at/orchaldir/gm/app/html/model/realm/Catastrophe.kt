@@ -7,11 +7,13 @@ import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.selector.character.getCharactersKilledInCatastrophe
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.realm.getRealmsDestroyedByCatastrophe
@@ -56,6 +58,8 @@ fun FORM.editCatastrophe(
 // parse
 
 fun parseCatastropheId(parameters: Parameters, param: String) = CatastropheId(parseInt(parameters, param))
+fun parseOptionalCatastropheId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { CatastropheId(it) }
 
 fun parseCatastrophe(parameters: Parameters, state: State, id: CatastropheId) = Catastrophe(
     id,

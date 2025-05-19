@@ -4,10 +4,17 @@
   "0": {
    "id": 0,
    "name": "Graywall Mountains",
+   "data": {
+    "type": "Mountain"
+   },
    "resources": [
     12,
     26
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Mournland"
   }
  }
 }

@@ -1,14 +1,19 @@
 package at.orchaldir.gm.app.html.model.world
 
+import at.orchaldir.gm.app.CATASTROPHE
 import at.orchaldir.gm.app.MATERIAL
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseMaterialId
+import at.orchaldir.gm.app.html.model.realm.parseOptionalCatastropheId
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.terrain.RegionId
+import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -20,8 +25,22 @@ fun HtmlBlockTag.showRegion(
     state: State,
     region: Region,
 ) {
+    showRegionData(call, state, region.data)
     fieldIdList(call, state, "Resources", region.resources)
     fieldList(call, state, state.getTowns(region.id))
+}
+
+private fun HtmlBlockTag.showRegionData(
+    call: ApplicationCall,
+    state: State,
+    data: RegionData,
+) {
+    field("Type", data.getType())
+
+    when (data) {
+        Battlefield, Continent, Mountain, UndefinedRegionData -> doNothing()
+        is Wasteland -> optionalFieldLink("Caused by", call, state, data.catastrophe)
+    }
 }
 
 // edit
@@ -33,7 +52,33 @@ fun HtmlBlockTag.editRegion(
     val materials = state.sortMaterial()
 
     selectName(region.name)
+    editRegionData(state, region.data)
     selectElements(state, "Resources", MATERIAL, materials, region.resources)
+}
+
+private fun HtmlBlockTag.editRegionData(
+    state: State,
+    data: RegionData,
+) {
+    val catastrophes = state.sortCatastrophes()
+
+    selectValue("Type", TYPE, RegionDataType.entries, data.getType()) {
+        when (it) {
+            RegionDataType.Wasteland -> catastrophes.isEmpty()
+            else -> false
+        }
+    }
+
+    when (data) {
+        Battlefield, Continent, Mountain, UndefinedRegionData -> doNothing()
+        is Wasteland -> selectOptionalElement(
+            state,
+            "Caused By",
+            CATASTROPHE,
+            catastrophes,
+            data.catastrophe,
+        )
+    }
 }
 
 // parse
@@ -43,6 +88,17 @@ fun parseRegionId(parameters: Parameters, param: String) = RegionId(parseInt(par
 fun parseRegion(id: RegionId, parameters: Parameters) = Region(
     id,
     parseName(parameters),
+    parseRegionData(parameters),
     parseElements(parameters, MATERIAL, ::parseMaterialId),
 )
 
+fun parseRegionData(parameters: Parameters) = when (parse(parameters, TYPE, RegionDataType.Undefined)) {
+    RegionDataType.Battlefield -> Battlefield
+    RegionDataType.Continent -> Continent
+    RegionDataType.Mountain -> Mountain
+    RegionDataType.Undefined -> UndefinedRegionData
+    RegionDataType.Wasteland -> Wasteland(
+        parseOptionalCatastropheId(parameters, CATASTROPHE),
+    )
+
+}
