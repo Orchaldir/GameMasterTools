@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId
 import kotlinx.serialization.SerialName
@@ -7,6 +8,7 @@ import kotlinx.serialization.Serializable
 
 enum class CauseOfDeathType {
     Accident,
+    Battle,
     Catastrophe,
     Illness,
     Murder,
@@ -21,6 +23,7 @@ sealed class CauseOfDeath {
         is DeathByCatastrophe -> CauseOfDeathType.Catastrophe
         is DeathByIllness -> CauseOfDeathType.Illness
         is DeathByWar -> CauseOfDeathType.War
+        is DeathInBattle -> CauseOfDeathType.Battle
         is Murder -> CauseOfDeathType.Murder
         is OldAge -> CauseOfDeathType.OldAge
     }
@@ -44,6 +47,12 @@ data object DeathByIllness : CauseOfDeath()
 @SerialName("War")
 data class DeathByWar(
     val war: WarId,
+) : CauseOfDeath()
+
+@Serializable
+@SerialName("Battle")
+data class DeathInBattle(
+    val battle: BattleId,
 ) : CauseOfDeath()
 
 @Serializable

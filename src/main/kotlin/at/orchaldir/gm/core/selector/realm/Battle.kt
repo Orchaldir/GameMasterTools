@@ -7,7 +7,9 @@ import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.realm.WarId
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.getHolidays
+import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDeleteBattle(battle: BattleId) = true
 
@@ -34,3 +36,5 @@ fun State.getBattles(realm: RealmId) = getBattleStorage()
 fun State.getBattles(war: WarId) = getBattleStorage()
     .getAll()
     .filter { it.war == war }
+
+fun State.getExistingBattles(date: Date?) = getExistingElements(getBattleStorage().getAll(), date)

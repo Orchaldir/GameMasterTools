@@ -126,6 +126,7 @@ private fun checkCauseOfDeath(
             is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
             DeathByIllness -> doNothing()
             is DeathByWar -> checkCauseElement(state.getWarStorage(), cause.war)
+            is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
             is Murder -> checkCauseElement(state.getCharacterStorage(), cause.killer)
             OldAge -> doNothing()
         }
