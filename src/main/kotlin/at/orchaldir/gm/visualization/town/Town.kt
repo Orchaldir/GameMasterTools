@@ -3,14 +3,7 @@ package at.orchaldir.gm.visualization.town
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.town.HillTerrain
-import at.orchaldir.gm.core.model.world.town.MountainTerrain
-import at.orchaldir.gm.core.model.world.town.PlainTerrain
-import at.orchaldir.gm.core.model.world.town.RiverTerrain
-import at.orchaldir.gm.core.model.world.town.AbstractBuildingTile
-import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.HALF
