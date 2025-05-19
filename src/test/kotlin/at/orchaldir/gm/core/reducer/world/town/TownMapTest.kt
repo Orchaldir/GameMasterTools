@@ -74,13 +74,13 @@ class TownMapTest {
             @Test
             fun `Hill must exist`() {
                 val terrain = HillTerrain(UNKNOWN_MOUNTAIN_ID)
-                testValid("Mountain", TownTile(terrain))
+                testValid("Region", TownTile(terrain))
             }
 
             @Test
             fun `Mountain must exist`() {
                 val terrain = MountainTerrain(UNKNOWN_MOUNTAIN_ID)
-                testValid("Mountain", TownTile(terrain))
+                testValid("Region", TownTile(terrain))
             }
 
             @Test
