@@ -22,7 +22,7 @@ value class RegionId(val value: Int) : Id<RegionId> {
 @Serializable
 data class Region(
     val id: RegionId,
-    val name: Name = Name.init("Mountain ${id.value}"),
+    val name: Name = Name.init("Region ${id.value}"),
     val data: RegionData = UndefinedRegionData,
     val parent: RegionId? = null,
     val resources: Set<MaterialId> = emptySet(),

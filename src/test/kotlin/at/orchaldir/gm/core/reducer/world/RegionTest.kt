@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.MountainTerrain
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
@@ -20,15 +19,18 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class RegionTest {
+    val state = State(
+        listOf(
+            Storage(Region(REGION_ID_0)),
+        )
+    )
 
     @Nested
     inner class DeleteTest {
         val action = DeleteRegion(REGION_ID_0)
 
         @Test
-        fun `Can delete an existing mountain`() {
-            val state = State(Storage(Region(REGION_ID_0)))
-
+        fun `Can delete an existing region`() {
             assertEquals(0, REDUCER.invoke(state, action).first.getRegionStorage().getSize())
         }
 
@@ -40,14 +42,9 @@ class RegionTest {
         @Test
         fun `Cannot delete, if used by a town`() {
             val map = TileMap2d(TownTile(MountainTerrain(REGION_ID_0)))
-            val state = State(
-                listOf(
-                    Storage(Region(REGION_ID_0)),
-                    Storage(TownMap(TownMapId(0), map = map))
-                )
-            )
+            val state = state.updateStorage(Storage(TownMap(TownMapId(0), map = map)))
 
-            assertFailsWith<IllegalArgumentException>("Mountain 0 is used") { REDUCER.invoke(state, action) }
+            assertFailsWith<IllegalArgumentException>("Region 0 is used") { REDUCER.invoke(state, action) }
         }
     }
 
@@ -63,11 +60,10 @@ class RegionTest {
 
         @Test
         fun `Update is valid`() {
-            val state = State(Storage(Region(REGION_ID_0)))
-            val mountain = Region(REGION_ID_0, NAME)
-            val action = UpdateRegion(mountain)
+            val region = Region(REGION_ID_0, NAME)
+            val action = UpdateRegion(region)
 
-            assertEquals(mountain, REDUCER.invoke(state, action).first.getRegionStorage().get(REGION_ID_0))
+            assertEquals(region, REDUCER.invoke(state, action).first.getRegionStorage().get(REGION_ID_0))
         }
     }
 
