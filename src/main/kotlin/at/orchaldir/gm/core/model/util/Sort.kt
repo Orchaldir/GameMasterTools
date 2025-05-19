@@ -11,6 +11,12 @@ enum class SortArticle {
     Date,
 }
 
+enum class SortBattle {
+    Name,
+    Date,
+    Participants,
+}
+
 enum class SortBuilding {
     Name,
     Construction,
