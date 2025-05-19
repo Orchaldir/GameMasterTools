@@ -24,6 +24,7 @@ data class Region(
     val id: RegionId,
     val name: Name = Name.init("Mountain ${id.value}"),
     val data: RegionData = UndefinedRegionData,
+    val parent: RegionId? = null,
     val resources: Set<MaterialId> = emptySet(),
 ) : ElementWithSimpleName<RegionId> {
 

@@ -151,12 +151,14 @@ private fun HTML.showAllRegions(
             tr {
                 th { +"Name" }
                 th { +"Type" }
+                th { +"Parent" }
                 th { +"Resources" }
             }
             regions.forEach { region ->
                 tr {
                     tdLink(call, state, region)
                     tdEnum(region.data.getType())
+                    tdLink(call, state, region.parent)
                     tdInlineIds(call, state, region.resources)
                 }
             }

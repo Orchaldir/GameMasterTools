@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.world
 
 import at.orchaldir.gm.app.CATASTROPHE
 import at.orchaldir.gm.app.MATERIAL
+import at.orchaldir.gm.app.PARENT
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseMaterialId
@@ -12,6 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import at.orchaldir.gm.core.selector.util.sortMaterial
+import at.orchaldir.gm.core.selector.util.sortRegions
 import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -26,6 +28,7 @@ fun HtmlBlockTag.showRegion(
     region: Region,
 ) {
     showRegionData(call, state, region.data)
+    optionalFieldLink("Parent Region", call, state, region.parent)
     fieldIdList(call, state, "Resources", region.resources)
     fieldList(call, state, state.getTowns(region.id))
 }
@@ -50,9 +53,11 @@ fun HtmlBlockTag.editRegion(
     region: Region,
 ) {
     val materials = state.sortMaterial()
+    val regions = state.sortRegions(state.getRegionStorage().getAllExcept(region.id))
 
     selectName(region.name)
     editRegionData(state, region.data)
+    selectOptionalElement(state, "Parent Region", PARENT, regions, region.parent)
     selectElements(state, "Resources", MATERIAL, materials, region.resources)
 }
 
@@ -84,11 +89,14 @@ private fun HtmlBlockTag.editRegionData(
 // parse
 
 fun parseRegionId(parameters: Parameters, param: String) = RegionId(parseInt(parameters, param))
+fun parseOptionalRegionId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { RegionId(it) }
 
 fun parseRegion(id: RegionId, parameters: Parameters) = Region(
     id,
     parseName(parameters),
     parseRegionData(parameters),
+    parseOptionalRegionId(parameters, PARENT),
     parseElements(parameters, MATERIAL, ::parseMaterialId),
 )
 

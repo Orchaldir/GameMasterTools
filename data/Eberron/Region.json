@@ -7,6 +7,7 @@
    "data": {
     "type": "Mountain"
    },
+   "parent": 3,
    "resources": [
     12,
     26
@@ -18,14 +19,16 @@
    "data": {
     "type": "Wasteland",
     "catastrophe": 0
-   }
+   },
+   "parent": 3
   },
   "2": {
    "id": 2,
    "name": "The Crying Fields",
    "data": {
     "type": "Battlefield"
-   }
+   },
+   "parent": 3
   },
   "3": {
    "id": 3,
