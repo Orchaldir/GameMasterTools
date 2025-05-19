@@ -172,7 +172,7 @@ private fun HTML.showMountainDetails(
     state: State,
     region: Region,
 ) {
-    val backLink = call.application.href(RegionRoutes())
+    val backLink = call.application.href(RegionRoutes.All())
     val deleteLink = call.application.href(RegionRoutes.Delete(region.id))
     val editLink = call.application.href(RegionRoutes.Edit(region.id))
 

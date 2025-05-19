@@ -19,6 +19,13 @@
     "type": "Wasteland",
     "catastrophe": 0
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "The Crying Fields",
+   "data": {
+    "type": "Battlefield"
+   }
   }
  }
 }
