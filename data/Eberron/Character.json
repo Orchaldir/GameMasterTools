@@ -1086,6 +1086,12 @@
      "realm": 0
     }
    },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
+   },
    "title": 0,
    "sources": [
     3
@@ -1123,10 +1129,54 @@
      }
     ]
    },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
+   },
    "title": 0,
    "sources": [
     3
    ]
+  },
+  "18": {
+   "id": 18,
+   "name": {
+    "type": "Family",
+    "given": "Boranel",
+    "middle": null,
+    "family": "Wynarn"
+   },
+   "birthDate": {
+    "type": "Decade",
+    "decade": 93
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "ByRealm",
+     "job": 28,
+     "realm": 2
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 960
+      }
+     }
+    ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
+   },
+   "title": 0
   }
  }
 }

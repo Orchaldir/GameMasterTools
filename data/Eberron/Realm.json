@@ -64,6 +64,9 @@
   "2": {
    "id": 2,
    "name": "Breland",
+   "capital": {
+    "current": 9
+   },
    "owner": {
     "current": null,
     "previousEntries": [

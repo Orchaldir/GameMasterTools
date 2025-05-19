@@ -392,6 +392,14 @@
   "33": {
    "id": 33,
    "name": "University of Wynarn"
+  },
+  "34": {
+   "id": 34,
+   "name": "The King's Dark Lantern",
+   "founder": {
+    "type": "Realm",
+    "realm": 2
+   }
   }
  }
 }
