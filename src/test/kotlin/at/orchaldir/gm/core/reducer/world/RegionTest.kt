@@ -4,7 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.terrain.Wasteland
 import at.orchaldir.gm.core.model.world.town.MountainTerrain
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
@@ -71,6 +73,22 @@ class RegionTest {
             val action = UpdateRegion(region)
 
             assertIllegalArgument("Requires unknown parent!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown battle`() {
+            val region = Region(REGION_ID_0, data = Battlefield(UNKNOWN_BATTLE_ID))
+            val action = UpdateRegion(region)
+
+            assertIllegalArgument("Requires unknown Battle 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown catastrophe`() {
+            val region = Region(REGION_ID_0, data = Wasteland(UNKNOWN_CATASTROPHE_ID))
+            val action = UpdateRegion(region)
+
+            assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
