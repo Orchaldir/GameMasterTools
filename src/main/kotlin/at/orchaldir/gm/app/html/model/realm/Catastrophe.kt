@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.selector.character.getCharactersKilledInCatastrophe
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.realm.getRealmsDestroyedByCatastrophe
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -38,6 +39,7 @@ fun HtmlBlockTag.showCatastrophe(
     showCauseOfCatastrophe(call, state, catastrophe.cause)
     fieldList(call, state, "Killed Characters", state.getCharactersKilledInCatastrophe(catastrophe.id))
     fieldList(call, state, "Destroyed Realms", state.getRealmsDestroyedByCatastrophe(catastrophe.id))
+    fieldList(call, state, "Created Regions", state.getRegionsCreatedBy(catastrophe.id))
     fieldList(call, state, state.getHolidays(catastrophe.id))
     showDataSources(call, state, catastrophe.sources)
 }

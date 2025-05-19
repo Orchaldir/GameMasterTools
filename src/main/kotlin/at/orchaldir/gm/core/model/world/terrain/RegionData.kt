@@ -22,6 +22,11 @@ sealed class RegionData {
         UndefinedRegionData -> RegionDataType.Undefined
         is Wasteland -> RegionDataType.Wasteland
     }
+
+    fun isCreatedBy(catastrophe: CatastropheId) = when (this) {
+        is Wasteland -> this.catastrophe == catastrophe
+        else -> false
+    }
 }
 
 @Serializable
