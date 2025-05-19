@@ -279,7 +279,12 @@ data class UpdateOrganization(val organization: Organization) : OrganizationActi
 
 sealed class RealmAction : Action()
 
-// realm
+// battle
+data object CreateBattle : RealmAction()
+data class DeleteBattle(val id: BattleId) : RealmAction()
+data class UpdateBattle(val battle: Battle) : RealmAction()
+
+// catastrophe
 data object CreateCatastrophe : RealmAction()
 data class DeleteCatastrophe(val id: CatastropheId) : RealmAction()
 data class UpdateCatastrophe(val catastrophe: Catastrophe) : RealmAction()
