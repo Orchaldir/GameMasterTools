@@ -41,6 +41,9 @@ class RegionRoutes {
     @Resource("edit")
     class Edit(val id: RegionId, val parent: RegionRoutes = RegionRoutes())
 
+    @Resource("preview")
+    class Preview(val id: RegionId, val parent: RegionRoutes = RegionRoutes())
+
     @Resource("update")
     class Update(val id: RegionId, val parent: RegionRoutes = RegionRoutes())
 }
@@ -93,6 +96,17 @@ fun Application.configureMountainRouting() {
 
             val state = STORE.getState()
             val region = state.getRegionStorage().getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showMountainEditor(call, state, region)
+            }
+        }
+        post<RegionRoutes.Preview> { preview ->
+            logger.info { "Get preview for region ${preview.id.value}" }
+
+            val formParameters = call.receiveParameters()
+            val state = STORE.getState()
+            val region = parseRegion(preview.id, formParameters)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showMountainEditor(call, state, region)
@@ -169,13 +183,12 @@ private fun HTML.showMountainEditor(
 ) {
 
     val backLink = href(call, region.id)
+    val previewLink = call.application.href(RegionRoutes.Preview(region.id))
     val updateLink = call.application.href(RegionRoutes.Update(region.id))
 
     simpleHtmlEditor(region) {
-        form {
+        formWithPreview(previewLink, updateLink, backLink) {
             editRegion(state, region)
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }

@@ -14,7 +14,11 @@
   },
   "1": {
    "id": 1,
-   "name": "Mournland"
+   "name": "Mournland",
+   "data": {
+    "type": "Wasteland",
+    "catastrophe": 0
+   }
   }
  }
 }
