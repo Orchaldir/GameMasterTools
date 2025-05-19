@@ -17,6 +17,32 @@
      "realm": 5
     }
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "The Battles of Vathirond",
+   "date": {
+    "type": "Century",
+    "century": 9
+   },
+   "war": 0,
+   "participants": [
+    {
+     "realm": 2
+    },
+    {
+     "realm": 3
+    },
+    {
+     "realm": 4
+    },
+    {
+     "realm": 5
+    }
+   ],
+   "sources": [
+    3
+   ]
   }
  }
 }

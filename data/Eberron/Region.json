@@ -37,6 +37,14 @@
    "data": {
     "type": "Continent"
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Blackcap Mountains",
+   "data": {
+    "type": "Mountain"
+   },
+   "parent": 3
   }
  }
 }
