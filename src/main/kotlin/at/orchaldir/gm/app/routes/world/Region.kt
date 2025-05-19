@@ -1,9 +1,10 @@
 package at.orchaldir.gm.app.routes.world
 
-import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.world.parseMountain
+import at.orchaldir.gm.app.html.model.world.editRegion
+import at.orchaldir.gm.app.html.model.world.parseRegion
+import at.orchaldir.gm.app.html.model.world.showRegion
 import at.orchaldir.gm.core.action.CreateRegion
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
@@ -11,10 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.RegionId
-import at.orchaldir.gm.core.selector.util.sortMaterial
-import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.canDeleteRegion
-import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -103,7 +101,7 @@ fun Application.configureMountainRouting() {
         post<RegionRoutes.Update> { update ->
             logger.info { "Update region ${update.id.value}" }
 
-            val region = parseMountain(update.id, call.receiveParameters())
+            val region = parseRegion(update.id, call.receiveParameters())
 
             STORE.dispatch(UpdateRegion(region))
 
@@ -152,9 +150,7 @@ private fun HTML.showMountainDetails(
     val editLink = call.application.href(RegionRoutes.Edit(region.id))
 
     simpleHtmlDetails(region) {
-        fieldName(region.name)
-        fieldIdList(call, state, "Resources", region.resources)
-        fieldList(call, state, state.getTowns(region.id))
+        showRegion(call, state, region)
 
         action(editLink, "Edit")
 
@@ -171,14 +167,13 @@ private fun HTML.showMountainEditor(
     state: State,
     region: Region,
 ) {
-    val materials = state.sortMaterial()
+
     val backLink = href(call, region.id)
     val updateLink = call.application.href(RegionRoutes.Update(region.id))
 
     simpleHtmlEditor(region) {
         form {
-            selectName(region.name)
-            selectElements(state, "Resources", MATERIAL, materials, region.resources)
+            editRegion(state, region)
             button("Update", updateLink)
         }
         back(backLink)
