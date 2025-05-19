@@ -26,6 +26,13 @@
    "data": {
     "type": "Battlefield"
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Khorvaire",
+   "data": {
+    "type": "Continent"
+   }
   }
  }
 }
