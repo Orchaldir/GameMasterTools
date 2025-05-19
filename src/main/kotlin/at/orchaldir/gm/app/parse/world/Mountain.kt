@@ -4,13 +4,13 @@ import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.world.terrain.Mountain
-import at.orchaldir.gm.core.model.world.terrain.MountainId
+import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.terrain.RegionId
 import io.ktor.http.*
 
-fun parseMountainId(parameters: Parameters, param: String) = MountainId(parseInt(parameters, param))
+fun parseMountainId(parameters: Parameters, param: String) = RegionId(parseInt(parameters, param))
 
-fun parseMountain(id: MountainId, parameters: Parameters) = Mountain(
+fun parseMountain(id: RegionId, parameters: Parameters) = Region(
     id,
     parseName(parameters),
     parameters.getAll(MATERIAL)?.map { MaterialId(it.toInt()) }?.toSet() ?: emptySet(),

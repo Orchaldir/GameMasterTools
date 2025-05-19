@@ -1,11 +1,11 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.NAME
-import at.orchaldir.gm.core.action.DeleteMountain
-import at.orchaldir.gm.core.action.UpdateMountain
+import at.orchaldir.gm.core.action.DeleteRegion
+import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.Mountain
-import at.orchaldir.gm.core.model.world.terrain.MountainId
+import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.MountainTerrain
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val ID0 = MountainId(0)
+private val ID0 = RegionId(0)
 
 class MountainTest {
 
@@ -27,25 +27,25 @@ class MountainTest {
 
         @Test
         fun `Can delete an existing mountain`() {
-            val state = State(Storage(Mountain(ID0)))
-            val action = DeleteMountain(ID0)
+            val state = State(Storage(Region(ID0)))
+            val action = DeleteRegion(ID0)
 
-            assertEquals(0, REDUCER.invoke(state, action).first.getMountainStorage().getSize())
+            assertEquals(0, REDUCER.invoke(state, action).first.getRegionStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteMountain(ID0)
+            val action = DeleteRegion(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete, if used by a town`() {
-            val action = DeleteMountain(ID0)
+            val action = DeleteRegion(ID0)
             val state = State(
                 listOf(
-                    Storage(Mountain(ID0)),
+                    Storage(Region(ID0)),
                     Storage(TownMap(TownMapId(0), map = TileMap2d(TownTile(MountainTerrain(ID0)))))
                 )
             )
@@ -59,18 +59,18 @@ class MountainTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateMountain(Mountain(ID0))
+            val action = UpdateRegion(Region(ID0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Update is valid`() {
-            val state = State(Storage(Mountain(ID0)))
-            val mountain = Mountain(ID0, NAME)
-            val action = UpdateMountain(mountain)
+            val state = State(Storage(Region(ID0)))
+            val mountain = Region(ID0, NAME)
+            val action = UpdateRegion(mountain)
 
-            assertEquals(mountain, REDUCER.invoke(state, action).first.getMountainStorage().get(ID0))
+            assertEquals(mountain, REDUCER.invoke(state, action).first.getRegionStorage().get(ID0))
         }
     }
 

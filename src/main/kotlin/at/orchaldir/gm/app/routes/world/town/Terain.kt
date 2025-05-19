@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.world.parseTerrainType
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.routes.world.MountainRoutes
+import at.orchaldir.gm.app.routes.world.RegionRoutes
 import at.orchaldir.gm.app.routes.world.RiverRoutes
 import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
@@ -139,10 +139,10 @@ private fun FORM.editTerrain(
     terrainId: Int,
     townMap: TownMap,
 ) {
-    val createMountainLink = call.application.href(MountainRoutes.New())
+    val createMountainLink = call.application.href(RegionRoutes.New())
     val createRiverLink = call.application.href(RiverRoutes.New())
     val rivers = state.getRiverStorage().getAll()
-    val mountains = state.getMountainStorage().getAll()
+    val mountains = state.getRegionStorage().getAll()
 
     selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, terrainType) { type ->
         when (type) {

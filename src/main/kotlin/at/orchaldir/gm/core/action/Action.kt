@@ -339,15 +339,15 @@ data object CreateMoon : WorldAction()
 data class DeleteMoon(val id: MoonId) : WorldAction()
 data class UpdateMoon(val moon: Moon) : WorldAction()
 
-// mountain
-data object CreateMountain : WorldAction()
-data class DeleteMountain(val id: MountainId) : WorldAction()
-data class UpdateMountain(val mountain: Mountain) : WorldAction()
-
 // plane
 data object CreatePlane : WorldAction()
 data class DeletePlane(val id: PlaneId) : WorldAction()
 data class UpdatePlane(val plane: Plane) : WorldAction()
+
+// region
+data object CreateRegion : WorldAction()
+data class DeleteRegion(val id: RegionId) : WorldAction()
+data class UpdateRegion(val region: Region) : WorldAction()
 
 // river
 data object CreateRiver : WorldAction()

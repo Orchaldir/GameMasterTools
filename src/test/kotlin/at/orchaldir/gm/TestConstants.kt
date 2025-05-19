@@ -45,7 +45,7 @@ import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.terrain.MountainId
+import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 
@@ -97,9 +97,9 @@ val UNKNOWN_MAGIC_TRADITION_ID = MagicTraditionId(99)
 val MATERIAL_ID_0 = MaterialId(0)
 val MATERIAL_ID_1 = MaterialId(1)
 val MOON_ID_0 = MoonId(0)
-val MOUNTAIN_ID_0 = MountainId(0)
-val MOUNTAIN_ID_1 = MountainId(1)
-val UNKNOWN_MOUNTAIN_ID = MountainId(99)
+val MOUNTAIN_ID_0 = RegionId(0)
+val MOUNTAIN_ID_1 = RegionId(1)
+val UNKNOWN_MOUNTAIN_ID = RegionId(99)
 val NAME_LIST_ID0 = NameListId(0)
 val ORGANIZATION_ID_0 = OrganizationId(0)
 val PANTHEON_ID_0 = PantheonId(0)

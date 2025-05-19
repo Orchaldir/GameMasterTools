@@ -56,14 +56,14 @@ private fun createTerrain(
     terrainId: Int,
 ) = when (terrainType) {
     TerrainType.Hill -> {
-        val mountainId = MountainId(terrainId)
-        state.getMountainStorage().require(mountainId)
+        val mountainId = RegionId(terrainId)
+        state.getRegionStorage().require(mountainId)
         HillTerrain(mountainId)
     }
 
     TerrainType.Mountain -> {
-        val mountainId = MountainId(terrainId)
-        state.getMountainStorage().require(mountainId)
+        val mountainId = RegionId(terrainId)
+        state.getRegionStorage().require(mountainId)
         MountainTerrain(mountainId)
     }
 

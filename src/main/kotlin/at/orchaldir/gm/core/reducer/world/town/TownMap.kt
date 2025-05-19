@@ -64,8 +64,8 @@ private fun validateConstruction(state: State, construction: Construction) = whe
 }
 
 private fun validateTerrain(state: State, terrain: Terrain) = when (terrain) {
-    is HillTerrain -> state.getMountainStorage().require(terrain.mountain)
-    is MountainTerrain -> state.getMountainStorage().require(terrain.mountain)
+    is HillTerrain -> state.getRegionStorage().require(terrain.mountain)
+    is MountainTerrain -> state.getRegionStorage().require(terrain.mountain)
     PlainTerrain -> doNothing()
     is RiverTerrain -> state.getRiverStorage().require(terrain.river)
 }

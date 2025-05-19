@@ -139,7 +139,6 @@ val ELEMENTS =
         MAGIC_TRADITION_TYPE,
         MATERIAL_TYPE,
         MOON_TYPE,
-        MOUNTAIN_TYPE,
         NAME_LIST_TYPE,
         ORGANIZATION_TYPE,
         PANTHEON_TYPE,
@@ -151,6 +150,7 @@ val ELEMENTS =
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
         REALM_TYPE,
+        REGION_TYPE,
         RIVER_TYPE,
         SPELL_TYPE,
         SPELL_GROUP_TYPE,
@@ -209,7 +209,6 @@ data class State(
     fun getMagicTraditionStorage() = getStorage<MagicTraditionId, MagicTradition>(MAGIC_TRADITION_TYPE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON_TYPE)
-    fun getMountainStorage() = getStorage<MountainId, Mountain>(MOUNTAIN_TYPE)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST_TYPE)
     fun getOrganizationStorage() = getStorage<OrganizationId, Organization>(ORGANIZATION_TYPE)
     fun getPantheonStorage() = getStorage<PantheonId, Pantheon>(PANTHEON_TYPE)
@@ -221,6 +220,7 @@ data class State(
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
     fun getRealmStorage() = getStorage<RealmId, Realm>(REALM_TYPE)
+    fun getRegionStorage() = getStorage<RegionId, Region>(REGION_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
     fun getSpellStorage() = getStorage<SpellId, Spell>(SPELL_TYPE)
     fun getSpellGroupStorage() = getStorage<SpellGroupId, SpellGroup>(SPELL_GROUP_TYPE)
@@ -330,7 +330,6 @@ data class State(
         validate(getLegalCodeStorage()) { validateLegalCode(this, it) }
         validate(getMagicTraditionStorage()) { validateMagicTradition(this, it) }
         validate(getMoonStorage()) { validateMoon(this, it) }
-        validate(getMountainStorage()) { validateMountain(this, it) }
         validate(getOrganizationStorage()) { validateOrganization(this, it) }
         validate(getPantheonStorage()) { validatePantheon(this, it) }
         validate(getPeriodicalStorage()) { validatePeriodical(this, it) }
@@ -340,6 +339,7 @@ data class State(
         validate(getRaceStorage()) { validateRace(this, it) }
         validate(getRaceAppearanceStorage()) { validateRaceAppearance(it) }
         validate(getRealmStorage()) { validateRealm(this, it) }
+        validate(getRegionStorage()) { validateRegion(this, it) }
         validate(getSpellStorage()) { validateSpell(this, it) }
         validate(getSpellGroupStorage()) { validateSpellGroup(this, it) }
         validate(getStreetTemplateStorage()) { validateStreetTemplate(this, it) }
@@ -377,7 +377,6 @@ data class State(
         saveStorage(path, getMagicTraditionStorage())
         saveStorage(path, getMaterialStorage())
         saveStorage(path, getMoonStorage())
-        saveStorage(path, getMountainStorage())
         saveStorage(path, getNameListStorage())
         saveStorage(path, getOrganizationStorage())
         saveStorage(path, getPantheonStorage())
@@ -389,6 +388,7 @@ data class State(
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
         saveStorage(path, getRealmStorage())
+        saveStorage(path, getRegionStorage())
         saveStorage(path, getRiverStorage())
         saveStorage(path, getSpellStorage())
         saveStorage(path, getSpellGroupStorage())
@@ -429,7 +429,6 @@ fun createStorage(type: String) = when (type) {
     MAGIC_TRADITION_TYPE -> Storage(MagicTraditionId(0))
     MATERIAL_TYPE -> Storage(MaterialId(0))
     MOON_TYPE -> Storage(MoonId(0))
-    MOUNTAIN_TYPE -> Storage(MountainId(0))
     NAME_LIST_TYPE -> Storage(NameListId(0))
     ORGANIZATION_TYPE -> Storage(OrganizationId(0))
     PANTHEON_TYPE -> Storage(PantheonId(0))
@@ -441,6 +440,7 @@ fun createStorage(type: String) = when (type) {
     RACE_TYPE -> Storage(RaceId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
     REALM_TYPE -> Storage(RealmId(0))
+    REGION_TYPE -> Storage(RegionId(0))
     RIVER_TYPE -> Storage(RiverId(0))
     SPELL_TYPE -> Storage(SpellId(0))
     SPELL_GROUP_TYPE -> Storage(SpellGroupId(0))
@@ -480,7 +480,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     MAGIC_TRADITION_TYPE -> loadStorage<MagicTraditionId, MagicTradition>(path, MagicTraditionId(0))
     MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))
     MOON_TYPE -> loadStorage<MoonId, Moon>(path, MoonId(0))
-    MOUNTAIN_TYPE -> loadStorage<MountainId, Mountain>(path, MountainId(0))
     NAME_LIST_TYPE -> loadStorage<NameListId, NameList>(path, NameListId(0))
     ORGANIZATION_TYPE -> loadStorage<OrganizationId, Organization>(path, OrganizationId(0))
     PANTHEON_TYPE -> loadStorage<PantheonId, Pantheon>(path, PantheonId(0))
@@ -496,6 +495,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
     REALM_TYPE -> loadStorage<RealmId, Realm>(path, RealmId(0))
+    REGION_TYPE -> loadStorage<RegionId, Region>(path, RegionId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))
     SPELL_TYPE -> loadStorage<SpellId, Spell>(path, SpellId(0))
     SPELL_GROUP_TYPE -> loadStorage<SpellGroupId, SpellGroup>(path, SpellGroupId(0))
