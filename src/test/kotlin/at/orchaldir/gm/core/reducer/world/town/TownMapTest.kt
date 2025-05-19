@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
+import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.town.HillTerrain
 import at.orchaldir.gm.core.model.world.town.MountainTerrain
 import at.orchaldir.gm.core.model.world.town.RiverTerrain
@@ -28,6 +29,7 @@ class TownMapTest {
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
+            Storage(Region(REGION_ID_0)),
             Storage(Street(STREET_ID_0)),
             Storage(StreetTemplate(STREET_TYPE_ID_0)),
             Storage(Town(TOWN_ID_0)),
@@ -78,9 +80,21 @@ class TownMapTest {
             }
 
             @Test
+            fun `Hill's region must be a mountain'`() {
+                val terrain = HillTerrain(REGION_ID_0)
+                testValid(TownTile(terrain), "Region 0 must be a mountain!")
+            }
+
+            @Test
             fun `Mountain must exist`() {
                 val terrain = MountainTerrain(UNKNOWN_REGION_ID)
                 testValid("Region", TownTile(terrain))
+            }
+
+            @Test
+            fun `Mountain's region must be a mountain'`() {
+                val terrain = MountainTerrain(REGION_ID_0)
+                testValid(TownTile(terrain), "Region 0 must be a mountain!")
             }
 
             @Test
@@ -100,11 +114,14 @@ class TownMapTest {
                 testValid("Street", TownTile(construction = construction))
             }
 
-            private fun testValid(noun: String, tile: TownTile) {
+            private fun testValid(noun: String, tile: TownTile) =
+                testValid(tile, "Requires unknown $noun 99!")
+
+            private fun testValid(tile: TownTile, message: String) {
                 val map = TileMap2d(tile)
                 val action = UpdateTownMap(TownMap(TOWN_MAP_ID_0, map = map))
 
-                assertIllegalArgument("Requires unknown $noun 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument(message) { REDUCER.invoke(STATE, action) }
             }
         }
 
