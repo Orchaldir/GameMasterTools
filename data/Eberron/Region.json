@@ -26,7 +26,8 @@
    "id": 2,
    "name": "The Crying Fields",
    "data": {
-    "type": "Battlefield"
+    "type": "Battlefield",
+    "battle": 0
    },
    "parent": 3
   },
