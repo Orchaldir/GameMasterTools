@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.PARTICIPANT
 import at.orchaldir.gm.app.REALM
+import at.orchaldir.gm.app.WAR
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.parseOptionalCharacterId
@@ -16,6 +17,7 @@ import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.BattleParticipant
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
+import at.orchaldir.gm.core.selector.realm.getExistingWars
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -29,6 +31,7 @@ fun HtmlBlockTag.showBattle(
     battle: Battle,
 ) {
     optionalField(call, state, "Date", battle.date)
+    optionalFieldLink(call, state, battle.war)
     fieldList("Participants", battle.participants) {
         showBattleParticipant(call, state, it)
     }
@@ -50,11 +53,19 @@ fun FORM.editBattle(
     state: State,
     battle: Battle,
 ) {
-    val realms = state.getExistingRealms(battle.date)
     val characters = state.getLiving(battle.date)
+    val realms = state.getExistingRealms(battle.date)
+    val wars = state.getExistingWars(battle.date)
 
     selectName(battle.name)
     selectOptionalDate(state, "Date", battle.date, DATE)
+    selectOptionalElement(
+        state,
+        "War",
+        WAR,
+        wars,
+        battle.war,
+    )
     editList("Participants", PARTICIPANT, battle.participants, 0, 100) { _, param, participant ->
         editBattleParticipant(state, realms, characters, participant, param)
     }
@@ -94,6 +105,7 @@ fun parseBattle(parameters: Parameters, state: State, id: BattleId) = Battle(
     id,
     parseName(parameters),
     parseOptionalDate(parameters, state, DATE),
+    parseOptionalWarId(parameters, WAR),
     parseList(parameters, PARTICIPANT, 0) { _, param ->
         parseBattleParticipant(parameters, param)
     },

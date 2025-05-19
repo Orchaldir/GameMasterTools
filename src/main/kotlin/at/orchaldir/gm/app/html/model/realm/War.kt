@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.selector.character.getCharactersKilledInWar
@@ -54,6 +55,8 @@ fun FORM.editWar(
 // parse
 
 fun parseWarId(parameters: Parameters, param: String) = WarId(parseInt(parameters, param))
+fun parseOptionalWarId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { WarId(it) }
 
 fun parseWar(parameters: Parameters, state: State, id: WarId) = War(
     id,

@@ -8,6 +8,7 @@
     "type": "Century",
     "century": 9
    },
+   "war": 0,
    "participants": [
     {
      "realm": 1

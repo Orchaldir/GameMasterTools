@@ -26,6 +26,7 @@ data class Battle(
     val id: BattleId,
     val name: Name = Name.init("Battle ${id.value}"),
     val date: Date? = null,
+    val war: WarId? = null,
     val participants: List<BattleParticipant> = emptyList(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<BattleId>, HasDataSources, HasStartDate {
