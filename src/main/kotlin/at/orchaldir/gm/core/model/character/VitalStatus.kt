@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
@@ -27,6 +28,9 @@ sealed class VitalStatus {
         is Alive -> null
         is Dead -> deathDay
     }
+
+    fun isCausedBy(battle: BattleId) =
+        this is Dead && cause is DeathInBattle && cause.battle == battle
 
     fun isCausedBy(catastrophe: CatastropheId) =
         this is Dead && cause is DeathByCatastrophe && cause.catastrophe == catastrophe

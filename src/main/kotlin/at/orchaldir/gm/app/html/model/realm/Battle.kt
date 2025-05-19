@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.BattleParticipant
+import at.orchaldir.gm.core.selector.character.getCharactersKilledInBattle
+import at.orchaldir.gm.core.selector.character.getCharactersKilledInWar
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingWars
@@ -35,6 +37,7 @@ fun HtmlBlockTag.showBattle(
     fieldList("Participants", battle.participants) {
         showBattleParticipant(call, state, it)
     }
+    fieldList(call, state, "Killed Characters", state.getCharactersKilledInBattle(battle.id))
     showDataSources(call, state, battle.sources)
 }
 
