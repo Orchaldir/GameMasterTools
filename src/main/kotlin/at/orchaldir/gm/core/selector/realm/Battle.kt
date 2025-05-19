@@ -8,10 +8,11 @@ import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.selector.character.countCharactersKilledInBattle
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.util.getExistingElements
 
-fun State.canDeleteBattle(battle: BattleId) = true
+fun State.canDeleteBattle(battle: BattleId) = countCharactersKilledInBattle(battle) == 0
 
 fun State.countBattlesLedBy(character: CharacterId) = getBattleStorage()
     .getAll()

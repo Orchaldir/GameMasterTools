@@ -4,6 +4,10 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateBattle
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.Dead
+import at.orchaldir.gm.core.model.character.DeathByWar
+import at.orchaldir.gm.core.model.character.DeathInBattle
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Battle
@@ -40,6 +44,17 @@ class BattleTest {
         @Test
         fun `Cannot delete unknown id`() {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot delete a war that killed a character`() {
+            val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
+            val character = Character(CHARACTER_ID_0, vitalStatus = dead)
+            val newState = STATE.updateStorage(Storage(character))
+
+            assertIllegalArgument("Cannot delete Battle 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
         }
     }
 
