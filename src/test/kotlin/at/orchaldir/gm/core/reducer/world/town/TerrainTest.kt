@@ -44,12 +44,12 @@ class TerrainTest {
 
         @Test
         fun `Set to Hill`() {
-            testSuccess(Region(MOUNTAIN_ID_0), TerrainType.Hill, HillTerrain(MOUNTAIN_ID_0))
+            testSuccess(Region(REGION_ID_0), TerrainType.Hill, HillTerrain(REGION_ID_0))
         }
 
         @Test
         fun `Set to mountain`() {
-            testSuccess(Region(MOUNTAIN_ID_0), TerrainType.Mountain, MountainTerrain(MOUNTAIN_ID_0))
+            testSuccess(Region(REGION_ID_0), TerrainType.Mountain, MountainTerrain(REGION_ID_0))
         }
 
         @Test
@@ -59,7 +59,7 @@ class TerrainTest {
 
         @Test
         fun `Set tile outside the map to hill`() {
-            testOutside(Region(MOUNTAIN_ID_0), TerrainType.Hill)
+            testOutside(Region(REGION_ID_0), TerrainType.Hill)
         }
 
         @Test
@@ -69,7 +69,7 @@ class TerrainTest {
 
         @Test
         fun `Set tile outside the map to mountain`() {
-            testOutside(Region(MOUNTAIN_ID_0), TerrainType.Mountain)
+            testOutside(Region(REGION_ID_0), TerrainType.Mountain)
         }
 
         @Test
@@ -79,12 +79,12 @@ class TerrainTest {
 
         @Test
         fun `Set unknown hill`() {
-            testUnknown(Region(MOUNTAIN_ID_0), TerrainType.Hill)
+            testUnknown(Region(REGION_ID_0), TerrainType.Hill)
         }
 
         @Test
         fun `Set unknown mountain`() {
-            testUnknown(Region(MOUNTAIN_ID_0), TerrainType.Mountain)
+            testUnknown(Region(REGION_ID_0), TerrainType.Mountain)
         }
 
         @Test
@@ -297,7 +297,7 @@ class TerrainTest {
             val oldMap = TileMap2d(oldSize, oldTiles)
             val newMap = TileMap2d(newSize, newTiles)
             val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
-            val state = State(listOf(Storage(River(RIVER_ID_0)), Storage(Region(MOUNTAIN_ID_1)), Storage(oldTown)))
+            val state = State(listOf(Storage(River(RIVER_ID_0)), Storage(Region(REGION_ID_1)), Storage(oldTown)))
 
             assertEquals(newMap, REDUCER.invoke(state, action).first.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
         }
