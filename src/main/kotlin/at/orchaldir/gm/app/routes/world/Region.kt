@@ -9,9 +9,12 @@ import at.orchaldir.gm.core.action.CreateRegion
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortPlane
+import at.orchaldir.gm.core.model.util.SortRegion
 import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.RegionId
+import at.orchaldir.gm.core.selector.util.sortRegions
 import at.orchaldir.gm.core.selector.world.canDeleteRegion
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -29,6 +32,12 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/$REGION_TYPE")
 class RegionRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortRegion = SortRegion.Name,
+        val parent: RegionRoutes = RegionRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: RegionId, val parent: RegionRoutes = RegionRoutes())
 
@@ -50,11 +59,11 @@ class RegionRoutes {
 
 fun Application.configureMountainRouting() {
     routing {
-        get<RegionRoutes> {
+        get<RegionRoutes.All> { all ->
             logger.info { "Get all regions" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMountains(call, STORE.getState())
+                showAllMountains(call, STORE.getState(), all.sort)
             }
         }
         get<RegionRoutes.Details> { details ->
@@ -129,12 +138,14 @@ fun Application.configureMountainRouting() {
 private fun HTML.showAllMountains(
     call: ApplicationCall,
     state: State,
+    sort: SortRegion = SortRegion.Name,
 ) {
-    val regions = state.getRegionStorage().getAll().sortedBy { it.name.text }
+    val regions = state.sortRegions(sort)
     val createLink = call.application.href(RegionRoutes.New())
 
     simpleHtml("Mountains") {
         field("Count", regions.size)
+        showSortTableLinks(call, SortRegion.entries, RegionRoutes(), RegionRoutes::All)
 
         table {
             tr {

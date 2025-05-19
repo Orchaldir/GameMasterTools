@@ -103,13 +103,6 @@ enum class SortMaterial {
     Equipment,
 }
 
-enum class SortRealm {
-    Name,
-    Start,
-    End,
-    Age,
-}
-
 enum class SortOrganization {
     Name,
     Date,
@@ -146,6 +139,17 @@ enum class SortRace {
     Height,
     Weight,
     MaxLifeSpan,
+    Name,
+}
+
+enum class SortRealm {
+    Name,
+    Start,
+    End,
+    Age,
+}
+
+enum class SortRegion {
     Name,
 }
 
