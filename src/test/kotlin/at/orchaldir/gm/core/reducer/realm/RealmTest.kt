@@ -106,6 +106,13 @@ class RealmTest {
         }
 
         @Test
+        fun `Cannot delete a realm that participated in a battle`() {
+            val war = Battle(BATTLE_ID_0, participants = listOf(BattleParticipant(REALM_ID_0)))
+
+            test(war, "Cannot delete Realm 0, because it is used!")
+        }
+
+        @Test
         fun `Cannot delete a realm that employs a character`() {
             val employmentStatus = History<EmploymentStatus>(EmployedByRealm(JOB_ID_0, REALM_ID_0))
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)

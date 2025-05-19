@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.Id
 fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
         && !isCurrentOrFormerOwner(realm)
         && countWars(realm) == 0
+        && countBattles(realm) == 0
         && getSubRealms(realm).isEmpty()
         && getPreviousSubRealms(realm).isEmpty()
         && getOwnedTowns(realm).isEmpty()

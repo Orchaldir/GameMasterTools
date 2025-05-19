@@ -10,10 +10,12 @@ import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.economy.money.getExistingCurrency
+import at.orchaldir.gm.core.selector.realm.getBattles
 import at.orchaldir.gm.core.selector.realm.getExistingLegalCodes
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
 import at.orchaldir.gm.core.selector.realm.getWars
+import at.orchaldir.gm.core.selector.util.sortBattles
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -46,8 +48,10 @@ fun HtmlBlockTag.showRealm(
     showEmployees(call, state, state.getEmployees(realm.id), showTown = false)
     showEmployees(call, state, state.getPreviousEmployees(realm.id), "Previous Employees", showTown = false)
 
+    val battles = state.sortBattles(state.getBattles(realm.id))
     val wars = state.sortWars(state.getWars(realm.id))
 
+    fieldList(call, state, battles)
     fieldList(call, state, wars)
     showDataSources(call, state, realm.sources)
 
