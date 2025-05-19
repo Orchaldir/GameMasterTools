@@ -42,7 +42,7 @@ private fun HtmlBlockTag.showRegionData(
     field("Type", data.getType())
 
     when (data) {
-        Continent, Mountain, UndefinedRegionData -> doNothing()
+        Continent, Forrest, Mountain, UndefinedRegionData -> doNothing()
         is Battlefield -> optionalFieldLink("Caused by", call, state, data.battle)
         is Wasteland -> optionalFieldLink("Caused by", call, state, data.catastrophe)
     }
@@ -79,7 +79,7 @@ private fun HtmlBlockTag.editRegionData(
     }
 
     when (data) {
-        Continent, Mountain, UndefinedRegionData -> doNothing()
+        Continent, Forrest, Mountain, UndefinedRegionData -> doNothing()
         is Battlefield -> selectOptionalElement(
             state,
             "Caused By",
@@ -118,6 +118,7 @@ fun parseRegionData(parameters: Parameters) = when (parse(parameters, TYPE, Regi
     )
 
     RegionDataType.Continent -> Continent
+    RegionDataType.Forrest -> Forrest
     RegionDataType.Mountain -> Mountain
     RegionDataType.Undefined -> UndefinedRegionData
     RegionDataType.Wasteland -> Wasteland(

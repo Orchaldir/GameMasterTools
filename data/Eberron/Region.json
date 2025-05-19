@@ -45,6 +45,14 @@
     "type": "Mountain"
    },
    "parent": 3
+  },
+  "5": {
+   "id": 5,
+   "name": "Towering Woods",
+   "data": {
+    "type": "Forrest"
+   },
+   "parent": 3
   }
  }
 }
