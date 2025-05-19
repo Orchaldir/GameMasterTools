@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 
 fun State.canDeleteRegion(region: RegionId) = getTowns(region).isEmpty()
+        && getSubRegions(region).isEmpty()
 
 fun State.getRegions(type: RegionDataType) = getRegionStorage()
     .getAll()

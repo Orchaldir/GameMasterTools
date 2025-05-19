@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.NAME
 import at.orchaldir.gm.REGION_ID_0
+import at.orchaldir.gm.REGION_ID_1
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
@@ -19,9 +21,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class RegionTest {
+    val region0 = Region(REGION_ID_0)
     val state = State(
         listOf(
-            Storage(Region(REGION_ID_0)),
+            Storage(region0),
         )
     )
 
@@ -36,7 +39,7 @@ class RegionTest {
 
         @Test
         fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Region 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -44,7 +47,15 @@ class RegionTest {
             val map = TileMap2d(TownTile(MountainTerrain(REGION_ID_0)))
             val state = state.updateStorage(Storage(TownMap(TownMapId(0), map = map)))
 
-            assertFailsWith<IllegalArgumentException>("Region 0 is used") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete Region 0, because it is used!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete, if having subregions`() {
+            val region1 = Region(REGION_ID_1, parent = REGION_ID_0)
+            val state = state.updateStorage(Storage(listOf(region0, region1)))
+
+            assertIllegalArgument("Cannot delete Region 0, because it is used!") { REDUCER.invoke(state, action) }
         }
     }
 
@@ -53,9 +64,9 @@ class RegionTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateRegion(Region(REGION_ID_0))
+            val action = UpdateRegion(region0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Region 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
