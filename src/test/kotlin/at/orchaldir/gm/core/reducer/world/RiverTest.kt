@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
+import at.orchaldir.gm.core.model.world.town.RiverTerrain
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.model.world.town.TownTile

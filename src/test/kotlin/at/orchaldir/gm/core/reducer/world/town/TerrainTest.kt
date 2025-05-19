@@ -8,6 +8,11 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingLot
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.BuildingTile
+import at.orchaldir.gm.core.model.world.town.HillTerrain
+import at.orchaldir.gm.core.model.world.town.MountainTerrain
+import at.orchaldir.gm.core.model.world.town.RiverTerrain
+import at.orchaldir.gm.core.model.world.town.Terrain
+import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER

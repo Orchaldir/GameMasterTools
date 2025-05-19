@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateMountain
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.Mountain
 import at.orchaldir.gm.core.model.world.terrain.MountainId
-import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
+import at.orchaldir.gm.core.model.world.town.MountainTerrain
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.model.world.town.TownTile

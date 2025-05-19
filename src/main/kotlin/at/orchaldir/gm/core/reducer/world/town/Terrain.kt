@@ -4,6 +4,11 @@ import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.town.HillTerrain
+import at.orchaldir.gm.core.model.world.town.MountainTerrain
+import at.orchaldir.gm.core.model.world.town.PlainTerrain
+import at.orchaldir.gm.core.model.world.town.RiverTerrain
+import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.redux.Reducer
