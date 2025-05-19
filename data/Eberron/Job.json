@@ -242,6 +242,22 @@
     "type": "SoL",
     "standard": 6
    }
+  },
+  "29": {
+   "id": 29,
+   "name": "Mayor",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
+  },
+  "30": {
+   "id": 30,
+   "name": "Ambassador",
+   "income": {
+    "type": "SoL",
+    "standard": 5
+   }
   }
  }
 }

@@ -1177,6 +1177,50 @@
     }
    },
    "title": 0
+  },
+  "19": {
+   "id": 19,
+   "name": {
+    "type": "Family",
+    "given": "Oargev",
+    "middle": null,
+    "family": "Wynarn"
+   },
+   "birthDate": {
+    "type": "Year",
+    "year": 972
+   },
+   "culture": 1,
+   "employmentStatus": {
+    "current": {
+     "type": "ByTown",
+     "job": 29,
+     "town": 12
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "ByRealm",
+       "job": 30,
+       "realm": 3
+      },
+      "until": {
+       "type": "Year",
+       "year": 993
+      }
+     }
+    ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
+   },
+   "title": 0,
+   "sources": [
+    3
+   ]
   }
  }
 }

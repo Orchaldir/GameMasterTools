@@ -132,6 +132,23 @@
    "owner": {
     "current": 2
    }
+  },
+  "11": {
+   "id": 11,
+   "name": "Black Pit",
+   "owner": {
+    "current": 2
+   },
+   "sources": [
+    3
+   ]
+  },
+  "12": {
+   "id": 12,
+   "name": "New Cyre",
+   "owner": {
+    "current": 2
+   }
   }
  }
 }

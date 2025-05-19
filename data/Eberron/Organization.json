@@ -400,6 +400,14 @@
     "type": "Realm",
     "realm": 2
    }
+  },
+  "35": {
+   "id": 35,
+   "name": "Boromar Clan"
+  },
+  "36": {
+   "id": 36,
+   "name": "Daask"
   }
  }
 }
