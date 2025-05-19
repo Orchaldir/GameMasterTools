@@ -29,3 +29,7 @@ fun State.getRegionsIds(town: TownMapId) = getTownMapStorage()
     .map.tiles.mapNotNull { it.terrain.getMountain() }
     .distinct()
 
+fun State.getSubRegions(region: RegionId) = getRegionStorage()
+    .getAll()
+    .filter { it.parent == region }
+

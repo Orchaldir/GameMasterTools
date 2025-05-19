@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.util.sortRegions
+import at.orchaldir.gm.core.selector.world.getSubRegions
 import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -29,6 +30,7 @@ fun HtmlBlockTag.showRegion(
 ) {
     showRegionData(call, state, region.data)
     optionalFieldLink("Parent Region", call, state, region.parent)
+    fieldList(call, state, "Subregions", state.getSubRegions(region.id))
     fieldIdList(call, state, "Resources", region.resources)
     fieldList(call, state, state.getTowns(region.id))
 }
