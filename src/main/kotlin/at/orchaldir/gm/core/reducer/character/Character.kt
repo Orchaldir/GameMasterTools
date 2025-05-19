@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.getChildren
 import at.orchaldir.gm.core.selector.character.getParents
 import at.orchaldir.gm.core.selector.organization.getOrganizations
+import at.orchaldir.gm.core.selector.realm.countBattlesLedBy
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
@@ -35,6 +36,7 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     validateCanDelete(parents.isEmpty(), action.id, "he has parents")
     validateCanDelete(children.isEmpty(), action.id, "he has children")
     validateCanDelete(organizations.isEmpty(), action.id, "he is a member of an organization")
+    validateCanDelete(state.countBattlesLedBy(action.id) == 0, action.id, "of a battle")
 
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)
