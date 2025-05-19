@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
-import at.orchaldir.gm.NAME
-import at.orchaldir.gm.REGION_ID_0
-import at.orchaldir.gm.REGION_ID_1
-import at.orchaldir.gm.UNKNOWN_REGION_ID
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
@@ -19,7 +15,6 @@ import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class RegionTest {
     val region0 = Region(REGION_ID_0)
