@@ -16,6 +16,12 @@ fun State.canDeleteTown(town: TownId) = !isCurrentOrFormerOwner(town)
         && !isCreator(town)
         && getTownMaps(town).isEmpty()
 
+// count
+
+fun State.countOwnedTowns(realm: RealmId) = getTownStorage()
+    .getAll()
+    .count { it.owner.current == realm }
+
 // get
 
 fun State.getExistingTowns(date: Date?) = getExistingElements(getTownStorage().getAll(), date)

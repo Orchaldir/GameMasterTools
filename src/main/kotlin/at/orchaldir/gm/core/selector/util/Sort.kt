@@ -49,6 +49,7 @@ import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
+import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -560,6 +561,7 @@ fun State.sortRealms(
             SortRealm.Start -> getStartDateComparator()
             SortRealm.End -> getEndDateComparator()
             SortRealm.Age -> compareByDescending { it.getAgeInYears(this) }
+            SortRealm.Towns -> compareByDescending { countOwnedTowns(it.id) }
         })
 
 // region
