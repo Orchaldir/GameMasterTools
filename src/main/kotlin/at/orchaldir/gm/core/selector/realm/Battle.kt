@@ -1,15 +1,12 @@
 package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.countCharactersKilledInBattle
-import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 

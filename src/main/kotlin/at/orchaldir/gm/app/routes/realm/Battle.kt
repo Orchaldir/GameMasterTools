@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateBattle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.BATTLE_TYPE
-import at.orchaldir.gm.core.model.realm.TREATY_TYPE
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.util.SortBattle

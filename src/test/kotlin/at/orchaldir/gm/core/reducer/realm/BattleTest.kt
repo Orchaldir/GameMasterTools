@@ -8,9 +8,9 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.character.DeathInBattle
 import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleParticipant
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.reducer.REDUCER

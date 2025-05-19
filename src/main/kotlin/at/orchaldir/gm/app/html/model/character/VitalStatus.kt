@@ -51,6 +51,7 @@ fun HtmlBlockTag.showVitalStatus(
                     link(call, state, vitalStatus.cause.war)
                 }
             }
+
             is DeathInBattle -> {
                 field("Cause of Death") {
                     +"Died in the "
@@ -161,6 +162,7 @@ fun parseVitalStatus(
                 CauseOfDeathType.Battle -> DeathInBattle(
                     parseBattleId(parameters, BATTLE),
                 )
+
                 CauseOfDeathType.Catastrophe -> DeathByCatastrophe(
                     parseCatastropheId(parameters, CATASTROPHE),
                 )

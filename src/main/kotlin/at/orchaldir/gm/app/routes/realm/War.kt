@@ -18,7 +18,6 @@ import at.orchaldir.gm.core.selector.character.countCharactersKilledInWar
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
 import at.orchaldir.gm.core.selector.realm.countBattles
 import at.orchaldir.gm.core.selector.realm.countRealmsDestroyedByWar
-import at.orchaldir.gm.core.selector.realm.getBattles
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*

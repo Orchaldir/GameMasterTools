@@ -13,11 +13,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.realm.BattleId
-import at.orchaldir.gm.core.model.realm.CatastropheId
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.realm.WarId
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.date.Date

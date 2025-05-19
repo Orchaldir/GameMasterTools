@@ -4,13 +4,7 @@ import at.orchaldir.gm.core.action.CreateRegion
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.Battlefield
-import at.orchaldir.gm.core.model.world.terrain.Continent
-import at.orchaldir.gm.core.model.world.terrain.Mountain
-import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.terrain.RegionData
-import at.orchaldir.gm.core.model.world.terrain.UndefinedRegionData
-import at.orchaldir.gm.core.model.world.terrain.Wasteland
+import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.world.canDeleteRegion
 import at.orchaldir.gm.utils.doNothing

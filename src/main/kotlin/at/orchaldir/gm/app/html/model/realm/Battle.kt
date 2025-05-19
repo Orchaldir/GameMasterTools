@@ -1,22 +1,17 @@
 package at.orchaldir.gm.app.html.model.realm
 
-import at.orchaldir.gm.app.CHARACTER
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.PARTICIPANT
-import at.orchaldir.gm.app.REALM
-import at.orchaldir.gm.app.WAR
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.parseOptionalCharacterId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.BattleParticipant
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.selector.character.getCharactersKilledInBattle
-import at.orchaldir.gm.core.selector.character.getCharactersKilledInWar
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingWars

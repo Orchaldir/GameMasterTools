@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.model.world
 
-import at.orchaldir.gm.app.BATTLE
-import at.orchaldir.gm.app.CATASTROPHE
-import at.orchaldir.gm.app.MATERIAL
-import at.orchaldir.gm.app.PARENT
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.parseMaterialId
 import at.orchaldir.gm.app.html.model.realm.parseOptionalBattleId
@@ -91,6 +87,7 @@ private fun HtmlBlockTag.editRegionData(
             battles,
             data.battle,
         )
+
         is Wasteland -> selectOptionalElement(
             state,
             "Caused By",
@@ -119,6 +116,7 @@ fun parseRegionData(parameters: Parameters) = when (parse(parameters, TYPE, Regi
     RegionDataType.Battlefield -> Battlefield(
         parseOptionalBattleId(parameters, BATTLE),
     )
+
     RegionDataType.Continent -> Continent
     RegionDataType.Mountain -> Mountain
     RegionDataType.Undefined -> UndefinedRegionData
