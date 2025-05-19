@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
 import at.orchaldir.gm.core.model.world.terrain.RegionId
@@ -20,6 +21,10 @@ fun State.getRegions(town: TownMapId) = getRegionsIds(town)
 fun State.getRegionsContaining(material: MaterialId) = getRegionStorage()
     .getAll()
     .filter { it.resources.contains(material) }
+
+fun State.getRegionsCreatedBy(battle: BattleId) = getRegionStorage()
+    .getAll()
+    .filter { it.data.isCreatedBy(battle) }
 
 fun State.getRegionsCreatedBy(catastrophe: CatastropheId) = getRegionStorage()
     .getAll()

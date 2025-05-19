@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.selector.character.getCharactersKilledInWar
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingWars
+import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -38,6 +39,7 @@ fun HtmlBlockTag.showBattle(
         showBattleParticipant(call, state, it)
     }
     fieldList(call, state, "Killed Characters", state.getCharactersKilledInBattle(battle.id))
+    fieldList(call, state, "Battlefields", state.getRegionsCreatedBy(battle.id))
     showDataSources(call, state, battle.sources)
 }
 
