@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.NAME
 import at.orchaldir.gm.REGION_ID_0
 import at.orchaldir.gm.REGION_ID_1
+import at.orchaldir.gm.UNKNOWN_REGION_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
@@ -67,6 +68,14 @@ class RegionTest {
             val action = UpdateRegion(region0)
 
             assertIllegalArgument("Requires unknown Region 0!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot use unknown parent`() {
+            val region = Region(REGION_ID_0, parent = UNKNOWN_REGION_ID)
+            val action = UpdateRegion(region)
+
+            assertIllegalArgument("Requires unknown parent!") { REDUCER.invoke(state, action) }
         }
 
         @Test

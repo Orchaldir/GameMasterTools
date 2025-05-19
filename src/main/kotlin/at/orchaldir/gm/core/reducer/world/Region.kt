@@ -36,5 +36,6 @@ fun validateRegion(
     state: State,
     region: Region,
 ) {
+    state.getRegionStorage().requireOptional(region.parent) { "Requires unknown parent!" }
     region.resources.forEach { state.getMaterialStorage().require(it) }
 }
