@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.action.CreateRegion
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.SortPlane
 import at.orchaldir.gm.core.model.util.SortRegion
 import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -57,13 +56,13 @@ class RegionRoutes {
     class Update(val id: RegionId, val parent: RegionRoutes = RegionRoutes())
 }
 
-fun Application.configureMountainRouting() {
+fun Application.configureRegionRouting() {
     routing {
         get<RegionRoutes.All> { all ->
             logger.info { "Get all regions" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMountains(call, STORE.getState(), all.sort)
+                showAllRegions(call, STORE.getState(), all.sort)
             }
         }
         get<RegionRoutes.Details> { details ->
@@ -73,7 +72,7 @@ fun Application.configureMountainRouting() {
             val region = state.getRegionStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMountainDetails(call, state, region)
+                showRegionDetails(call, state, region)
             }
         }
         get<RegionRoutes.New> {
@@ -83,9 +82,7 @@ fun Application.configureMountainRouting() {
 
             call.respondRedirect(
                 call.application.href(
-                    RegionRoutes.Edit(
-                        STORE.getState().getRegionStorage().lastId
-                    )
+                    RegionRoutes.Edit(STORE.getState().getRegionStorage().lastId)
                 )
             )
 
@@ -107,7 +104,7 @@ fun Application.configureMountainRouting() {
             val region = state.getRegionStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMountainEditor(call, state, region)
+                showRegionEditor(call, state, region)
             }
         }
         post<RegionRoutes.Preview> { preview ->
@@ -118,7 +115,7 @@ fun Application.configureMountainRouting() {
             val region = parseRegion(preview.id, formParameters)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMountainEditor(call, state, region)
+                showRegionEditor(call, state, region)
             }
         }
         post<RegionRoutes.Update> { update ->
@@ -135,7 +132,7 @@ fun Application.configureMountainRouting() {
     }
 }
 
-private fun HTML.showAllMountains(
+private fun HTML.showAllRegions(
     call: ApplicationCall,
     state: State,
     sort: SortRegion = SortRegion.Name,
@@ -143,7 +140,7 @@ private fun HTML.showAllMountains(
     val regions = state.sortRegions(sort)
     val createLink = call.application.href(RegionRoutes.New())
 
-    simpleHtml("Mountains") {
+    simpleHtml("Regions") {
         field("Count", regions.size)
         showSortTableLinks(call, SortRegion.entries, RegionRoutes(), RegionRoutes::All)
 
@@ -167,7 +164,7 @@ private fun HTML.showAllMountains(
     }
 }
 
-private fun HTML.showMountainDetails(
+private fun HTML.showRegionDetails(
     call: ApplicationCall,
     state: State,
     region: Region,
@@ -189,7 +186,7 @@ private fun HTML.showMountainDetails(
     }
 }
 
-private fun HTML.showMountainEditor(
+private fun HTML.showRegionEditor(
     call: ApplicationCall,
     state: State,
     region: Region,

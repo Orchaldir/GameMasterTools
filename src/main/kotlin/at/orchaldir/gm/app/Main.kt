@@ -86,7 +86,7 @@ fun Application.module() {
     configureMagicTraditionRouting()
     configureMaterialRouting()
     configureMoonRouting()
-    configureMountainRouting()
+    configureRegionRouting()
     configureNameListRouting()
     configureOrganizationRouting()
     configurePantheonRouting()
