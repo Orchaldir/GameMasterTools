@@ -4,7 +4,8 @@ import at.orchaldir.gm.core.action.CreateTownMap
 import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.terrain.RegionDataType
+import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -65,8 +66,17 @@ private fun validateConstruction(state: State, construction: Construction) = whe
 }
 
 private fun validateTerrain(state: State, terrain: Terrain) = when (terrain) {
-    is HillTerrain -> state.getMountainStorage().require(terrain.mountain)
-    is MountainTerrain -> state.getMountainStorage().require(terrain.mountain)
+    is HillTerrain -> validateRegion(state, terrain.mountain)
+    is MountainTerrain -> validateRegion(state, terrain.mountain)
     PlainTerrain -> doNothing()
     is RiverTerrain -> state.getRiverStorage().require(terrain.river)
+}
+
+private fun validateRegion(
+    state: State,
+    id: RegionId,
+) {
+    val region = state.getRegionStorage().getOrThrow(id)
+
+    require(region.data.getType() == RegionDataType.Mountain) { "${id.type()} ${id.value} must be a mountain!" }
 }

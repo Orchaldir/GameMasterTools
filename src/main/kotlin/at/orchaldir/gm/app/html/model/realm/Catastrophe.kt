@@ -3,11 +3,8 @@ package at.orchaldir.gm.app.html.model.realm
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.START
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Catastrophe
@@ -16,6 +13,7 @@ import at.orchaldir.gm.core.selector.character.getCharactersKilledInCatastrophe
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.realm.getRealmsDestroyedByCatastrophe
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -36,6 +34,7 @@ fun HtmlBlockTag.showCatastrophe(
     showCauseOfCatastrophe(call, state, catastrophe.cause)
     fieldList(call, state, "Killed Characters", state.getCharactersKilledInCatastrophe(catastrophe.id))
     fieldList(call, state, "Destroyed Realms", state.getRealmsDestroyedByCatastrophe(catastrophe.id))
+    fieldList(call, state, "Created Regions", state.getRegionsCreatedBy(catastrophe.id))
     fieldList(call, state, state.getHolidays(catastrophe.id))
     showDataSources(call, state, catastrophe.sources)
 }
@@ -56,6 +55,8 @@ fun FORM.editCatastrophe(
 // parse
 
 fun parseCatastropheId(parameters: Parameters, param: String) = CatastropheId(parseInt(parameters, param))
+fun parseOptionalCatastropheId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { CatastropheId(it) }
 
 fun parseCatastrophe(parameters: Parameters, state: State, id: CatastropheId) = Catastrophe(
     id,

@@ -3,8 +3,9 @@ package at.orchaldir.gm.core.reducer.world.town
 import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.model.world.terrain.RegionId
+import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -51,14 +52,14 @@ private fun createTerrain(
     terrainId: Int,
 ) = when (terrainType) {
     TerrainType.Hill -> {
-        val mountainId = MountainId(terrainId)
-        state.getMountainStorage().require(mountainId)
+        val mountainId = RegionId(terrainId)
+        state.getRegionStorage().require(mountainId)
         HillTerrain(mountainId)
     }
 
     TerrainType.Mountain -> {
-        val mountainId = MountainId(terrainId)
-        state.getMountainStorage().require(mountainId)
+        val mountainId = RegionId(terrainId)
+        state.getRegionStorage().require(mountainId)
         MountainTerrain(mountainId)
     }
 

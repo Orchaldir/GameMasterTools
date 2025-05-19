@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.terrain.MountainId
+import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
@@ -30,7 +30,7 @@ fun State.getTownMaps(town: TownId) = getTownMapStorage()
     .getAll()
     .filter { it.town == town }
 
-fun State.getTowns(mountain: MountainId) = getTownMapStorage()
+fun State.getTowns(mountain: RegionId) = getTownMapStorage()
     .getAll()
     .filter { it.map.contains { it.terrain.contains(mountain) } }
 

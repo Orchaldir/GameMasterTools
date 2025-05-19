@@ -4,13 +4,14 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.world.parseTerrainType
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.routes.world.MountainRoutes
+import at.orchaldir.gm.app.routes.world.RegionRoutes
 import at.orchaldir.gm.app.routes.world.RiverRoutes
 import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.core.model.world.terrain.TerrainType
+import at.orchaldir.gm.core.model.world.terrain.RegionDataType
+import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Id
@@ -139,10 +140,10 @@ private fun FORM.editTerrain(
     terrainId: Int,
     townMap: TownMap,
 ) {
-    val createMountainLink = call.application.href(MountainRoutes.New())
+    val createMountainLink = call.application.href(RegionRoutes.New())
     val createRiverLink = call.application.href(RiverRoutes.New())
     val rivers = state.getRiverStorage().getAll()
-    val mountains = state.getMountainStorage().getAll()
+    val mountains = state.getRegions(RegionDataType.Mountain)
 
     selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, terrainType) { type ->
         when (type) {

@@ -6,10 +6,9 @@ import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingLot
-import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.model.world.town.BuildingTile
-import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.terrain.River
+import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -39,12 +38,12 @@ class TerrainTest {
 
         @Test
         fun `Set to Hill`() {
-            testSuccess(Mountain(MOUNTAIN_ID_0), TerrainType.Hill, HillTerrain(MOUNTAIN_ID_0))
+            testSuccess(Region(REGION_ID_0), TerrainType.Hill, HillTerrain(REGION_ID_0))
         }
 
         @Test
         fun `Set to mountain`() {
-            testSuccess(Mountain(MOUNTAIN_ID_0), TerrainType.Mountain, MountainTerrain(MOUNTAIN_ID_0))
+            testSuccess(Region(REGION_ID_0), TerrainType.Mountain, MountainTerrain(REGION_ID_0))
         }
 
         @Test
@@ -54,7 +53,7 @@ class TerrainTest {
 
         @Test
         fun `Set tile outside the map to hill`() {
-            testOutside(Mountain(MOUNTAIN_ID_0), TerrainType.Hill)
+            testOutside(Region(REGION_ID_0), TerrainType.Hill)
         }
 
         @Test
@@ -64,7 +63,7 @@ class TerrainTest {
 
         @Test
         fun `Set tile outside the map to mountain`() {
-            testOutside(Mountain(MOUNTAIN_ID_0), TerrainType.Mountain)
+            testOutside(Region(REGION_ID_0), TerrainType.Mountain)
         }
 
         @Test
@@ -74,12 +73,12 @@ class TerrainTest {
 
         @Test
         fun `Set unknown hill`() {
-            testUnknown(Mountain(MOUNTAIN_ID_0), TerrainType.Hill)
+            testUnknown(Region(REGION_ID_0), TerrainType.Hill)
         }
 
         @Test
         fun `Set unknown mountain`() {
-            testUnknown(Mountain(MOUNTAIN_ID_0), TerrainType.Mountain)
+            testUnknown(Region(REGION_ID_0), TerrainType.Mountain)
         }
 
         @Test
@@ -292,7 +291,7 @@ class TerrainTest {
             val oldMap = TileMap2d(oldSize, oldTiles)
             val newMap = TileMap2d(newSize, newTiles)
             val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
-            val state = State(listOf(Storage(River(RIVER_ID_0)), Storage(Mountain(MOUNTAIN_ID_1)), Storage(oldTown)))
+            val state = State(listOf(Storage(River(RIVER_ID_0)), Storage(Region(REGION_ID_1)), Storage(oldTown)))
 
             assertEquals(newMap, REDUCER.invoke(state, action).first.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
         }

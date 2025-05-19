@@ -3,14 +3,7 @@ package at.orchaldir.gm.visualization.town
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.terrain.HillTerrain
-import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
-import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
-import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
-import at.orchaldir.gm.core.model.world.town.AbstractBuildingTile
-import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.HALF
@@ -194,8 +187,8 @@ fun showSelectedBuilding(selected: Building): (Building) -> Color = { building -
 
 fun showTerrainName(state: State): (Int, TownTile) -> String? = { _, tile ->
     when (tile.terrain) {
-        is HillTerrain -> state.getMountainStorage().getOrThrow(tile.terrain.mountain).name.text
-        is MountainTerrain -> state.getMountainStorage().getOrThrow(tile.terrain.mountain).name.text
+        is HillTerrain -> state.getRegionStorage().getOrThrow(tile.terrain.mountain).name.text
+        is MountainTerrain -> state.getRegionStorage().getOrThrow(tile.terrain.mountain).name.text
         PlainTerrain -> null
         is RiverTerrain -> state.getRiverStorage().getOrThrow(tile.terrain.river).name.text
     }

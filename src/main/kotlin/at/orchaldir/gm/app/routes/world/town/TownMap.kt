@@ -169,7 +169,7 @@ private fun HTML.showTownMapDetails(
 
             h2 { +"Terrain" }
 
-            fieldList(call, state, state.getMountains(townMap.id).sortedBy { it.name.text })
+            fieldList(call, state, state.getRegions(townMap.id).sortedBy { it.name.text })
             fieldList(call, state, state.getRivers(townMap.id).sortedBy { it.name.text })
             fieldList(call, state, state.getStreets(townMap.id).sortedBy { it.name(state) })
 

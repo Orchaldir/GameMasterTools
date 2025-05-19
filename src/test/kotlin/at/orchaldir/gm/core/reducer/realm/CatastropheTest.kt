@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.holiday.HolidayOfCatastrophe
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.DestroyedByCatastrophe
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.terrain.Wasteland
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -69,6 +71,16 @@ class CatastropheTest {
         fun `Cannot delete a catastrophe that is remembered by a holiday`() {
             val purpose = HolidayOfCatastrophe(CATASTROPHE_ID_0)
             val organization = Holiday(HOLIDAY_ID_0, purpose = purpose)
+            val newState = STATE.updateStorage(Storage(organization))
+
+            assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a catastrophe that created a region`() {
+            val organization = Region(REGION_ID_0, data = Wasteland(CATASTROPHE_ID_0))
             val newState = STATE.updateStorage(Storage(organization))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {

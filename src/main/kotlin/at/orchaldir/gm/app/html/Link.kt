@@ -68,7 +68,7 @@ import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.terrain.MountainId
+import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.time.date.display
@@ -362,7 +362,7 @@ fun <ID : Id<ID>> href(
     is MagicTraditionId -> call.application.href(MagicTraditionRoutes.Details(id))
     is MaterialId -> call.application.href(MaterialRoutes.Details(id))
     is MoonId -> call.application.href(MoonRoutes.Details(id))
-    is MountainId -> call.application.href(MountainRoutes.Details(id))
+    is RegionId -> call.application.href(RegionRoutes.Details(id))
     is NameListId -> call.application.href(NameListRoutes.Details(id))
     is OrganizationId -> call.application.href(OrganizationRoutes.Details(id))
     is PantheonId -> call.application.href(PantheonRoutes.Details(id))

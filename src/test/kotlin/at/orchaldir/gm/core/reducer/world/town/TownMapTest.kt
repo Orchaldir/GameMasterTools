@@ -7,13 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
-import at.orchaldir.gm.core.model.world.terrain.HillTerrain
-import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
-import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
-import at.orchaldir.gm.core.model.world.town.BuildingTile
-import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d
@@ -28,6 +23,7 @@ class TownMapTest {
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
+            Storage(Region(REGION_ID_0)),
             Storage(Street(STREET_ID_0)),
             Storage(StreetTemplate(STREET_TYPE_ID_0)),
             Storage(Town(TOWN_ID_0)),
@@ -73,14 +69,26 @@ class TownMapTest {
 
             @Test
             fun `Hill must exist`() {
-                val terrain = HillTerrain(UNKNOWN_MOUNTAIN_ID)
-                testValid("Mountain", TownTile(terrain))
+                val terrain = HillTerrain(UNKNOWN_REGION_ID)
+                testValid("Region", TownTile(terrain))
+            }
+
+            @Test
+            fun `Hill's region must be a mountain'`() {
+                val terrain = HillTerrain(REGION_ID_0)
+                testValid(TownTile(terrain), "Region 0 must be a mountain!")
             }
 
             @Test
             fun `Mountain must exist`() {
-                val terrain = MountainTerrain(UNKNOWN_MOUNTAIN_ID)
-                testValid("Mountain", TownTile(terrain))
+                val terrain = MountainTerrain(UNKNOWN_REGION_ID)
+                testValid("Region", TownTile(terrain))
+            }
+
+            @Test
+            fun `Mountain's region must be a mountain'`() {
+                val terrain = MountainTerrain(REGION_ID_0)
+                testValid(TownTile(terrain), "Region 0 must be a mountain!")
             }
 
             @Test
@@ -100,11 +108,14 @@ class TownMapTest {
                 testValid("Street", TownTile(construction = construction))
             }
 
-            private fun testValid(noun: String, tile: TownTile) {
+            private fun testValid(noun: String, tile: TownTile) =
+                testValid(tile, "Requires unknown $noun 99!")
+
+            private fun testValid(tile: TownTile, message: String) {
                 val map = TileMap2d(tile)
                 val action = UpdateTownMap(TownMap(TOWN_MAP_ID_0, map = map))
 
-                assertIllegalArgument("Requires unknown $noun 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument(message) { REDUCER.invoke(STATE, action) }
             }
         }
 

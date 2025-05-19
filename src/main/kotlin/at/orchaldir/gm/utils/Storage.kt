@@ -83,6 +83,12 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
         }
     }
 
+    fun requireOptional(id: ID?, message: () -> String) {
+        if (id != null) {
+            require(id, message)
+        }
+    }
+
     fun require(ids: Collection<ID>) = ids.forEach { require(it) }
 
     fun require(id: ID, message: () -> String) {

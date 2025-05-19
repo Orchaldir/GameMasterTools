@@ -1,5 +1,7 @@
-package at.orchaldir.gm.core.model.world.terrain
+package at.orchaldir.gm.core.model.world.town
 
+import at.orchaldir.gm.core.model.world.terrain.RegionId
+import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -35,11 +37,11 @@ sealed class Terrain {
 
 @Serializable
 @SerialName("Hill")
-data class HillTerrain(val mountain: MountainId) : Terrain()
+data class HillTerrain(val mountain: RegionId) : Terrain()
 
 @Serializable
 @SerialName("Mountain")
-data class MountainTerrain(val mountain: MountainId) : Terrain()
+data class MountainTerrain(val mountain: RegionId) : Terrain()
 
 @Serializable
 @SerialName("Plain")

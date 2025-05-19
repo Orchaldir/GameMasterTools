@@ -39,6 +39,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countResident
@@ -543,6 +544,20 @@ fun State.sortRealms(
             SortRealm.Start -> getStartDateComparator()
             SortRealm.End -> getEndDateComparator()
             SortRealm.Age -> compareByDescending { it.getAgeInYears(this) }
+        })
+
+// region
+
+fun State.sortRegions(sort: SortRegion = SortRegion.Name) =
+    sortRegions(getRegionStorage().getAll(), sort)
+
+fun State.sortRegions(
+    planes: Collection<Region>,
+    sort: SortRegion = SortRegion.Name,
+) = planes
+    .sortedWith(
+        when (sort) {
+            SortRegion.Name -> compareBy { it.name.text }
         })
 
 // spell
