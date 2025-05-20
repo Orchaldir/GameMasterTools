@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.model.realm.Battle
-import at.orchaldir.gm.core.model.realm.DestroyedByWar
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -55,7 +54,8 @@ class WarTest {
 
         @Test
         fun `Cannot delete a war that destroyed a realm`() {
-            val realm = Realm(REALM_ID_0, status = DestroyedByWar(WAR_ID_0, DAY0))
+            val dead = Dead(DAY0, DeathInWar(WAR_ID_0))
+            val realm = Realm(REALM_ID_0, status = dead)
             val newState = STATE.updateStorage(Storage(realm))
 
             assertIllegalArgument("Cannot delete War 0, because it is used!") {

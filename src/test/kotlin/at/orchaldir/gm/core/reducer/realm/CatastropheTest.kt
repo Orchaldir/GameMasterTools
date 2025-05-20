@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.util.DeathByCatastrophe
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayOfCatastrophe
 import at.orchaldir.gm.core.model.realm.Catastrophe
-import at.orchaldir.gm.core.model.realm.DestroyedByCatastrophe
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.Wasteland
@@ -58,7 +57,7 @@ class CatastropheTest {
 
         @Test
         fun `Cannot delete a catastrophe that destroyed a realm`() {
-            val status = DestroyedByCatastrophe(CATASTROPHE_ID_0, DAY0)
+            val status = Dead(DAY0, DeathByCatastrophe(CATASTROPHE_ID_0))
             val realm = Realm(REALM_ID_0, status = status)
             val newState = STATE.updateStorage(Storage(realm))
 

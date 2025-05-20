@@ -206,20 +206,20 @@ class RealmTest {
 
         @Test
         fun `The catastrophe that destroyed the realm must exist`() {
-            val status = DestroyedByCatastrophe(UNKNOWN_CATASTROPHE_ID, DAY0)
+            val status = Dead(DAY0, DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
             val realm = Realm(REALM_ID_0, status = status)
             val action = UpdateRealm(realm)
 
-            assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot die from an unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `The war that destroyed the realm must exist`() {
-            val status = DestroyedByWar(UNKNOWN_WAR_ID, DAY0)
+            val status = Dead(DAY0, DeathInWar(UNKNOWN_WAR_ID))
             val realm = Realm(REALM_ID_0, status = status)
             val action = UpdateRealm(realm)
 
-            assertIllegalArgument("Requires unknown War 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot die from an unknown War 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
