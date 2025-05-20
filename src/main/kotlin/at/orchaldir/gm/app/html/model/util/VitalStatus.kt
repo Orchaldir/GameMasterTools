@@ -27,6 +27,8 @@ import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
+// show
+
 fun HtmlBlockTag.showVitalStatus(
     call: ApplicationCall,
     state: State,

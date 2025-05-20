@@ -31,13 +31,13 @@ data class Town(
     val status: VitalStatus = Alive,
     val owner: History<RealmId?> = History(null),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TownId>, Creation, HasDataSources, HasStartAndEndDate {
+) : ElementWithSimpleName<TownId>, Creation, HasDataSources, HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = founder
     override fun sources() = sources
     override fun startDate() = foundingDate
-    override fun endDate() = status.getDeathDate()
+    override fun vitalStatus() = status
 
 }
