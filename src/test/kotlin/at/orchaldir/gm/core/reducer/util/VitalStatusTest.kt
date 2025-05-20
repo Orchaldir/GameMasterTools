@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
+import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
@@ -9,6 +10,8 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.Catastrophe
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
@@ -22,26 +25,66 @@ import kotlin.test.assertFailsWith
 
 class VitalStatusTest {
 
+    private val state = State(
+        listOf(
+            Storage(Battle(BATTLE_ID_0)),
+            Storage(Catastrophe(CATASTROPHE_ID_0)),
+            Storage(CALENDAR0),
+            Storage(
+                listOf(
+                    Character(CHARACTER_ID_0),
+                    Character(CHARACTER_ID_1),
+                )
+            ),
+            Storage(Culture(CULTURE_ID_0)),
+            Storage(Race(RACE_ID_0)),
+            Storage(War(WAR_ID_0)),
+        ),
+        data = Data(time = Time(currentDate = Day(10))),
+    )
+
+    @Nested
+    inner class DeleteTest {
+        val action = DeleteBattle(BATTLE_ID_0)
+
+        @Test
+        fun `Killed a character`() {
+            val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
+            val character = Character(CHARACTER_ID_0, vitalStatus = dead)
+            val newState = state.updateStorage(Storage(character))
+
+
+            assertIllegalArgument("Cannot delete Battle 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Destroyed a realm`() {
+            val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
+            val realm = Realm(REALM_ID_0, status = dead)
+            val newState = state.updateStorage(Storage(realm))
+
+            assertIllegalArgument("Cannot delete Battle 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Destroyed a town`() {
+            val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
+            val town = Town(TOWN_ID_0, status = dead)
+            val newState = state.updateStorage(Storage(town))
+
+            assertIllegalArgument("Cannot delete Battle 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+    }
+
     @Nested
     inner class UpdateTest {
-
-        private val state = State(
-            listOf(
-                Storage(Battle(BATTLE_ID_0)),
-                Storage(Catastrophe(CATASTROPHE_ID_0)),
-                Storage(CALENDAR0),
-                Storage(
-                    listOf(
-                        Character(CHARACTER_ID_0),
-                        Character(CHARACTER_ID_1),
-                    )
-                ),
-                Storage(Culture(CULTURE_ID_0)),
-                Storage(Race(RACE_ID_0)),
-                Storage(War(WAR_ID_0)),
-            ),
-            data = Data(time = Time(currentDate = Day(10))),
-        )
 
         @Nested
         inner class DateTest {
