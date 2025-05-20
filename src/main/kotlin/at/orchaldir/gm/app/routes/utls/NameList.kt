@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.name.NameListId
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.util.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*

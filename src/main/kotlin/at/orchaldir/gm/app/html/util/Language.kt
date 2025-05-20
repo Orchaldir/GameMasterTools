@@ -18,8 +18,8 @@ import at.orchaldir.gm.core.model.culture.language.OriginalLanguage
 import at.orchaldir.gm.core.model.culture.language.PlanarLanguage
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.getCultures
-import at.orchaldir.gm.core.selector.getChildren
-import at.orchaldir.gm.core.selector.getPossibleParents
+import at.orchaldir.gm.core.selector.culture.getChildren
+import at.orchaldir.gm.core.selector.culture.getPossibleParents
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.magic.getSpells

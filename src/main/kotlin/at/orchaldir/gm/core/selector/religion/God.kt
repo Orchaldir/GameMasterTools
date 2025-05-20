@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.selector.getHolidays
+import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane

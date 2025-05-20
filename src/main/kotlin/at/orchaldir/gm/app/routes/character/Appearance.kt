@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.selector.culture.getFashion
-import at.orchaldir.gm.core.selector.getRaceAppearance
+import at.orchaldir.gm.core.selector.race.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter

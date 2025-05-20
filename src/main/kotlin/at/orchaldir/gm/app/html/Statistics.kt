@@ -16,10 +16,10 @@ import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.*
-import at.orchaldir.gm.core.selector.countEachMaterialCategory
-import at.orchaldir.gm.core.selector.countEachPersonalityForCharacters
-import at.orchaldir.gm.core.selector.countEachPersonalityForGods
-import at.orchaldir.gm.core.selector.countEachRace
+import at.orchaldir.gm.core.selector.economy.countEachMaterialCategory
+import at.orchaldir.gm.core.selector.character.countEachPersonalityForCharacters
+import at.orchaldir.gm.core.selector.character.countEachPersonalityForGods
+import at.orchaldir.gm.core.selector.race.countEachRace
 import at.orchaldir.gm.core.selector.economy.countEachJob
 import at.orchaldir.gm.core.selector.item.countEachLanguage
 import at.orchaldir.gm.core.selector.item.countEachTextFormat

@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.world.moon.MoonPhase.FullMoon
 import at.orchaldir.gm.core.model.world.moon.MoonPhase.NewMoon
 import at.orchaldir.gm.core.model.world.plane.PlanarAlignment.Coterminous
 import at.orchaldir.gm.core.selector.getEvents
-import at.orchaldir.gm.core.selector.getForHolidays
+import at.orchaldir.gm.core.selector.time.getForHolidays
 import at.orchaldir.gm.core.selector.time.date.*
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.core.selector.world.getPlanarAlignments

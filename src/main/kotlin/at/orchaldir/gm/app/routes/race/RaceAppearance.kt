@@ -15,8 +15,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getRaces
+import at.orchaldir.gm.core.selector.race.canDelete
+import at.orchaldir.gm.core.selector.race.getRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.ZERO

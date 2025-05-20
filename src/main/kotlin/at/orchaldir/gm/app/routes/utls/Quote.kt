@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.SortQuote
-import at.orchaldir.gm.core.selector.quote.canDeleteQuote
+import at.orchaldir.gm.core.selector.util.canDeleteQuote
 import at.orchaldir.gm.core.selector.util.sortQuotes
 import io.ktor.http.*
 import io.ktor.resources.*

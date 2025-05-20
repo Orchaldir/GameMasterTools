@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.culture.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.SomeOf
+import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue

@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateQuote
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.quote.canDeleteQuote
+import at.orchaldir.gm.core.selector.util.canDeleteQuote
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

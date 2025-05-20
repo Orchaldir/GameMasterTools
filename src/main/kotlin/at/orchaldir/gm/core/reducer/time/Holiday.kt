@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.model.time.holiday.HolidayPurpose
 import at.orchaldir.gm.core.model.time.holiday.RelativeDate
 import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.time.canDelete
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps

@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.util.font.FONT_TYPE
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.SortFont
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.util.canDelete
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.util.sortFonts

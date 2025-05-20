@@ -10,8 +10,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
-import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
-import at.orchaldir.gm.core.selector.getPersonalityTraits
+import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
+import at.orchaldir.gm.core.selector.character.getPersonalityTraits
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*

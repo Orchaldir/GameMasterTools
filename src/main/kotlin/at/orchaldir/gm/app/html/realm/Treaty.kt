@@ -20,7 +20,7 @@ import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.selector.character.getLiving
-import at.orchaldir.gm.core.selector.getHolidays
+import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import io.ktor.http.*
 import io.ktor.server.application.*

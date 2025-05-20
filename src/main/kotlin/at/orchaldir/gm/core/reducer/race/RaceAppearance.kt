@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.race.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

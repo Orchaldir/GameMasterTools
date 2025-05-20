@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector
+package at.orchaldir.gm.core.selector.race
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character

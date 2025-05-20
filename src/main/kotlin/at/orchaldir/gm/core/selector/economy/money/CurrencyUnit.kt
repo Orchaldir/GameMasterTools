@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.selector.calculateWeight
+import at.orchaldir.gm.core.selector.economy.calculateWeight
 import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
 
 fun State.canDeleteCurrencyUnit(id: CurrencyUnitId) = true

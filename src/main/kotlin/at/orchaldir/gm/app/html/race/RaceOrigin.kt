@@ -15,7 +15,8 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.RaceOriginType.*
-import at.orchaldir.gm.core.selector.getPossibleParents
+import at.orchaldir.gm.core.selector.culture.getPossibleParents
+import at.orchaldir.gm.core.selector.race.getPossibleParents
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

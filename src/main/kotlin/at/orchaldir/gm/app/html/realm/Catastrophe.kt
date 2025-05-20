@@ -16,7 +16,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
-import at.orchaldir.gm.core.selector.getHolidays
+import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 import io.ktor.http.*

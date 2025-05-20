@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.character.PERSONALITY_TRAIT_TYPE
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
-import at.orchaldir.gm.core.selector.getPersonalityTraits
+import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
+import at.orchaldir.gm.core.selector.character.getPersonalityTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortGods

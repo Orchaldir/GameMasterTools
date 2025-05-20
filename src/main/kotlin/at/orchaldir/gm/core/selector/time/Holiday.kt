@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector
+package at.orchaldir.gm.core.selector.time
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.HolidayId

@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.selector.getKnownLanguages
+import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.realm.countBattlesLedBy
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar

@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.getHolidays
+import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.time.calendar.canDelete
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.utils.doNothing

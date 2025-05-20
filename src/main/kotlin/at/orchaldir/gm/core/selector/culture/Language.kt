@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector
+package at.orchaldir.gm.core.selector.culture
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
 

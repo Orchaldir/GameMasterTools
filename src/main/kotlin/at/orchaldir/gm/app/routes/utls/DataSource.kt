@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.SortDataSource
-import at.orchaldir.gm.core.selector.source.canDeleteDataSource
+import at.orchaldir.gm.core.selector.util.canDeleteDataSource
 import at.orchaldir.gm.core.selector.util.sortDataSources
 import io.ktor.http.*
 import io.ktor.resources.*
