@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
 
-import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.util.name.Name
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

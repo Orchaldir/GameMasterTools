@@ -44,9 +44,9 @@ import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.name.NAME_LIST_TYPE
-import at.orchaldir.gm.core.model.name.NameList
-import at.orchaldir.gm.core.model.name.NameListId
+import at.orchaldir.gm.core.model.util.name.NAME_LIST_TYPE
+import at.orchaldir.gm.core.model.util.name.NameList
+import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId

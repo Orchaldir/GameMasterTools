@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.name.NameListId
+import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.selector.character.getCharacters
 

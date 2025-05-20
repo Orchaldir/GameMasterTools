@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.NAMES
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.name.NameList
-import at.orchaldir.gm.core.model.name.NameListId
+import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.name.NameList
+import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.selector.culture.getCultures
 import io.ktor.http.*
 import io.ktor.server.application.*

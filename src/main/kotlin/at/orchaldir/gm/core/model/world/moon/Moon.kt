@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.world.moon
 
-import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName

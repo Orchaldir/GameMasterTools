@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.material
 
-import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id

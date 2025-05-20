@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.world.plane
 
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.source.DataSourceId
 import at.orchaldir.gm.core.model.source.HasDataSources
 import at.orchaldir.gm.core.model.util.Creation

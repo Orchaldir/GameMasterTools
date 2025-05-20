@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.text.content.*
-import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

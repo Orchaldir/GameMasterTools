@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.race
 
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.source.DataSourceId

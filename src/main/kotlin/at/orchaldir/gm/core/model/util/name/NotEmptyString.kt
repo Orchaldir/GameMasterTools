@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.name
+package at.orchaldir.gm.core.model.util.name
 
 import kotlinx.serialization.Serializable
 

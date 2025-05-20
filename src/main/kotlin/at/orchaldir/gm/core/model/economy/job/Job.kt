@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.economy.job
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.SomeOf

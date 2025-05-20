@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.time.calendar
 
-import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.time.date.Day
 import kotlinx.serialization.Serializable
 

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.world.building
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element

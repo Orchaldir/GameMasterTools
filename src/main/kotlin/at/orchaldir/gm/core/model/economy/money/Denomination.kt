@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.economy.money
 
-import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import kotlinx.serialization.Serializable
 
 @Serializable

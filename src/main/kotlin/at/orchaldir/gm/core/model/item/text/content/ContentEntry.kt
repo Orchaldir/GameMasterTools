@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.content
 
-import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.quote.QuoteId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.generator
 
 import at.orchaldir.gm.core.model.item.text.content.*
-import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.RandomNumberGenerator
