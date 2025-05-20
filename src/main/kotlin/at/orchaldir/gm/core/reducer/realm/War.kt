@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.action.CreateWar
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.FinishedWar
+import at.orchaldir.gm.core.model.realm.InterruptedByCatastrophe
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarStatus
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
@@ -47,4 +49,8 @@ fun validateWar(state: State, war: War) {
 
 fun validateWarStatus(state: State, status: WarStatus) {
     state.getTreatyStorage().requireOptional(status.treaty())
+
+    if (status is FinishedWar && status.result is InterruptedByCatastrophe) {
+        state.getCatastropheStorage().require(status.result.catastrophe)
+    }
 }

@@ -48,7 +48,7 @@ sealed class WarResult {
 @SerialName("Catastrophe")
 data class InterruptedByCatastrophe(
     val catastrophe: CatastropheId,
-    val treaty: TreatyId?,
+    val treaty: TreatyId? = null,
 ) : WarResult()
 
 @Serializable
