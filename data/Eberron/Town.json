@@ -22,6 +22,17 @@
     "type": "Year",
     "year": 969
    },
+   "status": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Year",
+     "year": 986
+    },
+    "cause": {
+     "type": "Battle",
+     "battle": 2
+    }
+   },
    "owner": {
     "current": 2
    }

@@ -15,7 +15,6 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.realm.getExistingBattles
@@ -33,14 +32,24 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showVitalStatus(
     call: ApplicationCall,
     state: State,
-    vitalStatus: VitalStatus,
+    status: VitalStatus,
 ) {
-    if (vitalStatus is Dead) {
-        field(call, state, "Date of Death", vitalStatus.deathDay)
+    if (status is Dead) {
+        field(call, state, "Date of Death", status.deathDay)
 
         field("Cause of Death") {
-            displayCauseOfDeath(call, state, vitalStatus.cause)
+            displayCauseOfDeath(call, state, status.cause)
         }
+    }
+}
+
+fun HtmlBlockTag.displayVitalStatus(
+    call: ApplicationCall,
+    state: State,
+    status: VitalStatus,
+) {
+    if (status is Dead) {
+        displayCauseOfDeath(call, state, status.cause)
     }
 }
 
