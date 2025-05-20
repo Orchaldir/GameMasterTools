@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.realm.getExistingBattles
 import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
 import at.orchaldir.gm.core.selector.realm.getExistingWars
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -75,12 +76,13 @@ fun FORM.editRealmStatus(
     status: RealmStatus,
     startDate: Date?,
 ) {
-    val endDate = status.endDate()
+    val endDate = status.endDate() ?: state.getCurrentDate()
     val battles = state.getExistingBattles(endDate)
     val catastrophes = state.getExistingCatastrophes(endDate)
     val wars = state.getExistingWars(endDate)
     val type = status.getType()
     val validType = if (
+        (type == RealmStatusType.Battle && battles.isEmpty()) ||
         (type == RealmStatusType.Catastrophe && catastrophes.isEmpty()) ||
         (type == RealmStatusType.War && wars.isEmpty())
     ) {
@@ -183,4 +185,4 @@ fun parseRealmStatus(parameters: Parameters, state: State) = when (parse(paramet
 private fun parseEndDate(
     parameters: Parameters,
     state: State,
-) = parseDate(parameters, state, combine(END, DATE))
+) = parseDate(parameters, state, combine(END, DATE), state.getCurrentDate())
