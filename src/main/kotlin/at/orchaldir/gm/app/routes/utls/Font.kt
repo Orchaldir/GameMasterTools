@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalEncodingApi::class)
 
-package at.orchaldir.gm.app.routes
+package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*

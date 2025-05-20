@@ -1,12 +1,14 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
+import at.orchaldir.gm.app.routes.character.PersonalityTraitRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
+import at.orchaldir.gm.app.routes.culture.LanguageRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
+import at.orchaldir.gm.app.routes.economy.MaterialRoutes
 import at.orchaldir.gm.app.routes.economy.StandardOfLivingRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
@@ -21,7 +23,12 @@ import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
+import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
+import at.orchaldir.gm.app.routes.utls.DataSourceRoutes
+import at.orchaldir.gm.app.routes.utls.FontRoutes
+import at.orchaldir.gm.app.routes.utls.NameListRoutes
+import at.orchaldir.gm.app.routes.utls.QuoteRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
 import at.orchaldir.gm.core.model.State
