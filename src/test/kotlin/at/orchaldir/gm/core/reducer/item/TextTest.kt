@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.font.SolidFont
+import at.orchaldir.gm.core.model.util.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
-import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.reducer.REDUCER

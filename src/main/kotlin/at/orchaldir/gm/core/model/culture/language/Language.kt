@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.language
+package at.orchaldir.gm.core.model.culture.language
 
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString

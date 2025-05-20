@@ -8,10 +8,10 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.language.ComprehensionLevel
-import at.orchaldir.gm.core.model.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.culture.language.EvolvedLanguage
+import at.orchaldir.gm.core.model.culture.language.InventedLanguage
+import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.utils.Storage

@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.selector.source
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.source.DataSourceId
-import at.orchaldir.gm.core.model.source.HasDataSources
+import at.orchaldir.gm.core.model.util.source.DataSourceId
+import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

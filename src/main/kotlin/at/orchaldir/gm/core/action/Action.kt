@@ -17,8 +17,8 @@ import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
-import at.orchaldir.gm.core.model.font.Font
-import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.util.font.Font
+import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.Uniform
@@ -29,9 +29,9 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.item.periodical.*
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
-import at.orchaldir.gm.core.model.language.ComprehensionLevel
-import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.culture.language.Language
+import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -48,8 +48,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
-import at.orchaldir.gm.core.model.source.DataSource
-import at.orchaldir.gm.core.model.source.DataSourceId
+import at.orchaldir.gm.core.model.util.source.DataSource
+import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Date

@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.action.CreateDataSource
 import at.orchaldir.gm.core.action.DeleteDataSource
 import at.orchaldir.gm.core.action.UpdateDataSource
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.source.DataSource
+import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.source.canDeleteDataSource
 import at.orchaldir.gm.utils.redux.Reducer

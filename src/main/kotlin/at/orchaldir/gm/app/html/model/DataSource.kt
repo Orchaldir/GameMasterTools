@@ -6,9 +6,9 @@ import at.orchaldir.gm.app.SOURCE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.source.DataSource
-import at.orchaldir.gm.core.model.source.DataSourceId
-import at.orchaldir.gm.core.model.source.HasDataSources
+import at.orchaldir.gm.core.model.util.source.DataSource
+import at.orchaldir.gm.core.model.util.source.DataSourceId
+import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.selector.util.sortDataSources
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

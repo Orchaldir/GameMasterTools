@@ -4,9 +4,9 @@ import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.culture.language.EvolvedLanguage
+import at.orchaldir.gm.core.model.culture.language.InventedLanguage
+import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator

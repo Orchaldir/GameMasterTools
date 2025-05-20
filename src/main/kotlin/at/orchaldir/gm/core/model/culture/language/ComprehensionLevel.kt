@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.language
+package at.orchaldir.gm.core.model.culture.language
 
 enum class ComprehensionLevel {
     Broken,

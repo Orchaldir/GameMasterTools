@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.text.content
 
-import at.orchaldir.gm.core.model.font.FontOption
+import at.orchaldir.gm.core.model.util.font.FontOption
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment

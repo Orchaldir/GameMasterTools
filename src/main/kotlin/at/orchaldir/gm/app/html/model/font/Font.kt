@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.model.optionalField
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.font.Font
-import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.util.font.Font
+import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.getTexts
 import io.ktor.http.*

@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
-import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.OwnedByCharacter

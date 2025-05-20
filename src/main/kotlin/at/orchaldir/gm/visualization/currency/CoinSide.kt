@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.currency
 
 import at.orchaldir.gm.core.model.economy.money.*
-import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Point2d

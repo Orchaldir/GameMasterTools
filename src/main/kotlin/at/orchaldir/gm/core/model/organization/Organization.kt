@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.model.organization
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.source.DataSourceId
-import at.orchaldir.gm.core.model.source.HasDataSources
+import at.orchaldir.gm.core.model.util.source.DataSourceId
+import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id

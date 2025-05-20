@@ -12,9 +12,9 @@ import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.font.FONT_TYPE
-import at.orchaldir.gm.core.model.font.Font
-import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.util.font.FONT_TYPE
+import at.orchaldir.gm.core.model.util.font.Font
+import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.SortFont
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits

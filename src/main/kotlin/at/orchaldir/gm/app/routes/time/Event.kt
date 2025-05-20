@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.event.*
-import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.SpellId

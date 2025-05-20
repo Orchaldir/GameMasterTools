@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.ShowValue
-import at.orchaldir.gm.core.model.font.Font
-import at.orchaldir.gm.core.model.font.SolidFont
+import at.orchaldir.gm.core.model.util.font.Font
+import at.orchaldir.gm.core.model.util.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover

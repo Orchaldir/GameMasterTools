@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.font
+package at.orchaldir.gm.core.model.util.font
 
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.time.date.Date

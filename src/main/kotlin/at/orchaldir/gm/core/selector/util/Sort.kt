@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.economy.job.Salary
 import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.font.Font
+import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.Equipment
@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
@@ -33,7 +33,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
-import at.orchaldir.gm.core.model.source.DataSource
+import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle

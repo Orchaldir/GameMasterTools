@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.realm
 
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.source.DataSourceId
-import at.orchaldir.gm.core.model.source.HasDataSources
+import at.orchaldir.gm.core.model.util.source.DataSourceId
+import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ComplexCreation
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName

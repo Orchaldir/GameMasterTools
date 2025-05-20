@@ -8,8 +8,14 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.language.*
-import at.orchaldir.gm.core.model.language.LanguageOriginType.*
+import at.orchaldir.gm.core.model.culture.language.CombinedLanguage
+import at.orchaldir.gm.core.model.culture.language.EvolvedLanguage
+import at.orchaldir.gm.core.model.culture.language.InventedLanguage
+import at.orchaldir.gm.core.model.culture.language.Language
+import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.culture.language.LanguageOriginType.*
+import at.orchaldir.gm.core.model.culture.language.OriginalLanguage
+import at.orchaldir.gm.core.model.culture.language.PlanarLanguage
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.getChildren

@@ -10,8 +10,8 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TranslatedText
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.culture.language.InventedLanguage
+import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model
 
-import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId

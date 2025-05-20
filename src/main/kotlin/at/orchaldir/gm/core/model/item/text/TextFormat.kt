@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.text
 
-import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.book.BookBinding
