@@ -227,7 +227,7 @@ fun FORM.editCharacter(
     selectElement(state, "Race", RACE, state.sortRaces(races), character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
-    selectVitalStatus(state, character)
+    selectVitalStatus(state, character.id, character.vitalStatus)
     showAge(state, character, race)
     selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
     selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)

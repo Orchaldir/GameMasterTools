@@ -7,6 +7,12 @@ import at.orchaldir.gm.core.model.realm.WarId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val VALID_CAUSES_FOR_CHARACTERS = CauseOfDeathType.entries
+val VALID_CAUSES_FOR_TOWN = CauseOfDeathType.entries -
+        CauseOfDeathType.Accident -
+        CauseOfDeathType.Murder -
+        CauseOfDeathType.OldAge
+
 enum class CauseOfDeathType {
     Accident,
     Battle,

@@ -15,25 +15,15 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.util.Accident
-import at.orchaldir.gm.core.model.util.Alive
-import at.orchaldir.gm.core.model.util.CauseOfDeathType
-import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.DeathByCatastrophe
-import at.orchaldir.gm.core.model.util.DeathByIllness
-import at.orchaldir.gm.core.model.util.DeathInWar
-import at.orchaldir.gm.core.model.util.DeathInBattle
-import at.orchaldir.gm.core.model.util.Murder
-import at.orchaldir.gm.core.model.util.OldAge
-import at.orchaldir.gm.core.model.util.VitalStatus
-import at.orchaldir.gm.core.model.util.VitalStatusType
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.realm.getExistingBattles
 import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
 import at.orchaldir.gm.core.selector.realm.getExistingWars
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -48,68 +38,66 @@ fun HtmlBlockTag.showVitalStatus(
     if (vitalStatus is Dead) {
         field(call, state, "Date of Death", vitalStatus.deathDay)
 
-        when (vitalStatus.cause) {
-            is Accident -> showCauseOfDeath("Accident")
-            is DeathByCatastrophe -> {
-                field("Cause of Death") {
-                    +"Killed by "
-                    link(call, state, vitalStatus.cause.catastrophe)
-                }
-            }
-
-            is DeathByIllness -> showCauseOfDeath("Illness")
-            is DeathInWar -> {
-                field("Cause of Death") {
-                    +"Died during "
-                    link(call, state, vitalStatus.cause.war)
-                }
-            }
-
-            is DeathInBattle -> {
-                field("Cause of Death") {
-                    +"Died in the "
-                    link(call, state, vitalStatus.cause.battle)
-                }
-            }
-
-            is Murder -> {
-                field("Cause of Death") {
-                    +"Killed by "
-                    link(call, state, vitalStatus.cause.killer)
-                }
-            }
-
-            is OldAge -> showCauseOfDeath("Old Age")
+        field("Cause of Death") {
+            displayCauseOfDeath(call, state, vitalStatus.cause)
         }
     }
 }
 
-private fun HtmlBlockTag.showCauseOfDeath(cause: String) {
-    field("Cause of Death", cause)
+fun HtmlBlockTag.displayCauseOfDeath(
+    call: ApplicationCall,
+    state: State,
+    cause: CauseOfDeath,
+) {
+    when (cause) {
+        is Accident -> +"Accident"
+        is DeathByCatastrophe -> {
+            +"Killed by "
+            link(call, state, cause.catastrophe)
+        }
+
+        is DeathByIllness -> +"Illness"
+        is DeathInBattle -> {
+            +"Died during "
+            link(call, state, cause.battle)
+        }
+
+        is DeathInWar -> {
+            +"Died during "
+            link(call, state, cause.war)
+        }
+
+        is Murder -> {
+            +"Killed by "
+            link(call, state, cause.killer)
+        }
+
+        is OldAge -> +"Old Age"
+    }
 }
 
 // edit
 
-fun FORM.selectVitalStatus(
+fun <ID : Id<ID>> FORM.selectVitalStatus(
     state: State,
-    character: Character,
+    id: ID,
+    status: VitalStatus,
 ) {
-    val vitalStatus = character.vitalStatus
-    selectValue("Vital Status", VITAL, VitalStatusType.entries, vitalStatus.getType())
+    selectValue("Vital Status", VITAL, VitalStatusType.entries, status.getType())
 
-    if (vitalStatus is Dead) {
-        val catastrophes = state.getExistingCatastrophes(vitalStatus.deathDay)
-        val characters = state.getLiving(vitalStatus.deathDay)
-            .filter { it.id != character.id }
-        val wars = state.getExistingWars(vitalStatus.deathDay)
-        val battles = state.getExistingBattles(vitalStatus.deathDay)
+    if (status is Dead) {
+        selectDate(state, "Date of Death", status.deathDay, combine(DEATH, DATE))
 
-        selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
+        val catastrophes = state.getExistingCatastrophes(status.deathDay)
+        val characters = state.getLiving(status.deathDay)
+            .filter { it.id != id }
+        val wars = state.getExistingWars(status.deathDay)
+        val battles = state.getExistingBattles(status.deathDay)
         selectValue(
             "Cause of death",
             DEATH,
             CauseOfDeathType.entries,
-            vitalStatus.cause.getType(),
+            status.cause.getType(),
         ) { type ->
             when (type) {
                 CauseOfDeathType.Battle -> battles.isEmpty()
@@ -120,7 +108,7 @@ fun FORM.selectVitalStatus(
             }
         }
 
-        when (vitalStatus.cause) {
+        when (status.cause) {
             Accident -> doNothing()
             DeathByIllness -> doNothing()
             is DeathByCatastrophe -> selectElement(
@@ -128,7 +116,7 @@ fun FORM.selectVitalStatus(
                 "Catastrophe",
                 CATASTROPHE,
                 catastrophes,
-                vitalStatus.cause.catastrophe,
+                status.cause.catastrophe,
             )
 
             is DeathInWar -> selectElement(
@@ -136,7 +124,7 @@ fun FORM.selectVitalStatus(
                 "War",
                 WAR,
                 wars,
-                vitalStatus.cause.war,
+                status.cause.war,
             )
 
             is DeathInBattle -> selectElement(
@@ -144,7 +132,7 @@ fun FORM.selectVitalStatus(
                 "Battle",
                 BATTLE,
                 battles,
-                vitalStatus.cause.battle,
+                status.cause.battle,
             )
 
             is Murder -> selectElement(
@@ -152,7 +140,7 @@ fun FORM.selectVitalStatus(
                 "Killer",
                 KILLER,
                 characters,
-                vitalStatus.cause.killer,
+                status.cause.killer,
             )
 
             OldAge -> doNothing()

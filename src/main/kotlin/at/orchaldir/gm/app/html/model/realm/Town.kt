@@ -5,6 +5,9 @@ import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.util.parseVitalStatus
+import at.orchaldir.gm.app.html.model.util.selectVitalStatus
+import at.orchaldir.gm.app.html.model.util.showVitalStatus
 import at.orchaldir.gm.app.html.model.world.showBuildingsOfTownMap
 import at.orchaldir.gm.app.html.model.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
@@ -30,7 +33,8 @@ fun HtmlBlockTag.showTown(
 ) {
     optionalField("Title", town.title)
     fieldCreator(call, state, town.founder, "Founder")
-    optionalField(call, state, "Date", town.foundingDate)
+    optionalField(call, state, "Founding Date", town.foundingDate)
+    showVitalStatus(call, state, town.status)
     showHistory(call, state, town.owner, "Owner", "Independent") { _, _, owner ->
         link(call, state, owner)
     }
@@ -61,8 +65,9 @@ fun FORM.editTown(
 ) {
     selectName(town.name)
     selectOptionalNotEmptyString("Optional Title", town.title, TITLE)
-    selectOptionalDate(state, "Date", town.foundingDate, DATE)
     selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
+    selectOptionalDate(state, "Founding Date", town.foundingDate, DATE)
+    selectVitalStatus(state, town.id, town.status)
     selectHistory(state, OWNER, town.owner, town.foundingDate, "Owner") { _, param, owner, start ->
         selectOptionalElement(
             state,
@@ -90,6 +95,7 @@ fun parseTown(parameters: Parameters, state: State, id: TownId): Town {
         parseOptionalNotEmptyString(parameters, TITLE),
         date,
         parseCreator(parameters),
+        parseVitalStatus(parameters, state),
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
             parseOptionalRealmId(parameters, param)
         },
