@@ -4,29 +4,18 @@ import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Accident
-import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.DeathByCatastrophe
-import at.orchaldir.gm.core.model.util.DeathByIllness
-import at.orchaldir.gm.core.model.util.DeathByWar
-import at.orchaldir.gm.core.model.util.DeathInBattle
-import at.orchaldir.gm.core.model.util.Murder
-import at.orchaldir.gm.core.model.util.OldAge
-import at.orchaldir.gm.core.model.util.VitalStatus
+import at.orchaldir.gm.core.model.character.Born
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.SEXUAL_ORIENTATION_FOR_GENDERLESS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.getChildren
 import at.orchaldir.gm.core.selector.character.getParents
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.realm.countBattlesLedBy
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
-import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -117,46 +106,3 @@ private fun checkOrigin(
         else -> doNothing()
     }
 }
-
-fun checkVitalStatus(
-    state: State,
-    status: VitalStatus,
-    startDate: Date,
-) {
-    if (status is Dead) {
-        checkCauseOfDeath(state, status, startDate)
-    }
-}
-
-private fun checkCauseOfDeath(
-    state: State,
-    dead: Dead,
-    startDate: Date,
-) {
-    val calendar = state.getDefaultCalendar()
-
-    dead.deathDay.let {
-        require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Character died in the future!" }
-        require(calendar.isAfterOrEqual(it, startDate)) { "Character died before its origin!" }
-    }
-
-    when (val cause = dead.cause) {
-        Accident -> doNothing()
-        is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
-        DeathByIllness -> doNothing()
-        is DeathByWar -> checkCauseElement(state.getWarStorage(), cause.war)
-        is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
-        is Murder -> checkCauseElement(state.getCharacterStorage(), cause.killer)
-        OldAge -> doNothing()
-    }
-}
-
-private fun <ID : Id<ID>, ELEMENT : Element<ID>> checkCauseElement(
-    storage: Storage<ID, ELEMENT>,
-    id: ID,
-) {
-    storage
-        .require(id) { "Cannot die from an unknown ${id.type()} ${id.value()}!" }
-}
-
-
