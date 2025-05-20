@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.util.Accident
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathByCatastrophe
 import at.orchaldir.gm.core.model.util.DeathByIllness
-import at.orchaldir.gm.core.model.util.DeathByWar
+import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.util.Murder
 import at.orchaldir.gm.core.model.util.OldAge
@@ -46,7 +46,7 @@ private fun <ID : Id<ID>> checkCauseOfDeath(
         Accident -> doNothing()
         is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
         DeathByIllness -> doNothing()
-        is DeathByWar -> checkCauseElement(state.getWarStorage(), cause.war)
+        is DeathInWar -> checkCauseElement(state.getWarStorage(), cause.war)
         is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
         is Murder -> {
             require(id != cause.killer) { "The murderer must be another Character!" }

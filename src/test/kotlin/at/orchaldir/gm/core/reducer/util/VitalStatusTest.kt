@@ -113,12 +113,12 @@ class VitalStatusTest {
 
             @Test
             fun `Killed in war`() {
-                testDie(Day(5), DeathByWar(WAR_ID_0))
+                testDie(Day(5), DeathInWar(WAR_ID_0))
             }
 
             @Test
             fun `War doesn't exist`() {
-                testFailToDie(Day(5), DeathByWar(UNKNOWN_WAR_ID))
+                testFailToDie(Day(5), DeathInWar(UNKNOWN_WAR_ID))
             }
         }
 

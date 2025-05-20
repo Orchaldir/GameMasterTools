@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.DeathByWar
+import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.DestroyedByWar
 import at.orchaldir.gm.core.model.realm.Realm
@@ -44,7 +44,7 @@ class WarTest {
 
         @Test
         fun `Cannot delete a war that killed a character`() {
-            val dead = Dead(DAY0, DeathByWar(WAR_ID_0))
+            val dead = Dead(DAY0, DeathInWar(WAR_ID_0))
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = STATE.updateStorage(Storage(character))
 

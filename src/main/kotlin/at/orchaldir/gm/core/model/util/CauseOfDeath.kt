@@ -23,8 +23,8 @@ sealed class CauseOfDeath {
         is Accident -> CauseOfDeathType.Accident
         is DeathByCatastrophe -> CauseOfDeathType.Catastrophe
         is DeathByIllness -> CauseOfDeathType.Illness
-        is DeathByWar -> CauseOfDeathType.War
         is DeathInBattle -> CauseOfDeathType.Battle
+        is DeathInWar -> CauseOfDeathType.War
         is Murder -> CauseOfDeathType.Murder
         is OldAge -> CauseOfDeathType.OldAge
     }
@@ -45,15 +45,15 @@ data class DeathByCatastrophe(
 data object DeathByIllness : CauseOfDeath()
 
 @Serializable
-@SerialName("War")
-data class DeathByWar(
-    val war: WarId,
-) : CauseOfDeath()
-
-@Serializable
 @SerialName("Battle")
 data class DeathInBattle(
     val battle: BattleId,
+) : CauseOfDeath()
+
+@Serializable
+@SerialName("War")
+data class DeathInWar(
+    val war: WarId,
 ) : CauseOfDeath()
 
 @Serializable

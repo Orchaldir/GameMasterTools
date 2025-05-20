@@ -22,7 +22,7 @@ import at.orchaldir.gm.core.model.util.CauseOfDeathType
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathByCatastrophe
 import at.orchaldir.gm.core.model.util.DeathByIllness
-import at.orchaldir.gm.core.model.util.DeathByWar
+import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.util.Murder
 import at.orchaldir.gm.core.model.util.OldAge
@@ -58,7 +58,7 @@ fun HtmlBlockTag.showVitalStatus(
             }
 
             is DeathByIllness -> showCauseOfDeath("Illness")
-            is DeathByWar -> {
+            is DeathInWar -> {
                 field("Cause of Death") {
                     +"Died during "
                     link(call, state, vitalStatus.cause.war)
@@ -131,7 +131,7 @@ fun FORM.selectVitalStatus(
                 vitalStatus.cause.catastrophe,
             )
 
-            is DeathByWar -> selectElement(
+            is DeathInWar -> selectElement(
                 state,
                 "War",
                 WAR,
@@ -186,7 +186,7 @@ fun parseVitalStatus(
                 )
 
                 CauseOfDeathType.OldAge -> OldAge
-                CauseOfDeathType.War -> DeathByWar(
+                CauseOfDeathType.War -> DeathInWar(
                     parseWarId(parameters, WAR),
                 )
             },
