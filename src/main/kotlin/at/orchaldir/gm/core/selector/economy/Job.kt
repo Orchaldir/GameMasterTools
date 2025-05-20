@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.economy
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.economy.job.EmployerType
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.item.UniformId
@@ -30,6 +31,12 @@ fun State.countJobs(standard: StandardOfLivingId) = getJobStorage()
 fun State.countJobs(uniform: UniformId) = getJobStorage()
     .getAll()
     .count { it.uniforms.contains(uniform) }
+
+// get
+
+fun State.getJobs(employerType: EmployerType) = getJobStorage()
+    .getAll()
+    .filter { it.employerType == employerType }
 
 fun State.getJobsContaining(spell: SpellId) = getJobStorage()
     .getAll()
