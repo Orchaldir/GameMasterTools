@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editTown
 import at.orchaldir.gm.app.html.realm.parseTown
 import at.orchaldir.gm.app.html.realm.showTown
+import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown

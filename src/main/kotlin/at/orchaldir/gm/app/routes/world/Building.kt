@@ -2,20 +2,7 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.fieldAddress
-import at.orchaldir.gm.app.html.util.fieldAge
-import at.orchaldir.gm.app.html.util.fieldCreator
-import at.orchaldir.gm.app.html.util.optionalField
-import at.orchaldir.gm.app.html.util.selectBuildingPurpose
-import at.orchaldir.gm.app.html.util.selectCreator
-import at.orchaldir.gm.app.html.util.selectOptionalDate
-import at.orchaldir.gm.app.html.util.selectOwnership
-import at.orchaldir.gm.app.html.util.showAddress
-import at.orchaldir.gm.app.html.util.showBuildingPurpose
-import at.orchaldir.gm.app.html.util.showCreator
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showOwner
-import at.orchaldir.gm.app.html.util.showOwnership
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding

@@ -1,10 +1,10 @@
 package at.orchaldir.gm.visualization.currency
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder

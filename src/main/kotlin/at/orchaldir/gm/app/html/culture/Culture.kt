@@ -6,15 +6,8 @@ import at.orchaldir.gm.app.html.time.editHolidays
 import at.orchaldir.gm.app.html.time.parseCalendarId
 import at.orchaldir.gm.app.html.time.parseHolidays
 import at.orchaldir.gm.app.html.time.showHolidays
-import at.orchaldir.gm.app.html.util.editDataSources
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.name.parseNameListId
-import at.orchaldir.gm.app.html.util.parseDataSources
-import at.orchaldir.gm.app.html.util.parseGenderMap
-import at.orchaldir.gm.app.html.util.parseLanguageId
-import at.orchaldir.gm.app.html.util.selectGenderMap
-import at.orchaldir.gm.app.html.util.showCreated
-import at.orchaldir.gm.app.html.util.showDataSources
-import at.orchaldir.gm.app.html.util.showGenderMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseOneOf
@@ -25,9 +18,9 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
-import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

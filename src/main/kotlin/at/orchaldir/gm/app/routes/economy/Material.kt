@@ -14,14 +14,14 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
-import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
-import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
+import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
+import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.core.selector.util.sortMaterial

@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.world.building
 
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartAndEndDate
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

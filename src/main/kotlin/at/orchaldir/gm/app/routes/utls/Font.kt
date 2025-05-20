@@ -12,13 +12,13 @@ import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortFont
 import at.orchaldir.gm.core.model.util.font.FONT_TYPE
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
-import at.orchaldir.gm.core.model.util.SortFont
-import at.orchaldir.gm.core.selector.util.canDelete
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
+import at.orchaldir.gm.core.selector.util.canDelete
 import at.orchaldir.gm.core.selector.util.sortFonts
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.visualization.visualizeString

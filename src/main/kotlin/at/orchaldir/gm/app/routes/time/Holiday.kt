@@ -13,8 +13,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
-import at.orchaldir.gm.core.selector.time.canDelete
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.canDelete
 import at.orchaldir.gm.core.selector.util.sortHolidays
 import io.ktor.http.*
 import io.ktor.resources.*

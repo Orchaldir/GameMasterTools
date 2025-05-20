@@ -14,11 +14,7 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.DaysType
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
-import at.orchaldir.gm.core.model.time.holiday.DayInMonth
-import at.orchaldir.gm.core.model.time.holiday.DayInYear
-import at.orchaldir.gm.core.model.time.holiday.RelativeDate
-import at.orchaldir.gm.core.model.time.holiday.RelativeDateType
-import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.time.holiday.*
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

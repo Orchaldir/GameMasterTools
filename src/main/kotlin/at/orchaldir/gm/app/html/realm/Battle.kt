@@ -3,13 +3,7 @@ package at.orchaldir.gm.app.html.realm
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.parseOptionalCharacterId
-import at.orchaldir.gm.app.html.util.editDataSources
-import at.orchaldir.gm.app.html.util.optionalField
-import at.orchaldir.gm.app.html.util.parseDataSources
-import at.orchaldir.gm.app.html.util.parseOptionalDate
-import at.orchaldir.gm.app.html.util.selectOptionalDate
-import at.orchaldir.gm.app.html.util.showDataSources
-import at.orchaldir.gm.app.html.util.showDestroyed
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character

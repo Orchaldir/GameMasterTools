@@ -1,10 +1,10 @@
 package at.orchaldir.gm.core.model.culture.language
 
-import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

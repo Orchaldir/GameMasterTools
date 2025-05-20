@@ -3,7 +3,7 @@ package at.orchaldir.gm.app
 import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
-import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.DataRoutes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.PersonalityTraitRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes

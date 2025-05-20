@@ -8,16 +8,7 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
-import at.orchaldir.gm.core.model.time.holiday.Anniversary
-import at.orchaldir.gm.core.model.time.holiday.DayInMonth
-import at.orchaldir.gm.core.model.time.holiday.DayInYear
-import at.orchaldir.gm.core.model.time.holiday.Holiday
-import at.orchaldir.gm.core.model.time.holiday.HolidayOfCatastrophe
-import at.orchaldir.gm.core.model.time.holiday.HolidayOfGod
-import at.orchaldir.gm.core.model.time.holiday.HolidayOfTreaty
-import at.orchaldir.gm.core.model.time.holiday.HolidayPurpose
-import at.orchaldir.gm.core.model.time.holiday.RelativeDate
-import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.time.holiday.*
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.time.canDelete
 import at.orchaldir.gm.utils.doNothing

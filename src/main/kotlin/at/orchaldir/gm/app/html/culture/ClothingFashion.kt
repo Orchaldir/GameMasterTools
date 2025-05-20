@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html.culture
 
 import at.orchaldir.gm.app.ACCESSORY_RARITY
 import at.orchaldir.gm.app.CLOTHING_SETS
-import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.item.equipment.parseEquipmentId
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectRarityMap
 import at.orchaldir.gm.app.html.showRarityMap
 import at.orchaldir.gm.app.parse.parseOneOf

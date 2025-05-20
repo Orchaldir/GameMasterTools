@@ -2,19 +2,7 @@ package at.orchaldir.gm.app.html.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.editDataSources
-import at.orchaldir.gm.app.html.util.fieldFactor
-import at.orchaldir.gm.app.html.util.fieldWeight
-import at.orchaldir.gm.app.html.util.parseDataSources
-import at.orchaldir.gm.app.html.util.parseDistance
-import at.orchaldir.gm.app.html.util.parseDistribution
-import at.orchaldir.gm.app.html.util.parseFactor
-import at.orchaldir.gm.app.html.util.parseWeight
-import at.orchaldir.gm.app.html.util.selectDistanceDistribution
-import at.orchaldir.gm.app.html.util.selectPercentage
-import at.orchaldir.gm.app.html.util.selectWeight
-import at.orchaldir.gm.app.html.util.showDataSources
-import at.orchaldir.gm.app.html.util.showDistribution
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseOneOf

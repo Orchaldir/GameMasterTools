@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.fieldFactor
 import at.orchaldir.gm.app.html.item.editColorItemPart
 import at.orchaldir.gm.app.html.item.parseColorItemPart
 import at.orchaldir.gm.app.html.item.showColorItemPart
+import at.orchaldir.gm.app.html.util.fieldFactor
 import at.orchaldir.gm.app.html.util.parseFactor
 import at.orchaldir.gm.app.html.util.selectFactor
 import at.orchaldir.gm.app.parse.combine

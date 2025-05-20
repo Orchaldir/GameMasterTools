@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.back
 import at.orchaldir.gm.app.html.formWithPreview
+import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.html.util.editData
 import at.orchaldir.gm.app.html.util.parseData
 import at.orchaldir.gm.app.html.util.showData
-import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State

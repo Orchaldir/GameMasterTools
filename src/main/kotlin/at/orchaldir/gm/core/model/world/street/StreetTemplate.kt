@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.world.street
 
 import at.orchaldir.gm.core.model.economy.material.MaterialCost
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

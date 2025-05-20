@@ -14,8 +14,8 @@ import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.SortLanguage
-import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
 import at.orchaldir.gm.core.selector.character.countCharacters
+import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
 import at.orchaldir.gm.core.selector.culture.countChildren
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.item.countTexts

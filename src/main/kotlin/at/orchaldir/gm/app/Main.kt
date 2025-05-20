@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app
 
-import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.*
 import at.orchaldir.gm.app.routes.character.title.configureTitleRouting
+import at.orchaldir.gm.app.routes.configureDataRouting
 import at.orchaldir.gm.app.routes.culture.configureCultureRouting
 import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.culture.configureLanguageRouting

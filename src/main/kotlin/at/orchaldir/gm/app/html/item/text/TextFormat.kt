@@ -3,16 +3,7 @@ package at.orchaldir.gm.app.html.item.text
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.*
-import at.orchaldir.gm.app.html.util.fieldDistance
-import at.orchaldir.gm.app.html.util.fieldFactor
-import at.orchaldir.gm.app.html.util.fieldSize
-import at.orchaldir.gm.app.html.util.parseDistance
-import at.orchaldir.gm.app.html.util.parseFactor
-import at.orchaldir.gm.app.html.util.parseSize
-import at.orchaldir.gm.app.html.util.selectDistance
-import at.orchaldir.gm.app.html.util.selectFactor
-import at.orchaldir.gm.app.html.util.selectPercentage
-import at.orchaldir.gm.app.html.util.selectSize
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State

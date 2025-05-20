@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.util.quote
 
-import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

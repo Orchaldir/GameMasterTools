@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.model.economy.standard
 
 
 import at.orchaldir.gm.core.model.economy.money.Price
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

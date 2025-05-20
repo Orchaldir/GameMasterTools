@@ -2,22 +2,7 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.editDataSources
-import at.orchaldir.gm.app.html.util.fieldAge
-import at.orchaldir.gm.app.html.util.fieldCreator
-import at.orchaldir.gm.app.html.util.optionalField
-import at.orchaldir.gm.app.html.util.parseCreator
-import at.orchaldir.gm.app.html.util.parseDataSources
-import at.orchaldir.gm.app.html.util.parseOptionalDate
-import at.orchaldir.gm.app.html.util.parseOwnership
-import at.orchaldir.gm.app.html.util.selectCreator
-import at.orchaldir.gm.app.html.util.selectOptionalDate
-import at.orchaldir.gm.app.html.util.selectOwnership
-import at.orchaldir.gm.app.html.util.showCreated
-import at.orchaldir.gm.app.html.util.showDataSources
-import at.orchaldir.gm.app.html.util.showEmployees
-import at.orchaldir.gm.app.html.util.showOwnedElements
-import at.orchaldir.gm.app.html.util.showOwnership
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId

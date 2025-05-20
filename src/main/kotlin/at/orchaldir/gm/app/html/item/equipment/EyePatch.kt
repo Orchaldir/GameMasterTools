@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.character.appearance.editNormalEye
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.*
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails

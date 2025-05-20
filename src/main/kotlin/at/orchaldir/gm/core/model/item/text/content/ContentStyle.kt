@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.item.text.content
 
+import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.font.FontOption
 import at.orchaldir.gm.core.model.util.font.SolidFont
-import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable

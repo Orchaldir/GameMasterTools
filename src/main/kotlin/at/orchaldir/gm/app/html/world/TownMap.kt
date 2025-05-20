@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.realm.parseOptionalTownId
 import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.parseOptionalDate
-import at.orchaldir.gm.app.html.realm.parseOptionalTownId
 import at.orchaldir.gm.app.html.util.selectOptionalDate
 import at.orchaldir.gm.app.html.util.showEmployees
 import at.orchaldir.gm.app.parse.combine

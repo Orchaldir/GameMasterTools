@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.item.editFillItemPart
 import at.orchaldir.gm.app.html.item.parseFillItemPart
 import at.orchaldir.gm.app.html.item.showFillItemPart
+import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.util.parseWeight
 import at.orchaldir.gm.app.html.util.selectWeight
 import at.orchaldir.gm.app.parse.combine

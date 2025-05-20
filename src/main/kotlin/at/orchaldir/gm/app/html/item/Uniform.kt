@@ -1,10 +1,10 @@
 package at.orchaldir.gm.app.html.item
 
 import at.orchaldir.gm.app.UNIFORM
-import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.character.editEquipmentMap
 import at.orchaldir.gm.app.html.character.parseEquipmentMap
 import at.orchaldir.gm.app.html.character.showEquipmentMap
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName

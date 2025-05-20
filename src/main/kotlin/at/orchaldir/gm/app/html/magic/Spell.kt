@@ -5,16 +5,7 @@ import at.orchaldir.gm.app.LANGUAGE
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.editDataSources
-import at.orchaldir.gm.app.html.util.optionalField
-import at.orchaldir.gm.app.html.util.parseCreator
-import at.orchaldir.gm.app.html.util.parseDataSources
-import at.orchaldir.gm.app.html.util.parseOptionalDate
-import at.orchaldir.gm.app.html.util.parseOptionalLanguageId
-import at.orchaldir.gm.app.html.util.selectCreator
-import at.orchaldir.gm.app.html.util.selectOptionalDate
-import at.orchaldir.gm.app.html.util.showCreator
-import at.orchaldir.gm.app.html.util.showDataSources
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State

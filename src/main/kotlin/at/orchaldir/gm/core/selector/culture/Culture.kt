@@ -3,10 +3,10 @@ package at.orchaldir.gm.core.selector.culture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
-import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.holiday.HolidayId
+import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.selector.character.getCharacters
 
 fun State.canDelete(culture: CultureId) = getCharacters(culture).isEmpty()

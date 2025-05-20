@@ -1,10 +1,10 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.character.parseCharacterId
 import at.orchaldir.gm.app.html.economy.parseBusinessId
+import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.organization.parseOrganizationId
 import at.orchaldir.gm.app.html.realm.parseRealmId
 import at.orchaldir.gm.app.html.realm.parseTownId

@@ -4,11 +4,11 @@ import at.orchaldir.gm.app.ALIGNMENT
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.PAGE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.font.editFontOption
 import at.orchaldir.gm.app.html.util.font.parseFontOption
 import at.orchaldir.gm.app.html.util.font.showFontOption
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
