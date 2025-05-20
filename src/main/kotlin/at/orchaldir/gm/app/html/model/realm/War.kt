@@ -37,8 +37,7 @@ fun HtmlBlockTag.showWar(
     fieldAge("Duration", calendar.getYears(war.getDuration(state)))
     fieldList(call, state, battles)
     fieldIdList(call, state, "Participating Realms", war.realms)
-    fieldList(call, state, "Destroyed Realms", state.getRealmsDestroyedByWar(war.id))
-    fieldList(call, state, "Killed Characters", state.getCharactersKilledInWar(war.id))
+    showDestroyed(call, state, war.id)
     showDataSources(call, state, war.sources)
 }
 

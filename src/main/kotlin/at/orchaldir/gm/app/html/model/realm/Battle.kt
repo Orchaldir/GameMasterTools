@@ -33,8 +33,7 @@ fun HtmlBlockTag.showBattle(
     fieldList("Participants", battle.participants) {
         showBattleParticipant(call, state, it)
     }
-    fieldList(call, state, "Killed Characters", state.getCharactersKilledInBattle(battle.id))
-    fieldList(call, state, "Battlefields", state.getRegionsCreatedBy(battle.id))
+    showDestroyed(call, state, battle.id)
     showDataSources(call, state, battle.sources)
 }
 
