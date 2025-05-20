@@ -26,7 +26,7 @@ data class War(
     val id: WarId,
     val name: Name = Name.init("War ${id.value}"),
     val startDate: Date? = null,
-    val endDate: Date? = null,
+    val status: WarStatus = OngoingWar,
     val realms: Set<RealmId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<WarId>, HasDataSources, HasStartAndEndDate {
@@ -35,6 +35,6 @@ data class War(
     override fun name() = name.text
     override fun sources() = sources
     override fun startDate() = startDate
-    override fun endDate() = endDate
+    override fun endDate() = status.endDate()
 
 }
