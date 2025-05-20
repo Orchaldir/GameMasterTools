@@ -159,7 +159,12 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
             jobs.forEach { job ->
                 tr {
                     tdLink(call, state, job)
-                    tdEnum(job.employerType)
+                    td {
+                        when (job.employerType) {
+                            EmployerType.Business -> doNothing()
+                            else -> +job.employerType.name
+                        }
+                    }
                     td {
                         when (job.income) {
                             UndefinedIncome -> doNothing()
