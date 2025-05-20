@@ -37,6 +37,6 @@ data object OngoingWar : WarStatus()
 @Serializable
 @SerialName("Finished")
 data class FinishedWar(
-    val result: WarResult,
+    val result: WarResult = UndefinedWarResult,
     val date: Date,
 ) : WarStatus()

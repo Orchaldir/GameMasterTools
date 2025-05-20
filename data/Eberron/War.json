@@ -8,9 +8,17 @@
     "type": "Year",
     "year": 893
    },
-   "endDate": {
-    "type": "Year",
-    "year": 995
+   "status": {
+    "type": "Finished",
+    "result": {
+     "type": "Catastrophe",
+     "catastrophe": 0,
+     "treaty": 0
+    },
+    "date": {
+     "type": "Year",
+     "year": 995
+    }
    },
    "realms": [
     1,
