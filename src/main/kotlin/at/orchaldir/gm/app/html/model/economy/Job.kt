@@ -40,6 +40,7 @@ fun HtmlBlockTag.showJob(
     state: State,
     job: Job,
 ) {
+    field("Employer Type", job.employerType)
     showSalary(call, state, job.income)
     optionalField("Preferred Gender", job.preferredGender)
     showGenderMap("Uniforms", job.uniforms) { uniform ->
@@ -95,6 +96,7 @@ fun FORM.editJob(
     job: Job,
 ) {
     selectName(job.name)
+    selectValue("Employer Type", EMPLOYMENT, EmployerType.entries, job.employerType)
     editSalary(state, job.income)
     selectOptionalValue("Preferred Gender", GENDER, job.preferredGender, Gender.entries)
     selectGenderMap("Uniforms", job.uniforms, UNIFORM) { genderParam, uniform ->
@@ -136,6 +138,7 @@ fun parseJobId(value: String) = JobId(value.toInt())
 fun parseJob(id: JobId, parameters: Parameters) = Job(
     id,
     parseName(parameters),
+    parse(parameters, EMPLOYMENT, EmployerType.Business),
     parseIncome(parameters),
     parse<Gender>(parameters, GENDER),
     parseGenderMap(UNIFORM) { param ->

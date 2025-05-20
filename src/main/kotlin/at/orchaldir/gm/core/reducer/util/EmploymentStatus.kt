@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.EmployerType
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
@@ -23,14 +24,14 @@ private fun checkEmploymentStatus(
 ) {
     when (status) {
         Retired, UndefinedEmploymentStatus, Unemployed -> doNothing()
-        is Employed -> checkEmployed(state, noun, date, status.job, status.business)
+        is Employed -> checkEmployed(state, date, EmployerType.Business, status.job, status.business)
         is EmployedByRealm -> {
-            checkEmployed(state, noun, date, status.job, null)
+            checkEmployed(state, date, EmployerType.Realm, status.job, null)
             state.requireExists(state.getRealmStorage(), status.realm, date)
         }
 
         is EmployedByTown -> {
-            checkEmployed(state, noun, date, status.job, status.optionalBusiness)
+            checkEmployed(state, date, EmployerType.Town, status.job, status.optionalBusiness)
             state.requireExists(state.getTownStorage(), status.town, date)
         }
     }
@@ -38,13 +39,14 @@ private fun checkEmploymentStatus(
 
 private fun checkEmployed(
     state: State,
-    noun: String,
     date: Date?,
+    employerType: EmployerType,
     jobId: JobId,
     businessId: BusinessId?,
 ) {
     if (businessId != null) {
         state.requireExists(state.getBusinessStorage(), businessId, date)
     }
-    state.getJobStorage().require(jobId)
+    val job = state.getJobStorage().getOrThrow(jobId)
+    require(job.employerType == employerType) { "Job ${jobId.value} has the wrong type of employer!" }
 }

@@ -114,6 +114,51 @@
    "sources": [
     3
    ]
+  },
+  "9": {
+   "id": 9,
+   "name": "Wroat",
+   "owner": {
+    "current": 2
+   },
+   "sources": [
+    3
+   ]
+  },
+  "10": {
+   "id": 10,
+   "name": "Sharn",
+   "title": "The City of Towers",
+   "owner": {
+    "current": 2
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Black Pit",
+   "owner": {
+    "current": 2
+   },
+   "sources": [
+    3
+   ]
+  },
+  "12": {
+   "id": 12,
+   "name": "New Cyre",
+   "owner": {
+    "current": 2
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Vathirond",
+   "owner": {
+    "current": 2
+   },
+   "sources": [
+    3
+   ]
   }
  }
 }

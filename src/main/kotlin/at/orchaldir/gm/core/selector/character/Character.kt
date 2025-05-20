@@ -43,9 +43,13 @@ fun State.countCharacters(language: LanguageId) = getCharacterStorage()
     .getAll()
     .count { getKnownLanguages(it).containsKey(language) }
 
-fun State.countCharacters(job: JobId) = getCharacterStorage()
+fun State.countCharactersWithJob(job: JobId) = getCharacterStorage()
     .getAll()
     .count { it.checkEmploymentStatus { it.hasJob(job) } }
+
+fun State.countCharactersWithCurrentOrFormerJob(job: JobId) = getCharacterStorage()
+    .getAll()
+    .count { it.checkCurrentOrPreviousEmploymentStatus { it.hasJob(job) } }
 
 fun State.countCharacters(race: RaceId) = getCharacterStorage()
     .getAll()

@@ -79,6 +79,7 @@ enum class SortGod {
 
 enum class SortJob {
     Name,
+    EmployerType,
     Income,
     Characters,
     Spells,
@@ -153,6 +154,7 @@ enum class SortRealm {
     Start,
     End,
     Age,
+    Towns,
 }
 
 enum class SortRegion {

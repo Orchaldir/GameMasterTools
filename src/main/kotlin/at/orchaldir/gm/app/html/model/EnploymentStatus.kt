@@ -11,9 +11,11 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.economy.job.EmployerType
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
@@ -134,7 +136,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 state.sortBusinesses(state.getOpenBusinesses(start)),
                 status.business,
             )
-            selectJob(state, param, status.job)
+            selectJob(state, param, EmployerType.Business, status.job)
         }
 
         is EmployedByRealm -> {
@@ -145,7 +147,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 state.sortRealms(state.getExistingRealms(start)),
                 status.realm,
             )
-            selectJob(state, param, status.job)
+            selectJob(state, param, EmployerType.Realm, status.job)
         }
 
         is EmployedByTown -> {
@@ -156,7 +158,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 state.sortTowns(state.getExistingTowns(start)),
                 status.town,
             )
-            selectJob(state, param, status.job)
+            selectJob(state, param, EmployerType.Town, status.job)
             selectOptionalElement(
                 state,
                 "Business",
@@ -171,12 +173,13 @@ fun HtmlBlockTag.selectEmploymentStatus(
 private fun HtmlBlockTag.selectJob(
     state: State,
     param: String,
+    employerType: EmployerType,
     job: JobId,
 ) = selectElement(
     state,
     "Job",
     combine(param, JOB),
-    state.sortJobs(),
+    state.sortJobs(state.getJobs(employerType)),
     job,
 )
 

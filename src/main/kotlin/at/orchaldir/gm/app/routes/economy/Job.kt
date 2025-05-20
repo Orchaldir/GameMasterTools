@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
-import at.orchaldir.gm.core.selector.character.countCharacters
+import at.orchaldir.gm.core.selector.character.countCharactersWithCurrentOrFormerJob
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency
@@ -148,6 +148,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
         table {
             tr {
                 th { +"Name" }
+                thMultiLines(listOf("Employer", "Type"))
                 thMultiLines(listOf("Yearly", "Income"))
                 th { +"Gender" }
                 th { +"Uniform" }
@@ -159,6 +160,12 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                 tr {
                     tdLink(call, state, job)
                     td {
+                        when (job.employerType) {
+                            EmployerType.Business -> doNothing()
+                            else -> +job.employerType.name
+                        }
+                    }
+                    td {
                         when (job.income) {
                             UndefinedIncome -> doNothing()
                             is AffordableStandardOfLiving -> link(call, state, job.income.standard)
@@ -167,7 +174,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
                     }
                     tdOptionalEnum(job.preferredGender)
                     tdInlineIds(call, state, job.uniforms.getValues().filterNotNull())
-                    tdSkipZero(state.countCharacters(job.id))
+                    tdSkipZero(state.countCharactersWithCurrentOrFormerJob(job.id))
                     tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(job.spells.getRarityMap().size)
                 }

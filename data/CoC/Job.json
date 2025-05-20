@@ -12,6 +12,7 @@
   "1": {
    "id": 1,
    "name": "Sheriff",
+   "employerType": "Town",
    "income": {
     "type": "SoL",
     "standard": 4
@@ -20,6 +21,7 @@
   "2": {
    "id": 2,
    "name": "Deputy",
+   "employerType": "Town",
    "income": {
     "type": "SoL",
     "standard": 3
@@ -543,6 +545,7 @@
   "67": {
    "id": 67,
    "name": "Uniformed Police Officer",
+   "employerType": "Town",
    "income": {
     "type": "SoL",
     "standard": 3
@@ -559,6 +562,7 @@
   "69": {
    "id": 69,
    "name": "Judge",
+   "employerType": "Town",
    "income": {
     "type": "SoL",
     "standard": 5
@@ -648,6 +652,7 @@
   "80": {
    "id": 80,
    "name": "Military Officer",
+   "employerType": "Realm",
    "income": {
     "type": "SoL",
     "standard": 4
@@ -656,6 +661,7 @@
   "81": {
    "id": 81,
    "name": "Soldier",
+   "employerType": "Realm",
    "income": {
     "type": "SoL",
     "standard": 3
@@ -664,6 +670,7 @@
   "82": {
    "id": 82,
    "name": "Ambassador",
+   "employerType": "Realm",
    "income": {
     "type": "SoL",
     "standard": 6
@@ -680,6 +687,7 @@
   "84": {
    "id": 84,
    "name": "Major",
+   "employerType": "Town",
    "income": {
     "type": "SoL",
     "standard": 5
@@ -736,6 +744,7 @@
   "91": {
    "id": 91,
    "name": "Navy Sailor",
+   "employerType": "Realm",
    "income": {
     "type": "SoL",
     "standard": 3

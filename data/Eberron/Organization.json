@@ -392,6 +392,26 @@
   "33": {
    "id": 33,
    "name": "University of Wynarn"
+  },
+  "34": {
+   "id": 34,
+   "name": "The King's Dark Lantern",
+   "founder": {
+    "type": "Realm",
+    "realm": 2
+   }
+  },
+  "35": {
+   "id": 35,
+   "name": "Boromar Clan"
+  },
+  "36": {
+   "id": 36,
+   "name": "Daask"
+  },
+  "37": {
+   "id": 37,
+   "name": "The Swords of Liberty"
   }
  }
 }

@@ -37,6 +37,22 @@
    "data": {
     "type": "Continent"
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Blackcap Mountains",
+   "data": {
+    "type": "Mountain"
+   },
+   "parent": 3
+  },
+  "5": {
+   "id": 5,
+   "name": "Towering Woods",
+   "data": {
+    "type": "Forrest"
+   },
+   "parent": 3
   }
  }
 }

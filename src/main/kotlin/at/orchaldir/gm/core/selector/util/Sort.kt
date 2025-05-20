@@ -41,14 +41,12 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.character.countResident
-import at.orchaldir.gm.core.selector.character.getBelievers
-import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
+import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -355,6 +353,7 @@ fun State.sortJobs(
     .sortedWith(
         when (sort) {
             SortJob.Name -> compareBy { it.name.text }
+            SortJob.EmployerType -> compareBy { it.employerType }
             SortJob.Income -> compareByDescending {
                 when (it.income) {
                     UndefinedIncome -> 0
@@ -363,7 +362,7 @@ fun State.sortJobs(
                 }
             }
 
-            SortJob.Characters -> compareByDescending { countCharacters(it.id) }
+            SortJob.Characters -> compareByDescending { countCharactersWithJob(it.id) }
             SortJob.Spells -> compareByDescending { it.spells.getSize() }
         })
 
@@ -560,6 +559,7 @@ fun State.sortRealms(
             SortRealm.Start -> getStartDateComparator()
             SortRealm.End -> getEndDateComparator()
             SortRealm.Age -> compareByDescending { it.getAgeInYears(this) }
+            SortRealm.Towns -> compareByDescending { countOwnedTowns(it.id) }
         })
 
 // region

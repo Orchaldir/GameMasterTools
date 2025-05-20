@@ -26,6 +26,7 @@ value class JobId(val value: Int) : Id<JobId> {
 data class Job(
     val id: JobId,
     val name: Name = Name.init("Job ${id.value}"),
+    val employerType: EmployerType = EmployerType.Business,
     val income: Income = UndefinedIncome,
     val preferredGender: Gender? = null,
     val uniforms: GenderMap<UniformId?> = GenderMap(null),

@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 enum class RegionDataType {
     Battlefield,
     Continent,
+    Forrest,
     Mountain,
     Undefined,
     Wasteland,
@@ -19,6 +20,7 @@ sealed class RegionData {
     fun getType() = when (this) {
         is Battlefield -> RegionDataType.Battlefield
         Continent -> RegionDataType.Continent
+        Forrest -> RegionDataType.Forrest
         Mountain -> RegionDataType.Mountain
         UndefinedRegionData -> RegionDataType.Undefined
         is Wasteland -> RegionDataType.Wasteland
@@ -44,6 +46,10 @@ data class Battlefield(
 @Serializable
 @SerialName("Continent")
 data object Continent : RegionData()
+
+@Serializable
+@SerialName("Forrest")
+data object Forrest : RegionData()
 
 @Serializable
 @SerialName("Mountain")
