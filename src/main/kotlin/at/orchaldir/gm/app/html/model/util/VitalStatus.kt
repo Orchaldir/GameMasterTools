@@ -61,18 +61,15 @@ fun HtmlBlockTag.displayCauseOfDeath(
     when (cause) {
         is Accident -> +"Accident"
         is DeathByCatastrophe -> {
-            +"Killed by "
             link(call, state, cause.catastrophe)
         }
 
         is DeathByIllness -> +"Illness"
         is DeathInBattle -> {
-            +"Died during "
             link(call, state, cause.battle)
         }
 
         is DeathInWar -> {
-            +"Died during "
             link(call, state, cause.war)
         }
 
@@ -91,6 +88,7 @@ fun <ID : Id<ID>> FORM.selectVitalStatus(
     state: State,
     id: ID,
     status: VitalStatus,
+    allowedCauses: Collection<CauseOfDeathType>,
 ) {
     selectValue("Vital Status", VITAL, VitalStatusType.entries, status.getType())
 
@@ -102,10 +100,11 @@ fun <ID : Id<ID>> FORM.selectVitalStatus(
             .filter { it.id != id }
         val wars = state.getExistingWars(status.deathDay)
         val battles = state.getExistingBattles(status.deathDay)
+
         selectValue(
             "Cause of death",
             DEATH,
-            CauseOfDeathType.entries,
+            allowedCauses,
             status.cause.getType(),
         ) { type ->
             when (type) {
