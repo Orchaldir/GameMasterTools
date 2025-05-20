@@ -37,49 +37,41 @@ class VitalStatusTest {
             data = Data(time = Time(currentDate = Day(10))),
         )
 
+        @Nested
+        inner class DateTest {
+            @Test
+            fun `Cannot die in the future`() {
+                testFailToDie(Day(11), Accident)
+            }
+
+            @Test
+            fun `Cannot die before being born`() {
+                testFailToDie(Day(-1), Accident)
+            }
+        }
+
         @Test
         fun `Died from accident`() {
             testDie(Day(5), Accident)
         }
 
-        @Test
-        fun `Cannot die from accident in the future`() {
-            testFailToDie(Day(11), Accident)
-        }
+        @Nested
+        inner class MurdererTest {
 
-        @Test
-        fun `Cannot die from accident before its origin`() {
-            testFailToDie(Day(-1), Accident)
-        }
+            @Test
+            fun `Died from murder`() {
+                testDie(Day(5), Murder(CHARACTER_ID_1))
+            }
 
-        @Test
-        fun `Died from murder`() {
-            testDie(Day(5), Murder(CHARACTER_ID_1))
-        }
+            @Test
+            fun `Murderer doesn't exist`() {
+                testFailToDie(Day(5), Murder(CHARACTER_ID_2))
+            }
 
-        @Test
-        fun `Cannot die from murder in the future`() {
-            testFailToDie(Day(11), Murder(CHARACTER_ID_1))
-        }
-
-        @Test
-        fun `Cannot die from murder before its origin`() {
-            testFailToDie(Day(-1), Murder(CHARACTER_ID_1))
-        }
-
-        @Test
-        fun `Catastrophe doesn't exist`() {
-            testFailToDie(Day(5), DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
-        }
-
-        @Test
-        fun `Killer doesn't exist`() {
-            testFailToDie(Day(5), Murder(CHARACTER_ID_2))
-        }
-
-        @Test
-        fun `War doesn't exist`() {
-            testFailToDie(Day(5), DeathByWar(UNKNOWN_WAR_ID))
+            @Test
+            fun `Murderer cannot be the same character`() {
+                testFailToDie(Day(5), Murder(CHARACTER_ID_0))
+            }
         }
 
         @Test
@@ -88,18 +80,18 @@ class VitalStatusTest {
         }
 
         @Test
+        fun `Catastrophe doesn't exist`() {
+            testFailToDie(Day(5), DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
+        }
+
+        @Test
+        fun `War doesn't exist`() {
+            testFailToDie(Day(5), DeathByWar(UNKNOWN_WAR_ID))
+        }
+
+        @Test
         fun `Died from old age`() {
             testDie(Day(5), OldAge)
-        }
-
-        @Test
-        fun `Cannot die from old age in the future`() {
-            testFailToDie(Day(11), OldAge)
-        }
-
-        @Test
-        fun `Cannot die from old age before its origin`() {
-            testFailToDie(Day(-1), OldAge)
         }
 
         private fun testDie(deathDate: Day, causeOfDeath: CauseOfDeath) {
