@@ -38,8 +38,8 @@ private fun <ID : Id<ID>> checkCauseOfDeath(
     val calendar = state.getDefaultCalendar()
 
     dead.deathDay.let {
-        require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Character died in the future!" }
-        require(calendar.isAfterOrEqual(it, startDate)) { "Character died before its origin!" }
+        require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Cannot died in the future!" }
+        require(calendar.isAfterOrEqual(it, startDate)) { "Cannot died before its origin!" }
     }
 
     when (val cause = dead.cause) {
