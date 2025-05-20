@@ -29,8 +29,8 @@ fun HtmlBlockTag.showWarStatus(
     field("Status") {
         displayWarStatus(call, state, status)
     }
-    optionalField(call, state, "End Date", status.endDate())
     optionalFieldLink(call, state, status.treaty())
+    optionalField(call, state, "End Date", status.endDate())
 }
 
 fun HtmlBlockTag.displayWarStatus(
