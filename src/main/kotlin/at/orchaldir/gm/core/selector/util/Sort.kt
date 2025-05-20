@@ -357,6 +357,7 @@ fun State.sortJobs(
     .sortedWith(
         when (sort) {
             SortJob.Name -> compareBy { it.name.text }
+            SortJob.EmployerType -> compareBy { it.employerType }
             SortJob.Income -> compareByDescending {
                 when (it.income) {
                     UndefinedIncome -> 0

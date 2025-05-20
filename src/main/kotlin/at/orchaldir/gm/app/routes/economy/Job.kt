@@ -148,6 +148,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
         table {
             tr {
                 th { +"Name" }
+                thMultiLines(listOf("Employer", "Type"))
                 thMultiLines(listOf("Yearly", "Income"))
                 th { +"Gender" }
                 th { +"Uniform" }
@@ -158,6 +159,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
             jobs.forEach { job ->
                 tr {
                     tdLink(call, state, job)
+                    tdEnum(job.employerType)
                     td {
                         when (job.income) {
                             UndefinedIncome -> doNothing()

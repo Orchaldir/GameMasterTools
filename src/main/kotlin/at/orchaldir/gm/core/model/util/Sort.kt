@@ -79,6 +79,7 @@ enum class SortGod {
 
 enum class SortJob {
     Name,
+    EmployerType,
     Income,
     Characters,
     Spells,
