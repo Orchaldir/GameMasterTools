@@ -1,8 +1,7 @@
 package at.orchaldir.gm.app.html.model.util
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.character.parseCharacterId
 import at.orchaldir.gm.app.html.model.field
 import at.orchaldir.gm.app.html.model.parseDate
@@ -10,11 +9,10 @@ import at.orchaldir.gm.app.html.model.realm.parseBattleId
 import at.orchaldir.gm.app.html.model.realm.parseCatastropheId
 import at.orchaldir.gm.app.html.model.realm.parseWarId
 import at.orchaldir.gm.app.html.model.selectDate
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.realm.getExistingBattles
@@ -90,70 +88,82 @@ fun <ID : Id<ID>> FORM.selectVitalStatus(
     status: VitalStatus,
     allowedCauses: Collection<CauseOfDeathType>,
 ) {
-    selectValue("Vital Status", VITAL, VitalStatusType.entries, status.getType())
+    showDetails("Vital Status", true) {
+        selectValue("Type", VITAL, VitalStatusType.entries, status.getType())
 
-    if (status is Dead) {
-        selectDate(state, "Date of Death", status.deathDay, combine(DEATH, DATE))
-
-        val catastrophes = state.getExistingCatastrophes(status.deathDay)
-        val characters = state.getLiving(status.deathDay)
-            .filter { it.id != id }
-        val wars = state.getExistingWars(status.deathDay)
-        val battles = state.getExistingBattles(status.deathDay)
-
-        selectValue(
-            "Cause of death",
-            DEATH,
-            allowedCauses,
-            status.cause.getType(),
-        ) { type ->
-            when (type) {
-                CauseOfDeathType.Battle -> battles.isEmpty()
-                CauseOfDeathType.Catastrophe -> catastrophes.isEmpty()
-                CauseOfDeathType.Murder -> characters.isEmpty()
-                CauseOfDeathType.War -> wars.isEmpty()
-                else -> false
-            }
-        }
-
-        when (status.cause) {
-            Accident -> doNothing()
-            DeathByIllness -> doNothing()
-            is DeathByCatastrophe -> selectElement(
-                state,
-                "Catastrophe",
-                CATASTROPHE,
-                catastrophes,
-                status.cause.catastrophe,
-            )
-
-            is DeathInWar -> selectElement(
-                state,
-                "War",
-                WAR,
-                wars,
-                status.cause.war,
-            )
-
-            is DeathInBattle -> selectElement(
-                state,
-                "Battle",
-                BATTLE,
-                battles,
-                status.cause.battle,
-            )
-
-            is Murder -> selectElement(
-                state,
-                "Killer",
-                KILLER,
-                characters,
-                status.cause.killer,
-            )
-
-            OldAge -> doNothing()
+        if (status is Dead) {
+            selectDate(state, "Date of Death", status.deathDay, combine(DEATH, DATE))
+            selectCauseOfDeath(state, id, status.cause, status.deathDay, allowedCauses)
         }
     }
+}
+
+private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
+    state: State,
+    id: ID,
+    cause: CauseOfDeath,
+    deathDay: Date,
+    allowedCauses: Collection<CauseOfDeathType>,
+) {
+    val catastrophes = state.getExistingCatastrophes(deathDay)
+    val characters = state.getLiving(deathDay)
+        .filter { it.id != id }
+    val wars = state.getExistingWars(deathDay)
+    val battles = state.getExistingBattles(deathDay)
+
+    selectValue(
+        "Cause of death",
+        DEATH,
+        allowedCauses,
+        cause.getType(),
+    ) { type ->
+        when (type) {
+            CauseOfDeathType.Battle -> battles.isEmpty()
+            CauseOfDeathType.Catastrophe -> catastrophes.isEmpty()
+            CauseOfDeathType.Murder -> characters.isEmpty()
+            CauseOfDeathType.War -> wars.isEmpty()
+            else -> false
+        }
+    }
+
+    when (cause) {
+        Accident -> doNothing()
+        DeathByIllness -> doNothing()
+        is DeathByCatastrophe -> selectElement(
+            state,
+            "Catastrophe",
+            CATASTROPHE,
+            catastrophes,
+            cause.catastrophe,
+        )
+
+        is DeathInWar -> selectElement(
+            state,
+            "War",
+            WAR,
+            wars,
+            cause.war,
+        )
+
+        is DeathInBattle -> selectElement(
+            state,
+            "Battle",
+            BATTLE,
+            battles,
+            cause.battle,
+        )
+
+        is Murder -> selectElement(
+            state,
+            "Killer",
+            KILLER,
+            characters,
+            cause.killer,
+        )
+
+        OldAge -> doNothing()
+    }
+
 }
 
 // parse
