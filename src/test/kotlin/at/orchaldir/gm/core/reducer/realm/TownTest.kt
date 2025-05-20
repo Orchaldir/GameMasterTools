@@ -8,11 +8,11 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EmployedByTown
 import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.reducer.REDUCER

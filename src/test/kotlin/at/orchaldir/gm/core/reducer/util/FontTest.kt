@@ -1,12 +1,6 @@
 package at.orchaldir.gm.core.reducer.util
 
-import at.orchaldir.gm.CALENDAR0
-import at.orchaldir.gm.CURRENCY_UNIT_ID_0
-import at.orchaldir.gm.FONT_ID_0
-import at.orchaldir.gm.FUTURE_DAY_0
-import at.orchaldir.gm.NAME
-import at.orchaldir.gm.TEXT_ID_0
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
@@ -17,13 +11,7 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
-import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
-import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.content.ComplexTableOfContents
-import at.orchaldir.gm.core.model.item.text.content.ContentStyle
-import at.orchaldir.gm.core.model.item.text.content.FontInitials
-import at.orchaldir.gm.core.model.item.text.content.PageNumberingReusingFont
-import at.orchaldir.gm.core.model.item.text.content.SimplePageNumbering
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.SolidFont
 import at.orchaldir.gm.core.reducer.REDUCER

@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.reducer.economy
 
-import at.orchaldir.gm.CURRENCY_UNIT_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_0
-import at.orchaldir.gm.MATERIAL_ID_0
-import at.orchaldir.gm.STREET_TYPE_ID_0
-import at.orchaldir.gm.TEXT_ID_0
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State

@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model
 
 import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested

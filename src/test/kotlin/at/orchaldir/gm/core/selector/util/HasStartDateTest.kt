@@ -5,10 +5,10 @@ import at.orchaldir.gm.CALENDAR_ID_0
 import at.orchaldir.gm.QUOTE_ID_0
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.DayRange
+import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue

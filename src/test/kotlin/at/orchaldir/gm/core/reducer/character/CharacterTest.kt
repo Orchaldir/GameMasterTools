@@ -9,10 +9,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.Genderless
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
+import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Battle

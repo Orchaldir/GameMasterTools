@@ -1,17 +1,6 @@
 package at.orchaldir.gm.core.reducer.culture
 
-import at.orchaldir.gm.CALENDAR0
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.CHARACTER_ID_1
-import at.orchaldir.gm.CULTURE_ID_0
-import at.orchaldir.gm.DAY0
-import at.orchaldir.gm.FUTURE_DAY_0
-import at.orchaldir.gm.LANGUAGE_ID_0
-import at.orchaldir.gm.LANGUAGE_ID_1
-import at.orchaldir.gm.PERIODICAL_ID_0
-import at.orchaldir.gm.PLANE_ID_0
-import at.orchaldir.gm.TEXT_ID_0
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
