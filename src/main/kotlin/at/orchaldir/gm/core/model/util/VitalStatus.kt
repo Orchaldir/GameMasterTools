@@ -32,6 +32,7 @@ sealed class VitalStatus {
 
     fun <ID : Id<ID>> isDestroyedBy(id: ID) = if (this is Dead) {
         when (cause) {
+            Abandoned -> false
             Accident -> false
             is DeathByCatastrophe -> cause.catastrophe == id
             DeathByIllness -> false
@@ -39,6 +40,7 @@ sealed class VitalStatus {
             is DeathInWar -> cause.war == id
             is Murder -> cause.killer == id
             OldAge -> false
+            UndefinedCauseOfDeath -> false
         }
     } else {
         false

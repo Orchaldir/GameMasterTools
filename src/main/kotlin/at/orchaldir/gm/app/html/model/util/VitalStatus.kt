@@ -47,9 +47,10 @@ fun HtmlBlockTag.displayVitalStatus(
     call: ApplicationCall,
     state: State,
     status: VitalStatus,
+    showUndefined: Boolean = true,
 ) {
     if (status is Dead) {
-        displayCauseOfDeath(call, state, status.cause)
+        displayCauseOfDeath(call, state, status.cause, showUndefined)
     }
 }
 
@@ -57,8 +58,10 @@ fun HtmlBlockTag.displayCauseOfDeath(
     call: ApplicationCall,
     state: State,
     cause: CauseOfDeath,
+    showUndefined: Boolean = true,
 ) {
     when (cause) {
+        Abandoned -> +"Abandoned"
         is Accident -> +"Accident"
         is DeathByCatastrophe -> {
             link(call, state, cause.catastrophe)
@@ -79,6 +82,9 @@ fun HtmlBlockTag.displayCauseOfDeath(
         }
 
         is OldAge -> +"Old Age"
+        UndefinedCauseOfDeath -> if (showUndefined) {
+            +"Undefined"
+        }
     }
 }
 
@@ -129,6 +135,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
     }
 
     when (cause) {
+        Abandoned -> doNothing()
         Accident -> doNothing()
         DeathByIllness -> doNothing()
         is DeathByCatastrophe -> selectElement(
@@ -164,6 +171,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
         )
 
         OldAge -> doNothing()
+        UndefinedCauseOfDeath -> doNothing()
     }
 
 }
@@ -173,33 +181,36 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
 fun parseVitalStatus(
     parameters: Parameters,
     state: State,
-): VitalStatus {
-    return when (parse(parameters, VITAL, VitalStatusType.Alive)) {
-        VitalStatusType.Alive -> Alive
-        VitalStatusType.Dead -> Dead(
-            parseDeathDay(parameters, state),
-            when (parse(parameters, DEATH, CauseOfDeathType.OldAge)) {
-                CauseOfDeathType.Accident -> Accident
-                CauseOfDeathType.Battle -> DeathInBattle(
-                    parseBattleId(parameters, BATTLE),
-                )
+) = when (parse(parameters, VITAL, VitalStatusType.Alive)) {
+    VitalStatusType.Alive -> Alive
+    VitalStatusType.Dead -> Dead(
+        parseDeathDay(parameters, state),
+        parseCauseOfDeath(parameters),
+    )
+}
 
-                CauseOfDeathType.Catastrophe -> DeathByCatastrophe(
-                    parseCatastropheId(parameters, CATASTROPHE),
-                )
+private fun parseCauseOfDeath(parameters: Parameters) = when (parse(parameters, DEATH, CauseOfDeathType.OldAge)) {
+    CauseOfDeathType.Abandoned -> Abandoned
+    CauseOfDeathType.Accident -> Accident
+    CauseOfDeathType.Battle -> DeathInBattle(
+        parseBattleId(parameters, BATTLE),
+    )
 
-                CauseOfDeathType.Illness -> DeathByIllness
-                CauseOfDeathType.Murder -> Murder(
-                    parseCharacterId(parameters, KILLER),
-                )
+    CauseOfDeathType.Catastrophe -> DeathByCatastrophe(
+        parseCatastropheId(parameters, CATASTROPHE),
+    )
 
-                CauseOfDeathType.OldAge -> OldAge
-                CauseOfDeathType.War -> DeathInWar(
-                    parseWarId(parameters, WAR),
-                )
-            },
-        )
-    }
+    CauseOfDeathType.Illness -> DeathByIllness
+    CauseOfDeathType.Murder -> Murder(
+        parseCharacterId(parameters, KILLER),
+    )
+
+    CauseOfDeathType.OldAge -> OldAge
+    CauseOfDeathType.War -> DeathInWar(
+        parseWarId(parameters, WAR),
+    )
+
+    CauseOfDeathType.Undefined -> UndefinedCauseOfDeath
 }
 
 private fun parseDeathDay(

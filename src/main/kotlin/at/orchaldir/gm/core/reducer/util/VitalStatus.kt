@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.Abandoned
 import at.orchaldir.gm.core.model.util.Accident
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathByCatastrophe
@@ -10,6 +11,7 @@ import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.util.Murder
 import at.orchaldir.gm.core.model.util.OldAge
+import at.orchaldir.gm.core.model.util.UndefinedCauseOfDeath
 import at.orchaldir.gm.core.model.util.VitalStatus
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
@@ -25,7 +27,14 @@ fun <ID : Id<ID>> checkVitalStatus(
     startDate: Date,
 ) {
     if (status is Dead) {
-        checkCauseOfDeath(state, id, status, startDate)
+        val calendar = state.getDefaultCalendar()
+
+        status.deathDay.let {
+            require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Cannot died in the future!" }
+            require(calendar.isAfterOrEqual(it, startDate)) { "Cannot died before its origin!" }
+        }
+
+        checkCauseOfDeath(state, id, status)
     }
 }
 
@@ -33,27 +42,20 @@ private fun <ID : Id<ID>> checkCauseOfDeath(
     state: State,
     id: ID,
     dead: Dead,
-    startDate: Date,
-) {
-    val calendar = state.getDefaultCalendar()
-
-    dead.deathDay.let {
-        require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Cannot died in the future!" }
-        require(calendar.isAfterOrEqual(it, startDate)) { "Cannot died before its origin!" }
+) = when (val cause = dead.cause) {
+    Abandoned -> doNothing()
+    Accident -> doNothing()
+    is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
+    DeathByIllness -> doNothing()
+    is DeathInWar -> checkCauseElement(state.getWarStorage(), cause.war)
+    is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
+    is Murder -> {
+        require(id != cause.killer) { "The murderer must be another Character!" }
+        checkCauseElement(state.getCharacterStorage(), cause.killer)
     }
 
-    when (val cause = dead.cause) {
-        Accident -> doNothing()
-        is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
-        DeathByIllness -> doNothing()
-        is DeathInWar -> checkCauseElement(state.getWarStorage(), cause.war)
-        is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
-        is Murder -> {
-            require(id != cause.killer) { "The murderer must be another Character!" }
-            checkCauseElement(state.getCharacterStorage(), cause.killer)
-        }
-        OldAge -> doNothing()
-    }
+    OldAge -> doNothing()
+    UndefinedCauseOfDeath -> doNothing()
 }
 
 private fun <ID : Id<ID>, ELEMENT : Element<ID>> checkCauseElement(
