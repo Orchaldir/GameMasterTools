@@ -335,7 +335,6 @@ class CharacterTest {
         }
 
 
-
         @Nested
         inner class BeliefStatusTest {
 
