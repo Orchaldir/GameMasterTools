@@ -11,5 +11,6 @@ import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 fun State.canDeleteCatastrophe(catastrophe: CatastropheId) = !isDestroyer(catastrophe)
         && getHolidays(catastrophe).isEmpty()
         && getRegionsCreatedBy(catastrophe).isEmpty()
+        && getWarsEndedBy(catastrophe).isEmpty()
 
 fun State.getExistingCatastrophes(date: Date?) = getExistingElements(getCatastropheStorage().getAll(), date)
