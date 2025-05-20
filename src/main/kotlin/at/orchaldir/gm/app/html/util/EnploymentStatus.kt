@@ -66,7 +66,7 @@ fun HtmlBlockTag.showEmploymentStatus(
     when (status) {
         is Employed -> {
             link(call, state, status.job)
-            +"at "
+            +" at "
             link(call, state, status.business)
         }
 
@@ -82,7 +82,7 @@ fun HtmlBlockTag.showEmploymentStatus(
         is EmployedByTown -> if (showTown) {
             if (status.optionalBusiness != null && showOptionalBusiness) {
                 link(call, state, status.job)
-                +"at "
+                +" at "
                 link(call, state, status.town)
                 +"'s "
                 link(call, state, status.optionalBusiness)
@@ -94,7 +94,7 @@ fun HtmlBlockTag.showEmploymentStatus(
         } else {
             if (status.optionalBusiness != null && showOptionalBusiness) {
                 link(call, state, status.job)
-                +"at "
+                +" at "
                 link(call, state, status.optionalBusiness)
             } else {
                 link(call, state, status.job)

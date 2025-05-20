@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
@@ -112,12 +113,13 @@ private fun TD.showEvent(
 }
 
 private fun getStartText(event: StartEvent<*>): String = when (event.id) {
+    is BattleId -> "was fought"
     is BuildingId -> "was constructed"
     is BusinessId -> "opened"
     is CharacterId -> "was born"
     is FontId, is RaceId, is SpellId -> "was created"
     is PeriodicalId -> "started publishing"
-    is OrganizationId, is TownId -> "was founded"
+    is OrganizationId, is RealmId, is TownId -> "was founded"
     is TextId -> "was published"
     is TreatyId -> "was signed"
     else -> "started"
