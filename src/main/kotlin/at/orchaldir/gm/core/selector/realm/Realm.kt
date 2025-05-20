@@ -22,13 +22,9 @@ fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
 
 // count
 
-fun State.countRealmsDestroyedByCatastrophe(catastrophe: CatastropheId) = getRealmStorage()
+fun <ID : Id<ID>> State.countDestroyedRealms(id: ID) = getRealmStorage()
     .getAll()
-    .count { it.status.isDestroyedByCatastrophe(catastrophe) }
-
-fun State.countRealmsDestroyedByWar(war: WarId) = getRealmStorage()
-    .getAll()
-    .count { it.status.isDestroyedByWar(war) }
+    .count { it.status.isDestroyedBy(id) }
 
 fun State.countRealmsWithCurrencyAtAnyTime(currency: CurrencyId) = getRealmStorage()
     .getAll()
@@ -85,14 +81,6 @@ fun <ID : Id<ID>> State.getPreviousSubRealms(id: ID) = if (id is RealmId) {
 fun State.getPreviousSubRealms(realm: RealmId) = getRealmStorage()
     .getAll()
     .filter { it.owner.previousEntries.any { it.entry == realm } }
-
-fun State.getRealmsDestroyedByCatastrophe(catastrophe: CatastropheId) = getRealmStorage()
-    .getAll()
-    .filter { it.status.isDestroyedByCatastrophe(catastrophe) }
-
-fun State.getRealmsDestroyedByWar(war: WarId) = getRealmStorage()
-    .getAll()
-    .filter { it.status.isDestroyedByWar(war) }
 
 fun State.getRealms(job: JobId) = getCharacterStorage()
     .getAll()

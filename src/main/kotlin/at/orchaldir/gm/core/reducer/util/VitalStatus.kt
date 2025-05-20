@@ -24,14 +24,14 @@ fun <ID : Id<ID>> checkVitalStatus(
     state: State,
     id: ID,
     status: VitalStatus,
-    startDate: Date,
+    startDate: Date?,
 ) {
     if (status is Dead) {
         val calendar = state.getDefaultCalendar()
 
         status.deathDay.let {
             require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Cannot died in the future!" }
-            require(calendar.isAfterOrEqual(it, startDate)) { "Cannot died before its origin!" }
+            require(calendar.isAfterOrEqualOptional(it, startDate)) { "Cannot died before its origin!" }
         }
 
         checkCauseOfDeath(state, id, status)

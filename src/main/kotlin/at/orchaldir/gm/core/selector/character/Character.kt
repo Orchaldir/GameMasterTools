@@ -145,18 +145,6 @@ fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
     .getAll()
     .filter { it.title == titleId }
 
-fun State.getCharactersKilledInBattle(battle: BattleId) = getCharacterStorage()
-    .getAll()
-    .filter { it.vitalStatus.isCausedBy(battle) }
-
-fun State.getCharactersKilledInCatastrophe(catastrophe: CatastropheId) = getCharacterStorage()
-    .getAll()
-    .filter { it.vitalStatus.isCausedBy(catastrophe) }
-
-fun State.getCharactersKilledInWar(war: WarId) = getCharacterStorage()
-    .getAll()
-    .filter { it.vitalStatus.isCausedBy(war) }
-
 // belief status
 
 fun State.getBelievers(god: GodId) = getCharacterStorage()

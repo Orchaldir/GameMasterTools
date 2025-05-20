@@ -4,9 +4,14 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.economy.money.parseOptionalCurrencyId
+import at.orchaldir.gm.app.html.model.util.parseVitalStatus
+import at.orchaldir.gm.app.html.model.util.selectVitalStatus
+import at.orchaldir.gm.app.html.model.util.showVitalStatus
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALM
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWN
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.economy.money.getExistingCurrency
@@ -27,7 +32,7 @@ fun HtmlBlockTag.showRealm(
 ) {
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
-    showRealmStatus(call, state, realm.status)
+    showVitalStatus(call, state, realm.status)
     showHistory(call, state, realm.capital, "Capital", "None") { _, _, town ->
         link(call, state, town)
     }
@@ -64,7 +69,7 @@ fun FORM.editRealm(
     selectName(realm.name)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
     selectOptionalDate(state, "Date", realm.date, DATE)
-    editRealmStatus(state, realm.status, realm.date)
+    selectVitalStatus(state, realm.id, realm.date, realm.status, VALID_CAUSES_FOR_REALM)
     selectHistory(state, TOWN, realm.capital, realm.date, "Capital") { _, param, town, start ->
         selectOptionalElement(
             state,
@@ -120,7 +125,7 @@ fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
         parseName(parameters),
         parseCreator(parameters),
         date,
-        parseRealmStatus(parameters, state),
+        parseVitalStatus(parameters, state),
         parseHistory(parameters, TOWN, state, date) { _, _, param ->
             parseOptionalTownId(parameters, param)
         },

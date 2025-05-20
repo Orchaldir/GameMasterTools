@@ -69,7 +69,7 @@ fun FORM.editTown(
     selectOptionalNotEmptyString("Optional Title", town.title, TITLE)
     selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
     selectOptionalDate(state, "Founding Date", town.foundingDate, DATE)
-    selectVitalStatus(state, town.id, town.status, VALID_CAUSES_FOR_TOWN)
+    selectVitalStatus(state, town.id, town.foundingDate, town.status, VALID_CAUSES_FOR_TOWN)
     selectHistory(state, OWNER, town.owner, town.foundingDate, "Owner") { _, param, owner, start ->
         selectOptionalElement(
             state,

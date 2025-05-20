@@ -93,6 +93,7 @@ fun HtmlBlockTag.displayCauseOfDeath(
 fun <ID : Id<ID>> FORM.selectVitalStatus(
     state: State,
     id: ID,
+    startDate: Date?,
     status: VitalStatus,
     allowedCauses: Collection<CauseOfDeathType>,
 ) {
@@ -100,7 +101,13 @@ fun <ID : Id<ID>> FORM.selectVitalStatus(
         selectValue("Type", VITAL, VitalStatusType.entries, status.getType())
 
         if (status is Dead) {
-            selectDate(state, "Date of Death", status.deathDay, combine(DEATH, DATE))
+            selectDate(
+                state,
+                "Date of Death",
+                status.deathDay,
+                combine(DEATH, DATE),
+                startDate,
+            )
             selectCauseOfDeath(state, id, status.cause, status.deathDay, allowedCauses)
         }
     }

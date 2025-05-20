@@ -11,9 +11,7 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
-import at.orchaldir.gm.core.selector.character.getCharactersKilledInWar
 import at.orchaldir.gm.core.selector.realm.getBattles
-import at.orchaldir.gm.core.selector.realm.getRealmsDestroyedByWar
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortBattles
 import at.orchaldir.gm.core.selector.util.sortRealms

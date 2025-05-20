@@ -229,7 +229,13 @@ fun FORM.editCharacter(
     selectElement(state, "Race", RACE, state.sortRaces(races), character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
-    selectVitalStatus(state, character.id, character.vitalStatus, VALID_CAUSES_FOR_CHARACTERS)
+    selectVitalStatus(
+        state,
+        character.id,
+        character.birthDate,
+        character.vitalStatus,
+        VALID_CAUSES_FOR_CHARACTERS,
+    )
     showAge(state, character, race)
     selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
     selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)

@@ -6,11 +6,11 @@ import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.selector.character.countCharactersKilledInBattle
 import at.orchaldir.gm.core.selector.util.getExistingElements
+import at.orchaldir.gm.core.selector.util.isDestroyer
 import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 
-fun State.canDeleteBattle(battle: BattleId) = countCharactersKilledInBattle(battle) == 0
+fun State.canDeleteBattle(battle: BattleId) = !isDestroyer(battle)
         && getRegionsCreatedBy(battle).isEmpty()
 
 fun State.countBattlesLedBy(character: CharacterId) = getBattleStorage()

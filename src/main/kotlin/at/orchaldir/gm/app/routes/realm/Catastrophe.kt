@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe
 import at.orchaldir.gm.core.selector.character.countCharactersKilledInCatastrophe
 import at.orchaldir.gm.core.selector.realm.canDeleteCatastrophe
-import at.orchaldir.gm.core.selector.realm.countRealmsDestroyedByCatastrophe
+import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import io.ktor.http.*
@@ -170,7 +170,7 @@ private fun HTML.showAllCatastrophes(
                     td { showOptionalDate(call, state, catastrophe.endDate) }
                     tdSkipZero(calendar.getYears(catastrophe.getDuration(state)))
                     td { displayCauseOfCatastrophe(call, state, catastrophe.cause, false) }
-                    tdSkipZero(state.countRealmsDestroyedByCatastrophe(catastrophe.id))
+                    tdSkipZero(state.countDestroyedRealms(catastrophe.id))
                     tdSkipZero(state.countCharactersKilledInCatastrophe(catastrophe.id))
                 }
             }
