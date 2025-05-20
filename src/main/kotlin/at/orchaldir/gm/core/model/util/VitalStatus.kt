@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -27,6 +28,20 @@ sealed class VitalStatus {
     fun getDeathDate() = when (this) {
         is Alive -> null
         is Dead -> deathDay
+    }
+
+    fun <ID : Id<ID>> isDestroyedBy(id: ID) = if (this is Dead) {
+        when (cause) {
+            Accident -> false
+            is DeathByCatastrophe -> cause.catastrophe == id
+            DeathByIllness -> false
+            is DeathInBattle -> cause.battle == id
+            is DeathInWar -> cause.war == id
+            is Murder -> cause.killer == id
+            OldAge -> false
+        }
+    } else {
+        false
     }
 
     fun isCausedBy(battle: BattleId) =
