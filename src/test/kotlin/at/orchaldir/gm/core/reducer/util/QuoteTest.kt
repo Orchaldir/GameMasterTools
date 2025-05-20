@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteQuote
@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.item.text.content.SimpleChapter
 import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.quote.Quote
+import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

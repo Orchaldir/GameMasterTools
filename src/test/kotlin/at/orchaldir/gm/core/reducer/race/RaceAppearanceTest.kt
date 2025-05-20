@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.race
 
 import at.orchaldir.gm.NAME
 import at.orchaldir.gm.RACE_APPEARANCE_ID_0
@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

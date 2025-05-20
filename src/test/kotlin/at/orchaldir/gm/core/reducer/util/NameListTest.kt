@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.NAME_LIST_ID0
 import at.orchaldir.gm.core.action.DeleteNameList
@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameList
+import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
