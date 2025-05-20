@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.model
+package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.PERSONALITY_PREFIX

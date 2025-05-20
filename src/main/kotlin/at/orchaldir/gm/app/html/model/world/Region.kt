@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.model.world
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.parseMaterialId
+import at.orchaldir.gm.app.html.model.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.model.realm.parseOptionalBattleId
 import at.orchaldir.gm.app.html.model.realm.parseOptionalCatastropheId
 import at.orchaldir.gm.app.parse.parse

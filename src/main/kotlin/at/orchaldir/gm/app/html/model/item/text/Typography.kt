@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.html.model.item.text
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.model.font.editFontOption
-import at.orchaldir.gm.app.html.model.font.parseFontOption
+import at.orchaldir.gm.app.html.model.util.font.editFontOption
+import at.orchaldir.gm.app.html.model.util.font.parseFontOption
 import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectValue

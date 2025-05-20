@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
 import at.orchaldir.gm.app.html.model.time.parseHolidays
 import at.orchaldir.gm.app.html.model.time.showHolidays
+import at.orchaldir.gm.app.html.model.util.name.parseNameListId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseOneOf

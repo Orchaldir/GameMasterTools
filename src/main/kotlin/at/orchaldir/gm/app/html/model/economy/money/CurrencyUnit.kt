@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.model.economy.money
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.model.item.equipment.selectMaterial
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse

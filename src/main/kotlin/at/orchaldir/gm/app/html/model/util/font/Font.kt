@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.model.font
+package at.orchaldir.gm.app.html.model.util.font
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.*

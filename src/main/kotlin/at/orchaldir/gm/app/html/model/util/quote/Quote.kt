@@ -1,10 +1,16 @@
-package at.orchaldir.gm.app.html.model
+package at.orchaldir.gm.app.html.model.util.quote
 
 import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldCreator
+import at.orchaldir.gm.app.html.model.optionalField
+import at.orchaldir.gm.app.html.model.parseCreator
+import at.orchaldir.gm.app.html.model.parseOptionalDate
+import at.orchaldir.gm.app.html.model.selectCreator
+import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.quote.Quote

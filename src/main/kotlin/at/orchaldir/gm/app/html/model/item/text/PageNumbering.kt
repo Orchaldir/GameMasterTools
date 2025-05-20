@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.ALIGNMENT
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.PAGE
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.model.font.editFontOption
-import at.orchaldir.gm.app.html.model.font.parseFontOption
-import at.orchaldir.gm.app.html.model.font.showFontOption
+import at.orchaldir.gm.app.html.model.util.font.editFontOption
+import at.orchaldir.gm.app.html.model.util.font.parseFontOption
+import at.orchaldir.gm.app.html.model.util.font.showFontOption
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine

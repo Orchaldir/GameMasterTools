@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.editNameList
-import at.orchaldir.gm.app.html.model.parseNameList
-import at.orchaldir.gm.app.html.model.showNameList
+import at.orchaldir.gm.app.html.model.util.name.editNameList
+import at.orchaldir.gm.app.html.model.util.name.parseNameList
+import at.orchaldir.gm.app.html.model.util.name.showNameList
 import at.orchaldir.gm.core.action.CreateNameList
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList

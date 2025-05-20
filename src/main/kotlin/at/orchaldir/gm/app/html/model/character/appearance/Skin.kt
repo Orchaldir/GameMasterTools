@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html.model.character.appearance
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.model.parseMaterialId
+import at.orchaldir.gm.app.html.model.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.showDetails
