@@ -27,6 +27,10 @@ sealed class WarStatus {
         is FinishedWar -> result.treaty()
     }
 
+    fun isEndedBy(catastrophe: CatastropheId) = when (this) {
+        OngoingWar -> false
+        is FinishedWar -> result.isEndedBy(catastrophe)
+    }
 }
 
 @Serializable

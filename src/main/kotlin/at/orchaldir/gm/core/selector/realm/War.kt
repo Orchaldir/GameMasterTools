@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
@@ -19,3 +20,7 @@ fun State.getWars(realm: RealmId) = getWarStorage()
     .filter { it.realms.contains(realm) }
 
 fun State.getExistingWars(date: Date?) = getExistingElements(getWarStorage().getAll(), date)
+
+fun State.getWarsEndedBy(catastrophe: CatastropheId) = getWarStorage()
+    .getAll()
+    .filter { it.status.isEndedBy(catastrophe) }

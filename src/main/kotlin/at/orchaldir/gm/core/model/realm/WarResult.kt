@@ -37,6 +37,11 @@ sealed class WarResult {
         UndefinedWarResult -> null
     }
 
+    fun isEndedBy(catastrophe: CatastropheId) = when (this) {
+        is InterruptedByCatastrophe -> this.catastrophe == catastrophe
+        else -> false
+    }
+
 }
 
 @Serializable
