@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.time
 
 import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday

@@ -83,6 +83,7 @@ import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.core.reducer.character.validateCharacter
 import at.orchaldir.gm.core.reducer.culture.validateCulture
 import at.orchaldir.gm.core.reducer.culture.validateFashion
+import at.orchaldir.gm.core.reducer.culture.validateLanguage
 import at.orchaldir.gm.core.reducer.economy.validateBusiness
 import at.orchaldir.gm.core.reducer.economy.validateCurrency
 import at.orchaldir.gm.core.reducer.economy.validateCurrencyUnit
@@ -98,11 +99,15 @@ import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.core.reducer.magic.validateSpellGroup
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
 import at.orchaldir.gm.core.reducer.quote.validateQuote
+import at.orchaldir.gm.core.reducer.race.validateRace
+import at.orchaldir.gm.core.reducer.race.validateRaceAppearance
 import at.orchaldir.gm.core.reducer.realm.*
 import at.orchaldir.gm.core.reducer.religion.validateDomain
 import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
 import at.orchaldir.gm.core.reducer.time.validateCalendar
+import at.orchaldir.gm.core.reducer.time.validateHoliday
+import at.orchaldir.gm.core.reducer.util.validateFont
 import at.orchaldir.gm.core.reducer.world.*
 import at.orchaldir.gm.core.reducer.world.town.validateTownMap
 import at.orchaldir.gm.core.save

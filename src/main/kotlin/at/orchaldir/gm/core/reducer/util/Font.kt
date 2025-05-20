@@ -1,12 +1,10 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.font.Font
-import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps

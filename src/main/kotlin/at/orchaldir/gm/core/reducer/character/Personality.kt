@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait

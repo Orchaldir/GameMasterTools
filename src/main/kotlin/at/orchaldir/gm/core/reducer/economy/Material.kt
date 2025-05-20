@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial

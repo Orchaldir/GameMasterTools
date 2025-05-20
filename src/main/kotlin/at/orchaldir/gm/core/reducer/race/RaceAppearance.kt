@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.race
 
 import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateRaceAppearance
