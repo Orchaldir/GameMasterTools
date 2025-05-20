@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.text
 
-import at.orchaldir.gm.app.html.model.displayDate
+import at.orchaldir.gm.app.html.model.util.displayDate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.font.FontId

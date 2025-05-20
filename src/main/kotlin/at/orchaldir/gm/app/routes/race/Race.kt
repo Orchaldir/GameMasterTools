@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.model.race.displayRaceOrigin
 import at.orchaldir.gm.app.html.model.race.editRace
 import at.orchaldir.gm.app.html.model.race.parseRace
 import at.orchaldir.gm.app.html.model.race.showRace
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace

@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.model.util.font
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.model.parseOptionalDate
-import at.orchaldir.gm.app.html.model.selectOptionalDate
+import at.orchaldir.gm.app.html.model.util.optionalField
+import at.orchaldir.gm.app.html.model.util.parseOptionalDate
+import at.orchaldir.gm.app.html.model.util.selectOptionalDate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId

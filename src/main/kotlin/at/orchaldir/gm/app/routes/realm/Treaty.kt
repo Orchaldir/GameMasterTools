@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.realm.editTreaty
 import at.orchaldir.gm.app.html.model.realm.parseTreaty
 import at.orchaldir.gm.app.html.model.realm.showTreaty
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateTreaty
 import at.orchaldir.gm.core.action.DeleteTreaty
 import at.orchaldir.gm.core.action.UpdateTreaty

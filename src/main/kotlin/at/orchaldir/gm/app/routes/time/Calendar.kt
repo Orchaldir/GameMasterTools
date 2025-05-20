@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.routes.time
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.showDate
+import at.orchaldir.gm.app.html.model.util.showDate
 import at.orchaldir.gm.app.html.model.time.editCalendar
 import at.orchaldir.gm.app.html.model.time.parseCalendar
 import at.orchaldir.gm.app.html.model.time.showCalendar

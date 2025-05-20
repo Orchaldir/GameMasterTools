@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.magic.editMagicTradition
 import at.orchaldir.gm.app.html.model.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.model.magic.showMagicTradition
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showCreator
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateMagicTradition
 import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.action.UpdateMagicTradition

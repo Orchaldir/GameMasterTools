@@ -2,12 +2,12 @@ package at.orchaldir.gm.app.html.model.item.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldFactor
+import at.orchaldir.gm.app.html.model.util.fieldFactor
 import at.orchaldir.gm.app.html.model.util.font.editFontOption
 import at.orchaldir.gm.app.html.model.util.font.parseFontOption
 import at.orchaldir.gm.app.html.model.util.font.showFontOption
-import at.orchaldir.gm.app.html.model.parseFactor
-import at.orchaldir.gm.app.html.model.selectFactor
+import at.orchaldir.gm.app.html.model.util.parseFactor
+import at.orchaldir.gm.app.html.model.util.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.State

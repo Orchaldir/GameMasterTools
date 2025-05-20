@@ -1,10 +1,10 @@
 package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.model.parseBuildingPurpose
-import at.orchaldir.gm.app.html.model.parseCreator
-import at.orchaldir.gm.app.html.model.parseOptionalDate
-import at.orchaldir.gm.app.html.model.parseOwnership
+import at.orchaldir.gm.app.html.model.util.parseBuildingPurpose
+import at.orchaldir.gm.app.html.model.util.parseCreator
+import at.orchaldir.gm.app.html.model.util.parseOptionalDate
+import at.orchaldir.gm.app.html.model.util.parseOwnership
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseOptionalName
 import at.orchaldir.gm.app.parse.combine

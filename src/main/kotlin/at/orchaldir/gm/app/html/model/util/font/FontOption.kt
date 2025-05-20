@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.model.util.font
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldDistance
-import at.orchaldir.gm.app.html.model.parseDistance
-import at.orchaldir.gm.app.html.model.selectDistance
+import at.orchaldir.gm.app.html.model.util.fieldDistance
+import at.orchaldir.gm.app.html.model.util.parseDistance
+import at.orchaldir.gm.app.html.model.util.selectDistance
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State

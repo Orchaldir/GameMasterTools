@@ -2,9 +2,14 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.*
 import at.orchaldir.gm.app.html.model.util.displayVitalStatus
+import at.orchaldir.gm.app.html.model.util.showBeliefStatus
+import at.orchaldir.gm.app.html.model.util.showCreated
+import at.orchaldir.gm.app.html.model.util.showDate
+import at.orchaldir.gm.app.html.model.util.showEmploymentStatus
+import at.orchaldir.gm.app.html.model.util.showHousingStatus
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter

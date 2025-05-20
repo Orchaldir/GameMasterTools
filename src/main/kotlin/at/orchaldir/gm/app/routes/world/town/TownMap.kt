@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.app.html.model.world.editTownMap
 import at.orchaldir.gm.app.html.model.world.parseTownMap
 import at.orchaldir.gm.app.html.model.world.showTownMap

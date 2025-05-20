@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.model
+package at.orchaldir.gm.app.html.model.util
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*

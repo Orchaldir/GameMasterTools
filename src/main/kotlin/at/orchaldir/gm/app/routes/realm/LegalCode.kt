@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.realm.editLegalCode
 import at.orchaldir.gm.app.html.model.realm.parseLegalCode
 import at.orchaldir.gm.app.html.model.realm.showLegalCode
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showCreator
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateLegalCode
 import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.action.UpdateLegalCode

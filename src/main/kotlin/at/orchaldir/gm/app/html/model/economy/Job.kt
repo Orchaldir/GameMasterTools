@@ -7,9 +7,9 @@ import at.orchaldir.gm.app.html.model.economy.money.parsePrice
 import at.orchaldir.gm.app.html.model.economy.money.showPrice
 import at.orchaldir.gm.app.html.model.item.parseOptionalUniformId
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
-import at.orchaldir.gm.app.html.model.parseGenderMap
-import at.orchaldir.gm.app.html.model.selectGenderMap
-import at.orchaldir.gm.app.html.model.showGenderMap
+import at.orchaldir.gm.app.html.model.util.parseGenderMap
+import at.orchaldir.gm.app.html.model.util.selectGenderMap
+import at.orchaldir.gm.app.html.model.util.showGenderMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseSomeOf

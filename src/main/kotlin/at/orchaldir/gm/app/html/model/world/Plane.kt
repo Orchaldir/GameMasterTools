@@ -3,10 +3,10 @@ package at.orchaldir.gm.app.html.model.world
 import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.editDataSources
-import at.orchaldir.gm.app.html.model.parseDataSources
-import at.orchaldir.gm.app.html.model.parseLanguageId
-import at.orchaldir.gm.app.html.model.showDataSources
+import at.orchaldir.gm.app.html.model.util.editDataSources
+import at.orchaldir.gm.app.html.model.util.parseDataSources
+import at.orchaldir.gm.app.html.model.util.parseLanguageId
+import at.orchaldir.gm.app.html.model.util.showDataSources
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane

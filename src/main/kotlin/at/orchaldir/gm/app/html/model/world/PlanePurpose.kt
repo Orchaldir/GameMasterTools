@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PLANE
 import at.orchaldir.gm.app.PURPOSE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldCreator
-import at.orchaldir.gm.app.html.model.parseCreator
+import at.orchaldir.gm.app.html.model.util.fieldCreator
+import at.orchaldir.gm.app.html.model.util.parseCreator
 import at.orchaldir.gm.app.html.model.religion.parseGodId
-import at.orchaldir.gm.app.html.model.selectCreator
+import at.orchaldir.gm.app.html.model.util.selectCreator
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements

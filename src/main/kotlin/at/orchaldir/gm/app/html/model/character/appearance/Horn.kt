@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.html.model.character.appearance
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.parseFactor
-import at.orchaldir.gm.app.html.model.parseOrientation
-import at.orchaldir.gm.app.html.model.selectOrientation
-import at.orchaldir.gm.app.html.model.selectPercentage
+import at.orchaldir.gm.app.html.model.util.parseFactor
+import at.orchaldir.gm.app.html.model.util.parseOrientation
+import at.orchaldir.gm.app.html.model.util.selectOrientation
+import at.orchaldir.gm.app.html.model.util.selectPercentage
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig

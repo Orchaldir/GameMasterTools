@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.economy.editBusiness
 import at.orchaldir.gm.app.html.model.economy.parseBusiness
 import at.orchaldir.gm.app.html.model.economy.showBusiness
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.html.model.showOwner
+import at.orchaldir.gm.app.html.model.util.showCreator
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showOwner
 import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness

@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.realm.editWar
 import at.orchaldir.gm.app.html.model.realm.parseWar
 import at.orchaldir.gm.app.html.model.realm.showWar
-import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.html.model.tdDestroyed
-import at.orchaldir.gm.app.html.model.thDestroyed
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.tdDestroyed
+import at.orchaldir.gm.app.html.model.util.thDestroyed
 import at.orchaldir.gm.core.action.CreateWar
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar

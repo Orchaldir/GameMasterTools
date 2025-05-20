@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.displayOrigin
-import at.orchaldir.gm.app.html.model.editLanguage
-import at.orchaldir.gm.app.html.model.parseLanguage
-import at.orchaldir.gm.app.html.model.showLanguage
+import at.orchaldir.gm.app.html.model.util.displayOrigin
+import at.orchaldir.gm.app.html.model.util.editLanguage
+import at.orchaldir.gm.app.html.model.util.parseLanguage
+import at.orchaldir.gm.app.html.model.util.showLanguage
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage

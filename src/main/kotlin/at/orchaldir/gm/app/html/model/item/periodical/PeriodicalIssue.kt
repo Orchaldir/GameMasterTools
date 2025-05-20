@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.CONTENT
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.PERIODICAL
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.html.model.parseDate
-import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.html.model.util.field
+import at.orchaldir.gm.app.html.model.util.parseDate
+import at.orchaldir.gm.app.html.model.util.selectDate
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue

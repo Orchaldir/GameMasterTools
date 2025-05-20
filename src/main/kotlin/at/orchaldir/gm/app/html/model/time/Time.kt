@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldLink
-import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.html.model.parseDay
-import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.html.model.util.field
+import at.orchaldir.gm.app.html.model.util.parseDay
+import at.orchaldir.gm.app.html.model.util.selectDate
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.routes.time.TimeRoutes
 import at.orchaldir.gm.core.model.State

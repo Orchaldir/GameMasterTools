@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.item.text.editText
 import at.orchaldir.gm.app.html.model.item.text.parseText
 import at.orchaldir.gm.app.html.model.item.text.showText
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showCreator
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText

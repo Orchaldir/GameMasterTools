@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.organization.editOrganization
 import at.orchaldir.gm.app.html.model.organization.parseOrganization
 import at.orchaldir.gm.app.html.model.organization.showOrganization
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showCreator
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization

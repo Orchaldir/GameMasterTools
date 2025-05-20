@@ -5,8 +5,14 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.FREQUENCY
 import at.orchaldir.gm.app.LANGUAGE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.time.parseCalendarId
+import at.orchaldir.gm.app.html.model.util.optionalField
+import at.orchaldir.gm.app.html.model.util.parseLanguageId
+import at.orchaldir.gm.app.html.model.util.parseOptionalDate
+import at.orchaldir.gm.app.html.model.util.parseOwnership
+import at.orchaldir.gm.app.html.model.util.selectOptionalDate
+import at.orchaldir.gm.app.html.model.util.selectOwnership
+import at.orchaldir.gm.app.html.model.util.showOwnership
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical

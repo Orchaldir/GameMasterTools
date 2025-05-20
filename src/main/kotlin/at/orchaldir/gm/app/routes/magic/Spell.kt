@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.model.magic.editSpell
 import at.orchaldir.gm.app.html.model.magic.parseSpell
 import at.orchaldir.gm.app.html.model.magic.showOrigin
 import at.orchaldir.gm.app.html.model.magic.showSpell
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateSpell
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell

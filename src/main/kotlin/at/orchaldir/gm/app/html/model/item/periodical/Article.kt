@@ -9,9 +9,9 @@ import at.orchaldir.gm.app.html.model.character.parseOptionalCharacterId
 import at.orchaldir.gm.app.html.model.item.text.editContentEntries
 import at.orchaldir.gm.app.html.model.item.text.parseContentEntries
 import at.orchaldir.gm.app.html.model.item.text.showContentEntries
-import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.model.parseOptionalDate
-import at.orchaldir.gm.app.html.model.selectOptionalDate
+import at.orchaldir.gm.app.html.model.util.optionalField
+import at.orchaldir.gm.app.html.model.util.parseOptionalDate
+import at.orchaldir.gm.app.html.model.util.selectOptionalDate
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.*

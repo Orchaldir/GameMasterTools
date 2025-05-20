@@ -5,12 +5,12 @@ import at.orchaldir.gm.app.INITIAL
 import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.model.fieldFactor
+import at.orchaldir.gm.app.html.model.util.fieldFactor
 import at.orchaldir.gm.app.html.model.util.font.editFontOption
 import at.orchaldir.gm.app.html.model.util.font.parseFontOption
 import at.orchaldir.gm.app.html.model.util.font.showFontOption
-import at.orchaldir.gm.app.html.model.parseFactor
-import at.orchaldir.gm.app.html.model.selectFactor
+import at.orchaldir.gm.app.html.model.util.parseFactor
+import at.orchaldir.gm.app.html.model.util.selectFactor
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine

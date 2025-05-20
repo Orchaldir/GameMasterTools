@@ -6,9 +6,9 @@ import at.orchaldir.gm.app.html.model.realm.displayCauseOfCatastrophe
 import at.orchaldir.gm.app.html.model.realm.editCatastrophe
 import at.orchaldir.gm.app.html.model.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.model.realm.showCatastrophe
-import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.html.model.tdDestroyed
-import at.orchaldir.gm.app.html.model.thDestroyed
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.tdDestroyed
+import at.orchaldir.gm.app.html.model.util.thDestroyed
 import at.orchaldir.gm.core.action.CreateCatastrophe
 import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe

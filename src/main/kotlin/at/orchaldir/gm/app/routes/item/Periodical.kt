@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.item.periodical.editPeriodical
 import at.orchaldir.gm.app.html.model.item.periodical.parsePeriodical
 import at.orchaldir.gm.app.html.model.item.periodical.showPeriodical
-import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.html.model.showOwner
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showOwner
 import at.orchaldir.gm.core.action.CreatePeriodical
 import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical

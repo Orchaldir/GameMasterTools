@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.realm.editRealm
 import at.orchaldir.gm.app.html.model.realm.parseRealm
 import at.orchaldir.gm.app.html.model.realm.showRealm
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.showCreator
+import at.orchaldir.gm.app.html.model.util.showOptionalDate
 import at.orchaldir.gm.app.html.model.util.displayVitalStatus
 import at.orchaldir.gm.core.action.CreateRealm
 import at.orchaldir.gm.core.action.DeleteRealm

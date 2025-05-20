@@ -4,11 +4,14 @@ import at.orchaldir.gm.app.DOMAIN
 import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.editPersonality
 import at.orchaldir.gm.app.html.model.character.parseGender
 import at.orchaldir.gm.app.html.model.character.parsePersonality
 import at.orchaldir.gm.app.html.model.character.showPersonality
+import at.orchaldir.gm.app.html.model.util.editDataSources
+import at.orchaldir.gm.app.html.model.util.parseDataSources
+import at.orchaldir.gm.app.html.model.util.showCreated
+import at.orchaldir.gm.app.html.model.util.showDataSources
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
