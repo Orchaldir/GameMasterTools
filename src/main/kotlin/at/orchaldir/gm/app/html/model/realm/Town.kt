@@ -13,7 +13,6 @@ import at.orchaldir.gm.app.html.model.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.util.CauseOfDeathType
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWN
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital

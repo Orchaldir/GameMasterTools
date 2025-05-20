@@ -1,12 +1,14 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.tdSkipZero
+import at.orchaldir.gm.app.html.thMultiLines
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HasVitalStatus
 import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
-import at.orchaldir.gm.core.selector.util.*
+import at.orchaldir.gm.core.selector.util.getDestroyedBy
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

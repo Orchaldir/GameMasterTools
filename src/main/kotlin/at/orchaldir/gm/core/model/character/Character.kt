@@ -19,12 +19,7 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
-import at.orchaldir.gm.core.model.util.Alive
-import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.HasStartAndEndDate
-import at.orchaldir.gm.core.model.util.HasVitalStatus
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.VitalStatus
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.getGenonymName
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getStartDay

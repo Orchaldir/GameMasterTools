@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.HasVitalStatus
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

@@ -2,17 +2,7 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Abandoned
-import at.orchaldir.gm.core.model.util.Accident
-import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.DeathByCatastrophe
-import at.orchaldir.gm.core.model.util.DeathByIllness
-import at.orchaldir.gm.core.model.util.DeathInWar
-import at.orchaldir.gm.core.model.util.DeathInBattle
-import at.orchaldir.gm.core.model.util.Murder
-import at.orchaldir.gm.core.model.util.OldAge
-import at.orchaldir.gm.core.model.util.UndefinedCauseOfDeath
-import at.orchaldir.gm.core.model.util.VitalStatus
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.utils.Element

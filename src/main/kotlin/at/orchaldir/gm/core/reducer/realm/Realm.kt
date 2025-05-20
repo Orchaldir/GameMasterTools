@@ -4,12 +4,8 @@ import at.orchaldir.gm.core.action.CreateRealm
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.reducer.util.checkHistory
-import at.orchaldir.gm.core.reducer.util.checkVitalStatus
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
 import at.orchaldir.gm.core.selector.realm.canDeleteRealm
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted

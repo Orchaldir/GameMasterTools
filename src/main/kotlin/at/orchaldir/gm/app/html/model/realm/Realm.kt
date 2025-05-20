@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALM
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWN
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.economy.money.getExistingCurrency

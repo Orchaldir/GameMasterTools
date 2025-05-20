@@ -1,8 +1,5 @@
 package at.orchaldir.gm.core.model.util
 
-import at.orchaldir.gm.core.model.realm.BattleId
-import at.orchaldir.gm.core.model.realm.CatastropheId
-import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
