@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Accident
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathByCatastrophe
@@ -13,6 +14,7 @@ import at.orchaldir.gm.core.model.util.DeathByWar
 import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.util.Murder
 import at.orchaldir.gm.core.model.util.OldAge
+import at.orchaldir.gm.core.model.util.VitalStatus
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.getChildren
 import at.orchaldir.gm.core.selector.character.getParents
@@ -82,7 +84,7 @@ fun validateCharacterData(
     state.getTitleStorage().requireOptional(character.title)
     checkSexualOrientation(character)
     checkOrigin(state, character)
-    checkCauseOfDeath(state, character)
+    checkVitalStatus(state, character.vitalStatus, character.birthDate)
     checkBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     checkHousingStatusHistory(state, character.housingStatus, character.birthDate)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
@@ -116,28 +118,36 @@ private fun checkOrigin(
     }
 }
 
+fun checkVitalStatus(
+    state: State,
+    status: VitalStatus,
+    startDate: Date,
+) {
+    if (status is Dead) {
+        checkCauseOfDeath(state, status, startDate)
+    }
+}
+
 private fun checkCauseOfDeath(
     state: State,
-    character: Character,
+    dead: Dead,
+    startDate: Date,
 ) {
-    if (character.vitalStatus is Dead) {
-        val calendar = state.getDefaultCalendar()
-        val dead = character.vitalStatus
+    val calendar = state.getDefaultCalendar()
 
-        dead.deathDay.let {
-            require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Character died in the future!" }
-            require(calendar.isAfterOrEqual(it, character.birthDate)) { "Character died before its origin!" }
-        }
+    dead.deathDay.let {
+        require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Character died in the future!" }
+        require(calendar.isAfterOrEqual(it, startDate)) { "Character died before its origin!" }
+    }
 
-        when (val cause = dead.cause) {
-            Accident -> doNothing()
-            is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
-            DeathByIllness -> doNothing()
-            is DeathByWar -> checkCauseElement(state.getWarStorage(), cause.war)
-            is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
-            is Murder -> checkCauseElement(state.getCharacterStorage(), cause.killer)
-            OldAge -> doNothing()
-        }
+    when (val cause = dead.cause) {
+        Accident -> doNothing()
+        is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
+        DeathByIllness -> doNothing()
+        is DeathByWar -> checkCauseElement(state.getWarStorage(), cause.war)
+        is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
+        is Murder -> checkCauseElement(state.getCharacterStorage(), cause.killer)
+        OldAge -> doNothing()
     }
 }
 
