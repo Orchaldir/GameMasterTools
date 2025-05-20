@@ -166,7 +166,7 @@ private fun HTML.showAllWars(
                 tr {
                     tdLink(call, state, war)
                     td { showOptionalDate(call, state, war.startDate) }
-                    td { showOptionalDate(call, state, war.endDate) }
+                    td { showOptionalDate(call, state, war.endDate()) }
                     tdSkipZero(calendar.getYears(war.getDuration(state)))
                     tdSkipZero(state.countBattles(war.id))
                     tdDestroyed(state, war.id)
