@@ -21,8 +21,16 @@ import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.util.Accident
+import at.orchaldir.gm.core.model.util.CauseOfDeath
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.Dead
+import at.orchaldir.gm.core.model.util.DeathByCatastrophe
+import at.orchaldir.gm.core.model.util.DeathByWar
+import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.Murder
+import at.orchaldir.gm.core.model.util.OldAge
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building

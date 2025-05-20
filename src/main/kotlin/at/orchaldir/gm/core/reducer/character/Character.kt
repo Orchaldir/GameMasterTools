@@ -5,6 +5,14 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.util.Accident
+import at.orchaldir.gm.core.model.util.Dead
+import at.orchaldir.gm.core.model.util.DeathByCatastrophe
+import at.orchaldir.gm.core.model.util.DeathByIllness
+import at.orchaldir.gm.core.model.util.DeathByWar
+import at.orchaldir.gm.core.model.util.DeathInBattle
+import at.orchaldir.gm.core.model.util.Murder
+import at.orchaldir.gm.core.model.util.OldAge
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.getChildren
 import at.orchaldir.gm.core.selector.character.getParents

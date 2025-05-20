@@ -1,8 +1,9 @@
-package at.orchaldir.gm.app.html.model.character
+package at.orchaldir.gm.app.html.model.util
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.model.character.parseCharacterId
 import at.orchaldir.gm.app.html.model.field
 import at.orchaldir.gm.app.html.model.parseDate
 import at.orchaldir.gm.app.html.model.realm.parseBattleId
@@ -15,6 +16,18 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.util.Accident
+import at.orchaldir.gm.core.model.util.Alive
+import at.orchaldir.gm.core.model.util.CauseOfDeathType
+import at.orchaldir.gm.core.model.util.Dead
+import at.orchaldir.gm.core.model.util.DeathByCatastrophe
+import at.orchaldir.gm.core.model.util.DeathByIllness
+import at.orchaldir.gm.core.model.util.DeathByWar
+import at.orchaldir.gm.core.model.util.DeathInBattle
+import at.orchaldir.gm.core.model.util.Murder
+import at.orchaldir.gm.core.model.util.OldAge
+import at.orchaldir.gm.core.model.util.VitalStatus
+import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.realm.getExistingBattles
 import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes

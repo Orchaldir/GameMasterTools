@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character
+package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId

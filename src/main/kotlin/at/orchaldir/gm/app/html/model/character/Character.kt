@@ -6,6 +6,9 @@ import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.html.model.culture.parseCultureId
 import at.orchaldir.gm.app.html.model.race.parseRaceId
+import at.orchaldir.gm.app.html.model.util.parseVitalStatus
+import at.orchaldir.gm.app.html.model.util.selectVitalStatus
+import at.orchaldir.gm.app.html.model.util.showVitalStatus
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
