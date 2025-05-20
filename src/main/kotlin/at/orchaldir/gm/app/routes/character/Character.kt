@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.*
+import at.orchaldir.gm.app.html.model.util.displayVitalStatus
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -176,9 +177,10 @@ private fun HTML.showAllCharacters(
                 th { +"Sexuality" }
                 th { +"Culture" }
                 th { +"Belief" }
+                th { +"Age" }
                 th { +"Birthdate" }
                 th { +"Deathdate" }
-                th { +"Age" }
+                th { +"Death" }
                 th { +"Housing Status" }
                 th { +"Employment Status" }
                 th { +"Organizations" }
@@ -205,9 +207,10 @@ private fun HTML.showAllCharacters(
                     }
                     tdLink(call, state, character.culture)
                     td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
+                    tdSkipZero(character.getAgeInYears(state))
                     td { showDate(call, state, character.birthDate) }
                     td { showOptionalDate(call, state, character.vitalStatus.getDeathDate()) }
-                    tdSkipZero(character.getAgeInYears(state))
+                    td { displayVitalStatus(call, state, character.vitalStatus, false) }
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false, false) }
                     tdSkipZero(state.getOrganizations(character.id).size)
