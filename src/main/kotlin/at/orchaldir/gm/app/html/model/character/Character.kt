@@ -77,7 +77,7 @@ fun HtmlBlockTag.showData(
         UndefinedAppearance -> doNothing()
     }
     field(call, state, "Birthdate", character.birthDate)
-    showVitalStatus(call, state, character.vitalStatus)
+    showVitalStatus(call, state, character.vitalStatus, "Death")
     showAge(state, character, race)
     showHousingStatusHistory(call, state, character.housingStatus)
     showEmploymentStatusHistory(call, state, character.employmentStatus)

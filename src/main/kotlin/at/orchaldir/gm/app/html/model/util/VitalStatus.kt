@@ -33,12 +33,15 @@ fun HtmlBlockTag.showVitalStatus(
     call: ApplicationCall,
     state: State,
     status: VitalStatus,
+    label: String = "Destruction",
 ) {
     if (status is Dead) {
-        field(call, state, "Date of Death", status.deathDay)
+        showDetails(label, true) {
+            field(call, state, "Date", status.deathDay)
 
-        field("Cause of Death") {
-            displayCauseOfDeath(call, state, status.cause)
+            field("Cause") {
+                displayCauseOfDeath(call, state, status.cause)
+            }
         }
     }
 }
