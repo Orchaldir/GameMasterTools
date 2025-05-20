@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.util.optionalField
-import at.orchaldir.gm.app.html.model.util.selectOptionalYear
-import at.orchaldir.gm.app.html.model.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.optionalField
+import at.orchaldir.gm.app.html.util.selectOptionalYear
+import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
 import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle

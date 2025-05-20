@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.time.displayHolidayPurpose
-import at.orchaldir.gm.app.html.model.time.editHoliday
-import at.orchaldir.gm.app.html.model.time.parseHoliday
-import at.orchaldir.gm.app.html.model.time.showHoliday
+import at.orchaldir.gm.app.html.time.displayHolidayPurpose
+import at.orchaldir.gm.app.html.time.editHoliday
+import at.orchaldir.gm.app.html.time.parseHoliday
+import at.orchaldir.gm.app.html.time.showHoliday
 import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday

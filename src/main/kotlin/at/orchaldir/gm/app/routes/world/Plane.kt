@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.world.*
+import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.core.action.CreatePlane
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane

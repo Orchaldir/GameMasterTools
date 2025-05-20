@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.organization
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.organization.editOrganization
-import at.orchaldir.gm.app.html.model.organization.parseOrganization
-import at.orchaldir.gm.app.html.model.organization.showOrganization
-import at.orchaldir.gm.app.html.model.util.showCreator
-import at.orchaldir.gm.app.html.model.util.showOptionalDate
+import at.orchaldir.gm.app.html.organization.editOrganization
+import at.orchaldir.gm.app.html.organization.parseOrganization
+import at.orchaldir.gm.app.html.organization.showOrganization
+import at.orchaldir.gm.app.html.util.showCreator
+import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization

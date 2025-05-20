@@ -2,13 +2,13 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.realm.displayCauseOfCatastrophe
-import at.orchaldir.gm.app.html.model.realm.editCatastrophe
-import at.orchaldir.gm.app.html.model.realm.parseCatastrophe
-import at.orchaldir.gm.app.html.model.realm.showCatastrophe
-import at.orchaldir.gm.app.html.model.util.showOptionalDate
-import at.orchaldir.gm.app.html.model.util.tdDestroyed
-import at.orchaldir.gm.app.html.model.util.thDestroyed
+import at.orchaldir.gm.app.html.realm.displayCauseOfCatastrophe
+import at.orchaldir.gm.app.html.realm.editCatastrophe
+import at.orchaldir.gm.app.html.realm.parseCatastrophe
+import at.orchaldir.gm.app.html.realm.showCatastrophe
+import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.tdDestroyed
+import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.core.action.CreateCatastrophe
 import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe

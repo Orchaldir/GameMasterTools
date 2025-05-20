@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.culture
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.culture.editCulture
-import at.orchaldir.gm.app.html.model.culture.parseCulture
-import at.orchaldir.gm.app.html.model.culture.showCulture
+import at.orchaldir.gm.app.html.culture.editCulture
+import at.orchaldir.gm.app.html.culture.parseCulture
+import at.orchaldir.gm.app.html.culture.showCulture
 import at.orchaldir.gm.core.action.CloneCulture
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture

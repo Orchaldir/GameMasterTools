@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.item.editUniform
-import at.orchaldir.gm.app.html.model.item.parseUniform
-import at.orchaldir.gm.app.html.model.item.showUniform
+import at.orchaldir.gm.app.html.item.editUniform
+import at.orchaldir.gm.app.html.item.parseUniform
+import at.orchaldir.gm.app.html.item.showUniform
 import at.orchaldir.gm.core.action.CreateUniform
 import at.orchaldir.gm.core.action.DeleteUniform
 import at.orchaldir.gm.core.action.UpdateUniform

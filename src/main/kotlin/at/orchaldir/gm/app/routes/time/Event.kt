@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.back
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.model.util.fieldCurrentDate
-import at.orchaldir.gm.app.html.model.util.showEmploymentStatus
-import at.orchaldir.gm.app.html.model.util.showOwner
+import at.orchaldir.gm.app.html.util.fieldCurrentDate
+import at.orchaldir.gm.app.html.util.showEmploymentStatus
+import at.orchaldir.gm.app.html.util.showOwner
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId

@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.economy
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.economy.editJob
-import at.orchaldir.gm.app.html.model.economy.parseJob
-import at.orchaldir.gm.app.html.model.economy.showJob
+import at.orchaldir.gm.app.html.economy.editJob
+import at.orchaldir.gm.app.html.economy.parseJob
+import at.orchaldir.gm.app.html.economy.showJob
 import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob

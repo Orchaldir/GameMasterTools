@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.util.quote.editQuote
-import at.orchaldir.gm.app.html.model.util.quote.parseQuote
-import at.orchaldir.gm.app.html.model.util.quote.showQuote
-import at.orchaldir.gm.app.html.model.util.showCreator
-import at.orchaldir.gm.app.html.model.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.quote.editQuote
+import at.orchaldir.gm.app.html.util.quote.parseQuote
+import at.orchaldir.gm.app.html.util.quote.showQuote
+import at.orchaldir.gm.app.html.util.showCreator
+import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateQuote
 import at.orchaldir.gm.core.action.DeleteQuote
 import at.orchaldir.gm.core.action.UpdateQuote

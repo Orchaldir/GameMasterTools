@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.race.editRaceAppearance
-import at.orchaldir.gm.app.html.model.race.parseRaceAppearance
-import at.orchaldir.gm.app.html.model.race.showRaceAppearance
+import at.orchaldir.gm.app.html.race.editRaceAppearance
+import at.orchaldir.gm.app.html.race.parseRaceAppearance
+import at.orchaldir.gm.app.html.race.showRaceAppearance
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateRaceAppearance

@@ -2,12 +2,12 @@ package at.orchaldir.gm.app.routes.economy
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.economy.editBusiness
-import at.orchaldir.gm.app.html.model.economy.parseBusiness
-import at.orchaldir.gm.app.html.model.economy.showBusiness
-import at.orchaldir.gm.app.html.model.util.showCreator
-import at.orchaldir.gm.app.html.model.util.showOptionalDate
-import at.orchaldir.gm.app.html.model.util.showOwner
+import at.orchaldir.gm.app.html.economy.editBusiness
+import at.orchaldir.gm.app.html.economy.parseBusiness
+import at.orchaldir.gm.app.html.economy.showBusiness
+import at.orchaldir.gm.app.html.util.showCreator
+import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showOwner
 import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness

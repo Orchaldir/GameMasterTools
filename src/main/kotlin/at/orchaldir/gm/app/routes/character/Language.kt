@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.character.showLanguages
+import at.orchaldir.gm.app.html.character.showLanguages
 import at.orchaldir.gm.core.action.AddLanguage
 import at.orchaldir.gm.core.action.RemoveLanguages
 import at.orchaldir.gm.core.model.State

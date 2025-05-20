@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.parse.world
 import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.START
-import at.orchaldir.gm.app.html.model.util.parseOptionalYear
+import at.orchaldir.gm.app.html.util.parseOptionalYear
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt

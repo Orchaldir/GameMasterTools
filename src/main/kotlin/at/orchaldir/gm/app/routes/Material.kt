@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.economy.material.editMaterial
-import at.orchaldir.gm.app.html.model.economy.material.parseMaterial
-import at.orchaldir.gm.app.html.model.economy.material.showMaterial
+import at.orchaldir.gm.app.html.economy.material.editMaterial
+import at.orchaldir.gm.app.html.economy.material.parseMaterial
+import at.orchaldir.gm.app.html.economy.material.showMaterial
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial

@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.character.editEquipmentMap
-import at.orchaldir.gm.app.html.model.character.parseEquipmentMap
+import at.orchaldir.gm.app.html.character.editEquipmentMap
+import at.orchaldir.gm.app.html.character.parseEquipmentMap
 import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State

@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.item.text.editText
-import at.orchaldir.gm.app.html.model.item.text.parseText
-import at.orchaldir.gm.app.html.model.item.text.showText
-import at.orchaldir.gm.app.html.model.util.showCreator
-import at.orchaldir.gm.app.html.model.util.showOptionalDate
+import at.orchaldir.gm.app.html.item.text.editText
+import at.orchaldir.gm.app.html.item.text.parseText
+import at.orchaldir.gm.app.html.item.text.showText
+import at.orchaldir.gm.app.html.util.showCreator
+import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
