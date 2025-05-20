@@ -22,6 +22,12 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         handleStartAndEnd(events, default, calendar, style, style.id)
     }
 
+    getBattleStorage().getAll().forEach { battle ->
+        addPossibleEvent(events, default, calendar, battle.date) {
+            StartEvent(it, battle.id)
+        }
+    }
+
     getBuildingStorage().getAll().forEach { building ->
         addPossibleEvent(events, default, calendar, building.constructionDate) {
             StartEvent(it, building.id)
@@ -100,9 +106,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getRealmStorage().getAll().forEach { realm ->
-        addPossibleEvent(events, default, calendar, realm.startDate()) {
-            StartEvent(it, realm.id)
-        }
+        handleStartAndEnd(events, default, calendar, realm, realm.id)
 
         addHistoricEvents(events, default, calendar, realm.id, realm.capital, HistoryEventType.Capital)
         addHistoricEvents(events, default, calendar, realm.id, realm.currency, HistoryEventType.Currency)
@@ -123,9 +127,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getTownStorage().getAll().forEach { town ->
-        addPossibleEvent(events, default, calendar, town.foundingDate) {
-            StartEvent(it, town.id)
-        }
+        handleStartAndEnd(events, default, calendar, town, town.id)
     }
 
     getTreatyStorage().getAll().forEach { treaty ->

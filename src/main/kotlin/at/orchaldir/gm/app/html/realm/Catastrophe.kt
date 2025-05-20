@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
+import at.orchaldir.gm.core.selector.realm.getWarsEndedBy
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
@@ -32,6 +33,7 @@ fun HtmlBlockTag.showCatastrophe(
     showCauseOfCatastrophe(call, state, catastrophe.cause)
     showDestroyed(call, state, catastrophe.id)
     fieldList(call, state, "Created Regions", state.getRegionsCreatedBy(catastrophe.id))
+    fieldList(call, state, "Ended Wars", state.getWarsEndedBy(catastrophe.id))
     fieldList(call, state, state.getHolidays(catastrophe.id))
     showDataSources(call, state, catastrophe.sources)
 }

@@ -31,7 +31,7 @@ fun HtmlBlockTag.showWar(
     val calendar = state.getDefaultCalendar()
 
     optionalField(call, state, "Start Date", war.startDate)
-    optionalField(call, state, "End Date", war.endDate)
+    showWarStatus(call, state, war.status)
     fieldAge("Duration", calendar.getYears(war.getDuration(state)))
     fieldList(call, state, battles)
     fieldIdList(call, state, "Participating Realms", war.realms)
@@ -47,7 +47,8 @@ fun FORM.editWar(
 ) {
     selectName(war.name)
     selectOptionalDate(state, "Start Date", war.startDate, combine(START, DATE))
-    selectOptionalDate(state, "End Date", war.endDate, combine(END, DATE))
+    editWarStatus(state, war.startDate, war.status)
+    selectOptionalDate(state, "End Date", war.endDate(), combine(END, DATE))
     selectElements(state, "Realms", REALM, state.sortRealms(), war.realms)
     editDataSources(state, war.sources)
 }
@@ -62,7 +63,7 @@ fun parseWar(parameters: Parameters, state: State, id: WarId) = War(
     id,
     parseName(parameters),
     parseOptionalDate(parameters, state, combine(START, DATE)),
-    parseOptionalDate(parameters, state, combine(END, DATE)),
+    parseWarStatus(parameters, state),
     parseElements(parameters, REALM, ::parseRealmId),
     parseDataSources(parameters),
 )

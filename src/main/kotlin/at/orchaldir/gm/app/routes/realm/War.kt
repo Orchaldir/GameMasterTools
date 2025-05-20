@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.realm.displayWarStatus
 import at.orchaldir.gm.app.html.realm.editWar
 import at.orchaldir.gm.app.html.realm.parseWar
 import at.orchaldir.gm.app.html.realm.showWar
@@ -159,6 +160,8 @@ private fun HTML.showAllWars(
                 th { +"Start" }
                 th { +"End" }
                 th { +"Years" }
+                th { +"Status" }
+                th { +"Treaty" }
                 th { +"Battles" }
                 thDestroyed()
             }
@@ -166,8 +169,10 @@ private fun HTML.showAllWars(
                 tr {
                     tdLink(call, state, war)
                     td { showOptionalDate(call, state, war.startDate) }
-                    td { showOptionalDate(call, state, war.endDate) }
+                    td { showOptionalDate(call, state, war.endDate()) }
                     tdSkipZero(calendar.getYears(war.getDuration(state)))
+                    td { displayWarStatus(call, state, war.status) }
+                    tdLink(call, state, war.status.treaty())
                     tdSkipZero(state.countBattles(war.id))
                     tdDestroyed(state, war.id)
                 }

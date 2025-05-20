@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
+import at.orchaldir.gm.core.selector.realm.getWarsEndedBy
 import at.orchaldir.gm.core.selector.time.getHolidays
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -33,6 +34,7 @@ fun HtmlBlockTag.showTreaty(
     fieldList("Participants", treaty.participants) {
         showTreatyParticipant(call, state, it)
     }
+    fieldList(call, state, "Ended Wars", state.getWarsEndedBy(treaty.id))
     fieldList(call, state, state.getHolidays(treaty.id))
     showDataSources(call, state, treaty.sources)
 }

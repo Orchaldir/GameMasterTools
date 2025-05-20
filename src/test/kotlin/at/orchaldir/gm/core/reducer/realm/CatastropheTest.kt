@@ -6,6 +6,9 @@ import at.orchaldir.gm.core.action.UpdateCatastrophe
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.Catastrophe
+import at.orchaldir.gm.core.model.realm.FinishedWar
+import at.orchaldir.gm.core.model.realm.InterruptedByCatastrophe
+import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayOfCatastrophe
 import at.orchaldir.gm.core.model.util.Dead
@@ -70,6 +73,17 @@ class CatastropheTest {
         fun `Cannot delete a catastrophe that created a region`() {
             val region = Region(REGION_ID_0, data = Wasteland(CATASTROPHE_ID_0))
             val newState = STATE.updateStorage(Storage(region))
+
+            assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a catastrophe that interrupted a war`() {
+            val status = FinishedWar(InterruptedByCatastrophe(CATASTROPHE_ID_0), DAY0)
+            val war = War(WAR_ID_0, status = status)
+            val newState = STATE.updateStorage(Storage(war))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
                 REDUCER.invoke(newState, action)
