@@ -13,6 +13,8 @@ import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
+import at.orchaldir.gm.core.selector.util.requireExist
+import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -43,14 +45,18 @@ val UPDATE_WAR: Reducer<UpdateWar, State> = { state, action ->
 
 fun validateWar(state: State, war: War) {
     validateHasStartAndEnd(state, war)
-    state.getRealmStorage().require(war.realms)
+    state.requireExist(state.getRealmStorage(), war.realms, war.startDate)
     validateWarStatus(state, war.status)
 }
 
 fun validateWarStatus(state: State, status: WarStatus) {
-    state.getTreatyStorage().requireOptional(status.treaty())
+    if (status is FinishedWar) {
+        status.treaty()?.let {
+            state.requireExists(state.getTreatyStorage(), it, status.date)
+        }
 
-    if (status is FinishedWar && status.result is InterruptedByCatastrophe) {
-        state.getCatastropheStorage().require(status.result.catastrophe)
+        if (status.result is InterruptedByCatastrophe) {
+            state.requireExists(state.getCatastropheStorage(), status.result.catastrophe, status.date)
+        }
     }
 }

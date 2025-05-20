@@ -33,6 +33,13 @@ fun <ELEMENT : HasStartDate> State.getExistingElements(elements: Collection<ELEM
     elements.filter { exists(it, endDay) }
 }
 
+fun <ID, ELEMENT> State.requireExist(storage: Storage<ID, ELEMENT>, ids: Collection<ID>, date: Date?)
+        where ID : Id<ID>,
+              ELEMENT : Element<ID>,
+              ELEMENT : HasStartDate {
+    ids.forEach { id -> requireExists(storage, id, date) }
+}
+
 fun <ID, ELEMENT> State.requireExists(storage: Storage<ID, ELEMENT>, id: ID, date: Date?): ELEMENT
         where ID : Id<ID>,
               ELEMENT : Element<ID>,
