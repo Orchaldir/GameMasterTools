@@ -7,6 +7,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.realm.Battle
+import at.orchaldir.gm.core.model.realm.Catastrophe
+import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
@@ -24,6 +27,8 @@ class VitalStatusTest {
 
         private val state = State(
             listOf(
+                Storage(Battle(BATTLE_ID_0)),
+                Storage(Catastrophe(CATASTROPHE_ID_0)),
                 Storage(CALENDAR0),
                 Storage(
                     listOf(
@@ -31,8 +36,9 @@ class VitalStatusTest {
                         Character(CHARACTER_ID_1),
                     )
                 ),
-                Storage(listOf(Culture(CULTURE_ID_0))),
-                Storage(listOf(Race(RACE_ID_0))),
+                Storage(Culture(CULTURE_ID_0)),
+                Storage(Race(RACE_ID_0)),
+                Storage(War(WAR_ID_0)),
             ),
             data = Data(time = Time(currentDate = Day(10))),
         )
@@ -74,19 +80,46 @@ class VitalStatusTest {
             }
         }
 
-        @Test
-        fun `Battle doesn't exist`() {
-            testFailToDie(Day(5), DeathInBattle(UNKNOWN_BATTLE_ID))
+        @Nested
+        inner class BattleTest {
+
+            @Test
+            fun `Died in battle`() {
+                testDie(Day(5), DeathInBattle(BATTLE_ID_0))
+            }
+
+            @Test
+            fun `Battle doesn't exist`() {
+                testFailToDie(Day(5), DeathInBattle(UNKNOWN_BATTLE_ID))
+            }
         }
 
-        @Test
-        fun `Catastrophe doesn't exist`() {
-            testFailToDie(Day(5), DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
+        @Nested
+        inner class CatastropheTest {
+
+            @Test
+            fun `Died from catastrophe`() {
+                testDie(Day(5), DeathByCatastrophe(CATASTROPHE_ID_0))
+            }
+
+            @Test
+            fun `Catastrophe doesn't exist`() {
+                testFailToDie(Day(5), DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
+            }
         }
 
-        @Test
-        fun `War doesn't exist`() {
-            testFailToDie(Day(5), DeathByWar(UNKNOWN_WAR_ID))
+        @Nested
+        inner class WarTest {
+
+            @Test
+            fun `Killed in war`() {
+                testDie(Day(5), DeathByWar(WAR_ID_0))
+            }
+
+            @Test
+            fun `War doesn't exist`() {
+                testFailToDie(Day(5), DeathByWar(UNKNOWN_WAR_ID))
+            }
         }
 
         @Test
