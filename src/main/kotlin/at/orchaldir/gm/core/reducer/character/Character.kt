@@ -73,7 +73,7 @@ fun validateCharacterData(
     state.getTitleStorage().requireOptional(character.title)
     checkSexualOrientation(character)
     checkOrigin(state, character)
-    checkVitalStatus(state, character.vitalStatus, character.birthDate)
+    checkVitalStatus(state, character.id, character.vitalStatus, character.birthDate)
     checkBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     checkHousingStatusHistory(state, character.housingStatus, character.birthDate)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)

@@ -18,18 +18,20 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.doNothing
 
-fun checkVitalStatus(
+fun <ID : Id<ID>> checkVitalStatus(
     state: State,
+    id: ID,
     status: VitalStatus,
     startDate: Date,
 ) {
     if (status is Dead) {
-        checkCauseOfDeath(state, status, startDate)
+        checkCauseOfDeath(state, id, status, startDate)
     }
 }
 
-private fun checkCauseOfDeath(
+private fun <ID : Id<ID>> checkCauseOfDeath(
     state: State,
+    id: ID,
     dead: Dead,
     startDate: Date,
 ) {
@@ -46,7 +48,10 @@ private fun checkCauseOfDeath(
         DeathByIllness -> doNothing()
         is DeathByWar -> checkCauseElement(state.getWarStorage(), cause.war)
         is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
-        is Murder -> checkCauseElement(state.getCharacterStorage(), cause.killer)
+        is Murder -> {
+            require(id != cause.killer) { "The murderer must be another Character!" }
+            checkCauseElement(state.getCharacterStorage(), cause.killer)
+        }
         OldAge -> doNothing()
     }
 }
@@ -55,8 +60,7 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> checkCauseElement(
     storage: Storage<ID, ELEMENT>,
     id: ID,
 ) {
-    storage
-        .require(id) { "Cannot die from an unknown ${id.type()} ${id.value()}!" }
+    storage.require(id) { "Cannot die from an unknown ${id.type()} ${id.value()}!" }
 }
 
 
