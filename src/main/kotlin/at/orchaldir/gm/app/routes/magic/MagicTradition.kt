@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.magic
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.magic.editMagicTradition
-import at.orchaldir.gm.app.html.model.magic.parseMagicTradition
-import at.orchaldir.gm.app.html.model.magic.showMagicTradition
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.magic.editMagicTradition
+import at.orchaldir.gm.app.html.magic.parseMagicTradition
+import at.orchaldir.gm.app.html.magic.showMagicTradition
+import at.orchaldir.gm.app.html.util.showCreator
+import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateMagicTradition
 import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.action.UpdateMagicTradition

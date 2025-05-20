@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.realm.editLegalCode
-import at.orchaldir.gm.app.html.model.realm.parseLegalCode
-import at.orchaldir.gm.app.html.model.realm.showLegalCode
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.realm.editLegalCode
+import at.orchaldir.gm.app.html.realm.parseLegalCode
+import at.orchaldir.gm.app.html.realm.showLegalCode
+import at.orchaldir.gm.app.html.util.showCreator
+import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateLegalCode
 import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.action.UpdateLegalCode

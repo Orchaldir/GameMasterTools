@@ -2,9 +2,8 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.model.character.*
-import at.orchaldir.gm.app.html.model.util.displayVitalStatus
+import at.orchaldir.gm.app.html.character.*
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter

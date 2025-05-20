@@ -13,8 +13,8 @@ import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGenera
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
 import at.orchaldir.gm.core.model.culture.name.NameOrder.FamilyNameFirst
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
-import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

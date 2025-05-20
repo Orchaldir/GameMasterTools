@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.magic
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.magic.editSpell
-import at.orchaldir.gm.app.html.model.magic.parseSpell
-import at.orchaldir.gm.app.html.model.magic.showOrigin
-import at.orchaldir.gm.app.html.model.magic.showSpell
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.magic.editSpell
+import at.orchaldir.gm.app.html.magic.parseSpell
+import at.orchaldir.gm.app.html.magic.showOrigin
+import at.orchaldir.gm.app.html.magic.showSpell
+import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateSpell
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell

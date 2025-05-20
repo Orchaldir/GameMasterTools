@@ -1,17 +1,17 @@
 package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.TranslatedText
-import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.quote.QuoteId
 import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.font.FontId
+import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.selector.util.getCreatorName
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()

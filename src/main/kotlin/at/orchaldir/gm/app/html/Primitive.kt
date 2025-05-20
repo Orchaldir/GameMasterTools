@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.core.model.name.Name
-import at.orchaldir.gm.core.model.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import io.ktor.http.*
 import io.ktor.server.util.*
 import kotlinx.html.*

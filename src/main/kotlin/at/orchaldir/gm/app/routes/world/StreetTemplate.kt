@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.selectMaterialCost
-import at.orchaldir.gm.app.html.model.showMaterialCost
+import at.orchaldir.gm.app.html.economy.material.selectMaterialCost
+import at.orchaldir.gm.app.html.economy.material.showMaterialCost
 import at.orchaldir.gm.app.parse.world.parseStreetTemplate
 import at.orchaldir.gm.core.action.CreateStreetTemplate
 import at.orchaldir.gm.core.action.DeleteStreetTemplate

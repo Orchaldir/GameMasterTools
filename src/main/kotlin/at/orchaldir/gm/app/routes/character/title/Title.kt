@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.character.title
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.character.title.editTitle
-import at.orchaldir.gm.app.html.model.character.title.parseTitle
-import at.orchaldir.gm.app.html.model.character.title.showTitle
+import at.orchaldir.gm.app.html.character.title.editTitle
+import at.orchaldir.gm.app.html.character.title.parseTitle
+import at.orchaldir.gm.app.html.character.title.showTitle
 import at.orchaldir.gm.core.action.CreateTitle
 import at.orchaldir.gm.core.action.DeleteTitle
 import at.orchaldir.gm.core.action.UpdateTitle

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.economy.money
 
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance

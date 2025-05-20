@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
-import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

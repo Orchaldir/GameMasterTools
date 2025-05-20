@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.realm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.selector.getHolidays
+import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isDestroyer
 import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy

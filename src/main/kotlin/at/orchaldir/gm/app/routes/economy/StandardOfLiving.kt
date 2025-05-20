@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.routes.economy
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.back
-import at.orchaldir.gm.app.html.model.economy.showStandardOfLiving
+import at.orchaldir.gm.app.html.economy.showStandardOfLiving
 import at.orchaldir.gm.app.html.simpleHtmlDetails
 import at.orchaldir.gm.app.routes.DataRoutes
 import at.orchaldir.gm.core.model.State

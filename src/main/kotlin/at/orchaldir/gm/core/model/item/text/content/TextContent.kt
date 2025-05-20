@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.item.text.content
 
-import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.model.quote.QuoteId
+import at.orchaldir.gm.core.model.util.font.FontId
+import at.orchaldir.gm.core.model.util.quote.QuoteId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

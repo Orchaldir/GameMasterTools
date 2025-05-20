@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.race.displayRaceOrigin
-import at.orchaldir.gm.app.html.model.race.editRace
-import at.orchaldir.gm.app.html.model.race.parseRace
-import at.orchaldir.gm.app.html.model.race.showRace
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.race.displayRaceOrigin
+import at.orchaldir.gm.app.html.race.editRace
+import at.orchaldir.gm.app.html.race.parseRace
+import at.orchaldir.gm.app.html.race.showRace
+import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
@@ -17,9 +17,9 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.SortRace
-import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.race.canDelete
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG

@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.item.periodical.editPeriodical
-import at.orchaldir.gm.app.html.model.item.periodical.parsePeriodical
-import at.orchaldir.gm.app.html.model.item.periodical.showPeriodical
-import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.html.model.showOwner
+import at.orchaldir.gm.app.html.item.periodical.editPeriodical
+import at.orchaldir.gm.app.html.item.periodical.parsePeriodical
+import at.orchaldir.gm.app.html.item.periodical.showPeriodical
+import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showOwner
 import at.orchaldir.gm.core.action.CreatePeriodical
 import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical

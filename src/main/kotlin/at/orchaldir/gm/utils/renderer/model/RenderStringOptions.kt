@@ -1,9 +1,9 @@
 package at.orchaldir.gm.utils.renderer.model
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.font.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
+import at.orchaldir.gm.core.model.util.font.*
 import at.orchaldir.gm.utils.math.unit.Distance
 
 data class RenderStringOptions(

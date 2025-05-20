@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.world.editRegion
-import at.orchaldir.gm.app.html.model.world.parseRegion
-import at.orchaldir.gm.app.html.model.world.showRegion
+import at.orchaldir.gm.app.html.world.editRegion
+import at.orchaldir.gm.app.html.world.parseRegion
+import at.orchaldir.gm.app.html.world.showRegion
 import at.orchaldir.gm.core.action.CreateRegion
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion

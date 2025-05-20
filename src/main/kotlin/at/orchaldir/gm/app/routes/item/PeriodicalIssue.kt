@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.item.periodical.editPeriodicalIssue
-import at.orchaldir.gm.app.html.model.item.periodical.parsePeriodicalIssue
-import at.orchaldir.gm.app.html.model.item.periodical.showPeriodicalIssue
+import at.orchaldir.gm.app.html.item.periodical.editPeriodicalIssue
+import at.orchaldir.gm.app.html.item.periodical.parsePeriodicalIssue
+import at.orchaldir.gm.app.html.item.periodical.showPeriodicalIssue
 import at.orchaldir.gm.core.action.CreatePeriodicalIssue
 import at.orchaldir.gm.core.action.DeletePeriodicalIssue
 import at.orchaldir.gm.core.action.UpdatePeriodicalIssue

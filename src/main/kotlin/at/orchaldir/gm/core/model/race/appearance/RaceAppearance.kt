@@ -4,10 +4,10 @@ import at.orchaldir.gm.core.model.character.appearance.AppearanceType
 import at.orchaldir.gm.core.model.character.appearance.EarShape
 import at.orchaldir.gm.core.model.character.appearance.EarsLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
-import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.name.Name
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

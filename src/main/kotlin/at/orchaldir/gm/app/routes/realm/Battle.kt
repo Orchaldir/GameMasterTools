@@ -2,12 +2,12 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.realm.editBattle
-import at.orchaldir.gm.app.html.model.realm.parseBattle
-import at.orchaldir.gm.app.html.model.realm.showBattle
-import at.orchaldir.gm.app.html.model.showOptionalDate
-import at.orchaldir.gm.app.html.model.tdDestroyed
-import at.orchaldir.gm.app.html.model.thDestroyed
+import at.orchaldir.gm.app.html.realm.editBattle
+import at.orchaldir.gm.app.html.realm.parseBattle
+import at.orchaldir.gm.app.html.realm.showBattle
+import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.tdDestroyed
+import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.core.action.CreateBattle
 import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateBattle

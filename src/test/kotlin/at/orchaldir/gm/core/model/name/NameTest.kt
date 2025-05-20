@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.name
 
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.core.model.util.name.Name
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 

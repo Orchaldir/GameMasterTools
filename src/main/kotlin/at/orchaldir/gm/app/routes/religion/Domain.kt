@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.religion
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.religion.editDomain
-import at.orchaldir.gm.app.html.model.religion.parseDomain
-import at.orchaldir.gm.app.html.model.religion.showDomain
+import at.orchaldir.gm.app.html.religion.editDomain
+import at.orchaldir.gm.app.html.religion.parseDomain
+import at.orchaldir.gm.app.html.religion.showDomain
 import at.orchaldir.gm.core.action.CreateDomain
 import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.UpdateDomain

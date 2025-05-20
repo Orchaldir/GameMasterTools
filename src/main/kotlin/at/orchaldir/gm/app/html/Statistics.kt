@@ -1,14 +1,14 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOwner
+import at.orchaldir.gm.app.html.util.showCreator
+import at.orchaldir.gm.app.html.util.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.History
@@ -16,17 +16,15 @@ import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.*
-import at.orchaldir.gm.core.selector.countEachMaterialCategory
-import at.orchaldir.gm.core.selector.countEachPersonalityForCharacters
-import at.orchaldir.gm.core.selector.countEachPersonalityForGods
-import at.orchaldir.gm.core.selector.countEachRace
 import at.orchaldir.gm.core.selector.economy.countEachJob
+import at.orchaldir.gm.core.selector.economy.countEachMaterialCategory
 import at.orchaldir.gm.core.selector.item.countEachLanguage
 import at.orchaldir.gm.core.selector.item.countEachTextFormat
 import at.orchaldir.gm.core.selector.item.countEachTextOrigin
 import at.orchaldir.gm.core.selector.item.periodical.countPublicationFrequencies
 import at.orchaldir.gm.core.selector.magic.countEachLanguage
 import at.orchaldir.gm.core.selector.magic.countSpellOrigin
+import at.orchaldir.gm.core.selector.race.countEachRace
 import at.orchaldir.gm.core.selector.religion.countEachDomain
 import at.orchaldir.gm.core.selector.util.countEachCreator
 import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle

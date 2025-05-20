@@ -3,7 +3,6 @@ package at.orchaldir.gm.prototypes.visualization.text.content
 import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
@@ -11,6 +10,7 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.font.SolidFont
 import at.orchaldir.gm.core.reducer.item.updatePageCount
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d

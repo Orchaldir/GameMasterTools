@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector.magic
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.time.date.Date

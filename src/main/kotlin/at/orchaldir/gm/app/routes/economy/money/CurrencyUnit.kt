@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.economy.money
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.economy.money.editCurrencyUnit
-import at.orchaldir.gm.app.html.model.economy.money.parseCurrencyUnit
-import at.orchaldir.gm.app.html.model.economy.money.showCurrencyUnit
+import at.orchaldir.gm.app.html.economy.money.editCurrencyUnit
+import at.orchaldir.gm.app.html.economy.money.parseCurrencyUnit
+import at.orchaldir.gm.app.html.economy.money.showCurrencyUnit
 import at.orchaldir.gm.core.action.CreateCurrencyUnit
 import at.orchaldir.gm.core.action.DeleteCurrencyUnit
 import at.orchaldir.gm.core.action.UpdateCurrencyUnit

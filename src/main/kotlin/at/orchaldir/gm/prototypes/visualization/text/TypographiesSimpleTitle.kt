@@ -1,13 +1,13 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.TypographyLayout
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.font.SolidFont
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters

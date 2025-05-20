@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.item.periodical.editArticle
-import at.orchaldir.gm.app.html.model.item.periodical.parseArticle
-import at.orchaldir.gm.app.html.model.item.periodical.showArticle
-import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.item.periodical.editArticle
+import at.orchaldir.gm.app.html.item.periodical.parseArticle
+import at.orchaldir.gm.app.html.item.periodical.showArticle
+import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.core.action.CreateArticle
 import at.orchaldir.gm.core.action.DeleteArticle
 import at.orchaldir.gm.core.action.UpdateArticle

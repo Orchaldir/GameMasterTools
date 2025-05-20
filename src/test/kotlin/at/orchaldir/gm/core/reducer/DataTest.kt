@@ -10,9 +10,9 @@ import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
-import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

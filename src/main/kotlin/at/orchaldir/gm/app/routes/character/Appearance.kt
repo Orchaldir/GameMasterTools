@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.routes.character
 import at.orchaldir.gm.app.APPEARANCE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.character.appearance.editAppearance
-import at.orchaldir.gm.app.html.model.character.appearance.parseAppearance
+import at.orchaldir.gm.app.html.character.appearance.editAppearance
+import at.orchaldir.gm.app.html.character.appearance.parseAppearance
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.selector.culture.getFashion
-import at.orchaldir.gm.core.selector.getRaceAppearance
+import at.orchaldir.gm.core.selector.race.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter

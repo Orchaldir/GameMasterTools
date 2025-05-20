@@ -1,8 +1,8 @@
 package at.orchaldir.gm.utils.renderer.svg
 
-import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
+import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation

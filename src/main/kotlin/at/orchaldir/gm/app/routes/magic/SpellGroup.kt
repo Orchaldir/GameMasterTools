@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.magic
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.magic.editSpellGroup
-import at.orchaldir.gm.app.html.model.magic.parseSpellGroup
-import at.orchaldir.gm.app.html.model.magic.showSpellGroup
+import at.orchaldir.gm.app.html.magic.editSpellGroup
+import at.orchaldir.gm.app.html.magic.parseSpellGroup
+import at.orchaldir.gm.app.html.magic.showSpellGroup
 import at.orchaldir.gm.core.action.CreateSpellGroup
 import at.orchaldir.gm.core.action.DeleteSpellGroup
 import at.orchaldir.gm.core.action.UpdateSpellGroup

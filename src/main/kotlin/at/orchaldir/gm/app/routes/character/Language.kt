@@ -2,13 +2,13 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.character.showLanguages
+import at.orchaldir.gm.app.html.character.showLanguages
 import at.orchaldir.gm.core.action.AddLanguage
 import at.orchaldir.gm.core.action.RemoveLanguages
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.language.ComprehensionLevel
-import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import io.ktor.http.*

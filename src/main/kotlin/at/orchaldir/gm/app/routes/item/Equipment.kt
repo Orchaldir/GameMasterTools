@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.item.equipment.editEquipment
-import at.orchaldir.gm.app.html.model.item.equipment.parseEquipment
-import at.orchaldir.gm.app.html.model.item.equipment.showEquipment
+import at.orchaldir.gm.app.html.item.equipment.editEquipment
+import at.orchaldir.gm.app.html.item.equipment.parseEquipment
+import at.orchaldir.gm.app.html.item.equipment.showEquipment
 import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment

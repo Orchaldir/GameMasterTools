@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.religion
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.religion.editPantheon
-import at.orchaldir.gm.app.html.model.religion.parsePantheon
-import at.orchaldir.gm.app.html.model.religion.showPantheon
+import at.orchaldir.gm.app.html.religion.editPantheon
+import at.orchaldir.gm.app.html.religion.parsePantheon
+import at.orchaldir.gm.app.html.religion.showPantheon
 import at.orchaldir.gm.core.action.CreatePantheon
 import at.orchaldir.gm.core.action.DeletePantheon
 import at.orchaldir.gm.core.action.UpdatePantheon

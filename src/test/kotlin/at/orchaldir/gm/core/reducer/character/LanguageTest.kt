@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.action.RemoveLanguages
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.language.ComprehensionLevel
-import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.culture.language.Language
+import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
