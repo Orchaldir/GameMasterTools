@@ -9,9 +9,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
-import at.orchaldir.gm.core.selector.character.getCharactersKilledInCatastrophe
 import at.orchaldir.gm.core.selector.getHolidays
-import at.orchaldir.gm.core.selector.realm.getRealmsDestroyedByCatastrophe
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 import io.ktor.http.*
@@ -32,8 +30,7 @@ fun HtmlBlockTag.showCatastrophe(
     optionalField(call, state, "End Date", catastrophe.endDate)
     fieldAge("Duration", calendar.getYears(catastrophe.getDuration(state)))
     showCauseOfCatastrophe(call, state, catastrophe.cause)
-    fieldList(call, state, "Killed Characters", state.getCharactersKilledInCatastrophe(catastrophe.id))
-    fieldList(call, state, "Destroyed Realms", state.getRealmsDestroyedByCatastrophe(catastrophe.id))
+    showDestroyed(call, state, catastrophe.id)
     fieldList(call, state, "Created Regions", state.getRegionsCreatedBy(catastrophe.id))
     fieldList(call, state, state.getHolidays(catastrophe.id))
     showDataSources(call, state, catastrophe.sources)

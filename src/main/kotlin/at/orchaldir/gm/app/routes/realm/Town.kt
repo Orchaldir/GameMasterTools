@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.model.realm.parseTown
 import at.orchaldir.gm.app.html.model.realm.showTown
 import at.orchaldir.gm.app.html.model.showCreator
 import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.displayVitalStatus
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
@@ -152,8 +153,10 @@ private fun HTML.showAllTowns(
             tr {
                 th { +"Name" }
                 th { +"Title" }
-                th { +"Date" }
                 th { +"Founder" }
+                thMultiLines(listOf("Founding", "Date"))
+                thMultiLines(listOf("End", "Date"))
+                th { +"End" }
                 th { +"Owner" }
                 th { +"Map" }
                 th { +"Buildings" }
@@ -163,8 +166,10 @@ private fun HTML.showAllTowns(
                 tr {
                     tdLink(call, state, town)
                     tdString(town.title)
-                    td { showOptionalDate(call, state, town.startDate()) }
                     td { showCreator(call, state, town.founder, false) }
+                    td { showOptionalDate(call, state, town.startDate()) }
+                    td { showOptionalDate(call, state, town.endDate()) }
+                    td { displayVitalStatus(call, state, town.status) }
                     tdLink(call, state, town.owner.current)
                     tdLink(call, state, state.getCurrentTownMap(town.id)?.id)
                     tdSkipZero(state.countBuildings(town.id))

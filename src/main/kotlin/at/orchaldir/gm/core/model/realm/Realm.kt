@@ -27,19 +27,19 @@ data class Realm(
     val name: Name = Name.init("Realm ${id.value}"),
     val founder: Creator = UndefinedCreator,
     val date: Date? = null,
-    val status: RealmStatus = LivingRealm,
+    val status: VitalStatus = Alive,
     val capital: History<TownId?> = History(null),
     val owner: History<RealmId?> = History(null),
     val currency: History<CurrencyId?> = History(null),
     val legalCode: History<LegalCodeId?> = History(null),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<RealmId>, Creation, HasDataSources, HasStartAndEndDate {
+) : ElementWithSimpleName<RealmId>, Creation, HasDataSources, HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = founder
     override fun sources() = sources
     override fun startDate() = date
-    override fun endDate() = status.endDate()
+    override fun vitalStatus() = status
 
 }

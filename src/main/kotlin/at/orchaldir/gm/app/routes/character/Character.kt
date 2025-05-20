@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.*
+import at.orchaldir.gm.app.html.model.util.displayVitalStatus
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -11,9 +12,9 @@ import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.character.canCreateCharacter
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
@@ -176,9 +177,10 @@ private fun HTML.showAllCharacters(
                 th { +"Sexuality" }
                 th { +"Culture" }
                 th { +"Belief" }
+                th { +"Age" }
                 th { +"Birthdate" }
                 th { +"Deathdate" }
-                th { +"Age" }
+                th { +"Death" }
                 th { +"Housing Status" }
                 th { +"Employment Status" }
                 th { +"Organizations" }
@@ -205,9 +207,10 @@ private fun HTML.showAllCharacters(
                     }
                     tdLink(call, state, character.culture)
                     td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
+                    tdSkipZero(character.getAgeInYears(state))
                     td { showDate(call, state, character.birthDate) }
                     td { showOptionalDate(call, state, character.vitalStatus.getDeathDate()) }
-                    tdSkipZero(character.getAgeInYears(state))
+                    td { displayVitalStatus(call, state, character.vitalStatus, false) }
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false, false) }
                     tdSkipZero(state.getOrganizations(character.id).size)

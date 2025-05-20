@@ -5,12 +5,12 @@ import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateBattle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.Dead
-import at.orchaldir.gm.core.model.character.DeathInBattle
 import at.orchaldir.gm.core.model.name.Name
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleParticipant
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.util.Dead
+import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -47,8 +47,9 @@ class BattleTest {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
+        // see VitalStatusTest for other elements
         @Test
-        fun `Cannot delete a war that killed a character`() {
+        fun `Cannot delete a battle that killed a character`() {
             val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = STATE.updateStorage(Storage(character))

@@ -5,13 +5,11 @@ import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.Dead
-import at.orchaldir.gm.core.model.character.DeathByCatastrophe
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayOfCatastrophe
 import at.orchaldir.gm.core.model.realm.Catastrophe
-import at.orchaldir.gm.core.model.realm.DestroyedByCatastrophe
-import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.util.Dead
+import at.orchaldir.gm.core.model.util.DeathByCatastrophe
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.Wasteland
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -45,22 +43,12 @@ class CatastropheTest {
             assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
         }
 
+        // see VitalStatusTest for other elements
         @Test
         fun `Cannot delete a catastrophe that killed a character`() {
             val dead = Dead(DAY0, DeathByCatastrophe(CATASTROPHE_ID_0))
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = STATE.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a catastrophe that destroyed a realm`() {
-            val status = DestroyedByCatastrophe(CATASTROPHE_ID_0, DAY0)
-            val realm = Realm(REALM_ID_0, status = status)
-            val newState = STATE.updateStorage(Storage(realm))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
                 REDUCER.invoke(newState, action)

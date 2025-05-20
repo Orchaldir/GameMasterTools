@@ -6,6 +6,9 @@ import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.html.model.culture.parseCultureId
 import at.orchaldir.gm.app.html.model.race.parseRaceId
+import at.orchaldir.gm.app.html.model.util.parseVitalStatus
+import at.orchaldir.gm.app.html.model.util.selectVitalStatus
+import at.orchaldir.gm.app.html.model.util.showVitalStatus
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
@@ -21,9 +24,11 @@ import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.organization.getOrganizations
+import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentYear
 import at.orchaldir.gm.core.selector.util.sortRaces
@@ -72,10 +77,12 @@ fun HtmlBlockTag.showData(
         UndefinedAppearance -> doNothing()
     }
     field(call, state, "Birthdate", character.birthDate)
-    showVitalStatus(call, state, character.vitalStatus)
+    showVitalStatus(call, state, character.vitalStatus, "Death")
     showAge(state, character, race)
     showHousingStatusHistory(call, state, character.housingStatus)
     showEmploymentStatusHistory(call, state, character.employmentStatus)
+    showDestroyed(call, state, character.id)
+    fieldList(call, state, "Led Battles", state.getBattlesLedBy(character.id))
     showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
@@ -224,7 +231,13 @@ fun FORM.editCharacter(
     selectElement(state, "Race", RACE, state.sortRaces(races), character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
-    selectVitalStatus(state, character)
+    selectVitalStatus(
+        state,
+        character.id,
+        character.birthDate,
+        character.vitalStatus,
+        VALID_CAUSES_FOR_CHARACTERS,
+    )
     showAge(state, character, race)
     selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
     selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)

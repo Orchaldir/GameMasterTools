@@ -5,12 +5,10 @@ import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.Dead
-import at.orchaldir.gm.core.model.character.DeathByWar
 import at.orchaldir.gm.core.model.realm.Battle
-import at.orchaldir.gm.core.model.realm.DestroyedByWar
-import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.War
+import at.orchaldir.gm.core.model.util.Dead
+import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -42,21 +40,12 @@ class WarTest {
             assertIllegalArgument("Requires unknown War 99!") { REDUCER.invoke(STATE, action) }
         }
 
+        // see VitalStatusTest for other elements
         @Test
         fun `Cannot delete a war that killed a character`() {
-            val dead = Dead(DAY0, DeathByWar(WAR_ID_0))
+            val dead = Dead(DAY0, DeathInWar(WAR_ID_0))
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = STATE.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete War 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a war that destroyed a realm`() {
-            val realm = Realm(REALM_ID_0, status = DestroyedByWar(WAR_ID_0, DAY0))
-            val newState = STATE.updateStorage(Storage(realm))
 
             assertIllegalArgument("Cannot delete War 0, because it is used!") {
                 REDUCER.invoke(newState, action)

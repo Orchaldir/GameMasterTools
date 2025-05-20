@@ -13,10 +13,12 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.realm.*
+import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.getKnownLanguages
@@ -26,6 +28,7 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun State.canCreateCharacter() = getCultureStorage().getSize() > 0
@@ -110,17 +113,9 @@ fun State.countEachLanguage(characters: Collection<Character>) = characters
     .groupingBy { it }
     .eachCount()
 
-fun State.countCharactersKilledInBattle(battle: BattleId) = getCharacterStorage()
+fun <ID : Id<ID>> State.countKilledCharacters(id: ID) = getCharacterStorage()
     .getAll()
-    .count { it.vitalStatus.isCausedBy(battle) }
-
-fun State.countCharactersKilledInCatastrophe(catastrophe: CatastropheId) = getCharacterStorage()
-    .getAll()
-    .count { it.vitalStatus.isCausedBy(catastrophe) }
-
-fun State.countCharactersKilledInWar(war: WarId) = getCharacterStorage()
-    .getAll()
-    .count { it.vitalStatus.isCausedBy(war) }
+    .count { it.vitalStatus.isDestroyedBy(id) }
 
 // get characters
 
@@ -143,18 +138,6 @@ fun State.getCharacters(race: RaceId) = getCharacterStorage()
 fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
     .getAll()
     .filter { it.title == titleId }
-
-fun State.getCharactersKilledInBattle(battle: BattleId) = getCharacterStorage()
-    .getAll()
-    .filter { it.vitalStatus.isCausedBy(battle) }
-
-fun State.getCharactersKilledInCatastrophe(catastrophe: CatastropheId) = getCharacterStorage()
-    .getAll()
-    .filter { it.vitalStatus.isCausedBy(catastrophe) }
-
-fun State.getCharactersKilledInWar(war: WarId) = getCharacterStorage()
-    .getAll()
-    .filter { it.vitalStatus.isCausedBy(war) }
 
 // belief status
 

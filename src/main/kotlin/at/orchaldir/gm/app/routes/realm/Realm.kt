@@ -2,12 +2,12 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.realm.displayRealmStatus
 import at.orchaldir.gm.app.html.model.realm.editRealm
 import at.orchaldir.gm.app.html.model.realm.parseRealm
 import at.orchaldir.gm.app.html.model.realm.showRealm
 import at.orchaldir.gm.app.html.model.showCreator
 import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.util.displayVitalStatus
 import at.orchaldir.gm.core.action.CreateRealm
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
@@ -154,11 +154,11 @@ private fun HTML.showAllRealms(
         table {
             tr {
                 th { +"Name" }
-                th { +"Start" }
-                th { +"End" }
-                th { +"Status" }
-                th { +"Age" }
                 th { +"Founder" }
+                thMultiLines(listOf("Founding", "Date"))
+                thMultiLines(listOf("End", "Date"))
+                th { +"Age" }
+                th { +"End" }
                 th { +"Capital" }
                 th { +"Owner" }
                 th { +"Currency" }
@@ -168,11 +168,11 @@ private fun HTML.showAllRealms(
             realms.forEach { realm ->
                 tr {
                     tdLink(call, state, realm)
+                    td { showCreator(call, state, realm.founder, false) }
                     td { showOptionalDate(call, state, realm.startDate()) }
                     td { showOptionalDate(call, state, realm.endDate()) }
-                    td { displayRealmStatus(call, state, realm.status, false) }
                     tdSkipZero(realm.getAgeInYears(state))
-                    td { showCreator(call, state, realm.founder, false) }
+                    td { displayVitalStatus(call, state, realm.status, false) }
                     tdLink(call, state, realm.capital.current)
                     tdLink(call, state, realm.owner.current)
                     tdLink(call, state, realm.currency.current)

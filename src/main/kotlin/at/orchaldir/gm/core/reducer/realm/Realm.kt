@@ -4,17 +4,13 @@ import at.orchaldir.gm.core.action.CreateRealm
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.reducer.util.checkHistory
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
 import at.orchaldir.gm.core.selector.realm.canDeleteRealm
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.core.selector.util.requireExists
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -68,16 +64,6 @@ fun validateRealm(state: State, realm: Realm) {
             require(realm.id != realmId) { "A realm cannot own itself!" }
         }
     }
-    validateRealmStatus(state, realm.status)
+    checkVitalStatus(state, realm.id, realm.status, realm.date)
     validateHasStartAndEnd(state, realm)
-}
-
-fun validateRealmStatus(
-    state: State,
-    status: RealmStatus,
-) = when (status) {
-    LivingRealm -> doNothing()
-    is DestroyedByCatastrophe -> state.requireExists(state.getCatastropheStorage(), status.catastrophe, status.date)
-    is DestroyedByWar -> state.requireExists(state.getWarStorage(), status.war, status.date)
-    is UndefinedEndOfRealm -> doNothing()
 }

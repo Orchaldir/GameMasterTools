@@ -13,11 +13,14 @@
     "year": 0
    },
    "status": {
-    "type": "War",
-    "war": 0,
-    "date": {
+    "type": "Dead",
+    "deathDay": {
      "type": "Year",
      "year": 893
+    },
+    "cause": {
+     "type": "War",
+     "war": 0
     }
    },
    "capital": {
@@ -93,11 +96,14 @@
    "id": 3,
    "name": "Cyre",
    "status": {
-    "type": "Catastrophe",
-    "catastrophe": 0,
-    "date": {
+    "type": "Dead",
+    "deathDay": {
      "type": "Day",
      "day": 333695
+    },
+    "cause": {
+     "type": "Catastrophe",
+     "catastrophe": 0
     }
    },
    "capital": {
@@ -181,6 +187,14 @@
     "current": 0
    },
    "sources": [
+    3
+   ]
+  },
+  "6": {
+   "id": 6,
+   "name": "Droaam",
+   "sources": [
+    1,
     3
    ]
   }

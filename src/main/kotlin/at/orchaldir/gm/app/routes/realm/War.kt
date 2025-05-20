@@ -6,6 +6,8 @@ import at.orchaldir.gm.app.html.model.realm.editWar
 import at.orchaldir.gm.app.html.model.realm.parseWar
 import at.orchaldir.gm.app.html.model.realm.showWar
 import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.tdDestroyed
+import at.orchaldir.gm.app.html.model.thDestroyed
 import at.orchaldir.gm.core.action.CreateWar
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
@@ -14,10 +16,8 @@ import at.orchaldir.gm.core.model.realm.WAR_TYPE
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.util.SortWar
-import at.orchaldir.gm.core.selector.character.countCharactersKilledInWar
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
 import at.orchaldir.gm.core.selector.realm.countBattles
-import at.orchaldir.gm.core.selector.realm.countRealmsDestroyedByWar
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
@@ -160,8 +160,7 @@ private fun HTML.showAllWars(
                 th { +"End" }
                 th { +"Years" }
                 th { +"Battles" }
-                thMultiLines(listOf("Destroyed", "Realms"))
-                thMultiLines(listOf("Killed", "Characters"))
+                thDestroyed()
             }
             wars.forEach { war ->
                 tr {
@@ -170,8 +169,7 @@ private fun HTML.showAllWars(
                     td { showOptionalDate(call, state, war.endDate) }
                     tdSkipZero(calendar.getYears(war.getDuration(state)))
                     tdSkipZero(state.countBattles(war.id))
-                    tdSkipZero(state.countRealmsDestroyedByWar(war.id))
-                    tdSkipZero(state.countCharactersKilledInWar(war.id))
+                    tdDestroyed(state, war.id)
                 }
             }
         }
