@@ -238,6 +238,7 @@
   "28": {
    "id": 28,
    "name": "King",
+   "employerType": "Realm",
    "income": {
     "type": "SoL",
     "standard": 6
@@ -246,6 +247,7 @@
   "29": {
    "id": 29,
    "name": "Mayor",
+   "employerType": "Town",
    "income": {
     "type": "SoL",
     "standard": 4
@@ -254,6 +256,7 @@
   "30": {
    "id": 30,
    "name": "Ambassador",
+   "employerType": "Realm",
    "income": {
     "type": "SoL",
     "standard": 5
