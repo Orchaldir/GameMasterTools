@@ -47,8 +47,9 @@ class BattleTest {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
+        // see VitalStatusTest for other elements
         @Test
-        fun `Cannot delete a war that killed a character`() {
+        fun `Cannot delete a battle that killed a character`() {
             val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = STATE.updateStorage(Storage(character))

@@ -44,22 +44,12 @@ class CatastropheTest {
             assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
         }
 
+        // see VitalStatusTest for other elements
         @Test
         fun `Cannot delete a catastrophe that killed a character`() {
             val dead = Dead(DAY0, DeathByCatastrophe(CATASTROPHE_ID_0))
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = STATE.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a catastrophe that destroyed a realm`() {
-            val status = Dead(DAY0, DeathByCatastrophe(CATASTROPHE_ID_0))
-            val realm = Realm(REALM_ID_0, status = status)
-            val newState = STATE.updateStorage(Storage(realm))
 
             assertIllegalArgument("Cannot delete Catastrophe 0, because it is used!") {
                 REDUCER.invoke(newState, action)

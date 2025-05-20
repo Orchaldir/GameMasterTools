@@ -41,22 +41,12 @@ class WarTest {
             assertIllegalArgument("Requires unknown War 99!") { REDUCER.invoke(STATE, action) }
         }
 
+        // see VitalStatusTest for other elements
         @Test
         fun `Cannot delete a war that killed a character`() {
             val dead = Dead(DAY0, DeathInWar(WAR_ID_0))
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = STATE.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete War 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a war that destroyed a realm`() {
-            val dead = Dead(DAY0, DeathInWar(WAR_ID_0))
-            val realm = Realm(REALM_ID_0, status = dead)
-            val newState = STATE.updateStorage(Storage(realm))
 
             assertIllegalArgument("Cannot delete War 0, because it is used!") {
                 REDUCER.invoke(newState, action)
