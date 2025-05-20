@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
 fun <ID : Id<ID>> State.isDestroyer(destroyer: ID) = isDestroyer(getCharacterStorage(), destroyer)
+        || isDestroyer(getRealmStorage(), destroyer)
         || isDestroyer(getTownStorage(), destroyer)
 
 fun <ID : Id<ID>, ELEMENT, DESTROYER : Id<DESTROYER>> isDestroyer(
@@ -34,6 +35,7 @@ fun <ID : Id<ID>> checkIfDestroyerCanBeDeleted(
     val noun = destroyer.type()
 
     checkDestroyer(state.getCharacterStorage(), noun, destroyer)
+    checkDestroyer(state.getRealmStorage(), noun, destroyer)
     checkDestroyer(state.getTownStorage(), noun, destroyer)
 }
 

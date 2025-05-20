@@ -18,6 +18,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showDestroyed(
     destroyer: ID,
 ) {
     showDestroyed("Killed Characters", call, state, destroyer, state.getCharacterStorage())
+    showDestroyed("Destroyed Realms", call, state, destroyer, state.getRealmStorage())
     showDestroyed("Destroyed Towns", call, state, destroyer, state.getTownStorage())
 }
 
