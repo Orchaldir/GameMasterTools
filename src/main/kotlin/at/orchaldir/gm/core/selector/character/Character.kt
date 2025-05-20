@@ -27,6 +27,7 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun State.canCreateCharacter() = getCultureStorage().getSize() > 0
@@ -111,17 +112,9 @@ fun State.countEachLanguage(characters: Collection<Character>) = characters
     .groupingBy { it }
     .eachCount()
 
-fun State.countCharactersKilledInBattle(battle: BattleId) = getCharacterStorage()
+fun <ID : Id<ID>> State.countKilledCharacters(id: ID) = getCharacterStorage()
     .getAll()
-    .count { it.vitalStatus.isCausedBy(battle) }
-
-fun State.countCharactersKilledInCatastrophe(catastrophe: CatastropheId) = getCharacterStorage()
-    .getAll()
-    .count { it.vitalStatus.isCausedBy(catastrophe) }
-
-fun State.countCharactersKilledInWar(war: WarId) = getCharacterStorage()
-    .getAll()
-    .count { it.vitalStatus.isCausedBy(war) }
+    .count { it.vitalStatus.isDestroyedBy(id) }
 
 // get characters
 

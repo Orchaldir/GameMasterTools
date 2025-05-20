@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.selector.character.countCharactersKilledInWar
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isDestroyer
 

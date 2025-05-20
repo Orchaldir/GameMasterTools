@@ -45,14 +45,6 @@ sealed class VitalStatus {
     } else {
         false
     }
-
-    fun isCausedBy(battle: BattleId) =
-        this is Dead && cause is DeathInBattle && cause.battle == battle
-
-    fun isCausedBy(catastrophe: CatastropheId) =
-        this is Dead && cause is DeathByCatastrophe && cause.catastrophe == catastrophe
-
-    fun isCausedBy(war: WarId) = this is Dead && cause is DeathInWar && cause.war == war
 }
 
 @Serializable
