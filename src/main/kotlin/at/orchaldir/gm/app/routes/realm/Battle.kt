@@ -6,6 +6,8 @@ import at.orchaldir.gm.app.html.model.realm.editBattle
 import at.orchaldir.gm.app.html.model.realm.parseBattle
 import at.orchaldir.gm.app.html.model.realm.showBattle
 import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.tdDestroyed
+import at.orchaldir.gm.app.html.model.thDestroyed
 import at.orchaldir.gm.core.action.CreateBattle
 import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateBattle
@@ -155,12 +157,14 @@ private fun HTML.showAllBattles(
                 th { +"Name" }
                 th { +"Date" }
                 th { +"Participants" }
+                thDestroyed()
             }
             battles.forEach { battle ->
                 tr {
                     tdLink(call, state, battle)
                     td { showOptionalDate(call, state, battle.date) }
                     tdSkipZero(battle.participants.size)
+                    tdDestroyed(state, battle.id)
                 }
             }
         }

@@ -6,6 +6,8 @@ import at.orchaldir.gm.app.html.model.realm.editWar
 import at.orchaldir.gm.app.html.model.realm.parseWar
 import at.orchaldir.gm.app.html.model.realm.showWar
 import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.tdDestroyed
+import at.orchaldir.gm.app.html.model.thDestroyed
 import at.orchaldir.gm.core.action.CreateWar
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
@@ -160,8 +162,7 @@ private fun HTML.showAllWars(
                 th { +"End" }
                 th { +"Years" }
                 th { +"Battles" }
-                thMultiLines(listOf("Destroyed", "Realms"))
-                thMultiLines(listOf("Killed", "Characters"))
+                thDestroyed()
             }
             wars.forEach { war ->
                 tr {
@@ -170,8 +171,7 @@ private fun HTML.showAllWars(
                     td { showOptionalDate(call, state, war.endDate) }
                     tdSkipZero(calendar.getYears(war.getDuration(state)))
                     tdSkipZero(state.countBattles(war.id))
-                    tdSkipZero(state.countDestroyedRealms(war.id))
-                    tdSkipZero(state.countKilledCharacters(war.id))
+                    tdDestroyed(state, war.id)
                 }
             }
         }

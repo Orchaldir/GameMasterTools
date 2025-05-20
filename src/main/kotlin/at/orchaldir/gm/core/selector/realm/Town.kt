@@ -26,6 +26,10 @@ fun State.countOwnedTowns(realm: RealmId) = getTownStorage()
 
 fun State.getExistingTowns(date: Date?) = getExistingElements(getTownStorage().getAll(), date)
 
+fun <ID : Id<ID>> State.countDestroyedTowns(id: ID) = getTownStorage()
+    .getAll()
+    .count { it.status.isDestroyedBy(id) }
+
 fun <ID : Id<ID>> State.getOwnedTowns(id: ID) = if (id is RealmId) {
     getOwnedTowns(id)
 } else {

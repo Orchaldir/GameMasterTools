@@ -3,12 +3,16 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HasVitalStatus
+import at.orchaldir.gm.core.selector.character.countKilledCharacters
+import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
+import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
 import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.TR
 
 // show
 
@@ -32,4 +36,19 @@ private fun <ID : Id<ID>, ELEMENT, DESTROYER : Id<DESTROYER>> HtmlBlockTag.showD
         ELEMENT : Element<ID>,
         ELEMENT : HasVitalStatus {
     fieldList(call, state, label, getDestroyedBy(storage, destroyer))
+}
+
+fun TR.thDestroyed() {
+    thMultiLines(listOf("Destroyed", "Realms"))
+    thMultiLines(listOf("Destroyed", "Towns"))
+    thMultiLines(listOf("Killed", "Characters"))
+}
+
+fun <ID : Id<ID>> TR.tdDestroyed(
+    state: State,
+    id: ID,
+) {
+    tdSkipZero(state.countDestroyedRealms(id))
+    tdSkipZero(state.countDestroyedTowns(id))
+    tdSkipZero(state.countKilledCharacters(id))
 }

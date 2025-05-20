@@ -7,6 +7,8 @@ import at.orchaldir.gm.app.html.model.realm.editCatastrophe
 import at.orchaldir.gm.app.html.model.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.model.realm.showCatastrophe
 import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.html.model.tdDestroyed
+import at.orchaldir.gm.app.html.model.thDestroyed
 import at.orchaldir.gm.core.action.CreateCatastrophe
 import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe
@@ -20,6 +22,7 @@ import at.orchaldir.gm.core.selector.realm.canDeleteCatastrophe
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
+import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -160,8 +163,7 @@ private fun HTML.showAllCatastrophes(
                 th { +"End" }
                 th { +"Years" }
                 th { +"Cause" }
-                thMultiLines(listOf("Destroyed", "Realms"))
-                thMultiLines(listOf("Killed", "Characters"))
+                thDestroyed()
             }
             catastrophes.forEach { catastrophe ->
                 tr {
@@ -170,8 +172,7 @@ private fun HTML.showAllCatastrophes(
                     td { showOptionalDate(call, state, catastrophe.endDate) }
                     tdSkipZero(calendar.getYears(catastrophe.getDuration(state)))
                     td { displayCauseOfCatastrophe(call, state, catastrophe.cause, false) }
-                    tdSkipZero(state.countDestroyedRealms(catastrophe.id))
-                    tdSkipZero(state.countKilledCharacters(catastrophe.id))
+                    tdDestroyed(state, catastrophe.id)
                 }
             }
         }
