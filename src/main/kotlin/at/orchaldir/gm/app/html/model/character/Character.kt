@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.organization.getOrganizations
+import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentYear
 import at.orchaldir.gm.core.selector.util.sortRaces
@@ -81,6 +82,8 @@ fun HtmlBlockTag.showData(
     showAge(state, character, race)
     showHousingStatusHistory(call, state, character.housingStatus)
     showEmploymentStatusHistory(call, state, character.employmentStatus)
+    showDestroyed(call, state, character.id)
+    fieldList(call, state, "Led Battles", state.getBattlesLedBy(character.id))
     showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
