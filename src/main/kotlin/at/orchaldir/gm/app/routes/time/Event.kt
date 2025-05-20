@@ -18,11 +18,7 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.realm.BattleId
-import at.orchaldir.gm.core.model.realm.LegalCodeId
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.realm.TreatyId
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Day

@@ -1,11 +1,11 @@
 package at.orchaldir.gm.core.model.realm
 
-import at.orchaldir.gm.core.model.time.date.Date
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class WarResultType {
     Catastrophe,
+
     // All sides simply stop fighting without a formal agreement.
     Disengagement,
     Peace,

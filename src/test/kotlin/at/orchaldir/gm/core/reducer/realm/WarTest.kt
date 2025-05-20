@@ -5,11 +5,7 @@ import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.realm.Battle
-import at.orchaldir.gm.core.model.realm.FinishedWar
-import at.orchaldir.gm.core.model.realm.InterruptedByCatastrophe
-import at.orchaldir.gm.core.model.realm.Peace
-import at.orchaldir.gm.core.model.realm.War
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.reducer.REDUCER

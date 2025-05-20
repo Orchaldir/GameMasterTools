@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
 import at.orchaldir.gm.core.selector.util.sortTreaties
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
