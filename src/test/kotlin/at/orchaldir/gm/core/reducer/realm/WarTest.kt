@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.Battle
+import at.orchaldir.gm.core.model.realm.FinishedWar
+import at.orchaldir.gm.core.model.realm.Peace
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
@@ -80,6 +82,15 @@ class WarTest {
             val action = UpdateWar(war)
 
             assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+
+        @Test
+        fun `Treaty must exist`() {
+            val war = War(WAR_ID_0, status = FinishedWar(Peace(UNKNOWN_TREATY_ID), DAY0))
+            val action = UpdateWar(war)
+
+            assertIllegalArgument("Requires unknown Treaty 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

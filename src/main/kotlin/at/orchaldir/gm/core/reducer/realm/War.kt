@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.War
+import at.orchaldir.gm.core.model.realm.WarStatus
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
@@ -41,4 +42,9 @@ val UPDATE_WAR: Reducer<UpdateWar, State> = { state, action ->
 fun validateWar(state: State, war: War) {
     validateHasStartAndEnd(state, war)
     state.getRealmStorage().require(war.realms)
+    validateWarStatus(state, war.status)
+}
+
+fun validateWarStatus(state: State, status: WarStatus) {
+    state.getTreatyStorage().requireOptional(status.treaty())
 }
