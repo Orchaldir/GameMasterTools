@@ -8,7 +8,7 @@ import at.orchaldir.gm.app.html.model.selectDate
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.calendar.CalendarOriginType.Improved
 import at.orchaldir.gm.core.model.time.calendar.CalendarOriginType.Original

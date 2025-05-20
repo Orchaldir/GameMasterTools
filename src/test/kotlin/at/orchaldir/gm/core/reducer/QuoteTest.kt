@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.item.text.content.LinkedQuote
 import at.orchaldir.gm.core.model.item.text.content.SimpleChapter
 import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
-import at.orchaldir.gm.core.model.quote.Quote
+import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

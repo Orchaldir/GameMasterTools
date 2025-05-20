@@ -5,9 +5,14 @@ import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.time.calendar.*
+import at.orchaldir.gm.core.model.time.holiday.DayInYear
+import at.orchaldir.gm.core.model.time.holiday.Holiday
+import at.orchaldir.gm.core.model.time.holiday.HolidayOfCatastrophe
+import at.orchaldir.gm.core.model.time.holiday.HolidayOfGod
+import at.orchaldir.gm.core.model.time.holiday.HolidayOfTreaty
+import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

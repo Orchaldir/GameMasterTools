@@ -2,8 +2,8 @@ package at.orchaldir.gm.prototypes.visualization.currency
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
-import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames

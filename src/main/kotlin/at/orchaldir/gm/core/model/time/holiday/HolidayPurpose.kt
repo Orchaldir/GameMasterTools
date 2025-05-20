@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.holiday
+package at.orchaldir.gm.core.model.time.holiday
 
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.TreatyId

@@ -2,7 +2,7 @@ package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.generator.TextGenerator
 import at.orchaldir.gm.core.model.item.text.content.*
-import at.orchaldir.gm.core.model.quote.Quote
+import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.Center
 import at.orchaldir.gm.core.model.util.VerticalAlignment

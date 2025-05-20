@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Fill
 import at.orchaldir.gm.core.model.util.Solid

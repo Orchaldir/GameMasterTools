@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.race.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.FeatureColorType
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import kotlinx.serialization.Serializable
 
 @Serializable

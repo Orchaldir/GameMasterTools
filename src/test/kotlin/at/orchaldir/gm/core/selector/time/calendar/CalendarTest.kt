@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.selector.time.calendar
 
 import at.orchaldir.gm.HOLIDAY_ID_0
-import at.orchaldir.gm.core.model.holiday.DayInYear
-import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.time.holiday.DayInYear
+import at.orchaldir.gm.core.model.time.holiday.Holiday
+import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

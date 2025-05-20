@@ -1,10 +1,10 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.holiday.HolidayId
-import at.orchaldir.gm.core.model.holiday.HolidayOfCatastrophe
-import at.orchaldir.gm.core.model.holiday.HolidayOfGod
-import at.orchaldir.gm.core.model.holiday.HolidayOfTreaty
+import at.orchaldir.gm.core.model.time.holiday.HolidayId
+import at.orchaldir.gm.core.model.time.holiday.HolidayOfCatastrophe
+import at.orchaldir.gm.core.model.time.holiday.HolidayOfGod
+import at.orchaldir.gm.core.model.time.holiday.HolidayOfTreaty
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.religion.GodId

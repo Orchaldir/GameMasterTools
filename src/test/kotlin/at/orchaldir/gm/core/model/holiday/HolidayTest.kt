@@ -6,6 +6,9 @@ import at.orchaldir.gm.NAME0
 import at.orchaldir.gm.NAME1
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.time.holiday.DayInYear
+import at.orchaldir.gm.core.model.time.holiday.RelativeDate
+import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
 import at.orchaldir.gm.core.selector.time.date.resolveDay
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

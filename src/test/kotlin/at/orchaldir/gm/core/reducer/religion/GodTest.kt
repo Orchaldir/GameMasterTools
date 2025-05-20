@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTrait
-import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.HolidayOfGod
+import at.orchaldir.gm.core.model.time.holiday.Holiday
+import at.orchaldir.gm.core.model.time.holiday.HolidayOfGod
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.world.plane.HeartPlane

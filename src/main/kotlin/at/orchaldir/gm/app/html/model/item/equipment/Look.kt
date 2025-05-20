@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

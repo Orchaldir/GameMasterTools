@@ -9,9 +9,9 @@ import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.material.MATERIAL_TYPE
-import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
+import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.canDeleteMaterial
 import at.orchaldir.gm.core.selector.countRaceAppearancesMadeOf

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.event
+package at.orchaldir.gm.core.model.util.event
 
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.utils.Id

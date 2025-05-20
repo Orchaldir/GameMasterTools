@@ -7,9 +7,9 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.quote.Quote
-import at.orchaldir.gm.core.model.quote.QuoteId
-import at.orchaldir.gm.core.model.quote.QuoteType
+import at.orchaldir.gm.core.model.util.quote.Quote
+import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.util.quote.QuoteType
 import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.item.periodical.getArticlesContaining
 import io.ktor.http.*

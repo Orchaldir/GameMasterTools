@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.selectOptionalElement
 import at.orchaldir.gm.app.html.showMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.material.MaterialCost
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MaterialCost
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM

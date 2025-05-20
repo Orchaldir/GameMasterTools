@@ -9,8 +9,8 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.quote.QuoteId
+import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.selector.util.getCreatorName
 

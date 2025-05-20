@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.HolidayOfCatastrophe
+import at.orchaldir.gm.core.model.time.holiday.Holiday
+import at.orchaldir.gm.core.model.time.holiday.HolidayOfCatastrophe
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathByCatastrophe

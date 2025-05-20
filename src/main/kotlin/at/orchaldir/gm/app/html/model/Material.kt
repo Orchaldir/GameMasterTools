@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.DENSITY
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.model.material.MaterialCategory
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialCategory
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*

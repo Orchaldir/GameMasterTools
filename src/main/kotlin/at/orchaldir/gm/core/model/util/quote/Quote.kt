@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.quote
+package at.orchaldir.gm.core.model.util.quote
 
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.time.date.Date

@@ -1,10 +1,10 @@
 package at.orchaldir.gm.core.selector.time.calendar
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.holiday.DayInMonth
-import at.orchaldir.gm.core.model.holiday.DayInYear
-import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.time.holiday.DayInMonth
+import at.orchaldir.gm.core.model.time.holiday.DayInYear
+import at.orchaldir.gm.core.model.time.holiday.Holiday
+import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.ImprovedCalendar
 import at.orchaldir.gm.core.model.time.calendar.OriginalCalendar

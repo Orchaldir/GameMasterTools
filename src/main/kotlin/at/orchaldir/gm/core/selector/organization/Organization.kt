@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.selector.organization
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.time.date.Date

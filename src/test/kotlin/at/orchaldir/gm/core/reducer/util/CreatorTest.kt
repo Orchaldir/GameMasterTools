@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
-import at.orchaldir.gm.core.model.quote.Quote
+import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CreatedCatastrophe
 import at.orchaldir.gm.core.model.realm.Realm

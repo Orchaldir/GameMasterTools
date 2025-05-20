@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.material
+package at.orchaldir.gm.core.model.economy.material
 
 enum class MaterialCategory {
     Fabric,
