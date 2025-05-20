@@ -76,7 +76,9 @@ fun validateRealmStatus(
     state: State,
     status: RealmStatus,
 ) = when (status) {
+    is Abandoned -> doNothing()
     LivingRealm -> doNothing()
+    is DestroyedByBattle -> state.requireExists(state.getBattleStorage(), status.battle, status.date)
     is DestroyedByCatastrophe -> state.requireExists(state.getCatastropheStorage(), status.catastrophe, status.date)
     is DestroyedByWar -> state.requireExists(state.getWarStorage(), status.war, status.date)
     is UndefinedEndOfRealm -> doNothing()

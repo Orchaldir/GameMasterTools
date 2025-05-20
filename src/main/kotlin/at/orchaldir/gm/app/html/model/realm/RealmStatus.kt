@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.model.realm
 
+import at.orchaldir.gm.app.BATTLE
 import at.orchaldir.gm.app.CATASTROPHE
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.END
@@ -13,6 +14,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.selector.realm.getExistingBattles
 import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
 import at.orchaldir.gm.core.selector.realm.getExistingWars
 import at.orchaldir.gm.utils.doNothing
@@ -42,8 +44,14 @@ fun HtmlBlockTag.displayRealmStatus(
     showAlive: Boolean = true,
 ) {
     when (status) {
+        is Abandoned -> +"Abandoned"
         LivingRealm -> if (showAlive) {
             +"Alive"
+        }
+
+        is DestroyedByBattle -> {
+            +"Destroyed by "
+            link(call, state, status.battle)
         }
 
         is DestroyedByCatastrophe -> {
@@ -68,6 +76,7 @@ fun FORM.editRealmStatus(
     startDate: Date?,
 ) {
     val endDate = status.endDate()
+    val battles = state.getExistingBattles(endDate)
     val catastrophes = state.getExistingCatastrophes(endDate)
     val wars = state.getExistingWars(endDate)
     val type = status.getType()
@@ -83,6 +92,8 @@ fun FORM.editRealmStatus(
     showDetails("Status", true) {
         selectValue("Type", END, RealmStatusType.entries, validType) { type ->
             when (type) {
+                RealmStatusType.Abandoned -> false
+                RealmStatusType.Battle -> battles.isEmpty()
                 RealmStatusType.Living -> false
                 RealmStatusType.Catastrophe -> catastrophes.isEmpty()
                 RealmStatusType.War -> wars.isEmpty()
@@ -91,7 +102,18 @@ fun FORM.editRealmStatus(
         }
 
         when (status) {
+            is Abandoned -> selectEndDate(state, startDate, status.date)
             LivingRealm -> doNothing()
+            is DestroyedByBattle -> {
+                selectElement(
+                    state,
+                    "Battle",
+                    combine(END, BATTLE),
+                    battles,
+                    status.battle,
+                )
+                selectEndDate(state, startDate, status.date)
+            }
             is DestroyedByCatastrophe -> {
                 selectElement(
                     state,
@@ -134,6 +156,14 @@ private fun DETAILS.selectEndDate(
 // parse
 
 fun parseRealmStatus(parameters: Parameters, state: State) = when (parse(parameters, END, RealmStatusType.Living)) {
+    RealmStatusType.Abandoned -> Abandoned(
+        parseEndDate(parameters, state),
+    )
+
+    RealmStatusType.Battle -> DestroyedByBattle(
+        parseBattleId(parameters, combine(END, BATTLE)),
+        parseEndDate(parameters, state),
+    )
     RealmStatusType.Living -> LivingRealm
     RealmStatusType.Catastrophe -> DestroyedByCatastrophe(
         parseCatastropheId(parameters, combine(END, CATASTROPHE)),

@@ -5,6 +5,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class RealmStatusType {
+    Abandoned,
+    Battle,
     Living,
     Catastrophe,
     War,
@@ -15,18 +17,25 @@ enum class RealmStatusType {
 sealed class RealmStatus {
 
     fun getType() = when (this) {
+        is Abandoned -> RealmStatusType.Abandoned
         LivingRealm -> RealmStatusType.Living
+        is DestroyedByBattle -> RealmStatusType.Battle
         is DestroyedByCatastrophe -> RealmStatusType.Catastrophe
         is DestroyedByWar -> RealmStatusType.War
         is UndefinedEndOfRealm -> RealmStatusType.Undefined
     }
 
     fun endDate() = when (this) {
+        is Abandoned -> date
         LivingRealm -> null
+        is DestroyedByBattle -> date
         is DestroyedByCatastrophe -> date
         is DestroyedByWar -> date
         is UndefinedEndOfRealm -> date
     }
+
+    fun isDestroyedByBattle(battle: BattleId) =
+        this is DestroyedByBattle && this.battle == battle
 
     fun isDestroyedByCatastrophe(catastrophe: CatastropheId) =
         this is DestroyedByCatastrophe && this.catastrophe == catastrophe
@@ -36,8 +45,21 @@ sealed class RealmStatus {
 }
 
 @Serializable
+@SerialName("Abandoned")
+data class Abandoned(
+    val date: Date,
+) : RealmStatus()
+
+@Serializable
 @SerialName("Living")
 data object LivingRealm : RealmStatus()
+
+@Serializable
+@SerialName("Battle")
+data class DestroyedByBattle(
+    val battle: BattleId,
+    val date: Date,
+) : RealmStatus()
 
 @Serializable
 @SerialName("Catastrophe")
