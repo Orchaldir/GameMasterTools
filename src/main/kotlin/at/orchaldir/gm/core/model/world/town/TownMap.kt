@@ -107,13 +107,24 @@ data class TownMap(
     }
 
     fun removeAbstractBuilding(index: Int): TownMap {
+        val tiles = mutableMapOf<Int, TownTile>()
         val oldTile = map.getRequiredTile(index)
 
-        require(oldTile.construction is AbstractBuildingTile) { "Tile $index is not an abstract building!" }
+        when (oldTile.construction) {
+            AbstractBuildingTile -> tiles[index] = oldTile.copy(construction = NoConstruction)
+            is AbstractLargeBuildingStart -> {
+                val size = oldTile.construction.size
+                map.size.toIndices(index, size)?.forEach { tileIndex ->
+                    val oldTile = map.getRequiredTile(tileIndex)
 
-        val tile = oldTile.copy(construction = NoConstruction)
+                    tiles[tileIndex] = oldTile.copy(construction = NoConstruction)
+                } ?: error("Lot with index $index & size ${size.format()} is outside the map!")
+            }
 
-        return updateTile(index, tile)
+            else -> error("Tile $index is not an abstract building!")
+        }
+
+        return updateTiles(tiles)
     }
 
     fun removeBuilding(building: BuildingId): TownMap {
