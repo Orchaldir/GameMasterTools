@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.editDataSources
 import at.orchaldir.gm.app.html.util.parseDataSources
-import at.orchaldir.gm.app.html.util.parseLanguageId
+import at.orchaldir.gm.app.html.culture.parseLanguageId
 import at.orchaldir.gm.app.html.util.showDataSources
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
