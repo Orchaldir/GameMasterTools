@@ -19,7 +19,6 @@ import kotlin.test.assertEquals
 class OriginTest {
 
     private val origin = NaturalOrigin<IllnessId>(DAY1)
-    private val date = DAY2
     private val state = State(
         listOf(
             Storage(CALENDAR0),
@@ -28,14 +27,31 @@ class OriginTest {
         ),
         data = Data(time = Time(currentDate = Day(10))),
     )
+    private val creator = CreatedByCharacter(CHARACTER_ID_0)
 
     @Nested
     inner class UpdateTest {
 
-        @Test
-        fun `Date before parent's date`() {
-            val origin = EvolvedOrigin(ILLNESS_ID_1, DAY0)
-            failOrigin(origin, "The Illness 1 doesn't exist at the required date!")
+        @Nested
+        inner class DateTest {
+
+            @Test
+            fun `Date before parent's date`() {
+                val origin = EvolvedOrigin(ILLNESS_ID_1, DAY0)
+                failOrigin(origin, "The Illness 1 doesn't exist at the required date!")
+            }
+
+            @Test
+            fun `Same date`() {
+                val origin = EvolvedOrigin(ILLNESS_ID_1, DAY1)
+                testOrigin(origin)
+            }
+
+            @Test
+            fun `Later date`() {
+                val origin = EvolvedOrigin(ILLNESS_ID_1, DAY2)
+                testOrigin(origin)
+            }
         }
 
         @Nested
@@ -69,11 +85,21 @@ class OriginTest {
 
             @Test
             fun `Valid combined origin`() {
-                testOrigin(date, CombinedOrigin(setOf(ILLNESS_ID_1, ILLNESS_ID_2)))
+                testOrigin(CombinedOrigin(setOf(ILLNESS_ID_1, ILLNESS_ID_2)))
             }
         }
 
-        private fun testOrigin(day: Day, origin: Origin<IllnessId>) {
+        @Nested
+        inner class CreatedOriginTest {
+
+            @Test
+            fun `Valid combined origin`() {
+                testOrigin(CreatedOrigin(creator))
+            }
+
+        }
+
+        private fun testOrigin(origin: Origin<IllnessId>) {
             val illness = Illness(ILLNESS_ID_0, origin = origin)
             val action = UpdateIllness(illness)
 
