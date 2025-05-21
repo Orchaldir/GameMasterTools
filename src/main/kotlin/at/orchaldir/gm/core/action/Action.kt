@@ -382,7 +382,7 @@ data class UpdateTownMap(val townMap: TownMap) : WorldAction()
 data class AddAbstractBuilding(
     val town: TownMapId,
     val tileIndex: Int,
-    val size: MapSize2d,
+    val size: MapSize2d = MapSize2d.square(1),
 ) : WorldAction()
 
 data class RemoveAbstractBuilding(

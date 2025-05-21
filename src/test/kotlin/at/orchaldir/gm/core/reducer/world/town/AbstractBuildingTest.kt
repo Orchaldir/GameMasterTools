@@ -108,7 +108,7 @@ class AbstractBuildingTest {
         fun `Tile is already empty`() {
             val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
-            assertIllegalArgument("Tile 0 is not an abstract building!") { REDUCER.invoke(STATE, action) }
+            assertIllegalState("Tile 0 is not an abstract building!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -126,7 +126,7 @@ class AbstractBuildingTest {
             val state = State(Storage(town))
             val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
-            assertIllegalArgument("Tile 0 is not an abstract building!") { REDUCER.invoke(state, action) }
+            assertIllegalState("Tile 0 is not an abstract building!") { REDUCER.invoke(state, action) }
         }
 
         @Test
