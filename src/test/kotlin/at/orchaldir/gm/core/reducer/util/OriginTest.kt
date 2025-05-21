@@ -25,18 +25,9 @@ class OriginTest {
 
     private val state = State(
         listOf(
-            Storage(Battle(BATTLE_ID_0)),
-            Storage(Catastrophe(CATASTROPHE_ID_0)),
             Storage(CALENDAR0),
-            Storage(
-                listOf(
-                    Character(CHARACTER_ID_0),
-                    Character(CHARACTER_ID_1),
-                )
-            ),
-            Storage(Culture(CULTURE_ID_0)),
-            Storage(Race(RACE_ID_0)),
-            Storage(War(WAR_ID_0)),
+            Storage(Character(CHARACTER_ID_0)),
+            Storage(listOf(Illness(ILLNESS_ID_0), Illness(ILLNESS_ID_1), Illness(ILLNESS_ID_2))),
         ),
         data = Data(time = Time(currentDate = Day(10))),
     )
@@ -56,6 +47,11 @@ class OriginTest {
             assertIllegalArgument("The combined origin needs at least 2 parents!") {
                 CombinedOrigin(setOf(ILLNESS_ID_0))
             }
+        }
+
+        @Test
+        fun `Valid combined origin`() {
+            testOrigin(DAY0, CombinedOrigin(setOf(ILLNESS_ID_1, ILLNESS_ID_2)))
         }
 
         private fun testOrigin(day: Day, origin: Origin<IllnessId>) {
