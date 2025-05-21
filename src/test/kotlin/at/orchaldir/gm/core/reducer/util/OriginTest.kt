@@ -1,16 +1,12 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.action.UpdateIllness
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.illness.Illness
 import at.orchaldir.gm.core.model.illness.IllnessId
-import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
@@ -19,7 +15,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class OriginTest {
 
@@ -36,6 +31,12 @@ class OriginTest {
 
     @Nested
     inner class UpdateTest {
+
+        @Test
+        fun `Date before parent's date`() {
+            val origin = EvolvedOrigin(ILLNESS_ID_1, DAY0)
+            failOrigin(origin, "The Illness 1 doesn't exist at the required date!")
+        }
 
         @Nested
         inner class CombinedOriginTest {
@@ -57,13 +58,13 @@ class OriginTest {
             @Test
             fun `Combined origin fails with unknown parent`() {
                 val origin = CombinedOrigin(setOf(UNKNOWN_ILLNESS_ID, ILLNESS_ID_1))
-                failOrigin(date, origin, "Requires unknown Illness 99!")
+                failOrigin(origin, "Requires unknown Illness 99!")
             }
 
             @Test
             fun `Combined origin fails with reusing id as parent`() {
                 val origin = CombinedOrigin(setOf(ILLNESS_ID_0, ILLNESS_ID_1))
-                failOrigin(date, origin, "An element cannot be its own parent!")
+                failOrigin(origin, "An element cannot be its own parent!")
             }
 
             @Test
@@ -84,7 +85,7 @@ class OriginTest {
             )
         }
 
-        private fun failOrigin(day: Day, origin: Origin<IllnessId>, message: String) {
+        private fun failOrigin(origin: Origin<IllnessId>, message: String) {
             val illness = Illness(ILLNESS_ID_0, origin = origin)
             val action = UpdateIllness(illness)
 
