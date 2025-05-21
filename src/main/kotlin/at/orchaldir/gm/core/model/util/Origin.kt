@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 
 enum class OriginType {
     Combined,
-    Evolved,
     Created,
+    Evolved,
     Modified,
     Natural,
 }
@@ -51,21 +51,21 @@ sealed class Origin<ID : Id<ID>> : Creation {
 @SerialName("Combined")
 data class CombinedOrigin<ID : Id<ID>>(
     val parents: Set<ID>,
-    val date: Date?,
+    val date: Date? = null,
 ) : Origin<ID>()
 
 @Serializable
 @SerialName("Created")
 data class CreatedOrigin<ID : Id<ID>>(
     val creator: Creator,
-    val date: Date?,
+    val date: Date? = null,
 ) : Origin<ID>()
 
 @Serializable
 @SerialName("Evolved")
 data class EvolvedOrigin<ID : Id<ID>>(
     val parent: ID,
-    val date: Date?,
+    val date: Date? = null,
 ) : Origin<ID>()
 
 @Serializable
@@ -73,11 +73,11 @@ data class EvolvedOrigin<ID : Id<ID>>(
 data class ModifiedOrigin<ID : Id<ID>>(
     val parent: ID,
     val modifier: Creator,
-    val date: Date?,
+    val date: Date? = null,
 ) : Origin<ID>()
 
 @Serializable
 @SerialName("Natural")
 data class NaturalOrigin<ID : Id<ID>>(
-    val date: Date?,
+    val date: Date? = null,
 ) : Origin<ID>()

@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.model.illness
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.NaturalOrigin
+import at.orchaldir.gm.core.model.util.Origin
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.utils.Id
@@ -26,15 +28,12 @@ data class Illness(
     val id: IllnessId,
     val name: Name = Name.init("Illness ${id.value}"),
     val title: NotEmptyString? = null,
-    val origin: IllnessOrigin = NaturalIllness,
+    val origin: Origin<IllnessId> = NaturalOrigin(),
 ) : ElementWithSimpleName<IllnessId>, Creation, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = origin.creator()
-    override fun startDate() = when (origin) {
-        is InventedIllness -> origin.date
-        else -> null
-    }
+    override fun startDate() = origin.date()
 
 }
