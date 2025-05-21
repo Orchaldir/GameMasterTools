@@ -38,10 +38,14 @@ class TownMapRoutes {
         @Resource("edit")
         class Edit(val id: TownMapId, val parent: AbstractBuildingRoutes = AbstractBuildingRoutes())
 
+        @Resource("preview")
+        class Preview(val id: TownMapId, val parent: AbstractBuildingRoutes = AbstractBuildingRoutes())
+
         @Resource("add")
         class Add(
             val town: TownMapId,
             val tileIndex: Int,
+            val size: MapSize2d,
             val parent: AbstractBuildingRoutes = AbstractBuildingRoutes(),
         )
 
