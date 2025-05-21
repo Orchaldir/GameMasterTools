@@ -4,8 +4,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.illness.IllnessId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.getExistingElements
+import at.orchaldir.gm.core.selector.util.hasChildren
 
-fun State.canDeleteIllness(illness: IllnessId) = true
+fun State.canDeleteIllness(illness: IllnessId) = !hasChildren(getIllnessStorage(), illness)
 
 fun State.getPossibleParents(illness: IllnessId) = getIllnessStorage()
     .getAllExcept(illness)
