@@ -11,7 +11,10 @@
    "founder": {
     "type": "Character",
     "character": 0
-   }
+   },
+   "sources": [
+    0
+   ]
   }
  }
 }
