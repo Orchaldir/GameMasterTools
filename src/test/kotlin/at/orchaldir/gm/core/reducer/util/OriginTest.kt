@@ -23,11 +23,13 @@ import kotlin.test.assertFailsWith
 
 class OriginTest {
 
+    private val origin = NaturalOrigin<IllnessId>(DAY1)
+    private val date = DAY2
     private val state = State(
         listOf(
             Storage(CALENDAR0),
             Storage(Character(CHARACTER_ID_0)),
-            Storage(listOf(Illness(ILLNESS_ID_0), Illness(ILLNESS_ID_1), Illness(ILLNESS_ID_2))),
+            Storage(listOf(Illness(ILLNESS_ID_0), Illness(ILLNESS_ID_1, origin = origin), Illness(ILLNESS_ID_2))),
         ),
         data = Data(time = Time(currentDate = Day(10))),
     )
@@ -35,35 +37,39 @@ class OriginTest {
     @Nested
     inner class UpdateTest {
 
-        @Test
-        fun `Combined origin fails with without parents`() {
-            assertIllegalArgument("The combined origin needs at least 2 parents!") {
-                CombinedOrigin<IllnessId>(emptySet())
+        @Nested
+        inner class CombinedOriginTest {
+
+            @Test
+            fun `Combined origin fails with without parents`() {
+                assertIllegalArgument("The combined origin needs at least 2 parents!") {
+                    CombinedOrigin<IllnessId>(emptySet())
+                }
             }
-        }
 
-        @Test
-        fun `Combined origin fails 1 parent`() {
-            assertIllegalArgument("The combined origin needs at least 2 parents!") {
-                CombinedOrigin(setOf(ILLNESS_ID_0))
+            @Test
+            fun `Combined origin fails 1 parent`() {
+                assertIllegalArgument("The combined origin needs at least 2 parents!") {
+                    CombinedOrigin(setOf(ILLNESS_ID_0))
+                }
             }
-        }
 
-        @Test
-        fun `Combined origin fails with unknown parent`() {
-            val origin = CombinedOrigin(setOf(UNKNOWN_ILLNESS_ID, ILLNESS_ID_1))
-            failOrigin(DAY0, origin, "Requires unknown Illness 99!")
-        }
+            @Test
+            fun `Combined origin fails with unknown parent`() {
+                val origin = CombinedOrigin(setOf(UNKNOWN_ILLNESS_ID, ILLNESS_ID_1))
+                failOrigin(date, origin, "Requires unknown Illness 99!")
+            }
 
-        @Test
-        fun `Combined origin fails with reusing id as parent`() {
-            val origin = CombinedOrigin(setOf(ILLNESS_ID_0, ILLNESS_ID_1))
-            failOrigin(DAY0, origin, "An element cannot be its own parent!")
-        }
+            @Test
+            fun `Combined origin fails with reusing id as parent`() {
+                val origin = CombinedOrigin(setOf(ILLNESS_ID_0, ILLNESS_ID_1))
+                failOrigin(date, origin, "An element cannot be its own parent!")
+            }
 
-        @Test
-        fun `Valid combined origin`() {
-            testOrigin(DAY0, CombinedOrigin(setOf(ILLNESS_ID_1, ILLNESS_ID_2)))
+            @Test
+            fun `Valid combined origin`() {
+                testOrigin(date, CombinedOrigin(setOf(ILLNESS_ID_1, ILLNESS_ID_2)))
+            }
         }
 
         private fun testOrigin(day: Day, origin: Origin<IllnessId>) {
