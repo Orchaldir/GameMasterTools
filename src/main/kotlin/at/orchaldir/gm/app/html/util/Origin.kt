@@ -224,4 +224,4 @@ private fun <ID : Id<ID>> parseId(
     parameters: Parameters,
     param: String,
     parseIdFromString: (String) -> ID,
-) = parseIdFromString(parameters[param] ?: "Error")
+) = parseIdFromString(parameters[param] ?: "0")
