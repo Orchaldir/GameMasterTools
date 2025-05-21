@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.illness.Illness
 import at.orchaldir.gm.core.model.illness.IllnessId
 import at.orchaldir.gm.core.model.magic.Spell
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
@@ -38,19 +39,22 @@ class OriginTest {
         private val spell0 = Spell(SPELL_ID_0)
 
         @Test
-        fun `Used as parent in a modified origin`() {
-            val origin = ModifiedOrigin(SPELL_ID_0, UndefinedCreator)
-            val spell1 = Spell(SPELL_ID_1, origin = origin)
-            val state = state.updateStorage(Storage(listOf(spell0, spell1)))
-
-            assertIllegalArgument("Cannot delete Spell 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
+        fun `Used as parent in a evolved origin`() {
+            test(EvolvedOrigin(SPELL_ID_0))
         }
 
         @Test
-        fun `Used as parent  in a translated origin`() {
-            val spell1 = Spell(SPELL_ID_1, origin = TranslatedOrigin(SPELL_ID_0, UndefinedCreator))
+        fun `Used as parent in a modified origin`() {
+            test(ModifiedOrigin(SPELL_ID_0, UndefinedCreator))
+        }
+
+        @Test
+        fun `Used as parent in a translated origin`() {
+            test(TranslatedOrigin(SPELL_ID_0, UndefinedCreator))
+        }
+
+        private fun test(origin: Origin<SpellId>) {
+            val spell1 = Spell(SPELL_ID_1, origin = origin)
             val state = state.updateStorage(Storage(listOf(spell0, spell1)))
 
             assertIllegalArgument("Cannot delete Spell 0, because it is used!") {
