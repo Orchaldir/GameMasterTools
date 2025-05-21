@@ -3,13 +3,17 @@ package at.orchaldir.gm.core.reducer.illness
 import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.ILLNESS_ID_0
 import at.orchaldir.gm.REALM_ID_0
+import at.orchaldir.gm.UNKNOWN_CHARACTER_ID
 import at.orchaldir.gm.UNKNOWN_ILLNESS_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteIllness
 import at.orchaldir.gm.core.action.UpdateIllness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.illness.Illness
+import at.orchaldir.gm.core.model.illness.IllnessId
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CreatedOrigin
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -54,6 +58,14 @@ class IllnessTest {
             val action = UpdateIllness(Illness(UNKNOWN_ILLNESS_ID))
 
             assertIllegalArgument("Requires unknown Illness 99!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Test origin`() {
+            val origin = CreatedOrigin<IllnessId>(CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val action = UpdateIllness(Illness(ILLNESS_ID_0, origin = origin))
+
+            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
