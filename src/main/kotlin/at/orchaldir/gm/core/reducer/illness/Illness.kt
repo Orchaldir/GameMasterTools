@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateIllness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.illness.*
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.illness.canDeleteIllness
@@ -39,23 +40,5 @@ val UPDATE_ILLNESS: Reducer<UpdateIllness, State> = { state, action ->
 
 fun validateIllness(state: State, illness: Illness) {
     checkDate(state, illness.startDate(), "Illness")
-    checkOrigin(state, illness)
-}
-
-private fun checkOrigin(
-    state: State,
-    illness: Illness,
-) {
-    when (val origin = illness.origin) {
-        is EvolvedIllness -> state.requireExists(state.getIllnessStorage(), origin.parent, origin.date)
-        is InventedIllness ->
-            validateCreator(state, origin.inventor, illness.id, origin.date, "Inventor")
-
-        is ModifiedIllness -> {
-            state.requireExists(state.getIllnessStorage(), origin.parent, origin.date)
-            validateCreator(state, origin.modifier, illness.id, origin.date, "Modifier")
-        }
-
-        NaturalIllness -> doNothing()
-    }
+    checkOrigin(state, state.getIllnessStorage(), illness.id, illness.origin)
 }

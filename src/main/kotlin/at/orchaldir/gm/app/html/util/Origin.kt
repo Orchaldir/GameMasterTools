@@ -161,7 +161,7 @@ fun <ID : Id<ID>> parseOrigin(
     state: State,
     parseIdFromString: (String) -> ID,
 ) = when (parse(parameters, ORIGIN, OriginType.Natural)) {
-    OriginType.Created -> CreatedOrigin<ID>(
+    OriginType.Created -> CreatedOrigin(
         parseCreator(parameters),
         parseDate(parameters, state, DATE),
     )
