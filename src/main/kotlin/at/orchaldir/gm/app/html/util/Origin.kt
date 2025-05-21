@@ -119,7 +119,7 @@ fun <ID : Id<ID>> FORM.editOrigin(
                 selectOriginDate(state, origin.date)
             }
 
-            is NaturalOrigin -> doNothing()
+            is NaturalOrigin -> selectOriginDate(state, origin.date)
         }
     }
 }
