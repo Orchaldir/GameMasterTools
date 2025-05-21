@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -61,6 +62,13 @@ class AbstractBuildingTest {
         @Test
         fun `Tile is already a street`() {
             testTileNotEmpty(STREET_TILE)
+        }
+
+        @Test
+        fun `Large building is partly outside the map`() {
+            val action = AddAbstractBuilding(TOWN_MAP_ID_0, 9, MapSize2d.square(2))
+
+            assertIllegalState("Lot with index 9 & size 2 x 2 is outside the map!") { REDUCER.invoke(STATE, action) }
         }
 
         private fun testTileNotEmpty(townTile: TownTile) {
