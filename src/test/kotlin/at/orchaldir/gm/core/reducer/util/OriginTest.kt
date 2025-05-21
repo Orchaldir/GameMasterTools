@@ -36,7 +36,11 @@ class OriginTest {
     @Nested
     inner class DeleteTest {
         val action = DeleteSpell(SPELL_ID_0)
-        private val spell0 = Spell(SPELL_ID_0)
+
+        @Test
+        fun `Used as parent in a combined origin`() {
+            test(CombinedOrigin(setOf(SPELL_ID_0, SPELL_ID_2)))
+        }
 
         @Test
         fun `Used as parent in a evolved origin`() {
@@ -55,7 +59,7 @@ class OriginTest {
 
         private fun test(origin: Origin<SpellId>) {
             val spell1 = Spell(SPELL_ID_1, origin = origin)
-            val state = state.updateStorage(Storage(listOf(spell0, spell1)))
+            val state = state.updateStorage(Storage(listOf(Spell(SPELL_ID_0), spell1)))
 
             assertIllegalArgument("Cannot delete Spell 0, because it is used!") {
                 REDUCER.invoke(state, action)
