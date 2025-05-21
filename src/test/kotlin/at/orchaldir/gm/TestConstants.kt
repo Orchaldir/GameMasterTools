@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
+import at.orchaldir.gm.core.model.illness.IllnessId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
@@ -87,6 +88,8 @@ val GOD_ID_0 = GodId(0)
 val UNKNOWN_GOD_ID = GodId(99)
 val HOLIDAY_ID_0 = HolidayId(0)
 val UNKNOWN_HOLIDAY_ID = HolidayId(99)
+val ILLNESS_ID_0 = IllnessId(0)
+val UNKNOWN_ILLNESS_ID = IllnessId(99)
 val JOB_ID_0 = JobId(0)
 val JOB_ID_1 = JobId(1)
 val JOB_ID_2 = JobId(2)

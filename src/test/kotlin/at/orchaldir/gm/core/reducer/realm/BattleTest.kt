@@ -44,7 +44,7 @@ class BattleTest {
 
         @Test
         fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Battle 99!") { REDUCER.invoke(State(), action) }
         }
 
         // see VitalStatusTest for other elements
@@ -77,7 +77,7 @@ class BattleTest {
         fun `Cannot update unknown id`() {
             val action = UpdateBattle(Battle(BATTLE_ID_0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Battle 99!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
