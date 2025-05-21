@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.parseCharacterId
+import at.orchaldir.gm.app.html.illness.parseIllnessId
 import at.orchaldir.gm.app.html.realm.parseBattleId
 import at.orchaldir.gm.app.html.realm.parseCatastropheId
 import at.orchaldir.gm.app.html.realm.parseWarId
@@ -12,6 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.getLiving
+import at.orchaldir.gm.core.selector.illness.getExistingIllnesses
 import at.orchaldir.gm.core.selector.realm.getExistingBattles
 import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
 import at.orchaldir.gm.core.selector.realm.getExistingWars
@@ -63,19 +65,10 @@ fun HtmlBlockTag.displayCauseOfDeath(
     when (cause) {
         Abandoned -> +"Abandoned"
         is Accident -> +"Accident"
-        is DeathByCatastrophe -> {
-            link(call, state, cause.catastrophe)
-        }
-
-        is DeathByIllness -> +"Illness"
-        is DeathInBattle -> {
-            link(call, state, cause.battle)
-        }
-
-        is DeathInWar -> {
-            link(call, state, cause.war)
-        }
-
+        is DeathByCatastrophe -> link(call, state, cause.catastrophe)
+        is DeathByIllness -> link(call, state, cause.illness)
+        is DeathInBattle -> link(call, state, cause.battle)
+        is DeathInWar -> link(call, state, cause.war)
         is Murder -> {
             +"Killed by "
             link(call, state, cause.killer)
@@ -120,6 +113,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
     deathDay: Date,
     allowedCauses: Collection<CauseOfDeathType>,
 ) {
+    val illnesses = state.getExistingIllnesses(deathDay)
     val catastrophes = state.getExistingCatastrophes(deathDay)
     val characters = state.getLiving(deathDay)
         .filter { it.id != id }
@@ -135,6 +129,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
         when (type) {
             CauseOfDeathType.Battle -> battles.isEmpty()
             CauseOfDeathType.Catastrophe -> catastrophes.isEmpty()
+            CauseOfDeathType.Illness -> illnesses.isEmpty()
             CauseOfDeathType.Murder -> characters.isEmpty()
             CauseOfDeathType.War -> wars.isEmpty()
             else -> false
@@ -144,7 +139,13 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
     when (cause) {
         Abandoned -> doNothing()
         Accident -> doNothing()
-        DeathByIllness -> doNothing()
+        is DeathByIllness -> selectElement(
+            state,
+            "Illness",
+            ILLNESS,
+            illnesses,
+            cause.illness,
+        )
         is DeathByCatastrophe -> selectElement(
             state,
             "Catastrophe",
@@ -207,7 +208,9 @@ private fun parseCauseOfDeath(parameters: Parameters) = when (parse(parameters, 
         parseCatastropheId(parameters, CATASTROPHE),
     )
 
-    CauseOfDeathType.Illness -> DeathByIllness
+    CauseOfDeathType.Illness -> DeathByIllness(
+        parseIllnessId(parameters, ILLNESS),
+    )
     CauseOfDeathType.Murder -> Murder(
         parseCharacterId(parameters, KILLER),
     )

@@ -163,30 +163,30 @@ fun <ID : Id<ID>> parseOrigin(
 ) = when (parse(parameters, ORIGIN, OriginType.Natural)) {
     OriginType.Created -> CreatedOrigin(
         parseCreator(parameters),
-        parseDate(parameters, state, DATE),
+        parseOptionalDate(parameters, state, DATE),
     )
 
     OriginType.Evolved -> EvolvedOrigin(
         parseId(parameters, combine(ORIGIN, RACE), parseIdFromString),
-        parseDate(parameters, state, DATE),
+        parseOptionalDate(parameters, state, DATE),
     )
 
     OriginType.Combined -> {
         val parents = parseElements(parameters, LANGUAGES) { parseIdFromString(it) }
         CombinedOrigin(
             parents,
-            parseDate(parameters, state, DATE),
+            parseOptionalDate(parameters, state, DATE),
         )
     }
 
     OriginType.Modified -> ModifiedOrigin(
         parseId(parameters, combine(ORIGIN, RACE), parseIdFromString),
         parseCreator(parameters),
-        parseDate(parameters, state, DATE),
+        parseOptionalDate(parameters, state, DATE),
     )
 
     OriginType.Natural -> NaturalOrigin(
-        parseDate(parameters, state, DATE),
+        parseOptionalDate(parameters, state, DATE),
     )
 }
 

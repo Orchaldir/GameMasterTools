@@ -2,8 +2,12 @@ package at.orchaldir.gm.app.html.illness
 
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.editDataSources
 import at.orchaldir.gm.app.html.util.editOrigin
+import at.orchaldir.gm.app.html.util.parseDataSources
 import at.orchaldir.gm.app.html.util.parseOrigin
+import at.orchaldir.gm.app.html.util.showDataSources
+import at.orchaldir.gm.app.html.util.showDestroyed
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.illness.Illness
@@ -22,6 +26,8 @@ fun HtmlBlockTag.showIllness(
 ) {
     optionalField("Title", illness.title)
     showOrigin(call, state, illness.origin)
+    showDestroyed(call, state, illness.id)
+    showDataSources(call, state, illness.sources)
 }
 
 // edit
@@ -33,6 +39,7 @@ fun FORM.editIllness(
     selectName(illness.name)
     selectOptionalNotEmptyString("Title", illness.title, TITLE)
     editOrigin(state, illness.id, illness.origin)
+    editDataSources(state, illness.sources)
 }
 
 // parse
@@ -49,4 +56,5 @@ fun parseIllness(parameters: Parameters, state: State, id: IllnessId) = Illness(
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),
     parseOrigin(parameters, state, ::parseIllnessId),
+    parseDataSources(parameters),
 )

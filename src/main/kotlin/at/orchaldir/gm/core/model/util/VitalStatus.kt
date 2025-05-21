@@ -32,7 +32,7 @@ sealed class VitalStatus {
             Abandoned -> false
             Accident -> false
             is DeathByCatastrophe -> cause.catastrophe == id
-            DeathByIllness -> false
+            is DeathByIllness -> cause.illness == id
             is DeathInBattle -> cause.battle == id
             is DeathInWar -> cause.war == id
             is Murder -> cause.killer == id

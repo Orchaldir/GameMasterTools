@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.illness.IllnessId
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId
@@ -58,7 +59,9 @@ data class DeathByCatastrophe(
 
 @Serializable
 @SerialName("Illness")
-data object DeathByIllness : CauseOfDeath()
+data class DeathByIllness(
+    val illness: IllnessId,
+) : CauseOfDeath()
 
 @Serializable
 @SerialName("Battle")

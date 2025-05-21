@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.util.NaturalOrigin
 import at.orchaldir.gm.core.model.util.Origin
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -29,6 +30,7 @@ data class Illness(
     val name: Name = Name.init("Illness ${id.value}"),
     val title: NotEmptyString? = null,
     val origin: Origin<IllnessId> = NaturalOrigin(),
+    val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<IllnessId>, Creation, HasStartDate {
 
     override fun id() = id
