@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.illness.Illness
 import at.orchaldir.gm.core.model.illness.IllnessId
+import at.orchaldir.gm.core.selector.illness.getExistingIllnesses
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -36,9 +37,11 @@ fun FORM.editIllness(
     state: State,
     illness: Illness,
 ) {
+    val possibleParents = state.getExistingIllnesses(illness.startDate())
+
     selectName(illness.name)
     selectOptionalNotEmptyString("Title", illness.title, TITLE)
-    editOrigin(state, illness.id, illness.origin)
+    editOrigin(state, illness.id, illness.origin, possibleParents)
     editDataSources(state, illness.sources)
 }
 

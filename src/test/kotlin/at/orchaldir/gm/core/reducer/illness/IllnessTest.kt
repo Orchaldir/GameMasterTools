@@ -60,6 +60,7 @@ class IllnessTest {
             assertIllegalArgument("Requires unknown Illness 99!") { REDUCER.invoke(State(), action) }
         }
 
+        // See OriginTest for more
         @Test
         fun `Test origin`() {
             val origin = CreatedOrigin<IllnessId>(CreatedByCharacter(UNKNOWN_CHARACTER_ID))

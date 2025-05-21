@@ -95,9 +95,9 @@ fun <ID : Id<ID>> FORM.editOrigin(
     state: State,
     id: ID,
     origin: Origin<ID>,
+    elements: Collection<Element<ID>>,
 ) {
-    val possibleParents = state.getStorage(id)
-        .getAllExcept(id)
+    val possibleParents = elements.filter { it.id() != id }
 
     showDetails("Origin", true) {
         selectValue("Type", ORIGIN, OriginType.entries, origin.getType()) {
