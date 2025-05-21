@@ -185,7 +185,9 @@ fun <ID : Id<ID>> parseOrigin(
         parseDate(parameters, state, DATE),
     )
 
-    OriginType.Natural -> NaturalOrigin
+    OriginType.Natural -> NaturalOrigin(
+        parseDate(parameters, state, DATE),
+    )
 }
 
 private fun <ID : Id<ID>> parseId(
