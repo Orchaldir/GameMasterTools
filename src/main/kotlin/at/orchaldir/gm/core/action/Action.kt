@@ -22,6 +22,9 @@ import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.illness.Illness
+import at.orchaldir.gm.core.model.IllnessId
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
@@ -65,10 +68,10 @@ import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.terrain.RegionId
-import at.orchaldir.gm.core.model.world.terrain.River
-import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.region.Region
+import at.orchaldir.gm.core.model.world.region.RegionId
+import at.orchaldir.gm.core.model.world.region.River
+import at.orchaldir.gm.core.model.world.region.RiverId
 import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
@@ -151,6 +154,11 @@ data class UpdateFont(val font: Font) : Action()
 data object CreateHoliday : Action()
 data class DeleteHoliday(val id: HolidayId) : Action()
 data class UpdateHoliday(val holiday: Holiday) : Action()
+
+// illness
+data object CreateIllness : Action()
+data class DeleteIllness(val id: IllnessId) : Action()
+data class UpdateIllness(val illness: Illness) : Action()
 
 // language
 data object CreateLanguage : Action()

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "1918 Flu",
+   "origin": {
+    "type": "Natural",
+    "date": {
+     "type": "Year",
+     "year": 1917
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Tuberculosis"
+  }
+ }
+}

@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
-import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.region.Region
 import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage

@@ -1,5 +1,20 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Great Influenza Epidemic",
+   "startDate": {
+    "type": "Month",
+    "month": 23005
+   },
+   "endDate": {
+    "type": "Month",
+    "month": 23031
+   },
+   "cause": {
+    "type": "Natural"
+   }
+  }
  }
 }

@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TranslatedText
-import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
@@ -101,7 +100,7 @@ class CreatorTest {
 
         @Test
         fun `Created a spell`() {
-            test(Spell(SPELL_ID_0, origin = InventedSpell(createdByCharacter)))
+            test(Spell(SPELL_ID_0, origin = CreatedOrigin(createdByCharacter)))
         }
 
         @Test

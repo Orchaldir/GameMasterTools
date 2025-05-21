@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.routes.economy.configureMaterialRouting
 import at.orchaldir.gm.app.routes.economy.configureStandardOfLivingRouting
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyRouting
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyUnitRouting
+import at.orchaldir.gm.app.routes.illness.configureIllnessRouting
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.configureMagicTraditionRouting
 import at.orchaldir.gm.app.routes.magic.configureSpellGroupRouting
@@ -87,7 +88,7 @@ fun Application.module() {
     configureFontRouting()
     configureGodRouting()
     configureHolidayRouting()
-    configureEquipmentRouting()
+    configureIllnessRouting()
     configureJobRouting()
     configureLanguageRouting()
     configureLegalCodeRouting()

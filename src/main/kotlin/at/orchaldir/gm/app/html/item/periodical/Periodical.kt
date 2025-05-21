@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.FREQUENCY
 import at.orchaldir.gm.app.LANGUAGE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.culture.parseLanguageId
 import at.orchaldir.gm.app.html.time.parseCalendarId
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.parse

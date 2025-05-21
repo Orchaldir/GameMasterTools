@@ -242,6 +242,7 @@ fun FORM.editCharacter(
     showAge(state, character, race)
     selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
     selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
+    editDataSources(state, character.sources)
 
     h2 { +"Social" }
 
@@ -267,8 +268,6 @@ fun FORM.editCharacter(
             character.sexuality,
         )
     }
-
-    editDataSources(state, character.sources)
 }
 
 private fun FORM.selectOrigin(

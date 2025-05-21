@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingLot
-import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.terrain.River
+import at.orchaldir.gm.core.model.world.region.Region
+import at.orchaldir.gm.core.model.world.region.River
 import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element

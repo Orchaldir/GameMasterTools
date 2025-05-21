@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.River
+import at.orchaldir.gm.core.model.world.region.River
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.utils.redux.Reducer

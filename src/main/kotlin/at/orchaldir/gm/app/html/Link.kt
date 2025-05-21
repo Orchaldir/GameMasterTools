@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.routes.economy.MaterialRoutes
 import at.orchaldir.gm.app.routes.economy.StandardOfLivingRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
+import at.orchaldir.gm.app.routes.illness.IllnessRoutes
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
 import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
@@ -31,6 +32,8 @@ import at.orchaldir.gm.app.routes.utls.NameListRoutes
 import at.orchaldir.gm.app.routes.utls.QuoteRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
+import at.orchaldir.gm.core.model.IllnessId
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
@@ -52,7 +55,6 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.SpellGroupId
-import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -75,8 +77,8 @@ import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.terrain.RegionId
-import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.region.RegionId
+import at.orchaldir.gm.core.model.world.region.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.date.resolve
@@ -364,6 +366,7 @@ fun <ID : Id<ID>> href(
     is FontId -> call.application.href(FontRoutes.Details(id))
     is GodId -> call.application.href(GodRoutes.Details(id))
     is HolidayId -> call.application.href(HolidayRoutes.Details(id))
+    is IllnessId -> call.application.href(IllnessRoutes.Details(id))
     is JobId -> call.application.href(JobRoutes.Details(id))
     is LanguageId -> call.application.href(LanguageRoutes.Details(id))
     is LegalCodeId -> call.application.href(LegalCodeRoutes.Details(id))

@@ -5,10 +5,9 @@ import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.*
-import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -37,34 +36,8 @@ val UPDATE_SPELL: Reducer<UpdateSpell, State> = { state, action ->
 
 fun validateSpell(state: State, spell: Spell) {
     checkDate(state, spell.startDate(), "Spell")
-    checkOrigin(state, spell)
+    checkOrigin(state, state.getSpellStorage(), spell.id, spell.origin)
     state.getLanguageStorage().requireOptional(spell.language)
     state.getDataSourceStorage().require(spell.sources)
 }
 
-private fun checkOrigin(state: State, spell: Spell) {
-    when (val origin = spell.origin) {
-        is InventedSpell -> checkInventor(state, spell, origin.inventor)
-        is ModifiedSpell -> checkOrigin(state, spell, origin.inventor, origin.original)
-        is TranslatedSpell -> checkOrigin(state, spell, origin.inventor, origin.original)
-        UndefinedSpellOrigin -> doNothing()
-    }
-}
-
-private fun checkOrigin(
-    state: State,
-    spell: Spell,
-    creator: Creator,
-    original: SpellId,
-) {
-    checkInventor(state, spell, creator)
-    state.getSpellStorage().require(original) { "Original spell ${original.value} is unknown!" }
-}
-
-private fun checkInventor(
-    state: State,
-    spell: Spell,
-    creator: Creator,
-) {
-    validateCreator(state, creator, spell.id, spell.date, "Inventor")
-}

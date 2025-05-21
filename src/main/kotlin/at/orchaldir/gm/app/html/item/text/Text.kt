@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.item.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.culture.parseLanguageId
 import at.orchaldir.gm.app.html.economy.parseOptionalBusinessId
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine

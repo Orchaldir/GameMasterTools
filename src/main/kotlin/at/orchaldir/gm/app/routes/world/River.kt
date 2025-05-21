@@ -7,9 +7,9 @@ import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
-import at.orchaldir.gm.core.model.world.terrain.River
-import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.region.RIVER_TYPE
+import at.orchaldir.gm.core.model.world.region.River
+import at.orchaldir.gm.core.model.world.region.RiverId
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*

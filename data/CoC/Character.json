@@ -22,7 +22,10 @@
     "cause": {
      "type": "OldAge"
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "1": {
    "id": 1,
@@ -95,7 +98,16 @@
      "town": 0,
      "optionalBusiness": 1
     }
-   }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 0
+    }
+   },
+   "sources": [
+    0
+   ]
   },
   "2": {
    "id": 2,
@@ -178,7 +190,10 @@
      "business": 4,
      "job": 6
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "3": {
    "id": 3,
@@ -202,7 +217,10 @@
      "business": 0,
      "job": 0
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "4": {
    "id": 4,
@@ -226,7 +244,16 @@
      "business": 0,
      "job": 0
     }
-   }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 0
+    }
+   },
+   "sources": [
+    0
+   ]
   },
   "5": {
    "id": 5,
@@ -291,7 +318,10 @@
      "town": 0,
      "optionalBusiness": 1
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "6": {
    "id": 6,
@@ -313,7 +343,8 @@
      "year": 1909
     },
     "cause": {
-     "type": "Illness"
+     "type": "Illness",
+     "illness": 1
     }
    },
    "personality": [
@@ -323,7 +354,10 @@
     "7": [
      "Spouse"
     ]
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "7": {
    "id": 7,
@@ -345,7 +379,10 @@
     "6": [
      "Spouse"
     ]
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "8": {
    "id": 8,
@@ -418,7 +455,10 @@
      "business": 2,
      "job": 3
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "9": {
    "id": 9,
@@ -449,7 +489,10 @@
      "business": 3,
      "job": 4
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "10": {
    "id": 10,
@@ -484,7 +527,10 @@
      "business": 3,
      "job": 5
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "11": {
    "id": 11,
@@ -519,7 +565,16 @@
      "business": 3,
      "job": 5
     }
-   }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 0
+    }
+   },
+   "sources": [
+    0
+   ]
   },
   "12": {
    "id": 12,
@@ -555,7 +610,10 @@
      "business": 5,
      "job": 7
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "13": {
    "id": 13,
@@ -583,7 +641,10 @@
      "type": "InHouse",
      "building": 72
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "14": {
    "id": 14,
@@ -607,7 +668,16 @@
      "type": "InHouse",
      "building": 72
     }
-   }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 0
+    }
+   },
+   "sources": [
+    0
+   ]
   },
   "15": {
    "id": 15,
@@ -628,7 +698,10 @@
      "business": 6,
      "job": 8
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "16": {
    "id": 16,
@@ -659,7 +732,10 @@
      "business": 8,
      "job": 9
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "17": {
    "id": 17,
@@ -691,7 +767,10 @@
      "business": 8,
      "job": 9
     }
-   }
+   },
+   "sources": [
+    0
+   ]
   },
   "18": {
    "id": 18,

@@ -8,6 +8,9 @@ import at.orchaldir.gm.core.reducer.economy.CREATE_MATERIAL
 import at.orchaldir.gm.core.reducer.economy.DELETE_MATERIAL
 import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
 import at.orchaldir.gm.core.reducer.economy.UPDATE_MATERIAL
+import at.orchaldir.gm.core.reducer.illness.CREATE_ILLNESS
+import at.orchaldir.gm.core.reducer.illness.DELETE_ILLNESS
+import at.orchaldir.gm.core.reducer.illness.UPDATE_ILLNESS
 import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.magic.MAGIC_REDUCER
 import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
@@ -66,6 +69,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateHoliday -> CREATE_HOLIDAY(state, action)
         is DeleteHoliday -> DELETE_HOLIDAY(state, action)
         is UpdateHoliday -> UPDATE_HOLIDAY(state, action)
+        // illness
+        is CreateIllness -> CREATE_ILLNESS(state, action)
+        is DeleteIllness -> DELETE_ILLNESS(state, action)
+        is UpdateIllness -> UPDATE_ILLNESS(state, action)
         // language
         is CreateLanguage -> CREATE_LANGUAGE(state, action)
         is DeleteLanguage -> DELETE_LANGUAGE(state, action)

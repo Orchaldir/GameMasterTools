@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.action.CreateRegion
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.region.*
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.world.canDeleteRegion
 import at.orchaldir.gm.utils.doNothing

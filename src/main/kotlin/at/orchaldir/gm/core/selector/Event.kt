@@ -115,7 +115,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getSpellStorage().getAll().forEach { spell ->
-        addPossibleEvent(events, default, calendar, spell.date) {
+        addPossibleEvent(events, default, calendar, spell.startDate()) {
             StartEvent(it, spell.id)
         }
     }

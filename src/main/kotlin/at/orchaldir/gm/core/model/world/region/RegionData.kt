@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.world.terrain
+package at.orchaldir.gm.core.model.world.region
 
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId

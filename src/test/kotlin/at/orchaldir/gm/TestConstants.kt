@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
+import at.orchaldir.gm.core.model.IllnessId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
@@ -20,7 +21,7 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.SpellGroupId
-import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -45,8 +46,8 @@ import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.terrain.RegionId
-import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.region.RegionId
+import at.orchaldir.gm.core.model.world.region.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 
 val ARCHITECTURAL_ID0 = ArchitecturalStyleId(0)
@@ -87,6 +88,10 @@ val GOD_ID_0 = GodId(0)
 val UNKNOWN_GOD_ID = GodId(99)
 val HOLIDAY_ID_0 = HolidayId(0)
 val UNKNOWN_HOLIDAY_ID = HolidayId(99)
+val ILLNESS_ID_0 = IllnessId(0)
+val ILLNESS_ID_1 = IllnessId(1)
+val ILLNESS_ID_2 = IllnessId(2)
+val UNKNOWN_ILLNESS_ID = IllnessId(99)
 val JOB_ID_0 = JobId(0)
 val JOB_ID_1 = JobId(1)
 val JOB_ID_2 = JobId(2)
@@ -132,6 +137,7 @@ val RIVER_ID_0 = RiverId(0)
 val UNKNOWN_RIVER_ID = RiverId(99)
 val SPELL_ID_0 = SpellId(0)
 val SPELL_ID_1 = SpellId(1)
+val SPELL_ID_2 = SpellId(2)
 val UNKNOWN_SPELL_ID = SpellId(99)
 val SPELL_GROUP_ID_0 = SpellGroupId(0)
 val UNKNOWN_SPELL_GROUP_ID = SpellGroupId(99)

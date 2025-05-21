@@ -61,17 +61,32 @@ fun HtmlBlockTag.editBeliefStatus(
     status: BeliefStatus,
     start: Date?,
 ) {
-    selectValue("Belief Status", param, BeliefStatusType.entries, status.getType())
+    val gods = state.sortGods()
+    val pantheons = state.sortPantheons()
+
+    selectValue("Belief Status", param, BeliefStatusType.entries, status.getType()) {
+        when (it) {
+            BeliefStatusType.Undefined, BeliefStatusType.Atheist -> false
+            BeliefStatusType.God -> gods.isEmpty()
+            BeliefStatusType.Pantheon -> pantheons.isEmpty()
+        }
+    }
 
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()
-        is WorshipsGod -> selectElement(state, "God", combine(param, GOD), state.sortGods(), status.god)
+        is WorshipsGod -> selectElement(
+            state,
+            "God",
+            combine(param, GOD),
+            gods,
+            status.god,
+        )
         is WorshipsPantheon -> selectElement(
             state,
             "Pantheon",
             combine(param, PANTHEON),
-            state.sortPantheons(),
-            status.pantheon
+            pantheons,
+            status.pantheon,
         )
     }
 }

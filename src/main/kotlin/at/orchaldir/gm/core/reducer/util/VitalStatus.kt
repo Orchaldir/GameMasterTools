@@ -36,7 +36,7 @@ private fun <ID : Id<ID>> checkCauseOfDeath(
     Abandoned -> doNothing()
     Accident -> doNothing()
     is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
-    DeathByIllness -> doNothing()
+    is DeathByIllness -> checkCauseElement(state.getIllnessStorage(), cause.illness)
     is DeathInWar -> checkCauseElement(state.getWarStorage(), cause.war)
     is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
     is Murder -> {

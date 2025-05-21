@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.world.town
 
-import at.orchaldir.gm.core.model.world.terrain.RegionId
-import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.region.RegionId
+import at.orchaldir.gm.core.model.world.region.RiverId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
