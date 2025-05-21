@@ -41,9 +41,6 @@ fun HtmlBlockTag.showTownMap(
     optionalFieldLink(call, state, townMap.town)
     optionalField(call, state, "Date", townMap.date)
     field("Size", townMap.map.size.format())
-
-    showBuildingsOfTownMap(call, state, townMap.id)
-    showCharactersOfTownMap(call, state, townMap.town, townMap.id)
 }
 
 fun HtmlBlockTag.showBuildingsOfTownMap(
