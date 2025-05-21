@@ -343,7 +343,8 @@
      "year": 1909
     },
     "cause": {
-     "type": "Illness"
+     "type": "Illness",
+     "illness": 1
     }
    },
    "personality": [

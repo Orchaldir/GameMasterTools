@@ -14,14 +14,7 @@
   },
   "1": {
    "id": 1,
-   "name": "Tuberculosis",
-   "origin": {
-    "type": "Natural",
-    "date": {
-     "type": "Year",
-     "year": 0
-    }
-   }
+   "name": "Tuberculosis"
   }
  }
 }
