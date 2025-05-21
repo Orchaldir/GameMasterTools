@@ -56,6 +56,12 @@ class OriginTest {
         }
 
         @Test
+        fun `Combined origin fails with reusing id as parent`() {
+            val origin = CombinedOrigin(setOf(ILLNESS_ID_0, ILLNESS_ID_1))
+            failOrigin(DAY0, origin, "An element cannot be its own parent!")
+        }
+
+        @Test
         fun `Valid combined origin`() {
             testOrigin(DAY0, CombinedOrigin(setOf(ILLNESS_ID_1, ILLNESS_ID_2)))
         }
