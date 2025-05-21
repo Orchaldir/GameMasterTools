@@ -153,6 +153,33 @@ class OriginTest {
             }
         }
 
+        @Nested
+        inner class TranslatedOriginTest {
+
+            @Test
+            fun `Fails with unknown parent`() {
+                val origin = TranslatedOrigin(UNKNOWN_ILLNESS_ID, creator)
+                failOrigin(origin, "Requires unknown Illness 99!")
+            }
+
+            @Test
+            fun `Fails with reusing id as parent`() {
+                val origin = TranslatedOrigin(ILLNESS_ID_0, creator)
+                failOrigin(origin, "An element cannot be its own parent!")
+            }
+
+            @Test
+            fun `Unknown creator`() {
+                val origin = TranslatedOrigin(ILLNESS_ID_1, unknownCreator)
+                failOrigin(origin, "Cannot use an unknown Character 99 as Translator!")
+            }
+
+            @Test
+            fun `Valid origin`() {
+                testOrigin(TranslatedOrigin(ILLNESS_ID_1, creator))
+            }
+        }
+
         private fun testOrigin(origin: Origin<IllnessId>) {
             val illness = Illness(ILLNESS_ID_0, origin = origin)
             val action = UpdateIllness(illness)
