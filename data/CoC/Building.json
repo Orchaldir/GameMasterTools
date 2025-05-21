@@ -33,16 +33,6 @@
     "business": 2
    }
   },
-  "12": {
-   "id": 12,
-   "lot": {
-    "tileIndex": 273,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
-   }
-  },
   "13": {
    "id": 13,
    "lot": {
@@ -61,16 +51,6 @@
    "purpose": {
     "type": "SingleBusiness",
     "business": 8
-   }
-  },
-  "14": {
-   "id": 14,
-   "lot": {
-    "tileIndex": 351,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
    }
   },
   "32": {
@@ -124,26 +104,6 @@
     "business": 4
    }
   },
-  "43": {
-   "id": 43,
-   "lot": {
-    "tileIndex": 358,
-    "size": {
-     "width": 1,
-     "height": 2
-    }
-   }
-  },
-  "44": {
-   "id": 44,
-   "lot": {
-    "tileIndex": 348,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
-   }
-  },
   "52": {
    "id": 52,
    "name": "Home of John Cutter",
@@ -166,56 +126,6 @@
       }
      }
     ]
-   }
-  },
-  "61": {
-   "id": 61,
-   "lot": {
-    "tileIndex": 452,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
-   }
-  },
-  "62": {
-   "id": 62,
-   "lot": {
-    "tileIndex": 557,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
-   }
-  },
-  "63": {
-   "id": 63,
-   "lot": {
-    "tileIndex": 609,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
-   }
-  },
-  "64": {
-   "id": 64,
-   "lot": {
-    "tileIndex": 462,
-    "size": {
-     "width": 1,
-     "height": 2
-    }
-   }
-  },
-  "65": {
-   "id": 65,
-   "lot": {
-    "tileIndex": 501,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
    }
   },
   "66": {
