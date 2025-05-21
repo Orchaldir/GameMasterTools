@@ -8,14 +8,14 @@ import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val LANGUAGE_TYPE = "Illness"
+const val ILLNESS_TYPE = "Illness"
 
 @JvmInline
 @Serializable
 value class IllnessId(val value: Int) : Id<IllnessId> {
 
     override fun next() = IllnessId(value + 1)
-    override fun type() = LANGUAGE_TYPE
+    override fun type() = ILLNESS_TYPE
     override fun plural() = "Illnesses"
     override fun value() = value
 

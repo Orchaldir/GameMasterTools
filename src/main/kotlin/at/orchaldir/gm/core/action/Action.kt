@@ -22,6 +22,8 @@ import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.illness.Illness
+import at.orchaldir.gm.core.model.illness.IllnessId
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
@@ -151,6 +153,11 @@ data class UpdateFont(val font: Font) : Action()
 data object CreateHoliday : Action()
 data class DeleteHoliday(val id: HolidayId) : Action()
 data class UpdateHoliday(val holiday: Holiday) : Action()
+
+// illness
+data object CreateIllness : Action()
+data class DeleteIllness(val id: IllnessId) : Action()
+data class UpdateIllness(val illness: Illness) : Action()
 
 // language
 data object CreateLanguage : Action()

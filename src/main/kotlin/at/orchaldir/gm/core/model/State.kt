@@ -27,6 +27,9 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
+import at.orchaldir.gm.core.model.illness.ILLNESS_TYPE
+import at.orchaldir.gm.core.model.illness.Illness
+import at.orchaldir.gm.core.model.illness.IllnessId
 import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
@@ -87,6 +90,7 @@ import at.orchaldir.gm.core.reducer.economy.validateBusiness
 import at.orchaldir.gm.core.reducer.economy.validateCurrency
 import at.orchaldir.gm.core.reducer.economy.validateCurrencyUnit
 import at.orchaldir.gm.core.reducer.economy.validateJob
+import at.orchaldir.gm.core.reducer.illness.validateIllness
 import at.orchaldir.gm.core.reducer.item.periodical.validateArticle
 import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodical
 import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodicalIssue
@@ -139,6 +143,7 @@ val ELEMENTS =
         FONT_TYPE,
         GOD_TYPE,
         HOLIDAY_TYPE,
+        ILLNESS_TYPE,
         JOB_TYPE,
         LANGUAGE_TYPE,
         LEGAL_CODE_TYPE,
@@ -210,6 +215,7 @@ data class State(
     fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
     fun getGodStorage() = getStorage<GodId, God>(GOD_TYPE)
     fun getHolidayStorage() = getStorage<HolidayId, Holiday>(HOLIDAY_TYPE)
+    fun getIllnessStorage() = getStorage<IllnessId, Illness>(ILLNESS_TYPE)
     fun getJobStorage() = getStorage<JobId, Job>(JOB_TYPE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE_TYPE)
     fun getLegalCodeStorage() = getStorage<LegalCodeId, LegalCode>(LEGAL_CODE_TYPE)
@@ -333,6 +339,7 @@ data class State(
         validate(getFontStorage()) { validateFont(this, it) }
         validate(getGodStorage()) { validateGod(this, it) }
         validate(getHolidayStorage()) { validateHoliday(this, it) }
+        validate(getIllnessStorage()) { validateIllness(this, it) }
         validate(getJobStorage()) { validateJob(this, it) }
         validate(getLanguageStorage()) { validateLanguage(this, it) }
         validate(getLegalCodeStorage()) { validateLegalCode(this, it) }
@@ -380,6 +387,7 @@ data class State(
         saveStorage(path, getFontStorage())
         saveStorage(path, getGodStorage())
         saveStorage(path, getHolidayStorage())
+        saveStorage(path, getIllnessStorage())
         saveStorage(path, getJobStorage())
         saveStorage(path, getLanguageStorage())
         saveStorage(path, getLegalCodeStorage())
@@ -433,6 +441,7 @@ fun createStorage(type: String) = when (type) {
     FONT_TYPE -> Storage(FontId(0))
     GOD_TYPE -> Storage(GodId(0))
     HOLIDAY_TYPE -> Storage(HolidayId(0))
+    ILLNESS_TYPE -> Storage(IllnessId(0))
     JOB_TYPE -> Storage(JobId(0))
     LANGUAGE_TYPE -> Storage(LanguageId(0))
     LEGAL_CODE_TYPE -> Storage(LegalCodeId(0))
@@ -485,6 +494,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
     GOD_TYPE -> loadStorage<GodId, God>(path, GodId(0))
     HOLIDAY_TYPE -> loadStorage<HolidayId, Holiday>(path, HolidayId(0))
+    ILLNESS_TYPE -> loadStorage<IllnessId, Illness>(path, IllnessId(0))
     JOB_TYPE -> loadStorage<JobId, Job>(path, JobId(0))
     LANGUAGE_TYPE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
     LEGAL_CODE_TYPE -> loadStorage<LegalCodeId, LegalCode>(path, LegalCodeId(0))
