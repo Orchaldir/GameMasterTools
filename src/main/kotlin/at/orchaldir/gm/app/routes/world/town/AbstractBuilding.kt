@@ -51,7 +51,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             val townMap = state.getTownMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAbstractBuildingEditor(call, state, townMap)
+                showAbstractBuildingEditor(call, state, townMap, edit.size)
             }
         }
         post<Preview> { preview ->
@@ -75,7 +75,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             STORE.dispatch(AddAbstractBuilding(add.town, add.tileIndex, add.size))
             STORE.getState().save()
 
-            redirectToEdit(add.town)
+            redirectToEdit(add.town, add.size)
         }
         get<Remove> { remove ->
             logger.info { "Remove an abstract building from town map ${remove.town.value}" }
@@ -90,8 +90,9 @@ fun Application.configureAbstractBuildingEditorRouting() {
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.redirectToEdit(
     townMapId: TownMapId,
+    size: MapSize2d = MapSize2d.square(1),
 ) {
-    call.respondRedirect(call.application.href(Edit(townMapId)))
+    call.respondRedirect(call.application.href(Edit(townMapId, size)))
 }
 
 private fun HTML.showAbstractBuildingEditor(

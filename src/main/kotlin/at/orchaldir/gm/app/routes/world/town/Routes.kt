@@ -36,7 +36,11 @@ class TownMapRoutes {
     @Resource("/abstract")
     class AbstractBuildingRoutes(val parent: TownMapRoutes = TownMapRoutes()) {
         @Resource("edit")
-        class Edit(val id: TownMapId, val parent: AbstractBuildingRoutes = AbstractBuildingRoutes())
+        class Edit(
+            val id: TownMapId,
+            val size: MapSize2d = MapSize2d.square(1),
+            val parent: AbstractBuildingRoutes = AbstractBuildingRoutes(),
+        )
 
         @Resource("preview")
         class Preview(val id: TownMapId, val parent: AbstractBuildingRoutes = AbstractBuildingRoutes())

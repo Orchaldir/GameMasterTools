@@ -1275,6 +1275,13 @@
      {
      },
      {
+      "construction": {
+       "type": "LargeStart",
+       "size": {
+        "width": 1,
+        "height": 2
+       }
+      }
      },
      {
      },
@@ -1388,6 +1395,9 @@
       }
      },
      {
+      "construction": {
+       "type": "LargeTile"
+      }
      },
      {
      },
@@ -1738,6 +1748,13 @@
       }
      },
      {
+      "construction": {
+       "type": "LargeStart",
+       "size": {
+        "width": 1,
+        "height": 2
+       }
+      }
      },
      {
      },
@@ -1858,6 +1875,9 @@
       }
      },
      {
+      "construction": {
+       "type": "LargeTile"
+      }
      },
      {
      },
@@ -1896,8 +1916,18 @@
      {
      },
      {
+      "construction": {
+       "type": "LargeStart",
+       "size": {
+        "width": 2,
+        "height": 1
+       }
+      }
      },
      {
+      "construction": {
+       "type": "LargeTile"
+      }
      },
      {
       "construction": {
@@ -2328,8 +2358,18 @@
      {
      },
      {
+      "construction": {
+       "type": "LargeStart",
+       "size": {
+        "width": 2,
+        "height": 1
+       }
+      }
      },
      {
+      "construction": {
+       "type": "LargeTile"
+      }
      },
      {
      },
