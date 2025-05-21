@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.selector.religion
 
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.God
 

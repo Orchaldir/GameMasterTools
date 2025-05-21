@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.action.UpdateIllness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.illness.ILLNESS_TYPE
 import at.orchaldir.gm.core.model.illness.Illness
-import at.orchaldir.gm.core.model.illness.IllnessId
+import at.orchaldir.gm.core.model.IllnessId
 import at.orchaldir.gm.core.model.util.SortIllness
 import at.orchaldir.gm.core.selector.illness.canDeleteIllness
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar

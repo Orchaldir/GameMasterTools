@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.magic
 
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
@@ -11,20 +12,9 @@ import at.orchaldir.gm.core.model.util.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
-import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val SPELL_TYPE = "Spell"
-
-@JvmInline
-@Serializable
-value class SpellId(val value: Int) : Id<SpellId> {
-
-    override fun next() = SpellId(value + 1)
-    override fun type() = SPELL_TYPE
-    override fun value() = value
-
-}
 
 @Serializable
 data class Spell(

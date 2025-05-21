@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
 import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.util.SortSpell
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.economy.getJobsContaining

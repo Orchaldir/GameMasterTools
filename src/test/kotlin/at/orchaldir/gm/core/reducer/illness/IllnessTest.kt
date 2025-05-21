@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.action.DeleteIllness
 import at.orchaldir.gm.core.action.UpdateIllness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.illness.Illness
-import at.orchaldir.gm.core.model.illness.IllnessId
+import at.orchaldir.gm.core.model.IllnessId
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.CreatedOrigin

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.util
 
+import at.orchaldir.gm.core.model.BaseId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,7 +16,7 @@ enum class OriginType {
 }
 
 @Serializable
-sealed class Origin<ID : Id<ID>> : Creation {
+sealed class Origin<ID : BaseId<ID>> : Creation {
 
     fun getType() = when (this) {
         is CombinedOrigin -> OriginType.Combined
@@ -57,7 +57,7 @@ sealed class Origin<ID : Id<ID>> : Creation {
 
 @Serializable
 @SerialName("Combined")
-data class CombinedOrigin<ID : Id<ID>>(
+data class CombinedOrigin<ID : BaseId<ID>>(
     val parents: Set<ID>,
     val date: Date? = null,
 ) : Origin<ID>() {
@@ -70,21 +70,21 @@ data class CombinedOrigin<ID : Id<ID>>(
 
 @Serializable
 @SerialName("Created")
-data class CreatedOrigin<ID : Id<ID>>(
+data class CreatedOrigin<ID : BaseId<ID>>(
     val creator: Creator,
     val date: Date? = null,
 ) : Origin<ID>()
 
 @Serializable
 @SerialName("Evolved")
-data class EvolvedOrigin<ID : Id<ID>>(
+data class EvolvedOrigin<ID : BaseId<ID>>(
     val parent: ID,
     val date: Date? = null,
 ) : Origin<ID>()
 
 @Serializable
 @SerialName("Modified")
-data class ModifiedOrigin<ID : Id<ID>>(
+data class ModifiedOrigin<ID : BaseId<ID>>(
     val parent: ID,
     val modifier: Creator,
     val date: Date? = null,
@@ -92,13 +92,13 @@ data class ModifiedOrigin<ID : Id<ID>>(
 
 @Serializable
 @SerialName("Natural")
-data class NaturalOrigin<ID : Id<ID>>(
+data class NaturalOrigin<ID : BaseId<ID>>(
     val date: Date? = null,
 ) : Origin<ID>()
 
 @Serializable
 @SerialName("Translated")
-data class TranslatedOrigin<ID : Id<ID>>(
+data class TranslatedOrigin<ID : BaseId<ID>>(
     val parent: ID,
     val translator: Creator,
     val date: Date? = null,
@@ -106,4 +106,4 @@ data class TranslatedOrigin<ID : Id<ID>>(
 
 @Serializable
 @SerialName("Undefined")
-class UndefinedOrigin<ID : Id<ID>>() : Origin<ID>()
+class UndefinedOrigin<ID : BaseId<ID>>() : Origin<ID>()

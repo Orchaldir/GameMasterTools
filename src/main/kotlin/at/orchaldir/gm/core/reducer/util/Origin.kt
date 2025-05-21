@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.util
 
+import at.orchaldir.gm.core.model.BaseId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
@@ -14,7 +15,7 @@ fun <ID, ELEMENT> checkOrigin(
     storage: Storage<ID, ELEMENT>,
     id: ID,
     origin: Origin<ID>,
-) where ID : Id<ID>,
+) where ID : BaseId<ID>,
         ELEMENT : Element<ID>,
         ELEMENT : HasStartDate {
     when (origin) {

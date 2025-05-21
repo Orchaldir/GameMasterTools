@@ -23,7 +23,8 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.illness.Illness
-import at.orchaldir.gm.core.model.illness.IllnessId
+import at.orchaldir.gm.core.model.IllnessId
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.Equipment

@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateIllness
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.illness.Illness
-import at.orchaldir.gm.core.model.illness.IllnessId
+import at.orchaldir.gm.core.model.IllnessId
 import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.util.CreatedByCharacter

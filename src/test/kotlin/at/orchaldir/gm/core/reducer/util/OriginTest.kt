@@ -7,9 +7,9 @@ import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.illness.Illness
-import at.orchaldir.gm.core.model.illness.IllnessId
+import at.orchaldir.gm.core.model.IllnessId
 import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*

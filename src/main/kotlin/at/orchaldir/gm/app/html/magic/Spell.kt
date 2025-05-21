@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.culture.parseOptionalLanguageId
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.selector.magic.getExistingSpell
 import io.ktor.http.*
 import io.ktor.server.application.*

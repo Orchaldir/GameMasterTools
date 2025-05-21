@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.illness.IllnessId
+import at.orchaldir.gm.core.model.IllnessId
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId

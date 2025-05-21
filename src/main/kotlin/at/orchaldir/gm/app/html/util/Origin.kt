@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
+import at.orchaldir.gm.core.model.BaseId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.CombinedOrigin
@@ -21,7 +22,6 @@ import at.orchaldir.gm.core.model.util.OriginType
 import at.orchaldir.gm.core.model.util.TranslatedOrigin
 import at.orchaldir.gm.core.model.util.UndefinedOrigin
 import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -31,7 +31,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
+fun <ID : BaseId<ID>> HtmlBlockTag.showOrigin(
     call: ApplicationCall,
     state: State,
     origin: Origin<ID>,
@@ -42,7 +42,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
     optionalField(call, state, "Date", origin.date())
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.displayOrigin(
+fun <ID : BaseId<ID>> HtmlBlockTag.displayOrigin(
     call: ApplicationCall,
     state: State,
     origin: Origin<ID>,
@@ -91,7 +91,7 @@ fun <ID : Id<ID>> HtmlBlockTag.displayOrigin(
 
 // edit
 
-fun <ID : Id<ID>> FORM.editOrigin(
+fun <ID : BaseId<ID>> FORM.editOrigin(
     state: State,
     id: ID,
     origin: Origin<ID>,
@@ -143,7 +143,7 @@ fun <ID : Id<ID>> FORM.editOrigin(
     }
 }
 
-private fun <ID : Id<ID>> DETAILS.selectOriginCreator(
+private fun <ID : BaseId<ID>> DETAILS.selectOriginCreator(
     state: State,
     id: ID,
     creator: Creator,
@@ -159,7 +159,7 @@ private fun HtmlBlockTag.selectOriginDate(
     selectOptionalDate(state, "Date", date, DATE)
 }
 
-private fun <ID : Id<ID>> DETAILS.selectParent(
+private fun <ID : BaseId<ID>> DETAILS.selectParent(
     state: State,
     possibleParents: List<Element<ID>>,
     parent: ID,
@@ -175,7 +175,7 @@ private fun <ID : Id<ID>> DETAILS.selectParent(
 
 // parse
 
-fun <ID : Id<ID>> parseOrigin(
+fun <ID : BaseId<ID>> parseOrigin(
     parameters: Parameters,
     state: State,
     parseIdFromString: (String) -> ID,
@@ -217,10 +217,10 @@ fun <ID : Id<ID>> parseOrigin(
     OriginType.Undefined -> UndefinedOrigin()
 }
 
-private fun <ID : Id<ID>> parseParent(parameters: Parameters, parseIdFromString: (String) -> ID) =
+private fun <ID : BaseId<ID>> parseParent(parameters: Parameters, parseIdFromString: (String) -> ID) =
     parseId(parameters, combine(ORIGIN, PARENT), parseIdFromString)
 
-private fun <ID : Id<ID>> parseId(
+private fun <ID : BaseId<ID>> parseId(
     parameters: Parameters,
     param: String,
     parseIdFromString: (String) -> ID,

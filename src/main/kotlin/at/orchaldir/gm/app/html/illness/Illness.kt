@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.html.util.showDestroyed
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.illness.Illness
-import at.orchaldir.gm.core.model.illness.IllnessId
+import at.orchaldir.gm.core.model.IllnessId
 import at.orchaldir.gm.core.selector.illness.getExistingIllnesses
 import io.ktor.http.*
 import io.ktor.server.application.*

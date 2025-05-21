@@ -32,6 +32,8 @@ import at.orchaldir.gm.app.routes.utls.NameListRoutes
 import at.orchaldir.gm.app.routes.utls.QuoteRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
+import at.orchaldir.gm.core.model.IllnessId
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
@@ -45,7 +47,6 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
-import at.orchaldir.gm.core.model.illness.IllnessId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
@@ -54,7 +55,6 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.SpellGroupId
-import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId

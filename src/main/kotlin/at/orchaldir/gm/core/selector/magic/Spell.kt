@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.magic
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.getExistingElements

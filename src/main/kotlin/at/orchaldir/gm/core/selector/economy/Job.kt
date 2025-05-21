@@ -1,12 +1,12 @@
 package at.orchaldir.gm.core.selector.economy
 
+import at.orchaldir.gm.core.model.SpellId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.job.EmployerType
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.item.UniformId
-import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.religion.countDomains

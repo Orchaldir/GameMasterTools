@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.util
 
-import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.core.model.BaseId
 
-interface HasOrigin<ID : Id<ID>> : Creation, HasStartDate {
+interface HasOrigin<ID : BaseId<ID>> : Creation, HasStartDate {
 
     fun origin(): Origin<ID>
     override fun creator() = origin().creator()
