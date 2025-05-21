@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
+import at.orchaldir.gm.core.model.illness.Illness
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.periodical.Article
@@ -340,6 +341,21 @@ fun State.sortHolidays() = sortHolidays(getHolidayStorage().getAll())
 fun State.sortHolidays(
     holidays: Collection<Holiday>,
 ) = holidays.sortedBy { it.name.text }
+
+// illness
+
+fun State.sortIllnesses(sort: SortIllness = SortIllness.Name) =
+    sortIllnesses(getIllnessStorage().getAll(), sort)
+
+fun State.sortIllnesses(
+    illnesses: Collection<Illness>,
+    sort: SortIllness = SortIllness.Name,
+) = illnesses
+    .sortedWith(
+        when (sort) {
+            SortIllness.Name -> compareBy { it.name.text }
+            SortIllness.Date -> getStartDateComparator()
+        })
 
 // job
 

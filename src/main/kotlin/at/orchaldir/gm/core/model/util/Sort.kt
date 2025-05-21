@@ -77,6 +77,11 @@ enum class SortGod {
     Believers,
 }
 
+enum class SortIllness {
+    Name,
+    Date,
+}
+
 enum class SortJob {
     Name,
     EmployerType,
