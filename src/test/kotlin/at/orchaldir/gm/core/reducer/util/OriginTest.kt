@@ -28,6 +28,7 @@ class OriginTest {
         data = Data(time = Time(currentDate = Day(10))),
     )
     private val creator = CreatedByCharacter(CHARACTER_ID_0)
+    private val unknownCreator = CreatedByCharacter(UNKNOWN_CHARACTER_ID)
 
     @Nested
     inner class UpdateTest {
@@ -93,7 +94,12 @@ class OriginTest {
         inner class CreatedOriginTest {
 
             @Test
-            fun `Valid combined origin`() {
+            fun `Unknown creator`() {
+                failOrigin(CreatedOrigin(unknownCreator), "Cannot use an unknown Character 99 as Creator!")
+            }
+
+            @Test
+            fun `Valid created origin`() {
                 testOrigin(CreatedOrigin(creator))
             }
 
