@@ -59,33 +59,33 @@ class OriginTest {
         inner class CombinedOriginTest {
 
             @Test
-            fun `Combined origin fails with without parents`() {
+            fun `Fails without parents`() {
                 assertIllegalArgument("The combined origin needs at least 2 parents!") {
                     CombinedOrigin<IllnessId>(emptySet())
                 }
             }
 
             @Test
-            fun `Combined origin fails 1 parent`() {
+            fun `Fails with 1 parent`() {
                 assertIllegalArgument("The combined origin needs at least 2 parents!") {
                     CombinedOrigin(setOf(ILLNESS_ID_0))
                 }
             }
 
             @Test
-            fun `Combined origin fails with unknown parent`() {
+            fun `Fails with unknown parent`() {
                 val origin = CombinedOrigin(setOf(UNKNOWN_ILLNESS_ID, ILLNESS_ID_1))
                 failOrigin(origin, "Requires unknown Illness 99!")
             }
 
             @Test
-            fun `Combined origin fails with reusing id as parent`() {
+            fun `Fails with reusing id as parent`() {
                 val origin = CombinedOrigin(setOf(ILLNESS_ID_0, ILLNESS_ID_1))
                 failOrigin(origin, "An element cannot be its own parent!")
             }
 
             @Test
-            fun `Valid combined origin`() {
+            fun `Valid origin`() {
                 testOrigin(CombinedOrigin(setOf(ILLNESS_ID_1, ILLNESS_ID_2)))
             }
         }
@@ -99,10 +99,31 @@ class OriginTest {
             }
 
             @Test
-            fun `Valid created origin`() {
+            fun `Valid origin`() {
                 testOrigin(CreatedOrigin(creator))
             }
 
+        }
+
+        @Nested
+        inner class EvolvedOriginTest {
+
+            @Test
+            fun `Fails with unknown parent`() {
+                val origin = CombinedOrigin(setOf(UNKNOWN_ILLNESS_ID, ILLNESS_ID_1))
+                failOrigin(origin, "Requires unknown Illness 99!")
+            }
+
+            @Test
+            fun `Fails with reusing id as parent`() {
+                val origin = EvolvedOrigin(ILLNESS_ID_0)
+                failOrigin(origin, "An element cannot be its own parent!")
+            }
+
+            @Test
+            fun `Valid origin`() {
+                testOrigin(EvolvedOrigin(ILLNESS_ID_1))
+            }
         }
 
         private fun testOrigin(origin: Origin<IllnessId>) {
