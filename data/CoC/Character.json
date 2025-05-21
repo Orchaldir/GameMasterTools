@@ -245,6 +245,12 @@
      "job": 0
     }
    },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 0
+    }
+   },
    "sources": [
     0
    ]
