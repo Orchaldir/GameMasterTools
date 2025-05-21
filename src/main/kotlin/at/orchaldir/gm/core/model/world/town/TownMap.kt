@@ -77,7 +77,10 @@ data class TownMap(
         return updateTile(index, tile)
     }
 
-    fun build(index: Int, size: MapSize2d, construction: Construction): TownMap {
+    fun build(index: Int, size: MapSize2d, construction: Construction) =
+        build(index, size, { construction })
+
+    fun build(index: Int, size: MapSize2d, lookup: (Int) -> Construction): TownMap {
         val tiles = mutableMapOf<Int, TownTile>()
 
         map.size.toIndices(index, size)?.forEach { tileIndex ->
@@ -85,20 +88,43 @@ data class TownMap(
 
             require(oldTile.canBuild()) { "Tile $tileIndex is not empty!" }
 
-            tiles[tileIndex] = oldTile.copy(construction = construction)
+            tiles[tileIndex] = oldTile.copy(construction = lookup(tileIndex))
         } ?: error("Lot with index $index & size ${size.format()} is outside the map!")
 
         return updateTiles(tiles)
     }
 
+    fun buildAbstractBuilding(index: Int, size: MapSize2d) = if (size.tiles() == 1) {
+        build(index, AbstractBuildingTile)
+    } else {
+        build(index, size) { i ->
+            if (i == index) {
+                AbstractLargeBuildingStart(size)
+            } else {
+                AbstractLargeBuildingTile
+            }
+        }
+    }
+
     fun removeAbstractBuilding(index: Int): TownMap {
+        val tiles = mutableMapOf<Int, TownTile>()
         val oldTile = map.getRequiredTile(index)
 
-        require(oldTile.construction is AbstractBuildingTile) { "Tile $index is not an abstract building!" }
+        when (oldTile.construction) {
+            AbstractBuildingTile -> tiles[index] = oldTile.copy(construction = NoConstruction)
+            is AbstractLargeBuildingStart -> {
+                val size = oldTile.construction.size
+                map.size.toIndices(index, size)?.forEach { tileIndex ->
+                    val oldTile = map.getRequiredTile(tileIndex)
 
-        val tile = oldTile.copy(construction = NoConstruction)
+                    tiles[tileIndex] = oldTile.copy(construction = NoConstruction)
+                } ?: error("Lot with index $index & size ${size.format()} is outside the map!")
+            }
 
-        return updateTile(index, tile)
+            else -> error("Tile $index is not an abstract building!")
+        }
+
+        return updateTiles(tiles)
     }
 
     fun removeBuilding(building: BuildingId): TownMap {

@@ -3,9 +3,7 @@ package at.orchaldir.gm.app.routes.world.town
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.world.editTownMap
-import at.orchaldir.gm.app.html.world.parseTownMap
-import at.orchaldir.gm.app.html.world.showTownMap
+import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
@@ -161,8 +159,8 @@ private fun HTML.showTownMapDetails(
 
             action(editAbstractBuildingsLink, "Edit Abstract Buildings")
             action(editBuildingsLink, "Edit Buildings")
-
             action(editLink, "Edit")
+
             if (state.canDeleteTownMap(townMap.id)) {
                 action(deleteLink, "Delete")
             }
@@ -177,6 +175,9 @@ private fun HTML.showTownMapDetails(
 
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
+
+            showBuildingsOfTownMap(call, state, townMap.id)
+            showCharactersOfTownMap(call, state, townMap.town, townMap.id)
 
             back(backLink)
         }, {

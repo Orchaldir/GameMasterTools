@@ -57,6 +57,8 @@ private fun validateTownTile(state: State, tile: TownTile) {
 
 private fun validateConstruction(state: State, construction: Construction) = when (construction) {
     AbstractBuildingTile -> doNothing()
+    is AbstractLargeBuildingStart -> doNothing()
+    AbstractLargeBuildingTile -> doNothing()
     is BuildingTile -> state.getBuildingStorage().require(construction.building)
     NoConstruction -> doNothing()
     is StreetTile -> {

@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -63,6 +64,13 @@ class AbstractBuildingTest {
             testTileNotEmpty(STREET_TILE)
         }
 
+        @Test
+        fun `Large building is partly outside the map`() {
+            val action = AddAbstractBuilding(TOWN_MAP_ID_0, 9, MapSize2d.square(2))
+
+            assertIllegalState("Lot with index 9 & size 2 x 2 is outside the map!") { REDUCER.invoke(STATE, action) }
+        }
+
         private fun testTileNotEmpty(townTile: TownTile) {
             val map = TileMap2d(townTile)
             val town = TownMap(TOWN_MAP_ID_0, map = map)
@@ -108,7 +116,7 @@ class AbstractBuildingTest {
         fun `Tile is already empty`() {
             val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
-            assertIllegalArgument("Tile 0 is not an abstract building!") { REDUCER.invoke(STATE, action) }
+            assertIllegalState("Tile 0 is not an abstract building!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -126,7 +134,7 @@ class AbstractBuildingTest {
             val state = State(Storage(town))
             val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
-            assertIllegalArgument("Tile 0 is not an abstract building!") { REDUCER.invoke(state, action) }
+            assertIllegalState("Tile 0 is not an abstract building!") { REDUCER.invoke(state, action) }
         }
 
         @Test

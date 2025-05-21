@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.HALF
@@ -53,8 +54,16 @@ data class TownRenderer(
         val size = MapSize2d.square(1)
 
         tileRenderer.render(town.map) { index, _, _, _, tile ->
-            if (tile.construction is AbstractBuildingTile) {
-                renderBuilding(svgBuilder.getLayer(), index, size, color)
+            when (tile.construction) {
+                AbstractBuildingTile -> renderBuilding(svgBuilder.getLayer(), index, size, color)
+                is AbstractLargeBuildingStart -> renderBuilding(
+                    svgBuilder.getLayer(),
+                    index,
+                    tile.construction.size,
+                    color
+                )
+
+                else -> doNothing()
             }
         }
     }
