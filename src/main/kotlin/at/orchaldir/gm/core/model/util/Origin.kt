@@ -16,7 +16,7 @@ enum class OriginType {
 }
 
 @Serializable
-sealed class Origin<ID : BaseId<ID>> : Creation {
+sealed class Origin<T> : Creation {
 
     fun getType() = when (this) {
         is CombinedOrigin -> OriginType.Combined
@@ -28,7 +28,7 @@ sealed class Origin<ID : BaseId<ID>> : Creation {
         is UndefinedOrigin -> OriginType.Undefined
     }
 
-    fun isChildOf(id: ID) = when (this) {
+    fun isChildOf(id: T) = when (this) {
         is CombinedOrigin -> parents.contains(id)
         is EvolvedOrigin -> parent == id
         is ModifiedOrigin -> parent == id
@@ -57,10 +57,10 @@ sealed class Origin<ID : BaseId<ID>> : Creation {
 
 @Serializable
 @SerialName("Combined")
-data class CombinedOrigin<ID : BaseId<ID>>(
-    val parents: Set<ID>,
+data class CombinedOrigin<T>(
+    val parents: Set<T>,
     val date: Date? = null,
-) : Origin<ID>() {
+) : Origin<T>() {
 
     init {
         require(parents.size >= 2) { "The combined origin needs at least 2 parents!" }
@@ -70,40 +70,40 @@ data class CombinedOrigin<ID : BaseId<ID>>(
 
 @Serializable
 @SerialName("Created")
-data class CreatedOrigin<ID : BaseId<ID>>(
+data class CreatedOrigin<T>(
     val creator: Creator,
     val date: Date? = null,
-) : Origin<ID>()
+) : Origin<T>()
 
 @Serializable
 @SerialName("Evolved")
-data class EvolvedOrigin<ID : BaseId<ID>>(
-    val parent: ID,
+data class EvolvedOrigin<T>(
+    val parent: T,
     val date: Date? = null,
-) : Origin<ID>()
+) : Origin<T>()
 
 @Serializable
 @SerialName("Modified")
-data class ModifiedOrigin<ID : BaseId<ID>>(
-    val parent: ID,
+data class ModifiedOrigin<T>(
+    val parent: T,
     val modifier: Creator,
     val date: Date? = null,
-) : Origin<ID>()
+) : Origin<T>()
 
 @Serializable
 @SerialName("Natural")
-data class NaturalOrigin<ID : BaseId<ID>>(
+data class NaturalOrigin<T>(
     val date: Date? = null,
-) : Origin<ID>()
+) : Origin<T>()
 
 @Serializable
 @SerialName("Translated")
-data class TranslatedOrigin<ID : BaseId<ID>>(
-    val parent: ID,
+data class TranslatedOrigin<T>(
+    val parent: T,
     val translator: Creator,
     val date: Date? = null,
-) : Origin<ID>()
+) : Origin<T>()
 
 @Serializable
 @SerialName("Undefined")
-class UndefinedOrigin<ID : BaseId<ID>>() : Origin<ID>()
+class UndefinedOrigin<T>() : Origin<T>()

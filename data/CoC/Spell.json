@@ -4,19 +4,7 @@
   "0": {
    "id": 0,
    "name": "Play with Big Brother",
-   "language": 0,
-   "origin": {
-    "type": "Translated",
-    "translator": {
-     "type": "Organization",
-     "organization": 0
-    },
-    "parent": 1,
-    "date": {
-     "type": "Decade",
-     "decade": 180
-    }
-   }
+   "language": 0
   },
   "1": {
    "id": 1,
@@ -37,19 +25,7 @@
   "5": {
    "id": 5,
    "name": "Call Mother",
-   "language": 0,
-   "origin": {
-    "type": "Translated",
-    "translator": {
-     "type": "Organization",
-     "organization": 0
-    },
-    "parent": 2,
-    "date": {
-     "type": "Decade",
-     "decade": 181
-    }
-   }
+   "language": 0
   }
  }
 }

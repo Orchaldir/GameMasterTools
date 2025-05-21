@@ -11,7 +11,6 @@ sealed interface BaseId<ID> : Id<ID>
 
 @JvmInline
 @Serializable
-@SerialName("Illness")
 value class IllnessId(val value: Int) : BaseId<IllnessId> {
 
     override fun next() = IllnessId(value + 1)
@@ -23,7 +22,6 @@ value class IllnessId(val value: Int) : BaseId<IllnessId> {
 
 @JvmInline
 @Serializable
-@SerialName("Spell")
 value class SpellId(val value: Int) : BaseId<SpellId> {
 
     override fun next() = SpellId(value + 1)
