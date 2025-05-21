@@ -11,6 +11,7 @@ enum class OriginType {
     Evolved,
     Modified,
     Natural,
+    Translated,
 }
 
 @Serializable
@@ -22,18 +23,21 @@ sealed class Origin<ID : Id<ID>> : Creation {
         is EvolvedOrigin -> OriginType.Evolved
         is ModifiedOrigin -> OriginType.Modified
         is NaturalOrigin -> OriginType.Natural
+        is TranslatedOrigin -> OriginType.Translated
     }
 
     fun isChildOf(id: ID) = when (this) {
         is CombinedOrigin -> parents.contains(id)
         is EvolvedOrigin -> parent == id
         is ModifiedOrigin -> parent == id
+        is TranslatedOrigin -> parent == id
         else -> false
     }
 
     override fun creator() = when (this) {
         is CreatedOrigin -> creator
         is ModifiedOrigin -> modifier
+        is TranslatedOrigin -> translator
         else -> UndefinedCreator
     }
 
@@ -43,6 +47,7 @@ sealed class Origin<ID : Id<ID>> : Creation {
         is EvolvedOrigin -> date
         is ModifiedOrigin -> date
         is NaturalOrigin -> date
+        is TranslatedOrigin -> date
     }
 
 }
@@ -85,5 +90,13 @@ data class ModifiedOrigin<ID : Id<ID>>(
 @Serializable
 @SerialName("Natural")
 data class NaturalOrigin<ID : Id<ID>>(
+    val date: Date? = null,
+) : Origin<ID>()
+
+@Serializable
+@SerialName("Translated")
+data class TranslatedOrigin<ID : Id<ID>>(
+    val parent: ID,
+    val translator: Creator,
     val date: Date? = null,
 ) : Origin<ID>()

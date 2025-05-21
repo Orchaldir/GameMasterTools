@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.PARENT
-import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -19,9 +18,9 @@ import at.orchaldir.gm.core.model.util.ModifiedOrigin
 import at.orchaldir.gm.core.model.util.NaturalOrigin
 import at.orchaldir.gm.core.model.util.Origin
 import at.orchaldir.gm.core.model.util.OriginType
+import at.orchaldir.gm.core.model.util.TranslatedOrigin
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -75,6 +74,12 @@ fun <ID : Id<ID>> HtmlBlockTag.displayOrigin(
         is NaturalOrigin -> if (displayNatural) {
             +"Natural"
         }
+
+        is TranslatedOrigin -> {
+            link(call, state, origin.parent)
+            +" modified by "
+            showCreator(call, state, origin.translator)
+        }
     }
 }
 
@@ -120,6 +125,12 @@ fun <ID : Id<ID>> FORM.editOrigin(
             }
 
             is NaturalOrigin -> selectOriginDate(state, origin.date)
+
+            is TranslatedOrigin -> {
+                selectParent(state, possibleParents, origin.parent)
+                selectOriginCreator(state, id, origin.translator, origin.date)
+                selectOriginDate(state, origin.date)
+            }
         }
     }
 }
@@ -167,7 +178,7 @@ fun <ID : Id<ID>> parseOrigin(
     )
 
     OriginType.Evolved -> EvolvedOrigin(
-        parseId(parameters, combine(ORIGIN, RACE), parseIdFromString),
+        parseParent(parameters, parseIdFromString),
         parseOptionalDate(parameters, state, DATE),
     )
 
@@ -180,7 +191,7 @@ fun <ID : Id<ID>> parseOrigin(
     }
 
     OriginType.Modified -> ModifiedOrigin(
-        parseId(parameters, combine(ORIGIN, RACE), parseIdFromString),
+        parseParent(parameters, parseIdFromString),
         parseCreator(parameters),
         parseOptionalDate(parameters, state, DATE),
     )
@@ -188,7 +199,16 @@ fun <ID : Id<ID>> parseOrigin(
     OriginType.Natural -> NaturalOrigin(
         parseOptionalDate(parameters, state, DATE),
     )
+
+    OriginType.Translated -> TranslatedOrigin(
+        parseParent(parameters, parseIdFromString),
+        parseCreator(parameters),
+        parseOptionalDate(parameters, state, DATE),
+    )
 }
+
+private fun <ID : Id<ID>> parseParent(parameters: Parameters, parseIdFromString: (String) -> ID) =
+    parseId(parameters, combine(ORIGIN, PARENT), parseIdFromString)
 
 private fun <ID : Id<ID>> parseId(
     parameters: Parameters,

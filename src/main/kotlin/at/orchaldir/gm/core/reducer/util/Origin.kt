@@ -31,6 +31,11 @@ fun <ID, ELEMENT> checkOrigin(
         }
 
         is NaturalOrigin -> doNothing()
+
+        is TranslatedOrigin -> {
+            validateParent(state, storage, id, origin.parent, origin.date)
+            validateCreator(state, origin.translator, id, origin.date, "Translator")
+        }
     }
 }
 
