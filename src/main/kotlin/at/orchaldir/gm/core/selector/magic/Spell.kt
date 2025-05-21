@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.hasChildren
 
-fun State.canDeleteSpell(spell: SpellId) = !hasChildren(getSpellStorage(), spell)
+fun State.canDeleteSpell(spell: SpellId) = !hasChildren(spell)
         && countDomains(spell) == 0
         && countSpellGroups(spell) == 0
 
