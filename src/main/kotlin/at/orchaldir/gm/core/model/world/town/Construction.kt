@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.utils.map.MapSize2d
-import at.orchaldir.gm.utils.math.Size2d
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

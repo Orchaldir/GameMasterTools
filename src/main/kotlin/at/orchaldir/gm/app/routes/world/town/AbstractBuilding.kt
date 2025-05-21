@@ -3,24 +3,13 @@ package at.orchaldir.gm.app.routes.world.town
 import at.orchaldir.gm.app.HEIGHT
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.WIDTH
-import at.orchaldir.gm.app.html.back
-import at.orchaldir.gm.app.html.href
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.simpleHtml
-import at.orchaldir.gm.app.html.split
-import at.orchaldir.gm.app.html.svg
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes.*
 import at.orchaldir.gm.core.action.AddAbstractBuilding
 import at.orchaldir.gm.core.action.RemoveAbstractBuilding
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.town.AbstractBuildingTile
-import at.orchaldir.gm.core.model.world.town.AbstractLargeBuildingStart
-import at.orchaldir.gm.core.model.world.town.AbstractLargeBuildingTile
-import at.orchaldir.gm.core.model.world.town.NoConstruction
-import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -28,9 +17,9 @@ import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.resources.post
-import io.ktor.server.request.receiveParameters
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
+import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
@@ -133,6 +122,7 @@ fun visualizeAbstractBuildingEditor(
                 NoConstruction -> call.application.href(Add(town.id, index, size))
                 AbstractBuildingTile, is AbstractLargeBuildingStart, AbstractLargeBuildingTile ->
                     call.application.href(Remove(town.id, index))
+
                 else -> null
             }
         },
