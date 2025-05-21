@@ -19,8 +19,10 @@ import at.orchaldir.gm.core.model.util.NaturalOrigin
 import at.orchaldir.gm.core.model.util.Origin
 import at.orchaldir.gm.core.model.util.OriginType
 import at.orchaldir.gm.core.model.util.TranslatedOrigin
+import at.orchaldir.gm.core.model.util.UndefinedOrigin
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -44,7 +46,7 @@ fun <ID : Id<ID>> HtmlBlockTag.displayOrigin(
     call: ApplicationCall,
     state: State,
     origin: Origin<ID>,
-    displayNatural: Boolean = true,
+    displayUndefined: Boolean = true,
 ) {
     when (origin) {
         is CombinedOrigin -> {
@@ -71,7 +73,7 @@ fun <ID : Id<ID>> HtmlBlockTag.displayOrigin(
             showCreator(call, state, origin.modifier)
         }
 
-        is NaturalOrigin -> if (displayNatural) {
+        is NaturalOrigin -> if (displayUndefined) {
             +"Natural"
         }
 
@@ -79,6 +81,10 @@ fun <ID : Id<ID>> HtmlBlockTag.displayOrigin(
             link(call, state, origin.parent)
             +" modified by "
             showCreator(call, state, origin.translator)
+        }
+
+        is UndefinedOrigin<*> -> if (displayUndefined) {
+            +"Undefined"
         }
     }
 }
@@ -131,6 +137,8 @@ fun <ID : Id<ID>> FORM.editOrigin(
                 selectOriginCreator(state, id, origin.translator, origin.date)
                 selectOriginDate(state, origin.date)
             }
+
+            is UndefinedOrigin -> doNothing()
         }
     }
 }
@@ -205,6 +213,8 @@ fun <ID : Id<ID>> parseOrigin(
         parseCreator(parameters),
         parseOptionalDate(parameters, state, DATE),
     )
+
+    OriginType.Undefined -> UndefinedOrigin()
 }
 
 private fun <ID : Id<ID>> parseParent(parameters: Parameters, parseIdFromString: (String) -> ID) =

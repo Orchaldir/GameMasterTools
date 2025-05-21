@@ -36,6 +36,8 @@ fun <ID, ELEMENT> checkOrigin(
             validateParent(state, storage, id, origin.parent, origin.date)
             validateCreator(state, origin.translator, id, origin.date, "Translator")
         }
+
+        is UndefinedOrigin -> doNothing()
     }
 }
 

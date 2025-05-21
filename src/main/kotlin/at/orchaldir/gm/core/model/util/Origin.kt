@@ -12,6 +12,7 @@ enum class OriginType {
     Modified,
     Natural,
     Translated,
+    Undefined,
 }
 
 @Serializable
@@ -24,6 +25,7 @@ sealed class Origin<ID : Id<ID>> : Creation {
         is ModifiedOrigin -> OriginType.Modified
         is NaturalOrigin -> OriginType.Natural
         is TranslatedOrigin -> OriginType.Translated
+        is UndefinedOrigin -> OriginType.Undefined
     }
 
     fun isChildOf(id: ID) = when (this) {
@@ -48,6 +50,7 @@ sealed class Origin<ID : Id<ID>> : Creation {
         is ModifiedOrigin -> date
         is NaturalOrigin -> date
         is TranslatedOrigin -> date
+        is UndefinedOrigin -> null
     }
 
 }
@@ -100,3 +103,7 @@ data class TranslatedOrigin<ID : Id<ID>>(
     val translator: Creator,
     val date: Date? = null,
 ) : Origin<ID>()
+
+@Serializable
+@SerialName("Undefined")
+class UndefinedOrigin<ID : Id<ID>>() : Origin<ID>()
