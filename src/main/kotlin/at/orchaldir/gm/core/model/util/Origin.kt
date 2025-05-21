@@ -52,7 +52,13 @@ sealed class Origin<ID : Id<ID>> : Creation {
 data class CombinedOrigin<ID : Id<ID>>(
     val parents: Set<ID>,
     val date: Date? = null,
-) : Origin<ID>()
+) : Origin<ID>() {
+
+    init {
+        require(parents.size >= 2) { "The combined origin needs at least 2 parents!" }
+    }
+
+}
 
 @Serializable
 @SerialName("Created")
