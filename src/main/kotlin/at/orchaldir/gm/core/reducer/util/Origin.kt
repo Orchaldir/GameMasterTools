@@ -42,5 +42,5 @@ private fun <ELEMENT, ID> validateParent(
     date: Date?,
 ) where ELEMENT : Element<ID>, ELEMENT : HasStartDate, ID : Id<ID> {
     require(id != parent) { "An element cannot be its own parent!" }
-    state.requireExists(storage, id, date)
+    state.requireExists(storage, parent, date)
 }

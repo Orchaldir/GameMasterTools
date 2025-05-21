@@ -50,6 +50,12 @@ class OriginTest {
         }
 
         @Test
+        fun `Combined origin fails with unknown parent`() {
+            val origin = CombinedOrigin(setOf(UNKNOWN_ILLNESS_ID, ILLNESS_ID_1))
+            failOrigin(DAY0, origin, "Requires unknown Illness 99!")
+        }
+
+        @Test
         fun `Valid combined origin`() {
             testOrigin(DAY0, CombinedOrigin(setOf(ILLNESS_ID_1, ILLNESS_ID_2)))
         }
@@ -64,6 +70,15 @@ class OriginTest {
                 illness,
                 result.getIllnessStorage().getOrThrow(ILLNESS_ID_0)
             )
+        }
+
+        private fun failOrigin(day: Day, origin: Origin<IllnessId>, message: String) {
+            val illness = Illness(ILLNESS_ID_0, origin = origin)
+            val action = UpdateIllness(illness)
+
+            assertIllegalArgument(message) {
+                REDUCER.invoke(state, action)
+            }
         }
     }
 }
