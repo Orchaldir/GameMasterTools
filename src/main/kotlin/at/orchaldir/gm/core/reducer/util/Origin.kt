@@ -26,7 +26,7 @@ fun <ID, ELEMENT> checkOrigin(
         is EvolvedOrigin -> validateParent(state, storage, id, origin.parent, origin.date)
 
         is ModifiedOrigin -> {
-            state.requireExists(storage, origin.parent, origin.date)
+            validateParent(state, storage, id, origin.parent, origin.date)
             validateCreator(state, origin.modifier, id, origin.date, "Modifier")
         }
 

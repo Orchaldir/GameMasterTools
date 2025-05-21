@@ -110,7 +110,7 @@ class OriginTest {
 
             @Test
             fun `Fails with unknown parent`() {
-                val origin = CombinedOrigin(setOf(UNKNOWN_ILLNESS_ID, ILLNESS_ID_1))
+                val origin = EvolvedOrigin(UNKNOWN_ILLNESS_ID)
                 failOrigin(origin, "Requires unknown Illness 99!")
             }
 
@@ -123,6 +123,33 @@ class OriginTest {
             @Test
             fun `Valid origin`() {
                 testOrigin(EvolvedOrigin(ILLNESS_ID_1))
+            }
+        }
+
+        @Nested
+        inner class ModifiedOriginTest {
+
+            @Test
+            fun `Fails with unknown parent`() {
+                val origin = ModifiedOrigin(UNKNOWN_ILLNESS_ID, creator)
+                failOrigin(origin, "Requires unknown Illness 99!")
+            }
+
+            @Test
+            fun `Fails with reusing id as parent`() {
+                val origin = ModifiedOrigin(ILLNESS_ID_0, creator)
+                failOrigin(origin, "An element cannot be its own parent!")
+            }
+
+            @Test
+            fun `Unknown creator`() {
+                val origin = ModifiedOrigin(ILLNESS_ID_1, unknownCreator)
+                failOrigin(origin, "Cannot use an unknown Character 99 as Modifier!")
+            }
+
+            @Test
+            fun `Valid origin`() {
+                testOrigin(ModifiedOrigin(ILLNESS_ID_1, creator))
             }
         }
 
