@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.world.terrain.Battlefield
-import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.region.Battlefield
+import at.orchaldir.gm.core.model.world.region.Region
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

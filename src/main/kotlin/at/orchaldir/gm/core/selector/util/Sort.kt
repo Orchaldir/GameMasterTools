@@ -39,7 +39,7 @@ import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
-import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.region.Region
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.culture.countCultures

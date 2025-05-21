@@ -4,8 +4,8 @@ import at.orchaldir.gm.core.action.CreateTownMap
 import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.RegionDataType
-import at.orchaldir.gm.core.model.world.terrain.RegionId
+import at.orchaldir.gm.core.model.world.region.RegionDataType
+import at.orchaldir.gm.core.model.world.region.RegionId
 import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer

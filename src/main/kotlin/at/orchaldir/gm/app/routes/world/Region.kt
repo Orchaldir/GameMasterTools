@@ -10,9 +10,9 @@ import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortRegion
-import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
-import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.terrain.RegionId
+import at.orchaldir.gm.core.model.world.region.REGION_TYPE
+import at.orchaldir.gm.core.model.world.region.Region
+import at.orchaldir.gm.core.model.world.region.RegionId
 import at.orchaldir.gm.core.selector.util.sortRegions
 import at.orchaldir.gm.core.selector.world.canDeleteRegion
 import io.ktor.http.*

@@ -4,9 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.Battlefield
-import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.terrain.Wasteland
+import at.orchaldir.gm.core.model.world.region.Battlefield
+import at.orchaldir.gm.core.model.world.region.Region
+import at.orchaldir.gm.core.model.world.region.Wasteland
 import at.orchaldir.gm.core.model.world.town.MountainTerrain
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
