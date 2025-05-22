@@ -3,10 +3,22 @@ package at.orchaldir.gm.core.model.util.render
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class ColorsType {
+    One,
+    Two,
+    Undefined,
+}
+
 @Serializable
 sealed interface Colors {
 
     fun name(): String
+
+    fun type() = when (this) {
+        is OneColor -> ColorsType.One
+        is TwoColors -> ColorsType.Two
+        UndefinedColors -> ColorsType.Undefined
+    }
 
 }
 
