@@ -101,6 +101,18 @@
    "colorSchemes": [
     2
    ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Leather Shoes",
+   "data": {
+    "type": "Footwear",
+    "shaft": {
+    },
+    "sole": {
+    }
+   },
+   "weight": 10000
   }
  }
 }
