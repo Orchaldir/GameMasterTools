@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.fieldColor
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectColor
@@ -13,6 +14,9 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.util.render.*
+import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.util.sortColorSchemes
+import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -37,6 +41,8 @@ fun HtmlBlockTag.showColorScheme(
 
         UndefinedColors -> doNothing()
     }
+
+    fieldList(call, state, state.sortEquipmentList(state.getEquipment(scheme.id)))
 }
 
 // edit

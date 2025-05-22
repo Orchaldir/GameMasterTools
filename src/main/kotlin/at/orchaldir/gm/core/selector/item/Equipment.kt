@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 
 fun State.canDelete(equipment: EquipmentId) = getCharacterStorage().getAll()
     .none {
@@ -30,6 +31,10 @@ fun State.isAvailable(type: EquipmentDataType) = getEquipmentStorage()
 
 fun State.getEquipmentOf(type: EquipmentDataType) = getEquipmentStorage().getAll()
     .filter { it.data.isType(type) }
+
+fun State.getEquipment(scheme: ColorSchemeId) = getEquipmentStorage()
+    .getAll()
+    .filter { it.colorSchemes.contains(scheme) }
 
 fun State.getEquipmentMadeOf(material: MaterialId) = getEquipmentStorage().getAll()
     .filter { it.data.contains(material) }
