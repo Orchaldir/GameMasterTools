@@ -3,7 +3,11 @@ package at.orchaldir.gm.core.model.item
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.ColorLookup
+import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.Fill
+import at.orchaldir.gm.core.model.util.render.FixedColor
+import at.orchaldir.gm.core.model.util.render.LookupMaterial
 import at.orchaldir.gm.core.model.util.render.Solid
 import kotlinx.serialization.Serializable
 
@@ -30,6 +34,22 @@ data class ColorItemPart(
 
         return state.getMaterialStorage().get(material)?.color ?: Color.Pink
     }
+
+    override fun contains(id: MaterialId) = material == id
+    override fun materials() = setOf(material)
+
+}
+
+@Serializable
+data class ColorSchemeItemPart(
+    val material: MaterialId = MaterialId(0),
+    val lookup: ColorLookup = LookupMaterial,
+) : ItemPart {
+
+    constructor(color: Color) : this(MaterialId(0), FixedColor(color))
+
+    fun getColor(state: State, scheme: ColorScheme) = lookup.lookup(scheme)
+        ?: state.getMaterialStorage().get(material)?.color ?: Color.Pink
 
     override fun contains(id: MaterialId) = material == id
     override fun materials() = setOf(material)

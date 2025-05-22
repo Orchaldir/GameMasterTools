@@ -19,6 +19,7 @@ fun HtmlBlockTag.showColorLookup(
     field(label) {
         when (lookup) {
             is FixedColor -> showColor(lookup.color)
+            LookupMaterial -> +"Color of Material"
             LookupSchema0 -> +"1.Color of Schema"
             LookupSchema1 -> +"2.Color of Schema"
         }
@@ -28,7 +29,7 @@ fun HtmlBlockTag.showColorLookup(
 // edit
 
 
-private fun HtmlBlockTag.editColorLookup(
+fun HtmlBlockTag.editColorLookup(
     label: String,
     lookup: ColorLookup,
     param: String,
@@ -45,10 +46,11 @@ private fun HtmlBlockTag.editColorLookup(
             is FixedColor -> selectColor(
                 lookup.color,
                 combine(param, COLOR),
-                label,
+                "Color",
                 Color.entries,
             )
 
+            LookupMaterial -> doNothing()
             LookupSchema0 -> doNothing()
             LookupSchema1 -> doNothing()
         }
@@ -65,6 +67,7 @@ fun parseColorLookup(
         parse(parameters, combine(param, COLOR), Color.Pink),
     )
 
+    ColorLookupType.Material -> LookupMaterial
     ColorLookupType.Schema0 -> LookupSchema0
     ColorLookupType.Schema1 -> LookupSchema1
 }

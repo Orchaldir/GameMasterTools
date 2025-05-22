@@ -7,6 +7,7 @@ private val DEFAULT_COLOR = Color.Pink
 
 enum class ColorLookupType {
     Fixed,
+    Material,
     Schema0,
     Schema1,
 }
@@ -16,20 +17,22 @@ sealed interface ColorLookup {
 
     fun type() = when (this) {
         is FixedColor -> ColorLookupType.Fixed
+        LookupMaterial -> ColorLookupType.Material
         LookupSchema0 -> ColorLookupType.Schema0
         LookupSchema1 -> ColorLookupType.Schema1
     }
 
     fun requiredSchemaColors() = when (this) {
-        is FixedColor -> 0
+        is FixedColor, LookupMaterial -> 0
         LookupSchema0 -> 1
         LookupSchema1 -> 2
     }
 
     fun lookup(scheme: ColorScheme) = when (this) {
         is FixedColor -> color
-        LookupSchema0 -> scheme.data.color0() ?: DEFAULT_COLOR
-        LookupSchema1 -> scheme.data.color0() ?: DEFAULT_COLOR
+        LookupMaterial -> null
+        LookupSchema0 -> scheme.data.color0()
+        LookupSchema1 -> scheme.data.color0()
     }
 
 }
@@ -39,6 +42,10 @@ sealed interface ColorLookup {
 data class FixedColor(
     val color: Color,
 ) : ColorLookup
+
+@Serializable
+@SerialName("Material")
+data object LookupMaterial : ColorLookup
 
 @Serializable
 @SerialName("0")
