@@ -645,6 +645,15 @@
      "color": "Fair"
     }
    },
+   "equipmentMap": {
+    "map": {
+     "0": [
+      [
+       "InnerTop"
+      ]
+     ]
+    }
+   },
    "housingStatus": {
     "current": {
      "type": "InHouse",
