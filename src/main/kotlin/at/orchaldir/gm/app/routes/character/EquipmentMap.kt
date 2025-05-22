@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.character
 
+import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.editEquipmentMap
@@ -45,7 +46,7 @@ fun Application.configureEquipmentMapRouting() {
             val state = STORE.getState()
             val character = state.getCharacterStorage().getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
-            val equipmentMap = parseEquipmentMap(formParameters)
+            val equipmentMap = parseEquipmentMap(formParameters, CHARACTER)
 
             logger.info { "equipment: $equipmentMap" }
 
@@ -57,7 +58,7 @@ fun Application.configureEquipmentMapRouting() {
             logger.info { "Update character ${update.id.value}'s equipment" }
 
             val formParameters = call.receiveParameters()
-            val equipmentMap = parseEquipmentMap(formParameters)
+            val equipmentMap = parseEquipmentMap(formParameters, CHARACTER)
 
             STORE.dispatch(UpdateEquipmentOfCharacter(update.id, equipmentMap))
 
@@ -105,7 +106,7 @@ private fun HTML.showEquipmentMapEditor(
         formWithPreview(previewLink, updateLink, backLink) {
             button("Random", generateLink, generator == null)
 
-            editEquipmentMap(state, equipmentMap)
+            editEquipmentMap(state, equipmentMap, CHARACTER)
         }
     }
 }

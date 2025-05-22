@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.COLOR
+import at.orchaldir.gm.app.SLOT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.parse.combine
@@ -40,7 +41,7 @@ fun HtmlBlockTag.showEquipmentMap(
 fun FORM.editEquipmentMap(
     state: State,
     equipmentMap: EquipmentIdMap,
-    param: String = "",
+    param: String,
 ) {
     EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }
 }
@@ -108,7 +109,7 @@ private fun FORM.selectEquipment(
 
 fun parseEquipmentMap(
     parameters: Parameters,
-    param: String = "",
+    param: String,
 ): EquipmentIdMap {
     val map = mutableMapOf<EquipmentIdPair, MutableSet<Set<BodySlot>>>()
 
