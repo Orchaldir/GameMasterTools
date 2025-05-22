@@ -90,7 +90,7 @@
       "type": "Wire",
       "main": {
        "lookup": {
-        "type": "1"
+        "type": "0"
        }
       }
      }
@@ -99,7 +99,7 @@
    },
    "weight": 10000,
    "colorSchemes": [
-    3
+    2
    ]
   }
  }

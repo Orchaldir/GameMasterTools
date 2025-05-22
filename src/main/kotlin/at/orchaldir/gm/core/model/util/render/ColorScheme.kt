@@ -26,5 +26,6 @@ data class ColorScheme(
     override fun id() = id
     override fun name() = data.name()
 
+    fun isValid(requiredSchemaColors: Int) = data.count() >= requiredSchemaColors
 }
 

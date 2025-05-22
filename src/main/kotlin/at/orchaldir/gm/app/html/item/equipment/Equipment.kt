@@ -17,6 +17,8 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
+import at.orchaldir.gm.core.selector.util.getValidColorSchemes
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -122,9 +124,7 @@ private fun FORM.selectColorSchemes(
     val requiredSchemaColors = equipment.data.requiredSchemaColors()
 
     if (requiredSchemaColors > 0) {
-        val colorSchemes = state.getColorSchemeStorage()
-            .getAll()
-            .filter { it.data.count() >= requiredSchemaColors }
+        val colorSchemes = state.getValidColorSchemes(equipment.data)
 
         field("Required Schema Colors", requiredSchemaColors)
         selectElements(
@@ -229,11 +229,8 @@ private fun parseColorSchemes(
         combine(COLOR, SCHEME),
         ::parseColorSchemeId,
     )
-    val requiredSchemaColors = data.requiredSchemaColors()
 
-    return colorSchemeIds
-        .filter { state.getColorSchemeStorage().getOrThrow(it).data.count() >= requiredSchemaColors }
-        .toSet()
+    return state.filterValidColorSchemes(data, colorSchemeIds)
 }
 
 fun parseEquipmentData(parameters: Parameters) =
