@@ -253,7 +253,10 @@ private fun HTML.showEquipmentEditor(
 }
 
 private fun HtmlBlockTag.visualizeItem(state: State, equipment: Equipment) {
-    val equipped = EquipmentMap.from(equipment.data, DEFAULT_COLOR_SCHEME)
+    val colorScheme = state.getColorSchemeStorage()
+        .getOptional(equipment.colorSchemes.firstOrNull())
+    val colors = colorScheme?.data ?: DEFAULT_COLOR_SCHEME
+    val equipped = EquipmentMap.from(equipment.data, colors)
     val appearance = createAppearance(equipment, height)
     val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
     val backSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped, false)

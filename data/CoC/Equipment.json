@@ -21,6 +21,28 @@
     1,
     2
    ]
+  },
+  "1": {
+   "id": 1,
+   "data": {
+    "type": "Glasses",
+    "lensShape": "Rectangle",
+    "lens": {
+     "material": 13
+    },
+    "frame": {
+     "material": 9,
+     "lookup": {
+      "type": "1"
+     }
+    }
+   },
+   "weight": 10000,
+   "colorSchemes": [
+    4,
+    1,
+    2
+   ]
   }
  }
 }
