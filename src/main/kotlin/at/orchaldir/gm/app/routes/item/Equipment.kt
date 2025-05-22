@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.util.render.TwoColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
+import at.orchaldir.gm.core.selector.util.getColors
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -38,7 +39,6 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 private val height = fromMeters(1.0f)
-private val DEFAULT_COLOR_SCHEME: Colors = TwoColors.init(Color.Navy, Color.Green)
 
 @Resource("/$EQUIPMENT_TYPE")
 class EquipmentRoutes {
@@ -198,7 +198,7 @@ private fun HTML.showGallery(
 
     simpleHtml("Equipment") {
         showGallery(call, state, equipmentList) { equipment ->
-            val equipped = EquipmentMap.from(equipment.data, DEFAULT_COLOR_SCHEME)
+            val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment))
             val appearance = createAppearance(equipment, height)
 
             visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
@@ -220,7 +220,7 @@ private fun HTML.showEquipmentDetails(
     val editLink = call.application.href(EquipmentRoutes.Edit(equipment.id))
 
     simpleHtmlDetails(equipment) {
-        visualizeItem(state, equipment)
+        visualizeEquipment(state, equipment)
 
         showEquipment(call, state, equipment)
 
@@ -249,18 +249,15 @@ private fun HTML.showEquipmentEditor(
     val updateLink = call.application.href(EquipmentRoutes.Update(equipment.id))
 
     simpleHtmlEditor(equipment) {
-        visualizeItem(state, equipment)
+        visualizeEquipment(state, equipment)
         formWithPreview(previewLink, updateLink, backLink, canUpdate = equipment.areColorSchemesValid()) {
             editEquipment(state, equipment)
         }
     }
 }
 
-private fun HtmlBlockTag.visualizeItem(state: State, equipment: Equipment) {
-    val colorScheme = state.getColorSchemeStorage()
-        .getOptional(equipment.colorSchemes.firstOrNull())
-    val colors = colorScheme?.data ?: DEFAULT_COLOR_SCHEME
-    val equipped = EquipmentMap.from(equipment.data, colors)
+private fun HtmlBlockTag.visualizeEquipment(state: State, equipment: Equipment) {
+    val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment))
     val appearance = createAppearance(equipment, height)
     val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
     val backSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped, false)

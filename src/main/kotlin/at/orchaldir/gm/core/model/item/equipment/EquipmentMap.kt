@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.item.equipment
 
-import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import kotlinx.serialization.Serializable
@@ -17,8 +16,8 @@ data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
         fun from(data: EquipmentData) =
             EquipmentMap(data, data.slots().getAllBodySlotCombinations().first())
 
-        fun <T> from(data: EquipmentData, scheme: T) =
-            EquipmentMap(Pair(data, scheme), data.slots().getAllBodySlotCombinations().first())
+        fun <T> from(data: EquipmentData, second: T) =
+            EquipmentMap(Pair(data, second), data.slots().getAllBodySlotCombinations().first())
 
         fun from(list: List<EquipmentData>) =
             EquipmentMap(list.associateWith { setOf(it.slots().getAllBodySlotCombinations().first()) })
