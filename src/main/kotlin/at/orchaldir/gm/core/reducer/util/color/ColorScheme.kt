@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.DeleteColorScheme
 import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
 import at.orchaldir.gm.utils.redux.Reducer
@@ -35,6 +36,15 @@ val UPDATE_COLOR_SCHEME: Reducer<UpdateColorScheme, State> = { state, action ->
 }
 
 fun validateColorSchemes(state: State) {
-    // TODO
+    val colors = mutableSetOf<Colors>()
+
+    state.getColorSchemeStorage()
+        .getAll()
+        .forEach { scheme ->
+            require(colors.add(scheme.data)) {
+                val id = scheme.id
+                "${id.type()} ${id.value} is duplicate"
+            }
+        }
 }
 
