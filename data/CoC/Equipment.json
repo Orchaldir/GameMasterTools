@@ -14,13 +14,7 @@
       "color1": "White"
      }
     }
-   },
-   "weight": 10000,
-   "colorSchemes": [
-    4,
-    1,
-    2
-   ]
+   }
   },
   "1": {
    "id": 1,
@@ -37,7 +31,6 @@
      }
     }
    },
-   "weight": 10000,
    "colorSchemes": [
     4,
     1,
@@ -67,7 +60,6 @@
     },
     "length": "Matinee"
    },
-   "weight": 10000,
    "colorSchemes": [
     4,
     1,
@@ -97,7 +89,6 @@
     },
     "length": "Matinee"
    },
-   "weight": 10000,
    "colorSchemes": [
     2
    ]
@@ -111,8 +102,7 @@
     },
     "sole": {
     }
-   },
-   "weight": 10000
+   }
   }
  }
 }
