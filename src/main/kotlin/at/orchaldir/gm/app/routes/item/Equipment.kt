@@ -1,10 +1,12 @@
 package at.orchaldir.gm.app.routes.item
 
+import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
+import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
@@ -13,13 +15,14 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
-import at.orchaldir.gm.core.model.util.render.TwoColors
+import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.core.selector.util.getColors
+import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -47,6 +50,9 @@ class EquipmentRoutes {
 
     @Resource("details")
     class Details(val id: EquipmentId, val parent: EquipmentRoutes = EquipmentRoutes())
+
+    @Resource("scheme")
+    class Scheme(val id: EquipmentId, val parent: EquipmentRoutes = EquipmentRoutes())
 
     @Resource("new")
     class New(val parent: EquipmentRoutes = EquipmentRoutes())
@@ -88,6 +94,18 @@ fun Application.configureEquipmentRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showEquipmentDetails(call, state, equipment)
+            }
+        }
+        post<EquipmentRoutes.Scheme> { details ->
+            logger.info { "Get details of equipment ${details.id.value} with color schema" }
+
+            val state = STORE.getState()
+            val equipment = state.getEquipmentStorage().getOrThrow(details.id)
+            val parameters = call.receiveParameters()
+            val colorSchemeId = parseOptionalColorSchemeId(parameters, SCHEME)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showEquipmentDetails(call, state, equipment, colorSchemeId)
             }
         }
         get<EquipmentRoutes.New> {
@@ -212,15 +230,36 @@ private fun HTML.showEquipmentDetails(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,
+    optionalColorSchemeId: ColorSchemeId? = null,
 ) {
     val characters = state.getEquippedBy(equipment.id)
     val fashions = state.getFashions(equipment.id)
     val backLink = call.application.href(EquipmentRoutes())
     val deleteLink = call.application.href(EquipmentRoutes.Delete(equipment.id))
     val editLink = call.application.href(EquipmentRoutes.Edit(equipment.id))
+    val previewLink = call.application.href(EquipmentRoutes.Scheme(equipment.id))
 
     simpleHtmlDetails(equipment) {
-        visualizeEquipment(state, equipment)
+        if (equipment.colorSchemes.isNotEmpty()) {
+            val colorScheme = optionalColorSchemeId ?: equipment.colorSchemes.first()
+            val colorSchemes = state.sortColorSchemes(state.getColorSchemeStorage().get(equipment.colorSchemes))
+
+            form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
+                selectElement(
+                    state,
+                    "Color Scheme",
+                    SCHEME,
+                    colorSchemes,
+                    colorScheme,
+                )
+            }
+            visualizeEquipment(state, equipment, colorScheme)
+        } else {
+            visualizeEquipment(state, equipment, UndefinedColors)
+        }
 
         showEquipment(call, state, equipment)
 
@@ -249,15 +288,25 @@ private fun HTML.showEquipmentEditor(
     val updateLink = call.application.href(EquipmentRoutes.Update(equipment.id))
 
     simpleHtmlEditor(equipment) {
-        visualizeEquipment(state, equipment)
+        visualizeEquipment(state, equipment, UndefinedColors)
         formWithPreview(previewLink, updateLink, backLink, canUpdate = equipment.areColorSchemesValid()) {
             editEquipment(state, equipment)
         }
     }
 }
 
-private fun HtmlBlockTag.visualizeEquipment(state: State, equipment: Equipment) {
-    val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment))
+private fun HtmlBlockTag.visualizeEquipment(
+    state: State,
+    equipment: Equipment,
+    colorSchemeId: ColorSchemeId,
+) = visualizeEquipment(state, equipment, state.getColorSchemeStorage().getOrThrow(colorSchemeId).data)
+
+private fun HtmlBlockTag.visualizeEquipment(
+    state: State,
+    equipment: Equipment,
+    colors: Colors,
+) {
+    val equipped = EquipmentMap.from(equipment.data, colors)
     val appearance = createAppearance(equipment, height)
     val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
     val backSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped, false)
