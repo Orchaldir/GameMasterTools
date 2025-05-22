@@ -26,6 +26,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
+import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 import mu.KotlinLogging
@@ -159,8 +160,8 @@ private fun HTML.showAllColorSchemes(
             schemes.forEach { scheme ->
                 tr {
                     tdLink(call, state, scheme)
-                    tdEnum(scheme.data.color0())
-                    tdEnum(scheme.data.color1())
+                    td { showColor(scheme.data.color0()) }
+                    td { showColor(scheme.data.color1()) }
                 }
             }
         }
