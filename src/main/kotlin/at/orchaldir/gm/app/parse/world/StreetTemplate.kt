@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.economy.material.parseMaterialCost
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import io.ktor.http.*

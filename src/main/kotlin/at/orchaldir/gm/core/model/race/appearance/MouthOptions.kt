@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.race.appearance
 import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.OneOf
 import kotlinx.serialization.Serializable
 

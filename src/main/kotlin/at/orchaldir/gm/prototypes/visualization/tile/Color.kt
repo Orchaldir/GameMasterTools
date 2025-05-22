@@ -1,7 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.tile
 
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Color.Red
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.Color.Red
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.math.unit.Distance

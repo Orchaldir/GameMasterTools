@@ -1,6 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization
 
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d

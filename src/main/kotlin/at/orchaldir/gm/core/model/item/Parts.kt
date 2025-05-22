@@ -2,9 +2,9 @@ package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Fill
-import at.orchaldir.gm.core.model.util.Solid
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.Fill
+import at.orchaldir.gm.core.model.util.render.Solid
 import kotlinx.serialization.Serializable
 
 interface ItemPart {

@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.item.equipment.style
 import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.book.typography.NoTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.Typography
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.font.FontId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

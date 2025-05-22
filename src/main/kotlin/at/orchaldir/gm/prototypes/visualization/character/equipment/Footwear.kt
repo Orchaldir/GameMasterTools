@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
-import at.orchaldir.gm.core.model.util.Color.Gray
-import at.orchaldir.gm.core.model.util.Color.SaddleBrown
+import at.orchaldir.gm.core.model.util.render.Color.Gray
+import at.orchaldir.gm.core.model.util.render.Color.SaddleBrown
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG

@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.wing.NoWings
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG

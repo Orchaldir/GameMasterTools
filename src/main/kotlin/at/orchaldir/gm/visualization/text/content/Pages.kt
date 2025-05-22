@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.text.content
 
 import at.orchaldir.gm.core.model.item.text.content.TocLine
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.utils.doNothing

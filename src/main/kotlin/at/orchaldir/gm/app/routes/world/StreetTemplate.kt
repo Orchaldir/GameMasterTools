@@ -9,8 +9,8 @@ import at.orchaldir.gm.core.action.CreateStreetTemplate
 import at.orchaldir.gm.core.action.DeleteStreetTemplate
 import at.orchaldir.gm.core.action.UpdateStreetTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Solid
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.Solid
 import at.orchaldir.gm.core.model.world.street.STREET_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId

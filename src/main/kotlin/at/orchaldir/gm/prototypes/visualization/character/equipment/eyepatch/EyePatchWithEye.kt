@@ -14,8 +14,8 @@ import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.EyePatchWithEye
 import at.orchaldir.gm.core.model.item.equipment.style.OneBand
 import at.orchaldir.gm.core.model.item.equipment.style.VALID_LENSES
-import at.orchaldir.gm.core.model.util.Color.Red
-import at.orchaldir.gm.core.model.util.Color.Yellow
+import at.orchaldir.gm.core.model.util.render.Color.Red
+import at.orchaldir.gm.core.model.util.render.Color.Yellow
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable

@@ -8,7 +8,7 @@ import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.action.RemoveStreetTile
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.town.TownMap

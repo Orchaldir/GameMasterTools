@@ -10,8 +10,8 @@ import at.orchaldir.gm.core.model.item.equipment.style.Button
 import at.orchaldir.gm.core.model.item.equipment.style.ButtonColumn
 import at.orchaldir.gm.core.model.item.equipment.style.DoubleBreasted
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
-import at.orchaldir.gm.core.model.util.Color.Blue
-import at.orchaldir.gm.core.model.util.Color.Gold
+import at.orchaldir.gm.core.model.util.render.Color.Blue
+import at.orchaldir.gm.core.model.util.render.Color.Gold
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG

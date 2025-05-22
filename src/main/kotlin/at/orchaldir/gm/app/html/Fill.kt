@@ -6,7 +6,14 @@ import at.orchaldir.gm.app.html.util.parseFactor
 import at.orchaldir.gm.app.html.util.selectPercentage
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.Fill
+import at.orchaldir.gm.core.model.util.render.FillType
+import at.orchaldir.gm.core.model.util.render.HorizontalStripes
+import at.orchaldir.gm.core.model.util.render.Solid
+import at.orchaldir.gm.core.model.util.render.Tiles
+import at.orchaldir.gm.core.model.util.render.Transparent
+import at.orchaldir.gm.core.model.util.render.VerticalStripes
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag

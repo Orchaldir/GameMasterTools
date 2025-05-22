@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.item.text.book.typography.AdvancedTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleStringRenderOption
 import at.orchaldir.gm.core.model.item.text.book.typography.StringRenderOption
 import at.orchaldir.gm.core.model.item.text.book.typography.WrappedStringRenderOption
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.font.FontOption
 import at.orchaldir.gm.core.model.util.font.FontWithBorder
 import at.orchaldir.gm.core.model.util.font.SolidFont

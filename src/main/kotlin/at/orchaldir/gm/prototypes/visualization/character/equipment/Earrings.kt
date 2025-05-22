@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.*
-import at.orchaldir.gm.core.model.util.Color.Blue
-import at.orchaldir.gm.core.model.util.Color.Red
+import at.orchaldir.gm.core.model.util.render.Color.Blue
+import at.orchaldir.gm.core.model.util.render.Color.Red
 import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable

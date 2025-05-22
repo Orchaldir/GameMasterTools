@@ -33,7 +33,7 @@ import at.orchaldir.gm.core.model.character.appearance.wing.WingType
 import at.orchaldir.gm.core.model.character.appearance.wing.WingsLayout
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.race.appearance.*
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.application.*

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.util
 
-import at.orchaldir.gm.core.model.util.Color.*
+import at.orchaldir.gm.core.model.util.render.Color.*
 import at.orchaldir.gm.core.model.util.Rarity.*
 import at.orchaldir.gm.core.model.util.Size.Small
 import org.junit.jupiter.api.Assertions.assertFalse
