@@ -127,16 +127,18 @@ fun Application.configureEquipmentRouting() {
         post<EquipmentRoutes.Preview> { preview ->
             logger.info { "Get preview for equipment ${preview.id.value}" }
 
-            val equipment = parseEquipment(preview.id, call.receiveParameters())
+            val state = STORE.getState()
+            val equipment = parseEquipment(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, STORE.getState(), equipment)
+                showEquipmentEditor(call, state, equipment)
             }
         }
         post<EquipmentRoutes.Update> { update ->
             logger.info { "Update equipment ${update.id.value}" }
 
-            val equipment = parseEquipment(update.id, call.receiveParameters())
+            val state = STORE.getState()
+            val equipment = parseEquipment(state, call.receiveParameters(), update.id)
 
             STORE.dispatch(UpdateEquipment(equipment))
 

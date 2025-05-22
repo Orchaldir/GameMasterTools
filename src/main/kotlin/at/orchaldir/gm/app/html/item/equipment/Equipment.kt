@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -202,17 +203,38 @@ fun parseEquipmentId(value: String) = EquipmentId(value.toInt())
 
 fun parseEquipmentId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
 
-fun parseEquipment(id: EquipmentId, parameters: Parameters) = Equipment(
-    id,
-    parseName(parameters),
-    parseEquipmentData(parameters),
-    parseWeight(parameters, WEIGHT, SiPrefix.Base),
-    parseElements(
+fun parseEquipment(
+    state: State,
+    parameters: Parameters,
+    id: EquipmentId,
+): Equipment {
+    val data = parseEquipmentData(parameters)
+
+    return Equipment(
+        id,
+        parseName(parameters),
+        data,
+        parseWeight(parameters, WEIGHT, SiPrefix.Base),
+        parseColorSchemes(state, parameters, data),
+    )
+}
+
+private fun parseColorSchemes(
+    state: State,
+    parameters: Parameters,
+    data: EquipmentData,
+): Set<ColorSchemeId> {
+    val colorSchemeIds = parseElements(
         parameters,
         combine(COLOR, SCHEME),
         ::parseColorSchemeId,
-    ),
-)
+    )
+    val requiredSchemaColors = data.requiredSchemaColors()
+
+    return colorSchemeIds
+        .filter { state.getColorSchemeStorage().getOrThrow(it).data.count() >= requiredSchemaColors }
+        .toSet()
+}
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.Belt)) {
