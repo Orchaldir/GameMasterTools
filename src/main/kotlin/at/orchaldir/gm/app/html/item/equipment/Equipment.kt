@@ -105,7 +105,7 @@ fun FORM.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base)
+    selectWeight("Weight", WEIGHT, equipment.weight, MIN_EQUIPMENT_WEIGHT, 10000, SiPrefix.Base)
     selectColorSchemes(state, equipment)
     selectValue(
         "Equipment",

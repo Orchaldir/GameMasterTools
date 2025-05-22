@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_TYPE = "Equipment"
+const val MIN_EQUIPMENT_WEIGHT = 10L
 
 @JvmInline
 @Serializable
@@ -24,7 +25,7 @@ data class Equipment(
     val id: EquipmentId,
     val name: Name = Name.init("Equipment ${id.value}"),
     val data: EquipmentData = Belt(),
-    val weight: Weight = Weight.fromGrams(1),
+    val weight: Weight = Weight.fromGrams(MIN_EQUIPMENT_WEIGHT),
     val colorSchemes: Set<ColorSchemeId> = emptySet(),
 ) : ElementWithSimpleName<EquipmentId> {
 
