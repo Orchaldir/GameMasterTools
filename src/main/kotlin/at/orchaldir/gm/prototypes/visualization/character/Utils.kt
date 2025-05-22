@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.util.render.Colors
+import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -58,6 +60,27 @@ fun renderCharacterTable(
 
         visualizeAppearance(renderState, appearance, paddedSize)
     }
+}
+
+fun <C, R> renderCharacterTableWithoutColorScheme(
+    state: State,
+    filename: String,
+    config: CharacterRenderConfig,
+    rows: List<Pair<String, R>>,
+    columns: List<Pair<String, C>>,
+    backToo: Boolean = false,
+    create: (Distance, C, R) -> Pair<Appearance, EquipmentMap<EquipmentData>>,
+) = renderCharacterTable(
+    state,
+    filename,
+    config,
+    rows,
+    columns,
+    backToo,
+) { distance, row, column ->
+    val (appearance, equipmentMap) = create(distance, row, column)
+
+    Pair(appearance, equipmentMap.convert { data -> Pair(data, UndefinedColors) })
 }
 
 fun <C, R> renderCharacterTable(

@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
-import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.Fill
 import at.orchaldir.gm.core.model.util.render.FixedColor
 import at.orchaldir.gm.core.model.util.render.LookupMaterial
@@ -48,7 +48,7 @@ data class ColorSchemeItemPart(
 
     constructor(color: Color) : this(MaterialId(0), FixedColor(color))
 
-    fun getColor(state: State, scheme: ColorScheme) = lookup.lookup(scheme)
+    fun getColor(state: State, colors: Colors) = lookup.lookup(colors)
         ?: state.getMaterialStorage().get(material)?.color ?: Color.Pink
 
     override fun contains(id: MaterialId) = material == id

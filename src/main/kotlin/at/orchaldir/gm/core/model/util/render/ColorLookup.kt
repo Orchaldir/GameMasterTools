@@ -28,11 +28,11 @@ sealed interface ColorLookup {
         LookupSchema1 -> 2
     }
 
-    fun lookup(scheme: ColorScheme) = when (this) {
+    fun lookup(colors: Colors) = when (this) {
         is FixedColor -> color
         LookupMaterial -> null
-        LookupSchema0 -> scheme.data.color0()
-        LookupSchema1 -> scheme.data.color0()
+        LookupSchema0 -> colors.color0()
+        LookupSchema1 -> colors.color0()
     }
 
 }

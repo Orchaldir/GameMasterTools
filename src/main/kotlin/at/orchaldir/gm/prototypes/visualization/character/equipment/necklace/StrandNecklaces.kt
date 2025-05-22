@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
+import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
@@ -30,7 +31,7 @@ fun main() {
 
     strandStyles.add(Pair("3", StrandNecklace(3, strand)))
 
-    renderCharacterTable(
+    renderCharacterTableWithoutColorScheme(
         State(),
         "necklaces-strands.svg",
         CHARACTER_CONFIG,

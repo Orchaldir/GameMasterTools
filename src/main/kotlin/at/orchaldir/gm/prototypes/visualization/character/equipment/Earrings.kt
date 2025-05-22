@@ -54,12 +54,14 @@ fun main() {
             EquipmentMap(earring to setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)))
         }
     }
+    /* TODO
+        renderCharacterTable(
+            State(),
+            "earrings.svg",
+            CHARACTER_CONFIG,
+            HeadOnly(Head(ears = NormalEars(), eyes = TwoEyes()), fromMeters(1)),
+            equipmentTable,
+        )
 
-    renderCharacterTable(
-        State(),
-        "earrings.svg",
-        CHARACTER_CONFIG,
-        HeadOnly(Head(ears = NormalEars(), eyes = TwoEyes()), fromMeters(1)),
-        equipmentTable,
-    )
+     */
 }

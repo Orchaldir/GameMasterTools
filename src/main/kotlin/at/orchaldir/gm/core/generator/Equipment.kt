@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.culture.getFashion
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -51,7 +53,10 @@ data class EquipmentGenerator(
             generateAccessory(result, accessory)
         }
 
-        return EquipmentMap(result.mapValues { setOf(it.value.slots().getAllBodySlotCombinations().first()) })
+        return EquipmentMap(
+            result
+            .mapKeys { entry -> Pair(entry.key, ColorSchemeId(0)) } // TODO
+            .mapValues { setOf(it.value.slots().getAllBodySlotCombinations().first()) })
     }
 
     private fun generatePantsAndShirt(result: MutableMap<EquipmentId, EquipmentDataType>) {

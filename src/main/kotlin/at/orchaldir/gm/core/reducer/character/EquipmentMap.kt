@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.utils.redux.Reducer
@@ -26,7 +27,7 @@ fun validateCharacterEquipment(
     val occupySlots = mutableSetOf<BodySlot>()
 
     equipmentMap.getEquipmentWithSlotSets().forEach { (id, slotSets) ->
-        val equipment = state.getEquipmentStorage().getOrThrow(id)
+        val equipment = state.getEquipmentStorage().getOrThrow(id.first)
         val allowedSlotSets = equipment.data.slots().getAllBodySlotCombinations()
 
         slotSets.forEach { slotSet ->

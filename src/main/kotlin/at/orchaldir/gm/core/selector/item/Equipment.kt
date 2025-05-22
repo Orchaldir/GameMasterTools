@@ -7,10 +7,15 @@ import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 
 fun State.canDelete(equipment: EquipmentId) = getCharacterStorage().getAll()
-    .none { it.equipmentMap.contains(equipment) }
+    .none {
+        it.equipmentMap
+            .getAllEquipment()
+            .any { pair -> pair.first == equipment }
+    }
 
 fun State.countEquipment(material: MaterialId) = getEquipmentStorage()
     .getAll()
@@ -38,10 +43,17 @@ fun State.getEquipment(character: CharacterId) =
 
 fun State.getEquipment(character: Character) = getEquipment(character.equipmentMap)
 
-fun State.getEquipment(equipmentMap: EquipmentIdMap) = equipmentMap.convert { id ->
-    getEquipmentStorage().getOrThrow(id).data
+fun State.getEquipment(equipmentMap: EquipmentIdMap) = equipmentMap.convert { pair ->
+    Pair(
+        getEquipmentStorage().getOrThrow(pair.first).data,
+        getColorSchemeStorage().getOrThrow(pair.second).data,
+    )
 }
 
 fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage().getAll()
-    .filter { it.equipmentMap.contains(equipment) }
+    .filter {
+        it.equipmentMap
+            .getAllEquipment()
+            .any { pair -> pair.first == equipment }
+    }
 

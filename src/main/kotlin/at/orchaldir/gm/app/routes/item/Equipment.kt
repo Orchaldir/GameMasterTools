@@ -13,6 +13,9 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.Colors
+import at.orchaldir.gm.core.model.util.render.TwoColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
@@ -35,6 +38,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 private val height = fromMeters(1.0f)
+private val DEFAULT_COLOR_SCHEME: Colors = TwoColors.init(Color.Navy, Color.Green)
 
 @Resource("/$EQUIPMENT_TYPE")
 class EquipmentRoutes {
@@ -190,7 +194,7 @@ private fun HTML.showGallery(
 
     simpleHtml("Equipment") {
         showGallery(call, state, equipmentList) { equipment ->
-            val equipped = EquipmentMap.from(equipment.data)
+            val equipped = EquipmentMap.from(equipment.data, DEFAULT_COLOR_SCHEME)
             val appearance = createAppearance(equipment, height)
 
             visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
@@ -249,7 +253,7 @@ private fun HTML.showEquipmentEditor(
 }
 
 private fun HtmlBlockTag.visualizeItem(state: State, equipment: Equipment) {
-    val equipped = EquipmentMap.from(equipment.data)
+    val equipped = EquipmentMap.from(equipment.data, DEFAULT_COLOR_SCHEME)
     val appearance = createAppearance(equipment, height)
     val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
     val backSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped, false)
