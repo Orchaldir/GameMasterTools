@@ -167,6 +167,7 @@ private fun HTML.showAllEquipment(
                 th { +"Type" }
                 th { +"Weight" }
                 th { +"Materials" }
+                thMultiLines(listOf("Color", "Schemes"))
                 th { +"Characters" }
                 th { +"Fashion" }
             }
@@ -176,6 +177,7 @@ private fun HTML.showAllEquipment(
                     tdEnum(equipment.data.getType())
                     td(equipment.weight)
                     tdInlineIds(call, state, equipment.data.materials())
+                    tdSkipZero(equipment.colorSchemes.size)
                     tdSkipZero(state.getEquippedBy(equipment.id).size)
                     tdSkipZero(state.getFashions(equipment.id).size)
                 }
