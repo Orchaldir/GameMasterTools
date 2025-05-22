@@ -146,10 +146,12 @@ fun Application.configureEquipmentRouting() {
             logger.info { "Get preview for equipment ${preview.id.value}" }
 
             val state = STORE.getState()
-            val equipment = parseEquipment(state, call.receiveParameters(), preview.id)
+            val parameters = call.receiveParameters()
+            val equipment = parseEquipment(state, parameters, preview.id)
+            val colorSchemeId = parseOptionalColorSchemeId(parameters, SCHEME)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, equipment)
+                showEquipmentEditor(call, state, equipment, colorSchemeId)
             }
         }
         post<EquipmentRoutes.Update> { update ->
@@ -241,22 +243,13 @@ private fun HTML.showEquipmentDetails(
 
     simpleHtmlDetails(equipment) {
         if (equipment.colorSchemes.isNotEmpty()) {
-            val colorScheme = optionalColorSchemeId ?: equipment.colorSchemes.first()
-            val colorSchemes = state.sortColorSchemes(state.getColorSchemeStorage().get(equipment.colorSchemes))
-
             form {
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectElement(
-                    state,
-                    "Color Scheme",
-                    SCHEME,
-                    colorSchemes,
-                    colorScheme,
-                )
+
+                selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId)
             }
-            visualizeEquipment(state, equipment, colorScheme)
         } else {
             visualizeEquipment(state, equipment, UndefinedColors)
         }
@@ -282,24 +275,44 @@ private fun HTML.showEquipmentEditor(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,
+    optionalColorSchemeId: ColorSchemeId? = null,
 ) {
     val backLink = href(call, equipment.id)
     val previewLink = call.application.href(EquipmentRoutes.Preview(equipment.id))
     val updateLink = call.application.href(EquipmentRoutes.Update(equipment.id))
 
     simpleHtmlEditor(equipment) {
-        visualizeEquipment(state, equipment, UndefinedColors)
         formWithPreview(previewLink, updateLink, backLink, canUpdate = equipment.areColorSchemesValid()) {
+            if (equipment.colorSchemes.isNotEmpty()) {
+                selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId)
+            } else {
+                visualizeEquipment(state, equipment, UndefinedColors)
+            }
+
             editEquipment(state, equipment)
         }
     }
 }
 
-private fun HtmlBlockTag.visualizeEquipment(
+private fun HtmlBlockTag.selectColorSchemeToVisualizeEquipment(
     state: State,
     equipment: Equipment,
-    colorSchemeId: ColorSchemeId,
-) = visualizeEquipment(state, equipment, state.getColorSchemeStorage().getOrThrow(colorSchemeId).data)
+    optionalColorSchemeId: ColorSchemeId?,
+) {
+    val colorSchemeId = optionalColorSchemeId ?: equipment.colorSchemes.first()
+    val colorScheme = state.getColorSchemeStorage().getOrThrow(colorSchemeId)
+    val colorSchemes = state.sortColorSchemes(state.getColorSchemeStorage().get(equipment.colorSchemes))
+
+    selectElement(
+        state,
+        "Color Scheme",
+        SCHEME,
+        colorSchemes,
+        colorSchemeId,
+    )
+
+    visualizeEquipment(state, equipment, colorScheme.data)
+}
 
 private fun HtmlBlockTag.visualizeEquipment(
     state: State,
