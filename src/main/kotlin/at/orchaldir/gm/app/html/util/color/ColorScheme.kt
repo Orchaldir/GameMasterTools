@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -79,6 +80,7 @@ private fun FORM.selectColor(
 
 // parse
 
+fun parseColorSchemeId(value: String) = ColorSchemeId(value.toInt())
 fun parseColorSchemeId(parameters: Parameters, param: String) = ColorSchemeId(parseInt(parameters, param))
 fun parseOptionalColorSchemeId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { ColorSchemeId(it) }

@@ -5,15 +5,18 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.editFillItemPart
 import at.orchaldir.gm.app.html.item.parseFillItemPart
 import at.orchaldir.gm.app.html.item.showFillItemPart
+import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.util.parseWeight
 import at.orchaldir.gm.app.html.util.selectWeight
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -28,6 +31,7 @@ fun HtmlBlockTag.showEquipment(
     equipment: Equipment,
 ) {
     fieldWeight("Weight", equipment.weight)
+    fieldIdList(call, state, "Color Schemes", equipment.colorSchemes)
     showEquipmentData(call, state, equipment)
 }
 
@@ -99,6 +103,13 @@ fun FORM.editEquipment(
 ) {
     selectName(equipment.name)
     selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base)
+    selectElements(
+        state,
+        "Color Schemas",
+        combine(COLOR, SCHEME),
+        state.sortColorSchemes(),
+        equipment.colorSchemes,
+    )
     selectValue(
         "Equipment",
         combine(EQUIPMENT, TYPE),
@@ -180,6 +191,11 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters) = Equipment(
     parseName(parameters),
     parseEquipmentData(parameters),
     parseWeight(parameters, WEIGHT, SiPrefix.Base),
+    parseElements(
+        parameters,
+        combine(COLOR, SCHEME),
+        ::parseColorSchemeId,
+    ),
 )
 
 fun parseEquipmentData(parameters: Parameters) =
