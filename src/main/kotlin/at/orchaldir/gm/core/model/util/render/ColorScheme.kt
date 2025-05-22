@@ -18,40 +18,13 @@ value class ColorSchemeId(val value: Int) : Id<ColorSchemeId> {
 }
 
 @Serializable
-sealed interface ColorScheme : ElementWithSimpleName<ColorSchemeId>
-
-@Serializable
-@SerialName("1")
-data class OneColor(
+data class ColorScheme(
     val id: ColorSchemeId,
-    val color: Color,
-) : ColorScheme {
+    val data: Colors = UndefinedColors,
+) : ElementWithSimpleName<ColorSchemeId> {
 
     override fun id() = id
-    override fun name() = color.name
+    override fun name() = data.name()
 
 }
 
-@Serializable
-@SerialName("2")
-data class TwoColors(
-    val id: ColorSchemeId,
-    val color0: Color,
-    val color1: Color,
-) : ColorScheme {
-
-    override fun id() = id
-    override fun name() = "$color0 & $color1"
-
-}
-
-@Serializable
-@SerialName("Undefined")
-data class UndefinedColorScheme(
-    val id: ColorSchemeId,
-) : ColorScheme {
-
-    override fun id() = id
-    override fun name() = "Undefined"
-
-}

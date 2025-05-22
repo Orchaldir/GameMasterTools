@@ -5,14 +5,14 @@ import at.orchaldir.gm.core.action.CreateColorScheme
 import at.orchaldir.gm.core.action.DeleteColorScheme
 import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.render.UndefinedColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_COLOR_SCHEME: Reducer<CreateColorScheme, State> = { state, _ ->
-    val scheme = UndefinedColorScheme(state.getColorSchemeStorage().nextId)
+    val scheme = ColorScheme(state.getColorSchemeStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getColorSchemeStorage().add(scheme)))
 }
