@@ -69,15 +69,15 @@ private fun HtmlBlockTag.showFixation(
             NoFixation -> doNothing()
             is OneBand -> {
                 field("Size", fixation.size)
-                showColorItemPart(call, state, fixation.band, "Band")
+                showColorSchemeItemPart(call, state, fixation.band, "Band")
             }
 
             is DiagonalBand -> {
                 field("Size", fixation.size)
-                showColorItemPart(call, state, fixation.band, "Band")
+                showColorSchemeItemPart(call, state, fixation.band, "Band")
             }
 
-            is TwoBands -> showColorItemPart(call, state, fixation.band, "Band")
+            is TwoBands -> showColorSchemeItemPart(call, state, fixation.band, "Band")
         }
     }
 }
@@ -126,15 +126,15 @@ private fun FORM.editFixation(
             NoFixation -> doNothing()
             is OneBand -> {
                 selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size)
-                editColorItemPart(state, fixation.band, FIXATION, "Band")
+                editColorSchemeItemPart(state, fixation.band, FIXATION, "Band")
             }
 
             is DiagonalBand -> {
                 selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size)
-                editColorItemPart(state, fixation.band, FIXATION, "Band")
+                editColorSchemeItemPart(state, fixation.band, FIXATION, "Band")
             }
 
-            is TwoBands -> editColorItemPart(state, fixation.band, FIXATION, "Band")
+            is TwoBands -> editColorSchemeItemPart(state, fixation.band, FIXATION, "Band")
         }
     }
 }
@@ -173,16 +173,16 @@ private fun parseFixation(parameters: Parameters) = when (parse(parameters, FIXA
     EyePatchFixationType.None -> NoFixation
     EyePatchFixationType.OneBand -> OneBand(
         parse(parameters, combine(FIXATION, SIZE), Size.Small),
-        parseColorItemPart(parameters, FIXATION),
+        parseColorSchemeItemPart(parameters, FIXATION),
     )
 
     EyePatchFixationType.DiagonalBand -> DiagonalBand(
         parse(parameters, combine(FIXATION, SIZE), Size.Small),
-        parseColorItemPart(parameters, FIXATION),
+        parseColorSchemeItemPart(parameters, FIXATION),
     )
 
     EyePatchFixationType.TwoBands -> TwoBands(
-        parseColorItemPart(parameters, FIXATION),
+        parseColorSchemeItemPart(parameters, FIXATION),
     )
 }
 

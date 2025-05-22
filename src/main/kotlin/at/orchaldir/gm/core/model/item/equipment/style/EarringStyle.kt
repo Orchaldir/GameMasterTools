@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -32,7 +32,7 @@ data class DangleEarring(
     val top: Ornament = SimpleOrnament(),
     val bottom: Ornament = SimpleOrnament(),
     val sizes: List<Size> = listOf(Size.Medium, Size.Large),
-    val wire: ColorItemPart = ColorItemPart(Color.Gold),
+    val wire: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
 ) : EarringStyle() {
 
     override fun parts() = top.parts() + bottom.parts() + wire
@@ -47,7 +47,7 @@ data class DropEarring(
     val wireLength: Factor,
     val top: Ornament = SimpleOrnament(),
     val bottom: Ornament = SimpleOrnament(),
-    val wire: ColorItemPart = ColorItemPart(Color.Gold),
+    val wire: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
 ) : EarringStyle() {
 
     override fun parts() = top.parts() + bottom.parts() + wire
@@ -59,7 +59,7 @@ data class DropEarring(
 data class HoopEarring(
     val length: Factor,
     val thickness: Size = Size.Medium,
-    val wire: ColorItemPart = ColorItemPart(Color.Gold),
+    val wire: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
 ) : EarringStyle() {
 
     override fun parts() = listOf(wire)

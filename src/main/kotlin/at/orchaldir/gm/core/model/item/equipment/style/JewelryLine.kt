@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -39,7 +39,7 @@ sealed class JewelryLine : MadeFromParts {
 @SerialName("Chain")
 data class Chain(
     val thickness: Size = Size.Medium,
-    val main: ColorItemPart = ColorItemPart(Color.Gold),
+    val main: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
 ) : JewelryLine()
 
 @Serializable
@@ -53,10 +53,10 @@ data class OrnamentLine(
 @SerialName("Wire")
 data class Wire(
     val thickness: Size = Size.Medium,
-    val main: ColorItemPart = ColorItemPart(Color.Gold),
+    val main: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
 ) : JewelryLine() {
 
-    constructor(thickness: Size, color: Color) : this(thickness, ColorItemPart(color))
+    constructor(thickness: Size, color: Color) : this(thickness, ColorSchemeItemPart(color))
 
 }
 

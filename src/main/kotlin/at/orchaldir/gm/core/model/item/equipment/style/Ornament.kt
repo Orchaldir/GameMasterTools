@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
@@ -47,10 +47,10 @@ data class SimpleOrnament(
 data class OrnamentWithBorder(
     val shape: OrnamentShape = OrnamentShape.Circle,
     val center: FillItemPart = FillItemPart(Color.Red),
-    val border: ColorItemPart = ColorItemPart(Color.Gold),
+    val border: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
 ) : Ornament() {
 
     constructor(shape: OrnamentShape, center: Color, border: Color = Color.Gold) :
-            this(shape, FillItemPart(center), ColorItemPart(border))
+            this(shape, FillItemPart(center), ColorSchemeItemPart(border))
 
 }

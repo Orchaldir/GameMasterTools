@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape.Hourglass
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
@@ -37,7 +38,7 @@ fun main() {
             Factor.fromPercentage(100),
             SimpleOrnament(Circle, color = Silver),
             OrnamentWithBorder(OrnamentShape.Teardrop, Blue, Silver),
-            ColorItemPart(Silver),
+            ColorSchemeItemPart(Silver),
         ),
         Wire(Small, Silver),
     )

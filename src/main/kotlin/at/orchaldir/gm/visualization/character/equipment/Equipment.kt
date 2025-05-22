@@ -56,10 +56,11 @@ fun visualizeHeadEquipment(
 ) {
     state.equipped.getEquipmentWithSlotSets().forEach { (pair, sets) ->
         sets.forEach { set ->
+            val coloredState = state.copy(colors = pair.second)
             when (val data = pair.first) {
                 is Earring -> visualizeEarring(state, head, data, set)
                 is EyePatch -> visualizeEyePatch(state, head, data, set)
-                is Glasses -> visualizeGlasses(state, head, data, pair.second)
+                is Glasses -> visualizeGlasses(state, head, data)
                 is Hat -> visualizeHat(state, data)
                 else -> doNothing()
             }

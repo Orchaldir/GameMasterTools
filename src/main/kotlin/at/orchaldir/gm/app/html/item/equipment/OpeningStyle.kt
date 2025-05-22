@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.item.editColorItemPart
-import at.orchaldir.gm.app.html.item.parseColorItemPart
-import at.orchaldir.gm.app.html.item.showColorItemPart
+import at.orchaldir.gm.app.html.item.editColorSchemeItemPart
+import at.orchaldir.gm.app.html.item.parseColorSchemeItemPart
+import at.orchaldir.gm.app.html.item.showColorSchemeItemPart
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -36,7 +36,7 @@ fun HtmlBlockTag.showOpeningStyle(
                 field("Space between Columns", openingStyle.spaceBetweenColumns)
             }
 
-            is Zipper -> showColorItemPart(call, state, openingStyle.part, "Zipper")
+            is Zipper -> showColorSchemeItemPart(call, state, openingStyle.part, "Zipper")
         }
     }
 }
@@ -48,7 +48,7 @@ private fun HtmlBlockTag.showButtons(
 ) {
     field("Button Count", buttonColumn.count.toString())
     field("Button Size", buttonColumn.button.size)
-    showColorItemPart(call, state, buttonColumn.button.part, "Button")
+    showColorSchemeItemPart(call, state, buttonColumn.button.part, "Button")
 }
 
 // edit
@@ -70,7 +70,7 @@ fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
                 )
             }
 
-            is Zipper -> editColorItemPart(state, openingStyle.part, ZIPPER, "Zipper")
+            is Zipper -> editColorSchemeItemPart(state, openingStyle.part, ZIPPER, "Zipper")
         }
     }
 }
@@ -78,7 +78,7 @@ fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
 private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn) {
     selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER))
     selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size)
-    editColorItemPart(state, buttonColumn.button.part, BUTTON, "Button")
+    editColorSchemeItemPart(state, buttonColumn.button.part, BUTTON, "Button")
 }
 
 
@@ -116,14 +116,14 @@ fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
             parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
         )
 
-        OpeningType.Zipper -> Zipper(parseColorItemPart(parameters, ZIPPER))
+        OpeningType.Zipper -> Zipper(parseColorSchemeItemPart(parameters, ZIPPER))
     }
 }
 
 private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
     Button(
         parse(parameters, combine(BUTTON, SIZE), Size.Medium),
-        parseColorItemPart(parameters, BUTTON),
+        parseColorSchemeItemPart(parameters, BUTTON),
     ),
     parameters[combine(BUTTON, NUMBER)]?.toUByte() ?: 1u,
 )

@@ -36,7 +36,7 @@ fun HtmlBlockTag.showOrnament(
             is OrnamentWithBorder -> {
                 field("Shape", ornament.shape)
                 showFillItemPart(call, state, ornament.center, "Center")
-                showColorItemPart(call, state, ornament.border, "Border")
+                showColorSchemeItemPart(call, state, ornament.border, "Border")
             }
         }
     }
@@ -62,7 +62,7 @@ fun HtmlBlockTag.editOrnament(
             is OrnamentWithBorder -> {
                 selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape)
                 editFillItemPart(state, ornament.center, param)
-                editColorItemPart(state, ornament.border, combine(param, BORDER))
+                editColorSchemeItemPart(state, ornament.border, combine(param, BORDER))
             }
         }
     }
@@ -82,7 +82,7 @@ fun parseOrnament(parameters: Parameters, param: String = ORNAMENT): Ornament {
         OrnamentType.Border -> OrnamentWithBorder(
             parse(parameters, combine(param, SHAPE), OrnamentShape.Circle),
             parseFillItemPart(parameters, param),
-            parseColorItemPart(parameters, combine(param, BORDER)),
+            parseColorSchemeItemPart(parameters, combine(param, BORDER)),
         )
     }
 }
