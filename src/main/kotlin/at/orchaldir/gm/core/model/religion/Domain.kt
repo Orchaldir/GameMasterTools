@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.religion
 
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id

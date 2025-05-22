@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.economy.material
 
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Weight
