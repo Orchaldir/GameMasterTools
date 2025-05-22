@@ -1,5 +1,21 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Striped Wool Shirt",
+   "data": {
+    "type": "Shirt",
+    "main": {
+     "material": 1,
+     "fill": {
+      "type": "VerticalStripes",
+      "color0": "SkyBlue",
+      "color1": "White"
+     }
+    }
+   },
+   "weight": 10000
+  }
  }
 }

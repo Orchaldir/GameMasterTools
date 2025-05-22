@@ -602,6 +602,49 @@
     "type": "Year",
     "year": 1913
    },
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular",
+     "width": "Small"
+    },
+    "head": {
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "type": "Normal",
+       "pupilColor": "Olive"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "cut": {
+       "type": "Short",
+       "style": "SidePartRight"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Moustache",
+        "moustacheStyle": "Pencil"
+       },
+       "color": "SaddleBrown"
+      }
+     }
+    },
+    "height": 1800000,
+    "skin": {
+     "type": "Normal",
+     "color": "Fair"
+    }
+   },
    "housingStatus": {
     "current": {
      "type": "InHouse",
