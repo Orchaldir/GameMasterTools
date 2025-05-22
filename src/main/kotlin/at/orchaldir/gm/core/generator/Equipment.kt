@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.RarityMap
-import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.culture.getFashion
 import at.orchaldir.gm.utils.NumberGenerator
@@ -18,6 +17,7 @@ import at.orchaldir.gm.utils.doNothing
 import kotlin.random.Random
 
 data class EquipmentGenerator(
+    val state: State,
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
     val character: Character,
@@ -30,6 +30,7 @@ data class EquipmentGenerator(
             val fashion = state.getFashion(character) ?: return null
 
             return EquipmentGenerator(
+                state,
                 RandomNumberGenerator(Random),
                 state.rarityGenerator,
                 character,
@@ -55,8 +56,18 @@ data class EquipmentGenerator(
 
         return EquipmentMap(
             result
-            .mapKeys { entry -> Pair(entry.key, ColorSchemeId(0)) } // TODO
+                .mapKeys { entry -> Pair(entry.key, generateColorScheme(entry.key)) }
             .mapValues { setOf(it.value.slots().getAllBodySlotCombinations().first()) })
+    }
+
+    private fun generateColorScheme(id: EquipmentId): ColorSchemeId {
+        val equipment = state.getEquipmentStorage().getOrThrow(id)
+
+        return if (equipment.colorSchemes.isEmpty()) {
+            ColorSchemeId(0)
+        } else {
+            numberGenerator.select(equipment.colorSchemes.toList())
+        }
     }
 
     private fun generatePantsAndShirt(result: MutableMap<EquipmentId, EquipmentDataType>) {
