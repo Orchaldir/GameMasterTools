@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.NoEyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.util.render.Colors
@@ -46,6 +47,24 @@ fun renderCharacterTable(
     }
 }
 
+fun renderCharacterTableWithoutColorScheme(
+    state: State,
+    filename: String,
+    config: CharacterRenderConfig,
+    appearance: Appearance,
+    equipmentTable: List<List<EquipmentDataMap>>,
+) = renderCharacterTable(
+    state,
+    filename,
+    config,
+    appearance,
+    equipmentTable.map { list ->
+        list.map { map ->
+            map.convert { data -> Pair(data, UndefinedColors) }
+        }
+    },
+)
+
 fun renderCharacterTable(
     state: State,
     filename: String,
@@ -69,7 +88,7 @@ fun <C, R> renderCharacterTableWithoutColorScheme(
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
     backToo: Boolean = false,
-    create: (Distance, C, R) -> Pair<Appearance, EquipmentMap<EquipmentData>>,
+    create: (Distance, C, R) -> Pair<Appearance, EquipmentDataMap>,
 ) = renderCharacterTable(
     state,
     filename,

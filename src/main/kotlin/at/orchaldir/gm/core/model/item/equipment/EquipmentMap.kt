@@ -49,3 +49,4 @@ data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
 typealias EquipmentIdPair = Pair<EquipmentId, ColorSchemeId>
 typealias EquipmentIdMap = EquipmentMap<EquipmentIdPair>
 typealias EquipmentElementMap = EquipmentMap<Pair<EquipmentData, Colors>>
+typealias EquipmentDataMap = EquipmentMap<EquipmentData>
