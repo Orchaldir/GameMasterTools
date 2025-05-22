@@ -64,6 +64,9 @@ import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
+import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -97,7 +100,7 @@ import at.orchaldir.gm.core.reducer.magic.validateMagicTradition
 import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.core.reducer.magic.validateSpellGroup
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
-import at.orchaldir.gm.core.reducer.quote.validateQuote
+import at.orchaldir.gm.core.reducer.util.quote.validateQuote
 import at.orchaldir.gm.core.reducer.race.validateRace
 import at.orchaldir.gm.core.reducer.race.validateRaceAppearance
 import at.orchaldir.gm.core.reducer.realm.*
@@ -106,7 +109,8 @@ import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
 import at.orchaldir.gm.core.reducer.time.validateCalendar
 import at.orchaldir.gm.core.reducer.time.validateHoliday
-import at.orchaldir.gm.core.reducer.util.validateFont
+import at.orchaldir.gm.core.reducer.util.color.validateColorSchemes
+import at.orchaldir.gm.core.reducer.util.font.validateFont
 import at.orchaldir.gm.core.reducer.validateData
 import at.orchaldir.gm.core.reducer.world.*
 import at.orchaldir.gm.core.reducer.world.town.validateTownMap
@@ -129,6 +133,7 @@ val ELEMENTS =
         CALENDAR_TYPE,
         CATASTROPHE_TYPE,
         CHARACTER_TYPE,
+        COLOR_SCHEME_TYPE,
         CULTURE_TYPE,
         CURRENCY_TYPE,
         CURRENCY_UNIT_TYPE,
@@ -200,6 +205,7 @@ data class State(
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
     fun getCatastropheStorage() = getStorage<CatastropheId, Catastrophe>(CATASTROPHE_TYPE)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
+    fun getColorSchemeStorage() = getStorage<ColorSchemeId, ColorScheme>(COLOR_SCHEME_TYPE)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
     fun getCurrencyStorage() = getStorage<CurrencyId, Currency>(CURRENCY_TYPE)
     fun getCurrencyUnitStorage() = getStorage<CurrencyUnitId, CurrencyUnit>(CURRENCY_UNIT_TYPE)
@@ -324,6 +330,7 @@ data class State(
         validate(getCalendarStorage()) { validateCalendar(this, it) }
         validate(getCatastropheStorage()) { validateCatastrophe(this, it) }
         validate(getCharacterStorage()) { validateCharacter(this, it) }
+        validateColorSchemes(this)
         validate(getCultureStorage()) { validateCulture(this, it) }
         validate(getCurrencyStorage()) { validateCurrency(this, it) }
         validate(getCurrencyUnitStorage()) { validateCurrencyUnit(this, it) }
@@ -370,6 +377,7 @@ data class State(
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCatastropheStorage())
         saveStorage(path, getCharacterStorage())
+        saveStorage(path, getColorSchemeStorage())
         saveStorage(path, getCultureStorage())
         saveStorage(path, getCurrencyStorage())
         saveStorage(path, getCurrencyUnitStorage())
@@ -423,6 +431,7 @@ fun createStorage(type: String) = when (type) {
     CALENDAR_TYPE -> Storage(CalendarId(0))
     CATASTROPHE_TYPE -> Storage(CatastropheId(0))
     CHARACTER_TYPE -> Storage(CharacterId(0))
+    COLOR_SCHEME_TYPE -> Storage(ColorSchemeId(0))
     CULTURE_TYPE -> Storage(CultureId(0))
     CURRENCY_TYPE -> Storage(CurrencyId(0))
     CURRENCY_UNIT_TYPE -> Storage(CurrencyUnitId(0))
@@ -475,6 +484,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CATASTROPHE_TYPE -> loadStorage<CatastropheId, Catastrophe>(path, CatastropheId(0))
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))
+    COLOR_SCHEME_TYPE -> loadStorage<ColorSchemeId, ColorScheme>(path, ColorSchemeId(0))
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))
     CURRENCY_TYPE -> loadStorage<CurrencyId, Currency>(path, CurrencyId(0))
     CURRENCY_UNIT_TYPE -> loadStorage<CurrencyUnitId, CurrencyUnit>(path, CurrencyUnitId(0))

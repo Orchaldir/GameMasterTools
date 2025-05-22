@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.quote
+package at.orchaldir.gm.core.reducer.util.quote
 
 import at.orchaldir.gm.core.action.CreateQuote
 import at.orchaldir.gm.core.action.DeleteQuote

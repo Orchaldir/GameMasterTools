@@ -5,14 +5,14 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-const val BATTLE_TYPE = "Color Scheme"
+const val COLOR_SCHEME_TYPE = "Color Scheme"
 
 @JvmInline
 @Serializable
 value class ColorSchemeId(val value: Int) : Id<ColorSchemeId> {
 
     override fun next() = ColorSchemeId(value + 1)
-    override fun type() = BATTLE_TYPE
+    override fun type() = COLOR_SCHEME_TYPE
     override fun value() = value
 
 }
@@ -42,5 +42,16 @@ data class TwoColors(
 
     override fun id() = id
     override fun name() = "$color0 & $color1"
+
+}
+
+@Serializable
+@SerialName("Undefined")
+data class UndefinedColorScheme(
+    val id: ColorSchemeId,
+) : ColorScheme {
+
+    override fun id() = id
+    override fun name() = "Undefined"
 
 }

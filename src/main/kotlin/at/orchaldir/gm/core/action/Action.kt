@@ -54,6 +54,8 @@ import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.world.building.*
@@ -117,6 +119,11 @@ data class RemoveLanguages(
 data object CreateCalendar : Action()
 data class DeleteCalendar(val id: CalendarId) : Action()
 data class UpdateCalendar(val calendar: Calendar) : Action()
+
+// color scheme
+data object CreateColorScheme : Action()
+data class DeleteColorScheme(val id: ColorSchemeId) : Action()
+data class UpdateColorScheme(val scheme: ColorScheme) : Action()
 
 // culture
 data object CreateCulture : Action()
