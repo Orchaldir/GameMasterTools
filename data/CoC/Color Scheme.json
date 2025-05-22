@@ -1,5 +1,41 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "data": {
+    "type": "1",
+    "color": "White"
+   }
+  },
+  "1": {
+   "id": 1,
+   "data": {
+    "type": "1",
+    "color": "Silver"
+   }
+  },
+  "2": {
+   "id": 2,
+   "data": {
+    "type": "1",
+    "color": "SkyBlue"
+   }
+  },
+  "3": {
+   "id": 3,
+   "data": {
+    "type": "2",
+    "color0": "SkyBlue",
+    "color1": "White"
+   }
+  },
+  "4": {
+   "id": 4,
+   "data": {
+    "type": "1",
+    "color": "Navy"
+   }
+  }
  }
 }
