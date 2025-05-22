@@ -8,6 +8,7 @@ interface Id<ID> {
     fun type(): String
     fun plural() = type() + "s"
     fun value(): Int
+    fun print() = "${type()} ${value()}"
 }
 
 interface Element<ID> {

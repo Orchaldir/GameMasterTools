@@ -50,7 +50,8 @@ fun State.getEquipment(equipmentMap: EquipmentIdMap) = equipmentMap.convert { pa
     )
 }
 
-fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage().getAll()
+fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage()
+    .getAll()
     .filter {
         it.equipmentMap
             .getAllEquipment()
