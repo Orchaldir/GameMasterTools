@@ -93,7 +93,7 @@ fun parseColors(parameters: Parameters) = when (parse(parameters, TYPE, ColorsTy
         parseColors(parameters, 0, Color.Pink),
     )
 
-    ColorsType.Two -> TwoColors(
+    ColorsType.Two -> TwoColors.init(
         parseColors(parameters, 0, Color.Black),
         parseColors(parameters, 1, Color.White),
     )

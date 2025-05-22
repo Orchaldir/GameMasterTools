@@ -38,10 +38,20 @@ data class OneColor(
 
 @Serializable
 @SerialName("2")
-data class TwoColors(
+data class TwoColors private constructor(
     val color0: Color,
     val color1: Color,
 ) : Colors {
+
+    companion object {
+
+        fun init(color0: Color, color1: Color) = if (color0 <= color1) {
+            TwoColors(color0, color1)
+        } else {
+            TwoColors(color1, color0)
+        }
+
+    }
 
     override fun name() = "$color0 & $color1"
     override fun color0() = color0
