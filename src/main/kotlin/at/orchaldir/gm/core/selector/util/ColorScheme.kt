@@ -4,8 +4,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.selector.item.getEquipment
 
-fun State.canDeleteColorScheme(scheme: ColorSchemeId) = true
+fun State.canDeleteColorScheme(scheme: ColorSchemeId) = getEquipment(scheme).isEmpty()
 
 fun State.getValidColorSchemes(data: EquipmentData) = getColorSchemeStorage()
     .getAll()
