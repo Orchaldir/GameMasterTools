@@ -20,6 +20,12 @@ sealed interface Colors {
         UndefinedColors -> ColorsType.Undefined
     }
 
+    fun count() = when (this) {
+        is OneColor -> 1
+        is TwoColors -> 2
+        UndefinedColors -> 0
+    }
+
     fun color0(): Color? = null
     fun color1(): Color? = null
 

@@ -17,6 +17,8 @@ interface ItemPart {
 
     fun materials(): Set<MaterialId>
 
+    fun requiredSchemaColors() = 0
+
 }
 
 @Serializable
@@ -53,6 +55,7 @@ data class ColorSchemeItemPart(
 
     override fun contains(id: MaterialId) = material == id
     override fun materials() = setOf(material)
+    override fun requiredSchemaColors() = lookup.requiredSchemaColors()
 
 }
 
@@ -90,5 +93,8 @@ interface MadeFromParts {
 
         return sum
     }
+
+    fun requiredSchemaColors() = parts()
+        .maxOfOrNull { it.requiredSchemaColors() } ?: 0
 
 }

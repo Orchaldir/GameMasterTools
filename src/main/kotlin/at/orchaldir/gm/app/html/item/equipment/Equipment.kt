@@ -103,13 +103,8 @@ fun FORM.editEquipment(
 ) {
     selectName(equipment.name)
     selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base)
-    selectElements(
-        state,
-        "Color Schemas",
-        combine(COLOR, SCHEME),
-        state.sortColorSchemes(),
-        equipment.colorSchemes,
-    )
+
+    selectColorSchemes(state, equipment)
     selectValue(
         "Equipment",
         combine(EQUIPMENT, TYPE),
@@ -118,6 +113,27 @@ fun FORM.editEquipment(
     )
 
     editEquipmentData(state, equipment)
+}
+
+private fun FORM.selectColorSchemes(
+    state: State,
+    equipment: Equipment,
+) {
+    val requiredSchemaColors = equipment.data.requiredSchemaColors()
+
+    if (requiredSchemaColors > 0) {
+        val colorSchemes = state.getColorSchemeStorage()
+            .getAll()
+            .filter { it.data.count() >= requiredSchemaColors }
+
+        selectElements(
+            state,
+            "Color Schemas",
+            combine(COLOR, SCHEME),
+            state.sortColorSchemes(colorSchemes),
+            equipment.colorSchemes,
+        )
+    }
 }
 
 private fun FORM.editEquipmentData(

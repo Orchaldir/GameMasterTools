@@ -74,6 +74,33 @@
     2,
     0
    ]
+  },
+  "3": {
+   "id": 3,
+   "data": {
+    "type": "Necklace",
+    "style": {
+     "type": "Pendant",
+     "ornament": {
+      "type": "Simple",
+      "part": {
+      }
+     },
+     "line": {
+      "type": "Wire",
+      "main": {
+       "lookup": {
+        "type": "1"
+       }
+      }
+     }
+    },
+    "length": "Matinee"
+   },
+   "weight": 10000,
+   "colorSchemes": [
+    3
+   ]
   }
  }
 }
