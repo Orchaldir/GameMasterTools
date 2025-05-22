@@ -103,7 +103,6 @@ fun FORM.editEquipment(
 ) {
     selectName(equipment.name)
     selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base)
-
     selectColorSchemes(state, equipment)
     selectValue(
         "Equipment",
@@ -126,6 +125,7 @@ private fun FORM.selectColorSchemes(
             .getAll()
             .filter { it.data.count() >= requiredSchemaColors }
 
+        field("Required Schema Colors", requiredSchemaColors)
         selectElements(
             state,
             "Color Schemas",

@@ -35,4 +35,6 @@ data class Equipment(
 
     fun canEquip() = data.slots().isNotEmpty()
 
+    fun areColorSchemesValid() = data.requiredSchemaColors() == 0 || colorSchemes.isNotEmpty()
+
 }

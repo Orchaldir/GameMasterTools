@@ -246,7 +246,7 @@ private fun HTML.showEquipmentEditor(
 
     simpleHtmlEditor(equipment) {
         visualizeItem(state, equipment)
-        formWithPreview(previewLink, updateLink, backLink) {
+        formWithPreview(previewLink, updateLink, backLink, canUpdate = equipment.areColorSchemesValid()) {
             editEquipment(state, equipment)
         }
     }
