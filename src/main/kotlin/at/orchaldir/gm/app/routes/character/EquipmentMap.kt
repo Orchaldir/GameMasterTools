@@ -89,6 +89,7 @@ private fun HTML.showEquipmentMapEditor(
     character: Character,
     equipmentMap: EquipmentMap<EquipmentId>,
 ) {
+    val generator = EquipmentGenerator.create(state, character.id)
     val equipped = state.getEquipment(equipmentMap)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(CharacterRoutes.Equipment.Preview(character.id))
@@ -101,7 +102,7 @@ private fun HTML.showEquipmentMapEditor(
         svg(frontSvg, 20)
         svg(backSvg, 20)
         formWithPreview(previewLink, updateLink, backLink) {
-            button("Random", generateLink)
+            button("Random", generateLink, generator == null)
 
             editEquipmentMap(state, equipmentMap)
         }
