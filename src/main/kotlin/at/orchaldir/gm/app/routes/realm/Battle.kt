@@ -144,7 +144,6 @@ private fun HTML.showAllBattles(
     state: State,
     sort: SortBattle,
 ) {
-    state.getDefaultCalendar()
     val battles = state.sortBattles(sort)
     val createLink = call.application.href(BattleRoutes.New())
 

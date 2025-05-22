@@ -184,9 +184,11 @@ fun TR.tdChar(char: Char) {
     tdString("\"$char\"")
 }
 
-fun <T : Enum<T>> TR.tdEnum(value: T) {
-    td {
-        +value.name
+fun <T : Enum<T>> TR.tdEnum(value: T?) {
+    if (value != null) {
+        td {
+            +value.name
+        }
     }
 }
 

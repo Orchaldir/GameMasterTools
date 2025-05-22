@@ -142,7 +142,6 @@ private fun HTML.showAllTreaties(
     state: State,
     sort: SortTreaty,
 ) {
-    state.getDefaultCalendar()
     val treaties = state.sortTreaties(sort)
     val createLink = call.application.href(TreatyRoutes.New())
 

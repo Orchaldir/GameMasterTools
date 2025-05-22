@@ -35,6 +35,7 @@ import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.quote.Quote
+import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
@@ -222,6 +223,20 @@ fun State.sortCharacters(
             })
         .map { it.first }
 }
+
+// color scheme
+
+fun State.sortColorSchemes(sort: SortColorScheme = SortColorScheme.Name) =
+    sortColorSchemes(getColorSchemeStorage().getAll(), sort)
+
+fun State.sortColorSchemes(
+    battles: Collection<ColorScheme>,
+    sort: SortColorScheme = SortColorScheme.Name,
+) = battles
+    .sortedWith(
+        when (sort) {
+            SortColorScheme.Name -> compareBy { it.name() }
+        })
 
 // currency
 

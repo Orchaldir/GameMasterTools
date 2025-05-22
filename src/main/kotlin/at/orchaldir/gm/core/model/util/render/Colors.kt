@@ -20,6 +20,9 @@ sealed interface Colors {
         UndefinedColors -> ColorsType.Undefined
     }
 
+    fun color0(): Color? = null
+    fun color1(): Color? = null
+
 }
 
 @Serializable
@@ -29,6 +32,7 @@ data class OneColor(
 ) : Colors {
 
     override fun name() = color.name
+    override fun color0() = color
 
 }
 
@@ -40,6 +44,8 @@ data class TwoColors(
 ) : Colors {
 
     override fun name() = "$color0 & $color1"
+    override fun color0() = color0
+    override fun color1() = color1
 
 }
 

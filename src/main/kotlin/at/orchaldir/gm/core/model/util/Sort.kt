@@ -40,6 +40,10 @@ enum class SortCharacter {
     Age,
 }
 
+enum class SortColorScheme {
+    Name,
+}
+
 enum class SortCurrency {
     Name,
     Date,

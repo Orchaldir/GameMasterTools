@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.fieldColor
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
+import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -73,7 +74,7 @@ private fun FORM.selectColor(
     colors: Collection<Color>,
     color: Color,
 ) {
-    selectValue(label, combine(COLOR, index), colors, color)
+    selectColor(color, combine(COLOR, index), label, colors)
 }
 
 // parse

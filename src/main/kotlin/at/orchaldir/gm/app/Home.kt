@@ -29,6 +29,7 @@ import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
+import at.orchaldir.gm.app.routes.utls.ColorSchemeRoutes
 import at.orchaldir.gm.app.routes.utls.DataSourceRoutes
 import at.orchaldir.gm.app.routes.utls.FontRoutes
 import at.orchaldir.gm.app.routes.utls.NameListRoutes
@@ -66,9 +67,9 @@ fun Application.configureRouting() {
                 simpleHtml(APP_TITLE) {
                     action(dataLink, "Data")
                     h2 { +"Elements" }
+                    fieldStorageLink(call, state.getColorSchemeStorage(), ColorSchemeRoutes.All())
                     fieldStorageLink(call, state.getDataSourceStorage(), DataSourceRoutes.All())
                     fieldStorageLink(call, state.getFontStorage(), FontRoutes.All())
-                    fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
                     fieldStorageLink(call, state.getQuoteStorage(), QuoteRoutes.All())
                     h3 { +"Characters" }
                     fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes.All())
@@ -103,6 +104,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getBattleStorage(), BattleRoutes.All())
                     fieldStorageLink(call, state.getCatastropheStorage(), CatastropheRoutes.All())
                     fieldStorageLink(call, state.getLegalCodeStorage(), LegalCodeRoutes.All())
+                    fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
                     fieldStorageLink(call, state.getRealmStorage(), RealmRoutes.All())
                     fieldStorageLink(call, state.getTownStorage(), TownRoutes.All())
                     fieldStorageLink(call, state.getTreatyStorage(), TreatyRoutes.All())
