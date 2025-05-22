@@ -23,7 +23,7 @@ value class UniformId(val value: Int) : Id<UniformId> {
 data class Uniform(
     val id: UniformId,
     val name: Name = Name.init("Uniform ${id.value}"),
-    val equipmentMap: EquipmentMap<EquipmentId> = EquipmentMap(),
+    val equipmentMap: EquipmentIdMap = EquipmentMap(),
 ) : ElementWithSimpleName<UniformId> {
 
     override fun id() = id

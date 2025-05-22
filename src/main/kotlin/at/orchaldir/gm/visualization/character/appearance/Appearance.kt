@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.util.render.Color.Black
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
@@ -25,7 +26,7 @@ fun visualizeCharacter(
     config: CharacterRenderConfig,
     state: State,
     character: Character,
-    equipped: EquipmentMap<EquipmentData> = EquipmentMap(),
+    equipped: EquipmentElementMap = EquipmentMap(),
     renderFront: Boolean = true,
 ): Svg {
     val appearance = state.getAppearanceForAge(character)
@@ -37,7 +38,7 @@ fun visualizeCharacter(
     state: State,
     config: CharacterRenderConfig,
     appearance: Appearance,
-    equipped: EquipmentMap<EquipmentData> = EquipmentMap(),
+    equipped: EquipmentElementMap = EquipmentMap(),
     renderFront: Boolean = true,
 ) = visualizeAppearance(state, config, calculatePaddedSize(config, appearance), appearance, equipped, renderFront)
 
@@ -46,7 +47,7 @@ fun visualizeAppearance(
     config: CharacterRenderConfig,
     paddedSize: PaddedSize,
     appearance: Appearance,
-    equipped: EquipmentMap<EquipmentData> = EquipmentMap(),
+    equipped: EquipmentElementMap = EquipmentMap(),
     renderFront: Boolean = true,
 ): Svg {
     val aabb = paddedSize.getFullAABB()
@@ -64,7 +65,7 @@ fun visualizeAppearance(
     renderSize: Size2d,
     appearance: Appearance,
     paddedSize: PaddedSize,
-    equipped: EquipmentMap<EquipmentData> = EquipmentMap(),
+    equipped: EquipmentElementMap = EquipmentMap(),
     renderFront: Boolean = true,
 ): Svg {
     val aabb = AABB(renderSize)

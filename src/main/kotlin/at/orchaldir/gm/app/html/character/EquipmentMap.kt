@@ -16,7 +16,7 @@ fun HtmlBlockTag.showEquipmentMap(
     call: ApplicationCall,
     state: State,
     label: String,
-    equipmentMap: EquipmentMap<EquipmentId>,
+    equipmentMap: EquipmentIdMap,
 ) {
     showMap(label, equipmentMap.getEquipmentWithSlotSets()) { item, slotSets ->
         link(call, state, item)
@@ -33,7 +33,7 @@ fun HtmlBlockTag.showEquipmentMap(
 
 fun FORM.editEquipmentMap(
     state: State,
-    equipmentMap: EquipmentMap<EquipmentId>,
+    equipmentMap: EquipmentIdMap,
     param: String = "",
 ) {
     EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }
@@ -41,7 +41,7 @@ fun FORM.editEquipmentMap(
 
 private fun FORM.selectEquipment(
     state: State,
-    equipmentMap: EquipmentMap<EquipmentId>,
+    equipmentMap: EquipmentIdMap,
     type: EquipmentDataType,
     param: String,
 ) {
@@ -83,7 +83,7 @@ private fun FORM.selectEquipment(
 fun parseEquipmentMap(
     parameters: Parameters,
     param: String = "",
-): EquipmentMap<EquipmentId> {
+): EquipmentIdMap {
     val map = mutableMapOf<EquipmentId, MutableSet<Set<BodySlot>>>()
 
     parameters.forEach { parameter, ids ->

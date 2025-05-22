@@ -21,7 +21,7 @@ val UPDATE_EQUIPMENT_MAP: Reducer<UpdateEquipmentOfCharacter, State> = { state, 
 
 fun validateCharacterEquipment(
     state: State,
-    equipmentMap: EquipmentMap<EquipmentId>,
+    equipmentMap: EquipmentIdMap,
 ) {
     val occupySlots = mutableSetOf<BodySlot>()
 

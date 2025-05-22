@@ -87,7 +87,7 @@ private fun HTML.showEquipmentMapEditor(
     call: ApplicationCall,
     state: State,
     character: Character,
-    equipmentMap: EquipmentMap<EquipmentId>,
+    equipmentMap: EquipmentIdMap,
 ) {
     val generator = EquipmentGenerator.create(state, character.id)
     val equipped = state.getEquipment(equipmentMap)

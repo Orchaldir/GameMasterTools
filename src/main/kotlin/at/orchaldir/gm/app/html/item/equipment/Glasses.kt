@@ -30,7 +30,7 @@ fun HtmlBlockTag.showGlasses(
     }
     showDetails("Frame") {
         field("Type", glasses.frameType)
-        showColorItemPart(call, state, glasses.frame)
+        showColorSchemeItemPart(call, state, glasses.frame)
     }
 }
 
@@ -46,7 +46,7 @@ fun FORM.editGlasses(
     }
     showDetails("Frame", true) {
         selectValue("Shape", FRAME, FrameType.entries, glasses.frameType)
-        editColorItemPart(state, glasses.frame, FRAME)
+        editColorSchemeItemPart(state, glasses.frame, FRAME)
     }
 }
 
@@ -56,5 +56,5 @@ fun parseGlasses(parameters: Parameters) = Glasses(
     parse(parameters, SHAPE, LensShape.Rectangle),
     parse(parameters, FRAME, FrameType.FullRimmed),
     parseFillItemPart(parameters, LENS),
-    parseColorItemPart(parameters, FRAME),
+    parseColorSchemeItemPart(parameters, FRAME),
 )

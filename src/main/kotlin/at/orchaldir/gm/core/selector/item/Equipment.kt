@@ -38,7 +38,7 @@ fun State.getEquipment(character: CharacterId) =
 
 fun State.getEquipment(character: Character) = getEquipment(character.equipmentMap)
 
-fun State.getEquipment(equipmentMap: EquipmentMap<EquipmentId>) = equipmentMap.convert { id ->
+fun State.getEquipment(equipmentMap: EquipmentIdMap) = equipmentMap.convert { id ->
     getEquipmentStorage().getOrThrow(id).data
 }
 

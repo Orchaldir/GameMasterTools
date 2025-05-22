@@ -31,20 +31,20 @@ fun visualizeBodyEquipment(
     state: CharacterRenderState,
     body: Body,
 ) {
-    state.equipped.getAllEquipment().forEach {
-        when (it) {
-            is Belt -> visualizeBelt(state, body, it)
-            is Coat -> visualizeCoat(state, body, it, OUTERWEAR_LAYER)
-            is Dress -> visualizeDress(state, body, it)
-            is Footwear -> visualizeFootwear(state, body, it)
-            is Gloves -> visualizeGloves(state, body, it)
-            is Necklace -> visualizeNecklace(state, body, it)
-            is Pants -> visualizePants(state, body, it)
-            is Shirt -> visualizeShirt(state, body, it)
-            is Skirt -> visualizeSkirt(state, body, it)
-            is Socks -> visualizeSocks(state, body, it)
-            is SuitJacket -> visualizeCoat(state, body, it.convert(), JACKET_LAYER)
-            is Tie -> visualizeTie(state, body, it)
+    state.equipped.getAllEquipment().forEach { pair ->
+        when (val data = pair.first) {
+            is Belt -> visualizeBelt(state, body, data)
+            is Coat -> visualizeCoat(state, body, data, OUTERWEAR_LAYER)
+            is Dress -> visualizeDress(state, body, data)
+            is Footwear -> visualizeFootwear(state, body, data)
+            is Gloves -> visualizeGloves(state, body, data)
+            is Necklace -> visualizeNecklace(state, body, data)
+            is Pants -> visualizePants(state, body, data)
+            is Shirt -> visualizeShirt(state, body, data)
+            is Skirt -> visualizeSkirt(state, body, data)
+            is Socks -> visualizeSocks(state, body, data)
+            is SuitJacket -> visualizeCoat(state, body, data.convert(), JACKET_LAYER)
+            is Tie -> visualizeTie(state, body, data)
             else -> doNothing()
         }
     }
@@ -54,12 +54,12 @@ fun visualizeHeadEquipment(
     state: CharacterRenderState,
     head: Head,
 ) {
-    state.equipped.getEquipmentWithSlotSets().forEach { (data, sets) ->
+    state.equipped.getEquipmentWithSlotSets().forEach { (pair, sets) ->
         sets.forEach { set ->
-            when (data) {
+            when (val data = pair.first) {
                 is Earring -> visualizeEarring(state, head, data, set)
                 is EyePatch -> visualizeEyePatch(state, head, data, set)
-                is Glasses -> visualizeGlasses(state, head, data)
+                is Glasses -> visualizeGlasses(state, head, data, pair.second)
                 is Hat -> visualizeHat(state, data)
                 else -> doNothing()
             }

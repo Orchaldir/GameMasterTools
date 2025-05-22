@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.NoEyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
@@ -48,7 +49,7 @@ fun renderCharacterTable(
     filename: String,
     config: CharacterRenderConfig,
     appearance: Appearance,
-    equipmentTable: List<List<EquipmentMap<EquipmentData>>>,
+    equipmentTable: List<List<EquipmentElementMap>>,
 ) {
     val paddedSize = calculatePaddedSize(config, appearance)
 
@@ -66,10 +67,10 @@ fun <C, R> renderCharacterTable(
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
     backToo: Boolean = false,
-    create: (Distance, C, R) -> Pair<Appearance, EquipmentMap<EquipmentData>>,
+    create: (Distance, C, R) -> Pair<Appearance, EquipmentElementMap>,
 ) {
     val height = fromMillimeters(2000)
-    val dataMap = mutableMapOf<Pair<R, C>, Triple<Appearance, EquipmentMap<EquipmentData>, PaddedSize>>()
+    val dataMap = mutableMapOf<Pair<R, C>, Triple<Appearance, EquipmentElementMap, PaddedSize>>()
     var maxSize = Size2d.square(MIN_SIZE)
 
     rows.forEach { (_, row) ->

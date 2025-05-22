@@ -94,7 +94,7 @@ data class UpdateAppearance(
 
 data class UpdateEquipmentOfCharacter(
     val id: CharacterId,
-    val map: EquipmentMap<EquipmentId>,
+    val map: EquipmentIdMap,
 ) : Action()
 
 data class UpdateRelationships(

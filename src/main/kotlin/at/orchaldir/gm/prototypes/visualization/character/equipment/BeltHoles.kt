@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.fromSlot
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -37,7 +39,7 @@ private fun createBelt(
     type: BeltHolesType,
     size: Size,
     color: Color?,
-): EquipmentMap<EquipmentData> {
+): EquipmentElementMap {
     val belt = Belt(
         SimpleBuckle(
             BuckleShape.Rectangle,
@@ -55,7 +57,7 @@ private fun createBelt(
             BodySlot.Belt to belt,
             BodySlot.Bottom to Pants(),
             BodySlot.Top to Shirt(),
-        )
+        ).mapValues { Pair(it.value, UndefinedColors) }
     )
 }
 

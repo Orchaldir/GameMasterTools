@@ -36,7 +36,7 @@ data class EquipmentGenerator(
         }
     }
 
-    fun generate(): EquipmentMap<EquipmentId> {
+    fun generate(): EquipmentIdMap {
         val result = mutableMapOf<EquipmentId, EquipmentDataType>()
 
         when (generate(fashion.clothing.clothingSets)) {

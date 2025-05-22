@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment
 
+import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.Colors
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -40,3 +42,6 @@ data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
         map.mapKeys { function(it.key) }
     )
 }
+
+typealias EquipmentIdMap = EquipmentMap<Pair<EquipmentId, Colors>>
+typealias EquipmentElementMap = EquipmentMap<Pair<EquipmentData, Colors>>

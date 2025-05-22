@@ -1,12 +1,14 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.ColorScheme
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -164,7 +166,7 @@ data class Glasses(
     val lensShape: LensShape = LensShape.RoundedRectangle,
     val frameType: FrameType = FrameType.FullRimmed,
     val lens: FillItemPart = FillItemPart(Color.SkyBlue),
-    val frame: ColorItemPart = ColorItemPart(Color.Navy),
+    val frame: ColorSchemeItemPart = ColorSchemeItemPart(Color.Navy),
 ) : EquipmentData() {
 
     override fun parts() = listOf(lens, frame)

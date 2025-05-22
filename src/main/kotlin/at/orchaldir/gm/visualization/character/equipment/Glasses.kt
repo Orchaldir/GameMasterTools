@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.Glasses
 import at.orchaldir.gm.core.model.item.equipment.style.FrameType
 import at.orchaldir.gm.core.model.item.equipment.style.LensShape
+import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.*
 import at.orchaldir.gm.visualization.SizeConfig
@@ -26,6 +27,7 @@ fun visualizeGlasses(
     state: CharacterRenderState,
     head: Head,
     glasses: Glasses,
+    scheme: ColorScheme,
 ) {
     if (!state.renderFront) {
         return
@@ -34,7 +36,7 @@ fun visualizeGlasses(
     val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
     val widthFactor = state.config.equipment.glasses.getFrameWidth(glasses.frameType)
     val width = state.aabb.convertHeight(widthFactor)
-    val frameColor = glasses.frame.getColor(state.state)
+    val frameColor = glasses.frame.getColor(state.state, scheme)
     val lineOptions = LineOptions(frameColor.toRender(), width)
     val lensFill = glasses.lens.getFill(state.state)
     val options = if (glasses.frameType == FrameType.Rimless) {
