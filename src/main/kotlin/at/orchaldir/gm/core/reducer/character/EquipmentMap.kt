@@ -27,9 +27,11 @@ fun validateCharacterEquipment(
 ) {
     val occupySlots = mutableSetOf<BodySlot>()
 
-    equipmentMap.getEquipmentWithSlotSets().forEach { (id, slotSets) ->
-        val equipment = state.getEquipmentStorage().getOrThrow(id.first)
+    equipmentMap.getEquipmentWithSlotSets().forEach { (pair, slotSets) ->
+        val equipment = state.getEquipmentStorage().getOrThrow(pair.first)
         val allowedSlotSets = equipment.data.slots().getAllBodySlotCombinations()
+
+        state.getColorSchemeStorage().require(pair.second)
 
         slotSets.forEach { slotSet ->
             // Not sure why allowedSlotSets.contains(slotSet) doesn't work
