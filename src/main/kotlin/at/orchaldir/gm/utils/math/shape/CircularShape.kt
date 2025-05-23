@@ -35,6 +35,9 @@ enum class CircularShape {
     fun calculateArea(radius: Distance) =
         Math.PI.toFloat() * radius.toMeters().pow(2)
 
+    fun calculateVolume(radius: Distance, thickness: Distance) =
+        calculateArea(radius) * thickness.toMeters()
+
     fun calculateIncircle(radius: Distance, inner: CircularShape): Distance {
         val sides = getSides()
 
@@ -57,9 +60,6 @@ enum class CircularShape {
 
         return incircleRadius
     }
-
-    fun calculateVolume(radius: Distance, thickness: Distance) =
-        calculateArea(radius) * thickness.toMeters()
 
     fun getSides() = when (this) {
         Circle, Teardrop, ReverseTeardrop -> 0

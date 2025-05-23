@@ -64,6 +64,7 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
     operator fun div(factor: Float) = Distance((micrometers / factor).toLong())
     operator fun div(factor: Factor) = div(factor.toNumber())
     operator fun div(factor: Int) = Distance(micrometers / factor)
+    operator fun div(other: Distance) = Factor.fromNumber(micrometers / other.micrometers.toFloat())
 
     operator fun compareTo(other: Distance): Int = micrometers.compareTo(other.micrometers)
 
