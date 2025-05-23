@@ -57,12 +57,7 @@ private fun HtmlBlockTag.showEquipmentData(
         is Hat -> showHat(call, state, data)
         is Necklace -> showNecklace(call, state, data)
         is Pants -> showPants(call, state, data)
-
-        is Shirt -> {
-            field("Neckline Style", data.necklineStyle)
-            field("Sleeve Style", data.sleeveStyle)
-            showFillLookupItemPart(call, state, data.main, "Main")
-        }
+        is Shirt -> showShirt(call, state, data)
 
         is Skirt -> {
             field("Style", data.style)
@@ -140,15 +135,7 @@ private fun FORM.editEquipmentData(
         is Hat -> editHat(state, data)
         is Necklace -> editNecklace(state, data)
         is Pants -> editPants(state, data)
-
-        is Shirt -> {
-            selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
-            selectSleeveStyle(
-                SleeveStyle.entries,
-                data.sleeveStyle,
-            )
-            editFillLookupItemPart(state, data.main, MAIN, "Main")
-        }
+        is Shirt -> editShirt(state, data)
 
         is Skirt -> {
             selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, data.style)
@@ -220,7 +207,6 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.Hat -> parseHat(parameters)
         EquipmentDataType.Necklace -> parseNecklace(parameters)
         EquipmentDataType.Pants -> parsePants(parameters)
-
         EquipmentDataType.Shirt -> parseShirt(parameters)
 
         EquipmentDataType.Skirt -> Skirt(
@@ -237,16 +223,6 @@ fun parseEquipmentData(parameters: Parameters) =
 
         EquipmentDataType.Tie -> parseTie(parameters)
     }
-
-private fun parseShirt(parameters: Parameters): Shirt {
-    val neckline = parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.None)
-
-    return Shirt(
-        neckline,
-        parseSleeveStyle(parameters, neckline),
-        parseFillLookupItemPart(parameters, MAIN),
-    )
-}
 
 private fun parseTie(parameters: Parameters) = Tie(
     parse(parameters, STYLE, TieStyle.Tie),
