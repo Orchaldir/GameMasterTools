@@ -6,9 +6,11 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.Fill
+import at.orchaldir.gm.core.model.util.render.FillLookup
 import at.orchaldir.gm.core.model.util.render.FixedColor
 import at.orchaldir.gm.core.model.util.render.LookupMaterial
 import at.orchaldir.gm.core.model.util.render.Solid
+import at.orchaldir.gm.core.model.util.render.SolidLookup
 import kotlinx.serialization.Serializable
 
 interface ItemPart {
@@ -50,8 +52,7 @@ data class ColorSchemeItemPart(
 
     constructor(color: Color) : this(MaterialId(0), FixedColor(color))
 
-    fun getColor(state: State, colors: Colors) = lookup.lookup(colors)
-        ?: state.getMaterialStorage().get(material)?.color ?: Color.Pink
+    fun getColor(state: State, colors: Colors) = lookup.lookup(state, colors, material)
 
     override fun contains(id: MaterialId) = material == id
     override fun materials() = setOf(material)
@@ -74,6 +75,21 @@ data class FillItemPart(
 
         return Solid(state.getMaterialStorage().get(material)?.color ?: Color.Pink)
     }
+
+    override fun contains(id: MaterialId) = material == id
+    override fun materials() = setOf(material)
+
+}
+
+@Serializable
+data class FillLookupItemPart(
+    val material: MaterialId = MaterialId(0),
+    val fill: FillLookup = SolidLookup(LookupMaterial),
+) : ItemPart {
+
+    constructor(color: Color) : this(fill = SolidLookup(color))
+
+    fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
 
     override fun contains(id: MaterialId) = material == id
     override fun materials() = setOf(material)

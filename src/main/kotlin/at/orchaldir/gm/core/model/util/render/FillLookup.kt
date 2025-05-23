@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.util.render
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -21,6 +23,33 @@ sealed class FillLookup {
         is VerticalStripesLookup -> FillLookupType.VerticalStripes
         is HorizontalStripesLookup -> FillLookupType.HorizontalStripes
         is TilesLookup -> FillLookupType.Tiles
+    }
+
+    fun lookup(state: State, colors: Colors, material: MaterialId): Fill = when (this) {
+        is SolidLookup -> Solid(color.lookup(state, colors, material))
+        is TransparentLookup -> Transparent(
+            color.lookup(state, colors, material),
+            opacity,
+        )
+
+        is VerticalStripesLookup -> VerticalStripes(
+            color0.lookup(state, colors, material),
+            color1.lookup(state, colors, material),
+            width,
+        )
+
+        is HorizontalStripesLookup -> HorizontalStripes(
+            color0.lookup(state, colors, material),
+            color1.lookup(state, colors, material),
+            width,
+        )
+
+        is TilesLookup -> Tiles(
+            fill.lookup(state, colors, material),
+            background.lookup(state, colors, material),
+            width,
+            borderPercentage
+        )
     }
 }
 
