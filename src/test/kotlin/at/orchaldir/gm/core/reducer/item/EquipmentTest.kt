@@ -9,6 +9,12 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.LookupSchema0
+import at.orchaldir.gm.core.model.util.render.OneColor
+import at.orchaldir.gm.core.model.util.render.TwoColors
+import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -17,7 +23,19 @@ import kotlin.test.assertEquals
 
 class EquipmentTest {
     private val ITEM = Equipment(EQUIPMENT_ID_0, NAME)
-    private val STATE = State(listOf(Storage(Equipment(EQUIPMENT_ID_0)), Storage(Material(MATERIAL_ID_0))))
+    private val STATE = State(
+        listOf(
+            Storage(
+                listOf(
+                    ColorScheme(COLOR_SCHEME_ID_0, UndefinedColors),
+                    ColorScheme(COLOR_SCHEME_ID_1, OneColor(Color.Red)),
+                    ColorScheme(COLOR_SCHEME_ID_1, TwoColors.init(Color.Blue, Color.Green)),
+                )
+            ),
+            Storage(Equipment(EQUIPMENT_ID_0)),
+            Storage(Material(MATERIAL_ID_0))
+        ),
+    )
     private val EQUIPMENT_MAP = EquipmentMap
         .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
 
@@ -128,16 +146,14 @@ class EquipmentTest {
 
         @Test
         fun `Update template with material`() {
-            val item = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(MATERIAL_ID_0)))
-            val state = State(
-                listOf(
-                    Storage(ITEM),
-                    Storage(Material(MATERIAL_ID_0)),
-                )
+            val item = Equipment(
+                EQUIPMENT_ID_0,
+                colorSchemes = setOf(COLOR_SCHEME_ID_1),
+                data = Glasses(frame = ColorSchemeItemPart(MATERIAL_ID_0, LookupSchema0)),
             )
             val action = UpdateEquipment(item)
 
-            assertEquals(item, REDUCER.invoke(state, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
+            assertEquals(item, REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
         }
     }
 
