@@ -22,7 +22,12 @@
     "type": "Glasses",
     "lensShape": "Rectangle",
     "lens": {
-     "material": 13
+     "material": 13,
+     "fill": {
+      "type": "Transparent",
+      "color": "SkyBlue",
+      "opacity": 5000
+     }
     },
     "frame": {
      "material": 9,
