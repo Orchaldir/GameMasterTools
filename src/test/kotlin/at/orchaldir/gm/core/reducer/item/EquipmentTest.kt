@@ -140,10 +140,18 @@ class EquipmentTest {
         }
 
         @Nested
-        inner class UpdateTest {
+        inner class RequiredSchemaColorsTest {
 
             @Test
-            fun `Color scheme has zero colors, but needs 1`() {
+            fun `Color scheme has 0 colors and needs 0`() {
+                val item = createItem(COLOR_SCHEME_ID_0)
+                val action = UpdateEquipment(item)
+
+                REDUCER.invoke(STATE, action)
+            }
+
+            @Test
+            fun `Color scheme has 0 colors, but needs 1`() {
                 val item = createItem(COLOR_SCHEME_ID_0, lookup = LookupSchema0)
                 val action = UpdateEquipment(item)
 
@@ -151,7 +159,7 @@ class EquipmentTest {
             }
 
             @Test
-            fun `Color scheme has zero colors, but needs 2`() {
+            fun `Color scheme has 0 colors, but needs 2`() {
                 val item = createItem(COLOR_SCHEME_ID_0, lookup = LookupSchema1)
                 val action = UpdateEquipment(item)
 
