@@ -188,6 +188,7 @@ private fun HTML.showAllEquipment(
                 th { +"Weight" }
                 th { +"Materials" }
                 thMultiLines(listOf("Color", "Schemes"))
+                thMultiLines(listOf("Required", "Colors"))
                 th { +"Characters" }
                 th { +"Fashion" }
             }
@@ -198,6 +199,7 @@ private fun HTML.showAllEquipment(
                     td(equipment.weight)
                     tdInlineIds(call, state, equipment.data.materials())
                     tdSkipZero(equipment.colorSchemes.size)
+                    tdSkipZero(equipment.data.requiredSchemaColors())
                     tdSkipZero(state.getEquippedBy(equipment.id).size)
                     tdSkipZero(state.getFashions(equipment.id).size)
                 }

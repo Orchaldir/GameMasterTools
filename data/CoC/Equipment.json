@@ -19,6 +19,28 @@
     1,
     2
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Leather Boots",
+   "data": {
+    "type": "Footwear",
+    "style": "Boots",
+    "shaft": {
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    },
+    "sole": {
+    }
+   },
+   "colorSchemes": [
+    1,
+    2
+   ]
   }
  }
 }
