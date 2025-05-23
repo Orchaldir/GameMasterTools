@@ -14,20 +14,6 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showOptionalFillLookup(label: String, fill: FillLookup?) {
-    if (fill != null) {
-        showDetails(label, true) {
-            showFillLookup(fill)
-        }
-    }
-}
-
-fun HtmlBlockTag.showOptionalFillLookup(fill: FillLookup?) {
-    if (fill != null) {
-        showFillLookup(fill)
-    }
-}
-
 fun HtmlBlockTag.showFillLookup(label: String, fill: FillLookup) {
     showDetails(label, true) {
         showFillLookup(fill)
@@ -63,27 +49,13 @@ fun HtmlBlockTag.showFillLookup(fill: FillLookup) {
 
 // edit
 
-fun HtmlBlockTag.selectOptionalFill(label: String, fill: FillLookup?, param: String = FILL) {
+fun HtmlBlockTag.selectFillLookup(label: String, fill: FillLookup, param: String = FILL) {
     showDetails(label, true) {
-        selectOptionalFill(fill, param)
+        selectFillLookup(fill, param)
     }
 }
 
-fun HtmlBlockTag.selectFill(label: String, fill: FillLookup, param: String = FILL) {
-    showDetails(label, true) {
-        selectFill(fill, param)
-    }
-}
-
-fun HtmlBlockTag.selectOptionalFill(fill: FillLookup?, param: String = FILL) {
-    selectOptionalValue("Fill Type", combine(param, TYPE), fill?.getType(), FillLookupType.entries)
-
-    if (fill != null) {
-        selectFillData(fill, param)
-    }
-}
-
-fun HtmlBlockTag.selectFill(fill: FillLookup, param: String = FILL) {
+fun HtmlBlockTag.selectFillLookup(fill: FillLookup, param: String = FILL) {
     selectValue("Fill Type", combine(param, TYPE), FillLookupType.entries, fill.getType())
     selectFillData(fill, param)
 }
