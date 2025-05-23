@@ -152,18 +152,12 @@ class EquipmentTest {
 
             @Test
             fun `Color scheme has 0 colors, but needs 1`() {
-                val item = createItem(COLOR_SCHEME_ID_0, lookup = LookupSchema0)
-                val action = UpdateEquipment(item)
-
-                assertIllegalArgument("Color Scheme 0 has too few colors!") { REDUCER.invoke(STATE, action) }
+                fail(COLOR_SCHEME_ID_0, LookupSchema0)
             }
 
             @Test
             fun `Color scheme has 0 colors, but needs 2`() {
-                val item = createItem(COLOR_SCHEME_ID_0, lookup = LookupSchema1)
-                val action = UpdateEquipment(item)
-
-                assertIllegalArgument("Color Scheme 0 has too few colors!") { REDUCER.invoke(STATE, action) }
+                fail(COLOR_SCHEME_ID_0, LookupSchema1)
             }
 
             @Test
@@ -184,10 +178,14 @@ class EquipmentTest {
 
             @Test
             fun `Color scheme has 1 color, but needs 2`() {
-                val item = createItem(COLOR_SCHEME_ID_1, lookup = LookupSchema1)
+                fail(COLOR_SCHEME_ID_1, LookupSchema1)
+            }
+
+            private fun fail(scheme: ColorSchemeId, lookup: ColorLookup) {
+                val item = createItem(scheme, lookup = lookup)
                 val action = UpdateEquipment(item)
 
-                assertIllegalArgument("Color Scheme 1 has too few colors!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("${scheme.print()} has too few colors!") { REDUCER.invoke(STATE, action) }
             }
         }
 
