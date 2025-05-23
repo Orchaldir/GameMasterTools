@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.render.Color
@@ -50,6 +51,16 @@ class ColorSchemeTest {
             val equipmentMap = EquipmentMap.fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Top)
             val character = Character(CHARACTER_ID_0, equipmentMap = equipmentMap)
             val newState = STATE.updateStorage(Storage(character))
+
+            assertIllegalArgument("Cannot delete Color Scheme 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a scheme used by an equipment`() {
+            val equipment = Equipment(EQUIPMENT_ID_0, colorSchemes = setOf(COLOR_SCHEME_ID_0))
+            val newState = STATE.updateStorage(Storage(equipment))
 
             assertIllegalArgument("Cannot delete Color Scheme 0, because it is used!") {
                 REDUCER.invoke(newState, action)
