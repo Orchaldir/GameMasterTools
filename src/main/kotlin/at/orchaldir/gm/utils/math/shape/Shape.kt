@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.economy.money
+package at.orchaldir.gm.utils.math.shape
 
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.FULL_CIRCLE
@@ -63,7 +63,7 @@ enum class Shape {
         calculateArea(radius) * thickness.toMeters()
 
     fun calculateWeight(radius: Distance, thickness: Distance, density: Weight) =
-        Weight.fromKilograms(calculateVolume(radius, thickness) * density.toKilograms())
+        Weight.Companion.fromKilograms(calculateVolume(radius, thickness) * density.toKilograms())
 
     fun getSides() = when (this) {
         Circle, Teardrop, ReverseTeardrop -> 0
@@ -78,4 +78,3 @@ enum class Shape {
 
     fun hasCornerAtTop() = !(this == Square || this == RoundedSquare)
 }
-

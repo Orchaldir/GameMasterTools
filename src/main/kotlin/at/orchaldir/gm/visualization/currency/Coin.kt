@@ -3,7 +3,7 @@ package at.orchaldir.gm.visualization.currency
 import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.HoledCoin
-import at.orchaldir.gm.core.model.economy.money.Shape
+import at.orchaldir.gm.utils.math.shape.Shape
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.Point2d

@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.shape.Shape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.currency.ResolvedCurrencyData
 

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.currency
 
-import at.orchaldir.gm.core.model.economy.money.Shape
+import at.orchaldir.gm.utils.math.shape.Shape
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.*
 import at.orchaldir.gm.utils.math.unit.Distance
