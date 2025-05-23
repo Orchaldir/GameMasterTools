@@ -5,6 +5,9 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_RECTANGULAR_FACTOR = Factor.fromPercentage(10)
+val MAX_RECTANGULAR_FACTOR = Factor.fromPercentage(1000)
+
 enum class ComplexShapeType {
     Circular,
     Rectangular,
