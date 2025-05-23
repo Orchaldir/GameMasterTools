@@ -198,7 +198,7 @@ private fun HTML.showAllEquipment(
                     tdEnum(equipment.data.getType())
                     td(equipment.weight)
                     tdInlineIds(call, state, equipment.data.materials())
-                    tdSkipZero(equipment.colorSchemes.size)
+                    tdInlineIds(call, state, equipment.colorSchemes)
                     tdSkipZero(equipment.data.requiredSchemaColors())
                     tdSkipZero(state.getEquippedBy(equipment.id).size)
                     tdSkipZero(state.getFashions(equipment.id).size)
