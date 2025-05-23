@@ -30,13 +30,13 @@ fun HtmlBlockTag.showOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 field("Shape", ornament.shape)
-                showFillItemPart(call, state, ornament.part)
+                showFillLookupItemPart(call, state, ornament.part)
             }
 
             is OrnamentWithBorder -> {
                 field("Shape", ornament.shape)
-                showFillItemPart(call, state, ornament.center, "Center")
-                showColorItemPart(call, state, ornament.border, "Border")
+                showFillLookupItemPart(call, state, ornament.center, "Center")
+                showColorSchemeItemPart(call, state, ornament.border, "Border")
             }
         }
     }
@@ -56,13 +56,13 @@ fun HtmlBlockTag.editOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape)
-                editFillItemPart(state, ornament.part, param)
+                editFillLookupItemPart(state, ornament.part, param)
             }
 
             is OrnamentWithBorder -> {
                 selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape)
-                editFillItemPart(state, ornament.center, param)
-                editColorItemPart(state, ornament.border, combine(param, BORDER))
+                editFillLookupItemPart(state, ornament.center, param)
+                editColorSchemeItemPart(state, ornament.border, combine(param, BORDER))
             }
         }
     }
@@ -76,13 +76,13 @@ fun parseOrnament(parameters: Parameters, param: String = ORNAMENT): Ornament {
     return when (type) {
         OrnamentType.Simple -> SimpleOrnament(
             parse(parameters, combine(param, SHAPE), OrnamentShape.Circle),
-            parseFillItemPart(parameters, param),
+            parseFillLookupItemPart(parameters, param),
         )
 
         OrnamentType.Border -> OrnamentWithBorder(
             parse(parameters, combine(param, SHAPE), OrnamentShape.Circle),
-            parseFillItemPart(parameters, param),
-            parseColorItemPart(parameters, combine(param, BORDER)),
+            parseFillLookupItemPart(parameters, param),
+            parseColorSchemeItemPart(parameters, combine(param, BORDER)),
         )
     }
 }

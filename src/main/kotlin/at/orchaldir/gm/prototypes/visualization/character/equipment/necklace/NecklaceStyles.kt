@@ -5,17 +5,17 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Hourglass
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.Circle
-import at.orchaldir.gm.core.model.util.Color.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Size.*
+import at.orchaldir.gm.core.model.util.render.Color.*
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
+import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 
@@ -36,7 +36,7 @@ fun main() {
             Factor.fromPercentage(100),
             SimpleOrnament(Circle, color = Silver),
             OrnamentWithBorder(OrnamentShape.Teardrop, Blue, Silver),
-            ColorItemPart(Silver),
+            ColorSchemeItemPart(Silver),
         ),
         Wire(Small, Silver),
     )
@@ -54,7 +54,7 @@ fun main() {
         styles.add(Pair("$size Pendant", PendantNecklace(OrnamentWithBorder(), Wire(size), size)))
     }
 
-    renderCharacterTable(
+    renderCharacterTableWithoutColorScheme(
         State(),
         "necklaces-styles.svg",
         CHARACTER_CONFIG,

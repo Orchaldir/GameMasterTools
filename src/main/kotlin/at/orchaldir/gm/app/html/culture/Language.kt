@@ -1,10 +1,11 @@
-package at.orchaldir.gm.app.html.util
+package at.orchaldir.gm.app.html.culture
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State

@@ -18,6 +18,7 @@ fun HtmlBlockTag.formWithPreview(
     updateLink: String,
     backLink: String,
     updateText: String = "Update",
+    canUpdate: Boolean = true,
     content: FORM.() -> Unit,
 ) {
     form {
@@ -27,7 +28,7 @@ fun HtmlBlockTag.formWithPreview(
 
         content()
 
-        button(updateText, updateLink)
+        button(updateText, updateLink, !canUpdate)
     }
 
     back(backLink)

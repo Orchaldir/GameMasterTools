@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.town
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.utils.doNothing

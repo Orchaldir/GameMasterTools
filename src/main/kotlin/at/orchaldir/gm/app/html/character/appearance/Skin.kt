@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.generator.generateSkin
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.appearance.SkinOptions
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag

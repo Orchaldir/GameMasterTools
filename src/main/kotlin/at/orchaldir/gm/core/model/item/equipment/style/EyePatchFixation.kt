@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -40,10 +40,10 @@ data object NoFixation : EyePatchFixation()
 @SerialName("OneBand")
 data class OneBand(
     val size: Size = Size.Small,
-    val band: ColorItemPart = ColorItemPart(Color.Black),
+    val band: ColorSchemeItemPart = ColorSchemeItemPart(Color.Black),
 ) : EyePatchFixation() {
 
-    constructor(size: Size, color: Color) : this(size, ColorItemPart(color))
+    constructor(size: Size, color: Color) : this(size, ColorSchemeItemPart(color))
 
 }
 
@@ -51,20 +51,20 @@ data class OneBand(
 @SerialName("DiagonalBand")
 data class DiagonalBand(
     val size: Size = Size.Small,
-    val band: ColorItemPart = ColorItemPart(Color.Black),
+    val band: ColorSchemeItemPart = ColorSchemeItemPart(Color.Black),
 ) : EyePatchFixation() {
 
-    constructor(size: Size, color: Color) : this(size, ColorItemPart(color))
+    constructor(size: Size, color: Color) : this(size, ColorSchemeItemPart(color))
 
 }
 
 @Serializable
 @SerialName("TwoBands")
 data class TwoBands(
-    val band: ColorItemPart = ColorItemPart(Color.Black),
+    val band: ColorSchemeItemPart = ColorSchemeItemPart(Color.Black),
 ) : EyePatchFixation() {
 
-    constructor(color: Color) : this(ColorItemPart(color))
+    constructor(color: Color) : this(ColorSchemeItemPart(color))
 
 }
 

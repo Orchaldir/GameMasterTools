@@ -11,17 +11,25 @@ import at.orchaldir.gm.core.reducer.economy.UPDATE_MATERIAL
 import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.magic.MAGIC_REDUCER
 import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
-import at.orchaldir.gm.core.reducer.quote.CREATE_QUOTE
-import at.orchaldir.gm.core.reducer.quote.DELETE_QUOTE
-import at.orchaldir.gm.core.reducer.quote.UPDATE_QUOTE
 import at.orchaldir.gm.core.reducer.race.*
 import at.orchaldir.gm.core.reducer.realm.REALM_REDUCER
 import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
-import at.orchaldir.gm.core.reducer.source.CREATE_DATA_SOURCE
-import at.orchaldir.gm.core.reducer.source.DELETE_DATA_SOURCE
-import at.orchaldir.gm.core.reducer.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.time.*
-import at.orchaldir.gm.core.reducer.util.*
+import at.orchaldir.gm.core.reducer.util.color.CREATE_COLOR_SCHEME
+import at.orchaldir.gm.core.reducer.util.color.DELETE_COLOR_SCHEME
+import at.orchaldir.gm.core.reducer.util.color.UPDATE_COLOR_SCHEME
+import at.orchaldir.gm.core.reducer.util.font.CREATE_FONT
+import at.orchaldir.gm.core.reducer.util.font.DELETE_FONT
+import at.orchaldir.gm.core.reducer.util.font.UPDATE_FONT
+import at.orchaldir.gm.core.reducer.util.name.CREATE_NAME_LIST
+import at.orchaldir.gm.core.reducer.util.name.DELETE_NAME_LIST
+import at.orchaldir.gm.core.reducer.util.name.UPDATE_NAME_LIST
+import at.orchaldir.gm.core.reducer.util.quote.CREATE_QUOTE
+import at.orchaldir.gm.core.reducer.util.quote.DELETE_QUOTE
+import at.orchaldir.gm.core.reducer.util.quote.UPDATE_QUOTE
+import at.orchaldir.gm.core.reducer.util.source.CREATE_DATA_SOURCE
+import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
+import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -43,6 +51,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateCalendar -> CREATE_CALENDAR(state, action)
         is DeleteCalendar -> DELETE_CALENDAR(state, action)
         is UpdateCalendar -> UPDATE_CALENDAR(state, action)
+        // color schemes
+        is CreateColorScheme -> CREATE_COLOR_SCHEME(state, action)
+        is DeleteColorScheme -> DELETE_COLOR_SCHEME(state, action)
+        is UpdateColorScheme -> UPDATE_COLOR_SCHEME(state, action)
         // culture
         is CreateCulture -> CREATE_CULTURE(state, action)
         is CloneCulture -> CLONE_CULTURE(state, action)

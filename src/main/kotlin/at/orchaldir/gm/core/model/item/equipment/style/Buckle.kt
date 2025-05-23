@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -30,7 +30,7 @@ data object NoBuckle : Buckle()
 data class SimpleBuckle(
     val shape: BuckleShape = BuckleShape.Rectangle,
     val size: Size = Size.Small,
-    val part: FillItemPart = FillItemPart(Color.Gray),
+    val part: FillLookupItemPart = FillLookupItemPart(Color.Gray),
 ) : Buckle() {
 
     override fun parts() = listOf(part)

@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.item.editColorItemPart
-import at.orchaldir.gm.app.html.item.parseColorItemPart
-import at.orchaldir.gm.app.html.item.showColorItemPart
+import at.orchaldir.gm.app.html.item.editColorSchemeItemPart
+import at.orchaldir.gm.app.html.item.parseColorSchemeItemPart
+import at.orchaldir.gm.app.html.item.showColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.fieldFactor
 import at.orchaldir.gm.app.html.util.parseFactor
 import at.orchaldir.gm.app.html.util.selectFactor
@@ -38,7 +38,7 @@ fun HtmlBlockTag.showEarring(
         is HoopEarring -> {
             fieldFactor("Diameter", style.length)
             field("Thickness", style.thickness)
-            showColorItemPart(call, state, style.wire, "Wire")
+            showColorSchemeItemPart(call, state, style.wire, "Wire")
         }
 
         is StudEarring -> {
@@ -58,7 +58,7 @@ fun HtmlBlockTag.showDangleEarring(
     fieldList("Sizes", style.sizes) {
         +it.name
     }
-    showColorItemPart(call, state, style.wire, "Wire")
+    showColorSchemeItemPart(call, state, style.wire, "Wire")
 }
 
 fun HtmlBlockTag.showDropEarring(
@@ -71,7 +71,7 @@ fun HtmlBlockTag.showDropEarring(
     fieldFactor("Wire Length", style.wireLength)
     showOrnament(call, state, style.top, "Top Ornament")
     showOrnament(call, state, style.bottom, "Bottom Ornament")
-    showColorItemPart(call, state, style.wire, "Wire")
+    showColorSchemeItemPart(call, state, style.wire, "Wire")
 }
 
 // edit
@@ -88,7 +88,7 @@ fun FORM.editEarring(
         is HoopEarring -> {
             selectFactor("Diameter", LENGTH, style.length, ZERO, ONE, ONE_PERCENT)
             selectValue("Thickness", SIZE, Size.entries, style.thickness)
-            editColorItemPart(state, style.wire, WIRE, "Wire")
+            editColorSchemeItemPart(state, style.wire, WIRE, "Wire")
         }
 
         is StudEarring -> {
@@ -107,7 +107,7 @@ fun FORM.editDangleEarring(
     editList("Sizes", SIZE, style.sizes, 1, 10, 1) { index, param, size ->
         selectValue("$index.Size", param, Size.entries, size)
     }
-    editColorItemPart(state, style.wire, WIRE, "Wire")
+    editColorSchemeItemPart(state, style.wire, WIRE, "Wire")
 }
 
 fun FORM.editDropEarring(
@@ -119,7 +119,7 @@ fun FORM.editDropEarring(
     selectFactor("Wire Length", LENGTH, style.wireLength, ZERO, ONE, ONE_PERCENT)
     editOrnament(state, style.top, TOP, "Top Ornament")
     editOrnament(state, style.bottom, BOTTOM, "Bottom Ornament")
-    editColorItemPart(state, style.wire, WIRE, "Wire")
+    editColorSchemeItemPart(state, style.wire, WIRE, "Wire")
 }
 
 private fun FORM.selectDropSize(label: String, size: Factor, param: String) {
@@ -139,7 +139,7 @@ fun parseEarring(parameters: Parameters): Earring {
             EarringStyleType.Hoop -> HoopEarring(
                 parseFactor(parameters, LENGTH),
                 parse(parameters, SIZE, Size.Medium),
-                parseColorItemPart(parameters, WIRE),
+                parseColorSchemeItemPart(parameters, WIRE),
             )
 
             EarringStyleType.Stud -> StudEarring(
@@ -156,7 +156,7 @@ fun parseDangleEarring(parameters: Parameters) = DangleEarring(
     parseList(parameters, SIZE, 1) { _, param ->
         parse(parameters, param, Size.Medium)
     },
-    parseColorItemPart(parameters, WIRE),
+    parseColorSchemeItemPart(parameters, WIRE),
 )
 
 fun parseDropEarring(parameters: Parameters) = DropEarring(
@@ -165,6 +165,6 @@ fun parseDropEarring(parameters: Parameters) = DropEarring(
     parseFactor(parameters, LENGTH),
     parseOrnament(parameters, TOP),
     parseOrnament(parameters, BOTTOM),
-    parseColorItemPart(parameters, WIRE),
+    parseColorSchemeItemPart(parameters, WIRE),
 )
 

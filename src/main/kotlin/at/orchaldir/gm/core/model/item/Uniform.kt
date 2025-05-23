@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.item
 
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -23,7 +23,7 @@ value class UniformId(val value: Int) : Id<UniformId> {
 data class Uniform(
     val id: UniformId,
     val name: Name = Name.init("Uniform ${id.value}"),
-    val equipmentMap: EquipmentMap<EquipmentId> = EquipmentMap(),
+    val equipmentMap: EquipmentIdMap = EquipmentMap(),
 ) : ElementWithSimpleName<UniformId> {
 
     override fun id() = id

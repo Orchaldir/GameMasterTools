@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.util.SortTreaty
 import at.orchaldir.gm.core.selector.realm.canDeleteTreaty
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortTreaties
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -142,7 +141,6 @@ private fun HTML.showAllTreaties(
     state: State,
     sort: SortTreaty,
 ) {
-    state.getDefaultCalendar()
     val treaties = state.sortTreaties(sort)
     val createLink = call.application.href(TreatyRoutes.New())
 

@@ -15,8 +15,8 @@ import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -45,13 +45,13 @@ private fun HtmlBlockTag.showStyle(
         when (style) {
             is SimpleEyePatch -> {
                 field("Shape", style.shape)
-                showFillItemPart(call, state, style.main, "Main")
+                showFillLookupItemPart(call, state, style.main, "Main")
             }
 
             is OrnamentAsEyePatch -> showOrnament(call, state, style.ornament)
             is EyePatchWithEye -> {
                 field("Shape", style.shape)
-                showFillItemPart(call, state, style.main, "Main")
+                showFillLookupItemPart(call, state, style.main, "Main")
             }
         }
     }
@@ -69,15 +69,15 @@ private fun HtmlBlockTag.showFixation(
             NoFixation -> doNothing()
             is OneBand -> {
                 field("Size", fixation.size)
-                showColorItemPart(call, state, fixation.band, "Band")
+                showColorSchemeItemPart(call, state, fixation.band, "Band")
             }
 
             is DiagonalBand -> {
                 field("Size", fixation.size)
-                showColorItemPart(call, state, fixation.band, "Band")
+                showColorSchemeItemPart(call, state, fixation.band, "Band")
             }
 
-            is TwoBands -> showColorItemPart(call, state, fixation.band, "Band")
+            is TwoBands -> showColorSchemeItemPart(call, state, fixation.band, "Band")
         }
     }
 }
@@ -102,14 +102,14 @@ private fun FORM.editStyle(
         when (style) {
             is SimpleEyePatch -> {
                 selectValue("Shape", SHAPE, VALID_LENSES, style.shape)
-                editFillItemPart(state, style.main, MAIN, "Main")
+                editFillLookupItemPart(state, style.main, MAIN, "Main")
             }
 
             is OrnamentAsEyePatch -> editOrnament(state, style.ornament)
             is EyePatchWithEye -> {
                 editNormalEye(EyeOptions(), style.eye)
                 selectValue("Shape", SHAPE, VALID_LENSES, style.shape)
-                editFillItemPart(state, style.main, MAIN, "Main")
+                editFillLookupItemPart(state, style.main, MAIN, "Main")
             }
         }
     }
@@ -126,15 +126,15 @@ private fun FORM.editFixation(
             NoFixation -> doNothing()
             is OneBand -> {
                 selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size)
-                editColorItemPart(state, fixation.band, FIXATION, "Band")
+                editColorSchemeItemPart(state, fixation.band, FIXATION, "Band")
             }
 
             is DiagonalBand -> {
                 selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size)
-                editColorItemPart(state, fixation.band, FIXATION, "Band")
+                editColorSchemeItemPart(state, fixation.band, FIXATION, "Band")
             }
 
-            is TwoBands -> editColorItemPart(state, fixation.band, FIXATION, "Band")
+            is TwoBands -> editColorSchemeItemPart(state, fixation.band, FIXATION, "Band")
         }
     }
 }
@@ -150,7 +150,7 @@ private fun parseStyle(parameters: Parameters) =
     when (parse(parameters, STYLE, EyePatchStyleType.Simple)) {
         EyePatchStyleType.Simple -> SimpleEyePatch(
             parse(parameters, SHAPE, LensShape.Circle),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EyePatchStyleType.Ornament -> OrnamentAsEyePatch(
@@ -165,7 +165,7 @@ private fun parseStyle(parameters: Parameters) =
                 parse(parameters, combine(PUPIL, SCLERA), Color.White),
             ),
             parse(parameters, SHAPE, LensShape.Circle),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
     }
 
@@ -173,16 +173,16 @@ private fun parseFixation(parameters: Parameters) = when (parse(parameters, FIXA
     EyePatchFixationType.None -> NoFixation
     EyePatchFixationType.OneBand -> OneBand(
         parse(parameters, combine(FIXATION, SIZE), Size.Small),
-        parseColorItemPart(parameters, FIXATION),
+        parseColorSchemeItemPart(parameters, FIXATION),
     )
 
     EyePatchFixationType.DiagonalBand -> DiagonalBand(
         parse(parameters, combine(FIXATION, SIZE), Size.Small),
-        parseColorItemPart(parameters, FIXATION),
+        parseColorSchemeItemPart(parameters, FIXATION),
     )
 
     EyePatchFixationType.TwoBands -> TwoBands(
-        parseColorItemPart(parameters, FIXATION),
+        parseColorSchemeItemPart(parameters, FIXATION),
     )
 }
 

@@ -2,16 +2,16 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.item.editFillItemPart
-import at.orchaldir.gm.app.html.item.parseFillItemPart
-import at.orchaldir.gm.app.html.item.showFillItemPart
+import at.orchaldir.gm.app.html.item.editFillLookupItemPart
+import at.orchaldir.gm.app.html.item.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.item.showFillLookupItemPart
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Belt
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -27,7 +27,7 @@ fun HtmlBlockTag.showBelt(
     belt: Belt,
 ) {
     showBuckle(call, state, belt.buckle)
-    showFillItemPart(call, state, belt.strap, "Strap")
+    showFillLookupItemPart(call, state, belt.strap, "Strap")
     showBeltHoles(belt.holes)
 }
 
@@ -42,7 +42,7 @@ private fun HtmlBlockTag.showBuckle(
             is SimpleBuckle -> {
                 field("Shape", buckle.shape)
                 field("Size", buckle.size)
-                showFillItemPart(call, state, buckle.part)
+                showFillLookupItemPart(call, state, buckle.part)
             }
         }
     }
@@ -74,7 +74,7 @@ fun FORM.editBelt(
     belt: Belt,
 ) {
     editBuckle(state, belt.buckle)
-    editFillItemPart(state, belt.strap, STRAP)
+    editFillLookupItemPart(state, belt.strap, STRAP)
     editBeltHoles(belt.holes)
 }
 
@@ -90,7 +90,7 @@ private fun FORM.editBuckle(
             is SimpleBuckle -> {
                 selectValue("Shape", combine(BUCKLE, SHAPE), BuckleShape.entries, buckle.shape)
                 selectValue("Size", combine(BUCKLE, SIZE), Size.entries, buckle.size)
-                editFillItemPart(state, buckle.part, BUCKLE)
+                editFillLookupItemPart(state, buckle.part, BUCKLE)
             }
         }
     }
@@ -123,7 +123,7 @@ private fun DETAILS.selectBorderColor(color: Color?) {
 
 fun parseBelt(parameters: Parameters) = Belt(
     parseBuckle(parameters),
-    parseFillItemPart(parameters, STRAP),
+    parseFillLookupItemPart(parameters, STRAP),
     parseBeltHoles(parameters),
 )
 
@@ -135,7 +135,7 @@ private fun parseBuckle(parameters: Parameters): Buckle {
         BuckleType.Simple -> SimpleBuckle(
             parse(parameters, combine(BUCKLE, SHAPE), BuckleShape.Rectangle),
             parse(parameters, combine(BUCKLE, SIZE), Size.Small),
-            parseFillItemPart(parameters, BUCKLE),
+            parseFillLookupItemPart(parameters, BUCKLE),
         )
     }
 }

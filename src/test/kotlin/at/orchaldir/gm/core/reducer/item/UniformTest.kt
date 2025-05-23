@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -25,6 +26,7 @@ class UniformTest {
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
+            Storage(ColorScheme(COLOR_SCHEME_ID_0)),
             Storage(Equipment(EQUIPMENT_ID_0)),
             Storage(Uniform(UNIFORM_ID_0)),
             Storage(Spell(SPELL_ID_0)),
@@ -68,7 +70,7 @@ class UniformTest {
 
         @Test
         fun `Cannot update uniform with unknown equipment`() {
-            val equipmentMap = EquipmentMap(UNKNOWN_EQUIPMENT_ID, BodySlot.Head)
+            val equipmentMap = EquipmentMap.fromId(UNKNOWN_EQUIPMENT_ID, COLOR_SCHEME_ID_0, BodySlot.Head)
             val action = UpdateUniform(Uniform(UNIFORM_ID_0, equipmentMap = equipmentMap))
 
             assertIllegalArgument("Requires unknown Equipment 99!") { REDUCER.invoke(STATE, action) }
@@ -76,7 +78,7 @@ class UniformTest {
 
         @Test
         fun `Success`() {
-            val equipmentMap = EquipmentMap(EQUIPMENT_ID_0, BodySlot.Head)
+            val equipmentMap = EquipmentMap.fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
             val uniform = Uniform(UNIFORM_ID_0, equipmentMap = equipmentMap)
             val action = UpdateUniform(uniform)
 

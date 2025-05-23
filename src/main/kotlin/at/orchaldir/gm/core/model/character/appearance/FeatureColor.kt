@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.character.appearance
 
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

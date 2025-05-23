@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.culture.fashion.BeardFashion
 import at.orchaldir.gm.core.model.culture.fashion.HairFashion
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2

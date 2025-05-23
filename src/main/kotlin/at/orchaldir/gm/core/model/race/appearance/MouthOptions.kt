@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.model.race.appearance
 import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.Serializable
 
 val DEFAULT_BEAK_COLOR = Color.Yellow

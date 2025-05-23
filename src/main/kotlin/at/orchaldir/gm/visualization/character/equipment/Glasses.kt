@@ -34,9 +34,9 @@ fun visualizeGlasses(
     val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
     val widthFactor = state.config.equipment.glasses.getFrameWidth(glasses.frameType)
     val width = state.aabb.convertHeight(widthFactor)
-    val frameColor = glasses.frame.getColor(state.state)
+    val frameColor = glasses.frame.getColor(state.state, state.colors)
     val lineOptions = LineOptions(frameColor.toRender(), width)
-    val lensFill = glasses.lens.getFill(state.state)
+    val lensFill = glasses.lens.getFill(state.state, state.colors)
     val options = if (glasses.frameType == FrameType.Rimless) {
         NoBorder(lensFill.toRender())
     } else {

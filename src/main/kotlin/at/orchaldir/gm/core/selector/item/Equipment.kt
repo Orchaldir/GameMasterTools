@@ -7,14 +7,35 @@ import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 
 fun State.canDelete(equipment: EquipmentId) = getCharacterStorage().getAll()
-    .none { it.equipmentMap.contains(equipment) }
+    .none {
+        it.equipmentMap
+            .getAllEquipment()
+            .any { pair -> pair.first == equipment }
+    }
+
+// count
 
 fun State.countEquipment(material: MaterialId) = getEquipmentStorage()
     .getAll()
     .count { it.data.contains(material) }
+
+fun State.countEquipment(scheme: ColorSchemeId) = getEquipmentStorage()
+    .getAll()
+    .count { it.colorSchemes.contains(scheme) }
+
+fun State.countEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
+    .getAll()
+    .count {
+        it.equipmentMap
+            .getAllEquipment()
+            .any { pair -> pair.second == scheme }
+    }
+
+//
 
 fun State.isAvailable(set: ClothingSet) = set.getTypes()
     .all { isAvailable(it) }
@@ -23,8 +44,14 @@ fun State.isAvailable(type: EquipmentDataType) = getEquipmentStorage()
     .getAll()
     .any { it.data.isType(type) }
 
+// get
+
 fun State.getEquipmentOf(type: EquipmentDataType) = getEquipmentStorage().getAll()
     .filter { it.data.isType(type) }
+
+fun State.getEquipment(scheme: ColorSchemeId) = getEquipmentStorage()
+    .getAll()
+    .filter { it.colorSchemes.contains(scheme) }
 
 fun State.getEquipmentMadeOf(material: MaterialId) = getEquipmentStorage().getAll()
     .filter { it.data.contains(material) }
@@ -38,10 +65,26 @@ fun State.getEquipment(character: CharacterId) =
 
 fun State.getEquipment(character: Character) = getEquipment(character.equipmentMap)
 
-fun State.getEquipment(equipmentMap: EquipmentMap<EquipmentId>) = equipmentMap.convert { id ->
-    getEquipmentStorage().getOrThrow(id).data
+fun State.getEquipment(equipmentMap: EquipmentIdMap) = equipmentMap.convert { pair ->
+    Pair(
+        getEquipmentStorage().getOrThrow(pair.first).data,
+        getColorSchemeStorage().getOrThrow(pair.second).data,
+    )
 }
 
-fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage().getAll()
-    .filter { it.equipmentMap.contains(equipment) }
+fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage()
+    .getAll()
+    .filter {
+        it.equipmentMap
+            .getAllEquipment()
+            .any { pair -> pair.first == equipment }
+    }
+
+fun State.getEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
+    .getAll()
+    .filter {
+        it.equipmentMap
+            .getAllEquipment()
+            .any { pair -> pair.second == scheme }
+    }
 

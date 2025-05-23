@@ -2,18 +2,24 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.item.editFillItemPart
-import at.orchaldir.gm.app.html.item.parseFillItemPart
-import at.orchaldir.gm.app.html.item.showFillItemPart
+import at.orchaldir.gm.app.html.item.editFillLookupItemPart
+import at.orchaldir.gm.app.html.item.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.item.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.util.parseWeight
 import at.orchaldir.gm.app.html.util.selectWeight
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
+import at.orchaldir.gm.core.selector.util.getValidColorSchemes
+import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -28,6 +34,7 @@ fun HtmlBlockTag.showEquipment(
     equipment: Equipment,
 ) {
     fieldWeight("Weight", equipment.weight)
+    fieldIdList(call, state, "Color Schemes", equipment.colorSchemes)
     showEquipmentData(call, state, equipment)
 }
 
@@ -49,35 +56,35 @@ private fun HtmlBlockTag.showEquipmentData(
 
         is Gloves -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Hat -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Necklace -> showNecklace(call, state, data)
 
         is Pants -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Shirt -> {
             field("Neckline Style", data.necklineStyle)
             field("Sleeve Style", data.sleeveStyle)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Skirt -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Socks -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is SuitJacket -> showSuitJacket(call, state, data)
@@ -85,8 +92,8 @@ private fun HtmlBlockTag.showEquipmentData(
         is Tie -> {
             field("Style", data.style)
             field("Size", data.size)
-            showFillItemPart(call, state, data.main, "Main")
-            showFillItemPart(call, state, data.knot, "Knot")
+            showFillLookupItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.knot, "Knot")
         }
     }
 }
@@ -98,7 +105,8 @@ fun FORM.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    selectWeight("Weight", WEIGHT, equipment.weight, 10, 10000, SiPrefix.Base)
+    selectWeight("Weight", WEIGHT, equipment.weight, MIN_EQUIPMENT_WEIGHT, 10000, SiPrefix.Base)
+    selectColorSchemes(state, equipment)
     selectValue(
         "Equipment",
         combine(EQUIPMENT, TYPE),
@@ -107,6 +115,26 @@ fun FORM.editEquipment(
     )
 
     editEquipmentData(state, equipment)
+}
+
+private fun FORM.selectColorSchemes(
+    state: State,
+    equipment: Equipment,
+) {
+    val requiredSchemaColors = equipment.data.requiredSchemaColors()
+
+    if (requiredSchemaColors > 0) {
+        val colorSchemes = state.getValidColorSchemes(equipment.data)
+
+        field("Required Schema Colors", requiredSchemaColors)
+        selectElements(
+            state,
+            "Color Schemas",
+            combine(COLOR, SCHEME),
+            state.sortColorSchemes(colorSchemes),
+            equipment.colorSchemes,
+        )
+    }
 }
 
 private fun FORM.editEquipmentData(
@@ -124,19 +152,19 @@ private fun FORM.editEquipmentData(
 
         is Gloves -> {
             selectValue("Style", GLOVES, GloveStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Hat -> {
             selectValue("Style", HAT, HatStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Necklace -> editNecklace(state, data)
 
         is Pants -> {
             selectValue("Style", PANTS, PantsStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Shirt -> {
@@ -145,17 +173,17 @@ private fun FORM.editEquipmentData(
                 SleeveStyle.entries,
                 data.sleeveStyle,
             )
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Skirt -> {
             selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Socks -> {
             selectValue("Style", STYLE, SocksStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is SuitJacket -> editSuitJacket(state, data)
@@ -163,8 +191,8 @@ private fun FORM.editEquipmentData(
         is Tie -> {
             selectValue("Style", STYLE, TieStyle.entries, data.style)
             selectValue("Size", SIZE, Size.entries, data.size)
-            editFillItemPart(state, data.main, MAIN, "Main")
-            editFillItemPart(state, data.knot, KNOT, "Knot")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.knot, KNOT, "Knot")
         }
     }
 }
@@ -175,12 +203,35 @@ fun parseEquipmentId(value: String) = EquipmentId(value.toInt())
 
 fun parseEquipmentId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
 
-fun parseEquipment(id: EquipmentId, parameters: Parameters) = Equipment(
-    id,
-    parseName(parameters),
-    parseEquipmentData(parameters),
-    parseWeight(parameters, WEIGHT, SiPrefix.Base),
-)
+fun parseEquipment(
+    state: State,
+    parameters: Parameters,
+    id: EquipmentId,
+): Equipment {
+    val data = parseEquipmentData(parameters)
+
+    return Equipment(
+        id,
+        parseName(parameters),
+        data,
+        parseWeight(parameters, WEIGHT, SiPrefix.Base),
+        parseColorSchemes(state, parameters, data),
+    )
+}
+
+private fun parseColorSchemes(
+    state: State,
+    parameters: Parameters,
+    data: EquipmentData,
+): Set<ColorSchemeId> {
+    val colorSchemeIds = parseElements(
+        parameters,
+        combine(COLOR, SCHEME),
+        ::parseColorSchemeId,
+    )
+
+    return state.filterValidColorSchemes(data, colorSchemeIds)
+}
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.Belt)) {
@@ -194,31 +245,31 @@ fun parseEquipmentData(parameters: Parameters) =
 
         EquipmentDataType.Gloves -> Gloves(
             parse(parameters, GLOVES, GloveStyle.Hand),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Hat -> Hat(
             parse(parameters, HAT, HatStyle.TopHat),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Necklace -> parseNecklace(parameters)
 
         EquipmentDataType.Pants -> Pants(
             parse(parameters, PANTS, PantsStyle.Regular),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Shirt -> parseShirt(parameters)
 
         EquipmentDataType.Skirt -> Skirt(
             parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Socks -> Socks(
             parse(parameters, STYLE, SocksStyle.Quarter),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.SuitJacket -> parseSuitJacket(parameters)
@@ -232,13 +283,13 @@ private fun parseShirt(parameters: Parameters): Shirt {
     return Shirt(
         neckline,
         parseSleeveStyle(parameters, neckline),
-        parseFillItemPart(parameters, MAIN),
+        parseFillLookupItemPart(parameters, MAIN),
     )
 }
 
 private fun parseTie(parameters: Parameters) = Tie(
     parse(parameters, STYLE, TieStyle.Tie),
     parse(parameters, SIZE, Size.Medium),
-    parseFillItemPart(parameters, MAIN),
-    parseFillItemPart(parameters, KNOT),
+    parseFillLookupItemPart(parameters, MAIN),
+    parseFillLookupItemPart(parameters, KNOT),
 )

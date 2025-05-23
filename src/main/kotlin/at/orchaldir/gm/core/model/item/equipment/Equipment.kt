@@ -1,12 +1,14 @@
 package at.orchaldir.gm.core.model.item.equipment
 
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_TYPE = "Equipment"
+const val MIN_EQUIPMENT_WEIGHT = 10L
 
 @JvmInline
 @Serializable
@@ -23,7 +25,8 @@ data class Equipment(
     val id: EquipmentId,
     val name: Name = Name.init("Equipment ${id.value}"),
     val data: EquipmentData = Belt(),
-    val weight: Weight = Weight.fromGrams(1),
+    val weight: Weight = Weight.fromGrams(MIN_EQUIPMENT_WEIGHT),
+    val colorSchemes: Set<ColorSchemeId> = emptySet(),
 ) : ElementWithSimpleName<EquipmentId> {
 
     override fun id() = id
@@ -32,5 +35,7 @@ data class Equipment(
     fun slots() = data.slots()
 
     fun canEquip() = data.slots().isNotEmpty()
+
+    fun areColorSchemesValid() = data.requiredSchemaColors() == 0 || colorSchemes.isNotEmpty()
 
 }

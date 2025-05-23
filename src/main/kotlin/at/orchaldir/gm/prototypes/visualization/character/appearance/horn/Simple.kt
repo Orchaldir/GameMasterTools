@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHorn
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.horn.TwoHorns
 import at.orchaldir.gm.core.model.race.appearance.scaleSimpleLength
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Factor

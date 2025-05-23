@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -52,5 +52,5 @@ data class DoubleBreasted(
 @Serializable
 @SerialName("Zipper")
 data class Zipper(
-    val part: ColorItemPart = ColorItemPart(Color.Silver),
+    val part: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
 ) : OpeningStyle()

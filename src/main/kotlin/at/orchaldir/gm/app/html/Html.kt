@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
@@ -184,9 +184,11 @@ fun TR.tdChar(char: Char) {
     tdString("\"$char\"")
 }
 
-fun <T : Enum<T>> TR.tdEnum(value: T) {
+fun <T : Enum<T>> TR.tdEnum(value: T?) {
     td {
-        +value.name
+        if (value != null) {
+            +value.name
+        }
     }
 }
 

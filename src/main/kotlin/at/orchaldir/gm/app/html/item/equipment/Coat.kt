@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.editFillItemPart
-import at.orchaldir.gm.app.html.item.parseFillItemPart
-import at.orchaldir.gm.app.html.item.showFillItemPart
+import at.orchaldir.gm.app.html.item.editFillLookupItemPart
+import at.orchaldir.gm.app.html.item.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.item.showFillLookupItemPart
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -28,7 +28,7 @@ fun HtmlBlockTag.showCoat(
     field("Sleeve Style", data.sleeveStyle)
     showOpeningStyle(call, state, data.openingStyle)
     field("Pocket Style", data.pocketStyle)
-    showFillItemPart(call, state, data.main, "Main")
+    showFillLookupItemPart(call, state, data.main, "Main")
 }
 
 // edit
@@ -42,7 +42,7 @@ fun FORM.editCoat(
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
     selectOpeningStyle(state, data.openingStyle)
     selectPocketStyle(PocketStyle.entries, data.pocketStyle)
-    editFillItemPart(state, data.main, MAIN)
+    editFillLookupItemPart(state, data.main, MAIN)
 }
 
 // parse
@@ -53,5 +53,5 @@ fun parseCoat(parameters: Parameters) = Coat(
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseOpeningStyle(parameters),
     parse(parameters, combine(POCKET, STYLE), PocketStyle.None),
-    parseFillItemPart(parameters, MAIN),
+    parseFillLookupItemPart(parameters, MAIN),
 )

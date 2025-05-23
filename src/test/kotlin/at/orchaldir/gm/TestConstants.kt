@@ -39,6 +39,7 @@ import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -69,6 +70,10 @@ val CHARACTER_ID_0 = CharacterId(0)
 val CHARACTER_ID_1 = CharacterId(1)
 val CHARACTER_ID_2 = CharacterId(2)
 val UNKNOWN_CHARACTER_ID = CharacterId(99)
+val COLOR_SCHEME_ID_0 = ColorSchemeId(0)
+val COLOR_SCHEME_ID_1 = ColorSchemeId(1)
+val COLOR_SCHEME_ID_2 = ColorSchemeId(2)
+val UNKNOWN_COLOR_SCHEME_ID = ColorSchemeId(99)
 val CULTURE_ID_0 = CultureId(0)
 val CULTURE_ID_1 = CultureId(1)
 val CURRENCY_ID_0 = CurrencyId(0)
@@ -100,6 +105,7 @@ val MAGIC_TRADITION_ID_0 = MagicTraditionId(0)
 val UNKNOWN_MAGIC_TRADITION_ID = MagicTraditionId(99)
 val MATERIAL_ID_0 = MaterialId(0)
 val MATERIAL_ID_1 = MaterialId(1)
+val UNKNOWN_MATERIAL_ID = MaterialId(99)
 val MOON_ID_0 = MoonId(0)
 val NAME_LIST_ID0 = NameListId(0)
 val ORGANIZATION_ID_0 = OrganizationId(0)

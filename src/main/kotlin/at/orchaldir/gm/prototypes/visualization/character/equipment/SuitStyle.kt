@@ -6,20 +6,20 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape.Rectangle
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.NormalFoot
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Color.Gray
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.Color.Gray
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
+import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
-    renderCharacterTable(
+    renderCharacterTableWithoutColorScheme(
         State(),
         "suit-style.svg",
         CHARACTER_CONFIG,
@@ -44,10 +44,10 @@ private fun createSuite(
 ) = from(
     listOf(
         Footwear(),
-        Pants(main = FillItemPart(Color.Silver)),
+        Pants(main = FillLookupItemPart(Color.Silver)),
         Shirt(),
         SuitJacket(
-            NecklineStyle.DeepV, SleeveStyle.Long, opening, pocket, FillItemPart(Gray)
+            NecklineStyle.DeepV, SleeveStyle.Long, opening, pocket, FillLookupItemPart(Gray)
         ),
         Tie(),
     )

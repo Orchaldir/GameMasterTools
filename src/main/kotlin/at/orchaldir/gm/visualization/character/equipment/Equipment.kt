@@ -31,20 +31,22 @@ fun visualizeBodyEquipment(
     state: CharacterRenderState,
     body: Body,
 ) {
-    state.equipped.getAllEquipment().forEach {
-        when (it) {
-            is Belt -> visualizeBelt(state, body, it)
-            is Coat -> visualizeCoat(state, body, it, OUTERWEAR_LAYER)
-            is Dress -> visualizeDress(state, body, it)
-            is Footwear -> visualizeFootwear(state, body, it)
-            is Gloves -> visualizeGloves(state, body, it)
-            is Necklace -> visualizeNecklace(state, body, it)
-            is Pants -> visualizePants(state, body, it)
-            is Shirt -> visualizeShirt(state, body, it)
-            is Skirt -> visualizeSkirt(state, body, it)
-            is Socks -> visualizeSocks(state, body, it)
-            is SuitJacket -> visualizeCoat(state, body, it.convert(), JACKET_LAYER)
-            is Tie -> visualizeTie(state, body, it)
+    state.equipped.getAllEquipment().forEach { pair ->
+        val newState = state.copy(colors = pair.second)
+
+        when (val data = pair.first) {
+            is Belt -> visualizeBelt(newState, body, data)
+            is Coat -> visualizeCoat(newState, body, data, OUTERWEAR_LAYER)
+            is Dress -> visualizeDress(newState, body, data)
+            is Footwear -> visualizeFootwear(newState, body, data)
+            is Gloves -> visualizeGloves(newState, body, data)
+            is Necklace -> visualizeNecklace(newState, body, data)
+            is Pants -> visualizePants(newState, body, data)
+            is Shirt -> visualizeShirt(newState, body, data)
+            is Skirt -> visualizeSkirt(newState, body, data)
+            is Socks -> visualizeSocks(newState, body, data)
+            is SuitJacket -> visualizeCoat(newState, body, data.convert(), JACKET_LAYER)
+            is Tie -> visualizeTie(newState, body, data)
             else -> doNothing()
         }
     }
@@ -54,13 +56,15 @@ fun visualizeHeadEquipment(
     state: CharacterRenderState,
     head: Head,
 ) {
-    state.equipped.getEquipmentWithSlotSets().forEach { (data, sets) ->
+    state.equipped.getEquipmentWithSlotSets().forEach { (pair, sets) ->
         sets.forEach { set ->
-            when (data) {
-                is Earring -> visualizeEarring(state, head, data, set)
-                is EyePatch -> visualizeEyePatch(state, head, data, set)
-                is Glasses -> visualizeGlasses(state, head, data)
-                is Hat -> visualizeHat(state, data)
+            val newState = state.copy(colors = pair.second)
+
+            when (val data = pair.first) {
+                is Earring -> visualizeEarring(newState, head, data, set)
+                is EyePatch -> visualizeEyePatch(newState, head, data, set)
+                is Glasses -> visualizeGlasses(newState, head, data)
+                is Hat -> visualizeHat(newState, data)
                 else -> doNothing()
             }
         }

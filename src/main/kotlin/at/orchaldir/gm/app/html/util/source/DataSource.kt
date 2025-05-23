@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.util
+package at.orchaldir.gm.app.html.util.source
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NUMBER

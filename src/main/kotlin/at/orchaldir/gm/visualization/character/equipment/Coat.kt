@@ -46,7 +46,7 @@ fun visualizeCoat(
     coat: Coat,
     layer: Int,
 ) {
-    val fill = coat.main.getFill(state.state)
+    val fill = coat.main.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
     visualizeSleeves(state, options, body, coat.sleeveStyle, layer)

@@ -47,6 +47,35 @@
      "hairLengths": {
      }
     }
+   },
+   "clothing": {
+    "clothingSets": {
+     "PantsAndShirt": "Uncommon",
+     "Suit": "Common"
+    },
+    "accessories": {
+     "Footwear": "Everyone",
+     "Tie": "Common"
+    },
+    "equipmentRarityMap": {
+     "Footwear": {
+      "0": "Common",
+      "1": "Common"
+     },
+     "Pants": {
+      "10": "Common"
+     },
+     "Shirt": {
+      "2": "Common"
+     },
+     "Tie": {
+      "4": "Common",
+      "5": "Uncommon"
+     },
+     "SuitJacket": {
+      "9": "Common"
+     }
+    }
    }
   },
   "1": {

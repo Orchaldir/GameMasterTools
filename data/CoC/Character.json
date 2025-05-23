@@ -155,6 +155,65 @@
      "color": "Light"
     }
    },
+   "equipmentMap": {
+    "list": [
+     {
+      "data": {
+       "first": 0,
+       "second": 1
+      },
+      "sets": [
+       [
+        "Foot"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 10,
+       "second": 7
+      },
+      "sets": [
+       [
+        "Bottom"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 2,
+       "second": 4
+      },
+      "sets": [
+       [
+        "InnerTop"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 4,
+       "second": 1
+      },
+      "sets": [
+       [
+        "Neck"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 9,
+       "second": 7
+      },
+      "sets": [
+       [
+        "Top"
+       ]
+      ]
+     }
+    ]
+   },
    "housingStatus": {
     "current": {
      "type": "InHouse",
@@ -601,6 +660,49 @@
    "birthDate": {
     "type": "Year",
     "year": 1913
+   },
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular",
+     "width": "Small"
+    },
+    "head": {
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "type": "Normal",
+       "pupilColor": "Olive"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "cut": {
+       "type": "Short",
+       "style": "SidePartRight"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Moustache",
+        "moustacheStyle": "Pencil"
+       },
+       "color": "SaddleBrown"
+      }
+     }
+    },
+    "height": 1800000,
+    "skin": {
+     "type": "Normal",
+     "color": "Fair"
+    }
    },
    "housingStatus": {
     "current": {

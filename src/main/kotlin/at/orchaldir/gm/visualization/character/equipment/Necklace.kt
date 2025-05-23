@@ -97,7 +97,7 @@ private fun visualizePendantNecklace(
         val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
 
         visualizeJewelryLineOfNecklace(state, torso, style.line, length)
-        visualizeOrnament(state.state, renderer, style.ornament, center, torso.convertHeight(radius))
+        visualizeOrnament(state, renderer, style.ornament, center, torso.convertHeight(radius))
     } else {
         visualizeJewelryLineOfNecklace(state, torso, style.line, NecklaceLength.Collar)
     }
@@ -121,7 +121,7 @@ private fun visualizeStrandNecklace(
             val roundedLine = subdivideLine(line, config.subdivisions)
             val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
 
-            visualizeJewelryLine(state.state, renderer, style.line, roundedLine, thickness)
+            visualizeJewelryLine(state, renderer, style.line, roundedLine, thickness)
         }
     } else {
         visualizeJewelryLineOfNecklace(state, torso, style.line, NecklaceLength.Collar)
@@ -141,7 +141,7 @@ private fun visualizeJewelryLineOfNecklace(
     val thickness = config.getWireThickness(torso, jewelryLine)
     val renderer = state.renderer.getLayer(ABOVE_EQUIPMENT_LAYER)
 
-    visualizeJewelryLine(state.state, renderer, jewelryLine, roundedLine, thickness)
+    visualizeJewelryLine(state, renderer, jewelryLine, roundedLine, thickness)
 }
 
 private fun createNecklaceLine(

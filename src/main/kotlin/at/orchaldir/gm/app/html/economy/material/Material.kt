@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCategory
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag

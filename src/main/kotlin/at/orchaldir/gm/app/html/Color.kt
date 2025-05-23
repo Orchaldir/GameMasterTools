@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.span
 import kotlinx.html.style
@@ -21,12 +21,14 @@ fun HtmlBlockTag.fieldColor(color: Color, label: String = "Color") {
     }
 }
 
-fun HtmlBlockTag.showColor(color: Color) {
-    span {
-        style = "color:$color"
-        +"█"
+fun HtmlBlockTag.showColor(color: Color?) {
+    if (color != null) {
+        span {
+            style = "color:$color"
+            +"█"
+        }
+        +" $color"
     }
-    +" $color"
 }
 
 // edit

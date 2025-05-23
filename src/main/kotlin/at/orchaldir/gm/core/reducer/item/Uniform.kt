@@ -37,7 +37,8 @@ fun validateUniform(
 ) {
     state.getUniformStorage().require(uniform.id)
 
-    uniform.equipmentMap.getAllEquipment().forEach { id ->
-        state.getEquipmentStorage().require(id)
+    uniform.equipmentMap.getAllEquipment().forEach { pair ->
+        state.getEquipmentStorage().require(pair.first)
+        state.getColorSchemeStorage().require(pair.second)
     }
 }

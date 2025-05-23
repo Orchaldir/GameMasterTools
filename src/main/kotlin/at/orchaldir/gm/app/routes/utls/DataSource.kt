@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.editDataSource
-import at.orchaldir.gm.app.html.util.parseDataSource
-import at.orchaldir.gm.app.html.util.showDataSource
+import at.orchaldir.gm.app.html.util.source.editDataSource
+import at.orchaldir.gm.app.html.util.source.parseDataSource
+import at.orchaldir.gm.app.html.util.source.showDataSource
 import at.orchaldir.gm.core.action.CreateDataSource
 import at.orchaldir.gm.core.action.DeleteDataSource
 import at.orchaldir.gm.core.action.UpdateDataSource

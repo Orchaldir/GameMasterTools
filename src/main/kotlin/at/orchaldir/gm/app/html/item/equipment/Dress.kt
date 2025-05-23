@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.NECKLINE
 import at.orchaldir.gm.app.SKIRT_STYLE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.editFillItemPart
-import at.orchaldir.gm.app.html.item.parseFillItemPart
-import at.orchaldir.gm.app.html.item.showFillItemPart
+import at.orchaldir.gm.app.html.item.editFillLookupItemPart
+import at.orchaldir.gm.app.html.item.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.item.showFillLookupItemPart
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -30,7 +30,7 @@ fun HtmlBlockTag.showDress(
     field("Neckline Style", dress.necklineStyle)
     field("Skirt Style", dress.skirtStyle)
     field("Sleeve Style", dress.sleeveStyle)
-    showFillItemPart(call, state, dress.main, "Main")
+    showFillLookupItemPart(call, state, dress.main, "Main")
 }
 
 // edit
@@ -45,7 +45,7 @@ fun FORM.editDress(
         dress.necklineStyle.getSupportsSleevesStyles(),
         dress.sleeveStyle,
     )
-    editFillItemPart(state, dress.main, MAIN)
+    editFillLookupItemPart(state, dress.main, MAIN)
 }
 
 // parse
@@ -57,6 +57,6 @@ fun parseDress(parameters: Parameters): Dress {
         neckline,
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
         parseSleeveStyle(parameters, neckline),
-        parseFillItemPart(parameters, MAIN),
+        parseFillLookupItemPart(parameters, MAIN),
     )
 }

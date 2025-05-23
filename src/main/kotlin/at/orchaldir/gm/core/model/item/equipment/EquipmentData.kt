@@ -1,12 +1,13 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.ColorItemPart
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -92,7 +93,7 @@ sealed class EquipmentData : MadeFromParts {
 @SerialName("Belt")
 data class Belt(
     val buckle: Buckle = SimpleBuckle(),
-    val strap: FillItemPart = FillItemPart(Color.SaddleBrown),
+    val strap: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
     val holes: BeltHoles = NoBeltHoles,
 ) : EquipmentData() {
 
@@ -107,7 +108,7 @@ data class Coat(
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
-    val main: FillItemPart = FillItemPart(Color.SaddleBrown),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
     override fun parts() = openingStyle.parts() + main
@@ -119,7 +120,7 @@ data class Dress(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val main: FillItemPart = FillItemPart(Color.Red),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.Red),
 ) : EquipmentData() {
 
     override fun parts() = listOf(main)
@@ -148,12 +149,12 @@ data class EyePatch(
 @SerialName("Footwear")
 data class Footwear(
     val style: FootwearStyle = FootwearStyle.Shoes,
-    val shaft: FillItemPart = FillItemPart(Color.SaddleBrown),
+    val shaft: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
     val sole: ColorItemPart = ColorItemPart(Color.Black),
 ) : EquipmentData() {
 
     constructor(style: FootwearStyle, shaft: Color, sole: Color) :
-            this(style, FillItemPart(shaft), ColorItemPart(sole))
+            this(style, FillLookupItemPart(shaft), ColorItemPart(sole))
 
     override fun parts() = listOf(shaft, sole)
 }
@@ -163,8 +164,8 @@ data class Footwear(
 data class Glasses(
     val lensShape: LensShape = LensShape.RoundedRectangle,
     val frameType: FrameType = FrameType.FullRimmed,
-    val lens: FillItemPart = FillItemPart(Color.SkyBlue),
-    val frame: ColorItemPart = ColorItemPart(Color.Navy),
+    val lens: FillLookupItemPart = FillLookupItemPart(Color.SkyBlue),
+    val frame: ColorSchemeItemPart = ColorSchemeItemPart(Color.Navy),
 ) : EquipmentData() {
 
     override fun parts() = listOf(lens, frame)
@@ -174,10 +175,10 @@ data class Glasses(
 @SerialName("Gloves")
 data class Gloves(
     val style: GloveStyle = GloveStyle.Hand,
-    val main: FillItemPart = FillItemPart(Color.Red),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.Red),
 ) : EquipmentData() {
 
-    constructor(style: GloveStyle, color: Color) : this(style, FillItemPart(color))
+    constructor(style: GloveStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
 }
@@ -186,10 +187,10 @@ data class Gloves(
 @SerialName("Hat")
 data class Hat(
     val style: HatStyle = HatStyle.TopHat,
-    val main: FillItemPart = FillItemPart(Color.SaddleBrown),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
-    constructor(style: HatStyle, color: Color) : this(style, FillItemPart(color))
+    constructor(style: HatStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
 }
@@ -208,10 +209,10 @@ data class Necklace(
 @SerialName("Pants")
 data class Pants(
     val style: PantsStyle = PantsStyle.Regular,
-    val main: FillItemPart = FillItemPart(Color.Navy),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.Navy),
 ) : EquipmentData() {
 
-    constructor(style: PantsStyle, color: Color) : this(style, FillItemPart(color))
+    constructor(style: PantsStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
 }
@@ -221,11 +222,11 @@ data class Pants(
 data class Shirt(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val main: FillItemPart = FillItemPart(Color.White),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.White),
 ) : EquipmentData() {
 
     constructor(neckline: NecklineStyle, sleeve: SleeveStyle, color: Color) :
-            this(neckline, sleeve, FillItemPart(color))
+            this(neckline, sleeve, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
 }
@@ -234,10 +235,10 @@ data class Shirt(
 @SerialName("Skirt")
 data class Skirt(
     val style: SkirtStyle = SkirtStyle.Sheath,
-    val main: FillItemPart = FillItemPart(Color.SaddleBrown),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
-    constructor(style: SkirtStyle, color: Color) : this(style, FillItemPart(color))
+    constructor(style: SkirtStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
 }
@@ -246,10 +247,10 @@ data class Skirt(
 @SerialName("Socks")
 data class Socks(
     val style: SocksStyle = SocksStyle.Quarter,
-    val main: FillItemPart = FillItemPart(Color.White),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.White),
 ) : EquipmentData() {
 
-    constructor(style: SocksStyle, color: Color) : this(style, FillItemPart(color))
+    constructor(style: SocksStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
 }
@@ -261,7 +262,7 @@ data class SuitJacket(
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
-    val main: FillItemPart = FillItemPart(Color.SaddleBrown),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
     override fun parts() = openingStyle.parts() + main
@@ -272,12 +273,12 @@ data class SuitJacket(
 data class Tie(
     val style: TieStyle = TieStyle.Tie,
     val size: Size = Size.Medium,
-    val main: FillItemPart = FillItemPart(Color.Navy),
-    val knot: FillItemPart = FillItemPart(Color.Navy),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.Navy),
+    val knot: FillLookupItemPart = FillLookupItemPart(Color.Navy),
 ) : EquipmentData() {
 
     constructor(style: TieStyle, size: Size, tie: Color, knot: Color) :
-            this(style, size, FillItemPart(tie), FillItemPart(knot))
+            this(style, size, FillLookupItemPart(tie), FillLookupItemPart(knot))
 
     override fun parts() = listOf(main, knot)
 }

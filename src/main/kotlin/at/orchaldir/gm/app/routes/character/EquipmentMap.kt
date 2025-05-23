@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.character
 
+import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.editEquipmentMap
@@ -8,8 +9,7 @@ import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
@@ -44,7 +44,7 @@ fun Application.configureEquipmentMapRouting() {
             val state = STORE.getState()
             val character = state.getCharacterStorage().getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
-            val equipmentMap = parseEquipmentMap(formParameters)
+            val equipmentMap = parseEquipmentMap(formParameters, CHARACTER)
 
             logger.info { "equipment: $equipmentMap" }
 
@@ -56,7 +56,7 @@ fun Application.configureEquipmentMapRouting() {
             logger.info { "Update character ${update.id.value}'s equipment" }
 
             val formParameters = call.receiveParameters()
-            val equipmentMap = parseEquipmentMap(formParameters)
+            val equipmentMap = parseEquipmentMap(formParameters, CHARACTER)
 
             STORE.dispatch(UpdateEquipmentOfCharacter(update.id, equipmentMap))
 
@@ -87,8 +87,9 @@ private fun HTML.showEquipmentMapEditor(
     call: ApplicationCall,
     state: State,
     character: Character,
-    equipmentMap: EquipmentMap<EquipmentId>,
+    equipmentMap: EquipmentIdMap,
 ) {
+    val generator = EquipmentGenerator.create(state, character.id)
     val equipped = state.getEquipment(equipmentMap)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(CharacterRoutes.Equipment.Preview(character.id))
@@ -101,9 +102,9 @@ private fun HTML.showEquipmentMapEditor(
         svg(frontSvg, 20)
         svg(backSvg, 20)
         formWithPreview(previewLink, updateLink, backLink) {
-            button("Random", generateLink)
+            button("Random", generateLink, generator == null)
 
-            editEquipmentMap(state, equipmentMap)
+            editEquipmentMap(state, equipmentMap, CHARACTER)
         }
     }
 }

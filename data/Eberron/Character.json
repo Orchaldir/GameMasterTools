@@ -51,30 +51,6 @@
     },
     "height": 1800000
    },
-   "equipmentMap": {
-    "map": {
-     "1": [
-      [
-       "Outer"
-      ]
-     ],
-     "9": [
-      [
-       "Bottom"
-      ]
-     ],
-     "10": [
-      [
-       "InnerTop"
-      ]
-     ],
-     "16": [
-      [
-       "Top"
-      ]
-     ]
-    }
-   },
    "beliefStatus": {
     "current": {
      "type": "Pantheon",
@@ -912,25 +888,6 @@
     "skin": {
      "type": "Exotic",
      "color": "Olive"
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "9": [
-      [
-       "Bottom"
-      ]
-     ],
-     "10": [
-      [
-       "InnerTop"
-      ]
-     ],
-     "16": [
-      [
-       "Top"
-      ]
-     ]
     }
    },
    "employmentStatus": {

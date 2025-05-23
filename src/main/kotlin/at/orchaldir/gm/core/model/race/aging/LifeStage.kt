@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.race.aging
 
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable

@@ -23,7 +23,7 @@ fun HtmlBlockTag.showFootwear(
     footwear: Footwear,
 ) {
     field("Style", footwear.style)
-    showFillItemPart(call, state, footwear.shaft, "Shaft")
+    showFillLookupItemPart(call, state, footwear.shaft, "Shaft")
     if (footwear.style.hasSole()) {
         showColorItemPart(call, state, footwear.sole, "Sole")
     }
@@ -36,7 +36,7 @@ fun FORM.editFootwear(
     footwear: Footwear,
 ) {
     selectValue("Style", FOOTWEAR, FootwearStyle.entries, footwear.style)
-    editFillItemPart(state, footwear.shaft, SHAFT, "Shaft")
+    editFillLookupItemPart(state, footwear.shaft, SHAFT, "Shaft")
     if (footwear.style.hasSole()) {
         editColorItemPart(state, footwear.sole, SOLE, "Sole")
     }
@@ -46,6 +46,6 @@ fun FORM.editFootwear(
 
 fun parseFootwear(parameters: Parameters) = Footwear(
     parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
-    parseFillItemPart(parameters, SHAFT),
+    parseFillLookupItemPart(parameters, SHAFT),
     parseColorItemPart(parameters, SOLE),
 )

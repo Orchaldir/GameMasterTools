@@ -1,8 +1,9 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.EquipmentData
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
+import at.orchaldir.gm.core.model.util.render.Colors
+import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
@@ -14,7 +15,8 @@ data class CharacterRenderState(
     val config: CharacterRenderConfig,
     val renderer: MultiLayerRenderer,
     val renderFront: Boolean,
-    val equipped: EquipmentMap<EquipmentData>,
+    val equipped: EquipmentElementMap,
+    val colors: Colors = UndefinedColors,
 ) {
 
     fun getBeardLayer() = getLayer(ABOVE_EQUIPMENT_LAYER)

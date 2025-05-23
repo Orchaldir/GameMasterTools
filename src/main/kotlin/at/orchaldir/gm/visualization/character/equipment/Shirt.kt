@@ -14,7 +14,7 @@ fun visualizeShirt(
     body: Body,
     shirt: Shirt,
 ) {
-    val fill = shirt.main.getFill(state.state)
+    val fill = shirt.main.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
     visualizeSleeves(state, options, body, shirt.sleeveStyle)

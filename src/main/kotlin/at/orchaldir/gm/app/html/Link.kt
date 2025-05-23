@@ -25,10 +25,7 @@ import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
-import at.orchaldir.gm.app.routes.utls.DataSourceRoutes
-import at.orchaldir.gm.app.routes.utls.FontRoutes
-import at.orchaldir.gm.app.routes.utls.NameListRoutes
-import at.orchaldir.gm.app.routes.utls.QuoteRoutes
+import at.orchaldir.gm.app.routes.utls.*
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
 import at.orchaldir.gm.core.model.State
@@ -64,10 +61,11 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.font.FontId
+import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -354,6 +352,7 @@ fun <ID : Id<ID>> href(
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))
     is CatastropheId -> call.application.href(CatastropheRoutes.Details(id))
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))
+    is ColorSchemeId -> call.application.href(ColorSchemeRoutes.Details(id))
     is CultureId -> call.application.href(CultureRoutes.Details(id))
     is CurrencyId -> call.application.href(CurrencyRoutes.Details(id))
     is CurrencyUnitId -> call.application.href(CurrencyUnitRoutes.Details(id))

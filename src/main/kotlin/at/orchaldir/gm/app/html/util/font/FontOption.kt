@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.util.selectDistance
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.font.*
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.unit.*
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import io.ktor.http.*

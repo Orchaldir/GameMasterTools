@@ -4,6 +4,9 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.source.editDataSources
+import at.orchaldir.gm.app.html.util.source.parseDataSources
+import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MagicTradition

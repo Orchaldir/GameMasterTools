@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.source
+package at.orchaldir.gm.core.reducer.util.source
 
 import at.orchaldir.gm.core.action.CreateDataSource
 import at.orchaldir.gm.core.action.DeleteDataSource

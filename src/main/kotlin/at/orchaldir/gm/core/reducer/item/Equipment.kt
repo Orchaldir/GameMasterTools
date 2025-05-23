@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
@@ -43,5 +44,17 @@ fun validateEquipment(
     state: State,
     equipment: Equipment,
 ) {
-    equipment.data.materials().forEach { state.getMaterialStorage().require(it) }
+    val requiredSchemaColors = equipment.data.requiredSchemaColors()
+
+    state.getMaterialStorage().require(equipment.data.materials())
+    state.getColorSchemeStorage().require(equipment.colorSchemes)
+
+    require(requiredSchemaColors == 0 || equipment.colorSchemes.isNotEmpty()) {
+        "Requires at least 1 $COLOR_SCHEME_TYPE"
+    }
+
+    state.getColorSchemeStorage().get(equipment.colorSchemes)
+        .forEach { scheme ->
+            require(scheme.data.count() >= requiredSchemaColors) { "${scheme.id.print()} has too few colors!" }
+        }
 }

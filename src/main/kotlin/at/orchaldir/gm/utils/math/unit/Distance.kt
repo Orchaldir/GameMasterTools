@@ -112,6 +112,8 @@ fun formatMicrometersAsMeters(micrometers: Long): String {
 
     return if (abs > SI_SIX_STEPS) {
         String.format(Locale.US, "%.2f m", convertToMeters(micrometers))
+    } else if (abs > SI_FOUR_STEPS) {
+        String.format(Locale.US, "%.2f cm", convertToCentimeters(micrometers))
     } else if (abs > SI_THREE_STEPS) {
         String.format(Locale.US, "%.2f mm", convertToMillimeters(micrometers))
     } else {

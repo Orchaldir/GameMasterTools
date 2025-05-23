@@ -1,5 +1,265 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Leather Shoes",
+   "data": {
+    "type": "Footwear",
+    "shaft": {
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    1,
+    2
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Leather Boots",
+   "data": {
+    "type": "Footwear",
+    "style": "Boots",
+    "shaft": {
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    1,
+    2
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Wool Shirt",
+   "data": {
+    "type": "Shirt",
+    "main": {
+     "material": 1,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    3,
+    4
+   ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Jean",
+   "data": {
+    "type": "Pants",
+    "main": {
+     "material": 3,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    5,
+    7,
+    6
+   ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Wool Tie",
+   "data": {
+    "type": "Tie",
+    "main": {
+     "material": 1,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    },
+    "knot": {
+     "material": 1,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    1,
+    5,
+    7,
+    6,
+    3
+   ]
+  },
+  "5": {
+   "id": 5,
+   "name": "Silk Tie",
+   "data": {
+    "type": "Tie",
+    "main": {
+     "material": 2,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    },
+    "knot": {
+     "material": 2,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    1,
+    5,
+    7,
+    6,
+    3
+   ]
+  },
+  "6": {
+   "id": 6,
+   "name": "Tuxedo",
+   "data": {
+    "type": "SuitJacket",
+    "necklineStyle": "DeepV",
+    "openingStyle": {
+     "type": "SingleBreasted",
+     "buttons": {
+      "button": {
+       "part": {
+        "material": 9
+       }
+      }
+     }
+    },
+    "main": {
+     "material": 1,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "Fixed",
+       "color": "Black"
+      }
+     }
+    }
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Dress Shirt",
+   "data": {
+    "type": "Shirt",
+    "main": {
+     "material": 2
+    }
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Tuxedo Pants",
+   "data": {
+    "type": "Pants",
+    "main": {
+     "material": 3,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "Fixed",
+       "color": "Black"
+      }
+     }
+    }
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Suit Jacket",
+   "data": {
+    "type": "SuitJacket",
+    "necklineStyle": "DeepV",
+    "openingStyle": {
+     "type": "SingleBreasted",
+     "buttons": {
+      "button": {
+       "part": {
+        "material": 9,
+        "lookup": {
+         "type": "Fixed",
+         "color": "Black"
+        }
+       }
+      },
+      "count": 4
+     }
+    },
+    "main": {
+     "material": 1,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    5,
+    7,
+    6,
+    3,
+    8
+   ]
+  },
+  "10": {
+   "id": 10,
+   "name": "Pants",
+   "data": {
+    "type": "Pants",
+    "main": {
+     "material": 1,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    5,
+    7,
+    6,
+    8
+   ]
+  }
  }
 }
