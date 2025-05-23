@@ -34,6 +34,7 @@ enum class RectangularShape {
     }
 
     fun calculateWidth(height: Distance, factor: Factor) = height * factor
+    fun calculateSize(height: Distance, factor: Factor) = height * factor
 
     fun getSides() = when (this) {
         Teardrop, ReverseTeardrop -> 0

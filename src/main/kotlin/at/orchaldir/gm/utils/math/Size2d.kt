@@ -3,6 +3,7 @@ package at.orchaldir.gm.utils.math
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import kotlinx.serialization.Serializable
+import kotlin.math.sqrt
 
 @Serializable
 data class Size2d(val width: Distance, val height: Distance) {
@@ -22,6 +23,8 @@ data class Size2d(val width: Distance, val height: Distance) {
         )
 
         fun square(distance: Distance) = Size2d(distance, distance)
+
+        fun fromDiagonalRadius(radius: Distance) = square(radius * sqrt(2.0f))
     }
 
     fun scale(horizontal: Factor, vertical: Factor) =
