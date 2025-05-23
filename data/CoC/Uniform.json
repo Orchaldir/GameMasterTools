@@ -1,5 +1,68 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Tuxedo",
+   "equipmentMap": {
+    "list": [
+     {
+      "data": {
+       "first": 0,
+       "second": 1
+      },
+      "sets": [
+       [
+        "Foot"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 8,
+       "second": 0
+      },
+      "sets": [
+       [
+        "Bottom"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 7,
+       "second": 0
+      },
+      "sets": [
+       [
+        "InnerTop"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 5,
+       "second": 7
+      },
+      "sets": [
+       [
+        "Neck"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 6,
+       "second": 0
+      },
+      "sets": [
+       [
+        "Top"
+       ]
+      ]
+     }
+    ]
+   }
+  }
  }
 }
