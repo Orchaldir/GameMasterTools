@@ -10,16 +10,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.render.ColorLookup
-import at.orchaldir.gm.core.model.util.render.ColorScheme
-import at.orchaldir.gm.core.model.util.render.ColorSchemeId
-import at.orchaldir.gm.core.model.util.render.LookupMaterial
-import at.orchaldir.gm.core.model.util.render.LookupSchema0
-import at.orchaldir.gm.core.model.util.render.LookupSchema1
-import at.orchaldir.gm.core.model.util.render.OneColor
-import at.orchaldir.gm.core.model.util.render.TwoColors
-import at.orchaldir.gm.core.model.util.render.UndefinedColors
+import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

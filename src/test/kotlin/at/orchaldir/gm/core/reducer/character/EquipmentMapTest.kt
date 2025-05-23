@@ -1,13 +1,8 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.COLOR_SCHEME_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_1
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.ColorScheme
