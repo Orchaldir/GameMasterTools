@@ -53,11 +53,7 @@ private fun HtmlBlockTag.showEquipmentData(
         is EyePatch -> showEyePatch(call, state, data)
         is Footwear -> showFootwear(call, state, data)
         is Glasses -> showGlasses(call, state, data)
-
-        is Gloves -> {
-            field("Style", data.style)
-            showFillLookupItemPart(call, state, data.main, "Main")
-        }
+        is Gloves -> showGloves(call, state, data)
 
         is Hat -> {
             field("Style", data.style)
@@ -149,11 +145,7 @@ private fun FORM.editEquipmentData(
         is EyePatch -> editEyePatch(state, data)
         is Footwear -> editFootwear(state, data)
         is Glasses -> editGlasses(state, data)
-
-        is Gloves -> {
-            selectValue("Style", GLOVES, GloveStyle.entries, data.style)
-            editFillLookupItemPart(state, data.main, MAIN, "Main")
-        }
+        is Gloves -> editGloves(state, data)
 
         is Hat -> {
             selectValue("Style", HAT, HatStyle.entries, data.style)
@@ -242,11 +234,7 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.EyePatch -> parseEyePatch(parameters)
         EquipmentDataType.Footwear -> parseFootwear(parameters)
         EquipmentDataType.Glasses -> parseGlasses(parameters)
-
-        EquipmentDataType.Gloves -> Gloves(
-            parse(parameters, GLOVES, GloveStyle.Hand),
-            parseFillLookupItemPart(parameters, MAIN),
-        )
+        EquipmentDataType.Gloves -> parseGloves(parameters)
 
         EquipmentDataType.Hat -> Hat(
             parse(parameters, HAT, HatStyle.TopHat),
