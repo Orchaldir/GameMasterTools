@@ -34,7 +34,7 @@ class EquipmentTest {
                 listOf(
                     ColorScheme(COLOR_SCHEME_ID_0, UndefinedColors),
                     ColorScheme(COLOR_SCHEME_ID_1, OneColor(Color.Red)),
-                    ColorScheme(COLOR_SCHEME_ID_1, TwoColors.init(Color.Blue, Color.Green)),
+                    ColorScheme(COLOR_SCHEME_ID_2, TwoColors.init(Color.Blue, Color.Green)),
                 )
             ),
             Storage(Equipment(EQUIPMENT_ID_0)),
@@ -164,6 +164,30 @@ class EquipmentTest {
                 val action = UpdateEquipment(item)
 
                 assertIllegalArgument("Color Scheme 0 has too few colors!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Color scheme has 1 color and needs 0`() {
+                val item = createItem(COLOR_SCHEME_ID_1)
+                val action = UpdateEquipment(item)
+
+                REDUCER.invoke(STATE, action)
+            }
+
+            @Test
+            fun `Color scheme has 1 color and needs 1`() {
+                val item = createItem(COLOR_SCHEME_ID_1, lookup = LookupSchema0)
+                val action = UpdateEquipment(item)
+
+                REDUCER.invoke(STATE, action)
+            }
+
+            @Test
+            fun `Color scheme has 1 color, but needs 2`() {
+                val item = createItem(COLOR_SCHEME_ID_1, lookup = LookupSchema1)
+                val action = UpdateEquipment(item)
+
+                assertIllegalArgument("Color Scheme 1 has too few colors!") { REDUCER.invoke(STATE, action) }
             }
         }
 
