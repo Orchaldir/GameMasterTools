@@ -1,66 +1,40 @@
 package at.orchaldir.gm.app.html.util.color
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parseFloat
-import at.orchaldir.gm.app.html.parseUByte
-import at.orchaldir.gm.app.html.selectFloat
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.selectOptionalValue
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.util.color.editColorLookup
-import at.orchaldir.gm.app.html.util.color.showColorLookup
-import at.orchaldir.gm.app.html.util.color.fieldColorLookup
-import at.orchaldir.gm.app.html.util.color.parseColorLookup
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.fieldFactor
 import at.orchaldir.gm.app.html.util.parseFactor
 import at.orchaldir.gm.app.html.util.selectPercentage
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.render.ColorLookup
-import at.orchaldir.gm.core.model.util.render.Fill
-import at.orchaldir.gm.core.model.util.render.FillLookup
-import at.orchaldir.gm.core.model.util.render.FillLookupType
-import at.orchaldir.gm.core.model.util.render.FillType
-import at.orchaldir.gm.core.model.util.render.HorizontalStripes
-import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
-import at.orchaldir.gm.core.model.util.render.Solid
-import at.orchaldir.gm.core.model.util.render.SolidLookup
-import at.orchaldir.gm.core.model.util.render.Tiles
-import at.orchaldir.gm.core.model.util.render.TilesLookup
-import at.orchaldir.gm.core.model.util.render.Transparent
-import at.orchaldir.gm.core.model.util.render.TransparentLookup
-import at.orchaldir.gm.core.model.util.render.VerticalStripes
-import at.orchaldir.gm.core.model.util.render.VerticalStripesLookup
+import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showOptionalFill(label: String, fill: FillLookup?) {
+fun HtmlBlockTag.showOptionalFillLookup(label: String, fill: FillLookup?) {
     if (fill != null) {
         showDetails(label, true) {
-            showFill(fill)
+            showFillLookup(fill)
         }
     }
 }
 
-fun HtmlBlockTag.showOptionalFill(fill: FillLookup?) {
+fun HtmlBlockTag.showOptionalFillLookup(fill: FillLookup?) {
     if (fill != null) {
-        showFill(fill)
+        showFillLookup(fill)
     }
 }
 
-fun HtmlBlockTag.showFill(label: String, fill: FillLookup) {
+fun HtmlBlockTag.showFillLookup(label: String, fill: FillLookup) {
     showDetails(label, true) {
-        showFill(fill)
+        showFillLookup(fill)
     }
 }
 
-fun HtmlBlockTag.showFill(fill: FillLookup) {
+fun HtmlBlockTag.showFillLookup(fill: FillLookup) {
     when (fill) {
         is SolidLookup -> fieldColorLookup("Solid Fill", fill.color)
         is TransparentLookup -> {
