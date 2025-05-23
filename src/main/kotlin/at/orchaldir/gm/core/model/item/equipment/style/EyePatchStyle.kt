@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.character.appearance.eye.NormalEye
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
@@ -36,10 +36,10 @@ sealed class EyePatchStyle : MadeFromParts {
 @SerialName("Simple")
 data class SimpleEyePatch(
     val shape: LensShape = LensShape.Rectangle,
-    val main: FillItemPart = FillItemPart(Color.Black),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.Black),
 ) : EyePatchStyle() {
 
-    constructor(shape: LensShape, color: Color) : this(shape, FillItemPart(color))
+    constructor(shape: LensShape, color: Color) : this(shape, FillLookupItemPart(color))
 
     init {
         require(VALID_LENSES.contains(shape)) { "SimpleEyePatch has an invalid shape $shape!" }
@@ -57,7 +57,7 @@ data class OrnamentAsEyePatch(
 data class EyePatchWithEye(
     val eye: NormalEye,
     val shape: LensShape = LensShape.Rectangle,
-    val main: FillItemPart = FillItemPart(Color.Black),
+    val main: FillLookupItemPart = FillLookupItemPart(Color.Black),
 ) : EyePatchStyle() {
 
     init {

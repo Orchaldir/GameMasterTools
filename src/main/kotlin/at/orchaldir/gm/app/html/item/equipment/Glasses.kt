@@ -26,7 +26,7 @@ fun HtmlBlockTag.showGlasses(
 ) {
     showDetails("Lenses") {
         field("Shape", glasses.lensShape)
-        showFillItemPart(call, state, glasses.lens)
+        showFillLookupItemPart(call, state, glasses.lens)
     }
     showDetails("Frame") {
         field("Type", glasses.frameType)
@@ -42,7 +42,7 @@ fun FORM.editGlasses(
 ) {
     showDetails("Lenses", true) {
         selectValue("Shape", SHAPE, LensShape.entries, glasses.lensShape)
-        editFillItemPart(state, glasses.lens, LENS)
+        editFillLookupItemPart(state, glasses.lens, LENS)
     }
     showDetails("Frame", true) {
         selectValue("Shape", FRAME, FrameType.entries, glasses.frameType)
@@ -55,6 +55,6 @@ fun FORM.editGlasses(
 fun parseGlasses(parameters: Parameters) = Glasses(
     parse(parameters, SHAPE, LensShape.Rectangle),
     parse(parameters, FRAME, FrameType.FullRimmed),
-    parseFillItemPart(parameters, LENS),
+    parseFillLookupItemPart(parameters, LENS),
     parseColorSchemeItemPart(parameters, FRAME),
 )

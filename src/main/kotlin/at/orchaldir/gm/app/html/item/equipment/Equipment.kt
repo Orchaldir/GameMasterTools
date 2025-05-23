@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.item.editFillItemPart
-import at.orchaldir.gm.app.html.item.parseFillItemPart
-import at.orchaldir.gm.app.html.item.showFillItemPart
+import at.orchaldir.gm.app.html.item.editFillLookupItemPart
+import at.orchaldir.gm.app.html.item.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.item.showFillLookupItemPart
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.util.parseWeight
@@ -56,35 +56,35 @@ private fun HtmlBlockTag.showEquipmentData(
 
         is Gloves -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Hat -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Necklace -> showNecklace(call, state, data)
 
         is Pants -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Shirt -> {
             field("Neckline Style", data.necklineStyle)
             field("Sleeve Style", data.sleeveStyle)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Skirt -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is Socks -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.main, "Main")
         }
 
         is SuitJacket -> showSuitJacket(call, state, data)
@@ -92,8 +92,8 @@ private fun HtmlBlockTag.showEquipmentData(
         is Tie -> {
             field("Style", data.style)
             field("Size", data.size)
-            showFillItemPart(call, state, data.main, "Main")
-            showFillItemPart(call, state, data.knot, "Knot")
+            showFillLookupItemPart(call, state, data.main, "Main")
+            showFillLookupItemPart(call, state, data.knot, "Knot")
         }
     }
 }
@@ -152,19 +152,19 @@ private fun FORM.editEquipmentData(
 
         is Gloves -> {
             selectValue("Style", GLOVES, GloveStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Hat -> {
             selectValue("Style", HAT, HatStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Necklace -> editNecklace(state, data)
 
         is Pants -> {
             selectValue("Style", PANTS, PantsStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Shirt -> {
@@ -173,17 +173,17 @@ private fun FORM.editEquipmentData(
                 SleeveStyle.entries,
                 data.sleeveStyle,
             )
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Skirt -> {
             selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is Socks -> {
             selectValue("Style", STYLE, SocksStyle.entries, data.style)
-            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
         }
 
         is SuitJacket -> editSuitJacket(state, data)
@@ -191,8 +191,8 @@ private fun FORM.editEquipmentData(
         is Tie -> {
             selectValue("Style", STYLE, TieStyle.entries, data.style)
             selectValue("Size", SIZE, Size.entries, data.size)
-            editFillItemPart(state, data.main, MAIN, "Main")
-            editFillItemPart(state, data.knot, KNOT, "Knot")
+            editFillLookupItemPart(state, data.main, MAIN, "Main")
+            editFillLookupItemPart(state, data.knot, KNOT, "Knot")
         }
     }
 }
@@ -245,31 +245,31 @@ fun parseEquipmentData(parameters: Parameters) =
 
         EquipmentDataType.Gloves -> Gloves(
             parse(parameters, GLOVES, GloveStyle.Hand),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Hat -> Hat(
             parse(parameters, HAT, HatStyle.TopHat),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Necklace -> parseNecklace(parameters)
 
         EquipmentDataType.Pants -> Pants(
             parse(parameters, PANTS, PantsStyle.Regular),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Shirt -> parseShirt(parameters)
 
         EquipmentDataType.Skirt -> Skirt(
             parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Socks -> Socks(
             parse(parameters, STYLE, SocksStyle.Quarter),
-            parseFillItemPart(parameters, MAIN),
+            parseFillLookupItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.SuitJacket -> parseSuitJacket(parameters)
@@ -283,13 +283,13 @@ private fun parseShirt(parameters: Parameters): Shirt {
     return Shirt(
         neckline,
         parseSleeveStyle(parameters, neckline),
-        parseFillItemPart(parameters, MAIN),
+        parseFillLookupItemPart(parameters, MAIN),
     )
 }
 
 private fun parseTie(parameters: Parameters) = Tie(
     parse(parameters, STYLE, TieStyle.Tie),
     parse(parameters, SIZE, Size.Medium),
-    parseFillItemPart(parameters, MAIN),
-    parseFillItemPart(parameters, KNOT),
+    parseFillLookupItemPart(parameters, MAIN),
+    parseFillLookupItemPart(parameters, KNOT),
 )

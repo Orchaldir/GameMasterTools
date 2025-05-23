@@ -32,7 +32,7 @@ private fun visualizeSimpleOrnament(
     position: Point2d,
     radius: Distance,
 ) {
-    val fill = ornament.part.getFill(state.state)
+    val fill = ornament.part.getFill(state.state, state.colors)
     val options = NoBorder(fill.toRender())
 
     visualizeOrnament(renderer, position, radius, ornament.shape, options)
@@ -45,7 +45,7 @@ private fun visualizeBorderOrnament(
     position: Point2d,
     radius: Distance,
 ) {
-    val centerFill = ornament.center.getFill(state.state)
+    val centerFill = ornament.center.getFill(state.state, state.colors)
     val borderColor = ornament.border.getColor(state.state, state.colors)
     val options = FillAndBorder(centerFill.toRender(), LineOptions(borderColor.toRender(), radius / 3.0f))
 

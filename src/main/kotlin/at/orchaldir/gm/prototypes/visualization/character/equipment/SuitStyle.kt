@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape.Rectangle
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.NormalFoot
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.*
@@ -45,10 +45,10 @@ private fun createSuite(
 ) = from(
     listOf(
         Footwear(),
-        Pants(main = FillItemPart(Color.Silver)),
+        Pants(main = FillLookupItemPart(Color.Silver)),
         Shirt(),
         SuitJacket(
-            NecklineStyle.DeepV, SleeveStyle.Long, opening, pocket, FillItemPart(Gray)
+            NecklineStyle.DeepV, SleeveStyle.Long, opening, pocket, FillLookupItemPart(Gray)
         ),
         Tie(),
     )

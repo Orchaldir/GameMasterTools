@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
@@ -35,10 +35,10 @@ sealed class Ornament : MadeFromParts {
 @SerialName("Simple")
 data class SimpleOrnament(
     val shape: OrnamentShape = OrnamentShape.Circle,
-    val part: FillItemPart = FillItemPart(Color.Gold),
+    val part: FillLookupItemPart = FillLookupItemPart(Color.Gold),
 ) : Ornament() {
 
-    constructor(shape: OrnamentShape, color: Color) : this(shape, FillItemPart(color))
+    constructor(shape: OrnamentShape, color: Color) : this(shape, FillLookupItemPart(color))
 
 }
 
@@ -46,11 +46,11 @@ data class SimpleOrnament(
 @SerialName("Border")
 data class OrnamentWithBorder(
     val shape: OrnamentShape = OrnamentShape.Circle,
-    val center: FillItemPart = FillItemPart(Color.Red),
+    val center: FillLookupItemPart = FillLookupItemPart(Color.Red),
     val border: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
 ) : Ornament() {
 
     constructor(shape: OrnamentShape, center: Color, border: Color = Color.Gold) :
-            this(shape, FillItemPart(center), ColorSchemeItemPart(border))
+            this(shape, FillLookupItemPart(center), ColorSchemeItemPart(border))
 
 }

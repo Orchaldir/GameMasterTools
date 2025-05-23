@@ -44,7 +44,7 @@ fun visualizeSkirt(
     body: Body,
     skirt: Skirt,
 ) {
-    val fill = skirt.main.getFill(state.state)
+    val fill = skirt.main.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
     val builder = createSkirt(state, body, skirt.style)
 

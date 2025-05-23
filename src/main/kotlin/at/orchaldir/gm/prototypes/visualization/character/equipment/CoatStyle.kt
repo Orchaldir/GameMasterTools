@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape.Rectangle
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.NormalFoot
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.*
@@ -51,7 +51,7 @@ private fun createCoat(
     neckline: NecklineStyle,
     opening: OpeningStyle,
 ) = Coat(
-    Hip, neckline, SleeveStyle.Long, opening, main = FillItemPart(Blue)
+    Hip, neckline, SleeveStyle.Long, opening, main = FillLookupItemPart(Blue)
 )
 
 private fun createAppearance(distance: Distance) =

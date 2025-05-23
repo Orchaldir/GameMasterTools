@@ -25,7 +25,7 @@ fun visualizeFootwear(
     body: Body,
     footwear: Footwear,
 ) {
-    val fill = footwear.shaft.getFill(state.state)
+    val fill = footwear.shaft.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
     visualizeBootShaft(state, body, footwear, options)
