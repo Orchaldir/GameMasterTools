@@ -2,7 +2,6 @@ package at.orchaldir.gm.utils.math.shape
 
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.FULL_CIRCLE
-import at.orchaldir.gm.utils.math.unit.Weight
 import kotlin.math.pow
 
 enum class CircularShape {
@@ -61,9 +60,6 @@ enum class CircularShape {
 
     fun calculateVolume(radius: Distance, thickness: Distance) =
         calculateArea(radius) * thickness.toMeters()
-
-    fun calculateWeight(radius: Distance, thickness: Distance, density: Weight) =
-        Weight.Companion.fromKilograms(calculateVolume(radius, thickness) * density.toKilograms())
 
     fun getSides() = when (this) {
         Circle, Teardrop, ReverseTeardrop -> 0
