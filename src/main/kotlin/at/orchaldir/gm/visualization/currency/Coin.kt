@@ -3,7 +3,7 @@ package at.orchaldir.gm.visualization.currency
 import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.HoledCoin
-import at.orchaldir.gm.utils.math.shape.Shape
+import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.Point2d
@@ -28,7 +28,7 @@ fun visualizeCoin(
         options
     )
     visualizeOuterRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
-    visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(Shape.Circle), coin.front)
+    visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(CircularShape.Circle), coin.front)
 }
 
 fun visualizeHoledCoin(
@@ -67,7 +67,7 @@ fun visualizeHoledCoin(
         state,
         renderer,
         center,
-        coin.calculateInnerShapeRadius(Shape.Circle),
+        coin.calculateInnerShapeRadius(CircularShape.Circle),
         holeRadius,
         coin.front,
     )
@@ -100,14 +100,14 @@ fun visualizeBiMetallicCoin(
         innerOptions
     )
 
-    visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(Shape.Circle), coin.front)
+    visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(CircularShape.Circle), coin.front)
 }
 
 private fun visualizeOuterRim(
     state: CurrencyRenderState,
     renderer: LayerRenderer,
     center: Point2d,
-    shape: Shape,
+    shape: CircularShape,
     radius: Distance,
     rimFactor: Factor,
 ) {
@@ -124,7 +124,7 @@ private fun visualizeInnerRim(
     renderer: LayerRenderer,
     center: Point2d,
     radius: Distance,
-    innerShape: Shape,
+    innerShape: CircularShape,
     innerRadius: Distance,
     rimFactor: Factor,
 ) {
@@ -140,7 +140,7 @@ private fun visualizeRim(
     state: CurrencyRenderState,
     renderer: LayerRenderer,
     center: Point2d,
-    shape: Shape,
+    shape: CircularShape,
     rimRadius: Distance,
 ) {
     val rimOptions = BorderOnly(state.config.line)

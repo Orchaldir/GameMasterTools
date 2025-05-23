@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.economy.money
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.shape.Shape
+import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -72,14 +72,14 @@ data object UndefinedCurrencyFormat : CurrencyFormat()
 @SerialName("Coin")
 data class Coin(
     val material: MaterialId = MaterialId(0),
-    val shape: Shape = Shape.Circle,
+    val shape: CircularShape = CircularShape.Circle,
     val radius: Distance = DEFAULT_RADIUS,
     val thickness: Distance = DEFAULT_THICKNESS,
     val rimFactor: Factor = DEFAULT_RIM_FACTOR,
     val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
-    fun calculateInnerShapeRadius(inner: Shape) = shape.calculateIncircle(radius, inner)
+    fun calculateInnerShapeRadius(inner: CircularShape) = shape.calculateIncircle(radius, inner)
 
 }
 
@@ -87,17 +87,17 @@ data class Coin(
 @SerialName("Holed")
 data class HoledCoin(
     val material: MaterialId = MaterialId(0),
-    val shape: Shape = Shape.Circle,
+    val shape: CircularShape = CircularShape.Circle,
     val radius: Distance = DEFAULT_RADIUS,
     val thickness: Distance = DEFAULT_THICKNESS,
     val rimFactor: Factor = DEFAULT_RIM_FACTOR,
-    val holeShape: Shape = Shape.Circle,
+    val holeShape: CircularShape = CircularShape.Circle,
     val holeFactor: Factor = DEFAULT_RADIUS_FACTOR,
     val hasHoleRim: Boolean = true,
     val front: HoledCoinSide = HoledCoinSide(),
 ) : CurrencyFormat() {
 
-    fun calculateInnerShapeRadius(inner: Shape) = shape.calculateIncircle(radius, inner)
+    fun calculateInnerShapeRadius(inner: CircularShape) = shape.calculateIncircle(radius, inner)
 
     fun calculateHoleRadius() = calculateInnerShapeRadius(holeShape) * holeFactor
 
@@ -107,17 +107,17 @@ data class HoledCoin(
 @SerialName("BiMetallic")
 data class BiMetallicCoin(
     val material: MaterialId = MaterialId(0),
-    val shape: Shape = Shape.Circle,
+    val shape: CircularShape = CircularShape.Circle,
     val radius: Distance = DEFAULT_RADIUS,
     val thickness: Distance = DEFAULT_THICKNESS,
     val rimFactor: Factor = DEFAULT_RIM_FACTOR,
     val innerMaterial: MaterialId = MaterialId(1),
-    val innerShape: Shape = Shape.Circle,
+    val innerShape: CircularShape = CircularShape.Circle,
     val innerFactor: Factor = DEFAULT_RADIUS_FACTOR,
     val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
-    fun calculateInnerShapeRadius(inner: Shape) = shape.calculateIncircle(radius, inner)
+    fun calculateInnerShapeRadius(inner: CircularShape) = shape.calculateIncircle(radius, inner)
 
     fun calculateInnerRadius() = calculateInnerShapeRadius(innerShape) * innerFactor
 

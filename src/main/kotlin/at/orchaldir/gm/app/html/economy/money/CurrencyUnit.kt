@@ -15,7 +15,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.shape.Shape
+import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -194,8 +194,8 @@ fun HtmlBlockTag.editCurrencyFormat(
     }
 }
 
-private fun HtmlBlockTag.selectShape(shape: Shape, param: String) {
-    selectValue("Shape", param, Shape.entries, shape)
+private fun HtmlBlockTag.selectShape(shape: CircularShape, param: String) {
+    selectValue("Shape", param, CircularShape.entries, shape)
 }
 
 private fun HtmlBlockTag.selectRadius(radius: Distance) {
@@ -264,7 +264,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
         CurrencyFormatType.Undefined -> UndefinedCurrencyFormat
         CurrencyFormatType.Coin -> Coin(
             parseMaterialId(parameters, MATERIAL),
-            parse(parameters, SHAPE, Shape.Circle),
+            parse(parameters, SHAPE, CircularShape.Circle),
             parseRadius(parameters),
             parseThickness(parameters),
             parseRimFactor(parameters),
@@ -273,23 +273,23 @@ fun parseCurrencyFormat(parameters: Parameters) =
 
         CurrencyFormatType.HoledCoin -> HoledCoin(
             parseMaterialId(parameters, MATERIAL),
-            parse(parameters, SHAPE, Shape.Circle),
+            parse(parameters, SHAPE, CircularShape.Circle),
             parseRadius(parameters),
             parseThickness(parameters),
             parseRimFactor(parameters),
-            parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
+            parse(parameters, combine(HOLE, SHAPE), CircularShape.Circle),
             parseRadiusFactor(parameters),
             parseBool(parameters, combine(HOLE, EDGE)),
         )
 
         CurrencyFormatType.BiMetallicCoin -> BiMetallicCoin(
             parseMaterialId(parameters, MATERIAL),
-            parse(parameters, SHAPE, Shape.Circle),
+            parse(parameters, SHAPE, CircularShape.Circle),
             parseRadius(parameters),
             parseThickness(parameters),
             parseRimFactor(parameters),
             parseMaterialId(parameters, combine(HOLE, MATERIAL)),
-            parse(parameters, combine(HOLE, SHAPE), Shape.Circle),
+            parse(parameters, combine(HOLE, SHAPE), CircularShape.Circle),
             parseRadiusFactor(parameters),
             parseCoinSide(parameters, FRONT)
         )

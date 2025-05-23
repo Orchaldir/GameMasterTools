@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.shape.Shape
+import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
@@ -26,8 +26,8 @@ fun main() {
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
-        addNames(Shape.entries),
-        addNames(listOf(null, Shape.Circle, Shape.Square, Shape.Octagon)),
+        addNames(CircularShape.entries),
+        addNames(listOf(null, CircularShape.Circle, CircularShape.Square, CircularShape.Octagon)),
     ) { shape, hole ->
         if (hole == null) {
             Coin(

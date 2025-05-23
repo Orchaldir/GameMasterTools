@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.shape.Shape
+import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
@@ -27,8 +27,8 @@ fun main() {
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
-        addNames(Shape.entries),
-        addNames(listOf(Shape.Circle, Shape.Triangle, Shape.Square)),
+        addNames(CircularShape.entries),
+        addNames(listOf(CircularShape.Circle, CircularShape.Triangle, CircularShape.Square)),
     ) { shape, innerShape ->
         BiMetallicCoin(
             gold,

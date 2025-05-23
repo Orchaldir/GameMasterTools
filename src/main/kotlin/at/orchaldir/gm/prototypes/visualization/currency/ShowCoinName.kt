@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.shape.Shape
+import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.currency.ResolvedCurrencyData
 
@@ -28,7 +28,7 @@ fun main() {
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
-        addNames(Shape.entries),
+        addNames(CircularShape.entries),
         addNames(listOf("D", "DD", "DDD", "DDDD", "DDDDD")),
         { _, name ->
             ResolvedCurrencyData(Name.init(name))

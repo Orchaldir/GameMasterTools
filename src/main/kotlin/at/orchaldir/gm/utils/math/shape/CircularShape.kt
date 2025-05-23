@@ -5,7 +5,7 @@ import at.orchaldir.gm.utils.math.unit.FULL_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlin.math.pow
 
-enum class Shape {
+enum class CircularShape {
     Circle,
     Teardrop,
     ReverseTeardrop,
@@ -36,7 +36,7 @@ enum class Shape {
     fun calculateArea(radius: Distance) =
         Math.PI.toFloat() * radius.toMeters().pow(2)
 
-    fun calculateIncircle(radius: Distance, inner: Shape): Distance {
+    fun calculateIncircle(radius: Distance, inner: CircularShape): Distance {
         val sides = getSides()
 
         if ((this == Teardrop && inner != Teardrop) || (this == ReverseTeardrop && inner != ReverseTeardrop)) {
