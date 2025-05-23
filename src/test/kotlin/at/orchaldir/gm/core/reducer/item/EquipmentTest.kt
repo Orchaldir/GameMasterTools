@@ -172,6 +172,21 @@ class EquipmentTest {
                 fail(COLOR_SCHEME_ID_1, LookupSchema1)
             }
 
+            @Test
+            fun `Color scheme has 2 color and needs 0`() {
+                success(COLOR_SCHEME_ID_2, LookupMaterial)
+            }
+
+            @Test
+            fun `Color scheme has 2 color and needs 1`() {
+                success(COLOR_SCHEME_ID_2, LookupSchema0)
+            }
+
+            @Test
+            fun `Color scheme has 2 color and needs 2`() {
+                success(COLOR_SCHEME_ID_2, LookupSchema1)
+            }
+
             private fun success(scheme: ColorSchemeId, lookup: ColorLookup) {
                 val item = createItem(scheme, lookup = lookup)
                 val action = UpdateEquipment(item)
