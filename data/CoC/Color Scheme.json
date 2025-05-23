@@ -52,6 +52,13 @@
     "type": "1",
     "color": "DimGray"
    }
+  },
+  "8": {
+   "id": 8,
+   "data": {
+    "type": "1",
+    "color": "Tan"
+   }
   }
  }
 }
