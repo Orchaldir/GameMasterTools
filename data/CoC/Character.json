@@ -645,22 +645,6 @@
      "color": "Fair"
     }
    },
-   "equipmentMap": {
-    "list": [
-     {
-      "data": {
-       "first": 1,
-       "second": 4
-      },
-      "sets": [
-       [
-        "LeftEye",
-        "RightEye"
-       ]
-      ]
-     }
-    ]
-   },
    "housingStatus": {
     "current": {
      "type": "InHouse",
