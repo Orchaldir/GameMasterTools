@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.math.shape
 
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -25,6 +26,7 @@ sealed class ComplexShape {
     }
 
     abstract fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d
+    abstract fun calculateInnerAabb(aabb: AABB, inner: ComplexShape): AABB
 }
 
 @Serializable
@@ -48,6 +50,15 @@ data class UsingCircularShape(
         }
     }
 
+    override fun calculateInnerAabb(
+        aabb: AABB,
+        inner: ComplexShape,
+    ): AABB {
+        val innerSize = calculateIncircle(aabb.getInnerRadius(), inner)
+
+        return AABB.fromCenter(aabb.getCenter(), innerSize)
+    }
+
 }
 
 @Serializable
@@ -64,6 +75,15 @@ data class UsingRectangularShape(
             is UsingCircularShape -> Size2d.square(size.minSize())
             is UsingRectangularShape -> shape.calculateIncircle(size, inner.factor)
         }
+    }
+
+    override fun calculateInnerAabb(
+        aabb: AABB,
+        inner: ComplexShape,
+    ): AABB {
+        val innerSize = calculateIncircle(aabb.getInnerRadius(), inner)
+
+        return AABB.fromCenter(aabb.getCenter(), innerSize)
     }
 
 }
