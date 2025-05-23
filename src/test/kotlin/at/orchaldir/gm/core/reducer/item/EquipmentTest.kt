@@ -6,12 +6,17 @@ import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.ColorLookup
 import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.model.util.render.LookupMaterial
 import at.orchaldir.gm.core.model.util.render.LookupSchema0
+import at.orchaldir.gm.core.model.util.render.LookupSchema1
 import at.orchaldir.gm.core.model.util.render.OneColor
 import at.orchaldir.gm.core.model.util.render.TwoColors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
@@ -120,7 +125,7 @@ class EquipmentTest {
 
         @Test
         fun `Material must exist`() {
-            val item = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(UNKNOWN_MATERIAL_ID)))
+            val item = createItem(material = UNKNOWN_MATERIAL_ID)
             val action = UpdateEquipment(item)
 
             assertIllegalArgument("Requires unknown Material 99!") { REDUCER.invoke(STATE, action) }
@@ -128,10 +133,30 @@ class EquipmentTest {
 
         @Test
         fun `Color scheme must exist`() {
-            val item = Equipment(EQUIPMENT_ID_0, colorSchemes = setOf(UNKNOWN_COLOR_SCHEME_ID))
+            val item = createItem(UNKNOWN_COLOR_SCHEME_ID)
             val action = UpdateEquipment(item)
 
             assertIllegalArgument("Requires unknown Color Scheme 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Nested
+        inner class UpdateTest {
+
+            @Test
+            fun `Color scheme has zero colors, but needs 1`() {
+                val item = createItem(COLOR_SCHEME_ID_0, lookup = LookupSchema0)
+                val action = UpdateEquipment(item)
+
+                assertIllegalArgument("Color Scheme 0 has too few colors!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Color scheme has zero colors, but needs 2`() {
+                val item = createItem(COLOR_SCHEME_ID_0, lookup = LookupSchema1)
+                val action = UpdateEquipment(item)
+
+                assertIllegalArgument("Color Scheme 0 has too few colors!") { REDUCER.invoke(STATE, action) }
+            }
         }
 
         @Test
@@ -146,15 +171,21 @@ class EquipmentTest {
 
         @Test
         fun `Update template with material`() {
-            val item = Equipment(
-                EQUIPMENT_ID_0,
-                colorSchemes = setOf(COLOR_SCHEME_ID_1),
-                data = Glasses(frame = ColorSchemeItemPart(MATERIAL_ID_0, LookupSchema0)),
-            )
+            val item = createItem(lookup = LookupSchema0)
             val action = UpdateEquipment(item)
 
             assertEquals(item, REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
         }
+
+        private fun createItem(
+            scheme: ColorSchemeId = COLOR_SCHEME_ID_1,
+            material: MaterialId = MATERIAL_ID_0,
+            lookup: ColorLookup = LookupMaterial,
+        ) = Equipment(
+            EQUIPMENT_ID_0,
+            colorSchemes = setOf(scheme),
+            data = Glasses(frame = ColorSchemeItemPart(material, lookup)),
+        )
     }
 
 }
