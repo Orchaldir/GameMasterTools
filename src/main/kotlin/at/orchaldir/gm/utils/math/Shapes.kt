@@ -105,6 +105,7 @@ fun createTeardrop(center: Point2d, radius: Distance): Polygon2d {
         .addLeftPoint(aabb, CENTER, START, true)
         .addMirroredPoints(aabb, FULL, HALF)
         .addMirroredPoints(aabb, FULL, END)
+        .reverse()
         .build()
 }
 

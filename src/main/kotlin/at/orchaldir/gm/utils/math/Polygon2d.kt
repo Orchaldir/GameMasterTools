@@ -131,9 +131,11 @@ data class Polygon2dBuilder(
         return false
     }
 
-    fun reverse() {
+    fun reverse(): Polygon2dBuilder {
         leftCorners.reverse()
         rightCorners.reverse()
+
+        return this
     }
 
     fun build() = Polygon2d(leftCorners + rightCorners.reversed())
