@@ -45,22 +45,6 @@ data class ColorItemPart(
 }
 
 @Serializable
-data class ColorSchemeItemPart(
-    val material: MaterialId = MaterialId(0),
-    val lookup: ColorLookup = LookupMaterial,
-) : ItemPart {
-
-    constructor(color: Color) : this(MaterialId(0), FixedColor(color))
-
-    fun getColor(state: State, colors: Colors) = lookup.lookup(state, colors, material)
-
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
-    override fun requiredSchemaColors() = lookup.requiredSchemaColors()
-
-}
-
-@Serializable
 data class FillItemPart(
     val material: MaterialId = MaterialId(0),
     val fill: Fill? = null,
@@ -82,6 +66,22 @@ data class FillItemPart(
 }
 
 @Serializable
+data class ColorSchemeItemPart(
+    val material: MaterialId = MaterialId(0),
+    val lookup: ColorLookup = LookupMaterial,
+) : ItemPart {
+
+    constructor(color: Color) : this(MaterialId(0), FixedColor(color))
+
+    fun getColor(state: State, colors: Colors) = lookup.lookup(state, colors, material)
+
+    override fun contains(id: MaterialId) = material == id
+    override fun materials() = setOf(material)
+    override fun requiredSchemaColors() = lookup.requiredSchemaColors()
+
+}
+
+@Serializable
 data class FillLookupItemPart(
     val material: MaterialId = MaterialId(0),
     val fill: FillLookup = SolidLookup(LookupMaterial),
@@ -93,6 +93,7 @@ data class FillLookupItemPart(
 
     override fun contains(id: MaterialId) = material == id
     override fun materials() = setOf(material)
+    override fun requiredSchemaColors() = fill.requiredSchemaColors()
 
 }
 

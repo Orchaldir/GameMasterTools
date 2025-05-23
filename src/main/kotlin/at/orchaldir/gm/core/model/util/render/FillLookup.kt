@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.max
 
 enum class FillLookupType {
     Solid,
@@ -50,6 +51,14 @@ sealed class FillLookup {
             width,
             borderPercentage
         )
+    }
+
+    fun requiredSchemaColors() = when (this) {
+        is SolidLookup -> color.requiredSchemaColors()
+        is TransparentLookup -> color.requiredSchemaColors()
+        is VerticalStripesLookup -> max(color0.requiredSchemaColors(), color1.requiredSchemaColors())
+        is HorizontalStripesLookup -> max(color0.requiredSchemaColors(), color1.requiredSchemaColors())
+        is TilesLookup -> max(fill.requiredSchemaColors(), background.requiredSchemaColors())
     }
 }
 

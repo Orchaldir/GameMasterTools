@@ -7,8 +7,18 @@
    "data": {
     "type": "Footwear",
     "shaft": {
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
     }
-   }
+   },
+   "colorSchemes": [
+    1,
+    2
+   ]
   }
  }
 }
