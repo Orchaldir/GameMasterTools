@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
@@ -93,8 +93,8 @@ class EquipmentTest {
 
         @Test
         fun `Cannot change equipment type while equipped`() {
-            val oldItem = Equipment(EQUIPMENT_ID_0, data = Pants(main = FillItemPart(MATERIAL_ID_0)))
-            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(MATERIAL_ID_0)))
+            val oldItem = Equipment(EQUIPMENT_ID_0, data = Pants(main = FillLookupItemPart(MATERIAL_ID_0)))
+            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_0)))
             val state = State(
                 listOf(
                     Storage(oldItem),
@@ -109,8 +109,8 @@ class EquipmentTest {
 
         @Test
         fun `Can change equipment details while equipped`() {
-            val oldItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(MATERIAL_ID_0)))
-            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(MATERIAL_ID_1)))
+            val oldItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_0)))
+            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_1)))
             val state = State(
                 listOf(
                     Storage(oldItem),

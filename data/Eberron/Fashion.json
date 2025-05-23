@@ -41,27 +41,6 @@
     }
    },
    "clothing": {
-    "clothingSets": {
-     "PantsAndShirt": "Common",
-     "Suit": "Common"
-    },
-    "equipmentRarityMap": {
-     "Coat": {
-      "1": "Common"
-     },
-     "Dress": {
-      "2": "Common"
-     },
-     "Pants": {
-      "9": "Common"
-     },
-     "Shirt": {
-      "10": "Common"
-     },
-     "SuitJacket": {
-      "16": "Common"
-     }
-    }
    }
   },
   "1": {
@@ -93,28 +72,6 @@
     }
    },
    "clothing": {
-    "clothingSets": {
-     "Dress": "Common",
-     "PantsAndShirt": "Uncommon",
-     "ShirtAndSkirt": "Common"
-    },
-    "equipmentRarityMap": {
-     "Coat": {
-      "1": "Common"
-     },
-     "Dress": {
-      "2": "Common"
-     },
-     "Pants": {
-      "9": "Common"
-     },
-     "Shirt": {
-      "10": "Common"
-     },
-     "Skirt": {
-      "15": "Common"
-     }
-    }
    }
   }
  }
