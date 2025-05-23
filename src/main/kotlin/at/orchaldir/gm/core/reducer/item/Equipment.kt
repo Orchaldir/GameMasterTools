@@ -46,7 +46,8 @@ fun validateEquipment(
 ) {
     val requiredSchemaColors = equipment.data.requiredSchemaColors()
 
-    equipment.data.materials().forEach { state.getMaterialStorage().require(it) }
+    state.getMaterialStorage().require(equipment.data.materials())
+    state.getColorSchemeStorage().require(equipment.colorSchemes)
 
     require(requiredSchemaColors == 0 || equipment.colorSchemes.isNotEmpty()) {
         "Requires at least 1 $COLOR_SCHEME_TYPE"

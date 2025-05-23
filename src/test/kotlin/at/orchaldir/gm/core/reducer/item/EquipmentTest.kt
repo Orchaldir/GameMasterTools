@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -101,10 +102,18 @@ class EquipmentTest {
 
         @Test
         fun `Material must exist`() {
-            val item = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(MATERIAL_ID_1)))
+            val item = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(UNKNOWN_MATERIAL_ID)))
             val action = UpdateEquipment(item)
 
-            assertIllegalArgument("Requires unknown Material 1!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Material 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Color scheme must exist`() {
+            val item = Equipment(EQUIPMENT_ID_0, colorSchemes = setOf(UNKNOWN_COLOR_SCHEME_ID))
+            val action = UpdateEquipment(item)
+
+            assertIllegalArgument("Requires unknown Color Scheme 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
