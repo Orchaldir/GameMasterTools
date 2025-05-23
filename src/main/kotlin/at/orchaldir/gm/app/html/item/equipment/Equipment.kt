@@ -2,9 +2,6 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.item.editFillLookupItemPart
-import at.orchaldir.gm.app.html.item.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.item.showFillLookupItemPart
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.util.parseWeight
@@ -14,8 +11,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
 import at.orchaldir.gm.core.selector.util.getValidColorSchemes
@@ -61,12 +56,7 @@ private fun HtmlBlockTag.showEquipmentData(
         is Skirt -> showSkirt(call, state, data)
         is Socks -> showSocks(call, state, data)
         is SuitJacket -> showSuitJacket(call, state, data)
-        is Tie -> {
-            field("Style", data.style)
-            field("Size", data.size)
-            showFillLookupItemPart(call, state, data.main, "Main")
-            showFillLookupItemPart(call, state, data.knot, "Knot")
-        }
+        is Tie -> showTie(call, state, data)
     }
 }
 
@@ -85,7 +75,6 @@ fun FORM.editEquipment(
         EquipmentDataType.entries,
         equipment.data.getType(),
     )
-
     editEquipmentData(state, equipment)
 }
 
@@ -129,12 +118,7 @@ private fun FORM.editEquipmentData(
         is Skirt -> editSkirt(state, data)
         is Socks -> editSocks(state, data)
         is SuitJacket -> editSuitJacket(state, data)
-        is Tie -> {
-            selectValue("Style", STYLE, TieStyle.entries, data.style)
-            selectValue("Size", SIZE, Size.entries, data.size)
-            editFillLookupItemPart(state, data.main, MAIN, "Main")
-            editFillLookupItemPart(state, data.knot, KNOT, "Knot")
-        }
+        is Tie -> editTie(state, data)
     }
 }
 
@@ -193,10 +177,3 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.SuitJacket -> parseSuitJacket(parameters)
         EquipmentDataType.Tie -> parseTie(parameters)
     }
-
-private fun parseTie(parameters: Parameters) = Tie(
-    parse(parameters, STYLE, TieStyle.Tie),
-    parse(parameters, SIZE, Size.Medium),
-    parseFillLookupItemPart(parameters, MAIN),
-    parseFillLookupItemPart(parameters, KNOT),
-)
