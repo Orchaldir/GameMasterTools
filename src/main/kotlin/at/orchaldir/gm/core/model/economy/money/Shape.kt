@@ -35,8 +35,19 @@ enum class Shape {
     fun calculateArea(radius: Distance) =
         Math.PI.toFloat() * radius.toMeters().pow(2)
 
-    fun calculateIncircle(radius: Distance, sides: Int): Distance {
+    fun calculateIncircle(radius: Distance, inner: Shape): Distance {
+        val sides = getSides()
+
+        if (this == Teardrop && inner != Teardrop) {
+            return radius / 2
+        } else if (this == Circle ||
+            (sides == inner.getSides() && hasCornerAtTop() == inner.hasCornerAtTop())
+        ) {
+            return radius
+        }
+
         require(sides >= 3) { "Requires at least 3 sides!" }
+
         val angle = FULL_CIRCLE.div(sides * 2.0f)
         val incircleRadius = radius * angle.cos()
 

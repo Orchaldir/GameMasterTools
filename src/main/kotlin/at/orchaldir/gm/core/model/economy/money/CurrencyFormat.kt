@@ -78,7 +78,7 @@ data class Coin(
     val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
-    fun calculateInnerShapeRadius(inner: Shape) = calculateInnerRadius(radius, shape, inner)
+    fun calculateInnerShapeRadius(inner: Shape) = shape.calculateIncircle(radius, inner)
 
 }
 
@@ -96,7 +96,7 @@ data class HoledCoin(
     val front: HoledCoinSide = HoledCoinSide(),
 ) : CurrencyFormat() {
 
-    fun calculateInnerShapeRadius(other: Shape) = calculateInnerRadius(radius, shape, other)
+    fun calculateInnerShapeRadius(inner: Shape) = shape.calculateIncircle(radius, inner)
 
     fun calculateHoleRadius() = calculateInnerShapeRadius(holeShape) * holeFactor
 
@@ -116,21 +116,9 @@ data class BiMetallicCoin(
     val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
 
-    fun calculateInnerShapeRadius(other: Shape) = calculateInnerRadius(radius, shape, other)
+    fun calculateInnerShapeRadius(inner: Shape) = shape.calculateIncircle(radius, inner)
 
     fun calculateInnerRadius() = calculateInnerShapeRadius(innerShape) * innerFactor
 
 }
 
-private fun calculateInnerRadius(radius: Distance, outer: Shape, inner: Shape): Distance {
-    val outerSides = outer.getSides()
-
-    if (outer == Shape.Circle ||
-        outer == Shape.Teardrop ||
-        (outerSides == inner.getSides() && outer.hasCornerAtTop() == inner.hasCornerAtTop())
-    ) {
-        return radius
-    }
-
-    return outer.calculateIncircle(radius, outerSides)
-}
