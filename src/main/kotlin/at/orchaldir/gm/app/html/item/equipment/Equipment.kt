@@ -59,13 +59,8 @@ private fun HtmlBlockTag.showEquipmentData(
         is Pants -> showPants(call, state, data)
         is Shirt -> showShirt(call, state, data)
         is Skirt -> showSkirt(call, state, data)
-        is Socks -> {
-            field("Style", data.style)
-            showFillLookupItemPart(call, state, data.main, "Main")
-        }
-
+        is Socks -> showSocks(call, state, data)
         is SuitJacket -> showSuitJacket(call, state, data)
-
         is Tie -> {
             field("Style", data.style)
             field("Size", data.size)
@@ -132,14 +127,8 @@ private fun FORM.editEquipmentData(
         is Pants -> editPants(state, data)
         is Shirt -> editShirt(state, data)
         is Skirt -> editSkirt(state, data)
-
-        is Socks -> {
-            selectValue("Style", STYLE, SocksStyle.entries, data.style)
-            editFillLookupItemPart(state, data.main, MAIN, "Main")
-        }
-
+        is Socks -> editSocks(state, data)
         is SuitJacket -> editSuitJacket(state, data)
-
         is Tie -> {
             selectValue("Style", STYLE, TieStyle.entries, data.style)
             selectValue("Size", SIZE, Size.entries, data.size)
@@ -200,14 +189,8 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.Pants -> parsePants(parameters)
         EquipmentDataType.Shirt -> parseShirt(parameters)
         EquipmentDataType.Skirt -> parseSkirt(parameters)
-
-        EquipmentDataType.Socks -> Socks(
-            parse(parameters, STYLE, SocksStyle.Quarter),
-            parseFillLookupItemPart(parameters, MAIN),
-        )
-
+        EquipmentDataType.Socks -> parseSocks(parameters)
         EquipmentDataType.SuitJacket -> parseSuitJacket(parameters)
-
         EquipmentDataType.Tie -> parseTie(parameters)
     }
 
