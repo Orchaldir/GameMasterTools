@@ -24,7 +24,7 @@ fun HtmlBlockTag.showEquipmentMap(
     label: String,
     equipmentMap: EquipmentIdMap,
 ) {
-    showMap(label, equipmentMap.getEquipmentWithSlotSets()) { pair, slotSets ->
+    fieldList(label, equipmentMap.getEquipmentWithSlotSets()) { (pair, slotSets) ->
         link(call, state, pair.first)
         +" ("
         link(call, state, pair.second)
@@ -123,7 +123,7 @@ fun parseEquipmentMap(
         }
     }
 
-    return EquipmentMap(map)
+    return EquipmentMap.fromSlotAsValueMap(map)
 }
 
 private fun tryParse(

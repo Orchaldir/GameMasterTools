@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.character
 
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BodySlot

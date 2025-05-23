@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataMap
+import at.orchaldir.gm.core.model.item.equipment.EquipmentEntry
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.*
@@ -53,7 +54,9 @@ fun main() {
     ).map { row ->
         row.map {
             val earring = Earring(it)
-            EquipmentMap(earring to setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)))
+            val entry = EquipmentEntry<EquipmentData>(earring, setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)))
+
+            EquipmentMap(entry)
         }
     }
     renderCharacterTableWithoutColorScheme(

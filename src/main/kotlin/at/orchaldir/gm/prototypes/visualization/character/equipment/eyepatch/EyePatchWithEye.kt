@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape.VerticalSl
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
+import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.EquipmentEntry
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.EyePatchWithEye
@@ -32,7 +34,9 @@ fun main() {
     ) { distance, shape, eyeShape ->
         val eye = NormalEye(eyeShape, VerticalSlit, Red, Yellow)
         val eyePatch = EyePatch(EyePatchWithEye(eye, shape), OneBand())
-        Pair(createAppearance(distance), EquipmentMap(eyePatch, BodySlot.LeftEye))
+        val entry = EquipmentEntry<EquipmentData>(eyePatch, BodySlot.LeftEye)
+
+        Pair(createAppearance(distance), EquipmentMap(entry))
     }
 }
 
