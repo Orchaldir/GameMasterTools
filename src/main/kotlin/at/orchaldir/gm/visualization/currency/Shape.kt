@@ -53,6 +53,7 @@ private fun createShapePolygon(
     radius: Distance,
 ) = when (shape) {
     Shape.Circle -> createRegularPolygon(center, radius, 120)
+    Shape.Teardrop -> createTeardrop(center, radius)
     Shape.Triangle -> createTriangle(center, radius)
     Shape.CutoffTriangle -> createCutoffTriangle(center, radius)
     Shape.RoundedTriangle -> createRoundedTriangle(center, radius)

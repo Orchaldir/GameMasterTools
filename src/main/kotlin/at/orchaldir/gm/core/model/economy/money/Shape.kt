@@ -7,6 +7,7 @@ import kotlin.math.pow
 
 enum class Shape {
     Circle,
+    Teardrop,
     Triangle,
     CutoffTriangle,
     RoundedTriangle,
@@ -25,7 +26,7 @@ enum class Shape {
     ScallopedDodecagonal;
 
     fun isRounded() = when (this) {
-        RoundedTriangle, RoundedSquare, RoundedDiamond, ScallopedOctagon, ScallopedDodecagonal -> true
+        Teardrop, RoundedTriangle, RoundedSquare, RoundedDiamond, ScallopedOctagon, ScallopedDodecagonal -> true
         else -> false
     }
 
@@ -53,7 +54,7 @@ enum class Shape {
         Weight.fromKilograms(calculateVolume(radius, thickness) * density.toKilograms())
 
     fun getSides() = when (this) {
-        Circle -> 0
+        Circle, Teardrop -> 0
         Triangle, CutoffTriangle, RoundedTriangle -> 3
         Square, CutoffSquare, RoundedSquare, Diamond, CutoffDiamond, RoundedDiamond -> 4
         Pentagon -> 5

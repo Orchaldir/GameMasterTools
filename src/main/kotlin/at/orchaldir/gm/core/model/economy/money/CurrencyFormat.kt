@@ -126,6 +126,7 @@ private fun calculateInnerRadius(radius: Distance, outer: Shape, inner: Shape): 
     val outerSides = outer.getSides()
 
     if (outer == Shape.Circle ||
+        outer == Shape.Teardrop ||
         (outerSides == inner.getSides() && outer.hasCornerAtTop() == inner.hasCornerAtTop())
     ) {
         return radius
