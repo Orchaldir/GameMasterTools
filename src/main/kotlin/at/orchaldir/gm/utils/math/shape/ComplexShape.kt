@@ -1,7 +1,6 @@
 package at.orchaldir.gm.utils.math.shape
 
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -33,8 +32,4 @@ data class UsingCircularShape(
 data class UsingRectangularShape(
     val shape: RectangularShape = RectangularShape.Rectangle,
     val factor: Factor = Factor.fromPercentage(50),
-) : ComplexShape() {
-
-    fun calculateWidth(height: Distance) = height * factor
-
-}
+) : ComplexShape()

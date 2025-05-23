@@ -20,7 +20,8 @@ enum class RectangularShape {
         calculateArea(size) * thickness.toMeters()
 
     fun calculateIncircle(size: Size2d, innerFactor: Factor): Size2d {
-        val innerSize = Size2d(size.height * innerFactor, size.height)
+        val innerWidth = calculateWidth(size.height, innerFactor)
+        val innerSize = Size2d(innerWidth, size.height)
 
         return if (innerSize.width > size.width) {
             val newFactor = size.width / innerSize.width
@@ -31,6 +32,8 @@ enum class RectangularShape {
             innerSize
         }
     }
+
+    fun calculateWidth(height: Distance, factor: Factor) = height * factor
 
     fun getSides() = when (this) {
         Teardrop, ReverseTeardrop -> 0
