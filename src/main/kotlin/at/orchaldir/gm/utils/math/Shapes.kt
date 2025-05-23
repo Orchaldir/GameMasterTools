@@ -109,6 +109,16 @@ fun createTeardrop(center: Point2d, radius: Distance): Polygon2d {
         .build()
 }
 
+fun createReverseTeardrop(center: Point2d, radius: Distance): Polygon2d {
+    val aabb = AABB.fromRadii(center, radius / 2, radius)
+
+    return Polygon2dBuilder()
+        .addLeftPoint(aabb, CENTER, END, true)
+        .addMirroredPoints(aabb, FULL, HALF)
+        .addMirroredPoints(aabb, FULL, START)
+        .build()
+}
+
 // triangle
 
 fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation = AT_TOP) =

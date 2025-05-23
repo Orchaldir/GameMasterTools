@@ -8,6 +8,7 @@ import kotlin.math.pow
 enum class Shape {
     Circle,
     Teardrop,
+    ReverseTeardrop,
     Triangle,
     CutoffTriangle,
     RoundedTriangle,
@@ -26,7 +27,7 @@ enum class Shape {
     ScallopedDodecagonal;
 
     fun isRounded() = when (this) {
-        Teardrop, RoundedTriangle, RoundedSquare, RoundedDiamond, ScallopedOctagon, ScallopedDodecagonal -> true
+        Teardrop, ReverseTeardrop, RoundedTriangle, RoundedSquare, RoundedDiamond, ScallopedOctagon, ScallopedDodecagonal -> true
         else -> false
     }
 
@@ -38,7 +39,7 @@ enum class Shape {
     fun calculateIncircle(radius: Distance, inner: Shape): Distance {
         val sides = getSides()
 
-        if (this == Teardrop && inner != Teardrop) {
+        if ((this == Teardrop && inner != Teardrop) || (this == ReverseTeardrop && inner != ReverseTeardrop)) {
             return radius / 2
         } else if (this == Circle ||
             (sides == inner.getSides() && hasCornerAtTop() == inner.hasCornerAtTop())
@@ -65,7 +66,7 @@ enum class Shape {
         Weight.fromKilograms(calculateVolume(radius, thickness) * density.toKilograms())
 
     fun getSides() = when (this) {
-        Circle, Teardrop -> 0
+        Circle, Teardrop, ReverseTeardrop -> 0
         Triangle, CutoffTriangle, RoundedTriangle -> 3
         Square, CutoffSquare, RoundedSquare, Diamond, CutoffDiamond, RoundedDiamond -> 4
         Pentagon -> 5
