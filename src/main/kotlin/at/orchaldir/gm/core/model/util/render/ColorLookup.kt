@@ -35,6 +35,12 @@ sealed interface ColorLookup {
         LookupSchema1 -> colors.color0()
     }
 
+    fun getOtherColors() = if (this is FixedColor) {
+        Color.entries - color
+    } else {
+        Color.entries
+    }
+
 }
 
 @Serializable

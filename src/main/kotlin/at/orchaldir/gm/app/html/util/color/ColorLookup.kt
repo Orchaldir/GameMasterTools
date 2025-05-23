@@ -9,21 +9,26 @@ import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
+import kotlin.enums.EnumEntries
 
 // show
 
-fun HtmlBlockTag.showColorLookup(
+fun HtmlBlockTag.fieldColorLookup(
     label: String,
     lookup: ColorLookup,
 ) {
     field(label) {
-        when (lookup) {
-            is FixedColor -> showColor(lookup.color)
-            LookupMaterial -> +"Color of Material"
-            LookupSchema0 -> +"1.Color of Schema"
-            LookupSchema1 -> +"2.Color of Schema"
-        }
+        showColorLookup(lookup)
     }
+}
+
+fun HtmlBlockTag.showColorLookup(
+    lookup: ColorLookup,
+) = when (lookup) {
+    is FixedColor -> showColor(lookup.color)
+    LookupMaterial -> +"Color of Material"
+    LookupSchema0 -> +"1.Color of Schema"
+    LookupSchema1 -> +"2.Color of Schema"
 }
 
 // edit
@@ -33,6 +38,7 @@ fun HtmlBlockTag.editColorLookup(
     label: String,
     lookup: ColorLookup,
     param: String,
+    colors: Collection<Color> = Color.entries,
 ) {
     showDetails(label, true) {
         selectValue(
@@ -47,7 +53,7 @@ fun HtmlBlockTag.editColorLookup(
                 lookup.color,
                 combine(param, COLOR),
                 "Color",
-                Color.entries,
+                colors,
             )
 
             LookupMaterial -> doNothing()
@@ -62,9 +68,10 @@ fun HtmlBlockTag.editColorLookup(
 fun parseColorLookup(
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, combine(param, TYPE), ColorLookupType.Schema0)) {
+    default: Color = Color.Pink,
+) = when (parse(parameters, combine(param, TYPE), ColorLookupType.Material)) {
     ColorLookupType.Fixed -> FixedColor(
-        parse(parameters, combine(param, COLOR), Color.Pink),
+        parse(parameters, combine(param, COLOR), default),
     )
 
     ColorLookupType.Material -> LookupMaterial

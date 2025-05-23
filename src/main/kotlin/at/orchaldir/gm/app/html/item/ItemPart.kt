@@ -8,7 +8,7 @@ import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.item.equipment.selectMaterial
 import at.orchaldir.gm.app.html.util.color.editColorLookup
 import at.orchaldir.gm.app.html.util.color.parseColorLookup
-import at.orchaldir.gm.app.html.util.color.showColorLookup
+import at.orchaldir.gm.app.html.util.color.fieldColorLookup
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -42,7 +42,7 @@ fun HtmlBlockTag.showColorSchemeItemPart(
 ) {
     showDetails(label, true) {
         fieldLink("Material", call, state, part.material)
-        showColorLookup("Color", part.lookup)
+        fieldColorLookup("Color", part.lookup)
     }
 }
 
@@ -80,7 +80,7 @@ fun HtmlBlockTag.editColorSchemeItemPart(
 ) {
     showDetails(label, true) {
         selectMaterial(state, part.material, combine(param, MATERIAL))
-        editColorLookup("Color Lookup", part.lookup, param)
+        editColorLookup("Color Lookup", part.lookup, param, Color.entries)
     }
 }
 
