@@ -147,6 +147,7 @@ private fun parseFillLookupOfType(
     FillLookupType.Solid -> SolidLookup(
         parseColorLookup(parameters, combine(param, COLOR, 0), Color.SkyBlue),
     )
+
     FillLookupType.Transparent -> TransparentLookup(
         parseColorLookup(parameters, combine(param, COLOR, 0), Color.SkyBlue),
         parseFactor(parameters, combine(param, OPACITY)),

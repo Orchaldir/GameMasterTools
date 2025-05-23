@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
-import kotlin.enums.EnumEntries
 
 // show
 

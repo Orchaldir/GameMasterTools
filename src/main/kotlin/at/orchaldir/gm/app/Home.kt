@@ -29,11 +29,7 @@ import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
-import at.orchaldir.gm.app.routes.utls.ColorSchemeRoutes
-import at.orchaldir.gm.app.routes.utls.DataSourceRoutes
-import at.orchaldir.gm.app.routes.utls.FontRoutes
-import at.orchaldir.gm.app.routes.utls.NameListRoutes
-import at.orchaldir.gm.app.routes.utls.QuoteRoutes
+import at.orchaldir.gm.app.routes.utls.*
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
 import io.ktor.http.*

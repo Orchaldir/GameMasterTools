@@ -8,9 +8,9 @@ import at.orchaldir.gm.app.html.character.editPersonality
 import at.orchaldir.gm.app.html.character.parseGender
 import at.orchaldir.gm.app.html.character.parsePersonality
 import at.orchaldir.gm.app.html.character.showPersonality
+import at.orchaldir.gm.app.html.util.showCreated
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
-import at.orchaldir.gm.app.html.util.showCreated
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State

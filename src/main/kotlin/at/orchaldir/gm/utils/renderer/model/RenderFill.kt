@@ -1,11 +1,6 @@
 package at.orchaldir.gm.utils.renderer.model
 
-import at.orchaldir.gm.core.model.util.render.Fill
-import at.orchaldir.gm.core.model.util.render.HorizontalStripes
-import at.orchaldir.gm.core.model.util.render.Solid
-import at.orchaldir.gm.core.model.util.render.Tiles
-import at.orchaldir.gm.core.model.util.render.Transparent
-import at.orchaldir.gm.core.model.util.render.VerticalStripes
+import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.math.Factor
 
 sealed class RenderFill

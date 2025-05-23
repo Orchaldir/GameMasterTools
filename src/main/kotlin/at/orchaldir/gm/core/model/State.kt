@@ -100,7 +100,6 @@ import at.orchaldir.gm.core.reducer.magic.validateMagicTradition
 import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.core.reducer.magic.validateSpellGroup
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
-import at.orchaldir.gm.core.reducer.util.quote.validateQuote
 import at.orchaldir.gm.core.reducer.race.validateRace
 import at.orchaldir.gm.core.reducer.race.validateRaceAppearance
 import at.orchaldir.gm.core.reducer.realm.*
@@ -111,6 +110,7 @@ import at.orchaldir.gm.core.reducer.time.validateCalendar
 import at.orchaldir.gm.core.reducer.time.validateHoliday
 import at.orchaldir.gm.core.reducer.util.color.validateColorSchemes
 import at.orchaldir.gm.core.reducer.util.font.validateFont
+import at.orchaldir.gm.core.reducer.util.quote.validateQuote
 import at.orchaldir.gm.core.reducer.validateData
 import at.orchaldir.gm.core.reducer.world.*
 import at.orchaldir.gm.core.reducer.world.town.validateTownMap

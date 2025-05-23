@@ -26,11 +26,7 @@ import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
 import at.orchaldir.gm.app.routes.time.configureCalendarRouting
 import at.orchaldir.gm.app.routes.time.configureHolidayRouting
 import at.orchaldir.gm.app.routes.time.configureTimeRouting
-import at.orchaldir.gm.app.routes.utls.configureColorSchemeRouting
-import at.orchaldir.gm.app.routes.utls.configureDataSourceRouting
-import at.orchaldir.gm.app.routes.utls.configureFontRouting
-import at.orchaldir.gm.app.routes.utls.configureNameListRouting
-import at.orchaldir.gm.app.routes.utls.configureQuoteRouting
+import at.orchaldir.gm.app.routes.utls.*
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.*
 import at.orchaldir.gm.core.action.LoadData

@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.util.render
 
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 const val COLOR_SCHEME_TYPE = "Color Scheme"

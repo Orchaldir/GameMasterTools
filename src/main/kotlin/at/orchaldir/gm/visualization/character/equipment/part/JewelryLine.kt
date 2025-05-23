@@ -1,12 +1,10 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.Chain
 import at.orchaldir.gm.core.model.item.equipment.style.JewelryLine
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentLine
 import at.orchaldir.gm.core.model.item.equipment.style.Wire
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.utils.math.Line2d
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.calculatePointsOnLine

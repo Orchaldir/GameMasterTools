@@ -6,8 +6,11 @@ import at.orchaldir.gm.app.html.time.editHolidays
 import at.orchaldir.gm.app.html.time.parseCalendarId
 import at.orchaldir.gm.app.html.time.parseHolidays
 import at.orchaldir.gm.app.html.time.showHolidays
-import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.name.parseNameListId
+import at.orchaldir.gm.app.html.util.parseGenderMap
+import at.orchaldir.gm.app.html.util.selectGenderMap
+import at.orchaldir.gm.app.html.util.showCreated
+import at.orchaldir.gm.app.html.util.showGenderMap
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources

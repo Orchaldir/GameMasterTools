@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.model.race.appearance
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.Serializable
 
 @Serializable

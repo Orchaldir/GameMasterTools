@@ -2,15 +2,7 @@ package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.render.ColorLookup
-import at.orchaldir.gm.core.model.util.render.Colors
-import at.orchaldir.gm.core.model.util.render.Fill
-import at.orchaldir.gm.core.model.util.render.FillLookup
-import at.orchaldir.gm.core.model.util.render.FixedColor
-import at.orchaldir.gm.core.model.util.render.LookupMaterial
-import at.orchaldir.gm.core.model.util.render.Solid
-import at.orchaldir.gm.core.model.util.render.SolidLookup
+import at.orchaldir.gm.core.model.util.render.*
 import kotlinx.serialization.Serializable
 
 interface ItemPart {

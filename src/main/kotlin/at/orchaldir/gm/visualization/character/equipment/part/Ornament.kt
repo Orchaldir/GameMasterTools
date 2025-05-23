@@ -1,11 +1,9 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.Ornament
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
-import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.createCross

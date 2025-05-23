@@ -18,9 +18,9 @@ import at.orchaldir.gm.core.model.culture.fashion.BeardFashion
 import at.orchaldir.gm.core.model.culture.fashion.HairFashion
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import kotlinx.html.FORM

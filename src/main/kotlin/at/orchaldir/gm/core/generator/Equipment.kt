@@ -57,7 +57,7 @@ data class EquipmentGenerator(
         return EquipmentMap.fromSlotAsValueMap(
             result
                 .mapKeys { entry -> Pair(entry.key, generateColorScheme(entry.key)) }
-            .mapValues { setOf(it.value.slots().getAllBodySlotCombinations().first()) })
+                .mapValues { setOf(it.value.slots().getAllBodySlotCombinations().first()) })
     }
 
     private fun generateColorScheme(id: EquipmentId): ColorSchemeId {

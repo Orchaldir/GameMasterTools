@@ -25,11 +25,7 @@ import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
-import at.orchaldir.gm.app.routes.utls.ColorSchemeRoutes
-import at.orchaldir.gm.app.routes.utls.DataSourceRoutes
-import at.orchaldir.gm.app.routes.utls.FontRoutes
-import at.orchaldir.gm.app.routes.utls.NameListRoutes
-import at.orchaldir.gm.app.routes.utls.QuoteRoutes
+import at.orchaldir.gm.app.routes.utls.*
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
 import at.orchaldir.gm.core.model.State
@@ -65,8 +61,8 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
-import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.font.FontId
+import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId

@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.race.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.FootType
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.Serializable
 
 const val DEFAULT_CLAW_NUMBER = 3

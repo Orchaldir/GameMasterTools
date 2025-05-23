@@ -6,12 +6,7 @@ import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.item.equipment.selectMaterial
-import at.orchaldir.gm.app.html.util.color.editColorLookup
-import at.orchaldir.gm.app.html.util.color.parseColorLookup
-import at.orchaldir.gm.app.html.util.color.fieldColorLookup
-import at.orchaldir.gm.app.html.util.color.parseFillLookup
-import at.orchaldir.gm.app.html.util.color.selectFillLookup
-import at.orchaldir.gm.app.html.util.color.showFillLookup
+import at.orchaldir.gm.app.html.util.color.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
