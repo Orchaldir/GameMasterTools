@@ -144,10 +144,7 @@ class EquipmentTest {
 
             @Test
             fun `Color scheme has 0 colors and needs 0`() {
-                val item = createItem(COLOR_SCHEME_ID_0)
-                val action = UpdateEquipment(item)
-
-                REDUCER.invoke(STATE, action)
+                success(COLOR_SCHEME_ID_0, LookupMaterial)
             }
 
             @Test
@@ -162,23 +159,24 @@ class EquipmentTest {
 
             @Test
             fun `Color scheme has 1 color and needs 0`() {
-                val item = createItem(COLOR_SCHEME_ID_1)
-                val action = UpdateEquipment(item)
-
-                REDUCER.invoke(STATE, action)
+                success(COLOR_SCHEME_ID_1, LookupMaterial)
             }
 
             @Test
             fun `Color scheme has 1 color and needs 1`() {
-                val item = createItem(COLOR_SCHEME_ID_1, lookup = LookupSchema0)
-                val action = UpdateEquipment(item)
-
-                REDUCER.invoke(STATE, action)
+                success(COLOR_SCHEME_ID_1, LookupSchema0)
             }
 
             @Test
             fun `Color scheme has 1 color, but needs 2`() {
                 fail(COLOR_SCHEME_ID_1, LookupSchema1)
+            }
+
+            private fun success(scheme: ColorSchemeId, lookup: ColorLookup) {
+                val item = createItem(scheme, lookup = lookup)
+                val action = UpdateEquipment(item)
+
+                REDUCER.invoke(STATE, action)
             }
 
             private fun fail(scheme: ColorSchemeId, lookup: ColorLookup) {
