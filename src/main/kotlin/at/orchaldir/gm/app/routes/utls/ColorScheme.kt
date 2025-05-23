@@ -13,6 +13,8 @@ import at.orchaldir.gm.core.model.util.SortColorScheme
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.selector.item.countEquipment
+import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import io.ktor.http.*
@@ -156,12 +158,14 @@ private fun HTML.showAllColorSchemes(
                 th { +"Name" }
                 th { +"1.Color" }
                 th { +"2.Color" }
+                th { +"Equipment" }
             }
             schemes.forEach { scheme ->
                 tr {
                     tdLink(call, state, scheme)
                     td { showColor(scheme.data.color0()) }
                     td { showColor(scheme.data.color1()) }
+                    tdSkipZero(state.countEquipment(scheme.id))
                 }
             }
         }

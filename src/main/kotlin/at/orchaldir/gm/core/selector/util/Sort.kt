@@ -236,6 +236,7 @@ fun State.sortColorSchemes(
     .sortedWith(
         when (sort) {
             SortColorScheme.Name -> compareBy { it.name() }
+            SortColorScheme.Equipment -> compareByDescending { countEquipment(it.id) }
         })
 
 // currency

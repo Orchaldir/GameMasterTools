@@ -18,9 +18,17 @@ fun State.canDelete(equipment: EquipmentId) = getCharacterStorage().getAll()
             .any { pair -> pair.first == equipment }
     }
 
+// count
+
 fun State.countEquipment(material: MaterialId) = getEquipmentStorage()
     .getAll()
     .count { it.data.contains(material) }
+
+fun State.countEquipment(scheme: ColorSchemeId) = getEquipmentStorage()
+    .getAll()
+    .count { it.colorSchemes.contains(scheme) }
+
+//
 
 fun State.isAvailable(set: ClothingSet) = set.getTypes()
     .all { isAvailable(it) }
@@ -28,6 +36,8 @@ fun State.isAvailable(set: ClothingSet) = set.getTypes()
 fun State.isAvailable(type: EquipmentDataType) = getEquipmentStorage()
     .getAll()
     .any { it.data.isType(type) }
+
+// get
 
 fun State.getEquipmentOf(type: EquipmentDataType) = getEquipmentStorage().getAll()
     .filter { it.data.isType(type) }

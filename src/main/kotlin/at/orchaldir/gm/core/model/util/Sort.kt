@@ -42,6 +42,7 @@ enum class SortCharacter {
 
 enum class SortColorScheme {
     Name,
+    Equipment,
 }
 
 enum class SortCurrency {
