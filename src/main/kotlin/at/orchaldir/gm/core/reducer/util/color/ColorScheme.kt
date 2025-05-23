@@ -21,7 +21,8 @@ val CREATE_COLOR_SCHEME: Reducer<CreateColorScheme, State> = { state, _ ->
 val DELETE_COLOR_SCHEME: Reducer<DeleteColorScheme, State> = { state, action ->
     state.getColorSchemeStorage().require(action.id)
 
-    validateCanDelete(state.canDeleteColorScheme(action.id), action.id, "it is used")
+    val canDelete = state.canDeleteColorScheme(action.id)
+    validateCanDelete(canDelete, action.id, "it is used")
 
     noFollowUps(state.updateStorage(state.getColorSchemeStorage().remove(action.id)))
 }

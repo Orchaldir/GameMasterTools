@@ -8,12 +8,15 @@ import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.TwoColors
+import at.orchaldir.gm.core.selector.item.countEquipment
+import at.orchaldir.gm.core.selector.item.countEquippedWith
 import at.orchaldir.gm.core.selector.item.getEquipment
 
 
 private val DEFAULT_COLOR_SCHEME: Colors = TwoColors.init(Color.Navy, Color.Green)
 
-fun State.canDeleteColorScheme(scheme: ColorSchemeId) = getEquipment(scheme).isEmpty()
+fun State.canDeleteColorScheme(scheme: ColorSchemeId) = countEquipment(scheme) == 0
+        && countEquippedWith(scheme) == 0
 
 fun State.getColors(equipment: Equipment) = getColorSchemeStorage()
     .getOptional(equipment.colorSchemes.firstOrNull())

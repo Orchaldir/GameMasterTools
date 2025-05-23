@@ -28,6 +28,14 @@ fun State.countEquipment(scheme: ColorSchemeId) = getEquipmentStorage()
     .getAll()
     .count { it.colorSchemes.contains(scheme) }
 
+fun State.countEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
+    .getAll()
+    .count {
+        it.equipmentMap
+            .getAllEquipment()
+            .any { pair -> pair.second == scheme }
+    }
+
 //
 
 fun State.isAvailable(set: ClothingSet) = set.getTypes()
@@ -71,5 +79,13 @@ fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage()
         it.equipmentMap
             .getAllEquipment()
             .any { pair -> pair.first == equipment }
+    }
+
+fun State.getEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
+    .getAll()
+    .filter {
+        it.equipmentMap
+            .getAllEquipment()
+            .any { pair -> pair.second == scheme }
     }
 
