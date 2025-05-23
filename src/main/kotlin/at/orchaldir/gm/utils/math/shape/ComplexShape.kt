@@ -41,7 +41,8 @@ data class UsingCircularShape(
 
         is UsingRectangularShape -> {
             val innerRadius = shape.calculateIncircle(radius, CircularShape.Circle)
-            val height = innerRadius / sqrt(inner.factor.toNumber().pow(2) + 1.0f)
+            val halfHeight = innerRadius / sqrt(inner.factor.toNumber().pow(2) + 1.0f)
+            val height = halfHeight * 2.0f
 
             Size2d(inner.shape.calculateWidth(height, inner.factor), height)
         }
@@ -57,20 +58,12 @@ data class UsingRectangularShape(
 ) : ComplexShape() {
 
     override fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d {
-        val size =
-            return when (inner) {
-                is UsingCircularShape -> {
-                    val innerRadius = shape.calculateIncircle(radius, inner.shape)
-                    Size2d.fromDiagonalRadius(innerRadius)
-                }
+        val size = Size2d.square(radius * 2.0f)
 
-                is UsingRectangularShape -> {
-                    val innerRadius = shape.calculateIncircle(radius, CircularShape.Circle)
-                    val height = innerRadius / sqrt(inner.factor.toNumber().pow(2) + 1.0f)
-
-                    Size2d(inner.shape.calculateWidth(height, inner.factor), height)
-                }
-            }
+        return when (inner) {
+            is UsingCircularShape -> Size2d.square(size.minSize())
+            is UsingRectangularShape -> shape.calculateIncircle(size, inner.factor)
+        }
     }
 
 }
