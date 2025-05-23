@@ -134,7 +134,10 @@
     },
     "frame": {
      "material": 18,
-     "color": "Black"
+     "lookup": {
+      "type": "Fixed",
+      "color": "Black"
+     }
     }
    },
    "weight": 10000

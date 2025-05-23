@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.COLOR_SCHEME_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_1
 import at.orchaldir.gm.assertIllegalArgument
@@ -15,7 +16,8 @@ import kotlin.test.assertEquals
 
 class EquipmentMapTest {
 
-    private val equipmentMap = EquipmentMap(EQUIPMENT_ID_0, BodySlot.Head)
+    private val equipmentMap = EquipmentMap
+        .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
     private val action = UpdateEquipmentOfCharacter(CHARACTER_ID_0, equipmentMap)
 
     @Test
@@ -70,11 +72,12 @@ class EquipmentMapTest {
                 ),
             )
         )
-        val equipmentMap = EquipmentMap(
+        val equipmentMap = EquipmentMap.fromSlotAsValueMap(
             mapOf(
                 EQUIPMENT_ID_0 to setOf(setOf(BodySlot.Bottom, BodySlot.InnerTop)),
                 EQUIPMENT_ID_1 to setOf(setOf(BodySlot.InnerTop)),
             )
+                .mapKeys { Pair(it.key, COLOR_SCHEME_ID_0) }
         )
         val action = UpdateEquipmentOfCharacter(CHARACTER_ID_0, equipmentMap)
 

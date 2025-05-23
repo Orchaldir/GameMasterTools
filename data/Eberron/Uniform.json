@@ -1,43 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-   "name": "Test",
-   "equipmentMap": {
-    "map": {
-     "0": [
-      [
-       "Belt"
-      ]
-     ],
-     "5": [
-      [
-       "Foot"
-      ]
-     ],
-     "9": [
-      [
-       "Bottom"
-      ]
-     ],
-     "10": [
-      [
-       "InnerTop"
-      ]
-     ],
-     "14": [
-      [
-       "Neck"
-      ]
-     ],
-     "16": [
-      [
-       "Top"
-      ]
-     ]
-    }
-   }
-  }
  }
 }

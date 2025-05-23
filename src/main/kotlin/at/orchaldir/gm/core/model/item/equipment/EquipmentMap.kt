@@ -11,6 +11,8 @@ data class EquipmentEntry<T>(val data: T, val sets: Set<Set<BodySlot>>) {
     companion object {
         fun <T> from(value: T, slots: Set<BodySlot>) = EquipmentEntry(value, setOf(slots))
         fun <T> from(value: T, data: EquipmentData) = from(value, data.slots().getAllBodySlotCombinations().first())
+        fun fromId(equipment: EquipmentId, scheme: ColorSchemeId, slot: BodySlot) =
+            EquipmentEntry(Pair(equipment, scheme), slot)
     }
 
     fun <U> convert(function: (T) -> U): EquipmentEntry<U> = EquipmentEntry(
@@ -34,6 +36,9 @@ data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
 
         fun from(list: List<EquipmentData>) =
             EquipmentMap(list.map { EquipmentEntry.from(it, it) })
+
+        fun fromId(equipment: EquipmentId, scheme: ColorSchemeId, slot: BodySlot) =
+            EquipmentMap(EquipmentEntry.fromId(equipment, scheme, slot))
 
         fun <T> fromSlotAsKeyMap(map: Map<BodySlot, T>) =
             EquipmentMap(map.entries.map { EquipmentEntry(it.value, it.key) })
