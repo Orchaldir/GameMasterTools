@@ -41,6 +41,47 @@
     1,
     2
    ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Wool Shirt",
+   "data": {
+    "type": "Shirt",
+    "main": {
+     "material": 1,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    3,
+    4
+   ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Jean",
+   "data": {
+    "type": "Pants",
+    "main": {
+     "material": 3,
+     "fill": {
+      "type": "Solid",
+      "color": {
+       "type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    5,
+    7,
+    6
+   ]
   }
  }
 }

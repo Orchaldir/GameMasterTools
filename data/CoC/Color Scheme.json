@@ -17,6 +17,41 @@
     "type": "1",
     "color": "SaddleBrown"
    }
+  },
+  "3": {
+   "id": 3,
+   "data": {
+    "type": "1",
+    "color": "SkyBlue"
+   }
+  },
+  "4": {
+   "id": 4,
+   "data": {
+    "type": "1",
+    "color": "White"
+   }
+  },
+  "5": {
+   "id": 5,
+   "data": {
+    "type": "1",
+    "color": "Blue"
+   }
+  },
+  "6": {
+   "id": 6,
+   "data": {
+    "type": "1",
+    "color": "Navy"
+   }
+  },
+  "7": {
+   "id": 7,
+   "data": {
+    "type": "1",
+    "color": "DimGray"
+   }
   }
  }
 }
