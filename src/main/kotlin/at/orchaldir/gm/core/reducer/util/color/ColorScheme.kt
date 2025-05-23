@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.Colors
+import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
 import at.orchaldir.gm.utils.redux.Reducer
@@ -30,10 +31,11 @@ val DELETE_COLOR_SCHEME: Reducer<DeleteColorScheme, State> = { state, action ->
 val UPDATE_COLOR_SCHEME: Reducer<UpdateColorScheme, State> = { state, action ->
     val scheme = action.scheme
     state.getColorSchemeStorage().require(scheme.id())
+    val newState = state.updateStorage(state.getColorSchemeStorage().update(scheme))
 
-    validateColorSchemes(state)
+    validateColorSchemes(newState)
 
-    noFollowUps(state.updateStorage(state.getColorSchemeStorage().update(scheme)))
+    noFollowUps(newState)
 }
 
 fun validateColorSchemes(state: State) {
@@ -42,9 +44,11 @@ fun validateColorSchemes(state: State) {
     state.getColorSchemeStorage()
         .getAll()
         .forEach { scheme ->
-            require(colors.add(scheme.data)) {
-                val id = scheme.id
-                "${id.type()} ${id.value} is duplicate"
+            if (scheme.data !is UndefinedColors) {
+                require(colors.add(scheme.data)) {
+                    val id = scheme.id
+                    "${id.type()} ${id.value} is duplicate"
+                }
             }
         }
 }
