@@ -1,6 +1,18 @@
-package at.orchaldir.gm.utils.math
+package at.orchaldir.gm.utils.math.shape
 
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.CENTER
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.START
+import at.orchaldir.gm.utils.math.createSubdivideIntoThirds
+import at.orchaldir.gm.utils.math.halfSegment
+import at.orchaldir.gm.utils.math.subdividePolygon
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.FULL_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Orientation
