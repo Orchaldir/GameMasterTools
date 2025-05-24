@@ -33,14 +33,19 @@ fun createCross(center: Point2d, height: Distance): Polygon2d {
 fun createCross(aabb: AABB): Polygon2d {
     val size = fromPercentage(15)
     val halfSize = size / 2.0f
+    val half = aabb.convertHeight(halfSize)
+    val top = aabb.getPoint(HALF, START)
+    val left = aabb.getPoint(START, CROSS_Y)
+    val center = aabb.getPoint(HALF, CROSS_Y)
+    val bottom = aabb.getPoint(HALF, END)
 
     return Polygon2dBuilder()
-        .addMirroredPoints(aabb, size, START)
-        .addMirroredPoints(aabb, size, CROSS_Y - halfSize)
-        .addMirroredPoints(aabb, FULL, CROSS_Y - halfSize)
-        .addMirroredPoints(aabb, FULL, CROSS_Y + halfSize)
-        .addMirroredPoints(aabb, size, CROSS_Y + halfSize)
-        .addMirroredPoints(aabb, size, END)
+        .addVerticallyMirroredPoint(aabb, top.minusWidth(half))
+        .addVerticallyMirroredPoint(aabb, center.minus(half))
+        .addVerticallyMirroredPoint(aabb, left.minusHeight(half))
+        .addVerticallyMirroredPoint(aabb, left.addHeight(half))
+        .addVerticallyMirroredPoint(aabb, center.addHeight(half).minusWidth(half))
+        .addVerticallyMirroredPoint(aabb, bottom.minusWidth(half))
         .build()
 }
 

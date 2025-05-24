@@ -89,6 +89,12 @@ data class Polygon2dBuilder(
         return this
     }
 
+    fun addVerticallyMirroredPoint(aabb: AABB, left: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
+        val right = aabb.mirrorVertically(left)
+
+        return addPoints(left, right, isSharp)
+    }
+
     fun addRectangle(aabb: AABB): Polygon2dBuilder {
         val (topLeft, topRight, bottomRight, bottomLeft) = aabb.getCorners()
 
