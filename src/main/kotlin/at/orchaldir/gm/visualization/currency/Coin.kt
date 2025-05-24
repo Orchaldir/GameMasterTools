@@ -84,25 +84,29 @@ fun visualizeHoledCoin(
     debugHoledCoin(
         renderer,
         center,
-        sideAabb,
+        aabb,
         holeAabb,
+        sideAabb,
+        holeRimAabb,
     )
 }
 
 private fun debugHoledCoin(
     renderer: LayerRenderer,
     center: Point2d,
+    aabb: AABB,
+    hole: AABB,
     sideAabb: AABB,
     holeRimAabb: AABB,
 ) {
     val lineWidth = 0.0001f
-    val centerOptions = BorderOnly(LineOptions(Color.Blue.toRender(), lineWidth))
-    val sideOptions = BorderOnly(LineOptions(Color.Red.toRender(), lineWidth))
-    val innerOptions = BorderOnly(LineOptions(Color.Green.toRender(), lineWidth))
+    val options = BorderOnly(LineOptions(Color.Blue.toRender(), lineWidth))
 
-    renderer.renderCircle(center, Distance.fromMillimeters(0.1f), centerOptions)
-    renderer.renderCircle(center, sideAabb.getInnerRadius(), sideOptions)
-    renderer.renderCircle(center, holeRimAabb.getInnerRadius(), sideOptions)
+    renderer.renderCircle(center, aabb.getInnerRadius(), options)
+    renderer.renderCircle(center, sideAabb.getInnerRadius(), options)
+    renderer.renderCircle(center, holeRimAabb.getInnerRadius(), options)
+    renderer.renderCircle(center, hole.getInnerRadius(), options)
+    renderer.renderCircle(center, Distance.fromMillimeters(0.1f), options)
 }
 
 fun visualizeBiMetallicCoin(
