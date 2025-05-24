@@ -3,8 +3,10 @@ package at.orchaldir.gm.visualization.currency
 import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.HoledCoin
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
@@ -12,6 +14,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 
 fun visualizeCoin(
     state: CurrencyRenderState,
@@ -77,6 +80,29 @@ fun visualizeHoledCoin(
         holeRimAabb,
         coin.front,
     )
+
+    debugHoledCoin(
+        renderer,
+        center,
+        sideAabb,
+        holeAabb,
+    )
+}
+
+private fun debugHoledCoin(
+    renderer: LayerRenderer,
+    center: Point2d,
+    sideAabb: AABB,
+    holeRimAabb: AABB,
+) {
+    val lineWidth = 0.0001f
+    val centerOptions = BorderOnly(LineOptions(Color.Blue.toRender(), lineWidth))
+    val sideOptions = BorderOnly(LineOptions(Color.Red.toRender(), lineWidth))
+    val innerOptions = BorderOnly(LineOptions(Color.Green.toRender(), lineWidth))
+
+    renderer.renderCircle(center, Distance.fromMillimeters(0.1f), centerOptions)
+    renderer.renderCircle(center, sideAabb.getInnerRadius(), sideOptions)
+    renderer.renderCircle(center, holeRimAabb.getInnerRadius(), sideOptions)
 }
 
 fun visualizeBiMetallicCoin(
