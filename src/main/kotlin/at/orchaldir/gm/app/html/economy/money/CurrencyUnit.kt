@@ -19,6 +19,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.SHAPES_WITHOUT_CROSS
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -198,7 +199,7 @@ fun HtmlBlockTag.editCurrencyFormat(
 }
 
 private fun DETAILS.selectCoinShape(shape: ComplexShape, param: String) {
-    selectComplexShape(shape, param, ALLOWED_RECTANGULAR_SHAPES)
+    selectComplexShape(shape, param, SHAPES_WITHOUT_CROSS)
 }
 
 private fun HtmlBlockTag.selectRadius(radius: Distance) {

@@ -7,6 +7,8 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 
+val SHAPES_WITHOUT_CROSS = RectangularShape.entries - RectangularShape.Cross
+
 private val TEARDROP_HEIGHT = Factor.fromPercentage(70)
 private val REVERSE_TEARDROP_HEIGHT = FULL - TEARDROP_HEIGHT
 

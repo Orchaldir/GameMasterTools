@@ -29,8 +29,6 @@ val MIN_RADIUS_FACTOR = fromPercentage(10)
 val DEFAULT_RADIUS_FACTOR = fromPercentage(20)
 val MAX_RADIUS_FACTOR = fromPercentage(90)
 
-val ALLOWED_RECTANGULAR_SHAPES = RectangularShape.entries - RectangularShape.Cross
-
 enum class CurrencyFormatType {
     Undefined,
     Coin,

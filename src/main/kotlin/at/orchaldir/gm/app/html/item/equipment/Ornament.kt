@@ -15,6 +15,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.utils.math.shape.SHAPES_WITHOUT_CROSS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -63,7 +64,11 @@ fun HtmlBlockTag.editOrnament(
             }
 
             is OrnamentWithBorder -> {
-                selectComplexShape(ornament.shape, combine(param, SHAPE))
+                selectComplexShape(
+                    ornament.shape,
+                    combine(param, SHAPE),
+                    SHAPES_WITHOUT_CROSS,
+                )
                 editFillLookupItemPart(
                     state,
                     ornament.center,
