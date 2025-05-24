@@ -12,6 +12,7 @@ private val REVERSE_TEARDROP_HEIGHT = FULL - TEARDROP_HEIGHT
 
 enum class RectangularShape {
     Rectangle,
+    Cross,
     Teardrop,
     ReverseTeardrop;
 
@@ -27,6 +28,7 @@ enum class RectangularShape {
 
     fun calculateCenter(aabb: AABB) = when (this) {
         Rectangle -> aabb.getCenter()
+        Cross -> aabb.getPoint(CENTER, CROSS_Y)
         Teardrop -> aabb.getPoint(CENTER, TEARDROP_HEIGHT)
         ReverseTeardrop -> aabb.getPoint(CENTER, REVERSE_TEARDROP_HEIGHT)
     }
@@ -49,10 +51,5 @@ enum class RectangularShape {
     fun calculateSize(radius: Distance, factor: Factor): Size2d {
         val height = radius * 2
         return Size2d(calculateWidth(height, factor), height)
-    }
-
-    fun getSides() = when (this) {
-        Teardrop, ReverseTeardrop -> 0
-        Rectangle -> 4
     }
 }
