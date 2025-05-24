@@ -18,7 +18,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -158,7 +158,7 @@ fun HtmlBlockTag.editCurrencyFormat(
             UndefinedCurrencyFormat -> doNothing()
             is Coin -> {
                 selectMaterial(state, format.material, MATERIAL)
-                selectComplexShape(format.shape, SHAPE)
+                selectCoinShape(format.shape, SHAPE)
                 selectRadius(format.radius)
                 selectThickness(format.thickness)
                 selectRimFactor(format.rimFactor)
@@ -167,12 +167,12 @@ fun HtmlBlockTag.editCurrencyFormat(
 
             is HoledCoin -> {
                 selectMaterial(state, format.material, MATERIAL)
-                selectComplexShape(format.shape, SHAPE)
+                selectCoinShape(format.shape, SHAPE)
                 selectRadius(format.radius)
                 selectThickness(format.thickness)
                 selectRimFactor(format.rimFactor)
                 showDetails("Hole", true) {
-                    selectComplexShape(format.holeShape, combine(HOLE, SHAPE))
+                    selectCoinShape(format.holeShape, combine(HOLE, SHAPE))
                     selectRadiusFactor(format.holeFactor)
                     selectBool("Has rim?", format.hasHoleRim, combine(HOLE, EDGE))
                 }
@@ -181,20 +181,24 @@ fun HtmlBlockTag.editCurrencyFormat(
             is BiMetallicCoin -> {
                 showDetails("Outer", true) {
                     selectMaterial(state, format.material, MATERIAL)
-                    selectComplexShape(format.shape, SHAPE)
+                    selectCoinShape(format.shape, SHAPE)
                     selectRadius(format.radius)
                     selectRimFactor(format.rimFactor)
                 }
                 selectThickness(format.thickness)
                 showDetails("Inner", true) {
                     selectMaterial(state, format.innerMaterial, combine(HOLE, MATERIAL))
-                    selectComplexShape(format.innerShape, combine(HOLE, SHAPE))
+                    selectCoinShape(format.innerShape, combine(HOLE, SHAPE))
                     selectRadiusFactor(format.innerFactor)
                 }
                 editCoinSide(state, format.front, "Front", FRONT)
             }
         }
     }
+}
+
+private fun DETAILS.selectCoinShape(shape: ComplexShape, param: String) {
+    selectComplexShape(shape, param, ALLOWED_RECTANGULAR_SHAPES)
 }
 
 private fun HtmlBlockTag.selectRadius(radius: Distance) {

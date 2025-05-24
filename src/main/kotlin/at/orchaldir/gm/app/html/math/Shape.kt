@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.shape.*
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
+import kotlin.enums.EnumEntries
 
 // show
 
@@ -53,15 +54,15 @@ fun HtmlBlockTag.showRectangularShape(
 fun HtmlBlockTag.selectComplexShape(
     shape: ComplexShape,
     param: String,
-    label: String = "Shape",
+    availableShapes: Collection<RectangularShape> = RectangularShape.entries,
 ) {
-    showDetails(label, true) {
+    showDetails("Shape", true) {
         selectValue("Type", param, ComplexShapeType.entries, shape.getType())
 
         when (shape) {
             is UsingCircularShape -> selectCircularShape(shape.shape, combine(param, SHAPE))
             is UsingRectangularShape -> {
-                selectRectangularShape(shape.shape, combine(param, SHAPE))
+                selectRectangularShape(shape.shape, combine(param, SHAPE), availableShapes = availableShapes)
                 selectFactor(
                     "Height to Width",
                     combine(param, SIZE),
@@ -87,8 +88,9 @@ fun HtmlBlockTag.selectRectangularShape(
     shape: RectangularShape,
     param: String,
     label: String = "Shape",
+    availableShapes: Collection<RectangularShape> = RectangularShape.entries,
 ) {
-    selectValue(label, param, RectangularShape.entries, shape)
+    selectValue(label, param, availableShapes, shape)
 }
 
 // parse

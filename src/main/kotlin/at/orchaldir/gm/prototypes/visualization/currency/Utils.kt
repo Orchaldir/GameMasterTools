@@ -31,7 +31,7 @@ fun createExampleShapes(): MutableList<ComplexShape> {
     val shapes = CircularShape.entries
         .map { UsingCircularShape(it) }
         .toMutableList<ComplexShape>()
-    listOf(Rectangle, Cross, Teardrop, ReverseTeardrop).forEach { shape ->
+    listOf(Rectangle, Teardrop, ReverseTeardrop).forEach { shape ->
         shapes.add(UsingRectangularShape(shape))
     }
 

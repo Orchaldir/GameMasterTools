@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
@@ -27,6 +28,8 @@ val MAX_RIM_FACTOR = fromPercentage(20)
 val MIN_RADIUS_FACTOR = fromPercentage(10)
 val DEFAULT_RADIUS_FACTOR = fromPercentage(20)
 val MAX_RADIUS_FACTOR = fromPercentage(90)
+
+val ALLOWED_RECTANGULAR_SHAPES = RectangularShape.entries - RectangularShape.Cross
 
 enum class CurrencyFormatType {
     Undefined,
