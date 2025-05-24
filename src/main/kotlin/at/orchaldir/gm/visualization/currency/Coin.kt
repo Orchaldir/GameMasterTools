@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.economy.money.HoledCoin
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
@@ -84,7 +83,6 @@ fun visualizeHoledCoin(
 
     debugHoledCoin(
         renderer,
-        center,
         aabb,
         outerRimAabb,
         holeRimAabb,
@@ -95,7 +93,6 @@ fun visualizeHoledCoin(
 
 private fun debugHoledCoin(
     renderer: LayerRenderer,
-    center: Point2d,
     aabb: AABB,
     outerRimAabb: AABB,
     holeRimAabb: AABB,
@@ -105,12 +102,20 @@ private fun debugHoledCoin(
     val lineWidth = 0.0001f
     val options = BorderOnly(LineOptions(Color.Red.toRender(), lineWidth))
 
-    renderer.renderCircle(center, aabb.getInnerRadius(), options)
-    renderer.renderCircle(center, outerRimAabb.getInnerRadius(), options)
-    renderer.renderCircle(center, sideAabb.getInnerRadius(), options)
-    renderer.renderCircle(center, holeRimAabb.getInnerRadius(), options)
-    renderer.renderCircle(center, holeAabb.getInnerRadius(), options)
-    renderer.renderCircle(center, Distance.fromMillimeters(0.1f), options)
+    debugAabb(renderer, aabb, options)
+    debugAabb(renderer, outerRimAabb, options)
+    debugAabb(renderer, sideAabb, options)
+    debugAabb(renderer, holeRimAabb, options)
+    debugAabb(renderer, holeAabb, options)
+    renderer.renderCircle(holeAabb.getCenter(), Distance.fromMillimeters(0.1f), options)
+}
+
+private fun debugAabb(
+    renderer: LayerRenderer,
+    holeAabb: AABB,
+    options: BorderOnly,
+) {
+    renderer.renderCircle(holeAabb.getCenter(), holeAabb.getInnerRadius(), options)
 }
 
 fun visualizeBiMetallicCoin(
