@@ -65,7 +65,7 @@ data class UsingCircularShape(
             val halfHeight = innerRadius / sqrt(inner.widthFactor.toNumber().pow(2) + 1.0f)
             val height = halfHeight * 2.0f
 
-            Size2d(inner.shape.calculateWidth(height, inner.widthFactor), height)
+            Size2d.square(height)
         }
     }
 
