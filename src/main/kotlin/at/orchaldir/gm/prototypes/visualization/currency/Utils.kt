@@ -27,6 +27,7 @@ fun createExampleShapes(): MutableList<ComplexShape> {
     val shapes = CircularShape.entries
         .map { UsingCircularShape(it) }
         .toMutableList<ComplexShape>()
+    shapes.add(UsingRectangularShape(RectangularShape.Rectangle))
     shapes.add(UsingRectangularShape(RectangularShape.Teardrop))
     shapes.add(UsingRectangularShape(RectangularShape.ReverseTeardrop))
 
