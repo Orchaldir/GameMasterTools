@@ -7,13 +7,16 @@ import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.*
 import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.core.model.util.render.Color.Blue
 import at.orchaldir.gm.core.model.util.render.Color.Red
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.COMPLEX_SHAPES
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
+import at.orchaldir.gm.utils.math.shape.CircularShape.Square
+import at.orchaldir.gm.utils.math.shape.RectangularShape.Teardrop
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 
 fun main() {
@@ -22,10 +25,10 @@ fun main() {
     val topSize = fromPercentage(20)
 
     val equipmentTable: List<List<EquipmentDataMap>> = mutableListOf(
-        OrnamentShape.entries.map {
+        COMPLEX_SHAPES.map {
             StudEarring(SimpleOrnament(it))
         },
-        OrnamentShape.entries.map {
+        COMPLEX_SHAPES.map {
             StudEarring(OrnamentWithBorder(it))
         },
         listOf(

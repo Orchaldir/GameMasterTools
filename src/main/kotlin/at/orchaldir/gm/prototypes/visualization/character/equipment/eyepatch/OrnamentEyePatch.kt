@@ -7,10 +7,10 @@ import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentAsEyePatch
-import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.COMPLEX_SHAPES
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.math.unit.Distance
 
@@ -19,7 +19,7 @@ fun main() {
         State(),
         "eyepatch-ornament.svg",
         CHARACTER_CONFIG,
-        addNames(OrnamentShape.entries),
+        addNames(COMPLEX_SHAPES),
         FIXATIONS,
     ) { distance, fixation, shape ->
         val eyePatch = EyePatch(OrnamentAsEyePatch(OrnamentWithBorder(shape)), fixation)
