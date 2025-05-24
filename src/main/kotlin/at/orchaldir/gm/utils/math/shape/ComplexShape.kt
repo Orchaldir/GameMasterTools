@@ -69,6 +69,8 @@ data class UsingCircularShape(
         return AABB.fromCenter(aabb.getCenter(), innerSize)
     }
 
+    override fun toString() = shape.toString()
+
 }
 
 @Serializable
@@ -99,5 +101,7 @@ data class UsingRectangularShape(
 
         return AABB.fromCenter(aabb.getCenter(), innerSize)
     }
+
+    override fun toString() = shape.toString()
 
 }
