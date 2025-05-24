@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.item.equipment
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
-import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.item.FillLookupItemPart
-import at.orchaldir.gm.core.model.item.MadeFromParts
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size

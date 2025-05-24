@@ -2,8 +2,8 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.item.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.Button

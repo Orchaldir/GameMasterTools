@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.text
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
-import at.orchaldir.gm.core.model.item.MadeFromParts
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.book.BookBinding
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormat
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod

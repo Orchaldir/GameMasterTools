@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.item.MadeFromParts
+import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.Serializable
 
 @Serializable

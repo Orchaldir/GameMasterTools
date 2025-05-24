@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.text.book
 
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover

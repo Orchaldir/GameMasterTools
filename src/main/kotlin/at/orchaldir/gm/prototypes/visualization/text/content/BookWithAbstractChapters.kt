@@ -1,7 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text.content
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId

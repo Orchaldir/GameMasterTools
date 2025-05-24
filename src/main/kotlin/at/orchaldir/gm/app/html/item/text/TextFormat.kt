@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.book.typography.Typography

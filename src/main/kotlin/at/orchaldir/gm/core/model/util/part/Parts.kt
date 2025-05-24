@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item
+package at.orchaldir.gm.core.model.util.part
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId

@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.html.util.displayDate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.model.item.MadeFromParts
+import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.time.date.Date

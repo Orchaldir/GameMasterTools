@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.item.text.book
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
-import at.orchaldir.gm.core.model.item.FillItemPart
-import at.orchaldir.gm.core.model.item.MadeFromParts
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.book.typography.NoTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.util.font.FontId

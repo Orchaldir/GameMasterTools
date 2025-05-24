@@ -2,7 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.item.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.item.equipment.Shirt

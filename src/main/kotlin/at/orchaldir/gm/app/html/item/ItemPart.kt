@@ -10,10 +10,10 @@ import at.orchaldir.gm.app.html.util.color.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.ColorItemPart
-import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.item.FillItemPart
-import at.orchaldir.gm.core.model.item.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import io.ktor.http.*
 import io.ktor.server.application.*

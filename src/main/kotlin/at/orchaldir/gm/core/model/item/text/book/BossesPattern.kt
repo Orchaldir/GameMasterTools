@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.text.book
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
-import at.orchaldir.gm.core.model.item.MadeFromParts
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

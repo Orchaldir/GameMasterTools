@@ -2,7 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.item.text.scroll.HandleSegmentShape.RoundedCylinder
