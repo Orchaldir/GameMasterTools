@@ -24,15 +24,17 @@ fun visualizeHoledCoinSide(
 ) {
     val center = aabb.getCenter()
     val radius = aabb.getInnerRadius()
-    val holeRadius = holeAABB.getInnerRadius()
-    val subRadius = radius - holeRadius
-    val subHalf = subRadius / 2.0f
-    val offset = holeRadius + subHalf
+    val holeHalfWidth = holeAABB.size.width / 2
+    val holeHalfHeight = holeAABB.size.height / 2
+    val subWidth = radius - holeHalfWidth
+    val subHeight = radius - holeHalfHeight
+    val offsetWidth = holeHalfWidth + subWidth / 2
+    val offsetHeight = holeHalfHeight + subHeight / 2
 
-    visualizeHoledCoinSide(state, renderer, center.minusHeight(offset), subRadius, side.top)
-    visualizeHoledCoinSide(state, renderer, center.minusWidth(offset), subRadius, side.left)
-    visualizeHoledCoinSide(state, renderer, center.addWidth(offset), subRadius, side.right)
-    visualizeHoledCoinSide(state, renderer, center.addHeight(offset), subRadius, side.bottom)
+    visualizeHoledCoinSide(state, renderer, center.minusHeight(offsetHeight), subHeight, side.top)
+    visualizeHoledCoinSide(state, renderer, center.minusWidth(offsetWidth), subWidth, side.left)
+    visualizeHoledCoinSide(state, renderer, center.addWidth(offsetWidth), subWidth, side.right)
+    visualizeHoledCoinSide(state, renderer, center.addHeight(offsetHeight), subHeight, side.bottom)
 }
 
 private fun visualizeHoledCoinSide(
