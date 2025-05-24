@@ -60,8 +60,6 @@ private fun createCircularShapePolygon(
     radius: Distance,
 ) = when (shape) {
     CircularShape.Circle -> createRegularPolygon(center, radius, 120)
-    CircularShape.Teardrop -> createTeardrop(center, radius)
-    CircularShape.ReverseTeardrop -> createReverseTeardrop(center, radius)
     CircularShape.Triangle -> createTriangle(center, radius)
     CircularShape.CutoffTriangle -> createCutoffTriangle(center, radius)
     CircularShape.RoundedTriangle -> createRoundedTriangle(center, radius)
