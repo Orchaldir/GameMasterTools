@@ -51,7 +51,7 @@ enum class CircularShape {
         val incircleRadius = radius * angle.cos()
 
         if (isScalloped()) {
-            return incircleRadius * 0.8f
+            return incircleRadius * 0.9f
         }
 
         return incircleRadius
