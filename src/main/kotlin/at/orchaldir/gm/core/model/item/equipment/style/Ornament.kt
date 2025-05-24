@@ -3,13 +3,8 @@ package at.orchaldir.gm.core.model.item.equipment.style
 import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.utils.math.shape.CircularShape
-import at.orchaldir.gm.utils.math.shape.ComplexShape
-import at.orchaldir.gm.utils.math.shape.RectangularShape
-import at.orchaldir.gm.utils.math.shape.UsingCircularShape
-import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
+import at.orchaldir.gm.utils.math.shape.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

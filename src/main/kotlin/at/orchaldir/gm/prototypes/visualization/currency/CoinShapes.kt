@@ -7,11 +7,7 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.shape.CircularShape
-import at.orchaldir.gm.utils.math.shape.ComplexShape
-import at.orchaldir.gm.utils.math.shape.RectangularShape
-import at.orchaldir.gm.utils.math.shape.UsingCircularShape
-import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
+import at.orchaldir.gm.utils.math.shape.*
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {

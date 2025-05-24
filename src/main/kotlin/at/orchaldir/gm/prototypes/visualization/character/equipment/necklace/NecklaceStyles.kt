@@ -16,9 +16,7 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
-import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Cross
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Teardrop
 import at.orchaldir.gm.utils.math.unit.Distance

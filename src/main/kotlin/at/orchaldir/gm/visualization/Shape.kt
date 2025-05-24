@@ -1,7 +1,8 @@
 package at.orchaldir.gm.visualization.currency
 
-import at.orchaldir.gm.utils.math.shape.CircularShape
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.shape.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer

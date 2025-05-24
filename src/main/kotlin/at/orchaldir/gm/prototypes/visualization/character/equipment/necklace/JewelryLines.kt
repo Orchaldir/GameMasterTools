@@ -9,11 +9,11 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.shape.CircularShape.*
 import at.orchaldir.gm.core.model.util.render.Color.White
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {

@@ -1,10 +1,6 @@
 package at.orchaldir.gm.utils.math.shape
 
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.CENTER
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 
 val SHAPES_WITHOUT_CROSS = RectangularShape.entries - RectangularShape.Cross

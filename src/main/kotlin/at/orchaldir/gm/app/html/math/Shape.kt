@@ -15,7 +15,6 @@ import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.shape.*
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
-import kotlin.enums.EnumEntries
 
 // show
 

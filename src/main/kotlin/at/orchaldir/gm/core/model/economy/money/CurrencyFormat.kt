@@ -6,7 +6,6 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
-import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
