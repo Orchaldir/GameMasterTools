@@ -80,11 +80,7 @@ data class Coin(
     val thickness: Distance = DEFAULT_THICKNESS,
     val rimFactor: Factor = DEFAULT_RIM_FACTOR,
     val front: CoinSide = BlankCoinSide,
-) : CurrencyFormat() {
-
-    //fun calculateInnerShapeRadius(inner: CircularShape) = shape.calculateIncircle(radius, inner)
-
-}
+) : CurrencyFormat()
 
 @Serializable
 @SerialName("Holed")
@@ -99,10 +95,6 @@ data class HoledCoin(
     val hasHoleRim: Boolean = true,
     val front: HoledCoinSide = HoledCoinSide(),
 ) : CurrencyFormat() {
-
-    //fun calculateInnerShapeRadius(inner: CircularShape) = shape.calculateIncircle(radius, inner)
-
-    //fun calculateHoleRadius() = calculateInnerShapeRadius(holeShape) * holeFactor
 
     fun calculateInnerAabb(aabb: AABB) = shape.calculateInnerAabb(aabb, holeShape, holeFactor)
     fun calculateInnerSize(radius: Distance) = shape.calculateIncircle(radius, holeShape) * holeFactor
@@ -122,11 +114,6 @@ data class BiMetallicCoin(
     val innerFactor: Factor = DEFAULT_RADIUS_FACTOR,
     val front: CoinSide = BlankCoinSide,
 ) : CurrencyFormat() {
-
-    // TODO
-    //fun calculateInnerShapeRadius(inner: CircularShape) = shape.calculateIncircle(radius, inner)
-
-    //fun calculateInnerRadius() = calculateInnerShapeRadius(innerShape) * innerFactor
 
     fun calculateInnerAabb(aabb: AABB) = shape.calculateInnerAabb(aabb, innerShape, innerFactor)
     fun calculateInnerSize(radius: Distance) = shape.calculateIncircle(radius, innerShape) * innerFactor
