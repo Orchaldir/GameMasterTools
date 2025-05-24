@@ -83,6 +83,8 @@ fun visualizeHoledCoin(
 
     debugHoledCoin(
         renderer,
+        coin.shape,
+        coin.holeShape,
         aabb,
         outerRimAabb,
         holeRimAabb,
@@ -93,6 +95,8 @@ fun visualizeHoledCoin(
 
 private fun debugHoledCoin(
     renderer: LayerRenderer,
+    outer: ComplexShape,
+    inner: ComplexShape,
     aabb: AABB,
     outerRimAabb: AABB,
     holeRimAabb: AABB,
@@ -101,21 +105,27 @@ private fun debugHoledCoin(
 ) {
     val lineWidth = 0.0001f
     val options = BorderOnly(LineOptions(Color.Red.toRender(), lineWidth))
+    val sideOptions = BorderOnly(LineOptions(Color.Green.toRender(), lineWidth))
 
-    debugAabb(renderer, aabb, options)
-    debugAabb(renderer, outerRimAabb, options)
-    debugAabb(renderer, sideAabb, options)
-    debugAabb(renderer, holeRimAabb, options)
-    debugAabb(renderer, holeAabb, options)
+    debugAabb(renderer, outer, aabb, options)
+    debugAabb(renderer, outer, outerRimAabb, options)
+    debugAabb(renderer, outer, sideAabb, sideOptions)
+    debugAabb(renderer, inner, holeRimAabb, options)
+    debugAabb(renderer, inner, holeAabb, options)
     renderer.renderCircle(holeAabb.getCenter(), Distance.fromMillimeters(0.1f), options)
 }
 
 private fun debugAabb(
     renderer: LayerRenderer,
-    holeAabb: AABB,
+    shape: ComplexShape,
+    aabb: AABB,
     options: BorderOnly,
 ) {
-    renderer.renderCircle(holeAabb.getCenter(), holeAabb.getInnerRadius(), options)
+    if (shape is UsingCircularShape) {
+        renderer.renderCircle(aabb.getCenter(), aabb.getInnerRadius(), options)
+    } else {
+        renderer.renderRectangle(aabb, options)
+    }
 }
 
 fun visualizeBiMetallicCoin(
