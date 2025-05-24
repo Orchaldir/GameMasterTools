@@ -24,19 +24,24 @@ fun main() {
             Material(silver, color = Color.Silver),
         )
     )
-    val outerShapes = CircularShape.entries
+    val shapes = CircularShape.entries
         .map { UsingCircularShape(it) }
         .toMutableList<ComplexShape>()
-    outerShapes.add(UsingRectangularShape(RectangularShape.Teardrop))
-    outerShapes.add(UsingRectangularShape(RectangularShape.ReverseTeardrop))
+    shapes.add(UsingRectangularShape(RectangularShape.Teardrop))
+    shapes.add(UsingRectangularShape(RectangularShape.ReverseTeardrop))
+    val holeShapes = mutableListOf<ComplexShape?>(null)
+    holeShapes.addAll(
+        listOf(CircularShape.Circle, CircularShape.Square, CircularShape.Octagon)
+            .map { UsingCircularShape(it) })
+    holeShapes.add(UsingRectangularShape(RectangularShape.Teardrop))
 
     renderCurrencyTable(
         "coin-shapes.svg",
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
-        addNames(outerShapes),
-        addNames(listOf(null, CircularShape.Circle, CircularShape.Square, CircularShape.Octagon)),
+        addNames(shapes),
+        addNames(holeShapes),
     ) { shape, hole ->
         if (hole == null) {
             Coin(
@@ -57,7 +62,7 @@ fun main() {
                 radius,
                 DEFAULT_THICKNESS,
                 DEFAULT_RIM_FACTOR,
-                UsingCircularShape(hole),
+                hole,
                 front = front
             )
         }
