@@ -78,13 +78,6 @@ fun visualizeEyePatchForTwoEyes(
 
         is OrnamentAsEyePatch -> {
             val config = state.config.equipment.eyePatch
-            /*
-            val factor = config.ornamentRadius * if (eyePatch.style.ornament.getShapeFromSub() == Teardrop) {
-                1.5f
-            } else {
-                1.0f
-            }
-            */
             val radius = state.aabb.convertHeight(config.ornamentRadius)
             visualizeOrnament(state, state.getLayer(EQUIPMENT_LAYER), eyePatch.style.ornament, center, radius)
         }

@@ -9,6 +9,19 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 
 fun visualizeComplexShape(
     renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    shape: ComplexShape,
+    options: RenderOptions,
+) = visualizeComplexShape(
+    renderer,
+    shape.calculateAabb(center, radius),
+    shape,
+    options,
+)
+
+fun visualizeComplexShape(
+    renderer: LayerRenderer,
     aabb: AABB,
     shape: ComplexShape,
     options: RenderOptions,
