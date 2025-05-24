@@ -45,6 +45,8 @@ data class Size2d(val width: Distance, val height: Distance) {
 
     fun minSize() = width.min(height)
     fun maxSize() = width.max(height)
+
+    fun innerRadius() = minSize() / 2.0f
 }
 
 fun checkSize(size: Size2d, label: String, min: Distance, max: Distance) {

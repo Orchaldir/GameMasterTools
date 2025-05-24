@@ -63,7 +63,7 @@ fun main() {
                 DEFAULT_THICKNESS,
                 DEFAULT_RIM_FACTOR,
                 hole,
-                front = front
+                front = front,
             )
         }
 

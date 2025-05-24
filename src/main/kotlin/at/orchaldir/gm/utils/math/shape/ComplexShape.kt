@@ -31,6 +31,16 @@ sealed class ComplexShape {
         is UsingRectangularShape -> shape.isRounded()
     }
 
+    fun calculateVolume(radius: Distance, thickness: Distance) = when (this) {
+        is UsingCircularShape -> shape.calculateVolume(radius, thickness)
+        is UsingRectangularShape -> shape.calculateVolume(shape.calculateSize(radius, factor), thickness)
+    }
+
+    fun calculateVolume(size: Size2d, thickness: Distance) = when (this) {
+        is UsingCircularShape -> shape.calculateVolume(size.innerRadius(), thickness)
+        is UsingRectangularShape -> shape.calculateVolume(size, thickness)
+    }
+
     abstract fun calculateAabb(center: Point2d, radius: Distance): AABB
     abstract fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d
     abstract fun calculateInnerAabb(aabb: AABB, inner: ComplexShape, factor: Factor): AABB
@@ -88,7 +98,7 @@ data class UsingRectangularShape(
 
         return when (inner) {
             is UsingCircularShape -> Size2d.square(size.minSize())
-            is UsingRectangularShape -> shape.calculateIncircle(size, inner.factor)
+            is UsingRectangularShape -> shape.calculateInnerSize(size, inner.factor)
         }
     }
 

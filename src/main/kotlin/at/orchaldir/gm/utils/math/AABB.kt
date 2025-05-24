@@ -53,7 +53,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun getEnd() = start + size
 
-    fun getInnerRadius() = size.minSize() / 2.0f
+    fun getInnerRadius() = size.innerRadius()
 
     fun convertWidth(factor: Factor) = size.width * factor
 

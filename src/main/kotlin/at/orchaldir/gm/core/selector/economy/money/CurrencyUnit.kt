@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.selector.economy.calculateWeight
 import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
-import at.orchaldir.gm.utils.math.unit.Weight
 
 fun State.canDeleteCurrencyUnit(id: CurrencyUnitId) = true
 
@@ -34,24 +33,23 @@ fun State.getCurrencyUnits(material: MaterialId) = getCurrencyUnitStorage()
     .getAll()
     .filter { it.format.contains(material) }
 
-fun State.calculateWeight(unit: CurrencyUnit) = Weight.fromGrams(10)
-/* TODO
 fun State.calculateWeight(unit: CurrencyUnit) = when (val format = unit.format) {
     UndefinedCurrencyFormat -> WEIGHTLESS
     is Coin -> calculateWeight(format.material, format.shape.calculateVolume(format.radius, format.thickness))
     is HoledCoin -> {
         val outerVolume = format.shape.calculateVolume(format.radius, format.thickness)
-        val holeVolume = format.holeShape.calculateVolume(format.calculateHoleRadius(), format.thickness)
+        val innerSize = format.calculateInnerSize(format.radius)
+        val holeVolume = format.holeShape.calculateVolume(innerSize, format.thickness)
 
         calculateWeight(format.material, outerVolume - holeVolume)
     }
 
     is BiMetallicCoin -> {
         val outerVolume = format.shape.calculateVolume(format.radius, format.thickness)
-        val innerVolume = format.innerShape.calculateVolume(format.calculateInnerRadius(), format.thickness)
+        val innerSize = format.calculateInnerSize(format.radius)
+        val innerVolume = format.innerShape.calculateVolume(innerSize, format.thickness)
 
         calculateWeight(format.material, outerVolume - innerVolume) + calculateWeight(format.innerMaterial, innerVolume)
     }
 }
-*/
 
