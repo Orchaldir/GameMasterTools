@@ -60,9 +60,9 @@ fun HtmlBlockTag.selectComplexShape(
         selectValue("Type", param, ComplexShapeType.entries, shape.getType())
 
         when (shape) {
-            is UsingCircularShape -> selectCircularShape(shape.shape, combine(param, SHAPE))
+            is UsingCircularShape -> selectCircularShape(shape.shape, combine(param, SHAPE, 0))
             is UsingRectangularShape -> {
-                selectRectangularShape(shape.shape, combine(param, SHAPE), availableShapes = availableShapes)
+                selectRectangularShape(shape.shape, combine(param, SHAPE, 1), availableShapes = availableShapes)
                 selectFactor(
                     "Height to Width",
                     combine(param, SIZE),
@@ -98,11 +98,11 @@ fun HtmlBlockTag.selectRectangularShape(
 fun parseComplexShape(parameters: Parameters, param: String) =
     when (parse(parameters, param, ComplexShapeType.Circular)) {
         ComplexShapeType.Circular -> UsingCircularShape(
-            parseCircularShape(parameters, combine(param, SHAPE)),
+            parseCircularShape(parameters, combine(param, SHAPE, 0)),
         )
 
         ComplexShapeType.Rectangular -> UsingRectangularShape(
-            parseRectangularShape(parameters, combine(param, SHAPE)),
+            parseRectangularShape(parameters, combine(param, SHAPE, 1)),
             parseFactor(parameters, combine(param, SIZE)),
         )
     }
