@@ -19,8 +19,8 @@ enum class RectangularShape {
     fun calculateVolume(size: Size2d, thickness: Distance) =
         calculateArea(size) * thickness.toMeters()
 
-    fun calculateInnerSize(size: Size2d, innerFactor: Factor): Size2d {
-        val innerWidth = calculateWidth(size.height, innerFactor)
+    fun calculateInnerSize(size: Size2d, innerWidthFactor: Factor): Size2d {
+        val innerWidth = calculateWidth(size.height, innerWidthFactor)
         val innerSize = Size2d(innerWidth, size.height)
 
         return if (innerSize.width > size.width) {

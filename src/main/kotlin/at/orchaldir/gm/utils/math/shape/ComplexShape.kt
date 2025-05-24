@@ -33,7 +33,7 @@ sealed class ComplexShape {
 
     fun calculateVolume(radius: Distance, thickness: Distance) = when (this) {
         is UsingCircularShape -> shape.calculateVolume(radius, thickness)
-        is UsingRectangularShape -> shape.calculateVolume(shape.calculateSize(radius, factor), thickness)
+        is UsingRectangularShape -> shape.calculateVolume(shape.calculateSize(radius, widthFactor), thickness)
     }
 
     fun calculateVolume(size: Size2d, thickness: Distance) = when (this) {
@@ -62,10 +62,10 @@ data class UsingCircularShape(
 
         is UsingRectangularShape -> {
             val innerRadius = shape.calculateIncircle(radius, CircularShape.Circle)
-            val halfHeight = innerRadius / sqrt(inner.factor.toNumber().pow(2) + 1.0f)
+            val halfHeight = innerRadius / sqrt(inner.widthFactor.toNumber().pow(2) + 1.0f)
             val height = halfHeight * 2.0f
 
-            Size2d(inner.shape.calculateWidth(height, inner.factor), height)
+            Size2d(inner.shape.calculateWidth(height, inner.widthFactor), height)
         }
     }
 
@@ -87,18 +87,18 @@ data class UsingCircularShape(
 @SerialName("Rectangular")
 data class UsingRectangularShape(
     val shape: RectangularShape = RectangularShape.Rectangle,
-    val factor: Factor = Factor.fromPercentage(50),
+    val widthFactor: Factor = Factor.fromPercentage(50),
 ) : ComplexShape() {
 
     override fun calculateAabb(center: Point2d, radius: Distance) =
-        AABB.fromRadii(center, shape.calculateWidth(radius, factor), radius)
+        AABB.fromRadii(center, shape.calculateWidth(radius, widthFactor), radius)
 
     override fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d {
         val size = Size2d.square(radius * 2.0f)
 
         return when (inner) {
             is UsingCircularShape -> Size2d.square(size.minSize())
-            is UsingRectangularShape -> shape.calculateInnerSize(size, inner.factor)
+            is UsingRectangularShape -> shape.calculateInnerSize(size, inner.widthFactor)
         }
     }
 

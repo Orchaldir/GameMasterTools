@@ -28,7 +28,7 @@ fun HtmlBlockTag.showComplexShape(
             is UsingCircularShape -> showCircularShape(shape.shape)
             is UsingRectangularShape -> {
                 showRectangularShape(shape.shape)
-                fieldFactor("Height to Width", shape.factor)
+                fieldFactor("Height to Width", shape.widthFactor)
             }
         }
     }
@@ -65,7 +65,7 @@ fun HtmlBlockTag.selectComplexShape(
                 selectFactor(
                     "Height to Width",
                     combine(param, SIZE),
-                    shape.factor,
+                    shape.widthFactor,
                     MIN_RECTANGULAR_FACTOR,
                     MAX_RECTANGULAR_FACTOR,
                     ONE_PERCENT,
