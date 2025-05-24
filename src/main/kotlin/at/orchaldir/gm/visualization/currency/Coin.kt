@@ -6,10 +6,6 @@ import at.orchaldir.gm.core.model.economy.money.HoledCoin
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.shape.CircularShape
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ONE
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -33,8 +29,8 @@ fun visualizeCoin(
         options
     )
     visualizeOuterRim(state, renderer, aabb, coin.shape, coin.radius * coin.rimFactor)
-    val innerAabb = coin.shape.calculateInnerAabb(aabb, UsingCircularShape(CircularShape.Circle), FULL)
-    visualizeCoinSide(state, renderer, innerAabb, coin.front)
+    val sideAabb = coin.shape.calculateInnerAabb(aabb, UsingCircularShape(CircularShape.Circle), FULL)
+    visualizeCoinSide(state, renderer, sideAabb, coin.front)
 }
 
 fun visualizeHoledCoin(
@@ -67,16 +63,16 @@ fun visualizeHoledCoin(
             rimWidth,
         )
     }
-    /*
-        visualizeHoledCoinSide(
-            state,
-            renderer,
-            center,
-            coin.calculateInnerShapeRadius(CircularShape.Circle),
-            holeRadius,
-            coin.front,
-        )
-     */
+
+    val sideAabb = coin.shape.calculateInnerAabb(aabb, UsingCircularShape(CircularShape.Circle), FULL)
+
+    visualizeHoledCoinSide(
+        state,
+        renderer,
+        sideAabb,
+        holeAabb,
+        coin.front,
+    )
 }
 
 fun visualizeBiMetallicCoin(
@@ -106,7 +102,8 @@ fun visualizeBiMetallicCoin(
         innerOptions
     )
 
-    //visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(CircularShape.Circle), coin.front)
+    val sideAabb = coin.shape.calculateInnerAabb(aabb, UsingCircularShape(CircularShape.Circle), FULL)
+    visualizeCoinSide(state, renderer, sideAabb, coin.front)
 }
 
 private fun visualizeOuterRim(

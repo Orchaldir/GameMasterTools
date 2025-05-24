@@ -18,11 +18,13 @@ import kotlin.math.pow
 fun visualizeHoledCoinSide(
     state: CurrencyRenderState,
     renderer: LayerRenderer,
-    center: Point2d,
-    radius: Distance,
-    holeRadius: Distance,
+    aabb: AABB,
+    holeAABB: AABB,
     side: HoledCoinSide,
 ) {
+    val center = aabb.getCenter()
+    val radius = aabb.getInnerRadius()
+    val holeRadius = holeAABB.getInnerRadius()
     val subRadius = radius - holeRadius
     val subHalf = subRadius / 2.0f
     val offset = holeRadius + subHalf
