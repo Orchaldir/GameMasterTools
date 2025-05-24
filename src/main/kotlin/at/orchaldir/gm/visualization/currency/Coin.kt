@@ -100,7 +100,7 @@ private fun debugHoledCoin(
     holeRimAabb: AABB,
 ) {
     val lineWidth = 0.0001f
-    val options = BorderOnly(LineOptions(Color.Blue.toRender(), lineWidth))
+    val options = BorderOnly(LineOptions(Color.Red.toRender(), lineWidth))
 
     renderer.renderCircle(center, aabb.getInnerRadius(), options)
     renderer.renderCircle(center, sideAabb.getInnerRadius(), options)

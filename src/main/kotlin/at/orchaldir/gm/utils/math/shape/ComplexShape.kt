@@ -57,7 +57,7 @@ data class UsingCircularShape(
     override fun calculateIncircle(radius: Distance, inner: ComplexShape) = when (inner) {
         is UsingCircularShape -> {
             val innerRadius = shape.calculateIncircle(radius, inner.shape)
-            Size2d.fromDiagonalRadius(innerRadius)
+            Size2d.square(innerRadius * 2)
         }
 
         is UsingRectangularShape -> {
