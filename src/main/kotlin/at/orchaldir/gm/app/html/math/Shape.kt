@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.util.parseFactor
 import at.orchaldir.gm.app.html.util.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.shape.*
 import io.ktor.http.*
@@ -103,7 +104,7 @@ fun parseComplexShape(parameters: Parameters, param: String) =
 
         ComplexShapeType.Rectangular -> UsingRectangularShape(
             parseRectangularShape(parameters, combine(param, SHAPE, 1)),
-            parseFactor(parameters, combine(param, SIZE)),
+            parseFactor(parameters, combine(param, SIZE), HALF),
         )
     }
 
