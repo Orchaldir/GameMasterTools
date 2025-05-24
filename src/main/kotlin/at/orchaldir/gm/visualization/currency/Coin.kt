@@ -55,7 +55,8 @@ fun visualizeHoledCoin(
         coin.holeShape,
         options
     )
-    visualizeOuterRim(state, renderer, aabb, coin.shape, rimWidth)
+
+    val outerRimAabb = visualizeOuterRim(state, renderer, aabb, coin.shape, rimWidth)
 
     val holeRimAabb = if (coin.hasHoleRim) {
         visualizeInnerRim(
@@ -71,7 +72,7 @@ fun visualizeHoledCoin(
         holeAabb
     }
 
-    val sideAabb = coin.shape.calculateInnerAabb(aabb, UsingCircularShape(CircularShape.Circle), FULL)
+    val sideAabb = coin.shape.calculateInnerAabb(outerRimAabb, UsingCircularShape(CircularShape.Circle), FULL)
 
     visualizeHoledCoinSide(
         state,
@@ -85,9 +86,10 @@ fun visualizeHoledCoin(
         renderer,
         center,
         aabb,
+        outerRimAabb,
+        holeRimAabb,
         holeAabb,
         sideAabb,
-        holeRimAabb,
     )
 }
 
@@ -95,17 +97,19 @@ private fun debugHoledCoin(
     renderer: LayerRenderer,
     center: Point2d,
     aabb: AABB,
-    hole: AABB,
-    sideAabb: AABB,
+    outerRimAabb: AABB,
     holeRimAabb: AABB,
+    holeAabb: AABB,
+    sideAabb: AABB,
 ) {
     val lineWidth = 0.0001f
     val options = BorderOnly(LineOptions(Color.Red.toRender(), lineWidth))
 
     renderer.renderCircle(center, aabb.getInnerRadius(), options)
+    renderer.renderCircle(center, outerRimAabb.getInnerRadius(), options)
     renderer.renderCircle(center, sideAabb.getInnerRadius(), options)
     renderer.renderCircle(center, holeRimAabb.getInnerRadius(), options)
-    renderer.renderCircle(center, hole.getInnerRadius(), options)
+    renderer.renderCircle(center, holeAabb.getInnerRadius(), options)
     renderer.renderCircle(center, Distance.fromMillimeters(0.1f), options)
 }
 
@@ -146,14 +150,16 @@ private fun visualizeOuterRim(
     aabb: AABB,
     shape: ComplexShape,
     rimWidth: Distance,
-) {
+): AABB {
     if (rimWidth == ZERO_DISTANCE) {
-        return
+        return aabb
     }
 
     val rimAabb = aabb.shrink(rimWidth)
 
     visualizeRim(state, renderer, rimAabb, shape)
+
+    return rimAabb
 }
 
 private fun visualizeInnerRim(
