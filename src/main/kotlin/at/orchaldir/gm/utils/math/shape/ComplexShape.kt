@@ -106,11 +106,10 @@ data class UsingRectangularShape(
         aabb: AABB,
         inner: ComplexShape,
         factor: Factor,
-    ): AABB {
-        val innerSize = calculateIncircle(aabb.getInnerRadius(), inner) * factor
-
-        return AABB.fromCenter(aabb.getCenter(), innerSize)
-    }
+    ) = AABB.fromCenter(
+        shape.calculateCenter(aabb),
+        calculateIncircle(aabb.getInnerRadius(), inner) * factor,
+    )
 
     override fun toString() = shape.toString()
 

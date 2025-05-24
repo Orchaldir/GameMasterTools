@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils.math.shape
 
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -18,6 +20,12 @@ enum class RectangularShape {
 
     fun calculateVolume(size: Size2d, thickness: Distance) =
         calculateArea(size) * thickness.toMeters()
+
+    fun calculateCenter(aabb: AABB) = when (this) {
+        Rectangle -> aabb.getCenter()
+        Teardrop -> aabb.getPoint(CENTER, Factor.fromPercentage(75))
+        ReverseTeardrop -> aabb.getPoint(CENTER, Factor.fromPercentage(25))
+    }
 
     fun calculateInnerSize(size: Size2d, innerWidthFactor: Factor): Size2d {
         val innerWidth = calculateWidth(size.height, innerWidthFactor)
