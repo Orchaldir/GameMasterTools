@@ -1,28 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-   "data": {
-    "type": "Earring",
-    "style": {
-     "type": "Stud",
-     "ornament": {
-      "type": "Border",
-      "shape": {
-       "type": "Rectangular",
-       "shape": "Cross"
-      },
-      "center": {
-       "material": 28
-      },
-      "border": {
-       "material": 20
-      }
-     },
-     "size": "Small"
-    }
-   }
-  }
  }
 }
