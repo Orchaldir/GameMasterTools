@@ -8,6 +8,9 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -226,13 +229,13 @@ data class Pants(
 @Serializable
 @SerialName("Shield")
 data class Shield(
-    val necklineStyle: NecklineStyle = NecklineStyle.None,
-    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.White),
+    val shape: ComplexShape = UsingCircularShape(),
+    val size: Size = Size.Medium,
+    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
-    constructor(neckline: NecklineStyle, sleeve: SleeveStyle, color: Color) :
-            this(neckline, sleeve, FillLookupItemPart(color))
+    constructor(shape: CircularShape, size: Size, color: Color) :
+            this(UsingCircularShape(shape), size, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
 }
