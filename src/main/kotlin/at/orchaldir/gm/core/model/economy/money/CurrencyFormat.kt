@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.economy.money
 
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.shape.CircularShape
@@ -103,6 +104,8 @@ data class HoledCoin(
 
     //fun calculateHoleRadius() = calculateInnerShapeRadius(holeShape) * holeFactor
 
+    fun calculateInnerAabb(aabb: AABB) = shape.calculateInnerAabb(aabb, holeShape, holeFactor)
+
 }
 
 @Serializable
@@ -124,5 +127,6 @@ data class BiMetallicCoin(
 
     //fun calculateInnerRadius() = calculateInnerShapeRadius(innerShape) * innerFactor
 
+    fun calculateInnerAabb(aabb: AABB) = shape.calculateInnerAabb(aabb, innerShape, innerFactor)
 }
 

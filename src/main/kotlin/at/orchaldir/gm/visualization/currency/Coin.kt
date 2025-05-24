@@ -42,7 +42,7 @@ fun visualizeHoledCoin(
     val renderer = state.renderer.getLayer()
     val center = state.aabb.getCenter()
     val aabb = coin.shape.calculateAabb(center, coin.radius)
-    val holeAabb = coin.shape.calculateInnerAabb(aabb, coin.holeShape)
+    val holeAabb = coin.calculateInnerAabb(aabb)
     val rimWidth = coin.radius * coin.rimFactor
 
     visualizeHoledComplexShape(
@@ -85,7 +85,7 @@ fun visualizeBiMetallicCoin(
     val renderer = state.renderer.getLayer()
     val center = state.aabb.getCenter()
     val aabb = coin.shape.calculateAabb(center, coin.radius)
-    val innerAabb = coin.shape.calculateInnerAabb(aabb, coin.innerShape)
+    val innerAabb = coin.calculateInnerAabb(aabb)
 
     visualizeComplexShape(
         renderer,

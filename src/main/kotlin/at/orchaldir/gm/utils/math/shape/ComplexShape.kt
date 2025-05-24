@@ -33,7 +33,7 @@ sealed class ComplexShape {
 
     abstract fun calculateAabb(center: Point2d, radius: Distance): AABB
     abstract fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d
-    abstract fun calculateInnerAabb(aabb: AABB, inner: ComplexShape): AABB
+    abstract fun calculateInnerAabb(aabb: AABB, inner: ComplexShape, factor: Factor): AABB
 }
 
 @Serializable
@@ -62,8 +62,9 @@ data class UsingCircularShape(
     override fun calculateInnerAabb(
         aabb: AABB,
         inner: ComplexShape,
+        factor: Factor,
     ): AABB {
-        val innerSize = calculateIncircle(aabb.getInnerRadius(), inner)
+        val innerSize = calculateIncircle(aabb.getInnerRadius(), inner) * factor
 
         return AABB.fromCenter(aabb.getCenter(), innerSize)
     }
@@ -92,8 +93,9 @@ data class UsingRectangularShape(
     override fun calculateInnerAabb(
         aabb: AABB,
         inner: ComplexShape,
+        factor: Factor,
     ): AABB {
-        val innerSize = calculateIncircle(aabb.getInnerRadius(), inner)
+        val innerSize = calculateIncircle(aabb.getInnerRadius(), inner) * factor
 
         return AABB.fromCenter(aabb.getCenter(), innerSize)
     }
