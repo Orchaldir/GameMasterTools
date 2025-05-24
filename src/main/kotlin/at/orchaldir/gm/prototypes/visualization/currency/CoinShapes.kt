@@ -46,10 +46,10 @@ fun main() {
             )
         } else {
             val front = HoledCoinSide(
-                ShowValue(),
                 ShowNumber(),
-                ShowDenomination(),
-                ShowName(),
+                ShowNumber(),
+                ShowNumber(),
+                ShowNumber(),
             )
             HoledCoin(
                 gold,
