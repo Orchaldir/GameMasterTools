@@ -1,16 +1,17 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.item.equipment.style.Ornament
-import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
-import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.createCross
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.*
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.LineOptions
+import at.orchaldir.gm.utils.renderer.model.NoBorder
+import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.currency.visualizeComplexShape
 
 fun visualizeOrnament(
     state: CharacterRenderState,
@@ -33,7 +34,7 @@ private fun visualizeSimpleOrnament(
     val fill = ornament.part.getFill(state.state, state.colors)
     val options = NoBorder(fill.toRender())
 
-    visualizeOrnament(renderer, position, radius, ornament.shape, options)
+    visualizeComplexShape(renderer, position, radius, ornament.shape, options)
 }
 
 private fun visualizeBorderOrnament(
@@ -47,28 +48,6 @@ private fun visualizeBorderOrnament(
     val borderColor = ornament.border.getColor(state.state, state.colors)
     val options = FillAndBorder(centerFill.toRender(), LineOptions(borderColor.toRender(), radius / 3.0f))
 
-    visualizeOrnament(renderer, position, radius, ornament.shape, options)
+    visualizeComplexShape(renderer, position, radius, ornament.shape, options)
 }
 
-private fun visualizeOrnament(
-    renderer: LayerRenderer,
-    position: Point2d,
-    radius: Distance,
-    shape: OrnamentShape,
-    options: RenderOptions,
-) {
-    when (shape) {
-        OrnamentShape.Circle -> renderer.renderCircle(position, radius, options)
-        OrnamentShape.Cross -> {
-            val polygon = createCross(position, radius * 2.0f)
-            renderer.renderPolygon(polygon, options)
-        }
-
-        OrnamentShape.Diamond -> renderer.renderDiamond(AABB.fromCenter(position, radius * 2.0f), options)
-        OrnamentShape.Square -> renderer.renderRectangle(AABB.fromCenter(position, radius * 2.0f), options)
-        OrnamentShape.Teardrop -> renderer.renderTeardrop(
-            AABB.fromWidthAndHeight(position, radius, radius * 2.0f),
-            options
-        )
-    }
-}

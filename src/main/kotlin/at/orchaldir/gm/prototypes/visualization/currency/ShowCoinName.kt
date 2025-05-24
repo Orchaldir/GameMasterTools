@@ -3,7 +3,10 @@ package at.orchaldir.gm.prototypes.visualization.currency
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.economy.money.*
+import at.orchaldir.gm.core.model.economy.money.Coin
+import at.orchaldir.gm.core.model.economy.money.DEFAULT_RIM_FACTOR
+import at.orchaldir.gm.core.model.economy.money.DEFAULT_THICKNESS
+import at.orchaldir.gm.core.model.economy.money.ShowName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -27,7 +30,7 @@ fun main() {
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
-        addNames(Shape.entries),
+        addNames(createExampleShapes()),
         addNames(listOf("D", "DD", "DDD", "DDDD", "DDDDD")),
         { _, name ->
             ResolvedCurrencyData(Name.init(name))

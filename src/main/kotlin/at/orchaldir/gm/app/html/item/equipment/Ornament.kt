@@ -6,12 +6,19 @@ import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.*
+import at.orchaldir.gm.app.html.math.parseComplexShape
+import at.orchaldir.gm.app.html.math.selectComplexShape
+import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.Ornament
+import at.orchaldir.gm.core.model.item.equipment.style.OrnamentType
+import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
+import at.orchaldir.gm.utils.math.shape.SHAPES_WITHOUT_CROSS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -29,12 +36,12 @@ fun HtmlBlockTag.showOrnament(
 
         when (ornament) {
             is SimpleOrnament -> {
-                field("Shape", ornament.shape)
+                showComplexShape(ornament.shape)
                 showFillLookupItemPart(call, state, ornament.part)
             }
 
             is OrnamentWithBorder -> {
-                field("Shape", ornament.shape)
+                showComplexShape(ornament.shape)
                 showFillLookupItemPart(call, state, ornament.center, "Center")
                 showColorSchemeItemPart(call, state, ornament.border, "Border")
             }
@@ -55,14 +62,28 @@ fun HtmlBlockTag.editOrnament(
 
         when (ornament) {
             is SimpleOrnament -> {
-                selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape)
+                selectComplexShape(ornament.shape, combine(param, SHAPE))
                 editFillLookupItemPart(state, ornament.part, param)
             }
 
             is OrnamentWithBorder -> {
-                selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape)
-                editFillLookupItemPart(state, ornament.center, param)
-                editColorSchemeItemPart(state, ornament.border, combine(param, BORDER))
+                selectComplexShape(
+                    ornament.shape,
+                    combine(param, SHAPE),
+                    SHAPES_WITHOUT_CROSS,
+                )
+                editFillLookupItemPart(
+                    state,
+                    ornament.center,
+                    param,
+                    "Center",
+                )
+                editColorSchemeItemPart(
+                    state,
+                    ornament.border,
+                    combine(param, BORDER),
+                    "Border",
+                )
             }
         }
     }
@@ -75,12 +96,12 @@ fun parseOrnament(parameters: Parameters, param: String = ORNAMENT): Ornament {
 
     return when (type) {
         OrnamentType.Simple -> SimpleOrnament(
-            parse(parameters, combine(param, SHAPE), OrnamentShape.Circle),
+            parseComplexShape(parameters, combine(param, SHAPE)),
             parseFillLookupItemPart(parameters, param),
         )
 
         OrnamentType.Border -> OrnamentWithBorder(
-            parse(parameters, combine(param, SHAPE), OrnamentShape.Circle),
+            parseComplexShape(parameters, combine(param, SHAPE)),
             parseFillLookupItemPart(parameters, param),
             parseColorSchemeItemPart(parameters, combine(param, BORDER)),
         )

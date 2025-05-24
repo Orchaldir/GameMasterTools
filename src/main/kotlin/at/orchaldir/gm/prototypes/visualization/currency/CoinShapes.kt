@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.shape.*
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
@@ -19,14 +20,19 @@ fun main() {
             Material(silver, color = Color.Silver),
         )
     )
+    val holeShapes = mutableListOf<ComplexShape?>(null)
+    holeShapes.addAll(
+        listOf(CircularShape.Circle, CircularShape.Square, CircularShape.Octagon)
+            .map { UsingCircularShape(it) })
+    holeShapes.add(UsingRectangularShape(RectangularShape.Teardrop))
 
     renderCurrencyTable(
         "coin-shapes.svg",
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
-        addNames(Shape.entries),
-        addNames(listOf(null, Shape.Circle, Shape.Square, Shape.Octagon)),
+        addNames(createExampleShapes()),
+        addNames(holeShapes),
     ) { shape, hole ->
         if (hole == null) {
             Coin(
@@ -36,10 +42,10 @@ fun main() {
             )
         } else {
             val front = HoledCoinSide(
-                ShowValue(),
                 ShowNumber(),
-                ShowDenomination(),
-                ShowName(),
+                ShowNumber(),
+                ShowNumber(),
+                ShowNumber(),
             )
             HoledCoin(
                 gold,
@@ -48,7 +54,7 @@ fun main() {
                 DEFAULT_THICKNESS,
                 DEFAULT_RIM_FACTOR,
                 hole,
-                front = front
+                front = front,
             )
         }
 

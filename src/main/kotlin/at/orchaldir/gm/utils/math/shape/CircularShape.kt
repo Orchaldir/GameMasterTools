@@ -1,11 +1,10 @@
-package at.orchaldir.gm.core.model.economy.money
+package at.orchaldir.gm.utils.math.shape
 
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.FULL_CIRCLE
-import at.orchaldir.gm.utils.math.unit.Weight
 import kotlin.math.pow
 
-enum class Shape {
+enum class CircularShape {
     Circle,
     Triangle,
     CutoffTriangle,
@@ -34,23 +33,29 @@ enum class Shape {
     fun calculateArea(radius: Distance) =
         Math.PI.toFloat() * radius.toMeters().pow(2)
 
-    fun calculateIncircle(radius: Distance, sides: Int): Distance {
+    fun calculateVolume(radius: Distance, thickness: Distance) =
+        calculateArea(radius) * thickness.toMeters()
+
+    fun calculateIncircle(radius: Distance, inner: CircularShape): Distance {
+        val sides = getSides()
+
+        if (this == Circle ||
+            (sides == inner.getSides() && hasCornerAtTop() == inner.hasCornerAtTop())
+        ) {
+            return radius
+        }
+
         require(sides >= 3) { "Requires at least 3 sides!" }
+
         val angle = FULL_CIRCLE.div(sides * 2.0f)
         val incircleRadius = radius * angle.cos()
 
         if (isScalloped()) {
-            return incircleRadius * 0.8f
+            return incircleRadius * 0.9f
         }
 
         return incircleRadius
     }
-
-    fun calculateVolume(radius: Distance, thickness: Distance) =
-        calculateArea(radius) * thickness.toMeters()
-
-    fun calculateWeight(radius: Distance, thickness: Distance, density: Weight) =
-        Weight.fromKilograms(calculateVolume(radius, thickness) * density.toKilograms())
 
     fun getSides() = when (this) {
         Circle -> 0
@@ -65,4 +70,3 @@ enum class Shape {
 
     fun hasCornerAtTop() = !(this == Square || this == RoundedSquare)
 }
-

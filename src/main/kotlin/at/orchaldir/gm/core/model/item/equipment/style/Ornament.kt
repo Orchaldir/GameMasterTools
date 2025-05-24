@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.item.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.shape.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -34,23 +35,31 @@ sealed class Ornament : MadeFromParts {
 @Serializable
 @SerialName("Simple")
 data class SimpleOrnament(
-    val shape: OrnamentShape = OrnamentShape.Circle,
+    val shape: ComplexShape = UsingCircularShape(CircularShape.Circle),
     val part: FillLookupItemPart = FillLookupItemPart(Color.Gold),
 ) : Ornament() {
 
-    constructor(shape: OrnamentShape, color: Color) : this(shape, FillLookupItemPart(color))
+    constructor(shape: ComplexShape, color: Color) : this(shape, FillLookupItemPart(color))
+    constructor(shape: CircularShape, color: Color) : this(UsingCircularShape(shape), color)
+    constructor(shape: RectangularShape, color: Color) : this(UsingRectangularShape(shape), color)
 
 }
 
 @Serializable
 @SerialName("Border")
 data class OrnamentWithBorder(
-    val shape: OrnamentShape = OrnamentShape.Circle,
+    val shape: ComplexShape = UsingCircularShape(CircularShape.Circle),
     val center: FillLookupItemPart = FillLookupItemPart(Color.Red),
     val border: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
 ) : Ornament() {
 
-    constructor(shape: OrnamentShape, center: Color, border: Color = Color.Gold) :
+    constructor(shape: ComplexShape, center: Color, border: Color = Color.Gold) :
             this(shape, FillLookupItemPart(center), ColorSchemeItemPart(border))
+
+    constructor(shape: CircularShape, color: Color, border: Color = Color.Gold) :
+            this(UsingCircularShape(shape), color, border)
+
+    constructor(shape: RectangularShape, color: Color, border: Color = Color.Gold) :
+            this(UsingRectangularShape(shape), color, border)
 
 }

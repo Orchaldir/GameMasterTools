@@ -11,6 +11,11 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
+import at.orchaldir.gm.utils.math.shape.CircularShape.*
+import at.orchaldir.gm.utils.math.shape.RectangularShape.Cross
+import at.orchaldir.gm.utils.math.shape.RectangularShape.Teardrop
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import at.orchaldir.gm.utils.renderer.model.LineOptions
@@ -227,6 +232,14 @@ val EYES: List<Pair<String, Eyes>> = listOf(
     createOneEye(Size.Medium),
     createOneEye(Size.Large),
     Pair("Two", TwoEyes()),
+)
+
+val COMPLEX_SHAPES = listOf(
+    UsingCircularShape(Circle),
+    UsingRectangularShape(Cross),
+    UsingCircularShape(Diamond),
+    UsingCircularShape(Square),
+    UsingRectangularShape(Teardrop),
 )
 
 private fun createOneEye(size: Size) = Pair("One $size", OneEye(size = size))

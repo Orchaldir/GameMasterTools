@@ -38,14 +38,16 @@ fun State.calculateWeight(unit: CurrencyUnit) = when (val format = unit.format) 
     is Coin -> calculateWeight(format.material, format.shape.calculateVolume(format.radius, format.thickness))
     is HoledCoin -> {
         val outerVolume = format.shape.calculateVolume(format.radius, format.thickness)
-        val holeVolume = format.holeShape.calculateVolume(format.calculateHoleRadius(), format.thickness)
+        val innerSize = format.calculateInnerSize(format.radius)
+        val holeVolume = format.holeShape.calculateVolume(innerSize, format.thickness)
 
         calculateWeight(format.material, outerVolume - holeVolume)
     }
 
     is BiMetallicCoin -> {
         val outerVolume = format.shape.calculateVolume(format.radius, format.thickness)
-        val innerVolume = format.innerShape.calculateVolume(format.calculateInnerRadius(), format.thickness)
+        val innerSize = format.calculateInnerSize(format.radius)
+        val innerVolume = format.innerShape.calculateVolume(innerSize, format.thickness)
 
         calculateWeight(format.material, outerVolume - innerVolume) + calculateWeight(format.innerMaterial, innerVolume)
     }

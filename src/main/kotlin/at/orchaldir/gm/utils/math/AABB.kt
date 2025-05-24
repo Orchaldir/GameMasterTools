@@ -53,7 +53,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun getEnd() = start + size
 
-    fun getInnerRadius() = size.minSize() / 2.0f
+    fun getInnerRadius() = size.innerRadius()
 
     fun convertWidth(factor: Factor) = size.width * factor
 
@@ -103,6 +103,11 @@ data class AABB(val start: Point2d, val size: Size2d) {
     operator fun plus(offset: Point2d) = AABB(start + offset, size)
 
     fun replaceWidth(width: Distance) = copy(size = size.replaceWidth(width))
+
+    /**
+     * Move the border outward by a certain distance.
+     */
+    fun grow(border: Distance) = AABB(start - border, size + border * 2.0f)
 
     /**
      * Move the border inward by a certain distance.

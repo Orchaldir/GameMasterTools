@@ -1,30 +1,44 @@
-package at.orchaldir.gm.utils.math
+package at.orchaldir.gm.utils.math.shape
 
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.FULL_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 
+val CROSS_Y = fromPercentage(33)
 private val AT_TOP = -QUARTER_CIRCLE
 private val SQUARE_ORIENTATION = QUARTER_CIRCLE / 2.0f
 private val cutoffSubdivide = createSubdivideIntoThirds(1.0f / 5.0f)
 
+// cross
+
 fun createCross(center: Point2d, height: Distance): Polygon2d {
     val aabb = AABB.fromRadii(center, height / 4.0f, height / 2.0f)
+    return createCross(aabb)
+}
+
+fun createCross(aabb: AABB): Polygon2d {
     val size = fromPercentage(15)
     val halfSize = size / 2.0f
-    val y = fromPercentage(33)
+    val half = aabb.convertHeight(halfSize)
+    val top = aabb.getPoint(HALF, START)
+    val left = aabb.getPoint(START, CROSS_Y)
+    val center = aabb.getPoint(HALF, CROSS_Y)
+    val bottom = aabb.getPoint(HALF, END)
 
     return Polygon2dBuilder()
-        .addMirroredPoints(aabb, size, START)
-        .addMirroredPoints(aabb, size, y - halfSize)
-        .addMirroredPoints(aabb, FULL, y - halfSize)
-        .addMirroredPoints(aabb, FULL, y + halfSize)
-        .addMirroredPoints(aabb, size, y + halfSize)
-        .addMirroredPoints(aabb, size, END)
+        .addVerticallyMirroredPoint(aabb, top.minusWidth(half))
+        .addVerticallyMirroredPoint(aabb, center.minus(half))
+        .addVerticallyMirroredPoint(aabb, left.minusHeight(half))
+        .addVerticallyMirroredPoint(aabb, left.addHeight(half))
+        .addVerticallyMirroredPoint(aabb, center.addHeight(half).minusWidth(half))
+        .addVerticallyMirroredPoint(aabb, bottom.minusWidth(half))
         .build()
 }
+
+// diamond
 
 fun createDiamond(center: Point2d, radius: Distance) = createRegularPolygon(center, radius, 4)
 
@@ -32,6 +46,8 @@ fun createCutoffDiamond(center: Point2d, radius: Distance) =
     createCutoffRegularPolygon(center, radius, 4)
 
 fun createRoundedDiamond(center: Point2d, radius: Distance) = createRoundedRegularPolygon(center, radius, 4)
+
+// regular polygon
 
 fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
     Polygon2d(createRegularPolygonPoints(center, radius, sides, firstCorner))
@@ -79,6 +95,8 @@ fun createRegularPolygonPoints(center: Point2d, radius: Distance, sides: Int, fi
     }
 }
 
+// square
+
 fun createSquare(center: Point2d, radius: Distance) =
     createRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
 
@@ -87,6 +105,35 @@ fun createCutoffSquare(center: Point2d, radius: Distance) =
 
 fun createRoundedSquare(center: Point2d, radius: Distance) =
     createRoundedRegularPolygon(center, radius, 4, SQUARE_ORIENTATION)
+
+// teardrop
+
+fun createTeardrop(center: Point2d, radius: Distance): Polygon2d {
+    val aabb = AABB.fromRadii(center, radius / 2, radius)
+
+    return createTeardrop(aabb)
+}
+
+fun createTeardrop(aabb: AABB) = Polygon2dBuilder()
+    .addLeftPoint(aabb, CENTER, START, true)
+    .addMirroredPoints(aabb, FULL, HALF)
+    .addMirroredPoints(aabb, FULL, END)
+    .reverse()
+    .build()
+
+fun createReverseTeardrop(center: Point2d, radius: Distance): Polygon2d {
+    val aabb = AABB.fromRadii(center, radius / 2, radius)
+
+    return createReverseTeardrop(aabb)
+}
+
+fun createReverseTeardrop(aabb: AABB): Polygon2d = Polygon2dBuilder()
+    .addLeftPoint(aabb, CENTER, END, true)
+    .addMirroredPoints(aabb, FULL, HALF)
+    .addMirroredPoints(aabb, FULL, START)
+    .build()
+
+// triangle
 
 fun createTriangle(center: Point2d, radius: Distance, firstCorner: Orientation = AT_TOP) =
     createRegularPolygon(center, radius, 3, firstCorner)

@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.HUNDRED_µM
@@ -17,19 +18,23 @@ import kotlin.math.pow
 fun visualizeHoledCoinSide(
     state: CurrencyRenderState,
     renderer: LayerRenderer,
-    center: Point2d,
-    radius: Distance,
-    holeRadius: Distance,
+    aabb: AABB,
+    holeAABB: AABB,
     side: HoledCoinSide,
 ) {
-    val subRadius = radius - holeRadius
-    val subHalf = subRadius / 2.0f
-    val offset = holeRadius + subHalf
+    val center = aabb.getCenter()
+    val radius = aabb.getInnerRadius()
+    val holeHalfWidth = holeAABB.size.width / 2
+    val holeHalfHeight = holeAABB.size.height / 2
+    val subWidth = radius - holeHalfWidth
+    val subHeight = radius - holeHalfHeight
+    val offsetWidth = holeHalfWidth + subWidth / 2
+    val offsetHeight = holeHalfHeight + subHeight / 2
 
-    visualizeHoledCoinSide(state, renderer, center.minusHeight(offset), subRadius, side.top)
-    visualizeHoledCoinSide(state, renderer, center.minusWidth(offset), subHalf, side.left)
-    visualizeHoledCoinSide(state, renderer, center.addWidth(offset), subHalf, side.right)
-    visualizeHoledCoinSide(state, renderer, center.addHeight(offset), subRadius, side.bottom)
+    visualizeHoledCoinSide(state, renderer, center.minusHeight(offsetHeight), subHeight, side.top)
+    visualizeHoledCoinSide(state, renderer, center.minusWidth(offsetWidth), subWidth, side.left)
+    visualizeHoledCoinSide(state, renderer, center.addWidth(offsetWidth), subWidth, side.right)
+    visualizeHoledCoinSide(state, renderer, center.addHeight(offsetHeight), subHeight, side.bottom)
 }
 
 private fun visualizeHoledCoinSide(
@@ -49,6 +54,13 @@ private fun visualizeHoledCoinSide(
         )
     }
 }
+
+fun visualizeCoinSide(
+    state: CurrencyRenderState,
+    renderer: LayerRenderer,
+    aabb: AABB,
+    side: CoinSide,
+) = visualizeCoinSide(state, renderer, aabb.getCenter(), aabb.getInnerRadius(), side)
 
 fun visualizeCoinSide(
     state: CurrencyRenderState,

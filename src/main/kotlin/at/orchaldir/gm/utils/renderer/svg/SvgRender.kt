@@ -3,7 +3,9 @@ package at.orchaldir.gm.utils.renderer.svg
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.core.model.util.font.Font
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -44,12 +46,6 @@ class SvgRenderer(
         options: RenderOptions,
     ): LayerRenderer {
         renderPath(convertCircleArcToPath(center, radius, offset, angle), toSvg(options))
-
-        return this
-    }
-
-    override fun renderDiamond(aabb: AABB, options: RenderOptions): LayerRenderer {
-        renderPath(convertDiamondToPath(aabb), toSvg(options))
 
         return this
     }
@@ -240,16 +236,6 @@ class SvgRenderer(
         )
 
         return this
-    }
-
-    override fun renderTeardrop(aabb: AABB, options: RenderOptions): LayerRenderer {
-        val polygon = Polygon2dBuilder()
-            .addLeftPoint(aabb, CENTER, START, true)
-            .addMirroredPoints(aabb, FULL, HALF)
-            .addMirroredPoints(aabb, FULL, END)
-            .build()
-
-        return renderRoundedPolygon(polygon, options)
     }
 
     //
