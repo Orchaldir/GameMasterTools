@@ -29,7 +29,7 @@ fun main() {
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
-        addNames(CircularShape.entries),
+        addNames(createExampleShapes()),
         addNames(listOf("D", "DD", "DDD", "DDDD", "DDDDD")),
         { _, name ->
             ResolvedCurrencyData(Name.init(name))
@@ -37,7 +37,7 @@ fun main() {
     ) { shape, name ->
         Coin(
             gold,
-            UsingCircularShape(shape),
+            shape,
             radius,
             DEFAULT_THICKNESS,
             DEFAULT_RIM_FACTOR,

@@ -24,11 +24,6 @@ fun main() {
             Material(silver, color = Color.Silver),
         )
     )
-    val shapes = CircularShape.entries
-        .map { UsingCircularShape(it) }
-        .toMutableList<ComplexShape>()
-    shapes.add(UsingRectangularShape(RectangularShape.Teardrop))
-    shapes.add(UsingRectangularShape(RectangularShape.ReverseTeardrop))
     val holeShapes = mutableListOf<ComplexShape?>(null)
     holeShapes.addAll(
         listOf(CircularShape.Circle, CircularShape.Square, CircularShape.Octagon)
@@ -40,7 +35,7 @@ fun main() {
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
-        addNames(shapes),
+        addNames(createExampleShapes()),
         addNames(holeShapes),
     ) { shape, hole ->
         if (hole == null) {

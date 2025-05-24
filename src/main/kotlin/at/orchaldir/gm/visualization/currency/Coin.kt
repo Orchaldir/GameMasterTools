@@ -4,12 +4,14 @@ import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.HoledCoin
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -31,7 +33,8 @@ fun visualizeCoin(
         options
     )
     visualizeOuterRim(state, renderer, aabb, coin.shape, coin.radius * coin.rimFactor)
-    //visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(CircularShape.Circle), coin.front)
+    val innerAabb = coin.shape.calculateInnerAabb(aabb, UsingCircularShape(CircularShape.Circle), FULL)
+    visualizeCoinSide(state, renderer, innerAabb, coin.front)
 }
 
 fun visualizeHoledCoin(

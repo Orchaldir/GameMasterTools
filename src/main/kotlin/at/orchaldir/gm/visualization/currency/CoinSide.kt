@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.HUNDRED_µM
@@ -49,6 +50,13 @@ private fun visualizeHoledCoinSide(
         )
     }
 }
+
+fun visualizeCoinSide(
+    state: CurrencyRenderState,
+    renderer: LayerRenderer,
+    aabb: AABB,
+    side: CoinSide,
+) = visualizeCoinSide(state, renderer, aabb.getCenter(), aabb.getInnerRadius(), side)
 
 fun visualizeCoinSide(
     state: CurrencyRenderState,
