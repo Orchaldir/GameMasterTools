@@ -8,8 +8,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
-import at.orchaldir.gm.utils.math.shape.RectangularShape
-import at.orchaldir.gm.utils.math.shape.RectangularShape.Cross
+import at.orchaldir.gm.utils.math.shape.RectangularShape.Ellipse
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Rectangle
 import at.orchaldir.gm.utils.math.shape.RectangularShape.ReverseTeardrop
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Teardrop
@@ -31,7 +30,7 @@ fun createExampleShapes(): MutableList<ComplexShape> {
     val shapes = CircularShape.entries
         .map { UsingCircularShape(it) }
         .toMutableList<ComplexShape>()
-    listOf(Rectangle, Teardrop, ReverseTeardrop).forEach { shape ->
+    listOf(Rectangle, Ellipse, Teardrop, ReverseTeardrop).forEach { shape ->
         shapes.add(UsingRectangularShape(shape))
     }
 

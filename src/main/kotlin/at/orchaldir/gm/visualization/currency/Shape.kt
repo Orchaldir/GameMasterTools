@@ -78,7 +78,7 @@ private fun createRectangularShapePolygon(
     shape: RectangularShape,
     aabb: AABB,
 ) = when (shape) {
-    RectangularShape.Rectangle -> Polygon2d(aabb.getCorners())
+    RectangularShape.Rectangle, RectangularShape.Ellipse -> Polygon2d(aabb.getCorners())
     RectangularShape.Cross -> createCross(aabb)
     RectangularShape.Teardrop -> createTeardrop(aabb)
     RectangularShape.ReverseTeardrop -> createReverseTeardrop(aabb)

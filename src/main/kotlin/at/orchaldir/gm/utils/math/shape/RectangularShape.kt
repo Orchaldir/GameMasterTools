@@ -12,12 +12,13 @@ private val REVERSE_TEARDROP_HEIGHT = FULL - TEARDROP_HEIGHT
 
 enum class RectangularShape {
     Rectangle,
+    Ellipse,
     Cross,
     Teardrop,
     ReverseTeardrop;
 
     fun isRounded() = when (this) {
-        Teardrop, ReverseTeardrop -> true
+        Ellipse, Teardrop, ReverseTeardrop -> true
         else -> false
     }
 
@@ -27,7 +28,7 @@ enum class RectangularShape {
         calculateArea(size) * thickness.toMeters()
 
     fun calculateCenter(aabb: AABB) = when (this) {
-        Rectangle -> aabb.getCenter()
+        Rectangle, Ellipse -> aabb.getCenter()
         Cross -> aabb.getPoint(CENTER, CROSS_Y)
         Teardrop -> aabb.getPoint(CENTER, TEARDROP_HEIGHT)
         ReverseTeardrop -> aabb.getPoint(CENTER, REVERSE_TEARDROP_HEIGHT)
