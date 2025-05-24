@@ -64,8 +64,18 @@ fun HtmlBlockTag.editOrnament(
 
             is OrnamentWithBorder -> {
                 selectComplexShape(ornament.shape, combine(param, SHAPE))
-                editFillLookupItemPart(state, ornament.center, param)
-                editColorSchemeItemPart(state, ornament.border, combine(param, BORDER))
+                editFillLookupItemPart(
+                    state,
+                    ornament.center,
+                    param,
+                    "Center",
+                )
+                editColorSchemeItemPart(
+                    state,
+                    ornament.border,
+                    combine(param, BORDER),
+                    "Border",
+                )
             }
         }
     }
