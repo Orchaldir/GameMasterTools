@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.selector.economy.calculateWeight
 import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
+import at.orchaldir.gm.utils.math.unit.Weight
 
 fun State.canDeleteCurrencyUnit(id: CurrencyUnitId) = true
 
@@ -33,6 +34,8 @@ fun State.getCurrencyUnits(material: MaterialId) = getCurrencyUnitStorage()
     .getAll()
     .filter { it.format.contains(material) }
 
+fun State.calculateWeight(unit: CurrencyUnit) = Weight.fromGrams(10)
+/* TODO
 fun State.calculateWeight(unit: CurrencyUnit) = when (val format = unit.format) {
     UndefinedCurrencyFormat -> WEIGHTLESS
     is Coin -> calculateWeight(format.material, format.shape.calculateVolume(format.radius, format.thickness))
@@ -50,4 +53,5 @@ fun State.calculateWeight(unit: CurrencyUnit) = when (val format = unit.format) 
         calculateWeight(format.material, outerVolume - innerVolume) + calculateWeight(format.innerMaterial, innerVolume)
     }
 }
+*/
 

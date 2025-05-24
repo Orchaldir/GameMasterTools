@@ -113,23 +113,27 @@ fun createRoundedSquare(center: Point2d, radius: Distance) =
 fun createTeardrop(center: Point2d, radius: Distance): Polygon2d {
     val aabb = AABB.fromRadii(center, radius / 2, radius)
 
-    return Polygon2dBuilder()
-        .addLeftPoint(aabb, CENTER, START, true)
-        .addMirroredPoints(aabb, FULL, HALF)
-        .addMirroredPoints(aabb, FULL, END)
-        .reverse()
-        .build()
+    return createTeardrop(aabb)
 }
+
+fun createTeardrop(aabb: AABB) = Polygon2dBuilder()
+    .addLeftPoint(aabb, CENTER, START, true)
+    .addMirroredPoints(aabb, FULL, HALF)
+    .addMirroredPoints(aabb, FULL, END)
+    .reverse()
+    .build()
 
 fun createReverseTeardrop(center: Point2d, radius: Distance): Polygon2d {
     val aabb = AABB.fromRadii(center, radius / 2, radius)
 
-    return Polygon2dBuilder()
-        .addLeftPoint(aabb, CENTER, END, true)
-        .addMirroredPoints(aabb, FULL, HALF)
-        .addMirroredPoints(aabb, FULL, START)
-        .build()
+    return createReverseTeardrop(aabb)
 }
+
+fun createReverseTeardrop(aabb: AABB): Polygon2d = Polygon2dBuilder()
+    .addLeftPoint(aabb, CENTER, END, true)
+    .addMirroredPoints(aabb, FULL, HALF)
+    .addMirroredPoints(aabb, FULL, START)
+    .build()
 
 // triangle
 

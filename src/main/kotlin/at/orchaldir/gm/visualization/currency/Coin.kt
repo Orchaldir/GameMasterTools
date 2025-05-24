@@ -3,12 +3,15 @@ package at.orchaldir.gm.visualization.currency
 import at.orchaldir.gm.core.model.economy.money.BiMetallicCoin
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.HoledCoin
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.ZERO
+import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 
@@ -19,16 +22,16 @@ fun visualizeCoin(
     val options = state.getFillAndBorder(coin.material)
     val renderer = state.renderer.getLayer()
     val center = state.aabb.getCenter()
+    val aabb = coin.shape.calculateAabb(center, coin.radius)
 
-    visualizeShape(
+    visualizeComplexShape(
         renderer,
-        center,
+        aabb,
         coin.shape,
-        coin.radius,
         options
     )
-    visualizeOuterRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
-    visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(CircularShape.Circle), coin.front)
+    visualizeOuterRim(state, renderer, aabb, coin.shape, coin.radius * coin.rimFactor)
+    //visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(CircularShape.Circle), coin.front)
 }
 
 fun visualizeHoledCoin(
@@ -38,39 +41,39 @@ fun visualizeHoledCoin(
     val options = state.getFillAndBorder(coin.material)
     val renderer = state.renderer.getLayer()
     val center = state.aabb.getCenter()
-    val holeRadius = coin.calculateHoleRadius()
+    val aabb = coin.shape.calculateAabb(center, coin.radius)
+    val holeAabb = coin.shape.calculateInnerAabb(aabb, coin.holeShape)
+    val rimWidth = coin.radius * coin.rimFactor
 
-    visualizeHoledShape(
+    visualizeHoledComplexShape(
         renderer,
-        center,
+        aabb,
         coin.shape,
-        coin.radius,
+        holeAabb,
         coin.holeShape,
-        holeRadius,
         options
     )
-    visualizeOuterRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
+    visualizeOuterRim(state, renderer, aabb, coin.shape, rimWidth)
 
     if (coin.hasHoleRim) {
         visualizeInnerRim(
             state,
             renderer,
-            center,
-            coin.radius,
+            holeAabb,
             coin.holeShape,
-            holeRadius,
-            coin.rimFactor,
+            rimWidth,
         )
     }
-
-    visualizeHoledCoinSide(
-        state,
-        renderer,
-        center,
-        coin.calculateInnerShapeRadius(CircularShape.Circle),
-        holeRadius,
-        coin.front,
-    )
+    /*
+        visualizeHoledCoinSide(
+            state,
+            renderer,
+            center,
+            coin.calculateInnerShapeRadius(CircularShape.Circle),
+            holeRadius,
+            coin.front,
+        )
+     */
 }
 
 fun visualizeBiMetallicCoin(
@@ -81,75 +84,72 @@ fun visualizeBiMetallicCoin(
     val innerOptions = state.getNoBorder(coin.innerMaterial)
     val renderer = state.renderer.getLayer()
     val center = state.aabb.getCenter()
+    val aabb = coin.shape.calculateAabb(center, coin.radius)
+    val innerAabb = coin.shape.calculateInnerAabb(aabb, coin.innerShape)
 
-    visualizeShape(
+    visualizeComplexShape(
         renderer,
-        center,
+        aabb,
         coin.shape,
-        coin.radius,
         options
     )
 
-    visualizeOuterRim(state, renderer, center, coin.shape, coin.radius, coin.rimFactor)
+    visualizeOuterRim(state, renderer, aabb, coin.shape, coin.radius * coin.rimFactor)
 
-    visualizeShape(
+    visualizeComplexShape(
         renderer,
-        center,
+        innerAabb,
         coin.innerShape,
-        coin.calculateInnerRadius(),
         innerOptions
     )
 
-    visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(CircularShape.Circle), coin.front)
+    //visualizeCoinSide(state, renderer, center, coin.calculateInnerShapeRadius(CircularShape.Circle), coin.front)
 }
 
 private fun visualizeOuterRim(
     state: CurrencyRenderState,
     renderer: LayerRenderer,
-    center: Point2d,
-    shape: CircularShape,
-    radius: Distance,
-    rimFactor: Factor,
+    aabb: AABB,
+    shape: ComplexShape,
+    rimWidth: Distance,
 ) {
-    if (rimFactor == ZERO) {
+    if (rimWidth == ZERO_DISTANCE) {
         return
     }
 
-    val rimRadius = radius * (ONE - rimFactor)
-    visualizeRim(state, renderer, center, shape, rimRadius)
+    val rimAabb = aabb.shrink(rimWidth)
+
+    visualizeRim(state, renderer, rimAabb, shape)
 }
 
 private fun visualizeInnerRim(
     state: CurrencyRenderState,
     renderer: LayerRenderer,
-    center: Point2d,
-    radius: Distance,
-    innerShape: CircularShape,
-    innerRadius: Distance,
-    rimFactor: Factor,
+    innerAabb: AABB,
+    innerShape: ComplexShape,
+    rimWidth: Distance,
 ) {
-    if (rimFactor == ZERO) {
+    if (rimWidth == ZERO_DISTANCE) {
         return
     }
 
-    val rimRadius = innerRadius + radius * rimFactor
-    visualizeRim(state, renderer, center, innerShape, rimRadius)
+    val rimAabb = innerAabb.grow(rimWidth)
+
+    visualizeRim(state, renderer, rimAabb, innerShape)
 }
 
 private fun visualizeRim(
     state: CurrencyRenderState,
     renderer: LayerRenderer,
-    center: Point2d,
-    shape: CircularShape,
-    rimRadius: Distance,
+    aabb: AABB,
+    shape: ComplexShape,
 ) {
     val rimOptions = BorderOnly(state.config.line)
 
-    visualizeShape(
+    visualizeComplexShape(
         renderer,
-        center,
+        aabb,
         shape,
-        rimRadius,
         rimOptions,
     )
 }

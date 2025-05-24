@@ -9,6 +9,7 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
@@ -32,12 +33,12 @@ fun main() {
     ) { shape, innerShape ->
         BiMetallicCoin(
             gold,
-            shape,
+            UsingCircularShape(shape),
             radius,
             DEFAULT_THICKNESS,
             DEFAULT_RIM_FACTOR,
             silver,
-            innerShape,
+            UsingCircularShape(innerShape),
             fromPercentage(40),
             ShowValue(),
         )

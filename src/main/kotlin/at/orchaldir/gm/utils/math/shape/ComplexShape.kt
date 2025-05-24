@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.math.shape
 
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
@@ -25,6 +26,12 @@ sealed class ComplexShape {
         is UsingRectangularShape -> ComplexShapeType.Rectangular
     }
 
+    fun isRounded() = when (this) {
+        is UsingCircularShape -> shape.isRounded()
+        is UsingRectangularShape -> shape.isRounded()
+    }
+
+    abstract fun calculateAabb(center: Point2d, radius: Distance): AABB
     abstract fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d
     abstract fun calculateInnerAabb(aabb: AABB, inner: ComplexShape): AABB
 }
@@ -34,6 +41,8 @@ sealed class ComplexShape {
 data class UsingCircularShape(
     val shape: CircularShape = CircularShape.Circle,
 ) : ComplexShape() {
+
+    override fun calculateAabb(center: Point2d, radius: Distance) = AABB.fromRadius(center, radius)
 
     override fun calculateIncircle(radius: Distance, inner: ComplexShape) = when (inner) {
         is UsingCircularShape -> {
@@ -67,6 +76,9 @@ data class UsingRectangularShape(
     val shape: RectangularShape = RectangularShape.Rectangle,
     val factor: Factor = Factor.fromPercentage(50),
 ) : ComplexShape() {
+
+    override fun calculateAabb(center: Point2d, radius: Distance) =
+        AABB.fromRadii(center, shape.calculateWidth(radius, factor), radius)
 
     override fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d {
         val size = Size2d.square(radius * 2.0f)

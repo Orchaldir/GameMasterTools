@@ -1,32 +1,17 @@
 package at.orchaldir.gm.app.html.math
 
-import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.fieldFactor
-import at.orchaldir.gm.app.html.util.parseCreator
 import at.orchaldir.gm.app.html.util.parseFactor
 import at.orchaldir.gm.app.html.util.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.realm.AccidentalCatastrophe
-import at.orchaldir.gm.core.model.realm.CauseOfCatastropheType
-import at.orchaldir.gm.core.model.realm.CauseOfCatastropheType.Undefined
-import at.orchaldir.gm.core.model.realm.CreatedCatastrophe
-import at.orchaldir.gm.core.model.realm.NaturalDisaster
-import at.orchaldir.gm.core.model.realm.UndefinedCauseOfCatastrophe
 import at.orchaldir.gm.utils.math.ONE_PERCENT
-import at.orchaldir.gm.utils.math.shape.CircularShape
-import at.orchaldir.gm.utils.math.shape.ComplexShape
-import at.orchaldir.gm.utils.math.shape.ComplexShapeType
-import at.orchaldir.gm.utils.math.shape.MAX_RECTANGULAR_FACTOR
-import at.orchaldir.gm.utils.math.shape.MIN_RECTANGULAR_FACTOR
-import at.orchaldir.gm.utils.math.shape.RectangularShape
-import at.orchaldir.gm.utils.math.shape.UsingCircularShape
-import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
+import at.orchaldir.gm.utils.math.shape.*
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -34,7 +19,7 @@ import kotlinx.html.HtmlBlockTag
 
 fun HtmlBlockTag.showComplexShape(
     shape: ComplexShape,
-    label: String,
+    label: String = "Shape",
 ) {
     showDetails(label, true) {
         field("Type", shape.getType())
@@ -68,7 +53,7 @@ fun HtmlBlockTag.showRectangularShape(
 fun HtmlBlockTag.selectComplexShape(
     shape: ComplexShape,
     param: String,
-    label: String,
+    label: String = "Shape",
 ) {
     showDetails(label, true) {
         selectValue("Type", param, ComplexShapeType.entries, shape.getType())

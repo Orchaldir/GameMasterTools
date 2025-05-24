@@ -7,14 +7,13 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 
-fun visualizeShape(
+fun visualizeComplexShape(
     renderer: LayerRenderer,
-    center: Point2d,
-    shape: CircularShape,
-    radius: Distance,
+    aabb: AABB,
+    shape: ComplexShape,
     options: RenderOptions,
 ) {
-    val polygon = createShapePolygon(shape, center, radius)
+    val polygon = createComplexShapePolygon(shape, aabb)
 
     if (shape.isRounded()) {
         renderer.renderRoundedPolygon(polygon, options)
@@ -23,17 +22,16 @@ fun visualizeShape(
     }
 }
 
-fun visualizeHoledShape(
+fun visualizeHoledComplexShape(
     renderer: LayerRenderer,
-    center: Point2d,
-    shape: CircularShape,
-    radius: Distance,
-    holeShape: CircularShape,
-    holeRadius: Distance,
+    aabb: AABB,
+    shape: ComplexShape,
+    holeAabb: AABB,
+    holeShape: ComplexShape,
     options: RenderOptions,
 ) {
-    val coinPolygon = createShapePolygon(shape, center, radius)
-    val holePolygon = createShapePolygon(holeShape, center, holeRadius)
+    val coinPolygon = createComplexShapePolygon(shape, aabb)
+    val holePolygon = createComplexShapePolygon(holeShape, holeAabb)
 
     if (shape.isRounded()) {
         if (holeShape.isRounded()) {
@@ -48,7 +46,15 @@ fun visualizeHoledShape(
     }
 }
 
-private fun createShapePolygon(
+private fun createComplexShapePolygon(
+    shape: ComplexShape,
+    aabb: AABB,
+) = when (shape) {
+    is UsingCircularShape -> createCircularShapePolygon(shape.shape, aabb.getCenter(), aabb.getInnerRadius())
+    is UsingRectangularShape -> createRectangularShapePolygon(shape.shape, aabb)
+}
+
+private fun createCircularShapePolygon(
     shape: CircularShape,
     center: Point2d,
     radius: Distance,
@@ -68,4 +74,13 @@ private fun createShapePolygon(
     CircularShape.ScallopedOctagon -> createScallopedRegularPolygon(center, radius, 8)
     CircularShape.ScallopedDodecagonal -> createScallopedRegularPolygon(center, radius, 12)
     else -> createRegularPolygon(center, radius, shape.getSides())
+}
+
+private fun createRectangularShapePolygon(
+    shape: RectangularShape,
+    aabb: AABB,
+) = when (shape) {
+    RectangularShape.Rectangle -> Polygon2d(aabb.getCorners())
+    RectangularShape.Teardrop -> createTeardrop(aabb)
+    RectangularShape.ReverseTeardrop -> createReverseTeardrop(aabb)
 }

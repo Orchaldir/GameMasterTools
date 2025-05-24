@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.item.equipment.selectMaterial
-import at.orchaldir.gm.app.html.math.parseCircularShape
-import at.orchaldir.gm.app.html.math.selectCircularShape
-import at.orchaldir.gm.app.html.math.showCircularShape
+import at.orchaldir.gm.app.html.math.parseComplexShape
+import at.orchaldir.gm.app.html.math.selectComplexShape
+import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -65,7 +65,7 @@ fun HtmlBlockTag.showCurrencyFormat(
             UndefinedCurrencyFormat -> doNothing()
             is Coin -> {
                 fieldLink("Material", call, state, format.material)
-                showCircularShape(format.shape)
+                showComplexShape(format.shape)
                 fieldDistance("Radius", format.radius)
                 fieldDistance("Thickness", format.thickness)
                 fieldFactor("Rim Factor", format.rimFactor)
@@ -74,12 +74,12 @@ fun HtmlBlockTag.showCurrencyFormat(
 
             is HoledCoin -> {
                 fieldLink("Material", call, state, format.material)
-                showCircularShape(format.shape)
+                showComplexShape(format.shape)
                 fieldDistance("Radius", format.radius)
                 fieldDistance("Thickness", format.thickness)
                 fieldFactor("Rim Factor", format.rimFactor)
                 showDetails("Hole") {
-                    showCircularShape(format.holeShape)
+                    showComplexShape(format.holeShape)
                     fieldFactor("Factor", format.holeFactor)
                     field("Has rim?", format.hasHoleRim)
                 }
@@ -88,14 +88,14 @@ fun HtmlBlockTag.showCurrencyFormat(
             is BiMetallicCoin -> {
                 showDetails("Outer") {
                     fieldLink("Material", call, state, format.material)
-                    showCircularShape(format.shape)
+                    showComplexShape(format.shape)
                     fieldDistance("Radius", format.radius)
                     fieldFactor("Rim Factor", format.rimFactor)
                 }
                 fieldDistance("Thickness", format.thickness)
                 showDetails("Inner") {
                     fieldLink("Material", call, state, format.innerMaterial)
-                    showCircularShape(format.innerShape)
+                    showComplexShape(format.innerShape)
                     fieldFactor("Factor", format.innerFactor)
                 }
                 showCoinSide(call, state, format.front, "Front")
@@ -158,7 +158,7 @@ fun HtmlBlockTag.editCurrencyFormat(
             UndefinedCurrencyFormat -> doNothing()
             is Coin -> {
                 selectMaterial(state, format.material, MATERIAL)
-                selectCircularShape(format.shape, SHAPE)
+                selectComplexShape(format.shape, SHAPE)
                 selectRadius(format.radius)
                 selectThickness(format.thickness)
                 selectRimFactor(format.rimFactor)
@@ -167,12 +167,12 @@ fun HtmlBlockTag.editCurrencyFormat(
 
             is HoledCoin -> {
                 selectMaterial(state, format.material, MATERIAL)
-                selectCircularShape(format.shape, SHAPE)
+                selectComplexShape(format.shape, SHAPE)
                 selectRadius(format.radius)
                 selectThickness(format.thickness)
                 selectRimFactor(format.rimFactor)
                 showDetails("Hole", true) {
-                    selectCircularShape(format.holeShape, combine(HOLE, SHAPE))
+                    selectComplexShape(format.holeShape, combine(HOLE, SHAPE))
                     selectRadiusFactor(format.holeFactor)
                     selectBool("Has rim?", format.hasHoleRim, combine(HOLE, EDGE))
                 }
@@ -181,14 +181,14 @@ fun HtmlBlockTag.editCurrencyFormat(
             is BiMetallicCoin -> {
                 showDetails("Outer", true) {
                     selectMaterial(state, format.material, MATERIAL)
-                    selectCircularShape(format.shape, SHAPE)
+                    selectComplexShape(format.shape, SHAPE)
                     selectRadius(format.radius)
                     selectRimFactor(format.rimFactor)
                 }
                 selectThickness(format.thickness)
                 showDetails("Inner", true) {
                     selectMaterial(state, format.innerMaterial, combine(HOLE, MATERIAL))
-                    selectCircularShape(format.innerShape, combine(HOLE, SHAPE))
+                    selectComplexShape(format.innerShape, combine(HOLE, SHAPE))
                     selectRadiusFactor(format.innerFactor)
                 }
                 editCoinSide(state, format.front, "Front", FRONT)
@@ -263,7 +263,7 @@ fun parseCurrencyFormat(parameters: Parameters) =
         CurrencyFormatType.Undefined -> UndefinedCurrencyFormat
         CurrencyFormatType.Coin -> Coin(
             parseMaterialId(parameters, MATERIAL),
-            parseCircularShape(parameters, SHAPE),
+            parseComplexShape(parameters, SHAPE),
             parseRadius(parameters),
             parseThickness(parameters),
             parseRimFactor(parameters),
@@ -272,23 +272,23 @@ fun parseCurrencyFormat(parameters: Parameters) =
 
         CurrencyFormatType.HoledCoin -> HoledCoin(
             parseMaterialId(parameters, MATERIAL),
-            parseCircularShape(parameters, SHAPE),
+            parseComplexShape(parameters, SHAPE),
             parseRadius(parameters),
             parseThickness(parameters),
             parseRimFactor(parameters),
-            parseCircularShape(parameters, combine(HOLE, SHAPE)),
+            parseComplexShape(parameters, combine(HOLE, SHAPE)),
             parseRadiusFactor(parameters),
             parseBool(parameters, combine(HOLE, EDGE)),
         )
 
         CurrencyFormatType.BiMetallicCoin -> BiMetallicCoin(
             parseMaterialId(parameters, MATERIAL),
-            parseCircularShape(parameters, SHAPE),
+            parseComplexShape(parameters, SHAPE),
             parseRadius(parameters),
             parseThickness(parameters),
             parseRimFactor(parameters),
             parseMaterialId(parameters, combine(HOLE, MATERIAL)),
-            parseCircularShape(parameters, combine(HOLE, SHAPE)),
+            parseComplexShape(parameters, combine(HOLE, SHAPE)),
             parseRadiusFactor(parameters),
             parseCoinSide(parameters, FRONT)
         )

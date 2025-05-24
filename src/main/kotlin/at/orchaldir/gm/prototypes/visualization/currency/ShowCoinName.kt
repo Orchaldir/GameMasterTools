@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.currency.ResolvedCurrencyData
 
@@ -36,7 +37,7 @@ fun main() {
     ) { shape, name ->
         Coin(
             gold,
-            shape,
+            UsingCircularShape(shape),
             radius,
             DEFAULT_THICKNESS,
             DEFAULT_RIM_FACTOR,
