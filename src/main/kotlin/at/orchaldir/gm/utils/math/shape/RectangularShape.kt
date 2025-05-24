@@ -2,9 +2,13 @@ package at.orchaldir.gm.utils.math.shape
 
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.CENTER
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
+
+private val TEARDROP_HEIGHT = Factor.fromPercentage(70)
+private val REVERSE_TEARDROP_HEIGHT = FULL - TEARDROP_HEIGHT
 
 enum class RectangularShape {
     Rectangle,
@@ -23,8 +27,8 @@ enum class RectangularShape {
 
     fun calculateCenter(aabb: AABB) = when (this) {
         Rectangle -> aabb.getCenter()
-        Teardrop -> aabb.getPoint(CENTER, Factor.fromPercentage(75))
-        ReverseTeardrop -> aabb.getPoint(CENTER, Factor.fromPercentage(25))
+        Teardrop -> aabb.getPoint(CENTER, TEARDROP_HEIGHT)
+        ReverseTeardrop -> aabb.getPoint(CENTER, REVERSE_TEARDROP_HEIGHT)
     }
 
     fun calculateInnerSize(size: Size2d, innerWidthFactor: Factor): Size2d {
