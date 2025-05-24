@@ -94,7 +94,7 @@ data class UsingRectangularShape(
         AABB.fromRadii(center, shape.calculateWidth(radius, widthFactor), radius)
 
     override fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d {
-        val size = Size2d.square(radius * 2.0f)
+        val size = shape.calculateSize(radius, widthFactor)
 
         return when (inner) {
             is UsingCircularShape -> Size2d.square(size.minSize())
