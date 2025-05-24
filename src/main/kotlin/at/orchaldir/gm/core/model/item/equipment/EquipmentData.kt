@@ -22,7 +22,10 @@ val ACCESSORIES = setOf(
     EquipmentDataType.Socks,
     EquipmentDataType.Tie,
 )
-val MAIN_EQUIPMENT = EquipmentDataType.entries - ACCESSORIES - EquipmentDataType.EyePatch
+val COMBAT_GEAR = setOf(
+    EquipmentDataType.Shield,
+)
+val MAIN_EQUIPMENT = EquipmentDataType.entries - ACCESSORIES - COMBAT_GEAR - EquipmentDataType.EyePatch
 
 enum class EquipmentDataType {
     Belt,
@@ -36,6 +39,7 @@ enum class EquipmentDataType {
     Hat,
     Necklace,
     Pants,
+    Shield,
     Shirt,
     Skirt,
     Socks,
@@ -54,6 +58,7 @@ enum class EquipmentDataType {
         Hat -> setOf(HeadSlot)
         Necklace -> setOf(NeckSlot)
         Pants -> setOf(BottomSlot)
+        Shield -> setOf(HeldInOneHandSlot)
         Shirt -> setOf(InnerTopSlot)
         Skirt -> setOf(BottomSlot)
         Socks -> setOf(FootUnderwearSlot)
@@ -77,6 +82,7 @@ sealed class EquipmentData : MadeFromParts {
         is Hat -> EquipmentDataType.Hat
         is Necklace -> EquipmentDataType.Necklace
         is Pants -> EquipmentDataType.Pants
+        is Shield -> EquipmentDataType.Shield
         is Shirt -> EquipmentDataType.Shirt
         is Skirt -> EquipmentDataType.Skirt
         is Socks -> EquipmentDataType.Socks
@@ -213,6 +219,20 @@ data class Pants(
 ) : EquipmentData() {
 
     constructor(style: PantsStyle, color: Color) : this(style, FillLookupItemPart(color))
+
+    override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Shield")
+data class Shield(
+    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val main: FillLookupItemPart = FillLookupItemPart(Color.White),
+) : EquipmentData() {
+
+    constructor(neckline: NecklineStyle, sleeve: SleeveStyle, color: Color) :
+            this(neckline, sleeve, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
 }
