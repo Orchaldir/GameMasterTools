@@ -8,7 +8,10 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
@@ -21,19 +24,24 @@ fun main() {
             Material(silver, color = Color.Silver),
         )
     )
+    val outerShapes = CircularShape.entries
+        .map { UsingCircularShape(it) }
+        .toMutableList<ComplexShape>()
+    outerShapes.add(UsingRectangularShape(RectangularShape.Teardrop))
+    outerShapes.add(UsingRectangularShape(RectangularShape.ReverseTeardrop))
 
     renderCurrencyTable(
         "coin-shapes.svg",
         State(materialStorage),
         CURRENCY_CONFIG,
         CURRENCY_CONFIG.calculatePaddedCoinSize(radius),
-        addNames(CircularShape.entries),
+        addNames(outerShapes),
         addNames(listOf(null, CircularShape.Circle, CircularShape.Square, CircularShape.Octagon)),
     ) { shape, hole ->
         if (hole == null) {
             Coin(
                 gold,
-                UsingCircularShape(shape),
+                shape,
                 radius,
             )
         } else {
@@ -45,7 +53,7 @@ fun main() {
             )
             HoledCoin(
                 gold,
-                UsingCircularShape(shape),
+                shape,
                 radius,
                 DEFAULT_THICKNESS,
                 DEFAULT_RIM_FACTOR,
