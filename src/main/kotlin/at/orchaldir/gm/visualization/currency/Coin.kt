@@ -54,7 +54,7 @@ fun visualizeHoledCoin(
     )
     visualizeOuterRim(state, renderer, aabb, coin.shape, rimWidth)
 
-    if (coin.hasHoleRim) {
+    val holeRimAabb = if (coin.hasHoleRim) {
         visualizeInnerRim(
             state,
             renderer,
@@ -62,6 +62,10 @@ fun visualizeHoledCoin(
             coin.holeShape,
             rimWidth,
         )
+
+        holeAabb.grow(rimWidth)
+    } else {
+        holeAabb
     }
 
     val sideAabb = coin.shape.calculateInnerAabb(aabb, UsingCircularShape(CircularShape.Circle), FULL)
@@ -70,7 +74,7 @@ fun visualizeHoledCoin(
         state,
         renderer,
         sideAabb,
-        holeAabb,
+        holeRimAabb,
         coin.front,
     )
 }
