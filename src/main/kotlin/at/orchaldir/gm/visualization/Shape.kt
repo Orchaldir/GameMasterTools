@@ -40,6 +40,22 @@ fun visualizeComplexShape(
     }
 }
 
+fun visualizeCircularShape(
+    renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    shape: CircularShape,
+    options: RenderOptions,
+) {
+    val polygon = createCircularShapePolygon(shape, center, radius)
+
+    if (shape.isRounded()) {
+        renderer.renderRoundedPolygon(polygon, options)
+    } else {
+        renderer.renderPolygon(polygon, options)
+    }
+}
+
 fun visualizeHoledComplexShape(
     renderer: LayerRenderer,
     aabb: AABB,

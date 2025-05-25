@@ -30,7 +30,7 @@ fun main() {
     val bosses = listOf(
         Pair("None", NoShieldBoss),
         Pair("Circle", SimpleShieldBoss()),
-        Pair("Diamond", SimpleShieldBoss(UsingCircularShape(Diamond))),
+        Pair("Diamond", SimpleShieldBoss(Diamond)),
     )
 
     renderCharacterTableWithoutColorScheme(
