@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBoss
+import at.orchaldir.gm.core.model.item.equipment.style.ShieldBossWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBoss
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
@@ -31,6 +32,7 @@ fun main() {
         Pair("None", NoShieldBoss),
         Pair("Circle", SimpleShieldBoss()),
         Pair("Diamond", SimpleShieldBoss(Diamond)),
+        Pair("Border", ShieldBossWithBorder()),
     )
 
     renderCharacterTableWithoutColorScheme(

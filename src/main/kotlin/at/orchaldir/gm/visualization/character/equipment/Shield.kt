@@ -72,15 +72,15 @@ private fun visualizeShieldBoss(
         }
 
         is ShieldBossWithBorder -> {
-            visualizeShieldBoss(state, renderer, center, boss.border, boss.borderPart)
             visualizeShieldBoss(
                 state,
                 renderer,
                 center,
-                boss.shape,
-                boss.part,
+                boss.border,
+                boss.borderPart,
                 state.config.equipment.shield.bossBorderFactor,
             )
+            visualizeShieldBoss(state, renderer, center, boss.shape, boss.part)
         }
     }
 }
