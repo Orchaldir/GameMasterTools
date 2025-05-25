@@ -16,7 +16,9 @@ import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.CircularShape.*
+import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.shape.RectangularShape.*
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
@@ -25,10 +27,11 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     val shapes = listOf(
         UsingCircularShape(Circle),
-        UsingCircularShape(Heater),
+        UsingCircularShape(CircularShape.Heater),
         UsingCircularShape(Square),
         UsingCircularShape(RoundedSquare),
         UsingCircularShape(Hexagon),
+        UsingRectangularShape(RectangularShape.Heater),
         UsingRectangularShape(Rectangle),
         UsingRectangularShape(RoundedRectangle),
         UsingRectangularShape(Ellipse),

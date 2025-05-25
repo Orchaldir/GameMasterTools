@@ -57,7 +57,7 @@ fun createHeater(center: Point2d, radius: Distance): Polygon2d {
 
 fun createHeater(aabb: AABB) = Polygon2dBuilder()
     .addMirroredPoints(aabb, FULL, START, true)
-    .addMirroredPoints(aabb, FULL, END)
+    .addMirroredPoints(aabb, FULL, THREE_QUARTER)
     .addLeftPoint(aabb, CENTER, END, true)
     .reverse()
     .build()

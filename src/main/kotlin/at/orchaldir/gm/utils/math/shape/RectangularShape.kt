@@ -9,15 +9,16 @@ private val TEARDROP_HEIGHT = Factor.fromPercentage(70)
 private val REVERSE_TEARDROP_HEIGHT = FULL - TEARDROP_HEIGHT
 
 enum class RectangularShape {
+    Cross,
+    Ellipse,
+    Heater,
     Rectangle,
     RoundedRectangle,
-    Ellipse,
-    Cross,
     Teardrop,
     ReverseTeardrop;
 
     fun isRounded() = when (this) {
-        RoundedRectangle, Ellipse, Teardrop, ReverseTeardrop -> true
+        Heater, RoundedRectangle, Ellipse, Teardrop, ReverseTeardrop -> true
         else -> false
     }
 
@@ -27,7 +28,7 @@ enum class RectangularShape {
         calculateArea(size) * thickness.toMeters()
 
     fun calculateCenter(aabb: AABB) = when (this) {
-        Rectangle, RoundedRectangle, Ellipse -> aabb.getCenter()
+        Heater, Rectangle, RoundedRectangle, Ellipse -> aabb.getCenter()
         Cross -> aabb.getPoint(CENTER, CROSS_Y)
         Teardrop -> aabb.getPoint(CENTER, TEARDROP_HEIGHT)
         ReverseTeardrop -> aabb.getPoint(CENTER, REVERSE_TEARDROP_HEIGHT)
