@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.NoPolearmHead
+import at.orchaldir.gm.core.model.item.equipment.style.RoundedPolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.SharpenedPolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShaft
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
@@ -20,6 +21,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     val heads = listOf(
         Pair("None", NoPolearmHead),
+        Pair("Rounded", RoundedPolearmHead),
         Pair("Sharpened", SharpenedPolearmHead),
     )
     val stripes = HorizontalStripesLookup(Color.Red, Color.Gold)

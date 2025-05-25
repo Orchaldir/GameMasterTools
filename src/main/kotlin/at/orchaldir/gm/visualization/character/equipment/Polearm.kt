@@ -64,7 +64,7 @@ private fun visualizePolearmShaft(
             val options = FillAndBorder(fill.toRender(), state.config.line)
             val polygon = createSimpleShaftPolygon(aabb, polearm.head)
 
-            renderer.renderPolygon(polygon, options)
+            renderer.renderRoundedPolygon(polygon, options)
         }
     }
 }
@@ -76,13 +76,16 @@ private fun createSimpleShaftPolygon(
     val builder = Polygon2dBuilder()
 
     when (head) {
-        NoPolearmHead -> builder.addMirroredPoints(aabb, FULL, START)
-        SharpenedPolearmHead -> builder
-            .addLeftPoint(aabb, CENTER, START)
+        NoPolearmHead -> builder.addMirroredPoints(aabb, FULL, START, true)
+        RoundedPolearmHead -> builder
+            .addMirroredPoints(aabb, FULL, START)
             .addMirroredPoints(aabb, FULL, Factor.fromPercentage(10))
+        SharpenedPolearmHead -> builder
+            .addLeftPoint(aabb, CENTER, START, true)
+            .addMirroredPoints(aabb, FULL, Factor.fromPercentage(10), true)
     }
 
     return builder
-        .addMirroredPoints(aabb, FULL, END)
+        .addMirroredPoints(aabb, FULL, END, true)
         .build()
 }

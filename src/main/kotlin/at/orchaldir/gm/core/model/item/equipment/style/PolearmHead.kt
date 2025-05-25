@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 enum class PolearmHeadType {
     None,
+    Rounded,
     Sharpened,
 }
 
@@ -14,6 +15,7 @@ sealed class PolearmHead : MadeFromParts {
 
     fun getType() = when (this) {
         is NoPolearmHead -> PolearmHeadType.None
+        is RoundedPolearmHead -> PolearmHeadType.Rounded
         is SharpenedPolearmHead -> PolearmHeadType.Sharpened
     }
 }
@@ -21,6 +23,10 @@ sealed class PolearmHead : MadeFromParts {
 @Serializable
 @SerialName("None")
 data object NoPolearmHead : PolearmHead()
+
+@Serializable
+@SerialName("Rounded")
+data object RoundedPolearmHead : PolearmHead()
 
 @Serializable
 @SerialName("Sharpened")

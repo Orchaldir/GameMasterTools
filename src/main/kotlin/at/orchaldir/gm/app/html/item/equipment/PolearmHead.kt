@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.NoPolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.PolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.PolearmHeadType
+import at.orchaldir.gm.core.model.item.equipment.style.RoundedPolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.SharpenedPolearmHead
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -47,5 +48,6 @@ fun parsePolearmHead(
     param: String,
 ) = when (parse(parameters, param, PolearmHeadType.None)) {
     PolearmHeadType.None -> NoPolearmHead
+    PolearmHeadType.Rounded -> RoundedPolearmHead
     PolearmHeadType.Sharpened -> SharpenedPolearmHead
 }
