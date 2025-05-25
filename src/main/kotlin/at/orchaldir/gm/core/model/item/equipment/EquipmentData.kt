@@ -233,10 +233,10 @@ data class Pants(
 @SerialName("Polearm")
 data class Polearm(
     val head: PolearmHead = NoPolearmHead,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.Navy),
+    val shaft: Shaft = SimpleShaft(),
 ) : EquipmentData() {
 
-    override fun parts() = listOf(main)
+    override fun parts() = head.parts() + shaft.parts()
 }
 
 @Serializable
