@@ -10,15 +10,10 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBorder
-import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBoss
-import at.orchaldir.gm.core.model.item.equipment.style.ShieldBossWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBorder
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBoss
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.render.FixedColor
-import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
@@ -46,7 +41,7 @@ fun main() {
             UsingCircularShape(Heater),
             size,
             border,
-            main = FillLookupItemPart(Color.Red)
+            front = FillLookupItemPart(Color.Red)
         )
         Pair(createAppearance(distance), from(necklace))
     }

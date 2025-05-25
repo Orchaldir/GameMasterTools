@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Shield
-import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBoss
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
@@ -50,7 +49,7 @@ fun main() {
         val necklace = Shield(
             shape,
             size,
-            main = FillLookupItemPart(
+            front = FillLookupItemPart(
                 fill = HorizontalStripesLookup(
                     FixedColor(Color.Blue),
                     FixedColor(Color.Yellow),

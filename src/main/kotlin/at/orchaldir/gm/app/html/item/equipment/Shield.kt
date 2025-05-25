@@ -30,7 +30,8 @@ fun HtmlBlockTag.showShield(
     field("Size", shield.size)
     showShieldBorder(call, state, shield.border)
     showShieldBoss(call, state, shield.boss)
-    showFillLookupItemPart(call, state, shield.main, "Main")
+    showFillLookupItemPart(call, state, shield.front, "Front")
+    showFillLookupItemPart(call, state, shield.back, "Back")
 }
 
 // edit
@@ -43,7 +44,8 @@ fun FORM.editShield(
     selectValue("Size", SIZE, Size.entries, shield.size)
     editShieldBorder(state, shield.border)
     editShieldBoss(state, shield.boss)
-    editFillLookupItemPart(state, shield.main, MAIN, "Main")
+    editFillLookupItemPart(state, shield.front, MAIN, "Front")
+    editFillLookupItemPart(state, shield.back, BACK, "Back")
 }
 
 // parse
@@ -54,4 +56,5 @@ fun parseShield(parameters: Parameters) = Shield(
     parseShieldBorder(parameters),
     parseShieldBoss(parameters),
     parseFillLookupItemPart(parameters, MAIN),
+    parseFillLookupItemPart(parameters, BACK),
 )

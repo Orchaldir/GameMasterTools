@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.ShieldBossWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBoss
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.END
@@ -16,6 +17,7 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -52,16 +54,31 @@ fun visualizeShield(
     body: Body,
     shield: Shield,
 ) {
-    val fill = shield.main.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
     val (_, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
     val radius = state.config.equipment.shield.getRadius(state.aabb, shield)
     val renderer = state.renderer.getLayer(HELD_EQUIPMENT_LAYER)
 
-    visualizeComplexShape(renderer, right, radius, shield.shape, options)
+    if (state.renderFront) {
+        visualizeShieldBody(state, renderer, right, radius, shield.shape, shield.front)
+        visualizeShieldBorder(state, renderer, right, radius, shield)
+        visualizeShieldBoss(state, renderer, shield.boss, right)
+    } else {
+        visualizeShieldBody(state, renderer, right, radius, shield.shape, shield.back)
+    }
+}
 
-    visualizeShieldBorder(state, renderer, right, radius, shield)
-    visualizeShieldBoss(state, renderer, shield.boss, right)
+private fun visualizeShieldBody(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    shape: ComplexShape,
+    part: FillLookupItemPart,
+) {
+    val fill = part.getFill(state.state, state.colors)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
+
+    visualizeComplexShape(renderer, center, radius, shape, options)
 }
 
 private fun visualizeShieldBorder(

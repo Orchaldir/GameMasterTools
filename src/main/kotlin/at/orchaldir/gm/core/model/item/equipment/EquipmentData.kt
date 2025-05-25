@@ -233,13 +233,14 @@ data class Shield(
     val size: Size = Size.Medium,
     val border: ShieldBorder = NoShieldBorder,
     val boss: ShieldBoss = NoShieldBoss,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
+    val front: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
+    val back: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
     constructor(shape: CircularShape, size: Size, color: Color) :
-            this(UsingCircularShape(shape), size, main = FillLookupItemPart(color))
+            this(UsingCircularShape(shape), size, front = FillLookupItemPart(color))
 
-    override fun parts() = listOf(main) + border.parts() + boss.parts()
+    override fun parts() = listOf(front, back) + border.parts() + boss.parts()
 }
 
 @Serializable
