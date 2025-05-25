@@ -12,6 +12,7 @@ enum class EquipmentSlot {
     HeadSlot,
     HeldInOneHandSlot,
     HeldInTwoHandsSlot,
+    HeldInOneOrTwoHandsSlot,
     InnerTopSlot,
     NeckSlot,
     OuterSlot,
@@ -20,15 +21,30 @@ enum class EquipmentSlot {
     fun toBodySlots() = when (this) {
         BeltSlot -> setOf(setOf(BodySlot.Belt))
         BottomSlot -> setOf(setOf(BodySlot.Bottom))
-        EarSlot -> setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar))
-        EyeSlot -> setOf(setOf(BodySlot.LeftEye), setOf(BodySlot.RightEye))
+        EarSlot -> setOf(
+            setOf(BodySlot.LeftEar),
+            setOf(BodySlot.RightEar),
+        )
+
+        EyeSlot -> setOf(
+            setOf(BodySlot.LeftEye),
+            setOf(BodySlot.RightEye),
+        )
         EyesSlot -> setOf(setOf(BodySlot.LeftEye, BodySlot.RightEye))
         FootSlot -> setOf(setOf(BodySlot.Foot))
         FootUnderwearSlot -> setOf(setOf(BodySlot.FootUnderwear))
         HandSlot -> setOf(setOf(BodySlot.Hand))
         HeadSlot -> setOf(setOf(BodySlot.Head))
-        HeldInOneHandSlot -> setOf(setOf(BodySlot.HeldInLeftHand), setOf(BodySlot.HeldInLeftHand))
+        HeldInOneHandSlot -> setOf(
+            setOf(BodySlot.HeldInLeftHand),
+            setOf(BodySlot.HeldInLeftHand),
+        )
         HeldInTwoHandsSlot -> setOf(setOf(BodySlot.HeldInLeftHand, BodySlot.HeldInLeftHand))
+        HeldInOneOrTwoHandsSlot -> setOf(
+            setOf(BodySlot.HeldInLeftHand),
+            setOf(BodySlot.HeldInLeftHand),
+            setOf(BodySlot.HeldInLeftHand, BodySlot.HeldInLeftHand),
+        )
         InnerTopSlot -> setOf(setOf(BodySlot.InnerTop))
         NeckSlot -> setOf(setOf(BodySlot.Neck))
         OuterSlot -> setOf(setOf(BodySlot.Outer))
