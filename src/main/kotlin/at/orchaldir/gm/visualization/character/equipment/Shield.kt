@@ -54,16 +54,16 @@ fun visualizeShield(
     body: Body,
     shield: Shield,
 ) {
-    val (_, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
     val radius = state.config.equipment.shield.getRadius(state.aabb, shield)
-    val renderer = state.renderer.getLayer(HELD_EQUIPMENT_LAYER)
+    val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
 
     if (state.renderFront) {
         visualizeShieldBody(state, renderer, right, radius, shield.shape, shield.front)
         visualizeShieldBorder(state, renderer, right, radius, shield)
         visualizeShieldBoss(state, renderer, shield.boss, right)
     } else {
-        visualizeShieldBody(state, renderer, right, radius, shield.shape, shield.back)
+        visualizeShieldBody(state, renderer, left, radius, shield.shape, shield.back)
     }
 }
 
