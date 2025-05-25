@@ -30,6 +30,7 @@ fun HtmlBlockTag.showShield(
 ) {
     showComplexShape(shield.shape)
     field("Size", shield.size)
+    showShieldBoss(call, state, shield.boss)
     showFillLookupItemPart(call, state, shield.main, "Main")
 }
 
@@ -41,6 +42,7 @@ fun FORM.editShield(
 ) {
     selectComplexShape(shield.shape, SHAPE, SHAPES_WITHOUT_CROSS)
     selectValue("Size", SIZE, Size.entries, shield.size)
+    editShieldBoss(state, shield.boss)
     editFillLookupItemPart(state, shield.main, MAIN, "Main")
 }
 
@@ -52,6 +54,7 @@ fun parseShield(parameters: Parameters): Shield {
     return Shield(
         parseComplexShape(parameters, SHAPE),
         parse(parameters, SIZE, Size.Medium),
+        parseShieldBoss(parameters),
         parseFillLookupItemPart(parameters, MAIN),
     )
 }
