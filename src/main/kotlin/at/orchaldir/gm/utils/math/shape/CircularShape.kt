@@ -42,6 +42,8 @@ enum class CircularShape {
         val sides = getSides()
 
         if (this == Circle ||
+            this == Heater ||
+            this == RoundedHeater ||
             (sides == inner.getSides() && hasCornerAtTop() == inner.hasCornerAtTop())
         ) {
             return radius
@@ -60,9 +62,9 @@ enum class CircularShape {
     }
 
     fun getSides() = when (this) {
-        Circle -> 0
+        Heater, RoundedHeater, Circle -> 0
         Triangle, CutoffTriangle, RoundedTriangle -> 3
-        Heater, RoundedHeater, Square, CutoffSquare, RoundedSquare, Diamond, CutoffDiamond, RoundedDiamond -> 4
+        Square, CutoffSquare, RoundedSquare, Diamond, CutoffDiamond, RoundedDiamond -> 4
         Pentagon -> 5
         Hexagon -> 6
         Heptagon -> 7
