@@ -58,25 +58,42 @@ fun visualizeCircularShape(
 
 fun visualizeHoledComplexShape(
     renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    holeRadius: Distance,
+    shape: ComplexShape,
+    holeShape: ComplexShape,
+    options: RenderOptions,
+) = visualizeHoledComplexShape(
+    renderer,
+    shape.calculateAabb(center, radius),
+    shape,
+    shape.calculateAabb(center, holeRadius),
+    holeShape,
+    options,
+)
+
+fun visualizeHoledComplexShape(
+    renderer: LayerRenderer,
     aabb: AABB,
     shape: ComplexShape,
     holeAabb: AABB,
     holeShape: ComplexShape,
     options: RenderOptions,
 ) {
-    val coinPolygon = createComplexShapePolygon(shape, aabb)
+    val shapePolygon = createComplexShapePolygon(shape, aabb)
     val holePolygon = createComplexShapePolygon(holeShape, holeAabb)
 
     if (shape.isRounded()) {
         if (holeShape.isRounded()) {
-            renderer.renderRoundedPolygonWithRoundedHole(coinPolygon, holePolygon, options)
+            renderer.renderRoundedPolygonWithRoundedHole(shapePolygon, holePolygon, options)
         } else {
-            renderer.renderRoundedPolygonWithHole(coinPolygon, holePolygon, options)
+            renderer.renderRoundedPolygonWithHole(shapePolygon, holePolygon, options)
         }
     } else if (holeShape.isRounded()) {
-        renderer.renderPolygonWithRoundedHole(coinPolygon, holePolygon, options)
+        renderer.renderPolygonWithRoundedHole(shapePolygon, holePolygon, options)
     } else {
-        renderer.renderPolygonWithHole(coinPolygon, holePolygon, options)
+        renderer.renderPolygonWithHole(shapePolygon, holePolygon, options)
     }
 }
 

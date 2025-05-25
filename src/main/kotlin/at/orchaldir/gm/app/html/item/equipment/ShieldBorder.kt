@@ -36,10 +36,7 @@ fun HtmlBlockTag.showShieldBorder(
 
         when (border) {
             NoShieldBorder -> doNothing()
-            is SimpleShieldBorder -> {
-                showCircularShape(border.shape)
-                showColorSchemeItemPart(call, state, border.part)
-            }
+            is SimpleShieldBorder -> showColorSchemeItemPart(call, state, border.part)
         }
     }
 }
@@ -52,10 +49,7 @@ fun FORM.editShieldBorder(state: State, border: ShieldBorder) {
 
         when (border) {
             NoShieldBorder -> doNothing()
-            is SimpleShieldBorder -> {
-                selectCircularShape(border.shape, combine(BOSS, SHAPE))
-                editColorSchemeItemPart(state, border.part, BOSS)
-            }
+            is SimpleShieldBorder -> editColorSchemeItemPart(state, border.part, BOSS)
         }
     }
 }
@@ -65,7 +59,6 @@ fun FORM.editShieldBorder(state: State, border: ShieldBorder) {
 fun parseShieldBorder(parameters: Parameters) = when (parse(parameters, BOSS, ShieldBorderType.None)) {
     ShieldBorderType.None -> NoShieldBorder
     ShieldBorderType.Simple -> SimpleShieldBorder(
-        parseCircularShape(parameters, combine(BOSS, SHAPE)),
         parseColorSchemeItemPart(parameters, BOSS),
     )
 }

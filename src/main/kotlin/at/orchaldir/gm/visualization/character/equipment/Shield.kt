@@ -2,9 +2,11 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Shield
+import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBoss
 import at.orchaldir.gm.core.model.item.equipment.style.ShieldBoss
 import at.orchaldir.gm.core.model.item.equipment.style.ShieldBossWithBorder
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBoss
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.utils.doNothing
@@ -24,9 +26,11 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.currency.visualizeCircularShape
 import at.orchaldir.gm.visualization.currency.visualizeComplexShape
+import at.orchaldir.gm.visualization.currency.visualizeHoledComplexShape
 
 data class ShieldConfig(
     val radius: SizeConfig<Factor>,
+    val borderFactor: Factor,
     val bossFactor: Factor,
     val bossBorderFactor: Factor,
 ) {
@@ -56,7 +60,34 @@ fun visualizeShield(
 
     visualizeComplexShape(renderer, right, radius, shield.shape, options)
 
+    visualizeShieldBorder(state, renderer, right, radius, shield)
     visualizeShieldBoss(state, renderer, shield.boss, right)
+}
+
+private fun visualizeShieldBorder(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    center: Point2d,
+    radius: Distance,
+    shield: Shield,
+) {
+    when (val border = shield.border) {
+        NoShieldBorder -> doNothing()
+        is SimpleShieldBorder -> {
+            val fill = border.part.getColor(state.state, state.colors)
+            val options = FillAndBorder(fill.toRender(), state.config.line)
+
+            visualizeHoledComplexShape(
+                renderer,
+                center,
+                radius,
+                radius * state.config.equipment.shield.borderFactor,
+                shield.shape,
+                shield.shape,
+                options,
+            )
+        }
+    }
 }
 
 private fun visualizeShieldBoss(

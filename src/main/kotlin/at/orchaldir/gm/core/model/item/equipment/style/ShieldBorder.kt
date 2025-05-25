@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
-import at.orchaldir.gm.utils.math.shape.CircularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -32,7 +31,6 @@ data object NoShieldBorder : ShieldBorder()
 @Serializable
 @SerialName("Simple")
 data class SimpleShieldBorder(
-    val shape: CircularShape = CircularShape.Circle,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : ShieldBorder()
 
