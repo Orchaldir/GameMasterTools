@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.item.equipment.style
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -32,7 +33,7 @@ data object NoShieldBoss : ShieldBoss()
 @Serializable
 @SerialName("Simple")
 data class SimpleShieldBoss(
-    val shape: ComplexShape,
+    val shape: ComplexShape = UsingCircularShape(),
     val main: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : ShieldBoss()
 
