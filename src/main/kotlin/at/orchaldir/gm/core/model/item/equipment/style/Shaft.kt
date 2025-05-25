@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -20,5 +20,5 @@ sealed class Shaft : MadeFromParts {
 @Serializable
 @SerialName("Simple")
 data class SimpleShaft(
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val part: FillLookupItemPart = FillLookupItemPart(),
 ) : Shaft()

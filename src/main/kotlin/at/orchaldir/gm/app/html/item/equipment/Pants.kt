@@ -39,7 +39,7 @@ fun FORM.editPants(
 
 // parse
 
-fun parsePants(parameters: Parameters): Pants = Pants(
+fun parsePants(parameters: Parameters) = Pants(
     parse(parameters, PANTS, PantsStyle.Regular),
     parseFillLookupItemPart(parameters, MAIN),
 )
