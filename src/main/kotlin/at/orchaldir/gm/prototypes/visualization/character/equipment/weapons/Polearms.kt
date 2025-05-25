@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.SharpenedPolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShaft
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.render.VerticalStripesLookup
+import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
@@ -20,21 +20,21 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     val heads = listOf(
-        NoPolearmHead,
-        SharpenedPolearmHead,
+        Pair("None", NoPolearmHead),
+        Pair("Sharpened", SharpenedPolearmHead),
     )
-    val stripes = VerticalStripesLookup(Color.Red, Color.Gold)
+    val stripes = HorizontalStripesLookup(Color.Red, Color.Gold)
     val shafts = listOf(
-        SimpleShaft(FillLookupItemPart(Color.SaddleBrown)),
-        SimpleShaft(FillLookupItemPart(fill = stripes)),
+        Pair("Wood", SimpleShaft(FillLookupItemPart(Color.SaddleBrown))),
+        Pair("Stripped", SimpleShaft(FillLookupItemPart(fill = stripes))),
     )
 
     renderCharacterTableWithoutColorScheme(
         State(),
         "polearms.svg",
         CHARACTER_CONFIG,
-        addNames(shafts),
-        addNames(heads),
+        shafts,
+        heads,
     ) { distance, head, shaft ->
         val polearm = Polearm(
             head,
