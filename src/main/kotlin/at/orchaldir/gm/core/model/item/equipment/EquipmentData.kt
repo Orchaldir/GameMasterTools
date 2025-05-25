@@ -232,11 +232,9 @@ data class Pants(
 @Serializable
 @SerialName("Polearm")
 data class Polearm(
-    val style: PantsStyle = PantsStyle.Regular,
+    val head: PolearmHead = NoPolearmHead,
     val main: FillLookupItemPart = FillLookupItemPart(Color.Navy),
 ) : EquipmentData() {
-
-    constructor(style: PantsStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
 }
