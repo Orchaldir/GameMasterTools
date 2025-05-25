@@ -1,0 +1,85 @@
+package at.orchaldir.gm.visualization.character.equipment
+
+import at.orchaldir.gm.app.TOP
+import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
+import at.orchaldir.gm.core.model.item.equipment.Polearm
+import at.orchaldir.gm.core.model.item.equipment.Shield
+import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.renderer.LayerRenderer
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.toRender
+import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.visualizeCircularShape
+import at.orchaldir.gm.visualization.visualizeComplexShape
+import at.orchaldir.gm.visualization.visualizeHoledComplexShape
+
+data class PolearmConfig(
+    val length: Factor,
+    val width: Factor,
+) {
+    fun getLength(aabb: AABB) = aabb.convertHeight(length)
+    fun getWidth(aabb: AABB) = aabb.convertHeight(width)
+}
+
+fun visualizePolearm(
+    state: CharacterRenderState,
+    body: Body,
+    polearm: Polearm,
+    set: Set<BodySlot>,
+) {
+    val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val config = state.config.equipment.polearm
+    val length = config.getLength(state.aabb)
+    val width = config.getWidth(state.aabb)
+    val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
+    val center = state.getCenter(left, right, set, BodySlot.HeldInRightHand)
+    val shaftAabb = AABB.fromWidthAndHeight(center, width, length)
+
+    visualizePolearmShaft(state, renderer, shaftAabb, polearm)
+}
+
+private fun visualizePolearmShaft(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    aabb: AABB,
+    polearm: Polearm,
+) {
+    when (polearm.shaft) {
+        is SimpleShaft -> {
+            val fill = polearm.shaft.part.getFill(state.state, state.colors)
+            val options = FillAndBorder(fill.toRender(), state.config.line)
+            val polygon = createSimpleShaftPolygon(aabb, polearm.head)
+
+            renderer.renderPolygon(polygon, options)
+        }
+    }
+}
+
+private fun createSimpleShaftPolygon(
+    aabb: AABB,
+    head: PolearmHead,
+): Polygon2d {
+    val builder = Polygon2dBuilder()
+
+    when (head) {
+        NoPolearmHead -> builder.addMirroredPoints(aabb, FULL, START)
+        SharpenedPolearmHead -> builder
+            .addLeftPoint(aabb, CENTER, START)
+            .addMirroredPoints(aabb, FULL, Factor.fromPercentage(10))
+    }
+
+    return builder
+        .addMirroredPoints(aabb, FULL, END)
+        .build()
+}

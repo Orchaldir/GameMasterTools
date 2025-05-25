@@ -141,6 +141,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(30),
             fromPercentage(5),
         ),
+        PolearmConfig(
+            fromPercentage(100),
+            fromPercentage(5),
+        ),
         ShieldConfig(
             fromPercentages(20, 25, 30),
             fromPercentages(95, 90, 85),
