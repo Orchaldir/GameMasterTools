@@ -81,16 +81,18 @@ fun visualizeHoledCoin(
         coin.front,
     )
 
-    debugHoledCoin(
-        renderer,
-        coin.shape,
-        coin.holeShape,
-        aabb,
-        outerRimAabb,
-        holeRimAabb,
-        holeAabb,
-        sideAabb,
-    )
+    if (state.debug) {
+        debugHoledCoin(
+            renderer,
+            coin.shape,
+            coin.holeShape,
+            aabb,
+            outerRimAabb,
+            holeRimAabb,
+            holeAabb,
+            sideAabb,
+        )
+    }
 }
 
 private fun debugHoledCoin(

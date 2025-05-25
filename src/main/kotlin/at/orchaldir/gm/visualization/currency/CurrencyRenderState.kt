@@ -22,6 +22,7 @@ data class CurrencyRenderState(
     val config: CurrencyRenderConfig,
     val renderer: MultiLayerRenderer,
     val data: ResolvedCurrencyData = ResolvedCurrencyData(),
+    val debug: Boolean = false,
 ) {
 
     fun getFillAndBorder(material: MaterialId) =
