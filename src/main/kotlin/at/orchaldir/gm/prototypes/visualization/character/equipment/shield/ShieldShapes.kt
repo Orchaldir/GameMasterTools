@@ -28,10 +28,12 @@ fun main() {
     val shapes = listOf(
         UsingCircularShape(Circle),
         UsingCircularShape(CircularShape.Heater),
+        UsingCircularShape(CircularShape.RoundedHeater),
         UsingCircularShape(Square),
         UsingCircularShape(RoundedSquare),
         UsingCircularShape(Hexagon),
         UsingRectangularShape(RectangularShape.Heater),
+        UsingRectangularShape(RectangularShape.RoundedHeater),
         UsingRectangularShape(Rectangle),
         UsingRectangularShape(RoundedRectangle),
         UsingRectangularShape(Ellipse),

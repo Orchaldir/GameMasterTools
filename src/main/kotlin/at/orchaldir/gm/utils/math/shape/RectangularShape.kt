@@ -12,13 +12,14 @@ enum class RectangularShape {
     Cross,
     Ellipse,
     Heater,
+    RoundedHeater,
     Rectangle,
     RoundedRectangle,
     Teardrop,
     ReverseTeardrop;
 
     fun isRounded() = when (this) {
-        Heater, RoundedRectangle, Ellipse, Teardrop, ReverseTeardrop -> true
+        Heater, RoundedHeater, RoundedRectangle, Ellipse, Teardrop, ReverseTeardrop -> true
         else -> false
     }
 
@@ -28,7 +29,7 @@ enum class RectangularShape {
         calculateArea(size) * thickness.toMeters()
 
     fun calculateCenter(aabb: AABB) = when (this) {
-        Heater, Rectangle, RoundedRectangle, Ellipse -> aabb.getCenter()
+        Heater, RoundedHeater, Rectangle, RoundedRectangle, Ellipse -> aabb.getCenter()
         Cross -> aabb.getPoint(CENTER, CROSS_Y)
         Teardrop -> aabb.getPoint(CENTER, TEARDROP_HEIGHT)
         ReverseTeardrop -> aabb.getPoint(CENTER, REVERSE_TEARDROP_HEIGHT)

@@ -115,6 +115,7 @@ private fun createCircularShapePolygon(
     CutoffTriangle -> createCutoffTriangle(center, radius)
     RoundedTriangle -> createRoundedTriangle(center, radius)
     CircularShape.Heater -> createHeater(center, radius)
+    CircularShape.RoundedHeater -> createRoundedHeater(center, radius)
     Square -> createSquare(center, radius)
     CutoffSquare -> createCutoffSquare(center, radius)
     RoundedSquare -> createRoundedSquare(center, radius)
@@ -131,6 +132,7 @@ private fun createRectangularShapePolygon(
     aabb: AABB,
 ) = when (shape) {
     RectangularShape.Heater -> createHeater(aabb)
+    RectangularShape.RoundedHeater -> createRoundedHeater(aabb)
     Rectangle, Ellipse -> Polygon2d(aabb.getCorners())
     RoundedRectangle -> Polygon2d(subdividePolygon(aabb.getCorners(), 1, ::halfSegment))
     Cross -> createCross(aabb)

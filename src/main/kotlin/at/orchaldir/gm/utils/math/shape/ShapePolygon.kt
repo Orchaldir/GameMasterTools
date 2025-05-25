@@ -62,6 +62,18 @@ fun createHeater(aabb: AABB) = Polygon2dBuilder()
     .reverse()
     .build()
 
+fun createRoundedHeater(center: Point2d, radius: Distance): Polygon2d {
+    val aabb = AABB.fromRadii(center, radius, radius)
+
+    return createRoundedHeater(aabb)
+}
+
+fun createRoundedHeater(aabb: AABB) = Polygon2dBuilder()
+    .addMirroredPoints(aabb, FULL, START, true)
+    .addMirroredPoints(aabb, FULL, END)
+    .reverse()
+    .build()
+
 // regular polygon
 
 fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =
