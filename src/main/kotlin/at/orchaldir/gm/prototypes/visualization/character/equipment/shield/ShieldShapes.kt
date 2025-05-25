@@ -8,6 +8,11 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.FixedColor
+import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
+import at.orchaldir.gm.core.model.util.render.VerticalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
@@ -36,7 +41,16 @@ fun main() {
         addNames(Size.entries),
         addNames(shapes),
     ) { distance, shape, size ->
-        val necklace = Shield(shape, size)
+        val necklace = Shield(
+            shape,
+            size,
+            FillLookupItemPart(
+                fill = HorizontalStripesLookup(
+                    FixedColor(Color.Blue),
+                    FixedColor(Color.Yellow),
+                )
+            )
+        )
         Pair(createAppearance(distance), from(necklace))
     }
 }
