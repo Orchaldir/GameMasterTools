@@ -30,7 +30,7 @@ import at.orchaldir.gm.visualization.currency.visualizeHoledComplexShape
 
 data class ShieldConfig(
     val radius: SizeConfig<Factor>,
-    val borderFactor: Factor,
+    val borderFactor: SizeConfig<Factor>,
     val bossFactor: Factor,
     val bossBorderFactor: Factor,
 ) {
@@ -76,12 +76,13 @@ private fun visualizeShieldBorder(
         is SimpleShieldBorder -> {
             val fill = border.part.getColor(state.state, state.colors)
             val options = FillAndBorder(fill.toRender(), state.config.line)
+            val innerRadius = radius * state.config.equipment.shield.borderFactor.convert(border.size)
 
             visualizeHoledComplexShape(
                 renderer,
                 center,
                 radius,
-                radius * state.config.equipment.shield.borderFactor,
+                innerRadius,
                 shield.shape,
                 shield.shape,
                 options,

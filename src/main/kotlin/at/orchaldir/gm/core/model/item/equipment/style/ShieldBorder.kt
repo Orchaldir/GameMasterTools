@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
@@ -31,6 +32,7 @@ data object NoShieldBorder : ShieldBorder()
 @Serializable
 @SerialName("Simple")
 data class SimpleShieldBorder(
+    val size: Size = Size.Medium,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : ShieldBorder()
 
