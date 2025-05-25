@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ONE_DM
-import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.max

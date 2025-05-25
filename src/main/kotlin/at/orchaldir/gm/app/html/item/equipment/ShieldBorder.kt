@@ -1,16 +1,11 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.BORDER
-import at.orchaldir.gm.app.BOSS
-import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.editColorSchemeItemPart
 import at.orchaldir.gm.app.html.item.parseColorSchemeItemPart
 import at.orchaldir.gm.app.html.item.showColorSchemeItemPart
-import at.orchaldir.gm.app.html.math.parseCircularShape
-import at.orchaldir.gm.app.html.math.selectCircularShape
-import at.orchaldir.gm.app.html.math.showCircularShape
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine

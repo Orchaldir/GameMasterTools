@@ -18,7 +18,7 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.shape.CircularShape.*
+import at.orchaldir.gm.utils.math.shape.CircularShape.Heater
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 

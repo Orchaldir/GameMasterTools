@@ -2,20 +2,11 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Shield
-import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBorder
-import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBoss
-import at.orchaldir.gm.core.model.item.equipment.style.ShieldBoss
-import at.orchaldir.gm.core.model.item.equipment.style.ShieldBossWithBorder
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBorder
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBoss
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.END
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape

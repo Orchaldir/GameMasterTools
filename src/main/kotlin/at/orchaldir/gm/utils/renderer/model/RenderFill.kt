@@ -3,7 +3,6 @@ package at.orchaldir.gm.utils.renderer.model
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.ONE_DM
 
 sealed class RenderFill
 

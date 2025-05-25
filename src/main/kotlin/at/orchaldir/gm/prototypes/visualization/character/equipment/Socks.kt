@@ -2,11 +2,11 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Socks
 import at.orchaldir.gm.core.model.item.equipment.style.SocksStyle
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.addNames

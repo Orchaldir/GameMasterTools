@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
+import at.orchaldir.gm.core.model.item.text.scroll.HandleSegmentShape.Cylinder
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
-import at.orchaldir.gm.core.model.item.text.scroll.HandleSegmentShape.Cylinder
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance

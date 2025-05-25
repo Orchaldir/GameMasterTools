@@ -1,13 +1,13 @@
 package at.orchaldir.gm.core.model.item.text
 
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
-import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.item.text.book.BookBinding
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormat
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.util.font.FontId
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF

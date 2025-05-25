@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.item.equipment
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.BACK
+import at.orchaldir.gm.app.MAIN
+import at.orchaldir.gm.app.SHAPE
+import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.editFillLookupItemPart
 import at.orchaldir.gm.app.html.item.parseFillLookupItemPart

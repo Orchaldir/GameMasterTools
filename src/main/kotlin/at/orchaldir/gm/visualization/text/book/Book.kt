@@ -1,10 +1,10 @@
 package at.orchaldir.gm.visualization.text.book
 
-import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
+import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.text.TextRenderState

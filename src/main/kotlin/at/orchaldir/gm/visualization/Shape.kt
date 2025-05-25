@@ -1,13 +1,9 @@
 package at.orchaldir.gm.visualization
 
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Polygon2d
-import at.orchaldir.gm.utils.math.halfSegment
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.*
 import at.orchaldir.gm.utils.math.shape.CircularShape.*
 import at.orchaldir.gm.utils.math.shape.RectangularShape.*
-import at.orchaldir.gm.utils.math.subdividePolygon
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
