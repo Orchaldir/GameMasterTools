@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.util.render
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ONE_DM
@@ -87,7 +88,15 @@ data class VerticalStripesLookup(
     val color0: ColorLookup,
     val color1: ColorLookup,
     val width: Distance = ONE_DM,
-) : FillLookup()
+) : FillLookup() {
+
+    constructor(
+        color0: Color,
+        color1: Color,
+        width: Distance = ONE_DM,
+    ) : this(FixedColor(color0), FixedColor(color1), width)
+
+}
 
 @Serializable
 @SerialName("HorizontalStripes")
