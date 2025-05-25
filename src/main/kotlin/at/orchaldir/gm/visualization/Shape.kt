@@ -3,7 +3,11 @@ package at.orchaldir.gm.visualization.currency
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.halfSegment
 import at.orchaldir.gm.utils.math.shape.*
+import at.orchaldir.gm.utils.math.shape.CircularShape.*
+import at.orchaldir.gm.utils.math.shape.RectangularShape.*
+import at.orchaldir.gm.utils.math.subdividePolygon
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -73,18 +77,18 @@ private fun createCircularShapePolygon(
     center: Point2d,
     radius: Distance,
 ) = when (shape) {
-    CircularShape.Circle -> createRegularPolygon(center, radius, 120)
-    CircularShape.Triangle -> createTriangle(center, radius)
-    CircularShape.CutoffTriangle -> createCutoffTriangle(center, radius)
-    CircularShape.RoundedTriangle -> createRoundedTriangle(center, radius)
-    CircularShape.Square -> createSquare(center, radius)
-    CircularShape.CutoffSquare -> createCutoffSquare(center, radius)
-    CircularShape.RoundedSquare -> createRoundedSquare(center, radius)
-    CircularShape.Diamond -> createDiamond(center, radius)
-    CircularShape.CutoffDiamond -> createCutoffDiamond(center, radius)
-    CircularShape.RoundedDiamond -> createRoundedDiamond(center, radius)
-    CircularShape.ScallopedOctagon -> createScallopedRegularPolygon(center, radius, 8)
-    CircularShape.ScallopedDodecagonal -> createScallopedRegularPolygon(center, radius, 12)
+    Circle -> createRegularPolygon(center, radius, 120)
+    Triangle -> createTriangle(center, radius)
+    CutoffTriangle -> createCutoffTriangle(center, radius)
+    RoundedTriangle -> createRoundedTriangle(center, radius)
+    Square -> createSquare(center, radius)
+    CutoffSquare -> createCutoffSquare(center, radius)
+    RoundedSquare -> createRoundedSquare(center, radius)
+    Diamond -> createDiamond(center, radius)
+    CutoffDiamond -> createCutoffDiamond(center, radius)
+    RoundedDiamond -> createRoundedDiamond(center, radius)
+    ScallopedOctagon -> createScallopedRegularPolygon(center, radius, 8)
+    ScallopedDodecagonal -> createScallopedRegularPolygon(center, radius, 12)
     else -> createRegularPolygon(center, radius, shape.getSides())
 }
 
@@ -92,8 +96,9 @@ private fun createRectangularShapePolygon(
     shape: RectangularShape,
     aabb: AABB,
 ) = when (shape) {
-    RectangularShape.Rectangle, RectangularShape.Ellipse -> Polygon2d(aabb.getCorners())
-    RectangularShape.Cross -> createCross(aabb)
-    RectangularShape.Teardrop -> createTeardrop(aabb)
-    RectangularShape.ReverseTeardrop -> createReverseTeardrop(aabb)
+    Rectangle, Ellipse -> Polygon2d(aabb.getCorners())
+    RoundedRectangle -> Polygon2d(subdividePolygon(aabb.getCorners(), 1, ::halfSegment))
+    Cross -> createCross(aabb)
+    Teardrop -> createTeardrop(aabb)
+    ReverseTeardrop -> createReverseTeardrop(aabb)
 }

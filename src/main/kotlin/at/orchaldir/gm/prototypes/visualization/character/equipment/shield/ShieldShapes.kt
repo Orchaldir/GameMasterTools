@@ -24,6 +24,7 @@ fun main() {
         UsingCircularShape(RoundedSquare),
         UsingCircularShape(Hexagon),
         UsingRectangularShape(Rectangle),
+        UsingRectangularShape(RoundedRectangle),
         UsingRectangularShape(Ellipse),
         UsingRectangularShape(ReverseTeardrop),
     )
