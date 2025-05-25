@@ -9,11 +9,9 @@ import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Shield
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.shape.SHAPES_WITHOUT_CROSS
 import io.ktor.http.*
@@ -30,6 +28,7 @@ fun HtmlBlockTag.showShield(
 ) {
     showComplexShape(shield.shape)
     field("Size", shield.size)
+    showShieldBorder(call, state, shield.border)
     showShieldBoss(call, state, shield.boss)
     showFillLookupItemPart(call, state, shield.main, "Main")
 }
@@ -42,19 +41,17 @@ fun FORM.editShield(
 ) {
     selectComplexShape(shield.shape, SHAPE, SHAPES_WITHOUT_CROSS)
     selectValue("Size", SIZE, Size.entries, shield.size)
+    editShieldBorder(state, shield.border)
     editShieldBoss(state, shield.boss)
     editFillLookupItemPart(state, shield.main, MAIN, "Main")
 }
 
 // parse
 
-fun parseShield(parameters: Parameters): Shield {
-    val neckline = parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.None)
-
-    return Shield(
-        parseComplexShape(parameters, SHAPE),
-        parse(parameters, SIZE, Size.Medium),
-        parseShieldBoss(parameters),
-        parseFillLookupItemPart(parameters, MAIN),
-    )
-}
+fun parseShield(parameters: Parameters) = Shield(
+    parseComplexShape(parameters, SHAPE),
+    parse(parameters, SIZE, Size.Medium),
+    parseShieldBorder(parameters),
+    parseShieldBoss(parameters),
+    parseFillLookupItemPart(parameters, MAIN),
+)

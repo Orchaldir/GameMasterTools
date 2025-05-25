@@ -48,8 +48,7 @@ fun main() {
         val necklace = Shield(
             shape,
             size,
-            NoShieldBoss,
-            FillLookupItemPart(
+            main = FillLookupItemPart(
                 fill = HorizontalStripesLookup(
                     FixedColor(Color.Blue),
                     FixedColor(Color.Yellow),

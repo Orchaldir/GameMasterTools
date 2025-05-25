@@ -52,7 +52,7 @@ fun HtmlBlockTag.showShieldBoss(
 // edit
 
 fun FORM.editShieldBoss(state: State, boss: ShieldBoss) {
-    showDetails("Opening Style", true) {
+    showDetails("Shield Boss", true) {
         selectValue("Type", BOSS, ShieldBossType.entries, boss.getType())
 
         when (boss) {

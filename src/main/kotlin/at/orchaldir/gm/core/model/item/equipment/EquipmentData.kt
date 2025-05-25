@@ -231,14 +231,15 @@ data class Pants(
 data class Shield(
     val shape: ComplexShape = UsingCircularShape(),
     val size: Size = Size.Medium,
+    val border: ShieldBorder = NoShieldBorder,
     val boss: ShieldBoss = NoShieldBoss,
     val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
     constructor(shape: CircularShape, size: Size, color: Color) :
-            this(UsingCircularShape(shape), size, NoShieldBoss, FillLookupItemPart(color))
+            this(UsingCircularShape(shape), size, main = FillLookupItemPart(color))
 
-    override fun parts() = listOf(main)
+    override fun parts() = listOf(main) + border.parts() + boss.parts()
 }
 
 @Serializable
