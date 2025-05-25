@@ -10,6 +10,8 @@ enum class BodySlot {
     FootUnderwear,
     Hand,
     Head,
+    HeldInLeftHand,
+    HeldInRightHand,
     InnerTop,
     Neck,
     Outer,

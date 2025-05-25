@@ -1,13 +1,13 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.util.fieldFactor
-import at.orchaldir.gm.app.html.util.parseFactor
-import at.orchaldir.gm.app.html.util.selectPercentage
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -133,10 +133,21 @@ private fun HtmlBlockTag.selectFillData(
     }
 }
 
-private fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: UByte, param: String) {
+fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: Distance, param: String) {
     selectColor(color0, combine(param, COLOR, 0), "1.Stripe Color", Color.entries - color1)
     selectColor(color1, combine(param, COLOR, 1), "2.Stripe Color", Color.entries - color0)
-    selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(param, PATTERN, WIDTH))
+    selectStripeWidth(param, width)
+}
+
+fun HtmlBlockTag.selectStripeWidth(param: String, width: Distance) {
+    selectDistance(
+        "Stripe Width",
+        combine(param, PATTERN, WIDTH),
+        width,
+        1,
+        100,
+        SiPrefix.Centi,
+    )
 }
 
 // parse
@@ -171,13 +182,13 @@ private fun parseFillOfType(
     FillType.VerticalStripes -> VerticalStripes(
         parse(parameters, combine(param, COLOR, 0), Color.Black),
         parse(parameters, combine(param, COLOR, 1), Color.White),
-        parseWidth(parameters, param),
+        parseStripeWidth(parameters, param),
     )
 
     FillType.HorizontalStripes -> HorizontalStripes(
         parse(parameters, combine(param, COLOR, 0), Color.Black),
         parse(parameters, combine(param, COLOR, 1), Color.White),
-        parseWidth(parameters, param),
+        parseStripeWidth(parameters, param),
     )
 
     FillType.Tiles -> Tiles(
@@ -188,5 +199,9 @@ private fun parseFillOfType(
     )
 }
 
-private fun parseWidth(parameters: Parameters, param: String) =
-    parseUByte(parameters, combine(param, PATTERN, WIDTH), 1u)
+fun parseStripeWidth(parameters: Parameters, param: String) = parseDistance(
+    parameters,
+    combine(param, PATTERN, WIDTH),
+    SiPrefix.Centi,
+    10,
+)

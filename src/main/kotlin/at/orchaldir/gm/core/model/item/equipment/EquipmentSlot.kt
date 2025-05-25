@@ -10,6 +10,8 @@ enum class EquipmentSlot {
     FootUnderwearSlot,
     HandSlot,
     HeadSlot,
+    HeldInOneHandSlot,
+    HeldInTwoHandsSlot,
     InnerTopSlot,
     NeckSlot,
     OuterSlot,
@@ -25,6 +27,8 @@ enum class EquipmentSlot {
         FootUnderwearSlot -> setOf(setOf(BodySlot.FootUnderwear))
         HandSlot -> setOf(setOf(BodySlot.Hand))
         HeadSlot -> setOf(setOf(BodySlot.Head))
+        HeldInOneHandSlot -> setOf(setOf(BodySlot.HeldInLeftHand), setOf(BodySlot.HeldInLeftHand))
+        HeldInTwoHandsSlot -> setOf(setOf(BodySlot.HeldInLeftHand, BodySlot.HeldInLeftHand))
         InnerTopSlot -> setOf(setOf(BodySlot.InnerTop))
         NeckSlot -> setOf(setOf(BodySlot.Neck))
         OuterSlot -> setOf(setOf(BodySlot.Outer))

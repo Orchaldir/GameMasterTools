@@ -47,6 +47,33 @@ fun createCutoffDiamond(center: Point2d, radius: Distance) =
 
 fun createRoundedDiamond(center: Point2d, radius: Distance) = createRoundedRegularPolygon(center, radius, 4)
 
+// heater (shield)
+
+fun createHeater(center: Point2d, radius: Distance): Polygon2d {
+    val aabb = AABB.fromRadii(center, radius, radius)
+
+    return createHeater(aabb)
+}
+
+fun createHeater(aabb: AABB) = Polygon2dBuilder()
+    .addMirroredPoints(aabb, FULL, START, true)
+    .addMirroredPoints(aabb, FULL, THREE_QUARTER)
+    .addLeftPoint(aabb, CENTER, END, true)
+    .reverse()
+    .build()
+
+fun createRoundedHeater(center: Point2d, radius: Distance): Polygon2d {
+    val aabb = AABB.fromRadii(center, radius, radius)
+
+    return createRoundedHeater(aabb)
+}
+
+fun createRoundedHeater(aabb: AABB) = Polygon2dBuilder()
+    .addMirroredPoints(aabb, FULL, START, true)
+    .addMirroredPoints(aabb, FULL, END)
+    .reverse()
+    .build()
+
 // regular polygon
 
 fun createRegularPolygon(center: Point2d, radius: Distance, sides: Int, firstCorner: Orientation = AT_TOP) =

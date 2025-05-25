@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.renderer.model
 
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.Distance
 
 sealed class RenderFill
 
@@ -17,13 +18,13 @@ data class RenderTransparent(
 data class RenderVerticalStripes(
     val color0: RenderColor,
     val color1: RenderColor,
-    val width: UByte,
+    val width: Distance,
 ) : RenderFill()
 
 data class RenderHorizontalStripes(
     val color0: RenderColor,
     val color1: RenderColor,
-    val width: UByte,
+    val width: Distance,
 ) : RenderFill()
 
 data class RenderTiles(

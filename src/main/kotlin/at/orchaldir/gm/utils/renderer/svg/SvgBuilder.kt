@@ -139,13 +139,13 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         name: String,
         color0: RenderColor,
         color1: RenderColor,
-        width: UByte,
+        width: Distance,
         options: String = "",
     ) {
         renderer.tag(
             "linearGradient",
-            "id=\"%s\" spreadMethod=\"repeat\" x2=\"%s%%\" gradientUnits=\"userSpaceOnUse\"%s",
-            name, width, options
+            "id=\"%s\" spreadMethod=\"repeat\" x2=\"%.4f\" gradientUnits=\"userSpaceOnUse\"%s",
+            name, width.toMeters(), options
         ) { tag ->
             addStop(tag, 0.0f, color0)
             addStop(tag, 0.5f, color0)

@@ -141,6 +141,12 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(30),
             fromPercentage(5),
         ),
+        ShieldConfig(
+            fromPercentages(20, 25, 30),
+            fromPercentages(95, 90, 85),
+            fromPercentage(8),
+            fromPercentage(150),
+        ),
         SkirtConfig(
             fromPercentage(40),
             fromPercentage(90),

@@ -6,11 +6,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.shape.CircularShape
-import at.orchaldir.gm.utils.math.shape.ComplexShape
-import at.orchaldir.gm.utils.math.shape.RectangularShape.*
-import at.orchaldir.gm.utils.math.shape.UsingCircularShape
-import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
+import at.orchaldir.gm.utils.math.shape.*
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.currency.CurrencyRenderConfig
@@ -23,16 +19,12 @@ val CURRENCY_CONFIG = CurrencyRenderConfig(
     fromPercentage(200),
 )
 
-fun createExampleShapes(): MutableList<ComplexShape> {
-    val shapes = CircularShape.entries
-        .map { UsingCircularShape(it) }
-        .toMutableList<ComplexShape>()
-    listOf(Rectangle, Ellipse, Teardrop, ReverseTeardrop).forEach { shape ->
-        shapes.add(UsingRectangularShape(shape))
-    }
-
-    return shapes
-}
+fun createExampleShapes() = CircularShape.entries
+    .map { UsingCircularShape(it) }
+    .toMutableList<ComplexShape>() +
+        SHAPES_WITHOUT_CROSS.map { shape ->
+            UsingRectangularShape(shape)
+        }
 
 fun <C, R> renderCurrencyTable(
     filename: String,

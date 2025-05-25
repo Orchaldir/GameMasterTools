@@ -1,13 +1,16 @@
 package at.orchaldir.gm.core.model.item.equipment
 
-import at.orchaldir.gm.core.model.item.ColorItemPart
-import at.orchaldir.gm.core.model.item.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.item.FillLookupItemPart
-import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -22,7 +25,10 @@ val ACCESSORIES = setOf(
     EquipmentDataType.Socks,
     EquipmentDataType.Tie,
 )
-val MAIN_EQUIPMENT = EquipmentDataType.entries - ACCESSORIES - EquipmentDataType.EyePatch
+val COMBAT_GEAR = setOf(
+    EquipmentDataType.Shield,
+)
+val MAIN_EQUIPMENT = EquipmentDataType.entries - ACCESSORIES - COMBAT_GEAR - EquipmentDataType.EyePatch
 
 enum class EquipmentDataType {
     Belt,
@@ -36,6 +42,7 @@ enum class EquipmentDataType {
     Hat,
     Necklace,
     Pants,
+    Shield,
     Shirt,
     Skirt,
     Socks,
@@ -54,6 +61,7 @@ enum class EquipmentDataType {
         Hat -> setOf(HeadSlot)
         Necklace -> setOf(NeckSlot)
         Pants -> setOf(BottomSlot)
+        Shield -> setOf(HeldInOneHandSlot)
         Shirt -> setOf(InnerTopSlot)
         Skirt -> setOf(BottomSlot)
         Socks -> setOf(FootUnderwearSlot)
@@ -77,6 +85,7 @@ sealed class EquipmentData : MadeFromParts {
         is Hat -> EquipmentDataType.Hat
         is Necklace -> EquipmentDataType.Necklace
         is Pants -> EquipmentDataType.Pants
+        is Shield -> EquipmentDataType.Shield
         is Shirt -> EquipmentDataType.Shirt
         is Skirt -> EquipmentDataType.Skirt
         is Socks -> EquipmentDataType.Socks
@@ -215,6 +224,23 @@ data class Pants(
     constructor(style: PantsStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Shield")
+data class Shield(
+    val shape: ComplexShape = UsingCircularShape(),
+    val size: Size = Size.Medium,
+    val border: ShieldBorder = NoShieldBorder,
+    val boss: ShieldBoss = NoShieldBoss,
+    val front: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
+    val back: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
+) : EquipmentData() {
+
+    constructor(shape: CircularShape, size: Size, color: Color) :
+            this(UsingCircularShape(shape), size, front = FillLookupItemPart(color))
+
+    override fun parts() = listOf(front, back) + border.parts() + boss.parts()
 }
 
 @Serializable

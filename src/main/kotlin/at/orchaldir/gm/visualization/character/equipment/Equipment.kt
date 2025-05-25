@@ -23,6 +23,7 @@ data class EquipmentConfig(
     val neckline: NecklineConfig,
     val opening: OpeningConfig,
     val pants: PantsConfig,
+    val shield: ShieldConfig,
     val skirt: SkirtConfig,
     val tie: TieConfig,
 )
@@ -42,6 +43,7 @@ fun visualizeBodyEquipment(
             is Gloves -> visualizeGloves(newState, body, data)
             is Necklace -> visualizeNecklace(newState, body, data)
             is Pants -> visualizePants(newState, body, data)
+            is Shield -> visualizeShield(newState, body, data)
             is Shirt -> visualizeShirt(newState, body, data)
             is Skirt -> visualizeSkirt(newState, body, data)
             is Socks -> visualizeSocks(newState, body, data)
