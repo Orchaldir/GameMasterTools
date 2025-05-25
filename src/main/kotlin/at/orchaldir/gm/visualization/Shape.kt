@@ -97,6 +97,7 @@ private fun createCircularShapePolygon(
     Triangle -> createTriangle(center, radius)
     CutoffTriangle -> createCutoffTriangle(center, radius)
     RoundedTriangle -> createRoundedTriangle(center, radius)
+    Heater -> createHeater(center, radius)
     Square -> createSquare(center, radius)
     CutoffSquare -> createCutoffSquare(center, radius)
     RoundedSquare -> createRoundedSquare(center, radius)

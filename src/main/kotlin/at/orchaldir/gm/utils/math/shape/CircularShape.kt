@@ -9,6 +9,7 @@ enum class CircularShape {
     Triangle,
     CutoffTriangle,
     RoundedTriangle,
+    Heater,
     Square,
     CutoffSquare,
     RoundedSquare,
@@ -24,7 +25,7 @@ enum class CircularShape {
     ScallopedDodecagonal;
 
     fun isRounded() = when (this) {
-        RoundedTriangle, RoundedSquare, RoundedDiamond, ScallopedOctagon, ScallopedDodecagonal -> true
+        RoundedTriangle, Heater, RoundedSquare, RoundedDiamond, ScallopedOctagon, ScallopedDodecagonal -> true
         else -> false
     }
 
@@ -60,7 +61,7 @@ enum class CircularShape {
     fun getSides() = when (this) {
         Circle -> 0
         Triangle, CutoffTriangle, RoundedTriangle -> 3
-        Square, CutoffSquare, RoundedSquare, Diamond, CutoffDiamond, RoundedDiamond -> 4
+        Heater, Square, CutoffSquare, RoundedSquare, Diamond, CutoffDiamond, RoundedDiamond -> 4
         Pentagon -> 5
         Hexagon -> 6
         Heptagon -> 7

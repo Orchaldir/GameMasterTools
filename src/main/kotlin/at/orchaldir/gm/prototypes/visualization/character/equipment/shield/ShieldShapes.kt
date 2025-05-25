@@ -25,6 +25,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     val shapes = listOf(
         UsingCircularShape(Circle),
+        UsingCircularShape(Heater),
         UsingCircularShape(Square),
         UsingCircularShape(RoundedSquare),
         UsingCircularShape(Hexagon),
