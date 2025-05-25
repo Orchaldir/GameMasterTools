@@ -38,10 +38,13 @@ fun visualizePolearm(
     polearm: Polearm,
     set: Set<BodySlot>,
 ) {
-    val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
     val config = state.config.equipment.polearm
     val length = config.getLength(state.aabb)
     val width = config.getWidth(state.aabb)
+    val y = state.aabb.getEnd().y - length / 2
+    val left = Point2d(leftHand.x, y)
+    val right = Point2d(rightHand.x, y)
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
     val center = state.getCenter(left, right, set, BodySlot.HeldInRightHand)
     val shaftAabb = AABB.fromWidthAndHeight(center, width, length)
