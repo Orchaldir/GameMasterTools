@@ -1,11 +1,13 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 
@@ -36,4 +38,22 @@ data class CharacterRenderState(
         -offset
     }
 
+    fun getCenter(
+        left: Point2d,
+        right: Point2d,
+        set: Set<BodySlot>,
+        preferredSlot: BodySlot,
+    ) = if (renderFront) {
+        if (set.contains(preferredSlot)) {
+            right
+        } else {
+            left
+        }
+    } else {
+        if (set.contains(preferredSlot)) {
+            left
+        } else {
+            right
+        }
+    }
 }

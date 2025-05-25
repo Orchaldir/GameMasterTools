@@ -32,24 +32,26 @@ fun visualizeBodyEquipment(
     state: CharacterRenderState,
     body: Body,
 ) {
-    state.equipped.getAllEquipment().forEach { pair ->
-        val newState = state.copy(colors = pair.second)
+    state.equipped.getEquipmentWithSlotSets().forEach { (pair, sets) ->
+        sets.forEach { set ->
+            val newState = state.copy(colors = pair.second)
 
-        when (val data = pair.first) {
-            is Belt -> visualizeBelt(newState, body, data)
-            is Coat -> visualizeCoat(newState, body, data, OUTERWEAR_LAYER)
-            is Dress -> visualizeDress(newState, body, data)
-            is Footwear -> visualizeFootwear(newState, body, data)
-            is Gloves -> visualizeGloves(newState, body, data)
-            is Necklace -> visualizeNecklace(newState, body, data)
-            is Pants -> visualizePants(newState, body, data)
-            is Shield -> visualizeShield(newState, body, data)
-            is Shirt -> visualizeShirt(newState, body, data)
-            is Skirt -> visualizeSkirt(newState, body, data)
-            is Socks -> visualizeSocks(newState, body, data)
-            is SuitJacket -> visualizeCoat(newState, body, data.convert(), JACKET_LAYER)
-            is Tie -> visualizeTie(newState, body, data)
-            else -> doNothing()
+            when (val data = pair.first) {
+                is Belt -> visualizeBelt(newState, body, data)
+                is Coat -> visualizeCoat(newState, body, data, OUTERWEAR_LAYER)
+                is Dress -> visualizeDress(newState, body, data)
+                is Footwear -> visualizeFootwear(newState, body, data)
+                is Gloves -> visualizeGloves(newState, body, data)
+                is Necklace -> visualizeNecklace(newState, body, data)
+                is Pants -> visualizePants(newState, body, data)
+                is Shield -> visualizeShield(newState, body, data, set)
+                is Shirt -> visualizeShirt(newState, body, data)
+                is Skirt -> visualizeSkirt(newState, body, data)
+                is Socks -> visualizeSocks(newState, body, data)
+                is SuitJacket -> visualizeCoat(newState, body, data.convert(), JACKET_LAYER)
+                is Tie -> visualizeTie(newState, body, data)
+                else -> doNothing()
+            }
         }
     }
 }

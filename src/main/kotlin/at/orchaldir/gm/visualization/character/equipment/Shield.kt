@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
@@ -44,17 +45,19 @@ fun visualizeShield(
     state: CharacterRenderState,
     body: Body,
     shield: Shield,
+    set: Set<BodySlot>,
 ) {
     val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
     val radius = state.config.equipment.shield.getRadius(state.aabb, shield)
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
+    val center = state.getCenter(left, right, set, BodySlot.HeldInLeftHand)
 
     if (state.renderFront) {
-        visualizeShieldBody(state, renderer, right, radius, shield.shape, shield.front)
-        visualizeShieldBorder(state, renderer, right, radius, shield)
-        visualizeShieldBoss(state, renderer, shield.boss, right)
+        visualizeShieldBody(state, renderer, center, radius, shield.shape, shield.front)
+        visualizeShieldBorder(state, renderer, center, radius, shield)
+        visualizeShieldBoss(state, renderer, shield.boss, center)
     } else {
-        visualizeShieldBody(state, renderer, left, radius, shield.shape, shield.back)
+        visualizeShieldBody(state, renderer, center, radius, shield.shape, shield.back)
     }
 }
 
