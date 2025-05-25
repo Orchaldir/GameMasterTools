@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.currency
+package at.orchaldir.gm.visualization
 
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d

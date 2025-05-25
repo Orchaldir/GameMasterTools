@@ -26,9 +26,9 @@ import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.currency.visualizeCircularShape
-import at.orchaldir.gm.visualization.currency.visualizeComplexShape
-import at.orchaldir.gm.visualization.currency.visualizeHoledComplexShape
+import at.orchaldir.gm.visualization.visualizeCircularShape
+import at.orchaldir.gm.visualization.visualizeComplexShape
+import at.orchaldir.gm.visualization.visualizeHoledComplexShape
 
 data class ShieldConfig(
     val radius: SizeConfig<Factor>,
