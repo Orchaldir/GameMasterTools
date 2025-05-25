@@ -3,6 +3,9 @@ package at.orchaldir.gm.core.model.util.render
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.ONE_DM
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.max
@@ -84,7 +87,7 @@ data class TransparentLookup(
 data class VerticalStripesLookup(
     val color0: ColorLookup,
     val color1: ColorLookup,
-    val width: UByte = 1u,
+    val width: Distance = ONE_DM,
 ) : FillLookup()
 
 @Serializable
@@ -92,13 +95,13 @@ data class VerticalStripesLookup(
 data class HorizontalStripesLookup(
     val color0: ColorLookup,
     val color1: ColorLookup,
-    val width: UByte = 1u,
+    val width: Distance = ONE_DM,
 ) : FillLookup() {
 
     constructor(
         color0: Color,
         color1: Color,
-        width: UByte = 1u,
+        width: Distance = ONE_DM,
     ) : this(FixedColor(color0), FixedColor(color1), width)
 
 }

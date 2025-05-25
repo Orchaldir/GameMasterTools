@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.unit.Distance
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -95,9 +96,9 @@ private fun HtmlBlockTag.selectFillData(
     }
 }
 
-private fun HtmlBlockTag.selectStripes(lookup0: ColorLookup, lookup1: ColorLookup, width: UByte, param: String) {
+private fun HtmlBlockTag.selectStripes(lookup0: ColorLookup, lookup1: ColorLookup, width: Distance, param: String) {
     selectTwoColors(param, lookup0, lookup1, "1.Stripe Color", "2.Stripe Color")
-    selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(param, PATTERN, WIDTH))
+    selectStripeWidth(param, width)
 }
 
 private fun HtmlBlockTag.selectTwoColors(
@@ -156,13 +157,13 @@ private fun parseFillLookupOfType(
     FillLookupType.VerticalStripes -> VerticalStripesLookup(
         parseColorLookup(parameters, combine(param, COLOR, 0), Color.Black),
         parseColorLookup(parameters, combine(param, COLOR, 1), Color.White),
-        parseWidth(parameters, param),
+        parseStripeWidth(parameters, param),
     )
 
     FillLookupType.HorizontalStripes -> HorizontalStripesLookup(
         parseColorLookup(parameters, combine(param, COLOR, 0), Color.Black),
         parseColorLookup(parameters, combine(param, COLOR, 1), Color.White),
-        parseWidth(parameters, param),
+        parseStripeWidth(parameters, param),
     )
 
     FillLookupType.Tiles -> TilesLookup(
@@ -172,6 +173,3 @@ private fun parseFillLookupOfType(
         parseFactor(parameters, combine(param, PATTERN, BORDER), fromPercentage(10))
     )
 }
-
-private fun parseWidth(parameters: Parameters, param: String) =
-    parseUByte(parameters, combine(param, PATTERN, WIDTH), 1u)

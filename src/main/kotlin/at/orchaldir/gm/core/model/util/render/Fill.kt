@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.util.render
 
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.ONE_DM
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -42,7 +44,7 @@ data class Transparent(
 data class VerticalStripes(
     val color0: Color,
     val color1: Color,
-    val width: UByte = 1u,
+    val width: Distance = ONE_DM,
 ) : Fill()
 
 @Serializable
@@ -50,7 +52,7 @@ data class VerticalStripes(
 data class HorizontalStripes(
     val color0: Color,
     val color1: Color,
-    val width: UByte = 1u,
+    val width: Distance = ONE_DM,
 ) : Fill()
 
 @Serializable
