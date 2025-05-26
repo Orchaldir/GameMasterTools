@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
-import at.orchaldir.gm.core.model.item.text.scroll.HandleSegmentShape.Cylinder
+import at.orchaldir.gm.core.model.item.text.scroll.SegmentShape.Cylinder
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
@@ -12,13 +12,13 @@ val MIN_SEGMENT_DISTANCE = Distance.fromCentimeters(1)
 val MAX_SEGMENT_DISTANCE = Distance.fromCentimeters(200)
 
 @Serializable
-data class HandleSegment(
+data class Segment(
     val length: Distance,
     val diameter: Distance,
     val main: ColorItemPart = ColorItemPart(Color.Blue),
-    val shape: HandleSegmentShape = Cylinder,
+    val shape: SegmentShape = Cylinder,
 ) : MadeFromParts {
-    constructor(length: Distance, diameter: Distance, color: Color, shape: HandleSegmentShape = Cylinder) :
+    constructor(length: Distance, diameter: Distance, color: Color, shape: SegmentShape = Cylinder) :
             this(length, diameter, ColorItemPart(color), shape)
 
     fun calculateSize() = Size2d(diameter, length)

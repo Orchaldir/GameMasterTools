@@ -46,7 +46,7 @@ data object ScrollWithoutRod : ScrollFormat()
 @Serializable
 @SerialName("OneRod")
 data class ScrollWithOneRod(
-    val handle: ScrollHandle,
+    val handle: Segments,
 ) : ScrollFormat() {
 
     override fun parts() = handle.parts()
@@ -56,7 +56,7 @@ data class ScrollWithOneRod(
 @Serializable
 @SerialName("TwoRods")
 data class ScrollWithTwoRods(
-    val handle: ScrollHandle,
+    val handle: Segments,
 ) : ScrollFormat() {
 
     override fun parts() = handle.parts()

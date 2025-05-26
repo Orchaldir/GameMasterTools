@@ -7,10 +7,10 @@ import at.orchaldir.gm.utils.math.unit.sumOf
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ScrollHandle(
-    val segments: List<HandleSegment>,
+data class Segments(
+    val segments: List<Segment>,
 ) : MadeFromParts {
-    constructor(segment: HandleSegment) : this(listOf(segment))
+    constructor(segment: Segment) : this(listOf(segment))
 
     fun calculateHandleLength() = sumOf(segments.map { it.length })
 

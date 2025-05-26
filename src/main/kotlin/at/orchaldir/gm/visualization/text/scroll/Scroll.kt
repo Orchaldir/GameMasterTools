@@ -90,7 +90,7 @@ private fun visualizeTwoOpenRods(
 private fun visualizeRod(
     state: TextRenderState,
     scroll: Scroll,
-    handle: ScrollHandle,
+    handle: Segments,
 ) {
     val inner = AABB.fromCenter(state.aabb.getCenter(), scroll.calculateRollSize())
     val innerState = state.copy(aabb = inner)
@@ -114,7 +114,7 @@ private fun visualizeRod(
         val aabbBottom = AABB.fromCenter(centerBottom, segment.calculateSize())
 
         when (segment.shape) {
-            HandleSegmentShape.Cone -> {
+            SegmentShape.Cone -> {
                 val builderTop = Polygon2dBuilder()
                 val builderBottom = Polygon2dBuilder()
 
@@ -128,17 +128,17 @@ private fun visualizeRod(
                 renderer.renderPolygon(builderBottom.build(), options)
             }
 
-            HandleSegmentShape.Cylinder -> {
+            SegmentShape.Cylinder -> {
                 renderer.renderRectangle(aabbTop, options)
                 renderer.renderRectangle(aabbBottom, options)
             }
 
-            HandleSegmentShape.RoundedCylinder -> {
+            SegmentShape.RoundedCylinder -> {
                 renderer.renderRoundedPolygon(Polygon2d(aabbTop.getCorners()), options)
                 renderer.renderRoundedPolygon(Polygon2d(aabbBottom.getCorners()), options)
             }
 
-            HandleSegmentShape.Sphere -> {
+            SegmentShape.Sphere -> {
                 renderer.renderEllipse(aabbTop, options)
                 renderer.renderEllipse(aabbBottom, options)
             }

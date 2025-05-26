@@ -174,7 +174,7 @@ private fun HtmlBlockTag.showScrollFormat(
 private fun HtmlBlockTag.showScrollHandle(
     call: ApplicationCall,
     state: State,
-    handle: ScrollHandle,
+    handle: Segments,
 ) {
     fieldList("Handle Segments", handle.segments) { segment ->
         fieldDistance("Length", segment.length)
@@ -396,7 +396,7 @@ private fun HtmlBlockTag.editScrollFormat(
 
 private fun HtmlBlockTag.editScrollHandle(
     state: State,
-    handle: ScrollHandle,
+    handle: Segments,
 ) {
     editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
         selectDistance(
@@ -416,7 +416,7 @@ private fun HtmlBlockTag.editScrollHandle(
             prefix,
         )
         editColorItemPart(state, segment.main, segmentParam)
-        selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape)
+        selectValue("Shape", combine(segmentParam, SHAPE), SegmentShape.entries, segment.shape)
     }
 }
 
@@ -527,15 +527,15 @@ private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, 
     ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseScrollHandle(parameters))
 }
 
-private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
+private fun parseScrollHandle(parameters: Parameters) = Segments(
     parseHandleSegments(parameters),
 )
 
 private fun parseHandleSegments(parameters: Parameters) = parseList(parameters, HANDLE, 1) { _, param ->
-    HandleSegment(
+    Segment(
         parseDistance(parameters, combine(param, LENGTH), prefix, 40),
         parseDistance(parameters, combine(param, DIAMETER), prefix, 15),
         parseColorItemPart(parameters, param),
-        parse(parameters, combine(param, SHAPE), HandleSegmentShape.Cylinder),
+        parse(parameters, combine(param, SHAPE), SegmentShape.Cylinder),
     )
 }

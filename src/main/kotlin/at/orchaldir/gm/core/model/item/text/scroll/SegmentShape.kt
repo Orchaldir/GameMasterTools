@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
-enum class HandleSegmentShape {
+enum class SegmentShape {
     Cone,
     Cylinder,
     RoundedCylinder,
