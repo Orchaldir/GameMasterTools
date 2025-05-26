@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.content.AbstractContent
 import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.scroll.Segment
-import at.orchaldir.gm.core.model.item.text.scroll.Segments
+import at.orchaldir.gm.core.model.util.part.Segment
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.render.Color

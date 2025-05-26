@@ -1,8 +1,5 @@
-package at.orchaldir.gm.core.model.item.text.scroll
+package at.orchaldir.gm.core.model.util.part
 
-import at.orchaldir.gm.core.model.item.text.scroll.SegmentShape.Cylinder
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
-import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -16,9 +13,9 @@ data class Segment(
     val length: Distance,
     val diameter: Distance,
     val main: ColorItemPart = ColorItemPart(Color.Blue),
-    val shape: SegmentShape = Cylinder,
+    val shape: SegmentShape = SegmentShape.Cylinder,
 ) : MadeFromParts {
-    constructor(length: Distance, diameter: Distance, color: Color, shape: SegmentShape = Cylinder) :
+    constructor(length: Distance, diameter: Distance, color: Color, shape: SegmentShape = SegmentShape.Cylinder) :
             this(length, diameter, ColorItemPart(color), shape)
 
     fun calculateSize() = Size2d(diameter, length)

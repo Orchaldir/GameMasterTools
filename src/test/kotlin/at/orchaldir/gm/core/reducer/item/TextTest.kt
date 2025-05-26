@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.content.*
-import at.orchaldir.gm.core.model.item.text.scroll.Segments
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.CreatedByCharacter

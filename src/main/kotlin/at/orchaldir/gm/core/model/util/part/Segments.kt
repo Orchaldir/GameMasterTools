@@ -1,7 +1,5 @@
-package at.orchaldir.gm.core.model.item.text.scroll
+package at.orchaldir.gm.core.model.util.part
 
-import at.orchaldir.gm.core.model.util.part.ItemPart
-import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.sumOf
 import kotlinx.serialization.Serializable

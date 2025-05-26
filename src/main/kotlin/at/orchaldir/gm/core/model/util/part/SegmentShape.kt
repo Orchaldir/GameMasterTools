@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item.text.scroll
+package at.orchaldir.gm.core.model.util.part
 
 enum class SegmentShape {
     Cone,

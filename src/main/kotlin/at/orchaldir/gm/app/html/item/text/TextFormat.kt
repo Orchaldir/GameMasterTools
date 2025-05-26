@@ -13,6 +13,11 @@ import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.MAX_SEGMENT_DISTANCE
+import at.orchaldir.gm.core.model.util.part.MIN_SEGMENT_DISTANCE
+import at.orchaldir.gm.core.model.util.part.Segment
+import at.orchaldir.gm.core.model.util.part.SegmentShape
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
