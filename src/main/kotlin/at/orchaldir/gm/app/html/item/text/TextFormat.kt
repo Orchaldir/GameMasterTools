@@ -375,8 +375,8 @@ private fun HtmlBlockTag.editScrollFormat(
     selectValue("Scroll Format", SCROLL, ScrollFormatType.entries, format.getType())
 
     when (format) {
-        is ScrollWithOneRod -> editSegments(state, format.handle)
-        is ScrollWithTwoRods -> editSegments(state, format.handle)
+        is ScrollWithOneRod -> editSegments(state, format.handle, HANDLE)
+        is ScrollWithTwoRods -> editSegments(state, format.handle, HANDLE)
         ScrollWithoutRod -> doNothing()
     }
 }
@@ -484,6 +484,6 @@ private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, 
 
 private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, SCROLL, ScrollFormatType.NoRod)) {
     ScrollFormatType.NoRod -> ScrollWithoutRod
-    ScrollFormatType.OneRod -> ScrollWithOneRod(parseSegments(parameters))
-    ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseSegments(parameters))
+    ScrollFormatType.OneRod -> ScrollWithOneRod(parseSegments(parameters, HANDLE))
+    ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseSegments(parameters, HANDLE))
 }

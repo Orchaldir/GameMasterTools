@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util.part
 import at.orchaldir.gm.app.DIAMETER
 import at.orchaldir.gm.app.HANDLE
 import at.orchaldir.gm.app.LENGTH
+import at.orchaldir.gm.app.SEGMENT
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.fieldFactor
@@ -26,8 +27,9 @@ fun HtmlBlockTag.showSegments(
     call: ApplicationCall,
     state: State,
     segments: Segments,
+    label: String = "Segments",
 ) {
-    fieldList("Handle Segments", segments.segments) { segment ->
+    fieldList(label, segments.segments) { segment ->
         fieldFactor("Length", segment.length)
         fieldFactor("Diameter", segment.diameter)
         showColorItemPart(call, state, segment.main)
@@ -39,9 +41,11 @@ fun HtmlBlockTag.showSegments(
 
 fun HtmlBlockTag.editSegments(
     state: State,
-    handle: Segments,
+    segments: Segments,
+    param: String,
+    label: String = "Segments",
 ) {
-    editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
+    editList(label, param, segments.segments, 1, 20, 1) { _, segmentParam, segment ->
         editSegment(state, segment, segmentParam)
     }
 }
@@ -71,8 +75,8 @@ private fun HtmlBlockTag.editSegment(
 
 // parse
 
-fun parseSegments(parameters: Parameters) = Segments(
-    parseList(parameters, HANDLE, 1) { _, param ->
+fun parseSegments(parameters: Parameters, param: String) = Segments(
+    parseList(parameters, param, 1) { _, param ->
         parseSegment(parameters, param)
     }
 )
