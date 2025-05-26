@@ -81,8 +81,8 @@ data class Scroll(
 
     fun calculateHandleLength() = when (format) {
         ScrollWithoutRod -> ZERO_DISTANCE
-        is ScrollWithOneRod -> format.handle.calculateHandleLength()
-        is ScrollWithTwoRods -> format.handle.calculateHandleLength()
+        is ScrollWithOneRod -> format.handle.calculateLength(rollLength)
+        is ScrollWithTwoRods -> format.handle.calculateLength(rollLength)
     }
 
     fun calculatePageWidth() = rollLength * pageWidth

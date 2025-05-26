@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.formatAsFactor
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
@@ -39,7 +40,7 @@ fun HtmlBlockTag.selectFactor(
     current: Factor,
     minValue: Factor,
     maxValue: Factor,
-    step: Factor = fromPercentage(1),
+    step: Factor = ONE_PERCENT,
 ) {
     field(label) {
         selectFactor(param, current, minValue, maxValue, step)
@@ -51,7 +52,7 @@ fun HtmlBlockTag.selectFactor(
     current: Factor,
     minValue: Factor,
     maxValue: Factor,
-    stepValue: Factor = fromPercentage(1),
+    stepValue: Factor = ONE_PERCENT,
 ) {
     val values = (minValue.toPermyriad()..maxValue.toPermyriad() step stepValue.toPermyriad()).toList()
     selectValue(param, values) { v ->

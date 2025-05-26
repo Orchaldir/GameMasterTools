@@ -144,8 +144,8 @@ private fun checkScrollHandle(handle: Segments) {
 }
 
 private fun checkHandleSegment(segment: Segment, number: Int) {
-    checkDistance(segment.length, "$number.segment's length", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
-    checkDistance(segment.diameter, "$number.segment's diameter", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
+    checkFactor(segment.length, "$number.segment's length", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
+    checkFactor(segment.diameter, "$number.segment's diameter", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
 }
 
 private fun checkTextContent(

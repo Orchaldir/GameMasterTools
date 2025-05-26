@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.model.util.part
 
+import at.orchaldir.gm.utils.math.maxOf
+import at.orchaldir.gm.utils.math.sumOf
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.sumOf
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,15 +11,13 @@ data class Segments(
 ) : MadeFromParts {
     constructor(segment: Segment) : this(listOf(segment))
 
-    fun calculateHandleLength() = sumOf(segments.map { it.length })
+    fun calculateLengthFactor() = sumOf(segments.map { it.length })
 
-    fun calculateHandleDiameter() = segments
-        .map { it.diameter }
-        .maxBy { it.value() }
+    fun calculateDiameterFactor() = maxOf(segments.map { it.diameter })
 
-    fun calculateLength(rollLength: Distance) = rollLength + calculateHandleLength() * 2
+    fun calculateLength(baseLength: Distance) = baseLength * calculateLengthFactor()
 
-    fun calculateDiameter(rollDiameter: Distance) = rollDiameter.max(calculateHandleDiameter())
+    fun calculateDiameter(baseDiameter: Distance) = baseDiameter * calculateDiameterFactor()
 
     override fun parts() = segments.fold(listOf<ItemPart>()) { sum, segment ->
         sum + segment.parts()

@@ -23,21 +23,27 @@ sealed class ScrollFormat : MadeFromParts {
 
     fun calculateLength(rollLength: Distance) = when (this) {
         ScrollWithoutRod -> rollLength
-        is ScrollWithOneRod -> handle.calculateLength(rollLength)
-        is ScrollWithTwoRods -> handle.calculateLength(rollLength)
+        is ScrollWithOneRod -> calculateLengthWithSegments(rollLength, handle)
+        is ScrollWithTwoRods -> calculateLengthWithSegments(rollLength, handle)
     }
+
+    private fun calculateLengthWithSegments(rollLength: Distance, segments: Segments) =
+        rollLength + segments.calculateLength(rollLength) * 2
 
     fun calculateWidth(rollDiameter: Distance) = when (this) {
         ScrollWithoutRod -> rollDiameter
-        is ScrollWithOneRod -> handle.calculateDiameter(rollDiameter)
-        is ScrollWithTwoRods -> handle.calculateDiameter(rollDiameter) * 2
+        is ScrollWithOneRod -> calculateDiameter(rollDiameter, handle)
+        is ScrollWithTwoRods -> calculateDiameter(rollDiameter, handle) * 2
     }
 
     fun calculateWidthOfOneRod(rollDiameter: Distance) = when (this) {
         ScrollWithoutRod -> rollDiameter
-        is ScrollWithOneRod -> handle.calculateDiameter(rollDiameter)
-        is ScrollWithTwoRods -> handle.calculateDiameter(rollDiameter)
+        is ScrollWithOneRod -> calculateDiameter(rollDiameter, handle)
+        is ScrollWithTwoRods -> calculateDiameter(rollDiameter, handle)
     }
+
+    private fun calculateDiameter(rollDiameter: Distance, segments: Segments) =
+        rollDiameter.max(segments.calculateDiameter(rollDiameter))
 }
 
 @Serializable

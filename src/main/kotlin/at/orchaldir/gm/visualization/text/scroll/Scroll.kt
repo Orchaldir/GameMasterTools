@@ -99,7 +99,7 @@ private fun visualizeRod(
 
     visualizeRoll(innerState, scroll)
 
-    val handleLength = handle.calculateHandleLength()
+    val handleLength = handle.calculateLength(scroll.rollLength)
     var startTop = state.aabb.getPoint(HALF, START).addHeight(handleLength)
     var startBottom = state.aabb.getPoint(HALF, END).minusHeight(handleLength)
     val renderer = state.renderer.getLayer()
@@ -107,13 +107,16 @@ private fun visualizeRod(
     handle.segments.forEach { segment ->
         val color = segment.main.getColor(state.state)
         val options = FillAndBorder(color.toRender(), state.config.line)
-        val half = segment.length / 2
+        val segmentLength = segment.calculateLength(scroll.rollLength)
+        val segmentDiameter = segment.calculateDiameter(scroll.rollDiameter)
+        val segmentSize = Size2d(segmentDiameter, segmentLength)
+        val half = segmentLength / 2
 
         val centerTop = startTop.minusHeight(half)
         val centerBottom = startBottom.addHeight(half)
 
-        val aabbTop = AABB.fromCenter(centerTop, segment.calculateSize())
-        val aabbBottom = AABB.fromCenter(centerBottom, segment.calculateSize())
+        val aabbTop = AABB.fromCenter(centerTop, segmentSize)
+        val aabbBottom = AABB.fromCenter(centerBottom, segmentSize)
 
         when (segment.shape) {
             SegmentShape.Cone -> {
@@ -146,8 +149,8 @@ private fun visualizeRod(
             }
         }
 
-        startTop = startTop.minusHeight(segment.length)
-        startBottom = startBottom.addHeight(segment.length)
+        startTop = startTop.minusHeight(segmentLength)
+        startBottom = startBottom.addHeight(segmentLength)
     }
 }
 

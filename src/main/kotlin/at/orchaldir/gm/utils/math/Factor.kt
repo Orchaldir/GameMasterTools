@@ -1,6 +1,8 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import kotlinx.serialization.Serializable
 
 val START = fromPercentage(0)
@@ -77,4 +79,10 @@ fun formatAsFactor(permyriad: Int): String {
     } else {
         String.format("%d.%01d%%", percentageOnly, permilleOnly)
     }
+}
+
+fun maxOf(distances: Collection<Factor>) = distances.maxBy { it.toPermyriad() }
+
+fun sumOf(distances: Collection<Factor>) = distances.fold(ZERO) { sum, distance ->
+    sum + distance
 }

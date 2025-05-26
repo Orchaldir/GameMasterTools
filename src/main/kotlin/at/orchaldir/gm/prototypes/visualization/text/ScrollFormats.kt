@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
@@ -18,11 +19,11 @@ private val ID = MaterialId(0)
 fun main() {
     val rollLength = fromMillimeters(200)
     val rollDiameter = fromMillimeters(50)
-    val handle0 = Segments(Segment(fromMillimeters(40), fromMillimeters(15), Color.SaddleBrown))
+    val handle0 = Segments(Segment(fromPercentage(20), fromPercentage(30), Color.SaddleBrown))
     val handle1 = Segments(
         listOf(
-            Segment(fromMillimeters(40), fromMillimeters(15), Color.Gold),
-            Segment(fromMillimeters(15), fromMillimeters(40), Color.Gold, RoundedCylinder),
+            Segment(fromPercentage(20), fromPercentage(30), Color.Gold),
+            Segment(fromPercentage(10), fromPercentage(80), Color.Gold, RoundedCylinder),
         )
     )
 

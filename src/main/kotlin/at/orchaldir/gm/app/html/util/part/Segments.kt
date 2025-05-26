@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.HANDLE
 import at.orchaldir.gm.app.LENGTH
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.fieldDistance
-import at.orchaldir.gm.app.html.util.parseDistance
-import at.orchaldir.gm.app.html.util.selectDistance
+import at.orchaldir.gm.app.html.util.fieldFactor
+import at.orchaldir.gm.app.html.util.parseFactor
+import at.orchaldir.gm.app.html.util.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -28,8 +28,8 @@ fun HtmlBlockTag.showSegments(
     segments: Segments,
 ) {
     fieldList("Handle Segments", segments.segments) { segment ->
-        fieldDistance("Length", segment.length)
-        fieldDistance("Diameter", segment.diameter)
+        fieldFactor("Length", segment.length)
+        fieldFactor("Diameter", segment.diameter)
         showColorItemPart(call, state, segment.main)
         field("Shape", segment.shape)
     }
@@ -51,21 +51,19 @@ private fun HtmlBlockTag.editSegment(
     segment: Segment,
     param: String,
 ) {
-    selectDistance(
+    selectFactor(
         "Length",
         combine(param, LENGTH),
         segment.length,
         MIN_SEGMENT_DISTANCE,
         MAX_SEGMENT_DISTANCE,
-        prefix,
     )
-    selectDistance(
+    selectFactor(
         "Diameter",
         combine(param, DIAMETER),
         segment.diameter,
         MIN_SEGMENT_DISTANCE,
         MAX_SEGMENT_DISTANCE,
-        prefix,
     )
     editColorItemPart(state, segment.main, param)
     selectValue("Shape", combine(param, SHAPE), SegmentShape.entries, segment.shape)
@@ -83,8 +81,8 @@ private fun parseSegment(
     parameters: Parameters,
     param: String,
 ) = Segment(
-    parseDistance(parameters, combine(param, LENGTH), prefix, 40),
-    parseDistance(parameters, combine(param, DIAMETER), prefix, 15),
+    parseFactor(parameters, combine(param, LENGTH)),
+    parseFactor(parameters, combine(param, DIAMETER)),
     parseColorItemPart(parameters, param),
     parse(parameters, combine(param, SHAPE), SegmentShape.Cylinder),
 )
