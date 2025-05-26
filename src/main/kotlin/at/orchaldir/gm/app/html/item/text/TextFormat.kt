@@ -175,18 +175,18 @@ private fun HtmlBlockTag.showScrollFormat(
     field("Scroll Format", format.getType())
 
     when (format) {
-        is ScrollWithOneRod -> showScrollHandle(call, state, format.handle)
-        is ScrollWithTwoRods -> showScrollHandle(call, state, format.handle)
+        is ScrollWithOneRod -> showSegments(call, state, format.handle)
+        is ScrollWithTwoRods -> showSegments(call, state, format.handle)
         ScrollWithoutRod -> doNothing()
     }
 }
 
-private fun HtmlBlockTag.showScrollHandle(
+fun HtmlBlockTag.showSegments(
     call: ApplicationCall,
     state: State,
-    handle: Segments,
+    segments: Segments,
 ) {
-    fieldList("Handle Segments", handle.segments) { segment ->
+    fieldList("Handle Segments", segments.segments) { segment ->
         fieldDistance("Length", segment.length)
         fieldDistance("Diameter", segment.diameter)
         showColorItemPart(call, state, segment.main)
@@ -398,36 +398,44 @@ private fun HtmlBlockTag.editScrollFormat(
     selectValue("Scroll Format", SCROLL, ScrollFormatType.entries, format.getType())
 
     when (format) {
-        is ScrollWithOneRod -> editScrollHandle(state, format.handle)
-        is ScrollWithTwoRods -> editScrollHandle(state, format.handle)
+        is ScrollWithOneRod -> editSegments(state, format.handle)
+        is ScrollWithTwoRods -> editSegments(state, format.handle)
         ScrollWithoutRod -> doNothing()
     }
 }
 
-private fun HtmlBlockTag.editScrollHandle(
+fun HtmlBlockTag.editSegments(
     state: State,
     handle: Segments,
 ) {
     editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
-        selectDistance(
-            "Length",
-            combine(segmentParam, LENGTH),
-            segment.length,
-            MIN_SEGMENT_DISTANCE,
-            MAX_SEGMENT_DISTANCE,
-            prefix,
-        )
-        selectDistance(
-            "Diameter",
-            combine(segmentParam, DIAMETER),
-            segment.diameter,
-            MIN_SEGMENT_DISTANCE,
-            MAX_SEGMENT_DISTANCE,
-            prefix,
-        )
-        editColorItemPart(state, segment.main, segmentParam)
-        selectValue("Shape", combine(segmentParam, SHAPE), SegmentShape.entries, segment.shape)
+        editSegment(state, segment, segmentParam)
     }
+}
+
+private fun HtmlBlockTag.editSegment(
+    state: State,
+    segment: Segment,
+    param: String,
+) {
+    selectDistance(
+        "Length",
+        combine(param, LENGTH),
+        segment.length,
+        MIN_SEGMENT_DISTANCE,
+        MAX_SEGMENT_DISTANCE,
+        prefix,
+    )
+    selectDistance(
+        "Diameter",
+        combine(param, DIAMETER),
+        segment.diameter,
+        MIN_SEGMENT_DISTANCE,
+        MAX_SEGMENT_DISTANCE,
+        prefix,
+    )
+    editColorItemPart(state, segment.main, param)
+    selectValue("Shape", combine(param, SHAPE), SegmentShape.entries, segment.shape)
 }
 
 // parse
@@ -533,19 +541,22 @@ private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, 
 
 private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, SCROLL, ScrollFormatType.NoRod)) {
     ScrollFormatType.NoRod -> ScrollWithoutRod
-    ScrollFormatType.OneRod -> ScrollWithOneRod(parseScrollHandle(parameters))
-    ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseScrollHandle(parameters))
+    ScrollFormatType.OneRod -> ScrollWithOneRod(parseSegments(parameters))
+    ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseSegments(parameters))
 }
 
-private fun parseScrollHandle(parameters: Parameters) = Segments(
-    parseHandleSegments(parameters),
+fun parseSegments(parameters: Parameters) = Segments(
+    parseList(parameters, HANDLE, 1) { _, param ->
+        parseSegment(parameters, param)
+    }
 )
 
-private fun parseHandleSegments(parameters: Parameters) = parseList(parameters, HANDLE, 1) { _, param ->
-    Segment(
-        parseDistance(parameters, combine(param, LENGTH), prefix, 40),
-        parseDistance(parameters, combine(param, DIAMETER), prefix, 15),
-        parseColorItemPart(parameters, param),
-        parse(parameters, combine(param, SHAPE), SegmentShape.Cylinder),
-    )
-}
+private fun parseSegment(
+    parameters: Parameters,
+    param: String,
+) = Segment(
+    parseDistance(parameters, combine(param, LENGTH), prefix, 40),
+    parseDistance(parameters, combine(param, DIAMETER), prefix, 15),
+    parseColorItemPart(parameters, param),
+    parse(parameters, combine(param, SHAPE), SegmentShape.Cylinder),
+)
