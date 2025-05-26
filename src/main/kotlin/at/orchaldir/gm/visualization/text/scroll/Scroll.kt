@@ -2,11 +2,11 @@ package at.orchaldir.gm.visualization.text.scroll
 
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.scroll.*
-import at.orchaldir.gm.core.model.util.part.SegmentShape
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
+import at.orchaldir.gm.visualization.visualizeSegments
 
 fun visualizeScroll(
     state: TextRenderState,
@@ -118,39 +118,13 @@ private fun visualizeRod(
         val aabbTop = AABB.fromCenter(centerTop, segmentSize)
         val aabbBottom = AABB.fromCenter(centerBottom, segmentSize)
 
-        when (segment.shape) {
-            SegmentShape.Cone -> {
-                val builderTop = Polygon2dBuilder()
-                val builderBottom = Polygon2dBuilder()
-
-                builderTop.addMirroredPoints(aabbTop, FULL, END)
-                builderBottom.addMirroredPoints(aabbBottom, FULL, START)
-
-                builderTop.addLeftPoint(aabbTop, CENTER, START)
-                builderBottom.addLeftPoint(aabbBottom, CENTER, END)
-
-                renderer.renderPolygon(builderTop.build(), options)
-                renderer.renderPolygon(builderBottom.build(), options)
-            }
-
-            SegmentShape.Cylinder -> {
-                renderer.renderRectangle(aabbTop, options)
-                renderer.renderRectangle(aabbBottom, options)
-            }
-
-            SegmentShape.RoundedCylinder -> {
-                renderer.renderRoundedPolygon(Polygon2d(aabbTop.getCorners()), options)
-                renderer.renderRoundedPolygon(Polygon2d(aabbBottom.getCorners()), options)
-            }
-
-            SegmentShape.Sphere -> {
-                renderer.renderEllipse(aabbTop, options)
-                renderer.renderEllipse(aabbBottom, options)
-            }
-        }
+        visualizeSegments(renderer, options, aabbTop, segment)
+        visualizeSegments(renderer, options, aabbBottom, segment)
 
         startTop = startTop.minusHeight(segmentLength)
         startBottom = startBottom.addHeight(segmentLength)
     }
 }
+
+
 
