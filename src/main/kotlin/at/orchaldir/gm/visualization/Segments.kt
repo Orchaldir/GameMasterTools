@@ -15,22 +15,21 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeSegments(
-    state: TextRenderState,
+    state: RenderState,
     segments: Segments,
     start: Point2d,
     isUp: Boolean,
     baseLength: Distance,
     baseDiameter: Distance,
 ) {
-    val renderer = state.renderer.getLayer()
+    val renderer = state.renderer().getLayer()
     var current = start
 
     segments.segments.forEach { segment ->
-        val color = segment.main.getColor(state.state)
-        val options = FillAndBorder(color.toRender(), state.config.line)
+        val color = segment.main.getColor(state.state())
+        val options = FillAndBorder(color.toRender(), state.lineOptions())
         val segmentLength = segment.calculateLength(baseLength)
         val segmentDiameter = segment.calculateDiameter(baseDiameter)
         val segmentSize = Size2d(segmentDiameter, segmentLength)

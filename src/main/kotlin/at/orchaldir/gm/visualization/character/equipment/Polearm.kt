@@ -1,28 +1,16 @@
 package at.orchaldir.gm.visualization.character.equipment
 
-import at.orchaldir.gm.app.TOP
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Polearm
-import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.shape.CircularShape
-import at.orchaldir.gm.utils.math.shape.ComplexShape
-import at.orchaldir.gm.utils.math.shape.UsingCircularShape
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.visualizeCircularShape
-import at.orchaldir.gm.visualization.visualizeComplexShape
-import at.orchaldir.gm.visualization.visualizeHoledComplexShape
 import at.orchaldir.gm.visualization.visualizeSegments
 
 data class PolearmConfig(
@@ -62,14 +50,14 @@ private fun visualizePolearmHead(
 ) {
     when (polearm.head) {
         NoPolearmHead, RoundedPolearmHead, SharpenedPolearmHead -> doNothing()
-        is PolearmHeadWithSegments -> doNothing() /*visualizeSegments(
+        is PolearmHeadWithSegments -> visualizeSegments(
             state,
             polearm.head.segments,
             aabb.getPoint(CENTER, START),
             true,
             aabb.size.height,
             aabb.size.width,
-        )*/
+        )
     }
 }
 

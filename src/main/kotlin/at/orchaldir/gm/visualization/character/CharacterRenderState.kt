@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 
 data class CharacterRenderState(
@@ -19,7 +20,11 @@ data class CharacterRenderState(
     val renderFront: Boolean,
     val equipped: EquipmentElementMap,
     val colors: Colors = UndefinedColors,
-) {
+) : RenderState {
+
+    override fun state() = state
+    override fun renderer() = renderer
+    override fun lineOptions() = config.line
 
     fun getBeardLayer() = getLayer(ABOVE_EQUIPMENT_LAYER)
     fun getTailLayer() = getLayer(-ABOVE_EQUIPMENT_LAYER)
