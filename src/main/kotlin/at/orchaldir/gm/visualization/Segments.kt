@@ -71,5 +71,6 @@ fun visualizeSegment(
 
     SegmentShape.Cylinder -> renderer.renderRectangle(aabb, options)
     SegmentShape.RoundedCylinder -> renderer.renderRoundedPolygon(Polygon2d(aabb.getCorners()), options)
-    SegmentShape.Sphere -> renderer.renderEllipse(aabb, options)
+    SegmentShape.Sphere -> renderer.renderCircle(aabb.getCenter(), aabb.size.height / 2, options)
+    SegmentShape.Ellipse -> renderer.renderEllipse(aabb, options)
 }

@@ -5,4 +5,5 @@ enum class SegmentShape {
     Cylinder,
     RoundedCylinder,
     Sphere,
+    Ellipse,
 }
