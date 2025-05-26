@@ -14,7 +14,9 @@ data class ScrollHandle(
 
     fun calculateHandleLength() = sumOf(segments.map { it.length })
 
-    fun calculateHandleDiameter() = sumOf(segments.map { it.diameter })
+    fun calculateHandleDiameter() = segments
+        .map { it.diameter }
+        .maxBy { it.value() }
 
     fun calculateLength(rollLength: Distance) = rollLength + calculateHandleLength() * 2
 
