@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.visualizeSegment
+import at.orchaldir.gm.visualization.visualizeSegments
 
 fun visualizeScroll(
     state: TextRenderState,
@@ -100,30 +101,11 @@ private fun visualizeRod(
     visualizeRoll(innerState, scroll)
 
     val handleLength = handle.calculateLength(scroll.rollLength)
-    var startTop = state.aabb.getPoint(HALF, START).addHeight(handleLength)
-    var startBottom = state.aabb.getPoint(HALF, END).minusHeight(handleLength)
-    val renderer = state.renderer.getLayer()
+    val startTop = state.aabb.getPoint(HALF, START).addHeight(handleLength)
+    val startBottom = state.aabb.getPoint(HALF, END).minusHeight(handleLength)
 
-    handle.segments.forEach { segment ->
-        val color = segment.main.getColor(state.state)
-        val options = FillAndBorder(color.toRender(), state.config.line)
-        val segmentLength = segment.calculateLength(scroll.rollLength)
-        val segmentDiameter = segment.calculateDiameter(scroll.rollDiameter)
-        val segmentSize = Size2d(segmentDiameter, segmentLength)
-        val half = segmentLength / 2
-
-        val centerTop = startTop.minusHeight(half)
-        val centerBottom = startBottom.addHeight(half)
-
-        val aabbTop = AABB.fromCenter(centerTop, segmentSize)
-        val aabbBottom = AABB.fromCenter(centerBottom, segmentSize)
-
-        visualizeSegment(renderer, options, aabbTop, true, segment)
-        visualizeSegment(renderer, options, aabbBottom, false, segment)
-
-        startTop = startTop.minusHeight(segmentLength)
-        startBottom = startBottom.addHeight(segmentLength)
-    }
+    visualizeSegments(state, handle, startTop, true, scroll.rollLength, scroll.rollDiameter)
+    visualizeSegments(state, handle, startBottom, false, scroll.rollLength, scroll.rollDiameter)
 }
 
 
