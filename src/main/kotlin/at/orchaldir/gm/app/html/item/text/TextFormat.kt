@@ -3,12 +3,7 @@ package at.orchaldir.gm.app.html.item.text
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.html.util.part.editColorItemPart
-import at.orchaldir.gm.app.html.util.part.editFillItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillItemPart
-import at.orchaldir.gm.app.html.util.part.showColorItemPart
-import at.orchaldir.gm.app.html.util.part.showFillItemPart
+import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -18,11 +13,6 @@ import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillItemPart
-import at.orchaldir.gm.core.model.util.part.MAX_SEGMENT_DISTANCE
-import at.orchaldir.gm.core.model.util.part.MIN_SEGMENT_DISTANCE
-import at.orchaldir.gm.core.model.util.part.Segment
-import at.orchaldir.gm.core.model.util.part.SegmentShape
-import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -178,19 +168,6 @@ private fun HtmlBlockTag.showScrollFormat(
         is ScrollWithOneRod -> showSegments(call, state, format.handle)
         is ScrollWithTwoRods -> showSegments(call, state, format.handle)
         ScrollWithoutRod -> doNothing()
-    }
-}
-
-fun HtmlBlockTag.showSegments(
-    call: ApplicationCall,
-    state: State,
-    segments: Segments,
-) {
-    fieldList("Handle Segments", segments.segments) { segment ->
-        fieldDistance("Length", segment.length)
-        fieldDistance("Diameter", segment.diameter)
-        showColorItemPart(call, state, segment.main)
-        field("Shape", segment.shape)
     }
 }
 
@@ -404,40 +381,6 @@ private fun HtmlBlockTag.editScrollFormat(
     }
 }
 
-fun HtmlBlockTag.editSegments(
-    state: State,
-    handle: Segments,
-) {
-    editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
-        editSegment(state, segment, segmentParam)
-    }
-}
-
-private fun HtmlBlockTag.editSegment(
-    state: State,
-    segment: Segment,
-    param: String,
-) {
-    selectDistance(
-        "Length",
-        combine(param, LENGTH),
-        segment.length,
-        MIN_SEGMENT_DISTANCE,
-        MAX_SEGMENT_DISTANCE,
-        prefix,
-    )
-    selectDistance(
-        "Diameter",
-        combine(param, DIAMETER),
-        segment.diameter,
-        MIN_SEGMENT_DISTANCE,
-        MAX_SEGMENT_DISTANCE,
-        prefix,
-    )
-    editColorItemPart(state, segment.main, param)
-    selectValue("Shape", combine(param, SHAPE), SegmentShape.entries, segment.shape)
-}
-
 // parse
 
 fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
@@ -544,19 +487,3 @@ private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, 
     ScrollFormatType.OneRod -> ScrollWithOneRod(parseSegments(parameters))
     ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseSegments(parameters))
 }
-
-fun parseSegments(parameters: Parameters) = Segments(
-    parseList(parameters, HANDLE, 1) { _, param ->
-        parseSegment(parameters, param)
-    }
-)
-
-private fun parseSegment(
-    parameters: Parameters,
-    param: String,
-) = Segment(
-    parseDistance(parameters, combine(param, LENGTH), prefix, 40),
-    parseDistance(parameters, combine(param, DIAMETER), prefix, 15),
-    parseColorItemPart(parameters, param),
-    parse(parameters, combine(param, SHAPE), SegmentShape.Cylinder),
-)
