@@ -5,12 +5,12 @@ import at.orchaldir.gm.app.ORNAMENT
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.*
 import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State

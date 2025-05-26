@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.selector.item.getAuthorName
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
+import at.orchaldir.gm.visualization.RenderState
 
 data class ResolvedTextData(
     val title: String = "Title",
@@ -22,7 +23,11 @@ data class TextRenderState(
     val config: TextRenderConfig,
     val renderer: MultiLayerRenderer,
     val data: ResolvedTextData = ResolvedTextData(),
-) {
+) : RenderState {
+
+    override fun state() = state
+    override fun renderer() = renderer
+    override fun lineOptions() = config.line
 
     fun calculateMargin(style: ContentStyle) = aabb.convertMinSide(style.margin)
 

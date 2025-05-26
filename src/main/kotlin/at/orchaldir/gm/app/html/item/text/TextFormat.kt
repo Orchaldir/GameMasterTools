@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html.item.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.item.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -165,22 +166,9 @@ private fun HtmlBlockTag.showScrollFormat(
     field("Scroll Format", format.getType())
 
     when (format) {
-        is ScrollWithOneRod -> showScrollHandle(call, state, format.handle)
-        is ScrollWithTwoRods -> showScrollHandle(call, state, format.handle)
+        is ScrollWithOneRod -> showSegments(call, state, format.handle)
+        is ScrollWithTwoRods -> showSegments(call, state, format.handle)
         ScrollWithoutRod -> doNothing()
-    }
-}
-
-private fun HtmlBlockTag.showScrollHandle(
-    call: ApplicationCall,
-    state: State,
-    handle: ScrollHandle,
-) {
-    fieldList("Handle Segments", handle.segments) { segment ->
-        fieldDistance("Length", segment.length)
-        fieldDistance("Diameter", segment.diameter)
-        showColorItemPart(call, state, segment.main)
-        field("Shape", segment.shape)
     }
 }
 
@@ -388,37 +376,24 @@ private fun HtmlBlockTag.editScrollFormat(
     selectValue("Scroll Format", SCROLL, ScrollFormatType.entries, format.getType())
 
     when (format) {
-        is ScrollWithOneRod -> editScrollHandle(state, format.handle)
-        is ScrollWithTwoRods -> editScrollHandle(state, format.handle)
+        is ScrollWithOneRod -> editScrollSegments(state, format.handle)
+        is ScrollWithTwoRods -> editScrollSegments(state, format.handle)
         ScrollWithoutRod -> doNothing()
     }
 }
 
-private fun HtmlBlockTag.editScrollHandle(
+private fun HtmlBlockTag.editScrollSegments(
     state: State,
-    handle: ScrollHandle,
-) {
-    editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
-        selectDistance(
-            "Length",
-            combine(segmentParam, LENGTH),
-            segment.length,
-            MIN_SEGMENT_DISTANCE,
-            MAX_SEGMENT_DISTANCE,
-            prefix,
-        )
-        selectDistance(
-            "Diameter",
-            combine(segmentParam, DIAMETER),
-            segment.diameter,
-            MIN_SEGMENT_DISTANCE,
-            MAX_SEGMENT_DISTANCE,
-            prefix,
-        )
-        editColorItemPart(state, segment.main, segmentParam)
-        selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape)
-    }
-}
+    segments: Segments,
+) = editSegments(
+    state,
+    segments,
+    HANDLE,
+    MIN_SEGMENT_DISTANCE,
+    MAX_SEGMENT_DISTANCE,
+    MIN_SEGMENT_DISTANCE,
+    MAX_SEGMENT_DISTANCE,
+)
 
 // parse
 
@@ -523,19 +498,6 @@ private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, 
 
 private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, SCROLL, ScrollFormatType.NoRod)) {
     ScrollFormatType.NoRod -> ScrollWithoutRod
-    ScrollFormatType.OneRod -> ScrollWithOneRod(parseScrollHandle(parameters))
-    ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseScrollHandle(parameters))
-}
-
-private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
-    parseHandleSegments(parameters),
-)
-
-private fun parseHandleSegments(parameters: Parameters) = parseList(parameters, HANDLE, 1) { _, param ->
-    HandleSegment(
-        parseDistance(parameters, combine(param, LENGTH), prefix, 40),
-        parseDistance(parameters, combine(param, DIAMETER), prefix, 15),
-        parseColorItemPart(parameters, param),
-        parse(parameters, combine(param, SHAPE), HandleSegmentShape.Cylinder),
-    )
+    ScrollFormatType.OneRod -> ScrollWithOneRod(parseSegments(parameters, HANDLE))
+    ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseSegments(parameters, HANDLE))
 }

@@ -87,7 +87,15 @@ data class VerticalStripesLookup(
     val color0: ColorLookup,
     val color1: ColorLookup,
     val width: Distance = ONE_DM,
-) : FillLookup()
+) : FillLookup() {
+
+    constructor(
+        color0: Color,
+        color1: Color,
+        width: Distance = ONE_DM,
+    ) : this(FixedColor(color0), FixedColor(color1), width)
+
+}
 
 @Serializable
 @SerialName("HorizontalStripes")

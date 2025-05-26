@@ -78,3 +78,9 @@ fun formatAsFactor(permyriad: Int): String {
         String.format("%d.%01d%%", percentageOnly, permilleOnly)
     }
 }
+
+fun maxOf(distances: Collection<Factor>) = distances.maxBy { it.toPermyriad() }
+
+fun sumOf(distances: Collection<Factor>) = distances.fold(ZERO) { sum, distance ->
+    sum + distance
+}

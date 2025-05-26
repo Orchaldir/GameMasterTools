@@ -13,11 +13,11 @@ import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.content.*
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.font.SolidFont
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -202,7 +202,7 @@ class TextTest {
 
             @Test
             fun `Too few scroll handle segments`() {
-                val format = ScrollWithOneRod(ScrollHandle(emptyList()))
+                val format = ScrollWithOneRod(Segments(emptyList()))
                 val action = UpdateText(Text(TEXT_ID_0, format = Scroll(format)))
 
                 assertIllegalArgument("A scroll handle needs at least 1 segment!") { REDUCER.invoke(STATE, action) }

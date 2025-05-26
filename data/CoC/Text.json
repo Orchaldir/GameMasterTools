@@ -23,16 +23,16 @@
      "handle": {
       "segments": [
        {
-        "length": 30000,
-        "diameter": 10000,
+        "length": 1500,
+        "diameter": 2000,
         "main": {
          "material": 5,
          "color": "Gold"
         }
        },
        {
-        "length": 10000,
-        "diameter": 30000,
+        "length": 500,
+        "diameter": 6000,
         "main": {
          "material": 5,
          "color": "Gold"

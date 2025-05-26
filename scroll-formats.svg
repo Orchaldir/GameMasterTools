@@ -1,0 +1,136 @@
+<svg viewBox="0 0 0.800 1.200" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.0000" y="0.0000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.0750" y="0.1000" width="0.0500" height="0.2000" style="fill:blue;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2000" y="0.0000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2750" y="0.1000" width="0.0500" height="0.2000" style="fill:red;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4000" y="0.0000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4750" y="0.1000" width="0.0500" height="0.2000" style="fill:black;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6000" y="0.0000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6750" y="0.1000" width="0.0500" height="0.2000" style="fill:green;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.0000" y="0.4000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.0750" y="0.5000" width="0.0500" height="0.2000" style="fill:blue;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.0925" y="0.4600" width="0.0150" height="0.0400"
+          style="fill:saddlebrown;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.0925" y="0.7000" width="0.0150" height="0.0400"
+          style="fill:saddlebrown;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2000" y="0.4000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2750" y="0.5000" width="0.0500" height="0.2000" style="fill:red;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2925" y="0.4600" width="0.0150" height="0.0400"
+          style="fill:saddlebrown;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2925" y="0.7000" width="0.0150" height="0.0400"
+          style="fill:saddlebrown;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4000" y="0.4000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4750" y="0.5000" width="0.0500" height="0.2000" style="fill:black;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4925" y="0.4600" width="0.0150" height="0.0400"
+          style="fill:saddlebrown;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4925" y="0.7000" width="0.0150" height="0.0400"
+          style="fill:saddlebrown;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6000" y="0.4000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6750" y="0.5000" width="0.0500" height="0.2000" style="fill:green;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6925" y="0.4600" width="0.0150" height="0.0400"
+          style="fill:saddlebrown;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6925" y="0.7000" width="0.0150" height="0.0400"
+          style="fill:saddlebrown;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.0000" y="0.8000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.0500" y="0.9000" width="0.0500" height="0.2000" style="fill:blue;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.0675" y="0.8600" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.0750 0.8400 Q 0.0950 0.8400 0.0950 0.8500 Q 0.0950 0.8600 0.0750 0.8600 Q 0.0550 0.8600 0.0550 0.8500 Q 0.0550 0.8400 0.0750 0.8400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.0675" y="1.1000" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.0750 1.1400 Q 0.0950 1.1400 0.0950 1.1500 Q 0.0950 1.1600 0.0750 1.1600 Q 0.0550 1.1600 0.0550 1.1500 Q 0.0550 1.1400 0.0750 1.1400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.1000" y="0.9000" width="0.0500" height="0.2000" style="fill:blue;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.1175" y="0.8600" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.1250 0.8400 Q 0.1450 0.8400 0.1450 0.8500 Q 0.1450 0.8600 0.1250 0.8600 Q 0.1050 0.8600 0.1050 0.8500 Q 0.1050 0.8400 0.1250 0.8400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.1175" y="1.1000" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.1250 1.1400 Q 0.1450 1.1400 0.1450 1.1500 Q 0.1450 1.1600 0.1250 1.1600 Q 0.1050 1.1600 0.1050 1.1500 Q 0.1050 1.1400 0.1250 1.1400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2000" y="0.8000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2500" y="0.9000" width="0.0500" height="0.2000" style="fill:red;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2675" y="0.8600" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.2750 0.8400 Q 0.2950 0.8400 0.2950 0.8500 Q 0.2950 0.8600 0.2750 0.8600 Q 0.2550 0.8600 0.2550 0.8500 Q 0.2550 0.8400 0.2750 0.8400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.2675" y="1.1000" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.2750 1.1400 Q 0.2950 1.1400 0.2950 1.1500 Q 0.2950 1.1600 0.2750 1.1600 Q 0.2550 1.1600 0.2550 1.1500 Q 0.2550 1.1400 0.2750 1.1400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.3000" y="0.9000" width="0.0500" height="0.2000" style="fill:red;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.3175" y="0.8600" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.3250 0.8400 Q 0.3450 0.8400 0.3450 0.8500 Q 0.3450 0.8600 0.3250 0.8600 Q 0.3050 0.8600 0.3050 0.8500 Q 0.3050 0.8400 0.3250 0.8400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.3175" y="1.1000" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.3250 1.1400 Q 0.3450 1.1400 0.3450 1.1500 Q 0.3450 1.1600 0.3250 1.1600 Q 0.3050 1.1600 0.3050 1.1500 Q 0.3050 1.1400 0.3250 1.1400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4000" y="0.8000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4500" y="0.9000" width="0.0500" height="0.2000" style="fill:black;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4675" y="0.8600" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.4750 0.8400 Q 0.4950 0.8400 0.4950 0.8500 Q 0.4950 0.8600 0.4750 0.8600 Q 0.4550 0.8600 0.4550 0.8500 Q 0.4550 0.8400 0.4750 0.8400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.4675" y="1.1000" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.4750 1.1400 Q 0.4950 1.1400 0.4950 1.1500 Q 0.4950 1.1600 0.4750 1.1600 Q 0.4550 1.1600 0.4550 1.1500 Q 0.4550 1.1400 0.4750 1.1400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.5000" y="0.9000" width="0.0500" height="0.2000" style="fill:black;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.5175" y="0.8600" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.5250 0.8400 Q 0.5450 0.8400 0.5450 0.8500 Q 0.5450 0.8600 0.5250 0.8600 Q 0.5050 0.8600 0.5050 0.8500 Q 0.5050 0.8400 0.5250 0.8400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.5175" y="1.1000" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.5250 1.1400 Q 0.5450 1.1400 0.5450 1.1500 Q 0.5450 1.1600 0.5250 1.1600 Q 0.5050 1.1600 0.5050 1.1500 Q 0.5050 1.1400 0.5250 1.1400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6000" y="0.8000" width="0.2000" height="0.4000" style="fill:none;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6500" y="0.9000" width="0.0500" height="0.2000" style="fill:green;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6675" y="0.8600" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.6750 0.8400 Q 0.6950 0.8400 0.6950 0.8500 Q 0.6950 0.8600 0.6750 0.8600 Q 0.6550 0.8600 0.6550 0.8500 Q 0.6550 0.8400 0.6750 0.8400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.6675" y="1.1000" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.6750 1.1400 Q 0.6950 1.1400 0.6950 1.1500 Q 0.6950 1.1600 0.6750 1.1600 Q 0.6550 1.1600 0.6550 1.1500 Q 0.6550 1.1400 0.6750 1.1400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.7000" y="0.9000" width="0.0500" height="0.2000" style="fill:green;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.7175" y="0.8600" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.7250 0.8400 Q 0.7450 0.8400 0.7450 0.8500 Q 0.7450 0.8600 0.7250 0.8600 Q 0.7050 0.8600 0.7050 0.8500 Q 0.7050 0.8400 0.7250 0.8400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <rect x="0.7175" y="1.1000" width="0.0150" height="0.0400" style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <path d="M 0.7250 1.1400 Q 0.7450 1.1400 0.7450 1.1500 Q 0.7450 1.1600 0.7250 1.1600 Q 0.7050 1.1600 0.7050 1.1500 Q 0.7050 1.1400 0.7250 1.1400"
+          style="fill:gold;stroke:black;stroke-width:0.0010"/>
+    <text x="0.2000" y="0.0100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">
+        Blue
+    </text>
+    <text x="0.4000" y="0.0100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">Red
+    </text>
+    <text x="0.6000" y="0.0100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">
+        Black
+    </text>
+    <text x="0.8000" y="0.0100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">
+        Green
+    </text>
+    <text x="0.0100" y="0.2000" alignment-baseline="middle" transform="rotate(270.000,0.010,0.200)"
+          style="fill:black;font-size:0.020px" text-anchor="middle">NoRod
+    </text>
+    <text x="0.2000" y="0.4100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">
+        Blue
+    </text>
+    <text x="0.4000" y="0.4100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">Red
+    </text>
+    <text x="0.6000" y="0.4100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">
+        Black
+    </text>
+    <text x="0.8000" y="0.4100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">
+        Green
+    </text>
+    <text x="0.0100" y="0.6000" alignment-baseline="middle" transform="rotate(270.000,0.010,0.600)"
+          style="fill:black;font-size:0.020px" text-anchor="middle">OneRod
+    </text>
+    <text x="0.2000" y="0.8100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">
+        Blue
+    </text>
+    <text x="0.4000" y="0.8100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">Red
+    </text>
+    <text x="0.6000" y="0.8100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">
+        Black
+    </text>
+    <text x="0.8000" y="0.8100" alignment-baseline="middle" style="fill:black;font-size:0.020px" text-anchor="end">
+        Green
+    </text>
+    <text x="0.0100" y="1.0000" alignment-baseline="middle" transform="rotate(270.000,0.010,1.000)"
+          style="fill:black;font-size:0.020px" text-anchor="middle">TwoRods
+    </text>
+</svg>

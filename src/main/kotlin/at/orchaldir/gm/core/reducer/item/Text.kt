@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.font.FontOption
+import at.orchaldir.gm.core.model.util.part.Segment
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
@@ -132,16 +134,16 @@ private fun checkScrollFormat(format: ScrollFormat) {
     }
 }
 
-private fun checkScrollHandle(handle: ScrollHandle) {
+private fun checkScrollHandle(handle: Segments) {
     require(handle.segments.isNotEmpty()) { "A scroll handle needs at least 1 segment!" }
     handle.segments.withIndex().forEach {
         checkHandleSegment(it.value, it.index + 1)
     }
 }
 
-private fun checkHandleSegment(segment: HandleSegment, number: Int) {
-    checkDistance(segment.length, "$number.segment's length", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
-    checkDistance(segment.diameter, "$number.segment's diameter", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
+private fun checkHandleSegment(segment: Segment, number: Int) {
+    checkFactor(segment.length, "$number.segment's length", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
+    checkFactor(segment.diameter, "$number.segment's diameter", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
 }
 
 private fun checkTextContent(
