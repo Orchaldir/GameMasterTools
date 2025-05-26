@@ -23,6 +23,7 @@ import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.visualizeCircularShape
 import at.orchaldir.gm.visualization.visualizeComplexShape
 import at.orchaldir.gm.visualization.visualizeHoledComplexShape
+import at.orchaldir.gm.visualization.visualizeSegments
 
 data class PolearmConfig(
     val length: Factor,
@@ -50,6 +51,26 @@ fun visualizePolearm(
     val shaftAabb = AABB.fromWidthAndHeight(center, width, length)
 
     visualizePolearmShaft(state, renderer, shaftAabb, polearm)
+    visualizePolearmHead(state, renderer, shaftAabb, polearm)
+}
+
+private fun visualizePolearmHead(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    aabb: AABB,
+    polearm: Polearm,
+) {
+    when (polearm.head) {
+        NoPolearmHead, RoundedPolearmHead, SharpenedPolearmHead -> doNothing()
+        is PolearmHeadWithSegments -> doNothing() /*visualizeSegments(
+            state,
+            polearm.head.segments,
+            aabb.getPoint(CENTER, START),
+            true,
+            aabb.size.height,
+            aabb.size.width,
+        )*/
+    }
 }
 
 private fun visualizePolearmShaft(
@@ -76,14 +97,14 @@ private fun createSimpleShaftPolygon(
     val builder = Polygon2dBuilder()
 
     when (head) {
-        NoPolearmHead -> builder.addMirroredPoints(aabb, FULL, START, true)
+        NoPolearmHead, is PolearmHeadWithSegments -> builder
+            .addMirroredPoints(aabb, FULL, START, true)
         RoundedPolearmHead -> builder
             .addMirroredPoints(aabb, FULL, START)
             .addMirroredPoints(aabb, FULL, Factor.fromPercentage(10))
         SharpenedPolearmHead -> builder
             .addLeftPoint(aabb, CENTER, START, true)
             .addMirroredPoints(aabb, FULL, Factor.fromPercentage(10), true)
-        is PolearmHeadWithSegments -> doNothing()
     }
 
     return builder
