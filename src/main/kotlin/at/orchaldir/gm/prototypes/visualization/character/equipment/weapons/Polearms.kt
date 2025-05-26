@@ -8,14 +8,19 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.NoPolearmHead
+import at.orchaldir.gm.core.model.item.equipment.style.PolearmHeadWithSegments
 import at.orchaldir.gm.core.model.item.equipment.style.RoundedPolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.SharpenedPolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShaft
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.Segment
+import at.orchaldir.gm.core.model.util.part.SegmentShape
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
@@ -23,6 +28,17 @@ fun main() {
         Pair("None", NoPolearmHead),
         Pair("Rounded", RoundedPolearmHead),
         Pair("Sharpened", SharpenedPolearmHead),
+        Pair(
+            "Segments", PolearmHeadWithSegments(
+                Segments(
+                    Segment(
+                        fromPercentage(10),
+                        fromPercentage(100),
+                        shape = SegmentShape.Sphere,
+                    )
+                )
+            )
+        ),
     )
     val stripes = HorizontalStripesLookup(Color.Red, Color.Gold)
     val shafts = listOf(
