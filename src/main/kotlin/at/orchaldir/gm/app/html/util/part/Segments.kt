@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.part.*
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -43,10 +44,22 @@ fun HtmlBlockTag.editSegments(
     state: State,
     segments: Segments,
     param: String,
+    minSegmentLength: Factor,
+    maxSegmentLength: Factor,
+    minSegmentDiameter: Factor,
+    maxSegmentDiameter: Factor,
     label: String = "Segments",
 ) {
     editList(label, param, segments.segments, 1, 20, 1) { _, segmentParam, segment ->
-        editSegment(state, segment, segmentParam)
+        editSegment(
+            state,
+            segment,
+            segmentParam,
+            minSegmentLength,
+            maxSegmentLength,
+            minSegmentDiameter,
+            maxSegmentDiameter,
+        )
     }
 }
 
@@ -54,20 +67,24 @@ private fun HtmlBlockTag.editSegment(
     state: State,
     segment: Segment,
     param: String,
+    minSegmentLength: Factor,
+    maxSegmentLength: Factor,
+    minSegmentDiameter: Factor,
+    maxSegmentDiameter: Factor,
 ) {
     selectFactor(
         "Length",
         combine(param, LENGTH),
         segment.length,
-        MIN_SEGMENT_DISTANCE,
-        MAX_SEGMENT_DISTANCE,
+        minSegmentLength,
+        maxSegmentLength,
     )
     selectFactor(
         "Diameter",
         combine(param, DIAMETER),
         segment.diameter,
-        MIN_SEGMENT_DISTANCE,
-        MAX_SEGMENT_DISTANCE,
+        minSegmentDiameter,
+        maxSegmentDiameter,
     )
     editColorItemPart(state, segment.main, param)
     selectValue("Shape", combine(param, SHAPE), SegmentShape.entries, segment.shape)

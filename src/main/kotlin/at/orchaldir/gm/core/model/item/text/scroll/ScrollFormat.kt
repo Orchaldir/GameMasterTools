@@ -2,9 +2,13 @@ package at.orchaldir.gm.core.model.item.text.scroll
 
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.part.Segments
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+val MIN_SEGMENT_DISTANCE = Factor.fromPercentage(1)
+val MAX_SEGMENT_DISTANCE = Factor.fromPercentage(200)
 
 enum class ScrollFormatType {
     NoRod,

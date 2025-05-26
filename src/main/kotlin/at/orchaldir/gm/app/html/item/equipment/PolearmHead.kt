@@ -10,6 +10,10 @@ import at.orchaldir.gm.app.html.util.part.showSegments
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.style.MAX_SEGMENT_DIAMETER
+import at.orchaldir.gm.core.model.item.equipment.style.MAX_SEGMENT_LENGTH
+import at.orchaldir.gm.core.model.item.equipment.style.MIN_SEGMENT_DIAMETER
+import at.orchaldir.gm.core.model.item.equipment.style.MIN_SEGMENT_LENGTH
 import at.orchaldir.gm.core.model.item.equipment.style.NoPolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.PolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.PolearmHeadType
@@ -17,6 +21,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.PolearmHeadWithSegments
 import at.orchaldir.gm.core.model.item.equipment.style.RoundedPolearmHead
 import at.orchaldir.gm.core.model.item.equipment.style.SharpenedPolearmHead
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -57,7 +62,15 @@ fun FORM.editPolearmHead(
             NoPolearmHead -> doNothing()
             RoundedPolearmHead -> doNothing()
             SharpenedPolearmHead -> doNothing()
-            is PolearmHeadWithSegments -> editSegments(state, head.segments, combine(param, SEGMENT))
+            is PolearmHeadWithSegments -> editSegments(
+                state,
+                head.segments,
+                combine(param, SEGMENT),
+                MIN_SEGMENT_LENGTH,
+                MAX_SEGMENT_LENGTH,
+                MIN_SEGMENT_DIAMETER,
+                MAX_SEGMENT_DIAMETER,
+            )
         }
     }
 }

@@ -9,8 +9,6 @@ import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.font.FontOption
-import at.orchaldir.gm.core.model.util.part.MAX_SEGMENT_DISTANCE
-import at.orchaldir.gm.core.model.util.part.MIN_SEGMENT_DISTANCE
 import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.reducer.util.checkDate

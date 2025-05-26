@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -375,11 +376,24 @@ private fun HtmlBlockTag.editScrollFormat(
     selectValue("Scroll Format", SCROLL, ScrollFormatType.entries, format.getType())
 
     when (format) {
-        is ScrollWithOneRod -> editSegments(state, format.handle, HANDLE)
-        is ScrollWithTwoRods -> editSegments(state, format.handle, HANDLE)
+        is ScrollWithOneRod -> editScrollSegments(state, format.handle)
+        is ScrollWithTwoRods -> editScrollSegments(state, format.handle)
         ScrollWithoutRod -> doNothing()
     }
 }
+
+private fun HtmlBlockTag.editScrollSegments(
+    state: State,
+    segments: Segments,
+) = editSegments(
+    state,
+    segments,
+    HANDLE,
+    MIN_SEGMENT_DISTANCE,
+    MAX_SEGMENT_DISTANCE,
+    MIN_SEGMENT_DISTANCE,
+    MAX_SEGMENT_DISTANCE,
+)
 
 // parse
 
