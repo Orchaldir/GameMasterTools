@@ -12,19 +12,25 @@ import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 
-fun visualizeSegments(
+fun visualizeSegment(
     renderer: LayerRenderer,
     options: FillAndBorder,
     aabb: AABB,
+    isUp: Boolean,
     segment: Segment,
 ) = when (segment.shape) {
     SegmentShape.Cone -> {
-        val polygon = Polygon2dBuilder()
-            .addMirroredPoints(aabb, FULL, END)
-            .addLeftPoint(aabb, CENTER, START)
-            .build()
+        val builder = Polygon2dBuilder()
 
-        renderer.renderPolygon(polygon, options)
+        if (isUp) {
+            builder.addMirroredPoints(aabb, FULL, END)
+                .addLeftPoint(aabb, CENTER, START)
+        } else {
+            builder.addMirroredPoints(aabb, FULL, START)
+                .addLeftPoint(aabb, CENTER, END)
+        }
+
+        renderer.renderPolygon(builder.build(), options)
     }
 
     SegmentShape.Cylinder -> renderer.renderRectangle(aabb, options)

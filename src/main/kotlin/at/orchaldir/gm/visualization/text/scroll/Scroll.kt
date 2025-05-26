@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
-import at.orchaldir.gm.visualization.visualizeSegments
+import at.orchaldir.gm.visualization.visualizeSegment
 
 fun visualizeScroll(
     state: TextRenderState,
@@ -118,8 +118,8 @@ private fun visualizeRod(
         val aabbTop = AABB.fromCenter(centerTop, segmentSize)
         val aabbBottom = AABB.fromCenter(centerBottom, segmentSize)
 
-        visualizeSegments(renderer, options, aabbTop, segment)
-        visualizeSegments(renderer, options, aabbBottom, segment)
+        visualizeSegment(renderer, options, aabbTop, true, segment)
+        visualizeSegment(renderer, options, aabbBottom, false, segment)
 
         startTop = startTop.minusHeight(segmentLength)
         startBottom = startBottom.addHeight(segmentLength)
