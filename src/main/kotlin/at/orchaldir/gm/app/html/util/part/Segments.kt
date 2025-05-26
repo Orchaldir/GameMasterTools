@@ -1,9 +1,7 @@
 package at.orchaldir.gm.app.html.util.part
 
 import at.orchaldir.gm.app.DIAMETER
-import at.orchaldir.gm.app.HANDLE
 import at.orchaldir.gm.app.LENGTH
-import at.orchaldir.gm.app.SEGMENT
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.fieldFactor
@@ -12,7 +10,9 @@ import at.orchaldir.gm.app.html.util.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.part.*
+import at.orchaldir.gm.core.model.util.part.Segment
+import at.orchaldir.gm.core.model.util.part.SegmentShape
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*

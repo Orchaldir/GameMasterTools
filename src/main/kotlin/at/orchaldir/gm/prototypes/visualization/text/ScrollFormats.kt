@@ -3,10 +3,13 @@ package at.orchaldir.gm.prototypes.visualization.text
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.text.Scroll
-import at.orchaldir.gm.core.model.item.text.scroll.*
-import at.orchaldir.gm.core.model.util.part.SegmentShape.RoundedCylinder
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormatType
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.Segment
+import at.orchaldir.gm.core.model.util.part.SegmentShape.RoundedCylinder
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames

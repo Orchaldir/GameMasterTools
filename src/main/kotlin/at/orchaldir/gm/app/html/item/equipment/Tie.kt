@@ -5,10 +5,10 @@ import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
-import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Tie

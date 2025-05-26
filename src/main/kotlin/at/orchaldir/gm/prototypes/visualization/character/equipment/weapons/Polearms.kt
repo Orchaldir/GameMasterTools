@@ -7,11 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Polearm
-import at.orchaldir.gm.core.model.item.equipment.style.NoPolearmHead
-import at.orchaldir.gm.core.model.item.equipment.style.PolearmHeadWithSegments
-import at.orchaldir.gm.core.model.item.equipment.style.RoundedPolearmHead
-import at.orchaldir.gm.core.model.item.equipment.style.SharpenedPolearmHead
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleShaft
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.SegmentShape

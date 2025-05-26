@@ -30,6 +30,7 @@ enum class EquipmentSlot {
             setOf(BodySlot.LeftEye),
             setOf(BodySlot.RightEye),
         )
+
         EyesSlot -> setOf(setOf(BodySlot.LeftEye, BodySlot.RightEye))
         FootSlot -> setOf(setOf(BodySlot.Foot))
         FootUnderwearSlot -> setOf(setOf(BodySlot.FootUnderwear))
@@ -39,12 +40,14 @@ enum class EquipmentSlot {
             setOf(BodySlot.HeldInLeftHand),
             setOf(BodySlot.HeldInLeftHand),
         )
+
         HeldInTwoHandsSlot -> setOf(setOf(BodySlot.HeldInLeftHand, BodySlot.HeldInLeftHand))
         HeldInOneOrTwoHandsSlot -> setOf(
             setOf(BodySlot.HeldInLeftHand),
             setOf(BodySlot.HeldInLeftHand),
             setOf(BodySlot.HeldInLeftHand, BodySlot.HeldInLeftHand),
         )
+
         InnerTopSlot -> setOf(setOf(BodySlot.InnerTop))
         NeckSlot -> setOf(setOf(BodySlot.Neck))
         OuterSlot -> setOf(setOf(BodySlot.Outer))

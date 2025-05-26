@@ -1,12 +1,13 @@
 package at.orchaldir.gm.visualization.text.scroll
 
 import at.orchaldir.gm.core.model.item.text.Scroll
-import at.orchaldir.gm.core.model.item.text.scroll.*
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
-import at.orchaldir.gm.visualization.visualizeSegment
 import at.orchaldir.gm.visualization.visualizeSegments
 
 fun visualizeScroll(

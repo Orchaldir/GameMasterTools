@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.util.part
 
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 

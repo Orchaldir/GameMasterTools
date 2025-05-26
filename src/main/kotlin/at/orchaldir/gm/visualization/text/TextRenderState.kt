@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.selector.item.getAuthorName
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
-import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.RenderState
 
 data class ResolvedTextData(

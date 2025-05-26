@@ -87,9 +87,11 @@ private fun createSimpleShaftPolygon(
     when (head) {
         NoPolearmHead, is PolearmHeadWithSegments -> builder
             .addMirroredPoints(aabb, FULL, START, true)
+
         RoundedPolearmHead -> builder
             .addMirroredPoints(aabb, FULL, START)
             .addMirroredPoints(aabb, FULL, Factor.fromPercentage(10))
+
         SharpenedPolearmHead -> builder
             .addLeftPoint(aabb, CENTER, START, true)
             .addMirroredPoints(aabb, FULL, Factor.fromPercentage(10), true)
