@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.editFillLookupItemPart
-import at.orchaldir.gm.app.html.item.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.item.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
 import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape

@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.BORDER
 import at.orchaldir.gm.app.BOSS
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.item.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.item.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
 import at.orchaldir.gm.app.html.math.parseCircularShape
 import at.orchaldir.gm.app.html.math.selectCircularShape
 import at.orchaldir.gm.app.html.math.showCircularShape

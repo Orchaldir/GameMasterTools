@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.item
+package at.orchaldir.gm.app.html.util.part
 
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.FILL

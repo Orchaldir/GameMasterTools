@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.html.item.equipment
 import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.SHAFT
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.editFillLookupItemPart
-import at.orchaldir.gm.app.html.item.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.item.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
