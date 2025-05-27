@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
-import at.orchaldir.gm.utils.isEven
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -10,7 +9,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
-import at.orchaldir.gm.visualization.utils.visualizeRowOfShapes
+import at.orchaldir.gm.visualization.utils.visualizeRowsOfShapes
 import kotlin.math.ceil
 
 fun visualizeScaleArmour(
@@ -44,26 +43,8 @@ private fun visualizeScaleArmourBody(
     val rows = (height.toMeters() / step.toMeters()).toInt()
     val maxColumns = ceil(maxWidth.toMeters() / scaleWidth.toMeters()).toInt()
     val columns = maxColumns + 2
-    var rowCenter = start.addHeight(step * rows)
 
-    repeat(rows + 1) { index ->
-        val rowOffset = if (index.isEven()) {
-            0
-        } else {
-            1
-        }
-
-        visualizeRowOfShapes(
-            renderer,
-            options,
-            rowCenter,
-            armour.shape,
-            scaleSize,
-            columns + rowOffset,
-        )
-
-        rowCenter = rowCenter.minusHeight(step)
-    }
+    visualizeRowsOfShapes(renderer, options, armour.shape, scaleSize, start, step, rows, columns)
 }
 
 private fun calculateScaleWidth(
