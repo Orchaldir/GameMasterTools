@@ -37,15 +37,21 @@ private fun visualizeScaleArmourBody(
     val hipWidth = torso.convertWidth(hipWidthFactor)
     val scaleWidth = hipWidth / armour.columns
     val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
-    val bottomY = getOuterwearBottomY(state, body, armour.length)
-    val rowCenter = torso.getPoint(CENTER, END)
+    var rowCenter = torso.getPoint(CENTER, START).addHeight(scaleSize.height / 2)
+    val bottomFactor = getOuterwearBottomY(state, body, armour.length)
+    val bottom = torso.getPoint(CENTER, bottomFactor)
+    val step = scaleSize.height * (FULL - armour.overlap)
 
-    visualizeRowOfShapes(
-        renderer,
-        options,
-        rowCenter,
-        armour.shape,
-        scaleSize,
-        armour.columns,
-    )
+    while (rowCenter.y < bottom.y) {
+        visualizeRowOfShapes(
+            renderer,
+            options,
+            rowCenter,
+            armour.shape,
+            scaleSize,
+            armour.columns,
+        )
+
+        rowCenter = rowCenter.addHeight(step)
+    }
 }
