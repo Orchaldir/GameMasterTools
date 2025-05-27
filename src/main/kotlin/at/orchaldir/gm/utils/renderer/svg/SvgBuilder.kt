@@ -64,10 +64,10 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
 
     // clippings
 
-    override fun createClipping(polygon2d: Polygon2d): String {
+    override fun createClipping(polygon: Polygon2d): String {
         val name = CLIPPING_PREFIX + clippings.size
 
-        clippings.put(name, polygon2d)
+        clippings.put(name, polygon)
 
         return name
     }

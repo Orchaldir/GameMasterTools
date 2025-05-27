@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Coat
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -72,11 +73,22 @@ private fun visualizeCoatBody(
     layer: Int,
 ) {
     val paddedWidth = state.config.equipment.coat.getPaddedWidth()
-    val builder = createCoatBottom(state, body, coat.length, paddedWidth)
-    addTorso(state, body, builder, coat.necklineStyle.addTop(), paddedWidth)
+    val builder = createOuterwearBuilder(state, body, coat.length, coat.necklineStyle, paddedWidth)
     addNeckline(state, body, builder, coat.necklineStyle)
 
     renderBuilder(state.renderer, builder, options, layer)
+}
+
+fun createOuterwearBuilder(
+    state: CharacterRenderState,
+    body: Body,
+    length: OuterwearLength,
+    necklineStyle: NecklineStyle = NecklineStyle.None,
+    paddedWidth: Factor = FULL,
+): Polygon2dBuilder {
+    val builder = createCoatBottom(state, body, length, paddedWidth)
+    addTorso(state, body, builder, necklineStyle.addTop(), paddedWidth)
+    return builder
 }
 
 fun createCoatBottom(
