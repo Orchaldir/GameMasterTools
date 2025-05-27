@@ -3,12 +3,12 @@ package at.orchaldir.gm.visualization.character.appearance
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class EyesConfig(

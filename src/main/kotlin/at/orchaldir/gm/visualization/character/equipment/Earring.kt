@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.DropEarring
 import at.orchaldir.gm.core.model.item.equipment.style.HoopEarring
 import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
@@ -19,7 +20,6 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig

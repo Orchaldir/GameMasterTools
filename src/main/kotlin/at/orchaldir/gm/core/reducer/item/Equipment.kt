@@ -4,12 +4,7 @@ import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.MAX_SCALE_COLUMNS
-import at.orchaldir.gm.core.model.item.equipment.MAX_SCALE_OVERLAP
-import at.orchaldir.gm.core.model.item.equipment.MIN_SCALE_COLUMNS
-import at.orchaldir.gm.core.model.item.equipment.MIN_SCALE_OVERLAP
-import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.item.canDelete

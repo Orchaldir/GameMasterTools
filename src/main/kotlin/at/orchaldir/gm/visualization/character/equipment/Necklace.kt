@@ -3,8 +3,8 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.core.model.util.SizeConfig
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeJewelryLine

@@ -94,6 +94,7 @@ data class UsingRectangularShape(
 
     override fun calculateAabb(center: Point2d, radius: Distance) =
         AABB.fromRadii(center, shape.calculateWidth(radius, widthFactor), radius)
+
     override fun calculateSizeFromWidth(width: Distance) =
         Size2d(width, shape.calculateHeight(width, widthFactor))
 
