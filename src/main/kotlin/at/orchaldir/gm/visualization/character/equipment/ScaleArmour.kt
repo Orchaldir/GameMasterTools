@@ -25,7 +25,7 @@ fun visualizeScaleArmour(
         .build()
     val clippingName = state.renderer.createClipping(clipping)
     val color = armour.scale.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
 
     visualizeScaleArmourBody(state, options, body, armour)
 }
