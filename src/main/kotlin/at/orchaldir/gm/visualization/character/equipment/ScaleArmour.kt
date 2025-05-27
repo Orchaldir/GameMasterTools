@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
+import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -9,6 +10,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
+import at.orchaldir.gm.visualization.character.equipment.part.createSleeveAabbs
 import at.orchaldir.gm.visualization.utils.visualizeRowsOfShapes
 import kotlin.math.ceil
 
@@ -18,6 +20,7 @@ fun visualizeScaleArmour(
     armour: ScaleArmour,
 ) {
     visualizeScaleArmourBody(state, body, armour)
+    visualizeScaleArmourSleeves(state, body, armour)
 }
 
 private fun visualizeScaleArmourBody(
@@ -25,7 +28,7 @@ private fun visualizeScaleArmourBody(
     body: Body,
     armour: ScaleArmour,
 ) {
-    val clipping = createClippingPolygon(state, body)
+    val clipping = createClippingPolygonForBody(state, body)
     val clippingName = state.renderer.createClipping(clipping)
     val color = armour.scale.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
@@ -47,6 +50,17 @@ private fun visualizeScaleArmourBody(
     visualizeRowsOfShapes(renderer, options, armour.shape, scaleSize, start, step, rows, columns)
 }
 
+private fun visualizeScaleArmourSleeves(
+    state: CharacterRenderState,
+    body: Body,
+    armour: ScaleArmour,
+) {
+    if (armour.sleeveStyle == SleeveStyle.None) {
+        return
+    }
+    val (leftAabb, rightAabb) = createSleeveAabbs(state, body, armour.sleeveStyle)
+}
+
 private fun calculateScaleWidth(
     state: CharacterRenderState,
     body: Body,
@@ -59,7 +73,7 @@ private fun calculateScaleWidth(
     return hipWidth / armour.columns
 }
 
-private fun createClippingPolygon(
+private fun createClippingPolygonForBody(
     state: CharacterRenderState,
     body: Body,
 ): Polygon2d {
