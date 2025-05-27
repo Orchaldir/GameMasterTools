@@ -38,12 +38,12 @@ private fun visualizeScaleArmourBody(
     val scaleWidth = hipWidth / armour.columns
     val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
     val bottomY = getOuterwearBottomY(state, body, armour.length)
+    val rowCenter = torso.getPoint(CENTER, END)
 
     visualizeRowOfShapes(
         renderer,
         options,
-        torso,
-        END,
+        rowCenter,
         armour.shape,
         scaleSize,
         armour.columns,
