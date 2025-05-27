@@ -8,6 +8,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Polygon2d(val corners: List<Point2d>) {
 
+    constructor(aabb: AABB) : this(aabb.getCorners())
+
     init {
         require(corners.size > 2) { "The polygon has less than 3 corners!" }
     }

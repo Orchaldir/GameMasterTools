@@ -81,8 +81,10 @@ private fun visualizeScaleArmourSleeve(
     armour: ScaleArmour,
     scaleSize: Size2d,
 ) {
+    val clipping = Polygon2d(aabb)
+    val clippingName = state.renderer.createClipping(clipping)
     val color = armour.scale.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
     val start = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
     val step = scaleSize.height * (FULL - armour.overlap)
