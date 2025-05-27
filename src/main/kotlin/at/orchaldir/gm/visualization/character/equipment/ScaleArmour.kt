@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
 import at.orchaldir.gm.utils.isEven
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
@@ -33,9 +34,7 @@ private fun visualizeScaleArmourBody(
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
     val maxWidthFactor = state.config.body.getHipWidth(body.bodyShape)
     val maxWidth = torso.convertWidth(maxWidthFactor)
-    val hipWidthFactor = state.config.body.getHipWidth(body.bodyShape)
-    val hipWidth = torso.convertWidth(hipWidthFactor)
-    val scaleWidth = hipWidth / armour.columns
+    val scaleWidth = calculateScaleWidth(state, body, torso, armour)
     val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
     val start = torso.getPoint(CENTER, START)
     val bottomFactor = getOuterwearBottomY(state, body, armour.length)
@@ -65,6 +64,18 @@ private fun visualizeScaleArmourBody(
 
         rowCenter = rowCenter.minusHeight(step)
     }
+}
+
+private fun calculateScaleWidth(
+    state: CharacterRenderState,
+    body: Body,
+    torso: AABB,
+    armour: ScaleArmour,
+): Distance {
+    val hipWidthFactor = state.config.body.getHipWidth(body.bodyShape)
+    val hipWidth = torso.convertWidth(hipWidthFactor)
+
+    return hipWidth / armour.columns
 }
 
 private fun createClippingPolygon(
