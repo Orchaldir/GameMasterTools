@@ -66,22 +66,24 @@ private fun visualizeScaleArmourSleeves(
     }
 
     val (leftAabb, rightAabb) = createSleeveAabbs(state, body, armour.sleeveStyle)
+    val (leftClip, rightClip) = createSleeveAabbs(state, body, SleeveStyle.Long)
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
     val scaleWidth = calculateScaleWidth(state, body, torso, armour)
     val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
 
-    visualizeScaleArmourSleeve(state, renderer, leftAabb, armour, scaleSize)
-    visualizeScaleArmourSleeve(state, renderer, rightAabb, armour, scaleSize)
+    visualizeScaleArmourSleeve(state, renderer, leftAabb, leftClip, armour, scaleSize)
+    visualizeScaleArmourSleeve(state, renderer, rightAabb, rightClip, armour, scaleSize)
 }
 
 private fun visualizeScaleArmourSleeve(
     state: CharacterRenderState,
     renderer: LayerRenderer,
     aabb: AABB,
+    clip: AABB,
     armour: ScaleArmour,
     scaleSize: Size2d,
 ) {
-    val clipping = Polygon2d(aabb)
+    val clipping = Polygon2d(clip)
     val clippingName = state.renderer.createClipping(clipping)
     val color = armour.scale.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
