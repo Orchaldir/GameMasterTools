@@ -16,6 +16,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.utils.visualizeRowOfShapes
+import kotlin.math.ceil
 
 fun visualizeScaleArmour(
     state: CharacterRenderState,
@@ -38,6 +39,8 @@ private fun visualizeScaleArmourBody(
 ) {
     val renderer = state.renderer.getLayer(JACKET_LAYER)
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
+    val maxWidthFactor = state.config.body.getHipWidth(body.bodyShape)
+    val maxWidth = torso.convertWidth(maxWidthFactor)
     val hipWidthFactor = state.config.body.getHipWidth(body.bodyShape)
     val hipWidth = torso.convertWidth(hipWidthFactor)
     val scaleWidth = hipWidth / armour.columns
@@ -48,7 +51,8 @@ private fun visualizeScaleArmourBody(
     val step = scaleSize.height * (FULL - armour.overlap)
     val height = bottom.y - start.y
     val rows = (height.toMeters() / step.toMeters()).toInt()
-    val columns = armour.columns + 1
+    val maxColumns = ceil(maxWidth.toMeters() / scaleWidth.toMeters()).toInt()
+    val columns = maxColumns + 2
     var rowCenter = start.addHeight(step * rows)
 
     repeat(rows + 1) { index ->

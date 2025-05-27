@@ -131,6 +131,11 @@ data class BodyConfig(
         else -> FULL
     }
 
+    fun getMaxWidth(bodyShape: BodyShape) = when (bodyShape) {
+        Rectangle -> FULL
+        else -> widerWidth
+    }
+
 }
 
 fun visualizeBody(
