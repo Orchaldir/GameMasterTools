@@ -3,14 +3,18 @@ package at.orchaldir.gm.utils.renderer.svg
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 
+private val CLIPPING_PREFIX = "clip_"
+
 class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     private val fonts: MutableSet<Font> = mutableSetOf()
+    private val clippings: MutableMap<String, Polygon2d> = mutableMapOf()
     private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
     private val step: String = "  "
@@ -19,9 +23,18 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         val lines: MutableList<String> = mutableListOf()
         lines.add(getStartLine())
 
-        if (patterns.isNotEmpty() || fonts.isNotEmpty()) {
+        if (clippings.isNotEmpty() ||
+            fonts.isNotEmpty() ||
+            patterns.isNotEmpty()
+        ) {
             val patternLines = mutableListOf<String>()
             val renderer = SvgRenderer(fonts, patterns, patternLines, step, step)
+
+            clippings.forEach { (name, polygon) ->
+                renderer.tag("clipPath", "id=%s", name) { clipRenderer ->
+                    clipRenderer.renderPolygon(polygon)
+                }
+            }
 
             renderer.tag("defs") { tag ->
                 patterns.forEach { (fill, name) -> addPatternLines(tag, fill, name) }
@@ -48,6 +61,16 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     override fun getLayer(layer: Int) = SvgRenderer(fonts, patterns, layers.computeIfAbsent(layer) {
         mutableListOf()
     }, step, step)
+
+    // clippings
+
+    override fun createClipping(polygon2d: Polygon2d): String {
+        val name = CLIPPING_PREFIX + clippings.size
+
+        clippings.put(name, polygon2d)
+
+        return name
+    }
 
     // group
 

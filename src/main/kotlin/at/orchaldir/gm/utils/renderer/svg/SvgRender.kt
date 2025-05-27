@@ -115,6 +115,12 @@ class SvgRenderer(
         return this
     }
 
+    fun renderPolygon(polygon: Polygon2d): LayerRenderer {
+        renderPath(convertPolygonToPath(polygon))
+
+        return this
+    }
+
     override fun renderPolygonWithHole(
         polygon: Polygon2d,
         hole: Polygon2d,
@@ -302,6 +308,10 @@ class SvgRenderer(
 
     private fun renderPath(path: String, style: String) {
         selfClosingTag("path", "d=\"%s\" style=\"%s\"", path, style)
+    }
+
+    private fun renderPath(path: String) {
+        selfClosingTag("path", "d=\"%s\"", path)
     }
 
     private fun rotateAroundCenter(center: Point2d, orientation: Orientation) =
