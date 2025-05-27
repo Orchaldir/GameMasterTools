@@ -50,6 +50,7 @@ enum class RectangularShape {
     }
 
     fun calculateWidth(height: Distance, factor: Factor) = height * factor
+    fun calculateHeight(width: Distance, factor: Factor) = width / factor
     fun calculateSize(radius: Distance, factor: Factor): Size2d {
         val height = radius * 2
         return Size2d(calculateWidth(height, factor), height)

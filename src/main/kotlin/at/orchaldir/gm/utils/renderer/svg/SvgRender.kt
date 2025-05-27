@@ -104,13 +104,19 @@ class SvgRenderer(
     }
 
     override fun renderRoundedPolygon(polygon: Polygon2d, options: RenderOptions): LayerRenderer {
-        renderPath(convertRoundedPolygonToPath(polygon), toSvg(options))
+        renderPath(convertRoundedPolygonToPath(polygon), toSvg(options), options.clipping())
 
         return this
     }
 
     override fun renderPolygon(polygon: Polygon2d, options: RenderOptions): LayerRenderer {
-        renderPath(convertPolygonToPath(polygon), toSvg(options))
+        renderPath(convertPolygonToPath(polygon), toSvg(options), options.clipping())
+
+        return this
+    }
+
+    fun renderPolygon(polygon: Polygon2d): LayerRenderer {
+        renderPath(convertPolygonToPath(polygon))
 
         return this
     }
@@ -300,8 +306,23 @@ class SvgRenderer(
         lines.add(indent + line)
     }
 
-    private fun renderPath(path: String, style: String) {
-        selfClosingTag("path", "d=\"%s\" style=\"%s\"", path, style)
+    private fun renderPath(path: String, style: String, clipping: String? = null) {
+        val clippingAttribute = if (clipping != null) {
+            " clip-path=\"url(#$clipping)\""
+        } else {
+            ""
+        }
+
+        selfClosingTag(
+            "path", "d=\"%s\" style=\"%s\"%s",
+            path,
+            style,
+            clippingAttribute,
+        )
+    }
+
+    private fun renderPath(path: String) {
+        selfClosingTag("path", "d=\"%s\"", path)
     }
 
     private fun rotateAroundCenter(center: Point2d, orientation: Orientation) =

@@ -4,10 +4,10 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.core.model.character.appearance.Skin
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.visualizeBodyEquipment
@@ -129,6 +129,11 @@ data class BodyConfig(
         Muscular -> widerWidth
         Rectangle, Hourglass -> FULL.interpolate(widerWidth, fromPercentage(33))
         else -> FULL
+    }
+
+    fun getMaxWidth(bodyShape: BodyShape) = when (bodyShape) {
+        Rectangle -> FULL
+        else -> widerWidth
     }
 
 }

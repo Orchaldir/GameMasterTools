@@ -11,7 +11,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.visualizeSegments
+import at.orchaldir.gm.visualization.utils.visualizeSegments
 
 data class PolearmConfig(
     val length: Factor,

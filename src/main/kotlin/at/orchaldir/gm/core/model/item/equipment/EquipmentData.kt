@@ -8,11 +8,21 @@ import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.utils.math.shape.CircularShape
-import at.orchaldir.gm.utils.math.shape.ComplexShape
-import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.QUARTER
+import at.orchaldir.gm.utils.math.THREE_QUARTER
+import at.orchaldir.gm.utils.math.shape.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+const val MIN_SCALE_COLUMNS = 3
+const val DEFAULT_SCALE_COLUMNS = 5
+const val MAX_SCALE_COLUMNS = 10
+
+val MIN_SCALE_OVERLAP = QUARTER
+val DEFAULT_SCALE_OVERLAP = HALF
+val MAX_SCALE_OVERLAP = THREE_QUARTER
 
 val ACCESSORIES = setOf(
     EquipmentDataType.Belt,
@@ -43,6 +53,7 @@ enum class EquipmentDataType {
     Necklace,
     Pants,
     Polearm,
+    ScaleArmour,
     Shield,
     Shirt,
     Skirt,
@@ -63,6 +74,7 @@ enum class EquipmentDataType {
         Necklace -> setOf(NeckSlot)
         Pants -> setOf(BottomSlot)
         Polearm -> setOf(HeldInOneOrTwoHandsSlot)
+        ScaleArmour -> setOf(InnerTopSlot)
         Shield -> setOf(HeldInOneHandSlot)
         Shirt -> setOf(InnerTopSlot)
         Skirt -> setOf(BottomSlot)
@@ -88,6 +100,7 @@ sealed class EquipmentData : MadeFromParts {
         is Necklace -> EquipmentDataType.Necklace
         is Pants -> EquipmentDataType.Pants
         is Polearm -> EquipmentDataType.Polearm
+        is ScaleArmour -> EquipmentDataType.ScaleArmour
         is Shield -> EquipmentDataType.Shield
         is Shirt -> EquipmentDataType.Shirt
         is Skirt -> EquipmentDataType.Skirt
@@ -237,6 +250,20 @@ data class Polearm(
 ) : EquipmentData() {
 
     override fun parts() = head.parts() + shaft.parts()
+}
+
+@Serializable
+@SerialName("Scale")
+data class ScaleArmour(
+    val length: OuterwearLength = OuterwearLength.Knee,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Short,
+    val scale: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
+    val columns: Int = DEFAULT_SCALE_COLUMNS,
+    val overlap: Factor = DEFAULT_SCALE_OVERLAP,
+) : EquipmentData() {
+
+    override fun parts() = listOf(scale)
 }
 
 @Serializable

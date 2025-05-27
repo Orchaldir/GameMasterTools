@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.utils.doNothing
@@ -15,12 +16,11 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.visualizeCircularShape
-import at.orchaldir.gm.visualization.visualizeComplexShape
-import at.orchaldir.gm.visualization.visualizeHoledComplexShape
+import at.orchaldir.gm.visualization.utils.visualizeCircularShape
+import at.orchaldir.gm.visualization.utils.visualizeComplexShape
+import at.orchaldir.gm.visualization.utils.visualizeHoledComplexShape
 
 data class ShieldConfig(
     val radius: SizeConfig<Factor>,

@@ -20,3 +20,13 @@ fun Int.length() = when (this) {
     0 -> 1
     else -> log10(abs(toDouble())).toInt() + 1
 }
+
+fun checkInt(
+    factor: Int,
+    label: String,
+    min: Int,
+    max: Int,
+) {
+    require(factor >= min) { "The $label factor is too small!" }
+    require(factor <= max) { "The $label factor is too large!" }
+}

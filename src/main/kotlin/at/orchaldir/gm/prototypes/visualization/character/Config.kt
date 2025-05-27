@@ -8,6 +8,9 @@ import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.item.equipment.style.NecklaceLength.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.SizeConfig
+import at.orchaldir.gm.core.model.util.SizeConfig.Companion.fromPercentages
+import at.orchaldir.gm.core.model.util.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
@@ -20,9 +23,6 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RGB
-import at.orchaldir.gm.visualization.SizeConfig
-import at.orchaldir.gm.visualization.SizeConfig.Companion.fromPercentages
-import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.appearance.*
 import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig

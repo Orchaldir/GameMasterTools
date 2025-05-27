@@ -5,12 +5,12 @@ import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.core.model.item.text.book.LeatherBindingStyle
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.visualization.SizeConfig
 
 data class LeatherBindingConfig(
     val spine: Factor,

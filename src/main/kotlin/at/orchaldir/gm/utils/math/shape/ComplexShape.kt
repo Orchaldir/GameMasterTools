@@ -42,6 +42,7 @@ sealed class ComplexShape {
     }
 
     abstract fun calculateAabb(center: Point2d, radius: Distance): AABB
+    abstract fun calculateSizeFromWidth(width: Distance): Size2d
     abstract fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d
     abstract fun calculateInnerAabb(aabb: AABB, inner: ComplexShape, factor: Factor): AABB
 }
@@ -53,6 +54,7 @@ data class UsingCircularShape(
 ) : ComplexShape() {
 
     override fun calculateAabb(center: Point2d, radius: Distance) = AABB.fromRadius(center, radius)
+    override fun calculateSizeFromWidth(width: Distance) = Size2d.square(width)
 
     override fun calculateIncircle(radius: Distance, inner: ComplexShape) = when (inner) {
         is UsingCircularShape -> {
@@ -92,6 +94,9 @@ data class UsingRectangularShape(
 
     override fun calculateAabb(center: Point2d, radius: Distance) =
         AABB.fromRadii(center, shape.calculateWidth(radius, widthFactor), radius)
+
+    override fun calculateSizeFromWidth(width: Distance) =
+        Size2d(width, shape.calculateHeight(width, widthFactor))
 
     override fun calculateIncircle(radius: Distance, inner: ComplexShape): Size2d {
         val size = shape.calculateSize(radius * 2, widthFactor)

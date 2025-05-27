@@ -2,13 +2,13 @@ package at.orchaldir.gm.visualization.character.appearance.hair
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 

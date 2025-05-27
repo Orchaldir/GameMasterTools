@@ -7,14 +7,23 @@ data class LineOptions(val color: RenderColor, val width: Distance) {
 }
 
 
-sealed class RenderOptions
+sealed class RenderOptions {
+
+    fun clipping() = when (this) {
+        is BorderOnly -> null
+        is FillAndBorder -> clipping
+        is NoBorder -> null
+    }
+}
 
 data class FillAndBorder(
     val fill: RenderFill,
     val border: LineOptions,
+    val clipping: String? = null,
 ) : RenderOptions() {
 
-    constructor(color: RenderColor, border: LineOptions) : this(RenderSolid(color), border)
+    constructor(color: RenderColor, border: LineOptions, clipping: String? = null) :
+            this(RenderSolid(color), border, clipping)
 
 }
 

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization
+package at.orchaldir.gm.visualization.utils
 
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.*

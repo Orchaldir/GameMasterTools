@@ -14,8 +14,8 @@ import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.visualization.visualizeComplexShape
-import at.orchaldir.gm.visualization.visualizeHoledComplexShape
+import at.orchaldir.gm.visualization.utils.visualizeComplexShape
+import at.orchaldir.gm.visualization.utils.visualizeHoledComplexShape
 
 fun visualizeCoin(
     state: CurrencyRenderState,
