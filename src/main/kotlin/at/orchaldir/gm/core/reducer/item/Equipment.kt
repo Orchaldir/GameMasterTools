@@ -5,10 +5,18 @@ import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.MAX_SCALE_COLUMNS
+import at.orchaldir.gm.core.model.item.equipment.MAX_SCALE_OVERLAP
+import at.orchaldir.gm.core.model.item.equipment.MIN_SCALE_COLUMNS
+import at.orchaldir.gm.core.model.item.equipment.MIN_SCALE_OVERLAP
+import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
+import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.checkFactor
+import at.orchaldir.gm.utils.math.checkInt
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -57,4 +65,13 @@ fun validateEquipment(
         .forEach { scheme ->
             require(scheme.data.count() >= requiredSchemaColors) { "${scheme.id.print()} has too few colors!" }
         }
+
+    when (equipment.data) {
+        is ScaleArmour -> {
+            checkFactor(equipment.data.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
+            checkInt(equipment.data.columns, "columns", MIN_SCALE_COLUMNS, MAX_SCALE_COLUMNS)
+        }
+
+        else -> doNothing()
+    }
 }
