@@ -30,13 +30,13 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
             val patternLines = mutableListOf<String>()
             val renderer = SvgRenderer(fonts, patterns, patternLines, step, step)
 
-            clippings.forEach { (name, polygon) ->
-                renderer.tag("clipPath", "id=%s", name) { clipRenderer ->
-                    clipRenderer.renderPolygon(polygon)
-                }
-            }
-
             renderer.tag("defs") { tag ->
+                clippings.forEach { (name, polygon) ->
+                    renderer.tag("clipPath", "id=\"%s\"", name) { clipRenderer ->
+                        clipRenderer.renderPolygon(polygon)
+                    }
+                }
+
                 patterns.forEach { (fill, name) -> addPatternLines(tag, fill, name) }
 
                 renderer.tag("style") { styleRenderer ->
