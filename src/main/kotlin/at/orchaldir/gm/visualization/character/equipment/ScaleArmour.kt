@@ -48,6 +48,7 @@ private fun visualizeScaleArmourBody(
     val step = scaleSize.height * (FULL - armour.overlap)
     val height = bottom.y - start.y
     val rows = (height.toMeters() / step.toMeters()).toInt()
+    val columns = armour.columns + 1
     var rowCenter = start.addHeight(step * rows)
 
     repeat(rows + 1) { index ->
@@ -63,7 +64,7 @@ private fun visualizeScaleArmourBody(
             rowCenter,
             armour.shape,
             scaleSize,
-            armour.columns + rowOffset,
+            columns + rowOffset,
         )
 
         rowCenter = rowCenter.minusHeight(step)
