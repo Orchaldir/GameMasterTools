@@ -3,8 +3,6 @@ package at.orchaldir.gm.visualization.character.equipment.part
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState

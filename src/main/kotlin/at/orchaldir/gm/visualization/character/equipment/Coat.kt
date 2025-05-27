@@ -30,11 +30,12 @@ fun getOuterwearBottomY(
     state: CharacterRenderState,
     body: Body,
     length: OuterwearLength,
+    ankleFactor: Factor = FULL,
 ): Factor {
     val bottomHeight = when (length) {
         OuterwearLength.Hip -> ZERO
         OuterwearLength.Knee -> HALF
-        OuterwearLength.Ankle -> FULL
+        OuterwearLength.Ankle -> ankleFactor
     }
 
     return state.config.body.getLegY(body, bottomHeight)
