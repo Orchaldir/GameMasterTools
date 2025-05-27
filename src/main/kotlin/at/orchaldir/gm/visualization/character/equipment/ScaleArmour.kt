@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -21,12 +22,15 @@ fun visualizeScaleArmour(
     body: Body,
     armour: ScaleArmour,
 ) {
-    visualizeScaleArmourBody(state, body, armour)
-    visualizeScaleArmourSleeves(state, body, armour)
+    val renderer = state.renderer.getLayer(JACKET_LAYER)
+
+    visualizeScaleArmourBody(state, renderer, body, armour)
+    visualizeScaleArmourSleeves(state, renderer, body, armour)
 }
 
 private fun visualizeScaleArmourBody(
     state: CharacterRenderState,
+    renderer: LayerRenderer,
     body: Body,
     armour: ScaleArmour,
 ) {
@@ -34,7 +38,6 @@ private fun visualizeScaleArmourBody(
     val clippingName = state.renderer.createClipping(clipping)
     val color = armour.scale.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
-    val renderer = state.renderer.getLayer(JACKET_LAYER)
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
     val maxWidthFactor = state.config.body.getHipWidth(body.bodyShape)
     val maxWidth = torso.convertWidth(maxWidthFactor)
@@ -54,6 +57,7 @@ private fun visualizeScaleArmourBody(
 
 private fun visualizeScaleArmourSleeves(
     state: CharacterRenderState,
+    renderer: LayerRenderer,
     body: Body,
     armour: ScaleArmour,
 ) {
@@ -65,21 +69,20 @@ private fun visualizeScaleArmourSleeves(
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
     val scaleWidth = calculateScaleWidth(state, body, torso, armour)
     val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
-    val color = armour.scale.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line)
-    val renderer = state.renderer.getLayer(JACKET_LAYER)
 
-    visualizeScaleArmourSleeve(renderer, options, leftAabb, armour, scaleSize)
-    visualizeScaleArmourSleeve(renderer, options, rightAabb, armour, scaleSize)
+    visualizeScaleArmourSleeve(state, renderer, leftAabb, armour, scaleSize)
+    visualizeScaleArmourSleeve(state, renderer, rightAabb, armour, scaleSize)
 }
 
 private fun visualizeScaleArmourSleeve(
+    state: CharacterRenderState,
     renderer: LayerRenderer,
-    options: RenderOptions,
     aabb: AABB,
     armour: ScaleArmour,
     scaleSize: Size2d,
 ) {
+    val color = armour.scale.getColor(state.state, state.colors)
+    val options = FillAndBorder(color.toRender(), state.config.line)
     val start = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
     val step = scaleSize.height * (FULL - armour.overlap)
