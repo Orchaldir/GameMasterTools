@@ -254,7 +254,7 @@ data class Polearm(
 @SerialName("Scale")
 data class ScaleArmour(
     val length: OuterwearLength = OuterwearLength.Knee,
-    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Short,
     val scale: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
     val columns: Int = DEFAULT_SCALE_COLUMNS,

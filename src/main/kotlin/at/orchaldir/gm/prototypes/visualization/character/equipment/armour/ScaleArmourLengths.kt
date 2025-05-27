@@ -17,7 +17,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     renderCharacterTableWithoutColorScheme(
         State(),
-        "scale-armours.svg",
+        "scale-armour-length.svg",
         CHARACTER_CONFIG,
         addNames(BodyShape.entries),
         addNames(OuterwearLength.entries),

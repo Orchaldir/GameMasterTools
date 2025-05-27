@@ -1,0 +1,65 @@
+package at.orchaldir.gm.prototypes.visualization.character.equipment.armour
+
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.character.appearance.BodyShape
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
+import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
+import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
+import at.orchaldir.gm.prototypes.visualization.addNames
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
+import at.orchaldir.gm.utils.math.shape.CircularShape.Hexagon
+import at.orchaldir.gm.utils.math.shape.CircularShape.RoundedSquare
+import at.orchaldir.gm.utils.math.shape.CircularShape.Square
+import at.orchaldir.gm.utils.math.shape.RectangularShape
+import at.orchaldir.gm.utils.math.shape.RectangularShape.Ellipse
+import at.orchaldir.gm.utils.math.shape.RectangularShape.Rectangle
+import at.orchaldir.gm.utils.math.shape.RectangularShape.ReverseTeardrop
+import at.orchaldir.gm.utils.math.shape.RectangularShape.RoundedRectangle
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
+import at.orchaldir.gm.utils.math.unit.Distance
+
+fun main() {
+    val shapes = listOf(
+        UsingCircularShape(Circle),
+        UsingCircularShape(CircularShape.Heater),
+        UsingCircularShape(CircularShape.RoundedHeater),
+        UsingCircularShape(Square),
+        UsingCircularShape(RoundedSquare),
+        UsingCircularShape(Hexagon),
+        UsingRectangularShape(RectangularShape.Heater),
+        UsingRectangularShape(RectangularShape.RoundedHeater),
+        UsingRectangularShape(Rectangle),
+        UsingRectangularShape(RoundedRectangle),
+        UsingRectangularShape(Ellipse),
+        UsingRectangularShape(ReverseTeardrop),
+    )
+
+    renderCharacterTableWithoutColorScheme(
+        State(),
+        "scale-armour-scales.svg",
+        CHARACTER_CONFIG,
+        addNames(listOf(5, 6, 7, 8)),
+        addNames(shapes),
+    ) { distance, shape, columns ->
+        val necklace = ScaleArmour(
+            shape = shape,
+            columns = columns,
+        )
+        Pair(createAppearance(distance), from(necklace))
+    }
+}
+
+private fun createAppearance(height: Distance) =
+    HumanoidBody(
+        Body(BodyShape.Muscular),
+        Head(),
+        height,
+    )
