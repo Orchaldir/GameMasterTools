@@ -54,7 +54,7 @@ data class UsingCircularShape(
 ) : ComplexShape() {
 
     override fun calculateAabb(center: Point2d, radius: Distance) = AABB.fromRadius(center, radius)
-    override fun calculateSizeFromWidth(width: Distance) = Size2d.square(width / 2)
+    override fun calculateSizeFromWidth(width: Distance) = Size2d.square(width)
 
     override fun calculateIncircle(radius: Distance, inner: ComplexShape) = when (inner) {
         is UsingCircularShape -> {
