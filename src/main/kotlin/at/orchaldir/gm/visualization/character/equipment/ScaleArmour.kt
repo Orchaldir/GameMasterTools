@@ -75,8 +75,13 @@ private fun createClippingPolygon(
     state: CharacterRenderState,
     body: Body,
 ): Polygon2d {
+    val torso = state.config.body.getTorsoAabb(state.aabb, body)
+    val hipWidthFactor = state.config.body.getHipWidth(body.bodyShape)
+    val hipWidth = torso.convertWidth(hipWidthFactor)
+    val half = hipWidth / 2
+    val bottom = state.aabb.getPoint(CENTER, END)
     val builder = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, FULL, FULL)
+        .addPoints(bottom.minusWidth(half), bottom.addWidth(half))
 
     addHip(state.config, builder, state.aabb, body)
     addTorso(state, body, builder)
