@@ -47,17 +47,19 @@ private fun visualizeScaleArmourBody(
     var rowCenter = start.addHeight(step * rows)
 
     repeat(rows + 1) { index ->
+        val rowOffset = if (index.isEven()) {
+            0
+        } else {
+            1
+        }
+
         visualizeRowOfShapes(
             renderer,
             options,
             rowCenter,
             armour.shape,
             scaleSize,
-            armour.columns + if (index.isEven()) {
-                0
-            } else {
-                1
-            },
+            armour.columns + rowOffset,
         )
 
         rowCenter = rowCenter.minusHeight(step)
