@@ -18,6 +18,10 @@ import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+const val MIN_SCALE_COLUMNS = 3
+const val DEFAULT_SCALE_COLUMNS = 5
+const val MAX_SCALE_COLUMNS = 10
+
 val ACCESSORIES = setOf(
     EquipmentDataType.Belt,
     EquipmentDataType.Earring,
@@ -251,13 +255,13 @@ data class Polearm(
 data class ScaleArmour(
     val length: OuterwearLength = OuterwearLength.Knee,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
+    val scale: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
-    val columns: Int = 5,
+    val columns: Int = DEFAULT_SCALE_COLUMNS,
     val overlap: Factor = HALF,
 ) : EquipmentData() {
 
-    override fun parts() = listOf(main)
+    override fun parts() = listOf(scale)
 }
 
 @Serializable

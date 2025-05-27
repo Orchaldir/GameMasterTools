@@ -12,8 +12,8 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.fieldFactor(name: String, factor: Factor) {
-    field(name, factor.toString())
+fun HtmlBlockTag.fieldFactor(label: String, factor: Factor) {
+    field(label, factor.toString())
 }
 
 // edit
