@@ -25,18 +25,17 @@ data class CoatConfig(
     fun getPaddedWidth() = FULL + widthPadding
 }
 
-private fun getBottomHeight(length: OuterwearLength) = when (length) {
-    OuterwearLength.Hip -> ZERO
-    OuterwearLength.Knee -> HALF
-    OuterwearLength.Ankle -> FULL
-}
-
-private fun getBottomY(
+fun getOuterwearBottomY(
     state: CharacterRenderState,
     body: Body,
     length: OuterwearLength,
 ): Factor {
-    val bottomHeight = getBottomHeight(length)
+    val bottomHeight = when (length) {
+        OuterwearLength.Hip -> ZERO
+        OuterwearLength.Knee -> HALF
+        OuterwearLength.Ankle -> FULL
+    }
+
     return state.config.body.getLegY(body, bottomHeight)
 }
 
@@ -54,7 +53,7 @@ fun visualizeCoat(
 
     if (state.renderFront) {
         val necklineHeight = state.config.equipment.neckline.getHeight(coat.necklineStyle)
-        val bottomY = getBottomY(state, body, coat.length)
+        val bottomY = getOuterwearBottomY(state, body, coat.length)
         val topY = state.config.body.torsoY + state.config.body.torsoHeight * necklineHeight
         val torsoWidth = state.config.body.getTorsoWidth(body)
         val size = state.aabb.size.scale(torsoWidth, FULL)
@@ -91,7 +90,7 @@ fun createCoatBottom(
     if (length != OuterwearLength.Hip) {
         val config = state.config.body
         val width = config.getTorsoWidth(body) * config.getHipWidth(body.bodyShape) * paddedWidth
-        val bottomY = getBottomY(state, body, length)
+        val bottomY = getOuterwearBottomY(state, body, length)
 
         builder.addMirroredPoints(state.aabb, width, bottomY)
     }
