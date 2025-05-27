@@ -5,7 +5,9 @@ import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
@@ -58,7 +60,35 @@ private fun visualizeScaleArmourSleeves(
     if (armour.sleeveStyle == SleeveStyle.None) {
         return
     }
+
     val (leftAabb, rightAabb) = createSleeveAabbs(state, body, armour.sleeveStyle)
+    val torso = state.config.body.getTorsoAabb(state.aabb, body)
+    val scaleWidth = calculateScaleWidth(state, body, torso, armour)
+    val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
+    val color = armour.scale.getColor(state.state, state.colors)
+    val options = FillAndBorder(color.toRender(), state.config.line)
+    val renderer = state.renderer.getLayer(JACKET_LAYER)
+
+    visualizeScaleArmourSleeve(renderer, options, leftAabb, armour, scaleSize)
+    visualizeScaleArmourSleeve(renderer, options, rightAabb, armour, scaleSize)
+}
+
+private fun visualizeScaleArmourSleeve(
+    renderer: LayerRenderer,
+    options: RenderOptions,
+    aabb: AABB,
+    armour: ScaleArmour,
+    scaleSize: Size2d,
+) {
+    val start = aabb.getPoint(CENTER, START)
+    val bottom = aabb.getPoint(CENTER, FULL)
+    val step = scaleSize.height * (FULL - armour.overlap)
+    val height = bottom.y - start.y
+    val rows = (height.toMeters() / step.toMeters()).toInt()
+    val maxColumns = ceil(aabb.size.width.toMeters() / scaleSize.width.toMeters()).toInt()
+    val columns = maxColumns + 1
+
+    visualizeRowsOfShapes(renderer, options, armour.shape, scaleSize, start, step, rows, columns)
 }
 
 private fun calculateScaleWidth(
