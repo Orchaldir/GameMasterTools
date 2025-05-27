@@ -61,8 +61,8 @@ fun FORM.editScaleArmour(
         "Columns",
         armour.columns,
         MIN_SCALE_COLUMNS,
-        10,
         MAX_SCALE_COLUMNS,
+        1,
         COLUMNS,
     )
     selectFactor(
