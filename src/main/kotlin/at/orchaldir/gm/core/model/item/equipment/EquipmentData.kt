@@ -255,7 +255,7 @@ data class Polearm(
 data class ScaleArmour(
     val length: OuterwearLength = OuterwearLength.Knee,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val scale: FillLookupItemPart = FillLookupItemPart(Color.Silver),
+    val scale: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
     val overlap: Factor = HALF,

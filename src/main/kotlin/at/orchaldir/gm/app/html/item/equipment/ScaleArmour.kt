@@ -10,9 +10,9 @@ import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.fieldFactor
 import at.orchaldir.gm.app.html.util.parseFactor
-import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -38,7 +38,7 @@ fun HtmlBlockTag.showScaleArmour(
 ) {
     field("Length", armour.length)
     field("Sleeve Style", armour.sleeveStyle)
-    showFillLookupItemPart(call, state, armour.scale, "Scale")
+    showColorSchemeItemPart(call, state, armour.scale, "Scale")
     showComplexShape(armour.shape, "Scale Shape")
     field("Columns", armour.columns)
     fieldFactor("Row Overlap", armour.overlap)
@@ -52,7 +52,7 @@ fun FORM.editScaleArmour(
 ) {
     selectValue("Length", LENGTH, OuterwearLength.entries, armour.length)
     selectSleeveStyle(SleeveStyle.entries, armour.sleeveStyle)
-    editFillLookupItemPart(state, armour.scale, MAIN, "Scale")
+    editColorSchemeItemPart(state, armour.scale, MAIN, "Scale")
     selectComplexShape(armour.shape, SCALE)
     selectInt(
         "Columns",
@@ -76,7 +76,7 @@ fun FORM.editScaleArmour(
 fun parseScaleArmour(parameters: Parameters) = ScaleArmour(
     parse(parameters, LENGTH, OuterwearLength.Hip),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
-    parseFillLookupItemPart(parameters, MAIN),
+    parseColorSchemeItemPart(parameters, MAIN),
     parseComplexShape(parameters, SCALE),
     parseInt(parameters, COLUMNS, DEFAULT_SCALE_COLUMNS),
     parseFactor(parameters, OFFSET),
