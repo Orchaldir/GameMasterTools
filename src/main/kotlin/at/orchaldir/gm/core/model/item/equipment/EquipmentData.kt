@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.QUARTER
+import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.RectangularShape
@@ -21,6 +23,10 @@ import kotlinx.serialization.Serializable
 const val MIN_SCALE_COLUMNS = 3
 const val DEFAULT_SCALE_COLUMNS = 5
 const val MAX_SCALE_COLUMNS = 10
+
+val MIN_SCALE_OVERLAP = QUARTER
+val DEFAULT_SCALE_OVERLAP = HALF
+val MAX_SCALE_OVERLAP = THREE_QUARTER
 
 val ACCESSORIES = setOf(
     EquipmentDataType.Belt,
@@ -258,7 +264,7 @@ data class ScaleArmour(
     val scale: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
-    val overlap: Factor = HALF,
+    val overlap: Factor = DEFAULT_SCALE_OVERLAP,
 ) : EquipmentData() {
 
     override fun parts() = listOf(scale)

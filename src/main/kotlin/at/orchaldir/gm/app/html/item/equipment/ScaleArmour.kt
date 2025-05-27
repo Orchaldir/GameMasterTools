@@ -18,8 +18,11 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.DEFAULT_SCALE_COLUMNS
+import at.orchaldir.gm.core.model.item.equipment.DEFAULT_SCALE_OVERLAP
 import at.orchaldir.gm.core.model.item.equipment.MAX_SCALE_COLUMNS
+import at.orchaldir.gm.core.model.item.equipment.MAX_SCALE_OVERLAP
 import at.orchaldir.gm.core.model.item.equipment.MIN_SCALE_COLUMNS
+import at.orchaldir.gm.core.model.item.equipment.MIN_SCALE_OVERLAP
 import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.math.THREE_QUARTER
@@ -66,8 +69,8 @@ fun FORM.editScaleArmour(
         "Row Overlap",
         OFFSET,
         armour.overlap,
-        ZERO,
-        THREE_QUARTER,
+        MIN_SCALE_OVERLAP,
+        MAX_SCALE_OVERLAP,
     )
 }
 
@@ -79,5 +82,5 @@ fun parseScaleArmour(parameters: Parameters) = ScaleArmour(
     parseColorSchemeItemPart(parameters, MAIN),
     parseComplexShape(parameters, SCALE),
     parseInt(parameters, COLUMNS, DEFAULT_SCALE_COLUMNS),
-    parseFactor(parameters, OFFSET),
+    parseFactor(parameters, OFFSET, DEFAULT_SCALE_OVERLAP),
 )
