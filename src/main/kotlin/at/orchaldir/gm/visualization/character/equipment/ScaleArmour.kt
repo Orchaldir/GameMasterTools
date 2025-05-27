@@ -40,7 +40,7 @@ private fun visualizeScaleArmourBody(
     val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
     val start = torso.getPoint(CENTER, START)
     val bottomFactor = getOuterwearBottomY(state, body, armour.length)
-    val bottom = torso.getPoint(CENTER, bottomFactor)
+    val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val step = scaleSize.height * (FULL - armour.overlap)
     val height = bottom.y - start.y
     val rows = (height.toMeters() / step.toMeters()).toInt()
