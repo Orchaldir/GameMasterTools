@@ -33,3 +33,5 @@ fun Boolean.toInt() = when (this) {
     true -> 1
     false -> 0
 }
+
+fun Int.isEven() = this % 2 == 0

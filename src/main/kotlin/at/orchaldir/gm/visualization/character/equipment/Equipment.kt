@@ -46,6 +46,7 @@ fun visualizeBodyEquipment(
                 is Necklace -> visualizeNecklace(newState, body, data)
                 is Pants -> visualizePants(newState, body, data)
                 is Polearm -> visualizePolearm(newState, body, data, set)
+                is ScaleArmour -> visualizeScaleArmour(newState, body, data)
                 is Shield -> visualizeShield(newState, body, data, set)
                 is Shirt -> visualizeShirt(newState, body, data)
                 is Skirt -> visualizeSkirt(newState, body, data)

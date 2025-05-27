@@ -12,6 +12,7 @@ import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.renderBuilder
+import at.orchaldir.gm.visualization.utils.visualizeRowOfShapes
 
 fun visualizeScaleArmour(
     state: CharacterRenderState,
@@ -38,4 +39,13 @@ private fun visualizeScaleArmourBody(
     val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
     val bottomY = getOuterwearBottomY(state, body, armour.length)
 
+    visualizeRowOfShapes(
+        renderer,
+        options,
+        torso,
+        END,
+        armour.shape,
+        scaleSize,
+        armour.columns,
+    )
 }
