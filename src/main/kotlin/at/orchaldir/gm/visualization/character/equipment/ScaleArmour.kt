@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.utils.isEven
 import at.orchaldir.gm.utils.math.*
@@ -21,8 +22,7 @@ fun visualizeScaleArmour(
     body: Body,
     armour: ScaleArmour,
 ) {
-    val clipping = createOuterwearBuilder(state, body, armour.length)
-        .build()
+    val clipping = createClippingPolygon(state, body)
     val clippingName = state.renderer.createClipping(clipping)
     val color = armour.scale.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
@@ -68,4 +68,17 @@ private fun visualizeScaleArmourBody(
 
         rowCenter = rowCenter.minusHeight(step)
     }
+}
+
+private fun createClippingPolygon(
+    state: CharacterRenderState,
+    body: Body,
+): Polygon2d {
+    val builder = Polygon2dBuilder()
+        .addMirroredPoints(state.aabb, FULL, FULL)
+
+    addHip(state.config, builder, state.aabb, body)
+    addTorso(state, body, builder)
+
+    return builder.build()
 }
