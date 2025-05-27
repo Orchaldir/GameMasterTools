@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.utils.isEven
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
@@ -28,7 +29,7 @@ fun visualizeScaleArmour(
 
 private fun visualizeScaleArmourBody(
     state: CharacterRenderState,
-    options: FillAndBorder,
+    options: RenderOptions,
     body: Body,
     armour: ScaleArmour,
 ) {
