@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.utils.isEven
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -45,14 +46,18 @@ private fun visualizeScaleArmourBody(
     val rows = (height.toMeters() / step.toMeters()).toInt()
     var rowCenter = start.addHeight(step * rows)
 
-    repeat(rows) {
+    repeat(rows + 1) { index ->
         visualizeRowOfShapes(
             renderer,
             options,
             rowCenter,
             armour.shape,
             scaleSize,
-            armour.columns,
+            armour.columns + if (index.isEven()) {
+                0
+            } else {
+                1
+            },
         )
 
         rowCenter = rowCenter.minusHeight(step)
