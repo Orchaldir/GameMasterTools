@@ -11,7 +11,7 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.visualizeComplexShape
+import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 
 fun visualizeOrnament(
     state: CharacterRenderState,

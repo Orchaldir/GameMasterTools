@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.core.model.util.SizeConfig
 
 data class LeatherBindingConfig(
     val spine: Factor,

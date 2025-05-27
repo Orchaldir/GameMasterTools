@@ -7,7 +7,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class OpeningConfig(

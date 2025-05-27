@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization
+package at.orchaldir.gm.visualization.utils
 
 import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.SegmentShape
@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.visualization.RenderState
 
 fun visualizeSegments(
     state: RenderState,

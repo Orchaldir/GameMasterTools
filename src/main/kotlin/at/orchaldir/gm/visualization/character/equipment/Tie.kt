@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.style.TieStyle
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.TIE_LAYER
 import at.orchaldir.gm.visualization.renderBuilder
