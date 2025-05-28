@@ -41,7 +41,6 @@ private fun visualizeLamellarArmourBody(
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val overlap = Factor.fromPercentage(20)
-    //val columns = maxColumns + 2
 
     visualizeRowsOfShapes(
         renderer,

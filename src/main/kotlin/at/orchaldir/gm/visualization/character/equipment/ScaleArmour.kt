@@ -43,7 +43,6 @@ private fun visualizeScaleArmourBody(
     val top = torso.getPoint(CENTER, START)
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
-    //val columns = maxColumns + 2
 
     visualizeRowsOfShapes(
         renderer,
@@ -92,7 +91,6 @@ private fun visualizeScaleArmourSleeve(
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
-    //val columns = maxColumns + 1
 
     visualizeRowsOfShapes(
         renderer,
