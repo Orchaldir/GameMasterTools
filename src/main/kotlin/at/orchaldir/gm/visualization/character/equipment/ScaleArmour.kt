@@ -52,9 +52,11 @@ private fun visualizeScaleArmourBody(
         maxWidth,
         armour.overlap,
         ZERO,
-    ) { scaleAabb ->
-        visualizeComplexShape(renderer, scaleAabb, armour.shape, options)
-    }
+        true,
+        { scaleAabb ->
+            visualizeComplexShape(renderer, scaleAabb, armour.shape, options)
+        },
+    )
 }
 
 private fun visualizeScaleArmourSleeves(
@@ -100,9 +102,10 @@ private fun visualizeScaleArmourSleeve(
         armour.overlap,
         ZERO,
         true,
-    ) { scaleAabb ->
-        visualizeComplexShape(renderer, scaleAabb, armour.shape, options)
-    }
+        { scaleAabb ->
+            visualizeComplexShape(renderer, scaleAabb, armour.shape, options)
+        }
+    )
 }
 
 private fun calculateScaleWidth(

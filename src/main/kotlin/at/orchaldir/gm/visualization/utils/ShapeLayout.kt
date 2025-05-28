@@ -20,8 +20,9 @@ fun visualizeRows(
     width: Distance,
     rowOverlap: Factor,
     columnOverlap: Factor,
-    useRowOffset: Boolean = true,
-    cellRendering: (AABB) -> Unit = {},
+    useRowOffset: Boolean,
+    renderCell: (AABB) -> Unit,
+    renderRow: (AABB) -> Unit = {},
 ) {
     val rowStep = calculateStep(shapeSize.height, rowOverlap)
     val columnStep = calculateStep(shapeSize.width, columnOverlap)
@@ -38,7 +39,8 @@ fun visualizeRows(
         rows,
         columns,
         useRowOffset,
-        cellRendering,
+        renderCell,
+        renderRow,
     )
 }
 
@@ -50,7 +52,8 @@ private fun visualizeRows(
     rows: Int,
     columns: Int,
     useRowOffset: Boolean = true,
-    cellRendering: (AABB) -> Unit = {},
+    renderCell: (AABB) -> Unit,
+    renderRow: (AABB) -> Unit = {},
 ) {
     val rowStep = calculateStep(shapeSize.height, rowOverlap)
     val columnStep = calculateStep(shapeSize.width, columnOverlap)
@@ -62,14 +65,17 @@ private fun visualizeRows(
         } else {
             1
         }
+        val cells = columns + rowOffset
 
         visualizeRow(
             rowCenter,
             shapeSize,
             columnStep,
-            columns + rowOffset,
-            cellRendering,
+            cells,
+            renderCell,
         )
+
+        renderRow(AABB.fromCenter(rowCenter, shapeSize.replaceWidth(Factor.fromPercentage(cells * 100))))
 
         rowCenter = rowCenter.minusHeight(rowStep)
     }
@@ -85,7 +91,7 @@ fun visualizeRow(
     size: Size2d,
     step: Distance,
     number: Int,
-    cellRendering: (AABB) -> Unit = {},
+    renderCell: (AABB) -> Unit = {},
 ) {
     val rowStart = rowCenter.minusWidth(step * (number - 1) / 2.0f)
     var center = rowStart
@@ -93,7 +99,7 @@ fun visualizeRow(
     repeat(number) {
         val shapeAabb = AABB.fromCenter(center, size)
 
-        cellRendering(shapeAabb)
+        renderCell(shapeAabb)
 
         center = center.addWidth(step)
     }
