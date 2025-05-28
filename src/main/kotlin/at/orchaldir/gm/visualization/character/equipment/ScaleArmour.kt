@@ -12,6 +12,7 @@ import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.character.equipment.part.createSleeveAabbs
+import at.orchaldir.gm.visualization.utils.calculateStep
 import at.orchaldir.gm.visualization.utils.visualizeRowsOfShapes
 import kotlin.math.ceil
 
@@ -50,7 +51,17 @@ private fun visualizeScaleArmourBody(
     val maxColumns = ceil(maxWidth.toMeters() / scaleWidth.toMeters()).toInt()
     val columns = maxColumns + 2
 
-    visualizeRowsOfShapes(renderer, options, armour.shape, scaleSize, start, step, rows, columns)
+    visualizeRowsOfShapes(
+        renderer,
+        options,
+        armour.shape,
+        scaleSize,
+        start,
+        armour.overlap,
+        ZERO,
+        rows,
+        columns,
+    )
 }
 
 private fun visualizeScaleArmourSleeves(
@@ -87,13 +98,13 @@ private fun visualizeScaleArmourSleeve(
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
     val start = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
-    val step = scaleSize.height * (FULL - armour.overlap)
+    val step = calculateStep(scaleSize.height, armour.overlap)
     val height = bottom.y - start.y
     val rows = (height.toMeters() / step.toMeters()).toInt()
     val maxColumns = ceil(aabb.size.width.toMeters() / scaleSize.width.toMeters()).toInt()
     val columns = maxColumns + 1
 
-    visualizeRowsOfShapes(renderer, options, armour.shape, scaleSize, start, step, rows, columns)
+    visualizeRowsOfShapes(renderer, options, armour.shape, scaleSize, start, armour.overlap, ZERO, rows, columns)
 }
 
 private fun calculateScaleWidth(

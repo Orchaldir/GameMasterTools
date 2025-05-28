@@ -11,6 +11,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
+import at.orchaldir.gm.visualization.utils.calculateStep
 import at.orchaldir.gm.visualization.utils.visualizeRowsOfShapes
 import kotlin.math.ceil
 
@@ -42,13 +43,25 @@ private fun visualizeLamellarArmourBody(
     val start = torso.getPoint(CENTER, START)
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
-    val step = scaleSize.height * Factor.fromPercentage(90)
+    val overlap = Factor.fromPercentage(20)
+    val step = calculateStep(scaleSize.height, overlap)
     val height = bottom.y - start.y
     val rows = (height.toMeters() / step.toMeters()).toInt()
     val maxColumns = ceil(maxWidth.toMeters() / scaleWidth.toMeters()).toInt()
     val columns = maxColumns + 2
 
-    visualizeRowsOfShapes(renderer, options, armour.shape, scaleSize, start, step, rows, columns, false)
+    visualizeRowsOfShapes(
+        renderer,
+        options,
+        armour.shape,
+        scaleSize,
+        start,
+        overlap,
+        overlap,
+        rows,
+        columns,
+        false,
+    )
 }
 
 private fun calculateScaleWidth(
