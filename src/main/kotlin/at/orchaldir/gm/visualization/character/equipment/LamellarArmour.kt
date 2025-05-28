@@ -26,6 +26,7 @@ data class LamellarArmourConfig(
     val overlap: Factor,
     val lacingLength: Factor,
     val diagonalWidth: Factor,
+    val diagonalOffset: Factor,
     val stripeWidth: Factor,
 )
 
@@ -90,8 +91,8 @@ private fun createScaleRenderer(
             val thickness = scaleSize.width * config.diagonalWidth
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = NoBorder(color.toRender(), clippingName)
-            val topY = HALF - config.diagonalWidth
-            val bottomY = HALF + config.diagonalWidth
+            val topY = HALF - config.diagonalOffset
+            val bottomY = HALF + config.diagonalOffset
             val leftOffset = Point2d().createPolar(thickness / 2, fromDegrees(-135L))
             val rightOffset = Point2d().createPolar(thickness / 2, fromDegrees(45L))
 
