@@ -110,6 +110,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         LamellarArmourConfig(
             fromPercentage(20),
             fromPercentage(30),
+            fromPercentage(30),
         ),
         NecklaceConfig(
             fromPercentage(20),

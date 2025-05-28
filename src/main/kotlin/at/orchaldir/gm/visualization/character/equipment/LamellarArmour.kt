@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.LamellarArmour
 import at.orchaldir.gm.core.model.item.equipment.style.DiagonalLacing
 import at.orchaldir.gm.core.model.item.equipment.style.FourSidesLacing
 import at.orchaldir.gm.core.model.item.equipment.style.LacingAndStripe
+import at.orchaldir.gm.core.model.item.equipment.style.LamellarLacing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -20,6 +21,7 @@ import at.orchaldir.gm.visualization.utils.visualizeRows
 data class LamellarArmourConfig(
     val overlap: Factor,
     val lacingLength: Factor,
+    val stripeWidth: Factor,
 )
 
 fun visualizeLamellarArmour(
@@ -52,6 +54,7 @@ private fun visualizeLamellarArmourBody(
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val overlap = state.config.equipment.lamellarArmour.overlap
     val lacingRenderer = createScaleRenderer(state, renderer, options, armour, scaleSize, clippingName)
+    val stripeRenderer = createStripeRenderer(state, renderer, armour.lacing, scaleSize, maxWidth, clippingName)
 
     visualizeRows(
         scaleSize,
@@ -62,6 +65,7 @@ private fun visualizeLamellarArmourBody(
         overlap,
         false,
         lacingRenderer,
+        stripeRenderer,
     )
 }
 
@@ -114,6 +118,35 @@ private fun createScaleRenderer(
                 visualizeComplexShape(renderer, aabb, armour.shape, options)
 
                 renderer.renderRoundedPolygon(leftPolygon, lacingOptions)
+            }
+        }
+    }
+}
+
+private fun createStripeRenderer(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    lacing: LamellarLacing,
+    scaleSize: Size2d,
+    rowWidth: Distance,
+    clippingName: String,
+): (AABB) -> Unit {
+    val config = state.config.equipment.lamellarArmour
+
+    return when (lacing) {
+        is DiagonalLacing -> { aabb -> }
+        is FourSidesLacing -> { aabb -> }
+        is LacingAndStripe -> {
+            val color = lacing.stripe.getColor(state.state, state.colors)
+            val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)
+            val stripeHeight = scaleSize.width * config.stripeWidth
+            val size = Size2d(rowWidth, stripeHeight)
+
+            return { aabb ->
+                val center = aabb.getPoint(CENTER, END)
+                val polygon = Polygon2d(AABB.fromCenter(center, size))
+
+                renderer.renderPolygon(polygon, lacingOptions)
             }
         }
     }
