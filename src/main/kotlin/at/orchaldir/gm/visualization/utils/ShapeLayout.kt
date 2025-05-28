@@ -6,7 +6,6 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -25,6 +24,7 @@ fun visualizeRowsOfShapes(
     rowOverlap: Factor,
     columnOverlap: Factor,
     useRowOffset: Boolean = true,
+    extraRendering: (AABB) -> Unit = {},
 ) {
     val rowStep = calculateStep(shapeSize.height, rowOverlap)
     val columnStep = calculateStep(shapeSize.width, columnOverlap)
@@ -44,6 +44,7 @@ fun visualizeRowsOfShapes(
         rows,
         columns,
         useRowOffset,
+        extraRendering,
     )
 }
 
@@ -58,6 +59,7 @@ private fun visualizeRowsOfShapes(
     rows: Int,
     columns: Int,
     useRowOffset: Boolean = true,
+    extraRendering: (AABB) -> Unit = {},
 ) {
     val rowStep = calculateStep(shapeSize.height, rowOverlap)
     val columnStep = calculateStep(shapeSize.width, columnOverlap)
@@ -78,6 +80,7 @@ private fun visualizeRowsOfShapes(
             shapeSize,
             columnStep,
             columns + rowOffset,
+            extraRendering,
         )
 
         rowCenter = rowCenter.minusHeight(rowStep)
@@ -97,14 +100,17 @@ fun visualizeRowOfShapes(
     size: Size2d,
     step: Distance,
     number: Int,
+    extraRendering: (AABB) -> Unit = {},
 ) {
     val rowStart = rowCenter.minusWidth(step * (number - 1) / 2.0f)
     var center = rowStart
 
     repeat(number) {
-        val scaleAabb = AABB.fromCenter(center, size)
+        val shapeAabb = AABB.fromCenter(center, size)
 
-        visualizeComplexShape(renderer, scaleAabb, shape, options)
+        visualizeComplexShape(renderer, shapeAabb, shape, options)
+
+        extraRendering(shapeAabb)
 
         center = center.addWidth(step)
     }

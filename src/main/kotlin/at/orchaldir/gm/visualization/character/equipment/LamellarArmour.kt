@@ -2,6 +2,9 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.LamellarArmour
+import at.orchaldir.gm.core.model.item.equipment.style.DiagonalLacing
+import at.orchaldir.gm.core.model.item.equipment.style.FourSidesLacing
+import at.orchaldir.gm.core.model.item.equipment.style.LacingAndStripe
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -41,6 +44,7 @@ private fun visualizeLamellarArmourBody(
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val overlap = Factor.fromPercentage(20)
+    val lacingRenderer = createLacingRenderer(armour, overlap, renderer, options)
 
     visualizeRowsOfShapes(
         renderer,
@@ -53,7 +57,30 @@ private fun visualizeLamellarArmourBody(
         overlap,
         overlap,
         false,
+        lacingRenderer,
     )
+}
+
+private fun createLacingRenderer(
+    armour: LamellarArmour,
+    overlap: Factor,
+    renderer: LayerRenderer,
+    options: FillAndBorder,
+): (AABB) -> Unit {
+    val lacingRenderer: (AABB) -> Unit = when (armour.lacing) {
+        is DiagonalLacing -> { aabb -> {} }
+        is FourSidesLacing -> { aabb ->
+            {
+                val top = aabb.createSubAabb(CENTER, overlap / 2, overlap, overlap / 4)
+                val polygon = Polygon2d(top.getCorners())
+
+                renderer.renderRoundedPolygon(polygon, options)
+            }
+        }
+
+        is LacingAndStripe -> { aabb -> {} }
+    }
+    return lacingRenderer
 }
 
 private fun calculateScaleWidth(
