@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.TopSlot
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
@@ -50,6 +51,7 @@ enum class EquipmentDataType {
     Glasses,
     Gloves,
     Hat,
+    LamellarArmour,
     Necklace,
     Pants,
     Polearm,
@@ -71,10 +73,11 @@ enum class EquipmentDataType {
         Glasses -> setOf(EyesSlot)
         Gloves -> setOf(HandSlot)
         Hat -> setOf(HeadSlot)
+        LamellarArmour -> setOf(TopSlot)
         Necklace -> setOf(NeckSlot)
         Pants -> setOf(BottomSlot)
         Polearm -> setOf(HeldInOneOrTwoHandsSlot)
-        ScaleArmour -> setOf(InnerTopSlot)
+        ScaleArmour -> setOf(TopSlot)
         Shield -> setOf(HeldInOneHandSlot)
         Shirt -> setOf(InnerTopSlot)
         Skirt -> setOf(BottomSlot)
@@ -97,6 +100,7 @@ sealed class EquipmentData : MadeFromParts {
         is Glasses -> EquipmentDataType.Glasses
         is Gloves -> EquipmentDataType.Gloves
         is Hat -> EquipmentDataType.Hat
+        is LamellarArmour -> EquipmentDataType.LamellarArmour
         is Necklace -> EquipmentDataType.Necklace
         is Pants -> EquipmentDataType.Pants
         is Polearm -> EquipmentDataType.Polearm
@@ -218,6 +222,20 @@ data class Hat(
     constructor(style: HatStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Lamellar")
+data class LamellarArmour(
+    val length: OuterwearLength = OuterwearLength.Knee,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Short,
+    val scale: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
+    val columns: Int = DEFAULT_SCALE_COLUMNS,
+    val overlap: Factor = DEFAULT_SCALE_OVERLAP,
+) : EquipmentData() {
+
+    override fun parts() = listOf(scale)
 }
 
 @Serializable
