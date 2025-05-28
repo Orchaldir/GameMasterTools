@@ -6,12 +6,48 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
+import kotlin.math.ceil
+
 
 fun visualizeRowsOfShapes(
+    renderer: LayerRenderer,
+    options: RenderOptions,
+    shape: ComplexShape,
+    shapeSize: Size2d,
+    top: Point2d,
+    bottom: Point2d,
+    width: Distance,
+    rowOverlap: Factor,
+    columnOverlap: Factor,
+    useRowOffset: Boolean = true,
+) {
+    val rowStep = calculateStep(shapeSize.height, rowOverlap)
+    val columnStep = calculateStep(shapeSize.width, columnOverlap)
+    val height = bottom.y - top.y
+    val rows = (height.toMeters() / rowStep.toMeters()).toInt()
+    val maxColumns = ceil(width.toMeters() / columnStep.toMeters()).toInt()
+    val columns = maxColumns + 2
+
+    visualizeRowsOfShapes(
+        renderer,
+        options,
+        shape,
+        shapeSize,
+        top,
+        rowOverlap,
+        columnOverlap,
+        rows,
+        columns,
+        useRowOffset,
+    )
+}
+
+private fun visualizeRowsOfShapes(
     renderer: LayerRenderer,
     options: RenderOptions,
     shape: ComplexShape,

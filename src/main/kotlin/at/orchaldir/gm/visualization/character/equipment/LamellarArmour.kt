@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.LamellarArmour
-import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -11,9 +10,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
-import at.orchaldir.gm.visualization.utils.calculateStep
 import at.orchaldir.gm.visualization.utils.visualizeRowsOfShapes
-import kotlin.math.ceil
 
 fun visualizeLamellarArmour(
     state: CharacterRenderState,
@@ -44,11 +41,7 @@ private fun visualizeLamellarArmourBody(
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val overlap = Factor.fromPercentage(20)
-    val step = calculateStep(scaleSize.height, overlap)
-    val height = bottom.y - start.y
-    val rows = (height.toMeters() / step.toMeters()).toInt()
-    val maxColumns = ceil(maxWidth.toMeters() / scaleWidth.toMeters()).toInt()
-    val columns = maxColumns + 2
+    //val columns = maxColumns + 2
 
     visualizeRowsOfShapes(
         renderer,
@@ -56,10 +49,10 @@ private fun visualizeLamellarArmourBody(
         armour.shape,
         scaleSize,
         start,
+        bottom,
+        maxWidth,
         overlap,
         overlap,
-        rows,
-        columns,
         false,
     )
 }
