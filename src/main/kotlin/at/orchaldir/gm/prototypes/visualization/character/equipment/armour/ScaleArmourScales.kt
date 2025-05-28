@@ -41,11 +41,11 @@ fun main() {
         addNames(listOf(5, 6, 7, 8)),
         addNames(shapes),
     ) { distance, shape, columns ->
-        val necklace = ScaleArmour(
+        val armour = ScaleArmour(
             shape = shape,
             columns = columns,
         )
-        Pair(createAppearance(distance), from(necklace))
+        Pair(createAppearance(distance), from(armour))
     }
 }
 
