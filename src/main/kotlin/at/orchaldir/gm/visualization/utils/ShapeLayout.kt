@@ -13,10 +13,7 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import kotlin.math.ceil
 
 
-fun visualizeRowsOfShapes(
-    renderer: LayerRenderer,
-    options: RenderOptions,
-    shape: ComplexShape,
+fun visualizeRows(
     shapeSize: Size2d,
     top: Point2d,
     bottom: Point2d,
@@ -24,7 +21,7 @@ fun visualizeRowsOfShapes(
     rowOverlap: Factor,
     columnOverlap: Factor,
     useRowOffset: Boolean = true,
-    extraRendering: (AABB) -> Unit = {},
+    cellRendering: (AABB) -> Unit = {},
 ) {
     val rowStep = calculateStep(shapeSize.height, rowOverlap)
     val columnStep = calculateStep(shapeSize.width, columnOverlap)
@@ -33,10 +30,7 @@ fun visualizeRowsOfShapes(
     val maxColumns = ceil(width.toMeters() / columnStep.toMeters()).toInt()
     val columns = maxColumns + 2
 
-    visualizeRowsOfShapes(
-        renderer,
-        options,
-        shape,
+    visualizeRows(
         shapeSize,
         top,
         rowOverlap,
@@ -44,14 +38,11 @@ fun visualizeRowsOfShapes(
         rows,
         columns,
         useRowOffset,
-        extraRendering,
+        cellRendering,
     )
 }
 
-private fun visualizeRowsOfShapes(
-    renderer: LayerRenderer,
-    options: RenderOptions,
-    shape: ComplexShape,
+private fun visualizeRows(
     shapeSize: Size2d,
     start: Point2d,
     rowOverlap: Factor,
@@ -59,7 +50,7 @@ private fun visualizeRowsOfShapes(
     rows: Int,
     columns: Int,
     useRowOffset: Boolean = true,
-    extraRendering: (AABB) -> Unit = {},
+    cellRendering: (AABB) -> Unit = {},
 ) {
     val rowStep = calculateStep(shapeSize.height, rowOverlap)
     val columnStep = calculateStep(shapeSize.width, columnOverlap)
@@ -72,15 +63,12 @@ private fun visualizeRowsOfShapes(
             1
         }
 
-        visualizeRowOfShapes(
-            renderer,
-            options,
+        visualizeRow(
             rowCenter,
-            shape,
             shapeSize,
             columnStep,
             columns + rowOffset,
-            extraRendering,
+            cellRendering,
         )
 
         rowCenter = rowCenter.minusHeight(rowStep)
@@ -92,15 +80,12 @@ fun calculateStep(
     rowOverlap: Factor,
 ): Distance = distance * (FULL - rowOverlap)
 
-fun visualizeRowOfShapes(
-    renderer: LayerRenderer,
-    options: RenderOptions,
+fun visualizeRow(
     rowCenter: Point2d,
-    shape: ComplexShape,
     size: Size2d,
     step: Distance,
     number: Int,
-    extraRendering: (AABB) -> Unit = {},
+    cellRendering: (AABB) -> Unit = {},
 ) {
     val rowStart = rowCenter.minusWidth(step * (number - 1) / 2.0f)
     var center = rowStart
@@ -108,9 +93,7 @@ fun visualizeRowOfShapes(
     repeat(number) {
         val shapeAabb = AABB.fromCenter(center, size)
 
-        visualizeComplexShape(renderer, shapeAabb, shape, options)
-
-        extraRendering(shapeAabb)
+        cellRendering(shapeAabb)
 
         center = center.addWidth(step)
     }

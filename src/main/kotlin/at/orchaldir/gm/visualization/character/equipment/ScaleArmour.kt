@@ -12,7 +12,8 @@ import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.character.equipment.part.createSleeveAabbs
-import at.orchaldir.gm.visualization.utils.visualizeRowsOfShapes
+import at.orchaldir.gm.visualization.utils.visualizeComplexShape
+import at.orchaldir.gm.visualization.utils.visualizeRows
 
 fun visualizeScaleArmour(
     state: CharacterRenderState,
@@ -44,17 +45,16 @@ private fun visualizeScaleArmourBody(
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
 
-    visualizeRowsOfShapes(
-        renderer,
-        options,
-        armour.shape,
+    visualizeRows(
         scaleSize,
         top,
         bottom,
         maxWidth,
         armour.overlap,
         ZERO,
-    )
+    ) { scaleAabb ->
+        visualizeComplexShape(renderer, scaleAabb, armour.shape, options)
+    }
 }
 
 private fun visualizeScaleArmourSleeves(
@@ -92,17 +92,17 @@ private fun visualizeScaleArmourSleeve(
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
 
-    visualizeRowsOfShapes(
-        renderer,
-        options,
-        armour.shape,
+    visualizeRows(
         scaleSize,
         top,
         bottom,
         aabb.size.width,
         armour.overlap,
         ZERO,
-    )
+        true,
+    ) { scaleAabb ->
+        visualizeComplexShape(renderer, scaleAabb, armour.shape, options)
+    }
 }
 
 private fun calculateScaleWidth(

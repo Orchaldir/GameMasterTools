@@ -9,11 +9,13 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
-import at.orchaldir.gm.visualization.utils.visualizeRowsOfShapes
+import at.orchaldir.gm.visualization.utils.visualizeComplexShape
+import at.orchaldir.gm.visualization.utils.visualizeRows
 
 data class LamellarArmourConfig(
     val overlap: Factor,
@@ -49,12 +51,9 @@ private fun visualizeLamellarArmourBody(
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val overlap = state.config.equipment.lamellarArmour.overlap
-    val lacingRenderer = createLacingRenderer(state, renderer, armour, scaleSize, clippingName)
+    val lacingRenderer = createScaleRenderer(state, renderer, options, armour, scaleSize, clippingName)
 
-    visualizeRowsOfShapes(
-        renderer,
-        options,
-        armour.shape,
+    visualizeRows(
         scaleSize,
         start,
         bottom,
@@ -66,9 +65,10 @@ private fun visualizeLamellarArmourBody(
     )
 }
 
-private fun createLacingRenderer(
+private fun createScaleRenderer(
     state: CharacterRenderState,
     renderer: LayerRenderer,
+    options: RenderOptions,
     armour: LamellarArmour,
     scaleSize: Size2d,
     clippingName: String,
@@ -77,10 +77,10 @@ private fun createLacingRenderer(
     val overlap = config.overlap
 
     return when (armour.lacing) {
-        is DiagonalLacing -> { aabb -> {} }
+        is DiagonalLacing -> { aabb -> visualizeComplexShape(renderer, aabb, armour.shape, options) }
         is FourSidesLacing -> {
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
-            val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+            val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)
             val length = scaleSize.width * config.lacingLength
             val bottomY = FULL - overlap / 2
             val leftX = overlap / 2
@@ -93,14 +93,16 @@ private fun createLacingRenderer(
                 val left = aabb.getPoint(leftX, CENTER)
                 val leftPolygon = Polygon2d(AABB.fromCenter(left, leftSize))
 
-                renderer.renderRoundedPolygon(bottomPolygon, options)
-                renderer.renderRoundedPolygon(leftPolygon, options)
+                visualizeComplexShape(renderer, aabb, armour.shape, options)
+
+                renderer.renderRoundedPolygon(bottomPolygon, lacingOptions)
+                renderer.renderRoundedPolygon(leftPolygon, lacingOptions)
             }
         }
 
         is LacingAndStripe -> {
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
-            val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+            val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)
             val length = scaleSize.width * config.lacingLength
             val leftX = overlap / 2
             val leftSize = Size2d(length / 4, length)
@@ -109,7 +111,9 @@ private fun createLacingRenderer(
                 val left = aabb.getPoint(leftX, CENTER)
                 val leftPolygon = Polygon2d(AABB.fromCenter(left, leftSize))
 
-                renderer.renderRoundedPolygon(leftPolygon, options)
+                visualizeComplexShape(renderer, aabb, armour.shape, options)
+
+                renderer.renderRoundedPolygon(leftPolygon, lacingOptions)
             }
         }
     }
