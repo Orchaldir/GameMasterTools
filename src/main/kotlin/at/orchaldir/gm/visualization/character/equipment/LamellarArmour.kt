@@ -74,12 +74,17 @@ private fun createLacingRenderer(
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
             val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
             val bottomY = FULL - overlap / 2
+            val leftX = overlap / 2
+            val quarter = overlap / 4
 
             return { aabb ->
-                val bottom = aabb.createSubAabb(CENTER, bottomY, overlap, overlap / 4)
+                val bottom = aabb.createSubAabb(CENTER, bottomY, overlap, quarter)
                 val bottomPolygon = Polygon2d(bottom.getCorners())
+                val left = aabb.createSubAabb(leftX, CENTER, quarter, overlap)
+                val leftPolygon = Polygon2d(left.getCorners())
 
                 renderer.renderRoundedPolygon(bottomPolygon, options)
+                renderer.renderRoundedPolygon(leftPolygon, options)
             }
         }
 
