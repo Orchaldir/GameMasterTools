@@ -230,8 +230,8 @@ data class LamellarArmour(
     val length: OuterwearLength = OuterwearLength.Knee,
     val sleeveStyle: SleeveStyle = SleeveStyle.Short,
     val scale: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
-    val lacing: LamellarLacing = FourSidesLacing(),
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.RoundedRectangle),
+    val lacing: LamellarLacing = FourSidesLacing(),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
 ) : EquipmentData() {
 

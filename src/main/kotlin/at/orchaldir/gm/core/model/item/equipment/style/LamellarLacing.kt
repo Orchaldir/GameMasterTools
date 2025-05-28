@@ -3,8 +3,14 @@ package at.orchaldir.gm.core.model.item.equipment.style
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+val MIN_STRIPE_WIDTH = fromPercentage(1)
+val DEFAULT_STRIPE_WIDTH = fromPercentage(10)
+val MAX_STRIPE_WIDTH = fromPercentage(20)
 
 enum class LamellarLacingType {
     Diagonal,
@@ -53,6 +59,7 @@ data class FourSidesLacing(
 data class LacingAndStripe(
     val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
     val stripe: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
+    val stripeWidth: Factor = DEFAULT_STRIPE_WIDTH,
 ) : LamellarLacing() {
 
     constructor(lacing: Color, stripe: Color) :
