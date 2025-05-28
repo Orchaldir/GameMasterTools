@@ -235,7 +235,7 @@ data class LamellarArmour(
     val columns: Int = DEFAULT_SCALE_COLUMNS,
 ) : EquipmentData() {
 
-    override fun parts() = listOf(scale)
+    override fun parts() = lacing.parts() + scale
 }
 
 @Serializable

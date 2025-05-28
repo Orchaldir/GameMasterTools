@@ -17,6 +17,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -33,6 +34,7 @@ fun HtmlBlockTag.showLamellarLacing(
         field("Type", lacing.getType())
 
         when (lacing) {
+            NoLacing -> doNothing()
             is DiagonalLacing -> showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
             is FourSidesLacing -> showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
             is LacingAndStripe -> {
@@ -51,6 +53,7 @@ fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
         selectValue("Type", combine(LACING, TYPE), LamellarLacingType.entries, lacing.getType())
 
         when (lacing) {
+            NoLacing -> doNothing()
             is DiagonalLacing -> editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
             is FourSidesLacing -> editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
             is LacingAndStripe -> {
@@ -74,6 +77,7 @@ fun parseLamellarLacing(parameters: Parameters): LamellarLacing {
     val type = parse(parameters, combine(LACING, TYPE), LamellarLacingType.FourSides)
 
     return when (type) {
+        LamellarLacingType.None -> NoLacing
         LamellarLacingType.Diagonal -> DiagonalLacing(
             parseColorSchemeItemPart(parameters, LACING),
         )

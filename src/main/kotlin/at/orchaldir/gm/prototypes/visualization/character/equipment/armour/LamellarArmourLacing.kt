@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.LamellarArmour
 import at.orchaldir.gm.core.model.item.equipment.style.DiagonalLacing
 import at.orchaldir.gm.core.model.item.equipment.style.FourSidesLacing
 import at.orchaldir.gm.core.model.item.equipment.style.LacingAndStripe
+import at.orchaldir.gm.core.model.item.equipment.style.NoLacing
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
@@ -30,6 +31,7 @@ fun main() {
         UsingRectangularShape(Ellipse),
     )
     val lacing = listOf(
+        Pair("None", NoLacing),
         Pair("Diagonal", DiagonalLacing()),
         Pair("4 Sides", FourSidesLacing()),
         Pair("Stripe", LacingAndStripe()),

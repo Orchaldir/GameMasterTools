@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.item.equipment.style.DiagonalLacing
 import at.orchaldir.gm.core.model.item.equipment.style.FourSidesLacing
 import at.orchaldir.gm.core.model.item.equipment.style.LacingAndStripe
 import at.orchaldir.gm.core.model.item.equipment.style.LamellarLacing
+import at.orchaldir.gm.core.model.item.equipment.style.NoLacing
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
@@ -87,6 +89,9 @@ private fun createScaleRenderer(
     val overlap = config.overlap
 
     when (armour.lacing) {
+        NoLacing -> return { aabb ->
+            visualizeComplexShape(renderer, aabb, armour.shape, options)
+        }
         is DiagonalLacing -> {
             val thickness = scaleSize.width * config.diagonalWidth
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
@@ -166,8 +171,9 @@ private fun createStripeRenderer(
     val config = state.config.equipment.lamellarArmour
 
     return when (lacing) {
-        is DiagonalLacing -> { aabb -> }
-        is FourSidesLacing -> { aabb -> }
+        NoLacing, is DiagonalLacing, is FourSidesLacing -> {
+            { }
+        }
         is LacingAndStripe -> {
             val color = lacing.stripe.getColor(state.state, state.colors)
             val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)

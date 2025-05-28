@@ -13,6 +13,7 @@ val DEFAULT_STRIPE_WIDTH = fromPercentage(10)
 val MAX_STRIPE_WIDTH = fromPercentage(20)
 
 enum class LamellarLacingType {
+    None,
     Diagonal,
     FourSides,
     Stripe,
@@ -22,17 +23,23 @@ enum class LamellarLacingType {
 sealed class LamellarLacing : MadeFromParts {
 
     fun getType() = when (this) {
+        NoLacing -> LamellarLacingType.None
         is DiagonalLacing -> LamellarLacingType.Diagonal
         is FourSidesLacing -> LamellarLacingType.FourSides
         is LacingAndStripe -> LamellarLacingType.Stripe
     }
 
     override fun parts() = when (this) {
+        NoLacing -> emptyList()
         is DiagonalLacing -> listOf(lacing)
         is FourSidesLacing -> listOf(lacing)
         is LacingAndStripe -> listOf(lacing, stripe)
     }
 }
+
+@Serializable
+@SerialName("None")
+data object NoLacing : LamellarLacing()
 
 @Serializable
 @SerialName("Diagonal")
