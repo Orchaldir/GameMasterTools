@@ -84,7 +84,6 @@ private fun createLacingRenderer(
             val length = scaleSize.width * config.lacingLength
             val bottomY = FULL - overlap / 2
             val leftX = overlap / 2
-            val quarter = overlap / 4
             val bottomSize = Size2d(length, length / 4)
             val leftSize = Size2d(length / 4, length)
 
@@ -99,7 +98,20 @@ private fun createLacingRenderer(
             }
         }
 
-        is LacingAndStripe -> { aabb -> {} }
+        is LacingAndStripe -> {
+            val color = armour.lacing.lacing.getColor(state.state, state.colors)
+            val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+            val length = scaleSize.width * config.lacingLength
+            val leftX = overlap / 2
+            val leftSize = Size2d(length / 4, length)
+
+            return { aabb ->
+                val left = aabb.getPoint(leftX, CENTER)
+                val leftPolygon = Polygon2d(AABB.fromCenter(left, leftSize))
+
+                renderer.renderRoundedPolygon(leftPolygon, options)
+            }
+        }
     }
 }
 
