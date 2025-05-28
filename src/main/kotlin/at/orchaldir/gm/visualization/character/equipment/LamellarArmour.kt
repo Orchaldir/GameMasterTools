@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.item.equipment.style.LacingAndStripe
 import at.orchaldir.gm.core.model.item.equipment.style.LamellarLacing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
+import at.orchaldir.gm.utils.math.unit.convertFromDegrees
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
@@ -87,17 +89,27 @@ private fun createScaleRenderer(
         is DiagonalLacing -> {
             val thickness = scaleSize.width * config.diagonalWidth
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
-            val lacingOptions = LineOptions(color.toRender(), thickness)
+            val lacingOptions = NoBorder(color.toRender(), clippingName)
             val topY = HALF - config.diagonalWidth
             val bottomY = HALF + config.diagonalWidth
+            val leftOffset = Point2d().createPolar(thickness / 2, fromDegrees(135L))
+            val rightOffset = Point2d().createPolar(thickness / 2, fromDegrees(-45L))
 
             return { aabb ->
                 val top = aabb.getPoint(CENTER, topY)
                 val bottom = aabb.getPoint(-CENTER, bottomY)
+                val polygon = Polygon2d(
+                    listOf(
+                        top + leftOffset,
+                        bottom + leftOffset,
+                        bottom + rightOffset,
+                        top + rightOffset,
+                    )
+                )
 
                 visualizeComplexShape(renderer, aabb, armour.shape, options)
 
-                renderer.renderLine(listOf(top, bottom), lacingOptions)
+                renderer.renderPolygon(polygon, lacingOptions)
             }
         }
 
