@@ -92,8 +92,8 @@ private fun createScaleRenderer(
             val lacingOptions = NoBorder(color.toRender(), clippingName)
             val topY = HALF - config.diagonalWidth
             val bottomY = HALF + config.diagonalWidth
-            val leftOffset = Point2d().createPolar(thickness / 2, fromDegrees(135L))
-            val rightOffset = Point2d().createPolar(thickness / 2, fromDegrees(-45L))
+            val leftOffset = Point2d().createPolar(thickness / 2, fromDegrees(-135L))
+            val rightOffset = Point2d().createPolar(thickness / 2, fromDegrees(45L))
 
             return { aabb ->
                 val top = aabb.getPoint(CENTER, topY)
