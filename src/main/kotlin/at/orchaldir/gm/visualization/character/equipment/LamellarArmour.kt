@@ -44,7 +44,7 @@ private fun visualizeLamellarArmourBody(
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val overlap = Factor.fromPercentage(20)
-    val lacingRenderer = createLacingRenderer(armour, overlap, renderer, options)
+    val lacingRenderer = createLacingRenderer(state, renderer, armour, overlap, clippingName)
 
     visualizeRowsOfShapes(
         renderer,
@@ -62,22 +62,29 @@ private fun visualizeLamellarArmourBody(
 }
 
 private fun createLacingRenderer(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
     armour: LamellarArmour,
     overlap: Factor,
-    renderer: LayerRenderer,
-    options: FillAndBorder,
-): (AABB) -> Unit = when (armour.lacing) {
-    is DiagonalLacing -> { aabb -> {} }
-    is FourSidesLacing -> { aabb ->
-        {
-            val top = aabb.createSubAabb(CENTER, overlap / 2, overlap, overlap / 4)
-            val polygon = Polygon2d(top.getCorners())
+    clippingName: String,
+): (AABB) -> Unit {
+    return when (armour.lacing) {
+        is DiagonalLacing -> { aabb -> {} }
+        is FourSidesLacing -> {
+            val color = armour.lacing.lacing.getColor(state.state, state.colors)
+            val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+            val bottomY = FULL - overlap / 2
 
-            renderer.renderRoundedPolygon(polygon, options)
+            return { aabb ->
+                val bottom = aabb.createSubAabb(CENTER, bottomY, overlap, overlap / 4)
+                val bottomPolygon = Polygon2d(bottom.getCorners())
+
+                renderer.renderRoundedPolygon(bottomPolygon, options)
+            }
         }
-    }
 
-    is LacingAndStripe -> { aabb -> {} }
+        is LacingAndStripe -> { aabb -> {} }
+    }
 }
 
 private fun calculateScaleWidth(
