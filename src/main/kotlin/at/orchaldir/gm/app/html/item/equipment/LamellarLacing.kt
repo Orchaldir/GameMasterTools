@@ -50,7 +50,7 @@ fun HtmlBlockTag.showLamellarLacing(
 
 fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
     showDetails("Lacing", true) {
-        selectValue("Type", combine(LACING, TYPE), LamellarLacingType.entries, lacing.getType())
+        selectValue("Type", LACING, LamellarLacingType.entries, lacing.getType())
 
         when (lacing) {
             NoLacing -> doNothing()
@@ -74,7 +74,7 @@ fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
 // parse
 
 fun parseLamellarLacing(parameters: Parameters): LamellarLacing {
-    val type = parse(parameters, combine(LACING, TYPE), LamellarLacingType.FourSides)
+    val type = parse(parameters, LACING, LamellarLacingType.FourSides)
 
     return when (type) {
         LamellarLacingType.None -> NoLacing
