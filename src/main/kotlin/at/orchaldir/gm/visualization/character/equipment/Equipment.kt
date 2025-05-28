@@ -43,6 +43,7 @@ fun visualizeBodyEquipment(
                 is Dress -> visualizeDress(newState, body, data)
                 is Footwear -> visualizeFootwear(newState, body, data)
                 is Gloves -> visualizeGloves(newState, body, data)
+                is LamellarArmour -> visualizeLamellarArmour(newState, body, data)
                 is Necklace -> visualizeNecklace(newState, body, data)
                 is Pants -> visualizePants(newState, body, data)
                 is Polearm -> visualizePolearm(newState, body, data, set)
