@@ -66,21 +66,18 @@ private fun createLacingRenderer(
     overlap: Factor,
     renderer: LayerRenderer,
     options: FillAndBorder,
-): (AABB) -> Unit {
-    val lacingRenderer: (AABB) -> Unit = when (armour.lacing) {
-        is DiagonalLacing -> { aabb -> {} }
-        is FourSidesLacing -> { aabb ->
-            {
-                val top = aabb.createSubAabb(CENTER, overlap / 2, overlap, overlap / 4)
-                val polygon = Polygon2d(top.getCorners())
+): (AABB) -> Unit = when (armour.lacing) {
+    is DiagonalLacing -> { aabb -> {} }
+    is FourSidesLacing -> { aabb ->
+        {
+            val top = aabb.createSubAabb(CENTER, overlap / 2, overlap, overlap / 4)
+            val polygon = Polygon2d(top.getCorners())
 
-                renderer.renderRoundedPolygon(polygon, options)
-            }
+            renderer.renderRoundedPolygon(polygon, options)
         }
-
-        is LacingAndStripe -> { aabb -> {} }
     }
-    return lacingRenderer
+
+    is LacingAndStripe -> { aabb -> {} }
 }
 
 private fun calculateScaleWidth(
