@@ -10,6 +10,8 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.LineOptions
+import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
@@ -21,6 +23,7 @@ import at.orchaldir.gm.visualization.utils.visualizeRows
 data class LamellarArmourConfig(
     val overlap: Factor,
     val lacingLength: Factor,
+    val diagonalWidth: Factor,
     val stripeWidth: Factor,
 )
 
@@ -80,8 +83,24 @@ private fun createScaleRenderer(
     val config = state.config.equipment.lamellarArmour
     val overlap = config.overlap
 
-    return when (armour.lacing) {
-        is DiagonalLacing -> { aabb -> visualizeComplexShape(renderer, aabb, armour.shape, options) }
+    when (armour.lacing) {
+        is DiagonalLacing -> {
+            val thickness = scaleSize.width * config.diagonalWidth
+            val color = armour.lacing.lacing.getColor(state.state, state.colors)
+            val lacingOptions = LineOptions(color.toRender(), thickness)
+            val topY = HALF - config.diagonalWidth
+            val bottomY = HALF + config.diagonalWidth
+
+            return { aabb ->
+                val top = aabb.getPoint(CENTER, topY)
+                val bottom = aabb.getPoint(-CENTER, bottomY)
+
+                visualizeComplexShape(renderer, aabb, armour.shape, options)
+
+                renderer.renderLine(listOf(top, bottom), lacingOptions)
+            }
+        }
+
         is FourSidesLacing -> {
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)
