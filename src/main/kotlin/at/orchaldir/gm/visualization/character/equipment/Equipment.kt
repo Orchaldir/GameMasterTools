@@ -19,6 +19,7 @@ data class EquipmentConfig(
     val footwear: FootwearConfig,
     val glasses: GlassesConfig,
     val hat: HatConfig,
+    val lamellarArmour: LamellarArmourConfig,
     val necklace: NecklaceConfig,
     val neckline: NecklineConfig,
     val opening: OpeningConfig,

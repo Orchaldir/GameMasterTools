@@ -15,6 +15,11 @@ import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.utils.visualizeRowsOfShapes
 
+data class LamellarArmourConfig(
+    val overlap: Factor,
+    val lacingLength: Factor,
+)
+
 fun visualizeLamellarArmour(
     state: CharacterRenderState,
     body: Body,
@@ -43,8 +48,8 @@ private fun visualizeLamellarArmourBody(
     val start = torso.getPoint(CENTER, START)
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
-    val overlap = Factor.fromPercentage(20)
-    val lacingRenderer = createLacingRenderer(state, renderer, armour, overlap, clippingName)
+    val overlap = state.config.equipment.lamellarArmour.overlap
+    val lacingRenderer = createLacingRenderer(state, renderer, armour, scaleSize, clippingName)
 
     visualizeRowsOfShapes(
         renderer,
@@ -65,23 +70,29 @@ private fun createLacingRenderer(
     state: CharacterRenderState,
     renderer: LayerRenderer,
     armour: LamellarArmour,
-    overlap: Factor,
+    scaleSize: Size2d,
     clippingName: String,
 ): (AABB) -> Unit {
+    val config = state.config.equipment.lamellarArmour
+    val overlap = config.overlap
+
     return when (armour.lacing) {
         is DiagonalLacing -> { aabb -> {} }
         is FourSidesLacing -> {
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
             val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+            val length = scaleSize.width * config.lacingLength
             val bottomY = FULL - overlap / 2
             val leftX = overlap / 2
             val quarter = overlap / 4
+            val bottomSize = Size2d(length, length / 4)
+            val leftSize = Size2d(length / 4, length)
 
             return { aabb ->
-                val bottom = aabb.createSubAabb(CENTER, bottomY, overlap, quarter)
-                val bottomPolygon = Polygon2d(bottom.getCorners())
-                val left = aabb.createSubAabb(leftX, CENTER, quarter, overlap)
-                val leftPolygon = Polygon2d(left.getCorners())
+                val bottom = aabb.getPoint(CENTER, bottomY)
+                val bottomPolygon = Polygon2d(AABB.fromCenter(bottom, bottomSize))
+                val left = aabb.getPoint(leftX, CENTER)
+                val leftPolygon = Polygon2d(AABB.fromCenter(left, leftSize))
 
                 renderer.renderRoundedPolygon(bottomPolygon, options)
                 renderer.renderRoundedPolygon(leftPolygon, options)

@@ -37,7 +37,7 @@ sealed class LamellarLacing : MadeFromParts {
 @Serializable
 @SerialName("Diagonal")
 data class DiagonalLacing(
-    val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
+    val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
 ) : LamellarLacing() {
 
     constructor(lacing: Color) : this(ColorSchemeItemPart(lacing))
@@ -47,7 +47,7 @@ data class DiagonalLacing(
 @Serializable
 @SerialName("4")
 data class FourSidesLacing(
-    val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
+    val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
 ) : LamellarLacing() {
 
     constructor(lacing: Color) : this(ColorSchemeItemPart(lacing))
@@ -57,7 +57,7 @@ data class FourSidesLacing(
 @Serializable
 @SerialName("Stripe")
 data class LacingAndStripe(
-    val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
+    val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
     val stripe: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
     val stripeWidth: Factor = DEFAULT_STRIPE_WIDTH,
 ) : LamellarLacing() {
