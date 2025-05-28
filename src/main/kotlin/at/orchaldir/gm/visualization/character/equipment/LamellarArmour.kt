@@ -103,7 +103,7 @@ private fun createScaleRenderer(
 
         is FourSidesLacing -> {
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
-            val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)
+            val lacingOptions = NoBorder(color.toRender(), clippingName)
             val length = scaleSize.width * config.lacingLength
             val bottomY = FULL - overlap / 2
             val leftX = overlap / 2
@@ -125,7 +125,7 @@ private fun createScaleRenderer(
 
         is LacingAndStripe -> {
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
-            val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)
+            val lacingOptions = NoBorder(color.toRender(), clippingName)
             val length = scaleSize.width * config.lacingLength
             val leftX = overlap / 2
             val leftSize = Size2d(length / 4, length)
