@@ -18,11 +18,12 @@ fun visualizeRowsOfShapes(
     step: Distance,
     rows: Int,
     columns: Int,
+    useRowOffset: Boolean = true,
 ) {
     var rowCenter = start.addHeight(step * rows)
 
     repeat(rows + 1) { index ->
-        val rowOffset = if (index.isEven()) {
+        val rowOffset = if (!useRowOffset || index.isEven()) {
             0
         } else {
             1

@@ -48,7 +48,7 @@ private fun visualizeLamellarArmourBody(
     val maxColumns = ceil(maxWidth.toMeters() / scaleWidth.toMeters()).toInt()
     val columns = maxColumns + 2
 
-    visualizeRowsOfShapes(renderer, options, armour.shape, scaleSize, start, step, rows, columns)
+    visualizeRowsOfShapes(renderer, options, armour.shape, scaleSize, start, step, rows, columns, false)
 }
 
 private fun calculateScaleWidth(
