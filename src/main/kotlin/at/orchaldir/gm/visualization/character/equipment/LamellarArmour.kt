@@ -119,14 +119,14 @@ private fun createScaleRenderer(
             val lacingOptions = NoBorder(color.toRender(), clippingName)
             val length = scaleSize.width * config.lacingLength
             val bottomY = FULL - overlap / 2
-            val leftX = overlap / 2
             val bottomSize = Size2d(length, length / 4)
             val leftSize = Size2d(length / 4, length)
+            val leftOffset = scaleSize.height * overlap / 2
 
             return { aabb ->
                 val bottom = aabb.getPoint(CENTER, bottomY)
                 val bottomPolygon = Polygon2d(AABB.fromCenter(bottom, bottomSize))
-                val left = aabb.getPoint(leftX, CENTER)
+                val left = aabb.getPoint(START, CENTER).addWidth(leftOffset)
                 val leftPolygon = Polygon2d(AABB.fromCenter(left, leftSize))
 
                 visualizeComplexShape(renderer, aabb, armour.shape, options)
@@ -140,11 +140,11 @@ private fun createScaleRenderer(
             val color = armour.lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = NoBorder(color.toRender(), clippingName)
             val length = scaleSize.width * config.lacingLength
-            val leftX = overlap / 2
             val leftSize = Size2d(length / 4, length)
+            val leftOffset = scaleSize.height * overlap / 2
 
             return { aabb ->
-                val left = aabb.getPoint(leftX, CENTER)
+                val left = aabb.getPoint(START, CENTER).addWidth(leftOffset)
                 val leftPolygon = Polygon2d(AABB.fromCenter(left, leftSize))
 
                 visualizeComplexShape(renderer, aabb, armour.shape, options)

@@ -18,7 +18,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 const val MIN_SCALE_COLUMNS = 3
-const val DEFAULT_SCALE_COLUMNS = 5
+const val DEFAULT_SCALE_COLUMNS = 6
 const val MAX_SCALE_COLUMNS = 10
 
 val MIN_SCALE_OVERLAP = QUARTER
