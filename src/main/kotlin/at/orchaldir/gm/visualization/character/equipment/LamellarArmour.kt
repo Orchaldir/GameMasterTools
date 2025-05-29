@@ -12,8 +12,8 @@ import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
-import at.orchaldir.gm.visualization.character.appearance.addHip
-import at.orchaldir.gm.visualization.character.appearance.addTorso
+import at.orchaldir.gm.visualization.character.equipment.part.calculateArmourScaleWidth
+import at.orchaldir.gm.visualization.character.equipment.part.createClippingPolygonForArmourBody
 import at.orchaldir.gm.visualization.character.equipment.part.createSleeveAabbs
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRows
@@ -40,14 +40,14 @@ private fun visualizeLamellarArmourBody(
     body: Body,
     armour: LamellarArmour,
 ) {
-    val clipping = createClippingPolygonForBody(state, body)
+    val clipping = createClippingPolygonForArmourBody(state, body)
     val clippingName = state.renderer.createClipping(clipping)
     val color = armour.scale.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
     val maxWidthFactor = state.config.body.getMaxWidth(body.bodyShape)
     val maxWidth = torso.convertWidth(maxWidthFactor)
-    val scaleWidth = calculateScaleWidth(state, body, torso, armour)
+    val scaleWidth = calculateArmourScaleWidth(state, body, torso, armour.columns)
     val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
     val start = torso.getPoint(CENTER, START)
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
@@ -199,7 +199,7 @@ private fun visualizeArmourSleeves(
     val (leftAabb, rightAabb) = createSleeveAabbs(state, body, armour.sleeveStyle)
     val (leftClip, rightClip) = createSleeveAabbs(state, body, SleeveStyle.Long)
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
-    val scaleWidth = calculateScaleWidth(state, body, torso, armour)
+    val scaleWidth = calculateArmourScaleWidth(state, body, torso, armour.columns)
     val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
 
     visualizeArmourSleeve(state, renderer, leftAabb, leftClip, armour, scaleSize)
@@ -235,34 +235,4 @@ private fun visualizeArmourSleeve(
         lacingRenderer,
         stripeRenderer,
     )
-}
-
-private fun calculateScaleWidth(
-    state: CharacterRenderState,
-    body: Body,
-    torso: AABB,
-    armour: LamellarArmour,
-): Distance {
-    val hipWidthFactor = state.config.body.getHipWidth(body.bodyShape)
-    val hipWidth = torso.convertWidth(hipWidthFactor)
-
-    return hipWidth / armour.columns
-}
-
-private fun createClippingPolygonForBody(
-    state: CharacterRenderState,
-    body: Body,
-): Polygon2d {
-    val torso = state.config.body.getTorsoAabb(state.aabb, body)
-    val hipWidthFactor = state.config.body.getHipWidth(body.bodyShape)
-    val hipWidth = torso.convertWidth(hipWidthFactor)
-    val half = hipWidth / 2
-    val bottom = state.aabb.getPoint(CENTER, END)
-    val builder = Polygon2dBuilder()
-        .addPoints(bottom.minusWidth(half), bottom.addWidth(half))
-
-    addHip(state.config, builder, state.aabb, body)
-    addTorso(state, body, builder)
-
-    return builder.build()
 }
