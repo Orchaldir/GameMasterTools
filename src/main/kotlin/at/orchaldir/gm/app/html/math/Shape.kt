@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.shape.*
 import io.ktor.http.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -27,12 +28,14 @@ fun HtmlBlockTag.showComplexShape(
 
         when (shape) {
             is UsingCircularShape -> showCircularShape(shape.shape)
-            is UsingRectangularShape -> {
-                showRectangularShape(shape.shape)
-                fieldFactor("Height to Width", shape.widthFactor)
-            }
+            is UsingRectangularShape -> showUsingRectangularShape(shape)
         }
     }
+}
+
+fun HtmlBlockTag.showUsingRectangularShape(shape: UsingRectangularShape) {
+    showRectangularShape(shape.shape)
+    fieldFactor("Height to Width", shape.widthFactor)
 }
 
 fun HtmlBlockTag.showCircularShape(
@@ -61,19 +64,25 @@ fun HtmlBlockTag.selectComplexShape(
 
         when (shape) {
             is UsingCircularShape -> selectCircularShape(shape.shape, combine(param, SHAPE, 0))
-            is UsingRectangularShape -> {
-                selectRectangularShape(shape.shape, combine(param, SHAPE, 1), availableShapes = availableShapes)
-                selectFactor(
-                    "Height to Width",
-                    combine(param, SIZE),
-                    shape.widthFactor,
-                    MIN_RECTANGULAR_FACTOR,
-                    MAX_RECTANGULAR_FACTOR,
-                    ONE_PERCENT,
-                )
-            }
+            is UsingRectangularShape -> selectUsingRectangularShape(shape, param, availableShapes)
         }
     }
+}
+
+fun HtmlBlockTag.selectUsingRectangularShape(
+    shape: UsingRectangularShape,
+    param: String,
+    availableShapes: Collection<RectangularShape> = RectangularShape.entries,
+) {
+    selectRectangularShape(shape.shape, combine(param, SHAPE, 1), availableShapes = availableShapes)
+    selectFactor(
+        "Height to Width",
+        combine(param, SIZE),
+        shape.widthFactor,
+        MIN_RECTANGULAR_FACTOR,
+        MAX_RECTANGULAR_FACTOR,
+        ONE_PERCENT,
+    )
 }
 
 fun HtmlBlockTag.selectCircularShape(
@@ -101,11 +110,16 @@ fun parseComplexShape(parameters: Parameters, param: String) =
             parseCircularShape(parameters, combine(param, SHAPE, 0)),
         )
 
-        ComplexShapeType.Rectangular -> UsingRectangularShape(
-            parseRectangularShape(parameters, combine(param, SHAPE, 1)),
-            parseFactor(parameters, combine(param, SIZE), HALF),
-        )
+        ComplexShapeType.Rectangular -> parseUsingRectangularShape(parameters, param)
     }
+
+fun parseUsingRectangularShape(
+    parameters: Parameters,
+    param: String,
+) = UsingRectangularShape(
+    parseRectangularShape(parameters, combine(param, SHAPE, 1)),
+    parseFactor(parameters, combine(param, SIZE), HALF),
+)
 
 fun parseCircularShape(
     parameters: Parameters,

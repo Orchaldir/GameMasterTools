@@ -3,8 +3,12 @@ package at.orchaldir.gm.app.html.item.equipment
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.math.parseComplexShape
+import at.orchaldir.gm.app.html.math.parseUsingRectangularShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
+import at.orchaldir.gm.app.html.math.selectRectangularShape
+import at.orchaldir.gm.app.html.math.selectUsingRectangularShape
 import at.orchaldir.gm.app.html.math.showComplexShape
+import at.orchaldir.gm.app.html.math.showUsingRectangularShape
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
@@ -35,7 +39,7 @@ fun HtmlBlockTag.showLamellarArmour(
     field("Length", armour.length)
     field("Sleeve Style", armour.sleeveStyle)
     showColorSchemeItemPart(call, state, armour.scale, "Scale")
-    showComplexShape(armour.shape, "Scale Shape")
+    showUsingRectangularShape(armour.shape)
     showLamellarLacing(call, state, armour.lacing)
     field("Columns", armour.columns)
 }
@@ -49,7 +53,7 @@ fun FORM.editLamellarArmour(
     selectValue("Length", LENGTH, OuterwearLength.entries, armour.length)
     selectSleeveStyle(SleeveStyle.entries, armour.sleeveStyle)
     editColorSchemeItemPart(state, armour.scale, MAIN, "Scale")
-    selectComplexShape(armour.shape, SCALE)
+    selectUsingRectangularShape(armour.shape, SCALE)
     editLamellarLacing(state, armour.lacing)
     selectInt(
         "Columns",
@@ -67,7 +71,7 @@ fun parseLamellarArmour(parameters: Parameters) = LamellarArmour(
     parse(parameters, LENGTH, OuterwearLength.Hip),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseColorSchemeItemPart(parameters, MAIN),
-    parseComplexShape(parameters, SCALE),
+    parseUsingRectangularShape(parameters, SCALE),
     parseLamellarLacing(parameters),
     parseInt(parameters, COLUMNS, DEFAULT_SCALE_COLUMNS),
 )

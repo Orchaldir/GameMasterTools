@@ -10,23 +10,14 @@ import at.orchaldir.gm.core.model.item.equipment.LamellarArmour
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
-import at.orchaldir.gm.utils.math.shape.CircularShape
-import at.orchaldir.gm.utils.math.shape.CircularShape.*
-import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.shape.RectangularShape.*
-import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     val shapes = listOf(
-        UsingCircularShape(Circle),
-        UsingCircularShape(CircularShape.Heater),
-        UsingCircularShape(CircularShape.RoundedHeater),
-        UsingCircularShape(Square),
-        UsingCircularShape(RoundedSquare),
-        UsingRectangularShape(RectangularShape.Heater),
-        UsingRectangularShape(RectangularShape.RoundedHeater),
+        UsingRectangularShape(Heater),
+        UsingRectangularShape(RoundedHeater),
         UsingRectangularShape(Rectangle),
         UsingRectangularShape(RoundedRectangle),
         UsingRectangularShape(Ellipse),
