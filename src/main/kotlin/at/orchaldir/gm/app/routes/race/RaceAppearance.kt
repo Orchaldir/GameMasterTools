@@ -238,7 +238,6 @@ private fun HTML.showEditor(
     val updateLink = call.application.href(AppearanceRoutes.Update(appearance.id))
 
     simpleHtmlEditor(appearance, true) {
-
         split({
             formWithPreview(previewLink, updateLink, backLink) {
                 selectName(appearance.name)

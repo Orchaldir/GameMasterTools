@@ -40,6 +40,7 @@ data class Size2d(val width: Distance, val height: Distance) {
     operator fun div(factor: Factor) = Size2d(width / factor, height / factor)
 
     fun replaceWidth(width: Distance) = copy(width = width)
+    fun replaceWidth(factor: Factor) = copy(width = width * factor)
     fun replaceHeight(factor: Factor) = copy(height = height * factor)
 
     fun max(other: Size2d) = Size2d(width.max(other.width), height.max(other.height))

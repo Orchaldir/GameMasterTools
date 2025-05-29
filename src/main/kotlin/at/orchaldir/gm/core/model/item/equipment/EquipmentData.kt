@@ -13,16 +13,20 @@ import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.shape.*
+import at.orchaldir.gm.utils.math.shape.RectangularShape.ReverseTeardrop
+import at.orchaldir.gm.utils.math.shape.RectangularShape.Teardrop
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 const val MIN_SCALE_COLUMNS = 3
-const val DEFAULT_SCALE_COLUMNS = 5
+const val DEFAULT_SCALE_COLUMNS = 6
 const val MAX_SCALE_COLUMNS = 10
 
 val MIN_SCALE_OVERLAP = QUARTER
 val DEFAULT_SCALE_OVERLAP = HALF
 val MAX_SCALE_OVERLAP = THREE_QUARTER
+
+val LAMELLAR_SHAPES = SHAPES_WITHOUT_CROSS - ReverseTeardrop - Teardrop
 
 val ACCESSORIES = setOf(
     EquipmentDataType.Belt,
@@ -50,6 +54,7 @@ enum class EquipmentDataType {
     Glasses,
     Gloves,
     Hat,
+    LamellarArmour,
     Necklace,
     Pants,
     Polearm,
@@ -71,10 +76,11 @@ enum class EquipmentDataType {
         Glasses -> setOf(EyesSlot)
         Gloves -> setOf(HandSlot)
         Hat -> setOf(HeadSlot)
+        LamellarArmour -> setOf(TopSlot)
         Necklace -> setOf(NeckSlot)
         Pants -> setOf(BottomSlot)
         Polearm -> setOf(HeldInOneOrTwoHandsSlot)
-        ScaleArmour -> setOf(InnerTopSlot)
+        ScaleArmour -> setOf(TopSlot)
         Shield -> setOf(HeldInOneHandSlot)
         Shirt -> setOf(InnerTopSlot)
         Skirt -> setOf(BottomSlot)
@@ -97,6 +103,7 @@ sealed class EquipmentData : MadeFromParts {
         is Glasses -> EquipmentDataType.Glasses
         is Gloves -> EquipmentDataType.Gloves
         is Hat -> EquipmentDataType.Hat
+        is LamellarArmour -> EquipmentDataType.LamellarArmour
         is Necklace -> EquipmentDataType.Necklace
         is Pants -> EquipmentDataType.Pants
         is Polearm -> EquipmentDataType.Polearm
@@ -218,6 +225,20 @@ data class Hat(
     constructor(style: HatStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Lamellar")
+data class LamellarArmour(
+    val length: OuterwearLength = OuterwearLength.Knee,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Short,
+    val scale: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val shape: UsingRectangularShape = UsingRectangularShape(RectangularShape.Ellipse),
+    val lacing: LamellarLacing = FourSidesLacing(),
+    val columns: Int = DEFAULT_SCALE_COLUMNS,
+) : EquipmentData() {
+
+    override fun parts() = lacing.parts() + scale
 }
 
 @Serializable

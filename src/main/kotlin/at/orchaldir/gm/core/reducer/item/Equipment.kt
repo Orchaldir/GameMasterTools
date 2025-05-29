@@ -5,11 +5,13 @@ import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.checkInt
 import at.orchaldir.gm.utils.redux.Reducer
@@ -62,11 +64,43 @@ fun validateEquipment(
         }
 
     when (equipment.data) {
+        is LamellarArmour -> {
+            checkLamellarLacing(equipment.data.lacing)
+            checkArmourColumns(equipment.data.columns)
+        }
+
         is ScaleArmour -> {
             checkFactor(equipment.data.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
-            checkInt(equipment.data.columns, "columns", MIN_SCALE_COLUMNS, MAX_SCALE_COLUMNS)
+            checkArmourColumns(equipment.data.columns)
         }
 
         else -> doNothing()
     }
+}
+
+private fun checkLamellarLacing(lacing: LamellarLacing) = when (lacing) {
+    NoLacing -> doNothing()
+    is DiagonalLacing -> checkLacingThickness(lacing.thickness)
+    is FourSidesLacing -> {
+        checkLacingLength(lacing.lacingLength)
+        checkLacingThickness(lacing.lacingThickness)
+    }
+
+    is LacingAndStripe -> {
+        checkLacingLength(lacing.lacingLength)
+        checkLacingThickness(lacing.lacingThickness)
+        checkFactor(lacing.stripeWidth, "Stripe Width", MIN_STRIPE_WIDTH, MAX_STRIPE_WIDTH)
+    }
+}
+
+private fun checkLacingLength(length: Factor) {
+    checkFactor(length, "Lacing Length", MIN_LENGTH, MAX_LENGTH)
+}
+
+private fun checkLacingThickness(thickness: Factor) {
+    checkFactor(thickness, "Lacing Thickness", MIN_THICKNESS, MAX_THICKNESS)
+}
+
+private fun checkArmourColumns(columns: Int) {
+    checkInt(columns, "columns", MIN_SCALE_COLUMNS, MAX_SCALE_COLUMNS)
 }

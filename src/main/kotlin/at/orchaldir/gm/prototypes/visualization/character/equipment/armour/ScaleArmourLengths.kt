@@ -22,11 +22,11 @@ fun main() {
         addNames(BodyShape.entries),
         addNames(OuterwearLength.entries),
     ) { distance, length, bodyShape ->
-        val necklace = ScaleArmour(
+        val armour = ScaleArmour(
             length,
             SleeveStyle.Short,
         )
-        Pair(createAppearance(distance, bodyShape), from(necklace))
+        Pair(createAppearance(distance, bodyShape), from(armour))
     }
 }
 

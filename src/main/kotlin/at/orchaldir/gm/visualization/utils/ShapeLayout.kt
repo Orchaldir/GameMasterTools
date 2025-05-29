@@ -1,62 +1,99 @@
 package at.orchaldir.gm.visualization.utils
 
 import at.orchaldir.gm.utils.isEven
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.RenderOptions
+import kotlin.math.ceil
 
-fun visualizeRowsOfShapes(
-    renderer: LayerRenderer,
-    options: RenderOptions,
-    shape: ComplexShape,
+
+fun visualizeRows(
+    shapeSize: Size2d,
+    top: Point2d,
+    bottom: Point2d,
+    width: Distance,
+    rowOverlap: Factor,
+    columnOverlap: Factor,
+    useRowOffset: Boolean,
+    renderCell: (AABB) -> Unit,
+    renderRow: (AABB) -> Unit = {},
+) {
+    val rowStep = calculateStep(shapeSize.height, rowOverlap)
+    val columnStep = calculateStep(shapeSize.width, columnOverlap)
+    val height = bottom.y - top.y
+    val rows = (height.toMeters() / rowStep.toMeters()).toInt()
+    val maxColumns = ceil(width.toMeters() / columnStep.toMeters()).toInt()
+    val columns = maxColumns + 2
+
+    visualizeRows(
+        shapeSize,
+        top,
+        rowOverlap,
+        columnOverlap,
+        rows,
+        columns,
+        useRowOffset,
+        renderCell,
+        renderRow,
+    )
+}
+
+private fun visualizeRows(
     shapeSize: Size2d,
     start: Point2d,
-    step: Distance,
+    rowOverlap: Factor,
+    columnOverlap: Factor,
     rows: Int,
     columns: Int,
+    useRowOffset: Boolean = true,
+    renderCell: (AABB) -> Unit,
+    renderRow: (AABB) -> Unit = {},
 ) {
-    var rowCenter = start.addHeight(step * rows)
+    val rowStep = calculateStep(shapeSize.height, rowOverlap)
+    val columnStep = calculateStep(shapeSize.width, columnOverlap)
+    var rowCenter = start.addHeight(rowStep * rows)
 
     repeat(rows + 1) { index ->
-        val rowOffset = if (index.isEven()) {
+        val rowOffset = if (!useRowOffset || index.isEven()) {
             0
         } else {
             1
         }
+        val cells = columns + rowOffset
 
-        visualizeRowOfShapes(
-            renderer,
-            options,
+        visualizeRow(
             rowCenter,
-            shape,
             shapeSize,
-            columns + rowOffset,
+            columnStep,
+            cells,
+            renderCell,
         )
 
-        rowCenter = rowCenter.minusHeight(step)
+        renderRow(AABB.fromCenter(rowCenter, shapeSize.replaceWidth(Factor.fromPercentage(cells * 100))))
+
+        rowCenter = rowCenter.minusHeight(rowStep)
     }
 }
 
-fun visualizeRowOfShapes(
-    renderer: LayerRenderer,
-    options: RenderOptions,
+fun calculateStep(
+    distance: Distance,
+    rowOverlap: Factor,
+): Distance = distance * (FULL - rowOverlap)
+
+fun visualizeRow(
     rowCenter: Point2d,
-    shape: ComplexShape,
     size: Size2d,
+    step: Distance,
     number: Int,
+    renderCell: (AABB) -> Unit = {},
 ) {
-    val rowStart = rowCenter.minusWidth(size.width * (number - 1) / 2.0f)
+    val rowStart = rowCenter.minusWidth(step * (number - 1) / 2.0f)
     var center = rowStart
 
     repeat(number) {
-        val scaleAabb = AABB.fromCenter(center, size)
+        val shapeAabb = AABB.fromCenter(center, size)
 
-        visualizeComplexShape(renderer, scaleAabb, shape, options)
+        renderCell(shapeAabb)
 
-        center = center.addWidth(size.width)
+        center = center.addWidth(step)
     }
 }

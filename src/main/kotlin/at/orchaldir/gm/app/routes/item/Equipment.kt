@@ -250,10 +250,10 @@ private fun HTML.showEquipmentDetails(
                 action = previewLink
                 method = FormMethod.post
 
-                selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId)
+                selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId, 20)
             }
         } else {
-            visualizeEquipment(state, equipment, UndefinedColors)
+            visualizeEquipment(state, equipment, UndefinedColors, 20)
         }
 
         showEquipment(call, state, equipment)
@@ -283,16 +283,18 @@ private fun HTML.showEquipmentEditor(
     val previewLink = call.application.href(EquipmentRoutes.Preview(equipment.id))
     val updateLink = call.application.href(EquipmentRoutes.Update(equipment.id))
 
-    simpleHtmlEditor(equipment) {
-        formWithPreview(previewLink, updateLink, backLink, canUpdate = equipment.areColorSchemesValid()) {
-            if (equipment.colorSchemes.isNotEmpty()) {
-                selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId)
-            } else {
-                visualizeEquipment(state, equipment, UndefinedColors)
+    simpleHtmlEditor(equipment, true) {
+        split({
+            formWithPreview(previewLink, updateLink, backLink) {
+                editEquipment(state, equipment)
             }
-
-            editEquipment(state, equipment)
-        }
+        }, {
+            if (equipment.colorSchemes.isNotEmpty()) {
+                selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId, 60)
+            } else {
+                visualizeEquipment(state, equipment, UndefinedColors, 60)
+            }
+        })
     }
 }
 
@@ -300,6 +302,7 @@ private fun HtmlBlockTag.selectColorSchemeToVisualizeEquipment(
     state: State,
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId?,
+    width: Int,
 ) {
     val colorSchemeId = optionalColorSchemeId ?: equipment.colorSchemes.first()
     val colorScheme = state.getColorSchemeStorage().getOrThrow(colorSchemeId)
@@ -313,21 +316,22 @@ private fun HtmlBlockTag.selectColorSchemeToVisualizeEquipment(
         colorSchemeId,
     )
 
-    visualizeEquipment(state, equipment, colorScheme.data)
+    visualizeEquipment(state, equipment, colorScheme.data, width)
 }
 
 private fun HtmlBlockTag.visualizeEquipment(
     state: State,
     equipment: Equipment,
     colors: Colors,
+    width: Int,
 ) {
     val equipped = EquipmentMap.from(equipment.data, colors)
     val appearance = createAppearance(equipment, height)
     val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
     val backSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped, false)
 
-    svg(frontSvg, 20)
-    svg(backSvg, 20)
+    svg(frontSvg, width)
+    svg(backSvg, width)
 }
 
 private fun createAppearance(equipment: Equipment, height: Distance): Appearance {
