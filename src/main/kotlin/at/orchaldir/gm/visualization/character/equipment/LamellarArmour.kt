@@ -21,9 +21,7 @@ import at.orchaldir.gm.visualization.utils.visualizeRows
 data class LamellarArmourConfig(
     val overlap: Factor,
     val lacingLength: Factor,
-    val diagonalWidth: Factor,
     val diagonalOffset: Factor,
-    val stripeWidth: Factor,
 )
 
 fun visualizeLamellarArmour(
@@ -83,13 +81,13 @@ private fun createScaleRenderer(
     val config = state.config.equipment.lamellarArmour
     val overlap = config.overlap
 
-    when (armour.lacing) {
+    when (val lacing = armour.lacing) {
         NoLacing -> return { aabb ->
             visualizeComplexShape(renderer, aabb, armour.shape, options)
         }
         is DiagonalLacing -> {
-            val thickness = scaleSize.width * config.diagonalWidth
-            val color = armour.lacing.lacing.getColor(state.state, state.colors)
+            val thickness = scaleSize.width * lacing.thickness
+            val color = lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = NoBorder(color.toRender(), clippingName)
             val topY = HALF - config.diagonalOffset
             val bottomY = HALF + config.diagonalOffset
@@ -115,7 +113,7 @@ private fun createScaleRenderer(
         }
 
         is FourSidesLacing -> {
-            val color = armour.lacing.lacing.getColor(state.state, state.colors)
+            val color = lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = NoBorder(color.toRender(), clippingName)
             val length = scaleSize.width * config.lacingLength
             val bottomY = FULL - overlap / 2
@@ -137,7 +135,7 @@ private fun createScaleRenderer(
         }
 
         is LacingAndStripe -> {
-            val color = armour.lacing.lacing.getColor(state.state, state.colors)
+            val color = lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = NoBorder(color.toRender(), clippingName)
             val length = scaleSize.width * config.lacingLength
             val leftSize = Size2d(length / 4, length)
@@ -172,7 +170,7 @@ private fun createStripeRenderer(
         is LacingAndStripe -> {
             val color = lacing.stripe.getColor(state.state, state.colors)
             val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)
-            val stripeHeight = scaleSize.width * config.stripeWidth
+            val stripeHeight = scaleSize.width * lacing.stripeWidth
             val size = Size2d(rowWidth, stripeHeight)
 
             return { aabb ->

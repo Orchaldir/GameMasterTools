@@ -35,7 +35,10 @@ fun HtmlBlockTag.showLamellarLacing(
 
         when (lacing) {
             NoLacing -> doNothing()
-            is DiagonalLacing -> showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
+            is DiagonalLacing -> {
+                showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
+                fieldFactor("Thickness", lacing.thickness)
+            }
             is FourSidesLacing -> showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
             is LacingAndStripe -> {
                 showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
@@ -54,7 +57,16 @@ fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
 
         when (lacing) {
             NoLacing -> doNothing()
-            is DiagonalLacing -> editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
+            is DiagonalLacing -> {
+                editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
+                selectFactor(
+                    "Thickness",
+                    combine(LACING, WIDTH),
+                    lacing.thickness,
+                    MIN_THICKNESS,
+                    MAX_THICKNESS,
+                )
+            }
             is FourSidesLacing -> editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
             is LacingAndStripe -> {
                 editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
@@ -80,6 +92,7 @@ fun parseLamellarLacing(parameters: Parameters): LamellarLacing {
         LamellarLacingType.None -> NoLacing
         LamellarLacingType.Diagonal -> DiagonalLacing(
             parseColorSchemeItemPart(parameters, LACING),
+            parseFactor(parameters, combine(LACING, WIDTH)),
         )
 
         LamellarLacingType.FourSides -> FourSidesLacing(
@@ -89,7 +102,7 @@ fun parseLamellarLacing(parameters: Parameters): LamellarLacing {
         LamellarLacingType.Stripe -> LacingAndStripe(
             parseColorSchemeItemPart(parameters, LACING),
             parseColorSchemeItemPart(parameters, STRIPE),
-            parseFactor(parameters, combine(STRIPE, WIDTH))
+            parseFactor(parameters, combine(STRIPE, WIDTH)),
         )
     }
 }
