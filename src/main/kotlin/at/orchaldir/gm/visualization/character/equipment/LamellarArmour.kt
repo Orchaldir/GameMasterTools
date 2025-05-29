@@ -20,7 +20,6 @@ import at.orchaldir.gm.visualization.utils.visualizeRows
 
 data class LamellarArmourConfig(
     val overlap: Factor,
-    val lacingLength: Factor,
     val diagonalOffset: Factor,
 )
 
@@ -115,7 +114,7 @@ private fun createScaleRenderer(
         is FourSidesLacing -> {
             val color = lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = NoBorder(color.toRender(), clippingName)
-            val length = scaleSize.width * config.lacingLength
+            val length = scaleSize.width * lacing.lacingLength
             val bottomY = FULL - overlap / 2
             val bottomSize = Size2d(length, length / 4)
             val leftSize = Size2d(length / 4, length)
@@ -137,7 +136,7 @@ private fun createScaleRenderer(
         is LacingAndStripe -> {
             val color = lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = NoBorder(color.toRender(), clippingName)
-            val length = scaleSize.width * config.lacingLength
+            val length = scaleSize.width * lacing.lacingLength
             val leftSize = Size2d(length / 4, length)
             val leftOffset = scaleSize.height * overlap / 2
 

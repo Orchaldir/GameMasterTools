@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.LACING
+import at.orchaldir.gm.app.LENGTH
 import at.orchaldir.gm.app.STRIPE
-import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
@@ -18,8 +18,10 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
@@ -67,9 +69,13 @@ fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
                     MAX_THICKNESS,
                 )
             }
-            is FourSidesLacing -> editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
+            is FourSidesLacing -> {
+                editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
+                selectLacingLength(lacing.lacingLength)
+            }
             is LacingAndStripe -> {
                 editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
+                selectLacingLength(lacing.lacingLength)
                 editColorSchemeItemPart(state, lacing.stripe, STRIPE, "Stripe")
                 selectFactor(
                     "Stripe Width",
@@ -81,6 +87,16 @@ fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
             }
         }
     }
+}
+
+private fun DETAILS.selectLacingLength(length: Factor) {
+    selectFactor(
+        "Lacing Length",
+        combine(LACING, LENGTH),
+        length,
+        MIN_LENGTH,
+        MAX_LENGTH,
+    )
 }
 
 // parse
@@ -97,10 +113,12 @@ fun parseLamellarLacing(parameters: Parameters): LamellarLacing {
 
         LamellarLacingType.FourSides -> FourSidesLacing(
             parseColorSchemeItemPart(parameters, LACING),
+            parseFactor(parameters, combine(LACING, LENGTH)),
         )
 
         LamellarLacingType.Stripe -> LacingAndStripe(
             parseColorSchemeItemPart(parameters, LACING),
+            parseFactor(parameters, combine(LACING, LENGTH)),
             parseColorSchemeItemPart(parameters, STRIPE),
             parseFactor(parameters, combine(STRIPE, WIDTH)),
         )

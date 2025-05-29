@@ -8,6 +8,10 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_LENGTH = fromPercentage(10)
+val DEFAULT_LENGTH = fromPercentage(30)
+val MAX_LENGTH = fromPercentage(80)
+
 val MIN_THICKNESS = fromPercentage(1)
 val DEFAULT_THICKNESS = fromPercentage(10)
 val MAX_THICKNESS = fromPercentage(20)
@@ -56,12 +60,14 @@ data class DiagonalLacing(
 @SerialName("4")
 data class FourSidesLacing(
     val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
+    val lacingLength: Factor = DEFAULT_LENGTH,
 ) : LamellarLacing()
 
 @Serializable
 @SerialName("Stripe")
 data class LacingAndStripe(
     val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
+    val lacingLength: Factor = DEFAULT_LENGTH,
     val stripe: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
     val stripeWidth: Factor = DEFAULT_STRIPE_WIDTH,
 ) : LamellarLacing()
