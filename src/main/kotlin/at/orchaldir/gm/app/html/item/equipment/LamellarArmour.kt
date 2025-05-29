@@ -53,7 +53,7 @@ fun FORM.editLamellarArmour(
     selectValue("Length", LENGTH, OuterwearLength.entries, armour.length)
     selectSleeveStyle(SleeveStyle.entries, armour.sleeveStyle)
     editColorSchemeItemPart(state, armour.scale, MAIN, "Scale")
-    selectUsingRectangularShape(armour.shape, SCALE)
+    selectUsingRectangularShape(armour.shape, SCALE, LAMELLAR_SHAPES)
     editLamellarLacing(state, armour.lacing)
     selectInt(
         "Columns",

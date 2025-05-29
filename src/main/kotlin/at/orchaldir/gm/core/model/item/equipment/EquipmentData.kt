@@ -14,6 +14,8 @@ import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.shape.*
+import at.orchaldir.gm.utils.math.shape.RectangularShape.ReverseTeardrop
+import at.orchaldir.gm.utils.math.shape.RectangularShape.Teardrop
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -24,6 +26,8 @@ const val MAX_SCALE_COLUMNS = 10
 val MIN_SCALE_OVERLAP = QUARTER
 val DEFAULT_SCALE_OVERLAP = HALF
 val MAX_SCALE_OVERLAP = THREE_QUARTER
+
+val LAMELLAR_SHAPES = SHAPES_WITHOUT_CROSS - ReverseTeardrop - Teardrop
 
 val ACCESSORIES = setOf(
     EquipmentDataType.Belt,
