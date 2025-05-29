@@ -5,17 +5,7 @@ import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.item.equipment.style.DiagonalLacing
-import at.orchaldir.gm.core.model.item.equipment.style.FourSidesLacing
-import at.orchaldir.gm.core.model.item.equipment.style.LacingAndStripe
-import at.orchaldir.gm.core.model.item.equipment.style.LamellarLacing
-import at.orchaldir.gm.core.model.item.equipment.style.MAX_LENGTH
-import at.orchaldir.gm.core.model.item.equipment.style.MAX_STRIPE_WIDTH
-import at.orchaldir.gm.core.model.item.equipment.style.MAX_THICKNESS
-import at.orchaldir.gm.core.model.item.equipment.style.MIN_LENGTH
-import at.orchaldir.gm.core.model.item.equipment.style.MIN_STRIPE_WIDTH
-import at.orchaldir.gm.core.model.item.equipment.style.MIN_THICKNESS
-import at.orchaldir.gm.core.model.item.equipment.style.NoLacing
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.item.canDelete
@@ -78,6 +68,7 @@ fun validateEquipment(
             checkLamellarLacing(equipment.data.lacing)
             checkArmourColumns(equipment.data.columns)
         }
+
         is ScaleArmour -> {
             checkFactor(equipment.data.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
             checkArmourColumns(equipment.data.columns)

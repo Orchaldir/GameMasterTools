@@ -84,6 +84,7 @@ private fun createScaleRenderer(
         NoLacing -> return { aabb ->
             visualizeComplexShape(renderer, aabb, armour.shape, options)
         }
+
         is DiagonalLacing -> {
             val thickness = scaleSize.width * lacing.thickness
             val color = lacing.lacing.getColor(state.state, state.colors)
@@ -162,12 +163,13 @@ private fun createStripeRenderer(
     rowWidth: Distance,
     clippingName: String,
 ): (AABB) -> Unit {
-    val config = state.config.equipment.lamellarArmour
+    state.config.equipment.lamellarArmour
 
     return when (lacing) {
         NoLacing, is DiagonalLacing, is FourSidesLacing -> {
             { }
         }
+
         is LacingAndStripe -> {
             val color = lacing.stripe.getColor(state.state, state.colors)
             val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)

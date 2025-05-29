@@ -14,7 +14,6 @@ import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.shape.*
 import io.ktor.http.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show

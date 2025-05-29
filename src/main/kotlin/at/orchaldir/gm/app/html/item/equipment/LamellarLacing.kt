@@ -41,6 +41,7 @@ fun HtmlBlockTag.showLamellarLacing(
                 showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
                 fieldFactor("Thickness", lacing.thickness)
             }
+
             is FourSidesLacing -> showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
             is LacingAndStripe -> {
                 showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
@@ -63,11 +64,13 @@ fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
                 editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
                 selectLacingThickness(lacing.thickness)
             }
+
             is FourSidesLacing -> {
                 editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
                 selectLacingLength(lacing.lacingLength)
                 selectLacingThickness(lacing.lacingThickness)
             }
+
             is LacingAndStripe -> {
                 editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
                 selectLacingLength(lacing.lacingLength)
