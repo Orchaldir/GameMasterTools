@@ -112,7 +112,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(30),
             fromPercentage(10),
             fromPercentage(20),
-            fromPercentage(30),
+            fromPercentage(15),
         ),
         NecklaceConfig(
             fromPercentage(20),
