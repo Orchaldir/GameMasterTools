@@ -115,9 +115,10 @@ private fun createScaleRenderer(
             val color = lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = NoBorder(color.toRender(), clippingName)
             val length = scaleSize.width * lacing.lacingLength
+            val thickness = scaleSize.width * lacing.lacingThickness
             val bottomY = FULL - overlap / 2
-            val bottomSize = Size2d(length, length / 4)
-            val leftSize = Size2d(length / 4, length)
+            val bottomSize = Size2d(length, thickness)
+            val leftSize = Size2d(thickness, length)
             val leftOffset = scaleSize.height * overlap / 2
 
             return { aabb ->
@@ -137,7 +138,8 @@ private fun createScaleRenderer(
             val color = lacing.lacing.getColor(state.state, state.colors)
             val lacingOptions = NoBorder(color.toRender(), clippingName)
             val length = scaleSize.width * lacing.lacingLength
-            val leftSize = Size2d(length / 4, length)
+            val thickness = scaleSize.width * lacing.lacingThickness
+            val leftSize = Size2d(thickness, length)
             val leftOffset = scaleSize.height * overlap / 2
 
             return { aabb ->

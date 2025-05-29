@@ -14,7 +14,7 @@ val MAX_LENGTH = fromPercentage(80)
 
 val MIN_THICKNESS = fromPercentage(1)
 val DEFAULT_THICKNESS = fromPercentage(10)
-val MAX_THICKNESS = fromPercentage(20)
+val MAX_THICKNESS = fromPercentage(30)
 
 val MIN_STRIPE_WIDTH = fromPercentage(1)
 val DEFAULT_STRIPE_WIDTH = fromPercentage(10)
@@ -61,6 +61,7 @@ data class DiagonalLacing(
 data class FourSidesLacing(
     val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
     val lacingLength: Factor = DEFAULT_LENGTH,
+    val lacingThickness: Factor = DEFAULT_THICKNESS,
 ) : LamellarLacing()
 
 @Serializable
@@ -68,6 +69,7 @@ data class FourSidesLacing(
 data class LacingAndStripe(
     val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
     val lacingLength: Factor = DEFAULT_LENGTH,
+    val lacingThickness: Factor = DEFAULT_THICKNESS,
     val stripe: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
     val stripeWidth: Factor = DEFAULT_STRIPE_WIDTH,
 ) : LamellarLacing()

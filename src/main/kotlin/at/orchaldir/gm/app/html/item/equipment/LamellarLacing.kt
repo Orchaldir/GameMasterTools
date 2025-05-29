@@ -61,21 +61,17 @@ fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
             NoLacing -> doNothing()
             is DiagonalLacing -> {
                 editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
-                selectFactor(
-                    "Thickness",
-                    combine(LACING, WIDTH),
-                    lacing.thickness,
-                    MIN_THICKNESS,
-                    MAX_THICKNESS,
-                )
+                selectLacingThickness(lacing.thickness)
             }
             is FourSidesLacing -> {
                 editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
                 selectLacingLength(lacing.lacingLength)
+                selectLacingThickness(lacing.lacingThickness)
             }
             is LacingAndStripe -> {
                 editColorSchemeItemPart(state, lacing.lacing, LACING, "Lacing")
                 selectLacingLength(lacing.lacingLength)
+                selectLacingThickness(lacing.lacingThickness)
                 editColorSchemeItemPart(state, lacing.stripe, STRIPE, "Stripe")
                 selectFactor(
                     "Stripe Width",
@@ -87,6 +83,16 @@ fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
             }
         }
     }
+}
+
+private fun DETAILS.selectLacingThickness(thickness: Factor) {
+    selectFactor(
+        "Lacing Thickness",
+        combine(LACING, WIDTH),
+        thickness,
+        MIN_THICKNESS,
+        MAX_THICKNESS,
+    )
 }
 
 private fun DETAILS.selectLacingLength(length: Factor) {
@@ -108,19 +114,30 @@ fun parseLamellarLacing(parameters: Parameters): LamellarLacing {
         LamellarLacingType.None -> NoLacing
         LamellarLacingType.Diagonal -> DiagonalLacing(
             parseColorSchemeItemPart(parameters, LACING),
-            parseFactor(parameters, combine(LACING, WIDTH)),
+            parseLacingThickness(parameters),
         )
 
         LamellarLacingType.FourSides -> FourSidesLacing(
             parseColorSchemeItemPart(parameters, LACING),
-            parseFactor(parameters, combine(LACING, LENGTH)),
+            parseLacingLength(parameters),
+            parseLacingThickness(parameters),
         )
 
         LamellarLacingType.Stripe -> LacingAndStripe(
             parseColorSchemeItemPart(parameters, LACING),
-            parseFactor(parameters, combine(LACING, LENGTH)),
+            parseLacingLength(parameters),
+            parseLacingThickness(parameters),
             parseColorSchemeItemPart(parameters, STRIPE),
-            parseFactor(parameters, combine(STRIPE, WIDTH)),
+            parseStripeWidth(parameters),
         )
     }
 }
+
+private fun parseLacingLength(parameters: Parameters) =
+    parseFactor(parameters, combine(LACING, LENGTH), DEFAULT_LENGTH)
+
+private fun parseLacingThickness(parameters: Parameters) =
+    parseFactor(parameters, combine(LACING, WIDTH), DEFAULT_THICKNESS)
+
+private fun parseStripeWidth(parameters: Parameters) =
+    parseFactor(parameters, combine(STRIPE, WIDTH), DEFAULT_STRIPE_WIDTH)
