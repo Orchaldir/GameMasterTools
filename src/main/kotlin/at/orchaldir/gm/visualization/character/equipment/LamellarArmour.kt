@@ -2,25 +2,19 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.LamellarArmour
-import at.orchaldir.gm.core.model.item.equipment.style.DiagonalLacing
-import at.orchaldir.gm.core.model.item.equipment.style.FourSidesLacing
-import at.orchaldir.gm.core.model.item.equipment.style.LacingAndStripe
-import at.orchaldir.gm.core.model.item.equipment.style.LamellarLacing
-import at.orchaldir.gm.core.model.item.equipment.style.NoLacing
-import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
-import at.orchaldir.gm.utils.math.unit.convertFromDegrees
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
+import at.orchaldir.gm.visualization.character.equipment.part.createSleeveAabbs
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRows
 
@@ -40,6 +34,7 @@ fun visualizeLamellarArmour(
     val renderer = state.renderer.getLayer(JACKET_LAYER)
 
     visualizeLamellarArmourBody(state, renderer, body, armour)
+    visualizeArmourSleeves(state, renderer, body, armour)
 }
 
 private fun visualizeLamellarArmourBody(
@@ -188,6 +183,57 @@ private fun createStripeRenderer(
             }
         }
     }
+}
+
+private fun visualizeArmourSleeves(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    body: Body,
+    armour: LamellarArmour,
+) {
+    if (armour.sleeveStyle == SleeveStyle.None) {
+        return
+    }
+
+    val (leftAabb, rightAabb) = createSleeveAabbs(state, body, armour.sleeveStyle)
+    val (leftClip, rightClip) = createSleeveAabbs(state, body, SleeveStyle.Long)
+    val torso = state.config.body.getTorsoAabb(state.aabb, body)
+    val scaleWidth = calculateScaleWidth(state, body, torso, armour)
+    val scaleSize = armour.shape.calculateSizeFromWidth(scaleWidth)
+
+    visualizeArmourSleeve(state, renderer, leftAabb, leftClip, armour, scaleSize)
+    visualizeArmourSleeve(state, renderer, rightAabb, rightClip, armour, scaleSize)
+}
+
+private fun visualizeArmourSleeve(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    aabb: AABB,
+    clip: AABB,
+    armour: LamellarArmour,
+    scaleSize: Size2d,
+) {
+    val clipping = Polygon2d(clip)
+    val clippingName = state.renderer.createClipping(clipping)
+    val color = armour.scale.getColor(state.state, state.colors)
+    val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+    val top = aabb.getPoint(CENTER, START)
+    val bottom = aabb.getPoint(CENTER, FULL)
+    val overlap = state.config.equipment.lamellarArmour.overlap
+    val lacingRenderer = createScaleRenderer(state, renderer, options, armour, scaleSize, clippingName)
+    val stripeRenderer = createStripeRenderer(state, renderer, armour.lacing, scaleSize, aabb.size.width, clippingName)
+
+    visualizeRows(
+        scaleSize,
+        top,
+        bottom,
+        aabb.size.width,
+        overlap,
+        overlap,
+        false,
+        lacingRenderer,
+        stripeRenderer,
+    )
 }
 
 private fun calculateScaleWidth(
