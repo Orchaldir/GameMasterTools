@@ -19,9 +19,9 @@ data class SpearHead(
     val shape: SpearShape = SpearShape.Leaf,
     val length: Factor = DEFAULT_SPEAR_LENGTH,
     val width: Factor = DEFAULT_SPEAR_WIDTH,
-    val head: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : MadeFromParts {
 
-    override fun parts() = listOf(head)
+    override fun parts() = listOf(part)
 
 }

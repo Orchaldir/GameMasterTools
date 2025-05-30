@@ -60,7 +60,7 @@ private fun DETAILS.showSpearHead(
     field("Shape", head.shape)
     fieldFactor("Length", head.length)
     fieldFactor("Width", head.width)
-    showColorSchemeItemPart(call, state, head.head, "Spear")
+    showColorSchemeItemPart(call, state, head.part, "Spear")
 }
 
 // edit
@@ -121,7 +121,7 @@ private fun DETAILS.editSpearHead(
         MIN_SPEAR_WIDTH,
         MAX_SPEAR_WIDTH,
     )
-    editColorSchemeItemPart(state, head.head, param, "Spear")
+    editColorSchemeItemPart(state, head.part, param, "Spear")
 }
 
 // parse

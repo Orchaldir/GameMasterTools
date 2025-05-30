@@ -16,6 +16,7 @@ import at.orchaldir.gm.visualization.utils.visualizeSegments
 data class PolearmConfig(
     val length: Factor,
     val width: Factor,
+    val spearHeadBase: Factor,
 ) {
     fun getLength(aabb: AABB) = aabb.convertHeight(length)
     fun getWidth(aabb: AABB) = aabb.convertHeight(width)
@@ -45,19 +46,21 @@ fun visualizePolearm(
 private fun visualizePolearmHead(
     state: CharacterRenderState,
     renderer: LayerRenderer,
-    aabb: AABB,
+    shaftAabb: AABB,
     polearm: Polearm,
 ) {
     when (polearm.head) {
-        NoPolearmHead, RoundedPolearmHead, SharpenedPolearmHead, is PolearmHeadWithSpearHead -> doNothing()
+        NoPolearmHead, RoundedPolearmHead, SharpenedPolearmHead -> doNothing()
         is PolearmHeadWithSegments -> visualizeSegments(
             state,
             polearm.head.segments,
-            aabb.getPoint(CENTER, START),
+            shaftAabb.getPoint(CENTER, START),
             true,
-            aabb.size.height,
-            aabb.size.width,
+            shaftAabb.size.height,
+            shaftAabb.size.width,
         )
+
+        is PolearmHeadWithSpearHead -> visualizeSpearHead(state, renderer, shaftAabb, polearm.head.spear)
     }
 }
 

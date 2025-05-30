@@ -20,21 +20,19 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
+    val segments = Segments(
+        Segment(
+            fromPercentage(10),
+            fromPercentage(100),
+            shape = SegmentShape.Sphere,
+        )
+    )
     val heads = listOf(
         Pair("None", NoPolearmHead),
         Pair("Rounded", RoundedPolearmHead),
         Pair("Sharpened", SharpenedPolearmHead),
-        Pair(
-            "Segments", PolearmHeadWithSegments(
-                Segments(
-                    Segment(
-                        fromPercentage(10),
-                        fromPercentage(100),
-                        shape = SegmentShape.Sphere,
-                    )
-                )
-            )
-        ),
+        Pair("Segments", PolearmHeadWithSegments(segments)),
+        Pair("Spear", PolearmHeadWithSpearHead()),
     )
     val stripes = HorizontalStripesLookup(Color.Red, Color.Gold)
     val shafts = listOf(
