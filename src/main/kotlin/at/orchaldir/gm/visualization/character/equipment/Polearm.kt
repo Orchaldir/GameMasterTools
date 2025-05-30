@@ -39,8 +39,8 @@ fun visualizePolearm(
     val center = state.getCenter(left, right, set, BodySlot.HeldInRightHand)
     val shaftAabb = AABB.fromWidthAndHeight(center, width, length)
 
-    visualizePolearmShaft(state, renderer, shaftAabb, polearm)
     visualizePolearmHead(state, renderer, shaftAabb, polearm)
+    visualizePolearmShaft(state, renderer, shaftAabb, polearm)
 }
 
 private fun visualizePolearmHead(
