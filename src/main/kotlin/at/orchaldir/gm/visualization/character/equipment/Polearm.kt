@@ -11,12 +11,14 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.visualizePolearmFixation
 import at.orchaldir.gm.visualization.utils.visualizeSegments
 
 data class PolearmConfig(
     val length: Factor,
     val width: Factor,
     val spearHeadBase: Factor,
+    val socketedPadding: Factor,
 ) {
     fun getLength(aabb: AABB) = aabb.convertHeight(length)
     fun getWidth(aabb: AABB) = aabb.convertHeight(width)
@@ -60,7 +62,10 @@ private fun visualizePolearmHead(
             shaftAabb.size.width,
         )
 
-        is PolearmHeadWithSpearHead -> visualizeSpearHead(state, renderer, shaftAabb, polearm.head.spear)
+        is PolearmHeadWithSpearHead -> {
+            visualizeSpearHead(state, renderer, shaftAabb, polearm.head.spear)
+            visualizePolearmFixation(state, renderer, shaftAabb, polearm.head.fixation)
+        }
     }
 }
 
