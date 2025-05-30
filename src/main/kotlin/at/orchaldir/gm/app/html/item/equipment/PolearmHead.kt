@@ -22,9 +22,9 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
@@ -44,15 +44,23 @@ fun HtmlBlockTag.showPolearmHead(
             RoundedPolearmHead -> doNothing()
             SharpenedPolearmHead -> doNothing()
             is PolearmHeadWithSegments -> showSegments(call, state, head.segments)
-            is SpearHead -> {
-                field("Shape", head.shape)
-                fieldFactor("Length", head.length)
-                fieldFactor("Width", head.width)
-                showColorSchemeItemPart(call, state, head.head, "Spear")
+            is PolearmHeadWithSpearHead -> {
+                showSpearHead(call, state, head.spear)
                 showPolearmFixation(call, state, head.fixation)
             }
         }
     }
+}
+
+private fun DETAILS.showSpearHead(
+    call: ApplicationCall,
+    state: State,
+    head: SpearHead,
+) {
+    field("Shape", head.shape)
+    fieldFactor("Length", head.length)
+    fieldFactor("Width", head.width)
+    showColorSchemeItemPart(call, state, head.head, "Spear")
 }
 
 // edit
@@ -80,32 +88,40 @@ fun FORM.editPolearmHead(
                 MAX_SEGMENT_DIAMETER,
             )
 
-            is SpearHead -> {
-                selectValue(
-                    "Shape",
-                    combine(param, SHAPE),
-                    SpearShape.entries,
-                    head.shape,
-                )
-                selectFactor(
-                    "Length",
-                    combine(param, LENGTH),
-                    head.length,
-                    MIN_SPEAR_LENGTH,
-                    MAX_SPEAR_LENGTH,
-                )
-                selectFactor(
-                    "Width",
-                    combine(param, WIDTH),
-                    head.width,
-                    MIN_SPEAR_WIDTH,
-                    MAX_SPEAR_WIDTH,
-                )
-                editColorSchemeItemPart(state, head.head, param, "Spear")
+            is PolearmHeadWithSpearHead -> {
+                editSpearHead(state, head.spear, param)
                 editPolearmFixation(state, head.fixation, combine(param, FIXATION))
             }
         }
     }
+}
+
+private fun DETAILS.editSpearHead(
+    state: State,
+    head: SpearHead,
+    param: String,
+) {
+    selectValue(
+        "Shape",
+        combine(param, SHAPE),
+        SpearShape.entries,
+        head.shape,
+    )
+    selectFactor(
+        "Length",
+        combine(param, LENGTH),
+        head.length,
+        MIN_SPEAR_LENGTH,
+        MAX_SPEAR_LENGTH,
+    )
+    selectFactor(
+        "Width",
+        combine(param, WIDTH),
+        head.width,
+        MIN_SPEAR_WIDTH,
+        MAX_SPEAR_WIDTH,
+    )
+    editColorSchemeItemPart(state, head.head, param, "Spear")
 }
 
 // parse
@@ -120,17 +136,21 @@ fun parsePolearmHead(
     PolearmHeadType.Segments -> PolearmHeadWithSegments(
         parseSegments(parameters, combine(param, SEGMENT)),
     )
-    PolearmHeadType.Spear -> SpearHead(
-        parse(parameters, combine(param, SHAPE), SpearShape.Leaf),
-        parseSpearLength(parameters, param),
-        parseSpearWidth(parameters, param),
-        parseColorSchemeItemPart(parameters, param),
+    PolearmHeadType.Spear -> PolearmHeadWithSpearHead(
+        parseSpearHead(parameters, param),
         parsePolearmFixation(parameters, combine(param, FIXATION)),
     )
 }
 
-private fun parseSpearLength(parameters: Parameters, param: String): Factor =
+private fun parseSpearHead(parameters: Parameters, param: String) = SpearHead(
+    parse(parameters, combine(param, SHAPE), SpearShape.Leaf),
+    parseSpearLength(parameters, param),
+    parseSpearWidth(parameters, param),
+    parseColorSchemeItemPart(parameters, param),
+)
+
+private fun parseSpearLength(parameters: Parameters, param: String) =
     parseFactor(parameters, combine(param, LENGTH), DEFAULT_SPEAR_LENGTH)
 
-private fun parseSpearWidth(parameters: Parameters, param: String): Factor =
+private fun parseSpearWidth(parameters: Parameters, param: String) =
     parseFactor(parameters, combine(param, WIDTH), DEFAULT_SPEAR_WIDTH)

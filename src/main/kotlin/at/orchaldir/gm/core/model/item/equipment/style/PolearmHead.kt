@@ -1,9 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.part.Segments
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -12,14 +10,6 @@ val MIN_SEGMENT_LENGTH = fromPercentage(1)
 val MAX_SEGMENT_LENGTH = fromPercentage(120)
 val MIN_SEGMENT_DIAMETER = fromPercentage(10)
 val MAX_SEGMENT_DIAMETER = fromPercentage(200)
-
-val MIN_SPEAR_LENGTH = fromPercentage(5)
-val DEFAULT_SPEAR_LENGTH = fromPercentage(10)
-val MAX_SPEAR_LENGTH = fromPercentage(20)
-
-val MIN_SPEAR_WIDTH = fromPercentage(10)
-val DEFAULT_SPEAR_WIDTH = fromPercentage(50)
-val MAX_SPEAR_WIDTH = fromPercentage(75)
 
 enum class PolearmHeadType {
     None,
@@ -37,7 +27,7 @@ sealed class PolearmHead : MadeFromParts {
         is RoundedPolearmHead -> PolearmHeadType.Rounded
         is SharpenedPolearmHead -> PolearmHeadType.Sharpened
         is PolearmHeadWithSegments -> PolearmHeadType.Segments
-        is SpearHead -> PolearmHeadType.Spear
+        is PolearmHeadWithSpearHead -> PolearmHeadType.Spear
     }
 
     override fun parts() = when (this) {
@@ -45,7 +35,7 @@ sealed class PolearmHead : MadeFromParts {
         RoundedPolearmHead -> emptyList()
         SharpenedPolearmHead -> emptyList()
         is PolearmHeadWithSegments -> segments.parts()
-        is SpearHead -> fixation.parts() + head
+        is PolearmHeadWithSpearHead -> fixation.parts() + spear.parts()
     }
 }
 
@@ -69,10 +59,7 @@ data class PolearmHeadWithSegments(
 
 @Serializable
 @SerialName("Spear")
-data class SpearHead(
-    val shape: SpearShape = SpearShape.Leaf,
-    val length: Factor = DEFAULT_SPEAR_LENGTH,
-    val width: Factor = DEFAULT_SPEAR_WIDTH,
-    val head: ColorSchemeItemPart = ColorSchemeItemPart(),
+data class PolearmHeadWithSpearHead(
+    val spear: SpearHead = SpearHead(),
     val fixation: PolearmFixation = NoPolearmFixation,
 ) : PolearmHead()
