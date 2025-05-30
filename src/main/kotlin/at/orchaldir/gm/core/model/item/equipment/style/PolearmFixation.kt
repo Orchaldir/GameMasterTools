@@ -11,6 +11,10 @@ val MIN_FIXATION_LENGTH = fromPercentage(1)
 val DEFAULT_FIXATION_LENGTH = fromPercentage(10)
 val MAX_FIXATION_LENGTH = fromPercentage(20)
 
+val MIN_LANGETS_LENGTH = fromPercentage(10)
+val DEFAULT_LANGETS_LENGTH = fromPercentage(20)
+val MAX_LANGETS_LENGTH = fromPercentage(40)
+
 enum class PolearmFixationType {
     None,
     Bound,
@@ -50,7 +54,7 @@ data class BoundPolearmHead(
 @Serializable
 @SerialName("Langets")
 data class Langets(
-    val length: Factor = DEFAULT_FIXATION_LENGTH,
+    val length: Factor = DEFAULT_LANGETS_LENGTH,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : PolearmFixation()
 

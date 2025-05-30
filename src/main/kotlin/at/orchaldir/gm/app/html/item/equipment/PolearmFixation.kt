@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.LENGTH
-import at.orchaldir.gm.app.SEGMENT
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
@@ -20,7 +19,6 @@ import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -71,7 +69,7 @@ fun HtmlBlockTag.editPolearmFixation(
             }
 
             is Langets -> {
-                selectLength(param, fixation.length)
+                selectLength(param, fixation.length, MIN_LANGETS_LENGTH, MAX_LANGETS_LENGTH)
                 editColorSchemeItemPart(state, fixation.part, param)
             }
 
@@ -86,13 +84,15 @@ fun HtmlBlockTag.editPolearmFixation(
 private fun DETAILS.selectLength(
     param: String,
     length: Factor,
+    min: Factor = MIN_FIXATION_LENGTH,
+    max: Factor = MAX_FIXATION_LENGTH,
 ) {
     selectFactor(
         "Length",
         combine(param, LENGTH),
         length,
-        MIN_FIXATION_LENGTH,
-        MAX_FIXATION_LENGTH,
+        min,
+        max,
     )
 }
 
@@ -109,7 +109,7 @@ fun parsePolearmFixation(
     )
 
     PolearmFixationType.Langets -> Langets(
-        parseLength(parameters, param),
+        parseLength(parameters, param, DEFAULT_LANGETS_LENGTH),
         parseColorSchemeItemPart(parameters, param),
     )
 
@@ -119,5 +119,8 @@ fun parsePolearmFixation(
     )
 }
 
-private fun parseLength(parameters: Parameters, param: String): Factor =
-    parseFactor(parameters, combine(param, LENGTH), DEFAULT_FIXATION_LENGTH)
+private fun parseLength(
+    parameters: Parameters,
+    param: String,
+    default: Factor = DEFAULT_FIXATION_LENGTH,
+) = parseFactor(parameters, combine(param, LENGTH), default)

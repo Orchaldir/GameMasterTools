@@ -19,9 +19,26 @@ fun visualizePolearmFixation(
     when (fixation) {
         NoPolearmFixation -> doNothing()
         is BoundPolearmHead -> doNothing()
-        is Langets -> doNothing()
+        is Langets -> visualizeLangets(state, renderer, shaftAabb, fixation)
         is SocketedPolearmHead -> visualizeSocketedFixation(state, renderer, shaftAabb, fixation)
     }
+}
+
+fun visualizeLangets(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    shaftAabb: AABB,
+    fixation: Langets,
+) {
+    val config = state.config.equipment.polearm
+    val polygon = Polygon2dBuilder()
+        .addMirroredPoints(shaftAabb, HALF, START)
+        .addMirroredPoints(shaftAabb, HALF, fixation.length)
+        .build()
+    val color = fixation.part.getColor(state.state, state.colors)
+    val options = FillAndBorder(color.toRender(), state.config.line)
+
+    renderer.renderPolygon(polygon, options)
 }
 
 fun visualizeSocketedFixation(
