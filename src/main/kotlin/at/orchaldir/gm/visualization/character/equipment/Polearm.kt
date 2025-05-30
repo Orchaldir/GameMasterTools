@@ -64,7 +64,7 @@ private fun visualizePolearmHead(
 
         is PolearmHeadWithSpearHead -> {
             visualizeSpearHead(state, renderer, shaftAabb, polearm.head.spear)
-            visualizePolearmFixation(state, renderer, shaftAabb, polearm.head.fixation)
+            visualizePolearmFixation(state, shaftAabb, polearm.head.fixation)
         }
     }
 }

@@ -11,8 +11,8 @@ val DEFAULT_SPEAR_LENGTH = fromPercentage(20)
 val MAX_SPEAR_LENGTH = fromPercentage(30)
 
 val MIN_SPEAR_WIDTH = fromPercentage(100)
-val DEFAULT_SPEAR_WIDTH = fromPercentage(200)
-val MAX_SPEAR_WIDTH = fromPercentage(300)
+val DEFAULT_SPEAR_WIDTH = fromPercentage(250)
+val MAX_SPEAR_WIDTH = fromPercentage(200)
 
 @Serializable
 data class SpearHead(
