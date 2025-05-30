@@ -18,6 +18,12 @@ fun visualizeSpearHead(
     val options = FillAndBorder(color.toRender(), state.config.line)
 
     renderer.renderRoundedPolygon(polygon, options)
+    renderer.renderLine(
+        listOf(
+            headAabb.getPoint(CENTER, START),
+            headAabb.getPoint(CENTER, END),
+        ), state.config.line
+    )
 }
 
 private fun createSpearHeadAabb(
