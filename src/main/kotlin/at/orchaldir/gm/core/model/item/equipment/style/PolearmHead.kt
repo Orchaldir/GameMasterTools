@@ -1,15 +1,17 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val MIN_SEGMENT_LENGTH = Factor.fromPercentage(1)
-val MAX_SEGMENT_LENGTH = Factor.fromPercentage(120)
-val MIN_SEGMENT_DIAMETER = Factor.fromPercentage(10)
-val MAX_SEGMENT_DIAMETER = Factor.fromPercentage(200)
+val MIN_SEGMENT_LENGTH = fromPercentage(1)
+val MAX_SEGMENT_LENGTH = fromPercentage(120)
+val MIN_SEGMENT_DIAMETER = fromPercentage(10)
+val MAX_SEGMENT_DIAMETER = fromPercentage(200)
 
 enum class PolearmHeadType {
     None,
@@ -52,5 +54,8 @@ data class PolearmHeadWithSegments(
 @Serializable
 @SerialName("Spear")
 data class SpearHead(
-    val segments: Segments,
+    val shape: SpearShape = SpearShape.Leaf,
+    val length: Factor = fromPercentage(10),
+    val width: Factor = length / 2,
+    val head: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : PolearmHead()
