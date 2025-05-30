@@ -49,7 +49,7 @@ private fun visualizePolearmHead(
     polearm: Polearm,
 ) {
     when (polearm.head) {
-        NoPolearmHead, RoundedPolearmHead, SharpenedPolearmHead -> doNothing()
+        NoPolearmHead, RoundedPolearmHead, SharpenedPolearmHead, is SpearHead -> doNothing()
         is PolearmHeadWithSegments -> visualizeSegments(
             state,
             polearm.head.segments,
@@ -85,7 +85,7 @@ private fun createSimpleShaftPolygon(
     val builder = Polygon2dBuilder()
 
     when (head) {
-        NoPolearmHead, is PolearmHeadWithSegments -> builder
+        NoPolearmHead, is PolearmHeadWithSegments, is SpearHead -> builder
             .addMirroredPoints(aabb, FULL, START, true)
 
         RoundedPolearmHead -> builder

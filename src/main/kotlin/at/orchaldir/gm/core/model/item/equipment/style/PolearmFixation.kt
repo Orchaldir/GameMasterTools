@@ -7,6 +7,10 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_FIXATION_LENGTH = fromPercentage(1)
+val DEFAULT_FIXATION_LENGTH = fromPercentage(10)
+val MAX_FIXATION_LENGTH = fromPercentage(20)
+
 enum class PolearmFixationType {
     None,
     Bound,
@@ -39,21 +43,21 @@ data object NoPolearmFixation : PolearmFixation()
 @Serializable
 @SerialName("Bound")
 data class BoundPolearmHead(
-    val length: Factor = fromPercentage(10),
+    val length: Factor = DEFAULT_FIXATION_LENGTH,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : PolearmFixation()
 
 @Serializable
 @SerialName("Langets")
 data class Langets(
-    val length: Factor = fromPercentage(10),
+    val length: Factor = DEFAULT_FIXATION_LENGTH,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : PolearmFixation()
 
 @Serializable
 @SerialName("Socketed")
 data class SocketedPolearmHead(
-    val length: Factor = fromPercentage(10),
+    val length: Factor = DEFAULT_FIXATION_LENGTH,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : PolearmFixation()
 

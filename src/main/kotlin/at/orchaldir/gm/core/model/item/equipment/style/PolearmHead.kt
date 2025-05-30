@@ -13,6 +13,14 @@ val MAX_SEGMENT_LENGTH = fromPercentage(120)
 val MIN_SEGMENT_DIAMETER = fromPercentage(10)
 val MAX_SEGMENT_DIAMETER = fromPercentage(200)
 
+val MIN_SPEAR_LENGTH = fromPercentage(5)
+val DEFAULT_SPEAR_LENGTH = fromPercentage(10)
+val MAX_SPEAR_LENGTH = fromPercentage(20)
+
+val MIN_SPEAR_WIDTH = fromPercentage(10)
+val DEFAULT_SPEAR_WIDTH = fromPercentage(50)
+val MAX_SPEAR_WIDTH = fromPercentage(75)
+
 enum class PolearmHeadType {
     None,
     Rounded,
@@ -63,8 +71,8 @@ data class PolearmHeadWithSegments(
 @SerialName("Spear")
 data class SpearHead(
     val shape: SpearShape = SpearShape.Leaf,
-    val length: Factor = fromPercentage(10),
-    val width: Factor = length / 2,
+    val length: Factor = DEFAULT_SPEAR_LENGTH,
+    val width: Factor = DEFAULT_SPEAR_WIDTH,
     val head: ColorSchemeItemPart = ColorSchemeItemPart(),
     val fixation: PolearmFixation = NoPolearmFixation,
 ) : PolearmHead()
