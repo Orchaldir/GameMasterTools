@@ -6,13 +6,13 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.Serializable
 
-val MIN_SPEAR_LENGTH = fromPercentage(5)
-val DEFAULT_SPEAR_LENGTH = fromPercentage(10)
-val MAX_SPEAR_LENGTH = fromPercentage(20)
+val MIN_SPEAR_LENGTH = fromPercentage(10)
+val DEFAULT_SPEAR_LENGTH = fromPercentage(20)
+val MAX_SPEAR_LENGTH = fromPercentage(30)
 
-val MIN_SPEAR_WIDTH = fromPercentage(10)
-val DEFAULT_SPEAR_WIDTH = fromPercentage(50)
-val MAX_SPEAR_WIDTH = fromPercentage(75)
+val MIN_SPEAR_WIDTH = fromPercentage(100)
+val DEFAULT_SPEAR_WIDTH = fromPercentage(200)
+val MAX_SPEAR_WIDTH = fromPercentage(300)
 
 @Serializable
 data class SpearHead(
