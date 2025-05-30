@@ -31,6 +31,14 @@ sealed class PolearmHead : MadeFromParts {
         is PolearmHeadWithSegments -> PolearmHeadType.Segments
         is SpearHead -> PolearmHeadType.Spear
     }
+
+    override fun parts() = when (this) {
+        NoPolearmHead -> emptyList()
+        RoundedPolearmHead -> emptyList()
+        SharpenedPolearmHead -> emptyList()
+        is PolearmHeadWithSegments -> segments.parts()
+        is SpearHead -> fixation.parts() + head
+    }
 }
 
 @Serializable
@@ -58,4 +66,5 @@ data class SpearHead(
     val length: Factor = fromPercentage(10),
     val width: Factor = length / 2,
     val head: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val fixation: PolearmFixation = NoPolearmFixation,
 ) : PolearmHead()
