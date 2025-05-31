@@ -46,6 +46,7 @@ val MAIN_EQUIPMENT = EquipmentDataType.entries - ACCESSORIES - COMBAT_GEAR - Equ
 
 enum class EquipmentDataType {
     Belt,
+    BodyArmour,
     Coat,
     Dress,
     Earring,
@@ -68,6 +69,7 @@ enum class EquipmentDataType {
 
     fun slots(): Set<EquipmentSlot> = when (this) {
         Belt -> setOf(BeltSlot)
+        BodyArmour -> setOf(TopSlot)
         Coat -> setOf(OuterSlot)
         Dress -> setOf(BottomSlot, InnerTopSlot)
         Earring -> setOf(EarSlot)
@@ -95,6 +97,7 @@ sealed class EquipmentData : MadeFromParts {
 
     fun getType() = when (this) {
         is Belt -> EquipmentDataType.Belt
+        is BodyArmour -> EquipmentDataType.BodyArmour
         is Coat -> EquipmentDataType.Coat
         is Dress -> EquipmentDataType.Dress
         is Earring -> EquipmentDataType.Earring
@@ -130,6 +133,17 @@ data class Belt(
 ) : EquipmentData() {
 
     override fun parts() = buckle.parts() + strap
+}
+
+@Serializable
+@SerialName("Armour")
+data class BodyArmour(
+    val armour: Armour,
+    val length: OuterwearLength = OuterwearLength.Knee,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Short,
+) : EquipmentData() {
+
+    override fun parts() = armour.parts()
 }
 
 @Serializable
