@@ -16,7 +16,7 @@ fun visualizePolearmFixation(
     shaftAabb: AABB,
     fixation: PolearmFixation,
 ) {
-    val renderer = state.getLayer(HELD_EQUIPMENT_LAYER + 1)
+    val renderer = state.getLayer(HELD_EQUIPMENT_LAYER, 1)
 
     when (fixation) {
         NoPolearmFixation -> doNothing()
