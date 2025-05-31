@@ -1,21 +1,12 @@
 package at.orchaldir.gm.app.html.item.equipment
 
-import at.orchaldir.gm.app.FIXATION
-import at.orchaldir.gm.app.LENGTH
-import at.orchaldir.gm.app.SEGMENT
-import at.orchaldir.gm.app.SHAPE
-import at.orchaldir.gm.app.WIDTH
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.fieldFactor
 import at.orchaldir.gm.app.html.util.parseFactor
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.editSegments
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseSegments
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showSegments
+import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.app.html.util.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -136,6 +127,7 @@ fun parsePolearmHead(
     PolearmHeadType.Segments -> PolearmHeadWithSegments(
         parseSegments(parameters, combine(param, SEGMENT)),
     )
+
     PolearmHeadType.Spear -> PolearmHeadWithSpearHead(
         parseSpearHead(parameters, param),
         parsePolearmFixation(parameters, combine(param, FIXATION)),
