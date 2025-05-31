@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.OUTERWEAR_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
@@ -40,15 +41,14 @@ fun visualizeBodyEquipment(
 
             when (val data = pair.first) {
                 is Belt -> visualizeBelt(newState, body, data)
+                is BodyArmour -> visualizeBodyArmour(newState, body, data)
                 is Coat -> visualizeCoat(newState, body, data, OUTERWEAR_LAYER)
                 is Dress -> visualizeDress(newState, body, data)
                 is Footwear -> visualizeFootwear(newState, body, data)
                 is Gloves -> visualizeGloves(newState, body, data)
-                is LamellarArmour -> visualizeLamellarArmour(newState, body, data)
                 is Necklace -> visualizeNecklace(newState, body, data)
                 is Pants -> visualizePants(newState, body, data)
                 is Polearm -> visualizePolearm(newState, body, data, set)
-                is ScaleArmour -> visualizeScaleArmour(newState, body, data)
                 is Shield -> visualizeShield(newState, body, data, set)
                 is Shirt -> visualizeShirt(newState, body, data)
                 is Skirt -> visualizeSkirt(newState, body, data)

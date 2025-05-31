@@ -64,22 +64,23 @@ fun validateEquipment(
         }
 
     when (equipment.data) {
-        is LamellarArmour -> {
-            checkLamellarLacing(equipment.data.lacing)
-            checkArmourColumns(equipment.data.columns)
-        }
-
+        is BodyArmour -> checkBodyArmour(equipment.data)
         is Polearm -> checkPolearmHead(equipment.data.head)
-
-        is ScaleArmour -> {
-            checkFactor(equipment.data.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
-            checkArmourColumns(equipment.data.columns)
-        }
-
         else -> doNothing()
     }
 }
 
+private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {
+    is LamellarArmour -> {
+        checkLamellarLacing(armour.style.lacing)
+        checkArmourColumns(armour.style.columns)
+    }
+
+    is ScaleArmour -> {
+        checkFactor(armour.style.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
+        checkArmourColumns(armour.style.columns)
+    }
+}
 private fun checkLamellarLacing(lacing: LamellarLacing) = when (lacing) {
     NoLacing -> doNothing()
     is DiagonalLacing -> checkLacingThickness(lacing.thickness)

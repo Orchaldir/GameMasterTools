@@ -29,7 +29,7 @@ fun HtmlBlockTag.showBodyArmour(
 ) {
     field("Length", armour.length)
     field("Sleeve Style", armour.sleeveStyle)
-    showArmour(call, state, armour.armour)
+    showArmour(call, state, armour.style)
 }
 
 // edit
@@ -40,7 +40,7 @@ fun FORM.editBodyArmour(
 ) {
     selectValue("Length", LENGTH, OuterwearLength.entries, armour.length)
     selectSleeveStyle(SleeveStyle.entries, armour.sleeveStyle)
-    editArmour(state, armour.armour)
+    editArmour(state, armour.style)
 }
 
 // parse
