@@ -92,7 +92,7 @@ private fun DETAILS.showSegmentedArmour(
     armour: SegmentedArmour,
 ) {
     showColorSchemeItemPart(call, state, armour.segment, "Segment")
-    field("Segments", armour.segments)
+    field("Rows", armour.rows)
     field("Is overlapping", armour.isOverlapping)
 }
 
@@ -157,8 +157,8 @@ private fun DETAILS.editSegmentedArmour(
 ) {
     editColorSchemeItemPart(state, armour.segment, MAIN, "Scale")
     selectInt(
-        "Segments",
-        armour.segments,
+        "Rows",
+        armour.rows,
         MIN_SCALE_COLUMNS,
         MAX_SCALE_COLUMNS,
         1,

@@ -70,6 +70,6 @@ data class ScaleArmour(
 @SerialName("Segmented")
 data class SegmentedArmour(
     val segment: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
-    val segments: Int = DEFAULT_SCALE_COLUMNS,
+    val rows: Int = DEFAULT_SCALE_COLUMNS,
     val isOverlapping: Boolean = true,
 ) : Armour()
