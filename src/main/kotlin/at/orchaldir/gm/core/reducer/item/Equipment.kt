@@ -80,6 +80,10 @@ private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {
         checkFactor(armour.style.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
         checkArmourColumns(armour.style.columns)
     }
+
+    is SegmentedArmour -> {
+        checkArmourColumns(armour.style.segments)
+    }
 }
 private fun checkLamellarLacing(lacing: LamellarLacing) = when (lacing) {
     NoLacing -> doNothing()

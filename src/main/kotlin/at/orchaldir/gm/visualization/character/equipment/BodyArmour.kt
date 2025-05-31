@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
+import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeLamellarArmour
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeScaleArmour
@@ -15,5 +17,6 @@ fun visualizeBodyArmour(
 ) = when (armour.style) {
     is LamellarArmour -> visualizeLamellarArmour(state, body, armour, armour.style)
     is ScaleArmour -> visualizeScaleArmour(state, body, armour, armour.style)
+    is SegmentedArmour -> doNothing()
 }
 

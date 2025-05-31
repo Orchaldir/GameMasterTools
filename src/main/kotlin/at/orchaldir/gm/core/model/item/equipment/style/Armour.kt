@@ -29,6 +29,7 @@ val LAMELLAR_SHAPES = SHAPES_WITHOUT_CROSS - ReverseTeardrop - Teardrop
 enum class ArmourType {
     Lamellar,
     Scale,
+    Segmented,
 }
 
 @Serializable
@@ -37,11 +38,13 @@ sealed class Armour : MadeFromParts {
     fun getType() = when (this) {
         is LamellarArmour -> ArmourType.Lamellar
         is ScaleArmour -> ArmourType.Scale
+        is SegmentedArmour -> ArmourType.Segmented
     }
 
     override fun parts() = when (this) {
         is LamellarArmour -> listOf(scale)
         is ScaleArmour -> listOf(scale)
+        is SegmentedArmour -> listOf(segment)
     }
 }
 
@@ -61,4 +64,12 @@ data class ScaleArmour(
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
     val overlap: Factor = DEFAULT_SCALE_OVERLAP,
+) : Armour()
+
+@Serializable
+@SerialName("Segmented")
+data class SegmentedArmour(
+    val segment: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val segments: Int = DEFAULT_SCALE_COLUMNS,
+    val isOverlapping: Boolean = true,
 ) : Armour()
