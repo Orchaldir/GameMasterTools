@@ -51,6 +51,10 @@ private fun createSpearHeadPolygon(
             .addMirroredPoints(headAabb, HALF, END, true)
 
         SpearShape.Leaf -> builder
+            .addMirroredPoints(headAabb, FULL, HALF)
+            .addMirroredPoints(headAabb, FULL, END)
+
+        SpearShape.Teardrop -> builder
             .addMirroredPoints(headAabb, FULL, END - config.spearHeadBase)
             .addMirroredPoints(headAabb, FULL, END)
 
