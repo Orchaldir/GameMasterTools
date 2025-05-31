@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.PolearmConfig
+import kotlin.math.ceil
 
 fun visualizePolearmFixation(
     state: CharacterRenderState,
@@ -18,11 +19,39 @@ fun visualizePolearmFixation(
 
     when (fixation) {
         NoPolearmFixation -> doNothing()
-        is BoundPolearmHead -> doNothing()
+        is BoundPolearmHead -> visualizeBoundFixation(state, renderer, shaftAabb, fixation)
         is Langets -> visualizeLangets(state, renderer, shaftAabb, fixation)
         is SocketedPolearmHead -> visualizeSocketedFixation(state, renderer, shaftAabb, fixation)
     }
 }
+
+fun visualizeBoundFixation(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    shaftAabb: AABB,
+    fixation: BoundPolearmHead,
+) {
+    val config = state.config.equipment.polearm
+    val height = shaftAabb.convertHeight(fixation.length)
+    val rowHeight = shaftAabb.convertHeight(config.boundRowThickness)
+    val rowWidth = shaftAabb.convertWidth(FULL + config.boundRowThickness * 2)
+    val rows = ceil(height.toMeters() / rowHeight.toMeters()).toInt()
+    val color = fixation.part.getColor(state.state, state.colors)
+    val options = FillAndBorder(color.toRender(), state.config.line)
+    var start = shaftAabb.getPoint(-config.boundRowThickness, START)
+    val size = Size2d(rowWidth, rowHeight)
+
+    repeat(rows) {
+        val aabb = AABB(start, size)
+        val polygon = Polygon2d(aabb.getCorners())
+
+        renderer.renderRoundedPolygon(polygon, options)
+
+        start = start.addHeight(rowHeight)
+    }
+
+}
+
 
 fun visualizeLangets(
     state: CharacterRenderState,

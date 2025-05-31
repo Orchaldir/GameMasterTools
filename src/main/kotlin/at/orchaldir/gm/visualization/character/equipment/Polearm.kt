@@ -19,6 +19,7 @@ data class PolearmConfig(
     val width: Factor,
     val spearHeadBase: Factor,
     val socketedPadding: Factor,
+    val boundRowThickness: Factor,
 ) {
     fun getLength(aabb: AABB) = aabb.convertHeight(length)
     fun getWidth(aabb: AABB) = aabb.convertHeight(width)
