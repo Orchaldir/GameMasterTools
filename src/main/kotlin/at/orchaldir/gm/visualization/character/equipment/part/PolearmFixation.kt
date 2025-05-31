@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
+import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -34,16 +35,20 @@ fun visualizeBoundFixation(
     val config = state.config.equipment.polearm
     val height = shaftAabb.convertHeight(fixation.length)
     val rowHeight = shaftAabb.convertHeight(config.boundRowThickness)
-    val rowWidth = shaftAabb.convertWidth(FULL + config.boundRowThickness * 2)
+    val rowWidth = shaftAabb.convertWidth(FULL + config.boundPadding * 2)
     val rows = ceil(height.toMeters() / rowHeight.toMeters()).toInt()
     val color = fixation.part.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line)
-    var start = shaftAabb.getPoint(-config.boundRowThickness, START)
+    var start = shaftAabb.getPoint(-config.boundPadding, START)
     val size = Size2d(rowWidth, rowHeight)
 
     repeat(rows) {
         val aabb = AABB(start, size)
-        val polygon = Polygon2d(aabb.getCorners())
+        val polygon = Polygon2dBuilder()
+            .addMirroredPoints(aabb, FULL, START)
+            .addMirroredPoints(aabb, FULL, HALF)
+            .addMirroredPoints(aabb, FULL, END)
+            .build()
 
         renderer.renderRoundedPolygon(polygon, options)
 
