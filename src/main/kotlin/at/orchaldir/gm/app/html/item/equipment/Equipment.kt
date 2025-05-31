@@ -42,6 +42,7 @@ private fun HtmlBlockTag.showEquipmentData(
 
     when (val data = equipment.data) {
         is Belt -> showBelt(call, state, data)
+        is BodyArmour -> showBodyArmour(call, state, data)
         is Coat -> showCoat(call, state, data)
         is Dress -> showDress(call, state, data)
         is Earring -> showEarring(call, state, data)
@@ -108,6 +109,7 @@ private fun FORM.editEquipmentData(
 ) {
     when (val data = equipment.data) {
         is Belt -> editBelt(state, data)
+        is BodyArmour -> editBodyArmour(state, data)
         is Coat -> editCoat(state, data)
         is Dress -> editDress(state, data)
         is Earring -> editEarring(state, data)
@@ -169,6 +171,7 @@ private fun parseColorSchemes(
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.Belt)) {
         EquipmentDataType.Belt -> parseBelt(parameters)
+        EquipmentDataType.BodyArmour -> parseBodyArmour(parameters)
         EquipmentDataType.Coat -> parseCoat(parameters)
         EquipmentDataType.Dress -> parseDress(parameters)
         EquipmentDataType.Earring -> parseEarring(parameters)
