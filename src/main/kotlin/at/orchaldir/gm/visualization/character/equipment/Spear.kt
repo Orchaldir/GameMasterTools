@@ -47,12 +47,12 @@ private fun createSpearHeadPolygon(
 
     when (shape) {
         SpearShape.Diamond -> builder
-            .addMirroredPoints(headAabb, FULL, END, true)
-            .addLeftPoint(headAabb, CENTER, END + config.spearHeadBase, true)
+            .addMirroredPoints(headAabb, FULL, END - config.spearHeadBase, true)
+            .addMirroredPoints(headAabb, HALF, END, true)
 
         SpearShape.Leaf -> builder
+            .addMirroredPoints(headAabb, FULL, END - config.spearHeadBase)
             .addMirroredPoints(headAabb, FULL, END)
-            .addMirroredPoints(headAabb, FULL, END + config.spearHeadBase)
 
         SpearShape.Triangle -> builder
             .addMirroredPoints(headAabb, FULL, END, true)
