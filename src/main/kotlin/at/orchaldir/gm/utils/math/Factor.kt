@@ -45,6 +45,7 @@ value class Factor private constructor(private val permyriad: Int) {
     operator fun minus(other: Factor) = Factor(permyriad - other.permyriad)
     operator fun times(other: Factor) = fromNumber(toNumber() * other.toNumber())
     operator fun times(other: Float) = Factor((permyriad * other).toInt())
+    operator fun times(other: Int) = Factor(permyriad * other)
     operator fun div(other: Factor) = fromNumber(toNumber() / other.toNumber())
     operator fun div(other: Float) = Factor((permyriad / other).toInt())
     operator fun div(factor: Int) = Factor(permyriad / factor)

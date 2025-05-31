@@ -69,6 +69,8 @@ fun validateEquipment(
             checkArmourColumns(equipment.data.columns)
         }
 
+        is Polearm -> checkPolearmHead(equipment.data.head)
+
         is ScaleArmour -> {
             checkFactor(equipment.data.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
             checkArmourColumns(equipment.data.columns)
@@ -103,4 +105,30 @@ private fun checkLacingThickness(thickness: Factor) {
 
 private fun checkArmourColumns(columns: Int) {
     checkInt(columns, "columns", MIN_SCALE_COLUMNS, MAX_SCALE_COLUMNS)
+}
+
+private fun checkPolearmHead(head: PolearmHead) = when (head) {
+    NoPolearmHead -> doNothing()
+    RoundedPolearmHead -> doNothing()
+    SharpenedPolearmHead -> doNothing()
+    is PolearmHeadWithSegments -> TODO()
+    is PolearmHeadWithSpearHead -> {
+        checkPolearmFixation(head.fixation)
+        checkSpearHead(head.spear)
+    }
+}
+
+private fun checkPolearmFixation(fixation: PolearmFixation) = when (fixation) {
+    NoPolearmFixation -> doNothing()
+    is BoundPolearmHead -> checkFixationLength(fixation.length)
+    is Langets -> checkFactor(fixation.length, "Langets Length", MIN_LANGETS_LENGTH, MAX_LANGETS_LENGTH)
+    is SocketedPolearmHead -> checkFixationLength(fixation.length)
+}
+
+private fun checkFixationLength(length: Factor) =
+    checkFactor(length, "Fixation Length", MIN_FIXATION_LENGTH, MAX_FIXATION_LENGTH)
+
+private fun checkSpearHead(head: SpearHead) {
+    checkFactor(head.length, "Spearhead Length", MIN_SPEAR_LENGTH, MAX_SPEAR_LENGTH)
+    checkFactor(head.width, "Spearhead Width", MIN_SPEAR_WIDTH, MAX_SPEAR_WIDTH)
 }

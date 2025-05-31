@@ -11,11 +11,16 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.visualizePolearmFixation
 import at.orchaldir.gm.visualization.utils.visualizeSegments
 
 data class PolearmConfig(
     val length: Factor,
     val width: Factor,
+    val spearHeadBase: Factor,
+    val boundPadding: Factor,
+    val boundRowThickness: Factor,
+    val socketedPadding: Factor,
 ) {
     fun getLength(aabb: AABB) = aabb.convertHeight(length)
     fun getWidth(aabb: AABB) = aabb.convertHeight(width)
@@ -38,14 +43,14 @@ fun visualizePolearm(
     val center = state.getCenter(left, right, set, BodySlot.HeldInRightHand)
     val shaftAabb = AABB.fromWidthAndHeight(center, width, length)
 
-    visualizePolearmShaft(state, renderer, shaftAabb, polearm)
     visualizePolearmHead(state, renderer, shaftAabb, polearm)
+    visualizePolearmShaft(state, renderer, shaftAabb, polearm)
 }
 
 private fun visualizePolearmHead(
     state: CharacterRenderState,
     renderer: LayerRenderer,
-    aabb: AABB,
+    shaftAabb: AABB,
     polearm: Polearm,
 ) {
     when (polearm.head) {
@@ -53,11 +58,16 @@ private fun visualizePolearmHead(
         is PolearmHeadWithSegments -> visualizeSegments(
             state,
             polearm.head.segments,
-            aabb.getPoint(CENTER, START),
+            shaftAabb.getPoint(CENTER, START),
             true,
-            aabb.size.height,
-            aabb.size.width,
+            shaftAabb.size.height,
+            shaftAabb.size.width,
         )
+
+        is PolearmHeadWithSpearHead -> {
+            visualizeSpearHead(state, renderer, shaftAabb, polearm.head.spear)
+            visualizePolearmFixation(state, shaftAabb, polearm.head.fixation)
+        }
     }
 }
 
@@ -85,7 +95,7 @@ private fun createSimpleShaftPolygon(
     val builder = Polygon2dBuilder()
 
     when (head) {
-        NoPolearmHead, is PolearmHeadWithSegments -> builder
+        NoPolearmHead, is PolearmHeadWithSegments, is PolearmHeadWithSpearHead -> builder
             .addMirroredPoints(aabb, FULL, START, true)
 
         RoundedPolearmHead -> builder
