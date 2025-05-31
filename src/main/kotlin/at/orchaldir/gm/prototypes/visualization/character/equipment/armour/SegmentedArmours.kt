@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
+import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -14,31 +15,23 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWi
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
-    val overlapping = listOf(
-        Pair("Overlapping", true),
-        Pair("Not", false),
-    )
-
     renderCharacterTableWithoutColorScheme(
         State(),
         "segmented-armours.svg",
         CHARACTER_CONFIG,
-        overlapping,
-        addNames(listOf(5, 6, 7, 8)),
-    ) { distance, rows, overlapping ->
-        val style = SegmentedArmour(
-            rows = rows,
-            isOverlapping = overlapping,
-        )
-        val armour = BodyArmour(style)
+        addNames(BodyShape.entries),
+        addNames(OuterwearLength.entries),
+    ) { distance, length, bodyShape ->
+        val style = SegmentedArmour()
+        val armour = BodyArmour(style, length)
 
-        Pair(createAppearance(distance), from(armour))
+        Pair(createAppearance(distance, bodyShape), from(armour))
     }
 }
 
-private fun createAppearance(height: Distance) =
+private fun createAppearance(height: Distance, bodyShape: BodyShape) =
     HumanoidBody(
-        Body(BodyShape.Muscular),
+        Body(bodyShape),
         Head(),
         height,
     )
