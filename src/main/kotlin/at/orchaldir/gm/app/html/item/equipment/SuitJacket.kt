@@ -2,6 +2,12 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.item.equipment.style.parseOpeningStyle
+import at.orchaldir.gm.app.html.item.equipment.style.selectNecklineStyle
+import at.orchaldir.gm.app.html.item.equipment.style.selectOpeningStyle
+import at.orchaldir.gm.app.html.item.equipment.style.selectPocketStyle
+import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
+import at.orchaldir.gm.app.html.item.equipment.style.showOpeningStyle
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart

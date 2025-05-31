@@ -2,6 +2,10 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.item.equipment.style.editLamellarLacing
+import at.orchaldir.gm.app.html.item.equipment.style.parseLamellarLacing
+import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
+import at.orchaldir.gm.app.html.item.equipment.style.showLamellarLacing
 import at.orchaldir.gm.app.html.math.parseUsingRectangularShape
 import at.orchaldir.gm.app.html.math.selectUsingRectangularShape
 import at.orchaldir.gm.app.html.math.showUsingRectangularShape

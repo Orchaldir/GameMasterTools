@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.item.equipment.style.editOrnament
+import at.orchaldir.gm.app.html.item.equipment.style.parseOrnament
+import at.orchaldir.gm.app.html.item.equipment.style.showOrnament
 import at.orchaldir.gm.app.html.util.fieldFactor
 import at.orchaldir.gm.app.html.util.parseFactor
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart

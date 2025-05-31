@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.item.equipment
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.character.appearance.editNormalEye
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.item.equipment.style.editOrnament
+import at.orchaldir.gm.app.html.item.equipment.style.parseOrnament
+import at.orchaldir.gm.app.html.item.equipment.style.showOrnament
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.part.*

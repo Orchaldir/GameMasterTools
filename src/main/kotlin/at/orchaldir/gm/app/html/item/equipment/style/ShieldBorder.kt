@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.item.equipment
+package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.BORDER
 import at.orchaldir.gm.app.SIZE
