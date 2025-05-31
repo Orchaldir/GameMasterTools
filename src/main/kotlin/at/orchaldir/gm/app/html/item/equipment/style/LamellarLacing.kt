@@ -54,7 +54,7 @@ fun HtmlBlockTag.showLamellarLacing(
 
 // edit
 
-fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
+fun HtmlBlockTag.editLamellarLacing(state: State, lacing: LamellarLacing) {
     showDetails("Lacing", true) {
         selectValue("Type", LACING, LamellarLacingType.entries, lacing.getType())
 
