@@ -70,6 +70,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
         )
     }
 
+    fun getPolygon() = Polygon2d(getCorners())
+
     fun getPoint(horizontal: Factor, vertical: Factor) = Point2d(
         start.x + size.width * horizontal,
         start.y + size.height * vertical,

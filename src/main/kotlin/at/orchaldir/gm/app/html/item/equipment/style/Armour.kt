@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.OFFSET
 import at.orchaldir.gm.app.OVERLAP
 import at.orchaldir.gm.app.SCALE
+import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.TOP
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.math.parseComplexShape
@@ -43,6 +44,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.MIN_SCALE_COLUMNS
 import at.orchaldir.gm.core.model.item.equipment.style.MIN_SCALE_OVERLAP
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
+import at.orchaldir.gm.core.model.item.equipment.style.SegmentedPlateShape
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -95,6 +97,7 @@ private fun DETAILS.showSegmentedArmour(
     armour: SegmentedArmour,
 ) {
     showColorSchemeItemPart(call, state, armour.segment, "Segment")
+    field("Segment Shape", armour.shape)
     field("Rows", armour.rows)
     field("Breastplate Rows", armour.breastPlateRows)
     field("Is overlapping", armour.isOverlapping)
@@ -160,6 +163,7 @@ private fun DETAILS.editSegmentedArmour(
     armour: SegmentedArmour,
 ) {
     editColorSchemeItemPart(state, armour.segment, MAIN, "Scale")
+    selectValue("Segment Shape", SHAPE, SegmentedPlateShape.entries, armour.shape)
     selectInt(
         "Rows",
         armour.rows,
@@ -204,6 +208,7 @@ fun parseArmour(parameters: Parameters): Armour {
         )
         ArmourType.Segmented -> SegmentedArmour(
             parseColorSchemeItemPart(parameters, MAIN),
+            parse(parameters, SHAPE, SegmentedPlateShape.Straight),
             parseInt(parameters, NUMBER, DEFAULT_SCALE_COLUMNS),
             parseInt(
                 parameters,

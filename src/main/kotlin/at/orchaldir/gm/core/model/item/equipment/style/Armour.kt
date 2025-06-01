@@ -73,6 +73,7 @@ data class ScaleArmour(
 @SerialName("Segmented")
 data class SegmentedArmour(
     val segment: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val shape: SegmentedPlateShape = SegmentedPlateShape.Straight,
     val rows: Int = DEFAULT_SCALE_COLUMNS,
     val breastPlateRows: Int = DEFAULT_BREASTPLATE_ROWS,
     val isOverlapping: Boolean = true,

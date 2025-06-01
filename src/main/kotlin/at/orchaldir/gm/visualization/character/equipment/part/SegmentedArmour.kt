@@ -3,9 +3,13 @@ package at.orchaldir.gm.visualization.character.equipment.part
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
+import at.orchaldir.gm.core.model.item.equipment.style.SegmentedPlateShape
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.CENTER
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -45,14 +49,14 @@ private fun visualizeSegmentedArmourBody(
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val rowHeight = (bottom - start).y / style.rows.toFloat()
 
-    var position = renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
+    var center = renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
 
     repeat(style.rows - style.breastPlateRows) { row ->
-        val aabb = AABB.fromWidthAndHeight(position, segmentWidth, rowHeight)
+        val polygon = createSegmentPolygon(center, segmentWidth, rowHeight, style.shape)
 
-        renderer.renderRectangle(aabb, options)
+        renderer.renderRoundedPolygon(polygon, options)
 
-        position = position.addHeight(rowHeight)
+        center = center.addHeight(rowHeight)
     }
 }
 
@@ -64,12 +68,35 @@ private fun renderBreastPlate(
     rowHeight: Distance,
     segmentWidth: Distance,
 ): Point2d {
-    val position = torso.getPoint(CENTER, START)
-        .addHeight(rowHeight * style.breastPlateRows / 2)
     val breastplateHeight = rowHeight * style.breastPlateRows
-    val breastplateAabb = AABB.fromWidthAndHeight(position, segmentWidth, breastplateHeight)
+    val halfHeight = breastplateHeight / 2
+    val center = torso.getPoint(CENTER, START)
+        .addHeight(halfHeight)
+    val polygon = createSegmentPolygon(center, segmentWidth, rowHeight, style.shape, style.breastPlateRows)
 
-    renderer.renderRectangle(breastplateAabb, options)
+    renderer.renderRoundedPolygon(polygon, options)
 
-    return position.addHeight(breastplateHeight / 2 + rowHeight / 2)
+    return center.addHeight(halfHeight + rowHeight / 2)
+}
+
+private fun createSegmentPolygon(
+    center: Point2d,
+    segmentWidth: Distance,
+    rowHeight: Distance,
+    shape: SegmentedPlateShape,
+    rows: Int = 1,
+) = when (shape) {
+    SegmentedPlateShape.Straight, SegmentedPlateShape.CenterTriangle -> AABB
+        .fromWidthAndHeight(center, segmentWidth, rowHeight * rows)
+        .getPolygon()
+
+    SegmentedPlateShape.CurvedDown -> {
+        val aabb = AABB.fromWidthAndHeight(center, segmentWidth, rowHeight)
+
+        Polygon2dBuilder()
+            .addMirroredPoints(aabb, FULL, START)
+            .addMirroredPoints(aabb, FULL, END * rows)
+            .addLeftPoint(aabb, CENTER, END * (rows + 0.5f))
+            .build()
+    }
 }
