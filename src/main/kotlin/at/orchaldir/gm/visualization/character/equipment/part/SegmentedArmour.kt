@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
@@ -90,12 +91,12 @@ private fun createSegmentPolygon(
     val aabb = AABB.fromWidthAndHeight(center, segmentWidth, rowHeight * rows)
 
     return when (shape) {
-        SegmentedPlateShape.Straight, SegmentedPlateShape.CenterTriangle -> Polygon2dBuilder()
+        SegmentedPlateShape.Straight -> Polygon2dBuilder()
             .addMirroredPoints(aabb, FULL, START, true)
             .addMirroredPoints(aabb, FULL, END, true)
             .build()
 
-        SegmentedPlateShape.CurvedDown -> {
+        SegmentedPlateShape.Curved -> {
             val bottom = aabb.getPoint(CENTER, END)
                 .addHeight(rowHeight / 4)
 
@@ -103,6 +104,18 @@ private fun createSegmentPolygon(
                 .addMirroredPoints(aabb, FULL, START, true)
                 .addMirroredPoints(aabb, FULL, END, true)
                 .addLeftPoint(bottom)
+                .build()
+        }
+
+        SegmentedPlateShape.CenterTriangle -> {
+            val bottom = aabb.getPoint(CENTER, END)
+                .addHeight(rowHeight / 4)
+
+            Polygon2dBuilder()
+                .addMirroredPoints(aabb, FULL, START, true)
+                .addMirroredPoints(aabb, FULL, END, true)
+                .addMirroredPoints(aabb, Factor.fromPercentage(30), END)
+                .addLeftPoint(bottom, true)
                 .build()
         }
     }
