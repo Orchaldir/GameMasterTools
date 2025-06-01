@@ -50,6 +50,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         fromPercentage(80),
         fromPercentage(14),
         fromPercentage(25),
+        fromPercentage(107),
         TailConfig(
             fromPercentages(5, 7, 9),
             fromPercentage(40),
