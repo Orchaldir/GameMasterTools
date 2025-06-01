@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.TOP
+import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import io.ktor.http.*

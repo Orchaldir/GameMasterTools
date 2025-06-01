@@ -4,7 +4,9 @@ import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.BodyArmour
+import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
@@ -64,19 +66,26 @@ fun validateEquipment(
         }
 
     when (equipment.data) {
-        is LamellarArmour -> {
-            checkLamellarLacing(equipment.data.lacing)
-            checkArmourColumns(equipment.data.columns)
-        }
-
+        is BodyArmour -> checkBodyArmour(equipment.data)
         is Polearm -> checkPolearmHead(equipment.data.head)
-
-        is ScaleArmour -> {
-            checkFactor(equipment.data.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
-            checkArmourColumns(equipment.data.columns)
-        }
-
         else -> doNothing()
+    }
+}
+
+private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {
+    is LamellarArmour -> {
+        checkLamellarLacing(armour.style.lacing)
+        checkArmourColumns(armour.style.columns)
+    }
+
+    is ScaleArmour -> {
+        checkFactor(armour.style.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
+        checkArmourColumns(armour.style.columns)
+    }
+
+    is SegmentedArmour -> {
+        checkArmourColumns(armour.style.rows)
+        checkInt(armour.style.breastplateRows, "Breastplate Rows", 1, armour.style.rows - 1)
     }
 }
 

@@ -164,12 +164,13 @@ class SvgRenderer(
     override fun renderRectangle(aabb: AABB, options: RenderOptions): LayerRenderer {
         selfClosingTag(
             "rect",
-            "x=\"%.4f\" y=\"%.4f\" width=\"%.4f\" height=\"%.4f\" style=\"%s\"",
+            "x=\"%.4f\" y=\"%.4f\" width=\"%.4f\" height=\"%.4f\" style=\"%s\"%s",
             aabb.start.x.toMeters(),
             aabb.start.y.toMeters(),
             aabb.size.width.toMeters(),
             aabb.size.height.toMeters(),
             toSvg(options),
+            toSvgClipPath(options.clipping())
         )
 
         return this
@@ -307,11 +308,7 @@ class SvgRenderer(
     }
 
     private fun renderPath(path: String, style: String, clipping: String? = null) {
-        val clippingAttribute = if (clipping != null) {
-            " clip-path=\"url(#$clipping)\""
-        } else {
-            ""
-        }
+        val clippingAttribute = toSvgClipPath(clipping)
 
         selfClosingTag(
             "path", "d=\"%s\" style=\"%s\"%s",
@@ -319,6 +316,12 @@ class SvgRenderer(
             style,
             clippingAttribute,
         )
+    }
+
+    private fun toSvgClipPath(clipping: String?): String = if (clipping != null) {
+        " clip-path=\"url(#$clipping)\""
+    } else {
+        ""
     }
 
     private fun renderPath(path: String) {

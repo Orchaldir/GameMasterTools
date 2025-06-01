@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -21,6 +20,7 @@ data class BodyConfig(
     val hourglassWidth: Factor,
     val legWidth: Factor,
     val shoulderY: Factor,
+    val shoulderWidth: Factor,
     val tail: TailConfig,
     val torsoHeight: Factor,
     val torsoWidth: Factor,
@@ -127,12 +127,12 @@ data class BodyConfig(
 
     fun getShoulderWidth(bodyShape: BodyShape) = when (bodyShape) {
         Muscular -> widerWidth
-        Rectangle, Hourglass -> FULL.interpolate(widerWidth, fromPercentage(33))
+        Rectangle, Hourglass -> shoulderWidth
         else -> FULL
     }
 
     fun getMaxWidth(bodyShape: BodyShape) = when (bodyShape) {
-        Rectangle -> FULL
+        Rectangle, Hourglass -> shoulderWidth
         else -> widerWidth
     }
 

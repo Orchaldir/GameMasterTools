@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.economy.money
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
-import at.orchaldir.gm.app.html.item.equipment.selectMaterial
+import at.orchaldir.gm.app.html.item.equipment.style.selectMaterial
 import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape

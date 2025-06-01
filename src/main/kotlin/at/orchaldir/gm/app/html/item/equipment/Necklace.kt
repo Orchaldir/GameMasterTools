@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue

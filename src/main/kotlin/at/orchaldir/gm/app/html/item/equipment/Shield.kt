@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape

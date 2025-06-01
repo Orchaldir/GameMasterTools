@@ -42,6 +42,7 @@ private fun HtmlBlockTag.showEquipmentData(
 
     when (val data = equipment.data) {
         is Belt -> showBelt(call, state, data)
+        is BodyArmour -> showBodyArmour(call, state, data)
         is Coat -> showCoat(call, state, data)
         is Dress -> showDress(call, state, data)
         is Earring -> showEarring(call, state, data)
@@ -50,11 +51,9 @@ private fun HtmlBlockTag.showEquipmentData(
         is Glasses -> showGlasses(call, state, data)
         is Gloves -> showGloves(call, state, data)
         is Hat -> showHat(call, state, data)
-        is LamellarArmour -> showLamellarArmour(call, state, data)
         is Necklace -> showNecklace(call, state, data)
         is Pants -> showPants(call, state, data)
         is Polearm -> showPolearm(call, state, data)
-        is ScaleArmour -> showScaleArmour(call, state, data)
         is Shield -> showShield(call, state, data)
         is Shirt -> showShirt(call, state, data)
         is Skirt -> showSkirt(call, state, data)
@@ -108,6 +107,7 @@ private fun FORM.editEquipmentData(
 ) {
     when (val data = equipment.data) {
         is Belt -> editBelt(state, data)
+        is BodyArmour -> editBodyArmour(state, data)
         is Coat -> editCoat(state, data)
         is Dress -> editDress(state, data)
         is Earring -> editEarring(state, data)
@@ -116,11 +116,9 @@ private fun FORM.editEquipmentData(
         is Glasses -> editGlasses(state, data)
         is Gloves -> editGloves(state, data)
         is Hat -> editHat(state, data)
-        is LamellarArmour -> editLamellarArmour(state, data)
         is Necklace -> editNecklace(state, data)
         is Pants -> editPants(state, data)
         is Polearm -> editPolearm(state, data)
-        is ScaleArmour -> editScaleArmour(state, data)
         is Shield -> editShield(state, data)
         is Shirt -> editShirt(state, data)
         is Skirt -> editSkirt(state, data)
@@ -169,6 +167,7 @@ private fun parseColorSchemes(
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.Belt)) {
         EquipmentDataType.Belt -> parseBelt(parameters)
+        EquipmentDataType.BodyArmour -> parseBodyArmour(parameters)
         EquipmentDataType.Coat -> parseCoat(parameters)
         EquipmentDataType.Dress -> parseDress(parameters)
         EquipmentDataType.Earring -> parseEarring(parameters)
@@ -177,11 +176,9 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.Glasses -> parseGlasses(parameters)
         EquipmentDataType.Gloves -> parseGloves(parameters)
         EquipmentDataType.Hat -> parseHat(parameters)
-        EquipmentDataType.LamellarArmour -> parseLamellarArmour(parameters)
         EquipmentDataType.Necklace -> parseNecklace(parameters)
         EquipmentDataType.Pants -> parsePants(parameters)
         EquipmentDataType.Polearm -> parsePolearm(parameters)
-        EquipmentDataType.ScaleArmour -> parseScaleArmour(parameters)
         EquipmentDataType.Shield -> parseShield(parameters)
         EquipmentDataType.Shirt -> parseShirt(parameters)
         EquipmentDataType.Skirt -> parseSkirt(parameters)

@@ -5,6 +5,9 @@ import at.orchaldir.gm.app.NECKLINE
 import at.orchaldir.gm.app.SKIRT_STYLE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.item.equipment.style.parseSleeveStyle
+import at.orchaldir.gm.app.html.item.equipment.style.selectNecklineStyle
+import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart

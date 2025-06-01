@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.item.equipment
+package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.LACING
 import at.orchaldir.gm.app.LENGTH
@@ -22,7 +22,6 @@ import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -54,7 +53,7 @@ fun HtmlBlockTag.showLamellarLacing(
 
 // edit
 
-fun FORM.editLamellarLacing(state: State, lacing: LamellarLacing) {
+fun HtmlBlockTag.editLamellarLacing(state: State, lacing: LamellarLacing) {
     showDetails("Lacing", true) {
         selectValue("Type", LACING, LamellarLacingType.entries, lacing.getType())
 
