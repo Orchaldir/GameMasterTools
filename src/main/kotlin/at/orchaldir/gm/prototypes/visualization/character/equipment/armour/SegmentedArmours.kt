@@ -22,7 +22,7 @@ fun main() {
         addNames(BodyShape.entries),
         addNames(OuterwearLength.entries),
     ) { distance, length, bodyShape ->
-        val style = SegmentedArmour()
+        val style = SegmentedArmour(breastPlateRows = 2)
         val armour = BodyArmour(style, length)
 
         Pair(createAppearance(distance, bodyShape), from(armour))
