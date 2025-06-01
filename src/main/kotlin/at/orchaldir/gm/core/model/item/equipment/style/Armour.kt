@@ -20,7 +20,6 @@ const val MIN_SCALE_COLUMNS = 3
 const val DEFAULT_SCALE_COLUMNS = 6
 const val MAX_SCALE_COLUMNS = 10
 
-
 const val DEFAULT_BREASTPLATE_ROWS = 1
 
 val MIN_SCALE_OVERLAP = QUARTER
@@ -75,6 +74,5 @@ data class SegmentedArmour(
     val segment: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
     val shape: SegmentedPlateShape = SegmentedPlateShape.Straight,
     val rows: Int = DEFAULT_SCALE_COLUMNS,
-    val breastPlateRows: Int = DEFAULT_BREASTPLATE_ROWS,
-    val isOverlapping: Boolean = true,
+    val breastplateRows: Int = DEFAULT_BREASTPLATE_ROWS,
 ) : Armour()

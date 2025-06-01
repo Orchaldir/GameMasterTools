@@ -18,7 +18,6 @@ import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.math.showUsingRectangularShape
 import at.orchaldir.gm.app.html.parseBool
 import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectBool
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
@@ -99,8 +98,7 @@ private fun DETAILS.showSegmentedArmour(
     showColorSchemeItemPart(call, state, armour.segment, "Segment")
     field("Segment Shape", armour.shape)
     field("Rows", armour.rows)
-    field("Breastplate Rows", armour.breastPlateRows)
-    field("Is overlapping", armour.isOverlapping)
+    field("Breastplate Rows", armour.breastplateRows)
 }
 
 
@@ -174,16 +172,11 @@ private fun DETAILS.editSegmentedArmour(
     )
     selectInt(
         "Breastplate Rows",
-        armour.breastPlateRows,
-        MIN_SCALE_COLUMNS,
+        armour.breastplateRows,
+        1,
         armour.rows - 1,
         1,
         combine(TOP, NUMBER),
-    )
-    selectBool(
-        "Is Overlapping",
-        armour.isOverlapping,
-        OVERLAP,
     )
 }
 
@@ -215,7 +208,6 @@ fun parseArmour(parameters: Parameters): Armour {
                 combine(TOP, NUMBER),
                 DEFAULT_BREASTPLATE_ROWS,
             ),
-            parseBool(parameters, OVERLAP),
         )
     }
 }

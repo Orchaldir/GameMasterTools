@@ -83,6 +83,7 @@ private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {
 
     is SegmentedArmour -> {
         checkArmourColumns(armour.style.rows)
+        checkInt(armour.style.breastplateRows, "Breastplate Rows", 1, armour.style.rows - 1)
     }
 }
 private fun checkLamellarLacing(lacing: LamellarLacing) = when (lacing) {

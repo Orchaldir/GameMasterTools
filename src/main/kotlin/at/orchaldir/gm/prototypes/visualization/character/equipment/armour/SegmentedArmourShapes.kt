@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
-import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedPlateShape
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -18,12 +17,12 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     renderCharacterTableWithoutColorScheme(
         State(),
-        "segmented-armour-openings.svg",
+        "segmented-armour-shapes.svg",
         CHARACTER_CONFIG,
         addNames(BodyShape.entries),
         addNames(SegmentedPlateShape.entries),
     ) { distance, shape, bodyShape ->
-        val style = SegmentedArmour(shape = shape, breastPlateRows = 2)
+        val style = SegmentedArmour(shape = shape, breastplateRows = 2)
         val armour = BodyArmour(style)
 
         Pair(createAppearance(distance, bodyShape), from(armour))

@@ -54,7 +54,7 @@ private fun visualizeSegmentedArmourBody(
     var center = torso.getPoint(CENTER, START)
         .addHeight(rowHeight * (0.5f + style.rows - 1))
 
-    repeat(style.rows - style.breastPlateRows) { row ->
+    repeat(style.rows - style.breastplateRows) { row ->
         val polygon = createSegmentPolygon(center, segmentWidth, rowHeight, style.shape)
 
         renderer.renderRoundedPolygon(polygon, options)
@@ -74,11 +74,11 @@ private fun renderBreastPlate(
     rowHeight: Distance,
     segmentWidth: Distance,
 ) {
-    val breastplateHeight = rowHeight * style.breastPlateRows
+    val breastplateHeight = rowHeight * style.breastplateRows
     val halfHeight = breastplateHeight / 2
     val center = torso.getPoint(CENTER, START)
         .addHeight(halfHeight)
-    val polygon = createSegmentPolygon(center, segmentWidth, rowHeight, style.shape, style.breastPlateRows)
+    val polygon = createSegmentPolygon(center, segmentWidth, rowHeight, style.shape, style.breastplateRows)
 
     renderer.renderRoundedPolygon(polygon, options)
 }
