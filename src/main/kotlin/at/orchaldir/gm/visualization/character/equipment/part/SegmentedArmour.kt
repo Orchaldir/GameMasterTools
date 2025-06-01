@@ -49,16 +49,18 @@ private fun visualizeSegmentedArmourBody(
     val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val rowHeight = (bottom - start).y / style.rows.toFloat()
-
-    var center = renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
+    var center = torso.getPoint(CENTER, START)
+        .addHeight(rowHeight * (0.5f + style.rows - 1))
 
     repeat(style.rows - style.breastPlateRows) { row ->
         val polygon = createSegmentPolygon(center, segmentWidth, rowHeight, style.shape)
 
         renderer.renderRoundedPolygon(polygon, options)
 
-        center = center.addHeight(rowHeight)
+        center = center.minusHeight(rowHeight)
     }
+
+    renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
 }
 
 private fun renderBreastPlate(
@@ -68,7 +70,7 @@ private fun renderBreastPlate(
     torso: AABB,
     rowHeight: Distance,
     segmentWidth: Distance,
-): Point2d {
+) {
     val breastplateHeight = rowHeight * style.breastPlateRows
     val halfHeight = breastplateHeight / 2
     val center = torso.getPoint(CENTER, START)
@@ -76,8 +78,6 @@ private fun renderBreastPlate(
     val polygon = createSegmentPolygon(center, segmentWidth, rowHeight, style.shape, style.breastPlateRows)
 
     renderer.renderRoundedPolygon(polygon, options)
-
-    return center.addHeight(halfHeight + rowHeight / 2)
 }
 
 private fun createSegmentPolygon(
