@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedPlateShape
+import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.END
@@ -62,6 +63,7 @@ private fun visualizeSegmentedArmourBody(
     }
 
     renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
+    visualizeArmourSleeves(state, renderer, body, armour, style, rowHeight)
 }
 
 private fun renderBreastPlate(
@@ -118,5 +120,46 @@ private fun createSegmentPolygon(
                 .addLeftPoint(bottom, true)
                 .build()
         }
+    }
+}
+
+private fun visualizeArmourSleeves(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    body: Body,
+    armour: BodyArmour,
+    style: SegmentedArmour,
+    rowHeight: Distance,
+) {
+    if (armour.sleeveStyle == SleeveStyle.None) {
+        return
+    }
+
+    val (leftAabb, rightAabb) = createSleeveAabbs(state, body, armour.sleeveStyle)
+
+    visualizeArmourSleeve(state, renderer, leftAabb, style, rowHeight)
+    visualizeArmourSleeve(state, renderer, rightAabb, style, rowHeight)
+}
+
+private fun visualizeArmourSleeve(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    aabb: AABB,
+    style: SegmentedArmour,
+    rowHeight: Distance,
+) {
+    val color = style.segment.getColor(state.state, state.colors)
+    val options = FillAndBorder(color.toRender(), state.config.line)
+    val top = aabb.getPoint(CENTER, START)
+    val bottom = aabb.getPoint(CENTER, FULL)
+    var center = top
+        .addHeight(rowHeight / 2)
+
+    while (center.y < bottom.y) {
+        val segmentAabb = AABB.fromWidthAndHeight(center, aabb.size.width, rowHeight)
+
+        renderer.renderRectangle(segmentAabb, options)
+
+        center = center.addHeight(rowHeight)
     }
 }
