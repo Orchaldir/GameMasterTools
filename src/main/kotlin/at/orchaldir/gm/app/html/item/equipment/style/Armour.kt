@@ -1,26 +1,8 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
-import at.orchaldir.gm.app.COLUMNS
-import at.orchaldir.gm.app.LACING
-import at.orchaldir.gm.app.MAIN
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.OFFSET
-import at.orchaldir.gm.app.OVERLAP
-import at.orchaldir.gm.app.SCALE
-import at.orchaldir.gm.app.SHAPE
-import at.orchaldir.gm.app.TOP
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.math.parseComplexShape
-import at.orchaldir.gm.app.html.math.parseUsingRectangularShape
-import at.orchaldir.gm.app.html.math.selectComplexShape
-import at.orchaldir.gm.app.html.math.selectUsingRectangularShape
-import at.orchaldir.gm.app.html.math.showComplexShape
-import at.orchaldir.gm.app.html.math.showUsingRectangularShape
-import at.orchaldir.gm.app.html.parseBool
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.math.*
 import at.orchaldir.gm.app.html.util.fieldFactor
 import at.orchaldir.gm.app.html.util.parseFactor
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
@@ -30,20 +12,7 @@ import at.orchaldir.gm.app.html.util.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.style.Armour
-import at.orchaldir.gm.core.model.item.equipment.style.ArmourType
-import at.orchaldir.gm.core.model.item.equipment.style.DEFAULT_BREASTPLATE_ROWS
-import at.orchaldir.gm.core.model.item.equipment.style.DEFAULT_SCALE_COLUMNS
-import at.orchaldir.gm.core.model.item.equipment.style.DEFAULT_SCALE_OVERLAP
-import at.orchaldir.gm.core.model.item.equipment.style.LAMELLAR_SHAPES
-import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
-import at.orchaldir.gm.core.model.item.equipment.style.MAX_SCALE_COLUMNS
-import at.orchaldir.gm.core.model.item.equipment.style.MAX_SCALE_OVERLAP
-import at.orchaldir.gm.core.model.item.equipment.style.MIN_SCALE_COLUMNS
-import at.orchaldir.gm.core.model.item.equipment.style.MIN_SCALE_OVERLAP
-import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
-import at.orchaldir.gm.core.model.item.equipment.style.SegmentedPlateShape
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -199,6 +168,7 @@ fun parseArmour(parameters: Parameters): Armour {
             parseInt(parameters, COLUMNS, DEFAULT_SCALE_COLUMNS),
             parseFactor(parameters, OFFSET, DEFAULT_SCALE_OVERLAP),
         )
+
         ArmourType.Segmented -> SegmentedArmour(
             parseColorSchemeItemPart(parameters, MAIN),
             parse(parameters, SHAPE, SegmentedPlateShape.Straight),

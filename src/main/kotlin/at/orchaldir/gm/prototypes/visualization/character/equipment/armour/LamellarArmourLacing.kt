@@ -7,11 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
-import at.orchaldir.gm.core.model.item.equipment.style.DiagonalLacing
-import at.orchaldir.gm.core.model.item.equipment.style.FourSidesLacing
-import at.orchaldir.gm.core.model.item.equipment.style.LacingAndStripe
-import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
-import at.orchaldir.gm.core.model.item.equipment.style.NoLacing
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme

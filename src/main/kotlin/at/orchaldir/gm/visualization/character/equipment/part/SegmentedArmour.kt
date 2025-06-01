@@ -5,16 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedPlateShape
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.CENTER
-import at.orchaldir.gm.utils.math.END
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Polygon2d
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
-import at.orchaldir.gm.utils.math.START
-import at.orchaldir.gm.utils.math.THREE_QUARTER
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder

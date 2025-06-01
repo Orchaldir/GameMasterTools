@@ -4,7 +4,9 @@ import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.BodyArmour
+import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
@@ -86,6 +88,7 @@ private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {
         checkInt(armour.style.breastplateRows, "Breastplate Rows", 1, armour.style.rows - 1)
     }
 }
+
 private fun checkLamellarLacing(lacing: LamellarLacing) = when (lacing) {
     NoLacing -> doNothing()
     is DiagonalLacing -> checkLacingThickness(lacing.thickness)

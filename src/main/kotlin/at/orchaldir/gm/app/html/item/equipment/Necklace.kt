@@ -2,12 +2,7 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.equipment.style.editJewelryLine
-import at.orchaldir.gm.app.html.item.equipment.style.editOrnament
-import at.orchaldir.gm.app.html.item.equipment.style.parseJewelryLine
-import at.orchaldir.gm.app.html.item.equipment.style.parseOrnament
-import at.orchaldir.gm.app.html.item.equipment.style.showJewelryLine
-import at.orchaldir.gm.app.html.item.equipment.style.showOrnament
+import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
