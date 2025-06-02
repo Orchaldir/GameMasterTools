@@ -33,7 +33,7 @@ data class SwordConfig(
         val center = hand.minusHeight(oneHandLength / 2)
         val size = Size2d(length * gripWidth, length)
 
-        return AABB.fromCenter(center, size)
+        return AABB.fromTop(center, size)
     }
 
 
