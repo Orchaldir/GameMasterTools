@@ -40,6 +40,6 @@ sealed class Blade : MadeFromParts {
 data class SimpleBlade(
     val shape: BladeShape = BladeShape.Straight,
     val length: Factor = HALF,
-    val width: Factor = Factor.fromPercentage(10),
+    val width: Factor = Factor.fromPercentage(20),
     val part: ColorItemPart = ColorItemPart(),
 ) : Blade()

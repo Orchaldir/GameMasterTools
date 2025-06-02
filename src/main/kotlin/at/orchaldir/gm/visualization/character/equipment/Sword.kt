@@ -106,6 +106,7 @@ private fun createSimplyBladePolygon(
 
         BladeShape.Triangle -> builder
             .addLeftPoint(aabb, CENTER, START, true)
+            .addMirroredPoints(aabb, HALF, config.straightTopY, true)
             .addMirroredPoints(aabb, FULL, END, true)
     }
 
