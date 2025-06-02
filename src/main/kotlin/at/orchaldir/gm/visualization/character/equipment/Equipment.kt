@@ -28,6 +28,7 @@ data class EquipmentConfig(
     val polearm: PolearmConfig,
     val shield: ShieldConfig,
     val skirt: SkirtConfig,
+    val sword: SwordConfig,
     val tie: TieConfig,
 )
 

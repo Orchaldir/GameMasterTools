@@ -2,22 +2,25 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.OneHandedSword
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.utils.convert
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 
 data class SwordConfig(
-    val length: Factor,
-    val width: Factor,
-    val spearHeadBase: Factor,
-    val boundPadding: Factor,
-    val boundRowThickness: Factor,
-    val socketedPadding: Factor,
+    val gripLength: Factor,
+    val gripWidth: Factor,
 ) {
-    fun getLength(aabb: AABB) = aabb.convertHeight(length)
-    fun getWidth(aabb: AABB) = aabb.convertHeight(width)
+
+    fun gripSize(handRadius: Distance, isOneHanded: Boolean): Size2d {
+        val length = handRadius * gripLength *
+                isOneHanded.convert(1, 2)
+
+        return Size2d(length * gripWidth, length)
+    }
+
+
 }
 
 fun visualizeSword(
@@ -28,5 +31,10 @@ fun visualizeSword(
     isOneHanded: Boolean,
     set: Set<BodySlot>,
 ) {
-
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val handRadius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
+    val config = state.config.equipment.sword
+    val bladeSize = blade.size(state.aabb)
+    val gripSize = config.gripSize(handRadius, isOneHanded)
+    val center = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
 }

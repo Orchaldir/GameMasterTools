@@ -34,4 +34,10 @@ fun Boolean.toInt() = when (this) {
     false -> 0
 }
 
+fun Boolean.convert(trueValue: Int, falseValue: Int): Int = if (this) {
+    trueValue
+} else {
+    falseValue
+}
+
 fun Int.isEven() = this % 2 == 0
