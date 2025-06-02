@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.HeldInOneOrTwoHandsSlot
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
@@ -48,8 +49,9 @@ enum class EquipmentDataType {
     Shirt,
     Skirt,
     Socks,
-    Tie,
-    SuitJacket;
+    SuitJacket,
+    Sword,
+    Tie;
 
     fun slots(): Set<EquipmentSlot> = when (this) {
         Belt -> setOf(BeltSlot)
@@ -70,6 +72,7 @@ enum class EquipmentDataType {
         Skirt -> setOf(BottomSlot)
         Socks -> setOf(FootUnderwearSlot)
         SuitJacket -> setOf(TopSlot)
+        Sword -> setOf(HeldInOneOrTwoHandsSlot)
         Tie -> setOf(NeckSlot)
     }
 }
@@ -96,6 +99,7 @@ sealed class EquipmentData : MadeFromParts {
         is Skirt -> EquipmentDataType.Skirt
         is Socks -> EquipmentDataType.Socks
         is SuitJacket -> EquipmentDataType.SuitJacket
+        is Sword -> EquipmentDataType.Sword
         is Tie -> EquipmentDataType.Tie
     }
 
@@ -319,6 +323,15 @@ data class SuitJacket(
 ) : EquipmentData() {
 
     override fun parts() = openingStyle.parts() + main
+}
+
+@Serializable
+@SerialName("Sword")
+data class Sword(
+    val hilt: SwordHilt = SimpleHilt(),
+) : EquipmentData() {
+
+    override fun parts() = hilt.parts()
 }
 
 @Serializable
