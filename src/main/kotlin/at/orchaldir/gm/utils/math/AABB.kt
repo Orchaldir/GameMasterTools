@@ -22,8 +22,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
     constructor(x: Float, y: Float, size: Size2d) : this(Point2d.fromMeters(x, y), size)
 
     companion object {
-        fun fromBottom(bottom: Point2d, size: Size2d) = AABB(
-            bottom.minusWidth(size.height / 2), size
+        fun fromBottom(bottom: Point2d, size: Size2d) = fromCenter(
+            bottom.minusHeight(size.height / 2), size
         )
 
         fun fromCenter(center: Point2d, size: Size2d) = AABB(
@@ -31,6 +31,10 @@ data class AABB(val start: Point2d, val size: Size2d) {
         )
 
         fun fromCenter(center: Point2d, size: Distance) = fromWidthAndHeight(center, size, size)
+
+        fun fromTop(top: Point2d, size: Size2d) = fromCenter(
+            top.addHeight(size.height / 2), size
+        )
 
         fun fromCorners(start: Point2d, end: Point2d): AABB {
             val diff = end - start

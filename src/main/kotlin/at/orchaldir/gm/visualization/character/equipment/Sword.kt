@@ -30,10 +30,10 @@ data class SwordConfig(
         val handRadius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
         val oneHandLength = handRadius * gripLength
         val length = oneHandLength * isOneHanded.convert(1, 2)
-        val center = hand.addHeight(oneHandLength / 2)
+        val center = hand.minusHeight(oneHandLength / 2)
         val size = Size2d(length * gripWidth, length)
 
-        return AABB(center, size)
+        return AABB.fromCenter(center, size)
     }
 
 
