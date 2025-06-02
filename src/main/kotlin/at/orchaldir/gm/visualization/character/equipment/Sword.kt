@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 
@@ -54,6 +55,7 @@ fun visualizeSword(
     val bladeAabb = AABB.fromBottom(gripAabb.getPoint(CENTER, START), bladeSize)
 
     visualizeBlade(state, renderer, config, blade, bladeAabb)
+    visualizeHilt(state, renderer, config, hilt, bladeAabb)
 }
 
 fun visualizeBlade(
@@ -68,7 +70,7 @@ fun visualizeBlade(
     }
 }
 
-fun visualizeSimpleBlade(
+private fun visualizeSimpleBlade(
     state: CharacterRenderState,
     renderer: LayerRenderer,
     config: SwordConfig,
@@ -109,3 +111,27 @@ private fun createSimplyBladePolygon(
     return builder.build()
 }
 
+private fun visualizeHilt(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: SwordConfig,
+    hilt: SwordHilt,
+    aabb: AABB,
+) {
+    when (hilt) {
+        is SimpleHilt -> visualizeSimpleHilt(state, renderer, config, hilt, aabb)
+    }
+}
+
+private fun visualizeSimpleHilt(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: SwordConfig,
+    hilt: SimpleHilt,
+    aabb: AABB,
+) {
+    val fill = hilt.grip.part.getFill(state.state, state.colors)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
+
+    renderer.renderRectangle(aabb, options)
+}
