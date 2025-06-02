@@ -19,19 +19,21 @@ sealed class SwordHilt : MadeFromParts {
     }
 
     override fun parts() = when (this) {
-        is HiltWithoutGuard -> pommel.parts()
-        is SimpleHilt -> pommel.parts()
+        is HiltWithoutGuard -> grip.parts() + pommel.parts()
+        is SimpleHilt -> grip.parts() + pommel.parts()
     }
 }
 
 @Serializable
 @SerialName("WithoutGuard")
 data class HiltWithoutGuard(
+    val grip: SwordGrip = SwordGrip(),
     val pommel: Pommel = Pommel(),
 ) : SwordHilt()
 
 @Serializable
 @SerialName("Simple")
 data class SimpleHilt(
+    val grip: SwordGrip = SwordGrip(),
     val pommel: Pommel = Pommel(),
 ) : SwordHilt()
