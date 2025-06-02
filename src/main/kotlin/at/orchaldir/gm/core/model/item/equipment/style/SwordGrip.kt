@@ -8,9 +8,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SwordGrip(
-    val part: FillLookupItemPart = FillLookupItemPart(),
     val shape: SwordGripShape = SwordGripShape.Straight,
-    val size: Size = Size.Medium,
+    val part: FillLookupItemPart = FillLookupItemPart(),
 ) : MadeFromParts {
 
     override fun parts() = listOf(part)
