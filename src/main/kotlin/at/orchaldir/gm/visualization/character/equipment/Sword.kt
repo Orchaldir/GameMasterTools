@@ -13,6 +13,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
 
 data class SwordConfig(
     val gripLength: Factor,
@@ -46,7 +47,7 @@ fun visualizeSword(
     isOneHanded: Boolean,
     set: Set<BodySlot>,
 ) {
-    val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
+    val renderer = state.getLayer(TEXT_LAYER)
     val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val config = state.config.equipment.sword
@@ -55,7 +56,7 @@ fun visualizeSword(
     val bladeAabb = AABB.fromBottom(gripAabb.getPoint(CENTER, START), bladeSize)
 
     visualizeBlade(state, renderer, config, blade, bladeAabb)
-    visualizeHilt(state, renderer, config, hilt, bladeAabb)
+    visualizeHilt(state, renderer, config, hilt, gripAabb)
 }
 
 fun visualizeBlade(
