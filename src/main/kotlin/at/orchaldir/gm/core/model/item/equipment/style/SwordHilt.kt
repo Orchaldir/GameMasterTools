@@ -27,13 +27,11 @@ sealed class SwordHilt : MadeFromParts {
 @Serializable
 @SerialName("WithoutGuard")
 data class HiltWithoutGuard(
-    val pommel: Ornament = SimpleOrnament(),
-    val pommelSize: Size = Size.Medium,
+    val pommel: Pommel = Pommel(),
 ) : SwordHilt()
 
 @Serializable
 @SerialName("Simple")
 data class SimpleHilt(
-    val pommel: Ornament = SimpleOrnament(),
-    val pommelSize: Size = Size.Medium,
+    val pommel: Pommel = Pommel(),
 ) : SwordHilt()
