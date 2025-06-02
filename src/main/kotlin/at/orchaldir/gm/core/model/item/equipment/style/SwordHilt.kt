@@ -7,33 +7,24 @@ import kotlinx.serialization.Serializable
 
 enum class SwordHiltType {
     Simple,
-    WithoutGuard,
 }
 
 @Serializable
 sealed class SwordHilt : MadeFromParts {
 
     fun getType() = when (this) {
-        is HiltWithoutGuard -> SwordHiltType.WithoutGuard
         is SimpleHilt -> SwordHiltType.Simple
     }
 
     override fun parts() = when (this) {
-        is HiltWithoutGuard -> grip.parts() + pommel.parts()
-        is SimpleHilt -> grip.parts() + pommel.parts()
+        is SimpleHilt -> guard.parts() + grip.parts() + pommel.parts()
     }
 }
 
 @Serializable
-@SerialName("WithoutGuard")
-data class HiltWithoutGuard(
-    val grip: SwordGrip = SwordGrip(),
-    val pommel: Pommel = Pommel(),
-) : SwordHilt()
-
-@Serializable
 @SerialName("Simple")
 data class SimpleHilt(
+    val guard: SwordGuard = SimpleSwordGuard(),
     val grip: SwordGrip = SwordGrip(),
     val pommel: Pommel = Pommel(),
 ) : SwordHilt()
