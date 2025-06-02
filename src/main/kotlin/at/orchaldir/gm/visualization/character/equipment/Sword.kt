@@ -13,11 +13,19 @@ data class SwordConfig(
     val gripWidth: Factor,
 ) {
 
-    fun gripSize(handRadius: Distance, isOneHanded: Boolean): Size2d {
-        val length = handRadius * gripLength *
-                isOneHanded.convert(1, 2)
+    fun gripAabb(
+        state: CharacterRenderState,
+        body: Body,
+        isOneHanded: Boolean,
+        hand: Point2d,
+    ): AABB {
+        val handRadius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
+        val oneHandLength = handRadius * gripLength
+        val length = oneHandLength * isOneHanded.convert(1, 2)
+        val center = hand.addHeight(oneHandLength / 2)
+        val size = Size2d(length * gripWidth, length)
 
-        return Size2d(length * gripWidth, length)
+        return AABB(center, size)
     }
 
 
@@ -32,9 +40,9 @@ fun visualizeSword(
     set: Set<BodySlot>,
 ) {
     val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
-    val handRadius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
+    val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val config = state.config.equipment.sword
+    val gripAabb = config.gripAabb(state, body, isOneHanded, hand)
     val bladeSize = blade.size(state.aabb)
-    val gripSize = config.gripSize(handRadius, isOneHanded)
-    val center = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
+    val bladeAabb = AABB.fromBottom(gripAabb.getPoint(CENTER, START), bladeSize)
 }

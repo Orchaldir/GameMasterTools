@@ -26,7 +26,7 @@ sealed class Blade : MadeFromParts {
 
     fun size(aabb: AABB) = when (this) {
         is SimpleBlade -> {
-            val length = aabb.convertHeight(this@Blade.length)
+            val length = aabb.convertHeight(this.length)
             Size2d(
                 length * width,
                 length,
