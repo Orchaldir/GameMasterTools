@@ -54,7 +54,8 @@ fun visualizeBodyEquipment(
                 is Skirt -> visualizeSkirt(newState, body, data)
                 is Socks -> visualizeSocks(newState, body, data)
                 is SuitJacket -> visualizeCoat(newState, body, data.convert(), JACKET_LAYER)
-                is OneHandedSword -> visualizeSword(newState, body, data, set)
+                is OneHandedSword -> visualizeSword(newState, body, data.blade, data.hilt, true, set)
+                is TwoHandedSword -> visualizeSword(newState, body, data.blade, data.hilt, false, set)
                 is Tie -> visualizeTie(newState, body, data)
                 else -> doNothing()
             }

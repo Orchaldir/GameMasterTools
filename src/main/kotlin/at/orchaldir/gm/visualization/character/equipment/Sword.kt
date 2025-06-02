@@ -23,7 +23,9 @@ data class SwordConfig(
 fun visualizeSword(
     state: CharacterRenderState,
     body: Body,
-    sword: OneHandedSword,
+    blade: Blade,
+    hilt: SwordHilt,
+    isOneHanded: Boolean,
     set: Set<BodySlot>,
 ) {
 
