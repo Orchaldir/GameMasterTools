@@ -56,8 +56,7 @@ fun FORM.editSwordHilt(
 
 fun parseSwordHilt(
     parameters: Parameters,
-    param: String,
-) = when (parse(parameters, param, SwordHiltType.Simple)) {
+) = when (parse(parameters, HILT, SwordHiltType.Simple)) {
     SwordHiltType.Simple -> SimpleSwordHilt(
         parseSwordGuard(parameters),
         parseSwordGrip(parameters),
