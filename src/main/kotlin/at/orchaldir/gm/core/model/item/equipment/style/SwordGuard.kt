@@ -20,7 +20,10 @@ sealed class SwordGuard : MadeFromParts {
         is SimpleSwordGuard -> SwordGuardType.Simple
     }
 
-    override fun parts() = emptyList<ItemPart>()
+    override fun parts() = when (this) {
+        NoSwordGuard -> emptyList()
+        is SimpleSwordGuard -> listOf(part)
+    }
 }
 
 @Serializable

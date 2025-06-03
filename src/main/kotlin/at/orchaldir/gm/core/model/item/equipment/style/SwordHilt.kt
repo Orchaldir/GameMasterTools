@@ -25,5 +25,5 @@ sealed class SwordHilt : MadeFromParts {
 data class SimpleHilt(
     val guard: SwordGuard = SimpleSwordGuard(),
     val grip: SwordGrip = SwordGrip(),
-    val pommel: Pommel = Pommel(),
+    val pommel: Pommel = PommelWithOrnament(),
 ) : SwordHilt()

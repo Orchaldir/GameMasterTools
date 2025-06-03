@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -109,6 +110,17 @@ private fun visualizePommel(
     renderer: LayerRenderer,
     config: SwordConfig,
     pommel: Pommel,
+    gripAabb: AABB,
+) = when (pommel) {
+    NoPommel -> doNothing()
+    is PommelWithOrnament -> visualizePommelWithOrnament(state, renderer, config, pommel, gripAabb)
+}
+
+private fun visualizePommelWithOrnament(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: SwordConfig,
+    pommel: PommelWithOrnament,
     gripAabb: AABB,
 ) {
     val width = gripAabb.size.width * config.pommelSizes.convert(pommel.size)
