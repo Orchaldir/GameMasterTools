@@ -42,8 +42,8 @@ private fun DETAILS.showSimpleBlade(
     blade: SimpleBlade,
 ) {
     field("Shape", blade.shape)
-    fieldFactor("Length", blade.length)
-    fieldFactor("Width", blade.width)
+    fieldFactor("Length relative to Character", blade.length)
+    fieldFactor("Width relative to Grip", blade.width)
     showColorSchemeItemPart(call, state, blade.part)
 }
 
@@ -80,14 +80,14 @@ private fun DETAILS.editSimpleBlade(
         blade.shape,
     )
     selectFactor(
-        "Length",
+        "Length relative to Character",
         combine(param, LENGTH),
         blade.length,
         minLength,
         maxLength,
     )
     selectFactor(
-        "Width",
+        "Width relative to Grip",
         combine(param, WIDTH),
         blade.width,
         MIN_BLADE_WIDTH,
