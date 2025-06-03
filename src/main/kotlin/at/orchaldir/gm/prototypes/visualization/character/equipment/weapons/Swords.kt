@@ -23,7 +23,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     val hilts = listOf(
-        Pair("Straight", SimpleHilt(grip = SwordGrip(Straight, FillLookupItemPart(Color.Black)))),
+        Pair("Straight", SimpleHilt(NoSwordGuard, SwordGrip(Straight, FillLookupItemPart(Color.Black)))),
         Pair("Oval", SimpleHilt(grip = SwordGrip(Oval, FillLookupItemPart(Color.Black)))),
         Pair("Waisted", SimpleHilt(grip = SwordGrip(Waisted, FillLookupItemPart(Color.Black)))),
     )
