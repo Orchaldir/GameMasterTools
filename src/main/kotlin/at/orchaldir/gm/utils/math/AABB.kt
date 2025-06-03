@@ -119,6 +119,13 @@ data class AABB(val start: Point2d, val size: Size2d) {
      */
     fun grow(border: Distance) = AABB(start - border, size + border * 2.0f)
 
+    fun growWidth(border: Distance) = AABB(
+        start.minusWidth(border),
+        size.addWidth(border * 2),
+    )
+
+    fun growWidth(factor: Factor) = growWidth(size.width * factor)
+
     /**
      * Move the border inward by a certain distance.
      */
