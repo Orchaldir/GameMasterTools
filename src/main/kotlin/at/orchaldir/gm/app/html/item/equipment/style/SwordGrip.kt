@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
+import at.orchaldir.gm.app.GRIP
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.html.*
@@ -42,7 +43,7 @@ fun HtmlBlockTag.showSwordGrip(
 fun FORM.editSwordGrip(
     state: State,
     grip: SwordGrip,
-    param: String,
+    param: String = GRIP,
 ) {
     showDetails("Grip", true) {
         selectValue("Type", param, SwordGripType.entries, grip.getType())
@@ -78,7 +79,7 @@ fun FORM.editSwordGrip(
 
 fun parseSwordGrip(
     parameters: Parameters,
-    param: String,
+    param: String = GRIP,
 ) = when (parse(parameters, param, SwordGripType.Simple)) {
     SwordGripType.Simple -> SimpleSwordGrip(
         parse(parameters, combine(param, SHAPE), SwordGripShape.Straight),
