@@ -152,5 +152,5 @@ private fun visualizePommelWithOrnament(
     val top = gripAabb.getPoint(CENTER, END)
     val aabb = AABB.fromTop(top, Size2d.square(width))
 
-    visualizeOrnament(state, renderer, pommel.ornament, aabb)
+    visualizeOrnament(state, renderer, pommel.ornament, aabb, true)
 }
