@@ -335,7 +335,7 @@ data class OneHandedSword(
     val hilt: SwordHilt = SimpleSwordHilt(),
 ) : EquipmentData() {
 
-    override fun parts() = hilt.parts()
+    override fun parts() = blade.parts() + hilt.parts()
 }
 
 @Serializable
@@ -345,7 +345,7 @@ data class TwoHandedSword(
     val hilt: SwordHilt = SimpleSwordHilt(),
 ) : EquipmentData() {
 
-    override fun parts() = hilt.parts()
+    override fun parts() = blade.parts() + hilt.parts()
 }
 
 @Serializable
