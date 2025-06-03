@@ -16,7 +16,6 @@ import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -92,18 +91,18 @@ private fun DETAILS.editSimpleSwordGuard(
 fun parseSwordGuard(
     parameters: Parameters,
     param: String = GUARD,
-) = when (parse(parameters, param, SwordGuardType.None)) {
+) = when (parse(parameters, param, SwordGuardType.Simple)) {
     SwordGuardType.None -> NoSwordGuard
     SwordGuardType.Simple -> parseSimpleSwordGuard(parameters, param)
 }
 
 private fun parseSimpleSwordGuard(parameters: Parameters, param: String) = SimpleSwordGuard(
-    parseGuardLength(parameters, param),
     parseGuardWidth(parameters, param),
+    parseGuardHeight(parameters, param),
     parseFillLookupItemPart(parameters, param),
 )
 
-private fun parseGuardLength(parameters: Parameters, param: String) =
+private fun parseGuardHeight(parameters: Parameters, param: String) =
     parseFactor(parameters, combine(param, LENGTH), DEFAULT_GUARD_HEIGHT)
 
 private fun parseGuardWidth(parameters: Parameters, param: String) =
