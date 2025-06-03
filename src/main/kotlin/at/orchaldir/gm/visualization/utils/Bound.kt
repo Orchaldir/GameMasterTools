@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.utils
 
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.HALF
@@ -37,9 +38,11 @@ fun visualizeBoundRows(
     repeat(rows) {
         val aabb = AABB(start, size)
         val polygon = Polygon2dBuilder()
+            .addLeftPoint(aabb, CENTER, START)
             .addMirroredPoints(aabb, FULL, START)
             .addMirroredPoints(aabb, FULL, HALF)
             .addMirroredPoints(aabb, FULL, END)
+            .addLeftPoint(aabb, CENTER, END)
             .build()
 
         renderer.renderRoundedPolygon(polygon, options)
