@@ -59,6 +59,8 @@ private fun HtmlBlockTag.showEquipmentData(
         is Skirt -> showSkirt(call, state, data)
         is Socks -> showSocks(call, state, data)
         is SuitJacket -> showSuitJacket(call, state, data)
+        is OneHandedSword -> showOneHandedSword(call, state, data)
+        is TwoHandedSword -> showTwoHandedSword(call, state, data)
         is Tie -> showTie(call, state, data)
     }
 }
@@ -124,6 +126,8 @@ private fun FORM.editEquipmentData(
         is Skirt -> editSkirt(state, data)
         is Socks -> editSocks(state, data)
         is SuitJacket -> editSuitJacket(state, data)
+        is OneHandedSword -> editOneHandedSword(state, data)
+        is TwoHandedSword -> editTwoHandedSword(state, data)
         is Tie -> editTie(state, data)
     }
 }
@@ -184,5 +188,7 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.Skirt -> parseSkirt(parameters)
         EquipmentDataType.Socks -> parseSocks(parameters)
         EquipmentDataType.SuitJacket -> parseSuitJacket(parameters)
+        EquipmentDataType.OneHandedSword -> parseOneHandedSword(parameters)
+        EquipmentDataType.TwoHandedSword -> parseTwoHandedSword(parameters)
         EquipmentDataType.Tie -> parseTie(parameters)
     }

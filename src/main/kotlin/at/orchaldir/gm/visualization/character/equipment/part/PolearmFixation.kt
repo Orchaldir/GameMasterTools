@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.utils.visualizeBoundRows
 import kotlin.math.ceil
 
 fun visualizePolearmFixation(
@@ -33,28 +34,13 @@ fun visualizeBoundFixation(
     val config = state.config.equipment.polearm
     val height = shaftAabb.convertHeight(fixation.length)
     val rowHeight = shaftAabb.convertHeight(config.boundRowThickness)
-    val rowWidth = shaftAabb.convertWidth(FULL + config.boundPadding * 2)
     val rows = ceil(height.toMeters() / rowHeight.toMeters()).toInt()
     val color = fixation.part.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line)
-    var start = shaftAabb.getPoint(-config.boundPadding, START)
-    val size = Size2d(rowWidth, rowHeight)
+    val boundAabb = shaftAabb.growWidth(config.boundPadding)
 
-    repeat(rows) {
-        val aabb = AABB(start, size)
-        val polygon = Polygon2dBuilder()
-            .addMirroredPoints(aabb, FULL, START)
-            .addMirroredPoints(aabb, FULL, HALF)
-            .addMirroredPoints(aabb, FULL, END)
-            .build()
-
-        renderer.renderRoundedPolygon(polygon, options)
-
-        start = start.addHeight(rowHeight)
-    }
-
+    visualizeBoundRows(renderer, options, boundAabb, rowHeight, rows)
 }
-
 
 fun visualizeLangets(
     state: CharacterRenderState,

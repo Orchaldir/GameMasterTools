@@ -168,6 +168,15 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(180),
             fromPercentage(5),
         ),
+        SwordConfig(
+            fromPercentage(2),
+            fromPercentage(10),
+            fromPercentage(250),
+            fromPercentage(30),
+            fromPercentage(80),
+            fromPercentages(100, 125, 150),
+            fromPercentage(10),
+        ),
         TieConfig(
             fromPercentage(10),
             fromPercentages(40, 50, 60),

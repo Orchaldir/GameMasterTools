@@ -4,9 +4,7 @@ import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.BodyArmour
-import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.Polearm
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
@@ -68,6 +66,8 @@ fun validateEquipment(
     when (equipment.data) {
         is BodyArmour -> checkBodyArmour(equipment.data)
         is Polearm -> checkPolearmHead(equipment.data.head)
+        is OneHandedSword -> checkOneHandedSword(equipment.data)
+        is TwoHandedSword -> checkTwoHandedSword(equipment.data)
         else -> doNothing()
     }
 }
@@ -140,4 +140,45 @@ private fun checkFixationLength(length: Factor) =
 private fun checkSpearHead(head: SpearHead) {
     checkFactor(head.length, "Spearhead Length", MIN_SPEAR_LENGTH, MAX_SPEAR_LENGTH)
     checkFactor(head.width, "Spearhead Width", MIN_SPEAR_WIDTH, MAX_SPEAR_WIDTH)
+}
+
+private fun checkOneHandedSword(sword: OneHandedSword) {
+    checkBlade(sword.blade, MIN_1H_BLADE_LENGTH, MAX_1H_BLADE_LENGTH)
+    checkSwordHilt(sword.hilt)
+}
+
+private fun checkTwoHandedSword(sword: TwoHandedSword) {
+    checkBlade(sword.blade, MIN_2H_BLADE_LENGTH, MAX_2H_BLADE_LENGTH)
+    checkSwordHilt(sword.hilt)
+}
+
+private fun checkBlade(
+    blade: Blade,
+    minLength: Factor,
+    maxLength: Factor,
+) = when (blade) {
+    is SimpleBlade -> {
+        checkFactor(blade.length, "Blade Length", minLength, maxLength)
+        checkFactor(blade.width, "Blade Width", MIN_BLADE_WIDTH, MAX_BLADE_WIDTH)
+    }
+}
+
+private fun checkSwordHilt(hilt: SwordHilt) = when (hilt) {
+    is SimpleSwordHilt -> {
+        checkSwordGuard(hilt.guard)
+        checkSwordGrip(hilt.grip)
+    }
+}
+
+private fun checkSwordGuard(guard: SwordGuard) = when (guard) {
+    NoSwordGuard -> doNothing()
+    is SimpleSwordGuard -> {
+        checkFactor(guard.height, "Guard Height", MIN_GUARD_HEIGHT, MAX_GUARD_HEIGHT)
+        checkFactor(guard.width, "Guard Width", MIN_GUARD_WIDTH, MAX_GUARD_WIDTH)
+    }
+}
+
+private fun checkSwordGrip(grip: SwordGrip) = when (grip) {
+    is SimpleSwordGrip -> doNothing()
+    is BoundSwordGrip -> checkInt(grip.rows, "Grip's Rows", MIN_SWORD_GRIP_ROWS, MAX_SWORD_GRIP_ROWS)
 }

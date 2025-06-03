@@ -48,8 +48,10 @@ enum class EquipmentDataType {
     Shirt,
     Skirt,
     Socks,
-    Tie,
-    SuitJacket;
+    SuitJacket,
+    OneHandedSword,
+    TwoHandedSword,
+    Tie;
 
     fun slots(): Set<EquipmentSlot> = when (this) {
         Belt -> setOf(BeltSlot)
@@ -70,6 +72,8 @@ enum class EquipmentDataType {
         Skirt -> setOf(BottomSlot)
         Socks -> setOf(FootUnderwearSlot)
         SuitJacket -> setOf(TopSlot)
+        OneHandedSword -> setOf(HeldInOneHandSlot)
+        TwoHandedSword -> setOf(HeldInTwoHandsSlot)
         Tie -> setOf(NeckSlot)
     }
 }
@@ -96,6 +100,8 @@ sealed class EquipmentData : MadeFromParts {
         is Skirt -> EquipmentDataType.Skirt
         is Socks -> EquipmentDataType.Socks
         is SuitJacket -> EquipmentDataType.SuitJacket
+        is OneHandedSword -> EquipmentDataType.OneHandedSword
+        is TwoHandedSword -> EquipmentDataType.TwoHandedSword
         is Tie -> EquipmentDataType.Tie
     }
 
@@ -319,6 +325,26 @@ data class SuitJacket(
 ) : EquipmentData() {
 
     override fun parts() = openingStyle.parts() + main
+}
+
+@Serializable
+@SerialName("Sword1")
+data class OneHandedSword(
+    val blade: Blade = SimpleBlade(DEFAULT_1H_BLADE_LENGTH),
+    val hilt: SwordHilt = SimpleSwordHilt(),
+) : EquipmentData() {
+
+    override fun parts() = blade.parts() + hilt.parts()
+}
+
+@Serializable
+@SerialName("Sword2")
+data class TwoHandedSword(
+    val blade: Blade = SimpleBlade(DEFAULT_2H_BLADE_LENGTH),
+    val hilt: SwordHilt = SimpleSwordHilt(),
+) : EquipmentData() {
+
+    override fun parts() = blade.parts() + hilt.parts()
 }
 
 @Serializable
