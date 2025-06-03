@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
@@ -60,5 +61,5 @@ data class SimpleBlade(
      */
     val width: Factor = DEFAULT_BLADE_WIDTH,
     val shape: BladeShape = BladeShape.Straight,
-    val part: ColorItemPart = ColorItemPart(),
+    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : Blade()
