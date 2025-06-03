@@ -331,7 +331,7 @@ data class SuitJacket(
 @Serializable
 @SerialName("Sword1")
 data class OneHandedSword(
-    val blade: Blade = SimpleBlade(),
+    val blade: Blade = SimpleBlade(DEFAULT_1H_BLADE_LENGTH),
     val hilt: SwordHilt = SimpleHilt(),
 ) : EquipmentData() {
 
@@ -341,7 +341,7 @@ data class OneHandedSword(
 @Serializable
 @SerialName("Sword2")
 data class TwoHandedSword(
-    val blade: Blade = SimpleBlade(),
+    val blade: Blade = SimpleBlade(DEFAULT_2H_BLADE_LENGTH),
     val hilt: SwordHilt = SimpleHilt(),
 ) : EquipmentData() {
 

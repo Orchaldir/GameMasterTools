@@ -8,13 +8,18 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.TWO_THIRD
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val MIN_BLADE_LENGTH = QUARTER
-val DEFAULT_BLADE_LENGTH = HALF
-val MAX_BLADE_LENGTH = FULL
+val MIN_1H_BLADE_LENGTH = QUARTER
+val DEFAULT_1H_BLADE_LENGTH = HALF
+val MAX_1H_BLADE_LENGTH = TWO_THIRD
+
+val MIN_2H_BLADE_LENGTH = HALF
+val DEFAULT_2H_BLADE_LENGTH = TWO_THIRD
+val MAX_2H_BLADE_LENGTH = FULL
 
 val MIN_BLADE_WIDTH = HALF
 val DEFAULT_BLADE_WIDTH = Factor.fromPercentage(100)
@@ -46,14 +51,14 @@ sealed class Blade : MadeFromParts {
 @Serializable
 @SerialName("Simple")
 data class SimpleBlade(
-    val shape: BladeShape = BladeShape.Straight,
     /**
      * Relative to the character's height
      */
-    val length: Factor = DEFAULT_BLADE_LENGTH,
+    val length: Factor,
     /**
      * Relative to the grip's width
      */
     val width: Factor = DEFAULT_BLADE_WIDTH,
+    val shape: BladeShape = BladeShape.Straight,
     val part: ColorItemPart = ColorItemPart(),
 ) : Blade()

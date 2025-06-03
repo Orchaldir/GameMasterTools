@@ -147,11 +147,24 @@ private fun checkSpearHead(head: SpearHead) {
 }
 
 private fun checkOneHandedSword(sword: OneHandedSword) {
+    checkBlade(sword.blade, MIN_1H_BLADE_LENGTH, MAX_1H_BLADE_LENGTH)
     checkSwordHilt(sword.hilt)
 }
 
 private fun checkTwoHandedSword(sword: TwoHandedSword) {
+    checkBlade(sword.blade, MIN_2H_BLADE_LENGTH, MAX_2H_BLADE_LENGTH)
     checkSwordHilt(sword.hilt)
+}
+
+private fun checkBlade(
+    blade: Blade,
+    minLength: Factor,
+    maxLength: Factor,
+) = when (blade) {
+    is SimpleBlade -> {
+        checkFactor(blade.length, "Blade Length", minLength, maxLength)
+        checkFactor(blade.width, "Blade Width", MIN_BLADE_WIDTH, MAX_BLADE_WIDTH)
+    }
 }
 
 private fun checkSwordHilt(hilt: SwordHilt) = when (hilt) {
