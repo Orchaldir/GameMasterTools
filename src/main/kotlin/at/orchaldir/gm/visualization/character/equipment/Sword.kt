@@ -112,8 +112,7 @@ private fun createSimplyBladePolygon(
                 .addMirroredPoints(aabb, FULL, config.straightTopY, true)
                 .addMirroredPoints(aabb, FULL, config.straightTopY * 2)
 
-
-            var y = config.straightTopY + step * 3
+            var y = config.straightTopY * 2 + step
 
             repeat(rows - 1) { row ->
                 val x = if (row.isEven()) {
