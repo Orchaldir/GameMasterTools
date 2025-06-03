@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.BladeShape
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBlade
 import at.orchaldir.gm.core.model.item.equipment.style.SwordGuard
 import at.orchaldir.gm.core.model.item.equipment.style.SwordHilt
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.convert
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -18,6 +19,7 @@ data class SwordConfig(
     val gripLength: Factor,
     val gripWidth: Factor,
     val gripThinnerWidth: Factor,
+    val pommelSizes: SizeConfig<Factor>,
     val straightTopY: Factor,
 ) {
 

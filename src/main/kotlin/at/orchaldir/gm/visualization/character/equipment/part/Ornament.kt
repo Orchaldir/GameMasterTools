@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment.part
 import at.orchaldir.gm.core.model.item.equipment.style.Ornament
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -12,6 +13,19 @@ import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
+
+fun visualizeOrnament(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    ornament: Ornament,
+    aabb: AABB,
+) = visualizeOrnament(
+    state,
+    renderer,
+    ornament,
+    aabb.getCenter(),
+    aabb.getInnerRadius(),
+)
 
 fun visualizeOrnament(
     state: CharacterRenderState,

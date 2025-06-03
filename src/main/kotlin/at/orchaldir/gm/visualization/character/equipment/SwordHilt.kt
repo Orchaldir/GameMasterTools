@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 fun visualizeSwordHilt(
     state: CharacterRenderState,
@@ -25,6 +26,7 @@ private fun visualizeSimpleHilt(
     aabb: AABB,
 ): Point2d {
     visualizeGrip(state, renderer, config, hilt.grip, aabb)
+    visualizePommel(state, renderer, config, hilt.pommel, aabb)
 
     return visualizeGuard(state, renderer, config, hilt.guard, aabb)
 }
@@ -100,4 +102,18 @@ private fun visualizeSimpleGuard(
     renderer.renderRectangle(guardAabb, options)
 
     return guardAabb.getPoint(CENTER, START)
+}
+
+private fun visualizePommel(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: SwordConfig,
+    pommel: Pommel,
+    gripAabb: AABB,
+) {
+    val width = gripAabb.size.width * config.pommelSizes.convert(pommel.size)
+    val top = gripAabb.getPoint(CENTER, END)
+    val aabb = AABB.fromTop(top, Size2d.square(width))
+
+    visualizeOrnament(state, renderer, pommel.ornament, aabb)
 }
