@@ -66,8 +66,10 @@ private fun createGripPolygon(
 
     when (grip.shape) {
         SwordGripShape.Oval -> builder
+            .addLeftPoint(aabb, CENTER, START)
             .addMirroredPoints(aabb, FULL, START)
             .addMirroredPoints(aabb, FULL, END)
+            .addLeftPoint(aabb, CENTER, END)
 
         SwordGripShape.Straight -> builder
             .addMirroredPoints(aabb, FULL, START, true)
