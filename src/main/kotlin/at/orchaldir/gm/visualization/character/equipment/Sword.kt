@@ -16,6 +16,7 @@ import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
 data class SwordConfig(
     val gripLength: Factor,
     val gripWidth: Factor,
+    val gripThinnerWidth: Factor,
     val straightTopY: Factor,
 ) {
 

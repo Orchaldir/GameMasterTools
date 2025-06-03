@@ -27,9 +27,9 @@ fun main() {
         State(Storage(Material(MaterialId(0), color = Color.Gray))),
         "swords.svg",
         CHARACTER_CONFIG,
-        addNames(BladeShape.entries),
         hilts,
-    ) { distance, hilt, shape ->
+        addNames(BladeShape.entries),
+    ) { distance, shape, hilt ->
         val sword = OneHandedSword(
             SimpleBlade(shape),
             hilt,
