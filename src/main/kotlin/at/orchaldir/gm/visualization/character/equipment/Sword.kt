@@ -105,7 +105,7 @@ private fun createSimplyBladePolygon(
             val rowHeight = state.aabb.size.height * config.flameStep
             val rows = (remainingHeight.toMeters() / rowHeight.toMeters()).toInt()
             val step = remainingHeightFactor / rows
-            val offset = Factor.fromPercentage(10)
+            val offset = Factor.fromPercentage(5)
 
             builder
                 .addLeftPoint(aabb, CENTER, START, true)
