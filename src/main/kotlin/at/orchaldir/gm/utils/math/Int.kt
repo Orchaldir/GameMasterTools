@@ -22,11 +22,11 @@ fun Int.length() = when (this) {
 }
 
 fun checkInt(
-    factor: Int,
+    value: Int,
     label: String,
     min: Int,
     max: Int,
 ) {
-    require(factor >= min) { "The $label factor is too small!" }
-    require(factor <= max) { "The $label factor is too large!" }
+    require(value >= min) { "The $label factor is too small!" }
+    require(value <= max) { "The $label factor is too large!" }
 }

@@ -7,7 +7,9 @@ import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+const val MIN_SWORD_GRIP_ROWS = 3
 const val DEFAULT_SWORD_GRIP_ROWS = 5
+const val MAX_SWORD_GRIP_ROWS = 20
 
 enum class SwordGripType {
     Simple,
