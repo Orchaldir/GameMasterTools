@@ -1,18 +1,16 @@
 package at.orchaldir.gm.visualization.character.equipment
 
-import at.orchaldir.gm.app.TOP
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.Blade
+import at.orchaldir.gm.core.model.item.equipment.style.BladeShape
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleBlade
+import at.orchaldir.gm.core.model.item.equipment.style.SwordHilt
 import at.orchaldir.gm.utils.convert
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
 
 data class SwordConfig(
@@ -56,7 +54,7 @@ fun visualizeSword(
     val bladeAabb = AABB.fromBottom(gripAabb.getPoint(CENTER, START), bladeSize)
 
     visualizeBlade(state, renderer, config, blade, bladeAabb)
-    visualizeHilt(state, renderer, config, hilt, gripAabb)
+    visualizeSwordHilt(state, renderer, config, hilt, gripAabb)
 }
 
 fun visualizeBlade(
@@ -111,29 +109,4 @@ private fun createSimplyBladePolygon(
     }
 
     return builder.build()
-}
-
-private fun visualizeHilt(
-    state: CharacterRenderState,
-    renderer: LayerRenderer,
-    config: SwordConfig,
-    hilt: SwordHilt,
-    aabb: AABB,
-) {
-    when (hilt) {
-        is SimpleHilt -> visualizeSimpleHilt(state, renderer, config, hilt, aabb)
-    }
-}
-
-private fun visualizeSimpleHilt(
-    state: CharacterRenderState,
-    renderer: LayerRenderer,
-    config: SwordConfig,
-    hilt: SimpleHilt,
-    aabb: AABB,
-) {
-    val fill = hilt.grip.part.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
-
-    renderer.renderRectangle(aabb, options)
 }
