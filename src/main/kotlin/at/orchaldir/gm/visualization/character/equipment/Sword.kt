@@ -14,10 +14,11 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 
 data class SwordConfig(
     val flameStep: Factor,
+    val flameOffset: Factor,
     val gripLength: Factor,
     val gripWidth: Factor,
     val gripThinnerWidth: Factor,
@@ -50,7 +51,7 @@ fun visualizeSword(
     isOneHanded: Boolean,
     set: Set<BodySlot>,
 ) {
-    val renderer = state.getLayer(TEXT_LAYER)
+    val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
     val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val config = state.config.equipment.sword
@@ -83,7 +84,7 @@ private fun visualizeSimpleBlade(
     blade: SimpleBlade,
     aabb: AABB,
 ) {
-    val color = blade.part.getColor(state.state())
+    val color = blade.part.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.lineOptions())
     val polygon = createSimplyBladePolygon(state, config, blade, aabb)
 
@@ -105,7 +106,7 @@ private fun createSimplyBladePolygon(
             val rowHeight = state.aabb.size.height * config.flameStep
             val rows = (remainingHeight.toMeters() / rowHeight.toMeters()).toInt()
             val step = remainingHeightFactor / rows
-            val offset = Factor.fromPercentage(5)
+            val offset = config.flameOffset
 
             builder
                 .addLeftPoint(aabb, CENTER, START, true)

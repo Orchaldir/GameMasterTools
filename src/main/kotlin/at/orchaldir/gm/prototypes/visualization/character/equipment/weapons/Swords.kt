@@ -46,7 +46,7 @@ fun main() {
         addNames(BladeShape.entries),
     ) { distance, shape, hilt ->
         val sword = OneHandedSword(
-            SimpleBlade(shape),
+            SimpleBlade(DEFAULT_1H_BLADE_LENGTH, shape = shape),
             hilt,
         )
         Pair(createAppearance(distance), from(sword))
