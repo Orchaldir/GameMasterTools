@@ -17,14 +17,14 @@ fun visualizeSwordHilt(
     hilt: SwordHilt,
     aabb: AABB,
 ) = when (hilt) {
-    is SimpleHilt -> visualizeSimpleHilt(state, renderer, config, hilt, aabb)
+    is SimpleSwordHilt -> visualizeSimpleHilt(state, renderer, config, hilt, aabb)
 }
 
 private fun visualizeSimpleHilt(
     state: CharacterRenderState,
     renderer: LayerRenderer,
     config: SwordConfig,
-    hilt: SimpleHilt,
+    hilt: SimpleSwordHilt,
     aabb: AABB,
 ): Point2d {
     visualizeGrip(state, renderer, config, hilt.grip, aabb)

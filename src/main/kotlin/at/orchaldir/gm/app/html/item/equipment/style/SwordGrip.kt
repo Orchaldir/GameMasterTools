@@ -40,7 +40,7 @@ fun HtmlBlockTag.showSwordGrip(
 
 // edit
 
-fun FORM.editSwordGrip(
+fun HtmlBlockTag.editSwordGrip(
     state: State,
     grip: SwordGrip,
     param: String = GRIP,

@@ -168,7 +168,7 @@ private fun checkBlade(
 }
 
 private fun checkSwordHilt(hilt: SwordHilt) = when (hilt) {
-    is SimpleHilt -> {
+    is SimpleSwordHilt -> {
         checkSwordGuard(hilt.guard)
         checkSwordGrip(hilt.grip)
     }

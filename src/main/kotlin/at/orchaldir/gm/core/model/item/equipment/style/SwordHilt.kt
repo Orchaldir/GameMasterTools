@@ -12,17 +12,17 @@ enum class SwordHiltType {
 sealed class SwordHilt : MadeFromParts {
 
     fun getType() = when (this) {
-        is SimpleHilt -> SwordHiltType.Simple
+        is SimpleSwordHilt -> SwordHiltType.Simple
     }
 
     override fun parts() = when (this) {
-        is SimpleHilt -> guard.parts() + grip.parts() + pommel.parts()
+        is SimpleSwordHilt -> guard.parts() + grip.parts() + pommel.parts()
     }
 }
 
 @Serializable
 @SerialName("Simple")
-data class SimpleHilt(
+data class SimpleSwordHilt(
     val guard: SwordGuard = SimpleSwordGuard(),
     val grip: SwordGrip = SimpleSwordGrip(),
     val pommel: Pommel = PommelWithOrnament(),

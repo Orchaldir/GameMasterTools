@@ -42,7 +42,7 @@ fun HtmlBlockTag.showPommel(
 
 // edit
 
-fun FORM.editPommel(
+fun HtmlBlockTag.editPommel(
     state: State,
     pommel: Pommel,
     param: String = POMMEL,

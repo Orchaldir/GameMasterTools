@@ -49,7 +49,7 @@ private fun DETAILS.showSimpleSwordGuard(
 
 // edit
 
-fun FORM.editSwordGuard(
+fun HtmlBlockTag.editSwordGuard(
     state: State,
     guard: SwordGuard,
     param: String = GUARD,

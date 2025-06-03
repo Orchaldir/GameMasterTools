@@ -332,7 +332,7 @@ data class SuitJacket(
 @SerialName("Sword1")
 data class OneHandedSword(
     val blade: Blade = SimpleBlade(DEFAULT_1H_BLADE_LENGTH),
-    val hilt: SwordHilt = SimpleHilt(),
+    val hilt: SwordHilt = SimpleSwordHilt(),
 ) : EquipmentData() {
 
     override fun parts() = hilt.parts()
@@ -342,7 +342,7 @@ data class OneHandedSword(
 @SerialName("Sword2")
 data class TwoHandedSword(
     val blade: Blade = SimpleBlade(DEFAULT_2H_BLADE_LENGTH),
-    val hilt: SwordHilt = SimpleHilt(),
+    val hilt: SwordHilt = SimpleSwordHilt(),
 ) : EquipmentData() {
 
     override fun parts() = hilt.parts()

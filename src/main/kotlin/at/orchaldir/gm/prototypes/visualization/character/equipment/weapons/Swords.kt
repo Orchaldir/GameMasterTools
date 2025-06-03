@@ -22,19 +22,19 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
-    val straightHilt = SimpleHilt(
+    val straightHilt = SimpleSwordHilt(
         NoSwordGuard,
         createGrip(Straight),
         NoPommel,
     )
-    val boundHilt = SimpleHilt(
+    val boundHilt = SimpleSwordHilt(
         SimpleSwordGuard(part = FillLookupItemPart(Color.Gold)),
         BoundSwordGrip(6),
     )
     val hilts = listOf(
         Pair("Straight", straightHilt),
-        Pair("Oval", SimpleHilt(grip = createGrip(Oval))),
-        Pair("Waisted", SimpleHilt(grip = createGrip(Waisted))),
+        Pair("Oval", SimpleSwordHilt(grip = createGrip(Oval))),
+        Pair("Waisted", SimpleSwordHilt(grip = createGrip(Waisted))),
         Pair("Bound", boundHilt),
     )
 
