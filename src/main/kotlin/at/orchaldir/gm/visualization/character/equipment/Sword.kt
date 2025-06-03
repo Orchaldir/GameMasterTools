@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.style.Blade
 import at.orchaldir.gm.core.model.item.equipment.style.BladeShape
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBlade
+import at.orchaldir.gm.core.model.item.equipment.style.SwordGuard
 import at.orchaldir.gm.core.model.item.equipment.style.SwordHilt
 import at.orchaldir.gm.utils.convert
 import at.orchaldir.gm.utils.math.*
@@ -35,7 +36,6 @@ data class SwordConfig(
         return AABB.fromTop(center, size)
     }
 
-
 }
 
 fun visualizeSword(
@@ -51,11 +51,13 @@ fun visualizeSword(
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val config = state.config.equipment.sword
     val gripAabb = config.gripAabb(state, body, isOneHanded, hand)
+
+    val bladeBottom = visualizeSwordHilt(state, renderer, config, hilt, gripAabb)
+
     val bladeSize = blade.size(state.aabb)
-    val bladeAabb = AABB.fromBottom(gripAabb.getPoint(CENTER, START), bladeSize)
+    val bladeAabb = AABB.fromBottom(bladeBottom, bladeSize)
 
     visualizeBlade(state, renderer, config, blade, bladeAabb)
-    visualizeSwordHilt(state, renderer, config, hilt, gripAabb)
 }
 
 fun visualizeBlade(

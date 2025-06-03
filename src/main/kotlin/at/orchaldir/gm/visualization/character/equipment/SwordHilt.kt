@@ -1,21 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment
 
-import at.orchaldir.gm.core.model.item.equipment.style.BladeShape
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleBlade
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleHilt
-import at.orchaldir.gm.core.model.item.equipment.style.SwordGrip
-import at.orchaldir.gm.core.model.item.equipment.style.SwordGripShape
-import at.orchaldir.gm.core.model.item.equipment.style.SwordHilt
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.CENTER
-import at.orchaldir.gm.utils.math.END
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.math.Polygon2d
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
-import at.orchaldir.gm.utils.math.START
-import at.orchaldir.gm.utils.math.THIRD
-import at.orchaldir.gm.utils.math.TWO_THIRD
+import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
@@ -27,10 +13,8 @@ fun visualizeSwordHilt(
     config: SwordConfig,
     hilt: SwordHilt,
     aabb: AABB,
-) {
-    when (hilt) {
-        is SimpleHilt -> visualizeSimpleHilt(state, renderer, config, hilt, aabb)
-    }
+) = when (hilt) {
+    is SimpleHilt -> visualizeSimpleHilt(state, renderer, config, hilt, aabb)
 }
 
 private fun visualizeSimpleHilt(
@@ -39,8 +23,10 @@ private fun visualizeSimpleHilt(
     config: SwordConfig,
     hilt: SimpleHilt,
     aabb: AABB,
-) {
+): Point2d {
     visualizeGrip(state, renderer, config, hilt.grip, aabb)
+
+    return visualizeGuard(state, renderer, config, hilt.guard, aabb)
 }
 
 private fun visualizeGrip(
@@ -82,4 +68,36 @@ private fun createGripPolygon(
     }
 
     return builder.build()
+}
+
+private fun visualizeGuard(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: SwordConfig,
+    guard: SwordGuard,
+    gripAabb: AABB,
+) = when (guard) {
+    NoSwordGuard -> gripAabb.getPoint(CENTER, START)
+    is SimpleSwordGuard -> visualizeSimpleGuard(state, renderer, config, guard, gripAabb)
+}
+
+private fun visualizeSimpleGuard(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: SwordConfig,
+    guard: SimpleSwordGuard,
+    gripAabb: AABB,
+): Point2d {
+    val guardSize = Size2d(
+        gripAabb.size.width * guard.width,
+        state.aabb.convertHeight(guard.height),
+    )
+    val bottom = gripAabb.getPoint(CENTER, START)
+    val guardAabb = AABB.fromBottom(bottom, guardSize)
+    val fill = guard.part.getFill(state.state, state.colors)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
+
+    renderer.renderRectangle(guardAabb, options)
+
+    return guardAabb.getPoint(CENTER, START)
 }

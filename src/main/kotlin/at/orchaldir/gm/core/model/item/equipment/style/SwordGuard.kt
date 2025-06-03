@@ -30,7 +30,13 @@ data object NoSwordGuard : SwordGuard()
 @Serializable
 @SerialName("Simple")
 data class SimpleSwordGuard(
-    val width: Factor = Factor.fromPercentage(10),
-    val height: Factor = Factor.fromPercentage(20),
+    /**
+     * Relative to the grip's width
+     */
+    val width: Factor = Factor.fromPercentage(300),
+    /**
+     * Relative to the character's height
+     */
+    val height: Factor = Factor.fromPercentage(5),
     val part: FillLookupItemPart = FillLookupItemPart(),
 ) : SwordGuard()
