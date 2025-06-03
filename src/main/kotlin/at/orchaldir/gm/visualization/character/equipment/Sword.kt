@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.SwordGuard
 import at.orchaldir.gm.core.model.item.equipment.style.SwordHilt
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.convert
+import at.orchaldir.gm.utils.isEven
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -16,6 +17,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
 
 data class SwordConfig(
+    val flameStep: Factor,
     val gripLength: Factor,
     val gripWidth: Factor,
     val gripThinnerWidth: Factor,
@@ -83,12 +85,13 @@ private fun visualizeSimpleBlade(
 ) {
     val color = blade.part.getColor(state.state())
     val options = FillAndBorder(color.toRender(), state.lineOptions())
-    val polygon = createSimplyBladePolygon(config, blade, aabb)
+    val polygon = createSimplyBladePolygon(state, config, blade, aabb)
 
     renderer.renderRoundedPolygon(polygon, options)
 }
 
 private fun createSimplyBladePolygon(
+    state: CharacterRenderState,
     config: SwordConfig,
     blade: SimpleBlade,
     aabb: AABB,
@@ -96,13 +99,46 @@ private fun createSimplyBladePolygon(
     val builder = Polygon2dBuilder()
 
     when (blade.shape) {
+        BladeShape.Flame -> {
+            val remainingHeightFactor = FULL - config.straightTopY * 3
+            val remainingHeight = aabb.size.height * remainingHeightFactor
+            val rowHeight = state.aabb.size.height * config.flameStep
+            val rows = (remainingHeight.toMeters() / rowHeight.toMeters()).toInt()
+            val step = remainingHeightFactor / rows
+            val offset = Factor.fromPercentage(10)
+
+            builder
+                .addLeftPoint(aabb, CENTER, START, true)
+                .addMirroredPoints(aabb, FULL, config.straightTopY, true)
+                .addMirroredPoints(aabb, FULL, config.straightTopY * 2)
+
+
+            var y = config.straightTopY + step * 3
+
+            repeat(rows - 1) { row ->
+                val x = if (row.isEven()) {
+                    offset
+                } else {
+                    -offset
+                }
+
+                builder.addHorizontalPoints(aabb, FULL, CENTER + x, y)
+
+                y += step
+            }
+
+            builder
+                .addMirroredPoints(aabb, FULL, y)
+                .addMirroredPoints(aabb, FULL, END, true)
+        }
+
         BladeShape.Leave -> builder
             .addLeftPoint(aabb, CENTER, START, true)
             .addMirroredPoints(aabb, FULL, THIRD)
             .addMirroredPoints(aabb, HALF, TWO_THIRD)
             .addMirroredPoints(aabb, FULL, END, true)
 
-        BladeShape.Straight, BladeShape.Flame -> builder
+        BladeShape.Straight -> builder
             .addLeftPoint(aabb, CENTER, START, true)
             .addMirroredPoints(aabb, FULL, config.straightTopY, true)
             .addMirroredPoints(aabb, FULL, END, true)
