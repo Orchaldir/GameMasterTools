@@ -3,11 +3,22 @@ package at.orchaldir.gm.core.model.item.equipment.style
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+val MIN_BLADE_LENGTH = QUARTER
+val DEFAULT_BLADE_LENGTH = HALF
+val MAX_BLADE_LENGTH = FULL
+
+val MIN_BLADE_WIDTH = HALF
+val DEFAULT_BLADE_WIDTH = Factor.fromPercentage(100)
+val MAX_BLADE_WIDTH = Factor.fromPercentage(300)
 
 enum class BladeType {
     Simple,
@@ -24,14 +35,11 @@ sealed class Blade : MadeFromParts {
         is SimpleBlade -> listOf(part)
     }
 
-    fun size(aabb: AABB) = when (this) {
-        is SimpleBlade -> {
-            val length = aabb.convertHeight(this.length)
-            Size2d(
-                length * width,
-                length,
-            )
-        }
+    fun size(characterHeight: Distance, gripAabb: AABB) = when (this) {
+        is SimpleBlade -> Size2d(
+            gripAabb.size.width * width,
+            characterHeight * length,
+        )
     }
 }
 
@@ -39,7 +47,13 @@ sealed class Blade : MadeFromParts {
 @SerialName("Simple")
 data class SimpleBlade(
     val shape: BladeShape = BladeShape.Straight,
-    val length: Factor = HALF,
-    val width: Factor = Factor.fromPercentage(20),
+    /**
+     * Relative to the character's height
+     */
+    val length: Factor = DEFAULT_BLADE_LENGTH,
+    /**
+     * Relative to the grip's width
+     */
+    val width: Factor = DEFAULT_BLADE_WIDTH,
     val part: ColorItemPart = ColorItemPart(),
 ) : Blade()

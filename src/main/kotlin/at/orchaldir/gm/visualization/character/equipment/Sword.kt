@@ -58,7 +58,7 @@ fun visualizeSword(
 
     val bladeBottom = visualizeSwordHilt(state, renderer, config, hilt, gripAabb)
 
-    val bladeSize = blade.size(state.aabb)
+    val bladeSize = blade.size(state.aabb.size.height, gripAabb)
     val bladeAabb = AABB.fromBottom(bladeBottom, bladeSize)
 
     visualizeBlade(state, renderer, config, blade, bladeAabb)
