@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.character.equipment.part
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState

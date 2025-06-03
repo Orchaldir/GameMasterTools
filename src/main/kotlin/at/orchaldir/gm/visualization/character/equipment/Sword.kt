@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.style.Blade
 import at.orchaldir.gm.core.model.item.equipment.style.BladeShape
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBlade
-import at.orchaldir.gm.core.model.item.equipment.style.SwordGuard
 import at.orchaldir.gm.core.model.item.equipment.style.SwordHilt
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.convert

@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
-import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.HeldInOneOrTwoHandsSlot
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorItemPart

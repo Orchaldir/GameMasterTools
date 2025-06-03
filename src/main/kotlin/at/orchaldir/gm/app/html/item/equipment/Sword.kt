@@ -4,12 +4,7 @@ import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.OneHandedSword
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
-import at.orchaldir.gm.core.model.item.equipment.style.DEFAULT_1H_BLADE_LENGTH
-import at.orchaldir.gm.core.model.item.equipment.style.DEFAULT_2H_BLADE_LENGTH
-import at.orchaldir.gm.core.model.item.equipment.style.MAX_1H_BLADE_LENGTH
-import at.orchaldir.gm.core.model.item.equipment.style.MAX_2H_BLADE_LENGTH
-import at.orchaldir.gm.core.model.item.equipment.style.MIN_1H_BLADE_LENGTH
-import at.orchaldir.gm.core.model.item.equipment.style.MIN_2H_BLADE_LENGTH
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM

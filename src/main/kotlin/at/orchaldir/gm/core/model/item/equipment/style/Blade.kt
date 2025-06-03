@@ -1,15 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.math.QUARTER
-import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.TWO_THIRD
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
