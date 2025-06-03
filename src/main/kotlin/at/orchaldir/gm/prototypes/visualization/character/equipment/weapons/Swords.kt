@@ -32,11 +32,9 @@ fun main() {
         BoundSwordGrip(6),
     )
     val hilts = listOf(
-        /* Pair("Straight", straightHilt),
-         Pair("Oval", SimpleHilt(grip = createGrip(Oval))),
-         Pair("Waisted", SimpleHilt(grip = createGrip(Waisted))),
-
-         */
+        Pair("Straight", straightHilt),
+        Pair("Oval", SimpleHilt(grip = createGrip(Oval))),
+        Pair("Waisted", SimpleHilt(grip = createGrip(Waisted))),
         Pair("Bound", boundHilt),
     )
 
@@ -45,7 +43,7 @@ fun main() {
         "swords.svg",
         CHARACTER_CONFIG,
         hilts,
-        addNames(BladeShape.Flame),
+        addNames(BladeShape.entries),
     ) { distance, shape, hilt ->
         val sword = OneHandedSword(
             SimpleBlade(shape),
