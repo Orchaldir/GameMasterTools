@@ -9,11 +9,24 @@ import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 
 fun visualizeBoundRows(
     renderer: LayerRenderer,
-    options: FillAndBorder,
+    options: RenderOptions,
+    aabb: AABB,
+    rows: Int,
+) = visualizeBoundRows(
+    renderer,
+    options,
+    aabb,
+    aabb.size.height / rows,
+    rows,
+)
+
+fun visualizeBoundRows(
+    renderer: LayerRenderer,
+    options: RenderOptions,
     aabb: AABB,
     rowHeight: Distance,
     rows: Int,

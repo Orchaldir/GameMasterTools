@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
+import at.orchaldir.gm.visualization.utils.visualizeBoundRows
 
 fun visualizeSwordHilt(
     state: CharacterRenderState,
@@ -38,17 +39,41 @@ private fun visualizeGrip(
     config: SwordConfig,
     grip: SwordGrip,
     aabb: AABB,
+) = when (grip) {
+    is BoundSwordGrip -> visualizeBoundGrip(state, renderer, config, grip, aabb)
+    is SimpleSwordGrip -> visualizeSimpleGrip(state, renderer, config, grip, aabb)
+}
+
+private fun visualizeBoundGrip(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: SwordConfig,
+    grip: BoundSwordGrip,
+    aabb: AABB,
+) {
+    val color = grip.part.getColor(state.state, state.colors)
+    val options = FillAndBorder(color.toRender(), state.config.line)
+
+    visualizeBoundRows(renderer, options, aabb, grip.rows)
+}
+
+private fun visualizeSimpleGrip(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: SwordConfig,
+    grip: SimpleSwordGrip,
+    aabb: AABB,
 ) {
     val fill = grip.part.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
-    val polygon = createGripPolygon(config, grip, aabb)
+    val polygon = createSimpleGripPolygon(config, grip, aabb)
 
     renderer.renderRoundedPolygon(polygon, options)
 }
 
-private fun createGripPolygon(
+private fun createSimpleGripPolygon(
     config: SwordConfig,
-    grip: SwordGrip,
+    grip: SimpleSwordGrip,
     aabb: AABB,
 ): Polygon2d {
     val builder = Polygon2dBuilder()

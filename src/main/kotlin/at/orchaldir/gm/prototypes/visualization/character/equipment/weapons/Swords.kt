@@ -22,16 +22,20 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
+    val straightHilt = SimpleHilt(
+        NoSwordGuard,
+        createGrip(Straight),
+        NoPommel,
+    )
+    val boundHilt = SimpleHilt(
+        SimpleSwordGuard(part = FillLookupItemPart(Color.Gold)),
+        BoundSwordGrip(6),
+    )
     val hilts = listOf(
-        Pair(
-            "Straight", SimpleHilt(
-                NoSwordGuard,
-                SwordGrip(Straight, FillLookupItemPart(Color.Black)),
-                NoPommel,
-            )
-        ),
-        Pair("Oval", SimpleHilt(grip = SwordGrip(Oval, FillLookupItemPart(Color.Black)))),
-        Pair("Waisted", SimpleHilt(grip = SwordGrip(Waisted, FillLookupItemPart(Color.Black)))),
+        Pair("Straight", straightHilt),
+        Pair("Oval", SimpleHilt(grip = createGrip(Oval))),
+        Pair("Waisted", SimpleHilt(grip = createGrip(Waisted))),
+        Pair("Bound", boundHilt),
     )
 
     renderCharacterTableWithoutColorScheme(
@@ -48,6 +52,8 @@ fun main() {
         Pair(createAppearance(distance), from(sword))
     }
 }
+
+private fun createGrip(shape: SwordGripShape) = SimpleSwordGrip(shape, FillLookupItemPart(Color.Black))
 
 private fun createAppearance(height: Distance) =
     HumanoidBody(
