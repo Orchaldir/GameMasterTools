@@ -20,6 +20,7 @@ data class EquipmentConfig(
     val footwear: FootwearConfig,
     val glasses: GlassesConfig,
     val hat: HatConfig,
+    val helmet: HelmetConfig,
     val lamellarArmour: LamellarArmourConfig,
     val necklace: NecklaceConfig,
     val neckline: NecklineConfig,
@@ -77,6 +78,7 @@ fun visualizeHeadEquipment(
                 is EyePatch -> visualizeEyePatch(newState, head, data, set)
                 is Glasses -> visualizeGlasses(newState, head, data)
                 is Hat -> visualizeHat(newState, data)
+                is Helmet -> visualizeHelmet(newState, data)
                 else -> doNothing()
             }
         }
