@@ -112,6 +112,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         HelmetConfig(
             fromPercentage(30),
             fromPercentage(80),
+            fromPercentage(10),
             fromPercentage(5),
         ),
         LamellarArmourConfig(

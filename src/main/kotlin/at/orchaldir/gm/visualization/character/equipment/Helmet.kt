@@ -20,6 +20,7 @@ import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
 data class HelmetConfig(
     val frontBottomY: Factor,
     val hoodOpeningWidth: Factor,
+    val onionTopWidth: Factor,
     val padding: Factor,
 ) {
 
@@ -86,14 +87,18 @@ private fun createSkullCapPolygon(
     val helmWidth = config.getHelmWidth()
     val builder = Polygon2dBuilder()
         .addMirroredPoints(aabb, helmWidth, config.frontBottomY, true)
-    //.addMirroredPoints(aabb, helmWidth, START)
 
     when (cap.shape) {
         HelmetShape.Conical -> builder
             .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
             .addLeftPoint(aabb, CENTER, -config.frontBottomY * 2)
 
-        HelmetShape.Onion -> builder.addMirroredPoints(aabb, helmWidth, -config.frontBottomY)
+        HelmetShape.Onion -> {
+            builder
+                .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
+                .addMirroredPoints(aabb, config.onionTopWidth, -config.frontBottomY * 2)
+                .addMirroredPoints(aabb, config.onionTopWidth, -(config.frontBottomY + config.onionTopWidth) * 2)
+        }
         HelmetShape.Round -> builder.addMirroredPoints(aabb, helmWidth, -config.frontBottomY)
     }
 
