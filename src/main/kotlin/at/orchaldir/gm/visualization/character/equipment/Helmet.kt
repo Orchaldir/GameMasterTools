@@ -14,7 +14,8 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
 
 data class HelmetConfig(
-    val hoodWidth: Factor,
+    val hoodOpeningWidth: Factor,
+    val padding: Factor,
 )
 
 fun visualizeHelmet(
@@ -38,15 +39,17 @@ private fun visualizeChainmailHood(
     val options = state.config.getLineOptions(color)
 
     if (state.renderFront) {
-        val hoodWidth = state.config.equipment.helmet.hoodWidth
+        val config = state.config.equipment.helmet
+        val hoodWidth = FULL + config.padding * 2
+        val hoodOpeningWidth = config.hoodOpeningWidth
         val polygon = Polygon2dBuilder()
-            .addMirroredPoints(state.aabb, FULL, START)
-            .addMirroredPoints(state.aabb, FULL, END)
-            .addMirroredPoints(state.aabb, hoodWidth, END)
-            .addMirroredPoints(state.aabb, hoodWidth, FULL - hoodWidth)
+            .addMirroredPoints(state.aabb, hoodWidth, START, true)
+            .addMirroredPoints(state.aabb, hoodWidth, END, true)
+            .addMirroredPoints(state.aabb, hoodOpeningWidth, END, true)
+            .addMirroredPoints(state.aabb, hoodOpeningWidth, FULL - hoodOpeningWidth)
             .build()
 
-        renderer.renderPolygon(polygon, options)
+        renderer.renderRoundedPolygon(polygon, options)
     } else {
         renderer.renderRectangle(state.aabb, options)
     }
