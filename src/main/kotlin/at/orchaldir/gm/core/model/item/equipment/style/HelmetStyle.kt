@@ -35,5 +35,6 @@ data class ChainmailHood(
 @SerialName("SkullCap")
 data class SkullCap(
     val shape: HelmetShape = HelmetShape.Round,
+    val front: HelmetFront = NoHelmetFront,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : HelmetStyle()
