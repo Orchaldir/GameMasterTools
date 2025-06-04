@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 
 enum class HelmetStyleType {
     ChainmailHood,
+    SkullCap,
 }
 
 @Serializable
@@ -14,10 +15,12 @@ sealed class HelmetStyle : MadeFromParts {
 
     fun getType() = when (this) {
         is ChainmailHood -> HelmetStyleType.ChainmailHood
+        is SkullCap -> HelmetStyleType.SkullCap
     }
 
     override fun parts() = when (this) {
         is ChainmailHood -> listOf(part)
+        is SkullCap -> listOf(part)
     }
 }
 
@@ -25,5 +28,12 @@ sealed class HelmetStyle : MadeFromParts {
 @SerialName("Hood")
 data class ChainmailHood(
     val shape: HoodShape = HoodShape.Straight,
+    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+) : HelmetStyle()
+
+@Serializable
+@SerialName("SkullCap")
+data class SkullCap(
+    val shape: HelmetShape = HelmetShape.Round,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : HelmetStyle()
