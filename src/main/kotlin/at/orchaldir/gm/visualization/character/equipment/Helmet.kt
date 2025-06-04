@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
 import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -85,12 +86,14 @@ private fun createSkullCapPolygon(
     val helmWidth = config.getHelmWidth()
     val builder = Polygon2dBuilder()
         .addMirroredPoints(aabb, helmWidth, config.frontBottomY, true)
-        .addMirroredPoints(aabb, helmWidth, START)
+    //.addMirroredPoints(aabb, helmWidth, START)
 
     when (cap.shape) {
-        HelmetShape.Bucket -> doNothing()
-        HelmetShape.Conical -> doNothing()
-        HelmetShape.Onion -> doNothing()
+        HelmetShape.Conical -> builder
+            .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
+            .addLeftPoint(aabb, CENTER, -config.frontBottomY * 2)
+
+        HelmetShape.Onion -> builder.addMirroredPoints(aabb, helmWidth, -config.frontBottomY)
         HelmetShape.Round -> builder.addMirroredPoints(aabb, helmWidth, -config.frontBottomY)
     }
 
