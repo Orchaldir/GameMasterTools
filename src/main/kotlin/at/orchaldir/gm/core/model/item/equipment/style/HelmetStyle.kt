@@ -5,15 +5,15 @@ import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class HelmStyleType {
+enum class HelmetStyleType {
     ChainmailHood,
 }
 
 @Serializable
-sealed class HelmStyle : MadeFromParts {
+sealed class HelmetStyle : MadeFromParts {
 
     fun getType() = when (this) {
-        is ChainmailHood -> HelmStyleType.ChainmailHood
+        is ChainmailHood -> HelmetStyleType.ChainmailHood
     }
 
     override fun parts() = when (this) {
@@ -26,4 +26,4 @@ sealed class HelmStyle : MadeFromParts {
 data class ChainmailHood(
     val shape: HoodShape = HoodShape.Straight,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
-) : HelmStyle()
+) : HelmetStyle()
