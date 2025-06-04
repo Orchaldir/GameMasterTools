@@ -48,6 +48,7 @@ fun visualizeBodyEquipment(
                 is Dress -> visualizeDress(newState, body, data)
                 is Footwear -> visualizeFootwear(newState, body, data)
                 is Gloves -> visualizeGloves(newState, body, data)
+                is Helmet -> visualizeHelmetForBody(newState, body, data)
                 is Necklace -> visualizeNecklace(newState, body, data)
                 is Pants -> visualizePants(newState, body, data)
                 is Polearm -> visualizePolearm(newState, body, data, set)
@@ -78,7 +79,7 @@ fun visualizeHeadEquipment(
                 is EyePatch -> visualizeEyePatch(newState, head, data, set)
                 is Glasses -> visualizeGlasses(newState, head, data)
                 is Hat -> visualizeHat(newState, data)
-                is Helmet -> visualizeHelmet(newState, data)
+                is Helmet -> visualizeHelmetForHead(newState, data)
                 else -> doNothing()
             }
         }

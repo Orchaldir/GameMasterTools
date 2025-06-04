@@ -1,8 +1,10 @@
 package at.orchaldir.gm.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.ChainmailHood
 import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
+import at.orchaldir.gm.core.model.item.equipment.style.HoodShape
 import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
@@ -12,6 +14,7 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -28,7 +31,20 @@ data class HelmetConfig(
 
 }
 
-fun visualizeHelmet(
+fun visualizeHelmetForBody(
+    state: CharacterRenderState,
+    body: Body,
+    helmet: Helmet,
+) {
+    val renderer = state.renderer.getLayer(HAND_LAYER)
+
+    when (helmet.style) {
+        is ChainmailHood -> visualizeChainmailHoodForBody(state, renderer, body, helmet.style)
+        is SkullCap -> doNothing()
+    }
+}
+
+fun visualizeHelmetForHead(
     state: CharacterRenderState,
     helmet: Helmet,
 ) {
@@ -100,6 +116,39 @@ private fun createSkullCapPolygon(
                 .addMirroredPoints(aabb, config.onionTopWidth, -(config.frontBottomY + config.onionTopWidth) * 2)
         }
         HelmetShape.Round -> builder.addMirroredPoints(aabb, helmWidth, -config.frontBottomY)
+    }
+
+    return builder.build()
+}
+
+private fun visualizeChainmailHoodForBody(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    body: Body,
+    hood: ChainmailHood,
+) {
+    val color = hood.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+    val polygon = createChainmailHoodForBodyPolygon(state, body, hood.shape)
+
+    renderer.renderRoundedPolygon(polygon, options)
+}
+
+private fun createChainmailHoodForBodyPolygon(
+    state: CharacterRenderState,
+    body: Body,
+    shape: HoodShape,
+): Polygon2d {
+    val aabb = state.config.body.getArmsAabb(state.aabb, body)
+    val builder = Polygon2dBuilder()
+        .addMirroredPoints(aabb, FULL, START, true)
+
+    when (shape) {
+        HoodShape.Curved -> builder
+            .addMirroredPoints(aabb, FULL, QUARTER)
+
+        HoodShape.Straight -> builder
+            .addMirroredPoints(aabb, FULL, QUARTER, true)
     }
 
     return builder.build()
