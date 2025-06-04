@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.ChainmailHood
 import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
-import at.orchaldir.gm.core.model.item.equipment.style.HoodShape
+import at.orchaldir.gm.core.model.item.equipment.style.HoodBodyShape
 import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
@@ -127,6 +127,10 @@ private fun visualizeChainmailHoodForBody(
     body: Body,
     hood: ChainmailHood,
 ) {
+    if (hood.shape == null) {
+        return
+    }
+
     val color = hood.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
     val polygon = createChainmailHoodForBodyPolygon(state, body, hood.shape)
@@ -137,17 +141,17 @@ private fun visualizeChainmailHoodForBody(
 private fun createChainmailHoodForBodyPolygon(
     state: CharacterRenderState,
     body: Body,
-    shape: HoodShape,
+    shape: HoodBodyShape,
 ): Polygon2d {
     val aabb = state.config.body.getArmsAabb(state.aabb, body)
     val builder = Polygon2dBuilder()
         .addMirroredPoints(aabb, FULL, START, true)
 
     when (shape) {
-        HoodShape.Curved -> builder
+        HoodBodyShape.Curved -> builder
             .addMirroredPoints(aabb, FULL, QUARTER)
 
-        HoodShape.Straight -> builder
+        HoodBodyShape.Straight -> builder
             .addMirroredPoints(aabb, FULL, QUARTER, true)
     }
 

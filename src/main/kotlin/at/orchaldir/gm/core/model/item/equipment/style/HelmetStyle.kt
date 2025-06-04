@@ -27,7 +27,7 @@ sealed class HelmetStyle : MadeFromParts {
 @Serializable
 @SerialName("Hood")
 data class ChainmailHood(
-    val shape: HoodShape = HoodShape.Straight,
+    val shape: HoodBodyShape? = HoodBodyShape.Straight,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : HelmetStyle()
 
