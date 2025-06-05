@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.item.equipment.style.NoseProtectionShape
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.CENTER
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -47,20 +49,29 @@ private fun createNoseProtectionPolygon(
     val builder = Polygon2dBuilder()
 
     when (protection.shape) {
-        NoseProtectionShape.Hexagon -> builder
-            .addMirroredPoints(aabb, config.noseWidth, config.noseTopY, true)
-            .addMirroredPoints(aabb, config.noseWidth, config.noseBottomY, true)
+        NoseProtectionShape.Hexagon -> {
+            val height = config.noseBottomY - config.noseTopY
+            val f = Factor.fromPercentage(20)
+
+            builder
+                .addLeftPoint(aabb, CENTER, config.noseTopY, true)
+                .addMirroredPoints(aabb, config.noseWidth, config.noseTopY + height * f, true)
+                .addMirroredPoints(aabb, config.noseWidth, config.noseTopY + height * (FULL - f), true)
+                .addLeftPoint(aabb, CENTER, config.noseBottomY, true)
+        }
 
         NoseProtectionShape.Rectangle -> builder
             .addMirroredPoints(aabb, config.noseWidth, config.noseTopY, true)
             .addMirroredPoints(aabb, config.noseWidth, config.noseBottomY, true)
 
         NoseProtectionShape.RoundedRectangle -> builder
+            .addLeftPoint(aabb, CENTER, config.noseTopY)
             .addMirroredPoints(aabb, config.noseWidth, config.noseTopY)
             .addMirroredPoints(aabb, config.noseWidth, config.noseBottomY)
+            .addLeftPoint(aabb, CENTER, config.noseBottomY)
 
         NoseProtectionShape.Triangle -> builder
-            .addLeftPoint(aabb, CENTER, config.noseTopY, true)
+            .addLeftPoint(aabb, CENTER, config.noseTriangleTopY, true)
             .addMirroredPoints(aabb, config.noseWidth, config.noseBottomY, true)
     }
 

@@ -25,6 +25,7 @@ data class HelmetConfig(
     val frontBottomY: Factor,
     val hoodOpeningWidth: Factor,
     val noseBottomY: Factor,
+    val noseTriangleTopY: Factor,
     val noseTopY: Factor,
     val noseWidth: Factor,
     val onionTopWidth: Factor,
