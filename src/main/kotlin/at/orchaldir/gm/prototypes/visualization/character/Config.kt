@@ -113,6 +113,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(30),
             fromPercentage(80),
             fromPercentage(10),
+            fromPercentage(20),
+            fromPercentage(40),
+            fromPercentage(10),
             fromPercentage(5),
         ),
         LamellarArmourConfig(

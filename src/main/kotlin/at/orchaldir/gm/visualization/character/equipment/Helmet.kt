@@ -19,10 +19,14 @@ import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeHelmetFront
 
 data class HelmetConfig(
     val frontBottomY: Factor,
     val hoodOpeningWidth: Factor,
+    val noseBottomY: Factor,
+    val noseTopY: Factor,
+    val noseWidth: Factor,
     val onionTopWidth: Factor,
     val padding: Factor,
 ) {
@@ -57,7 +61,10 @@ fun visualizeHelmetForHead(
 
     when (helmet.style) {
         is ChainmailHood -> visualizeChainmailHood(state, renderer, config, helmet.style)
-        is SkullCap -> visualizeSkullCap(state, renderer, config, helmet.style)
+        is SkullCap -> {
+            visualizeSkullCap(state, renderer, config, helmet.style)
+            visualizeHelmetFront(state, renderer, config, helmet.style.front)
+        }
     }
 }
 

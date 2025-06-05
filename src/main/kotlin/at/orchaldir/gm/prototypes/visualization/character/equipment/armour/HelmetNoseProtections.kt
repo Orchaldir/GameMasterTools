@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
+import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
@@ -13,7 +14,9 @@ import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
 import at.orchaldir.gm.core.model.item.equipment.style.NoseProtection
 import at.orchaldir.gm.core.model.item.equipment.style.NoseProtectionShape
 import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.Color.Gold
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
@@ -28,13 +31,14 @@ fun main() {
         addNames(HelmetShape.entries),
         addNames(NoseProtectionShape.entries),
     ) { distance, nose, shape ->
-        val helmet = Helmet(SkullCap(shape, NoseProtection(nose)))
+        val protection = NoseProtection(nose, ColorSchemeItemPart(Gold))
+        val helmet = Helmet(SkullCap(shape, protection))
         Pair(createAppearance(distance), from(helmet))
     }
 }
 
 private fun createAppearance(distance: Distance) =
     HeadOnly(
-        Head(ears = NormalEars(), eyes = TwoEyes()),
+        Head(ears = NormalEars(), eyes = TwoEyes(), mouth = NormalMouth()),
         distance,
     )
