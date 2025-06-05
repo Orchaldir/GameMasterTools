@@ -2,6 +2,11 @@ package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.horn.*
+import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
+import at.orchaldir.gm.core.model.item.equipment.Helmet
+import at.orchaldir.gm.core.model.item.equipment.style.ChainmailHood
+import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
+import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
@@ -43,18 +48,22 @@ class PaddedSize(
     fun getFullAABB() = AABB(getFullSize())
 }
 
-fun calculatePaddedSize(config: CharacterRenderConfig, appearance: Appearance): PaddedSize {
+fun calculatePaddedSize(
+    config: CharacterRenderConfig,
+    appearance: Appearance,
+    equipmentMap: EquipmentElementMap = EquipmentElementMap(),
+): PaddedSize {
     val padded = when (appearance) {
         is HeadOnly -> {
             val padded = PaddedSize(Size2d.square(appearance.height))
-            handleHead(config, appearance.head, padded, appearance.height)
+            handleHead(config, appearance.head, equipmentMap, padded, appearance.height)
             padded
         }
 
         is HumanoidBody -> {
             val padded = PaddedSize(Size2d.square(appearance.height))
             val headHeight = appearance.height * config.body.headHeight
-            handleHead(config, appearance.head, padded, headHeight)
+            handleHead(config, appearance.head, equipmentMap, padded, headHeight)
             padded
         }
 
@@ -69,11 +78,13 @@ fun calculatePaddedSize(config: CharacterRenderConfig, appearance: Appearance): 
 private fun handleHead(
     config: CharacterRenderConfig,
     head: Head,
+    equipmentMap: EquipmentElementMap,
     paddedSize: PaddedSize,
     headHeight: Distance,
 ) {
     handleEars(config, head.ears, paddedSize, headHeight)
     handleHorns(config, head.horns, paddedSize, headHeight)
+    handleHelms(config, equipmentMap, paddedSize, headHeight)
 }
 
 private fun handleEars(
@@ -128,6 +139,32 @@ private fun handleHorns(
         is CrownOfHorns -> {
             val bonus = headHeight * horns.length
             paddedSize.top += bonus
+        }
+    }
+}
+
+private fun handleHelms(
+    config: CharacterRenderConfig,
+    equipmentMap: EquipmentElementMap,
+    paddedSize: PaddedSize,
+    headHeight: Distance,
+) {
+    equipmentMap.getAllEquipment().forEach { (data, _) ->
+        if (data is Helmet) {
+            val helmet = config.equipment.helmet
+
+            when (data.style) {
+                is ChainmailHood -> doNothing()
+                is SkullCap -> {
+                    val padding = headHeight * when (data.style.shape) {
+                        HelmetShape.Conical -> helmet.getConicalTopPadding()
+                        HelmetShape.Onion -> helmet.getOnionTopPadding()
+                        HelmetShape.Round -> helmet.getRoundTopPadding()
+                    }
+
+                    paddedSize.addToTop(padding)
+                }
+            }
         }
     }
 }

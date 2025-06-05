@@ -29,6 +29,10 @@ data class HelmetConfig(
 
     fun getHelmWidth() = FULL + padding * 2
 
+    fun getConicalTopPadding() = frontBottomY * 2
+    fun getOnionTopPadding() = (frontBottomY + onionTopWidth) * 2
+    fun getRoundTopPadding() = frontBottomY
+
 }
 
 fun visualizeHelmetForBody(
@@ -107,15 +111,16 @@ private fun createSkullCapPolygon(
     when (cap.shape) {
         HelmetShape.Conical -> builder
             .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
-            .addLeftPoint(aabb, CENTER, -config.frontBottomY * 2)
+            .addLeftPoint(aabb, CENTER, -config.getConicalTopPadding())
 
         HelmetShape.Onion -> {
             builder
                 .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
                 .addMirroredPoints(aabb, config.onionTopWidth, -config.frontBottomY * 2)
-                .addMirroredPoints(aabb, config.onionTopWidth, -(config.frontBottomY + config.onionTopWidth) * 2)
+                .addMirroredPoints(aabb, config.onionTopWidth, -config.getOnionTopPadding())
         }
-        HelmetShape.Round -> builder.addMirroredPoints(aabb, helmWidth, -config.frontBottomY)
+
+        HelmetShape.Round -> builder.addMirroredPoints(aabb, helmWidth, -config.getRoundTopPadding())
     }
 
     return builder.build()
