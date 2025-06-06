@@ -4,6 +4,9 @@ import at.orchaldir.gm.app.HELMET
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.item.equipment.style.editHelmetFront
+import at.orchaldir.gm.app.html.item.equipment.style.parseHelmetFront
+import at.orchaldir.gm.app.html.item.equipment.style.showHelmetFront
 import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.selectOptionalValue
 import at.orchaldir.gm.app.html.selectValue
@@ -37,6 +40,7 @@ fun HtmlBlockTag.showHelmet(
         is SkullCap -> {
             field("Helmet Shape", style.shape)
             showColorSchemeItemPart(call, state, style.part, "Helmet")
+            showHelmetFront(call, state, style.front)
         }
     }
 }
@@ -58,6 +62,7 @@ fun FORM.editHelmet(
         is SkullCap -> {
             selectValue("Helmet Shape", SHAPE, HelmetShape.entries, style.shape)
             editColorSchemeItemPart(state, style.part, HELMET, "Helmet")
+            editHelmetFront(state, style.front)
         }
     }
 }
@@ -78,7 +83,7 @@ fun parseHelmetStyle(
 
     HelmetStyleType.SkullCap -> SkullCap(
         parse(parameters, SHAPE, HelmetShape.Round),
-        NoHelmetFront,
+        parseHelmetFront(parameters),
         parseColorSchemeItemPart(parameters, HELMET),
     )
 }
