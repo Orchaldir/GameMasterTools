@@ -24,22 +24,25 @@ import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
 import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
 
 fun visualizeHelmetFront(
     state: CharacterRenderState,
-    renderer: LayerRenderer,
     config: HelmetConfig,
     front: HelmetFront,
 ) {
+    val noseRenderer = state.renderer.getLayer(HAND_LAYER + 1)
+    val eyeRenderer = state.renderer.getLayer(HAND_LAYER - 1)
+
     when (front) {
         NoHelmetFront -> doNothing()
-        is NoseProtection -> visualizeNoseProtection(state, renderer, config, front)
+        is NoseProtection -> visualizeNoseProtection(state, noseRenderer, config, front)
         is EyeProtection -> {
-            visualizeEyeProtection(state, renderer, config, front)
+            visualizeEyeProtection(state, eyeRenderer, config, front)
 
             if (front.nose != null) {
-                visualizeNoseProtection(state, renderer, config, front.nose, front.part)
+                visualizeNoseProtection(state, noseRenderer, config, front.nose, front.part)
             }
         }
     }
