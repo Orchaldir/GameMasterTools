@@ -56,7 +56,7 @@ fun HtmlBlockTag.editHelmetFront(
             is NoseProtection -> {
                 selectValue(
                     "Shape",
-                    combine(FRONT, SHAPE),
+                    combine(FRONT, NOSE),
                     NoseProtectionShape.entries,
                     front.shape,
                 )
@@ -96,7 +96,7 @@ fun parseHelmetFront(
 ) = when (parse(parameters, FRONT, HelmetFrontType.None)) {
     HelmetFrontType.None -> NoHelmetFront
     HelmetFrontType.Nose -> NoseProtection(
-        parse(parameters, combine(FRONT, SHAPE), NoseProtectionShape.Rectangle),
+        parse(parameters, combine(FRONT, NOSE), NoseProtectionShape.Rectangle),
         parseColorSchemeItemPart(parameters, FRONT),
     )
 
