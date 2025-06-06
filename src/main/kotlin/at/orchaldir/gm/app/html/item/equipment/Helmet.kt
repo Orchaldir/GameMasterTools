@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.item.equipment
 
+import at.orchaldir.gm.app.BODY_SHAPE
 import at.orchaldir.gm.app.HELMET
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.STYLE
@@ -55,7 +56,7 @@ fun FORM.editHelmet(
 
     when (val style = helmet.style) {
         is ChainmailHood -> {
-            selectOptionalValue("Body Shape", SHAPE, style.shape, HoodBodyShape.entries)
+            selectOptionalValue("Body Shape", BODY_SHAPE, style.shape, HoodBodyShape.entries)
             editColorSchemeItemPart(state, style.part, HELMET, "Chainmail")
         }
 
@@ -77,7 +78,7 @@ fun parseHelmetStyle(
     parameters: Parameters,
 ) = when (parse(parameters, STYLE, HelmetStyleType.SkullCap)) {
     HelmetStyleType.ChainmailHood -> ChainmailHood(
-        parse<HoodBodyShape>(parameters, SHAPE),
+        parse<HoodBodyShape>(parameters, BODY_SHAPE),
         parseColorSchemeItemPart(parameters, HELMET),
     )
 
