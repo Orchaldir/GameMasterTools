@@ -7,15 +7,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
 import at.orchaldir.gm.core.model.item.equipment.style.HoodBodyShape
 import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.CENTER
-import at.orchaldir.gm.utils.math.END
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Polygon2d
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
-import at.orchaldir.gm.utils.math.QUARTER
-import at.orchaldir.gm.utils.math.START
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER

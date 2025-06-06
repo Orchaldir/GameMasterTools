@@ -13,9 +13,6 @@ import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.EyeHoleShape
 import at.orchaldir.gm.core.model.item.equipment.style.EyeProtection
 import at.orchaldir.gm.core.model.item.equipment.style.EyeProtectionShape
-import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
-import at.orchaldir.gm.core.model.item.equipment.style.NoseProtection
-import at.orchaldir.gm.core.model.item.equipment.style.NoseProtectionShape
 import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.render.Color
