@@ -98,8 +98,9 @@ private fun visualizeEyeProtection(
     val eyeSize = state.config.head.eyes.getEyeSize(state.aabb, EyeShape.Ellipse, Size.Medium)
     val polygon = createEyeProtectionPolygon(state, config, protection.shape)
     val leftHole = createEyeHolePolygon(config, protection.hole, left, eyeSize)
+    val rightHole = createEyeHolePolygon(config, protection.hole, right, eyeSize)
 
-    renderer.renderRoundedPolygonWithRoundedHole(polygon, leftHole, options)
+    renderer.renderRoundedPolygonWithRoundedHoles(polygon, listOf(leftHole, rightHole), options)
 }
 
 private fun createEyeProtectionPolygon(
