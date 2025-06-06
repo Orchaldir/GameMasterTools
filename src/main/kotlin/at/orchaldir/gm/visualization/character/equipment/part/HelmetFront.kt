@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.NoHelmetFront
 import at.orchaldir.gm.core.model.item.equipment.style.NoseProtection
 import at.orchaldir.gm.core.model.item.equipment.style.NoseProtectionShape
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.CENTER
@@ -21,7 +22,6 @@ import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.TWO_THIRD
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
@@ -31,10 +31,18 @@ fun visualizeHelmetFront(
     renderer: LayerRenderer,
     config: HelmetConfig,
     front: HelmetFront,
-) = when (front) {
-    NoHelmetFront -> doNothing()
-    is NoseProtection -> visualizeNoseProtection(state, renderer, config, front)
-    is EyeProtection -> visualizeEyeProtection(state, renderer, config, front)
+) {
+    when (front) {
+        NoHelmetFront -> doNothing()
+        is NoseProtection -> visualizeNoseProtection(state, renderer, config, front)
+        is EyeProtection -> {
+            visualizeEyeProtection(state, renderer, config, front)
+
+            if (front.nose != null) {
+                visualizeNoseProtection(state, renderer, config, front.nose, front.part)
+            }
+        }
+    }
 }
 
 private fun visualizeNoseProtection(
@@ -42,10 +50,18 @@ private fun visualizeNoseProtection(
     renderer: LayerRenderer,
     config: HelmetConfig,
     protection: NoseProtection,
+) = visualizeNoseProtection(state, renderer, config, protection.shape, protection.part)
+
+private fun visualizeNoseProtection(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: HelmetConfig,
+    shape: NoseProtectionShape,
+    part: ColorSchemeItemPart,
 ) {
-    val color = protection.part.getColor(state.state, state.colors)
+    val color = part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
-    val polygon = createNoseProtectionPolygon(state.aabb, config, protection)
+    val polygon = createNoseProtectionPolygon(state.aabb, config, shape)
 
     renderer.renderRoundedPolygon(polygon, options)
 }
@@ -53,11 +69,11 @@ private fun visualizeNoseProtection(
 private fun createNoseProtectionPolygon(
     aabb: AABB,
     config: HelmetConfig,
-    protection: NoseProtection,
+    shape: NoseProtectionShape,
 ): Polygon2d {
     val builder = Polygon2dBuilder()
 
-    when (protection.shape) {
+    when (shape) {
         NoseProtectionShape.Hexagon -> {
             val height = config.noseBottomY - config.noseTopY
             val f = Factor.fromPercentage(20)
