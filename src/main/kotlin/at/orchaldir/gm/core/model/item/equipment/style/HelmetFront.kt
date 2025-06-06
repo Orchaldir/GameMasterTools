@@ -41,7 +41,8 @@ data class NoseProtection(
 @Serializable
 @SerialName("Eye")
 data class EyeProtection(
-    val shape: EyeProtectionShape = EyeProtectionShape.Almond,
+    val shape: EyeProtectionShape = EyeProtectionShape.RoundedRectangle,
+    val hole: EyeHoleShape = EyeHoleShape.Almond,
     val nose: NoseProtectionShape? = null,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : HelmetFront()

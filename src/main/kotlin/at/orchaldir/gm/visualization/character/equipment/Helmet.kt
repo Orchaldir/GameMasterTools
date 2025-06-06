@@ -22,6 +22,8 @@ import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHelmetFront
 
 data class HelmetConfig(
+    val eyeProtectionHeight: Factor,
+    val eyeProtectionWidth: Factor,
     val frontBottomY: Factor,
     val hoodOpeningWidth: Factor,
     val noseBottomY: Factor,
@@ -64,7 +66,10 @@ fun visualizeHelmetForHead(
         is ChainmailHood -> visualizeChainmailHood(state, renderer, config, helmet.style)
         is SkullCap -> {
             visualizeSkullCap(state, renderer, config, helmet.style)
-            visualizeHelmetFront(state, renderer, config, helmet.style.front)
+
+            if (state.renderFront) {
+                visualizeHelmetFront(state, renderer, config, helmet.style.front)
+            }
         }
     }
 }

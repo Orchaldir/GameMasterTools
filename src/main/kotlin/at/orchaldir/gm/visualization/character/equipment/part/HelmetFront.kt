@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.item.equipment.style.EyeProtection
+import at.orchaldir.gm.core.model.item.equipment.style.EyeProtectionShape
 import at.orchaldir.gm.core.model.item.equipment.style.HelmetFront
 import at.orchaldir.gm.core.model.item.equipment.style.NoHelmetFront
 import at.orchaldir.gm.core.model.item.equipment.style.NoseProtection
@@ -24,7 +25,7 @@ fun visualizeHelmetFront(
 ) = when (front) {
     NoHelmetFront -> doNothing()
     is NoseProtection -> visualizeNoseProtection(state, renderer, config, front)
-    is EyeProtection -> doNothing()
+    is EyeProtection -> visualizeEyeProtection(state, renderer, config, front)
 }
 
 private fun visualizeNoseProtection(
@@ -45,7 +46,6 @@ private fun createNoseProtectionPolygon(
     config: HelmetConfig,
     protection: NoseProtection,
 ): Polygon2d {
-    val helmWidth = config.getHelmWidth()
     val builder = Polygon2dBuilder()
 
     when (protection.shape) {
@@ -73,6 +73,46 @@ private fun createNoseProtectionPolygon(
         NoseProtectionShape.Triangle -> builder
             .addLeftPoint(aabb, CENTER, config.noseTriangleTopY, true)
             .addMirroredPoints(aabb, config.noseWidth, config.noseBottomY, true)
+    }
+
+    return builder.build()
+}
+
+private fun visualizeEyeProtection(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: HelmetConfig,
+    protection: EyeProtection,
+) {
+    val color = protection.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+    val polygon = createEyeProtectionPolygon(state, config, protection)
+
+    renderer.renderRoundedPolygon(polygon, options)
+}
+
+private fun createEyeProtectionPolygon(
+    state: CharacterRenderState,
+    config: HelmetConfig,
+    protection: EyeProtection,
+): Polygon2d {
+    val aabb = state.aabb
+    val startY = config.frontBottomY
+    val endY = startY + config.eyeProtectionHeight
+    val width = config.eyeProtectionWidth
+    val builder = Polygon2dBuilder()
+        .addMirroredPoints(aabb, width, startY, true)
+
+    when (protection.shape) {
+        EyeProtectionShape.Oval -> builder
+            .addMirroredPoints(aabb, width, endY)
+
+        EyeProtectionShape.Rectangle -> builder
+            .addMirroredPoints(aabb, width, endY, true)
+
+        EyeProtectionShape.RoundedRectangle -> builder
+            .addMirroredPoints(aabb, width, endY)
+            .addLeftPoint(aabb, CENTER, endY)
     }
 
     return builder.build()

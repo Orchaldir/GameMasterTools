@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Helmet
+import at.orchaldir.gm.core.model.item.equipment.style.EyeHoleShape
 import at.orchaldir.gm.core.model.item.equipment.style.EyeProtection
 import at.orchaldir.gm.core.model.item.equipment.style.EyeProtectionShape
 import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
@@ -30,11 +31,11 @@ fun main() {
         State(Storage(Material(MaterialId(0), color = Color.Silver))),
         "helmet-eye-protections.svg",
         CHARACTER_CONFIG,
-        addNames(HelmetShape.entries),
+        addNames(EyeHoleShape.entries),
         addNames(EyeProtectionShape.entries),
-    ) { distance, protection, shape ->
-        val protection = EyeProtection(protection, null, ColorSchemeItemPart(Gold))
-        val helmet = Helmet(SkullCap(shape, protection))
+    ) { distance, shape, hole ->
+        val protection = EyeProtection(shape, hole, null, ColorSchemeItemPart(Gold))
+        val helmet = Helmet(SkullCap(front = protection))
         Pair(createAppearance(distance), from(helmet))
     }
 }
