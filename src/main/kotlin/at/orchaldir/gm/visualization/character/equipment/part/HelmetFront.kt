@@ -20,6 +20,7 @@ import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -176,7 +177,7 @@ private fun createEyeHolePolygon(
             .addMirroredPoints(aabb, FULL, HALF)
             .addMirroredPoints(aabb, FULL, END)
 
-        EyeHoleShape.Slit -> builder.addRectangle(aabb.shrinkHeight(HALF), true)
+        EyeHoleShape.Slit -> builder.addRectangle(aabb.shrinkHeight(QUARTER), true)
     }
 
     return builder.build()

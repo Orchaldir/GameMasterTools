@@ -37,7 +37,7 @@ fun visualizeBoundFixation(
     val rows = ceil(height.toMeters() / rowHeight.toMeters()).toInt()
     val color = fixation.part.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line)
-    val boundAabb = shaftAabb.growWidth(config.boundPadding)
+    val boundAabb = shaftAabb.growWidthByPadding(config.boundPadding)
 
     visualizeBoundRows(renderer, options, boundAabb, rowHeight, rows)
 }
