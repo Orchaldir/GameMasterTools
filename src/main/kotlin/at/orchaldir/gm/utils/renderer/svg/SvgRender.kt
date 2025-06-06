@@ -161,6 +161,16 @@ class SvgRenderer(
         return this
     }
 
+    override fun renderRoundedPolygonWithRoundedHoles(
+        polygon: Polygon2d,
+        holes: List<Polygon2d>,
+        options: RenderOptions,
+    ): LayerRenderer {
+        renderPath(convertRoundedPolygonWithRoundedHolesToPath(polygon, holes), toSvg(options))
+
+        return this
+    }
+
     override fun renderRectangle(aabb: AABB, options: RenderOptions): LayerRenderer {
         selfClosingTag(
             "rect",

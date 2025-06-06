@@ -65,6 +65,11 @@ interface LayerRenderer {
     fun renderRoundedPolygonWithHole(polygon: Polygon2d, hole: Polygon2d, options: RenderOptions): LayerRenderer
     fun renderPolygonWithRoundedHole(polygon: Polygon2d, hole: Polygon2d, options: RenderOptions): LayerRenderer
     fun renderRoundedPolygonWithRoundedHole(polygon: Polygon2d, hole: Polygon2d, options: RenderOptions): LayerRenderer
+    fun renderRoundedPolygonWithRoundedHoles(
+        polygon: Polygon2d,
+        holes: List<Polygon2d>,
+        options: RenderOptions,
+    ): LayerRenderer
 
     fun renderRectangle(aabb: AABB, options: RenderOptions): LayerRenderer
 

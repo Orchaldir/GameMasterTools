@@ -97,11 +97,11 @@ data class Polygon2dBuilder(
         return addPoints(left, right, isSharp)
     }
 
-    fun addRectangle(aabb: AABB): Polygon2dBuilder {
+    fun addRectangle(aabb: AABB, isSharp: Boolean = false): Polygon2dBuilder {
         val (topLeft, topRight, bottomRight, bottomLeft) = aabb.getCorners()
 
-        addPoints(bottomLeft, bottomRight)
-        addPoints(topLeft, topRight)
+        addPoints(topLeft, topRight, isSharp)
+        addPoints(bottomLeft, bottomRight, isSharp)
 
         return this
     }

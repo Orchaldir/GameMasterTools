@@ -41,6 +41,7 @@ enum class EquipmentDataType {
     Glasses,
     Gloves,
     Hat,
+    Helmet,
     Necklace,
     Pants,
     Polearm,
@@ -64,6 +65,7 @@ enum class EquipmentDataType {
         Glasses -> setOf(EyesSlot)
         Gloves -> setOf(HandSlot)
         Hat -> setOf(HeadSlot)
+        Helmet -> setOf(HeadSlot)
         Necklace -> setOf(NeckSlot)
         Pants -> setOf(BottomSlot)
         Polearm -> setOf(HeldInOneOrTwoHandsSlot)
@@ -92,6 +94,7 @@ sealed class EquipmentData : MadeFromParts {
         is Glasses -> EquipmentDataType.Glasses
         is Gloves -> EquipmentDataType.Gloves
         is Hat -> EquipmentDataType.Hat
+        is Helmet -> EquipmentDataType.Helmet
         is Necklace -> EquipmentDataType.Necklace
         is Pants -> EquipmentDataType.Pants
         is Polearm -> EquipmentDataType.Polearm
@@ -225,6 +228,15 @@ data class Hat(
     constructor(style: HatStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Helmet")
+data class Helmet(
+    val style: HelmetStyle = SkullCap(),
+) : EquipmentData() {
+
+    override fun parts() = style.parts()
 }
 
 @Serializable

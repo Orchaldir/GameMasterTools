@@ -116,7 +116,7 @@ fun <C, R> renderCharacterTable(
     rows.forEach { (_, row) ->
         columns.forEach { (_, column) ->
             val data = create(height, column, row)
-            val paddedSize = calculatePaddedSize(config, data.first)
+            val paddedSize = calculatePaddedSize(config, data.first, data.second)
             val size = paddedSize.getFullSize()
 
             dataMap[Pair(row, column)] = Triple(data.first, data.second, paddedSize)

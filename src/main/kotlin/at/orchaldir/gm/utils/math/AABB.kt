@@ -119,17 +119,66 @@ data class AABB(val start: Point2d, val size: Size2d) {
      */
     fun grow(border: Distance) = AABB(start - border, size + border * 2.0f)
 
-    fun growWidth(border: Distance) = AABB(
-        start.minusWidth(border),
-        size.addWidth(border * 2),
+    fun growWidth(distance: Distance) = AABB(
+        start.minusWidth(distance / 2),
+        size.addWidth(distance),
     )
 
+    fun growHeight(distance: Distance) = AABB(
+        start.minusHeight(distance / 2),
+        size.addHeight(distance),
+    )
+
+    fun growWidthByPadding(padding: Distance) = AABB(
+        start.minusWidth(padding),
+        size.addWidth(padding * 2),
+    )
+
+    fun growHeightByPadding(padding: Distance) = AABB(
+        start.minusHeight(padding),
+        size.addHeight(padding * 2),
+    )
+
+    /**
+     * Grow the area around the center by a certain percentage.
+     */
+    fun grow(factor: Factor): AABB {
+        val border = size * (factor * 0.5f)
+        return AABB(start - border, size * (FULL + factor))
+    }
+
     fun growWidth(factor: Factor) = growWidth(size.width * factor)
+
+    fun growHeight(factor: Factor) = growHeight(size.height * factor)
+
+    fun growWidthByPadding(factor: Factor) = growWidthByPadding(size.width * factor)
+
+    fun growHeightByPadding(factor: Factor) = growHeightByPadding(size.height * factor)
 
     /**
      * Move the border inward by a certain distance.
      */
     fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)
+
+    fun shrinkWidth(distance: Distance) = AABB(
+        start.addWidth(distance / 2),
+        size.minusWidth(distance),
+    )
+
+    fun shrinkWidthByPadding(padding: Distance) = AABB(
+        start.addWidth(padding),
+        size.minusWidth(padding * 2),
+    )
+
+    fun shrinkHeight(distance: Distance) = AABB(
+        start.addHeight(distance / 2),
+        size.minusHeight(distance),
+    )
+
+    fun shrinkHeightByPadding(padding: Distance) = AABB(
+        start.addHeight(padding),
+        size.minusHeight(padding * 2),
+    )
 
     /**
      * Shrink the area around the center by a certain percentage.
@@ -138,6 +187,14 @@ data class AABB(val start: Point2d, val size: Size2d) {
         val border = size * (factor * 0.5f)
         return AABB(start + border, size * (FULL - factor))
     }
+
+    fun shrinkWidth(factor: Factor) = shrinkWidth(size.width * (FULL - factor))
+
+    fun shrinkWidthByPadding(factor: Factor) = shrinkWidthByPadding(size.width * factor)
+
+    fun shrinkHeight(factor: Factor) = shrinkHeight(size.height * (FULL - factor))
+
+    fun shrinkHeightByPadding(factor: Factor) = shrinkHeightByPadding(size.height * factor)
 
     fun splitHorizontal(start: Factor, end: Factor): AABB {
         val startPoint = getPoint(start, START)
