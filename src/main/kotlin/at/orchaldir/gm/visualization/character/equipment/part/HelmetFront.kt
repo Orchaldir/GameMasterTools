@@ -23,6 +23,7 @@ import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
@@ -137,6 +138,11 @@ private fun createEyeProtectionPolygon(
         .addMirroredPoints(aabb, width, startY, true)
 
     when (shape) {
+        EyeProtectionShape.Glasses -> builder
+            .addMirroredPoints(aabb, width, endY)
+            .addMirroredPoints(aabb, Factor.fromPercentage(10), endY)
+            .addLeftPoint(aabb, CENTER, startY + config.eyeProtectionHeight / 2)
+
         EyeProtectionShape.Oval -> builder
             .addMirroredPoints(aabb, width, endY)
 
