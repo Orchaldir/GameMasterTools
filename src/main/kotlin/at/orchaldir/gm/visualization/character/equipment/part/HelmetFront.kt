@@ -8,12 +8,14 @@ import at.orchaldir.gm.core.model.item.equipment.style.HelmetFront
 import at.orchaldir.gm.core.model.item.equipment.style.NoHelmetFront
 import at.orchaldir.gm.core.model.item.equipment.style.NoseProtection
 import at.orchaldir.gm.core.model.item.equipment.style.NoseProtectionShape
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
@@ -93,7 +95,7 @@ private fun visualizeEyeProtection(
     val color = protection.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
     val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
-    val eyeSize = state.config.head.eyes.getEyeSize(state.aabb, EyeShape.Ellipse)
+    val eyeSize = state.config.head.eyes.getEyeSize(state.aabb, EyeShape.Ellipse, Size.Medium)
     val polygon = createEyeProtectionPolygon(state, config, protection.shape)
     val leftHole = createEyeHolePolygon(config, protection.hole, left, eyeSize)
 
@@ -148,6 +150,7 @@ private fun createEyeHolePolygon(
         EyeHoleShape.Rectangle -> builder.addRectangle(aabb, true)
         EyeHoleShape.RoundedRectangle -> builder
             .addMirroredPoints(aabb, FULL, START)
+            .addMirroredPoints(aabb, FULL, HALF)
             .addMirroredPoints(aabb, FULL, END)
     }
 
