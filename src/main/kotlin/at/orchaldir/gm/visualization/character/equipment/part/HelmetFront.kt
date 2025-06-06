@@ -21,6 +21,7 @@ import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.TWO_THIRD
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
@@ -141,12 +142,14 @@ private fun createEyeHolePolygon(
 
     when (hole) {
         EyeHoleShape.Almond -> builder
-            .addMirroredPoints(aabb, FULL, START)
-            .addMirroredPoints(aabb, FULL, END)
+            .addMirroredPoints(aabb, HALF, START)
+            .addMirroredPoints(aabb, FULL, CENTER, true)
+            .addMirroredPoints(aabb, HALF, END)
 
         EyeHoleShape.Octagon -> builder
-            .addMirroredPoints(aabb, FULL, START)
-            .addMirroredPoints(aabb, FULL, END)
+            .addMirroredPoints(aabb, HALF, START, true)
+            .addMirroredPoints(aabb, FULL, CENTER, true)
+            .addMirroredPoints(aabb, HALF, END, true)
 
         EyeHoleShape.Rectangle -> builder.addRectangle(aabb, true)
         EyeHoleShape.RoundedRectangle -> builder

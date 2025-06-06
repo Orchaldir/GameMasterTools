@@ -65,11 +65,11 @@ fun visualizeHelmetForHead(
     when (helmet.style) {
         is ChainmailHood -> visualizeChainmailHood(state, renderer, config, helmet.style)
         is SkullCap -> {
-            visualizeSkullCap(state, renderer, config, helmet.style)
-
             if (state.renderFront) {
                 visualizeHelmetFront(state, renderer, config, helmet.style.front)
             }
+
+            visualizeSkullCap(state, renderer, config, helmet.style)
         }
     }
 }
