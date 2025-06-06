@@ -126,10 +126,31 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun growWidth(factor: Factor) = growWidth(size.width * factor)
 
+    fun growHeight(border: Distance) = AABB(
+        start.minusHeight(border),
+        size.addHeight(border * 2),
+    )
+
+    fun growHeight(factor: Factor) = growHeight(size.height * factor)
+
     /**
      * Move the border inward by a certain distance.
      */
     fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)
+
+    fun shrinkWidth(border: Distance) = AABB(
+        start.addWidth(border),
+        size.minusWidth(border * 2),
+    )
+
+    fun shrinkWidth(factor: Factor) = shrinkWidth(size.width * factor)
+
+    fun shrinkHeight(border: Distance) = AABB(
+        start.addHeight(border),
+        size.minusHeight(border * 2),
+    )
+
+    fun shrinkHeight(factor: Factor) = shrinkHeight(size.height * factor)
 
     /**
      * Shrink the area around the center by a certain percentage.

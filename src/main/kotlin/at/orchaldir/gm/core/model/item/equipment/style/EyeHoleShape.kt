@@ -5,4 +5,5 @@ enum class EyeHoleShape {
     Octagon,
     Rectangle,
     RoundedRectangle,
+    Slit,
 }

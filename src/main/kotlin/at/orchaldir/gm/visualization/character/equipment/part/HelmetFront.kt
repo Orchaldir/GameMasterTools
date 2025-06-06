@@ -175,6 +175,8 @@ private fun createEyeHolePolygon(
             .addMirroredPoints(aabb, FULL, START)
             .addMirroredPoints(aabb, FULL, HALF)
             .addMirroredPoints(aabb, FULL, END)
+
+        EyeHoleShape.Slit -> builder.addRectangle(aabb.shrinkHeight(HALF), true)
     }
 
     return builder.build()
