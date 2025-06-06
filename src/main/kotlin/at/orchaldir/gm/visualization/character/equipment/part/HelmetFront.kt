@@ -177,7 +177,6 @@ private fun createEyeHolePolygon(
             .addMirroredPoints(aabb, FULL, CENTER, true)
             .addMirroredPoints(aabb, HALF, END, true)
 
-        EyeHoleShape.Rectangle -> builder.addRectangle(aabb, true)
         EyeHoleShape.RoundedRectangle -> builder
             .addMirroredPoints(aabb, FULL, START)
             .addMirroredPoints(aabb, FULL, HALF)
