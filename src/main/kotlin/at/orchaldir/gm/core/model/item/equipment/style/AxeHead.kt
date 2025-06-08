@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
-import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,19 +18,19 @@ sealed interface AxeHead : MadeFromParts {
     }
 
     override fun parts() = when (this) {
-        is SingleBitAxeHead -> listOf(part)
-        is DoubleBitAxeHead -> listOf(part)
+        is SingleBitAxeHead -> blade.parts()
+        is DoubleBitAxeHead -> blade.parts()
     }
 }
 
 @Serializable
 @SerialName("Single")
 data class SingleBitAxeHead(
-    val part: FillLookupItemPart = FillLookupItemPart(),
+    val blade: AxeBlade = SimpleAxeBlade(),
 ) : AxeHead
 
 @Serializable
 @SerialName("Double")
 data class DoubleBitAxeHead(
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
+    val blade: AxeBlade = CrescentAxeBlade(),
 ) : AxeHead
