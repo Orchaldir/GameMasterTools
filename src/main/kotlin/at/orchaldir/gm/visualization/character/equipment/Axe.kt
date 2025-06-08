@@ -93,6 +93,7 @@ private fun createCrescentAxeBladePolygon(
     val width = height * config.crescentWidth
     val center = shaftAabb.getPoint(START, heightFactor / 2)
         .minusWidth(width / 2)
+    val crescentHeight = FULL * 4
     val aabb = AABB.fromCenter(center, Size2d(width, height))
     val builder = Polygon2dBuilder()
         .addMirroredPointsOverX(aabb, END, FULL, true)
@@ -100,17 +101,17 @@ private fun createCrescentAxeBladePolygon(
     when (blade.shape) {
         CrescentAxeShape.QuarterCircle -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL)
-            .addMirroredPointsOverX(aabb, TWO_THIRD, FULL * 3)
+            .addMirroredPointsOverX(aabb, THIRD, FULL * 2, true)
             .addMirroredPointsOverX(aabb, START, FULL)
 
         CrescentAxeShape.HalfCircle -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL)
-            .addMirroredPointsOverX(aabb, TWO_THIRD, FULL * 3)
+            .addMirroredPointsOverX(aabb, TWO_THIRD, crescentHeight, true)
             .addMirroredPointsOverX(aabb, START, FULL)
 
         CrescentAxeShape.Octagon -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL, true)
-            .addMirroredPointsOverX(aabb, TWO_THIRD, FULL * 3, true)
+            .addMirroredPointsOverX(aabb, TWO_THIRD, crescentHeight, true)
             .addMirroredPointsOverX(aabb, START, FULL, true)
     }
 
