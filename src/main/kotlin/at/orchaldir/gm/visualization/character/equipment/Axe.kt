@@ -101,17 +101,17 @@ private fun createCrescentAxeBladePolygon(
         CrescentAxeShape.QuarterCircle -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL)
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL * 3)
-            .addMirroredPointsOverX(aabb, FULL, FULL)
+            .addMirroredPointsOverX(aabb, START, FULL)
 
         CrescentAxeShape.HalfCircle -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL)
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL * 3)
-            .addMirroredPointsOverX(aabb, FULL, FULL)
+            .addMirroredPointsOverX(aabb, START, FULL)
 
         CrescentAxeShape.Octagon -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL, true)
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL * 3, true)
-            .addMirroredPointsOverX(aabb, FULL, FULL, true)
+            .addMirroredPointsOverX(aabb, START, FULL, true)
     }
 
     return builder
