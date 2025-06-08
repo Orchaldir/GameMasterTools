@@ -121,6 +121,7 @@ private fun checkPolearmHead(head: PolearmHead) = when (head) {
     RoundedPolearmHead -> doNothing()
     SharpenedPolearmHead -> doNothing()
     is PolearmHeadWithSegments -> TODO()
+    is PolearmHeadWithAxeHead -> TODO()
     is PolearmHeadWithSpearHead -> {
         checkPolearmFixation(head.fixation)
         checkSpearHead(head.spear)
