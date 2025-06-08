@@ -22,12 +22,14 @@ sealed interface AxeBlade : MadeFromParts {
         is DaggerAxeBlade -> AxeBladeType.Dagger
     }
 
-    override fun parts() = when (this) {
-        is SimpleAxeBlade -> listOf(part)
-        is BroadAxeBlade -> listOf(part)
-        is CrescentAxeBlade -> listOf(part)
-        is DaggerAxeBlade -> listOf(part)
+    fun part() = when (this) {
+        is SimpleAxeBlade -> part
+        is BroadAxeBlade -> part
+        is CrescentAxeBlade -> part
+        is DaggerAxeBlade -> part
     }
+
+    override fun parts() = listOf(part())
 }
 
 @Serializable
