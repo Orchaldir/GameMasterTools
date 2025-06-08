@@ -55,7 +55,7 @@ private fun visualizeRoll(
     scroll: Scroll,
 ) {
     val color = scroll.main.getColor(state.state)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
     state.renderer.getLayer().renderRectangle(state.aabb, options)
 }
 

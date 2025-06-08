@@ -49,7 +49,7 @@ private fun visualizeLeatherBinding(
     binding: LeatherBinding,
 ) {
     val color = binding.leather.getColor(state.state)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
     val config = state.config.leatherBindingMap.getValue(binding.style)
 
     val spineWidth = state.aabb.convertWidth(config.spine)

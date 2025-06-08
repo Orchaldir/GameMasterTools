@@ -16,7 +16,7 @@ fun visualizeSpearHead(
     val headAabb = createSpearHeadAabb(shaftAabb, head)
     val polygon = createSpearHeadPolygon(state.config.equipment.polearm, headAabb, head.shape)
     val color = head.part.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
 
     renderer.renderRoundedPolygon(polygon, options)
     renderer.renderLine(

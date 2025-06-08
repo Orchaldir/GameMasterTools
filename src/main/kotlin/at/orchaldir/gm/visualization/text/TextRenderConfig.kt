@@ -6,11 +6,15 @@ import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.core.model.item.text.book.LeatherBindingStyle
 import at.orchaldir.gm.core.model.util.SizeConfig
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.Fill
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
+import at.orchaldir.gm.utils.renderer.model.toRender
 
 data class LeatherBindingConfig(
     val spine: Factor,
@@ -43,5 +47,8 @@ data class TextRenderConfig(
         is Scroll -> format.calculateOpenSize(1)
         UndefinedTextFormat -> square(padding * 2)
     }
+
+    fun getLineOptions(color: Color) = FillAndBorder(color.toRender(), line)
+    fun getLineOptions(fill: Fill) = FillAndBorder(fill.toRender(), line)
 
 }

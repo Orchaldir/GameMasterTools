@@ -99,7 +99,7 @@ private fun visualizeBlankBookPage(
     book: Book,
 ) {
     val color = book.page.getColor(state.state)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
 
     state.renderer.getLayer().renderRectangle(state.aabb, options)
 }

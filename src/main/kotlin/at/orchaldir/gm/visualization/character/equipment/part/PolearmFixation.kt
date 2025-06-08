@@ -36,7 +36,7 @@ fun visualizeBoundFixation(
     val rowHeight = shaftAabb.convertHeight(config.boundRowThickness)
     val rows = ceil(height.toMeters() / rowHeight.toMeters()).toInt()
     val color = fixation.part.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
     val boundAabb = shaftAabb.growWidthByPadding(config.boundPadding)
 
     visualizeBoundRows(renderer, options, boundAabb, rowHeight, rows)
@@ -54,7 +54,7 @@ fun visualizeLangets(
         .addMirroredPoints(shaftAabb, HALF, fixation.length)
         .build()
     val color = fixation.part.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
 
     renderer.renderPolygon(polygon, options)
 }
@@ -73,7 +73,7 @@ fun visualizeSocketedFixation(
         .addMirroredPoints(shaftAabb, FULL + doublePadding, fixation.length)
         .build()
     val color = fixation.part.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
 
     renderer.renderPolygon(polygon, options)
 }
