@@ -13,6 +13,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 data class EquipmentConfig(
+    val axe: AxeConfig,
     val belt: BeltConfig,
     val coat: CoatConfig,
     val earring: EarringConfig,
