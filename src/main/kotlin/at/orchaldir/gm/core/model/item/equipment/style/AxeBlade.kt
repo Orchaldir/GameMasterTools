@@ -45,6 +45,7 @@ data class BroadAxeBlade(
 @Serializable
 @SerialName("Crescent")
 data class CrescentAxeBlade(
+    val shape: CrescentAxeShape = CrescentAxeShape.HalfCircle,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : AxeBlade
 
