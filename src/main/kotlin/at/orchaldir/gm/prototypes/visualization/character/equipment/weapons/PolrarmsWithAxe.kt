@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderEquipmentDataTable
@@ -39,5 +40,6 @@ fun main() {
 }
 
 fun create(axeHead: AxeHead) = Polearm(
-    PolearmHeadWithAxeHead(axeHead, Langets())
+    PolearmHeadWithAxeHead(axeHead, Langets()),
+    SimpleShaft(FillLookupItemPart(Color.SaddleBrown))
 )
