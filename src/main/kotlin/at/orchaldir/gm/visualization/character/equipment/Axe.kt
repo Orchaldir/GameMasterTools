@@ -62,9 +62,15 @@ private fun visualizeAxeBlade(
     size: Size,
     isRight: Boolean,
 ) {
-    val polygon = createAxeBladePolygon(state.config.equipment.axe, shaftAabb, blade, size)
+    val rightPolygon = createAxeBladePolygon(state.config.equipment.axe, shaftAabb, blade, size)
+    val polygon = if (isRight) {
+        rightPolygon
+    } else {
+        shaftAabb.mirrorVertically(rightPolygon)
+    }
     val color = blade.part().getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
+
 
     renderer.renderRoundedPolygon(polygon, options)
 }

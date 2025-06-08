@@ -9,6 +9,9 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.HalfCircle
+import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.Octagon
+import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.QuarterCircle
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -19,10 +22,15 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     val table = listOf(
         listOf(
-            create(SingleBitAxeHead(CrescentAxeBlade(CrescentAxeShape.QuarterCircle))),
-            create(SingleBitAxeHead(CrescentAxeBlade(CrescentAxeShape.HalfCircle))),
-            create(SingleBitAxeHead(CrescentAxeBlade(CrescentAxeShape.Octagon))),
-        )
+            create(SingleBitAxeHead(CrescentAxeBlade(QuarterCircle))),
+            create(SingleBitAxeHead(CrescentAxeBlade(HalfCircle))),
+            create(SingleBitAxeHead(CrescentAxeBlade(Octagon))),
+        ),
+        listOf(
+            create(DoubleBitAxeHead(CrescentAxeBlade(QuarterCircle))),
+            create(DoubleBitAxeHead(CrescentAxeBlade(HalfCircle))),
+            create(DoubleBitAxeHead(CrescentAxeBlade(Octagon))),
+        ),
     )
     val appearance = HumanoidBody(
         Body(BodyShape.Muscular),
