@@ -37,6 +37,11 @@ fun main() {
             create(DoubleBitAxeHead(CrescentAxeBlade(HalfCircle), Size.Large)),
             create(DoubleBitAxeHead(CrescentAxeBlade(Octagon), Size.Large)),
         ),
+        listOf(
+            create(SingleBitAxeHead(DaggerAxeBlade(), Size.Small)),
+            create(SingleBitAxeHead(DaggerAxeBlade(), Size.Medium)),
+            create(SingleBitAxeHead(DaggerAxeBlade(), Size.Large)),
+        ),
     )
     val appearance = HumanoidBody(
         Body(BodyShape.Muscular),

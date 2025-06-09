@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.character.equipment
 
-import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.style.AxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.AxeHead
 import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBlade
@@ -10,19 +9,18 @@ import at.orchaldir.gm.core.model.item.equipment.style.DaggerAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.DoubleBitAxeHead
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.SingleBitAxeHead
-import at.orchaldir.gm.core.model.item.equipment.style.SpearHead
-import at.orchaldir.gm.core.model.item.equipment.style.SpearShape
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
-import at.orchaldir.gm.utils.convert
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class AxeConfig(
     val buttHeight: SizeConfig<Factor>,
     val crescentWidth: Factor,
+    val daggerBaseHeight: SizeConfig<Factor>,
+    val daggerLength: Factor,
+    val daggerWidth: Factor,
 ) {
     fun createCrescentAxeBladeAabb(
         size: Size,
@@ -31,6 +29,19 @@ data class AxeConfig(
         val heightFactor = buttHeight.convert(size)
         val height = shaftAabb.size.height * heightFactor
         val width = height * crescentWidth
+        val center = shaftAabb.getPoint(START, heightFactor / 2)
+            .minusWidth(width / 2)
+
+        return AABB.fromCenter(center, Size2d(width, height))
+    }
+
+    fun createDaggerAxeBladeAabb(
+        size: Size,
+        shaftAabb: AABB,
+    ): AABB {
+        val heightFactor = daggerBaseHeight.convert(size)
+        val height = shaftAabb.size.height * heightFactor
+        val width = height * daggerLength
         val center = shaftAabb.getPoint(START, heightFactor / 2)
             .minusWidth(width / 2)
 
@@ -98,7 +109,7 @@ private fun createAxeBladePolygon(
     is SimpleAxeBlade -> TODO()
     is BroadAxeBlade -> TODO()
     is CrescentAxeBlade -> createCrescentAxeBladePolygon(config, shaftAabb, blade, size)
-    is DaggerAxeBlade -> TODO()
+    is DaggerAxeBlade -> createDaggerAxeBladePolygon(config, shaftAabb, size)
 }
 
 private fun createCrescentAxeBladePolygon(
@@ -130,5 +141,27 @@ private fun createCrescentAxeBladePolygon(
     }
 
     return builder
+        .build()
+}
+
+private fun createDaggerAxeBladePolygon(
+    config: AxeConfig,
+    shaftAabb: AABB,
+    size: Size,
+): Polygon2d {
+    val aabb = config.createDaggerAxeBladeAabb(size, shaftAabb)
+    val width = aabb.convertHeight(config.daggerWidth)
+    val baseCenter = aabb.getPoint(END, config.daggerWidth)
+        .minusWidth(width)
+    val baseBottom = aabb.getPoint(END, END)
+        .minusWidth(width)
+
+    return Polygon2dBuilder()
+        .addMirroredPointsOverX(aabb, END, FULL, true)
+        .addLeftPoint(aabb, QUARTER, START, true)
+        .addLeftPoint(aabb, START, config.daggerWidth / 2, true)
+        .addLeftPoint(aabb, QUARTER, config.daggerWidth, true)
+        .addLeftPoint(baseCenter)
+        .addLeftPoint(baseBottom)
         .build()
 }
