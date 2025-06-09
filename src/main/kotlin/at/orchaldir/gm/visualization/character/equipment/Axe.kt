@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape
 import at.orchaldir.gm.core.model.item.equipment.style.DaggerAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.DoubleBitAxeHead
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.SingleBitAxeHead
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
@@ -113,7 +112,6 @@ private fun createAxeBladePolygon(
     shaftAabb: AABB,
     blade: AxeBlade,
 ) = when (blade) {
-    is SimpleAxeBlade -> TODO()
     is BroadAxeBlade -> createBroadAxeBladePolygon(config, shaftAabb, blade)
     is CrescentAxeBlade -> createCrescentAxeBladePolygon(config, shaftAabb, blade)
     is DaggerAxeBlade -> createDaggerAxeBladePolygon(config, shaftAabb, blade.size)

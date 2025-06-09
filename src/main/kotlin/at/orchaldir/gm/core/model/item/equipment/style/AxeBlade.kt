@@ -7,7 +7,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class AxeBladeType {
-    Simple,
     Broad,
     Crescent,
     Dagger,
@@ -17,14 +16,12 @@ enum class AxeBladeType {
 sealed interface AxeBlade : MadeFromParts {
 
     fun getType() = when (this) {
-        is SimpleAxeBlade -> AxeBladeType.Simple
         is BroadAxeBlade -> AxeBladeType.Broad
         is CrescentAxeBlade -> AxeBladeType.Crescent
         is DaggerAxeBlade -> AxeBladeType.Dagger
     }
 
     fun part() = when (this) {
-        is SimpleAxeBlade -> part
         is BroadAxeBlade -> part
         is CrescentAxeBlade -> part
         is DaggerAxeBlade -> part
@@ -32,12 +29,6 @@ sealed interface AxeBlade : MadeFromParts {
 
     override fun parts() = listOf(part())
 }
-
-@Serializable
-@SerialName("Simple")
-data class SimpleAxeBlade(
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
-) : AxeBlade
 
 @Serializable
 @SerialName("Broad")
