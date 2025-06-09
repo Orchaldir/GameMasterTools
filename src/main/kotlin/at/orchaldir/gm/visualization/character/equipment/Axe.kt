@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.item.equipment.style.AxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.AxeHead
 import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBlade
+import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape
 import at.orchaldir.gm.core.model.item.equipment.style.DaggerAxeBlade
@@ -16,12 +17,20 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class AxeConfig(
+    val broadButtHeight: SizeConfig<Factor>,
+    val broadWidth: Factor,
+    val broadHeight: Factor,
     val crescentButtHeight: SizeConfig<Factor>,
     val crescentWidth: Factor,
     val daggerButtHeight: SizeConfig<Factor>,
     val daggerLength: Factor,
     val daggerWidth: Factor,
 ) {
+    fun createBroadAxeBladeAabb(
+        size: Size,
+        shaftAabb: AABB,
+    ) = createAabb(size, shaftAabb, broadButtHeight, broadWidth)
+
     fun createCrescentAxeBladeAabb(
         size: Size,
         shaftAabb: AABB,
@@ -107,9 +116,44 @@ private fun createAxeBladePolygon(
     size: Size,
 ) = when (blade) {
     is SimpleAxeBlade -> TODO()
-    is BroadAxeBlade -> TODO()
+    is BroadAxeBlade -> createBroadAxeBladePolygon(config, shaftAabb, blade, size)
     is CrescentAxeBlade -> createCrescentAxeBladePolygon(config, shaftAabb, blade, size)
     is DaggerAxeBlade -> createDaggerAxeBladePolygon(config, shaftAabb, size)
+}
+
+private fun createBroadAxeBladePolygon(
+    config: AxeConfig,
+    shaftAabb: AABB,
+    blade: BroadAxeBlade,
+    size: Size,
+): Polygon2d {
+    val aabb = config.createBroadAxeBladeAabb(size, shaftAabb)
+    val crescentHeight = FULL * 4
+    val builder = Polygon2dBuilder()
+        .addMirroredPointsOverX(aabb, END, FULL, true)
+
+    when (blade.shape) {
+        BroadAxeBladeShape.Straight -> builder
+            .addLeftPoint(aabb, START, START, true)
+            .addLeftPoint(aabb, START, config.broadHeight, true)
+            .addLeftPoint(aabb, CENTER, config.broadHeight, true)
+            .addLeftPoint(aabb, CENTER, END, true)
+
+        BroadAxeBladeShape.Curved -> builder
+            .addLeftPoint(aabb, START, START, true)
+            .addLeftPoint(aabb, START, config.broadHeight / 2)
+            .addLeftPoint(aabb, CENTER, config.broadHeight, true)
+            .addLeftPoint(aabb, CENTER, END, true)
+
+        BroadAxeBladeShape.Angular -> builder
+            .addLeftPoint(aabb, START, START, true)
+            .addLeftPoint(aabb, START, config.broadHeight / 2, true)
+            .addLeftPoint(aabb, CENTER, config.broadHeight, true)
+            .addLeftPoint(aabb, CENTER, END, true)
+    }
+
+    return builder
+        .build()
 }
 
 private fun createCrescentAxeBladePolygon(

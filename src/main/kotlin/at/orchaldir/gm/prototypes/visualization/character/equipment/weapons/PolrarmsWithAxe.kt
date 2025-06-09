@@ -9,6 +9,9 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape.Angular
+import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape.Curved
+import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape.Straight
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.HalfCircle
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.Octagon
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.QuarterCircle
@@ -22,6 +25,11 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     val table = listOf(
+        listOf(
+            create(SingleBitAxeHead(BroadAxeBlade(Straight), Size.Small)),
+            create(SingleBitAxeHead(BroadAxeBlade(Curved), Size.Medium)),
+            create(SingleBitAxeHead(BroadAxeBlade(Angular), Size.Large)),
+        ),
         listOf(
             create(SingleBitAxeHead(CrescentAxeBlade(QuarterCircle), Size.Small)),
             create(SingleBitAxeHead(CrescentAxeBlade(HalfCircle), Size.Small)),
