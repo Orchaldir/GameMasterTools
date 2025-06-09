@@ -64,7 +64,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
     ),
     EquipmentConfig(
         AxeConfig(
-            fromPercentages(5, 10, 15),
+            fromPercentages(8, 10, 12),
             fromPercentage(200),
         ),
         BeltConfig(
