@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape.Straig
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.HalfCircle
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.Octagon
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.QuarterCircle
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Size.Large
 import at.orchaldir.gm.core.model.util.Size.Medium
 import at.orchaldir.gm.core.model.util.Size.Small
@@ -34,9 +33,9 @@ fun main() {
             create(SingleBitAxeHead(BroadAxeBlade(Angular, Large, Small))),
         ),
         listOf(
-            create(DoubleBitAxeHead(CrescentAxeBlade(QuarterCircle, Small))),
-            create(DoubleBitAxeHead(CrescentAxeBlade(HalfCircle, Medium))),
-            create(DoubleBitAxeHead(CrescentAxeBlade(Octagon, Large))),
+            create(DoubleBitAxeHead(SymmetricAxeBlade(QuarterCircle, Small))),
+            create(DoubleBitAxeHead(SymmetricAxeBlade(HalfCircle, Medium))),
+            create(DoubleBitAxeHead(SymmetricAxeBlade(Octagon, Large))),
         ),
         listOf(
             create(SingleBitAxeHead(DaggerAxeBlade(Small))),

@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.AxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.AxeHead
 import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape
-import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeBlade
+import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape
 import at.orchaldir.gm.core.model.item.equipment.style.DaggerAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.DoubleBitAxeHead
@@ -113,8 +113,8 @@ private fun createAxeBladePolygon(
     blade: AxeBlade,
 ) = when (blade) {
     is BroadAxeBlade -> createBroadAxeBladePolygon(config, shaftAabb, blade)
-    is CrescentAxeBlade -> createCrescentAxeBladePolygon(config, shaftAabb, blade)
     is DaggerAxeBlade -> createDaggerAxeBladePolygon(config, shaftAabb, blade.size)
+    is SymmetricAxeBlade -> createCrescentAxeBladePolygon(config, shaftAabb, blade)
 }
 
 private fun createBroadAxeBladePolygon(
@@ -154,7 +154,7 @@ private fun createBroadAxeBladePolygon(
 private fun createCrescentAxeBladePolygon(
     config: AxeConfig,
     shaftAabb: AABB,
-    blade: CrescentAxeBlade,
+    blade: SymmetricAxeBlade,
 ): Polygon2d {
     val aabb = config.createCrescentAxeBladeAabb(blade.size, shaftAabb)
     val crescentHeight = FULL * 4
