@@ -136,20 +136,20 @@ private fun createBroadAxeBladePolygon(
         BroadAxeBladeShape.Straight -> builder
             .addLeftPoint(aabb, START, START, true)
             .addLeftPoint(aabb, START, config.broadHeight, true)
-            .addLeftPoint(aabb, CENTER, config.broadHeight, true)
-            .addLeftPoint(aabb, CENTER, END, true)
+            .addLeftPoint(aabb, TWO_THIRD, config.broadHeight, true)
+            .addLeftPoint(aabb, TWO_THIRD, END, true)
 
         BroadAxeBladeShape.Curved -> builder
             .addLeftPoint(aabb, START, START, true)
             .addLeftPoint(aabb, START, config.broadHeight / 2)
-            .addLeftPoint(aabb, CENTER, config.broadHeight, true)
-            .addLeftPoint(aabb, CENTER, END, true)
+            .addLeftPoint(aabb, TWO_THIRD, config.broadHeight, true)
+            .addLeftPoint(aabb, TWO_THIRD, END, true)
 
         BroadAxeBladeShape.Angular -> builder
             .addLeftPoint(aabb, START, START, true)
             .addLeftPoint(aabb, START, config.broadHeight / 2, true)
-            .addLeftPoint(aabb, CENTER, config.broadHeight, true)
-            .addLeftPoint(aabb, CENTER, END, true)
+            .addLeftPoint(aabb, TWO_THIRD, config.broadHeight, true)
+            .addLeftPoint(aabb, TWO_THIRD, END, true)
     }
 
     return builder

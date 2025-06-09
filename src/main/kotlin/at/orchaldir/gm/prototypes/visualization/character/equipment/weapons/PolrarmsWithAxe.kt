@@ -16,6 +16,9 @@ import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.HalfCirc
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.Octagon
 import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape.QuarterCircle
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.Size.Large
+import at.orchaldir.gm.core.model.util.Size.Medium
+import at.orchaldir.gm.core.model.util.Size.Small
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -26,29 +29,19 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     val table = listOf(
         listOf(
-            create(SingleBitAxeHead(BroadAxeBlade(Straight), Size.Small)),
-            create(SingleBitAxeHead(BroadAxeBlade(Curved), Size.Medium)),
-            create(SingleBitAxeHead(BroadAxeBlade(Angular), Size.Large)),
+            create(SingleBitAxeHead(BroadAxeBlade(Straight), Small)),
+            create(SingleBitAxeHead(BroadAxeBlade(Curved), Medium)),
+            create(SingleBitAxeHead(BroadAxeBlade(Angular), Large)),
         ),
         listOf(
-            create(SingleBitAxeHead(CrescentAxeBlade(QuarterCircle), Size.Small)),
-            create(SingleBitAxeHead(CrescentAxeBlade(HalfCircle), Size.Small)),
-            create(SingleBitAxeHead(CrescentAxeBlade(Octagon), Size.Small)),
+            create(DoubleBitAxeHead(CrescentAxeBlade(QuarterCircle), Small)),
+            create(DoubleBitAxeHead(CrescentAxeBlade(HalfCircle), Medium)),
+            create(DoubleBitAxeHead(CrescentAxeBlade(Octagon), Large)),
         ),
         listOf(
-            create(DoubleBitAxeHead(CrescentAxeBlade(QuarterCircle), Size.Medium)),
-            create(DoubleBitAxeHead(CrescentAxeBlade(HalfCircle), Size.Medium)),
-            create(DoubleBitAxeHead(CrescentAxeBlade(Octagon), Size.Medium)),
-        ),
-        listOf(
-            create(DoubleBitAxeHead(CrescentAxeBlade(QuarterCircle), Size.Large)),
-            create(DoubleBitAxeHead(CrescentAxeBlade(HalfCircle), Size.Large)),
-            create(DoubleBitAxeHead(CrescentAxeBlade(Octagon), Size.Large)),
-        ),
-        listOf(
-            create(SingleBitAxeHead(DaggerAxeBlade(), Size.Small)),
-            create(SingleBitAxeHead(DaggerAxeBlade(), Size.Medium)),
-            create(SingleBitAxeHead(DaggerAxeBlade(), Size.Large)),
+            create(SingleBitAxeHead(DaggerAxeBlade(), Small)),
+            create(SingleBitAxeHead(DaggerAxeBlade(), Medium)),
+            create(SingleBitAxeHead(DaggerAxeBlade(), Large)),
         ),
     )
     val appearance = HumanoidBody(
