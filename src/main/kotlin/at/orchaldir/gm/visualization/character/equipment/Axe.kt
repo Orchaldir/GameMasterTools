@@ -25,28 +25,28 @@ data class AxeConfig(
     fun createCrescentAxeBladeAabb(
         size: Size,
         shaftAabb: AABB,
-    ): AABB {
-        val heightFactor = buttHeight.convert(size)
-        val height = shaftAabb.size.height * heightFactor
-        val width = height * crescentWidth
-        val center = shaftAabb.getPoint(START, heightFactor / 2)
-            .minusWidth(width / 2)
-
-        return AABB.fromCenter(center, Size2d(width, height))
-    }
+    ) = createAabb(size, shaftAabb, buttHeight, crescentWidth)
 
     fun createDaggerAxeBladeAabb(
         size: Size,
         shaftAabb: AABB,
+    ) = createAabb(size, shaftAabb, daggerBaseHeight, daggerLength)
+
+    private fun createAabb(
+        size: Size,
+        shaftAabb: AABB,
+        baseHeight: SizeConfig<Factor>,
+        aabbWidth: Factor,
     ): AABB {
-        val heightFactor = daggerBaseHeight.convert(size)
+        val heightFactor = baseHeight.convert(size)
         val height = shaftAabb.size.height * heightFactor
-        val width = height * daggerLength
+        val width = height * aabbWidth
         val center = shaftAabb.getPoint(START, heightFactor / 2)
             .minusWidth(width / 2)
 
         return AABB.fromCenter(center, Size2d(width, height))
     }
+
 }
 
 fun visualizeAxeHead(
