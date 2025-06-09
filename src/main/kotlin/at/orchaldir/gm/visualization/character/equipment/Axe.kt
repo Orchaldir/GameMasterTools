@@ -172,7 +172,7 @@ private fun createCrescentAxeBladePolygon(
             .addMirroredPointsOverX(aabb, TWO_THIRD, crescentHeight, true)
             .addMirroredPointsOverX(aabb, START, FULL)
 
-        CrescentAxeShape.Octagon -> builder
+        CrescentAxeShape.HalfOctagon -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL, true)
             .addMirroredPointsOverX(aabb, TWO_THIRD, crescentHeight, true)
             .addMirroredPointsOverX(aabb, START, FULL, true)
