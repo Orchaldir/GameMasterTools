@@ -23,7 +23,20 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 data class AxeConfig(
     val buttHeight: SizeConfig<Factor>,
     val crescentWidth: Factor,
-)
+) {
+    fun createCrescentAxeBladeAabb(
+        size: Size,
+        shaftAabb: AABB,
+    ): AABB {
+        val heightFactor = buttHeight.convert(size)
+        val height = shaftAabb.size.height * heightFactor
+        val width = height * crescentWidth
+        val center = shaftAabb.getPoint(START, heightFactor / 2)
+            .minusWidth(width / 2)
+
+        return AABB.fromCenter(center, Size2d(width, height))
+    }
+}
 
 fun visualizeAxeHead(
     state: CharacterRenderState,
@@ -94,13 +107,8 @@ private fun createCrescentAxeBladePolygon(
     blade: CrescentAxeBlade,
     size: Size,
 ): Polygon2d {
-    val heightFactor = config.buttHeight.convert(size)
-    val height = shaftAabb.size.height * heightFactor
-    val width = height * config.crescentWidth
-    val center = shaftAabb.getPoint(START, heightFactor / 2)
-        .minusWidth(width / 2)
+    val aabb = config.createCrescentAxeBladeAabb(size, shaftAabb)
     val crescentHeight = FULL * 4
-    val aabb = AABB.fromCenter(center, Size2d(width, height))
     val builder = Polygon2dBuilder()
         .addMirroredPointsOverX(aabb, END, FULL, true)
 
