@@ -16,21 +16,21 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class AxeConfig(
-    val buttHeight: SizeConfig<Factor>,
+    val crescentButtHeight: SizeConfig<Factor>,
     val crescentWidth: Factor,
-    val daggerBaseHeight: SizeConfig<Factor>,
+    val daggerButtHeight: SizeConfig<Factor>,
     val daggerLength: Factor,
     val daggerWidth: Factor,
 ) {
     fun createCrescentAxeBladeAabb(
         size: Size,
         shaftAabb: AABB,
-    ) = createAabb(size, shaftAabb, buttHeight, crescentWidth)
+    ) = createAabb(size, shaftAabb, crescentButtHeight, crescentWidth)
 
     fun createDaggerAxeBladeAabb(
         size: Size,
         shaftAabb: AABB,
-    ) = createAabb(size, shaftAabb, daggerBaseHeight, daggerLength)
+    ) = createAabb(size, shaftAabb, daggerButtHeight, daggerLength)
 
     private fun createAabb(
         size: Size,
