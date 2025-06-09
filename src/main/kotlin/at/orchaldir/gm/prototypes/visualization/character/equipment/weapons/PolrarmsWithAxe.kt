@@ -29,19 +29,19 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     val table = listOf(
         listOf(
-            create(SingleBitAxeHead(BroadAxeBlade(Straight), Small)),
-            create(SingleBitAxeHead(BroadAxeBlade(Curved), Medium)),
-            create(SingleBitAxeHead(BroadAxeBlade(Angular), Large)),
+            create(SingleBitAxeHead(BroadAxeBlade(Straight, Small, Large))),
+            create(SingleBitAxeHead(BroadAxeBlade(Curved, Medium, Medium))),
+            create(SingleBitAxeHead(BroadAxeBlade(Angular, Large, Small))),
         ),
         listOf(
-            create(DoubleBitAxeHead(CrescentAxeBlade(QuarterCircle), Small)),
-            create(DoubleBitAxeHead(CrescentAxeBlade(HalfCircle), Medium)),
-            create(DoubleBitAxeHead(CrescentAxeBlade(Octagon), Large)),
+            create(DoubleBitAxeHead(CrescentAxeBlade(QuarterCircle, Small))),
+            create(DoubleBitAxeHead(CrescentAxeBlade(HalfCircle, Medium))),
+            create(DoubleBitAxeHead(CrescentAxeBlade(Octagon, Large))),
         ),
         listOf(
-            create(SingleBitAxeHead(DaggerAxeBlade(), Small)),
-            create(SingleBitAxeHead(DaggerAxeBlade(), Medium)),
-            create(SingleBitAxeHead(DaggerAxeBlade(), Large)),
+            create(SingleBitAxeHead(DaggerAxeBlade(Small))),
+            create(SingleBitAxeHead(DaggerAxeBlade(Medium))),
+            create(SingleBitAxeHead(DaggerAxeBlade(Large))),
         ),
     )
     val appearance = HumanoidBody(

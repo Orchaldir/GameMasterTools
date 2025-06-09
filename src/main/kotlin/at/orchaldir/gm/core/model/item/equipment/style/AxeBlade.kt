@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
@@ -42,6 +43,8 @@ data class SimpleAxeBlade(
 @SerialName("Broad")
 data class BroadAxeBlade(
     val shape: BroadAxeBladeShape = BroadAxeBladeShape.Straight,
+    val size: Size = Size.Medium,
+    val length: Size = Size.Medium,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : AxeBlade
 
@@ -49,11 +52,13 @@ data class BroadAxeBlade(
 @SerialName("Crescent")
 data class CrescentAxeBlade(
     val shape: CrescentAxeShape = CrescentAxeShape.HalfCircle,
+    val size: Size = Size.Medium,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : AxeBlade
 
 @Serializable
 @SerialName("Dagger")
 data class DaggerAxeBlade(
+    val size: Size = Size.Medium,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : AxeBlade

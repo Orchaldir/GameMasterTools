@@ -28,12 +28,10 @@ sealed interface AxeHead : MadeFromParts {
 @SerialName("Single")
 data class SingleBitAxeHead(
     val blade: AxeBlade = SimpleAxeBlade(),
-    val size: Size = Size.Medium,
 ) : AxeHead
 
 @Serializable
 @SerialName("Double")
 data class DoubleBitAxeHead(
     val blade: AxeBlade = CrescentAxeBlade(),
-    val size: Size = Size.Medium,
 ) : AxeHead

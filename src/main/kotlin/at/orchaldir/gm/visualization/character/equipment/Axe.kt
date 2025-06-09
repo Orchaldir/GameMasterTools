@@ -19,7 +19,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 data class AxeConfig(
     val broadButtHeight: SizeConfig<Factor>,
     val broadWidth: Factor,
-    val broadHeight: Factor,
+    val broadHeight: SizeConfig<Factor>,
     val crescentButtHeight: SizeConfig<Factor>,
     val crescentWidth: Factor,
     val daggerButtHeight: SizeConfig<Factor>,
@@ -74,7 +74,7 @@ private fun visualizeSingleBitAxeHead(
     shaftAabb: AABB,
     head: SingleBitAxeHead,
 ) {
-    visualizeAxeBlade(state, renderer, shaftAabb, head.blade, head.size, true)
+    visualizeAxeBlade(state, renderer, shaftAabb, head.blade, true)
 }
 
 fun visualizeDoubleBitAxeHead(
@@ -83,8 +83,8 @@ fun visualizeDoubleBitAxeHead(
     shaftAabb: AABB,
     head: DoubleBitAxeHead,
 ) {
-    visualizeAxeBlade(state, renderer, shaftAabb, head.blade, head.size, true)
-    visualizeAxeBlade(state, renderer, shaftAabb, head.blade, head.size, false)
+    visualizeAxeBlade(state, renderer, shaftAabb, head.blade, true)
+    visualizeAxeBlade(state, renderer, shaftAabb, head.blade, false)
 }
 
 private fun visualizeAxeBlade(
@@ -92,10 +92,9 @@ private fun visualizeAxeBlade(
     renderer: LayerRenderer,
     shaftAabb: AABB,
     blade: AxeBlade,
-    size: Size,
     isRight: Boolean,
 ) {
-    val rightPolygon = createAxeBladePolygon(state.config.equipment.axe, shaftAabb, blade, size)
+    val rightPolygon = createAxeBladePolygon(state.config.equipment.axe, shaftAabb, blade)
     val polygon = if (isRight) {
         rightPolygon
     } else {
@@ -113,42 +112,40 @@ private fun createAxeBladePolygon(
     config: AxeConfig,
     shaftAabb: AABB,
     blade: AxeBlade,
-    size: Size,
 ) = when (blade) {
     is SimpleAxeBlade -> TODO()
-    is BroadAxeBlade -> createBroadAxeBladePolygon(config, shaftAabb, blade, size)
-    is CrescentAxeBlade -> createCrescentAxeBladePolygon(config, shaftAabb, blade, size)
-    is DaggerAxeBlade -> createDaggerAxeBladePolygon(config, shaftAabb, size)
+    is BroadAxeBlade -> createBroadAxeBladePolygon(config, shaftAabb, blade)
+    is CrescentAxeBlade -> createCrescentAxeBladePolygon(config, shaftAabb, blade)
+    is DaggerAxeBlade -> createDaggerAxeBladePolygon(config, shaftAabb, blade.size)
 }
 
 private fun createBroadAxeBladePolygon(
     config: AxeConfig,
     shaftAabb: AABB,
     blade: BroadAxeBlade,
-    size: Size,
 ): Polygon2d {
-    val aabb = config.createBroadAxeBladeAabb(size, shaftAabb)
-    val crescentHeight = FULL * 4
+    val aabb = config.createBroadAxeBladeAabb(blade.size, shaftAabb)
+    val height = config.broadHeight.convert(blade.length)
     val builder = Polygon2dBuilder()
         .addMirroredPointsOverX(aabb, END, FULL, true)
 
     when (blade.shape) {
         BroadAxeBladeShape.Straight -> builder
             .addLeftPoint(aabb, START, START, true)
-            .addLeftPoint(aabb, START, config.broadHeight, true)
-            .addLeftPoint(aabb, TWO_THIRD, config.broadHeight, true)
+            .addLeftPoint(aabb, START, height, true)
+            .addLeftPoint(aabb, TWO_THIRD, height, true)
             .addLeftPoint(aabb, TWO_THIRD, END, true)
 
         BroadAxeBladeShape.Curved -> builder
             .addLeftPoint(aabb, START, START, true)
-            .addLeftPoint(aabb, START, config.broadHeight / 2)
-            .addLeftPoint(aabb, TWO_THIRD, config.broadHeight, true)
+            .addLeftPoint(aabb, START, height / 2)
+            .addLeftPoint(aabb, TWO_THIRD, height, true)
             .addLeftPoint(aabb, TWO_THIRD, END, true)
 
         BroadAxeBladeShape.Angular -> builder
             .addLeftPoint(aabb, START, START, true)
-            .addLeftPoint(aabb, START, config.broadHeight / 2, true)
-            .addLeftPoint(aabb, TWO_THIRD, config.broadHeight, true)
+            .addLeftPoint(aabb, START, height / 2, true)
+            .addLeftPoint(aabb, TWO_THIRD, height, true)
             .addLeftPoint(aabb, TWO_THIRD, END, true)
     }
 
@@ -160,9 +157,8 @@ private fun createCrescentAxeBladePolygon(
     config: AxeConfig,
     shaftAabb: AABB,
     blade: CrescentAxeBlade,
-    size: Size,
 ): Polygon2d {
-    val aabb = config.createCrescentAxeBladeAabb(size, shaftAabb)
+    val aabb = config.createCrescentAxeBladeAabb(blade.size, shaftAabb)
     val crescentHeight = FULL * 4
     val builder = Polygon2dBuilder()
         .addMirroredPointsOverX(aabb, END, FULL, true)
