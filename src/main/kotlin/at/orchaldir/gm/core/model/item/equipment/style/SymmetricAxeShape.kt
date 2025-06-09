@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-enum class CrescentAxeShape {
+enum class SymmetricAxeShape {
     QuarterCircle,
     HalfCircle,
     HalfOctagon,

@@ -49,7 +49,7 @@ data class DaggerAxeBlade(
 @Serializable
 @SerialName("Symmetric")
 data class SymmetricAxeBlade(
-    val shape: CrescentAxeShape = CrescentAxeShape.HalfCircle,
+    val shape: SymmetricAxeShape = SymmetricAxeShape.HalfCircle,
     val size: Size = Size.Medium,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : AxeBlade

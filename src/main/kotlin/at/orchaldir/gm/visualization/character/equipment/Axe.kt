@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.AxeHead
 import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape
 import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeBlade
-import at.orchaldir.gm.core.model.item.equipment.style.CrescentAxeShape
+import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeShape
 import at.orchaldir.gm.core.model.item.equipment.style.DaggerAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.DoubleBitAxeHead
 import at.orchaldir.gm.core.model.item.equipment.style.SingleBitAxeHead
@@ -162,17 +162,17 @@ private fun createCrescentAxeBladePolygon(
         .addMirroredPointsOverX(aabb, END, FULL, true)
 
     when (blade.shape) {
-        CrescentAxeShape.QuarterCircle -> builder
+        SymmetricAxeShape.QuarterCircle -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL)
             .addMirroredPointsOverX(aabb, THIRD, FULL * 2, true)
             .addMirroredPointsOverX(aabb, START, FULL)
 
-        CrescentAxeShape.HalfCircle -> builder
+        SymmetricAxeShape.HalfCircle -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL)
             .addMirroredPointsOverX(aabb, TWO_THIRD, crescentHeight, true)
             .addMirroredPointsOverX(aabb, START, FULL)
 
-        CrescentAxeShape.HalfOctagon -> builder
+        SymmetricAxeShape.HalfOctagon -> builder
             .addMirroredPointsOverX(aabb, TWO_THIRD, FULL, true)
             .addMirroredPointsOverX(aabb, TWO_THIRD, crescentHeight, true)
             .addMirroredPointsOverX(aabb, START, FULL, true)
