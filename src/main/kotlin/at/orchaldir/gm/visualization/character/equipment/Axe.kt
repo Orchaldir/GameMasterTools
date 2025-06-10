@@ -73,7 +73,7 @@ private fun visualizeSingleBitAxeHead(
     shaftAabb: AABB,
     head: SingleBitAxeHead,
 ) {
-    visualizeAxeBlade(state, renderer, shaftAabb, head.blade, true)
+    visualizeAxeBlade(state, renderer, shaftAabb, head.blade, state.renderFront)
 }
 
 fun visualizeDoubleBitAxeHead(
