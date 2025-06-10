@@ -9,9 +9,9 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape.Angular
-import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape.Curved
-import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape.Straight
+import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeShape.Angular
+import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeShape.Curved
+import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeShape.Straight
 import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeShape.HalfCircle
 import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeShape.HalfOctagon
 import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeShape.QuarterCircle

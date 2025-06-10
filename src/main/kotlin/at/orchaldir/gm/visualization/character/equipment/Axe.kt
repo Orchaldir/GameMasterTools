@@ -3,7 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.item.equipment.style.AxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.AxeHead
 import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBlade
-import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBladeShape
+import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeShape
 import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeBlade
 import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeShape
 import at.orchaldir.gm.core.model.item.equipment.style.DaggerAxeBlade
@@ -128,19 +128,19 @@ private fun createBroadAxeBladePolygon(
         .addMirroredPointsOverX(aabb, END, FULL, true)
 
     when (blade.shape) {
-        BroadAxeBladeShape.Straight -> builder
+        BroadAxeShape.Straight -> builder
             .addLeftPoint(aabb, START, START, true)
             .addLeftPoint(aabb, START, height, true)
             .addLeftPoint(aabb, TWO_THIRD, height, true)
             .addLeftPoint(aabb, TWO_THIRD, END, true)
 
-        BroadAxeBladeShape.Curved -> builder
+        BroadAxeShape.Curved -> builder
             .addLeftPoint(aabb, START, START, true)
             .addLeftPoint(aabb, START, height / 2)
             .addLeftPoint(aabb, TWO_THIRD, height, true)
             .addLeftPoint(aabb, TWO_THIRD, END, true)
 
-        BroadAxeBladeShape.Angular -> builder
+        BroadAxeShape.Angular -> builder
             .addLeftPoint(aabb, START, START, true)
             .addLeftPoint(aabb, START, height / 2, true)
             .addLeftPoint(aabb, TWO_THIRD, height, true)

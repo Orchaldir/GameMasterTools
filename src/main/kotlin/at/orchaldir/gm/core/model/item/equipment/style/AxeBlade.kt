@@ -33,7 +33,7 @@ sealed interface AxeBlade : MadeFromParts {
 @Serializable
 @SerialName("Broad")
 data class BroadAxeBlade(
-    val shape: BroadAxeBladeShape = BroadAxeBladeShape.Straight,
+    val shape: BroadAxeShape = BroadAxeShape.Straight,
     val size: Size = Size.Medium,
     val length: Size = Size.Medium,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),

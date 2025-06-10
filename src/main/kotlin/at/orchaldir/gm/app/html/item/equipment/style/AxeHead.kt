@@ -94,7 +94,7 @@ private fun HtmlBlockTag.editAxeBlade(
                 selectValue(
                     "Shape",
                     combine(param, SHAPE),
-                    BroadAxeBladeShape.entries,
+                    BroadAxeShape.entries,
                     blade.shape,
                 )
                 selectValue(
@@ -149,11 +149,11 @@ fun parseAxeHead(
     param: String = AXE,
 ) = when (parse(parameters, param, AxeHeadType.SingleBit)) {
     AxeHeadType.SingleBit -> SingleBitAxeHead(
-
+        parseAxeBlade(parameters, param),
     )
 
     AxeHeadType.DoubleBit -> DoubleBitAxeHead(
-
+        parseAxeBlade(parameters, param),
     )
 }
 
@@ -165,7 +165,7 @@ private fun parseAxeBlade(
 
     return when (parse(parameters, param, AxeBladeType.Symmetric)) {
         AxeBladeType.Broad -> BroadAxeBlade(
-            parse(parameters, combine(param, SHAPE), BroadAxeBladeShape.Curved),
+            parse(parameters, combine(param, SHAPE), BroadAxeShape.Curved),
             parse(parameters, combine(param, SIZE), Size.Medium),
             parse(parameters, combine(param, LENGTH), Size.Medium),
             parseColorSchemeItemPart(parameters, param),
