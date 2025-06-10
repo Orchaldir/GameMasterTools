@@ -72,6 +72,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentages(15, 18, 21),
             fromPercentage(150),
             fromPercentage(20),
+            fromPercentage(30),
+            fromPercentage(50),
+            fromPercentage(5),
         ),
         BeltConfig(
             fromPercentage(10),

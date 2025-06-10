@@ -31,6 +31,8 @@ val COMBAT_GEAR = setOf(
 val MAIN_EQUIPMENT = EquipmentDataType.entries - ACCESSORIES - COMBAT_GEAR - EquipmentDataType.EyePatch
 
 enum class EquipmentDataType {
+    OneHandedAxe,
+    TwoHandedAxe,
     Belt,
     BodyArmour,
     Coat,
@@ -55,6 +57,8 @@ enum class EquipmentDataType {
     Tie;
 
     fun slots(): Set<EquipmentSlot> = when (this) {
+        OneHandedAxe -> setOf(HeldInOneHandSlot)
+        TwoHandedAxe -> setOf(HeldInTwoHandsSlot)
         Belt -> setOf(BeltSlot)
         BodyArmour -> setOf(TopSlot)
         Coat -> setOf(OuterSlot)
@@ -84,6 +88,8 @@ enum class EquipmentDataType {
 sealed class EquipmentData : MadeFromParts {
 
     fun getType() = when (this) {
+        is OneHandedAxe -> EquipmentDataType.OneHandedAxe
+        is TwoHandedAxe -> EquipmentDataType.TwoHandedAxe
         is Belt -> EquipmentDataType.Belt
         is BodyArmour -> EquipmentDataType.BodyArmour
         is Coat -> EquipmentDataType.Coat
@@ -111,6 +117,26 @@ sealed class EquipmentData : MadeFromParts {
     fun isType(equipmentType: EquipmentDataType) = getType() == equipmentType
 
     fun slots() = getType().slots()
+}
+
+@Serializable
+@SerialName("Axe1")
+data class OneHandedAxe(
+    val head: AxeHead = SingleBitAxeHead(),
+    val shaft: Shaft = SimpleShaft(),
+) : EquipmentData() {
+
+    override fun parts() = head.parts() + shaft.parts()
+}
+
+@Serializable
+@SerialName("Axe2")
+data class TwoHandedAxe(
+    val head: AxeHead = DoubleBitAxeHead(),
+    val shaft: Shaft = SimpleShaft(),
+) : EquipmentData() {
+
+    override fun parts() = head.parts() + shaft.parts()
 }
 
 @Serializable
