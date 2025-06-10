@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.SpearHead
 import at.orchaldir.gm.core.model.item.equipment.style.SpearShape
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeSpearHead(

@@ -39,6 +39,7 @@ fun HtmlBlockTag.showPolearmHead(
                 showAxeHead(call, state, head.axe)
                 showPolearmFixation(call, state, head.fixation)
             }
+
             is PolearmHeadWithSpearHead -> {
                 showSpearHead(call, state, head.spear)
                 showPolearmFixation(call, state, head.fixation)
@@ -83,6 +84,7 @@ fun FORM.editPolearmHead(
                 MIN_SEGMENT_DIAMETER,
                 MAX_SEGMENT_DIAMETER,
             )
+
             is PolearmHeadWithAxeHead -> {
                 editAxeHead(state, head.axe, combine(param, AXE))
                 editPolearmFixation(state, head.fixation, combine(param, FIXATION))

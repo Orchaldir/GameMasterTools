@@ -63,6 +63,7 @@ private fun visualizePolearmHead(
             shaftAabb.size.height,
             shaftAabb.size.width,
         )
+
         is PolearmHeadWithAxeHead -> {
             visualizeAxeHead(state, renderer, shaftAabb, polearm.head.axe)
             visualizePolearmFixation(state, shaftAabb, polearm.head.fixation)

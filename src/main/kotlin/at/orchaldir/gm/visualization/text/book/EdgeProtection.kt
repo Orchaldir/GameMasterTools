@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.START
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.text.TextRenderState
 

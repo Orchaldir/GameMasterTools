@@ -2,17 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.style.AxeBlade
-import at.orchaldir.gm.core.model.item.equipment.style.AxeHead
-import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeBlade
-import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeShape
-import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeBlade
-import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeShape
-import at.orchaldir.gm.core.model.item.equipment.style.DaggerAxeBlade
-import at.orchaldir.gm.core.model.item.equipment.style.DoubleBitAxeHead
-import at.orchaldir.gm.core.model.item.equipment.style.NoPolearmHead
-import at.orchaldir.gm.core.model.item.equipment.style.Shaft
-import at.orchaldir.gm.core.model.item.equipment.style.SingleBitAxeHead
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.*
