@@ -87,8 +87,9 @@
   },
   "17": {
    "id": 17,
-   "name": "Livewood",
-   "category": "Wood"
+   "name": "Wood",
+   "category": "Wood",
+   "color": "Peru"
   },
   "18": {
    "id": 18,
