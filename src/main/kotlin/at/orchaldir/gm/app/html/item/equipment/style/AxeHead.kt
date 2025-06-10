@@ -85,7 +85,7 @@ private fun HtmlBlockTag.editAxeBlade(
     blade: AxeBlade,
     param: String,
 ) {
-    showDetails("Axe Blade") {
+    showDetails("Axe Blade", true) {
         val param = combine(param, BLADE)
         selectValue("Type", param, AxeBladeType.entries, blade.getType())
 
