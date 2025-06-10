@@ -13,6 +13,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 data class EquipmentConfig(
+    val axe: AxeConfig,
     val belt: BeltConfig,
     val coat: CoatConfig,
     val earring: EarringConfig,
@@ -42,6 +43,8 @@ fun visualizeBodyEquipment(
             val newState = state.copy(colors = pair.second)
 
             when (val data = pair.first) {
+                is OneHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, true, set)
+                is TwoHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, false, set)
                 is Belt -> visualizeBelt(newState, body, data)
                 is BodyArmour -> visualizeBodyArmour(newState, body, data)
                 is Coat -> visualizeCoat(newState, body, data, OUTERWEAR_LAYER)

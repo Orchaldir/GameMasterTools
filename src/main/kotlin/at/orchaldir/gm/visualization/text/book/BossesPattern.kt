@@ -9,7 +9,6 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeBossesPattern(
@@ -27,7 +26,7 @@ private fun visualizeSimpleBossesPattern(
     simple: SimpleBossesPattern,
 ) {
     val color = simple.boss.getColor(state.state)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
     val parts = simple.pattern.size
     val segmentHeight = fromNumber(1.0f / parts.toFloat())
     val radius = state.aabb.convertHeight(state.config.bossesRadius.convert(simple.size))

@@ -140,7 +140,7 @@ private fun visualizeArmourSleeve(
     rowHeight: Distance,
 ) {
     val color = style.segment.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
     var center = top

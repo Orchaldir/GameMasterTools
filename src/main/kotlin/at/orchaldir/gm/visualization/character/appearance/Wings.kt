@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
@@ -53,7 +52,7 @@ private fun visualizeWing(
     color: Color,
     createLeftWing: (CharacterRenderState) -> Polygon2d,
 ) {
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
 
     visualizeWing(state, side, options, createLeftWing)
 }

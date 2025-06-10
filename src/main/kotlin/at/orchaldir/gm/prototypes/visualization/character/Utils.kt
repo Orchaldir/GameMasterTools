@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
 import at.orchaldir.gm.core.model.character.appearance.eye.NoEyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
+import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
@@ -44,6 +45,24 @@ fun renderCharacterTable(
         visualizeAppearance(renderState, appearance, paddedSizeMap.getValue(appearance))
     }
 }
+
+fun renderEquipmentDataTable(
+    state: State,
+    filename: String,
+    config: CharacterRenderConfig,
+    appearance: Appearance,
+    equipmentTable: List<List<EquipmentData>>,
+) = renderCharacterTableWithoutColorScheme(
+    state,
+    filename,
+    config,
+    appearance,
+    equipmentTable.map { row ->
+        row.map {
+            EquipmentMap.from(it)
+        }
+    },
+)
 
 fun renderCharacterTableWithoutColorScheme(
     state: State,

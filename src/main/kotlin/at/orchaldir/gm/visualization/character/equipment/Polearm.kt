@@ -44,7 +44,7 @@ fun visualizePolearm(
     val shaftAabb = AABB.fromWidthAndHeight(center, width, length)
 
     visualizePolearmHead(state, renderer, shaftAabb, polearm)
-    visualizePolearmShaft(state, renderer, shaftAabb, polearm)
+    visualizePolearmShaft(state, renderer, shaftAabb, polearm.shaft, polearm.head)
 }
 
 private fun visualizePolearmHead(
@@ -64,6 +64,11 @@ private fun visualizePolearmHead(
             shaftAabb.size.width,
         )
 
+        is PolearmHeadWithAxeHead -> {
+            visualizeAxeHead(state, renderer, shaftAabb, polearm.head.axe)
+            visualizePolearmFixation(state, shaftAabb, polearm.head.fixation)
+        }
+
         is PolearmHeadWithSpearHead -> {
             visualizeSpearHead(state, renderer, shaftAabb, polearm.head.spear)
             visualizePolearmFixation(state, shaftAabb, polearm.head.fixation)
@@ -71,17 +76,18 @@ private fun visualizePolearmHead(
     }
 }
 
-private fun visualizePolearmShaft(
+fun visualizePolearmShaft(
     state: CharacterRenderState,
     renderer: LayerRenderer,
     aabb: AABB,
-    polearm: Polearm,
+    shaft: Shaft,
+    polearmHead: PolearmHead,
 ) {
-    when (polearm.shaft) {
+    when (shaft) {
         is SimpleShaft -> {
-            val fill = polearm.shaft.part.getFill(state.state, state.colors)
+            val fill = shaft.part.getFill(state.state, state.colors)
             val options = FillAndBorder(fill.toRender(), state.config.line)
-            val polygon = createSimpleShaftPolygon(aabb, polearm.head)
+            val polygon = createSimpleShaftPolygon(aabb, polearmHead)
 
             renderer.renderRoundedPolygon(polygon, options)
         }
@@ -95,7 +101,7 @@ private fun createSimpleShaftPolygon(
     val builder = Polygon2dBuilder()
 
     when (head) {
-        NoPolearmHead, is PolearmHeadWithSegments, is PolearmHeadWithSpearHead -> builder
+        NoPolearmHead, is PolearmHeadWithSegments, is PolearmHeadWithAxeHead, is PolearmHeadWithSpearHead -> builder
             .addMirroredPoints(aabb, FULL, START, true)
 
         RoundedPolearmHead -> builder

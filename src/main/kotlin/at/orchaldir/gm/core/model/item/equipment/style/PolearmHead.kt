@@ -16,6 +16,7 @@ enum class PolearmHeadType {
     Rounded,
     Sharpened,
     Segments,
+    Axe,
     Spear,
 }
 
@@ -27,6 +28,7 @@ sealed class PolearmHead : MadeFromParts {
         is RoundedPolearmHead -> PolearmHeadType.Rounded
         is SharpenedPolearmHead -> PolearmHeadType.Sharpened
         is PolearmHeadWithSegments -> PolearmHeadType.Segments
+        is PolearmHeadWithAxeHead -> PolearmHeadType.Axe
         is PolearmHeadWithSpearHead -> PolearmHeadType.Spear
     }
 
@@ -35,6 +37,7 @@ sealed class PolearmHead : MadeFromParts {
         RoundedPolearmHead -> emptyList()
         SharpenedPolearmHead -> emptyList()
         is PolearmHeadWithSegments -> segments.parts()
+        is PolearmHeadWithAxeHead -> fixation.parts() + axe.parts()
         is PolearmHeadWithSpearHead -> fixation.parts() + spear.parts()
     }
 }
@@ -56,6 +59,14 @@ data object SharpenedPolearmHead : PolearmHead()
 data class PolearmHeadWithSegments(
     val segments: Segments,
 ) : PolearmHead()
+
+@Serializable
+@SerialName("Axe")
+data class PolearmHeadWithAxeHead(
+    val axe: AxeHead = SingleBitAxeHead(),
+    val fixation: PolearmFixation = NoPolearmFixation,
+) : PolearmHead()
+
 
 @Serializable
 @SerialName("Spear")

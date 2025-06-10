@@ -22,8 +22,14 @@ data class Polygon2dBuilder(
 
     fun isValid() = leftCorners.size + rightCorners.size >= 3
 
-    fun addMirroredPoints(aabb: AABB, width: Factor, vertical: Factor, isSharp: Boolean = false): Polygon2dBuilder {
-        val (left, right) = aabb.getMirroredPoints(width, vertical)
+    fun addMirroredPointsOverX(aabb: AABB, x: Factor, height: Factor, isSharp: Boolean = false): Polygon2dBuilder {
+        val (left, right) = aabb.getMirroredPointsOverX(x, height)
+
+        return addPoints(left, right, isSharp)
+    }
+
+    fun addMirroredPoints(aabb: AABB, width: Factor, y: Factor, isSharp: Boolean = false): Polygon2dBuilder {
+        val (left, right) = aabb.getMirroredPoints(width, y)
 
         return addPoints(left, right, isSharp)
     }

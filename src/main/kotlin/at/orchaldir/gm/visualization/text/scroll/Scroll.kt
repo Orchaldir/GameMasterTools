@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.utils.visualizeSegments
 
@@ -55,7 +54,7 @@ private fun visualizeRoll(
     scroll: Scroll,
 ) {
     val color = scroll.main.getColor(state.state)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
     state.renderer.getLayer().renderRectangle(state.aabb, options)
 }
 

@@ -35,10 +35,16 @@ fun HtmlBlockTag.showPolearmHead(
             RoundedPolearmHead -> doNothing()
             SharpenedPolearmHead -> doNothing()
             is PolearmHeadWithSegments -> showSegments(call, state, head.segments)
+            is PolearmHeadWithAxeHead -> {
+                showAxeHead(call, state, head.axe)
+                showPolearmFixation(call, state, head.fixation)
+            }
+
             is PolearmHeadWithSpearHead -> {
                 showSpearHead(call, state, head.spear)
                 showPolearmFixation(call, state, head.fixation)
             }
+
         }
     }
 }
@@ -78,6 +84,11 @@ fun FORM.editPolearmHead(
                 MIN_SEGMENT_DIAMETER,
                 MAX_SEGMENT_DIAMETER,
             )
+
+            is PolearmHeadWithAxeHead -> {
+                editAxeHead(state, head.axe, combine(param, AXE))
+                editPolearmFixation(state, head.fixation, combine(param, FIXATION))
+            }
 
             is PolearmHeadWithSpearHead -> {
                 editSpearHead(state, head.spear, param)
@@ -126,6 +137,11 @@ fun parsePolearmHead(
     PolearmHeadType.Sharpened -> SharpenedPolearmHead
     PolearmHeadType.Segments -> PolearmHeadWithSegments(
         parseSegments(parameters, combine(param, SEGMENT)),
+    )
+
+    PolearmHeadType.Axe -> PolearmHeadWithAxeHead(
+        parseAxeHead(parameters, combine(param, AXE)),
+        parsePolearmFixation(parameters, combine(param, FIXATION)),
     )
 
     PolearmHeadType.Spear -> PolearmHeadWithSpearHead(

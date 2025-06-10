@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.SpearHead
 import at.orchaldir.gm.core.model.item.equipment.style.SpearShape
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeSpearHead(
@@ -16,7 +15,7 @@ fun visualizeSpearHead(
     val headAabb = createSpearHeadAabb(shaftAabb, head)
     val polygon = createSpearHeadPolygon(state.config.equipment.polearm, headAabb, head.shape)
     val color = head.part.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line)
+    val options = state.config.getLineOptions(color)
 
     renderer.renderRoundedPolygon(polygon, options)
     renderer.renderLine(
