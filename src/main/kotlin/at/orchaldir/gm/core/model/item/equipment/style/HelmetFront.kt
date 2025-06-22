@@ -53,7 +53,7 @@ data class EyeProtection(
 @Serializable
 @SerialName("Face")
 data class FaceProtection(
-    val shape: FaceProtectionShape = FaceProtectionShape.RoundedRectangle,
+    val shape: FaceProtectionShape = FaceProtectionShape.Heater,
     val eyeHole: EyeHoleShape = EyeHoleShape.Almond,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : HelmetFront()

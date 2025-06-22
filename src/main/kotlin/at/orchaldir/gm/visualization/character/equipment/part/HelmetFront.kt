@@ -206,9 +206,9 @@ private fun createFaceProtectionPolygon(
         FaceProtectionShape.Rectangle -> builder
             .addMirroredPoints(aabb, width, FULL, true)
 
-        FaceProtectionShape.RoundedRectangle -> builder
-            .addMirroredPoints(aabb, width, FULL)
-            .addLeftPoint(aabb, CENTER, FULL)
+        FaceProtectionShape.Heater -> builder
+            .addMirroredPoints(aabb, width, startY + (FULL - startY) * 0.75f)
+            .addLeftPoint(aabb, CENTER, FULL, true)
     }
 
     return builder.build()
