@@ -40,6 +40,7 @@ fun HtmlBlockTag.showHelmetFront(
                 optionalField("Nose", front.nose)
                 showColorSchemeItemPart(call, state, front.part)
             }
+            is FaceProtection -> doNothing()
         }
     }
 }
@@ -86,6 +87,7 @@ fun HtmlBlockTag.editHelmetFront(
                 )
                 editColorSchemeItemPart(state, front.part, FRONT)
             }
+            is FaceProtection -> doNothing()
         }
     }
 }
@@ -108,4 +110,5 @@ fun parseHelmetFront(
         parse<NoseProtectionShape>(parameters, combine(FRONT, NOSE)),
         parseColorSchemeItemPart(parameters, FRONT),
     )
+    HelmetFrontType.Face -> FaceProtection()
 }

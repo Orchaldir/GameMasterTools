@@ -9,6 +9,7 @@ enum class HelmetFrontType {
     None,
     Nose,
     Eye,
+    Face,
 }
 
 @Serializable
@@ -18,12 +19,14 @@ sealed class HelmetFront : MadeFromParts {
         is NoHelmetFront -> HelmetFrontType.None
         is NoseProtection -> HelmetFrontType.Nose
         is EyeProtection -> HelmetFrontType.Eye
+        is FaceProtection -> HelmetFrontType.Face
     }
 
     override fun parts() = when (this) {
         is NoHelmetFront -> emptyList()
         is NoseProtection -> listOf(part)
         is EyeProtection -> listOf(part)
+        is FaceProtection -> listOf(part)
     }
 }
 
@@ -44,5 +47,13 @@ data class EyeProtection(
     val shape: EyeProtectionShape = EyeProtectionShape.RoundedRectangle,
     val hole: EyeHoleShape = EyeHoleShape.Almond,
     val nose: NoseProtectionShape? = null,
+    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+) : HelmetFront()
+
+@Serializable
+@SerialName("Face")
+data class FaceProtection(
+    val shape: FaceProtectionShape = FaceProtectionShape.RoundedRectangle,
+    val eyeHole: EyeHoleShape = EyeHoleShape.Almond,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : HelmetFront()

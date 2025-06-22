@@ -29,6 +29,7 @@ fun visualizeHelmetFront(
                 visualizeNoseProtection(state, noseRenderer, config, front.nose, front.part)
             }
         }
+        is FaceProtection -> doNothing()
     }
 }
 
