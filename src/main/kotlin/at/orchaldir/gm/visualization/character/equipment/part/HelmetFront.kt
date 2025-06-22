@@ -29,7 +29,7 @@ fun visualizeHelmetFront(
                 visualizeNoseProtection(state, noseRenderer, config, front.nose, front.part)
             }
         }
-        is FaceProtection -> doNothing()
+        is FaceProtection -> visualizeFaceProtection(state, noseRenderer, config, front)
     }
 }
 
@@ -166,6 +166,49 @@ private fun createEyeHolePolygon(
             .addMirroredPoints(aabb, FULL, END)
 
         EyeHoleShape.Slit -> builder.addRectangle(aabb.shrinkHeight(QUARTER), true)
+    }
+
+    return builder.build()
+}
+
+private fun visualizeFaceProtection(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: HelmetConfig,
+    protection: FaceProtection,
+) {
+    val color = protection.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+    val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
+    val eyeSize = state.config.head.eyes.getEyeSize(state.aabb, EyeShape.Ellipse, Size.Medium)
+    val polygon = createFaceProtectionPolygon(state, config, protection.shape)
+    val leftHole = createEyeHolePolygon(config, protection.eyeHole, left, eyeSize)
+    val rightHole = createEyeHolePolygon(config, protection.eyeHole, right, eyeSize)
+
+    renderer.renderRoundedPolygonWithRoundedHoles(polygon, listOf(leftHole, rightHole), options)
+}
+
+private fun createFaceProtectionPolygon(
+    state: CharacterRenderState,
+    config: HelmetConfig,
+    shape: FaceProtectionShape,
+): Polygon2d {
+    val aabb = state.aabb
+    val startY = config.frontBottomY
+    val width = config.eyeProtectionWidth
+    val builder = Polygon2dBuilder()
+        .addMirroredPoints(aabb, width, startY, true)
+
+    when (shape) {
+        FaceProtectionShape.Oval -> builder
+            .addMirroredPoints(aabb, width, FULL)
+
+        FaceProtectionShape.Rectangle -> builder
+            .addMirroredPoints(aabb, width, FULL, true)
+
+        FaceProtectionShape.RoundedRectangle -> builder
+            .addMirroredPoints(aabb, width, FULL)
+            .addLeftPoint(aabb, CENTER, FULL)
     }
 
     return builder.build()
