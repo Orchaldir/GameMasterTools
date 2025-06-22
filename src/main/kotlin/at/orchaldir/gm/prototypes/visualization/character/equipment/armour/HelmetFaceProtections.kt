@@ -31,7 +31,7 @@ fun main() {
         addNames(EyeHoleShape.entries),
         addNames(FaceProtectionShape.entries),
     ) { distance, shape, hole ->
-        val protection = FaceProtection(shape, hole, ColorSchemeItemPart(Gold))
+        val protection = FaceProtection(shape, hole, ColorSchemeItemPart())
         val helmet = Helmet(SkullCap(front = protection))
         Pair(createAppearance(distance), from(helmet))
     }

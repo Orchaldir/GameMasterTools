@@ -114,7 +114,11 @@ private fun createSkullCapPolygon(
         .addMirroredPoints(aabb, helmWidth, config.frontBottomY, true)
 
     when (cap.shape) {
-        HelmetShape.Conical -> builder
+        HelmetShape.Cone -> builder
+            .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
+            .addLeftPoint(aabb, CENTER, -config.getConicalTopPadding(), true)
+
+        HelmetShape.RoundedCone -> builder
             .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
             .addLeftPoint(aabb, CENTER, -config.getConicalTopPadding())
 

@@ -157,7 +157,7 @@ private fun handleHelms(
                 is ChainmailHood -> doNothing()
                 is SkullCap -> {
                     val padding = headHeight * when (data.style.shape) {
-                        HelmetShape.Conical -> helmet.getConicalTopPadding()
+                        HelmetShape.Cone, HelmetShape.RoundedCone -> helmet.getConicalTopPadding()
                         HelmetShape.Onion -> helmet.getOnionTopPadding()
                         HelmetShape.Round -> helmet.getRoundTopPadding()
                     }
