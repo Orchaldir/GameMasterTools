@@ -1,16 +1,11 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.BODY_SHAPE
-import at.orchaldir.gm.app.FRONT
 import at.orchaldir.gm.app.HELMET
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.equipment.style.editHelmetFront
-import at.orchaldir.gm.app.html.item.equipment.style.parseEyeHoles
-import at.orchaldir.gm.app.html.item.equipment.style.parseHelmetFront
-import at.orchaldir.gm.app.html.item.equipment.style.selectEyeHoles
-import at.orchaldir.gm.app.html.item.equipment.style.showHelmetFront
+import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.selectOptionalValue
 import at.orchaldir.gm.app.html.selectValue

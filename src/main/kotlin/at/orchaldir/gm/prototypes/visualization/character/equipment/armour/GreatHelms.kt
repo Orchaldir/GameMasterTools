@@ -11,14 +11,9 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.EyeHoleShape
-import at.orchaldir.gm.core.model.item.equipment.style.FaceProtection
-import at.orchaldir.gm.core.model.item.equipment.style.FaceProtectionShape
 import at.orchaldir.gm.core.model.item.equipment.style.GreatHelm
 import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
-import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.render.Color.Gold
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
