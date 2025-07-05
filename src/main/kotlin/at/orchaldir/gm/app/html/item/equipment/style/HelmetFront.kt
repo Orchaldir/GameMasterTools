@@ -73,12 +73,7 @@ fun HtmlBlockTag.editHelmetFront(
                     EyeProtectionShape.entries,
                     front.shape,
                 )
-                selectValue(
-                    "Eye Holes",
-                    combine(FRONT, EYE),
-                    EyeHoleShape.entries,
-                    front.hole,
-                )
+                selectEyeHoles(front.hole, FRONT)
                 selectOptionalValue(
                     "Nose",
                     combine(FRONT, NOSE),
@@ -90,6 +85,18 @@ fun HtmlBlockTag.editHelmetFront(
             is FaceProtection -> doNothing()
         }
     }
+}
+
+fun HtmlBlockTag.selectEyeHoles(
+    shape: EyeHoleShape,
+    param: String,
+) {
+    selectValue(
+        "Eye Holes",
+        combine(param, EYE),
+        EyeHoleShape.entries,
+        shape,
+    )
 }
 
 
@@ -106,9 +113,12 @@ fun parseHelmetFront(
 
     HelmetFrontType.Eye -> EyeProtection(
         parse(parameters, combine(FRONT, SHAPE), EyeProtectionShape.Glasses),
-        parse(parameters, combine(FRONT, EYE), EyeHoleShape.Slit),
+        parseEyeHoles(parameters, FRONT),
         parse<NoseProtectionShape>(parameters, combine(FRONT, NOSE)),
         parseColorSchemeItemPart(parameters, FRONT),
     )
     HelmetFrontType.Face -> FaceProtection()
 }
+
+fun parseEyeHoles(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, EYE), EyeHoleShape.Slit)
