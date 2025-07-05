@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
 import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
@@ -179,11 +180,22 @@ private fun visualizeFaceProtection(
 ) {
     val color = protection.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
+    val polygon = createFaceProtectionPolygon(state, config, protection.shape)
+    visualizeHelmWithEyeHoles(state, renderer, config, options, polygon, protection.eyeHole)
+}
+
+fun visualizeHelmWithEyeHoles(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: HelmetConfig,
+    options: FillAndBorder,
+    polygon: Polygon2d,
+    eyeHoleShape: EyeHoleShape,
+) {
     val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
     val eyeSize = state.config.head.eyes.getEyeSize(state.aabb, EyeShape.Ellipse, Size.Medium)
-    val polygon = createFaceProtectionPolygon(state, config, protection.shape)
-    val leftHole = createEyeHolePolygon(config, protection.eyeHole, left, eyeSize)
-    val rightHole = createEyeHolePolygon(config, protection.eyeHole, right, eyeSize)
+    val leftHole = createEyeHolePolygon(config, eyeHoleShape, left, eyeSize)
+    val rightHole = createEyeHolePolygon(config, eyeHoleShape, right, eyeSize)
 
     renderer.renderRoundedPolygonWithRoundedHoles(polygon, listOf(leftHole, rightHole), options)
 }

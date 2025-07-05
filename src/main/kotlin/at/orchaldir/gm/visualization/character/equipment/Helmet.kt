@@ -2,16 +2,13 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Helmet
-import at.orchaldir.gm.core.model.item.equipment.style.ChainmailHood
-import at.orchaldir.gm.core.model.item.equipment.style.GreatHelm
-import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
-import at.orchaldir.gm.core.model.item.equipment.style.HoodBodyShape
-import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeHelmWithEyeHoles
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHelmetFront
 
 data class HelmetConfig(
@@ -103,7 +100,11 @@ private fun visualizeGreatHelm(
     val options = state.config.getLineOptions(color)
     val polygon = createGreatHelmPolygon(state.aabb, config, helm)
 
-    renderer.renderRoundedPolygon(polygon, options)
+    if (state.renderFront) {
+        visualizeHelmWithEyeHoles(state, renderer, config, options, polygon, helm.eyeHole)
+    } else {
+        renderer.renderRoundedPolygon(polygon, options)
+    }
 }
 
 private fun createGreatHelmPolygon(
@@ -117,7 +118,9 @@ private fun createGreatHelmPolygon(
 
     addHelmetShape(aabb, config, builder, helm.shape)
 
-    return builder.build()
+    return builder
+        .reverse()
+        .build()
 }
 
 private fun visualizeSkullCap(

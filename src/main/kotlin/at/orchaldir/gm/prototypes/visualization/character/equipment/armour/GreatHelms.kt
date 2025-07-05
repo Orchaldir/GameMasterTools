@@ -30,9 +30,9 @@ fun main() {
         State(Storage(Material(MaterialId(0), color = Color.Silver))),
         "great-helms.svg",
         CHARACTER_CONFIG,
-        addNames(EyeHoleShape.entries),
         addNames(HelmetShape.entries),
-    ) { distance, shape, hole ->
+        addNames(EyeHoleShape.entries),
+    ) { distance, hole, shape ->
         val helmet = Helmet(GreatHelm(shape, hole))
         Pair(createAppearance(distance), from(helmet))
     }
