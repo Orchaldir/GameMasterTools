@@ -117,6 +117,8 @@ sealed class EquipmentData : MadeFromParts {
     fun isType(equipmentType: EquipmentDataType) = getType() == equipmentType
 
     fun slots() = getType().slots()
+
+    open fun hidesEars() = false
 }
 
 @Serializable
@@ -261,6 +263,12 @@ data class Hat(
 data class Helmet(
     val style: HelmetStyle = SkullCap(),
 ) : EquipmentData() {
+
+    override fun hidesEars() = when (style) {
+        is GreatHelm -> true
+        is ChainmailHood -> true
+        is SkullCap -> false
+    }
 
     override fun parts() = style.parts()
 }
