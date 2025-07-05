@@ -40,7 +40,11 @@ fun HtmlBlockTag.showHelmetFront(
                 optionalField("Nose", front.nose)
                 showColorSchemeItemPart(call, state, front.part)
             }
-            is FaceProtection -> doNothing()
+            is FaceProtection -> {
+                field("Shape", front.shape)
+                field("Eye Holes", front.eyeHole)
+                showColorSchemeItemPart(call, state, front.part)
+            }
         }
     }
 }
@@ -82,7 +86,16 @@ fun HtmlBlockTag.editHelmetFront(
                 )
                 editColorSchemeItemPart(state, front.part, FRONT)
             }
-            is FaceProtection -> doNothing()
+            is FaceProtection -> {
+                selectValue(
+                    "Shape",
+                    combine(FRONT, SHAPE),
+                    FaceProtectionShape.entries,
+                    front.shape,
+                )
+                selectEyeHoles(front.eyeHole, FRONT)
+                editColorSchemeItemPart(state, front.part, FRONT)
+            }
         }
     }
 }
@@ -117,7 +130,11 @@ fun parseHelmetFront(
         parse<NoseProtectionShape>(parameters, combine(FRONT, NOSE)),
         parseColorSchemeItemPart(parameters, FRONT),
     )
-    HelmetFrontType.Face -> FaceProtection()
+    HelmetFrontType.Face -> FaceProtection(
+        parse(parameters, combine(FRONT, SHAPE), FaceProtectionShape.Oval),
+        parseEyeHoles(parameters, FRONT),
+        parseColorSchemeItemPart(parameters, FRONT),
+    )
 }
 
 fun parseEyeHoles(parameters: Parameters, param: String) =

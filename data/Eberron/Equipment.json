@@ -1,5 +1,18 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "data": {
+    "type": "Helmet",
+    "style": {
+     "type": "GreatHelm",
+     "eyeHole": "Slit",
+     "part": {
+      "material": 19
+     }
+    }
+   }
+  }
  }
 }
