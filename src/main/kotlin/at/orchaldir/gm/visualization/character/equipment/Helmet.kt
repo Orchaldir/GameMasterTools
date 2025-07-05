@@ -158,6 +158,8 @@ private fun addHelmetShape(
     builder.addMirroredPoints(aabb, helmWidth, config.frontBottomY, true)
 
     when (helmetShape) {
+        HelmetShape.Bucket -> builder
+            .addMirroredPoints(aabb, helmWidth * 0.8f, -config.getRoundTopPadding(), true)
         HelmetShape.Cone -> builder
             .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
             .addLeftPoint(aabb, CENTER, -config.getConicalTopPadding(), true)

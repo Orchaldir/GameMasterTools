@@ -171,9 +171,9 @@ private fun handleHelmetShape(
     headHeight: Distance,
 ) {
     val padding = headHeight * when (shape) {
+        HelmetShape.Bucket, HelmetShape.Round -> config.getRoundTopPadding()
         HelmetShape.Cone, HelmetShape.RoundedCone -> config.getConicalTopPadding()
         HelmetShape.Onion -> config.getOnionTopPadding()
-        HelmetShape.Round -> config.getRoundTopPadding()
     }
 
     paddedSize.addToTop(padding)
