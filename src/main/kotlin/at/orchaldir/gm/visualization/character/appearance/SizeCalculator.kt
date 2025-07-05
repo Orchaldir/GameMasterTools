@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.ChainmailHood
+import at.orchaldir.gm.core.model.item.equipment.style.GreatHelm
 import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
 import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
 import at.orchaldir.gm.utils.doNothing
@@ -14,6 +15,7 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
+import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
 
 class PaddedSize(
     val baseSize: Size2d,
@@ -155,16 +157,24 @@ private fun handleHelms(
 
             when (data.style) {
                 is ChainmailHood -> doNothing()
-                is SkullCap -> {
-                    val padding = headHeight * when (data.style.shape) {
-                        HelmetShape.Conical -> helmet.getConicalTopPadding()
-                        HelmetShape.Onion -> helmet.getOnionTopPadding()
-                        HelmetShape.Round -> helmet.getRoundTopPadding()
-                    }
-
-                    paddedSize.addToTop(padding)
-                }
+                is GreatHelm -> handleHelmetShape(helmet, data.style.shape, paddedSize, headHeight)
+                is SkullCap -> handleHelmetShape(helmet, data.style.shape, paddedSize, headHeight)
             }
         }
     }
+}
+
+private fun handleHelmetShape(
+    config: HelmetConfig,
+    shape: HelmetShape,
+    paddedSize: PaddedSize,
+    headHeight: Distance,
+) {
+    val padding = headHeight * when (shape) {
+        HelmetShape.Bucket, HelmetShape.Round -> config.getRoundTopPadding()
+        HelmetShape.Cone, HelmetShape.RoundedCone -> config.getConicalTopPadding()
+        HelmetShape.Onion -> config.getOnionTopPadding()
+    }
+
+    paddedSize.addToTop(padding)
 }

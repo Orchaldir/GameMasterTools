@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
@@ -23,7 +24,14 @@ data class EarConfig(
     fun getUpwardsLength(headHeight: Distance, size: Size) = getRoundRadius(headHeight, size) * (pointedLength + FULL)
 }
 
+private fun EquipmentElementMap.areEarsHidden() = getAllEquipment()
+    .any { it.first.hidesEars() }
+
 fun visualizeEars(state: CharacterRenderState, head: Head, skin: Skin) {
+    if (state.equipped.areEarsHidden()) {
+        return
+    }
+
     when (head.ears) {
         NoEars -> doNothing()
         is NormalEars -> visualizeNormalEars(state, head.ears.shape, head.ears.size, skin)

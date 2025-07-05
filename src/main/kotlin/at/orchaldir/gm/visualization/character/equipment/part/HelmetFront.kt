@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
 import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
@@ -29,6 +30,8 @@ fun visualizeHelmetFront(
                 visualizeNoseProtection(state, noseRenderer, config, front.nose, front.part)
             }
         }
+
+        is FaceProtection -> visualizeFaceProtection(state, noseRenderer, config, front)
     }
 }
 
@@ -165,6 +168,60 @@ private fun createEyeHolePolygon(
             .addMirroredPoints(aabb, FULL, END)
 
         EyeHoleShape.Slit -> builder.addRectangle(aabb.shrinkHeight(QUARTER), true)
+    }
+
+    return builder.build()
+}
+
+private fun visualizeFaceProtection(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: HelmetConfig,
+    protection: FaceProtection,
+) {
+    val color = protection.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+    val polygon = createFaceProtectionPolygon(state, config, protection.shape)
+    visualizeHelmWithEyeHoles(state, renderer, config, options, polygon, protection.eyeHole)
+}
+
+fun visualizeHelmWithEyeHoles(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: HelmetConfig,
+    options: FillAndBorder,
+    polygon: Polygon2d,
+    eyeHoleShape: EyeHoleShape,
+) {
+    val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
+    val eyeSize = state.config.head.eyes.getEyeSize(state.aabb, EyeShape.Ellipse, Size.Medium)
+    val leftHole = createEyeHolePolygon(config, eyeHoleShape, left, eyeSize)
+    val rightHole = createEyeHolePolygon(config, eyeHoleShape, right, eyeSize)
+
+    renderer.renderRoundedPolygonWithRoundedHoles(polygon, listOf(leftHole, rightHole), options)
+}
+
+private fun createFaceProtectionPolygon(
+    state: CharacterRenderState,
+    config: HelmetConfig,
+    shape: FaceProtectionShape,
+): Polygon2d {
+    val aabb = state.aabb
+    val startY = config.frontBottomY
+    val width = config.eyeProtectionWidth
+    val builder = Polygon2dBuilder()
+        .addMirroredPoints(aabb, width, startY, true)
+
+    when (shape) {
+        FaceProtectionShape.Oval -> builder
+            .addMirroredPoints(aabb, width, FULL)
+
+        FaceProtectionShape.Rectangle -> builder
+            .addMirroredPoints(aabb, width, FULL, true)
+
+        FaceProtectionShape.Heater -> builder
+            .addMirroredPoints(aabb, width, startY + (FULL - startY) * 0.75f)
+            .addLeftPoint(aabb, CENTER, FULL, true)
     }
 
     return builder.build()

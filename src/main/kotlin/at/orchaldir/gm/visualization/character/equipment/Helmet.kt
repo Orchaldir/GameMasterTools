@@ -2,15 +2,13 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Helmet
-import at.orchaldir.gm.core.model.item.equipment.style.ChainmailHood
-import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
-import at.orchaldir.gm.core.model.item.equipment.style.HoodBodyShape
-import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeHelmWithEyeHoles
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHelmetFront
 
 data class HelmetConfig(
@@ -43,7 +41,7 @@ fun visualizeHelmetForBody(
 
     when (helmet.style) {
         is ChainmailHood -> visualizeChainmailHoodForBody(state, renderer, body, helmet.style)
-        is SkullCap -> doNothing()
+        is GreatHelm, is SkullCap -> doNothing()
     }
 }
 
@@ -56,6 +54,7 @@ fun visualizeHelmetForHead(
 
     when (helmet.style) {
         is ChainmailHood -> visualizeChainmailHood(state, renderer, config, helmet.style)
+        is GreatHelm -> visualizeGreatHelm(state, renderer, config, helmet.style)
         is SkullCap -> {
             if (state.renderFront) {
                 visualizeHelmetFront(state, config, helmet.style.front)
@@ -91,6 +90,39 @@ private fun visualizeChainmailHood(
     }
 }
 
+private fun visualizeGreatHelm(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: HelmetConfig,
+    helm: GreatHelm,
+) {
+    val color = helm.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+    val polygon = createGreatHelmPolygon(state.aabb, config, helm)
+
+    if (state.renderFront) {
+        visualizeHelmWithEyeHoles(state, renderer, config, options, polygon, helm.eyeHole)
+    } else {
+        renderer.renderRoundedPolygon(polygon, options)
+    }
+}
+
+private fun createGreatHelmPolygon(
+    aabb: AABB,
+    config: HelmetConfig,
+    helm: GreatHelm,
+): Polygon2d {
+    val helmWidth = config.getHelmWidth()
+    val builder = Polygon2dBuilder()
+        .addMirroredPoints(aabb, helmWidth, END, true)
+
+    addHelmetShape(aabb, config, builder, helm.shape)
+
+    return builder
+        .reverse()
+        .build()
+}
+
 private fun visualizeSkullCap(
     state: CharacterRenderState,
     renderer: LayerRenderer,
@@ -109,12 +141,31 @@ private fun createSkullCapPolygon(
     config: HelmetConfig,
     cap: SkullCap,
 ): Polygon2d {
-    val helmWidth = config.getHelmWidth()
     val builder = Polygon2dBuilder()
-        .addMirroredPoints(aabb, helmWidth, config.frontBottomY, true)
 
-    when (cap.shape) {
-        HelmetShape.Conical -> builder
+    addHelmetShape(aabb, config, builder, cap.shape)
+
+    return builder.build()
+}
+
+private fun addHelmetShape(
+    aabb: AABB,
+    config: HelmetConfig,
+    builder: Polygon2dBuilder,
+    helmetShape: HelmetShape,
+) {
+    val helmWidth = config.getHelmWidth()
+    builder.addMirroredPoints(aabb, helmWidth, config.frontBottomY, true)
+
+    when (helmetShape) {
+        HelmetShape.Bucket -> builder
+            .addMirroredPoints(aabb, helmWidth * 0.8f, -config.getRoundTopPadding(), true)
+
+        HelmetShape.Cone -> builder
+            .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
+            .addLeftPoint(aabb, CENTER, -config.getConicalTopPadding(), true)
+
+        HelmetShape.RoundedCone -> builder
             .addMirroredPoints(aabb, helmWidth, -config.frontBottomY / 2)
             .addLeftPoint(aabb, CENTER, -config.getConicalTopPadding())
 
@@ -127,8 +178,6 @@ private fun createSkullCapPolygon(
 
         HelmetShape.Round -> builder.addMirroredPoints(aabb, helmWidth, -config.getRoundTopPadding())
     }
-
-    return builder.build()
 }
 
 private fun visualizeChainmailHoodForBody(

@@ -40,6 +40,12 @@ fun HtmlBlockTag.showHelmetFront(
                 optionalField("Nose", front.nose)
                 showColorSchemeItemPart(call, state, front.part)
             }
+
+            is FaceProtection -> {
+                field("Shape", front.shape)
+                field("Eye Holes", front.eyeHole)
+                showColorSchemeItemPart(call, state, front.part)
+            }
         }
     }
 }
@@ -72,12 +78,7 @@ fun HtmlBlockTag.editHelmetFront(
                     EyeProtectionShape.entries,
                     front.shape,
                 )
-                selectValue(
-                    "Eye Holes",
-                    combine(FRONT, EYE),
-                    EyeHoleShape.entries,
-                    front.hole,
-                )
+                selectEyeHoles(front.hole, FRONT)
                 selectOptionalValue(
                     "Nose",
                     combine(FRONT, NOSE),
@@ -86,8 +87,31 @@ fun HtmlBlockTag.editHelmetFront(
                 )
                 editColorSchemeItemPart(state, front.part, FRONT)
             }
+
+            is FaceProtection -> {
+                selectValue(
+                    "Shape",
+                    combine(FRONT, SHAPE),
+                    FaceProtectionShape.entries,
+                    front.shape,
+                )
+                selectEyeHoles(front.eyeHole, FRONT)
+                editColorSchemeItemPart(state, front.part, FRONT)
+            }
         }
     }
+}
+
+fun HtmlBlockTag.selectEyeHoles(
+    shape: EyeHoleShape,
+    param: String,
+) {
+    selectValue(
+        "Eye Holes",
+        combine(param, EYE),
+        EyeHoleShape.entries,
+        shape,
+    )
 }
 
 
@@ -104,8 +128,17 @@ fun parseHelmetFront(
 
     HelmetFrontType.Eye -> EyeProtection(
         parse(parameters, combine(FRONT, SHAPE), EyeProtectionShape.Glasses),
-        parse(parameters, combine(FRONT, EYE), EyeHoleShape.Slit),
+        parseEyeHoles(parameters, FRONT),
         parse<NoseProtectionShape>(parameters, combine(FRONT, NOSE)),
         parseColorSchemeItemPart(parameters, FRONT),
     )
+
+    HelmetFrontType.Face -> FaceProtection(
+        parse(parameters, combine(FRONT, SHAPE), FaceProtectionShape.Oval),
+        parseEyeHoles(parameters, FRONT),
+        parseColorSchemeItemPart(parameters, FRONT),
+    )
 }
+
+fun parseEyeHoles(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, EYE), EyeHoleShape.Slit)
