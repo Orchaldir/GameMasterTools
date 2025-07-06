@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId
@@ -20,7 +21,7 @@ enum class CauseOfDeathType {
     Accident,
     Battle,
     Catastrophe,
-    Illness,
+    Disease,
     Murder,
     OldAge,
     War,
@@ -33,7 +34,7 @@ sealed class CauseOfDeath {
         is Abandoned -> CauseOfDeathType.Abandoned
         is Accident -> CauseOfDeathType.Accident
         is DeathByCatastrophe -> CauseOfDeathType.Catastrophe
-        is DeathByIllness -> CauseOfDeathType.Illness
+        is DeathByDisease -> CauseOfDeathType.Disease
         is DeathInBattle -> CauseOfDeathType.Battle
         is DeathInWar -> CauseOfDeathType.War
         is Murder -> CauseOfDeathType.Murder
@@ -57,8 +58,10 @@ data class DeathByCatastrophe(
 ) : CauseOfDeath()
 
 @Serializable
-@SerialName("Illness")
-data object DeathByIllness : CauseOfDeath()
+@SerialName("Disease")
+data class DeathByDisease(
+    val disease: DiseaseId,
+) : CauseOfDeath()
 
 @Serializable
 @SerialName("Battle")
