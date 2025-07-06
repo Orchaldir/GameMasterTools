@@ -11,6 +11,7 @@ fun State.canDeleteDataSource(source: DataSourceId) = canDeleteDataSource(getBus
         canDeleteDataSource(getCatastropheStorage(), source) &&
         canDeleteDataSource(getCultureStorage(), source) &&
         canDeleteDataSource(getCharacterStorage(), source) &&
+        canDeleteDataSource(getDiseaseStorage(), source) &&
         canDeleteDataSource(getGodStorage(), source) &&
         canDeleteDataSource(getMagicTraditionStorage(), source) &&
         canDeleteDataSource(getOrganizationStorage(), source) &&
