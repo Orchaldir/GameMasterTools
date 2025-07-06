@@ -16,6 +16,8 @@ import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.util.SortDisease
 import at.orchaldir.gm.core.selector.health.canDeleteDisease
+import at.orchaldir.gm.core.selector.health.getDiseasesBasedOn
+import at.orchaldir.gm.core.selector.magic.getSpellsBasedOn
 import at.orchaldir.gm.core.selector.util.sortDiseases
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -174,6 +176,8 @@ private fun HTML.showDiseaseDetails(
 
     simpleHtmlDetails(disease) {
         showDisease(call, state, disease)
+
+        fieldList(call, state, "Diseases based on it", state.getDiseasesBasedOn(disease.id))
 
         action(editLink, "Edit")
 

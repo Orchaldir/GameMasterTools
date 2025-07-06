@@ -8,3 +8,7 @@ import at.orchaldir.gm.core.selector.util.getExistingElements
 fun State.canDeleteDisease(spell: DiseaseId) = false
 
 fun State.getExistingDiseases(date: Date?) = getExistingElements(getDiseaseStorage().getAll(), date)
+
+fun State.getDiseasesBasedOn(id: DiseaseId) = getDiseaseStorage()
+    .getAll()
+    .filter { it.origin.isChildOf(id) }
