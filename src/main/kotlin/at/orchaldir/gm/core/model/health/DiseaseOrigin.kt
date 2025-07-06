@@ -1,9 +1,7 @@
 package at.orchaldir.gm.core.model.health
 
-import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -17,7 +15,7 @@ enum class DiseaseOriginType {
 }
 
 @Serializable
-sealed class DiseaseOrigin : Creation, HasStartDate {
+sealed class DiseaseOrigin : Creation {
 
     fun getType() = when (this) {
         is CreatedDisease -> DiseaseOriginType.Created
@@ -39,19 +37,12 @@ sealed class DiseaseOrigin : Creation, HasStartDate {
         else -> UndefinedCreator
     }
 
-    override fun startDate() = when (this) {
-        is CreatedDisease -> date
-        is ModifiedDisease -> date
-        else -> null
-    }
-
 }
 
 @Serializable
 @SerialName("Created")
 data class CreatedDisease(
     val creator: Creator,
-    val date: Date,
 ) : DiseaseOrigin()
 
 @Serializable
@@ -63,7 +54,6 @@ data class EvolvedDisease(val parent: DiseaseId) : DiseaseOrigin()
 data class ModifiedDisease(
     val parent: DiseaseId,
     val modifier: Creator,
-    val date: Date,
 ) : DiseaseOrigin()
 
 @Serializable
