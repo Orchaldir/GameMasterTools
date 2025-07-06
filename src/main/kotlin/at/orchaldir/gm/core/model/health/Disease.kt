@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.health
 
-import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -28,7 +27,6 @@ data class Disease(
     val id: DiseaseId,
     val name: Name = Name.init("Disease ${id.value}"),
     val date: Date? = null,
-    val language: LanguageId? = null,
     val origin: DiseaseOrigin = UndefinedDiseaseOrigin,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<DiseaseId>, Creation, HasDataSources, HasStartDate {

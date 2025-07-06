@@ -8,6 +8,9 @@ import at.orchaldir.gm.core.reducer.economy.CREATE_MATERIAL
 import at.orchaldir.gm.core.reducer.economy.DELETE_MATERIAL
 import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
 import at.orchaldir.gm.core.reducer.economy.UPDATE_MATERIAL
+import at.orchaldir.gm.core.reducer.health.CREATE_DISEASE
+import at.orchaldir.gm.core.reducer.health.DELETE_DISEASE
+import at.orchaldir.gm.core.reducer.health.UPDATE_DISEASE
 import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.magic.MAGIC_REDUCER
 import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
@@ -66,6 +69,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateDataSource -> CREATE_DATA_SOURCE(state, action)
         is DeleteDataSource -> DELETE_DATA_SOURCE(state, action)
         is UpdateDataSource -> UPDATE_DATA_SOURCE(state, action)
+        // disease
+        is CreateDisease -> CREATE_DISEASE(state, action)
+        is DeleteDisease -> DELETE_DISEASE(state, action)
+        is UpdateDisease -> UPDATE_DISEASE(state, action)
         // fashion
         is CreateFashion -> CREATE_FASHION(state, action)
         is DeleteFashion -> DELETE_FASHION(state, action)
