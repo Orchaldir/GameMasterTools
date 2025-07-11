@@ -15,6 +15,7 @@ import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.economy.MaterialRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
 import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
@@ -78,6 +79,8 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
                     fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes.All())
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
+                    h3 { +"Health" }
+                    fieldStorageLink(call, state.getDiseaseStorage(), DiseaseRoutes.All())
                     h3 { +"Items" }
                     fieldStorageLink(call, state.getEquipmentStorage(), EquipmentRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes.All())

@@ -63,6 +63,11 @@ enum class SortDataSource {
     Edition,
 }
 
+enum class SortDisease {
+    Name,
+    Date,
+}
+
 enum class SortDomain {
     Name,
     Spells,

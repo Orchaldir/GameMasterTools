@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
+import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
@@ -80,6 +81,9 @@ val CURRENCY_ID_0 = CurrencyId(0)
 val UNKNOWN_CURRENCY_ID = CurrencyId(99)
 val CURRENCY_UNIT_ID_0 = CurrencyUnitId(0)
 val UNKNOWN_CURRENCY_UNIT_ID = CurrencyUnitId(99)
+val DISEASE_ID_0 = DiseaseId(0)
+val DISEASE_ID_1 = DiseaseId(1)
+val UNKNOWN_DISEASE_ID = DiseaseId(99)
 val DOMAIN_ID_0 = DomainId(0)
 val UNKNOWN_DOMAIN_ID = DomainId(99)
 val EQUIPMENT_ID_0 = EquipmentId(0)

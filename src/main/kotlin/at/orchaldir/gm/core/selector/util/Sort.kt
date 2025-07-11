@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
+import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.periodical.Article
@@ -289,6 +290,21 @@ fun State.sortDataSources(
             SortDataSource.Edition -> compareBy { it.edition }
         }
     )
+
+// disease
+
+fun State.sortDiseases(sort: SortDisease = SortDisease.Name) =
+    sortDiseases(getDiseaseStorage().getAll(), sort)
+
+fun State.sortDiseases(
+    spells: Collection<Disease>,
+    sort: SortDisease = SortDisease.Name,
+) = spells
+    .sortedWith(
+        when (sort) {
+            SortDisease.Name -> compareBy { it.name.text }
+            SortDisease.Date -> getStartDateComparator()
+        })
 
 // domain
 

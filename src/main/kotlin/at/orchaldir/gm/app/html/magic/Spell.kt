@@ -15,7 +15,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.selector.magic.getExistingSpell
+import at.orchaldir.gm.core.selector.magic.getExistingSpells
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -96,7 +96,7 @@ private fun HtmlBlockTag.editOrigin(
     state: State,
     spell: Spell,
 ) {
-    val availableSpells = state.getExistingSpell(spell.date).filter { it.id != spell.id }
+    val availableSpells = state.getExistingSpells(spell.date).filter { it.id != spell.id }
 
     selectValue("Spell Origin", ORIGIN, SpellOriginType.entries, spell.origin.getType()) { type ->
         when (type) {

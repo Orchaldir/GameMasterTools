@@ -22,6 +22,8 @@ import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.health.Disease
+import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
@@ -143,6 +145,11 @@ data class UpdateData(val data: Data) : Action()
 data object CreateDataSource : Action()
 data class DeleteDataSource(val id: DataSourceId) : Action()
 data class UpdateDataSource(val source: DataSource) : Action()
+
+// disease
+data object CreateDisease : Action()
+data class DeleteDisease(val id: DiseaseId) : Action()
+data class UpdateDisease(val disease: Disease) : Action()
 
 // fashion
 data object CreateFashion : Action()

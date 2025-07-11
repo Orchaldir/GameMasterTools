@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.routes.economy.MaterialRoutes
 import at.orchaldir.gm.app.routes.economy.StandardOfLivingRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
 import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
@@ -41,6 +42,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
+import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
@@ -357,6 +359,7 @@ fun <ID : Id<ID>> href(
     is CurrencyId -> call.application.href(CurrencyRoutes.Details(id))
     is CurrencyUnitId -> call.application.href(CurrencyUnitRoutes.Details(id))
     is DataSourceId -> call.application.href(DataSourceRoutes.Details(id))
+    is DiseaseId -> call.application.href(DiseaseRoutes.Details(id))
     is DomainId -> call.application.href(DomainRoutes.Details(id))
     is EquipmentId -> call.application.href(EquipmentRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))

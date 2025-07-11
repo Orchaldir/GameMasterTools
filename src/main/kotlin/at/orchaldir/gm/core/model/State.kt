@@ -27,6 +27,9 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
+import at.orchaldir.gm.core.model.health.DISEASE_TYPE
+import at.orchaldir.gm.core.model.health.Disease
+import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
@@ -90,6 +93,7 @@ import at.orchaldir.gm.core.reducer.economy.validateBusiness
 import at.orchaldir.gm.core.reducer.economy.validateCurrency
 import at.orchaldir.gm.core.reducer.economy.validateCurrencyUnit
 import at.orchaldir.gm.core.reducer.economy.validateJob
+import at.orchaldir.gm.core.reducer.health.validateDisease
 import at.orchaldir.gm.core.reducer.item.periodical.validateArticle
 import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodical
 import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodicalIssue
@@ -138,6 +142,7 @@ val ELEMENTS =
         CURRENCY_TYPE,
         CURRENCY_UNIT_TYPE,
         DATA_SOURCE_TYPE,
+        DISEASE_TYPE,
         DOMAIN_TYPE,
         EQUIPMENT_TYPE,
         FASHION_TYPE,
@@ -210,6 +215,7 @@ data class State(
     fun getCurrencyStorage() = getStorage<CurrencyId, Currency>(CURRENCY_TYPE)
     fun getCurrencyUnitStorage() = getStorage<CurrencyUnitId, CurrencyUnit>(CURRENCY_UNIT_TYPE)
     fun getDataSourceStorage() = getStorage<DataSourceId, DataSource>(DATA_SOURCE_TYPE)
+    fun getDiseaseStorage() = getStorage<DiseaseId, Disease>(DISEASE_TYPE)
     fun getDomainStorage() = getStorage<DomainId, Domain>(DOMAIN_TYPE)
     fun getEquipmentStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
@@ -334,6 +340,7 @@ data class State(
         validate(getCultureStorage()) { validateCulture(this, it) }
         validate(getCurrencyStorage()) { validateCurrency(this, it) }
         validate(getCurrencyUnitStorage()) { validateCurrencyUnit(this, it) }
+        validate(getDiseaseStorage()) { validateDisease(this, it) }
         validate(getDomainStorage()) { validateDomain(this, it) }
         validate(getEquipmentStorage()) { validateEquipment(this, it) }
         validate(getFashionStorage()) { validateFashion(this, it) }
@@ -382,6 +389,7 @@ data class State(
         saveStorage(path, getCurrencyStorage())
         saveStorage(path, getCurrencyUnitStorage())
         saveStorage(path, getDataSourceStorage())
+        saveStorage(path, getDiseaseStorage())
         saveStorage(path, getDomainStorage())
         saveStorage(path, getEquipmentStorage())
         saveStorage(path, getFashionStorage())
@@ -436,6 +444,7 @@ fun createStorage(type: String) = when (type) {
     CURRENCY_TYPE -> Storage(CurrencyId(0))
     CURRENCY_UNIT_TYPE -> Storage(CurrencyUnitId(0))
     DATA_SOURCE_TYPE -> Storage(DataSourceId(0))
+    DISEASE_TYPE -> Storage(DiseaseId(0))
     DOMAIN_TYPE -> Storage(DomainId(0))
     EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     FASHION_TYPE -> Storage(FashionId(0))
@@ -489,6 +498,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CURRENCY_TYPE -> loadStorage<CurrencyId, Currency>(path, CurrencyId(0))
     CURRENCY_UNIT_TYPE -> loadStorage<CurrencyUnitId, CurrencyUnit>(path, CurrencyUnitId(0))
     DATA_SOURCE_TYPE -> loadStorage<DataSourceId, DataSource>(path, DataSourceId(0))
+    DISEASE_TYPE -> loadStorage<DiseaseId, Disease>(path, DiseaseId(0))
     DOMAIN_TYPE -> loadStorage<DomainId, Domain>(path, DomainId(0))
     EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
