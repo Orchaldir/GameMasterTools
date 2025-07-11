@@ -4,13 +4,7 @@ import at.orchaldir.gm.core.action.CreateDisease
 import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.health.CreatedDisease
-import at.orchaldir.gm.core.model.health.Disease
-import at.orchaldir.gm.core.model.health.DiseaseId
-import at.orchaldir.gm.core.model.health.EvolvedDisease
-import at.orchaldir.gm.core.model.health.ModifiedDisease
-import at.orchaldir.gm.core.model.health.OriginalDisease
-import at.orchaldir.gm.core.model.health.UndefinedDiseaseOrigin
+import at.orchaldir.gm.core.model.health.*
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCanDelete

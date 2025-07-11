@@ -154,6 +154,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
             diseases,
             cause.disease,
         )
+
         is DeathByCatastrophe -> selectElement(
             state,
             "Catastrophe",
