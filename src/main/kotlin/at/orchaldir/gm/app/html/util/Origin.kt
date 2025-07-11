@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.origin.*
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.utils.Element
@@ -74,7 +73,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.showCreatorAndParent(
 
 // edit
 
-fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.editOrigin(
+fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
     state: State,
     id: ID,
     origin: Origin<ID>,
@@ -83,7 +82,7 @@ fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.editOrigin(
     val availableParents = state.getExistingElements(state.getStorage(id), date)
         .filter { it.id() != id }
 
-    selectValue("Origin Origin", ORIGIN, OriginType.entries, origin.getType()) { type ->
+    selectValue("Origin Type", ORIGIN, OriginType.entries, origin.getType()) { type ->
         when (type) {
             OriginType.Evolved, OriginType.Modified -> availableParents.isEmpty()
             else -> false

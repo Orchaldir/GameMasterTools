@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.origin.Origin
+import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.utils.Id
@@ -27,7 +29,7 @@ data class Disease(
     val id: DiseaseId,
     val name: Name = Name.init("Disease ${id.value}"),
     val date: Date? = null,
-    val origin: DiseaseOrigin = UndefinedDiseaseOrigin,
+    val origin: Origin<DiseaseId> = UndefinedOrigin(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<DiseaseId>, Creation, HasDataSources, HasStartDate {
 
