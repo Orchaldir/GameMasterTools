@@ -10,5 +10,5 @@ fun <ID : Id<ID>> validateCanDelete(count: Int, id: ID, reason: String) {
 }
 
 fun <ID : Id<ID>> validateCanDelete(canDelete: Boolean, id: ID, reason: String) {
-    require(canDelete) { "Cannot delete ${id.type()} ${id.value()}, because $reason!" }
+    require(canDelete) { "Cannot delete ${id.print()}, because $reason!" }
 }

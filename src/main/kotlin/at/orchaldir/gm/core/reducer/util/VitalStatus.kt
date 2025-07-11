@@ -52,7 +52,7 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> checkCauseElement(
     storage: Storage<ID, ELEMENT>,
     id: ID,
 ) {
-    storage.require(id) { "Cannot die from an unknown ${id.type()} ${id.value()}!" }
+    storage.require(id) { "Cannot die from an unknown ${id.print()}!" }
 }
 
 
