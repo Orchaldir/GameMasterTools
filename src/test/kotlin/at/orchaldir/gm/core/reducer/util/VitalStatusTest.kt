@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.Time
@@ -33,6 +34,7 @@ class VitalStatusTest {
                 )
             ),
             Storage(Culture(CULTURE_ID_0)),
+            Storage(Disease(DISEASE_ID_0)),
             Storage(Race(RACE_ID_0)),
             Storage(War(WAR_ID_0)),
         ),
@@ -144,6 +146,20 @@ class VitalStatusTest {
             @Test
             fun `Catastrophe doesn't exist`() {
                 testFailToDie(Day(5), DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
+            }
+        }
+
+        @Nested
+        inner class DiseaseTest {
+
+            @Test
+            fun `Killed in war`() {
+                testDie(Day(5), DeathByDisease(DISEASE_ID_0))
+            }
+
+            @Test
+            fun `War doesn't exist`() {
+                testFailToDie(Day(5), DeathByDisease(UNKNOWN_DISEASE_ID))
             }
         }
 
