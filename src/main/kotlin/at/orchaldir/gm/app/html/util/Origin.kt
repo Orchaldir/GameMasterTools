@@ -54,6 +54,13 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
 
         is ModifiedElement -> showCreatorAndParent(call, state, origin.modifier, createId(origin.parent), "modified")
         is OriginalElement -> +"Original"
+        is TranslatedElement -> showCreatorAndParent(
+            call,
+            state,
+            origin.translator,
+            createId(origin.parent),
+            "translated"
+        )
         is UndefinedOrigin -> if (showUndefined) {
             +"Undefined"
         } else {
@@ -81,12 +88,13 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
     id: ID,
     origin: Origin,
     date: Date?,
+    allowedTypes: Collection<OriginType>,
     createId: (Int) -> ID,
 ) {
     val availableParents = state.getExistingElements(state.getStorage(id), date)
         .filter { it.id() != id }
 
-    selectValue("Origin Type", ORIGIN, OriginType.entries, origin.getType()) { type ->
+    selectValue("Origin Type", ORIGIN, allowedTypes, origin.getType()) { type ->
         when (type) {
             OriginType.Evolved, OriginType.Modified -> availableParents.isEmpty()
             else -> false
@@ -96,7 +104,7 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
     when (origin) {
         is CreatedElement -> selectCreator(state, id, origin.creator, date)
         is EvolvedElement -> selectParent(state, availableParents, createId(origin.parent))
-        is ModifiedElement -> selectInventorAndOriginal(
+        is ModifiedElement -> selectCreatorAndParent(
             state,
             id,
             availableParents,
@@ -106,11 +114,19 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
         )
 
         is OriginalElement -> doNothing()
+        is TranslatedElement -> selectCreatorAndParent(
+            state,
+            id,
+            availableParents,
+            origin.translator,
+            createId(origin.parent),
+            date,
+        )
         is UndefinedOrigin -> doNothing()
     }
 }
 
-private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectInventorAndOriginal(
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectCreatorAndParent(
     state: State,
     id: ID,
     availableParents: List<ELEMENT>,
@@ -160,5 +176,10 @@ fun parseOrigin(parameters: Parameters) =
         )
 
         OriginType.Original -> OriginalElement()
+
+        OriginType.Translated -> TranslatedElement(
+            parseInt(parameters, combine(ORIGIN, REFERENCE)),
+            parseCreator(parameters),
+        )
         OriginType.Undefined -> UndefinedOrigin()
     }

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.Origin
+import at.orchaldir.gm.core.model.util.origin.OriginType
 import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
@@ -13,6 +14,7 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val DISEASE_TYPE = "Disease"
+val ALLOWED_ORIGINS = OriginType.entries - OriginType.Translated
 
 @JvmInline
 @Serializable
@@ -32,6 +34,11 @@ data class Disease(
     val origin: Origin = UndefinedOrigin(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<DiseaseId>, Creation, HasDataSources, HasStartDate {
+
+    init {
+        val originType = origin.getType()
+        require(ALLOWED_ORIGINS.contains(originType)) { "Origin has unsupported type '$originType'!" }
+    }
 
     override fun id() = id
     override fun name() = name.text

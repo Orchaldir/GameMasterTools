@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.origin.EvolvedElement
 import at.orchaldir.gm.core.model.util.origin.ModifiedElement
 import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.core.model.util.origin.OriginalElement
+import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.Id
@@ -25,6 +26,7 @@ fun <ID : Id<ID>> checkOrigin(
         is ModifiedElement -> checkOrigin(state, id, origin.modifier, createId(origin.parent), date)
         is EvolvedElement -> checkParent(state, createId(origin.parent), date)
         is OriginalElement -> doNothing()
+        is TranslatedElement -> checkOrigin(state, id, origin.translator, createId(origin.parent), date)
         is UndefinedOrigin -> doNothing()
     }
 }

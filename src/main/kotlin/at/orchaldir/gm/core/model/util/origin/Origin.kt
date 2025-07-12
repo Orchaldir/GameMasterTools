@@ -11,6 +11,7 @@ enum class OriginType {
     Evolved,
     Modified,
     Original,
+    Translated,
     Undefined,
 }
 
@@ -22,18 +23,21 @@ sealed class Origin : Creation {
         is EvolvedElement -> OriginType.Evolved
         is ModifiedElement -> OriginType.Modified
         is OriginalElement -> OriginType.Original
+        is TranslatedElement -> OriginType.Translated
         is UndefinedOrigin -> OriginType.Undefined
     }
 
     fun isChildOf(id: Int) = when (this) {
         is EvolvedElement -> parent == id
         is ModifiedElement -> parent == id
+        is TranslatedElement -> parent == id
         else -> false
     }
 
     override fun creator() = when (this) {
         is CreatedElement -> creator
         is ModifiedElement -> modifier
+        is TranslatedElement -> translator
         else -> UndefinedCreator
     }
 
@@ -59,6 +63,13 @@ data class ModifiedElement(
 @Serializable
 @SerialName("Original")
 class OriginalElement : Origin()
+
+@Serializable
+@SerialName("Translated")
+data class TranslatedElement(
+    val parent: Int,
+    val translator: Creator,
+) : Origin()
 
 @Serializable
 @SerialName("Undefined")
