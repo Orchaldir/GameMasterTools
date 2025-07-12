@@ -43,7 +43,7 @@ value class TextId(val value: Int) : Id<TextId> {
 data class Text(
     val id: TextId,
     val name: Name = Name.init(id),
-    val origin: Origin = UndefinedOrigin(),
+    val origin: Origin = UndefinedOrigin,
     val publisher: BusinessId? = null,
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),

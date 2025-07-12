@@ -90,7 +90,7 @@ private fun <T> parseRarityMap(
 
 //
 
-fun <ID : Id<ID>> parseElements(parameters: Parameters, param: String, parseId: (String) -> ID) =
+fun <T> parseElements(parameters: Parameters, param: String, parseId: (String) -> T) =
     parameters.getAll(param)
         ?.map { parseId(it) }
         ?.toSet()

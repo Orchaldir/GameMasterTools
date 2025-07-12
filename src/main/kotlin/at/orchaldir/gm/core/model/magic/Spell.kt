@@ -35,7 +35,7 @@ data class Spell(
     val name: Name = Name.init(id),
     val date: Date? = null,
     val language: LanguageId? = null,
-    val origin: Origin = UndefinedOrigin(),
+    val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<SpellId>, Creation, HasDataSources, HasStartDate {
 

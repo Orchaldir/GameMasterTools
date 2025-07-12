@@ -33,7 +33,7 @@ data class Disease(
     val id: DiseaseId,
     val name: Name = Name.init(id),
     val date: Date? = null,
-    val origin: Origin = UndefinedOrigin(),
+    val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<DiseaseId>, Creation, HasDataSources, HasStartDate {
 

@@ -7,10 +7,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class OriginType {
+    Combined,
     Created,
     Evolved,
     Modified,
     Original,
+    Planar,
     Translated,
     Undefined,
 }
@@ -19,15 +21,18 @@ enum class OriginType {
 sealed class Origin : Creation {
 
     fun getType() = when (this) {
+        is CombinedElement -> OriginType.Combined
         is CreatedElement -> OriginType.Created
         is EvolvedElement -> OriginType.Evolved
         is ModifiedElement -> OriginType.Modified
-        is OriginalElement -> OriginType.Original
+        OriginalElement -> OriginType.Original
+        PlanarOrigin -> OriginType.Planar
         is TranslatedElement -> OriginType.Translated
-        is UndefinedOrigin -> OriginType.Undefined
+        UndefinedOrigin -> OriginType.Undefined
     }
 
     fun isChildOf(id: Int) = when (this) {
+        is CombinedElement -> parents.contains(id)
         is EvolvedElement -> parent == id
         is ModifiedElement -> parent == id
         is TranslatedElement -> parent == id
@@ -49,6 +54,12 @@ sealed class Origin : Creation {
 }
 
 @Serializable
+@SerialName("Combined")
+data class CombinedElement(
+    val parents: Set<Int>,
+) : Origin()
+
+@Serializable
 @SerialName("Created")
 data class CreatedElement(
     val creator: Creator,
@@ -67,7 +78,11 @@ data class ModifiedElement(
 
 @Serializable
 @SerialName("Original")
-class OriginalElement : Origin()
+data object OriginalElement : Origin()
+
+@Serializable
+@SerialName("Planar")
+data object PlanarOrigin : Origin()
 
 @Serializable
 @SerialName("Translated")
@@ -78,7 +93,7 @@ data class TranslatedElement(
 
 @Serializable
 @SerialName("Undefined")
-class UndefinedOrigin : Origin()
+data object UndefinedOrigin : Origin()
 
 fun validateOriginType(
     origin: Origin,

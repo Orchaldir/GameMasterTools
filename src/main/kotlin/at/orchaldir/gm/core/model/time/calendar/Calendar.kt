@@ -34,7 +34,7 @@ data class Calendar(
     val days: Days = DayOfTheMonth,
     val months: Months = ComplexMonths(emptyList()),
     val eras: CalendarEras = CalendarEras(),
-    val origin: Origin = UndefinedOrigin(),
+    val origin: Origin = UndefinedOrigin,
     val defaultFormat: DateFormat = DateFormat(),
 ) : ElementWithSimpleName<CalendarId> {
 

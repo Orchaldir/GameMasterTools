@@ -2,13 +2,10 @@ package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.REFERENCE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creator
@@ -42,6 +39,13 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
     showUndefined: Boolean = false,
 ) {
     when (origin) {
+        is CombinedElement -> {
+            +"Combines "
+
+            showInlineList(origin.parents) { parent ->
+                link(call, state, createId(parent))
+            }
+        }
         is CreatedElement -> {
             +"Created by "
             showCreator(call, state, origin.creator)
@@ -53,7 +57,8 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
         }
 
         is ModifiedElement -> showCreatorAndParent(call, state, origin.modifier, createId(origin.parent), "modified")
-        is OriginalElement -> +"Original"
+        OriginalElement -> +"Original"
+        PlanarOrigin -> +"Planar"
         is TranslatedElement -> showCreatorAndParent(
             call,
             state,
@@ -61,7 +66,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
             createId(origin.parent),
             "translated"
         )
-        is UndefinedOrigin -> if (showUndefined) {
+        UndefinedOrigin -> if (showUndefined) {
             +"Undefined"
         } else {
             doNothing()
@@ -96,12 +101,22 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
 
     selectValue("Origin Type", ORIGIN, allowedTypes, origin.getType()) { type ->
         when (type) {
+            OriginType.Combined -> availableParents.size < 2
             OriginType.Evolved, OriginType.Modified, OriginType.Translated -> availableParents.isEmpty()
             else -> false
         }
     }
 
     when (origin) {
+        is CombinedElement -> selectElements(
+            state,
+            combine(ORIGIN, REFERENCE),
+            availableParents,
+            origin.parents
+                .map(createId)
+                .toSet(),
+        )
+
         is CreatedElement -> selectCreator(state, id, origin.creator, date)
         is EvolvedElement -> selectParent(state, availableParents, createId(origin.parent))
         is ModifiedElement -> selectCreatorAndParent(
@@ -113,7 +128,8 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
             date,
         )
 
-        is OriginalElement -> doNothing()
+        OriginalElement -> doNothing()
+        PlanarOrigin -> doNothing()
         is TranslatedElement -> selectCreatorAndParent(
             state,
             id,
@@ -122,7 +138,7 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
             createId(origin.parent),
             date,
         )
-        is UndefinedOrigin -> doNothing()
+        UndefinedOrigin -> doNothing()
     }
 }
 
@@ -165,6 +181,10 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
 
 fun parseOrigin(parameters: Parameters) =
     when (parse(parameters, ORIGIN, OriginType.Undefined)) {
+        OriginType.Combined -> {
+            val parents = parseElements(parameters, combine(ORIGIN, REFERENCE)) { it.toInt() }
+            CombinedElement(parents)
+        }
         OriginType.Created -> CreatedElement(parseCreator(parameters))
         OriginType.Evolved -> EvolvedElement(
             parseInt(parameters, combine(ORIGIN, REFERENCE)),
@@ -175,11 +195,12 @@ fun parseOrigin(parameters: Parameters) =
             parseCreator(parameters),
         )
 
-        OriginType.Original -> OriginalElement()
+        OriginType.Original -> OriginalElement
+        OriginType.Planar -> PlanarOrigin
 
         OriginType.Translated -> TranslatedElement(
             parseInt(parameters, combine(ORIGIN, REFERENCE)),
             parseCreator(parameters),
         )
-        OriginType.Undefined -> UndefinedOrigin()
+        OriginType.Undefined -> UndefinedOrigin
     }
