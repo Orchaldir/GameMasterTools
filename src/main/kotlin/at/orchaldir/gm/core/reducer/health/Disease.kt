@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.Disease
+import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
@@ -35,6 +36,6 @@ val UPDATE_DISEASE: Reducer<UpdateDisease, State> = { state, action ->
 
 fun validateDisease(state: State, disease: Disease) {
     checkDate(state, disease.startDate(), "Disease")
-    checkOrigin(state, disease.id, disease.origin, disease.date)
+    checkOrigin(state, disease.id, disease.origin, disease.date, ::DiseaseId)
     state.getDataSourceStorage().require(disease.sources)
 }

@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.model.util.origin
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
-import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,7 +15,7 @@ enum class OriginType {
 }
 
 @Serializable
-sealed class Origin<ID : Id<ID>> : Creation {
+sealed class Origin : Creation {
 
     fun getType() = when (this) {
         is CreatedElement -> OriginType.Created
@@ -26,7 +25,7 @@ sealed class Origin<ID : Id<ID>> : Creation {
         is UndefinedOrigin -> OriginType.Undefined
     }
 
-    fun isChildOf(id: ID) = when (this) {
+    fun isChildOf(id: Int) = when (this) {
         is EvolvedElement -> parent == id
         is ModifiedElement -> parent == id
         else -> false
@@ -42,25 +41,25 @@ sealed class Origin<ID : Id<ID>> : Creation {
 
 @Serializable
 @SerialName("Created")
-data class CreatedElement<ID : Id<ID>>(
+data class CreatedElement(
     val creator: Creator,
-) : Origin<ID>()
+) : Origin()
 
 @Serializable
 @SerialName("Evolved")
-data class EvolvedElement<ID : Id<ID>>(val parent: ID) : Origin<ID>()
+data class EvolvedElement(val parent: Int) : Origin()
 
 @Serializable
 @SerialName("Modified")
-data class ModifiedElement<ID : Id<ID>>(
-    val parent: ID,
+data class ModifiedElement(
+    val parent: Int,
     val modifier: Creator,
-) : Origin<ID>()
+) : Origin()
 
 @Serializable
 @SerialName("Original")
-class OriginalElement<ID : Id<ID>> : Origin<ID>()
+class OriginalElement : Origin()
 
 @Serializable
 @SerialName("Undefined")
-class UndefinedOrigin<ID : Id<ID>> : Origin<ID>()
+class UndefinedOrigin : Origin()

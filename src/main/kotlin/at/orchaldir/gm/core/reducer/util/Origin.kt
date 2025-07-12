@@ -16,13 +16,14 @@ import at.orchaldir.gm.utils.doNothing
 fun <ID : Id<ID>> checkOrigin(
     state: State,
     id: ID,
-    origin: Origin<ID>,
+    origin: Origin,
     date: Date?,
+    createId: (Int) -> ID,
 ) {
     when (origin) {
         is CreatedElement -> checkCreator(state, id, origin.creator, date)
-        is ModifiedElement -> checkOrigin(state, id, origin.modifier, origin.parent, date)
-        is EvolvedElement -> checkParent(state, origin.parent, date)
+        is ModifiedElement -> checkOrigin(state, id, origin.modifier, createId(origin.parent), date)
+        is EvolvedElement -> checkParent(state, createId(origin.parent), date)
         is OriginalElement -> doNothing()
         is UndefinedOrigin -> doNothing()
     }

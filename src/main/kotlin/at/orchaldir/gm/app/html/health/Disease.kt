@@ -28,7 +28,7 @@ fun HtmlBlockTag.showDisease(
     disease: Disease,
 ) {
     optionalField(call, state, "Date", disease.date)
-    fieldOrigin(call, state, disease.origin)
+    fieldOrigin(call, state, disease.origin, ::DiseaseId)
     showDataSources(call, state, disease.sources)
 }
 
@@ -40,7 +40,7 @@ fun FORM.editDisease(
 ) {
     selectName(disease.name)
     selectOptionalDate(state, "Date", disease.date, DATE)
-    editOrigin(state, disease.id, disease.origin, disease.date)
+    editOrigin(state, disease.id, disease.origin, disease.date, ::DiseaseId)
     editDataSources(state, disease.sources)
 }
 
@@ -54,6 +54,6 @@ fun parseDisease(parameters: Parameters, state: State, id: DiseaseId) = Disease(
     id,
     parseName(parameters),
     parseOptionalDate(parameters, state, DATE),
-    parseOrigin(parameters, ::parseDiseaseId),
+    parseOrigin(parameters),
     parseDataSources(parameters),
 )

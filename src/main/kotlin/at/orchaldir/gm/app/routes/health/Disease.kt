@@ -155,7 +155,7 @@ private fun HTML.showAllDiseases(
                 tr {
                     tdLink(call, state, disease)
                     td { showOptionalDate(call, state, disease.date) }
-                    td { showOrigin(call, state, disease.origin) }
+                    td { showOrigin(call, state, disease.origin, ::DiseaseId) }
                 }
             }
         }

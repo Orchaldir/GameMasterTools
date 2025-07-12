@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
@@ -25,17 +26,19 @@ import kotlinx.html.HtmlBlockTag
 fun <ID : Id<ID>> HtmlBlockTag.fieldOrigin(
     call: ApplicationCall,
     state: State,
-    origin: Origin<ID>,
+    origin: Origin,
+    createId: (Int) -> ID,
 ) {
     field("Origin") {
-        showOrigin(call, state, origin, true)
+        showOrigin(call, state, origin, createId, true)
     }
 }
 
 fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
     call: ApplicationCall,
     state: State,
-    origin: Origin<ID>,
+    origin: Origin,
+    createId: (Int) -> ID,
     showUndefined: Boolean = false,
 ) {
     when (origin) {
@@ -46,10 +49,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
 
         is EvolvedElement -> {
             +"Evolved from "
-            link(call, state, origin.parent)
+            link(call, state, createId(origin.parent))
         }
 
-        is ModifiedElement -> showCreatorAndParent(call, state, origin.modifier, origin.parent, "modified")
+        is ModifiedElement -> showCreatorAndParent(call, state, origin.modifier, createId(origin.parent), "modified")
         is OriginalElement -> +"Original"
         is UndefinedOrigin -> if (showUndefined) {
             +"Undefined"
@@ -76,8 +79,9 @@ private fun <ID : Id<ID>> HtmlBlockTag.showCreatorAndParent(
 fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
     state: State,
     id: ID,
-    origin: Origin<ID>,
+    origin: Origin,
     date: Date?,
+    createId: (Int) -> ID,
 ) {
     val availableParents = state.getExistingElements(state.getStorage(id), date)
         .filter { it.id() != id }
@@ -91,13 +95,13 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
 
     when (origin) {
         is CreatedElement -> selectCreator(state, id, origin.creator, date)
-        is EvolvedElement -> selectParent(state, availableParents, origin.parent)
+        is EvolvedElement -> selectParent(state, availableParents, createId(origin.parent))
         is ModifiedElement -> selectInventorAndOriginal(
             state,
             id,
             availableParents,
             origin.modifier,
-            origin.parent,
+            createId(origin.parent),
             date,
         )
 
@@ -143,15 +147,15 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
 
 // parse
 
-fun <ID : Id<ID>> parseOrigin(parameters: Parameters, parseParent: (Parameters, String) -> ID) =
+fun parseOrigin(parameters: Parameters) =
     when (parse(parameters, ORIGIN, OriginType.Undefined)) {
         OriginType.Created -> CreatedElement(parseCreator(parameters))
         OriginType.Evolved -> EvolvedElement(
-            parseParent(parameters, combine(ORIGIN, REFERENCE)),
+            parseInt(parameters, combine(ORIGIN, REFERENCE)),
         )
 
         OriginType.Modified -> ModifiedElement(
-            parseParent(parameters, combine(ORIGIN, REFERENCE)),
+            parseInt(parameters, combine(ORIGIN, REFERENCE)),
             parseCreator(parameters),
         )
 
