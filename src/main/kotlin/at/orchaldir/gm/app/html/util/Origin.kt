@@ -96,7 +96,7 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
 
     selectValue("Origin Type", ORIGIN, allowedTypes, origin.getType()) { type ->
         when (type) {
-            OriginType.Evolved, OriginType.Modified -> availableParents.isEmpty()
+            OriginType.Evolved, OriginType.Modified, OriginType.Translated -> availableParents.isEmpty()
             else -> false
         }
     }

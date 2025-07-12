@@ -33,7 +33,14 @@ fun FORM.editDisease(
 ) {
     selectName(disease.name)
     selectOptionalDate(state, "Date", disease.date, DATE)
-    editOrigin(state, disease.id, disease.origin, disease.date, ALLOWED_ORIGINS, ::DiseaseId)
+    editOrigin(
+        state,
+        disease.id,
+        disease.origin,
+        disease.date,
+        ALLOWED_DISEASE_ORIGINS,
+        ::DiseaseId,
+    )
     editDataSources(state, disease.sources)
 }
 

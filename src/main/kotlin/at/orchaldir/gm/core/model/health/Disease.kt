@@ -14,7 +14,7 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val DISEASE_TYPE = "Disease"
-val ALLOWED_ORIGINS = OriginType.entries - OriginType.Translated
+val ALLOWED_DISEASE_ORIGINS = OriginType.entries - OriginType.Translated
 
 @JvmInline
 @Serializable
@@ -37,7 +37,7 @@ data class Disease(
 
     init {
         val originType = origin.getType()
-        require(ALLOWED_ORIGINS.contains(originType)) { "Origin has unsupported type '$originType'!" }
+        require(ALLOWED_DISEASE_ORIGINS.contains(originType)) { "Origin has unsupported type '$originType'!" }
     }
 
     override fun id() = id

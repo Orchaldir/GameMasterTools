@@ -6,12 +6,16 @@ import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.origin.Origin
+import at.orchaldir.gm.core.model.util.origin.OriginType
+import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val SPELL_TYPE = "Spell"
+val ALLOWED_SPELL_ORIGINS = OriginType.entries - OriginType.Evolved - OriginType.Original
 
 @JvmInline
 @Serializable
@@ -29,7 +33,7 @@ data class Spell(
     val name: Name = Name.init(id),
     val date: Date? = null,
     val language: LanguageId? = null,
-    val origin: SpellOrigin = UndefinedSpellOrigin,
+    val origin: Origin = UndefinedOrigin(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<SpellId>, Creation, HasDataSources, HasStartDate {
 
