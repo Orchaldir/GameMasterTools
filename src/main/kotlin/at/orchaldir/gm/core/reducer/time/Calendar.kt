@@ -4,7 +4,9 @@ import at.orchaldir.gm.core.action.CreateCalendar
 import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.time.calendar.*
+import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.time.calendar.canDelete
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
@@ -42,7 +44,7 @@ fun validateCalendar(
     checkDays(calendar)
     checkMonths(calendar)
     checkEras(state, calendar)
-    checkOrigin(state, calendar)
+    checkOrigin(state, calendar.id, calendar.origin, null, ::CalendarId)
     checkHolidays(state, calendar)
 }
 
@@ -76,20 +78,6 @@ private fun checkEras(
 ) {
     if (state.getDefaultCalendarId() == calendar.id) {
         require(calendar.eras.first.startDay.day == 0) { "Default Calendar must not have an offset!" }
-    }
-}
-
-private fun checkOrigin(
-    state: State,
-    calendar: Calendar,
-) {
-    when (val origin = calendar.origin) {
-        is ImprovedCalendar -> {
-            require(state.getCalendarStorage().contains(origin.parent)) { "Parent calendar must exist!" }
-            require(origin.parent != calendar.id) { "Calendar cannot be its own parent!" }
-        }
-
-        OriginalCalendar -> doNothing()
     }
 }
 

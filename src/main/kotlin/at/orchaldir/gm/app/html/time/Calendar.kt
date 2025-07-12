@@ -2,15 +2,11 @@ package at.orchaldir.gm.app.html.time
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.field
-import at.orchaldir.gm.app.html.util.parseDay
-import at.orchaldir.gm.app.html.util.selectDate
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.*
-import at.orchaldir.gm.core.model.time.calendar.CalendarOriginType.Improved
-import at.orchaldir.gm.core.model.time.calendar.CalendarOriginType.Original
 import at.orchaldir.gm.core.model.time.date.DisplayYear
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.selector.culture.getCultures
@@ -68,16 +64,7 @@ private fun HtmlBlockTag.showOrigin(
 ) {
     val children = state.getChildren(calendar.id)
 
-    when (calendar.origin) {
-        is ImprovedCalendar -> {
-            field("Origin", "Improved")
-            fieldLink("Parent Calendar", call, state, calendar.origin.parent)
-        }
-
-        OriginalCalendar -> {
-            field("Origin", "Original")
-        }
-    }
+    fieldOrigin(call, state, calendar.origin, ::CalendarId)
     fieldList(call, state, "Child Calendars", children)
 }
 
@@ -131,7 +118,14 @@ fun FORM.editCalendar(
     val holidays = state.getHolidays(calendar.id)
 
     selectName(calendar.name)
-    editOrigin(state, calendar)
+    editOrigin(
+        state,
+        calendar.id,
+        calendar.origin,
+        null,
+        ALLOWED_CALENDAR_ORIGINS,
+        ::CalendarId,
+    )
 
     h2 { +"Parts" }
 
@@ -198,25 +192,6 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     }
 
     field("Days per Year", calendar.getDaysPerYear())
-}
-
-private fun FORM.editOrigin(
-    state: State,
-    calendar: Calendar,
-) {
-    val origin = calendar.origin
-    val possibleParents = state.getPossibleParents(calendar.id)
-
-    selectValue("Origin", ORIGIN, CalendarOriginType.entries, origin.getType()) {
-        when (it) {
-            Improved -> possibleParents.isEmpty()
-            Original -> false
-        }
-    }
-    when (origin) {
-        is ImprovedCalendar -> selectElement(state, "Parent", CALENDAR_TYPE, possibleParents, origin.parent)
-        else -> doNothing()
-    }
 }
 
 private fun FORM.editEras(
@@ -322,12 +297,3 @@ private fun parseDaysPerMonth(parameters: Parameters, param: String) = parseInt(
 
 private fun parseMonthName(parameters: Parameters, it: Int) =
     parseName(parameters, combine(MONTH, NAME, it), "${it + 1}.Month")
-
-private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, Original)) {
-    Improved -> {
-        val parent = parseCalendarId(parameters, CALENDAR_TYPE)
-        ImprovedCalendar(parent)
-    }
-
-    Original -> OriginalCalendar
-}

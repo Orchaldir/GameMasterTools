@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.magic.ALLOWED_SPELL_ORIGINS
+import at.orchaldir.gm.core.model.time.calendar.ALLOWED_CALENDAR_ORIGINS
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -17,6 +18,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.core.model.util.origin.OriginType
 import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
+import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -51,8 +53,7 @@ data class Text(
 ) : ElementWithSimpleName<TextId>, Creation, HasDataSources, HasStartDate, MadeFromParts {
 
     init {
-        val originType = origin.getType()
-        require(ALLOWED_TEXT_ORIGINS.contains(originType)) { "Origin has unsupported type '$originType'!" }
+        validateOriginType(origin, ALLOWED_TEXT_ORIGINS)
     }
 
     override fun id() = id

@@ -79,3 +79,11 @@ data class TranslatedElement(
 @Serializable
 @SerialName("Undefined")
 class UndefinedOrigin : Origin()
+
+fun validateOriginType(
+    origin: Origin,
+    allowedTypes: List<OriginType>,
+) {
+    val originType = origin.getType()
+    require(allowedTypes.contains(originType)) { "Origin has unsupported type '$originType'!" }
+}

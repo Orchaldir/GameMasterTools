@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.health
 
+import at.orchaldir.gm.core.model.time.calendar.ALLOWED_CALENDAR_ORIGINS
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -8,6 +9,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.core.model.util.origin.OriginType
 import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
+import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.utils.Id
@@ -36,8 +38,7 @@ data class Disease(
 ) : ElementWithSimpleName<DiseaseId>, Creation, HasDataSources, HasStartDate {
 
     init {
-        val originType = origin.getType()
-        require(ALLOWED_DISEASE_ORIGINS.contains(originType)) { "Origin has unsupported type '$originType'!" }
+        validateOriginType(origin, ALLOWED_DISEASE_ORIGINS)
     }
 
     override fun id() = id

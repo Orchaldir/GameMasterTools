@@ -4,6 +4,10 @@ import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.origin.Origin
+import at.orchaldir.gm.core.model.util.origin.OriginType
+import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
+import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.date.resolveDay
 import at.orchaldir.gm.utils.Id
@@ -11,6 +15,7 @@ import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
 const val CALENDAR_TYPE = "Calendar"
+val ALLOWED_CALENDAR_ORIGINS = listOf(OriginType.Created, OriginType.Modified, OriginType.Undefined)
 
 @JvmInline
 @Serializable
@@ -29,9 +34,13 @@ data class Calendar(
     val days: Days = DayOfTheMonth,
     val months: Months = ComplexMonths(emptyList()),
     val eras: CalendarEras = CalendarEras(),
-    val origin: CalendarOrigin = OriginalCalendar,
+    val origin: Origin = UndefinedOrigin(),
     val defaultFormat: DateFormat = DateFormat(),
 ) : ElementWithSimpleName<CalendarId> {
+
+    init {
+        validateOriginType(origin, ALLOWED_CALENDAR_ORIGINS)
+    }
 
     override fun id() = id
     override fun name() = name.text
