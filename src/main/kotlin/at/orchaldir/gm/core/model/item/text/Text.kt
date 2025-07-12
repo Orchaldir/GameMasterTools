@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.item.text.content.TextContent
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
+import at.orchaldir.gm.core.model.magic.ALLOWED_SPELL_ORIGINS
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -13,6 +14,9 @@ import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.origin.Origin
+import at.orchaldir.gm.core.model.util.origin.OriginType
+import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -21,6 +25,7 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val TEXT_TYPE = "Text"
+val ALLOWED_TEXT_ORIGINS = OriginType.entries - OriginType.Evolved - OriginType.Original - OriginType.Modified
 
 @JvmInline
 @Serializable
@@ -36,7 +41,7 @@ value class TextId(val value: Int) : Id<TextId> {
 data class Text(
     val id: TextId,
     val name: Name = Name.init(id),
-    val origin: TextOrigin = OriginalText(UndefinedCreator),
+    val origin: Origin = UndefinedOrigin(),
     val publisher: BusinessId? = null,
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
@@ -44,6 +49,11 @@ data class Text(
     val content: TextContent = UndefinedTextContent,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<TextId>, Creation, HasDataSources, HasStartDate, MadeFromParts {
+
+    init {
+        val originType = origin.getType()
+        require(ALLOWED_TEXT_ORIGINS.contains(originType)) { "Origin has unsupported type '$originType'!" }
+    }
 
     override fun id() = id
     override fun name() = name.text

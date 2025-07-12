@@ -24,7 +24,7 @@ fun <ID : Id<ID>> checkOrigin(
     when (origin) {
         is CreatedElement -> checkCreator(state, id, origin.creator, date)
         is ModifiedElement -> checkOrigin(state, id, origin.modifier, createId(origin.parent), date)
-        is EvolvedElement -> checkParent(state, createId(origin.parent), date)
+        is EvolvedElement -> checkParent(state, id, createId(origin.parent), date)
         is OriginalElement -> doNothing()
         is TranslatedElement -> checkOrigin(state, id, origin.translator, createId(origin.parent), date)
         is UndefinedOrigin -> doNothing()
@@ -39,7 +39,7 @@ private fun <ID : Id<ID>> checkOrigin(
     date: Date?,
 ) {
     checkCreator(state, id, creator, date)
-    checkParent(state, parent, date)
+    checkParent(state, id, parent, date)
 }
 
 private fun <ID : Id<ID>> checkCreator(
@@ -51,6 +51,12 @@ private fun <ID : Id<ID>> checkCreator(
     validateCreator(state, creator, id, date, "Creator")
 }
 
-private fun <ID : Id<ID>> checkParent(state: State, parent: ID, date: Date?) {
+private fun <ID : Id<ID>> checkParent(
+    state: State,
+    id: ID,
+    parent: ID,
+    date: Date?,
+) {
     state.requireExists(parent, date) { "Parent ${parent.print()} is unknown!" }
+    require(id != parent) { "The parent of ${id.print()} cannot be itself!" }
 }

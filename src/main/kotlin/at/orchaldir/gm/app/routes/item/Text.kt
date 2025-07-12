@@ -7,12 +7,14 @@ import at.orchaldir.gm.app.html.item.text.parseText
 import at.orchaldir.gm.app.html.item.text.showText
 import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.sortTexts
@@ -177,19 +179,7 @@ private fun HTML.showAllTexts(
                 tr {
                     tdLink(call, state, text)
                     td { showOptionalDate(call, state, text.date) }
-                    td {
-                        when (text.origin) {
-                            is OriginalText -> {
-                                +"Written by "
-                                showCreator(call, state, text.origin.creator())
-                            }
-
-                            is TranslatedText -> {
-                                +"Translated by "
-                                showCreator(call, state, text.origin.creator())
-                            }
-                        }
-                    }
+                    td { showOrigin(call, state, text.origin, ::TextId) }
                     tdLink(call, state, text.publisher)
                     tdLink(call, state, text.language)
                     tdEnum(text.format.getType())

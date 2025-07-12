@@ -37,6 +37,11 @@ data class Spell(
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<SpellId>, Creation, HasDataSources, HasStartDate {
 
+    init {
+        val originType = origin.getType()
+        require(ALLOWED_SPELL_ORIGINS.contains(originType)) { "Origin has unsupported type '$originType'!" }
+    }
+
     override fun id() = id
     override fun name() = name.text
     override fun creator() = origin.creator()

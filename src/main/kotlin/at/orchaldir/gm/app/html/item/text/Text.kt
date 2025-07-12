@@ -11,6 +11,8 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.health.ALLOWED_DISEASE_ORIGINS
+import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.core.selector.item.hasAuthor
@@ -27,7 +29,7 @@ fun HtmlBlockTag.showText(
     state: State,
     text: Text,
 ) {
-    showOrigin(call, state, text)
+    fieldOrigin(call, state, text.origin, ::TextId)
     optionalField(call, state, "Date", text.date)
     optionalFieldLink("Publisher", call, state, text.publisher)
     fieldLink("Language", call, state, text.language)
@@ -39,25 +41,6 @@ fun HtmlBlockTag.showText(
     }
 
     showDataSources(call, state, text.sources)
-}
-
-private fun HtmlBlockTag.showOrigin(
-    call: ApplicationCall,
-    state: State,
-    text: Text,
-) {
-    when (text.origin) {
-        is OriginalText -> field("Author") {
-            showCreator(call, state, text.origin.author)
-        }
-
-        is TranslatedText -> {
-            fieldLink("Translation Of", call, state, text.origin.text)
-            field("Translator") {
-                showCreator(call, state, text.origin.translator)
-            }
-        }
-    }
 }
 
 // edit
@@ -72,30 +55,20 @@ fun FORM.editText(
     val businesses = state.getExistingElements(state.getBusinessStorage(), text.date)
 
     selectName(text.name)
-    editOrigin(state, text)
+    editOrigin(
+        state,
+        text.id,
+        text.origin,
+        text.date,
+        ALLOWED_TEXT_ORIGINS,
+        ::TextId,
+    )
     selectOptionalDate(state, "Date", text.date, DATE)
     selectOptionalElement(state, "Publisher", BUSINESS, businesses, text.publisher)
     selectElement(state, "Language", LANGUAGE, languages, text.language)
     editTextFormat(state, text.format, hasAuthor)
     editTextContent(state, text.content)
     editDataSources(state, text.sources)
-}
-
-private fun FORM.editOrigin(
-    state: State,
-    text: Text,
-) {
-    selectValue("Origin", ORIGIN, TextOriginType.entries, text.origin.getType())
-
-    when (text.origin) {
-        is OriginalText -> selectCreator(state, text.origin.author, text.id, text.date, "Author")
-        is TranslatedText -> {
-            val otherTexts = state.getTextStorage().getAllExcept(text.id)
-
-            selectElement(state, "Translation Of", combine(ORIGIN, REFERENCE), otherTexts, text.origin.text)
-            selectCreator(state, text.origin.translator, text.id, text.date, "Translator")
-        }
-    }
 }
 
 // parse
@@ -114,11 +87,3 @@ fun parseText(parameters: Parameters, state: State, id: TextId) =
         parseTextContent(parameters),
         parseDataSources(parameters),
     )
-
-private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, TextOriginType.Original)) {
-    TextOriginType.Original -> OriginalText(parseCreator(parameters))
-    TextOriginType.Translation -> TranslatedText(
-        parseTextId(parameters, combine(ORIGIN, REFERENCE)),
-        parseCreator(parameters),
-    )
-}

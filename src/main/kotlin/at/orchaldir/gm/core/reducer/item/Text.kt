@@ -12,8 +12,8 @@ import at.orchaldir.gm.core.model.util.font.FontOption
 import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
@@ -67,7 +67,7 @@ fun updatePageCount(state: State, config: TextRenderConfig, text: Text) = if (te
 
 fun validateText(state: State, text: Text) {
     checkDate(state, text.date, "Text")
-    checkOrigin(state, text)
+    checkOrigin(state, text.id, text.origin, text.date, ::TextId)
     checkPublisher(state, text)
     checkTextFormat(text.format)
     checkTextContent(state, text.content)
@@ -76,22 +76,6 @@ fun validateText(state: State, text: Text) {
 private fun checkPublisher(state: State, text: Text) {
     if (text.publisher != null) {
         state.requireExists(state.getBusinessStorage(), text.publisher, text.date)
-    }
-}
-
-private fun checkOrigin(
-    state: State,
-    text: Text,
-) {
-    when (val origin = text.origin) {
-        is OriginalText -> validateCreator(state, origin.author, text.id, text.date, "Author")
-        is TranslatedText -> {
-            require(text.id != origin.text) { "The text cannot translate itself!" }
-            state.requireExists(state.getTextStorage(), origin.text, text.date) {
-                "The translation must happen after the original was written!"
-            }
-            validateCreator(state, origin.translator, text.id, text.date, "Translator")
-        }
     }
 }
 

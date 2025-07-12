@@ -34,6 +34,11 @@ sealed class Origin : Creation {
         else -> false
     }
 
+    fun isTranslationOf(id: Int) = when (this) {
+        is TranslatedElement -> parent == id
+        else -> false
+    }
+
     override fun creator() = when (this) {
         is CreatedElement -> creator
         is ModifiedElement -> modifier
