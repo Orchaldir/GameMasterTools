@@ -26,7 +26,7 @@ interface AbstractTitle {
 @Serializable
 data class Title(
     val id: TitleId,
-    val name: Name = Name.init("Title ${id.value}"),
+    val name: Name = Name.init(id),
     val text: NotEmptyString = NotEmptyString.init("Dr"),
     val position: TitlePosition = TitlePosition.BeforeFullName,
     val separator: Char = ' ',

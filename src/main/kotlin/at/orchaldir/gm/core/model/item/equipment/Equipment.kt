@@ -23,7 +23,7 @@ value class EquipmentId(val value: Int) : Id<EquipmentId> {
 @Serializable
 data class Equipment(
     val id: EquipmentId,
-    val name: Name = Name.init("Equipment ${id.value}"),
+    val name: Name = Name.init(id),
     val data: EquipmentData = Belt(),
     val weight: Weight = Weight.fromGrams(MIN_EQUIPMENT_WEIGHT),
     val colorSchemes: Set<ColorSchemeId> = emptySet(),

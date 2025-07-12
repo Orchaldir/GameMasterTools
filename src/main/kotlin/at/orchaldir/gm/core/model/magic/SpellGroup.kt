@@ -20,7 +20,7 @@ value class SpellGroupId(val value: Int) : Id<SpellGroupId> {
 @Serializable
 data class SpellGroup(
     val id: SpellGroupId,
-    val name: Name = Name.init("Spell Group ${id.value}"),
+    val name: Name = Name.init(id),
     val spells: Set<SpellId> = emptySet(),
 ) : ElementWithSimpleName<SpellGroupId> {
 

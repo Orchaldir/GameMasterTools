@@ -22,7 +22,7 @@ value class StreetTemplateId(val value: Int) : Id<StreetTemplateId> {
 @Serializable
 data class StreetTemplate(
     val id: StreetTemplateId,
-    val name: Name = Name.init("StreetTemplate ${id.value}"),
+    val name: Name = Name.init(id),
     val color: Color = Color.Gray,
     val materialCost: MaterialCost = MaterialCost(),
 ) : ElementWithSimpleName<StreetTemplateId> {

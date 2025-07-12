@@ -20,7 +20,7 @@ value class StreetId(val value: Int) : Id<StreetId> {
 @Serializable
 data class Street(
     val id: StreetId,
-    val name: Name = Name.init("Street ${id.value}"),
+    val name: Name = Name.init(id),
 ) : ElementWithSimpleName<StreetId> {
 
     override fun id() = id

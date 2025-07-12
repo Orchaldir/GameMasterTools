@@ -27,7 +27,7 @@ value class DiseaseId(val value: Int) : Id<DiseaseId> {
 @Serializable
 data class Disease(
     val id: DiseaseId,
-    val name: Name = Name.init("Disease ${id.value}"),
+    val name: Name = Name.init(id),
     val date: Date? = null,
     val origin: Origin = UndefinedOrigin(),
     val sources: Set<DataSourceId> = emptySet(),

@@ -25,7 +25,7 @@ value class MoonId(val value: Int) : Id<MoonId> {
 @Serializable
 data class Moon(
     val id: MoonId,
-    val name: Name = Name.init("Moon ${id.value}"),
+    val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val daysPerQuarter: Int = 1,
     val color: Color = Color.White,

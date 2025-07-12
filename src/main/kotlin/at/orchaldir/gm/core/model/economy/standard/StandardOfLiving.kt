@@ -23,7 +23,7 @@ value class StandardOfLivingId(val value: Int) : Id<StandardOfLivingId> {
 @Serializable
 data class StandardOfLiving(
     val id: StandardOfLivingId,
-    val name: Name = Name.init("Standard Of Living ${id.value}"),
+    val name: Name = Name.init(id),
     val maxYearlyIncome: Price = Price(0),
 ) : ElementWithSimpleName<StandardOfLivingId> {
 

@@ -20,7 +20,7 @@ value class CurrencyUnitId(val value: Int) : Id<CurrencyUnitId> {
 @Serializable
 data class CurrencyUnit(
     val id: CurrencyUnitId,
-    val name: Name = Name.init("Currency Unit ${id.value}"),
+    val name: Name = Name.init(id),
     val currency: CurrencyId = CurrencyId(0),
     val number: Int = 1,
     val denomination: Int = 0,

@@ -25,7 +25,7 @@ value class CalendarId(val value: Int) : Id<CalendarId> {
 @Serializable
 data class Calendar(
     val id: CalendarId,
-    val name: Name = Name.init("Calendar ${id.value}"),
+    val name: Name = Name.init(id),
     val days: Days = DayOfTheMonth,
     val months: Months = ComplexMonths(emptyList()),
     val eras: CalendarEras = CalendarEras(),

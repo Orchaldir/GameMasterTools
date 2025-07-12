@@ -24,7 +24,7 @@ value class PeriodicalId(val value: Int) : Id<PeriodicalId> {
 @Serializable
 data class Periodical(
     val id: PeriodicalId,
-    val name: Name = Name.init("Periodical ${id.value}"),
+    val name: Name = Name.init(id),
     val ownership: History<Owner> = History(UndefinedOwner),
     val language: LanguageId = LanguageId(0),
     val calendar: CalendarId = CalendarId(0),

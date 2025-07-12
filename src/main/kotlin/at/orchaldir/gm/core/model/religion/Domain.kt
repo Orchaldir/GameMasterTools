@@ -23,7 +23,7 @@ value class DomainId(val value: Int) : Id<DomainId> {
 @Serializable
 data class Domain(
     val id: DomainId,
-    val name: Name = Name.init("Domain ${id.value}"),
+    val name: Name = Name.init(id),
     val spells: SomeOf<SpellId> = SomeOf(),
     val jobs: Set<JobId> = emptySet(),
 ) : ElementWithSimpleName<DomainId> {

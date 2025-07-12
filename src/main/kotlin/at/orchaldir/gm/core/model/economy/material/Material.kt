@@ -22,7 +22,7 @@ value class MaterialId(val value: Int) : Id<MaterialId> {
 @Serializable
 data class Material(
     val id: MaterialId,
-    val name: Name = Name.init("Material ${id.value}"),
+    val name: Name = Name.init(id),
     val category: MaterialCategory = MaterialCategory.Metal,
     val color: Color = Color.Pink,
     val density: Weight = Weight.fromKilograms(1000),

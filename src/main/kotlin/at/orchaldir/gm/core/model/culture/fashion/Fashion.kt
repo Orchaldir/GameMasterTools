@@ -20,7 +20,7 @@ value class FashionId(val value: Int) : Id<FashionId> {
 @Serializable
 data class Fashion(
     val id: FashionId,
-    val name: Name = Name.init("Fashion ${id.value}"),
+    val name: Name = Name.init(id),
     val appearance: AppearanceFashion = AppearanceFashion(),
     val clothing: ClothingFashion = ClothingFashion(),
 ) : ElementWithSimpleName<FashionId> {

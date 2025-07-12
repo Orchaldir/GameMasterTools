@@ -24,7 +24,7 @@ value class WarId(val value: Int) : Id<WarId> {
 @Serializable
 data class War(
     val id: WarId,
-    val name: Name = Name.init("War ${id.value}"),
+    val name: Name = Name.init(id),
     val startDate: Date? = null,
     val status: WarStatus = OngoingWar,
     val realms: Set<RealmId> = emptySet(),

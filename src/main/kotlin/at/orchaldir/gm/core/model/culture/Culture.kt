@@ -32,7 +32,7 @@ value class CultureId(val value: Int) : Id<CultureId> {
 @Serializable
 data class Culture(
     val id: CultureId,
-    val name: Name = Name.init("Culture ${id.value}"),
+    val name: Name = Name.init(id),
     val calendar: CalendarId = CalendarId(0),
     val languages: SomeOf<LanguageId> = SomeOf(emptyMap()),
     val namingConvention: NamingConvention = NoNamingConvention,

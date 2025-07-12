@@ -35,7 +35,7 @@ value class TextId(val value: Int) : Id<TextId> {
 @Serializable
 data class Text(
     val id: TextId,
-    val name: Name = Name.init("Text ${id.value}"),
+    val name: Name = Name.init(id),
     val origin: TextOrigin = OriginalText(UndefinedCreator),
     val publisher: BusinessId? = null,
     val date: Date? = null,

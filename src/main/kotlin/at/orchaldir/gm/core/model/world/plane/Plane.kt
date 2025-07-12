@@ -25,7 +25,7 @@ value class PlaneId(val value: Int) : Id<PlaneId> {
 @Serializable
 data class Plane(
     val id: PlaneId,
-    val name: Name = Name.init("Plane ${id.value}"),
+    val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val purpose: PlanePurpose = MaterialPlane,
     val languages: Set<LanguageId> = emptySet(),

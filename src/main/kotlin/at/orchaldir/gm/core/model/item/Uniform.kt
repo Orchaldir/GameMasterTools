@@ -22,7 +22,7 @@ value class UniformId(val value: Int) : Id<UniformId> {
 @Serializable
 data class Uniform(
     val id: UniformId,
-    val name: Name = Name.init("Uniform ${id.value}"),
+    val name: Name = Name.init(id),
     val equipmentMap: EquipmentIdMap = EquipmentMap(),
 ) : ElementWithSimpleName<UniformId> {
 

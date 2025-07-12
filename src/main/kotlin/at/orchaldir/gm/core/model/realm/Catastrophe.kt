@@ -26,7 +26,7 @@ value class CatastropheId(val value: Int) : Id<CatastropheId> {
 @Serializable
 data class Catastrophe(
     val id: CatastropheId,
-    val name: Name = Name.init("Catastrophe ${id.value}"),
+    val name: Name = Name.init(id),
     val startDate: Date? = null,
     val endDate: Date? = null,
     val cause: CauseOfCatastrophe = UndefinedCauseOfCatastrophe,

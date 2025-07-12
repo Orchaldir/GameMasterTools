@@ -21,7 +21,7 @@ value class HolidayId(val value: Int) : Id<HolidayId> {
 @Serializable
 data class Holiday(
     val id: HolidayId,
-    val name: Name = Name.init("Holiday ${id.value}"),
+    val name: Name = Name.init(id),
     val calendar: CalendarId = CalendarId(0),
     val relativeDate: RelativeDate = DayInYear(0, 0),
     val purpose: HolidayPurpose = Anniversary,

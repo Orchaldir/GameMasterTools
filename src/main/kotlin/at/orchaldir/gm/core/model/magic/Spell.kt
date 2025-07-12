@@ -26,7 +26,7 @@ value class SpellId(val value: Int) : Id<SpellId> {
 @Serializable
 data class Spell(
     val id: SpellId,
-    val name: Name = Name.init("Spell ${id.value}"),
+    val name: Name = Name.init(id),
     val date: Date? = null,
     val language: LanguageId? = null,
     val origin: SpellOrigin = UndefinedSpellOrigin,

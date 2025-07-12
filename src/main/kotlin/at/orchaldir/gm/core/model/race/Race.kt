@@ -34,7 +34,7 @@ value class RaceId(val value: Int) : Id<RaceId> {
 @Serializable
 data class Race(
     val id: RaceId,
-    val name: Name = Name.init("Race ${id.value}"),
+    val name: Name = Name.init(id),
     val genders: OneOf<Gender> = OneOf(Gender.entries),
     val height: Distribution<Distance> = Distribution.fromMeters(1.8f),
     val weight: Weight = Weight.fromKilograms(75.0f),

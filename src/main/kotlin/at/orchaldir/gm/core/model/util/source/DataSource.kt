@@ -20,7 +20,7 @@ value class DataSourceId(val value: Int) : Id<DataSourceId> {
 @Serializable
 data class DataSource(
     val id: DataSourceId,
-    val name: Name = Name.init("DataSource ${id.value}"),
+    val name: Name = Name.init(id),
     val year: Int = 0,
     val edition: Int? = null,
 ) : ElementWithSimpleName<DataSourceId> {

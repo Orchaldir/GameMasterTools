@@ -23,7 +23,7 @@ value class LanguageId(val value: Int) : Id<LanguageId> {
 @Serializable
 data class Language(
     val id: LanguageId,
-    val name: Name = Name.init("Language ${id.value}"),
+    val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val origin: LanguageOrigin = OriginalLanguage,
 ) : ElementWithSimpleName<LanguageId>, Creation, HasStartDate {
