@@ -84,7 +84,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 52
     }
    },
@@ -216,7 +216,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 35
     },
     "previousEntries": [
@@ -468,7 +468,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 9
     }
    },
@@ -499,7 +499,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 66
     }
    },
@@ -534,7 +534,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 66
     }
    },
@@ -569,7 +569,7 @@
    ],
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 66
     }
    },
@@ -605,7 +605,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 72
     }
    },
@@ -640,7 +640,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 72
     }
    }
@@ -707,7 +707,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 72
     }
    }
@@ -752,7 +752,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 74
     }
    },
@@ -784,7 +784,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 74
     }
    },

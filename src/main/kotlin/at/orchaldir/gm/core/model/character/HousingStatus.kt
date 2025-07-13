@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -9,6 +11,8 @@ enum class HousingStatusType {
     Homeless,
     InApartment,
     InHouse,
+    InRealm,
+    InTown,
 }
 
 @Serializable
@@ -29,6 +33,8 @@ sealed class HousingStatus {
         Homeless -> HousingStatusType.Homeless
         is InApartment -> HousingStatusType.InApartment
         is InHouse -> HousingStatusType.InHouse
+        is InRealm -> HousingStatusType.InRealm
+        is InTown -> HousingStatusType.InTown
         UndefinedHousingStatus -> HousingStatusType.Undefined
     }
 
@@ -39,16 +45,11 @@ sealed class HousingStatus {
 }
 
 @Serializable
-@SerialName("InHouse")
-data class InHouse(val building: BuildingId) : HousingStatus() {
-
-    override fun isLivingIn(building: BuildingId) = isLivingInHouse(building)
-    override fun isLivingInHouse(building: BuildingId) = this.building == building
-
-}
+@SerialName("Homeless")
+data object Homeless : HousingStatus()
 
 @Serializable
-@SerialName("InApartment")
+@SerialName("Apartment")
 data class InApartment(
     val building: BuildingId,
     val apartmentIndex: Int,
@@ -65,8 +66,21 @@ data class InApartment(
 }
 
 @Serializable
-@SerialName("Homeless")
-data object Homeless : HousingStatus()
+@SerialName("House")
+data class InHouse(val building: BuildingId) : HousingStatus() {
+
+    override fun isLivingIn(building: BuildingId) = isLivingInHouse(building)
+    override fun isLivingInHouse(building: BuildingId) = this.building == building
+
+}
+
+@Serializable
+@SerialName("Realm")
+data class InRealm(val realm: RealmId) : HousingStatus()
+
+@Serializable
+@SerialName("Town")
+data class InTown(val town: TownId) : HousingStatus()
 
 @Serializable
 @SerialName("Undefined")

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.util.exists
+import at.orchaldir.gm.core.selector.util.requireExists
 
 fun checkHousingStatusHistory(
     state: State,
@@ -15,18 +16,18 @@ fun checkHousingStatusHistory(
 
 private fun checkHousingStatus(
     state: State,
-    housingStatus: HousingStatus,
+    status: HousingStatus,
     noun: String,
     date: Date?,
 ) {
-    val building = when (housingStatus) {
+    val building = when (status) {
         UndefinedHousingStatus -> return
         Homeless -> return
         is InApartment -> {
-            val building = state.getBuildingStorage().getOrThrow(housingStatus.building) { "The $noun doesn't exist!" }
+            val building = state.getBuildingStorage().getOrThrow(status.building) { "The $noun doesn't exist!" }
 
             if (building.purpose is ApartmentHouse) {
-                require(housingStatus.apartmentIndex < building.purpose.apartments) { "The $noun's apartment index is too high!" }
+                require(status.apartmentIndex < building.purpose.apartments) { "The $noun's apartment index is too high!" }
             } else {
                 error("The $noun is not an apartment house!")
             }
@@ -35,12 +36,16 @@ private fun checkHousingStatus(
         }
 
         is InHouse -> {
-            val building = state.getBuildingStorage().getOrThrow(housingStatus.building) { "The $noun doesn't exist!" }
+            val building = state
+                .requireExists(state.getBuildingStorage(), status.building, date) { noun }
 
             require(building.purpose.isHome()) { "The $noun is not a home!" }
 
             building
         }
+
+        is InRealm -> state.requireExists(state.getRealmStorage(), status.realm, date) { noun }
+        is InTown -> state.requireExists(state.getTownStorage(), status.town, date) { noun }
     }
 
     require(state.exists(building, date)) { "The $noun doesn't exist yet!" }
