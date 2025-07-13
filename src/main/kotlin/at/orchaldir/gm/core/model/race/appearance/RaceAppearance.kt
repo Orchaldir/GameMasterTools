@@ -26,7 +26,7 @@ value class RaceAppearanceId(val value: Int) : Id<RaceAppearanceId> {
 @Serializable
 data class RaceAppearance(
     val id: RaceAppearanceId,
-    val name: Name = Name.init("RaceAppearance ${id.value}"),
+    val name: Name = Name.init(id),
     val appearanceTypes: OneOf<AppearanceType> = OneOf(AppearanceType.Body),
     val earsLayout: OneOf<EarsLayout> = OneOf(EarsLayout.NormalEars),
     val earShapes: OneOf<EarShape> = OneOf(EarShape.entries),

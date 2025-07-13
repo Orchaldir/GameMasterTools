@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editSpell
 import at.orchaldir.gm.app.html.magic.parseSpell
-import at.orchaldir.gm.app.html.magic.showOrigin
 import at.orchaldir.gm.app.html.magic.showSpell
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.core.action.CreateSpell
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
@@ -168,7 +168,7 @@ private fun HTML.showAllSpells(
                     tdLink(call, state, spell)
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
-                    td { showOrigin(call, state, spell.origin) }
+                    td { showOrigin(call, state, spell.origin, ::SpellId) }
                     tdSkipZero(state.countSpellGroups(spell.id))
                     tdSkipZero(state.countDomains(spell.id))
                     tdSkipZero(state.countJobs(spell.id))

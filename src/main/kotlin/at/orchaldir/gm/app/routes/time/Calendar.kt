@@ -109,7 +109,7 @@ fun Application.configureCalendarRouting() {
             logger.info { "Preview changes to calendar ${preview.id.value}" }
 
             val state = STORE.getState()
-            val calendar = parseCalendar(call.receiveParameters(), state.getDefaultCalendar(), preview.id)
+            val calendar = parseCalendar(state, call.receiveParameters(), state.getDefaultCalendar(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCalendarEditor(call, state, calendar)
@@ -119,7 +119,7 @@ fun Application.configureCalendarRouting() {
             logger.info { "Update calendar ${update.id.value}" }
 
             val state = STORE.getState()
-            val calendar = parseCalendar(call.receiveParameters(), state.getDefaultCalendar(), update.id)
+            val calendar = parseCalendar(state, call.receiveParameters(), state.getDefaultCalendar(), update.id)
 
             STORE.dispatch(UpdateCalendar(calendar))
 

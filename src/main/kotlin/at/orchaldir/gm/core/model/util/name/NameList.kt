@@ -19,7 +19,7 @@ value class NameListId(val value: Int) : Id<NameListId> {
 @Serializable
 data class NameList(
     val id: NameListId,
-    val name: Name = Name.init("NameList ${id.value}"),
+    val name: Name = Name.init(id),
     val names: List<Name> = listOf(),
 ) : ElementWithSimpleName<NameListId> {
 

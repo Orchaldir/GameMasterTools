@@ -21,7 +21,7 @@ value class RiverId(val value: Int) : Id<RiverId> {
 @Serializable
 data class River(
     val id: RiverId,
-    val name: Name = Name.init("River ${id.value}"),
+    val name: Name = Name.init(id),
 ) : ElementWithSimpleName<RiverId> {
 
     override fun id() = id

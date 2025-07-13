@@ -24,7 +24,7 @@ value class PersonalityTraitGroup(val value: Int)
 @Serializable
 data class PersonalityTrait(
     val id: PersonalityTraitId,
-    val name: Name = Name.init("Personality Trait ${id.value}"),
+    val name: Name = Name.init(id),
     val group: PersonalityTraitGroup? = null,
 ) : ElementWithSimpleName<PersonalityTraitId> {
 

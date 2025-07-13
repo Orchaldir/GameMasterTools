@@ -25,7 +25,7 @@ value class JobId(val value: Int) : Id<JobId> {
 @Serializable
 data class Job(
     val id: JobId,
-    val name: Name = Name.init("Job ${id.value}"),
+    val name: Name = Name.init(id),
     val employerType: EmployerType = EmployerType.Business,
     val income: Income = UndefinedIncome,
     val preferredGender: Gender? = null,

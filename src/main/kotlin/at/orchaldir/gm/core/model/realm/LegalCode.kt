@@ -27,7 +27,7 @@ value class LegalCodeId(val value: Int) : Id<LegalCodeId> {
 @Serializable
 data class LegalCode(
     val id: LegalCodeId,
-    val name: Name = Name.init("$LEGAL_CODE_TYPE ${id.value}"),
+    val name: Name = Name.init(id),
     val creator: Creator = UndefinedCreator,
     val date: Date? = null,
     val sources: Set<DataSourceId> = emptySet(),

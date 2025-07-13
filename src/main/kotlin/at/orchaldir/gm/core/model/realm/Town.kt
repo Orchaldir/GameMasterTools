@@ -25,7 +25,7 @@ value class TownId(val value: Int) : Id<TownId> {
 @Serializable
 data class Town(
     val id: TownId,
-    val name: Name = Name.init("Town ${id.value}"),
+    val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val foundingDate: Date? = null,
     val founder: Creator = UndefinedCreator,

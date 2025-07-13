@@ -26,7 +26,7 @@ value class TreatyId(val value: Int) : Id<TreatyId> {
 @Serializable
 data class Treaty(
     val id: TreatyId,
-    val name: Name = Name.init("Treaty ${id.value}"),
+    val name: Name = Name.init(id),
     val date: Date? = null,
     val participants: List<TreatyParticipant> = emptyList(),
     val sources: Set<DataSourceId> = emptySet(),

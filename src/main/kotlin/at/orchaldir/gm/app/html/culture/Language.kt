@@ -1,25 +1,20 @@
 package at.orchaldir.gm.app.html.culture
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.LANGUAGES
-import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.language.*
-import at.orchaldir.gm.core.model.culture.language.LanguageOriginType.*
+import at.orchaldir.gm.core.model.culture.language.ALLOWED_LANGUAGE_ORIGINS
+import at.orchaldir.gm.core.model.culture.language.Language
+import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.getChildren
 import at.orchaldir.gm.core.selector.culture.getCultures
-import at.orchaldir.gm.core.selector.culture.getPossibleParents
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.magic.getSpells
 import at.orchaldir.gm.core.selector.world.getPlanes
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -42,7 +37,8 @@ fun HtmlBlockTag.showLanguage(
     val texts = state.getTexts(language.id)
 
     optionalField("Title", language.title)
-    showOrigin(call, state, language)
+    optionalField(call, state, "Date", language.date)
+    fieldOrigin(call, state, language.origin, ::LanguageId)
 
     fieldList(call, state, "Child Languages", children)
 
@@ -56,51 +52,6 @@ fun HtmlBlockTag.showLanguage(
     fieldList(call, state, texts)
 }
 
-private fun HtmlBlockTag.showOrigin(
-    call: ApplicationCall,
-    state: State,
-    language: Language,
-) {
-    field("Origin") {
-        displayOrigin(call, state, language)
-    }
-}
-
-fun HtmlBlockTag.displayOrigin(
-    call: ApplicationCall,
-    state: State,
-    language: Language,
-    showOriginal: Boolean = true,
-) {
-    when (val origin = language.origin) {
-        is CombinedLanguage -> {
-            +"Combines "
-
-            showInlineList(origin.parents) { parent ->
-                link(call, state, parent)
-            }
-        }
-
-        is EvolvedLanguage -> {
-            +"Evolved from "
-            link(call, state, origin.parent)
-        }
-
-        is InventedLanguage -> {
-            +"Invented by "
-            showCreator(call, state, origin.inventor)
-        }
-
-        OriginalLanguage -> if (showOriginal) {
-            +"Original"
-        }
-
-        PlanarLanguage -> {
-            +"Planar"
-        }
-    }
-}
-
 // edit
 
 fun FORM.editLanguage(
@@ -109,40 +60,8 @@ fun FORM.editLanguage(
 ) {
     selectName(language.name)
     selectOptionalNotEmptyString("Title", language.title, TITLE)
-    editOrigin(state, language)
-}
-
-private fun FORM.editOrigin(
-    state: State,
-    language: Language,
-) {
-    val possibleInventors = state.getCharacterStorage().getAll()
-    val possibleParents = state.getPossibleParents(language.id)
-        .sortedBy { it.name.text }
-
-    selectValue("Origin", ORIGIN, entries, language.origin.getType()) {
-        when (it) {
-            Combined -> possibleParents.size < 2
-            Evolved -> possibleParents.isEmpty()
-            Invented -> possibleInventors.isEmpty()
-            else -> false
-        }
-    }
-
-    when (val origin = language.origin) {
-        is CombinedLanguage -> {
-            selectElements(state, LANGUAGES, possibleParents, origin.parents)
-        }
-
-        is EvolvedLanguage -> selectElement(state, "Parent", LANGUAGES, possibleParents, origin.parent)
-
-        is InventedLanguage -> {
-            selectCreator(state, origin.inventor, language.id, origin.date, "Inventor")
-            selectDate(state, "Date", origin.date, DATE)
-        }
-
-        else -> doNothing()
-    }
+    selectOptionalDate(state, "Date", language.date, DATE)
+    editOrigin(state, language.id, language.origin, language.date, ALLOWED_LANGUAGE_ORIGINS, ::LanguageId)
 }
 
 // parse
@@ -158,22 +77,6 @@ fun parseLanguage(parameters: Parameters, state: State, id: LanguageId) = Langua
     id,
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),
-    parseOrigin(parameters, state),
+    parseOptionalDate(parameters, state, DATE),
+    parseOrigin(parameters),
 )
-
-private fun parseOrigin(parameters: Parameters, state: State) = when (parse(parameters, ORIGIN, Original)) {
-    Combined -> {
-        val parents = parseElements(parameters, LANGUAGES) { parseLanguageId(it) }
-        CombinedLanguage(parents)
-    }
-
-    Evolved -> EvolvedLanguage(parseLanguageId(parameters, LANGUAGES))
-
-    Invented -> InventedLanguage(
-        parseCreator(parameters),
-        parseDate(parameters, state, DATE),
-    )
-
-    Original -> OriginalLanguage
-    Planar -> PlanarLanguage
-}

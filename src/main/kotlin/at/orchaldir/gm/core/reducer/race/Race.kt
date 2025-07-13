@@ -5,12 +5,15 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.race.*
+import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
+import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
+import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.checkDistance
@@ -51,7 +54,7 @@ fun validateRace(state: State, race: Race) {
     checkDate(state, race.startDate(), "Race")
     checkHeight(race)
     checkLifeStages(state, race.lifeStages)
-    checkOrigin(state, race)
+    checkOrigin(state, race.id, race.origin, race.date, ::RaceId)
     state.getDataSourceStorage().require(race.sources)
 }
 
@@ -83,10 +86,3 @@ private fun checkMaxAge(lifeStages: List<LifeStage>) {
     }
 }
 
-fun checkOrigin(state: State, race: Race) {
-    when (race.origin) {
-        is CreatedRace -> validateCreator(state, race.origin.creator, race.id, race.origin.date, "Creator")
-        is ModifiedRace -> validateCreator(state, race.origin.modifier, race.id, race.origin.date, "Modifier")
-        else -> doNothing()
-    }
-}

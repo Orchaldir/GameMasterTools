@@ -22,7 +22,7 @@ value class FontId(val value: Int) : Id<FontId> {
 @Serializable
 data class Font(
     val id: FontId,
-    val name: Name = Name.init("Font ${id.value}"),
+    val name: Name = Name.init(id),
     val date: Date? = null,
     val base64: String = "",
 ) : ElementWithSimpleName<FontId>, HasStartDate {

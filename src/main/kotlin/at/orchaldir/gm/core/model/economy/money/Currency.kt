@@ -23,7 +23,7 @@ value class CurrencyId(val value: Int) : Id<CurrencyId> {
 @Serializable
 data class Currency(
     val id: CurrencyId,
-    val name: Name = Name.init("Currency ${id.value}"),
+    val name: Name = Name.init(id),
     val denomination: Denomination = Denomination.init("gp"),
     val subDenominations: List<Pair<Denomination, Int>> = emptyList(),
     val startDate: Date? = null,

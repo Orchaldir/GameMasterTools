@@ -4,13 +4,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
-import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.model.util.font.FontId
+import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.selector.util.getCreatorName
 
@@ -54,15 +53,15 @@ fun State.getAuthorName(id: TextId): String? {
     return getAuthorName(original)
 }
 
-fun State.getAuthorName(text: Text) = when (val origin = getOriginal(text).origin) {
-    is OriginalText -> getCreatorName(origin.author)
-    else -> error("The original text must be an original text!")
-}
+fun State.getAuthorName(text: Text) = getCreatorName(
+    getOriginal(text)
+        .origin
+        .creator()
+)
 
-fun State.hasAuthor(text: Text) = when (val origin = getOriginal(text).origin) {
-    is OriginalText -> origin.author != UndefinedCreator
-    else -> error("The original text must be an original text!")
-}
+fun State.hasAuthor(text: Text) = getOriginal(text)
+    .origin
+    .creator() != UndefinedCreator
 
 fun State.getOriginal(id: TextId): Text {
     val text = getTextStorage().getOrThrow(id)
@@ -71,8 +70,8 @@ fun State.getOriginal(id: TextId): Text {
 }
 
 fun State.getOriginal(text: Text) = when (text.origin) {
-    is OriginalText -> text
-    is TranslatedText -> getOriginal(text.origin.text)
+    is TranslatedElement -> getOriginal(TextId(text.origin.parent))
+    else -> text
 }
 
 fun State.getTexts(font: FontId) = getTextStorage()
@@ -97,7 +96,7 @@ fun State.getTextsMadeOf(material: MaterialId) = getTextStorage()
 
 fun State.getTranslationsOf(text: TextId) = getTextStorage()
     .getAll()
-    .filter { b -> b.origin.isTranslationOf(text) }
+    .filter { b -> b.origin.isTranslationOf(text.value) }
 
 fun State.getTextsPublishedBy(publisher: BusinessId) = getTextStorage()
     .getAll()

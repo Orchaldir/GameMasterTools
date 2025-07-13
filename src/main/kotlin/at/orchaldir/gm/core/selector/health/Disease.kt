@@ -11,10 +11,10 @@ fun State.canDeleteDisease(disease: DiseaseId) = !isDestroyer(disease) &&
 
 fun State.countDiseasesBasedOn(id: DiseaseId) = getDiseaseStorage()
     .getAll()
-    .count { it.origin.isChildOf(id) }
+    .count { it.origin.isChildOf(id.value) }
 
 fun State.getExistingDiseases(date: Date?) = getExistingElements(getDiseaseStorage().getAll(), date)
 
 fun State.getDiseasesBasedOn(id: DiseaseId) = getDiseaseStorage()
     .getAll()
-    .filter { it.origin.isChildOf(id) }
+    .filter { it.origin.isChildOf(id.value) }

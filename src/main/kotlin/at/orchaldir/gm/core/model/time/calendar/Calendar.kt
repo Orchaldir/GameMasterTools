@@ -2,8 +2,13 @@ package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.*
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.origin.Origin
+import at.orchaldir.gm.core.model.util.origin.OriginType
+import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
+import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.date.resolveDay
 import at.orchaldir.gm.utils.Id
@@ -11,6 +16,7 @@ import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
 const val CALENDAR_TYPE = "Calendar"
+val ALLOWED_CALENDAR_ORIGINS = listOf(OriginType.Created, OriginType.Modified, OriginType.Undefined)
 
 @JvmInline
 @Serializable
@@ -25,16 +31,22 @@ value class CalendarId(val value: Int) : Id<CalendarId> {
 @Serializable
 data class Calendar(
     val id: CalendarId,
-    val name: Name = Name.init("Calendar ${id.value}"),
+    val name: Name = Name.init(id),
     val days: Days = DayOfTheMonth,
     val months: Months = ComplexMonths(emptyList()),
     val eras: CalendarEras = CalendarEras(),
-    val origin: CalendarOrigin = OriginalCalendar,
+    val date: Date? = null,
+    val origin: Origin = UndefinedOrigin,
     val defaultFormat: DateFormat = DateFormat(),
-) : ElementWithSimpleName<CalendarId> {
+) : ElementWithSimpleName<CalendarId>, HasStartDate {
+
+    init {
+        validateOriginType(origin, ALLOWED_CALENDAR_ORIGINS)
+    }
 
     override fun id() = id
     override fun name() = name.text
+    override fun startDate() = date
 
     // data
 

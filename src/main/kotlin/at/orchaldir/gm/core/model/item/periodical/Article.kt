@@ -26,7 +26,7 @@ value class ArticleId(val value: Int) : Id<ArticleId> {
 @Serializable
 data class Article(
     val id: ArticleId,
-    val title: Name = Name.init("Article ${id.value}"),
+    val title: Name = Name.init(id),
     val author: CharacterId? = null,
     val date: Date? = null,
     val content: ArticleContent = UndefinedArticleContent,

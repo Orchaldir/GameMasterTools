@@ -49,4 +49,4 @@ private fun checkOwner(
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> checkOwner(storage: Storage<ID, ELEMENT>, id: ID, ownerNoun: String) = storage
-    .getOrThrow(id) { "Cannot use an unknown ${id.type()} ${id.value()} as $ownerNoun!" }
+    .getOrThrow(id) { "Cannot use an unknown ${id.print()} as $ownerNoun!" }

@@ -27,7 +27,7 @@ value class MagicTraditionId(val value: Int) : Id<MagicTraditionId> {
 @Serializable
 data class MagicTradition(
     val id: MagicTraditionId,
-    val name: Name = Name.init("$MAGIC_TRADITION_TYPE ${id.value}"),
+    val name: Name = Name.init(id),
     val date: Date? = null,
     val founder: Creator = UndefinedCreator,
     val groups: Set<SpellGroupId> = emptySet(),

@@ -15,6 +15,6 @@ data class Economy(
     fun getStandardOfLiving(id: StandardOfLivingId) = standardsOfLiving[id.value]
 
     fun requireStandardOfLiving(id: StandardOfLivingId) = require(id.value < standardsOfLiving.size) {
-        "Requires unknown ${id.type()} ${id.value()}!"
+        "Requires unknown ${id.print()}!"
     }
 }

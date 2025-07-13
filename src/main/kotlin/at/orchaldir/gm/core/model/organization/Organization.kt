@@ -26,7 +26,7 @@ value class OrganizationId(val value: Int) : Id<OrganizationId> {
 @Serializable
 data class Organization(
     val id: OrganizationId,
-    val name: Name = Name.init("Organization ${id.value}"),
+    val name: Name = Name.init(id),
     val founder: Creator = UndefinedCreator,
     val date: Date? = null,
     val memberRanks: List<MemberRank> = listOf(MemberRank()),

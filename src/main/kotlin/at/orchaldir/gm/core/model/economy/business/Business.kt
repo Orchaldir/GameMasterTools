@@ -25,7 +25,7 @@ value class BusinessId(val value: Int) : Id<BusinessId> {
 @Serializable
 data class Business(
     val id: BusinessId,
-    val name: Name = Name.init("Business ${id.value}"),
+    val name: Name = Name.init(id),
     private val startDate: Date? = null,
     val founder: Creator = UndefinedCreator,
     val ownership: History<Owner> = History(UndefinedOwner),

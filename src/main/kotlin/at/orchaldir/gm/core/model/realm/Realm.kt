@@ -25,7 +25,7 @@ value class RealmId(val value: Int) : Id<RealmId> {
 @Serializable
 data class Realm(
     val id: RealmId,
-    val name: Name = Name.init("Realm ${id.value}"),
+    val name: Name = Name.init(id),
     val founder: Creator = UndefinedCreator,
     val date: Date? = null,
     val status: VitalStatus = Alive,

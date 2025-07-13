@@ -9,10 +9,13 @@ import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
-import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.origin.Origin
+import at.orchaldir.gm.core.model.util.origin.OriginType
+import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
+import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -21,6 +24,7 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val TEXT_TYPE = "Text"
+val ALLOWED_TEXT_ORIGINS = OriginType.entries - OriginType.Evolved - OriginType.Original - OriginType.Modified
 
 @JvmInline
 @Serializable
@@ -35,8 +39,8 @@ value class TextId(val value: Int) : Id<TextId> {
 @Serializable
 data class Text(
     val id: TextId,
-    val name: Name = Name.init("Text ${id.value}"),
-    val origin: TextOrigin = OriginalText(UndefinedCreator),
+    val name: Name = Name.init(id),
+    val origin: Origin = UndefinedOrigin,
     val publisher: BusinessId? = null,
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
@@ -44,6 +48,10 @@ data class Text(
     val content: TextContent = UndefinedTextContent,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<TextId>, Creation, HasDataSources, HasStartDate, MadeFromParts {
+
+    init {
+        validateOriginType(origin, ALLOWED_TEXT_ORIGINS)
+    }
 
     override fun id() = id
     override fun name() = name.text

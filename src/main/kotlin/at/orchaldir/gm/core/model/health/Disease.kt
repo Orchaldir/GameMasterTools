@@ -5,12 +5,17 @@ import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.origin.Origin
+import at.orchaldir.gm.core.model.util.origin.OriginType
+import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
+import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val DISEASE_TYPE = "Disease"
+val ALLOWED_DISEASE_ORIGINS = OriginType.entries - OriginType.Translated
 
 @JvmInline
 @Serializable
@@ -25,11 +30,15 @@ value class DiseaseId(val value: Int) : Id<DiseaseId> {
 @Serializable
 data class Disease(
     val id: DiseaseId,
-    val name: Name = Name.init("Disease ${id.value}"),
+    val name: Name = Name.init(id),
     val date: Date? = null,
-    val origin: DiseaseOrigin = UndefinedDiseaseOrigin,
+    val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<DiseaseId>, Creation, HasDataSources, HasStartDate {
+
+    init {
+        validateOriginType(origin, ALLOWED_DISEASE_ORIGINS)
+    }
 
     override fun id() = id
     override fun name() = name.text

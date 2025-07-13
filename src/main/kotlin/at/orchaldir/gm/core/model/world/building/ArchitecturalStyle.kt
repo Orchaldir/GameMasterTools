@@ -22,7 +22,7 @@ value class ArchitecturalStyleId(val value: Int) : Id<ArchitecturalStyleId> {
 @Serializable
 data class ArchitecturalStyle(
     val id: ArchitecturalStyleId,
-    val name: Name = Name.init("Architectural Style ${id.value}"),
+    val name: Name = Name.init(id),
     val start: Year? = null,
     val end: Year? = null,
     val revival: ArchitecturalStyleId? = null,

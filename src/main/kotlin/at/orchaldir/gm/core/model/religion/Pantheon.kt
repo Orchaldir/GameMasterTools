@@ -21,7 +21,7 @@ value class PantheonId(val value: Int) : Id<PantheonId> {
 @Serializable
 data class Pantheon(
     val id: PantheonId,
-    val name: Name = Name.init("Pantheon ${id.value}"),
+    val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val gods: Set<GodId> = emptySet(),
 ) : ElementWithSimpleName<PantheonId> {

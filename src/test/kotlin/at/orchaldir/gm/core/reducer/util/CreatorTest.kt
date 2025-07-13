@@ -6,13 +6,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.language.InventedLanguage
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.item.text.OriginalText
+import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.TranslatedText
-import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
@@ -22,6 +19,8 @@ import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.origin.CreatedElement
+import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -78,10 +77,17 @@ class CreatorTest {
         }
 
         @Test
-        fun `Created a language`() {
-            val origin = InventedLanguage(createdByCharacter, DAY0)
+        fun `Created a disease`() {
+            val origin = CreatedElement(createdByCharacter)
 
-            test(Language(LANGUAGE_ID_0, origin = origin))
+            test(Disease(DISEASE_ID_0, origin = origin))
+        }
+
+        @Test
+        fun `Created a language`() {
+            val origin = CreatedElement(createdByCharacter)
+
+            test(Language(LANGUAGE_ID_0, date = DAY0, origin = origin))
         }
 
         @Test
@@ -101,19 +107,19 @@ class CreatorTest {
 
         @Test
         fun `Created a spell`() {
-            test(Spell(SPELL_ID_0, origin = InventedSpell(createdByCharacter)))
+            test(Spell(SPELL_ID_0, origin = CreatedElement(createdByCharacter)))
         }
 
         @Test
         fun `Created an original text`() {
-            val origin = OriginalText(createdByCharacter)
+            val origin = CreatedElement(createdByCharacter)
 
             test(Text(TEXT_ID_0, origin = origin))
         }
 
         @Test
         fun `Created an translated text`() {
-            val origin = TranslatedText(TEXT_ID_1, createdByCharacter)
+            val origin = TranslatedElement(TEXT_ID_1, createdByCharacter)
 
             test(Text(TEXT_ID_0, origin = origin))
         }

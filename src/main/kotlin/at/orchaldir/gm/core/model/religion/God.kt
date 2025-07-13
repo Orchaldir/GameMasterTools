@@ -26,7 +26,7 @@ value class GodId(val value: Int) : Id<GodId> {
 @Serializable
 data class God(
     val id: GodId,
-    val name: Name = Name.init("God ${id.value}"),
+    val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val gender: Gender = Gender.Genderless,
     val personality: Set<PersonalityTraitId> = emptySet(),

@@ -7,12 +7,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
-import at.orchaldir.gm.core.model.culture.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.culture.language.InventedLanguage
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.origin.CreatedElement
+import at.orchaldir.gm.core.model.util.origin.EvolvedElement
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -51,7 +51,7 @@ class LanguageTest {
                 Storage(
                     listOf(
                         Language(LANGUAGE_ID_0),
-                        Language(LANGUAGE_ID_1, origin = EvolvedLanguage(LANGUAGE_ID_0))
+                        Language(LANGUAGE_ID_1, origin = EvolvedElement(LANGUAGE_ID_0.value))
                     )
                 )
             )
@@ -120,31 +120,31 @@ class LanguageTest {
 
         @Test
         fun `Inventor must exist`() {
-            val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_1), DAY0)
-            val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
+            val origin = CreatedElement(CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val action = UpdateLanguage(Language(LANGUAGE_ID_0, date = DAY0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown Character 1 as Inventor!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Parent language must exist`() {
-            val origin = EvolvedLanguage(LANGUAGE_ID_1)
+            val origin = EvolvedElement(UNKNOWN_LANGUAGE_ID)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown parent language 1!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown parent Language 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `A language cannot be its own parent`() {
-            val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = EvolvedLanguage(LANGUAGE_ID_0)))
+            val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = EvolvedElement(LANGUAGE_ID_0)))
 
-            assertIllegalArgument("A language cannot be its own parent!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Language 0 cannot be its own parent!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Date is in the future`() {
-            val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), FUTURE_DAY_0)
-            val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
+            val origin = CreatedElement(CreatedByCharacter(CHARACTER_ID_0))
+            val action = UpdateLanguage(Language(LANGUAGE_ID_0, date = FUTURE_DAY_0, origin = origin))
 
             assertIllegalArgument("Date (Language) is in the future!") { REDUCER.invoke(state, action) }
         }
@@ -152,7 +152,7 @@ class LanguageTest {
         @Test
         fun `Parent language exist`() {
             val state = state.updateStorage(Storage(listOf(Language(LANGUAGE_ID_0), Language(LANGUAGE_ID_1))))
-            val language = Language(LANGUAGE_ID_0, origin = EvolvedLanguage(LANGUAGE_ID_1))
+            val language = Language(LANGUAGE_ID_0, origin = EvolvedElement(LANGUAGE_ID_1))
             val action = UpdateLanguage(language)
 
             assertEquals(language, REDUCER.invoke(state, action).first.getLanguageStorage().get(LANGUAGE_ID_0))

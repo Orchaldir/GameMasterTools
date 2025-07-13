@@ -7,7 +7,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.Scroll
+import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
@@ -17,6 +19,8 @@ import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.font.SolidFont
+import at.orchaldir.gm.core.model.util.origin.CreatedElement
+import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -33,7 +37,7 @@ class TextTest {
             Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, date = DAY1))),
             Storage(CALENDAR0),
             Storage(Business(BUSINESS_ID_0, startDate = DAY2)),
-            Storage(Character(CHARACTER_ID_0)),
+            Storage(Character(CHARACTER_ID_0, birthDate = DAY0)),
             Storage(Language(LANGUAGE_ID_0)),
             Storage(Spell(SPELL_ID_0)),
         )
@@ -56,7 +60,7 @@ class TextTest {
 
         @Test
         fun `Cannot delete a translated text`() {
-            val origin = TranslatedText(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
             val state = STATE.updateStorage(
                 Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, origin = origin)))
             )
@@ -86,10 +90,10 @@ class TextTest {
 
         @Test
         fun `Author must exist`() {
-            val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_1))
+            val origin = CreatedElement(CreatedByCharacter(UNKNOWN_CHARACTER_ID))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown Character 1 as Author!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -113,7 +117,7 @@ class TextTest {
 
         @Test
         fun `Successfully update an original text`() {
-            val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_0))
+            val origin = CreatedElement(CreatedByCharacter(CHARACTER_ID_0))
             val text = Text(TEXT_ID_0, origin = origin)
             val action = UpdateText(text)
 
@@ -122,41 +126,41 @@ class TextTest {
 
         @Test
         fun `Translator must exist`() {
-            val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_1))
+            val origin = TranslatedElement(TEXT_ID_1, CreatedByCharacter(UNKNOWN_CHARACTER_ID))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown Character 1 as Translator!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Translated text must exist`() {
-            val origin = TranslatedText(TEXT_ID_2, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(UNKNOWN_TEXT_ID, CreatedByCharacter(CHARACTER_ID_0))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
-            assertIllegalArgument("Requires unknown Text 2!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown parent Text 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `A text cannot translate itself`() {
-            val origin = TranslatedText(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
-            assertIllegalArgument("The text cannot translate itself!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Text 0 cannot be its own parent!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `The translation must happen after the original was written`() {
-            val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val action = UpdateText(Text(TEXT_ID_0, date = DAY0, origin = origin))
 
-            assertIllegalArgument("The translation must happen after the original was written!") {
+            assertIllegalArgument("The parent Text 1 doesn't exist at the required date!") {
                 REDUCER.invoke(STATE, action)
             }
         }
 
         @Test
         fun `Successfully update a translated text`() {
-            val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val text = Text(TEXT_ID_0, origin = origin)
             val action = UpdateText(text)
 
