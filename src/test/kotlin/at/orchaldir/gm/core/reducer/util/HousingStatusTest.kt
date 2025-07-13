@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingPurpose
 import at.orchaldir.gm.core.model.world.building.SingleFamilyHouse
 import at.orchaldir.gm.utils.Storage
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 
@@ -30,90 +31,91 @@ private val STATE = State(
 
 class HousingStatusTest {
 
-    @Test
-    fun `Cannot use unknown building as home`() {
-        val state = STATE.removeStorage(BUILDING_ID_0)
+    @Nested
+    inner class HouseTest {
 
-        assertIllegalArgument("Requires unknown home!") {
-            checkHousingStatusHistory(state, History(IN_HOUSE), DAY0)
+        @Test
+        fun `Cannot use unknown building as home`() {
+            val state = STATE.removeStorage(BUILDING_ID_0)
+
+            assertIllegalArgument("Requires unknown home!") {
+                checkHousingStatusHistory(state, History(IN_HOUSE), DAY0)
+            }
+        }
+
+        @Test
+        fun `Cannot use unknown building as a previous home`() {
+            val state = STATE.updateStorage(Storage(Building(BUILDING_ID_0)))
+            val entry = HistoryEntry<HousingStatus>(InHouse(UNKNOWN_BUILDING_ID), DAY1)
+
+            assertIllegalArgument("Requires unknown 1.previous home!") {
+                checkHousingStatusHistory(state, History(IN_HOUSE, entry), DAY0)
+            }
+        }
+
+        @Test
+        fun `Living in an house requires a house`() {
+            val state = STATE.updateStorage(Storage(create(ApartmentHouse(2))))
+
+            assertIllegalArgument("The home is not a home!") {
+                checkHousingStatusHistory(state, History(IN_HOUSE), DAY0)
+            }
+        }
+
+        @Test
+        fun `The house doesn't exist yet`() {
+            val state = STATE.updateStorage(Storage(create(date = DAY1)))
+
+            assertIllegalArgument("The home doesn't exist at the required date!") {
+                checkHousingStatusHistory(state, History(IN_HOUSE), DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid single family house`() {
+            checkHousingStatusHistory(STATE, History(IN_HOUSE), DAY0)
         }
     }
 
-    @Test
-    fun `Cannot use unknown building as a previous home`() {
-        val state = STATE.updateStorage(Storage(Building(BUILDING_ID_0)))
-        val entry = HistoryEntry<HousingStatus>(InHouse(UNKNOWN_BUILDING_ID), DAY1)
+    @Nested
+    inner class ApartmentTest {
 
-        assertIllegalArgument("Requires unknown 1.previous home!") {
-            checkHousingStatusHistory(state, History(IN_HOUSE, entry), DAY0)
+        @Test
+        fun `Cannot use unknown building as apartment house`() {
+            val state = STATE.removeStorage(BUILDING_ID_0)
+
+            assertIllegalArgument("Requires unknown home!") {
+                checkHousingStatusHistory(state, History(IN_APARTMENT), DAY0)
+            }
         }
-    }
 
-    @Test
-    fun `Cannot use unknown building as apartment house`() {
-        val state = STATE.removeStorage(BUILDING_ID_0)
+        @Test
+        fun `Cannot use an apartment number higher than the building allows`() {
+            val state = STATE.updateStorage(Storage(create(ApartmentHouse(2))))
 
-        assertIllegalArgument("Requires unknown home!") {
-            checkHousingStatusHistory(state, History(IN_APARTMENT), DAY0)
+            assertIllegalArgument("The home's apartment index is too high!") {
+                checkHousingStatusHistory(state, History(InApartment(BUILDING_ID_0, 2)), DAY0)
+            }
         }
-    }
 
-    @Test
-    fun `Living in an house requires a house`() {
-        val state = STATE.updateStorage(Storage(create(ApartmentHouse(2))))
+        @Test
+        fun `The apartment house doesn't exist yet`() {
+            val state =
+                STATE.updateStorage(Storage(create(ApartmentHouse(2), DAY1)))
 
-        assertIllegalArgument("The home is not a home!") {
-            checkHousingStatusHistory(state, History(IN_HOUSE), DAY0)
+            assertIllegalArgument("The home doesn't exist at the required date!") {
+                checkHousingStatusHistory(state, History(IN_APARTMENT), DAY0)
+            }
         }
-    }
 
-    @Test
-    fun `Living in an apartment requires an apartment house`() {
-        assertIllegalState("The home is not an apartment house!") {
-            checkHousingStatusHistory(STATE, History(IN_APARTMENT), DAY0)
-        }
-    }
+        @Test
+        fun `Live in a valid apartment`() {
+            val count = 3
+            val state = STATE.updateStorage(Storage(create(ApartmentHouse(count))))
 
-    @Test
-    fun `Cannot use an apartment number higher than the building allows`() {
-        val state = STATE.updateStorage(Storage(create(ApartmentHouse(2))))
-
-        assertIllegalArgument("The home's apartment index is too high!") {
-            checkHousingStatusHistory(state, History(InApartment(BUILDING_ID_0, 2)), DAY0)
-        }
-    }
-
-    @Test
-    fun `The house doesn't exist yet`() {
-        val state = STATE.updateStorage(Storage(create(date = DAY1)))
-
-        assertIllegalArgument("The home doesn't exist at the required date!") {
-            checkHousingStatusHistory(state, History(IN_HOUSE), DAY0)
-        }
-    }
-
-    @Test
-    fun `The apartment house doesn't exist yet`() {
-        val state =
-            STATE.updateStorage(Storage(create(ApartmentHouse(2), DAY1)))
-
-        assertIllegalArgument("The home doesn't exist at the required date!") {
-            checkHousingStatusHistory(state, History(IN_APARTMENT), DAY0)
-        }
-    }
-
-    @Test
-    fun `Live in a valid single family house`() {
-        checkHousingStatusHistory(STATE, History(IN_HOUSE), DAY0)
-    }
-
-    @Test
-    fun `Live in a valid apartment`() {
-        val count = 3
-        val state = STATE.updateStorage(Storage(create(ApartmentHouse(count))))
-
-        repeat(count) {
-            checkHousingStatusHistory(state, History(InApartment(BUILDING_ID_0, it)), DAY0)
+            repeat(count) {
+                checkHousingStatusHistory(state, History(InApartment(BUILDING_ID_0, it)), DAY0)
+            }
         }
     }
 
