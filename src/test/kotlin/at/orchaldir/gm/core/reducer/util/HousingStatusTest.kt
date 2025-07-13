@@ -34,7 +34,7 @@ class HousingStatusTest {
     fun `Cannot use unknown building as home`() {
         val state = STATE.removeStorage(BUILDING_ID_0)
 
-        assertIllegalArgument("The home doesn't exist!") {
+        assertIllegalArgument("Requires unknown home!") {
             checkHousingStatusHistory(state, History(IN_HOUSE), DAY0)
         }
     }
@@ -42,9 +42,9 @@ class HousingStatusTest {
     @Test
     fun `Cannot use unknown building as a previous home`() {
         val state = STATE.updateStorage(Storage(Building(BUILDING_ID_0)))
-        val entry = HistoryEntry<HousingStatus>(InHouse(BUILDING_ID_1), DAY1)
+        val entry = HistoryEntry<HousingStatus>(InHouse(UNKNOWN_BUILDING_ID), DAY1)
 
-        assertIllegalArgument("The 1.previous home doesn't exist!") {
+        assertIllegalArgument("Requires unknown 1.previous home!") {
             checkHousingStatusHistory(state, History(IN_HOUSE, entry), DAY0)
         }
     }
@@ -53,7 +53,7 @@ class HousingStatusTest {
     fun `Cannot use unknown building as apartment house`() {
         val state = STATE.removeStorage(BUILDING_ID_0)
 
-        assertIllegalArgument("The home doesn't exist!") {
+        assertIllegalArgument("Requires unknown home!") {
             checkHousingStatusHistory(state, History(IN_APARTMENT), DAY0)
         }
     }
@@ -87,7 +87,7 @@ class HousingStatusTest {
     fun `The house doesn't exist yet`() {
         val state = STATE.updateStorage(Storage(create(date = DAY1)))
 
-        assertIllegalArgument("The home doesn't exist yet!") {
+        assertIllegalArgument("The home doesn't exist at the required date!") {
             checkHousingStatusHistory(state, History(IN_HOUSE), DAY0)
         }
     }
@@ -97,7 +97,7 @@ class HousingStatusTest {
         val state =
             STATE.updateStorage(Storage(create(ApartmentHouse(2), DAY1)))
 
-        assertIllegalArgument("The home doesn't exist yet!") {
+        assertIllegalArgument("The home doesn't exist at the required date!") {
             checkHousingStatusHistory(state, History(IN_APARTMENT), DAY0)
         }
     }

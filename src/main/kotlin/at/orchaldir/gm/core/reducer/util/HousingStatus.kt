@@ -20,19 +20,18 @@ private fun checkHousingStatus(
     noun: String,
     date: Date?,
 ) {
-    val building = when (status) {
+    when (status) {
         UndefinedHousingStatus -> return
         Homeless -> return
         is InApartment -> {
-            val building = state.getBuildingStorage().getOrThrow(status.building) { "The $noun doesn't exist!" }
+            val building = state
+                .requireExists(state.getBuildingStorage(), status.building, date) { noun }
 
             if (building.purpose is ApartmentHouse) {
                 require(status.apartmentIndex < building.purpose.apartments) { "The $noun's apartment index is too high!" }
             } else {
                 error("The $noun is not an apartment house!")
             }
-
-            building
         }
 
         is InHouse -> {
@@ -40,13 +39,9 @@ private fun checkHousingStatus(
                 .requireExists(state.getBuildingStorage(), status.building, date) { noun }
 
             require(building.purpose.isHome()) { "The $noun is not a home!" }
-
-            building
         }
 
         is InRealm -> state.requireExists(state.getRealmStorage(), status.realm, date) { noun }
         is InTown -> state.requireExists(state.getTownStorage(), status.town, date) { noun }
     }
-
-    require(state.exists(building, date)) { "The $noun doesn't exist yet!" }
 }
