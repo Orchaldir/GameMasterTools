@@ -16,11 +16,55 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-
 class HousingStatusTest {
 
     private val inApartment = InApartment(BUILDING_ID_0, 0)
     private val inHouse = InHouse(BUILDING_ID_0)
+
+    @Nested
+    inner class ApartmentTest {
+
+        @Test
+        fun `Cannot use unknown building as apartment house`() {
+            val state = createState()
+            val ownership = History<HousingStatus>(InApartment(UNKNOWN_BUILDING_ID, 9))
+
+            assertIllegalArgument("Requires unknown home!") {
+                checkHousingStatusHistory(createState(), ownership, DAY0)
+            }
+        }
+
+        @Test
+        fun `Cannot use an apartment number higher than the building allows`() {
+            val state = createState(ApartmentHouse(2))
+            val ownership = History<HousingStatus>(InApartment(BUILDING_ID_0, 2))
+
+            assertIllegalArgument("The home's apartment index is too high!") {
+                checkHousingStatusHistory(state, ownership, DAY0)
+            }
+        }
+
+        @Test
+        fun `The apartment house doesn't exist yet`() {
+            val state = createState(ApartmentHouse(2), DAY1)
+
+            assertIllegalArgument("The home doesn't exist at the required date!") {
+                checkHousingStatusHistory(state, History(inApartment), DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid apartment`() {
+            val count = 3
+            val state = createState(ApartmentHouse(count))
+
+            repeat(count) {
+                val ownership = History<HousingStatus>(InApartment(BUILDING_ID_0, it))
+
+                checkHousingStatusHistory(state, ownership, DAY0)
+            }
+        }
+    }
 
     @Nested
     inner class HouseTest {
@@ -67,51 +111,6 @@ class HousingStatusTest {
         @Test
         fun `Live in a valid single family house`() {
             checkHousingStatusHistory(createState(), History(inHouse), DAY0)
-        }
-    }
-
-    @Nested
-    inner class ApartmentTest {
-
-        @Test
-        fun `Cannot use unknown building as apartment house`() {
-            val state = createState()
-            val ownership = History<HousingStatus>(InApartment(UNKNOWN_BUILDING_ID, 9))
-
-            assertIllegalArgument("Requires unknown home!") {
-                checkHousingStatusHistory(createState(), ownership, DAY0)
-            }
-        }
-
-        @Test
-        fun `Cannot use an apartment number higher than the building allows`() {
-            val state = createState(ApartmentHouse(2))
-            val ownership = History<HousingStatus>(InApartment(BUILDING_ID_0, 2))
-
-            assertIllegalArgument("The home's apartment index is too high!") {
-                checkHousingStatusHistory(state, ownership, DAY0)
-            }
-        }
-
-        @Test
-        fun `The apartment house doesn't exist yet`() {
-            val state = createState(ApartmentHouse(2), DAY1)
-
-            assertIllegalArgument("The home doesn't exist at the required date!") {
-                checkHousingStatusHistory(state, History(inApartment), DAY0)
-            }
-        }
-
-        @Test
-        fun `Live in a valid apartment`() {
-            val count = 3
-            val state = createState(ApartmentHouse(count))
-
-            repeat(count) {
-                val ownership = History<HousingStatus>(InApartment(BUILDING_ID_0, it))
-
-                checkHousingStatusHistory(state, ownership, DAY0)
-            }
         }
     }
 
