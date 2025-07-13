@@ -17,11 +17,11 @@ fun State.canDeleteLanguage(language: LanguageId) = countCharacters(language) ==
 
 fun State.countChildren(language: LanguageId) = getLanguageStorage()
     .getAll()
-    .count { l -> l.origin.isChildOf(language) }
+    .count { l -> l.origin.isChildOf(language.value) }
 
 fun State.getChildren(language: LanguageId) = getLanguageStorage()
     .getAll()
-    .filter { l -> l.origin.isChildOf(language) }
+    .filter { l -> l.origin.isChildOf(language.value) }
 
 fun State.getKnownLanguages(character: Character) = getDefaultLanguages(character) + character.languages
 

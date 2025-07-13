@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.routes.culture
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.culture.displayOrigin
 import at.orchaldir.gm.app.html.culture.editLanguage
 import at.orchaldir.gm.app.html.culture.parseLanguage
 import at.orchaldir.gm.app.html.culture.showLanguage
+import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
@@ -168,7 +168,7 @@ private fun HTML.showAllLanguages(
                 tr {
                     tdLink(call, state, language)
                     tdString(language.title)
-                    td { displayOrigin(call, state, language, false) }
+                    td { showOrigin(call, state, language.origin, ::LanguageId) }
                     tdSkipZero(state.countCharacters(language.id))
                     tdSkipZero(state.countCultures(language.id))
                     tdSkipZero(state.countChildren(language.id))
