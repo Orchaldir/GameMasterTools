@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.HousingStatus
 import at.orchaldir.gm.core.model.character.InApartment
 import at.orchaldir.gm.core.model.character.InHouse
+import at.orchaldir.gm.core.model.character.InRealm
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
@@ -20,6 +22,7 @@ class HousingStatusTest {
 
     private val inApartment = InApartment(BUILDING_ID_0, 0)
     private val inHouse = InHouse(BUILDING_ID_0)
+    private val inRealm = InRealm(REALM_ID_0)
 
     @Nested
     inner class ApartmentTest {
@@ -113,6 +116,51 @@ class HousingStatusTest {
             checkHousingStatusHistory(createState(), History(inHouse), DAY0)
         }
     }
+
+    @Nested
+    inner class RealmTest {
+
+        @Test
+        fun `Cannot use unknown realm as home`() {
+            val ownership = History<HousingStatus>(InRealm(UNKNOWN_REALM_ID))
+
+            assertIllegalArgument("Requires unknown home!") {
+                checkHousingStatusHistory(createState(), ownership, DAY0)
+            }
+        }
+
+        @Test
+        fun `Cannot use unknown realm as a previous home`() {
+            val entry = HistoryEntry<HousingStatus>(InRealm(UNKNOWN_REALM_ID), DAY1)
+            val ownership = History(inHouse, entry)
+
+            assertIllegalArgument("Requires unknown 1.previous home!") {
+                checkHousingStatusHistory(createState(), ownership, DAY0)
+            }
+        }
+
+        @Test
+        fun `The house doesn't exist yet`() {
+            val state = createRealmState(date = DAY1)
+
+            assertIllegalArgument("The home doesn't exist at the required date!") {
+                checkHousingStatusHistory(state, History(inRealm), DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid single family house`() {
+            checkHousingStatusHistory(createRealmState(), History(inRealm), DAY0)
+        }
+    }
+
+    private fun createRealmState(date: Date = DAY0) = State(
+        listOf(
+            Storage(Building(BUILDING_ID_0)),
+            Storage(CALENDAR0),
+            Storage(Realm(REALM_ID_0, date = date)),
+        )
+    )
 
     private fun createState(purpose: BuildingPurpose = SingleFamilyHouse, date: Date = DAY0) = State(
         listOf(
