@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.holiday.DayInYear
 import at.orchaldir.gm.core.model.time.holiday.Holiday
+import at.orchaldir.gm.core.model.util.origin.ModifiedElement
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -44,7 +45,7 @@ class CalendarTest {
                 Storage(
                     listOf(
                         Calendar(CALENDAR_ID_0),
-                        Calendar(CALENDAR_ID_1, origin = ImprovedCalendar(CALENDAR_ID_0))
+                        Calendar(CALENDAR_ID_1, origin = ModifiedElement(CALENDAR_ID_0))
                     )
                 )
             )
@@ -96,19 +97,19 @@ class CalendarTest {
         @Test
         fun `Parent calendar must exist`() {
             val state = State(Storage(Calendar(CALENDAR_ID_0)))
-            val action =
-                UpdateCalendar(Calendar(CALENDAR_ID_0, months = validMonths, origin = ImprovedCalendar(CALENDAR_ID_1)))
+            val origin = ModifiedElement(CALENDAR_ID_1)
+            val action = UpdateCalendar(Calendar(CALENDAR_ID_0, months = validMonths, origin = origin))
 
-            assertIllegalArgument("Parent calendar must exist!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown parent Calendar 1!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `A calendar cannot be its own parent`() {
             val state = State(Storage(Calendar(CALENDAR_ID_0)))
-            val action =
-                UpdateCalendar(Calendar(CALENDAR_ID_0, months = validMonths, origin = ImprovedCalendar(CALENDAR_ID_0)))
+            val origin = ModifiedElement(CALENDAR_ID_0)
+            val action = UpdateCalendar(Calendar(CALENDAR_ID_0, months = validMonths, origin = origin))
 
-            assertIllegalArgument("Calendar cannot be its own parent!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Calendar 0 cannot be its own parent!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -210,7 +211,8 @@ class CalendarTest {
         @Test
         fun `Successful update`() {
             val state = State(Storage(listOf(Calendar(CALENDAR_ID_0), Calendar(CALENDAR_ID_1))))
-            val calendar = Calendar(CALENDAR_ID_0, months = validMonths, origin = ImprovedCalendar(CALENDAR_ID_1))
+            val origin = ModifiedElement(CALENDAR_ID_1)
+            val calendar = Calendar(CALENDAR_ID_0, months = validMonths, origin = origin)
             val action = UpdateCalendar(calendar)
 
             assertEquals(calendar, REDUCER.invoke(state, action).first.getCalendarStorage().get(CALENDAR_ID_0))

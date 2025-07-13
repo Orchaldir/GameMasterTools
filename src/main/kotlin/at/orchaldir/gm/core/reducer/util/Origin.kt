@@ -61,6 +61,6 @@ private fun <ID : Id<ID>> checkParent(
     parent: ID,
     date: Date?,
 ) {
-    state.requireExists(parent, date) { "Parent ${parent.print()} is unknown!" }
-    require(id != parent) { "The parent of ${id.print()} cannot be itself!" }
+    state.requireExists(parent, date) { "parent ${parent.print()}" }
+    require(id != parent) { "${id.print()} cannot be its own parent!" }
 }

@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.model.util.origin
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.origin.EvolvedElement
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -62,19 +64,28 @@ data class CombinedElement(
 @Serializable
 @SerialName("Created")
 data class CreatedElement(
-    val creator: Creator,
+    val creator: Creator = UndefinedCreator,
 ) : Origin()
 
 @Serializable
 @SerialName("Evolved")
-data class EvolvedElement(val parent: Int) : Origin()
+data class EvolvedElement(val parent: Int) : Origin() {
+
+    constructor(id: Id<*>) : this(id.value())
+
+}
 
 @Serializable
 @SerialName("Modified")
 data class ModifiedElement(
     val parent: Int,
-    val modifier: Creator,
-) : Origin()
+    val modifier: Creator = UndefinedCreator,
+) : Origin() {
+
+    constructor(id: Id<*>, modifier: Creator = UndefinedCreator) :
+            this(id.value(), modifier)
+
+}
 
 @Serializable
 @SerialName("Original")
@@ -88,8 +99,13 @@ data object PlanarOrigin : Origin()
 @SerialName("Translated")
 data class TranslatedElement(
     val parent: Int,
-    val translator: Creator,
-) : Origin()
+    val translator: Creator = UndefinedCreator,
+) : Origin() {
+
+    constructor(id: Id<*>, translator: Creator = UndefinedCreator) :
+            this(id.value(), translator)
+
+}
 
 @Serializable
 @SerialName("Undefined")

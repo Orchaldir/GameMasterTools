@@ -6,12 +6,12 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.language.CombinedLanguage
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel.Native
-import at.orchaldir.gm.core.model.culture.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.SomeOf
+import at.orchaldir.gm.core.model.util.origin.CombinedElement
+import at.orchaldir.gm.core.model.util.origin.EvolvedElement
 import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -39,7 +39,7 @@ class LanguageTest {
 
         @Test
         fun `Cannot delete parent of evolved language`() {
-            val state = State(Storage(listOf(Language(ID0), Language(ID1, origin = EvolvedLanguage(ID0)))))
+            val state = State(Storage(listOf(Language(ID0), Language(ID1, origin = EvolvedElement(ID0)))))
 
             assertFalse(state.canDeleteLanguage(ID0))
             assertTrue(state.canDeleteLanguage(ID1))
@@ -47,7 +47,8 @@ class LanguageTest {
 
         @Test
         fun `Cannot delete parent of combined language`() {
-            val state = State(Storage(listOf(Language(ID0), Language(ID1, origin = CombinedLanguage(setOf(ID0))))))
+            val origin = CombinedElement(setOf(ID0.value))
+            val state = State(Storage(listOf(Language(ID0), Language(ID1, origin = origin))))
 
             assertFalse(state.canDeleteLanguage(ID0))
             assertTrue(state.canDeleteLanguage(ID1))

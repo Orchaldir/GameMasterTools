@@ -5,14 +5,14 @@ import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.health.CreatedDisease
 import at.orchaldir.gm.core.model.health.Disease
-import at.orchaldir.gm.core.model.health.EvolvedDisease
-import at.orchaldir.gm.core.model.health.ModifiedDisease
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathByDisease
 import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.origin.CreatedElement
+import at.orchaldir.gm.core.model.util.origin.EvolvedElement
+import at.orchaldir.gm.core.model.util.origin.ModifiedElement
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -45,7 +45,7 @@ class DiseaseTest {
 
         @Test
         fun `Cannot delete a modified disease`() {
-            val disease1 = Disease(DISEASE_ID_1, origin = ModifiedDisease(DISEASE_ID_0, UndefinedCreator))
+            val disease1 = Disease(DISEASE_ID_1, origin = ModifiedElement(DISEASE_ID_0, UndefinedCreator))
             val state = STATE.updateStorage(Storage(listOf(disease0, disease1)))
 
             assertIllegalArgument("Cannot delete Disease 0, because it is used!") {
@@ -55,7 +55,7 @@ class DiseaseTest {
 
         @Test
         fun `Cannot delete an evolved disease`() {
-            val disease1 = Disease(DISEASE_ID_1, origin = EvolvedDisease(DISEASE_ID_0))
+            val disease1 = Disease(DISEASE_ID_1, origin = EvolvedElement(DISEASE_ID_0))
             val state = STATE.updateStorage(Storage(listOf(disease0, disease1)))
 
             assertIllegalArgument("Cannot delete Disease 0, because it is used!") {
@@ -88,30 +88,31 @@ class DiseaseTest {
 
         @Test
         fun `Cannot modify an unknown disease`() {
-            val disease = Disease(DISEASE_ID_0, origin = ModifiedDisease(DISEASE_ID_1, UndefinedCreator))
+            val disease = Disease(DISEASE_ID_0, origin = ModifiedElement(UNKNOWN_DISEASE_ID))
             val action = UpdateDisease(disease)
 
-            assertIllegalArgument("Parent disease 1 is unknown!") {
+            assertIllegalArgument("Requires unknown parent Disease 99!") {
                 REDUCER.invoke(STATE, action)
             }
         }
 
         @Test
         fun `Cannot evolve from an unknown disease`() {
-            val disease = Disease(DISEASE_ID_0, origin = EvolvedDisease(DISEASE_ID_1))
+            val disease = Disease(DISEASE_ID_0, origin = EvolvedElement(UNKNOWN_DISEASE_ID))
             val action = UpdateDisease(disease)
 
-            assertIllegalArgument("Parent disease 1 is unknown!") {
+            assertIllegalArgument("Requires unknown parent Disease 99!") {
                 REDUCER.invoke(STATE, action)
             }
         }
 
         @Test
         fun `Modifier must exist`() {
-            val disease = Disease(DISEASE_ID_0, origin = CreatedDisease(CreatedByCharacter(CHARACTER_ID_0)))
+            val origin = CreatedElement(CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val disease = Disease(DISEASE_ID_0, origin = origin)
             val action = UpdateDisease(disease)
 
-            assertIllegalArgument("Cannot use an unknown Character 0 as Inventor!") {
+            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") {
                 REDUCER.invoke(STATE, action)
             }
         }

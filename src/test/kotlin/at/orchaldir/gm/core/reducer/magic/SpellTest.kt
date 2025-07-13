@@ -9,6 +9,9 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.origin.CreatedElement
+import at.orchaldir.gm.core.model.util.origin.ModifiedElement
+import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -41,7 +44,8 @@ class SpellTest {
 
         @Test
         fun `Cannot delete a spell modified by another spell`() {
-            val spell1 = Spell(SPELL_ID_1, origin = ModifiedSpell(UndefinedCreator, SPELL_ID_0))
+            val origin = ModifiedElement(SPELL_ID_0)
+            val spell1 = Spell(SPELL_ID_1, origin = origin)
             val state = STATE.updateStorage(Storage(listOf(spell0, spell1)))
 
             assertIllegalArgument("Cannot delete Spell 0, because it is used!") {
@@ -51,7 +55,8 @@ class SpellTest {
 
         @Test
         fun `Cannot delete a translated spell`() {
-            val spell1 = Spell(SPELL_ID_1, origin = TranslatedSpell(UndefinedCreator, SPELL_ID_0))
+            val origin = TranslatedElement(SPELL_ID_0)
+            val spell1 = Spell(SPELL_ID_1, origin = origin)
             val state = STATE.updateStorage(Storage(listOf(spell0, spell1)))
 
             assertIllegalArgument("Cannot delete Spell 0, because it is used!") {
@@ -87,30 +92,33 @@ class SpellTest {
 
         @Test
         fun `Cannot modify an unknown spell`() {
-            val spell = Spell(SPELL_ID_0, origin = ModifiedSpell(UndefinedCreator, SPELL_ID_1))
+            val origin = ModifiedElement(SPELL_ID_1)
+            val spell = Spell(SPELL_ID_0, origin = origin)
             val action = UpdateSpell(spell)
 
-            assertIllegalArgument("Original spell 1 is unknown!") {
+            assertIllegalArgument("Requires unknown parent Spell 1!") {
                 REDUCER.invoke(STATE, action)
             }
         }
 
         @Test
         fun `Cannot translate an unknown spell`() {
-            val spell = Spell(SPELL_ID_0, origin = TranslatedSpell(UndefinedCreator, SPELL_ID_1))
+            val origin = TranslatedElement(UNKNOWN_SPELL_ID)
+            val spell = Spell(SPELL_ID_0, origin = origin)
             val action = UpdateSpell(spell)
 
-            assertIllegalArgument("Original spell 1 is unknown!") {
+            assertIllegalArgument("Requires unknown parent Spell 99!") {
                 REDUCER.invoke(STATE, action)
             }
         }
 
         @Test
-        fun `Inventor must exist`() {
-            val spell = Spell(SPELL_ID_0, origin = InventedSpell(CreatedByCharacter(CHARACTER_ID_0)))
+        fun `Creator must exist`() {
+            val origin = CreatedElement(CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val spell = Spell(SPELL_ID_0, origin = origin)
             val action = UpdateSpell(spell)
 
-            assertIllegalArgument("Cannot use an unknown Character 0 as Inventor!") {
+            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") {
                 REDUCER.invoke(STATE, action)
             }
         }
