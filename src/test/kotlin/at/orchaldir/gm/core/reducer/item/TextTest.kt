@@ -35,7 +35,7 @@ class TextTest {
             Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, date = DAY1))),
             Storage(CALENDAR0),
             Storage(Business(BUSINESS_ID_0, startDate = DAY2)),
-            Storage(Character(CHARACTER_ID_0)),
+            Storage(Character(CHARACTER_ID_0, birthDate = DAY0)),
             Storage(Language(LANGUAGE_ID_0)),
             Storage(Spell(SPELL_ID_0)),
         )
@@ -105,7 +105,7 @@ class TextTest {
         fun `Publisher must exist at the time of publishing`() {
             val action = UpdateText(Text(TEXT_ID_0, publisher = BUSINESS_ID_0, date = DAY1))
 
-            assertIllegalArgument("Business 0 doesn't exist at the required date!") {
+            assertIllegalArgument("The Business 0 doesn't exist at the required date!") {
                 REDUCER.invoke(
                     STATE,
                     action
@@ -151,7 +151,7 @@ class TextTest {
             val origin = TranslatedElement(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val action = UpdateText(Text(TEXT_ID_0, date = DAY0, origin = origin))
 
-            assertIllegalArgument("The translation must happen after the original was written!") {
+            assertIllegalArgument("The parent Text 1 doesn't exist at the required date!") {
                 REDUCER.invoke(STATE, action)
             }
         }

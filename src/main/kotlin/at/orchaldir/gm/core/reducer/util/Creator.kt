@@ -39,8 +39,8 @@ private fun <ID0, ID1, ELEMENT> checkCreatorElement(
     require(creator != created) { "The $typeNoun cannot create itself!" }
     val element = state
         .getStorage<ID0, ELEMENT>(creator)
-        .getOrThrow(creator) { "Cannot use an unknown $typeNoun ${creator.value()} as $noun!" }
+        .getOrThrow(creator) { "Cannot use an unknown ${creator.print()} as $noun!" }
 
-    require(state.exists(element, date)) { "$noun ($typeNoun ${creator.value()}) does not exist!" }
+    require(state.exists(element, date)) { "$noun (${creator.print()}) does not exist!" }
 }
 

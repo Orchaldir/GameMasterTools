@@ -73,7 +73,7 @@ fun <ID, ELEMENT> State.requireExists(
     }
 
     require(exists(element, date)) {
-        "${noun()} doesn't exist at the required date!"
+        "The ${noun()} doesn't exist at the required date!"
     }
 
     return element
