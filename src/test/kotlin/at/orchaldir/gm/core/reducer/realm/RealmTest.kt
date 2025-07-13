@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EmployedByRealm
 import at.orchaldir.gm.core.model.character.EmploymentStatus
+import at.orchaldir.gm.core.model.character.HousingStatus
+import at.orchaldir.gm.core.model.character.InRealm
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -118,6 +120,14 @@ class RealmTest {
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
 
             test(character, "Cannot delete Realm 0, because it has or had employees!")
+        }
+
+        @Test
+        fun `Cannot delete a realm that is the home of a character`() {
+            val housingStatus = History<HousingStatus>(InRealm(REALM_ID_0))
+            val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
+
+            test(character, "Cannot delete Realm 0, because it is used!")
         }
 
         @Test

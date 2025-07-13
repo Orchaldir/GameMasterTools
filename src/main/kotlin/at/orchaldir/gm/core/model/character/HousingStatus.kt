@@ -41,6 +41,8 @@ sealed class HousingStatus {
     open fun isLivingIn(building: BuildingId) = false
     open fun isLivingInApartment(building: BuildingId, apartmentIndex: Int) = false
     open fun isLivingInHouse(building: BuildingId) = false
+    open fun isLivingIn(realm: RealmId) = false
+    open fun isLivingIn(town: TownId) = false
 
 }
 
@@ -76,11 +78,19 @@ data class InHouse(val building: BuildingId) : HousingStatus() {
 
 @Serializable
 @SerialName("Realm")
-data class InRealm(val realm: RealmId) : HousingStatus()
+data class InRealm(val realm: RealmId) : HousingStatus() {
+
+    override fun isLivingIn(realm: RealmId) = this.realm == realm
+
+}
 
 @Serializable
 @SerialName("Town")
-data class InTown(val town: TownId) : HousingStatus()
+data class InTown(val town: TownId) : HousingStatus() {
+
+    override fun isLivingIn(town: TownId) = this.town == town
+
+}
 
 @Serializable
 @SerialName("Undefined")

@@ -339,7 +339,7 @@ class CharacterTest {
         inner class BeliefStatusTest {
 
             @Test
-            fun `Cannot use unknown building as home`() {
+            fun `Cannot believe in an unknown god`() {
                 val action =
                     UpdateCharacter(Character(CHARACTER_ID_0, beliefStatus = History(WorshipsGod(UNKNOWN_GOD_ID))))
 
