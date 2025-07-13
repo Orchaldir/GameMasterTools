@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.utils.doNothing
-import kotlin.collections.filter
 import kotlin.math.max
 
 fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty() &&

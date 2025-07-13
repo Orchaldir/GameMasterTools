@@ -4,8 +4,10 @@ import at.orchaldir.gm.core.action.CreateCalendar
 import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.model.time.calendar.*
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
+import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.time.calendar.canDelete

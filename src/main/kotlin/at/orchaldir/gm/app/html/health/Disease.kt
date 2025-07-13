@@ -1,13 +1,17 @@
 package at.orchaldir.gm.app.html.health
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.health.*
+import at.orchaldir.gm.core.model.health.ALLOWED_DISEASE_ORIGINS
+import at.orchaldir.gm.core.model.health.Disease
+import at.orchaldir.gm.core.model.health.DiseaseId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM

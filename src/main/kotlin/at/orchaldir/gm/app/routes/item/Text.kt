@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.text.editText
 import at.orchaldir.gm.app.html.item.text.parseText
 import at.orchaldir.gm.app.html.item.text.showText
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.core.action.CreateText
@@ -14,7 +13,6 @@ import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
-import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.sortTexts

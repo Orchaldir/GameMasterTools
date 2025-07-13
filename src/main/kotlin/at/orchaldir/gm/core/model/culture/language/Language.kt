@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.culture.language
 
-import at.orchaldir.gm.core.model.magic.ALLOWED_SPELL_ORIGINS
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate

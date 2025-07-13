@@ -46,6 +46,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
                 link(call, state, createId(parent))
             }
         }
+
         is CreatedElement -> {
             +"Created by "
             showCreator(call, state, origin.creator)
@@ -66,6 +67,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
             createId(origin.parent),
             "translated"
         )
+
         UndefinedOrigin -> if (showUndefined) {
             +"Undefined"
         } else {
@@ -138,6 +140,7 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
             createId(origin.parent),
             date,
         )
+
         UndefinedOrigin -> doNothing()
     }
 }
@@ -185,6 +188,7 @@ fun parseOrigin(parameters: Parameters) =
             val parents = parseElements(parameters, combine(ORIGIN, REFERENCE)) { it.toInt() }
             CombinedElement(parents)
         }
+
         OriginType.Created -> CreatedElement(parseCreator(parameters))
         OriginType.Evolved -> EvolvedElement(
             parseInt(parameters, combine(ORIGIN, REFERENCE)),
@@ -202,5 +206,6 @@ fun parseOrigin(parameters: Parameters) =
             parseInt(parameters, combine(ORIGIN, REFERENCE)),
             parseCreator(parameters),
         )
+
         OriginType.Undefined -> UndefinedOrigin
     }

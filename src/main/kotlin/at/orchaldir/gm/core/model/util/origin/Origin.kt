@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.model.util.origin
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
-import at.orchaldir.gm.core.model.util.origin.EvolvedElement
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.magic
 
 import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.time.calendar.ALLOWED_CALENDAR_ORIGINS
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate

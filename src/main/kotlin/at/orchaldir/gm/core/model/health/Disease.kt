@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.health
 
-import at.orchaldir.gm.core.model.time.calendar.ALLOWED_CALENDAR_ORIGINS
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate

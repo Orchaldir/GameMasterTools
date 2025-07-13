@@ -3,15 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.origin.CombinedElement
-import at.orchaldir.gm.core.model.util.origin.CreatedElement
-import at.orchaldir.gm.core.model.util.origin.EvolvedElement
-import at.orchaldir.gm.core.model.util.origin.ModifiedElement
-import at.orchaldir.gm.core.model.util.origin.Origin
-import at.orchaldir.gm.core.model.util.origin.OriginalElement
-import at.orchaldir.gm.core.model.util.origin.PlanarOrigin
-import at.orchaldir.gm.core.model.util.origin.TranslatedElement
-import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
+import at.orchaldir.gm.core.model.util.origin.*
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -27,6 +19,7 @@ fun <ID : Id<ID>> checkOrigin(
         is CombinedElement -> origin.parents.forEach { parent ->
             checkParent(state, id, createId(parent), date)
         }
+
         is CreatedElement -> checkCreator(state, id, origin.creator, date)
         is ModifiedElement -> checkOrigin(state, id, origin.modifier, createId(origin.parent), date)
         is EvolvedElement -> checkParent(state, id, createId(origin.parent), date)

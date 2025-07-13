@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.race
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -14,11 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.model.race.ALLOWED_RACE_ORIGINS
-import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
-import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
-import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.render.Color
