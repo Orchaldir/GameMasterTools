@@ -6,7 +6,9 @@ import at.orchaldir.gm.core.model.character.HousingStatus
 import at.orchaldir.gm.core.model.character.InApartment
 import at.orchaldir.gm.core.model.character.InHouse
 import at.orchaldir.gm.core.model.character.InRealm
+import at.orchaldir.gm.core.model.character.InTown
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
@@ -23,13 +25,13 @@ class HousingStatusTest {
     private val inApartment = InApartment(BUILDING_ID_0, 0)
     private val inHouse = InHouse(BUILDING_ID_0)
     private val inRealm = InRealm(REALM_ID_0)
+    private val inTown = InTown(TOWN_ID_0)
 
     @Nested
     inner class ApartmentTest {
 
         @Test
         fun `Cannot use unknown building as apartment house`() {
-            val state = createState()
             val ownership = History<HousingStatus>(InApartment(UNKNOWN_BUILDING_ID, 9))
 
             assertIllegalArgument("Requires unknown home!") {
@@ -140,7 +142,7 @@ class HousingStatusTest {
         }
 
         @Test
-        fun `The house doesn't exist yet`() {
+        fun `The realm doesn't exist yet`() {
             val state = createRealmState(date = DAY1)
 
             assertIllegalArgument("The home doesn't exist at the required date!") {
@@ -149,18 +151,63 @@ class HousingStatusTest {
         }
 
         @Test
-        fun `Live in a valid single family house`() {
+        fun `Live in a valid realm`() {
             checkHousingStatusHistory(createRealmState(), History(inRealm), DAY0)
         }
+
+        private fun createRealmState(date: Date = DAY0) = State(
+            listOf(
+                Storage(Building(BUILDING_ID_0)),
+                Storage(CALENDAR0),
+                Storage(Realm(REALM_ID_0, date = date)),
+            )
+        )
     }
 
-    private fun createRealmState(date: Date = DAY0) = State(
-        listOf(
-            Storage(Building(BUILDING_ID_0)),
-            Storage(CALENDAR0),
-            Storage(Realm(REALM_ID_0, date = date)),
+    @Nested
+    inner class TownTest {
+
+        @Test
+        fun `Cannot use unknown town as home`() {
+            val ownership = History<HousingStatus>(InTown(UNKNOWN_TOWN_ID))
+
+            assertIllegalArgument("Requires unknown home!") {
+                checkHousingStatusHistory(createState(), ownership, DAY0)
+            }
+        }
+
+        @Test
+        fun `Cannot use unknown town as a previous home`() {
+            val entry = HistoryEntry<HousingStatus>(InTown(UNKNOWN_TOWN_ID), DAY1)
+            val ownership = History(inHouse, entry)
+
+            assertIllegalArgument("Requires unknown 1.previous home!") {
+                checkHousingStatusHistory(createState(), ownership, DAY0)
+            }
+        }
+
+        @Test
+        fun `The town doesn't exist yet`() {
+            val state = createTownState(date = DAY1)
+
+            assertIllegalArgument("The home doesn't exist at the required date!") {
+                checkHousingStatusHistory(state, History(inTown), DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid town`() {
+            checkHousingStatusHistory(createTownState(), History(inTown), DAY0)
+        }
+
+        private fun createTownState(date: Date = DAY0) = State(
+            listOf(
+                Storage(Building(BUILDING_ID_0)),
+                Storage(CALENDAR0),
+                Storage(Town(TOWN_ID_0, foundingDate = date)),
+            )
         )
-    )
+    }
 
     private fun createState(purpose: BuildingPurpose = SingleFamilyHouse, date: Date = DAY0) = State(
         listOf(
