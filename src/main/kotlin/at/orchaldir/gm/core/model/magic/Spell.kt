@@ -17,7 +17,12 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val SPELL_TYPE = "Spell"
-val ALLOWED_SPELL_ORIGINS = OriginType.entries - OriginType.Evolved - OriginType.Original
+val ALLOWED_SPELL_ORIGINS = listOf(
+    OriginType.Created,
+    OriginType.Modified,
+    OriginType.Translated,
+    OriginType.Undefined,
+)
 
 @JvmInline
 @Serializable

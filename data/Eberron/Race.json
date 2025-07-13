@@ -90,15 +90,15 @@
     "type": "Immutable",
     "appearance": 3
    },
+   "date": {
+    "type": "Year",
+    "year": 964
+   },
    "origin": {
     "type": "Created",
     "creator": {
      "type": "Organization",
      "organization": 16
-    },
-    "date": {
-     "type": "Year",
-     "year": 964
     }
    }
   },
@@ -155,9 +155,11 @@
     "venerableAgeHairColor": "White"
    },
    "origin": {
-    "type": "Hybrid",
-    "first": 1,
-    "second": 0
+    "type": "Combined",
+    "parents": [
+     0,
+     1
+    ]
    }
   },
   "6": {
@@ -361,15 +363,15 @@
     "type": "Immutable",
     "appearance": 7
    },
+   "date": {
+    "type": "Decade",
+    "decade": -901
+   },
    "origin": {
     "type": "Created",
     "creator": {
      "type": "God",
      "god": 20
-    },
-    "date": {
-     "type": "Decade",
-     "decade": -901
     }
    }
   },
@@ -500,16 +502,16 @@
     "oldAgeHairColor": "Gray",
     "venerableAgeHairColor": "White"
    },
+   "date": {
+    "type": "Century",
+    "century": -91
+   },
    "origin": {
     "type": "Modified",
     "parent": 10,
     "modifier": {
      "type": "God",
      "god": 23
-    },
-    "date": {
-     "type": "Century",
-     "century": -91
     }
    }
   }

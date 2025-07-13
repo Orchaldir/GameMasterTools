@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.race
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -12,6 +13,8 @@ import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
+import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.race.ALLOWED_RACE_ORIGINS
 import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
 import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
 import at.orchaldir.gm.core.model.race.Race
@@ -39,7 +42,8 @@ fun HtmlBlockTag.showRace(
     showDistribution("Height", race.height)
     fieldWeight("Weight", race.weight)
     field("BMI", String.format("%.1f", race.calculateBodyMassIndex()))
-    showRaceOrigin(call, state, race.origin)
+    optionalField(call, state, "Date", race.date)
+    fieldOrigin(call, state, race.origin, ::SpellId)
     showLifeStages(call, state, race)
     showDataSources(call, state, race.sources)
 }
@@ -130,7 +134,8 @@ fun FORM.editRace(
         heightPrefix,
     )
     selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix)
-    editRaceOrigin(state, race)
+    selectOptionalDate(state, "Date", race.date, DATE)
+    editOrigin(state, race.id, race.origin, race.date, ALLOWED_RACE_ORIGINS, ::RaceId)
     editLifeStages(state, race)
     editDataSources(state, race.sources)
 }
@@ -252,7 +257,8 @@ fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
     parseDistribution(parameters, HEIGHT, heightPrefix, ::parseDistance),
     parseWeight(parameters, WEIGHT, weightPrefix),
     parseLifeStages(parameters),
-    parseRaceOrigin(parameters, state),
+    parseOptionalDate(parameters, state, DATE),
+    parseOrigin(parameters),
     parseDataSources(parameters),
 )
 

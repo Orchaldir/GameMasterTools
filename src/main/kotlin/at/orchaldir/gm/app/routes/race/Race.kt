@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.race.displayRaceOrigin
 import at.orchaldir.gm.app.html.race.editRace
 import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
@@ -15,7 +15,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.character.getCharacters
@@ -160,7 +162,7 @@ private fun HTML.showAllRaces(
                     tdSkipZero(race.lifeStages.getMaxAge())
                     td { +race.height.center.toString() }
                     td { +race.weight.toString() }
-                    td { displayRaceOrigin(call, state, race.origin, false) }
+                    td { showOrigin(call, state, race.origin, ::RaceId) }
                     td {
                         title = state.getAgeInYears(race.startDate())?.let { "$it years ago" } ?: ""
                         showOptionalDate(call, state, race.startDate())
