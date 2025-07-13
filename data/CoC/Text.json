@@ -5,8 +5,8 @@
    "id": 0,
    "name": "Al Azif",
    "origin": {
-    "type": "Original",
-    "author": {
+    "type": "Created",
+    "creator": {
      "type": "Character",
      "character": 18
     }
@@ -61,8 +61,8 @@
    "id": 1,
    "name": "Necronomicon",
    "origin": {
-    "type": "Translation",
-    "text": 0,
+    "type": "Translated",
+    "parent": 0,
     "translator": {
      "type": "Character",
      "character": 19
@@ -162,8 +162,8 @@
    "id": 2,
    "name": "Necronomicon",
    "origin": {
-    "type": "Translation",
-    "text": 1,
+    "type": "Translated",
+    "parent": 1,
     "translator": {
      "type": "Undefined"
     }
@@ -218,8 +218,8 @@
    "id": 3,
    "name": "Cultus Maleficarum",
    "origin": {
-    "type": "Translation",
-    "text": 2,
+    "type": "Translated",
+    "parent": 2,
     "translator": {
      "type": "Undefined"
     }

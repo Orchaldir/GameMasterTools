@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.time
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -34,6 +35,7 @@ fun HtmlBlockTag.showCalendar(
     val holidays = state.getHolidays(calendar.id)
     val periodicals = state.getPeriodicals(calendar.id)
 
+    optionalField(call, state, "Date", calendar.date)
     showOrigin(call, state, calendar)
 
     h2 { +"Parts" }
@@ -118,6 +120,7 @@ fun FORM.editCalendar(
     val holidays = state.getHolidays(calendar.id)
 
     selectName(calendar.name)
+    selectOptionalDate(state, "Date", calendar.date, DATE)
     editOrigin(
         state,
         calendar.id,
@@ -217,6 +220,7 @@ private fun FORM.editEra(
 fun parseCalendarId(parameters: Parameters, param: String) = CalendarId(parseInt(parameters, param))
 
 fun parseCalendar(
+    state: State,
     parameters: Parameters,
     default: Calendar,
     id: CalendarId,
@@ -226,6 +230,7 @@ fun parseCalendar(
     parseDays(parameters),
     parseMonths(parameters),
     parseEras(parameters, default),
+    parseOptionalDate(parameters, state, DATE),
     parseOrigin(parameters),
     parseDateFormat(parameters),
 )
