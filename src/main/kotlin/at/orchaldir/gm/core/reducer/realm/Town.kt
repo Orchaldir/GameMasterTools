@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCapital
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
@@ -29,9 +31,11 @@ val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
 
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)
-    validateCanDelete(state.getTownMaps(action.id).isEmpty(), action.id, "it has a town map")
+    validateCanDelete(state.getCharactersLivingIn(action.id).isEmpty(), action.id, "it is a home")
+    validateCanDelete(state.getCharactersPreviouslyLivingIn(action.id).isEmpty(), action.id, "it was a home")
     validateCanDelete(state.getRealmsWithCapital(action.id).isEmpty(), action.id, "it is a capital")
     validateCanDelete(state.getRealmsWithPreviousCapital(action.id).isEmpty(), action.id, "it was a capital")
+    validateCanDelete(state.getTownMaps(action.id).isEmpty(), action.id, "it has a town map")
 
     noFollowUps(state.updateStorage(state.getTownStorage().remove(action.id)))
 }

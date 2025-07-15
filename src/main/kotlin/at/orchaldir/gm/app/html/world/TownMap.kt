@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.getEmployees
-import at.orchaldir.gm.core.selector.character.getResident
+import at.orchaldir.gm.core.selector.character.getResidents
 import at.orchaldir.gm.core.selector.character.getWorkingIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.util.sortCharacters
@@ -75,11 +75,7 @@ fun HtmlBlockTag.showCharactersOfTownMap(
     } else {
         emptyList()
     }
-    val residents = if (townMap != null) {
-        state.getResident(townMap)
-    } else {
-        emptyList()
-    }
+    val residents = state.getResidents(town, townMap)
     val workers = if (townMap != null) {
         state.getWorkingIn(townMap) - residents
     } else {

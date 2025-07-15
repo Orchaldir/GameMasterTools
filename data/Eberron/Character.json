@@ -262,6 +262,23 @@
     "11": "Native",
     "9": "Accented"
    },
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 991
+      }
+     }
+    ]
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
@@ -1068,6 +1085,12 @@
     "decade": 95
    },
    "culture": 5,
+   "housingStatus": {
+    "current": {
+     "type": "Realm",
+     "realm": 1
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "ByRealm",
@@ -1109,6 +1132,12 @@
     "type": "Decade",
     "decade": 93
    },
+   "housingStatus": {
+    "current": {
+     "type": "Realm",
+     "realm": 2
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "ByRealm",
@@ -1148,6 +1177,12 @@
     "year": 972
    },
    "culture": 1,
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 12
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "ByTown",

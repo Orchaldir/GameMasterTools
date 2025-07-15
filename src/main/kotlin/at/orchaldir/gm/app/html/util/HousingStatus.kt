@@ -1,9 +1,9 @@
 package at.orchaldir.gm.app.html.util
 
-import at.orchaldir.gm.app.BUILDING
-import at.orchaldir.gm.app.HOME
-import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.realm.parseRealmId
+import at.orchaldir.gm.app.html.realm.parseTownId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.world.parseBuildingId
@@ -14,6 +14,8 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.sortBuildings
+import at.orchaldir.gm.core.selector.util.sortRealms
+import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getHomes
 import at.orchaldir.gm.utils.doNothing
@@ -21,6 +23,8 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+
+// show
 
 fun HtmlBlockTag.showHousingStatusHistory(
     call: ApplicationCall,
@@ -46,11 +50,15 @@ fun HtmlBlockTag.showHousingStatus(
         }
 
         is InHouse -> link(call, state, housingStatus.building)
+        is InRealm -> link(call, state, housingStatus.realm)
+        is InTown -> link(call, state, housingStatus.town)
         UndefinedHousingStatus -> if (showUndefined) {
             +"Undefined"
         }
     }
 }
+
+// select
 
 fun FORM.selectHousingStatusHistory(
     state: State,
@@ -66,6 +74,8 @@ fun HtmlBlockTag.selectHousingStatus(
 ) {
     val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
     val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
+    val realms = state.sortRealms(state.getExistingElements(state.getRealmStorage(), start))
+    val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
 
     selectValue("Housing Status", param, HousingStatusType.entries, housingStatus.getType()) { type ->
         when (type) {
@@ -73,6 +83,8 @@ fun HtmlBlockTag.selectHousingStatus(
             HousingStatusType.Homeless -> false
             HousingStatusType.InApartment -> apartments.isEmpty()
             HousingStatusType.InHouse -> homes.isEmpty()
+            HousingStatusType.InRealm -> realms.isEmpty()
+            HousingStatusType.InTown -> towns.isEmpty()
         }
     }
     when (housingStatus) {
@@ -95,9 +107,32 @@ fun HtmlBlockTag.selectHousingStatus(
             }
         }
 
-        is InHouse -> selectElement("Home", combine(param, BUILDING), homes, housingStatus.building)
+        is InHouse -> selectElement(
+            "Home",
+            combine(param, BUILDING),
+            homes,
+            housingStatus.building,
+        )
+
+        is InRealm -> selectElement(
+            state,
+            "Realm",
+            combine(param, REALM),
+            realms,
+            housingStatus.realm,
+        )
+
+        is InTown -> selectElement(
+            state,
+            "Town",
+            combine(param, TOWN),
+            towns,
+            housingStatus.town,
+        )
     }
 }
+
+// parse
 
 fun parseHousingStatusHistory(parameters: Parameters, state: State, startDate: Date) =
     parseHistory(parameters, HOME, state, startDate, ::parseHousingStatus)
@@ -117,6 +152,20 @@ private fun parseHousingStatus(parameters: Parameters, state: State, param: Stri
                 parameters,
                 combine(param, BUILDING),
                 state.getHomes().minOfOrNull { it.id.value } ?: 0),
+        )
+
+        HousingStatusType.InRealm -> InRealm(
+            parseRealmId(
+                parameters,
+                combine(param, REALM),
+            )
+        )
+
+        HousingStatusType.InTown -> InTown(
+            parseTownId(
+                parameters,
+                combine(param, TOWN),
+            )
         )
 
         HousingStatusType.Homeless -> Homeless

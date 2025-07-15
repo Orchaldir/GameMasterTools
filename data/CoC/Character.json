@@ -84,7 +84,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 52
     }
    },
@@ -216,7 +216,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 35
     },
     "previousEntries": [
@@ -255,6 +255,12 @@
    "personality": [
     28
    ],
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
@@ -279,6 +285,12 @@
    "personality": [
     1
    ],
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
@@ -343,6 +355,12 @@
     },
     "height": 1800000
    },
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "ByTown",
@@ -405,6 +423,12 @@
     "6": [
      "Spouse"
     ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
    }
   },
   "8": {
@@ -468,7 +492,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 9
     }
    },
@@ -499,7 +523,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 66
     }
    },
@@ -534,7 +558,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 66
     }
    },
@@ -569,7 +593,7 @@
    ],
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 66
     }
    },
@@ -605,7 +629,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 72
     }
    },
@@ -640,7 +664,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 72
     }
    }
@@ -707,7 +731,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 72
     }
    }
@@ -724,6 +748,12 @@
    "birthDate": {
     "type": "Year",
     "year": 1890
+   },
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
    },
    "employmentStatus": {
     "current": {
@@ -752,7 +782,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 74
     }
    },
@@ -784,7 +814,7 @@
    },
    "housingStatus": {
     "current": {
-     "type": "InHouse",
+     "type": "House",
      "building": 74
     }
    },

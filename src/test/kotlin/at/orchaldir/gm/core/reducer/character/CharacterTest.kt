@@ -339,7 +339,7 @@ class CharacterTest {
         inner class BeliefStatusTest {
 
             @Test
-            fun `Cannot use unknown building as home`() {
+            fun `Cannot believe in an unknown god`() {
                 val action =
                     UpdateCharacter(Character(CHARACTER_ID_0, beliefStatus = History(WorshipsGod(UNKNOWN_GOD_ID))))
 
@@ -354,7 +354,7 @@ class CharacterTest {
             fun `Cannot use unknown building as home`() {
                 val action = UpdateCharacter(Character(CHARACTER_ID_0, housingStatus = History(InHouse(BUILDING_ID_0))))
 
-                assertIllegalArgument("The home doesn't exist!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Requires unknown home!") { REDUCER.invoke(STATE, action) }
             }
         }
 
