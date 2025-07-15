@@ -171,6 +171,10 @@ fun State.getCharactersLivingIn(town: TownId) = getCharacterStorage()
     .getAll()
     .filter { it.housingStatus.current.isLivingIn(town) }
 
+fun State.getCharactersLivingIn(townMap: TownMapId) = getCharacterStorage()
+    .getAll()
+    .filter { isResident(it, townMap) }
+
 fun State.countCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
     .count { it.housingStatus.current.isLivingInHouse(building) }
@@ -187,10 +191,6 @@ fun State.getCharactersPreviouslyLivingIn(town: TownId) = getCharacterStorage()
     .getAll()
     .filter { it.housingStatus.previousEntries.any { it.entry.isLivingIn(town) } }
 
-fun State.getResidents(realm: RealmId) = getCharacterStorage()
-    .getAll()
-    .filter { it.housingStatus.current.isLivingIn(realm) }
-
 fun State.getResidents(townId: TownId): List<Character> {
     val townMap = getCurrentTownMap(townId)
         ?: return emptyList()
@@ -200,25 +200,17 @@ fun State.getResidents(townId: TownId): List<Character> {
 
 fun State.getResidents(town: TownId?, townMap: TownMapId?): List<Character> {
     val residents = if (town != null) {
-        getResidentsInTown(town)
+        getCharactersLivingIn(town)
     } else {
         emptyList()
     }
 
     return if (townMap != null) {
-        residents + getResidentsInBuildingsOf(townMap)
+        residents + getCharactersLivingIn(townMap)
     } else {
         residents
     }
 }
-
-fun State.getResidentsInTown(town: TownId) = getCharacterStorage()
-    .getAll()
-    .filter { it.housingStatus.current.isLivingIn(town) }
-
-fun State.getResidentsInBuildingsOf(townMap: TownMapId) = getCharacterStorage()
-    .getAll()
-    .filter { isResident(it, townMap) }
 
 fun State.isResident(character: Character, town: TownMapId) = character.housingStatus.current.getBuilding()
     ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }

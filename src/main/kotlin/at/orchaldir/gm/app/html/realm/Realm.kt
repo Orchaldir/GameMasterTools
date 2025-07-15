@@ -11,9 +11,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALM
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
-import at.orchaldir.gm.core.selector.character.getResidents
 import at.orchaldir.gm.core.selector.economy.money.getExistingCurrency
 import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.util.sortBattles
@@ -49,7 +49,7 @@ fun HtmlBlockTag.showRealm(
 
     showEmployees(call, state, state.getEmployees(realm.id), showTown = false)
     showEmployees(call, state, state.getPreviousEmployees(realm.id), "Previous Employees", showTown = false)
-    val residents = state.sortCharacters(state.getResidents(realm.id))
+    val residents = state.sortCharacters(state.getCharactersLivingIn(realm.id))
     fieldList(call, state, "Residents", residents)
 
     val battles = state.sortBattles(state.getBattles(realm.id))
