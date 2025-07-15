@@ -4,13 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.EmployedByTown
-import at.orchaldir.gm.core.model.character.EmploymentStatus
-import at.orchaldir.gm.core.model.character.HousingStatus
-import at.orchaldir.gm.core.model.character.InRealm
-import at.orchaldir.gm.core.model.character.InTown
-import at.orchaldir.gm.core.model.character.Unemployed
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId

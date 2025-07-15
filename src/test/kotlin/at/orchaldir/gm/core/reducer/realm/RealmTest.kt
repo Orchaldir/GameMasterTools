@@ -4,11 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.EmployedByRealm
-import at.orchaldir.gm.core.model.character.EmploymentStatus
-import at.orchaldir.gm.core.model.character.HousingStatus
-import at.orchaldir.gm.core.model.character.InRealm
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building

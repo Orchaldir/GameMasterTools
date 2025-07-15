@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.util
 
-import at.orchaldir.gm.app.BUILDING
-import at.orchaldir.gm.app.HOME
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.REALM
-import at.orchaldir.gm.app.TOWN
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.parseRealmId
 import at.orchaldir.gm.app.html.realm.parseTownId

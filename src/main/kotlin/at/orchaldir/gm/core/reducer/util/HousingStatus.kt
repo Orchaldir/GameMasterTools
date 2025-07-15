@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
-import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.core.selector.util.requireExists
 
 fun checkHousingStatusHistory(
