@@ -163,10 +163,7 @@
    "name": "Necronomicon",
    "origin": {
     "type": "Translated",
-    "parent": 1,
-    "translator": {
-     "type": "Undefined"
-    }
+    "parent": 1
    },
    "date": {
     "type": "Year",
@@ -219,10 +216,7 @@
    "name": "Cultus Maleficarum",
    "origin": {
     "type": "Translated",
-    "parent": 2,
-    "translator": {
-     "type": "Undefined"
-    }
+    "parent": 2
    },
    "date": {
     "type": "Year",

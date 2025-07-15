@@ -255,6 +255,12 @@
    "personality": [
     28
    ],
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
@@ -279,6 +285,12 @@
    "personality": [
     1
    ],
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
@@ -343,6 +355,12 @@
     },
     "height": 1800000
    },
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "ByTown",
@@ -405,6 +423,12 @@
     "6": [
      "Spouse"
     ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
    }
   },
   "8": {
@@ -724,6 +748,12 @@
    "birthDate": {
     "type": "Year",
     "year": 1890
+   },
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
    },
    "employmentStatus": {
     "current": {

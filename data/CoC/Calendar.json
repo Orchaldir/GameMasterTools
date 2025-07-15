@@ -125,10 +125,7 @@
    },
    "origin": {
     "type": "Modified",
-    "parent": 2,
-    "modifier": {
-     "type": "Undefined"
-    }
+    "parent": 2
    }
   },
   "0": {
@@ -211,10 +208,7 @@
    },
    "origin": {
     "type": "Modified",
-    "parent": 1,
-    "modifier": {
-     "type": "Undefined"
-    }
+    "parent": 1
    }
   }
  }
