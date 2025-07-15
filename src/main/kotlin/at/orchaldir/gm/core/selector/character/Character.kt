@@ -187,6 +187,10 @@ fun State.getCharactersPreviouslyLivingIn(town: TownId) = getCharacterStorage()
     .getAll()
     .filter { it.housingStatus.previousEntries.any { it.entry.isLivingIn(town) } }
 
+fun State.getResidents(realm: RealmId) = getCharacterStorage()
+    .getAll()
+    .filter { it.housingStatus.current.isLivingIn(realm) }
+
 fun State.getResidents(townId: TownId): List<Character> {
     val townMap = getCurrentTownMap(townId)
         ?: return emptyList()
