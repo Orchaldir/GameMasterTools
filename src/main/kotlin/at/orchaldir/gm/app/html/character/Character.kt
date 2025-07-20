@@ -65,11 +65,16 @@ fun HtmlBlockTag.showData(
     field("Gender", character.gender)
     when (character.origin) {
         is Born -> {
+            val parents = listOfNotNull(character.origin.father, character.origin.mother)
+
             field("Origin") {
-                +"Born to "
-                showInlineList(
-                    listOfNotNull(character.origin.father, character.origin.mother)
-                ) {
+                if (parents.isEmpty()) {
+                    +"Born"
+                } else {
+
+                    +"Born to "
+                }
+                showInlineList(parents) {
                     link(call, state, it)
                 }
             }
@@ -383,8 +388,8 @@ fun parseCharacter(
     val race = parseRaceId(parameters, RACE)
     val origin = when (parse(parameters, ORIGIN, Undefined)) {
         CharacterOriginType.Born -> {
-            val father = parseCharacterId(parameters, FATHER)
-            val mother = parseCharacterId(parameters, MOTHER)
+            val father = parseOptionalCharacterId(parameters, FATHER)
+            val mother = parseOptionalCharacterId(parameters, MOTHER)
             Born(mother, father)
         }
 
