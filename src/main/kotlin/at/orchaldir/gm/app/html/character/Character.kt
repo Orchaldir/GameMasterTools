@@ -67,9 +67,11 @@ fun HtmlBlockTag.showData(
         is Born -> {
             field("Origin") {
                 +"Born to "
-                link(call, state, character.origin.father)
-                +" & "
-                link(call, state, character.origin.mother)
+                showInlineList(
+                    listOfNotNull(character.origin.father, character.origin.mother)
+                ) {
+                    link(call, state, it)
+                }
             }
         }
 
@@ -293,14 +295,14 @@ private fun FORM.selectOrigin(
     }
     when (character.origin) {
         is Born -> {
-            selectElement(
+            selectOptionalElement(
                 state,
                 "Father",
                 FATHER,
                 state.getPossibleFathers(character.id),
                 character.origin.father,
             )
-            selectElement(
+            selectOptionalElement(
                 state,
                 "Mother",
                 MOTHER,

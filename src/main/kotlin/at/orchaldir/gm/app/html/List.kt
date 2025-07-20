@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -102,15 +103,13 @@ fun <T> HtmlBlockTag.showInlineList(
     elements: Collection<T>,
     content: (T) -> Unit,
 ) {
-    var first = true
-
-    elements.forEach { element ->
-        if (first) {
-            first = false
-        } else {
-            +", "
+    elements.withIndex().forEach { value ->
+        when (value.index) {
+            0 -> doNothing()
+            elements.size -> +" & "
+            else -> +", "
         }
-        content(element)
+        content(value.value)
     }
 }
 

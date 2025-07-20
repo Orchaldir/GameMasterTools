@@ -13,7 +13,7 @@ sealed class CharacterOrigin
 
 @Serializable
 @SerialName("Born")
-data class Born(val mother: CharacterId, val father: CharacterId) : CharacterOrigin() {
+data class Born(val mother: CharacterId?, val father: CharacterId?) : CharacterOrigin() {
 
     fun isParent(id: CharacterId) = mother == id || father == id
 }

@@ -262,7 +262,8 @@ fun State.getParents(id: CharacterId): List<Character> {
     val character = getCharacterStorage().get(id) ?: return listOf()
 
     return when (character.origin) {
-        is Born -> listOf(character.origin.father, character.origin.mother).map { getCharacterStorage().getOrThrow(it) }
+        is Born -> listOfNotNull(character.origin.father, character.origin.mother)
+            .map { getCharacterStorage().getOrThrow(it) }
         else -> listOf()
     }
 }
