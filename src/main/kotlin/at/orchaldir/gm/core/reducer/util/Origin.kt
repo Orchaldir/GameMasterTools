@@ -16,8 +16,20 @@ fun <ID : Id<ID>> checkOrigin(
     createId: (Int) -> ID,
 ) {
     when (origin) {
-        is CombinedElement -> origin.parents.forEach { parent ->
-            checkParent(state, id, createId(parent), date)
+        is BornElement -> {
+            if (origin.father != null) {
+                checkParent(state, id, createId(origin.father), date)
+            }
+            if (origin.mother != null) {
+                checkParent(state, id, createId(origin.mother), date)
+            }
+        }
+
+        is CombinedElement -> {
+            checkCreator(state, id, origin.creator, date)
+            origin.parents.forEach { parent ->
+                checkParent(state, id, createId(parent), date)
+            }
         }
 
         is CreatedElement -> checkCreator(state, id, origin.creator, date)

@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.html.util
 
+import at.orchaldir.gm.app.FATHER
+import at.orchaldir.gm.app.MOTHER
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.html.*
@@ -7,9 +9,12 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.origin.*
+import at.orchaldir.gm.core.selector.character.getPossibleFathers
+import at.orchaldir.gm.core.selector.character.getPossibleMothers
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -39,6 +44,20 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
     showUndefined: Boolean = false,
 ) {
     when (origin) {
+        is BornElement -> {
+            val parents = listOfNotNull(origin.father, origin.mother)
+
+            field("Origin") {
+                if (parents.isEmpty()) {
+                    +"Born"
+                } else {
+                    +"Born to "
+                }
+                showInlineList(parents) { parent ->
+                    link(call, state, createId(parent))
+                }
+            }
+        }
         is CombinedElement -> {
             +"Combines "
 
@@ -110,14 +129,36 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
     }
 
     when (origin) {
-        is CombinedElement -> selectElements(
-            state,
-            combine(ORIGIN, REFERENCE),
-            availableParents,
-            origin.parents
-                .map(createId)
-                .toSet(),
-        )
+        is BornElement -> if (id is CharacterId) {
+            selectOptionalElement(
+                state,
+                "Father",
+                FATHER,
+                state.getPossibleFathers(id),
+                origin.father?.let { CharacterId(it) },
+            )
+            selectOptionalElement(
+                state,
+                "Mother",
+                MOTHER,
+                state.getPossibleMothers(id),
+                origin.mother?.let { CharacterId(it) },
+            )
+        } else {
+            error("BornElement is only supported by characters!")
+        }
+
+        is CombinedElement -> {
+            selectElements(
+                state,
+                combine(ORIGIN, REFERENCE),
+                availableParents,
+                origin.parents
+                    .map(createId)
+                    .toSet(),
+            )
+            selectCreator(state, id, origin.creator, date)
+        }
 
         is CreatedElement -> selectCreator(state, id, origin.creator, date)
         is EvolvedElement -> selectParent(state, availableParents, createId(origin.parent))
@@ -184,10 +225,16 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
 
 fun parseOrigin(parameters: Parameters) =
     when (parse(parameters, ORIGIN, OriginType.Undefined)) {
-        OriginType.Combined -> {
-            val parents = parseElements(parameters, combine(ORIGIN, REFERENCE)) { it.toInt() }
-            CombinedElement(parents)
+        OriginType.Born -> {
+            val father = parseInt(parameters, FATHER)
+            val mother = parseInt(parameters, MOTHER)
+            BornElement(mother, father)
         }
+
+        OriginType.Combined -> CombinedElement(
+            parseElements(parameters, combine(ORIGIN, REFERENCE)) { it.toInt() },
+            parseCreator(parameters),
+        )
 
         OriginType.Created -> CreatedElement(parseCreator(parameters))
         OriginType.Evolved -> EvolvedElement(

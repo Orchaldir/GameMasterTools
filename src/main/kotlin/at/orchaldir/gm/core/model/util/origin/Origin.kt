@@ -8,6 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class OriginType {
+    Born,
     Combined,
     Created,
     Evolved,
@@ -22,6 +23,7 @@ enum class OriginType {
 sealed class Origin : Creation {
 
     fun getType() = when (this) {
+        is BornElement -> OriginType.Born
         is CombinedElement -> OriginType.Combined
         is CreatedElement -> OriginType.Created
         is EvolvedElement -> OriginType.Evolved
@@ -33,6 +35,7 @@ sealed class Origin : Creation {
     }
 
     fun isChildOf(id: Int) = when (this) {
+        is BornElement -> mother == id || father == id
         is CombinedElement -> parents.contains(id)
         is EvolvedElement -> parent == id
         is ModifiedElement -> parent == id
@@ -55,9 +58,17 @@ sealed class Origin : Creation {
 }
 
 @Serializable
+@SerialName("Born")
+data class BornElement(
+    val mother: Int?,
+    val father: Int?,
+) : Origin()
+
+@Serializable
 @SerialName("Combined")
 data class CombinedElement(
     val parents: Set<Int>,
+    val creator: Creator = UndefinedCreator,
 ) : Origin()
 
 @Serializable

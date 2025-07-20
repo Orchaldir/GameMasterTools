@@ -24,7 +24,13 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val TEXT_TYPE = "Text"
-val ALLOWED_TEXT_ORIGINS = OriginType.entries - OriginType.Evolved - OriginType.Original - OriginType.Modified
+val ALLOWED_TEXT_ORIGINS = listOf(
+    OriginType.Combined,
+    OriginType.Created,
+    OriginType.Modified,
+    OriginType.Translated,
+    OriginType.Undefined,
+)
 
 @JvmInline
 @Serializable
