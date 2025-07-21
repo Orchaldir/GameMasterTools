@@ -19,6 +19,8 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Dead
+import at.orchaldir.gm.core.model.util.origin.BornElement
+import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
@@ -259,23 +261,24 @@ fun State.isWorkingIn(character: Character, town: TownMapId) = character.getBusi
 // get relatives
 
 fun State.getParents(id: CharacterId): List<Character> {
-    val character = getCharacterStorage().get(id) ?: return listOf()
+    val storage = getCharacterStorage()
+    val character = storage.get(id) ?: return listOf()
 
     return when (character.origin) {
-        is Born -> listOfNotNull(character.origin.father, character.origin.mother)
-            .map { getCharacterStorage().getOrThrow(it) }
+        is BornElement -> listOfNotNull(character.origin.father, character.origin.mother)
+            .map { storage.getOrThrow(CharacterId(it)) }
         else -> listOf()
     }
 }
 
 fun Character.getFather() = when (origin) {
-    is Born -> origin.father
-    UndefinedCharacterOrigin -> null
+    is BornElement -> origin.father?.let { CharacterId(it) }
+    else -> null
 }
 
 fun Character.getMother() = when (origin) {
-    is Born -> origin.mother
-    UndefinedCharacterOrigin -> null
+    is BornElement -> origin.mother?.let { CharacterId(it) }
+    else -> null
 }
 
 fun State.hasPossibleParents(id: CharacterId) =
@@ -291,7 +294,7 @@ fun State.getPossibleMothers(id: CharacterId) = getCharacterStorage().getAll()
 
 fun State.getChildren(id: CharacterId) = getCharacterStorage().getAll().filter {
     when (it.origin) {
-        is Born -> it.origin.isParent(id)
+        is BornElement -> it.origin.isChildOf(id.value)
         else -> false
     }
 }

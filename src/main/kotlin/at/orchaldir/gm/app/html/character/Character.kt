@@ -14,7 +14,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
@@ -63,25 +62,7 @@ fun HtmlBlockTag.showData(
     optionalFieldLink("Title", call, state, character.title)
     fieldLink("Race", call, race)
     field("Gender", character.gender)
-    when (character.origin) {
-        is Born -> {
-            val parents = listOfNotNull(character.origin.father, character.origin.mother)
-
-            field("Origin") {
-                if (parents.isEmpty()) {
-                    +"Born"
-                } else {
-
-                    +"Born to "
-                }
-                showInlineList(parents) {
-                    link(call, state, it)
-                }
-            }
-        }
-
-        UndefinedCharacterOrigin -> doNothing()
-    }
+    fieldOrigin(call, state, character.origin, ::CharacterId)
     when (character.appearance) {
         is HeadOnly -> showHeight(state, character, character.appearance.height)
         is HumanoidBody -> showHeight(state, character, character.appearance.height)
@@ -286,38 +267,7 @@ private fun FORM.selectOrigin(
     character: Character,
     race: Race,
 ) {
-    selectValue("Origin", ORIGIN, CharacterOriginType.entries) { type ->
-        label = type.name
-        value = type.name
-        disabled = when (type) {
-            CharacterOriginType.Born -> !state.hasPossibleParents(character.id)
-            Undefined -> false
-        }
-        selected = when (type) {
-            CharacterOriginType.Born -> character.origin is Born
-            Undefined -> character.origin is UndefinedCharacterOrigin
-        }
-    }
-    when (character.origin) {
-        is Born -> {
-            selectOptionalElement(
-                state,
-                "Father",
-                FATHER,
-                state.getPossibleFathers(character.id),
-                character.origin.father,
-            )
-            selectOptionalElement(
-                state,
-                "Mother",
-                MOTHER,
-                state.getPossibleMothers(character.id),
-                character.origin.mother,
-            )
-        }
-
-        else -> doNothing()
-    }
+    editOrigin(state, character.id, character.origin, character.birthDate, ALLOWED_CHARACTER_ORIGINS, ::CharacterId)
 
     if (race.lifeStages is SimpleAging) {
         selectOptionalValue(
@@ -386,15 +336,7 @@ fun parseCharacter(
 
     val name = parseCharacterName(parameters)
     val race = parseRaceId(parameters, RACE)
-    val origin = when (parse(parameters, ORIGIN, Undefined)) {
-        CharacterOriginType.Born -> {
-            val father = parseOptionalCharacterId(parameters, FATHER)
-            val mother = parseOptionalCharacterId(parameters, MOTHER)
-            Born(mother, father)
-        }
-
-        Undefined -> UndefinedCharacterOrigin
-    }
+    val origin = parseOrigin(parameters)
     val birthDate = parseBirthday(parameters, state, race)
 
     return character.copy(

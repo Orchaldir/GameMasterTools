@@ -1,13 +1,13 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Born
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Friend
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -22,12 +22,12 @@ private val SON_ID = CharacterId(3)
 private val RACE0 = RaceId(0)
 
 private val DAUGHTER = Character(
-    DAUGHTER_ID, gender = Gender.Female, origin = Born(MOTHER_ID, FATHER_ID),
+    DAUGHTER_ID, gender = Gender.Female, origin = BornElement(MOTHER_ID, FATHER_ID),
     relationships = mapOf(SON_ID to setOf(Friend))
 )
 private val MOTHER = Character(MOTHER_ID, gender = Gender.Female)
 private val FATHER = Character(FATHER_ID, gender = Gender.Male)
-private val SON = Character(SON_ID, gender = Gender.Male, origin = Born(MOTHER_ID, FATHER_ID))
+private val SON = Character(SON_ID, gender = Gender.Male, origin = BornElement(MOTHER_ID, FATHER_ID))
 private val FAMILY_STATE = State(
     listOf(
         Storage(

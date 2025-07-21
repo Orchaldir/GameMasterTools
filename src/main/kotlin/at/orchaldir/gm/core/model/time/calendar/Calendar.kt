@@ -16,7 +16,11 @@ import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
 const val CALENDAR_TYPE = "Calendar"
-val ALLOWED_CALENDAR_ORIGINS = listOf(OriginType.Created, OriginType.Modified, OriginType.Undefined)
+val ALLOWED_CALENDAR_ORIGINS = listOf(
+    OriginType.Created,
+    OriginType.Modified,
+    OriginType.Undefined,
+)
 
 @JvmInline
 @Serializable

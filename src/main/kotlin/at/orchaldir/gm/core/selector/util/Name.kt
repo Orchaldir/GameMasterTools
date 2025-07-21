@@ -55,13 +55,9 @@ fun State.getGenonymName(
     }
 }
 
-fun Character.getParentForGenonym() = when (origin) {
-    is Born -> when (gender) {
-        Gender.Female -> origin.mother
-        else -> origin.father
-    }
-
-    UndefinedCharacterOrigin -> null
+fun Character.getParentForGenonym() = when (gender) {
+    Gender.Female -> getMother()
+    else -> getFather()
 }
 
 private fun State.getGenonymName(

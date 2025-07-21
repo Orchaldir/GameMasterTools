@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameListId
+import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.utils.NumberGenerator
 
 class NameGenerator(
@@ -31,7 +32,7 @@ class NameGenerator(
     private fun generateFamilyName(convention: FamilyConvention) = FamilyName(
         generateName(convention.givenNames),
         generateMiddleName(convention),
-        if (character.name is FamilyName && character.origin is Born) {
+        if (character.name is FamilyName && character.origin is BornElement) {
             character.name.family
         } else {
             generateName(convention.familyNames)

@@ -18,6 +18,10 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.origin.Origin
+import at.orchaldir.gm.core.model.util.origin.OriginType
+import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
+import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -28,6 +32,11 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val CHARACTER_TYPE = "Character"
+val ALLOWED_CHARACTER_ORIGINS = listOf(
+    OriginType.Born,
+    OriginType.Created,
+    OriginType.Undefined,
+)
 
 @JvmInline
 @Serializable
@@ -46,7 +55,7 @@ data class Character(
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Male,
     val sexuality: SexualOrientation = SexualOrientation.Heterosexual,
-    val origin: CharacterOrigin = UndefinedCharacterOrigin,
+    val origin: Origin = UndefinedOrigin,
     val birthDate: Date = Year(0),
     val vitalStatus: VitalStatus = Alive,
     val culture: CultureId = CultureId(0),
@@ -61,6 +70,10 @@ data class Character(
     val title: TitleId? = null,
     val sources: Set<DataSourceId> = emptySet(),
 ) : Element<CharacterId>, HasDataSources, HasVitalStatus {
+
+    init {
+        validateOriginType(origin, ALLOWED_CHARACTER_ORIGINS)
+    }
 
     override fun id() = id
 
