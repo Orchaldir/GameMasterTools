@@ -7,27 +7,28 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.origin.BornElement
+import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 
 class OriginTest {
+    private val state = State(
+        listOf(
+            Storage(CALENDAR0),
+            Storage(
+                listOf(
+                    Character(CHARACTER_ID_0),
+                    Character(CHARACTER_ID_1, gender = Gender.Male),
+                    Character(CHARACTER_ID_2, gender = Gender.Female),
+                )
+            ),
+        )
+    )
 
     @Nested
     inner class BornElementTest {
-        private val state = State(
-            listOf(
-                Storage(CALENDAR0),
-                Storage(
-                    listOf(
-                        Character(CHARACTER_ID_0),
-                        Character(CHARACTER_ID_1, gender = Gender.Male),
-                        Character(CHARACTER_ID_2, gender = Gender.Female),
-                    )
-                ),
-            )
-        )
 
         @Test
         fun `Valid parents`() {
@@ -82,6 +83,27 @@ class OriginTest {
         private fun test(origin: BornElement, date: Date?) {
             checkOrigin(state, CHARACTER_ID_0, origin, date, ::CharacterId)
         }
+    }
+
+    @Nested
+    inner class CannotBeYourOwnParentTest {
+
+        @Test
+        fun `A born element cannot be their own mother`() {
+            test(BornElement(CHARACTER_ID_0, null))
+        }
+
+        @Test
+        fun `A born element cannot be their own father`() {
+            test(BornElement(null, CHARACTER_ID_0))
+        }
+
+        private fun test(origin: Origin) {
+            assertIllegalArgument("Character 0 cannot be its own parent!") {
+                checkOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
+            }
+        }
+
     }
 
 }
