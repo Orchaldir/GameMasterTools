@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.updateBeard
@@ -20,7 +23,6 @@ import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.origin.BornElement
-import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
@@ -267,6 +269,7 @@ fun State.getParents(id: CharacterId): List<Character> {
     return when (character.origin) {
         is BornElement -> listOfNotNull(character.origin.father, character.origin.mother)
             .map { storage.getOrThrow(CharacterId(it)) }
+
         else -> listOf()
     }
 }

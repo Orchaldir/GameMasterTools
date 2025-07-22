@@ -5,13 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.origin.BornElement
-import at.orchaldir.gm.core.model.util.origin.CombinedElement
-import at.orchaldir.gm.core.model.util.origin.EvolvedElement
-import at.orchaldir.gm.core.model.util.origin.ModifiedElement
-import at.orchaldir.gm.core.model.util.origin.Origin
-import at.orchaldir.gm.core.model.util.origin.TranslatedElement
+import at.orchaldir.gm.core.model.util.origin.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

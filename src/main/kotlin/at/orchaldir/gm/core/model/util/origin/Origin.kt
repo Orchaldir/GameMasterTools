@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.model.util.origin
 
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.Mononym
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
-import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
