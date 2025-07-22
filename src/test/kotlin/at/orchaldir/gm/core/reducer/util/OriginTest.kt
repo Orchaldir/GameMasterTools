@@ -45,28 +45,10 @@ class OriginTest {
         }
 
         @Test
-        fun `Unknown mother`() {
-            val origin = BornElement(UNKNOWN_CHARACTER_ID, null)
-
-            assertIllegalArgument("Requires unknown parent Character 99!") {
-                test(origin, null)
-            }
-        }
-
-        @Test
         fun `Mother is not female`() {
             val origin = BornElement(CHARACTER_ID_1, null)
 
             assertIllegalArgument("Mother 1 is not Female!") {
-                test(origin, null)
-            }
-        }
-
-        @Test
-        fun `Unknown father`() {
-            val origin = BornElement(null, UNKNOWN_CHARACTER_ID)
-
-            assertIllegalArgument("Requires unknown parent Character 99!") {
                 test(origin, null)
             }
         }
@@ -82,6 +64,26 @@ class OriginTest {
 
         private fun test(origin: BornElement, date: Date?) {
             checkOrigin(state, CHARACTER_ID_0, origin, date, ::CharacterId)
+        }
+    }
+
+    @Nested
+    inner class ParentMustExistTest {
+
+        @Test
+        fun `Unknown father`() {
+            test(BornElement(null, UNKNOWN_CHARACTER_ID))
+        }
+
+        @Test
+        fun `Unknown mother`() {
+            test(BornElement(UNKNOWN_CHARACTER_ID, null))
+        }
+
+        private fun test(origin: Origin) {
+            assertIllegalArgument("Requires unknown parent Character 99!") {
+                checkOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
+            }
         }
     }
 
