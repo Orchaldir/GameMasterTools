@@ -20,8 +20,8 @@ class OriginTest {
             Storage(
                 listOf(
                     Character(CHARACTER_ID_0),
-                    Character(CHARACTER_ID_1, gender = Gender.Male),
-                    Character(CHARACTER_ID_2, gender = Gender.Female),
+                    Character(CHARACTER_ID_1, gender = Gender.Male, birthDate = DAY1),
+                    Character(CHARACTER_ID_2, gender = Gender.Female, birthDate = DAY1),
                 )
             ),
         )
@@ -83,6 +83,26 @@ class OriginTest {
         private fun test(origin: Origin) {
             assertIllegalArgument("Requires unknown parent Character 99!") {
                 checkOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
+            }
+        }
+    }
+
+    @Nested
+    inner class ParentMustExistAtThatDateTest {
+
+        @Test
+        fun `Unknown father`() {
+            test(BornElement(null, CHARACTER_ID_1), "Character 1")
+        }
+
+        @Test
+        fun `Unknown mother`() {
+            test(BornElement(CHARACTER_ID_2, null), "Character 2")
+        }
+
+        private fun test(origin: Origin, noun: String) {
+            assertIllegalArgument("The parent $noun doesn't exist at the required date!") {
+                checkOrigin(state, CHARACTER_ID_0, origin, DAY0, ::CharacterId)
             }
         }
     }

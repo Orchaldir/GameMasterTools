@@ -271,6 +271,7 @@ class CharacterTest {
             }
         }
 
+        // See more in OriginTest
         @Nested
         inner class BornTest {
             private val state = STATE.updateStorage(
