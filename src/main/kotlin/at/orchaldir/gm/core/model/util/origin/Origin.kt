@@ -63,8 +63,8 @@ sealed class Origin : Creation {
 @Serializable
 @SerialName("Born")
 data class BornElement(
-    val mother: Int?,
-    val father: Int?,
+    val mother: Int? = null,
+    val father: Int? = null,
 ) : Origin() {
 
     constructor(motherId: CharacterId?, fatherId: CharacterId?) : this(motherId?.value, fatherId?.value)

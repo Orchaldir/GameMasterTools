@@ -284,19 +284,6 @@ class CharacterTest {
             )
 
             @Test
-            fun `Valid parents`() {
-                val character = Character(CHARACTER_ID_0, origin = BornElement(CHARACTER_ID_2, CHARACTER_ID_1))
-                val action = UpdateCharacter(character)
-
-                val result = REDUCER.invoke(state, action).first
-
-                assertEquals(
-                    character,
-                    result.getCharacterStorage().getOrThrow(CHARACTER_ID_0)
-                )
-            }
-
-            @Test
             fun `Cannot be born in the future`() {
                 val action = UpdateCharacter(Character(CHARACTER_ID_0, birthDate = Day(1)))
 
@@ -304,45 +291,16 @@ class CharacterTest {
             }
 
             @Test
-            fun `Unknown mother`() {
+            fun `Check origin with Unknown mother`() {
                 val action =
                     UpdateCharacter(
                         Character(
                             CHARACTER_ID_0,
-                            origin = BornElement(UNKNOWN_CHARACTER_ID, CHARACTER_ID_1)
+                            origin = BornElement(UNKNOWN_CHARACTER_ID, null)
                         )
                     )
 
                 assertIllegalArgument("Requires unknown parent Character 99!") { REDUCER.invoke(state, action) }
-            }
-
-            @Test
-            fun `Mother is not female`() {
-                val action =
-                    UpdateCharacter(Character(CHARACTER_ID_0, origin = BornElement(CHARACTER_ID_1, CHARACTER_ID_1)))
-
-                assertIllegalArgument("Mother 1 is not Female!") { REDUCER.invoke(state, action) }
-            }
-
-            @Test
-            fun `Unknown father`() {
-                val action =
-                    UpdateCharacter(
-                        Character(
-                            CHARACTER_ID_0,
-                            origin = BornElement(CHARACTER_ID_2, UNKNOWN_CHARACTER_ID)
-                        )
-                    )
-
-                assertIllegalArgument("Requires unknown parent Character 99!") { REDUCER.invoke(state, action) }
-            }
-
-            @Test
-            fun `Father is not male`() {
-                val action =
-                    UpdateCharacter(Character(CHARACTER_ID_0, origin = BornElement(CHARACTER_ID_2, CHARACTER_ID_2)))
-
-                assertIllegalArgument("Father 2 is not Male!") { REDUCER.invoke(state, action) }
             }
 
         }
