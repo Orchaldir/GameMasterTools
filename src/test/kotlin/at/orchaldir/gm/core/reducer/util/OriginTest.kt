@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.model.util.origin.CombinedElement
+import at.orchaldir.gm.core.model.util.origin.EvolvedElement
 import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -88,8 +89,13 @@ class OriginTest {
         }
 
         @Test
-        fun `Combined element with unknown parent`() {
+        fun `Combined element`() {
             test(CombinedElement.init(setOf(UNKNOWN_CHARACTER_ID)))
+        }
+
+        @Test
+        fun `Evolved element`() {
+            test(EvolvedElement(UNKNOWN_CHARACTER_ID))
         }
 
         private fun test(origin: Origin) {
@@ -117,6 +123,11 @@ class OriginTest {
             test(CombinedElement.init(setOf(CHARACTER_ID_1)), "Character 1")
         }
 
+        @Test
+        fun `Evolved element`() {
+            test(EvolvedElement(CHARACTER_ID_1), "Character 1")
+        }
+
         private fun test(origin: Origin, noun: String) {
             assertIllegalArgument("The parent $noun doesn't exist at the required date!") {
                 checkOrigin(state, CHARACTER_ID_0, origin, DAY0, ::CharacterId)
@@ -140,6 +151,11 @@ class OriginTest {
         @Test
         fun `Combined element`() {
             test(CombinedElement.init(setOf(CHARACTER_ID_0)))
+        }
+
+        @Test
+        fun `Evolved element`() {
+            test(EvolvedElement(CHARACTER_ID_0))
         }
 
         private fun test(origin: Origin) {
