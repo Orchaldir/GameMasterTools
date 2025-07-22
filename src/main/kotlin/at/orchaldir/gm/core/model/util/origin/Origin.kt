@@ -75,7 +75,7 @@ data class BornElement(
 @Serializable
 @SerialName("Combined")
 data class CombinedElement(
-    val parents: Set<Int>,
+    val parents: Set<Int> = emptySet(),
     val creator: Creator = UndefinedCreator,
 ) : Origin() {
 

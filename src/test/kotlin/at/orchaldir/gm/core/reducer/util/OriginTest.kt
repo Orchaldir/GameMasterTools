@@ -33,16 +33,12 @@ class OriginTest {
 
         @Test
         fun `Valid parents`() {
-            val origin = BornElement(CHARACTER_ID_2, CHARACTER_ID_1)
-
-            test(origin, null)
+            test(BornElement(CHARACTER_ID_2, CHARACTER_ID_1))
         }
 
         @Test
-        fun `Parents are undefined`() {
-            val origin = BornElement()
-
-            test(origin, null)
+        fun `No Parents`() {
+            test(BornElement())
         }
 
         @Test
@@ -50,7 +46,7 @@ class OriginTest {
             val origin = BornElement(CHARACTER_ID_1, null)
 
             assertIllegalArgument("Mother 1 is not Female!") {
-                test(origin, null)
+                test(origin)
             }
         }
 
@@ -59,12 +55,22 @@ class OriginTest {
             val origin = BornElement(null, CHARACTER_ID_2)
 
             assertIllegalArgument("Father 2 is not Male!") {
-                test(origin, null)
+                test(origin)
             }
         }
+    }
 
-        private fun test(origin: BornElement, date: Date?) {
-            checkOrigin(state, CHARACTER_ID_0, origin, date, ::CharacterId)
+    @Nested
+    inner class CombinedElementTest {
+
+        @Test
+        fun `Valid parents`() {
+            test(CombinedElement.init(setOf(CHARACTER_ID_2, CHARACTER_ID_1)))
+        }
+
+        @Test
+        fun `No Parents`() {
+            test(CombinedElement())
         }
     }
 
@@ -142,6 +148,10 @@ class OriginTest {
             }
         }
 
+    }
+
+    private fun test(origin: Origin) {
+        checkOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
     }
 
 }
