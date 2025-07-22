@@ -110,7 +110,7 @@ class OriginTest {
 
         @Test
         fun `Test father`() {
-            test(BornElement(null, CHARACTER_ID_1), "Character 1")
+            test(BornElement(null, CHARACTER_ID_1))
         }
 
         @Test
@@ -120,15 +120,15 @@ class OriginTest {
 
         @Test
         fun `Combined element`() {
-            test(CombinedElement.init(setOf(CHARACTER_ID_1)), "Character 1")
+            test(CombinedElement.init(setOf(CHARACTER_ID_1)))
         }
 
         @Test
         fun `Evolved element`() {
-            test(EvolvedElement(CHARACTER_ID_1), "Character 1")
+            test(EvolvedElement(CHARACTER_ID_1))
         }
 
-        private fun test(origin: Origin, noun: String) {
+        private fun test(origin: Origin, noun: String = "Character 1") {
             assertIllegalArgument("The parent $noun doesn't exist at the required date!") {
                 checkOrigin(state, CHARACTER_ID_0, origin, DAY0, ::CharacterId)
             }
