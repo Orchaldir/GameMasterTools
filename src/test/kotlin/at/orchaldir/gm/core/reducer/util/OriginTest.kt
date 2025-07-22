@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.model.util.origin.CombinedElement
 import at.orchaldir.gm.core.model.util.origin.EvolvedElement
+import at.orchaldir.gm.core.model.util.origin.ModifiedElement
 import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -98,6 +99,11 @@ class OriginTest {
             test(EvolvedElement(UNKNOWN_CHARACTER_ID))
         }
 
+        @Test
+        fun `Modified element`() {
+            test(ModifiedElement(UNKNOWN_CHARACTER_ID))
+        }
+
         private fun test(origin: Origin) {
             assertIllegalArgument("Requires unknown parent Character 99!") {
                 checkOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
@@ -128,6 +134,11 @@ class OriginTest {
             test(EvolvedElement(CHARACTER_ID_1))
         }
 
+        @Test
+        fun `Modified element`() {
+            test(ModifiedElement(CHARACTER_ID_1))
+        }
+
         private fun test(origin: Origin, noun: String = "Character 1") {
             assertIllegalArgument("The parent $noun doesn't exist at the required date!") {
                 checkOrigin(state, CHARACTER_ID_0, origin, DAY0, ::CharacterId)
@@ -156,6 +167,11 @@ class OriginTest {
         @Test
         fun `Evolved element`() {
             test(EvolvedElement(CHARACTER_ID_0))
+        }
+
+        @Test
+        fun `Modified element`() {
+            test(ModifiedElement(CHARACTER_ID_0))
         }
 
         private fun test(origin: Origin) {
