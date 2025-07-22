@@ -25,6 +25,7 @@ import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -141,7 +142,7 @@ class CharacterTest {
             private val state = State(
                 Storage(
                     listOf(
-                        Character(CHARACTER_ID_0, origin = Born(CHARACTER_ID_1, CHARACTER_ID_2)),
+                        Character(CHARACTER_ID_0, origin = BornElement(CHARACTER_ID_1, CHARACTER_ID_2)),
                         Character(CHARACTER_ID_1),
                         Character(CHARACTER_ID_2)
                     )
@@ -270,6 +271,7 @@ class CharacterTest {
             }
         }
 
+        // See more in OriginTest
         @Nested
         inner class BornTest {
             private val state = STATE.updateStorage(
@@ -283,19 +285,6 @@ class CharacterTest {
             )
 
             @Test
-            fun `Valid parents`() {
-                val character = Character(CHARACTER_ID_0, origin = Born(CHARACTER_ID_2, CHARACTER_ID_1))
-                val action = UpdateCharacter(character)
-
-                val result = REDUCER.invoke(state, action).first
-
-                assertEquals(
-                    character,
-                    result.getCharacterStorage().getOrThrow(CHARACTER_ID_0)
-                )
-            }
-
-            @Test
             fun `Cannot be born in the future`() {
                 val action = UpdateCharacter(Character(CHARACTER_ID_0, birthDate = Day(1)))
 
@@ -303,33 +292,16 @@ class CharacterTest {
             }
 
             @Test
-            fun `Unknown mother`() {
+            fun `Check origin with Unknown mother`() {
                 val action =
-                    UpdateCharacter(Character(CHARACTER_ID_0, origin = Born(UNKNOWN_CHARACTER_ID, CHARACTER_ID_1)))
+                    UpdateCharacter(
+                        Character(
+                            CHARACTER_ID_0,
+                            origin = BornElement(UNKNOWN_CHARACTER_ID, null)
+                        )
+                    )
 
-                assertIllegalArgument("Cannot use an unknown mother 99!") { REDUCER.invoke(state, action) }
-            }
-
-            @Test
-            fun `Mother is not female`() {
-                val action = UpdateCharacter(Character(CHARACTER_ID_0, origin = Born(CHARACTER_ID_1, CHARACTER_ID_1)))
-
-                assertIllegalArgument("Mother 1 is not female!") { REDUCER.invoke(state, action) }
-            }
-
-            @Test
-            fun `Unknown father`() {
-                val action =
-                    UpdateCharacter(Character(CHARACTER_ID_0, origin = Born(CHARACTER_ID_2, UNKNOWN_CHARACTER_ID)))
-
-                assertIllegalArgument("Cannot use an unknown father 99!") { REDUCER.invoke(state, action) }
-            }
-
-            @Test
-            fun `Father is not male`() {
-                val action = UpdateCharacter(Character(CHARACTER_ID_0, origin = Born(CHARACTER_ID_2, CHARACTER_ID_2)))
-
-                assertIllegalArgument("Father 2 is not male!") { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Requires unknown parent Character 99!") { REDUCER.invoke(state, action) }
             }
 
         }

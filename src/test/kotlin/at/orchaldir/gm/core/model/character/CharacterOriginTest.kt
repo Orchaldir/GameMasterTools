@@ -1,30 +1,31 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.util.origin.BornElement
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-private val MOTHER = CharacterId(0)
-private val FATHER = CharacterId(1)
-private val OTHER = CharacterId(2)
-private val BORN = Born(MOTHER, FATHER)
+private const val MOTHER = 0
+private const val FATHER = 1
+private const val OTHER = 2
+private val BORN = BornElement(MOTHER, FATHER)
 
 
 class CharacterOriginTest {
 
     @Test
     fun `The father is a parent`() {
-        assertTrue(BORN.isParent(FATHER))
+        assertTrue(BORN.isChildOf(FATHER))
     }
 
     @Test
     fun `The mother is a parent`() {
-        assertTrue(BORN.isParent(MOTHER))
+        assertTrue(BORN.isChildOf(MOTHER))
     }
 
     @Test
     fun `Others are no parent`() {
-        assertFalse(BORN.isParent(OTHER))
+        assertFalse(BORN.isChildOf(OTHER))
     }
 
 }

@@ -4,8 +4,8 @@ import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Born
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.SEXUAL_ORIENTATION_FOR_GENDERLESS
 import at.orchaldir.gm.core.reducer.util.*
@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.selector.realm.countBattlesLedBy
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -93,16 +92,5 @@ private fun checkOrigin(
     character: Character,
 ) {
     checkDate(state, character.birthDate, "Birthday")
-
-    when (val origin = character.origin) {
-        is Born -> {
-            val storage = state.getCharacterStorage()
-            storage.require(origin.mother) { "Cannot use an unknown mother ${origin.mother.value}!" }
-            require(storage.getOrThrow(origin.mother).gender == Gender.Female) { "Mother ${origin.mother.value} is not female!" }
-            storage.require(origin.father) { "Cannot use an unknown father ${origin.father.value}!" }
-            require(storage.getOrThrow(origin.father).gender == Gender.Male) { "Father ${origin.father.value} is not male!" }
-        }
-
-        else -> doNothing()
-    }
+    checkOrigin(state, character.id, character.origin, character.birthDate, ::CharacterId)
 }

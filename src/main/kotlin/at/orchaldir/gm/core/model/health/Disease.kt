@@ -15,7 +15,13 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val DISEASE_TYPE = "Disease"
-val ALLOWED_DISEASE_ORIGINS = OriginType.entries - OriginType.Translated
+val ALLOWED_DISEASE_ORIGINS = listOf(
+    OriginType.Created,
+    OriginType.Evolved,
+    OriginType.Modified,
+    OriginType.Original,
+    OriginType.Undefined,
+)
 
 @JvmInline
 @Serializable

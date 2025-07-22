@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.culture.name.NameOrder.FamilyNameFirst
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -122,7 +123,7 @@ class NameTest {
                     listOf(
                         Storage(
                             listOf(
-                                Character(ID0, Genonym(child), origin = Born(OTHER, ID1)),
+                                Character(ID0, Genonym(child), origin = BornElement(OTHER, ID1)),
                                 Character(ID1, Genonym(father))
                             )
                         ),
@@ -179,7 +180,7 @@ class NameTest {
                 listOf(
                     Storage(
                         listOf(
-                            Character(ID0, Genonym(child), gender = gender, origin = Born(OTHER, ID1)),
+                            Character(ID0, Genonym(child), gender = gender, origin = BornElement(OTHER, ID1)),
                             Character(ID1, Genonym(father))
                         )
                     ),
@@ -200,8 +201,8 @@ class NameTest {
                 listOf(
                     Storage(
                         listOf(
-                            Character(ID0, Genonym(NAME0), gender = Female, origin = Born(OTHER, ID1)),
-                            Character(ID1, Genonym(NAME1), gender = Male, origin = Born(OTHER, ID2)),
+                            Character(ID0, Genonym(NAME0), gender = Female, origin = BornElement(OTHER, ID1)),
+                            Character(ID1, Genonym(NAME1), gender = Male, origin = BornElement(OTHER, ID2)),
                             Character(ID2, Genonym(NAME2))
                         )
                     ),
@@ -229,8 +230,8 @@ class NameTest {
             listOf(
                 Storage(
                     listOf(
-                        Character(ID0, Genonym(NAME0), gender = Male, origin = Born(ID1, OTHER)),
-                        Character(ID1, Genonym(NAME1), gender = Female, origin = Born(ID2, OTHER)),
+                        Character(ID0, Genonym(NAME0), gender = Male, origin = BornElement(ID1, OTHER)),
+                        Character(ID1, Genonym(NAME1), gender = Female, origin = BornElement(ID2, OTHER)),
                         Character(ID2, Genonym(NAME2))
                     )
                 ),
@@ -272,7 +273,7 @@ class NameTest {
             listOf(
                 Storage(
                     listOf(
-                        Character(ID0, Genonym(NAME0), gender = gender, origin = Born(ID1, ID2)),
+                        Character(ID0, Genonym(NAME0), gender = gender, origin = BornElement(ID1, ID2)),
                         Character(ID1, Genonym(NAME1), gender = Female),
                         Character(ID2, Genonym(NAME2), gender = gender)
                     )

@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.origin.*
@@ -16,8 +18,18 @@ fun <ID : Id<ID>> checkOrigin(
     createId: (Int) -> ID,
 ) {
     when (origin) {
-        is CombinedElement -> origin.parents.forEach { parent ->
-            checkParent(state, id, createId(parent), date)
+        is BornElement -> if (id is CharacterId) {
+            checkCharacterParent(state, id, origin.father, Gender.Male, date, "Father")
+            checkCharacterParent(state, id, origin.mother, Gender.Female, date, "Mother")
+        } else {
+            error("BornElement is only supported by characters!")
+        }
+
+        is CombinedElement -> {
+            checkCreator(state, id, origin.creator, date)
+            origin.parents.forEach { parent ->
+                checkParent(state, id, createId(parent), date)
+            }
         }
 
         is CreatedElement -> checkCreator(state, id, origin.creator, date)
@@ -46,6 +58,22 @@ private fun <ID : Id<ID>> checkCreator(
     date: Date?,
 ) {
     validateCreator(state, creator, id, date, "Creator")
+}
+
+private fun checkCharacterParent(
+    state: State,
+    id: CharacterId,
+    parentIdValue: Int?,
+    gender: Gender,
+    date: Date?,
+    text: String,
+) {
+    if (parentIdValue != null) {
+        val parentId = CharacterId(parentIdValue)
+        checkParent(state, id, parentId, date)
+        val parent = state.getCharacterStorage().getOrThrow(parentId)
+        require(parent.gender == gender) { "$text $parentIdValue is not $gender!" }
+    }
 }
 
 private fun <ID : Id<ID>> checkParent(

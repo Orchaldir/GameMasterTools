@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.util.origin
 
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
@@ -8,6 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class OriginType {
+    Born,
     Combined,
     Created,
     Evolved,
@@ -22,6 +24,7 @@ enum class OriginType {
 sealed class Origin : Creation {
 
     fun getType() = when (this) {
+        is BornElement -> OriginType.Born
         is CombinedElement -> OriginType.Combined
         is CreatedElement -> OriginType.Created
         is EvolvedElement -> OriginType.Evolved
@@ -33,6 +36,7 @@ sealed class Origin : Creation {
     }
 
     fun isChildOf(id: Int) = when (this) {
+        is BornElement -> mother == id || father == id
         is CombinedElement -> parents.contains(id)
         is EvolvedElement -> parent == id
         is ModifiedElement -> parent == id
@@ -55,10 +59,29 @@ sealed class Origin : Creation {
 }
 
 @Serializable
+@SerialName("Born")
+data class BornElement(
+    val mother: Int? = null,
+    val father: Int? = null,
+) : Origin() {
+
+    constructor(motherId: CharacterId?, fatherId: CharacterId?) : this(motherId?.value, fatherId?.value)
+
+}
+
+@Serializable
 @SerialName("Combined")
 data class CombinedElement(
-    val parents: Set<Int>,
-) : Origin()
+    val parents: Set<Int> = emptySet(),
+    val creator: Creator = UndefinedCreator,
+) : Origin() {
+
+    companion object {
+        fun init(parents: Set<Id<*>>, creator: Creator = UndefinedCreator) =
+            CombinedElement(parents.map { it.value() }.toSet(), creator)
+    }
+
+}
 
 @Serializable
 @SerialName("Created")
