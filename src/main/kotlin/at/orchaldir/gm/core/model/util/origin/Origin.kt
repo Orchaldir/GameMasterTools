@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -76,7 +77,14 @@ data class BornElement(
 data class CombinedElement(
     val parents: Set<Int>,
     val creator: Creator = UndefinedCreator,
-) : Origin()
+) : Origin() {
+
+    companion object {
+        fun init(parents: Set<Id<*>>, creator: Creator = UndefinedCreator) =
+            CombinedElement(parents.map { it.value() }.toSet(), creator)
+    }
+
+}
 
 @Serializable
 @SerialName("Created")

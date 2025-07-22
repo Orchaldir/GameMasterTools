@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.origin.BornElement
+import at.orchaldir.gm.core.model.util.origin.CombinedElement
 import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -80,6 +81,11 @@ class OriginTest {
             test(BornElement(UNKNOWN_CHARACTER_ID, null))
         }
 
+        @Test
+        fun `Combined element with unknown parent`() {
+            test(CombinedElement.init(setOf(UNKNOWN_CHARACTER_ID)))
+        }
+
         private fun test(origin: Origin) {
             assertIllegalArgument("Requires unknown parent Character 99!") {
                 checkOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
@@ -91,13 +97,18 @@ class OriginTest {
     inner class ParentMustExistAtThatDateTest {
 
         @Test
-        fun `Unknown father`() {
+        fun `Test father`() {
             test(BornElement(null, CHARACTER_ID_1), "Character 1")
         }
 
         @Test
-        fun `Unknown mother`() {
+        fun `Test mother`() {
             test(BornElement(CHARACTER_ID_2, null), "Character 2")
+        }
+
+        @Test
+        fun `Combined element`() {
+            test(CombinedElement.init(setOf(CHARACTER_ID_1)), "Character 1")
         }
 
         private fun test(origin: Origin, noun: String) {
@@ -118,6 +129,11 @@ class OriginTest {
         @Test
         fun `A born element cannot be their own father`() {
             test(BornElement(null, CHARACTER_ID_0))
+        }
+
+        @Test
+        fun `Combined element`() {
+            test(CombinedElement.init(setOf(CHARACTER_ID_0)))
         }
 
         private fun test(origin: Origin) {
