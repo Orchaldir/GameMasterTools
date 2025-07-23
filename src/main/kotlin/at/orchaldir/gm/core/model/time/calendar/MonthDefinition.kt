@@ -8,6 +8,7 @@ data class MonthDefinition(
     val name: Name,
     val days: Int = 30,
 ) {
+    constructor(days: Int, name: String) : this(Name.init(name), days)
 
     fun isInside(dayIndex: Int) = dayIndex in 0..<days
 }

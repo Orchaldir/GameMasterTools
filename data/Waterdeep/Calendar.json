@@ -1,5 +1,84 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Default Calendar",
+   "days": {
+    "type": "Weekdays",
+    "weekDays": [
+     {
+      "name": "Monday"
+     },
+     {
+      "name": "Tuesday"
+     },
+     {
+      "name": "Wednesday"
+     },
+     {
+      "name": "Thursday"
+     },
+     {
+      "name": "Friday"
+     },
+     {
+      "name": "Saturday"
+     },
+     {
+      "name": "Sunday"
+     }
+    ]
+   },
+   "months": {
+    "type": "Complex",
+    "months": [
+     {
+      "name": "January",
+      "days": 31
+     },
+     {
+      "name": "February",
+      "days": 28
+     },
+     {
+      "name": "March",
+      "days": 31
+     },
+     {
+      "name": "April"
+     },
+     {
+      "name": "May",
+      "days": 31
+     },
+     {
+      "name": "June"
+     },
+     {
+      "name": "July",
+      "days": 31
+     },
+     {
+      "name": "August",
+      "days": 31
+     },
+     {
+      "name": "September"
+     },
+     {
+      "name": "October",
+      "days": 31
+     },
+     {
+      "name": "November"
+     },
+     {
+      "name": "December",
+      "days": 31
+     }
+    ]
+   }
+  }
  }
 }
