@@ -3,6 +3,9 @@ package at.orchaldir.gm.prototypes.data
 import at.orchaldir.gm.core.model.ELEMENTS
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.createStorage
+import at.orchaldir.gm.core.model.economy.money.Currency
+import at.orchaldir.gm.core.model.economy.money.CurrencyId
+import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
@@ -28,7 +31,8 @@ fun main(args: Array<String>) {
         path,
     ).updateStorage(
         listOf(
-            Storage(createDefaultCalendar())
+            Storage(createDefaultCalendar()),
+            Storage(createDefaultCurrency()),
         )
     )
 
@@ -72,3 +76,13 @@ private fun createDefaultCalendar(): Calendar {
         months,
     )
 }
+
+
+private fun createDefaultCurrency() = Currency(
+    CurrencyId(0),
+    Name.init("Default Currency"),
+    subDenominations = listOf(
+        Pair(Denomination.init("cp"), 10),
+        Pair(Denomination.init("sp"), 100),
+    )
+)
