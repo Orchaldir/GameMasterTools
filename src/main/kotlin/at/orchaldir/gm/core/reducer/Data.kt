@@ -24,8 +24,10 @@ private fun validateEconomy(state: State, economy: Economy) {
     state.getCurrencyStorage().require(economy.defaultCurrency)
     val requiredStandards = state.getRequiredStandards()
 
-    require(economy.standardsOfLiving.size >= requiredStandards) {
-        "The number of required Standards of Living is $requiredStandards!"
+    if (requiredStandards != null) {
+        require(economy.standardsOfLiving.size >= requiredStandards) {
+            "The number of required Standards of Living is $requiredStandards!"
+        }
     }
 
     val usedNames = mutableSetOf<Name>()
