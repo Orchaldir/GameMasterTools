@@ -3,6 +3,8 @@ package at.orchaldir.gm.prototypes.data
 import at.orchaldir.gm.core.model.ELEMENTS
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.createStorage
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.Denomination
@@ -39,6 +41,12 @@ fun createDefaultState(path: String): State = State(
 ).updateStorage(
     listOf(
         Storage(createDefaultCalendar()),
+        Storage(
+            Culture(
+                CultureId(0),
+                Name.init("Default Culture"),
+            )
+        ),
         Storage(createDefaultCurrency()),
     )
 )
