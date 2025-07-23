@@ -26,20 +26,22 @@ fun main(args: Array<String>) {
     val path = args[0]
     logger.info { "Path: $path" }
 
-    val state = State(
-        ELEMENTS.associateWith { createStorage(it) },
-        path,
-    ).updateStorage(
-        listOf(
-            Storage(createDefaultCalendar()),
-            Storage(createDefaultCurrency()),
-        )
-    )
+    val state = createDefaultState(path)
 
     Files.createDirectories(Paths.get(path))
 
     state.save()
 }
+
+fun createDefaultState(path: String): State = State(
+    ELEMENTS.associateWith { createStorage(it) },
+    path,
+).updateStorage(
+    listOf(
+        Storage(createDefaultCalendar()),
+        Storage(createDefaultCurrency()),
+    )
+)
 
 private fun createDefaultCalendar(): Calendar {
     val weekdays = Weekdays(
