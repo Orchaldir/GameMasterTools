@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.createStorage
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.Denomination
@@ -12,11 +14,12 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
 import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
-import at.orchaldir.gm.core.model.time.calendar.SimpleMonths
 import at.orchaldir.gm.core.model.time.calendar.WeekDay
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.unit.Weight
 import mu.KotlinLogging
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -41,13 +44,9 @@ fun createDefaultState(path: String): State = State(
 ).updateStorage(
     listOf(
         Storage(createDefaultCalendar()),
-        Storage(
-            Culture(
-                CultureId(0),
-                Name.init("Default Culture"),
-            )
-        ),
+        Storage(createDefaultCulture()),
         Storage(createDefaultCurrency()),
+        Storage(createDefaultMaterials()),
     )
 )
 
@@ -87,6 +86,10 @@ private fun createDefaultCalendar(): Calendar {
     )
 }
 
+private fun createDefaultCulture() = Culture(
+    CultureId(0),
+    Name.init("Default Culture"),
+)
 
 private fun createDefaultCurrency() = Currency(
     CurrencyId(0),
@@ -96,3 +99,21 @@ private fun createDefaultCurrency() = Currency(
         Pair(Denomination.init("sp"), 100),
     )
 )
+
+private fun createDefaultMaterials() = listOf(
+    createMaterial(0, "Copper", Color.OrangeRed, 8940),
+    createMaterial(1, "Silver", Color.Silver, 10500),
+    createMaterial(2, "Gold", Color.Gold, 19320),
+    createMaterial(3, "Platinum", Color.AliceBlue, 21450),
+    createMaterial(4, "Iron", Color.DimGray, 7870),
+    createMaterial(5, "Steel", Color.Gray, 7850),
+    createMaterial(6, "Brass", Color.Gold, 8600),
+    createMaterial(7, "Bronze", Color.Orange, 8770),
+)
+
+private fun createMaterial(
+    id: Int,
+    name: String,
+    color: Color,
+    weight: Long,
+) = Material(MaterialId(id), Name.init(name), color = color, density = Weight.fromKilograms(weight))
