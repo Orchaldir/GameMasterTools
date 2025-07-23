@@ -15,6 +15,11 @@ class DataTest {
         test("data/Eberron")
     }
 
+    @Test
+    fun `Load Waterdeep`() {
+        test("data/Waterdeep")
+    }
+
     private fun test(path: String) {
         val newState = State.load(path)
 
