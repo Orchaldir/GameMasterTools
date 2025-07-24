@@ -41,6 +41,34 @@
      "Tan": "Common"
     }
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Illuskan",
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Gray": "Common",
+     "SkyBlue": "Common",
+     "SteelBlue": "Common"
+    }
+   },
+   "hair": {
+    "colors": {
+     "Black": "Common",
+     "Chocolate": "Uncommon",
+     "Crimson": "Uncommon",
+     "Gold": "Common",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common"
+    }
+   }
   }
  }
 }
