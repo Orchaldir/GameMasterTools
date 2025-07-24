@@ -615,10 +615,18 @@ private fun parseTailOptions(parameters: Parameters): TailOptions {
     )
 }
 
-private fun parseFeatureColor(parameters: Parameters, param: String) = FeatureColorOptions(
-    parse(parameters, combine(param, COLOR), FeatureColorType.Overwrite),
-    parseSkinOptions(parameters, param),
-)
+private fun parseFeatureColor(parameters: Parameters, param: String): FeatureColorOptions {
+    val type = parse<FeatureColorType>(parameters, combine(param, COLOR))
+
+    return if (type != null) {
+        FeatureColorOptions(
+            type,
+            parseSkinOptions(parameters, param),
+        )
+    } else {
+        FeatureColorOptions()
+    }
+}
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(
     parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),
