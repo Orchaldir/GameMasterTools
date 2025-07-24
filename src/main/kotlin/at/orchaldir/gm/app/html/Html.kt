@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
@@ -258,6 +259,10 @@ fun TR.tdSkipZero(value: Int?) {
             +value.toString()
         }
     }
+}
+
+fun TR.tdString(value: Name?) {
+    tdString(value?.text)
 }
 
 fun TR.tdString(value: NotEmptyString?) {
