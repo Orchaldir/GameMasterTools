@@ -91,7 +91,9 @@ private fun HtmlBlockTag.showEyes(
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
         showRarityMap("Eye Types", eyeOptions.eyeTypes)
         showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
-        showRarityMap("Eye Colors", eyeOptions.eyeColors)
+        showRarityMap("Eye Colors", eyeOptions.eyeColors) { color ->
+            showColor(color)
+        }
 
         if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
             showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
