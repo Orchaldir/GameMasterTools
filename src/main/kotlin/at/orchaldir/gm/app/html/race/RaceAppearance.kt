@@ -91,13 +91,11 @@ private fun HtmlBlockTag.showEyes(
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
         showRarityMap("Eye Types", eyeOptions.eyeTypes)
         showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
-        showRarityMap("Eye Colors", eyeOptions.eyeColors) { color ->
-            showColor(color)
-        }
+        showColorRarityMap("Eye Colors", eyeOptions.eyeColors)
 
         if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
             showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
-            showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+            showColorRarityMap("Sclera Colors", eyeOptions.scleraColors)
         }
     }
 }
@@ -109,7 +107,7 @@ private fun HtmlBlockTag.showFeet(appearance: RaceAppearance) {
 
     if (appearance.foot.footTypes.isAvailable(FootType.Clawed)) {
         field("Number of Claws", appearance.foot.clawNumber)
-        showRarityMap("Claw Color", appearance.foot.clawColors)
+        showColorRarityMap("Claw Color", appearance.foot.clawColors)
         showRarityMap("Claw Size", appearance.foot.clawSizes)
     }
 }
@@ -121,7 +119,7 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     showRarityMap("Hair", appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        showRarityMap("Colors", appearance.hair.colors)
+        showColorRarityMap("Colors", appearance.hair.colors)
     }
 }
 
@@ -169,12 +167,12 @@ private fun HtmlBlockTag.showMouth(mouthOptions: MouthOptions) {
 
     if (mouthOptions.mouthTypes.isAvailable(MouthType.Beak)) {
         showRarityMap("Beak Shapes", mouthOptions.beakShapes)
-        showRarityMap("Beak Colors", mouthOptions.beakColors)
+        showColorRarityMap("Beak Colors", mouthOptions.beakColors)
     }
 
     if (mouthOptions.mouthTypes.isAvailable(MouthType.Snout)) {
         showRarityMap("Snout Shapes", mouthOptions.snoutShapes)
-        showRarityMap("Snout Colors", mouthOptions.snoutColors)
+        showColorRarityMap("Snout Colors", mouthOptions.snoutColors)
     }
 }
 
@@ -198,7 +196,7 @@ private fun HtmlBlockTag.showSkinInternal(
     showRarityMap("Type", options.skinTypes)
 
     if (options.skinTypes.isAvailable(SkinType.Exotic)) {
-        showRarityMap("Exotic Skin Colors", options.exoticColors)
+        showColorRarityMap("Exotic Skin Colors", options.exoticColors)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
@@ -212,11 +210,11 @@ private fun HtmlBlockTag.showSkinInternal(
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        showRarityMap("Fur Colors", options.furColors)
+        showColorRarityMap("Fur Colors", options.furColors)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Scales)) {
-        showRarityMap("Scale Colors", options.scalesColors)
+        showColorRarityMap("Scale Colors", options.scalesColors)
     }
 }
 
@@ -277,11 +275,11 @@ private fun HtmlBlockTag.showWings(
     }
 
     if (options.types.isAvailable(WingType.Bird)) {
-        showRarityMap("Bird Wing Color", options.birdColors)
+        showColorRarityMap("Bird Wing Color", options.birdColors)
     }
 
     if (options.types.isAvailable(WingType.Butterfly)) {
-        showRarityMap("Butterfly Wing Color", options.butterflyColors)
+        showColorRarityMap("Butterfly Wing Color", options.butterflyColors)
     }
 }
 

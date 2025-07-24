@@ -162,8 +162,8 @@ private fun HTML.showAllColorSchemes(
             schemes.forEach { scheme ->
                 tr {
                     tdLink(call, state, scheme)
-                    td { showColor(scheme.data.color0()) }
-                    td { showColor(scheme.data.color1()) }
+                    td { showOptionalColor(scheme.data.color0()) }
+                    td { showOptionalColor(scheme.data.color1()) }
                     tdSkipZero(state.countEquipment(scheme.id))
                 }
             }

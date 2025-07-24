@@ -42,15 +42,15 @@ fun HtmlBlockTag.showFill(fill: Fill) {
         }
 
         is VerticalStripes -> field("Vertical Stripes") {
-            showColor(fill.color0)
+            showOptionalColor(fill.color0)
             +" & "
-            showColor(fill.color1)
+            showOptionalColor(fill.color1)
         }
 
         is HorizontalStripes -> field("Horizontal Stripes") {
-            showColor(fill.color0)
+            showOptionalColor(fill.color0)
             +" & "
-            showColor(fill.color1)
+            showOptionalColor(fill.color1)
         }
 
         is Tiles -> {

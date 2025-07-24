@@ -24,7 +24,7 @@ fun HtmlBlockTag.fieldColorLookup(
 fun HtmlBlockTag.showColorLookup(
     lookup: ColorLookup,
 ) = when (lookup) {
-    is FixedColor -> showColor(lookup.color)
+    is FixedColor -> showOptionalColor(lookup.color)
     LookupMaterial -> +"Color of Material"
     LookupSchema0 -> +"1.Color of Schema"
     LookupSchema1 -> +"2.Color of Schema"

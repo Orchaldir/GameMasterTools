@@ -128,7 +128,7 @@ private fun HTML.showAllMoons(
                     tdLink(call, state, moon)
                     tdString(moon.title)
                     td { +"${moon.getCycle()} days" }
-                    td { showColor(moon.color) }
+                    td { showOptionalColor(moon.color) }
                     tdLink(call, state, moon.plane)
                 }
             }

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -97,6 +98,13 @@ fun HtmlBlockTag.showDetails(
 
 // maps
 
+fun HtmlBlockTag.showColorRarityMap(
+    label: String,
+    colors: RarityMap<Color>,
+) = showRarityMap(label, colors) { color ->
+    showColor(color)
+}
+
 fun <K, V> HtmlBlockTag.showMap(
     label: String,
     map: Map<K, V>,
@@ -123,13 +131,13 @@ fun <K, V> HtmlBlockTag.showMap(
 }
 
 inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
-    enum: String,
+    label: String,
     rarityMap: RarityMap<T>,
     values: Set<T> = enumValues<T>().toSet(),
 ) {
     val sortedMap = reverseAndSort(rarityMap.getRarityFor(values))
 
-    showDetails(enum) {
+    showDetails(label) {
         showMap(sortedMap) { rarity, values ->
             field(rarity.toString(), values.joinToString())
         }
@@ -137,13 +145,13 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
 }
 
 fun <T> HtmlBlockTag.showRarityMap(
-    enum: String,
+    label: String,
     values: RarityMap<T>,
     content: LI.(T) -> Unit,
 ) {
     val sortedMap = reverseAndSort(values.getRarityMap())
 
-    showDetails(enum) {
+    showDetails(label) {
         showMap(sortedMap) { rarity, values ->
             fieldList(rarity.toString(), values) {
                 content(it)
