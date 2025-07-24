@@ -28,11 +28,15 @@ fun HtmlBlockTag.showOptionalColor(color: Color?) {
 }
 
 fun HtmlBlockTag.showColor(color: Color) {
+    showColorBlock(color)
+    +" $color"
+}
+
+fun HtmlBlockTag.showColorBlock(color: Color) {
     span {
         style = "color:$color"
         +"█"
     }
-    +" $color"
 }
 
 // edit
