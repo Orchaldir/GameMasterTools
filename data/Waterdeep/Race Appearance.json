@@ -1,5 +1,47 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Tethyrian",
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "SaddleBrown": "Uncommon",
+     "SkyBlue": "Uncommon",
+     "SteelBlue": "Uncommon"
+    }
+   },
+   "hair": {
+    "colors": {
+     "Chocolate": "Uncommon",
+     "Maroon": "Uncommon",
+     "SaddleBrown": "Common"
+    }
+   },
+   "horn": {
+    "colors": {
+     "types": "Overwrite"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Uncommon",
+     "Light": "Common"
+    }
+   },
+   "tail": {
+    "simpleOptions": {
+     "Cat": {
+      "types": "Overwrite"
+     }
+    }
+   },
+   "wing": {
+    "batColors": {
+     "types": "Overwrite"
+    }
+   }
+  }
  }
 }

@@ -29,7 +29,7 @@ data class RaceAppearance(
     val name: Name = Name.init(id),
     val appearanceTypes: OneOf<AppearanceType> = OneOf(AppearanceType.Body),
     val earsLayout: OneOf<EarsLayout> = OneOf(EarsLayout.NormalEars),
-    val earShapes: OneOf<EarShape> = OneOf(EarShape.entries),
+    val earShapes: OneOf<EarShape> = OneOf(EarShape.Round),
     val eyesLayout: OneOf<EyesLayout> = OneOf(EyesLayout.TwoEyes),
     val eye: EyeOptions = EyeOptions(),
     val foot: FootOptions = FootOptions(),
