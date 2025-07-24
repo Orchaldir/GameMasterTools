@@ -19,27 +19,26 @@
      "SaddleBrown": "Common"
     }
    },
-   "horn": {
-    "colors": {
-     "types": "Overwrite"
-    }
-   },
    "skin": {
     "normalColors": {
      "Fair": "Uncommon",
      "Light": "Common"
     }
-   },
-   "tail": {
-    "simpleOptions": {
-     "Cat": {
-      "types": "Overwrite"
-     }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Calishite",
+   "hair": {
+    "colors": {
+     "Black": "Uncommon",
+     "SaddleBrown": "Common"
     }
    },
-   "wing": {
-    "batColors": {
-     "types": "Overwrite"
+   "skin": {
+    "normalColors": {
+     "Medium": "Common",
+     "Tan": "Common"
     }
    }
   }
