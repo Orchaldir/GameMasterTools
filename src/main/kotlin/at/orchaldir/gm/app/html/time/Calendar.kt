@@ -21,9 +21,11 @@ import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.P
+import kotlinx.html.TR
 import kotlinx.html.h2
 import kotlinx.html.p
 import kotlinx.html.table
+import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 
@@ -92,12 +94,14 @@ private fun HtmlBlockTag.showMonths(calendar: Calendar) {
         is ComplexMonths -> field("Months") {
             table {
                 tr {
+                    th { +"Month" }
                     th { +"Name" }
                     th { +"Title" }
                     th { +"Days" }
                 }
-                months.months.forEach { month ->
+                months.months.withIndex().forEach { (index, month) ->
                     tr {
+                        tdSkipZero(index + 1)
                         tdString(month.name)
                         tdString(month.title)
                         tdSkipZero(month.days)
@@ -110,11 +114,13 @@ private fun HtmlBlockTag.showMonths(calendar: Calendar) {
             field("Months") {
                 table {
                     tr {
+                        th { +"Month" }
                         th { +"Name" }
                         th { +"Title" }
                     }
-                    months.months.forEach { month ->
+                    months.months.withIndex().forEach { (index, month) ->
                         tr {
+                            tdSkipZero(index + 1)
                             tdString(month.name)
                             tdString(month.title)
                         }
@@ -200,22 +206,42 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     selectInt("Months", calendar.months.getSize(), minMonths, 100, 1, MONTHS)
 
     when (val months = calendar.months) {
-        is ComplexMonths -> months.months.withIndex().forEach { (index, month) ->
-            val minDays = getMinNumberOfDays(holidays, index)
-            p {
-                selectMonthName(index, month.name)
-                selectMonthTitle(index, month.title)
-                selectDaysOfMonth(index, month, minDays)
+        is ComplexMonths -> {
+            table {
+                tr {
+                    th { +"Month" }
+                    th { +"Name" }
+                    th { +"Title" }
+                    th { +"Days" }
+                }
+                months.months.withIndex().forEach { (index, month) ->
+                    val minDays = getMinNumberOfDays(holidays, index)
+
+                    tr {
+                        tdSkipZero(index + 1)
+                        selectMonthName(index, month.name)
+                        selectMonthTitle(index, month.title)
+                        selectDaysOfMonth(index, month, minDays)
+                    }
+                }
             }
         }
 
         is SimpleMonths -> {
             val minDays = getMinNumberOfDays(holidays)
 
-            months.months.withIndex().forEach { (index, month) ->
-                p {
-                    selectMonthName(index, month.name)
-                    selectMonthTitle(index, month.title)
+            table {
+                tr {
+                    th { +"Month" }
+                    th { +"Name" }
+                    th { +"Title" }
+                }
+                months.months.withIndex().forEach { (index, month) ->
+                    tr {
+                        tdSkipZero(index + 1)
+                        selectMonthName(index, month.name)
+                        selectMonthTitle(index, month.title)
+                    }
                 }
             }
             selectInt("Days per Month", months.daysPerMonth, minDays, 100, 1, combine(MONTH, DAYS))
@@ -225,28 +251,46 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     field("Days per Year", calendar.getDaysPerYear())
 }
 
-private fun P.selectMonthName(
+private fun TR.selectMonthName(
     index: Int,
     name: Name,
-) = selectName(name, combine(MONTH, NAME, index))
+) {
+    td {
+        p {
+            selectName(name, combine(MONTH, NAME, index))
+        }
+    }
+}
 
-private fun P.selectMonthTitle(
+private fun TR.selectMonthTitle(
     index: Int,
     title: Name?,
-) = selectOptionalName("Title", title, combine(MONTH, TITLE, index))
+) {
+    td {
+        p {
+            selectOptionalName("Title", title, combine(MONTH, TITLE, index))
+        }
+    }
+}
 
-private fun P.selectDaysOfMonth(
+private fun TR.selectDaysOfMonth(
     index: Int,
     month: MonthDefinition,
     minDays: Int,
-) = selectInt(
-    "Days",
-    month.days,
-    minDays,
-    100,
-    1,
-    combine(MONTH, DAYS, index),
-)
+) {
+    td {
+        p {
+            selectInt(
+                "Days",
+                month.days,
+                minDays,
+                100,
+                1,
+                combine(MONTH, DAYS, index),
+            )
+        }
+    }
+}
 
 private fun FORM.editEras(
     calendar: Calendar,
