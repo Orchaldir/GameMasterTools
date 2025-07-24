@@ -8,18 +8,54 @@
     "type": "Simple",
     "daysPerMonth": 30,
     "months": [
-     "Hammer",
-     "Alturiak",
-     "Ches",
-     "Tarsakh",
-     "Mirtul",
-     "Kythorn",
-     "Flamerule",
-     "Eleasis",
-     "Eleint",
-     "Marpenoth",
-     "Uktar",
-     "Nightal"
+     {
+      "name": "Hammer",
+      "title": "Deepwinter"
+     },
+     {
+      "name": "Alturiak",
+      "title": "The Claw of Winter"
+     },
+     {
+      "name": "Ches",
+      "title": "The Claw of the Sunsets"
+     },
+     {
+      "name": "Tarsakh",
+      "title": "The Claw of the Storms"
+     },
+     {
+      "name": "Mirtul",
+      "title": "The Melting"
+     },
+     {
+      "name": "Kythorn",
+      "title": "The Time of Flowers"
+     },
+     {
+      "name": "Flamerule",
+      "title": "Summertide"
+     },
+     {
+      "name": "Eleasis",
+      "title": "Highsun"
+     },
+     {
+      "name": "Eleint",
+      "title": "The Fading"
+     },
+     {
+      "name": "Marpenoth",
+      "title": "Leaffall"
+     },
+     {
+      "name": "Uktar",
+      "title": "The Rotting"
+     },
+     {
+      "name": "Nightal",
+      "title": "The Drawing Down"
+     }
     ]
    },
    "eras": {
