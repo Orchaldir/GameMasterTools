@@ -23,6 +23,7 @@ import kotlinx.html.HtmlBlockTag
 import kotlinx.html.P
 import kotlinx.html.TR
 import kotlinx.html.h2
+import kotlinx.html.h3
 import kotlinx.html.p
 import kotlinx.html.table
 import kotlinx.html.td
@@ -90,40 +91,38 @@ private fun HtmlBlockTag.showDays(
 }
 
 private fun HtmlBlockTag.showMonths(calendar: Calendar) {
+    h3 { +"Months" }
+
     when (val months = calendar.months) {
-        is ComplexMonths -> field("Months") {
+        is ComplexMonths -> table {
+            tr {
+                th { +"Month" }
+                th { +"Name" }
+                th { +"Title" }
+                th { +"Days" }
+            }
+            months.months.withIndex().forEach { (index, month) ->
+                tr {
+                    tdSkipZero(index + 1)
+                    tdString(month.name)
+                    tdString(month.title)
+                    tdSkipZero(month.days)
+                }
+            }
+        }
+
+        is SimpleMonths -> {
             table {
                 tr {
                     th { +"Month" }
                     th { +"Name" }
                     th { +"Title" }
-                    th { +"Days" }
                 }
                 months.months.withIndex().forEach { (index, month) ->
                     tr {
                         tdSkipZero(index + 1)
                         tdString(month.name)
                         tdString(month.title)
-                        tdSkipZero(month.days)
-                    }
-                }
-            }
-        }
-
-        is SimpleMonths -> {
-            field("Months") {
-                table {
-                    tr {
-                        th { +"Month" }
-                        th { +"Name" }
-                        th { +"Title" }
-                    }
-                    months.months.withIndex().forEach { (index, month) ->
-                        tr {
-                            tdSkipZero(index + 1)
-                            tdString(month.name)
-                            tdString(month.title)
-                        }
                     }
                 }
             }
@@ -202,6 +201,9 @@ private fun FORM.editDays(
 
 private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     val minMonths = getMinNumberOfMonths(holidays)
+
+    h3 { +"Months" }
+
     selectValue("Months Type", combine(MONTHS, TYPE), MonthsType.entries, calendar.months.getType())
     selectInt("Months", calendar.months.getSize(), minMonths, 100, 1, MONTHS)
 
