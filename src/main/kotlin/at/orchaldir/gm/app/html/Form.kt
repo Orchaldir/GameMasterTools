@@ -182,13 +182,22 @@ fun HtmlBlockTag.selectColorRarityMap(
     val colors = enumValues<Color>().toSet()
 
     showDetails(enum, true) {
-        showMap(rarityMap.getRarityFor(colors)) { currentColor, currentRarity ->
-            showColor(currentColor)
-            +": "
-            selectValue(selectId, rarityMap.getAvailableRarities()) { rarity ->
-                label = rarity.toString()
-                value = "$currentColor-$rarity"
-                selected = rarity == currentRarity
+        table {
+            tr {
+                th { +"Color" }
+                th { +"Rarity" }
+            }
+            rarityMap.getRarityFor(colors).forEach { (currentColor, currentRarity) ->
+                tr {
+                    tdColor(currentColor)
+                    td {
+                        selectValue(selectId, rarityMap.getAvailableRarities()) { rarity ->
+                            label = rarity.toString()
+                            value = "$currentColor-$rarity"
+                            selected = rarity == currentRarity
+                        }
+                    }
+                }
             }
         }
     }
