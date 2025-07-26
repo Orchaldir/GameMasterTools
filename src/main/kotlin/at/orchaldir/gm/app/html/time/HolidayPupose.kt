@@ -16,6 +16,7 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.*
+import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortTreaties
@@ -71,7 +72,20 @@ fun HtmlBlockTag.editHolidayPurpose(
     state: State,
     purpose: HolidayPurpose,
 ) {
-    selectValue("Purpose", PURPOSE, HolidayPurposeType.entries, purpose.getType())
+    val catastrophes = state.sortCatastrophes()
+    val gods = state.sortGods()
+    val treaties = state.sortTreaties()
+    val wars = state.sortWars()
+
+    selectValue("Purpose", PURPOSE, HolidayPurposeType.entries, purpose.getType()) { type ->
+        when (type) {
+            HolidayPurposeType.Anniversary -> false
+            HolidayPurposeType.Catastrophe -> catastrophes.isEmpty()
+            HolidayPurposeType.God -> gods.isEmpty()
+            HolidayPurposeType.Treaty -> treaties.isEmpty()
+            HolidayPurposeType.War -> wars.isEmpty()
+        }
+    }
 
     when (purpose) {
         Anniversary -> doNothing()
@@ -79,7 +93,7 @@ fun HtmlBlockTag.editHolidayPurpose(
             state,
             "Catastrophe",
             CATASTROPHE,
-            state.sortCatastrophes(),
+            catastrophes,
             purpose.catastrophe,
         )
 
@@ -87,7 +101,7 @@ fun HtmlBlockTag.editHolidayPurpose(
             state,
             "God",
             GOD,
-            state.sortGods(),
+            gods,
             purpose.god,
         )
 
@@ -95,14 +109,15 @@ fun HtmlBlockTag.editHolidayPurpose(
             state,
             "Treaty",
             TREATY,
-            state.sortTreaties(),
+            treaties,
             purpose.treaty,
         )
+
         is HolidayOfWar -> selectElement(
             state,
             "War",
             WAR,
-            state.sortWars(),
+            wars,
             purpose.war,
         )
     }

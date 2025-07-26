@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.selector.realm.getBattles
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.util.sortBattles
 import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.http.*
@@ -39,6 +40,7 @@ fun HtmlBlockTag.showWar(
     fieldList(call, state, battles)
     fieldIdList(call, state, "Participating Realms", war.realms)
     showDestroyed(call, state, war.id)
+    fieldList(call, state, state.getHolidays(war.id))
     showDataSources(call, state, war.sources)
 }
 
