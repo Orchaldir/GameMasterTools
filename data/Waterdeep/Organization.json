@@ -101,6 +101,138 @@
    "sources": [
     0
    ]
+  },
+  "10": {
+   "id": 10,
+   "name": "Bakers' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "11": {
+   "id": 11,
+   "name": "Jesters' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "12": {
+   "id": 12,
+   "name": "Guild of Watermen",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "13": {
+   "id": 13,
+   "name": "Surveyors', Map-, and Chart-makers' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "14": {
+   "id": 14,
+   "name": "Cellarers' and Plumbers' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "15": {
+   "id": 15,
+   "name": "Carpenters', Roofers', and Plaisterers' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "16": {
+   "id": 16,
+   "name": "Guild of Fine Carvers",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "17": {
+   "id": 17,
+   "name": "Guild of Stonecutters, Masons, Potters and Tile-makers",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "18": {
+   "id": 18,
+   "name": "Most Careful Order of Skilled Smiths and Metalforgers",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "19": {
+   "id": 19,
+   "name": "GujJd of Glassblowers, Glaziers, and Spectacle-makers",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "20": {
+   "id": 20,
+   "name": "Dungsweepers' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "21": {
+   "id": 21,
+   "name": "Guild of Chandlers and Lamplighters",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
   }
  }
 }
