@@ -159,6 +159,40 @@
      "Gray": "Common"
     }
    }
+  },
+  "7": {
+   "id": 7,
+   "name": "Sun Elf",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eye": {
+    "eyeColors": {
+     "Black": "Common",
+     "Gold": "Common",
+     "Green": "Common"
+    }
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Crimson": "Common",
+     "Gold": "Common",
+     "Orange": "Common",
+     "OrangeRed": "Common",
+     "Red": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common",
+     "Light": "Common"
+    }
+   }
   }
  }
 }

@@ -39,6 +39,7 @@
     "center": 1400000,
     "offset": 1000
    },
+   "weight": 90000000,
    "lifeStages": {
     "type": "Default",
     "appearance": 4,
@@ -61,6 +62,7 @@
     "center": 1250000,
     "offset": 1000
    },
+   "weight": 80000000,
    "lifeStages": {
     "type": "Default",
     "appearance": 5,
@@ -98,6 +100,30 @@
      180,
      250,
      400
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Sun Elf",
+   "height": {
+    "center": 1750000
+   },
+   "weight": 70000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 7,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     260,
+     350,
+     500
     ],
     "oldAgeHairColor": null,
     "venerableAgeHairColor": null
