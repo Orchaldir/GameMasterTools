@@ -3,16 +3,55 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "First Trollwar",
+   "name": "1.Trollwar",
    "startDate": {
     "type": "Year",
     "year": 931
    },
    "status": {
     "type": "Finished",
+    "result": {
+     "type": "TotalVictory"
+    },
     "date": {
      "type": "Year",
      "year": 931
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "2.Trollwar",
+   "startDate": {
+    "type": "Year",
+    "year": 939
+   },
+   "status": {
+    "type": "Finished",
+    "result": {
+     "type": "TotalVictory"
+    },
+    "date": {
+     "type": "Year",
+     "year": 951
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "3.Trollwar",
+   "startDate": {
+    "type": "Year",
+    "year": 962
+   },
+   "status": {
+    "type": "Finished",
+    "result": {
+     "type": "TotalVictory"
+    },
+    "date": {
+     "type": "Year",
+     "year": 962
     }
    }
   }

@@ -51,7 +51,6 @@ fun FORM.editWar(
     selectName(war.name)
     selectOptionalDate(state, "Start Date", war.startDate, combine(START, DATE))
     editWarStatus(state, war.startDate, war.status)
-    selectOptionalDate(state, "End Date", war.endDate(), combine(END, DATE))
     selectElements(state, "Realms", REALM, state.sortRealms(), war.realms)
     editDataSources(state, war.sources)
 }

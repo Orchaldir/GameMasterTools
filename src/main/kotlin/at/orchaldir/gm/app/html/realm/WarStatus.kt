@@ -97,7 +97,7 @@ private fun HtmlBlockTag.editWarResult(
     val catastrophes = state.getExistingCatastrophes(deathDay)
 
     selectValue(
-        "Cause of death",
+        "War Result",
         END,
         WarResultType.entries,
         result.getType(),
