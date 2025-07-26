@@ -30,6 +30,77 @@
     "type": "Town",
     "town": 0
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Watchful Order of Magists and Protectors",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Guild of Trusted Pewterers and Casters",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Jewelers' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Scriveners', Scribes', and Clerks' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "7": {
+   "id": 7,
+   "name": "Fellowship of Carters and Coachmen",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "8": {
+   "id": 8,
+   "name": "Wheelwrights' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "9": {
+   "id": 9,
+   "name": "Wagon-makers' and Coach Builders' Guild",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
   }
  }
 }

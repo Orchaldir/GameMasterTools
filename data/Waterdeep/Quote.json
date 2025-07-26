@@ -50,6 +50,15 @@
     "type": "Town",
     "town": 0
    }
+  },
+  "5": {
+   "id": 5,
+   "text": "The only mortals that Waterdavians fear are a few unstable wizards and the Lords.",
+   "description": "Most Waterdavians are slow to take fright unless facing magic or monsters.",
+   "source": {
+    "type": "Town",
+    "town": 0
+   }
   }
  }
 }
