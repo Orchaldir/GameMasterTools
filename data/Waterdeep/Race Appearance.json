@@ -69,6 +69,32 @@
      "Fair": "Common"
     }
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Chondathan",
+   "eye": {
+    "eyeColors": {
+     "Green": "Common",
+     "SaddleBrown": "Common",
+     "Teal": "Uncommon"
+    }
+   },
+   "hair": {
+    "colors": {
+     "Black": "Uncommon",
+     "Maroon": "Common",
+     "Peru": "Common",
+     "SaddleBrown": "Common",
+     "Wheat": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common",
+     "Light": "Common"
+    }
+   }
   }
  }
 }
