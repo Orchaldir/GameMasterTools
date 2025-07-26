@@ -245,22 +245,25 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> TR.tdInlineElements(
     call: ApplicationCall,
     state: State,
     elements: Collection<ELEMENT>,
-) {
-    td {
-        showInlineList(elements) { id ->
-            link(call, state, id)
-        }
-    }
+) = tdInline(elements) { element ->
+    link(call, state, element)
 }
 
 fun <ID : Id<ID>> TR.tdInlineIds(
     call: ApplicationCall,
     state: State,
     ids: Collection<ID>,
+) = tdInline(ids) { id ->
+    link(call, state, id)
+}
+
+fun <T> TR.tdInline(
+    values: Collection<T>,
+    content: HtmlBlockTag.(T) -> Unit,
 ) {
     td {
-        showInlineList(ids) { id ->
-            link(call, state, id)
+        showInlineList(values) { value ->
+            content(value)
         }
     }
 }
