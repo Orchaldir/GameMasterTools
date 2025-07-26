@@ -45,6 +45,7 @@ fun HtmlBlockTag.displayHolidayPurpose(
 ) {
     when (purpose) {
         Anniversary -> +"Anniversary"
+        Festival -> +"Festival"
         is HolidayOfCatastrophe -> {
             +"Remembrance of "
             link(call, state, purpose.catastrophe)
@@ -81,14 +82,15 @@ fun HtmlBlockTag.editHolidayPurpose(
         when (type) {
             HolidayPurposeType.Anniversary -> false
             HolidayPurposeType.Catastrophe -> catastrophes.isEmpty()
+            HolidayPurposeType.Festival -> false
             HolidayPurposeType.God -> gods.isEmpty()
-            HolidayPurposeType.Treaty -> treaties.isEmpty()
             HolidayPurposeType.War -> wars.isEmpty()
+            HolidayPurposeType.Treaty -> treaties.isEmpty()
         }
     }
 
     when (purpose) {
-        Anniversary -> doNothing()
+        Anniversary, Festival -> doNothing()
         is HolidayOfCatastrophe -> selectElement(
             state,
             "Catastrophe",
@@ -128,6 +130,7 @@ fun HtmlBlockTag.editHolidayPurpose(
 fun parseHolidayPurpose(parameters: Parameters) = when (parse(parameters, PURPOSE, HolidayPurposeType.Anniversary)) {
     HolidayPurposeType.Anniversary -> Anniversary
     HolidayPurposeType.Catastrophe -> HolidayOfCatastrophe(parseCatastropheId(parameters, CATASTROPHE))
+    HolidayPurposeType.Festival -> Festival
     HolidayPurposeType.God -> HolidayOfGod(parseGodId(parameters, GOD))
     HolidayPurposeType.Treaty -> HolidayOfTreaty(parseTreatyId(parameters, TREATY))
     HolidayPurposeType.War -> HolidayOfWar(parseWarId(parameters, WAR))

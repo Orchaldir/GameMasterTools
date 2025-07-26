@@ -57,6 +57,9 @@
     "type": "DayInYear",
     "dayIndex": 0,
     "monthIndex": 3
+   },
+   "purpose": {
+    "type": "Festival"
    }
   },
   "7": {
@@ -106,6 +109,15 @@
    "purpose": {
     "type": "War",
     "war": 1
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Guildhall Day",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 13,
+    "monthIndex": 5
    }
   }
  }
