@@ -193,6 +193,41 @@
      "Light": "Common"
     }
    }
+  },
+  "8": {
+   "id": 8,
+   "name": "Moon Elf",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Green": "Common"
+    }
+   },
+   "hair": {
+    "colors": {
+     "Black": "Common",
+     "Blue": "Uncommon",
+     "Silver": "Common",
+     "SteelBlue": "Uncommon",
+     "White": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Uncommon",
+     "Normal": "Common"
+    },
+    "exoticColors": {
+     "AliceBlue": "Uncommon",
+     "Lavender": "Common"
+    },
+    "normalColors": {
+     "Fair": "Common"
+    }
+   }
   }
  }
 }

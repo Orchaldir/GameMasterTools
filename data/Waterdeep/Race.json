@@ -121,9 +121,33 @@
      60,
      110,
      170,
-     260,
-     350,
-     500
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Moon Elf",
+   "height": {
+    "center": 1650000
+   },
+   "weight": 60000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 8,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
     ],
     "oldAgeHairColor": null,
     "venerableAgeHairColor": null
