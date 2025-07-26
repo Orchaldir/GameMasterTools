@@ -228,6 +228,36 @@
      "Fair": "Common"
     }
    }
+  },
+  "9": {
+   "id": 9,
+   "name": "Wood Elf",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eye": {
+    "eyeColors": {
+     "Green": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Crimson": "Uncommon",
+     "Gold": "Uncommon",
+     "SaddleBrown": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Light": "Common",
+     "Medium": "Common"
+    }
+   }
   }
  }
 }

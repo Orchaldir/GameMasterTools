@@ -152,6 +152,30 @@
     "oldAgeHairColor": null,
     "venerableAgeHairColor": null
    }
+  },
+  "10": {
+   "id": 10,
+   "name": "Wood Elf",
+   "height": {
+    "center": 1750000
+   },
+   "weight": 70000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 9,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
   }
  }
 }
