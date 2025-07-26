@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val defaultMaxAges = listOf(2, 5, 12, 18, 45, 60, 90, 120)
 private val immutable = LifeStage(Name.init("Immutable"), Int.MAX_VALUE)
 private val defaultRelativeSizes = listOf(20, 40, 60, 95, 100, 100, 95, 90)
 private val defaultLifeStagesMap = mutableMapOf<DefaultAging, List<LifeStage>>()
@@ -60,7 +61,7 @@ sealed class LifeStages {
 @SerialName("Default")
 data class DefaultAging(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
-    val maxAges: List<Int>,
+    val maxAges: List<Int> = defaultMaxAges,
     val oldAgeHairColor: Color? = null,
     val venerableAgeHairColor: Color? = null,
 ) : LifeStages() {

@@ -1,5 +1,18 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Tethyrian",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "lifeStages": {
+    "type": "Default",
+    "oldAgeHairColor": "LightGray",
+    "venerableAgeHairColor": "White"
+   }
+  }
  }
 }

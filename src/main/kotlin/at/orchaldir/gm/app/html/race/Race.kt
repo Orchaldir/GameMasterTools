@@ -265,8 +265,7 @@ private fun parseLifeStages(parameters: Parameters): LifeStages {
 
         LifeStagesType.DefaultAging.name -> DefaultAging(
             parseAppearanceId(parameters, 0),
-            (0..<DefaultLifeStages.entries.size)
-                .map { parseMaxAge(parameters, it) },
+            parseMaxAges(parameters),
             parseHairColor(parameters, 6),
             parseHairColor(parameters, 7),
         )
@@ -280,6 +279,9 @@ private fun parseLifeStages(parameters: Parameters): LifeStages {
     }
 
 }
+
+private fun parseMaxAges(parameters: Parameters): List<Int> = (0..<DefaultLifeStages.entries.size)
+    .map { parseMaxAge(parameters, it, defaultMaxAges[it]) }
 
 private fun parseSimpleLifeStages(parameters: Parameters): List<LifeStage> {
     val count = parseInt(parameters, LIFE_STAGE, 2)
@@ -296,8 +298,8 @@ private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = LifeStage
     parseHairColor(parameters, index),
 )
 
-private fun parseMaxAge(parameters: Parameters, index: Int) =
-    parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2)
+private fun parseMaxAge(parameters: Parameters, index: Int, default: Int = 2) =
+    parseInt(parameters, combine(LIFE_STAGE, AGE, index), default)
 
 private fun parseHairColor(parameters: Parameters, index: Int) =
     parse<Color>(parameters, combine(LIFE_STAGE, combine(HAIR, COLOR), index))
