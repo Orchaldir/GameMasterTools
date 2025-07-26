@@ -95,6 +95,30 @@
      "Light": "Common"
     }
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Shield Dwarf",
+   "eye": {
+    "eyeColors": {
+     "Green": "Common",
+     "SteelBlue": "Common"
+    }
+   },
+   "hair": {
+    "colors": {
+     "Crimson": "Common",
+     "OrangeRed": "Uncommon",
+     "Peru": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common",
+     "Light": "Common"
+    }
+   }
   }
  }
 }

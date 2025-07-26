@@ -31,6 +31,28 @@
     "type": "Default",
     "appearance": 3
    }
+  },
+  "5": {
+   "id": 5,
+   "name": "Shield Dwarf",
+   "height": {
+    "center": 1400000,
+    "offset": 1000
+   },
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 4,
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     100,
+     180,
+     250,
+     400
+    ]
+   }
   }
  }
 }
