@@ -5,9 +5,7 @@
    "id": 0,
    "name": "Tethyrian",
    "lifeStages": {
-    "type": "Default",
-    "oldAgeHairColor": "LightGray",
-    "venerableAgeHairColor": "White"
+    "type": "Default"
    }
   },
   "2": {
@@ -15,9 +13,7 @@
    "name": "Illuskan",
    "lifeStages": {
     "type": "Default",
-    "appearance": 2,
-    "oldAgeHairColor": "LightGray",
-    "venerableAgeHairColor": "White"
+    "appearance": 2
    }
   },
   "3": {
@@ -33,9 +29,7 @@
    "name": "Chondathan",
    "lifeStages": {
     "type": "Default",
-    "appearance": 3,
-    "oldAgeHairColor": "LightGray",
-    "venerableAgeHairColor": "White"
+    "appearance": 3
    }
   }
  }

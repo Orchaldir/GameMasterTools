@@ -10,7 +10,10 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val defaultMaxAges = listOf(2, 5, 12, 18, 45, 60, 90, 120)
+val DEFAULT_MAX_AGES = listOf(2, 5, 12, 18, 45, 60, 90, 120)
+val DEFAULT_OLD_AGE_HAIR_COLOR = Color.LightGray
+val DEFAULT_VENERABLE_AGE_HAIR_COLOR = Color.White
+
 private val immutable = LifeStage(Name.init("Immutable"), Int.MAX_VALUE)
 private val defaultRelativeSizes = listOf(20, 40, 60, 95, 100, 100, 95, 90)
 private val defaultLifeStagesMap = mutableMapOf<DefaultAging, List<LifeStage>>()
@@ -61,9 +64,9 @@ sealed class LifeStages {
 @SerialName("Default")
 data class DefaultAging(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
-    val maxAges: List<Int> = defaultMaxAges,
-    val oldAgeHairColor: Color? = null,
-    val venerableAgeHairColor: Color? = null,
+    val maxAges: List<Int> = DEFAULT_MAX_AGES,
+    val oldAgeHairColor: Color? = DEFAULT_OLD_AGE_HAIR_COLOR,
+    val venerableAgeHairColor: Color? = DEFAULT_VENERABLE_AGE_HAIR_COLOR,
 ) : LifeStages() {
 
     override fun contains(id: RaceAppearanceId) = id == appearance
