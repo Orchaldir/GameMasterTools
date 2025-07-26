@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.DisplayYear
 import at.orchaldir.gm.core.model.time.holiday.Holiday
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.time.calendar.*
@@ -19,8 +20,15 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.P
+import kotlinx.html.TR
 import kotlinx.html.h2
+import kotlinx.html.h3
 import kotlinx.html.p
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
 
 // show
 
@@ -83,14 +91,40 @@ private fun HtmlBlockTag.showDays(
 }
 
 private fun HtmlBlockTag.showMonths(calendar: Calendar) {
+    h3 { +"Months" }
+
     when (val months = calendar.months) {
-        is ComplexMonths -> fieldList("Months", months.months) { month ->
-            field(month.name.text, "${month.days} days")
+        is ComplexMonths -> table {
+            tr {
+                th { +"Month" }
+                th { +"Name" }
+                th { +"Title" }
+                th { +"Days" }
+            }
+            months.months.withIndex().forEach { (index, month) ->
+                tr {
+                    tdSkipZero(index + 1)
+                    tdString(month.name)
+                    tdString(month.title)
+                    tdSkipZero(month.days)
+                }
+            }
         }
 
         is SimpleMonths -> {
-            fieldList("Months", months.months) { month ->
-                +month.text
+            table {
+                tr {
+                    th { +"Month" }
+                    th { +"Name" }
+                    th { +"Title" }
+                }
+                months.months.withIndex().forEach { (index, month) ->
+                    tr {
+                        tdSkipZero(index + 1)
+                        tdString(month.name)
+                        tdString(month.title)
+                    }
+                }
             }
             field("Days per Month", months.daysPerMonth)
         }
@@ -167,26 +201,49 @@ private fun FORM.editDays(
 
 private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     val minMonths = getMinNumberOfMonths(holidays)
+
+    h3 { +"Months" }
+
     selectValue("Months Type", combine(MONTHS, TYPE), MonthsType.entries, calendar.months.getType())
     selectInt("Months", calendar.months.getSize(), minMonths, 100, 1, MONTHS)
 
     when (val months = calendar.months) {
-        is ComplexMonths -> months.months.withIndex().forEach { (index, month) ->
-            val minDays = getMinNumberOfDays(holidays, index)
-            p {
-                selectName(month.name, combine(MONTH, NAME, index))
-                +": "
-                selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index))
-                +"days"
+        is ComplexMonths -> {
+            table {
+                tr {
+                    th { +"Month" }
+                    th { +"Name" }
+                    th { +"Title" }
+                    th { +"Days" }
+                }
+                months.months.withIndex().forEach { (index, month) ->
+                    val minDays = getMinNumberOfDays(holidays, index)
+
+                    tr {
+                        tdSkipZero(index + 1)
+                        selectMonthName(index, month.name)
+                        selectMonthTitle(index, month.title)
+                        selectDaysOfMonth(index, month, minDays)
+                    }
+                }
             }
         }
 
         is SimpleMonths -> {
             val minDays = getMinNumberOfDays(holidays)
 
-            months.months.withIndex().forEach { (index, month) ->
-                p {
-                    selectName(month, combine(MONTH, NAME, index))
+            table {
+                tr {
+                    th { +"Month" }
+                    th { +"Name" }
+                    th { +"Title" }
+                }
+                months.months.withIndex().forEach { (index, month) ->
+                    tr {
+                        tdSkipZero(index + 1)
+                        selectMonthName(index, month.name)
+                        selectMonthTitle(index, month.title)
+                    }
                 }
             }
             selectInt("Days per Month", months.daysPerMonth, minDays, 100, 1, combine(MONTH, DAYS))
@@ -194,6 +251,47 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     }
 
     field("Days per Year", calendar.getDaysPerYear())
+}
+
+private fun TR.selectMonthName(
+    index: Int,
+    name: Name,
+) {
+    td {
+        p {
+            selectName(name, combine(MONTH, NAME, index))
+        }
+    }
+}
+
+private fun TR.selectMonthTitle(
+    index: Int,
+    title: Name?,
+) {
+    td {
+        p {
+            selectOptionalName("Title", title, combine(MONTH, TITLE, index))
+        }
+    }
+}
+
+private fun TR.selectDaysOfMonth(
+    index: Int,
+    month: MonthDefinition,
+    minDays: Int,
+) {
+    td {
+        p {
+            selectInt(
+                "Days",
+                month.days,
+                minDays,
+                100,
+                1,
+                combine(MONTH, DAYS, index),
+            )
+        }
+    }
 }
 
 private fun FORM.editEras(
@@ -278,7 +376,7 @@ private fun parseMonths(parameters: Parameters) = when (parse(parameters, combin
         SimpleMonths(
             parseDaysPerMonth(parameters, combine(MONTH, DAYS)),
             (0..<count)
-                .map { parseMonthName(parameters, it) },
+                .map { parseSimpleMonth(parameters, it) },
         )
     }
 
@@ -292,12 +390,21 @@ private fun parseMonths(parameters: Parameters) = when (parse(parameters, combin
     }
 }
 
-private fun parseComplexMonth(parameters: Parameters, it: Int) = MonthDefinition(
-    parseMonthName(parameters, it),
-    parseDaysPerMonth(parameters, combine(MONTH, DAYS, it)),
+private fun parseSimpleMonth(parameters: Parameters, index: Int) = SimpleMonthDefinition(
+    parseMonthName(parameters, index),
+    parseMonthTitle(parameters, index)
+)
+
+private fun parseComplexMonth(parameters: Parameters, index: Int) = MonthDefinition(
+    parseMonthName(parameters, index),
+    parseDaysPerMonth(parameters, combine(MONTH, DAYS, index)),
+    parseMonthTitle(parameters, index)
 )
 
 private fun parseDaysPerMonth(parameters: Parameters, param: String) = parseInt(parameters, param, 2)
 
-private fun parseMonthName(parameters: Parameters, it: Int) =
-    parseName(parameters, combine(MONTH, NAME, it), "${it + 1}.Month")
+private fun parseMonthName(parameters: Parameters, index: Int) =
+    parseName(parameters, combine(MONTH, NAME, index), "${index + 1}.Month")
+
+private fun parseMonthTitle(parameters: Parameters, index: Int) =
+    parseOptionalName(parameters, combine(MONTH, TITLE, index))

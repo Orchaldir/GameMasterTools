@@ -35,6 +35,9 @@ import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
+import kotlinx.html.table
+import kotlinx.html.th
+import kotlinx.html.tr
 import mu.KotlinLogging
 import kotlin.random.Random
 
@@ -46,7 +49,7 @@ fun Application.configureRaceAppearanceRouting() {
             logger.info { "Get all appearances of races" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAll(call)
+                showAll(call, STORE.getState())
             }
         }
         get<AppearanceRoutes.Gallery> { gallery ->
@@ -133,19 +136,31 @@ fun Application.configureRaceAppearanceRouting() {
     }
 }
 
-private fun HTML.showAll(call: ApplicationCall) {
-    val elements = STORE.getState().getRaceAppearanceStorage()
+private fun HTML.showAll(
+    call: ApplicationCall,
+    state: State,
+) {
+    val appearances = STORE.getState().getRaceAppearanceStorage()
         .getAll()
         .sortedBy { it.name.text }
     val createLink = call.application.href(AppearanceRoutes.New())
     val galleryLink = call.application.href(AppearanceRoutes.Gallery())
 
     simpleHtml("Race Appearances") {
-        field("Count", elements.size)
+        field("Count", appearances.size)
         action(galleryLink, "Gallery")
 
-        showList(elements) { element ->
-            link(call, element)
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Races" }
+            }
+            appearances.forEach { appearance ->
+                tr {
+                    tdLink(call, state, appearance)
+                    tdInlineElements(call, state, state.getRaces(appearance.id))
+                }
+            }
         }
 
         action(createLink, "Add")

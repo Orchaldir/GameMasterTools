@@ -1,0 +1,205 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Tethyrian",
+   "lifeStages": {
+    "type": "Default"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Illuskan",
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 2
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Calishite",
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 1
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Chondathan",
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 3
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Shield Dwarf",
+   "height": {
+    "center": 1400000,
+    "offset": 1000
+   },
+   "weight": 90000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 4,
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     100,
+     180,
+     250,
+     400
+    ]
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Gold Dwarf",
+   "height": {
+    "center": 1250000,
+    "offset": 1000
+   },
+   "weight": 80000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 5,
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     100,
+     180,
+     250,
+     400
+    ],
+    "oldAgeHairColor": "DimGray",
+    "venerableAgeHairColor": "LightGray"
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Gray Dwarf",
+   "height": {
+    "center": 1200000,
+    "offset": 1000
+   },
+   "weight": 50000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 6,
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     100,
+     180,
+     250,
+     400
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Sun Elf",
+   "height": {
+    "center": 1750000
+   },
+   "weight": 70000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 7,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Moon Elf",
+   "height": {
+    "center": 1650000
+   },
+   "weight": 60000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 8,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Wood Elf",
+   "height": {
+    "center": 1750000
+   },
+   "weight": 70000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 9,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Drow",
+   "height": {
+    "center": 1550000
+   },
+   "weight": 55000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 10,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  }
+ }
+}

@@ -91,11 +91,11 @@ private fun HtmlBlockTag.showEyes(
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
         showRarityMap("Eye Types", eyeOptions.eyeTypes)
         showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
-        showRarityMap("Eye Colors", eyeOptions.eyeColors)
+        showColorRarityMap("Eye Colors", eyeOptions.eyeColors)
 
         if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
             showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
-            showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+            showColorRarityMap("Sclera Colors", eyeOptions.scleraColors)
         }
     }
 }
@@ -107,7 +107,7 @@ private fun HtmlBlockTag.showFeet(appearance: RaceAppearance) {
 
     if (appearance.foot.footTypes.isAvailable(FootType.Clawed)) {
         field("Number of Claws", appearance.foot.clawNumber)
-        showRarityMap("Claw Color", appearance.foot.clawColors)
+        showColorRarityMap("Claw Color", appearance.foot.clawColors)
         showRarityMap("Claw Size", appearance.foot.clawSizes)
     }
 }
@@ -119,7 +119,7 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     showRarityMap("Hair", appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        showRarityMap("Colors", appearance.hair.colors)
+        showColorRarityMap("Colors", appearance.hair.colors)
     }
 }
 
@@ -167,12 +167,12 @@ private fun HtmlBlockTag.showMouth(mouthOptions: MouthOptions) {
 
     if (mouthOptions.mouthTypes.isAvailable(MouthType.Beak)) {
         showRarityMap("Beak Shapes", mouthOptions.beakShapes)
-        showRarityMap("Beak Colors", mouthOptions.beakColors)
+        showColorRarityMap("Beak Colors", mouthOptions.beakColors)
     }
 
     if (mouthOptions.mouthTypes.isAvailable(MouthType.Snout)) {
         showRarityMap("Snout Shapes", mouthOptions.snoutShapes)
-        showRarityMap("Snout Colors", mouthOptions.snoutColors)
+        showColorRarityMap("Snout Colors", mouthOptions.snoutColors)
     }
 }
 
@@ -196,7 +196,7 @@ private fun HtmlBlockTag.showSkinInternal(
     showRarityMap("Type", options.skinTypes)
 
     if (options.skinTypes.isAvailable(SkinType.Exotic)) {
-        showRarityMap("Exotic Skin Colors", options.exoticColors)
+        showColorRarityMap("Exotic Skin Colors", options.exoticColors)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
@@ -210,11 +210,11 @@ private fun HtmlBlockTag.showSkinInternal(
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        showRarityMap("Fur Colors", options.furColors)
+        showColorRarityMap("Fur Colors", options.furColors)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Scales)) {
-        showRarityMap("Scale Colors", options.scalesColors)
+        showColorRarityMap("Scale Colors", options.scalesColors)
     }
 }
 
@@ -275,11 +275,11 @@ private fun HtmlBlockTag.showWings(
     }
 
     if (options.types.isAvailable(WingType.Bird)) {
-        showRarityMap("Bird Wing Color", options.birdColors)
+        showColorRarityMap("Bird Wing Color", options.birdColors)
     }
 
     if (options.types.isAvailable(WingType.Butterfly)) {
-        showRarityMap("Butterfly Wing Color", options.butterflyColors)
+        showColorRarityMap("Butterfly Wing Color", options.butterflyColors)
     }
 }
 
@@ -324,11 +324,11 @@ private fun FORM.editEyes(
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
         selectRarityMap("Eye Types", combine(EYE, TYPE), eyeOptions.eyeTypes)
         selectRarityMap("Eye Shapes", combine(EYE, SHAPE), eyeOptions.eyeShapes)
-        selectRarityMap("Eye Colors", combine(PUPIL, COLOR), eyeOptions.eyeColors)
+        selectColorRarityMap("Eye Colors", combine(PUPIL, COLOR), eyeOptions.eyeColors)
 
         if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
             selectRarityMap("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes)
-            selectRarityMap("Sclera Colors", combine(SCLERA, COLOR), eyeOptions.scleraColors)
+            selectColorRarityMap("Sclera Colors", combine(SCLERA, COLOR), eyeOptions.scleraColors)
         }
     }
 }
@@ -348,7 +348,7 @@ private fun FORM.editFeet(appearance: RaceAppearance) {
             combine(FOOT, CLAWS, NUMBER),
         )
         selectRarityMap("Claw Size", combine(FOOT, CLAWS, SIZE), appearance.foot.clawSizes)
-        selectRarityMap("Claw Color", combine(FOOT, CLAWS, COLOR), appearance.foot.clawColors)
+        selectColorRarityMap("Claw Color", combine(FOOT, CLAWS, COLOR), appearance.foot.clawColors)
     }
 }
 
@@ -359,7 +359,7 @@ private fun FORM.editHair(appearance: RaceAppearance) {
     selectRarityMap("Hair", HAIR, appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        selectRarityMap("Colors", combine(HAIR, COLOR), appearance.hair.colors)
+        selectColorRarityMap("Colors", combine(HAIR, COLOR), appearance.hair.colors)
     }
 }
 
@@ -401,12 +401,12 @@ private fun FORM.editMouth(mouthOptions: MouthOptions) {
 
     if (mouthOptions.mouthTypes.isAvailable(MouthType.Beak)) {
         selectRarityMap("Beak Shapes", combine(BEAK, SHAPE), mouthOptions.beakShapes)
-        selectRarityMap("Beak Colors", combine(BEAK, COLOR), mouthOptions.beakColors)
+        selectColorRarityMap("Beak Colors", combine(BEAK, COLOR), mouthOptions.beakColors)
     }
 
     if (mouthOptions.mouthTypes.isAvailable(MouthType.Snout)) {
         selectRarityMap("Snout Shapes", combine(SNOUT, SHAPE), mouthOptions.snoutShapes)
-        selectRarityMap("Snout Colors", combine(SNOUT, COLOR), mouthOptions.snoutColors)
+        selectColorRarityMap("Snout Colors", combine(SNOUT, COLOR), mouthOptions.snoutColors)
     }
 }
 
@@ -420,7 +420,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     selectRarityMap("Type", combine(param, TYPE), options.skinTypes)
 
     if (options.skinTypes.isAvailable(SkinType.Exotic)) {
-        selectRarityMap(
+        selectColorRarityMap(
             "Exotic Skin Colors",
             combine(param, EXOTIC, COLOR),
             options.exoticColors,
@@ -428,7 +428,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        selectRarityMap("Fur Colors", combine(param, FUR, COLOR), options.furColors)
+        selectColorRarityMap("Fur Colors", combine(param, FUR, COLOR), options.furColors)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Material)) {
@@ -449,7 +449,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 
     if (options.skinTypes.isAvailable(SkinType.Scales)) {
-        selectRarityMap("Scale Colors", combine(param, SCALE, COLOR), options.scalesColors)
+        selectColorRarityMap("Scale Colors", combine(param, SCALE, COLOR), options.scalesColors)
     }
 }
 
@@ -513,11 +513,11 @@ private fun FORM.editWings(state: State, appearance: RaceAppearance) {
     }
 
     if (options.types.isAvailable(WingType.Bird)) {
-        selectRarityMap("Bird Wing Colors", combine(WING, BIRD, COLOR), options.birdColors)
+        selectColorRarityMap("Bird Wing Colors", combine(WING, BIRD, COLOR), options.birdColors)
     }
 
     if (options.types.isAvailable(WingType.Butterfly)) {
-        selectRarityMap(
+        selectColorRarityMap(
             "Butterfly Wing Colors",
             combine(WING, BUTTERFLY, COLOR),
             options.butterflyColors,
@@ -615,10 +615,18 @@ private fun parseTailOptions(parameters: Parameters): TailOptions {
     )
 }
 
-private fun parseFeatureColor(parameters: Parameters, param: String) = FeatureColorOptions(
-    parse(parameters, combine(param, COLOR), FeatureColorType.Overwrite),
-    parseSkinOptions(parameters, param),
-)
+private fun parseFeatureColor(parameters: Parameters, param: String): FeatureColorOptions {
+    val type = parse<FeatureColorType>(parameters, combine(param, COLOR))
+
+    return if (type != null) {
+        FeatureColorOptions(
+            type,
+            parseSkinOptions(parameters, param),
+        )
+    } else {
+        FeatureColorOptions()
+    }
+}
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(
     parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),

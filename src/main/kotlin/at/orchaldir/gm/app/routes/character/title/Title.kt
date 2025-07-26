@@ -159,7 +159,9 @@ private fun HTML.showAllTitles(
             titles.forEach { title ->
                 tr {
                     tdLink(call, state, title)
-                    tdString(title.text)
+                    tdInline(title.text.getValues()) { text ->
+                        text.text
+                    }
                     tdEnum(title.position)
                     tdChar(title.separator)
                     tdSkipZero(state.countCharacters(title.id))

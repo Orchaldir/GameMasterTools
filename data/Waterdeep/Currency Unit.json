@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Nib",
+   "format": {
+    "type": "Coin",
+    "shape": {
+     "type": "Circular",
+     "shape": "RoundedDiamond"
+    },
+    "rimFactor": 0
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Shard",
+   "denomination": 1,
+   "format": {
+    "type": "Coin",
+    "material": 1,
+    "shape": {
+     "type": "Circular",
+     "shape": "RoundedHeater"
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Dragon",
+   "denomination": 2,
+   "format": {
+    "type": "Coin",
+    "material": 2,
+    "shape": {
+     "type": "Rectangular",
+     "widthFactor": 7500
+    },
+    "radius": 15000
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Sun",
+   "number": 10,
+   "denomination": 2,
+   "format": {
+    "type": "Coin",
+    "material": 3,
+    "shape": {
+     "type": "Circular",
+     "shape": "ScallopedOctagon"
+    },
+    "radius": 20000
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Toal",
+   "number": 2,
+   "denomination": 2,
+   "format": {
+    "type": "Holed",
+    "material": 6,
+    "shape": {
+     "type": "Circular",
+     "shape": "RoundedSquare"
+    },
+    "radius": 25000,
+    "rimFactor": 800,
+    "holeFactor": 4000
+   }
+  }
+ }
+}

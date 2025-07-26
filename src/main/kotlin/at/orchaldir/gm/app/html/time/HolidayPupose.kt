@@ -4,19 +4,23 @@ import at.orchaldir.gm.app.CATASTROPHE
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PURPOSE
 import at.orchaldir.gm.app.TREATY
+import at.orchaldir.gm.app.WAR
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.realm.parseCatastropheId
 import at.orchaldir.gm.app.html.realm.parseTreatyId
+import at.orchaldir.gm.app.html.realm.parseWarId
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.*
+import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortTreaties
+import at.orchaldir.gm.core.selector.util.sortWars
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -41,6 +45,7 @@ fun HtmlBlockTag.displayHolidayPurpose(
 ) {
     when (purpose) {
         Anniversary -> +"Anniversary"
+        Festival -> +"Festival"
         is HolidayOfCatastrophe -> {
             +"Remembrance of "
             link(call, state, purpose.catastrophe)
@@ -55,6 +60,10 @@ fun HtmlBlockTag.displayHolidayPurpose(
             +"Celebration of "
             link(call, state, purpose.treaty)
         }
+        is HolidayOfWar -> {
+            +"Remembrance of "
+            link(call, state, purpose.war)
+        }
     }
 }
 
@@ -64,15 +73,29 @@ fun HtmlBlockTag.editHolidayPurpose(
     state: State,
     purpose: HolidayPurpose,
 ) {
-    selectValue("Purpose", PURPOSE, HolidayPurposeType.entries, purpose.getType())
+    val catastrophes = state.sortCatastrophes()
+    val gods = state.sortGods()
+    val treaties = state.sortTreaties()
+    val wars = state.sortWars()
+
+    selectValue("Purpose", PURPOSE, HolidayPurposeType.entries, purpose.getType()) { type ->
+        when (type) {
+            HolidayPurposeType.Anniversary -> false
+            HolidayPurposeType.Catastrophe -> catastrophes.isEmpty()
+            HolidayPurposeType.Festival -> false
+            HolidayPurposeType.God -> gods.isEmpty()
+            HolidayPurposeType.War -> wars.isEmpty()
+            HolidayPurposeType.Treaty -> treaties.isEmpty()
+        }
+    }
 
     when (purpose) {
-        Anniversary -> doNothing()
+        Anniversary, Festival -> doNothing()
         is HolidayOfCatastrophe -> selectElement(
             state,
             "Catastrophe",
             CATASTROPHE,
-            state.sortCatastrophes(),
+            catastrophes,
             purpose.catastrophe,
         )
 
@@ -80,7 +103,7 @@ fun HtmlBlockTag.editHolidayPurpose(
             state,
             "God",
             GOD,
-            state.sortGods(),
+            gods,
             purpose.god,
         )
 
@@ -88,8 +111,16 @@ fun HtmlBlockTag.editHolidayPurpose(
             state,
             "Treaty",
             TREATY,
-            state.sortTreaties(),
+            treaties,
             purpose.treaty,
+        )
+
+        is HolidayOfWar -> selectElement(
+            state,
+            "War",
+            WAR,
+            wars,
+            purpose.war,
         )
     }
 }
@@ -99,6 +130,8 @@ fun HtmlBlockTag.editHolidayPurpose(
 fun parseHolidayPurpose(parameters: Parameters) = when (parse(parameters, PURPOSE, HolidayPurposeType.Anniversary)) {
     HolidayPurposeType.Anniversary -> Anniversary
     HolidayPurposeType.Catastrophe -> HolidayOfCatastrophe(parseCatastropheId(parameters, CATASTROPHE))
+    HolidayPurposeType.Festival -> Festival
     HolidayPurposeType.God -> HolidayOfGod(parseGodId(parameters, GOD))
     HolidayPurposeType.Treaty -> HolidayOfTreaty(parseTreatyId(parameters, TREATY))
+    HolidayPurposeType.War -> HolidayOfWar(parseWarId(parameters, WAR))
 }

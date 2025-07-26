@@ -1,0 +1,13 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Waterdeep",
+   "title": "City of Splendors",
+   "sources": [
+    0
+   ]
+  }
+ }
+}

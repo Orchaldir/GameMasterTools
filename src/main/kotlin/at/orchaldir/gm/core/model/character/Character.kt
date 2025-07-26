@@ -84,11 +84,11 @@ data class Character(
             is FamilyName -> {
                 val culture = state.getCultureStorage().getOrThrow(culture)
 
-                culture.namingConvention.getFamilyName(name, title)
+                culture.namingConvention.getFamilyName(name, gender, title)
             }
 
-            is Genonym -> title.resolveFullName(state.getGenonymName(this, name))
-            is Mononym -> title.resolveFullName(name.name.text)
+            is Genonym -> title.resolveFullName(state.getGenonymName(this, name), gender)
+            is Mononym -> title.resolveFullName(name.name.text, gender)
         }
     }
 
@@ -96,14 +96,17 @@ data class Character(
         val title: AbstractTitle = state.getTitleStorage().getOptional(title) ?: NoTitle
 
         return when (name) {
-            is FamilyName -> title.resolveFamilyName(name.family.text) + ", " + name.given.text + if (name.middle != null) {
+            is FamilyName -> title.resolveFamilyName(
+                name.family.text,
+                gender
+            ) + ", " + name.given.text + if (name.middle != null) {
                 " " + name.middle.text
             } else {
                 ""
             }
 
-            is Genonym -> title.resolveFullName(state.getGenonymName(this, name))
-            is Mononym -> title.resolveFullName(name.name.text)
+            is Genonym -> title.resolveFullName(state.getGenonymName(this, name), gender)
+            is Mononym -> title.resolveFullName(name.name.text, gender)
         }
     }
 

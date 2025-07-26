@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "text": "What befalls?",
+   "description": "Someone tell me what's going on here.",
+   "type": "Slang",
+   "source": {
+    "type": "Organization",
+    "organization": 2
+   }
+  },
+  "1": {
+   "id": 1,
+   "text": "Hold!",
+   "description": "Don't move a muscle.",
+   "type": "Slang",
+   "source": {
+    "type": "Organization",
+    "organization": 2
+   }
+  },
+  "2": {
+   "id": 2,
+   "text": "Down arms!",
+   "description": "Drop your weapons.",
+   "type": "Slang",
+   "source": {
+    "type": "Organization",
+    "organization": 2
+   }
+  },
+  "3": {
+   "id": 3,
+   "text": "Talk truth!",
+   "description": "\"Answer me\" or \"Tell the whole story.\"",
+   "type": "Slang",
+   "source": {
+    "type": "Organization",
+    "organization": 2
+   }
+  },
+  "4": {
+   "id": 4,
+   "text": "Robes",
+   "description": "References the black robes of the magisters.",
+   "type": "Slang",
+   "source": {
+    "type": "Town",
+    "town": 0
+   }
+  },
+  "5": {
+   "id": 5,
+   "text": "The only mortals that Waterdavians fear are a few unstable wizards and the Lords.",
+   "description": "Most Waterdavians are slow to take fright unless facing magic or monsters.",
+   "source": {
+    "type": "Town",
+    "town": 0
+   }
+  }
+ }
+}

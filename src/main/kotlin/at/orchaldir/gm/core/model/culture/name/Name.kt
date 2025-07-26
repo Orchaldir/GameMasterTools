@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.culture.name
 
 import at.orchaldir.gm.core.model.character.FamilyName
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.title.AbstractTitle
 import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
@@ -27,17 +28,17 @@ sealed class NamingConvention {
 
     abstract fun getNameLists(): Set<NameListId>
 
-    fun getFamilyName(name: FamilyName, title: AbstractTitle = NoTitle): String {
+    fun getFamilyName(name: FamilyName, gender: Gender, title: AbstractTitle = NoTitle): String {
         when (this) {
             is FamilyConvention -> return when (nameOrder) {
                 NameOrder.GivenNameFirst -> getFamilyName(
                     name.given.text,
                     name.middle,
-                    title.resolveFamilyName(name.family.text)
+                    title.resolveFamilyName(name.family.text, gender)
                 )
 
                 NameOrder.FamilyNameFirst -> getFamilyName(
-                    title.resolveFamilyName(name.family.text),
+                    title.resolveFamilyName(name.family.text, gender),
                     name.middle,
                     name.given.text
                 )

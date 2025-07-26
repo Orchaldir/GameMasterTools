@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Magister",
+   "employerType": "Town"
+  },
+  "1": {
+   "id": 1,
+   "name": "Masked Lord",
+   "employerType": "Town"
+  },
+  "2": {
+   "id": 2,
+   "name": "Open Lord",
+   "employerType": "Town"
+  },
+  "3": {
+   "id": 3,
+   "name": "Traffic Warden",
+   "employerType": "Town"
+  }
+ }
+}

@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.AVAILABLE
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -168,6 +169,35 @@ fun <T> HtmlBlockTag.selectRarityMap(
                 label = rarity.toString()
                 value = "$currentValue-$rarity"
                 selected = rarity == currentRarity
+            }
+        }
+    }
+}
+
+fun HtmlBlockTag.selectColorRarityMap(
+    enum: String,
+    selectId: String,
+    rarityMap: RarityMap<Color>,
+) {
+    val colors = enumValues<Color>().toSet()
+
+    showDetails(enum, true) {
+        table {
+            tr {
+                th { +"Color" }
+                th { +"Rarity" }
+            }
+            rarityMap.getRarityFor(colors).forEach { (currentColor, currentRarity) ->
+                tr {
+                    tdColor(currentColor)
+                    td {
+                        selectValue(selectId, rarityMap.getAvailableRarities()) { rarity ->
+                            label = rarity.toString()
+                            value = "$currentColor-$rarity"
+                            selected = rarity == currentRarity
+                        }
+                    }
+                }
             }
         }
     }

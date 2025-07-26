@@ -1,0 +1,79 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Dalereckoning",
+   "months": {
+    "type": "Simple",
+    "daysPerMonth": 30,
+    "months": [
+     {
+      "name": "Hammer",
+      "title": "Deepwinter"
+     },
+     {
+      "name": "Alturiak",
+      "title": "The Claw of Winter"
+     },
+     {
+      "name": "Ches",
+      "title": "The Claw of the Sunsets"
+     },
+     {
+      "name": "Tarsakh",
+      "title": "The Claw of the Storms"
+     },
+     {
+      "name": "Mirtul",
+      "title": "The Melting"
+     },
+     {
+      "name": "Kythorn",
+      "title": "The Time of Flowers"
+     },
+     {
+      "name": "Flamerule",
+      "title": "Summertide"
+     },
+     {
+      "name": "Eleasis",
+      "title": "Highsun"
+     },
+     {
+      "name": "Eleint",
+      "title": "The Fading"
+     },
+     {
+      "name": "Marpenoth",
+      "title": "Leaffall"
+     },
+     {
+      "name": "Uktar",
+      "title": "The Rotting"
+     },
+     {
+      "name": "Nightal",
+      "title": "The Drawing Down"
+     }
+    ]
+   },
+   "eras": {
+    "before": {
+     "text": "BR",
+     "isPrefix": true
+    },
+    "first": {
+     "startDay": {
+      "day": 0
+     },
+     "text": "DR",
+     "isPrefix": false
+    }
+   },
+   "defaultFormat": {
+    "displayMonthNames": true
+   }
+  }
+ }
+}

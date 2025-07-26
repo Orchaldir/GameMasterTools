@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character.title
 
+import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
@@ -19,15 +21,15 @@ value class TitleId(val value: Int) : Id<TitleId> {
 }
 
 interface AbstractTitle {
-    fun resolveFamilyName(name: String): String
-    fun resolveFullName(name: String): String
+    fun resolveFamilyName(name: String, gender: Gender): String
+    fun resolveFullName(name: String, gender: Gender): String
 }
 
 @Serializable
 data class Title(
     val id: TitleId,
     val name: Name = Name.init(id),
-    val text: NotEmptyString = NotEmptyString.init("Dr"),
+    val text: GenderMap<NotEmptyString> = GenderMap(NotEmptyString.init("Dr")),
     val position: TitlePosition = TitlePosition.BeforeFullName,
     val separator: Char = ' ',
 ) : ElementWithSimpleName<TitleId>, AbstractTitle {
@@ -35,22 +37,22 @@ data class Title(
     override fun id() = id
     override fun name() = name.text
 
-    override fun resolveFamilyName(name: String) = when (position) {
+    override fun resolveFamilyName(name: String, gender: Gender) = when (position) {
         TitlePosition.AfterFullName -> name
-        TitlePosition.BeforeFamilyName -> text.text + separator + name
+        TitlePosition.BeforeFamilyName -> text.get(gender).text + separator + name
         TitlePosition.BeforeFullName -> name
     }
 
-    override fun resolveFullName(name: String) = when (position) {
-        TitlePosition.AfterFullName -> name + separator + text.text
+    override fun resolveFullName(name: String, gender: Gender) = when (position) {
+        TitlePosition.AfterFullName -> name + separator + text.get(gender).text
         TitlePosition.BeforeFamilyName -> name
-        TitlePosition.BeforeFullName -> text.text + separator + name
+        TitlePosition.BeforeFullName -> text.get(gender).text + separator + name
     }
 
 }
 
 data object NoTitle : AbstractTitle {
-    override fun resolveFamilyName(name: String) = name
+    override fun resolveFamilyName(name: String, gender: Gender) = name
 
-    override fun resolveFullName(name: String) = name
+    override fun resolveFullName(name: String, gender: Gender) = name
 }

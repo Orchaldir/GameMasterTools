@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Noble",
+   "text": {
+    "female": "Lady",
+    "genderless": "Lord",
+    "male": "Lord"
+   }
+  }
+ }
+}

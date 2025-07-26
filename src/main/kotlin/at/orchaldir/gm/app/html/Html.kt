@@ -4,7 +4,9 @@ import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -96,6 +98,13 @@ fun HtmlBlockTag.showDetails(
 
 // maps
 
+fun HtmlBlockTag.showColorRarityMap(
+    label: String,
+    colors: RarityMap<Color>,
+) = showRarityMap(label, colors) { color ->
+    showColor(color)
+}
+
 fun <K, V> HtmlBlockTag.showMap(
     label: String,
     map: Map<K, V>,
@@ -122,13 +131,13 @@ fun <K, V> HtmlBlockTag.showMap(
 }
 
 inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
-    enum: String,
+    label: String,
     rarityMap: RarityMap<T>,
     values: Set<T> = enumValues<T>().toSet(),
 ) {
     val sortedMap = reverseAndSort(rarityMap.getRarityFor(values))
 
-    showDetails(enum) {
+    showDetails(label) {
         showMap(sortedMap) { rarity, values ->
             field(rarity.toString(), values.joinToString())
         }
@@ -136,13 +145,13 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
 }
 
 fun <T> HtmlBlockTag.showRarityMap(
-    enum: String,
+    label: String,
     values: RarityMap<T>,
     content: LI.(T) -> Unit,
 ) {
     val sortedMap = reverseAndSort(values.getRarityMap())
 
-    showDetails(enum) {
+    showDetails(label) {
         showMap(sortedMap) { rarity, values ->
             fieldList(rarity.toString(), values) {
                 content(it)
@@ -182,6 +191,10 @@ fun TR.thMultiLines(lines: List<String>) {
 
 fun TR.tdChar(char: Char) {
     tdString("\"$char\"")
+}
+
+fun TR.tdColor(color: Color?) {
+    td { showOptionalColor(color) }
 }
 
 fun <T : Enum<T>> TR.tdEnum(value: T?) {
@@ -232,22 +245,25 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> TR.tdInlineElements(
     call: ApplicationCall,
     state: State,
     elements: Collection<ELEMENT>,
-) {
-    td {
-        showInlineList(elements) { id ->
-            link(call, state, id)
-        }
-    }
+) = tdInline(elements) { element ->
+    link(call, state, element)
 }
 
 fun <ID : Id<ID>> TR.tdInlineIds(
     call: ApplicationCall,
     state: State,
     ids: Collection<ID>,
+) = tdInline(ids) { id ->
+    link(call, state, id)
+}
+
+fun <T> TR.tdInline(
+    values: Collection<T>,
+    content: HtmlBlockTag.(T) -> Unit,
 ) {
     td {
-        showInlineList(ids) { id ->
-            link(call, state, id)
+        showInlineList(values) { value ->
+            content(value)
         }
     }
 }
@@ -258,6 +274,10 @@ fun TR.tdSkipZero(value: Int?) {
             +value.toString()
         }
     }
+}
+
+fun TR.tdString(value: Name?) {
+    tdString(value?.text)
 }
 
 fun TR.tdString(value: NotEmptyString?) {

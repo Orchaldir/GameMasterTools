@@ -158,7 +158,7 @@ private fun HTML.showAllStreetTemplates(
             templates.forEach { template ->
                 tr {
                     tdLink(call, state, template)
-                    td { showColor(template.color) }
+                    td { showOptionalColor(template.color) }
                     tdInlineIds(call, state, template.materialCost.materials())
                 }
             }

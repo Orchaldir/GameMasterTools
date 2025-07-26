@@ -161,7 +161,7 @@ private fun HTML.showAllMaterials(
                 tr {
                     tdLink(call, state, material)
                     tdEnum(material.category)
-                    td { showColor(material.color) }
+                    tdColor(material.color)
                     td(material.density)
                     tdSkipZero(state.countCurrencyUnits(material.id))
                     tdSkipZero(state.countEquipment(material.id))

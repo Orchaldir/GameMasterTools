@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util.quote
 import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.TEXT
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
@@ -28,6 +29,7 @@ fun HtmlBlockTag.showQuote(
     val texts = state.getTextsContaining(quote.id)
 
     field("Text", quote.text)
+    optionalField("Description", quote.description)
     field("Type", quote.type)
     fieldCreator(call, state, quote.source, "Source")
     optionalField(call, state, "Date", quote.date)
@@ -43,6 +45,13 @@ fun HtmlBlockTag.editQuote(state: State, quote: Quote) {
         90,
         10,
         quote.text.text,
+    )
+    editTextArea(
+        "Description",
+        TEXT,
+        90,
+        10,
+        quote.description?.text ?: "",
     )
     selectValue("Type", TYPE, QuoteType.entries, quote.type)
     selectCreator(
@@ -65,6 +74,7 @@ fun parseQuoteId(parameters: Parameters, param: String) = QuoteId(parseInt(param
 fun parseQuote(parameters: Parameters, state: State, id: QuoteId) = Quote(
     id,
     parseNotEmptyString(parameters, NAME, "Text"),
+    parseOptionalNotEmptyString(parameters, TEXT),
     parse(parameters, TYPE, QuoteType.Quote),
     parseCreator(parameters, CREATOR),
     parseOptionalDate(parameters, state, DATE),

@@ -4,21 +4,33 @@
   "0": {
    "id": 0,
    "name": "Noble",
-   "text": "ir",
+   "text": {
+    "female": "ir",
+    "genderless": "ir",
+    "male": "ir"
+   },
    "position": "BeforeFamilyName",
    "separator": "'"
   },
   "1": {
    "id": 1,
    "name": "Dragonmarked",
-   "text": "d",
+   "text": {
+    "female": "d",
+    "genderless": "d",
+    "male": "d"
+   },
    "position": "BeforeFamilyName",
    "separator": "'"
   },
   "2": {
    "id": 2,
    "name": "Grandmother",
-   "text": "Sora"
+   "text": {
+    "female": "Sora",
+    "genderless": "Sora",
+    "male": "Sora"
+   }
   }
  }
 }
