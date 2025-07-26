@@ -53,6 +53,30 @@
      400
     ]
    }
+  },
+  "6": {
+   "id": 6,
+   "name": "Gold Dwarf",
+   "height": {
+    "center": 1250000,
+    "offset": 1000
+   },
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 5,
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     100,
+     180,
+     250,
+     400
+    ],
+    "oldAgeHairColor": "DimGray",
+    "venerableAgeHairColor": "LightGray"
+   }
   }
  }
 }

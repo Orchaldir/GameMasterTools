@@ -119,6 +119,21 @@
      "Light": "Common"
     }
    }
+  },
+  "5": {
+   "id": 5,
+   "name": "Gold Dwarf",
+   "hair": {
+    "colors": {
+     "Black": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Medium": "Common"
+    }
+   }
   }
  }
 }
