@@ -4,10 +4,12 @@ import at.orchaldir.gm.app.CATASTROPHE
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PURPOSE
 import at.orchaldir.gm.app.TREATY
+import at.orchaldir.gm.app.WAR
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.realm.parseCatastropheId
 import at.orchaldir.gm.app.html.realm.parseTreatyId
+import at.orchaldir.gm.app.html.realm.parseWarId
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
@@ -17,6 +19,7 @@ import at.orchaldir.gm.core.model.time.holiday.*
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortTreaties
+import at.orchaldir.gm.core.selector.util.sortWars
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -55,6 +58,10 @@ fun HtmlBlockTag.displayHolidayPurpose(
             +"Celebration of "
             link(call, state, purpose.treaty)
         }
+        is HolidayOfWar -> {
+            +"Remembrance of "
+            link(call, state, purpose.war)
+        }
     }
 }
 
@@ -91,6 +98,13 @@ fun HtmlBlockTag.editHolidayPurpose(
             state.sortTreaties(),
             purpose.treaty,
         )
+        is HolidayOfWar -> selectElement(
+            state,
+            "War",
+            WAR,
+            state.sortWars(),
+            purpose.war,
+        )
     }
 }
 
@@ -101,4 +115,5 @@ fun parseHolidayPurpose(parameters: Parameters) = when (parse(parameters, PURPOS
     HolidayPurposeType.Catastrophe -> HolidayOfCatastrophe(parseCatastropheId(parameters, CATASTROPHE))
     HolidayPurposeType.God -> HolidayOfGod(parseGodId(parameters, GOD))
     HolidayPurposeType.Treaty -> HolidayOfTreaty(parseTreatyId(parameters, TREATY))
+    HolidayPurposeType.War -> HolidayOfWar(parseWarId(parameters, WAR))
 }

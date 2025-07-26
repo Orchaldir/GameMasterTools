@@ -102,6 +102,10 @@
     "type": "DayInYear",
     "dayIndex": 0,
     "monthIndex": 5
+   },
+   "purpose": {
+    "type": "War",
+    "war": 1
    }
   }
  }

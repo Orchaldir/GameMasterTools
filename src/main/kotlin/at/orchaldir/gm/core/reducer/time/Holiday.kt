@@ -50,6 +50,7 @@ fun checkPurpose(state: State, purpose: HolidayPurpose) {
         is HolidayOfCatastrophe -> state.getCatastropheStorage().require(purpose.catastrophe)
         is HolidayOfGod -> state.getGodStorage().require(purpose.god)
         is HolidayOfTreaty -> state.getTreatyStorage().require(purpose.treaty)
+        is HolidayOfWar -> state.getWarStorage().require(purpose.war)
     }
 }
 
