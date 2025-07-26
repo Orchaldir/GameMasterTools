@@ -4,4 +4,5 @@ enum class QuoteType {
     Idiom,
     Proverb,
     Quote,
+    Slang,
 }
