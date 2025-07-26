@@ -134,6 +134,31 @@
      "Medium": "Common"
     }
    }
+  },
+  "6": {
+   "id": 6,
+   "name": "Gray Dwarf",
+   "eye": {
+    "eyeColors": {
+     "Black": "Common"
+    }
+   },
+   "hair": {
+    "hairTypes": {
+     "None": "Common"
+    },
+    "colors": {
+     "LightGray": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticColors": {
+     "Gray": "Common"
+    }
+   }
   }
  }
 }

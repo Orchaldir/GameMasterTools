@@ -77,6 +77,29 @@
     "oldAgeHairColor": "DimGray",
     "venerableAgeHairColor": "LightGray"
    }
+  },
+  "7": {
+   "id": 7,
+   "name": "Gray Dwarf",
+   "height": {
+    "center": 1200000,
+    "offset": 1000
+   },
+   "weight": 50000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 6,
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     100,
+     180,
+     250,
+     400
+    ]
+   }
   }
  }
 }
