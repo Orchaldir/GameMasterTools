@@ -34,18 +34,42 @@
     "type": "Simple",
     "daysPerMonth": 28,
     "months": [
-     "Zarantyr",
-     "Olarune",
-     "Therendor",
-     "Eyre",
-     "Dravago",
-     "Nymm",
-     "Lharvion",
-     "Barrakas",
-     "Rhaan",
-     "Sypheros",
-     "Aryth",
-     "Vult"
+     {
+      "name": "Zarantyr"
+     },
+     {
+      "name": "Olarune"
+     },
+     {
+      "name": "Therendor"
+     },
+     {
+      "name": "Eyre"
+     },
+     {
+      "name": "Dravago"
+     },
+     {
+      "name": "Nymm"
+     },
+     {
+      "name": "Lharvion"
+     },
+     {
+      "name": "Barrakas"
+     },
+     {
+      "name": "Rhaan"
+     },
+     {
+      "name": "Sypheros"
+     },
+     {
+      "name": "Aryth"
+     },
+     {
+      "name": "Vult"
+     }
     ]
    },
    "eras": {
