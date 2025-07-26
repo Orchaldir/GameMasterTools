@@ -176,6 +176,30 @@
     "oldAgeHairColor": null,
     "venerableAgeHairColor": null
    }
+  },
+  "11": {
+   "id": 11,
+   "name": "Drow",
+   "height": {
+    "center": 1550000
+   },
+   "weight": 55000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 10,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
   }
  }
 }

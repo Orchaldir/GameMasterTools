@@ -258,6 +258,38 @@
      "Medium": "Common"
     }
    }
+  },
+  "10": {
+   "id": 10,
+   "name": "Drow",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Gold": "Common",
+     "Lavender": "Common",
+     "Purple": "Common",
+     "Red": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "hair": {
+    "colors": {
+     "White": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticColors": {
+     "DimGray": "Common",
+     "Gray": "Common",
+     "Silver": "Common"
+    }
+   }
   }
  }
 }
