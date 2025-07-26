@@ -4,12 +4,36 @@
   "0": {
    "id": 0,
    "name": "Tethyrian",
-   "genders": {
-    "Female": "Common",
-    "Male": "Common"
-   },
    "lifeStages": {
     "type": "Default",
+    "oldAgeHairColor": "LightGray",
+    "venerableAgeHairColor": "White"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Illuskan",
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 2,
+    "oldAgeHairColor": "LightGray",
+    "venerableAgeHairColor": "White"
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Calishite",
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 1
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Chondathan",
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 3,
     "oldAgeHairColor": "LightGray",
     "venerableAgeHairColor": "White"
    }

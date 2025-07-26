@@ -23,6 +23,7 @@ import kotlinx.serialization.Serializable
 import kotlin.math.pow
 
 const val RACE_TYPE = "Race"
+val DEFAULT_GENDERS = Gender.entries - Gender.Genderless
 val MIN_RACE_HEIGHT = Distance.fromCentimeters(10)
 val MAX_RACE_HEIGHT = Distance.fromCentimeters(500)
 val ALLOWED_RACE_ORIGINS = listOf(
@@ -49,7 +50,7 @@ value class RaceId(val value: Int) : Id<RaceId> {
 data class Race(
     val id: RaceId,
     val name: Name = Name.init(id),
-    val genders: OneOf<Gender> = OneOf(Gender.entries),
+    val genders: OneOf<Gender> = OneOf(DEFAULT_GENDERS),
     val height: Distribution<Distance> = Distribution.fromMeters(1.8f),
     val weight: Weight = Weight.fromKilograms(75.0f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
