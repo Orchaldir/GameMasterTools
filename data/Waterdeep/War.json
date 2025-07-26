@@ -1,5 +1,20 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "First Trollwar",
+   "startDate": {
+    "type": "Year",
+    "year": 931
+   },
+   "status": {
+    "type": "Finished",
+    "date": {
+     "type": "Year",
+     "year": 931
+    }
+   }
+  }
  }
 }
