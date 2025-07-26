@@ -266,8 +266,8 @@ private fun parseLifeStages(parameters: Parameters): LifeStages {
         LifeStagesType.DefaultAging.name -> DefaultAging(
             parseAppearanceId(parameters, 0),
             parseMaxAges(parameters),
-            parseHairColor(parameters, 6, DEFAULT_OLD_AGE_HAIR_COLOR),
-            parseHairColor(parameters, 7, DEFAULT_VENERABLE_AGE_HAIR_COLOR),
+            parseHairColor(parameters, 6),
+            parseHairColor(parameters, 7),
         )
 
         LifeStagesType.SimpleAging.name -> SimpleAging(
