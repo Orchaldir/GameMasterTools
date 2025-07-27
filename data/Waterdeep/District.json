@@ -1,5 +1,68 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Sea Ward",
+   "sources": [
+    0
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Castle Ward",
+   "sources": [
+    0
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Southern Ward",
+   "sources": [
+    0
+   ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Trades Ward",
+   "sources": [
+    0
+   ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Dock Ward",
+   "sources": [
+    0
+   ]
+  },
+  "5": {
+   "id": 5,
+   "name": "City of the Dead",
+   "sources": [
+    0
+   ]
+  },
+  "6": {
+   "id": 6,
+   "name": "North Ward",
+   "sources": [
+    0
+   ]
+  },
+  "7": {
+   "id": 7,
+   "name": "Field Ward",
+   "sources": [
+    0
+   ]
+  },
+  "8": {
+   "id": 8,
+   "name": "Undercliff",
+   "sources": [
+    0
+   ]
+  }
  }
 }
