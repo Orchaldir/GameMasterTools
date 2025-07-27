@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.religion.GodId
@@ -166,6 +167,10 @@ fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) =
 fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
     .filter { it.housingStatus.current.isLivingInHouse(building) }
+
+fun State.getCharactersLivingIn(district: DistrictId) = getCharacterStorage()
+    .getAll()
+    .filter { it.housingStatus.current.isLivingIn(district) }
 
 fun State.getCharactersLivingIn(realm: RealmId) = getCharacterStorage()
     .getAll()

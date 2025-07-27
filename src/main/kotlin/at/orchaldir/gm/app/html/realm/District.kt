@@ -10,7 +10,9 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
+import at.orchaldir.gm.core.selector.util.sortCharacters
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -26,6 +28,8 @@ fun HtmlBlockTag.showDistrict(
     fieldLink("Town", call, state, district.town)
     optionalField(call, state, "Date", district.foundingDate)
     fieldCreator(call, state, district.founder, "Founder")
+    val residents = state.sortCharacters(state.getCharactersLivingIn(district.id))
+    fieldList(call, state, "Residents", residents)
     showDataSources(call, state, district.sources)
 }
 
