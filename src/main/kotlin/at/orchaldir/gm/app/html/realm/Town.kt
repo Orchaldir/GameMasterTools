@@ -14,9 +14,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWN
+import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCapital
+import at.orchaldir.gm.core.selector.util.sortDistricts
 import at.orchaldir.gm.core.selector.util.sortTownMaps
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap
 import at.orchaldir.gm.core.selector.world.getTownMaps
@@ -41,6 +43,7 @@ fun HtmlBlockTag.showTown(
     }
     fieldList(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldList(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
+    fieldList(call, state, "Districts", state.sortDistricts(state.getDistricts(town.id)))
     showDataSources(call, state, town.sources)
 
     val currentOptionalTownMaps = state.getCurrentTownMap(town.id)
