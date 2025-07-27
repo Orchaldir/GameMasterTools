@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.realm.parseDistrictId
 import at.orchaldir.gm.app.html.realm.parseRealmId
 import at.orchaldir.gm.app.html.realm.parseTownId
 import at.orchaldir.gm.app.parse.combine
@@ -14,6 +15,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.sortBuildings
+import at.orchaldir.gm.core.selector.util.sortDistricts
 import at.orchaldir.gm.core.selector.util.sortRealms
 import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
@@ -49,6 +51,7 @@ fun HtmlBlockTag.showHousingStatus(
             )
         }
 
+        is InDistrict -> link(call, state, housingStatus.district)
         is InHouse -> link(call, state, housingStatus.building)
         is InRealm -> link(call, state, housingStatus.realm)
         is InTown -> link(call, state, housingStatus.town)
@@ -69,36 +72,38 @@ fun FORM.selectHousingStatusHistory(
 fun HtmlBlockTag.selectHousingStatus(
     state: State,
     param: String,
-    housingStatus: HousingStatus,
+    status: HousingStatus,
     start: Date?,
 ) {
     val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
     val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
+    val districts = state.sortDistricts(state.getExistingElements(state.getDistrictStorage(), start))
     val realms = state.sortRealms(state.getExistingElements(state.getRealmStorage(), start))
     val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
 
-    selectValue("Housing Status", param, HousingStatusType.entries, housingStatus.getType()) { type ->
+    selectValue("Housing Status", param, HousingStatusType.entries, status.getType()) { type ->
         when (type) {
             HousingStatusType.Undefined -> false
             HousingStatusType.Homeless -> false
             HousingStatusType.InApartment -> apartments.isEmpty()
+            HousingStatusType.InDistrict -> districts.isEmpty()
             HousingStatusType.InHouse -> homes.isEmpty()
             HousingStatusType.InRealm -> realms.isEmpty()
             HousingStatusType.InTown -> towns.isEmpty()
         }
     }
-    when (housingStatus) {
+    when (status) {
         UndefinedHousingStatus -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
-            selectElement("Apartment House", combine(param, BUILDING), apartments, housingStatus.building)
+            selectElement("Apartment House", combine(param, BUILDING), apartments, status.building)
 
-            val apartmentHouse = state.getBuildingStorage().getOrThrow(housingStatus.building)
+            val apartmentHouse = state.getBuildingStorage().getOrThrow(status.building)
 
             if (apartmentHouse.purpose is ApartmentHouse) {
                 selectInt(
                     "Apartment",
-                    housingStatus.apartmentIndex,
+                    status.apartmentIndex,
                     0,
                     apartmentHouse.purpose.apartments - 1,
                     1,
@@ -107,11 +112,19 @@ fun HtmlBlockTag.selectHousingStatus(
             }
         }
 
+        is InDistrict -> selectElement(
+            state,
+            "District",
+            combine(param, DISTRICT),
+            districts,
+            status.district,
+        )
+
         is InHouse -> selectElement(
             "Home",
             combine(param, BUILDING),
             homes,
-            housingStatus.building,
+            status.building,
         )
 
         is InRealm -> selectElement(
@@ -119,7 +132,7 @@ fun HtmlBlockTag.selectHousingStatus(
             "Realm",
             combine(param, REALM),
             realms,
-            housingStatus.realm,
+            status.realm,
         )
 
         is InTown -> selectElement(
@@ -127,7 +140,7 @@ fun HtmlBlockTag.selectHousingStatus(
             "Town",
             combine(param, TOWN),
             towns,
-            housingStatus.town,
+            status.town,
         )
     }
 }
@@ -145,6 +158,13 @@ private fun parseHousingStatus(parameters: Parameters, state: State, param: Stri
                 combine(param, BUILDING),
                 state.getApartmentHouses().minOfOrNull { it.id.value } ?: 0),
             parseInt(parameters, combine(param, NUMBER)),
+        )
+
+        HousingStatusType.InDistrict -> InDistrict(
+            parseDistrictId(
+                parameters,
+                combine(param, DISTRICT),
+            )
         )
 
         HousingStatusType.InHouse -> InHouse(
