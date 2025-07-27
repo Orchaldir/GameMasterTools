@@ -14,7 +14,11 @@ val REALM_REDUCER: Reducer<RealmAction, State> = { state, action ->
         is CreateCatastrophe -> CREATE_CATASTROPHE(state, action)
         is DeleteCatastrophe -> DELETE_CATASTROPHE(state, action)
         is UpdateCatastrophe -> UPDATE_CATASTROPHE(state, action)
-        // catastrophe
+        // district
+        is CreateDistrict -> CREATE_DISTRICT(state, action)
+        is DeleteDistrict -> DELETE_DISTRICT(state, action)
+        is UpdateDistrict -> UPDATE_DISTRICT(state, action)
+        // legal code
         is CreateLegalCode -> CREATE_LEGAL_CODE(state, action)
         is DeleteLegalCode -> DELETE_LEGAL_CODE(state, action)
         is UpdateLegalCode -> UPDATE_LEGAL_CODE(state, action)
