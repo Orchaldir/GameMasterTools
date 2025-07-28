@@ -18,6 +18,7 @@ fun State.canDeleteTown(town: TownId) = !isCurrentOrFormerOwner(town)
         && !isCreator(town)
         && getCharactersLivingIn(town).isEmpty()
         && getCharactersPreviouslyLivingIn(town).isEmpty()
+        && getDistricts(town).isEmpty()
         && getTownMaps(town).isEmpty()
 
 // count
