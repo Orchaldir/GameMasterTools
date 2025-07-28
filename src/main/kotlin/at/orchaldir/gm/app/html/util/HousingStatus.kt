@@ -13,11 +13,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
-import at.orchaldir.gm.core.selector.util.getExistingElements
-import at.orchaldir.gm.core.selector.util.sortBuildings
-import at.orchaldir.gm.core.selector.util.sortDistricts
-import at.orchaldir.gm.core.selector.util.sortRealms
-import at.orchaldir.gm.core.selector.util.sortTowns
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getHomes
 import at.orchaldir.gm.utils.doNothing
