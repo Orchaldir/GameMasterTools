@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.time.date.Date
@@ -20,6 +21,7 @@ class HousingStatusTest {
 
     private val inApartment = InApartment(BUILDING_ID_0, 0)
     private val inHouse = InHouse(BUILDING_ID_0)
+    private val inDistrict = InDistrict(DISTRICT_ID_0)
     private val inRealm = InRealm(REALM_ID_0)
     private val inTown = InTown(TOWN_ID_0)
 
@@ -113,6 +115,51 @@ class HousingStatusTest {
         fun `Live in a valid single family house`() {
             checkHousingStatusHistory(createState(), History(inHouse), DAY0)
         }
+    }
+
+    @Nested
+    inner class DistrictTest {
+
+        @Test
+        fun `Cannot use unknown district as home`() {
+            val ownership = History<HousingStatus>(InDistrict(UNKNOWN_DISTRICT_ID))
+
+            assertIllegalArgument("Requires unknown home!") {
+                checkHousingStatusHistory(createState(), ownership, DAY0)
+            }
+        }
+
+        @Test
+        fun `Cannot use unknown district as a previous home`() {
+            val entry = HistoryEntry<HousingStatus>(InDistrict(UNKNOWN_DISTRICT_ID), DAY1)
+            val ownership = History(inHouse, entry)
+
+            assertIllegalArgument("Requires unknown 1.previous home!") {
+                checkHousingStatusHistory(createState(), ownership, DAY0)
+            }
+        }
+
+        @Test
+        fun `The district doesn't exist yet`() {
+            val state = createDistrictState(date = DAY1)
+
+            assertIllegalArgument("The home doesn't exist at the required date!") {
+                checkHousingStatusHistory(state, History(inDistrict), DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid district`() {
+            checkHousingStatusHistory(createDistrictState(), History(inDistrict), DAY0)
+        }
+
+        private fun createDistrictState(date: Date = DAY0) = State(
+            listOf(
+                Storage(Building(BUILDING_ID_0)),
+                Storage(CALENDAR0),
+                Storage(District(DISTRICT_ID_0, foundingDate = date)),
+            )
+        )
     }
 
     @Nested

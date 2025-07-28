@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
@@ -66,6 +67,15 @@ class TownTest {
 
             assertIllegalArgument("Cannot delete Town 0, because of owned elements (Building)!") {
                 REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a town with a district`() {
+            val state = createState(District(DISTRICT_ID_0))
+
+            assertIllegalArgument("Cannot delete Town 0, because it has district(s)!") {
+                REDUCER.invoke(state, action)
             }
         }
 
@@ -144,9 +154,9 @@ class TownTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateTown(Town(TOWN_ID_0))
+            val action = UpdateTown(Town(UNKNOWN_TOWN_ID))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(State(), action) }
         }
 
         @Test

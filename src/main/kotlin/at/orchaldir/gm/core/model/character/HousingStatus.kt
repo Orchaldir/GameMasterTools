@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -10,6 +11,7 @@ enum class HousingStatusType {
     Undefined,
     Homeless,
     InApartment,
+    InDistrict,
     InHouse,
     InRealm,
     InTown,
@@ -32,6 +34,7 @@ sealed class HousingStatus {
     fun getType() = when (this) {
         Homeless -> HousingStatusType.Homeless
         is InApartment -> HousingStatusType.InApartment
+        is InDistrict -> HousingStatusType.InDistrict
         is InHouse -> HousingStatusType.InHouse
         is InRealm -> HousingStatusType.InRealm
         is InTown -> HousingStatusType.InTown
@@ -41,6 +44,7 @@ sealed class HousingStatus {
     open fun isLivingIn(building: BuildingId) = false
     open fun isLivingInApartment(building: BuildingId, apartmentIndex: Int) = false
     open fun isLivingInHouse(building: BuildingId) = false
+    open fun isLivingIn(district: DistrictId) = false
     open fun isLivingIn(realm: RealmId) = false
     open fun isLivingIn(town: TownId) = false
 
@@ -64,6 +68,14 @@ data class InApartment(
     override fun isLivingIn(building: BuildingId) = this.building == building
     override fun isLivingInApartment(building: BuildingId, apartmentIndex: Int) = isLivingIn(building) &&
             this.apartmentIndex == apartmentIndex
+
+}
+
+@Serializable
+@SerialName("District")
+data class InDistrict(val district: DistrictId) : HousingStatus() {
+
+    override fun isLivingIn(district: DistrictId) = this.district == district
 
 }
 

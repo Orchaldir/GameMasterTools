@@ -81,6 +81,7 @@ fun Application.module() {
     configureCultureRouting()
     configureDataSourceRouting()
     configureDiseaseRouting()
+    configureDistrictRouting()
     configureDomainRouting()
     configureEquipmentRouting()
     configureFashionRouting()

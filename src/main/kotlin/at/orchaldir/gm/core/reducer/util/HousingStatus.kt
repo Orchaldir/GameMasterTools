@@ -33,6 +33,8 @@ private fun checkHousingStatus(
             }
         }
 
+        is InDistrict -> state.requireExists(state.getDistrictStorage(), status.district, date) { noun }
+
         is InHouse -> {
             val building = state
                 .requireExists(state.getBuildingStorage(), status.building, date) { noun }

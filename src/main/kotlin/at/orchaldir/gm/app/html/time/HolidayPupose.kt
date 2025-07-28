@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.time
 
-import at.orchaldir.gm.app.CATASTROPHE
-import at.orchaldir.gm.app.GOD
-import at.orchaldir.gm.app.PURPOSE
-import at.orchaldir.gm.app.TREATY
-import at.orchaldir.gm.app.WAR
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.realm.parseCatastropheId
@@ -16,7 +12,6 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.*
-import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortTreaties
@@ -60,6 +55,7 @@ fun HtmlBlockTag.displayHolidayPurpose(
             +"Celebration of "
             link(call, state, purpose.treaty)
         }
+
         is HolidayOfWar -> {
             +"Remembrance of "
             link(call, state, purpose.war)

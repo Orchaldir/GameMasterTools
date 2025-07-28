@@ -68,6 +68,11 @@ enum class SortDisease {
     Date,
 }
 
+enum class SortDistrict {
+    Name,
+    Date,
+}
+
 enum class SortDomain {
     Name,
     Spells,

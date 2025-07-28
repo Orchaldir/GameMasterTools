@@ -233,6 +233,17 @@
    "sources": [
     0
    ]
+  },
+  "22": {
+   "id": 22,
+   "name": "Guild of Butchers",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "sources": [
+    0
+   ]
   }
  }
 }

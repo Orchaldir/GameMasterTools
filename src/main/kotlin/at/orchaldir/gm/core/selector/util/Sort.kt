@@ -306,6 +306,21 @@ fun State.sortDiseases(
             SortDisease.Date -> getStartDateComparator()
         })
 
+// district
+
+fun State.sortDistricts(sort: SortDistrict = SortDistrict.Name) =
+    sortDistricts(getDistrictStorage().getAll(), sort)
+
+fun State.sortDistricts(
+    districts: Collection<District>,
+    sort: SortDistrict = SortDistrict.Name,
+) = districts
+    .sortedWith(
+        when (sort) {
+            SortDistrict.Name -> compareBy { it.name.text }
+            SortDistrict.Date -> getStartDateComparator()
+        })
+
 // domain
 
 fun State.sortDomains(sort: SortDomain = SortDomain.Name) =

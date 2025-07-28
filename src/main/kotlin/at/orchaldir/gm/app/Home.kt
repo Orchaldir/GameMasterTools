@@ -102,6 +102,7 @@ fun Application.configureRouting() {
                     h3 { +"Realms" }
                     fieldStorageLink(call, state.getBattleStorage(), BattleRoutes.All())
                     fieldStorageLink(call, state.getCatastropheStorage(), CatastropheRoutes.All())
+                    fieldStorageLink(call, state.getDistrictStorage(), DistrictRoutes.All())
                     fieldStorageLink(call, state.getLegalCodeStorage(), LegalCodeRoutes.All())
                     fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
                     fieldStorageLink(call, state.getRealmStorage(), RealmRoutes.All())

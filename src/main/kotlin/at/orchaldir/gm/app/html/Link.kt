@@ -360,6 +360,7 @@ fun <ID : Id<ID>> href(
     is CurrencyUnitId -> call.application.href(CurrencyUnitRoutes.Details(id))
     is DataSourceId -> call.application.href(DataSourceRoutes.Details(id))
     is DiseaseId -> call.application.href(DiseaseRoutes.Details(id))
+    is DistrictId -> call.application.href(DistrictRoutes.Details(id))
     is DomainId -> call.application.href(DomainRoutes.Details(id))
     is EquipmentId -> call.application.href(EquipmentRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))

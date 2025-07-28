@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.realm
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.REALM
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.html.*

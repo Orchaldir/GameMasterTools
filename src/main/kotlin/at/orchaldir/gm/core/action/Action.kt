@@ -303,6 +303,11 @@ data object CreateCatastrophe : RealmAction()
 data class DeleteCatastrophe(val id: CatastropheId) : RealmAction()
 data class UpdateCatastrophe(val catastrophe: Catastrophe) : RealmAction()
 
+// district
+data object CreateDistrict : RealmAction()
+data class DeleteDistrict(val id: DistrictId) : RealmAction()
+data class UpdateDistrict(val district: District) : RealmAction()
+
 // legal code
 data object CreateLegalCode : RealmAction()
 data class DeleteLegalCode(val id: LegalCodeId) : RealmAction()
