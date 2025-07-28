@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.realm.canDeleteDistrict
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps

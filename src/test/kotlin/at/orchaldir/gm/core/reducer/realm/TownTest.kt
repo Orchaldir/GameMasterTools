@@ -144,9 +144,9 @@ class TownTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateTown(Town(TOWN_ID_0))
+            val action = UpdateTown(Town(UNKNOWN_TOWN_ID))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(State(), action) }
         }
 
         @Test

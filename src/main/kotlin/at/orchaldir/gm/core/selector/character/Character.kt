@@ -192,6 +192,10 @@ fun State.getCharactersPreviouslyLivingIn(building: BuildingId) = getCharacterSt
     .getAll()
     .filter { it.housingStatus.previousEntries.any { it.entry.isLivingIn(building) } }
 
+fun State.getCharactersPreviouslyLivingIn(district: DistrictId) = getCharacterStorage()
+    .getAll()
+    .filter { it.housingStatus.previousEntries.any { it.entry.isLivingIn(district) } }
+
 fun State.getCharactersPreviouslyLivingIn(realm: RealmId) = getCharacterStorage()
     .getAll()
     .filter { it.housingStatus.previousEntries.any { it.entry.isLivingIn(realm) } }
