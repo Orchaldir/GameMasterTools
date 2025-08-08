@@ -30,12 +30,14 @@ fun HtmlBlockTag.showDistrict(
     fieldCreator(call, state, district.founder, "Founder")
     val residents = state.sortCharacters(state.getCharactersLivingIn(district.id))
     fieldList(call, state, "Residents", residents)
+    showPopulation(call, state, district.population)
     showDataSources(call, state, district.sources)
 }
 
 // edit
 
 fun FORM.editDistrict(
+    call: ApplicationCall,
     state: State,
     district: District,
 ) {
@@ -49,6 +51,7 @@ fun FORM.editDistrict(
     )
     selectOptionalDate(state, "Date", district.foundingDate, DATE)
     selectCreator(state, district.founder, district.id, district.foundingDate, "Founder")
+    editPopulation(call, state, district.population)
     editDataSources(state, district.sources)
 }
 
@@ -65,5 +68,6 @@ fun parseDistrict(parameters: Parameters, state: State, id: DistrictId) = Distri
     parseTownId(parameters, TOWN),
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
+    parsePopulation(parameters),
     parseDataSources(parameters),
 )

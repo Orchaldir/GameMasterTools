@@ -30,7 +30,7 @@ sealed class Population {
 @Serializable
 @SerialName("Simple")
 data class SimplePopulation(
-    val raceMap: Map<RaceId, UInt>,
+    val raceMap: Map<RaceId, Int>,
 ) : Population()
 
 @Serializable

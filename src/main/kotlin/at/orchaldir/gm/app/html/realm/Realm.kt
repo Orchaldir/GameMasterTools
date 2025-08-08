@@ -57,6 +57,7 @@ fun HtmlBlockTag.showRealm(
 
     fieldList(call, state, battles)
     fieldList(call, state, wars)
+    showPopulation(call, state, realm.population)
     showDataSources(call, state, realm.sources)
 
     showCreated(call, state, realm.id)
@@ -66,6 +67,7 @@ fun HtmlBlockTag.showRealm(
 // edit
 
 fun FORM.editRealm(
+    call: ApplicationCall,
     state: State,
     realm: Realm,
 ) {
@@ -110,6 +112,7 @@ fun FORM.editRealm(
             code,
         )
     }
+    editPopulation(call, state, realm.population)
     editDataSources(state, realm.sources)
 }
 
@@ -141,6 +144,7 @@ fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
         parseHistory(parameters, LEGAL_CODE, state, date) { _, _, param ->
             parseOptionalLegalCodeId(parameters, param)
         },
+        parsePopulation(parameters),
         parseDataSources(parameters),
     )
 }

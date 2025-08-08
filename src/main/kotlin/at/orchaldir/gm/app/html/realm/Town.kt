@@ -43,6 +43,7 @@ fun HtmlBlockTag.showTown(
     }
     fieldList(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldList(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
+    showPopulation(call, state, town.population)
     fieldList(call, state, "Districts", state.sortDistricts(state.getDistricts(town.id)))
     showDataSources(call, state, town.sources)
 
@@ -64,6 +65,7 @@ fun HtmlBlockTag.showTown(
 // edit
 
 fun FORM.editTown(
+    call: ApplicationCall,
     state: State,
     town: Town,
 ) {
@@ -81,6 +83,7 @@ fun FORM.editTown(
             owner,
         )
     }
+    editPopulation(call, state, town.population)
     editDataSources(state, town.sources)
 }
 
@@ -103,6 +106,7 @@ fun parseTown(parameters: Parameters, state: State, id: TownId): Town {
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
             parseOptionalRealmId(parameters, param)
         },
+        parsePopulation(parameters),
         parseDataSources(parameters),
     )
 }

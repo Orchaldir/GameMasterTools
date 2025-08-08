@@ -31,6 +31,7 @@ data class Town(
     val founder: Creator = UndefinedCreator,
     val status: VitalStatus = Alive,
     val owner: History<RealmId?> = History(null),
+    val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<TownId>, Creation, HasDataSources, HasVitalStatus {
 

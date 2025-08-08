@@ -206,7 +206,7 @@ private fun HTML.showDistrictEditor(
 
     simpleHtmlEditor(code) {
         formWithPreview(previewLink, updateLink, backLink) {
-            editDistrict(state, code)
+            editDistrict(call, state, code)
         }
     }
 }

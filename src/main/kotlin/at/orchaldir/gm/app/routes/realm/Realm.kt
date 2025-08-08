@@ -222,7 +222,7 @@ private fun HTML.showRealmEditor(
 
     simpleHtmlEditor(realm) {
         formWithPreview(previewLink, updateLink, backLink) {
-            editRealm(state, realm)
+            editRealm(call, state, realm)
         }
     }
 }

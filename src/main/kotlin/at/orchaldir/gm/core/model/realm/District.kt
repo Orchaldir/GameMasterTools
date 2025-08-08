@@ -28,6 +28,7 @@ data class District(
     val town: TownId = TownId(0),
     val foundingDate: Date? = null,
     val founder: Creator = UndefinedCreator,
+    val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<DistrictId>, Creation, HasDataSources, HasStartDate {
 

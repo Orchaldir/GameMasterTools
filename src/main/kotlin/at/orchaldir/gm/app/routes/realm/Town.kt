@@ -215,7 +215,7 @@ private fun HTML.showTownEditor(
 
     simpleHtmlEditor(town) {
         formWithPreview(previewLink, updateLink, backLink) {
-            editTown(state, town)
+            editTown(call, state, town)
         }
     }
 }

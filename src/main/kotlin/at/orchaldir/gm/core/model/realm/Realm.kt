@@ -33,6 +33,7 @@ data class Realm(
     val owner: History<RealmId?> = History(null),
     val currency: History<CurrencyId?> = History(null),
     val legalCode: History<LegalCodeId?> = History(null),
+    val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<RealmId>, Creation, HasDataSources, HasVitalStatus {
 

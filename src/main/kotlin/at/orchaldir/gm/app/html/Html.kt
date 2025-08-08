@@ -268,6 +268,12 @@ fun <T> TR.tdInline(
     }
 }
 
+fun TR.tdPercentage(value: Int) {
+    tdString("$value%")
+}
+
+fun TR.tdPercentage(value: Float) = tdPercentage((value * 100).toInt())
+
 fun TR.tdSkipZero(value: Int?) {
     td {
         if (value != null && value != 0) {
