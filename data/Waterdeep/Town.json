@@ -7,9 +7,15 @@
    "title": "City of Splendors",
    "population": {
     "type": "Simple",
-    "raceMap": {
-     "3": 1000,
-     "4": 500
+    "total": 132661,
+    "racePercentages": {
+     "0": 3200,
+     "2": 1400,
+     "3": 100,
+     "4": 1400,
+     "5": 1000,
+     "9": 900,
+     "10": 100
     }
    },
    "sources": [

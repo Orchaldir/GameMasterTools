@@ -1,7 +1,10 @@
 package at.orchaldir.gm.app.html.realm
 
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.POPULATION
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.parseFactor
+import at.orchaldir.gm.app.html.util.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -13,6 +16,10 @@ import at.orchaldir.gm.core.model.realm.SimplePopulation
 import at.orchaldir.gm.core.model.realm.UndefinedPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ONE_PERCENT
+import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -26,30 +33,60 @@ fun HtmlBlockTag.showPopulation(
 ) {
     when (population) {
         is SimplePopulation -> {
-            val totalPopulation = population.calculateTotalPopulation() ?: 0
-            field("Total Population", totalPopulation)
+            field("Total Population", population.total)
+            var remaining = Factor.fromPercentage(100)
 
             table {
                 tr {
                     th { +"Race" }
-                    th { +"Number" }
                     th { +"Percentage" }
+                    th { +"Number" }
                 }
-                population.raceMap
+                population.racePercentages
                     .toList()
-                    .sortedByDescending { it.second }
-                    .forEach { (raceId, number) ->
+                    .sortedByDescending { it.second.toPermyriad() }
+                    .forEach { (raceId, percentage) ->
+
                         tr {
                             tdLink(call, state, raceId)
-                            tdSkipZero(number)
-                            tdPercentage(number, totalPopulation)
+                            showPercentageAndNumber(population.total, percentage)
                         }
+
+                        remaining = remaining - percentage
                     }
+
+                showRemainingPopulation(population, remaining)
             }
         }
 
         UndefinedPopulation -> doNothing()
     }
+}
+
+private fun TABLE.showRemainingPopulation(
+    population: SimplePopulation,
+    remaining: Factor,
+) {
+    tr {
+        tdString("Other")
+        showPercentageAndNumber(population.total, remaining)
+    }
+}
+
+private fun TR.showPercentageAndNumber(
+    total: Int,
+    percentage: Factor,
+) {
+    tdPercentage(percentage)
+    showRaceNumber(total, percentage)
+}
+
+private fun TR.showRaceNumber(
+    total: Int,
+    percentage: Factor,
+) {
+    val number = (total * percentage.toNumber()).toInt()
+    tdSkipZero(number)
 }
 
 // edit
@@ -64,32 +101,44 @@ fun FORM.editPopulation(
 
         when (population) {
             is SimplePopulation -> {
-                val totalPopulation = population.calculateTotalPopulation() ?: 0
-                field("Total Population", totalPopulation)
+                selectInt(
+                    "Total Population",
+                    population.total,
+                    0,
+                    Int.MAX_VALUE,
+                    1,
+                    combine(POPULATION, NUMBER),
+                )
+
+                var remaining = Factor.fromPercentage(100)
 
                 table {
                     tr {
                         th { +"Race" }
-                        th { +"Number" }
                         th { +"Percentage" }
+                        th { +"Number" }
                     }
-                    state.sortRaces()
-                        .forEach { race ->
-                            val number = population.raceMap.getOrDefault(race.id, 0)
-                            tr {
-                                tdLink(call, state, race)
-                                td {
-                                    selectInt(
-                                        number,
-                                        0,
-                                        Int.MAX_VALUE,
-                                        1,
-                                        combine(POPULATION, race.id.value),
-                                    )
-                                }
-                                tdPercentage(number, totalPopulation)
+                    state.sortRaces().forEach { race ->
+                        val percentage = population.racePercentages.getOrDefault(race.id, ZERO)
+
+                        tr {
+                            tdLink(call, state, race)
+                            td {
+                                selectFactor(
+                                    combine(POPULATION, race.id.value),
+                                    percentage,
+                                    ZERO,
+                                    FULL,
+                                    ONE_PERCENT,
+                                )
                             }
+                            showRaceNumber(population.total, percentage)
                         }
+
+                        remaining = remaining - percentage
+                    }
+
+                    showRemainingPopulation(population, remaining)
                 }
             }
 
@@ -102,16 +151,17 @@ fun FORM.editPopulation(
 
 fun parsePopulation(parameters: Parameters, state: State) = when (parse(parameters, POPULATION, Undefined)) {
     PopulationType.Simple -> SimplePopulation(
+        parseInt(parameters, combine(POPULATION, NUMBER), 0),
         state.getRaceStorage()
             .getAll()
             .associate { race ->
                 Pair(race.id, parsePopulationOfRace(parameters, race))
             }
-            .filter { it.value > 0 }
+            .filter { it.value.isGreaterZero() }
     )
 
     Undefined -> UndefinedPopulation
 }
 
 fun parsePopulationOfRace(parameters: Parameters, race: Race) =
-    parseInt(parameters, combine(POPULATION, race.id.value), 0)
+    parseFactor(parameters, combine(POPULATION, race.id.value), ZERO)

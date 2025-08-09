@@ -34,7 +34,8 @@ value class Factor private constructor(private val permyriad: Int) {
         fun fromPermyriad(permyriad: Int) = Factor(permyriad)
     }
 
-    fun requireGreaterZero(text: String) = require(permyriad > 0) { text }
+    fun isGreaterZero() = permyriad > 0
+    fun requireGreaterZero(text: String) = require(isGreaterZero()) { text }
 
     fun toNumber() = permyriad / NUMBER_FACTOR.toFloat()
     fun toPercentage() = permyriad / PERCENTAGE_FACTOR.toFloat()

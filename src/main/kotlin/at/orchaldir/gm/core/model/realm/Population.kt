@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.realm
 
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -17,11 +18,8 @@ sealed class Population {
         UndefinedPopulation -> PopulationType.Undefined
     }
 
-    fun calculateTotalPopulation() = when (this) {
-        is SimplePopulation -> raceMap
-            .map { it.value }
-            .sum()
-
+    fun getTotalPopulation() = when (this) {
+        is SimplePopulation -> total
         UndefinedPopulation -> null
     }
 
@@ -30,7 +28,8 @@ sealed class Population {
 @Serializable
 @SerialName("Simple")
 data class SimplePopulation(
-    val raceMap: Map<RaceId, Int>,
+    val total: Int,
+    val racePercentages: Map<RaceId, Factor>,
 ) : Population()
 
 @Serializable
