@@ -102,7 +102,23 @@
    "legalCode": {
     "current": 0
    },
+   "population": {
+    "type": "Race",
+    "total": 3700000,
+    "racePercentages": {
+     "0": 4400,
+     "1": 800,
+     "2": 700,
+     "4": 400,
+     "6": 1400,
+     "7": 400,
+     "8": 300,
+     "10": 400,
+     "19": 1000
+    }
+   },
    "sources": [
+    5,
     3
    ]
   },
@@ -207,7 +223,18 @@
   "6": {
    "id": 6,
    "name": "Droaam",
+   "population": {
+    "type": "Race",
+    "total": 500000,
+    "racePercentages": {
+     "8": 1900,
+     "9": 500,
+     "10": 1800,
+     "14": 2000
+    }
+   },
    "sources": [
+    5,
     1,
     3
    ]

@@ -31,10 +31,10 @@ fun HtmlBlockTag.showRealm(
     state: State,
     realm: Realm,
 ) {
+    showPopulation(call, state, realm.population)
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showVitalStatus(call, state, realm.status)
-    showPopulation(call, state, realm.population)
     showHistory(call, state, realm.capital, "Capital", "None") { _, _, town ->
         link(call, state, town)
     }
@@ -72,6 +72,7 @@ fun FORM.editRealm(
     realm: Realm,
 ) {
     selectName(realm.name)
+    editPopulation(call, state, realm.population)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
     selectOptionalDate(state, "Date", realm.date, DATE)
     selectVitalStatus(state, realm.id, realm.date, realm.status, VALID_CAUSES_FOR_REALM)
@@ -112,7 +113,6 @@ fun FORM.editRealm(
             code,
         )
     }
-    editPopulation(call, state, realm.population)
     editDataSources(state, realm.sources)
 }
 

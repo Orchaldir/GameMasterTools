@@ -32,36 +32,38 @@ fun HtmlBlockTag.showPopulation(
     state: State,
     population: Population,
 ) {
-    when (population) {
-        is TotalPopulation -> field("Total Population", population.total)
-        is PopulationPerRace -> {
-            field("Total Population", population.total)
-            var remaining = Factor.fromPercentage(100)
+    showDetails("Population", true) {
+        when (population) {
+            is TotalPopulation -> field("Total", population.total)
+            is PopulationPerRace -> {
+                field("Total Population", population.total)
+                var remaining = Factor.fromPercentage(100)
 
-            table {
-                tr {
-                    th { +"Race" }
-                    th { +"Percentage" }
-                    th { +"Number" }
-                }
-                population.racePercentages
-                    .toList()
-                    .sortedByDescending { it.second.toPermyriad() }
-                    .forEach { (raceId, percentage) ->
+                table {
+                    tr {
+                        th { +"Race" }
+                        th { +"Percentage" }
+                        th { +"Number" }
+                    }
+                    population.racePercentages
+                        .toList()
+                        .sortedByDescending { it.second.toPermyriad() }
+                        .forEach { (raceId, percentage) ->
 
-                        tr {
-                            tdLink(call, state, raceId)
-                            showPercentageAndNumber(population.total, percentage)
+                            tr {
+                                tdLink(call, state, raceId)
+                                showPercentageAndNumber(population.total, percentage)
+                            }
+
+                            remaining = remaining - percentage
                         }
 
-                        remaining = remaining - percentage
-                    }
-
-                showRemainingPopulation(population, remaining)
+                    showRemainingPopulation(population, remaining)
+                }
             }
-        }
 
-        UndefinedPopulation -> doNothing()
+            UndefinedPopulation -> doNothing()
+        }
     }
 }
 

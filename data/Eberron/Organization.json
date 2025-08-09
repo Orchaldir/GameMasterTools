@@ -412,6 +412,13 @@
   "37": {
    "id": 37,
    "name": "The Swords of Liberty"
+  },
+  "38": {
+   "id": 38,
+   "name": "The Daughters of Sora Kell",
+   "sources": [
+    5
+   ]
   }
  }
 }
