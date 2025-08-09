@@ -58,6 +58,10 @@
    "owner": {
     "current": 1
    },
+   "population": {
+    "type": "Total",
+    "total": 92500
+   },
    "sources": [
     3
    ]
@@ -78,6 +82,10 @@
    "owner": {
     "current": 1
    },
+   "population": {
+    "type": "Total",
+    "total": 800
+   },
    "sources": [
     3
    ]
@@ -92,6 +100,10 @@
    "owner": {
     "current": 1
    },
+   "population": {
+    "type": "Total",
+    "total": 16300
+   },
    "sources": [
     3
    ]
@@ -105,6 +117,10 @@
    },
    "owner": {
     "current": 1
+   },
+   "population": {
+    "type": "Total",
+    "total": 14280
    },
    "sources": [
     3

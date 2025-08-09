@@ -60,7 +60,21 @@
    "legalCode": {
     "current": 0
    },
+   "population": {
+    "type": "Race",
+    "total": 2000000,
+    "racePercentages": {
+     "0": 5100,
+     "1": 1100,
+     "4": 200,
+     "6": 1100,
+     "7": 500,
+     "9": 300,
+     "19": 1600
+    }
+   },
    "sources": [
+    5,
     3
    ]
   },

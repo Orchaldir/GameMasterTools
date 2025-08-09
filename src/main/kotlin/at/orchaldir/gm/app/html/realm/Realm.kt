@@ -34,6 +34,7 @@ fun HtmlBlockTag.showRealm(
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showVitalStatus(call, state, realm.status)
+    showPopulation(call, state, realm.population)
     showHistory(call, state, realm.capital, "Capital", "None") { _, _, town ->
         link(call, state, town)
     }
@@ -57,7 +58,6 @@ fun HtmlBlockTag.showRealm(
 
     fieldList(call, state, battles)
     fieldList(call, state, wars)
-    showPopulation(call, state, realm.population)
     showDataSources(call, state, realm.sources)
 
     showCreated(call, state, realm.id)

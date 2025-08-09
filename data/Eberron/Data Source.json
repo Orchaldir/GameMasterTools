@@ -29,6 +29,12 @@
    "id": 4,
    "name": "Arcane Science",
    "year": 2020
+  },
+  "5": {
+   "id": 5,
+   "name": "Eberron Campaign Setting",
+   "year": 2004,
+   "edition": 3
   }
  }
 }
