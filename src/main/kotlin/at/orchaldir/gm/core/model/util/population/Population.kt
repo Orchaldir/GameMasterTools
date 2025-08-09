@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.realm
+package at.orchaldir.gm.core.model.util.population
 
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.utils.math.Factor

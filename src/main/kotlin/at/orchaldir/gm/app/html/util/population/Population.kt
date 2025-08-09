@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.realm
+package at.orchaldir.gm.app.html.util.population
 
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.POPULATION
@@ -9,12 +9,12 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.realm.Population
-import at.orchaldir.gm.core.model.realm.PopulationType
-import at.orchaldir.gm.core.model.realm.PopulationType.Undefined
-import at.orchaldir.gm.core.model.realm.PopulationPerRace
-import at.orchaldir.gm.core.model.realm.TotalPopulation
-import at.orchaldir.gm.core.model.realm.UndefinedPopulation
+import at.orchaldir.gm.core.model.util.population.Population
+import at.orchaldir.gm.core.model.util.population.PopulationType
+import at.orchaldir.gm.core.model.util.population.PopulationType.Undefined
+import at.orchaldir.gm.core.model.util.population.PopulationPerRace
+import at.orchaldir.gm.core.model.util.population.TotalPopulation
+import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
