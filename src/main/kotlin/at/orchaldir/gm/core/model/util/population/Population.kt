@@ -22,10 +22,20 @@ sealed class Population {
         UndefinedPopulation -> PopulationType.Undefined
     }
 
+    fun getPopulation(race: RaceId) = when (this) {
+        is PopulationPerRace -> racePercentages[race]?.let { (it.toNumber() * total).toInt() }
+        else -> null
+    }
+
     fun getTotalPopulation() = when (this) {
         is TotalPopulation -> total
         is PopulationPerRace -> total
         UndefinedPopulation -> null
+    }
+
+    fun contains(race: RaceId) = when (this) {
+        is PopulationPerRace -> racePercentages.containsKey(race)
+        else -> false
     }
 
 }

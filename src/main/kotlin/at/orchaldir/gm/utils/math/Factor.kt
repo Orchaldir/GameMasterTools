@@ -41,6 +41,8 @@ value class Factor private constructor(private val permyriad: Int) {
     fun toPercentage() = permyriad / PERCENTAGE_FACTOR.toFloat()
     fun toPermyriad() = permyriad
 
+    fun apply(value: Int) = (value * toNumber()).toInt()
+
     override fun toString() = formatAsFactor(permyriad)
 
     operator fun unaryMinus() = Factor(-permyriad)

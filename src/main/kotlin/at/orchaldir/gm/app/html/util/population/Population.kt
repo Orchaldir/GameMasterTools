@@ -79,7 +79,7 @@ private fun TABLE.showRemainingPopulation(
     }
 }
 
-private fun TR.showPercentageAndNumber(
+fun TR.showPercentageAndNumber(
     total: Int,
     percentage: Factor,
 ) {
@@ -91,8 +91,7 @@ private fun TR.showRaceNumber(
     total: Int,
     percentage: Factor,
 ) {
-    val number = (total * percentage.toNumber()).toInt()
-    tdSkipZero(number)
+    tdSkipZero(percentage.apply(total))
 }
 
 // edit
