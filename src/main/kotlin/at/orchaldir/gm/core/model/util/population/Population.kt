@@ -23,7 +23,7 @@ sealed class Population {
     }
 
     fun getPopulation(race: RaceId) = when (this) {
-        is PopulationPerRace -> racePercentages[race]?.let { (it.toNumber() * total).toInt() }
+        is PopulationPerRace -> racePercentages[race]?.apply(total)
         else -> null
     }
 

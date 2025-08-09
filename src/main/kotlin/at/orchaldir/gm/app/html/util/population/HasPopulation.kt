@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.util.population
 
 import at.orchaldir.gm.app.html.tdLink
+import at.orchaldir.gm.app.html.thMultiLines
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
@@ -45,7 +46,7 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showDestroyed(
         table {
             tr {
                 th { +elements.first().first.plural() }
-                th { +"Percentage" }
+                thMultiLines(listOf("Percentage", "of", "Total"))
                 th { +"Number" }
             }
             elements
