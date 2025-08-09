@@ -37,7 +37,7 @@ fun HtmlBlockTag.showPopulation(
                 }
                 population.raceMap
                     .toList()
-                    .sortedBy { it.second }
+                    .sortedByDescending { it.second }
                     .forEach { (raceId, number) ->
                         tr {
                             tdLink(call, state, raceId)
