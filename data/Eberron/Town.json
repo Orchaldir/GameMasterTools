@@ -234,6 +234,9 @@
     "type": "Organization",
     "organization": 38
    },
+   "owner": {
+    "current": 6
+   },
    "population": {
     "type": "Total",
     "total": 32230
