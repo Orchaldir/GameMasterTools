@@ -120,6 +120,11 @@ fun FORM.editPopulation(
                     }
                     state.sortRaces().forEach { race ->
                         val percentage = population.getPercentage(race.id)
+                        val minValue = if (percentage.isGreaterZero() && population.racePercentages.count() == 1) {
+                            ONE_PERCENT
+                        } else {
+                            ZERO
+                        }
 
                         tr {
                             tdLink(call, state, race)
@@ -127,7 +132,7 @@ fun FORM.editPopulation(
                                 selectFactor(
                                     combine(POPULATION, race.id.value),
                                     percentage,
-                                    ZERO,
+                                    minValue,
                                     FULL.min(percentage + remaining),
                                     ONE_PERCENT,
                                 )
