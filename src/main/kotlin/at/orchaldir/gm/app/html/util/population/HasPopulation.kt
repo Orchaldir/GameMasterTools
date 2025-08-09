@@ -1,11 +1,13 @@
 package at.orchaldir.gm.app.html.util.population
 
 import at.orchaldir.gm.app.html.tdLink
+import at.orchaldir.gm.app.html.tdPercentage
+import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.html.thMultiLines
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
-import at.orchaldir.gm.core.selector.util.getElementsWithPopulation
+import at.orchaldir.gm.core.selector.util.getPopulationEntries
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -26,12 +28,12 @@ fun HtmlBlockTag.showPopulation(
 ) {
     h2 { +"Population" }
 
-    showDestroyed(call, state, race, state.getDistrictStorage())
-    showDestroyed(call, state, race, state.getRealmStorage())
-    showDestroyed(call, state, race, state.getTownStorage())
+    showPopulation(call, state, race, state.getDistrictStorage())
+    showPopulation(call, state, race, state.getRealmStorage())
+    showPopulation(call, state, race, state.getTownStorage())
 }
 
-private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showDestroyed(
+private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
     call: ApplicationCall,
     state: State,
     race: RaceId,
@@ -39,24 +41,29 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showDestroyed(
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation {
-    val elements = getElementsWithPopulation(storage, race)
-    val total = elements.sumOf { it.second }
+    val entries = getPopulationEntries(storage, race)
+    val total = entries.sumOf { it.number }
 
-    if (elements.isNotEmpty()) {
+    if (entries.isNotEmpty()) {
+        val id = entries.first().id
+
         table {
             tr {
-                th { +elements.first().first.plural() }
+                th { +id.plural() }
                 thMultiLines(listOf("Percentage", "of", "Total"))
+                thMultiLines(listOf("Percentage", "of", id.type()))
                 th { +"Number" }
             }
-            elements
-                .sortedByDescending { it.second }
-                .forEach { (element, population) ->
-                    val percentage = Factor.fromNumber(population / total.toFloat())
+            entries
+                .sortedByDescending { it.number }
+                .forEach {
+                    val percentageOfTotal = Factor.fromNumber(it.number / total.toFloat())
 
                     tr {
-                        tdLink(call, state, element)
-                        showPercentageAndNumber(total, percentage)
+                        tdLink(call, state, it.id)
+                        tdPercentage(percentageOfTotal)
+                        tdPercentage(it.percentage)
+                        tdSkipZero(it.number)
                     }
                 }
         }
