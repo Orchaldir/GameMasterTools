@@ -319,6 +319,7 @@ fun State.sortDistricts(
         when (sort) {
             SortDistrict.Name -> compareBy { it.name.text }
             SortDistrict.Date -> getStartDateComparator()
+            SortDistrict.Population -> compareByDescending { it.population.getTotalPopulation() }
         })
 
 // domain
@@ -606,6 +607,7 @@ fun State.sortRealms(
             SortRealm.Start -> getStartDateComparator()
             SortRealm.End -> getEndDateComparator()
             SortRealm.Age -> compareByDescending { it.getAgeInYears(this) }
+            SortRealm.Population -> compareByDescending { it.population.getTotalPopulation() }
             SortRealm.Towns -> compareByDescending { countOwnedTowns(it.id) }
         })
 
@@ -699,8 +701,9 @@ fun State.sortTowns(
         when (sort) {
             SortTown.Name -> compareBy { it.name.text }
             SortTown.Date -> getStartDateComparator()
-            SortTown.Residents -> compareByDescending { countResident(it.id) }
+            SortTown.Population -> compareByDescending { it.population.getTotalPopulation() }
             SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
+            SortTown.Residents -> compareByDescending { countResident(it.id) }
         })
 
 // town map
