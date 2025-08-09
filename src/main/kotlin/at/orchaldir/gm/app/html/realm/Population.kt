@@ -12,7 +12,8 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Population
 import at.orchaldir.gm.core.model.realm.PopulationType
 import at.orchaldir.gm.core.model.realm.PopulationType.Undefined
-import at.orchaldir.gm.core.model.realm.SimplePopulation
+import at.orchaldir.gm.core.model.realm.PopulationPerRace
+import at.orchaldir.gm.core.model.realm.TotalPopulation
 import at.orchaldir.gm.core.model.realm.UndefinedPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.doNothing
@@ -32,7 +33,8 @@ fun HtmlBlockTag.showPopulation(
     population: Population,
 ) {
     when (population) {
-        is SimplePopulation -> {
+        is TotalPopulation -> field("Total Population", population.total)
+        is PopulationPerRace -> {
             field("Total Population", population.total)
             var remaining = Factor.fromPercentage(100)
 
@@ -64,7 +66,7 @@ fun HtmlBlockTag.showPopulation(
 }
 
 private fun TABLE.showRemainingPopulation(
-    population: SimplePopulation,
+    population: PopulationPerRace,
     remaining: Factor,
 ) {
     tr {
@@ -100,15 +102,9 @@ fun FORM.editPopulation(
         selectValue("Type", POPULATION, PopulationType.entries, population.getType())
 
         when (population) {
-            is SimplePopulation -> {
-                selectInt(
-                    "Total Population",
-                    population.total,
-                    0,
-                    Int.MAX_VALUE,
-                    1,
-                    combine(POPULATION, NUMBER),
-                )
+            is TotalPopulation -> selectTotalPopulation(population.total)
+            is PopulationPerRace -> {
+                selectTotalPopulation(population.total)
 
                 var remaining = Factor.fromPercentage(100)
 
@@ -147,11 +143,26 @@ fun FORM.editPopulation(
     }
 }
 
+private fun DETAILS.selectTotalPopulation(totalPopulation: Int) {
+    selectInt(
+        "Total Population",
+        totalPopulation,
+        0,
+        Int.MAX_VALUE,
+        1,
+        combine(POPULATION, NUMBER),
+    )
+}
+
 // parse
 
 fun parsePopulation(parameters: Parameters, state: State) = when (parse(parameters, POPULATION, Undefined)) {
-    PopulationType.Simple -> SimplePopulation(
-        parseInt(parameters, combine(POPULATION, NUMBER), 0),
+    PopulationType.Total -> TotalPopulation(
+        parseTotalPopulation(parameters),
+    )
+
+    PopulationType.PerRace -> PopulationPerRace(
+        parseTotalPopulation(parameters),
         state.getRaceStorage()
             .getAll()
             .associate { race ->
@@ -162,6 +173,8 @@ fun parsePopulation(parameters: Parameters, state: State) = when (parse(paramete
 
     Undefined -> UndefinedPopulation
 }
+
+private fun parseTotalPopulation(parameters: Parameters): Int = parseInt(parameters, combine(POPULATION, NUMBER), 0)
 
 fun parsePopulationOfRace(parameters: Parameters, race: Race) =
     parseFactor(parameters, combine(POPULATION, race.id.value), ZERO)

@@ -6,7 +6,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class PopulationType {
-    Simple,
+    Total,
+    PerRace,
     Undefined,
 }
 
@@ -14,20 +15,28 @@ enum class PopulationType {
 sealed class Population {
 
     fun getType() = when (this) {
-        is SimplePopulation -> PopulationType.Simple
+        is TotalPopulation -> PopulationType.Total
+        is PopulationPerRace -> PopulationType.PerRace
         UndefinedPopulation -> PopulationType.Undefined
     }
 
     fun getTotalPopulation() = when (this) {
-        is SimplePopulation -> total
+        is TotalPopulation -> total
+        is PopulationPerRace -> total
         UndefinedPopulation -> null
     }
 
 }
 
 @Serializable
-@SerialName("Simple")
-data class SimplePopulation(
+@SerialName("Total")
+data class TotalPopulation(
+    val total: Int,
+) : Population()
+
+@Serializable
+@SerialName("Race")
+data class PopulationPerRace(
     val total: Int,
     val racePercentages: Map<RaceId, Factor>,
 ) : Population()
