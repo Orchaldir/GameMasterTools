@@ -108,7 +108,7 @@ fun FORM.editPopulation(
             is PopulationPerRace -> {
                 selectTotalPopulation(population.total)
 
-                var remaining = Factor.fromPercentage(100)
+                val remaining = population.getUndefinedPercentage()
 
                 table {
                     tr {
@@ -117,7 +117,7 @@ fun FORM.editPopulation(
                         th { +"Number" }
                     }
                     state.sortRaces().forEach { race ->
-                        val percentage = population.racePercentages.getOrDefault(race.id, ZERO)
+                        val percentage = population.getPercentage(race.id)
 
                         tr {
                             tdLink(call, state, race)
@@ -126,14 +126,12 @@ fun FORM.editPopulation(
                                     combine(POPULATION, race.id.value),
                                     percentage,
                                     ZERO,
-                                    FULL,
+                                    FULL.min(percentage + remaining),
                                     ONE_PERCENT,
                                 )
                             }
                             showRaceNumber(population.total, percentage)
                         }
-
-                        remaining = remaining - percentage
                     }
 
                     showRemainingPopulation(population, remaining)

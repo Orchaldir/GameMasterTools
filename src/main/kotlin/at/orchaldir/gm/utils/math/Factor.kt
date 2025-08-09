@@ -55,6 +55,18 @@ value class Factor private constructor(private val permyriad: Int) {
 
     operator fun compareTo(other: Factor): Int = permyriad.compareTo(other.permyriad)
 
+    fun max(other: Factor) = if (permyriad >= other.permyriad) {
+        this
+    } else {
+        other
+    }
+
+    fun min(other: Factor) = if (permyriad <= other.permyriad) {
+        this
+    } else {
+        other
+    }
+
     fun interpolate(other: Factor, between: Factor) = this * (FULL - between) + other * between
 
 }

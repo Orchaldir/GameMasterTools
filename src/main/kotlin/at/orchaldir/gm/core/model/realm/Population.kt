@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.realm
 
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ONE
+import at.orchaldir.gm.utils.math.ZERO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -39,7 +41,14 @@ data class TotalPopulation(
 data class PopulationPerRace(
     val total: Int,
     val racePercentages: Map<RaceId, Factor>,
-) : Population()
+) : Population() {
+
+    fun getPercentage(race: RaceId) = racePercentages.getOrDefault(race, ZERO)
+
+    fun getDefinedPercentage() = Factor.fromPermyriad(racePercentages.values.sumOf { it.toPermyriad() })
+    fun getUndefinedPercentage() = ONE - getDefinedPercentage()
+
+}
 
 @Serializable
 @SerialName("Undefined")
