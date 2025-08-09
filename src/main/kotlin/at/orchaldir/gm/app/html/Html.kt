@@ -274,6 +274,14 @@ fun TR.tdPercentage(value: Int) {
 
 fun TR.tdPercentage(value: Float) = tdPercentage((value * 100).toInt())
 
+fun TR.tdPercentage(number: Int, total: Int) = tdPercentage(
+    if (total == 0) {
+        0.0f
+    } else {
+        number / total.toFloat()
+    }
+)
+
 fun TR.tdSkipZero(value: Int?) {
     td {
         if (value != null && value != 0) {

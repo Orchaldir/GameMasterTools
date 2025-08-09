@@ -23,8 +23,8 @@ fun HtmlBlockTag.showPopulation(
 ) {
     when (population) {
         is SimplePopulation -> {
-            val totalPopulation = population.calculateTotalPopulation()
-            optionalField("Total Population", totalPopulation)
+            val totalPopulation = population.calculateTotalPopulation() ?: 0
+            field("Total Population", totalPopulation)
 
             table {
                 tr {
@@ -39,7 +39,7 @@ fun HtmlBlockTag.showPopulation(
                         tr {
                             tdLink(call, state, raceId)
                             tdSkipZero(number)
-                            tdPercentage(number / (totalPopulation ?: 1).toFloat())
+                            tdPercentage(number, totalPopulation)
                         }
                     }
             }
@@ -61,8 +61,8 @@ fun FORM.editPopulation(
 
         when (population) {
             is SimplePopulation -> {
-                val totalPopulation = population.calculateTotalPopulation()
-                optionalField("Total Population", totalPopulation)
+                val totalPopulation = population.calculateTotalPopulation() ?: 0
+                field("Total Population", totalPopulation)
 
                 table {
                     tr {
@@ -77,7 +77,7 @@ fun FORM.editPopulation(
                             tr {
                                 tdLink(call, state, raceId)
                                 tdSkipZero(number)
-                                tdPercentage(number / (totalPopulation ?: 1).toFloat())
+                                tdPercentage(number, totalPopulation)
                             }
                         }
                 }
