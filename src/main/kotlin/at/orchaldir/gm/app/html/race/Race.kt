@@ -39,8 +39,8 @@ fun HtmlBlockTag.showRace(
     field("BMI", String.format("%.1f", race.calculateBodyMassIndex()))
     optionalField(call, state, "Date", race.date)
     fieldOrigin(call, state, race.origin, ::SpellId)
-    showLifeStages(call, state, race)
     showDataSources(call, state, race.sources)
+    showLifeStages(call, state, race)
 }
 
 private fun HtmlBlockTag.showLifeStages(
