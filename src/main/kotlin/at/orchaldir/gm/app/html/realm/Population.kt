@@ -71,9 +71,11 @@ private fun TABLE.showRemainingPopulation(
     population: PopulationPerRace,
     remaining: Factor,
 ) {
-    tr {
-        tdString("Other")
-        showPercentageAndNumber(population.total, remaining)
+    if (remaining.isGreaterZero()) {
+        tr {
+            tdString("Other")
+            showPercentageAndNumber(population.total, remaining)
+        }
     }
 }
 
