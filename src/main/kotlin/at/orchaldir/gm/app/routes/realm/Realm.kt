@@ -163,6 +163,7 @@ private fun HTML.showAllRealms(
                 th { +"Owner" }
                 th { +"Currency" }
                 th { +"Legal Code" }
+                th { +"Population" }
                 th { +"Towns" }
             }
             realms.forEach { realm ->
@@ -177,6 +178,7 @@ private fun HTML.showAllRealms(
                     tdLink(call, state, realm.owner.current)
                     tdLink(call, state, realm.currency.current)
                     tdLink(call, state, realm.legalCode.current)
+                    tdSkipZero(realm.population.getTotalPopulation())
                     tdSkipZero(state.countOwnedTowns(realm.id))
                 }
             }

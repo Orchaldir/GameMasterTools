@@ -160,7 +160,8 @@ private fun HTML.showAllTowns(
                 th { +"Owner" }
                 th { +"Map" }
                 th { +"Buildings" }
-                th { +"Residents" }
+                th { +"Population" }
+                th { +"Characters" }
             }
             towns.forEach { town ->
                 tr {
@@ -173,6 +174,7 @@ private fun HTML.showAllTowns(
                     tdLink(call, state, town.owner.current)
                     tdLink(call, state, state.getCurrentTownMap(town.id)?.id)
                     tdSkipZero(state.countBuildings(town.id))
+                    tdSkipZero(town.population.getTotalPopulation())
                     tdSkipZero(state.countResident(town.id))
                 }
             }

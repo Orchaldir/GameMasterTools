@@ -155,13 +155,15 @@ private fun HTML.showAllDistricts(
                 th { +"Town" }
                 th { +"Date" }
                 th { +"Creator" }
+                th { +"Population" }
             }
-            codes.forEach { code ->
+            codes.forEach { district ->
                 tr {
-                    tdLink(call, state, code)
-                    tdLink(call, state, code.town)
-                    td { showOptionalDate(call, state, code.foundingDate) }
-                    td { showCreator(call, state, code.founder, false) }
+                    tdLink(call, state, district)
+                    tdLink(call, state, district.town)
+                    td { showOptionalDate(call, state, district.foundingDate) }
+                    td { showCreator(call, state, district.founder, false) }
+                    tdSkipZero(district.population.getTotalPopulation())
                 }
             }
         }
