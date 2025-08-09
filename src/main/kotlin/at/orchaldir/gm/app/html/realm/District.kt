@@ -68,6 +68,6 @@ fun parseDistrict(parameters: Parameters, state: State, id: DistrictId) = Distri
     parseTownId(parameters, TOWN),
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
-    parsePopulation(parameters),
+    parsePopulation(parameters, state),
     parseDataSources(parameters),
 )

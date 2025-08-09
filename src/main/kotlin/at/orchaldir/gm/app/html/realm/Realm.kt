@@ -144,7 +144,7 @@ fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
         parseHistory(parameters, LEGAL_CODE, state, date) { _, _, param ->
             parseOptionalLegalCodeId(parameters, param)
         },
-        parsePopulation(parameters),
+        parsePopulation(parameters, state),
         parseDataSources(parameters),
     )
 }

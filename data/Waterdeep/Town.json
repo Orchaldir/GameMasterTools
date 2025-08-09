@@ -5,6 +5,13 @@
    "id": 0,
    "name": "Waterdeep",
    "title": "City of Splendors",
+   "population": {
+    "type": "Simple",
+    "raceMap": {
+     "3": 1000,
+     "4": 500
+    }
+   },
    "sources": [
     0
    ]

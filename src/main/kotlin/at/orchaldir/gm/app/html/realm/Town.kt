@@ -106,7 +106,7 @@ fun parseTown(parameters: Parameters, state: State, id: TownId): Town {
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
             parseOptionalRealmId(parameters, param)
         },
-        parsePopulation(parameters),
+        parsePopulation(parameters, state),
         parseDataSources(parameters),
     )
 }
