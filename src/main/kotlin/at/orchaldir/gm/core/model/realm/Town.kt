@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
+import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.model.util.population.Population
 import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -35,11 +36,12 @@ data class Town(
     val owner: History<RealmId?> = History(null),
     val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TownId>, Creation, HasDataSources, HasVitalStatus {
+) : ElementWithSimpleName<TownId>, Creation, HasDataSources, HasPopulation, HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = founder
+    override fun population() = population
     override fun sources() = sources
     override fun startDate() = foundingDate
     override fun vitalStatus() = status

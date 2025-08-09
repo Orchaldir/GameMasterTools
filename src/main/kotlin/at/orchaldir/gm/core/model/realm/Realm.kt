@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.model.util.population.Population
 import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -37,11 +38,12 @@ data class Realm(
     val legalCode: History<LegalCodeId?> = History(null),
     val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<RealmId>, Creation, HasDataSources, HasVitalStatus {
+) : ElementWithSimpleName<RealmId>, Creation, HasDataSources, HasPopulation, HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = founder
+    override fun population() = population
     override fun sources() = sources
     override fun startDate() = date
     override fun vitalStatus() = status
