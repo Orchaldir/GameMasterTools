@@ -16,6 +16,16 @@ data class PopulationEntry<ID : Id<ID>>(
     val percentage: Factor,
 )
 
+fun State.hasAnyPopulation(race: RaceId) = hasAnyPopulation(getRealmStorage(), race)
+
+fun <ID : Id<ID>, ELEMENT> hasAnyPopulation(
+    storage: Storage<ID, ELEMENT>,
+    race: RaceId,
+) where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasPopulation = storage.getAll()
+    .any { it.population().contains(race) }
+
 fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     storage: Storage<ID, ELEMENT>,
     race: RaceId,
