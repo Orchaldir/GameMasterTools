@@ -390,19 +390,6 @@
      "god": 23
     }
    }
-  },
-  "19": {
-   "id": 19,
-   "name": "Half-Elf",
-   "lifeStages": {
-    "type": "Default",
-    "appearance": 2,
-    "oldAgeHairColor": null,
-    "venerableAgeHairColor": null
-   },
-   "sources": [
-    5
-   ]
   }
  }
 }
