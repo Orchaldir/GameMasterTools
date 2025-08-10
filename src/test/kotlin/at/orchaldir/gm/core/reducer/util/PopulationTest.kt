@@ -11,7 +11,9 @@ import at.orchaldir.gm.core.model.util.population.Population
 import at.orchaldir.gm.core.model.util.population.PopulationPerRace
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.ZERO
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -48,6 +50,20 @@ class PopulationTest {
         fun `With an unknown race`() {
             assertIllegalArgument("Requires unknown Race 99!") {
                 state.validatePopulation(PopulationPerRace(100, mapOf(UNKNOWN_RACE_ID to HALF)))
+            }
+        }
+
+        @Test
+        fun `A race's percentage must be greater than 0`() {
+            assertIllegalArgument("The population of Race 0 must be > 0%!") {
+                state.validatePopulation(PopulationPerRace(100, mapOf(RACE_ID_0 to ZERO)))
+            }
+        }
+
+        @Test
+        fun `A race's percentage must be less or equal than 100`() {
+            assertIllegalArgument("The population of Race 0 must be <= 100%!") {
+                state.validatePopulation(PopulationPerRace(100, mapOf(RACE_ID_0 to Factor.fromPercentage(101))))
             }
         }
 
