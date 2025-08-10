@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.core.model.State
 
 data class PopulationEntry<ID : Id<ID>>(
     val id: ID,
@@ -32,3 +33,17 @@ fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
             else -> null
         }
     }
+
+fun State.getTotalPopulation(race: RaceId): Int {
+    val towns = getTownStorage()
+        .getAll()
+        .filter { it.owner.current != null }
+        .sumOf { it.population.getPopulation(race) ?: 0 }
+
+    val realms = getRealmStorage()
+        .getAll()
+        .filter { it.owner.current != null }
+        .sumOf { it.population.getPopulation(race) ?: 0 }
+
+    return towns + realms
+}

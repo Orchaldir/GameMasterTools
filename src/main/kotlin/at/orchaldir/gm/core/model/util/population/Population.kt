@@ -23,7 +23,7 @@ sealed class Population {
     }
 
     fun getPopulation(race: RaceId) = when (this) {
-        is PopulationPerRace -> racePercentages[race]?.apply(total)
+        is PopulationPerRace -> getNumber(race)
         else -> null
     }
 
@@ -54,6 +54,7 @@ data class PopulationPerRace(
 ) : Population() {
 
     fun getPercentage(race: RaceId) = racePercentages.getOrDefault(race, ZERO)
+    fun getNumber(race: RaceId) = getPercentage(race).apply(total)
 
     fun getDefinedPercentage() = Factor.fromPermyriad(racePercentages.values.sumOf { it.toPermyriad() })
     fun getUndefinedPercentage() = ONE - getDefinedPercentage()

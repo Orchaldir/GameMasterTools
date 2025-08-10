@@ -163,6 +163,8 @@ enum class SortRace {
     Weight,
     MaxLifeSpan,
     Name,
+    Population,
+    Characters,
 }
 
 enum class SortRealm {

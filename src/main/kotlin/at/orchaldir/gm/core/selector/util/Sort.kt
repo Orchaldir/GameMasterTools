@@ -590,6 +590,8 @@ fun State.sortRaces(
             SortRace.Weight -> compareByDescending { it.weight.value() }
             SortRace.MaxLifeSpan -> compareByDescending { it.lifeStages.getMaxAge() }
             SortRace.Name -> compareBy { it.name.text }
+            SortRace.Population -> compareByDescending { getTotalPopulation(it.id) }
+            SortRace.Characters -> compareByDescending { countCharacters(it.id) }
         })
 
 // realm
