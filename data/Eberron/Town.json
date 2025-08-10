@@ -44,6 +44,17 @@
    "id": 2,
    "name": "Metrol",
    "title": "The Rising City",
+   "status": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Day",
+     "day": 333695
+    },
+    "cause": {
+     "type": "Catastrophe",
+     "catastrophe": 0
+    }
+   },
    "owner": {
     "current": 3
    },
