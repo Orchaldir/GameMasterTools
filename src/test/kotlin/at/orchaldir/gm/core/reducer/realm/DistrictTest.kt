@@ -3,13 +3,11 @@ package at.orchaldir.gm.core.reducer.realm
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.action.UpdateDistrict
-import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.HousingStatus
 import at.orchaldir.gm.core.model.character.InDistrict
 import at.orchaldir.gm.core.model.realm.District
-import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.History
