@@ -34,7 +34,7 @@ fun HtmlBlockTag.showRealm(
     state: State,
     realm: Realm,
 ) {
-    showPopulation(call, state, realm.population)
+    showPopulation(call, state, realm)
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showVitalStatus(call, state, realm.status)

@@ -46,7 +46,7 @@ fun HtmlBlockTag.showTown(
     }
     fieldList(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldList(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
-    showPopulation(call, state, town.population)
+    showPopulation(call, state, town)
     fieldList(call, state, "Districts", state.sortDistricts(state.getDistricts(town.id)))
     showDataSources(call, state, town.sources)
 

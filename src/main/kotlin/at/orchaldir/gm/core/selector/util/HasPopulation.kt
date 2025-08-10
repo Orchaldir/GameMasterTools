@@ -1,14 +1,14 @@
 package at.orchaldir.gm.core.selector.util
 
-import at.orchaldir.gm.core.logger
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.model.util.population.PopulationPerRace
+import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.core.model.State
 
 data class PopulationEntry<ID : Id<ID>>(
     val id: ID,
@@ -47,4 +47,19 @@ fun State.getTotalPopulation(race: RaceId): Int {
         .sumOf { it.population.getPopulation(race) ?: 0 }
 
     return towns + realms
+}
+
+fun <ID : Id<ID>, ELEMENT> State.getPopulationIndex(
+    element: ELEMENT,
+): Int? where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasPopulation {
+    return if (element.population() is UndefinedPopulation) {
+        null
+    } else {
+        getStorage<ID, ELEMENT>(element.id())
+            .getAll()
+            .sortedByDescending { it.population().getTotalPopulation() }
+            .indexOfFirst { it.id() == element.id() } + 1
+    }
 }

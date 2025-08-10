@@ -9,13 +9,17 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.model.util.population.Population
 import at.orchaldir.gm.core.model.util.population.PopulationType
 import at.orchaldir.gm.core.model.util.population.PopulationType.Undefined
 import at.orchaldir.gm.core.model.util.population.PopulationPerRace
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
+import at.orchaldir.gm.core.selector.util.getPopulationIndex
 import at.orchaldir.gm.core.selector.util.sortRaces
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -27,16 +31,21 @@ import kotlinx.html.*
 
 // show
 
-fun HtmlBlockTag.showPopulation(
+fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
     call: ApplicationCall,
     state: State,
-    population: Population,
-) {
+    element: ELEMENT,
+) where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasPopulation {
+    val population = element.population()
+
     showDetails("Population", true) {
+        optionalField("Total", population.getTotalPopulation())
+        optionalField("Index", state.getPopulationIndex(element))
+
         when (population) {
-            is TotalPopulation -> field("Total", population.total)
             is PopulationPerRace -> {
-                field("Total Population", population.total)
                 var remaining = Factor.fromPercentage(100)
 
                 table {
@@ -62,7 +71,7 @@ fun HtmlBlockTag.showPopulation(
                 }
             }
 
-            UndefinedPopulation -> doNothing()
+            is TotalPopulation, UndefinedPopulation -> doNothing()
         }
     }
 }
