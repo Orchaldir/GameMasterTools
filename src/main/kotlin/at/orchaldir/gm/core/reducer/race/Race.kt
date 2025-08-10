@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.util.hasAnyPopulation
 import at.orchaldir.gm.core.selector.util.hasNoPopulation
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.checkDistance

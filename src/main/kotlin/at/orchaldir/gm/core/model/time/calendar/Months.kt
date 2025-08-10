@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.time.calendar
 
-import at.orchaldir.gm.core.model.util.name.Name
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -37,6 +36,7 @@ sealed class Months {
             val definition = months[monthIndex]
             MonthDefinition(definition.name, daysPerMonth, definition.title)
         }
+
         is ComplexMonths -> months[monthIndex]
     }
 

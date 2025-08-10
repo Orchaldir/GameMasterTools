@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.util.population
 
-import at.orchaldir.gm.app.html.optionalField
-import at.orchaldir.gm.app.html.tdLink
-import at.orchaldir.gm.app.html.tdPercentage
-import at.orchaldir.gm.app.html.tdSkipZero
-import at.orchaldir.gm.app.html.thMultiLines
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
@@ -16,11 +12,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.server.application.*
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
+import kotlinx.html.*
 
 // show
 

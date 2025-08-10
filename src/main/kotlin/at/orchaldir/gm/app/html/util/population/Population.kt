@@ -9,13 +9,8 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.util.population.HasPopulation
-import at.orchaldir.gm.core.model.util.population.Population
-import at.orchaldir.gm.core.model.util.population.PopulationType
+import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.core.model.util.population.PopulationType.Undefined
-import at.orchaldir.gm.core.model.util.population.PopulationPerRace
-import at.orchaldir.gm.core.model.util.population.TotalPopulation
-import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
 import at.orchaldir.gm.core.selector.util.getPopulationIndex
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.Element
