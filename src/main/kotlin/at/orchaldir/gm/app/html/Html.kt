@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
@@ -267,6 +268,22 @@ fun <T> TR.tdInline(
         }
     }
 }
+
+fun TR.tdPercentage(factor: Factor) = tdString(factor.toString())
+
+fun TR.tdPercentage(value: Int) {
+    tdString("$value%")
+}
+
+fun TR.tdPercentage(value: Float) = tdPercentage((value * 100).toInt())
+
+fun TR.tdPercentage(number: Int, total: Int) = tdPercentage(
+    if (total == 0) {
+        0.0f
+    } else {
+        number / total.toFloat()
+    }
+)
 
 fun TR.tdSkipZero(value: Int?) {
     td {

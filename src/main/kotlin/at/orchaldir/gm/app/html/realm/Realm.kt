@@ -4,6 +4,9 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyId
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.population.editPopulation
+import at.orchaldir.gm.app.html.util.population.parsePopulation
+import at.orchaldir.gm.app.html.util.population.showPopulation
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -31,6 +34,7 @@ fun HtmlBlockTag.showRealm(
     state: State,
     realm: Realm,
 ) {
+    showPopulation(call, state, realm)
     fieldCreator(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showVitalStatus(call, state, realm.status)
@@ -66,10 +70,12 @@ fun HtmlBlockTag.showRealm(
 // edit
 
 fun FORM.editRealm(
+    call: ApplicationCall,
     state: State,
     realm: Realm,
 ) {
     selectName(realm.name)
+    editPopulation(call, state, realm.population)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
     selectOptionalDate(state, "Date", realm.date, DATE)
     selectVitalStatus(state, realm.id, realm.date, realm.status, VALID_CAUSES_FOR_REALM)
@@ -141,6 +147,7 @@ fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
         parseHistory(parameters, LEGAL_CODE, state, date) { _, _, param ->
             parseOptionalLegalCodeId(parameters, param)
         },
+        parsePopulation(parameters, state),
         parseDataSources(parameters),
     )
 }

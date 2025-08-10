@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.race
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.population.showPopulation
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -39,8 +40,9 @@ fun HtmlBlockTag.showRace(
     field("BMI", String.format("%.1f", race.calculateBodyMassIndex()))
     optionalField(call, state, "Date", race.date)
     fieldOrigin(call, state, race.origin, ::SpellId)
-    showLifeStages(call, state, race)
     showDataSources(call, state, race.sources)
+    showLifeStages(call, state, race)
+    showPopulation(call, state, race.id)
 }
 
 private fun HtmlBlockTag.showLifeStages(

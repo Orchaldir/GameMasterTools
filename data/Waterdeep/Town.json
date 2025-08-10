@@ -5,6 +5,19 @@
    "id": 0,
    "name": "Waterdeep",
    "title": "City of Splendors",
+   "population": {
+    "type": "Race",
+    "total": 132661,
+    "racePercentages": {
+     "0": 3200,
+     "2": 1400,
+     "3": 100,
+     "4": 1400,
+     "5": 1000,
+     "9": 900,
+     "10": 100
+    }
+   },
    "sources": [
     0
    ]

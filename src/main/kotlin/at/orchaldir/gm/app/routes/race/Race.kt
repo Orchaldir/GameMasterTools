@@ -18,10 +18,12 @@ import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.SortRace
+import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.race.canDelete
 import at.orchaldir.gm.core.selector.time.getAgeInYears
+import at.orchaldir.gm.core.selector.util.getTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.maxOf
@@ -152,6 +154,7 @@ private fun HTML.showAllRaces(
                 th { +"Origin" }
                 th { +"Date" }
                 th { +"Appearance" }
+                th { +"Population" }
                 th { +"Characters" }
             }
             races.forEach { race ->
@@ -167,7 +170,8 @@ private fun HTML.showAllRaces(
                         showOptionalDate(call, state, race.startDate())
                     }
                     tdLink(call, state, race.lifeStages.getRaceAppearance())
-                    tdSkipZero(state.getCharacters(race.id).size)
+                    tdSkipZero(state.getTotalPopulation(race.id))
+                    tdSkipZero(state.countCharacters(race.id))
                 }
             }
         }
@@ -215,6 +219,7 @@ private fun HTML.showRaceDetails(
     state: State,
     race: Race,
 ) {
+    val characters = state.getCharacters(race.id)
     val backLink = call.application.href(RaceRoutes.All())
     val cloneLink = call.application.href(RaceRoutes.Clone(race.id))
     val deleteLink = call.application.href(RaceRoutes.Delete(race.id))
@@ -224,10 +229,12 @@ private fun HTML.showRaceDetails(
         split({
             showRace(call, state, race)
 
-            h2 { +"Characters" }
+            if (characters.isNotEmpty()) {
+                h2 { +"Characters" }
 
-            showList(state.getCharacters(race.id)) { character ->
-                link(call, state, character)
+                showList(characters) { character ->
+                    link(call, state, character)
+                }
             }
 
             h2 { +"Actions" }

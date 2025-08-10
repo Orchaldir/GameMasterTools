@@ -4,9 +4,6 @@
   "0": {
    "id": 0,
    "name": "Human",
-   "earShapes": {
-    "Round": "Common"
-   },
    "eye": {
     "eyeColors": {
      "Aqua": "Common",
@@ -145,9 +142,6 @@
   "4": {
    "id": 4,
    "name": "Orc",
-   "earShapes": {
-    "Round": "Common"
-   },
    "eye": {
     "eyeColors": {
      "Aqua": "Common",
@@ -348,9 +342,6 @@
   "8": {
    "id": 8,
    "name": "Gnoll",
-   "earShapes": {
-    "Round": "Common"
-   },
    "eye": {
     "eyeColors": {
      "Black": "Common"
@@ -494,9 +485,6 @@
   "11": {
    "id": 11,
    "name": "War Troll",
-   "earShapes": {
-    "Round": "Common"
-   },
    "eye": {
     "eyeShapes": {
      "Ellipse": "Common"

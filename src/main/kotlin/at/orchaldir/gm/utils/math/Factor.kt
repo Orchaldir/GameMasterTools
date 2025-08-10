@@ -34,11 +34,16 @@ value class Factor private constructor(private val permyriad: Int) {
         fun fromPermyriad(permyriad: Int) = Factor(permyriad)
     }
 
-    fun requireGreaterZero(text: String) = require(permyriad > 0) { text }
+    fun isGreaterZero() = permyriad > 0
+    fun isLessOrEqualOne() = permyriad <= NUMBER_FACTOR
+
+    fun requireGreaterZero(text: String) = require(isGreaterZero()) { text }
 
     fun toNumber() = permyriad / NUMBER_FACTOR.toFloat()
     fun toPercentage() = permyriad / PERCENTAGE_FACTOR.toFloat()
     fun toPermyriad() = permyriad
+
+    fun apply(value: Int) = (value * toNumber()).toInt()
 
     override fun toString() = formatAsFactor(permyriad)
 
@@ -53,6 +58,18 @@ value class Factor private constructor(private val permyriad: Int) {
     operator fun div(factor: Int) = Factor(permyriad / factor)
 
     operator fun compareTo(other: Factor): Int = permyriad.compareTo(other.permyriad)
+
+    fun max(other: Factor) = if (permyriad >= other.permyriad) {
+        this
+    } else {
+        other
+    }
+
+    fun min(other: Factor) = if (permyriad <= other.permyriad) {
+        this
+    } else {
+        other
+    }
 
     fun interpolate(other: Factor, between: Factor) = this * (FULL - between) + other * between
 

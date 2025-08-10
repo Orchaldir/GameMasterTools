@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -91,6 +92,13 @@ class DistrictTest {
             val action = UpdateDistrict(District(DISTRICT_ID_0, town = UNKNOWN_TOWN_ID))
 
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The population is validated`() {
+            val action = UpdateDistrict(District(DISTRICT_ID_0, population = TotalPopulation(0)))
+
+            assertIllegalArgument("The total population must be greater than 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

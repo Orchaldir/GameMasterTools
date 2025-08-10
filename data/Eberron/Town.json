@@ -44,6 +44,17 @@
    "id": 2,
    "name": "Metrol",
    "title": "The Rising City",
+   "status": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Day",
+     "day": 333695
+    },
+    "cause": {
+     "type": "Catastrophe",
+     "catastrophe": 0
+    }
+   },
    "owner": {
     "current": 3
    },
@@ -57,6 +68,10 @@
    "title": "The City of Light",
    "owner": {
     "current": 1
+   },
+   "population": {
+    "type": "Total",
+    "total": 92500
    },
    "sources": [
     3
@@ -78,6 +93,10 @@
    "owner": {
     "current": 1
    },
+   "population": {
+    "type": "Total",
+    "total": 800
+   },
    "sources": [
     3
    ]
@@ -92,6 +111,10 @@
    "owner": {
     "current": 1
    },
+   "population": {
+    "type": "Total",
+    "total": 16300
+   },
    "sources": [
     3
    ]
@@ -105,6 +128,10 @@
    },
    "owner": {
     "current": 1
+   },
+   "population": {
+    "type": "Total",
+    "total": 14280
    },
    "sources": [
     3
@@ -135,6 +162,10 @@
    "owner": {
     "current": 2
    },
+   "population": {
+    "type": "Total",
+    "total": 80870
+   },
    "sources": [
     3
    ]
@@ -145,7 +176,14 @@
    "title": "The City of Towers",
    "owner": {
     "current": 2
-   }
+   },
+   "population": {
+    "type": "Total",
+    "total": 211850
+   },
+   "sources": [
+    5
+   ]
   },
   "11": {
    "id": 11,
@@ -162,7 +200,14 @@
    "name": "New Cyre",
    "owner": {
     "current": 2
-   }
+   },
+   "population": {
+    "type": "Total",
+    "total": 4200
+   },
+   "sources": [
+    5
+   ]
   },
   "13": {
    "id": 13,
@@ -170,8 +215,59 @@
    "owner": {
     "current": 2
    },
+   "population": {
+    "type": "Total",
+    "total": 3100
+   },
    "sources": [
+    5,
     3
+   ]
+  },
+  "14": {
+   "id": 14,
+   "name": "First Tower",
+   "owner": {
+    "current": 2
+   },
+   "population": {
+    "type": "Total",
+    "total": 64
+   },
+   "sources": [
+    5
+   ]
+  },
+  "15": {
+   "id": 15,
+   "name": "The Great Crag",
+   "founder": {
+    "type": "Organization",
+    "organization": 38
+   },
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "type": "Total",
+    "total": 32230
+   },
+   "sources": [
+    5
+   ]
+  },
+  "16": {
+   "id": 16,
+   "name": "Graywall",
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "type": "Total",
+    "total": 6300
+   },
+   "sources": [
+    5
    ]
   }
  }
