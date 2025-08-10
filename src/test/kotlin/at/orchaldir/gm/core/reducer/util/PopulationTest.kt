@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.reducer.util
 
-import at.orchaldir.gm.RACE_ID_0
-import at.orchaldir.gm.RACE_ID_1
-import at.orchaldir.gm.RACE_ID_2
-import at.orchaldir.gm.UNKNOWN_RACE_ID
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.population.Population
@@ -48,29 +44,35 @@ class PopulationTest {
 
         @Test
         fun `With an unknown race`() {
-            assertIllegalArgument("Requires unknown Race 99!") {
-                state.validatePopulation(PopulationPerRace(100, mapOf(UNKNOWN_RACE_ID to HALF)))
-            }
+            assertPopulation(
+                PopulationPerRace(100, mapOf(UNKNOWN_RACE_ID to HALF)),
+                "Requires unknown Race 99!",
+            )
         }
 
         @Test
         fun `A race's percentage must be greater than 0`() {
-            assertIllegalArgument("The population of Race 0 must be > 0%!") {
-                state.validatePopulation(PopulationPerRace(100, mapOf(RACE_ID_0 to ZERO)))
-            }
+            assertPopulation(
+                PopulationPerRace(100, mapOf(RACE_ID_0 to ZERO)),
+                "The population of Race 0 must be > 0%!",
+            )
         }
 
         @Test
         fun `A race's percentage must be less or equal than 100`() {
-            assertIllegalArgument("The population of Race 0 must be <= 100%!") {
-                state.validatePopulation(PopulationPerRace(100, mapOf(RACE_ID_0 to Factor.fromPercentage(101))))
-            }
+            assertPopulation(
+                PopulationPerRace(100, mapOf(RACE_ID_0 to Factor.fromPercentage(101))),
+                "The population of Race 0 must be <= 100%!",
+            )
         }
 
     }
 
-    private fun assertTotalPopulation(population: Population) {
-        assertIllegalArgument("The total population must be greater than 0!") {
+    private fun assertTotalPopulation(population: Population) =
+        assertPopulation(population, "The total population must be greater than 0!")
+
+    private fun assertPopulation(population: Population, message: String) {
+        assertIllegalArgument(message) {
             state.validatePopulation(population)
         }
     }
