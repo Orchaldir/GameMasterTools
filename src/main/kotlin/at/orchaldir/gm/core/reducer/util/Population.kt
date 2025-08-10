@@ -30,4 +30,4 @@ fun State.validatePopulation(
 
 fun validateTotalPopulation(
     totalPopulation: Int,
-) = require(totalPopulation > 0) { "Total Population must be greater than 0!" }
+) = require(totalPopulation > 0) { "The total population must be greater than 0!" }
