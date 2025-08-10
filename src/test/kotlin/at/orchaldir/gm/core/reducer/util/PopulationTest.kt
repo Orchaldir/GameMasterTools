@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.ZERO
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -63,6 +64,14 @@ class PopulationTest {
             assertPopulation(
                 PopulationPerRace(100, mapOf(RACE_ID_0 to Factor.fromPercentage(101))),
                 "The population of Race 0 must be <= 100%!",
+            )
+        }
+
+        @Test
+        fun `The total population of all Races must be less or equal than 100`() {
+            assertPopulation(
+                PopulationPerRace(100, mapOf(RACE_ID_0 to HALF, RACE_ID_1 to THREE_QUARTER)),
+                "The total population of all Races must be <= 100%!",
             )
         }
 

@@ -22,7 +22,7 @@ fun State.validatePopulation(
             require(percentage.isLessOrEqualOne()) { "The population of ${race.print()} must be <= 100%!" }
         }
 
-        require(population.getDefinedPercentage() <= ONE) { "The population of all Races must be <= 100%!" }
+        require(population.getDefinedPercentage() <= ONE) { "The total population of all Races must be <= 100%!" }
     }
 
     UndefinedPopulation -> doNothing()
