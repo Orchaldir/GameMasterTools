@@ -35,6 +35,8 @@ value class Factor private constructor(private val permyriad: Int) {
     }
 
     fun isGreaterZero() = permyriad > 0
+    fun isLessOrEqualOne() = permyriad <= NUMBER_FACTOR
+
     fun requireGreaterZero(text: String) = require(isGreaterZero()) { text }
 
     fun toNumber() = permyriad / NUMBER_FACTOR.toFloat()
