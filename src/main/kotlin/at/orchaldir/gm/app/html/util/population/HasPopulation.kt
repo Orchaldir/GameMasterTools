@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.util.population
 
+import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.tdLink
 import at.orchaldir.gm.app.html.tdPercentage
 import at.orchaldir.gm.app.html.tdSkipZero
@@ -8,6 +9,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.selector.util.getPopulationEntries
+import at.orchaldir.gm.core.selector.util.getPopulationIndex
+import at.orchaldir.gm.core.selector.util.getTotalPopulation
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -27,6 +30,9 @@ fun HtmlBlockTag.showPopulation(
     race: RaceId,
 ) {
     h2 { +"Population" }
+
+    optionalField("Total", state.getTotalPopulation(race))
+    optionalField("Index", state.getPopulationIndex(race))
 
     showPopulation(call, state, race, state.getDistrictStorage())
     showPopulation(call, state, race, state.getRealmStorage())

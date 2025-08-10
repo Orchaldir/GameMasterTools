@@ -63,3 +63,21 @@ fun <ID : Id<ID>, ELEMENT> State.getPopulationIndex(
             .indexOfFirst { it.id() == element.id() } + 1
     }
 }
+
+fun State.getPopulationIndex(
+    race: RaceId,
+) = getRaceStorage()
+    .getAll()
+    .map { other ->
+        Pair(race, getTotalPopulation(other.id))
+    }
+    .filter { it.second > 0 }
+    .sortedByDescending { getTotalPopulation(race) }
+    .indexOfFirst { it.first == race }
+    .let {
+        if (it >= 0) {
+            it + 1
+        } else {
+            null
+        }
+    }
