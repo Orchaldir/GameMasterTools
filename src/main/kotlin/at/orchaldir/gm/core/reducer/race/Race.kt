@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.util.hasAnyPopulation
+import at.orchaldir.gm.core.selector.util.hasNoPopulation
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.redux.Reducer
@@ -39,7 +40,7 @@ val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
     state.getRaceStorage().require(action.id)
     require(state.getRaceStorage().getSize() > 1) { "Cannot delete the last race" }
     validateCanDelete(state.countCharacters(action.id), action.id, "it is used by a character")
-    validateCanDelete(!state.hasAnyPopulation(action.id), action.id, "it is used by a population")
+    validateCanDelete(state.hasNoPopulation(action.id), action.id, "it is used by a population")
 
     noFollowUps(state.updateStorage(state.getRaceStorage().remove(action.id)))
 }

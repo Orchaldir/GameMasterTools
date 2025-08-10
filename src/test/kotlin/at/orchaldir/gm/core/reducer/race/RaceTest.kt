@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
@@ -40,6 +41,7 @@ class RaceTest {
     @Nested
     inner class DeleteTest {
         val action = DeleteRace(RACE_ID_0)
+        val population = PopulationPerRace(100, mapOf(RACE_ID_0 to HALF))
 
         @Test
         fun `Can delete an existing race`() {
@@ -75,7 +77,12 @@ class RaceTest {
 
         @Test
         fun `Cannot delete a race used by the population of a realm`() {
-            asserPopulation(Realm(REALM_ID_0, population = PopulationPerRace(100, mapOf(RACE_ID_0 to HALF))))
+            asserPopulation(Realm(REALM_ID_0, population = population))
+        }
+
+        @Test
+        fun `Cannot delete a race used by the population of a town`() {
+            asserPopulation(Town(TOWN_ID_0, population = population))
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> asserPopulation(element: ELEMENT) {

@@ -16,7 +16,9 @@ data class PopulationEntry<ID : Id<ID>>(
     val percentage: Factor,
 )
 
+fun State.hasNoPopulation(race: RaceId) = !hasAnyPopulation(race)
 fun State.hasAnyPopulation(race: RaceId) = hasAnyPopulation(getRealmStorage(), race)
+        || hasAnyPopulation(getTownStorage(), race)
 
 fun <ID : Id<ID>, ELEMENT> hasAnyPopulation(
     storage: Storage<ID, ELEMENT>,
