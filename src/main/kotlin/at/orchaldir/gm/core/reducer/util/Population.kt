@@ -9,7 +9,8 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ONE
 
 
-fun State.validatePopulation(
+fun validatePopulation(
+    state: State,
     population: Population,
 ) = when (population) {
     is TotalPopulation -> validateTotalPopulation(population.total)
@@ -17,7 +18,7 @@ fun State.validatePopulation(
         validateTotalPopulation(population.total)
 
         population.racePercentages.forEach { (race, percentage) ->
-            getRaceStorage().require(race)
+            state.getRaceStorage().require(race)
             require(percentage.isGreaterZero()) { "The population of ${race.print()} must be > 0%!" }
             require(percentage.isLessOrEqualOne()) { "The population of ${race.print()} must be <= 100%!" }
         }

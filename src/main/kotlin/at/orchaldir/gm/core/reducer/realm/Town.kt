@@ -61,4 +61,5 @@ fun validateTown(state: State, town: Town) {
             state.requireExists(state.getRealmStorage(), realmId, date)
         }
     }
+    validatePopulation(state, town.population)
 }

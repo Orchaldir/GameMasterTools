@@ -3,10 +3,12 @@ package at.orchaldir.gm.core.reducer.realm
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
+import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
@@ -226,6 +228,13 @@ class RealmTest {
             val action = UpdateRealm(realm)
 
             assertIllegalArgument("Cannot die from an unknown War 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The population is validated`() {
+            val action = UpdateRealm(Realm(REALM_ID_0, population = TotalPopulation(0)))
+
+            assertIllegalArgument("The total population must be greater than 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

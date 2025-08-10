@@ -82,7 +82,7 @@ class PopulationTest {
 
     private fun assertPopulation(population: Population, message: String) {
         assertIllegalArgument(message) {
-            state.validatePopulation(population)
+            validatePopulation(state, population)
         }
     }
 

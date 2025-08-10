@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -178,6 +179,13 @@ class TownTest {
             val action = UpdateTown(Town(TOWN_ID_0, foundingDate = FUTURE_DAY_0))
 
             assertIllegalArgument("Date (Town) is in the future!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The population is validated`() {
+            val action = UpdateTown(Town(TOWN_ID_0, population = TotalPopulation(0)))
+
+            assertIllegalArgument("The total population must be greater than 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

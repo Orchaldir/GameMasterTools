@@ -66,4 +66,5 @@ fun validateRealm(state: State, realm: Realm) {
     }
     checkVitalStatus(state, realm.id, realm.status, realm.date)
     validateHasStartAndEnd(state, realm)
+    validatePopulation(state, realm.population)
 }
