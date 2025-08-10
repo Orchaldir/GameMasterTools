@@ -17,7 +17,8 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.population.PopulationPerRace
 import at.orchaldir.gm.core.reducer.REDUCER
-import at.orchaldir.gm.core.reducer.util.validatePopulation
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF
 import org.junit.jupiter.api.Nested
@@ -74,8 +75,11 @@ class RaceTest {
 
         @Test
         fun `Cannot delete a race used by the population of a realm`() {
-            val realm = Realm(REALM_ID_0, population = PopulationPerRace(100, mapOf(RACE_ID_0 to HALF)))
-            val newState = state.updateStorage(Storage(realm))
+            asserPopulation(Realm(REALM_ID_0, population = PopulationPerRace(100, mapOf(RACE_ID_0 to HALF))))
+        }
+
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> asserPopulation(element: ELEMENT) {
+            val newState = state.updateStorage(Storage(element))
 
             assertIllegalArgument("Cannot delete Race 0, because it is used by a population!") {
                 REDUCER.invoke(
