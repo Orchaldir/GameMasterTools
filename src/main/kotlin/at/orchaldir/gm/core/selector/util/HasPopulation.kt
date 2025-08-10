@@ -17,7 +17,8 @@ data class PopulationEntry<ID : Id<ID>>(
 )
 
 fun State.hasNoPopulation(race: RaceId) = !hasAnyPopulation(race)
-fun State.hasAnyPopulation(race: RaceId) = hasAnyPopulation(getRealmStorage(), race)
+fun State.hasAnyPopulation(race: RaceId) = hasAnyPopulation(getDistrictStorage(), race)
+        || hasAnyPopulation(getRealmStorage(), race)
         || hasAnyPopulation(getTownStorage(), race)
 
 fun <ID : Id<ID>, ELEMENT> hasAnyPopulation(
