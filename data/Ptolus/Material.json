@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Copper",
+   "color": "OrangeRed",
+   "density": 8940000000
+  },
+  "1": {
+   "id": 1,
+   "name": "Silver",
+   "color": "Silver",
+   "density": 10500000000
+  },
+  "2": {
+   "id": 2,
+   "name": "Gold",
+   "color": "Gold",
+   "density": 19320000000
+  },
+  "3": {
+   "id": 3,
+   "name": "Platinum",
+   "color": "AliceBlue",
+   "density": 21450000000
+  },
+  "4": {
+   "id": 4,
+   "name": "Iron",
+   "color": "DimGray",
+   "density": 7870000000
+  },
+  "5": {
+   "id": 5,
+   "name": "Steel",
+   "color": "Gray",
+   "density": 7850000000
+  },
+  "6": {
+   "id": 6,
+   "name": "Brass",
+   "color": "Gold",
+   "density": 8600000000
+  },
+  "7": {
+   "id": 7,
+   "name": "Bronze",
+   "color": "Orange",
+   "density": 8770000000
+  }
+ }
+}
