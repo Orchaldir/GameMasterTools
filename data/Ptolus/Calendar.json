@@ -38,43 +38,40 @@
       "days": 31
      },
      {
-      "name": "Birth",
-      "days": 28
+      "name": "Birth"
      },
      {
-      "name": "March",
+      "name": "Wind"
+     },
+     {
+      "name": "Rain",
       "days": 31
      },
      {
-      "name": "April"
+      "name": "Bloom"
      },
      {
-      "name": "May",
+      "name": "Sun"
+     },
+     {
+      "name": "Growth",
       "days": 31
      },
      {
-      "name": "June"
+      "name": "Blessing"
      },
      {
-      "name": "July",
+      "name": "Toil"
+     },
+     {
+      "name": "Harvest",
       "days": 31
      },
      {
-      "name": "August",
-      "days": 31
+      "name": "Moons"
      },
      {
-      "name": "September"
-     },
-     {
-      "name": "October",
-      "days": 31
-     },
-     {
-      "name": "November"
-     },
-     {
-      "name": "December",
+      "name": "Yearsend",
       "days": 31
      }
     ]
