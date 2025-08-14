@@ -1,5 +1,97 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Newyear's Day",
+   "purpose": {
+    "type": "Festival"
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Godsday",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 4,
+    "monthIndex": 3
+   },
+   "purpose": {
+    "type": "Festival"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Day of Joining",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 9,
+    "monthIndex": 5
+   },
+   "purpose": {
+    "type": "Festival"
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Brightfather's Day",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 13,
+    "monthIndex": 7
+   },
+   "purpose": {
+    "type": "Treaty",
+    "treaty": 0
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Harvest Festival",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 30,
+    "monthIndex": 9
+   },
+   "purpose": {
+    "type": "Festival"
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Festival of the Cold Moons",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 22,
+    "monthIndex": 10
+   },
+   "purpose": {
+    "type": "Festival"
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Chaokaemus",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 22,
+    "monthIndex": 10
+   },
+   "purpose": {
+    "type": "Festival"
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Yearsend Day",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 29,
+    "monthIndex": 11
+   },
+   "purpose": {
+    "type": "Festival"
+   }
+  }
  }
 }
