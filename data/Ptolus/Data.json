@@ -1,2 +1,16 @@
 {
+ "economy": {
+  "standardsOfLiving": [
+   {
+    "id": 0,
+    "name": "Standard 0",
+    "maxYearlyIncome": 1
+   }
+  ]
+ },
+ "time": {
+  "currentDate": {
+   "day": 262800
+  }
+ }
 }

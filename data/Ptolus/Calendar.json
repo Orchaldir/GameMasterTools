@@ -3,7 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Default Calendar",
+   "name": "Imperial Calendar",
    "days": {
     "type": "Weekdays",
     "weekDays": [
@@ -75,6 +75,22 @@
       "days": 31
      }
     ]
+   },
+   "eras": {
+    "before": {
+     "text": "BE",
+     "isPrefix": false
+    },
+    "first": {
+     "startDay": {
+      "day": 0
+     },
+     "text": "IA",
+     "isPrefix": false
+    }
+   },
+   "defaultFormat": {
+    "displayMonthNames": true
    }
   }
  }
