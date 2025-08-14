@@ -62,9 +62,17 @@ fun HTML.simpleHtml(
     }
 }
 
+fun HtmlBlockTag.mainFrame(content: DIV.() -> Unit) {
+    div {
+        id = "main"
+        classes += "main"
+        content()
+    }
+}
+
 fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
     div {
-        id = "left"
+        id = "main"
         classes += "split"
         left()
     }

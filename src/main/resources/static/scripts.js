@@ -5,11 +5,11 @@ function updateEditor() {
 
 function loadScroll() {
   var yScreen = localStorage.getItem("yPos");
-  document.getElementById("left").scrollTop = yScreen;
+  document.getElementById("main").scrollTop = yScreen;
 }
 
 function saveScroll() {
-  var yScroll = document.getElementById("left").scrollTop;
+  var yScroll = document.getElementById("main").scrollTop;
   localStorage.setItem("yPos", yScroll);
 }
 
