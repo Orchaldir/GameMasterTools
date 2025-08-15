@@ -108,6 +108,185 @@
     "normalColors": {
      "Fair": "Common"
     }
+   },
+   "wing": {
+    "layouts": {
+     "Two": "Common"
+    },
+    "types": {
+     "Bird": "Common"
+    },
+    "birdColors": {
+     "White": "Common"
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Harrow Elf",
+   "eye": {
+    "eyeColors": {
+     "Red": "Common"
+    }
+   },
+   "hair": {
+    "colors": {
+     "Black": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticColors": {
+     "LightYellow": "Common"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
+    }
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Litorian",
+   "eye": {
+    "eyeColors": {
+     "Black": "Common"
+    },
+    "pupilShapes": {
+     "VerticalSlit": "Common"
+    },
+    "scleraColors": {
+     "Gold": "Common"
+    }
+   },
+   "foot": {
+    "footTypes": {
+     "Clawed": "Common"
+    }
+   },
+   "mouth": {
+    "mouthTypes": {
+     "Snout": "Common"
+    },
+    "snoutColors": {
+     "Black": "Common"
+    },
+    "snoutShapes": {
+     "Cat": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Fur": "Common"
+    },
+    "furColors": {
+     "Peru": "Common"
+    }
+   },
+   "tail": {
+    "layouts": {
+     "Simple": "Common"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
+    }
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Assarai",
+   "foot": {
+    "footTypes": {
+     "Clawed": "Common"
+    }
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    },
+    "colors": {
+     "AliceBlue": "Common",
+     "AntiqueWhite": "Common",
+     "Aqua": "Common",
+     "Black": "Common",
+     "Blue": "Common",
+     "BlueViolet": "Common",
+     "Chocolate": "Common",
+     "Crimson": "Common",
+     "DimGray": "Common",
+     "Fuchsia": "Common",
+     "Gold": "Common",
+     "Gray": "Common",
+     "Green": "Common",
+     "Indigo": "Common",
+     "Ivory": "Common",
+     "Lavender": "Common",
+     "LightGray": "Common",
+     "LightYellow": "Common",
+     "Lime": "Common",
+     "Maroon": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Orange": "Common",
+     "OrangeRed": "Common",
+     "Peru": "Common",
+     "Pink": "Common",
+     "Purple": "Common",
+     "Red": "Common",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "SkyBlue": "Common",
+     "SteelBlue": "Common",
+     "Tan": "Common",
+     "Teal": "Common",
+     "Wheat": "Common",
+     "White": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "mouth": {
+    "mouthTypes": {
+     "Snout": "Common"
+    },
+    "snoutShapes": {
+     "Reptile": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Scales": "Common"
+    },
+    "scalesColors": {
+     "Gray": "Uncommon",
+     "Green": "Common",
+     "SaddleBrown": "Uncommon"
+    }
+   },
+   "tail": {
+    "layouts": {
+     "Simple": "Common"
+    },
+    "simpleShapes": {
+     "Rat": "Common"
+    },
+    "simpleOptions": {
+     "Rat": {
+     }
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
+    }
    }
   }
  }

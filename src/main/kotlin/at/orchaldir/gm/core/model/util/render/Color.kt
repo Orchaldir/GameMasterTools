@@ -22,6 +22,7 @@ enum class Color {
     Ivory,
     Lavender,
     LightGray,
+    LightYellow,
     Lime,
     Maroon,
     Navy,
