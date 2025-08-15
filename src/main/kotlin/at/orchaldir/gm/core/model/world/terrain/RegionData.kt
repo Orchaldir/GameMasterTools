@@ -10,7 +10,9 @@ enum class RegionDataType {
     Continent,
     Desert,
     Forrest,
+    Lake,
     Mountain,
+    Sea,
     Undefined,
     Wasteland,
 }
@@ -23,7 +25,9 @@ sealed class RegionData {
         Continent -> RegionDataType.Continent
         Desert -> RegionDataType.Desert
         Forrest -> RegionDataType.Forrest
+        Lake -> RegionDataType.Lake
         Mountain -> RegionDataType.Mountain
+        Sea -> RegionDataType.Sea
         UndefinedRegionData -> RegionDataType.Undefined
         is Wasteland -> RegionDataType.Wasteland
     }
@@ -58,8 +62,16 @@ data object Desert : RegionData()
 data object Forrest : RegionData()
 
 @Serializable
+@SerialName("Lake")
+data object Lake : RegionData()
+
+@Serializable
 @SerialName("Mountain")
 data object Mountain : RegionData()
+
+@Serializable
+@SerialName("Sea")
+data object Sea : RegionData()
 
 @Serializable
 @SerialName("Undefined")
