@@ -544,18 +544,23 @@ private fun HtmlBlockTag.selectYearIndex(
     maxYear: DisplayYear? = null,
 ) {
     val yearParam = combine(param, YEAR)
-    val minYear = if (minYear != null) {
-        if (minYear.eraIndex == year.eraIndex) {
-            minYear.yearIndex
+    val (sortedMinYear, sortedMaxYear) = if (year.eraIndex == 0) {
+        Pair(maxYear, minYear)
+    } else {
+        Pair(minYear, maxYear)
+    }
+    val minYear = if (sortedMinYear != null) {
+        if (sortedMinYear.eraIndex == year.eraIndex) {
+            sortedMinYear.yearIndex
         } else {
             0
         }
     } else {
         0
     } + 1
-    val maxYear = if (maxYear != null) {
-        if (maxYear.eraIndex == year.eraIndex) {
-            maxYear.yearIndex + 1
+    val maxYear = if (sortedMaxYear != null) {
+        if (sortedMaxYear.eraIndex == year.eraIndex) {
+            sortedMaxYear.yearIndex + 1
         } else {
             Int.MAX_VALUE
         }
