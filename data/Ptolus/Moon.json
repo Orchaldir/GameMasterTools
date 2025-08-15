@@ -6,10 +6,10 @@
    "name": "Vallis",
    "title": "The Moon of Magic",
    "daysPerQuarter": 10,
-   "color": "Lime"
-  },
-  "1": {
-   "id": 1
+   "color": "Lime",
+   "resources": [
+    17
+   ]
   }
  }
 }

@@ -2,16 +2,20 @@ package at.orchaldir.gm.app.html.world
 
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.LENGTH
+import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.PLANE
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.util.field
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -32,6 +36,7 @@ fun HtmlBlockTag.showMoon(
     field("Cycle", moon.getCycle().toString() + " days")
     fieldColor(moon.color)
     optionalFieldLink("Plane", call, state, moon.plane)
+    fieldIdList(call, state, "Resources", moon.resources)
 
     if (nextNewMoon > nextFullMoon) {
         field(call, state, "Next Full Moon", nextFullMoon)
@@ -53,6 +58,7 @@ fun HtmlBlockTag.editMoon(
     selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, 1, LENGTH)
     selectColor(moon.color)
     selectOptionalElement(state, "Plane", PLANE, state.sortPlanes(), moon.plane)
+    selectElements(state, "Resources", MATERIAL, state.sortMaterial(), moon.resources)
 }
 
 // parse
@@ -66,4 +72,5 @@ fun parseMoon(id: MoonId, parameters: Parameters) = Moon(
     parseInt(parameters, LENGTH, 1),
     parse(parameters, COLOR, Color.White),
     parseOptionalPlaneId(parameters, PLANE),
+    parseElements(parameters, MATERIAL, ::parseMaterialId),
 )
