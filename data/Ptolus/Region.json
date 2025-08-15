@@ -39,6 +39,13 @@
    "data": {
     "type": "Forrest"
    }
+  },
+  "5": {
+   "id": 5,
+   "name": "The Empire",
+   "data": {
+    "type": "Continent"
+   }
   }
  }
 }

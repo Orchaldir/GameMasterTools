@@ -3,11 +3,21 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Ptolus"
+   "name": "Ptolus",
+   "owner": {
+    "current": 0
+   }
   },
   "1": {
    "id": 1,
    "name": "Grail Keep"
+  },
+  "2": {
+   "id": 2,
+   "name": "Tarsis",
+   "owner": {
+    "current": 0
+   }
   }
  }
 }

@@ -10,6 +10,17 @@
    "resources": [
     17
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Lunas",
+   "daysPerQuarter": 8,
+   "color": "AliceBlue"
+  },
+  "2": {
+   "id": 2,
+   "name": "Rogue",
+   "daysPerQuarter": 10
   }
  }
 }
