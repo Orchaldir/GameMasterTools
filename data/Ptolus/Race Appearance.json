@@ -67,6 +67,48 @@
      "Fair": "Common"
     }
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Shoal Elf",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Chocolate": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common",
+     "Light": "Common"
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Cherubim Elf",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "hair": {
+    "colors": {
+     "Black": "Common",
+     "Wheat": "Common",
+     "White": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common"
+    }
+   }
   }
  }
 }
