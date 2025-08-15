@@ -3,7 +3,10 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Default Culture",
+   "name": "Ptolus",
+   "languages": {
+    "2": "Everyone"
+   },
    "holidays": [
     3,
     2,
@@ -47,6 +50,22 @@
     12,
     9
    ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Grailwarden",
+   "languages": {
+    "2": "Everyone",
+    "5": "Everyone"
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Stonelost",
+   "languages": {
+    "2": "Everyone",
+    "5": "Everyone"
+   }
   }
  }
 }
