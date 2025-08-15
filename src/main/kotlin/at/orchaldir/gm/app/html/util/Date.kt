@@ -544,7 +544,7 @@ private fun HtmlBlockTag.selectYearIndex(
     maxYear: DisplayYear? = null,
 ) {
     val yearParam = combine(param, YEAR)
-    val minIndex = if (minYear != null) {
+    val minYear = if (minYear != null) {
         if (minYear.eraIndex == year.eraIndex) {
             minYear.yearIndex
         } else {
@@ -553,7 +553,7 @@ private fun HtmlBlockTag.selectYearIndex(
     } else {
         0
     } + 1
-    val maxIndex = if (maxYear != null) {
+    val maxYear = if (maxYear != null) {
         if (maxYear.eraIndex == year.eraIndex) {
             maxYear.yearIndex + 1
         } else {
@@ -563,7 +563,7 @@ private fun HtmlBlockTag.selectYearIndex(
         Int.MAX_VALUE
     }
 
-    selectInt(year.yearIndex + 1, minIndex, maxIndex, 1, yearParam)
+    selectInt(year.yearIndex + 1, minYear, maxYear, 1, yearParam)
 }
 
 fun HtmlBlockTag.selectMonthIndex(
