@@ -100,12 +100,12 @@ fun <ID : Id<ID>> FORM.selectVitalStatus(
     allowedCauses: Collection<CauseOfDeathType>,
 ) {
     showDetails("Vital Status", true) {
-        selectValue("Type", VITAL, VitalStatusType.entries, status.getType())
+        selectValue("Status", VITAL, VitalStatusType.entries, status.getType())
 
         if (status is Dead) {
             selectDate(
                 state,
-                "Date of Death",
+                "Date",
                 status.deathDay,
                 combine(DEATH, DATE),
                 startDate,
@@ -130,7 +130,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
     val battles = state.getExistingBattles(deathDay)
 
     selectValue(
-        "Cause of death",
+        "Cause",
         DEATH,
         allowedCauses,
         cause.getType(),
