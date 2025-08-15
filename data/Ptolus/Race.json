@@ -1,5 +1,27 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Grailwarden Dwarf",
+   "height": {
+    "center": 1400000,
+    "offset": 1000
+   },
+   "weight": 90000000,
+   "lifeStages": {
+    "type": "Default",
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     100,
+     180,
+     250,
+     400
+    ]
+   }
+  }
  }
 }

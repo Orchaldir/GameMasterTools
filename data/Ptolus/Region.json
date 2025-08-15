@@ -20,6 +20,18 @@
    "resources": [
     9
    ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Prustan Peninsula"
+  },
+  "3": {
+   "id": 3,
+   "name": "Hotash Mountains",
+   "data": {
+    "type": "Mountain"
+   },
+   "parent": 2
   }
  }
 }

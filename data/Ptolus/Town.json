@@ -1,5 +1,13 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Ptolus"
+  },
+  "1": {
+   "id": 1,
+   "name": "Grail Keep"
+  }
  }
 }

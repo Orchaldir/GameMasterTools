@@ -1,5 +1,72 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Dwarf",
+   "hair": {
+    "colors": {
+     "Black": "Uncommon",
+     "Crimson": "Rare",
+     "SaddleBrown": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common",
+     "Light": "Common"
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Solarr Elf",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Green": "Common"
+    }
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "colors": {
+     "Gold": "Common",
+     "Orange": "Uncommon",
+     "Yellow": "Uncommon"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common"
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Lunas Elf",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "colors": {
+     "AliceBlue": "Rare",
+     "Gold": "Rare",
+     "White": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common"
+    }
+   }
+  }
  }
 }
