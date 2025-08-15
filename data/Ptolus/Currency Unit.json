@@ -42,7 +42,8 @@
   "3": {
    "id": 3,
    "name": "Dragon",
-   "denomination": 3,
+   "number": 10,
+   "denomination": 2,
    "format": {
     "type": "Coin",
     "material": 3,

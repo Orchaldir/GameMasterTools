@@ -3,8 +3,38 @@
   "standardsOfLiving": [
    {
     "id": 0,
-    "name": "Standard 0",
-    "maxYearlyIncome": 1
+    "name": "Subsistence",
+    "maxYearlyIncome": 2400
+   },
+   {
+    "id": 1,
+    "name": "Meager",
+    "maxYearlyIncome": 6000
+   },
+   {
+    "id": 2,
+    "name": "Poor",
+    "maxYearlyIncome": 12000
+   },
+   {
+    "id": 3,
+    "name": "Average",
+    "maxYearlyIncome": 24000
+   },
+   {
+    "id": 4,
+    "name": "Good",
+    "maxYearlyIncome": 60000
+   },
+   {
+    "id": 5,
+    "name": "High",
+    "maxYearlyIncome": 120000
+   },
+   {
+    "id": 6,
+    "name": "Luxurious",
+    "maxYearlyIncome": 240000
    }
   ]
  },

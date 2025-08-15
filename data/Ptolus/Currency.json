@@ -4,9 +4,6 @@
   "0": {
    "id": 0,
    "name": "Imperial Currency",
-   "denomination": {
-    "text": "pp"
-   },
    "subDenominations": [
     {
      "first": {
@@ -19,11 +16,6 @@
       "text": "sp"
      },
      "second": 100
-    },
-    {
-     "first": {
-     },
-     "second": 1000
     }
    ]
   }
