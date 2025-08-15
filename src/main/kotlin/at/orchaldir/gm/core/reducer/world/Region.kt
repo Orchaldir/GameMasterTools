@@ -47,9 +47,6 @@ fun validateRegion(
     data: RegionData,
 ) = when (data) {
     is Battlefield -> state.getBattleStorage().requireOptional(data.battle)
-    Continent -> doNothing()
-    Forrest -> doNothing()
-    Mountain -> doNothing()
-    UndefinedRegionData -> doNothing()
+    Continent, Desert, Forrest, Mountain, UndefinedRegionData -> doNothing()
     is Wasteland -> state.getCatastropheStorage().requireOptional(data.catastrophe)
 }

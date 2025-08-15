@@ -90,6 +90,24 @@
    "name": "Heliothil",
    "category": "Stone",
    "color": "BlueViolet"
+  },
+  "15": {
+   "id": 15,
+   "name": "Marlite",
+   "color": "SteelBlue",
+   "density": 7850000000
+  },
+  "16": {
+   "id": 16,
+   "name": "Moonsilver",
+   "color": "Silver"
+  },
+  "17": {
+   "id": 17,
+   "name": "Vallis",
+   "category": "Stone",
+   "color": "Lime",
+   "density": 2500000000
   }
  }
 }

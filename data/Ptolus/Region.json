@@ -1,5 +1,25 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Mountain of the Sky Kings",
+   "data": {
+    "type": "Mountain"
+   },
+   "resources": [
+    14
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Cold Desert",
+   "data": {
+    "type": "Desert"
+   },
+   "resources": [
+    9
+   ]
+  }
  }
 }
