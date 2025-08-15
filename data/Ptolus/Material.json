@@ -48,6 +48,48 @@
    "name": "Bronze",
    "color": "Orange",
    "density": 8770000000
+  },
+  "8": {
+   "id": 8,
+   "name": "Aethel",
+   "category": "Crystal",
+   "color": "AliceBlue"
+  },
+  "9": {
+   "id": 9,
+   "name": "Black Adamantine",
+   "color": "Black",
+   "density": 20000000000
+  },
+  "10": {
+   "id": 10,
+   "name": "Adamantine",
+   "color": "DimGray",
+   "density": 20000000000
+  },
+  "11": {
+   "id": 11,
+   "name": "Mithral",
+   "color": "Silver",
+   "density": 5000000000
+  },
+  "12": {
+   "id": 12,
+   "name": "Darkwood",
+   "category": "Wood",
+   "color": "SaddleBrown"
+  },
+  "13": {
+   "id": 13,
+   "name": "Firestone",
+   "category": "Stone",
+   "color": "Gray"
+  },
+  "14": {
+   "id": 14,
+   "name": "Heliothil",
+   "category": "Stone",
+   "color": "BlueViolet"
   }
  }
 }
