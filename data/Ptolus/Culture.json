@@ -4,6 +4,25 @@
   "0": {
    "id": 0,
    "name": "Default Culture"
+  },
+  "1": {
+   "id": 1,
+   "name": "Assarai",
+   "languages": {
+    "2": "Everyone",
+    "4": "Common"
+   },
+   "namingConvention": {
+    "type": "Mononym"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Litorian",
+   "languages": {
+    "2": "Everyone",
+    "12": "Everyone"
+   }
   }
  }
 }
