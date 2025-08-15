@@ -22,6 +22,20 @@
      400
     ]
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Litorian",
+   "height": {
+    "center": 2000000
+   },
+   "weight": 100000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 6,
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
   }
  }
 }

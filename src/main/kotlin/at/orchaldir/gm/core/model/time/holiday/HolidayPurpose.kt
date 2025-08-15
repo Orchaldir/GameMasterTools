@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 enum class HolidayPurposeType {
     Anniversary,
     Catastrophe,
+    Fasting,
     Festival,
     God,
     War,
@@ -21,6 +22,7 @@ sealed class HolidayPurpose {
 
     fun getType() = when (this) {
         Anniversary -> HolidayPurposeType.Anniversary
+        Fasting -> HolidayPurposeType.Fasting
         Festival -> HolidayPurposeType.Festival
         is HolidayOfCatastrophe -> HolidayPurposeType.Catastrophe
         is HolidayOfGod -> HolidayPurposeType.God
@@ -33,6 +35,10 @@ sealed class HolidayPurpose {
 @Serializable
 @SerialName("Anniversary")
 data object Anniversary : HolidayPurpose()
+
+@Serializable
+@SerialName("Fasting")
+data object Fasting : HolidayPurpose()
 
 @Serializable
 @SerialName("Festival")

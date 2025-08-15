@@ -3,7 +3,16 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Default Culture"
+   "name": "Default Culture",
+   "holidays": [
+    3,
+    2,
+    5,
+    1,
+    4,
+    0,
+    7
+   ]
   },
   "1": {
    "id": 1,
@@ -22,7 +31,22 @@
    "languages": {
     "2": "Everyone",
     "12": "Everyone"
-   }
+   },
+   "namingConvention": {
+    "type": "Mononym",
+    "names": {
+     "female": 2,
+     "genderless": 1,
+     "male": 1
+    }
+   },
+   "holidays": [
+    8,
+    10,
+    11,
+    12,
+    9
+   ]
   }
  }
 }

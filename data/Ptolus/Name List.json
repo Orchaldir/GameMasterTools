@@ -9,6 +9,27 @@
     "Ssethenus",
     "Thessisth"
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Litorian Male",
+   "names": [
+    "Charnaset",
+    "Charnoth",
+    "Chron",
+    "Malethar",
+    "Rastor"
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Litorian Female",
+   "names": [
+    "Marel",
+    "Rann",
+    "Sorret",
+    "Yintra"
+   ]
   }
  }
 }

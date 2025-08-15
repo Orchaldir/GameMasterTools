@@ -92,6 +92,65 @@
    "purpose": {
     "type": "Festival"
    }
+  },
+  "8": {
+   "id": 8,
+   "name": "Days of Memory",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 11,
+    "monthIndex": 8
+   },
+   "purpose": {
+    "type": "Festival"
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Winter Fast",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 1,
+    "monthIndex": 10
+   },
+   "purpose": {
+    "type": "Fasting"
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Great Feast",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 20,
+    "monthIndex": 0
+   },
+   "purpose": {
+    "type": "Festival"
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Great Feast",
+   "relativeDate": {
+    "type": "DayInYear",
+    "dayIndex": 20,
+    "monthIndex": 6
+   },
+   "purpose": {
+    "type": "Festival"
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Time of the Gathering",
+   "relativeDate": {
+    "type": "DayInMonth",
+    "dayIndex": 0
+   },
+   "purpose": {
+    "type": "Fasting"
+   }
   }
  }
 }
