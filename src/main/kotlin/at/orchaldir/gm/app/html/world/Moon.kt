@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.world
 
-import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.app.LENGTH
-import at.orchaldir.gm.app.MATERIAL
-import at.orchaldir.gm.app.PLANE
-import at.orchaldir.gm.app.TITLE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.util.field
