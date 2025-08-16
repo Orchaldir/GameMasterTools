@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Ptolus",
+   "owner": {
+    "current": 0
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Grail Keep",
+   "founder": {
+    "type": "Organization",
+    "organization": 0
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Tarsis",
+   "owner": {
+    "current": 0
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Dwarvenhearth",
+   "foundingDate": {
+    "type": "Century",
+    "century": -21
+   },
+   "founder": {
+    "type": "Organization",
+    "organization": 1
+   },
+   "status": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Year",
+     "year": -319
+    },
+    "cause": {
+     "type": "Abandoned"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Ptolus",
+   "languages": {
+    "2": "Everyone"
+   },
+   "holidays": [
+    3,
+    2,
+    5,
+    1,
+    4,
+    0,
+    7
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Assarai",
+   "languages": {
+    "2": "Everyone",
+    "4": "Common"
+   },
+   "namingConvention": {
+    "type": "Mononym"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Litorian",
+   "languages": {
+    "2": "Everyone",
+    "12": "Everyone"
+   },
+   "namingConvention": {
+    "type": "Mononym",
+    "names": {
+     "female": 2,
+     "genderless": 1,
+     "male": 1
+    }
+   },
+   "holidays": [
+    8,
+    10,
+    11,
+    12,
+    9
+   ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Grailwarden",
+   "languages": {
+    "2": "Everyone",
+    "5": "Everyone"
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Stonelost",
+   "languages": {
+    "2": "Everyone",
+    "5": "Everyone"
+   }
+  }
+ }
+}

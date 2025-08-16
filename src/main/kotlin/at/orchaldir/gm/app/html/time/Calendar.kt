@@ -34,14 +34,10 @@ fun HtmlBlockTag.showCalendar(
 
     optionalField(call, state, "Date", calendar.date)
     showOrigin(call, state, calendar)
-
-    h2 { +"Parts" }
-
     showDays(calendar)
     showMonths(calendar)
-
-    h2 { +"Eras" }
     showEras(call, state, calendar)
+    showDateFormat(calendar.defaultFormat)
 
     h2 { +"Usage" }
 
@@ -52,8 +48,6 @@ fun HtmlBlockTag.showCalendar(
         +holiday.relativeDate.display(calendar)
     }
     fieldList(call, state, periodicals)
-
-    showDateFormat(calendar.defaultFormat)
 }
 
 private fun HtmlBlockTag.showOrigin(
@@ -70,6 +64,8 @@ private fun HtmlBlockTag.showOrigin(
 private fun HtmlBlockTag.showDays(
     calendar: Calendar,
 ) {
+    h2 { +"Days" }
+
     field("Days", calendar.days.getType())
     when (calendar.days) {
         is Weekdays -> fieldList("Weekdays", calendar.days.weekDays) { day ->
@@ -81,7 +77,7 @@ private fun HtmlBlockTag.showDays(
 }
 
 private fun HtmlBlockTag.showMonths(calendar: Calendar) {
-    h3 { +"Months" }
+    h2 { +"Months" }
 
     when (val months = calendar.months) {
         is ComplexMonths -> table {
@@ -129,8 +125,18 @@ private fun HtmlBlockTag.showEras(
     state: State,
     calendar: Calendar,
 ) {
+    h2 { +"Eras" }
+
     field(call, state, "Start Date", calendar.getStartDateInDefaultCalendar())
+    showBeforeEra(calendar)
+    showCurrentEra(calendar)
+}
+
+private fun HtmlBlockTag.showBeforeEra(calendar: Calendar) {
     field("Before Era", display(calendar, DisplayYear(0, 0)))
+}
+
+private fun HtmlBlockTag.showCurrentEra(calendar: Calendar) {
     field("Current Era", display(calendar, DisplayYear(1, 0)))
 }
 
@@ -152,16 +158,9 @@ fun FORM.editCalendar(
         ALLOWED_CALENDAR_ORIGINS,
         ::CalendarId,
     )
-
-    h2 { +"Parts" }
-
     editDays(calendar, holidays)
     editMonths(calendar, holidays)
-
-    h2 { +"Eras" }
-
     editEras(calendar, state)
-
     editDateFormat(calendar.defaultFormat)
 }
 
@@ -169,6 +168,8 @@ private fun FORM.editDays(
     calendar: Calendar,
     holidays: List<Holiday>,
 ) {
+    h2 { +"Days" }
+
     val days = calendar.days
     val supportsDayOfTheMonth = supportsDayOfTheMonth(holidays)
 
@@ -192,7 +193,7 @@ private fun FORM.editDays(
 private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     val minMonths = getMinNumberOfMonths(holidays)
 
-    h3 { +"Months" }
+    h2 { +"Months" }
 
     selectValue("Months Type", combine(MONTHS, TYPE), MonthsType.entries, calendar.months.getType())
     selectInt("Months", calendar.months.getSize(), minMonths, 100, 1, MONTHS)
@@ -288,7 +289,11 @@ private fun FORM.editEras(
     calendar: Calendar,
     state: State,
 ) {
+    h2 { +"Eras" }
+
+    showBeforeEra(calendar)
     editEra("Before", calendar.eras.before, BEFORE)
+    showCurrentEra(calendar)
     editEra("Current", calendar.eras.first, CURRENT)
     selectDate(state, "Start Date", calendar.getStartDateInDefaultCalendar(), CURRENT)
 }

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Dwarf",
+   "height": {
+    "center": 1400000,
+    "offset": 1000
+   },
+   "weight": 90000000,
+   "lifeStages": {
+    "type": "Default",
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     100,
+     180,
+     250,
+     400
+    ]
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Litorian",
+   "height": {
+    "center": 2000000
+   },
+   "weight": 100000000,
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 6,
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  }
+ }
+}

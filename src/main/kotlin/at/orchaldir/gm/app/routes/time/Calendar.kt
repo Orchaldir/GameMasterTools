@@ -202,9 +202,11 @@ private fun HTML.showCalendarEditor(
     val previewLink = call.application.href(CalendarRoutes.Preview(calendar.id))
     val updateLink = call.application.href(CalendarRoutes.Update(calendar.id))
 
-    simpleHtmlEditor(calendar) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editCalendar(state, calendar)
+    simpleHtmlEditor(calendar, true) {
+        mainFrame {
+            formWithPreview(previewLink, updateLink, backLink) {
+                editCalendar(state, calendar)
+            }
         }
     }
 }

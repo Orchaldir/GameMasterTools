@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.moon
 
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -30,6 +31,7 @@ data class Moon(
     val daysPerQuarter: Int = 1,
     val color: Color = Color.White,
     val plane: PlaneId? = null,
+    val resources: Set<MaterialId> = emptySet(),
 ) : ElementWithSimpleName<MoonId> {
 
     override fun id() = id

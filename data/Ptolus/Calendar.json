@@ -1,0 +1,96 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Imperial Calendar",
+   "days": {
+    "type": "Weekdays",
+    "weekDays": [
+     {
+      "name": "Theoday"
+     },
+     {
+      "name": "Kingsday"
+     },
+     {
+      "name": "Airday"
+     },
+     {
+      "name": "Waterday"
+     },
+     {
+      "name": "Earthday"
+     },
+     {
+      "name": "Fireday"
+     },
+     {
+      "name": "Queensday"
+     }
+    ]
+   },
+   "months": {
+    "type": "Complex",
+    "months": [
+     {
+      "name": "Newyear",
+      "days": 31
+     },
+     {
+      "name": "Birth"
+     },
+     {
+      "name": "Wind"
+     },
+     {
+      "name": "Rain",
+      "days": 31
+     },
+     {
+      "name": "Bloom"
+     },
+     {
+      "name": "Sun"
+     },
+     {
+      "name": "Growth",
+      "days": 31
+     },
+     {
+      "name": "Blessing"
+     },
+     {
+      "name": "Toil"
+     },
+     {
+      "name": "Harvest",
+      "days": 31
+     },
+     {
+      "name": "Moons"
+     },
+     {
+      "name": "Yearsend"
+     }
+    ]
+   },
+   "eras": {
+    "before": {
+     "text": "BE",
+     "isPrefix": false
+    },
+    "first": {
+     "startDay": {
+      "day": 0
+     },
+     "text": "IA",
+     "isPrefix": false
+    }
+   },
+   "defaultFormat": {
+    "displayMonthNames": true
+   }
+  }
+ }
+}

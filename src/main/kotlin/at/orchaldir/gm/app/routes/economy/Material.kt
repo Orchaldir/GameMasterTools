@@ -26,6 +26,7 @@ import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
+import at.orchaldir.gm.core.selector.world.getMoonsContaining
 import at.orchaldir.gm.core.selector.world.getRegionsContaining
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
@@ -184,7 +185,8 @@ private fun HTML.showMaterialDetails(
 ) {
     val currencyUnits = state.sortCurrencyUnits(state.getCurrencyUnits(material.id))
     val equipmentList = state.sortEquipmentList(state.getEquipmentMadeOf(material.id))
-    val mountains = state.getRegionsContaining(material.id)
+    val moons = state.getMoonsContaining(material.id)
+    val regions = state.getRegionsContaining(material.id)
     val raceAppearances = state.getRaceAppearancesMadeOf(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
@@ -199,7 +201,8 @@ private fun HTML.showMaterialDetails(
 
         fieldList(call, state, currencyUnits)
         fieldList(call, state, equipmentList)
-        fieldList(call, state, mountains)
+        fieldList(call, state, moons)
+        fieldList(call, state, regions)
         fieldList(call, state, raceAppearances)
         fieldList(call, state, streetTemplates)
         fieldList("Texts", texts) { text ->

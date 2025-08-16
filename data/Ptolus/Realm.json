@@ -1,0 +1,18 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "The Empire of Tarsis",
+   "capital": {
+    "current": 2
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   }
+  }
+ }
+}

@@ -42,7 +42,13 @@ fun HTML.simpleHtml(
     content: HtmlBlockTag.() -> Unit,
 ) {
     head {
-        title { +APP_TITLE }
+        title {
+            if (title != APP_TITLE) {
+                +"$title - $APP_TITLE"
+            } else {
+                +APP_TITLE
+            }
+        }
         link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
         script(src = "/static/scripts.js") {
             charset = "utf-8"
@@ -62,9 +68,17 @@ fun HTML.simpleHtml(
     }
 }
 
+fun HtmlBlockTag.mainFrame(content: DIV.() -> Unit) {
+    div {
+        id = "main"
+        classes += "main"
+        content()
+    }
+}
+
 fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
     div {
-        id = "left"
+        id = "main"
         classes += "split"
         left()
     }
