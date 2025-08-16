@@ -39,6 +39,9 @@ class TimeRoutes {
     @Resource("century")
     class ShowCentury(val century: Century, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
+    @Resource("millennium")
+    class ShowMillennium(val millennium: Millennium, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
+
     @Resource("events")
     class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 }
@@ -92,6 +95,13 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDate(call, STORE.getState(), data.calendar, data.century, "Century")
+            }
+        }
+        get<TimeRoutes.ShowMillennium> { data ->
+            logger.info { "Show the millennium ${data.millennium} for calendar ${data.calendar.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showDate(call, STORE.getState(), data.calendar, data.millennium, "Millennium")
             }
         }
         get<TimeRoutes.ShowEvents> { data ->

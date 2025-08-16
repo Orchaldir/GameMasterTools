@@ -270,7 +270,22 @@ private fun HtmlBlockTag.selectDate(
         is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
         is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
         is DisplayCentury -> selectCentury(param, calendar, displayDate, minDate)
+        is DisplayMillennium -> selectMillennium(param, calendar, displayDate, minDate)
     }
+}
+
+private fun HtmlBlockTag.selectMillennium(
+    param: String,
+    calendar: Calendar,
+    millennium: DisplayMillennium,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    val displayMinYear = minDate?.let { calendar.getStartDisplayYear(it) }
+    val displayMaxYear = maxDate?.let { calendar.getStartDisplayYear(it) }
+
+    selectEraIndex(param, calendar, millennium.eraIndex, displayMinYear, displayMaxYear)
+    selectMillenniumIndex(param, calendar, millennium, minDate, maxDate)
 }
 
 private fun HtmlBlockTag.selectCentury(
@@ -467,6 +482,41 @@ private fun HtmlBlockTag.selectEraIndex(
     }
 }
 
+private fun HtmlBlockTag.selectMillenniumIndex(
+    param: String,
+    calendar: Calendar,
+    millennium: DisplayMillennium,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    val millenniumParam = combine(param, MILLENNIUM)
+    val minIndex = if (minDate != null) {
+        val minMillennium = calendar.getDisplayMillennium(minDate)
+
+        if (minMillennium.eraIndex == millennium.eraIndex) {
+            minMillennium.millenniumIndex
+        } else {
+            0
+        }
+    } else {
+        0
+    }
+    val maxIndex = if (maxDate != null) {
+        val maxMillennium = calendar.getDisplayMillennium(maxDate)
+
+        if (maxMillennium.eraIndex == millennium.eraIndex) {
+            maxMillennium.millenniumIndex
+        } else {
+            Int.MAX_VALUE
+        }
+    } else {
+        Int.MAX_VALUE
+    }
+
+    selectInt(millennium.millenniumIndex, minIndex, maxIndex, 1, millenniumParam)
+    +"xxx"
+}
+
 private fun HtmlBlockTag.selectCenturyIndex(
     param: String,
     calendar: Calendar,
@@ -474,7 +524,7 @@ private fun HtmlBlockTag.selectCenturyIndex(
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
-    val decadeParam = combine(param, CENTURY)
+    val centuryParam = combine(param, CENTURY)
     val minIndex = if (minDate != null) {
         val minCentury = calendar.getDisplayCentury(minDate)
 
@@ -498,7 +548,7 @@ private fun HtmlBlockTag.selectCenturyIndex(
         Int.MAX_VALUE
     }
 
-    selectInt(century.centuryIndex, minIndex, maxIndex, 1, decadeParam)
+    selectInt(century.centuryIndex, minIndex, maxIndex, 1, centuryParam)
     +"xx"
 }
 
@@ -786,6 +836,7 @@ fun parseDate(
         DateType.Year -> parseYear(parameters, calendar, param)
         DateType.Decade -> parseDecade(parameters, calendar, param)
         DateType.Century -> parseCentury(parameters, calendar, param)
+        DateType.Millennium -> parseMillennium(parameters, calendar, param)
     }
 }
 
@@ -878,6 +929,18 @@ fun parseCentury(
     return calendar.resolveCentury(calendarDate)
 }
 
+fun parseMillennium(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Millennium {
+    val eraIndex = parseEraIndex(parameters, param)
+    val millenniumIndex = parseMillenniumIndex(parameters, param)
+    val calendarDate = DisplayMillennium(eraIndex, millenniumIndex)
+
+    return resolveMillennium(calendarDate)
+}
+
 fun parseDayIndex(parameters: Parameters, param: String) =
     parseIndexFromInt(parameters, param, DAY)
 
@@ -895,6 +958,9 @@ private fun parseDecadeIndex(parameters: Parameters, param: String) =
 
 private fun parseCenturyIndex(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, CENTURY))
+
+private fun parseMillenniumIndex(parameters: Parameters, param: String) =
+    parseInt(parameters, combine(param, MILLENNIUM))
 
 private fun parseEraIndex(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, ERA), 1)

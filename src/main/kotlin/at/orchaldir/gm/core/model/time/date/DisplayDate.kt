@@ -118,4 +118,29 @@ data class DisplayCentury(
     }
 
     fun startYear() = DisplayYear(eraIndex, startYearIndex())
+    fun millennium() = DisplayMillennium(eraIndex, centuryIndex / 10)
+}
+
+data class DisplayMillennium(
+    val eraIndex: Int,
+    val millenniumIndex: Int,
+) : DisplayDate() {
+
+    override fun eraIndex() = eraIndex
+
+    fun startYearIndex() = if (eraIndex == 0) {
+        if (millenniumIndex == 0) {
+            998
+        } else {
+            (millenniumIndex + 1) * 1000 - 2
+        }
+    } else {
+        if (millenniumIndex == 0) {
+            0
+        } else {
+            millenniumIndex * 1000 - 1
+        }
+    }
+
+    fun startYear() = DisplayYear(eraIndex, startYearIndex())
 }

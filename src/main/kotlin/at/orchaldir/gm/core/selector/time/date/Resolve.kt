@@ -14,6 +14,7 @@ fun Calendar.resolve(date: Date) = when (date) {
     is Year -> resolveYear(date)
     is Decade -> resolveDecade(date)
     is Century -> resolveCentury(date)
+    is Millennium -> resolveMillennium(date)
 }
 
 fun Calendar.resolveDay(date: Day): DisplayDay {
@@ -126,6 +127,16 @@ fun Calendar.resolveCentury(date: Century): DisplayCentury {
     return DisplayCentury(0, -century - 1)
 }
 
+fun resolveMillennium(date: Millennium): DisplayMillennium {
+    val millennium = date.millennium
+
+    if (millennium >= 0) {
+        return DisplayMillennium(1, millennium)
+    }
+
+    return DisplayMillennium(0, -millennium - 1)
+}
+
 // resolve display date
 
 fun Calendar.resolve(date: DisplayDate) = when (date) {
@@ -136,6 +147,7 @@ fun Calendar.resolve(date: DisplayDate) = when (date) {
     is DisplayYear -> resolveYear(date)
     is DisplayDecade -> resolveDecade(date)
     is DisplayCentury -> resolveCentury(date)
+    is DisplayMillennium -> resolveMillennium(date)
 }
 
 fun Calendar.resolveDay(day: DisplayDay): Day {
@@ -216,7 +228,19 @@ fun Calendar.resolveCentury(date: DisplayCentury): Century {
         return Century(century)
     }
 
-    val decade = -(date.centuryIndex + 1)
+    val century = -(date.centuryIndex + 1)
 
-    return Century(decade)
+    return Century(century)
+}
+
+fun resolveMillennium(date: DisplayMillennium): Millennium {
+    if (date.eraIndex > 0) {
+        val century = date.millenniumIndex
+
+        return Millennium(century)
+    }
+
+    val millennium = -(date.millenniumIndex + 1)
+
+    return Millennium(millennium)
 }
