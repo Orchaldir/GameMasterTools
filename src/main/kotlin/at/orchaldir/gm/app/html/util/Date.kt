@@ -600,23 +600,23 @@ private fun HtmlBlockTag.selectYearIndex(
 }
 
 fun <D : DisplayDate> getMinMaxIndex(date: D, minDate: D?, maxDate: D?): Pair<Int, Int> {
-    val (sortedMinYear, sortedMaxYear) = if (date.eraIndex() == 0) {
+    val (sortedMinDate, sortedMaxDate) = if (date.eraIndex() == 0) {
         Pair(maxDate, minDate)
     } else {
         Pair(minDate, maxDate)
     }
-    val minIndex = if (sortedMinYear != null) {
-        if (sortedMinYear.eraIndex() == date.eraIndex()) {
-            sortedMinYear.index()
+    val minIndex = if (sortedMinDate != null) {
+        if (sortedMinDate.eraIndex() == date.eraIndex()) {
+            sortedMinDate.index()
         } else {
             0
         }
     } else {
         0
     } + 1
-    val maxIndex = if (sortedMaxYear != null) {
-        if (sortedMaxYear.eraIndex() == date.eraIndex()) {
-            sortedMaxYear.index() + 1
+    val maxIndex = if (sortedMaxDate != null) {
+        if (sortedMaxDate.eraIndex() == date.eraIndex()) {
+            sortedMaxDate.index() + 1
         } else {
             Int.MAX_VALUE
         }
