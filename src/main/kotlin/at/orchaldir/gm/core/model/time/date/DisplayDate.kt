@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.time.date
 sealed class DisplayDate {
 
     abstract fun eraIndex(): Int
+    abstract fun index(): Int
 
 }
 
@@ -19,6 +20,7 @@ data class DisplayDay(
             this(DisplayMonth(year, monthIndex), dayIndex, weekdayIndex)
 
     override fun eraIndex() = month.eraIndex()
+    override fun index() = dayIndex
 
 }
 
@@ -28,6 +30,7 @@ data class DisplayDayRange(
 ) : DisplayDate() {
 
     override fun eraIndex() = error("Use start or end directly!")
+    override fun index() = error("Use start or end directly!")
 
 }
 
@@ -40,6 +43,7 @@ data class DisplayWeek(
             this(DisplayYear(eraIndex, yearIndex), weekIndex)
 
     override fun eraIndex() = year.eraIndex()
+    override fun index() = weekIndex
 
 }
 
@@ -52,6 +56,7 @@ data class DisplayMonth(
             this(DisplayYear(eraIndex, yearIndex), monthIndex)
 
     override fun eraIndex() = year.eraIndex
+    override fun index() = monthIndex
 
 }
 
@@ -61,6 +66,7 @@ data class DisplayYear(
 ) : DisplayDate() {
 
     override fun eraIndex() = eraIndex
+    override fun index() = yearIndex
 
     fun decadeIndex() = if (yearIndex <= 8) {
         0
@@ -77,6 +83,7 @@ data class DisplayDecade(
 ) : DisplayDate() {
 
     override fun eraIndex() = eraIndex
+    override fun index() = decadeIndex
 
     fun startYearIndex() = if (eraIndex == 0) {
         if (decadeIndex == 0) {
@@ -102,6 +109,7 @@ data class DisplayCentury(
 ) : DisplayDate() {
 
     override fun eraIndex() = eraIndex
+    override fun index() = centuryIndex
 
     fun startYearIndex() = if (eraIndex == 0) {
         if (centuryIndex == 0) {
@@ -127,6 +135,7 @@ data class DisplayMillennium(
 ) : DisplayDate() {
 
     override fun eraIndex() = eraIndex
+    override fun index() = millenniumIndex
 
     fun startYearIndex() = if (eraIndex == 0) {
         if (millenniumIndex == 0) {

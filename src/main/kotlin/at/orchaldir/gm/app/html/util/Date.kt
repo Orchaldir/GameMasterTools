@@ -594,23 +594,29 @@ private fun HtmlBlockTag.selectYearIndex(
     maxYear: DisplayYear? = null,
 ) {
     val yearParam = combine(param, YEAR)
-    val (sortedMinYear, sortedMaxYear) = if (year.eraIndex == 0) {
-        Pair(maxYear, minYear)
+    val (minYear, maxYear) = getMinMaxIndex(year, minYear, maxYear)
+
+    selectInt(year.yearIndex + 1, minYear, maxYear, 1, yearParam)
+}
+
+fun <D : DisplayDate> getMinMaxIndex(date: D, minDate: D?, maxDate: D?): Pair<Int, Int> {
+    val (sortedMinYear, sortedMaxYear) = if (date.eraIndex() == 0) {
+        Pair(maxDate, minDate)
     } else {
-        Pair(minYear, maxYear)
+        Pair(minDate, maxDate)
     }
-    val minYear = if (sortedMinYear != null) {
-        if (sortedMinYear.eraIndex == year.eraIndex) {
-            sortedMinYear.yearIndex
+    val minIndex = if (sortedMinYear != null) {
+        if (sortedMinYear.eraIndex() == date.eraIndex()) {
+            sortedMinYear.index()
         } else {
             0
         }
     } else {
         0
     } + 1
-    val maxYear = if (sortedMaxYear != null) {
-        if (sortedMaxYear.eraIndex == year.eraIndex) {
-            sortedMaxYear.yearIndex + 1
+    val maxIndex = if (sortedMaxYear != null) {
+        if (sortedMaxYear.eraIndex() == date.eraIndex()) {
+            sortedMaxYear.index() + 1
         } else {
             Int.MAX_VALUE
         }
@@ -618,7 +624,7 @@ private fun HtmlBlockTag.selectYearIndex(
         Int.MAX_VALUE
     }
 
-    selectInt(year.yearIndex + 1, minYear, maxYear, 1, yearParam)
+    return Pair(minIndex, maxIndex)
 }
 
 fun HtmlBlockTag.selectMonthIndex(
