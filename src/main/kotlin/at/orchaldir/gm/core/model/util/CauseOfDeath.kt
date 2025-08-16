@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -37,6 +38,15 @@ sealed class CauseOfDeath {
         is Murder -> CauseOfDeathType.Murder
         is OldAge -> CauseOfDeathType.OldAge
         is UndefinedCauseOfDeath -> CauseOfDeathType.Undefined
+    }
+
+    fun <ID : Id<ID>> isDestroyedBy(id: ID) = when (this) {
+        Accident, OldAge, UndefinedCauseOfDeath -> false
+        is DeathByCatastrophe -> catastrophe == id
+        is DeathByDisease -> disease == id
+        is DeathInBattle -> battle == id
+        is DeathInWar -> war == id
+        is Murder -> killer == id
     }
 }
 
