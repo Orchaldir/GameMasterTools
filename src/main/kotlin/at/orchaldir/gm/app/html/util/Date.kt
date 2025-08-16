@@ -490,28 +490,12 @@ private fun HtmlBlockTag.selectMillenniumIndex(
     maxDate: Date? = null,
 ) {
     val millenniumParam = combine(param, MILLENNIUM)
-    val minIndex = if (minDate != null) {
-        val minMillennium = calendar.getDisplayMillennium(minDate)
-
-        if (minMillennium.eraIndex == millennium.eraIndex) {
-            minMillennium.millenniumIndex
-        } else {
-            0
-        }
-    } else {
-        0
-    }
-    val maxIndex = if (maxDate != null) {
-        val maxMillennium = calendar.getDisplayMillennium(maxDate)
-
-        if (maxMillennium.eraIndex == millennium.eraIndex) {
-            maxMillennium.millenniumIndex
-        } else {
-            Int.MAX_VALUE
-        }
-    } else {
-        Int.MAX_VALUE
-    }
+    val (minIndex, maxIndex) = getMinMaxIndex(
+        millennium,
+        minDate?.let { calendar.getDisplayMillennium(it) },
+        maxDate?.let { calendar.getDisplayMillennium(it) },
+        0,
+    )
 
     selectInt(millennium.millenniumIndex, minIndex, maxIndex, 1, millenniumParam)
     +"xxx"
@@ -525,28 +509,12 @@ private fun HtmlBlockTag.selectCenturyIndex(
     maxDate: Date? = null,
 ) {
     val centuryParam = combine(param, CENTURY)
-    val minIndex = if (minDate != null) {
-        val minCentury = calendar.getDisplayCentury(minDate)
-
-        if (minCentury.eraIndex == century.eraIndex) {
-            minCentury.centuryIndex
-        } else {
-            0
-        }
-    } else {
-        0
-    }
-    val maxIndex = if (maxDate != null) {
-        val maxCentury = calendar.getDisplayCentury(maxDate)
-
-        if (maxCentury.eraIndex == century.eraIndex) {
-            maxCentury.centuryIndex
-        } else {
-            Int.MAX_VALUE
-        }
-    } else {
-        Int.MAX_VALUE
-    }
+    val (minIndex, maxIndex) = getMinMaxIndex(
+        century,
+        minDate?.let { calendar.getDisplayCentury(it) },
+        maxDate?.let { calendar.getDisplayCentury(it) },
+        0,
+    )
 
     selectInt(century.centuryIndex, minIndex, maxIndex, 1, centuryParam)
     +"xx"
@@ -560,28 +528,12 @@ private fun HtmlBlockTag.selectDecadeIndex(
     maxDate: Date? = null,
 ) {
     val decadeParam = combine(param, DECADE)
-    val minIndex = if (minDate != null) {
-        val minDecade = calendar.getStartDisplayDecade(minDate)
-
-        if (minDecade.eraIndex == decade.eraIndex) {
-            minDecade.decadeIndex
-        } else {
-            0
-        }
-    } else {
-        0
-    }
-    val maxIndex = if (maxDate != null) {
-        val maxDecade = calendar.getStartDisplayDecade(maxDate)
-
-        if (maxDecade.eraIndex == decade.eraIndex) {
-            maxDecade.decadeIndex
-        } else {
-            Int.MAX_VALUE
-        }
-    } else {
-        Int.MAX_VALUE
-    }
+    val (minIndex, maxIndex) = getMinMaxIndex(
+        decade,
+        minDate?.let { calendar.getStartDisplayDecade(it) },
+        maxDate?.let { calendar.getStartDisplayDecade(it) },
+        0,
+    )
 
     selectInt(decade.decadeIndex, minIndex, maxIndex, 1, decadeParam)
     +"0s"
@@ -594,12 +546,12 @@ private fun HtmlBlockTag.selectYearIndex(
     maxYear: DisplayYear? = null,
 ) {
     val yearParam = combine(param, YEAR)
-    val (minYear, maxYear) = getMinMaxIndex(year, minYear, maxYear)
+    val (minYear, maxYear) = getMinMaxIndex(year, minYear, maxYear, 1)
 
     selectInt(year.yearIndex + 1, minYear, maxYear, 1, yearParam)
 }
 
-fun <D : DisplayDate> getMinMaxIndex(date: D, minDate: D?, maxDate: D?): Pair<Int, Int> {
+fun <D : DisplayDate> getMinMaxIndex(date: D, minDate: D?, maxDate: D?, offset: Int): Pair<Int, Int> {
     val (sortedMinDate, sortedMaxDate) = if (date.eraIndex() == 0) {
         Pair(maxDate, minDate)
     } else {
@@ -613,10 +565,10 @@ fun <D : DisplayDate> getMinMaxIndex(date: D, minDate: D?, maxDate: D?): Pair<In
         }
     } else {
         0
-    } + 1
+    } + offset
     val maxIndex = if (sortedMaxDate != null) {
         if (sortedMaxDate.eraIndex() == date.eraIndex()) {
-            sortedMaxDate.index() + 1
+            sortedMaxDate.index() + offset
         } else {
             Int.MAX_VALUE
         }
