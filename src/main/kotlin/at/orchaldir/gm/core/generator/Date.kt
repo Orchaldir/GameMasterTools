@@ -41,7 +41,7 @@ class DateGenerator(
             }
 
             is Year -> {
-                val displayYear = calendar.resolveYear(date)
+                val displayYear = resolveYear(date)
                 DisplayDay(displayYear, monthIndex, dayIndex)
             }
 

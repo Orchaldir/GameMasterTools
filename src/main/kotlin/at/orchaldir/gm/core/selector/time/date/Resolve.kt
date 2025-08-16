@@ -97,7 +97,7 @@ fun Calendar.resolveMonth(date: Month): DisplayMonth {
     return DisplayMonth(0, year, monthsPerYear - remainingMonths - 1)
 }
 
-fun Calendar.resolveYear(date: Year): DisplayYear {
+fun resolveYear(date: Year): DisplayYear {
     val year = date.year
 
     if (year >= 0) {
@@ -107,7 +107,7 @@ fun Calendar.resolveYear(date: Year): DisplayYear {
     return DisplayYear(0, -(year + 1))
 }
 
-fun Calendar.resolveDecade(date: Decade): DisplayDecade {
+fun resolveDecade(date: Decade): DisplayDecade {
     val decade = date.decade
 
     if (decade >= 0) {
@@ -117,7 +117,7 @@ fun Calendar.resolveDecade(date: Decade): DisplayDecade {
     return DisplayDecade(0, -decade - 1)
 }
 
-fun Calendar.resolveCentury(date: Century): DisplayCentury {
+fun resolveCentury(date: Century): DisplayCentury {
     val century = date.century
 
     if (century >= 0) {
@@ -197,7 +197,7 @@ fun Calendar.resolveMonth(month: DisplayMonth): Month {
     return Month(monthIndex)
 }
 
-fun Calendar.resolveYear(date: DisplayYear): Year {
+fun resolveYear(date: DisplayYear): Year {
     if (date.eraIndex == 1) {
         val year = date.yearIndex
 
@@ -209,7 +209,7 @@ fun Calendar.resolveYear(date: DisplayYear): Year {
     return Year(year)
 }
 
-fun Calendar.resolveDecade(date: DisplayDecade): Decade {
+fun resolveDecade(date: DisplayDecade): Decade {
     if (date.eraIndex == 1) {
         val decade = date.decadeIndex
 
@@ -221,7 +221,7 @@ fun Calendar.resolveDecade(date: DisplayDecade): Decade {
     return Decade(decade)
 }
 
-fun Calendar.resolveCentury(date: DisplayCentury): Century {
+fun resolveCentury(date: DisplayCentury): Century {
     if (date.eraIndex > 0) {
         val century = date.centuryIndex
 

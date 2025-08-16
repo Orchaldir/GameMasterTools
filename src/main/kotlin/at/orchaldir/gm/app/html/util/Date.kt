@@ -168,7 +168,7 @@ fun HtmlBlockTag.selectOptionalYear(
     maxDate: Date? = null,
 ) {
     selectOptional(fieldLabel, year, param) {
-        val displayYear = calendar.resolveYear(it)
+        val displayYear = resolveYear(it)
         selectYear(param, calendar, displayYear, minDate, maxDate)
     }
 }
@@ -335,7 +335,7 @@ fun FORM.selectYear(
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
-    val displayDate = calendar.resolveYear(year)
+    val displayDate = resolveYear(year)
 
     field(fieldLabel) {
         selectYear(param, calendar, displayDate, minDate, maxDate)
@@ -667,7 +667,7 @@ private fun HtmlBlockTag.selectWeekIndex(
     week: DisplayWeek,
     min: Pair<Day, DisplayDay>? = null,
 ) {
-    val year = calendar.resolveYear(week.year)
+    val year = resolveYear(week.year)
     val startWeek = calendar.getStartWeekOfYear(year)
     val endWeek = calendar.getEndWeekOfYear(year)
     val minWeek = if (min != null && week.year == min.second.month.year) {
@@ -902,7 +902,7 @@ fun parseYear(
     val yearIndex = parseYearIndex(parameters, param)
     val calendarDate = DisplayYear(eraIndex, yearIndex)
 
-    return calendar.resolveYear(calendarDate)
+    return resolveYear(calendarDate)
 }
 
 fun parseDecade(
@@ -914,7 +914,7 @@ fun parseDecade(
     val decadeIndex = parseDecadeIndex(parameters, param)
     val calendarDate = DisplayDecade(eraIndex, decadeIndex)
 
-    return calendar.resolveDecade(calendarDate)
+    return resolveDecade(calendarDate)
 }
 
 fun parseCentury(
@@ -926,7 +926,7 @@ fun parseCentury(
     val centuryIndex = parseCenturyIndex(parameters, param)
     val calendarDate = DisplayCentury(eraIndex, centuryIndex)
 
-    return calendar.resolveCentury(calendarDate)
+    return resolveCentury(calendarDate)
 }
 
 fun parseMillennium(

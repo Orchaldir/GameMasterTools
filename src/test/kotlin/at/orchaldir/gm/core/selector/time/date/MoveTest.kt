@@ -88,7 +88,12 @@ class MoveTest {
 
         @Test
         fun `Move century up`() {
-            assertNull(calendar0.moveUp(Century(12)))
+            assertEquals(Millennium(1), calendar0.moveUp(Century(12)))
+        }
+
+        @Test
+        fun `Move millennium up`() {
+            assertNull(calendar0.moveUp(Millennium(12)))
         }
     }
 
@@ -380,7 +385,7 @@ class MoveTest {
 
             private fun assertStartYear(input: Date, year: Int) {
                 val year = Year(year)
-                val display = calendar1.resolveYear(year)
+                val display = resolveYear(year)
 
                 assertEquals(year, calendar1.getStartYear(input))
                 assertEquals(display, calendar1.getStartDisplayYear(input))
@@ -480,7 +485,7 @@ class MoveTest {
 
             private fun assertStartDecade(date: Date, result: Int) {
                 val decade = Decade(result)
-                val display = calendar1.resolveDecade(decade)
+                val display = resolveDecade(decade)
 
                 assertEquals(decade, calendar1.getStartDecade(date))
                 assertEquals(display, calendar1.getStartDisplayDecade(date))
@@ -583,7 +588,7 @@ class MoveTest {
 
             private fun assertStartCentury(date: Date, result: Int) {
                 val century = Century(result)
-                val display = calendar1.resolveCentury(century)
+                val display = resolveCentury(century)
 
                 assertEquals(century, calendar1.getCentury(date))
                 assertEquals(display, calendar1.getDisplayCentury(date))
