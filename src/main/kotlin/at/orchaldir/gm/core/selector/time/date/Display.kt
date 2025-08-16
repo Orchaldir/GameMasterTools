@@ -26,6 +26,11 @@ fun display(calendar: Calendar, format: DateFormat, displayDate: DisplayDate): S
             val century = displayDate.centuryIndex + 1
             "$century.century"
         }
+
+        is DisplayMillennium -> {
+            val century = displayDate.millenniumIndex + 1
+            "$century.millennium"
+        }
     }
 
     return calendar.eras.getEra(displayDate.eraIndex())

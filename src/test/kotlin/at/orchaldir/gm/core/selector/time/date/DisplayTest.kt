@@ -71,6 +71,14 @@ class DisplayTest {
         }
 
         @Test
+        fun `Test a millennium in AD`() {
+            val date = DisplayMillennium(1, 2)
+
+            assertDisplay(format0, date, "3.millennium AD")
+            assertDisplay(format1, date, "3.millennium AD")
+        }
+
+        @Test
         fun `Test the first day in AD`() {
             val date = DisplayDay(1, 0, 0, 0)
 
@@ -117,6 +125,14 @@ class DisplayTest {
 
             assertDisplay(format0, date, "1.century AD")
             assertDisplay(format1, date, "1.century AD")
+        }
+
+        @Test
+        fun `Test the first millennium in AD`() {
+            val date = DisplayMillennium(1, 0)
+
+            assertDisplay(format0, date, "1.millennium AD")
+            assertDisplay(format1, date, "1.millennium AD")
         }
     }
 
@@ -171,6 +187,14 @@ class DisplayTest {
         }
 
         @Test
+        fun `Test a millennium in AD`() {
+            val date = DisplayMillennium(0, 2)
+
+            assertDisplay(format0, date, "BC 3.millennium")
+            assertDisplay(format1, date, "BC 3.millennium")
+        }
+
+        @Test
         fun `Test the first month in BC`() {
             val date = DisplayMonth(0, 0, 0)
 
@@ -192,6 +216,14 @@ class DisplayTest {
 
             assertDisplay(format0, date, "BC 1.century")
             assertDisplay(format1, date, "BC 1.century")
+        }
+
+        @Test
+        fun `Test the first millennium in AD`() {
+            val date = DisplayMillennium(0, 0)
+
+            assertDisplay(format0, date, "BC 1.millennium")
+            assertDisplay(format1, date, "BC 1.millennium")
         }
     }
 

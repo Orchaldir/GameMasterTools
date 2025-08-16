@@ -41,12 +41,13 @@ class DateGenerator(
             }
 
             is Year -> {
-                val displayYear = calendar.resolveYear(date)
+                val displayYear = resolveYear(date)
                 DisplayDay(displayYear, monthIndex, dayIndex)
             }
 
             is Decade -> error("Cannot generate month & day for decade")
             is Century -> error("Cannot generate month & day for century")
+            is Millennium -> error("Cannot generate month & day for millennium")
         }
 
         return calendar.resolveDay(generatedDisplayDate)

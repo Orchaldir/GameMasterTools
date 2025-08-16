@@ -141,99 +141,76 @@ class ResolveTest {
     @Nested
     inner class ResolveYearTest {
         @Test
-        fun `Test without offset`() {
-            test(calendar0)
+        fun `Test resolving years`() {
+            assertResolve(-2, 0, 1)
+            assertResolve(-1, 0, 0)
+            assertResolve(0, 1, 0) // 1 AD
+            assertResolve(1, 1, 1)
         }
 
-        @Test
-        fun `Ignore negative offset`() {
-            test(createCalendar(Day(-years * 2)))
-        }
-
-        @Test
-        fun `Ignore positive offset`() {
-            test(createCalendar(Day(years * 2)))
-        }
-
-        private fun test(calendar: Calendar) {
-            assertResolve(calendar, -2, 0, 1)
-            assertResolve(calendar, -1, 0, 0)
-            assertResolve(calendar, 0, 1, 0) // 1 AD
-            assertResolve(calendar, 1, 1, 1)
-        }
-
-        private fun assertResolve(calendar: Calendar, inputYear: Int, eraIndex: Int, yearIndex: Int) {
+        private fun assertResolve(inputYear: Int, eraIndex: Int, yearIndex: Int) {
             val year = Year(inputYear)
             val displayYear = DisplayYear(eraIndex, yearIndex)
 
-            assertEquals(displayYear, calendar.resolveYear(year))
-            assertEquals(year, calendar.resolveYear(displayYear))
+            assertEquals(displayYear, resolveYear(year))
+            assertEquals(year, resolveYear(displayYear))
         }
     }
 
     @Nested
     inner class ResolveDecadeTest {
         @Test
-        fun `Test without offset`() {
-            test(calendar0)
+        fun `Test resolving decades`() {
+            assertResolve(-2, 0, 1)
+            assertResolve(-1, 0, 0)
+            assertResolve(0, 1, 0) // 1 AD
+            assertResolve(1, 1, 1)
         }
 
-        @Test
-        fun `Ignore negative offset`() {
-            test(createCalendar(Day(-years * 20)))
-        }
-
-        @Test
-        fun `Ignore positive offset`() {
-            test(createCalendar(Day(years * 20)))
-        }
-
-        private fun test(calendar: Calendar) {
-            assertResolve(calendar, -2, 0, 1)
-            assertResolve(calendar, -1, 0, 0)
-            assertResolve(calendar, 0, 1, 0) // 1 AD
-            assertResolve(calendar, 1, 1, 1)
-        }
-
-        private fun assertResolve(calendar: Calendar, inputDecade: Int, eraIndex: Int, decadeIndex: Int) {
+        private fun assertResolve(inputDecade: Int, eraIndex: Int, decadeIndex: Int) {
             val decade = Decade(inputDecade)
             val displayYDecade = DisplayDecade(eraIndex, decadeIndex)
 
-            assertEquals(displayYDecade, calendar.resolveDecade(decade))
-            assertEquals(decade, calendar.resolveDecade(displayYDecade))
+            assertEquals(displayYDecade, resolveDecade(decade))
+            assertEquals(decade, resolveDecade(displayYDecade))
         }
     }
 
     @Nested
     inner class ResolveCenturyTest {
         @Test
-        fun `Test without offset`() {
-            test(calendar0)
+        fun `Test resolving centuries`() {
+            assertResolve(-2, 0, 1)
+            assertResolve(-1, 0, 0)
+            assertResolve(0, 1, 0) // 1 AD
+            assertResolve(1, 1, 1)
         }
 
-        @Test
-        fun `Ignore negative offset`() {
-            test(createCalendar(Day(-years * 200)))
-        }
-
-        @Test
-        fun `Ignore positive offset`() {
-            test(createCalendar(Day(years * 200)))
-        }
-
-        private fun test(calendar: Calendar) {
-            assertResolve(calendar, -2, 0, 1)
-            assertResolve(calendar, -1, 0, 0)
-            assertResolve(calendar, 0, 1, 0) // 1 AD
-            assertResolve(calendar, 1, 1, 1)
-        }
-
-        private fun assertResolve(calendar: Calendar, inputCentury: Int, eraIndex: Int, centuryIndex: Int) {
+        private fun assertResolve(inputCentury: Int, eraIndex: Int, centuryIndex: Int) {
             val century = Century(inputCentury)
             val displayCentury = DisplayCentury(eraIndex, centuryIndex)
 
-            assertEquals(displayCentury, calendar.resolveCentury(century))
-            assertEquals(century, calendar.resolveCentury(displayCentury))
+            assertEquals(displayCentury, resolveCentury(century))
+            assertEquals(century, resolveCentury(displayCentury))
+        }
+    }
+
+    @Nested
+    inner class ResolveMillenniumTest {
+        @Test
+        fun `Test resolving millennia`() {
+            assertResolve(-2, 0, 1)
+            assertResolve(-1, 0, 0)
+            assertResolve(0, 1, 0)
+            assertResolve(1, 1, 1)
+        }
+
+        private fun assertResolve(inputCentury: Int, eraIndex: Int, millenniumIndex: Int) {
+            val millennium = Millennium(inputCentury)
+            val displayCentury = DisplayMillennium(eraIndex, millenniumIndex)
+
+            assertEquals(displayCentury, resolveMillennium(millennium))
+            assertEquals(millennium, resolveMillennium(displayCentury))
         }
     }
 

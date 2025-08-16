@@ -222,6 +222,7 @@ fun HtmlBlockTag.link(
             is Year -> link(call, calendar, date, text)
             is Decade -> link(call, calendar, date, text)
             is Century -> link(call, calendar, date, text)
+            is Millennium -> link(call, calendar, date, text)
         }
     }
 }
@@ -287,6 +288,15 @@ fun HtmlBlockTag.link(
     text: String,
 ) {
     link(call.application.href(TimeRoutes.ShowCentury(century, calendar)), text)
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    calendar: CalendarId,
+    millennium: Millennium,
+    text: String,
+) {
+    link(call.application.href(TimeRoutes.ShowMillennium(millennium, calendar)), text)
 }
 
 // element

@@ -39,4 +39,8 @@ private fun Calendar.getDateValue(
     is Century -> {
         date.century * daysPerYear * 100
     }
+
+    is Millennium -> {
+        date.millennium * daysPerYear * 1000
+    }
 }

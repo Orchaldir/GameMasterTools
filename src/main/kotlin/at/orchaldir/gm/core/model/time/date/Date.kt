@@ -16,6 +16,7 @@ enum class DateType {
     Year,
     Decade,
     Century,
+    Millennium,
 }
 
 @Serializable
@@ -29,6 +30,7 @@ sealed interface Date {
         is Year -> DateType.Year
         is Decade -> DateType.Decade
         is Century -> DateType.Century
+        is Millennium -> DateType.Millennium
     }
 
     fun next(): Date?
@@ -172,5 +174,20 @@ data class Century(val century: Int) : Date {
 
     operator fun compareTo(other: Century): Int {
         return century.compareTo(other.century)
+    }
+}
+
+@Serializable
+@SerialName("Millennium")
+data class Millennium(val millennium: Int) : Date {
+
+    override fun next() = nextMillennium()
+    override fun previous() = previousMillennium()
+
+    fun nextMillennium() = Millennium(millennium + 1)
+    fun previousMillennium() = Millennium(millennium - 1)
+
+    operator fun compareTo(other: Millennium): Int {
+        return millennium.compareTo(other.millennium)
     }
 }

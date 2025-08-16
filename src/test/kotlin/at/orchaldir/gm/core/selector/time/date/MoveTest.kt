@@ -88,7 +88,12 @@ class MoveTest {
 
         @Test
         fun `Move century up`() {
-            assertNull(calendar0.moveUp(Century(12)))
+            assertEquals(Millennium(1), calendar0.moveUp(Century(12)))
+        }
+
+        @Test
+        fun `Move millennium up`() {
+            assertNull(calendar0.moveUp(Millennium(12)))
         }
     }
 
@@ -378,9 +383,16 @@ class MoveTest {
                 assertStartYear(Century(2), 199)
             }
 
+            @Test
+            fun `Get the start year of a millennium`() {
+                assertStartYear(Millennium(-1), -999)
+                assertStartYear(Millennium(0), 0)
+                assertStartYear(Millennium(1), 999)
+            }
+
             private fun assertStartYear(input: Date, year: Int) {
                 val year = Year(year)
-                val display = calendar1.resolveYear(year)
+                val display = resolveYear(year)
 
                 assertEquals(year, calendar1.getStartYear(input))
                 assertEquals(display, calendar1.getStartDisplayYear(input))
@@ -429,6 +441,13 @@ class MoveTest {
 
         @Nested
         inner class GetStartDecadeTest {
+
+            @Test
+            fun `Get the start century of a millennium`() {
+                assertStartDecade(Millennium(-1), -100)
+                assertStartDecade(Millennium(0), 0)
+                assertStartDecade(Millennium(1), 100)
+            }
 
             @Test
             fun `Get the start decade of a century`() {
@@ -480,7 +499,7 @@ class MoveTest {
 
             private fun assertStartDecade(date: Date, result: Int) {
                 val decade = Decade(result)
-                val display = calendar1.resolveDecade(decade)
+                val display = resolveDecade(decade)
 
                 assertEquals(decade, calendar1.getStartDecade(date))
                 assertEquals(display, calendar1.getStartDisplayDecade(date))
@@ -530,6 +549,13 @@ class MoveTest {
 
         @Nested
         inner class GetCenturyTest {
+
+            @Test
+            fun `Get the start century of a millennium`() {
+                assertStartCentury(Millennium(-1), -10)
+                assertStartCentury(Millennium(0), 0)
+                assertStartCentury(Millennium(1), 10)
+            }
 
             @Test
             fun `Get the century of a century`() {
@@ -583,10 +609,120 @@ class MoveTest {
 
             private fun assertStartCentury(date: Date, result: Int) {
                 val century = Century(result)
-                val display = calendar1.resolveCentury(century)
+                val display = resolveCentury(century)
 
                 assertEquals(century, calendar1.getCentury(date))
                 assertEquals(display, calendar1.getDisplayCentury(date))
+            }
+        }
+    }
+
+    @Nested
+    inner class MillenniumTest {
+
+        @Test
+        fun `Display the start & end of a positive millennium`() {
+            val millennium = Millennium(2)
+
+            assertDisplay(calendar0.getStartDayOfMillennium(millennium), "1.1.2000 AD")
+            assertDisplay(calendar0.getEndDayOfMillennium(millennium), "3.2.2999 AD")
+        }
+
+        @Test
+        fun `The first millennium in AD only has 99 years`() {
+            val century = Millennium(0)
+
+            assertDisplay(calendar0.getStartDayOfMillennium(century), "1.1.1 AD")
+            assertDisplay(calendar0.getEndDayOfMillennium(century), "3.2.999 AD")
+        }
+
+        @Test
+        fun `The first millennium in BC only has 99 years`() {
+            val century = Millennium(-1)
+
+            assertDisplay(calendar0.getStartDayOfMillennium(century), "BC 1.1.999")
+            assertDisplay(calendar0.getEndDayOfMillennium(century), "BC 3.2.1")
+        }
+
+        @Test
+        fun `Display the start & end of a negative millennium`() {
+            val century = Millennium(-6)
+
+            assertDisplay(calendar0.getStartDayOfMillennium(century), "BC 1.1.5999")
+            assertDisplay(calendar0.getEndDayOfMillennium(century), "BC 3.2.5000")
+        }
+
+        private fun assertDisplay(day: Day, display: String) {
+            assertEquals(display, display(calendar0, day))
+        }
+
+
+        @Nested
+        inner class GetMillenniumTest {
+
+            @Test
+            fun `Get the millennium of a millennium`() {
+                assertStartMillennium(Millennium(-1), -1)
+                assertStartMillennium(Millennium(0), 0)
+                assertStartMillennium(Millennium(1), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a century`() {
+                assertStartMillennium(Century(-1), -1)
+                assertStartMillennium(Century(0), 0)
+                assertStartMillennium(Century(9), 0)
+                assertStartMillennium(Century(10), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a decade`() {
+                assertStartMillennium(Decade(-1), -1)
+                assertStartMillennium(Decade(0), 0)
+                assertStartMillennium(Decade(99), 0)
+                assertStartMillennium(Decade(100), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a year`() {
+                assertStartMillennium(Year(-1), -1)
+                assertStartMillennium(Year(0), 0)
+                assertStartMillennium(Year(998), 0)
+                assertStartMillennium(Year(999), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a month`() {
+                assertStartMillennium(Month(-1), -1)
+                assertStartMillennium(Month(0), 0)
+                assertStartMillennium(Month(5), 0)
+                assertStartMillennium(Month(1997), 0)
+                assertStartMillennium(Month(1998), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a week`() {
+                assertStartMillennium(Week(-1), -1)
+                assertStartMillennium(Week(0), 0)
+                assertStartMillennium(Week(2497), 0)
+                assertStartMillennium(Week(2498), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a day`() {
+                assertStartMillennium(endMonth2Bc1, -1)
+                assertStartMillennium(startMonth1Ad1, 0)
+                assertStartMillennium(Day(25), 0)
+                assertStartMillennium(Day(4994), 0)
+                assertStartMillennium(Day(4995), 1)
+            }
+
+            private fun assertStartMillennium(date: Date, result: Int) {
+                val century = Millennium(result)
+                val display = resolveMillennium(century)
+
+                assertEquals(century, calendar1.getMillennium(date))
+                assertEquals(display, calendar1.getDisplayMillennium(date))
             }
         }
     }
