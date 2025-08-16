@@ -61,7 +61,7 @@ fun HtmlBlockTag.displayWarResult(
         is Surrender -> +"Surrender"
         TotalVictory -> +"Total Victory"
         UndefinedWarResult -> if (showUndefined) {
-            +"Undefined"
+            +"Finished"
         }
     }
 }

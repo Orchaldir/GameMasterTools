@@ -39,6 +39,10 @@
     "date": {
      "type": "Year",
      "year": -319
+    },
+    "cause": {
+     "type": "War",
+     "war": 2
     }
    }
   }
