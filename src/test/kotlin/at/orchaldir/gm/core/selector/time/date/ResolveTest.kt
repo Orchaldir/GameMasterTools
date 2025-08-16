@@ -237,6 +237,25 @@ class ResolveTest {
         }
     }
 
+    @Nested
+    inner class ResolveMillenniumTest {
+        @Test
+        fun `Test resolving millennia`() {
+            assertResolve(-2, 0, 1)
+            assertResolve(-1, 0, 0)
+            assertResolve(0, 1, 0)
+            assertResolve(1, 1, 1)
+        }
+
+        private fun assertResolve(inputCentury: Int, eraIndex: Int, millenniumIndex: Int) {
+            val millennium = Millennium(inputCentury)
+            val displayCentury = DisplayMillennium(eraIndex, millenniumIndex)
+
+            assertEquals(displayCentury, resolveMillennium(millennium))
+            assertEquals(millennium, resolveMillennium(displayCentury))
+        }
+    }
+
     private fun createCalendar(date: Day) = createCalendar(calendar0, date)
 
     private fun createCalendar(calendar: Calendar, date: Day) = calendar
