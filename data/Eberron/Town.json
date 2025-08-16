@@ -23,7 +23,7 @@
     "year": 969
    },
    "status": {
-    "type": "Dead",
+    "type": "Destroyed",
     "date": {
      "type": "Year",
      "year": 986
@@ -45,7 +45,7 @@
    "name": "Metrol",
    "title": "The Rising City",
    "status": {
-    "type": "Dead",
+    "type": "Destroyed",
     "date": {
      "type": "Day",
      "day": 333695

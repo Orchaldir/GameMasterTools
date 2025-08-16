@@ -15,12 +15,16 @@ fun <ID : Id<ID>> checkVitalStatus(
     id: ID,
     status: VitalStatus,
     startDate: Date?,
+    allowedStatuses: Collection<VitalStatusType>,
+    allowedCauses: Collection<CauseOfDeathType>,
 ) {
+    require(allowedStatuses.contains(status.getType())) { "Invalid vital status ${status.getType()}!" }
+
     when (status) {
-        is Abandoned -> checkVitalStatus(state, id, startDate, status.date, status.cause)
+        is Abandoned -> checkVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
         Alive -> doNothing()
-        is Dead -> checkVitalStatus(state, id, startDate, status.date, status.cause)
-        is Destroyed -> checkVitalStatus(state, id, startDate, status.date, status.cause)
+        is Dead -> checkVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
+        is Destroyed -> checkVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
     }
 }
 
@@ -30,6 +34,7 @@ private fun <ID : Id<ID>> checkVitalStatus(
     startDate: Date?,
     date: Date,
     cause: CauseOfDeath,
+    allowedCauses: Collection<CauseOfDeathType>,
 ) {
     val calendar = state.getDefaultCalendar()
 
@@ -37,6 +42,8 @@ private fun <ID : Id<ID>> checkVitalStatus(
         require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Cannot died in the future!" }
         require(calendar.isAfterOrEqualOptional(it, startDate)) { "Cannot died before its origin!" }
     }
+
+    require(allowedCauses.contains(cause.getType())) { "Invalid status of death ${cause.getType()}!" }
 
     checkCauseOfDeath(state, id, cause)
 }

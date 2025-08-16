@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.SEXUAL_ORIENTATION_FOR_GENDERLESS
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
+import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.getChildren
 import at.orchaldir.gm.core.selector.character.getParents
@@ -72,7 +74,14 @@ fun validateCharacterData(
     state.getTitleStorage().requireOptional(character.title)
     checkSexualOrientation(character)
     checkOrigin(state, character)
-    checkVitalStatus(state, character.id, character.vitalStatus, character.birthDate)
+    checkVitalStatus(
+        state,
+        character.id,
+        character.vitalStatus,
+        character.birthDate,
+        VALID_VITAL_STATUS_FOR_CHARACTERS,
+        VALID_CAUSES_FOR_CHARACTERS,
+    )
     checkBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     checkHousingStatusHistory(state, character.housingStatus, character.birthDate)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)

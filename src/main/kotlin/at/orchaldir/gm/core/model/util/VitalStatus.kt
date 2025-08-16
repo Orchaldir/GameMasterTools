@@ -6,9 +6,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 val VALID_VITAL_STATUS_FOR_CHARACTERS = setOf(VitalStatusType.Alive, VitalStatusType.Dead)
-val VALID_VITAL_STATUS_FOR_REALM = VitalStatusType.entries -
+val VALID_VITAL_STATUS_FOR_REALMS = VitalStatusType.entries -
         VitalStatusType.Dead
-val VALID_VITAL_STATUS_FOR_TOWN = VALID_VITAL_STATUS_FOR_REALM
+val VALID_VITAL_STATUS_FOR_TOWNS = VALID_VITAL_STATUS_FOR_REALMS
 
 enum class VitalStatusType {
     Abandoned,

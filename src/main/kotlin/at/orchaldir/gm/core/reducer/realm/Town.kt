@@ -5,6 +5,10 @@ import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALMS
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWNS
+import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALMS
+import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_TOWNS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
@@ -54,7 +58,14 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
 fun validateTown(state: State, town: Town) {
     checkDate(state, town.foundingDate, "Town")
     validateCreator(state, town.founder, town.id, town.foundingDate, "founder")
-    checkVitalStatus(state, town.id, town.status, town.foundingDate)
+    checkVitalStatus(
+        state,
+        town.id,
+        town.status,
+        town.foundingDate,
+        VALID_VITAL_STATUS_FOR_TOWNS,
+        VALID_CAUSES_FOR_TOWNS,
+    )
     state.getDataSourceStorage().require(town.sources)
     checkHistory(state, town.owner, town.foundingDate, "owner") { _, realmId, _, date ->
         if (realmId != null) {

@@ -13,8 +13,8 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALM
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALM
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALMS
+import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALMS
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -84,8 +84,8 @@ fun FORM.editRealm(
         realm.id,
         realm.date,
         realm.status,
-        VALID_VITAL_STATUS_FOR_REALM,
-        VALID_CAUSES_FOR_REALM,
+        VALID_VITAL_STATUS_FOR_REALMS,
+        VALID_CAUSES_FOR_REALMS,
     )
     selectHistory(state, TOWN, realm.capital, realm.date, "Capital") { _, param, town, start ->
         selectOptionalElement(

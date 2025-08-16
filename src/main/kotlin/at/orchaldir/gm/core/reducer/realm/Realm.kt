@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALMS
+import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALMS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
 import at.orchaldir.gm.core.selector.realm.canDeleteRealm
@@ -64,7 +66,14 @@ fun validateRealm(state: State, realm: Realm) {
             require(realm.id != realmId) { "A realm cannot own itself!" }
         }
     }
-    checkVitalStatus(state, realm.id, realm.status, realm.date)
+    checkVitalStatus(
+        state,
+        realm.id,
+        realm.status,
+        realm.date,
+        VALID_VITAL_STATUS_FOR_REALMS,
+        VALID_CAUSES_FOR_REALMS,
+    )
     validateHasStartAndEnd(state, realm)
     validatePopulation(state, realm.population)
 }

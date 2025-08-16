@@ -9,11 +9,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 val VALID_CAUSES_FOR_CHARACTERS = CauseOfDeathType.entries
-val VALID_CAUSES_FOR_REALM = CauseOfDeathType.entries -
+val VALID_CAUSES_FOR_REALMS = CauseOfDeathType.entries -
         CauseOfDeathType.Accident -
         CauseOfDeathType.Murder -
         CauseOfDeathType.OldAge
-val VALID_CAUSES_FOR_TOWN = VALID_CAUSES_FOR_REALM
+val VALID_CAUSES_FOR_TOWNS = VALID_CAUSES_FOR_REALMS
 
 enum class CauseOfDeathType {
     Accident,
