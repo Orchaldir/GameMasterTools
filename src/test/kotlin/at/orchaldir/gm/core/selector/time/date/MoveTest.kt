@@ -596,6 +596,116 @@ class MoveTest {
         }
     }
 
+    @Nested
+    inner class MillenniumTest {
+
+        @Test
+        fun `Display the start & end of a positive millennium`() {
+            val millennium = Millennium(2)
+
+            assertDisplay(calendar0.getStartDayOfMillennium(millennium), "1.1.2000 AD")
+            assertDisplay(calendar0.getEndDayOfMillennium(millennium), "3.2.2999 AD")
+        }
+
+        @Test
+        fun `The first millennium in AD only has 99 years`() {
+            val century = Millennium(0)
+
+            assertDisplay(calendar0.getStartDayOfMillennium(century), "1.1.1 AD")
+            assertDisplay(calendar0.getEndDayOfMillennium(century), "3.2.999 AD")
+        }
+
+        @Test
+        fun `The first millennium in BC only has 99 years`() {
+            val century = Millennium(-1)
+
+            assertDisplay(calendar0.getStartDayOfMillennium(century), "BC 1.1.999")
+            assertDisplay(calendar0.getEndDayOfMillennium(century), "BC 3.2.1")
+        }
+
+        @Test
+        fun `Display the start & end of a negative millennium`() {
+            val century = Millennium(-6)
+
+            assertDisplay(calendar0.getStartDayOfMillennium(century), "BC 1.1.5999")
+            assertDisplay(calendar0.getEndDayOfMillennium(century), "BC 3.2.5000")
+        }
+
+        private fun assertDisplay(day: Day, display: String) {
+            assertEquals(display, display(calendar0, day))
+        }
+
+
+        @Nested
+        inner class GetMillenniumTest {
+
+            @Test
+            fun `Get the millennium of a millennium`() {
+                assertStartMillennium(Millennium(-1), -1)
+                assertStartMillennium(Millennium(0), 0)
+                assertStartMillennium(Millennium(1), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a century`() {
+                assertStartMillennium(Century(-1), -1)
+                assertStartMillennium(Century(0), 0)
+                assertStartMillennium(Century(9), 0)
+                assertStartMillennium(Century(10), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a decade`() {
+                assertStartMillennium(Decade(-1), -1)
+                assertStartMillennium(Decade(0), 0)
+                assertStartMillennium(Decade(99), 0)
+                assertStartMillennium(Decade(100), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a year`() {
+                assertStartMillennium(Year(-1), -1)
+                assertStartMillennium(Year(0), 0)
+                assertStartMillennium(Year(998), 0)
+                assertStartMillennium(Year(999), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a month`() {
+                assertStartMillennium(Month(-1), -1)
+                assertStartMillennium(Month(0), 0)
+                assertStartMillennium(Month(5), 0)
+                assertStartMillennium(Month(1997), 0)
+                assertStartMillennium(Month(1998), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a week`() {
+                assertStartMillennium(Week(-1), -1)
+                assertStartMillennium(Week(0), 0)
+                assertStartMillennium(Week(2497), 0)
+                assertStartMillennium(Week(2498), 1)
+            }
+
+            @Test
+            fun `Get the millennium of a day`() {
+                assertStartMillennium(endMonth2Bc1, -1)
+                assertStartMillennium(startMonth1Ad1, 0)
+                assertStartMillennium(Day(25), 0)
+                assertStartMillennium(Day(4994), 0)
+                assertStartMillennium(Day(4995), 1)
+            }
+
+            private fun assertStartMillennium(date: Date, result: Int) {
+                val century = Millennium(result)
+                val display = resolveMillennium(century)
+
+                assertEquals(century, calendar1.getMillennium(date))
+                assertEquals(display, calendar1.getDisplayMillennium(date))
+            }
+        }
+    }
+
     companion object {
         @JvmStatic
         fun provideStartOfYear(): Stream<Arguments> {
