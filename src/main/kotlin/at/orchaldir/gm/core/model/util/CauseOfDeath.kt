@@ -8,8 +8,7 @@ import at.orchaldir.gm.core.model.realm.WarId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val VALID_CAUSES_FOR_CHARACTERS = CauseOfDeathType.entries -
-        CauseOfDeathType.Abandoned
+val VALID_CAUSES_FOR_CHARACTERS = CauseOfDeathType.entries
 val VALID_CAUSES_FOR_REALM = CauseOfDeathType.entries -
         CauseOfDeathType.Accident -
         CauseOfDeathType.Murder -
@@ -17,7 +16,6 @@ val VALID_CAUSES_FOR_REALM = CauseOfDeathType.entries -
 val VALID_CAUSES_FOR_TOWN = VALID_CAUSES_FOR_REALM
 
 enum class CauseOfDeathType {
-    Abandoned,
     Accident,
     Battle,
     Catastrophe,
@@ -31,7 +29,6 @@ enum class CauseOfDeathType {
 @Serializable
 sealed class CauseOfDeath {
     fun getType() = when (this) {
-        is Abandoned -> CauseOfDeathType.Abandoned
         is Accident -> CauseOfDeathType.Accident
         is DeathByCatastrophe -> CauseOfDeathType.Catastrophe
         is DeathByDisease -> CauseOfDeathType.Disease
@@ -42,10 +39,6 @@ sealed class CauseOfDeath {
         is UndefinedCauseOfDeath -> CauseOfDeathType.Undefined
     }
 }
-
-@Serializable
-@SerialName("Abandoned")
-data object Abandoned : CauseOfDeath()
 
 @Serializable
 @SerialName("Accident")

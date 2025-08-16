@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALM
+import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -78,7 +79,14 @@ fun FORM.editRealm(
     editPopulation(call, state, realm.population)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
     selectOptionalDate(state, "Date", realm.date, DATE)
-    selectVitalStatus(state, realm.id, realm.date, realm.status, VALID_CAUSES_FOR_REALM)
+    selectVitalStatus(
+        state,
+        realm.id,
+        realm.date,
+        realm.status,
+        VALID_VITAL_STATUS_FOR_REALM,
+        VALID_CAUSES_FOR_REALM,
+    )
     selectHistory(state, TOWN, realm.capital, realm.date, "Capital") { _, param, town, start ->
         selectOptionalElement(
             state,

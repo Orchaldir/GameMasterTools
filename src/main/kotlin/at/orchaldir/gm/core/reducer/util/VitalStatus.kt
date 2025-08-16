@@ -16,24 +16,36 @@ fun <ID : Id<ID>> checkVitalStatus(
     status: VitalStatus,
     startDate: Date?,
 ) {
-    if (status is Dead) {
-        val calendar = state.getDefaultCalendar()
-
-        status.deathDay.let {
-            require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Cannot died in the future!" }
-            require(calendar.isAfterOrEqualOptional(it, startDate)) { "Cannot died before its origin!" }
-        }
-
-        checkCauseOfDeath(state, id, status)
+    when (status) {
+        is Abandoned -> checkVitalStatus(state, id, startDate, status.date, status.cause)
+        Alive -> doNothing()
+        is Dead -> checkVitalStatus(state, id, startDate, status.date, status.cause)
+        is Destroyed -> checkVitalStatus(state, id, startDate, status.date, status.cause)
     }
+}
+
+private fun <ID : Id<ID>> checkVitalStatus(
+    state: State,
+    id: ID,
+    startDate: Date?,
+    date: Date,
+    cause: CauseOfDeath,
+) {
+    val calendar = state.getDefaultCalendar()
+
+    date.let {
+        require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Cannot died in the future!" }
+        require(calendar.isAfterOrEqualOptional(it, startDate)) { "Cannot died before its origin!" }
+    }
+
+    checkCauseOfDeath(state, id, cause)
 }
 
 private fun <ID : Id<ID>> checkCauseOfDeath(
     state: State,
     id: ID,
-    dead: Dead,
-) = when (val cause = dead.cause) {
-    Abandoned -> doNothing()
+    cause: CauseOfDeath,
+) = when (cause) {
     Accident -> doNothing()
     is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
     is DeathByDisease -> checkCauseElement(state.getDiseaseStorage(), cause.disease)

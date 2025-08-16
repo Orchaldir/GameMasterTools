@@ -24,6 +24,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
+import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
@@ -69,7 +70,7 @@ fun HtmlBlockTag.showData(
         UndefinedAppearance -> doNothing()
     }
     field(call, state, "Birthdate", character.birthDate)
-    showVitalStatus(call, state, character.vitalStatus, "Death")
+    showVitalStatus(call, state, character.vitalStatus)
     showAge(state, character, race)
     showHousingStatusHistory(call, state, character.housingStatus)
     showEmploymentStatusHistory(call, state, character.employmentStatus)
@@ -228,6 +229,7 @@ fun FORM.editCharacter(
         character.id,
         character.birthDate,
         character.vitalStatus,
+        VALID_VITAL_STATUS_FOR_CHARACTERS,
         VALID_CAUSES_FOR_CHARACTERS,
     )
     showAge(state, character, race)
