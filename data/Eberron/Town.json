@@ -24,7 +24,7 @@
    },
    "status": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Year",
      "year": 986
     },
@@ -46,7 +46,7 @@
    "title": "The Rising City",
    "status": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Day",
      "day": 333695
     },

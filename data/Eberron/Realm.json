@@ -14,7 +14,7 @@
    },
    "status": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Year",
      "year": 893
     },
@@ -127,7 +127,7 @@
    "name": "Cyre",
    "status": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Day",
      "day": 333695
     },

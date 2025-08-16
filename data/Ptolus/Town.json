@@ -35,13 +35,10 @@
     "organization": 1
    },
    "status": {
-    "type": "Dead",
-    "deathDay": {
+    "type": "Abandoned",
+    "date": {
      "type": "Year",
      "year": -319
-    },
-    "cause": {
-     "type": "Abandoned"
     }
    }
   }

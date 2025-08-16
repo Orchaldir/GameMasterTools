@@ -16,6 +16,11 @@ class DataTest {
     }
 
     @Test
+    fun `Load Ptolus`() {
+        test("data/Ptolus")
+    }
+
+    @Test
     fun `Load Waterdeep`() {
         test("data/Waterdeep")
     }

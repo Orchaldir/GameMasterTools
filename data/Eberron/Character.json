@@ -990,7 +990,7 @@
    },
    "vitalStatus": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Year",
      "year": 52
     },
@@ -1044,7 +1044,7 @@
    },
    "vitalStatus": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Day",
      "day": 300115
     },

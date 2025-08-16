@@ -15,7 +15,7 @@
    },
    "vitalStatus": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Year",
      "year": 1797
     },
@@ -385,7 +385,7 @@
    },
    "vitalStatus": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Year",
      "year": 1909
     },
@@ -838,7 +838,7 @@
    },
    "vitalStatus": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Year",
      "year": 737
     },
@@ -862,7 +862,7 @@
    },
    "vitalStatus": {
     "type": "Dead",
-    "deathDay": {
+    "date": {
      "type": "Decade",
      "decade": 96
     },

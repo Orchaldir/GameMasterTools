@@ -60,7 +60,7 @@ sealed class VitalStatus {
 @SerialName("Abandoned")
 data class Abandoned(
     val date: Date,
-    val cause: CauseOfDeath,
+    val cause: CauseOfDeath = UndefinedCauseOfDeath,
 ) : VitalStatus()
 
 @Serializable
@@ -71,12 +71,12 @@ data object Alive : VitalStatus()
 @SerialName("Dead")
 data class Dead(
     val date: Date,
-    val cause: CauseOfDeath,
+    val cause: CauseOfDeath = UndefinedCauseOfDeath,
 ) : VitalStatus()
 
 @Serializable
 @SerialName("Destroyed")
 data class Destroyed(
     val date: Date,
-    val cause: CauseOfDeath,
+    val cause: CauseOfDeath = UndefinedCauseOfDeath,
 ) : VitalStatus()
