@@ -383,6 +383,13 @@ class MoveTest {
                 assertStartYear(Century(2), 199)
             }
 
+            @Test
+            fun `Get the start year of a millennium`() {
+                assertStartYear(Millennium(-1), -999)
+                assertStartYear(Millennium(0), 0)
+                assertStartYear(Millennium(1), 999)
+            }
+
             private fun assertStartYear(input: Date, year: Int) {
                 val year = Year(year)
                 val display = resolveYear(year)
@@ -434,6 +441,13 @@ class MoveTest {
 
         @Nested
         inner class GetStartDecadeTest {
+
+            @Test
+            fun `Get the start century of a millennium`() {
+                assertStartDecade(Millennium(-1), -100)
+                assertStartDecade(Millennium(0), 0)
+                assertStartDecade(Millennium(1), 100)
+            }
 
             @Test
             fun `Get the start decade of a century`() {
@@ -535,6 +549,13 @@ class MoveTest {
 
         @Nested
         inner class GetCenturyTest {
+
+            @Test
+            fun `Get the start century of a millennium`() {
+                assertStartCentury(Millennium(-1), -10)
+                assertStartCentury(Millennium(0), 0)
+                assertStartCentury(Millennium(1), 10)
+            }
 
             @Test
             fun `Get the century of a century`() {
