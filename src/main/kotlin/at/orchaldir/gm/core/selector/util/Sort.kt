@@ -220,7 +220,7 @@ fun State.sortCharacters(
             when (sort) {
                 SortCharacter.Name -> compareBy { it.second }
                 SortCharacter.Start -> getCharacterStartDatePairComparator()
-                SortCharacter.Age -> compareByDescending { it.first.getAge(this, currentDay).day }
+                SortCharacter.Age -> compareByDescending { it.first.getAge(this, currentDay).days }
             })
         .map { it.first }
 }
@@ -767,4 +767,5 @@ fun State.sortWars(
             SortWar.Name -> compareBy { it.name.text }
             SortWar.Start -> getStartDateComparator()
             SortWar.End -> getEndDateComparator()
+            SortWar.Duration -> compareByDescending { it.getDuration(this).days }
         })

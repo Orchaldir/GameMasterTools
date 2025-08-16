@@ -4,6 +4,51 @@
   "0": {
    "id": 0,
    "name": "Wars of Fire"
+  },
+  "1": {
+   "id": 1,
+   "name": "1.Dwarven-Dark Elf War",
+   "startDate": {
+    "type": "Year",
+    "year": -443
+   },
+   "status": {
+    "type": "Finished",
+    "date": {
+     "type": "Year",
+     "year": -376
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Ghulwar",
+   "startDate": {
+    "type": "Year",
+    "year": -330
+   },
+   "status": {
+    "type": "Finished",
+    "date": {
+     "type": "Year",
+     "year": -55
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "2.Dwarven-Dark Elf War",
+   "startDate": {
+    "type": "Year",
+    "year": -351
+   },
+   "status": {
+    "type": "Finished",
+    "date": {
+     "type": "Year",
+     "year": -343
+    }
+   }
   }
  }
 }

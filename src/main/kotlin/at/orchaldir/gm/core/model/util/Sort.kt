@@ -228,4 +228,5 @@ enum class SortWar {
     Name,
     Start,
     End,
+    Duration,
 }
