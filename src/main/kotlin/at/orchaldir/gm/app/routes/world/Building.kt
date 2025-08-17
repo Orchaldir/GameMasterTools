@@ -352,7 +352,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
 
         NoAddress -> doNothing()
         is StreetAddress -> {
-            selectElement(state, "Street", combine(ADDRESS, STREET), streets, address.street)
+            selectElement(state, combine(ADDRESS, STREET), streets, address.street)
             selectHouseNumber(
                 address.houseNumber,
                 state.getHouseNumbersUsedByOthers(building.lot.town, address),

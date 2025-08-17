@@ -113,7 +113,6 @@ private fun HtmlBlockTag.editWarResult(
         is InterruptedByCatastrophe -> {
             selectElement(
                 state,
-                "Catastrophe",
                 CATASTROPHE,
                 catastrophes,
                 result.catastrophe,

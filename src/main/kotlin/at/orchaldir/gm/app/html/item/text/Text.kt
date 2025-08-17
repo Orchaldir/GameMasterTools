@@ -65,7 +65,7 @@ fun FORM.editText(
     )
     selectOptionalDate(state, "Date", text.date, DATE)
     selectOptionalElement(state, "Publisher", BUSINESS, businesses, text.publisher)
-    selectElement(state, "Language", LANGUAGE, languages, text.language)
+    selectElement(state, LANGUAGE, languages, text.language)
     editTextFormat(state, text.format, hasAuthor)
     editTextContent(state, text.content)
     editDataSources(state, text.sources)

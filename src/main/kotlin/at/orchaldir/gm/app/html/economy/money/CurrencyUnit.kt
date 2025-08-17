@@ -116,7 +116,6 @@ fun FORM.editCurrencyUnit(
     showDetails("Value", true) {
         selectElement(
             state,
-            "Currency",
             CURRENCY,
             state.getCurrencyStorage().getAll(),
             unit.currency,

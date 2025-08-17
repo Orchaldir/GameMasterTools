@@ -162,7 +162,7 @@ fun FORM.editCulture(
     culture: Culture,
 ) {
     selectName(culture.name)
-    selectElement(state, "Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll(), culture.calendar)
+    selectElement(state, CALENDAR_TYPE, state.getCalendarStorage().getAll(), culture.calendar)
     selectRarityMap(
         "Languages",
         LANGUAGES,

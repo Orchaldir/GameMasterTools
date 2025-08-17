@@ -221,7 +221,7 @@ fun FORM.editCharacter(
 
     selectCharacterName(state, character)
     selectOptionalElement(state, "Title", TITLE, state.getTitleStorage().getAll(), character.title)
-    selectElement(state, "Race", RACE, state.sortRaces(races), character.race)
+    selectElement(state, RACE, state.sortRaces(races), character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
     selectVitalStatus(
@@ -238,7 +238,7 @@ fun FORM.editCharacter(
 
     h2 { +"Social" }
 
-    selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
+    selectElement(state, CULTURE, state.getCultureStorage().getAll(), character.culture)
     editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     editPersonality(call, state, character.personality)
     if (character.gender == Gender.Genderless) {

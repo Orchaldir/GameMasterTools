@@ -47,7 +47,6 @@ fun FORM.editDistrict(
     selectName(district.name)
     selectElement(
         state,
-        "Town",
         TOWN,
         state.getExistingTowns(district.foundingDate),
         district.town,

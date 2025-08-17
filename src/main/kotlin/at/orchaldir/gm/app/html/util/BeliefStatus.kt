@@ -65,10 +65,9 @@ fun HtmlBlockTag.editBeliefStatus(
 
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()
-        is WorshipsGod -> selectElement(state, "God", combine(param, GOD), state.sortGods(), status.god)
+        is WorshipsGod -> selectElement(state, combine(param, GOD), state.sortGods(), status.god)
         is WorshipsPantheon -> selectElement(
             state,
-            "Pantheon",
             combine(param, PANTHEON),
             state.sortPantheons(),
             status.pantheon

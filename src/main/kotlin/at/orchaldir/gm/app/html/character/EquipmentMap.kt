@@ -93,7 +93,6 @@ private fun FORM.selectEquipment(
 
                     selectElement(
                         state,
-                        "Color Schema",
                         combine(COLOR, slotsParam),
                         colorSchemes,
                         currentSchema,

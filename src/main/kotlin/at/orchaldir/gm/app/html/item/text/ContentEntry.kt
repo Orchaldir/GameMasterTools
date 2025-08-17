@@ -65,7 +65,6 @@ fun HtmlBlockTag.editContentEntries(
             is SimpleQuote -> editText(entryParam, entry.text)
             is LinkedQuote -> selectElement(
                 state,
-                "Quote",
                 QUOTE,
                 state.getQuoteStorage().getAll(),
                 entry.quote,

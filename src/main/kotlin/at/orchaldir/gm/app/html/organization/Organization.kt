@@ -91,7 +91,6 @@ private fun FORM.editMembers(
 
         selectElement(
             state,
-            "Character",
             combine(memberParam, CHARACTER),
             potentialCharacters,
             characterId,

@@ -110,7 +110,6 @@ fun HtmlBlockTag.selectHousingStatus(
 
         is InDistrict -> selectElement(
             state,
-            "District",
             combine(param, DISTRICT),
             districts,
             status.district,
@@ -125,7 +124,6 @@ fun HtmlBlockTag.selectHousingStatus(
 
         is InRealm -> selectElement(
             state,
-            "Realm",
             combine(param, REALM),
             realms,
             status.realm,
@@ -133,7 +131,6 @@ fun HtmlBlockTag.selectHousingStatus(
 
         is InTown -> selectElement(
             state,
-            "Town",
             combine(param, TOWN),
             towns,
             status.town,

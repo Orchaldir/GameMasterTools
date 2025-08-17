@@ -119,7 +119,6 @@ private fun HtmlBlockTag.editSalary(
         UndefinedIncome -> doNothing()
         is AffordableStandardOfLiving -> selectElement(
             state,
-            "Standard of Living",
             STANDARD,
             state.data.economy.standardsOfLiving,
             income.standard,
