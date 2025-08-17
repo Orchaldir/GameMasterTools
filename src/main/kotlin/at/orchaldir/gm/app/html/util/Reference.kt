@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
 import at.orchaldir.gm.core.selector.util.*
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -62,24 +63,29 @@ fun HtmlBlockTag.showReference(
 
 // select
 
-fun <ID : Id<ID>> HtmlBlockTag.selectReference(
+fun HtmlBlockTag.selectReference(
     state: State,
     reference: Reference,
-    created: ID,
     date: Date?,
     param: String,
+    filter: (Any) -> Boolean,
 ) {
     val businesses = state.getOpenBusinesses(date)
-        .filter { it.id != created }
+        .filter { filter(it) }
     val characters = state.getLiving(date)
-    val cultures = state.getCultureStorage().getAll()
-    val gods = state.getGodStorage().getAll()
+        .filter { filter(it) }
+    val cultures = state.getCultureStorage()
+        .getAll()
+        .filter { filter(it) }
+    val gods = state.getGodStorage()
+        .getAll()
+        .filter { filter(it) }
     val organizations = state.getExistingOrganizations(date)
-        .filter { it.id != created }
+        .filter { filter(it) }
     val realms = state.getExistingRealms(date)
-        .filter { it.id != created }
+        .filter { filter(it) }
     val towns = state.getExistingTowns(date)
-        .filter { it.id != created }
+        .filter { filter(it) }
 
     selectValue("Type", param, ReferenceType.entries, reference.getType()) { type ->
         when (type) {
