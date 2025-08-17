@@ -27,7 +27,7 @@ data class War(
     val name: Name = Name.init(id),
     val startDate: Date? = null,
     val status: WarStatus = FinishedWar(),
-    val realms: Set<RealmId> = emptySet(),
+    val stage: WarStage,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<WarId>, HasDataSources, HasStartAndEndDate {
 
