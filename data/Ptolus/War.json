@@ -49,6 +49,28 @@
      "year": -343
     }
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "The Eastern Invasion",
+   "startDate": {
+    "type": "Year",
+    "year": 699
+   },
+   "status": {
+    "type": "Finished",
+    "result": {
+     "type": "TotalVictory"
+    },
+    "date": {
+     "type": "Year",
+     "year": 713
+    }
+   },
+   "realms": [
+    2,
+    0
+   ]
   }
  }
 }
