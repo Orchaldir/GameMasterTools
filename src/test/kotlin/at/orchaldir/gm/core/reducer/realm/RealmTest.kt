@@ -211,22 +211,40 @@ class RealmTest {
             assertIllegalArgument("Requires unknown Currency 99!") { REDUCER.invoke(STATE, action) }
         }
 
-        @Test
-        fun `The catastrophe that destroyed the realm must exist`() {
-            val status = Dead(DAY0, DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
-            val realm = Realm(REALM_ID_0, status = status)
-            val action = UpdateRealm(realm)
+        @Nested
+        inner class VitalStatusTest {
 
-            assertIllegalArgument("Cannot die from an unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
-        }
+            @Test
+            fun `A realm cannot die`() {
+                val status = Dead(DAY0, DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
+                val realm = Realm(REALM_ID_0, status = status)
+                val action = UpdateRealm(realm)
 
-        @Test
-        fun `The war that destroyed the realm must exist`() {
-            val status = Dead(DAY0, DeathInWar(UNKNOWN_WAR_ID))
-            val realm = Realm(REALM_ID_0, status = status)
-            val action = UpdateRealm(realm)
+                assertIllegalArgument("Invalid vital status Dead!") { REDUCER.invoke(STATE, action) }
+            }
 
-            assertIllegalArgument("Cannot die from an unknown War 99!") { REDUCER.invoke(STATE, action) }
+            @Test
+            fun `A realm can be alive`() {
+                testValidStatus(Alive)
+            }
+
+            @Test
+            fun `A realm can be abandoned`() {
+                testValidStatus(Abandoned(DAY0))
+            }
+
+            @Test
+            fun `A realm can be destroyed`() {
+                testValidStatus(Destroyed(DAY0))
+            }
+
+            private fun testValidStatus(status: VitalStatus) {
+                val realm = Realm(REALM_ID_0, status = status)
+                val action = UpdateRealm(realm)
+
+                REDUCER.invoke(STATE, action);
+            }
+
         }
 
         @Test

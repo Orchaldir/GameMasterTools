@@ -59,7 +59,7 @@ class VitalStatusTest {
 
         @Test
         fun `Destroyed a realm`() {
-            val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
+            val dead = Destroyed(DAY0, DeathInBattle(BATTLE_ID_0))
             val realm = Realm(REALM_ID_0, status = dead)
             val newState = state.updateStorage(Storage(realm))
 
@@ -70,7 +70,7 @@ class VitalStatusTest {
 
         @Test
         fun `Destroyed a town`() {
-            val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
+            val dead = Destroyed(DAY0, DeathInBattle(BATTLE_ID_0))
             val town = Town(TOWN_ID_0, status = dead)
             val newState = state.updateStorage(Storage(town))
 

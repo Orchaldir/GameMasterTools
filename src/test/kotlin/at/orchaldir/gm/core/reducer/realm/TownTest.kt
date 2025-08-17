@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteTown
+import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
@@ -158,6 +159,42 @@ class TownTest {
             val action = UpdateTown(Town(UNKNOWN_TOWN_ID))
 
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Nested
+        inner class VitalStatusTest {
+
+            @Test
+            fun `A town cannot die`() {
+                val status = Dead(DAY0, DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
+                val town = Town(TOWN_ID_0, status = status)
+                val action = UpdateTown(town)
+
+                assertIllegalArgument("Invalid vital status Dead!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `A town can be alive`() {
+                testValidStatus(Alive)
+            }
+
+            @Test
+            fun `A town can be abandoned`() {
+                testValidStatus(Abandoned(DAY0))
+            }
+
+            @Test
+            fun `A town can be destroyed`() {
+                testValidStatus(Destroyed(DAY0))
+            }
+
+            private fun testValidStatus(status: VitalStatus) {
+                val town = Town(TOWN_ID_0, status = status)
+                val action = UpdateTown(town)
+
+                REDUCER.invoke(STATE, action);
+            }
+
         }
 
         @Test
