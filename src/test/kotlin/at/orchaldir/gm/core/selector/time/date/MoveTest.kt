@@ -107,28 +107,27 @@ class MoveTest {
 
         @Test
         fun `Test day`() {
-            val day = Day(7)
-            assertDayRange(day, day, day)
+            assertDayRange(Day(7), 7, 7)
         }
 
         @Test
         fun `Test week`() {
-            assertDayRange(Week(0), Day(0), Day(1))
+            assertDayRange(Week(0), 0, 1)
         }
 
         @Test
         fun `Test year`() {
-            assertDayRange(Year(1), Day(5), Day(9))
+            assertDayRange(Year(1), 5, 9)
         }
 
         @Test
         fun `Test decade`() {
-            assertDayRange(Decade(1), Day(45), Day(94))
+            assertDayRange(Decade(1), 45, 94)
         }
 
-        private fun assertDayRange(date: Date, start: Day, end: Day) {
+        private fun assertDayRange(date: Date, startDay: Int, endDay: Int) {
             assertEquals(
-                DayRange(start, end),
+                DayRange(Day(startDay), Day(endDay)),
                 calendar1.getDayRange(date),
             )
         }
