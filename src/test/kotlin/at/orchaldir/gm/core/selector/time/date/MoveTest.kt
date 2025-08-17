@@ -125,6 +125,16 @@ class MoveTest {
             assertDayRange(Decade(1), 45, 94)
         }
 
+        @Test
+        fun `Test century`() {
+            assertDayRange(Century(1), 495, 994)
+        }
+
+        @Test
+        fun `Test millennium`() {
+            assertDayRange(Millennium(1), 4995, 9994)
+        }
+
         private fun assertDayRange(date: Date, startDay: Int, endDay: Int) {
             assertEquals(
                 DayRange(Day(startDay), Day(endDay)),
