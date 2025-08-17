@@ -42,5 +42,5 @@ data object OngoingWar : WarStatus()
 @SerialName("Finished")
 data class FinishedWar(
     val result: WarResult = UndefinedWarResult,
-    val date: Date,
+    val date: Date? = null,
 ) : WarStatus()

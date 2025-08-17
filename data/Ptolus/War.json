@@ -3,7 +3,11 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Wars of Fire"
+   "name": "Wars of Fire",
+   "startDate": {
+    "type": "~Year",
+    "year": -4000
+   }
   },
   "1": {
    "id": 1,

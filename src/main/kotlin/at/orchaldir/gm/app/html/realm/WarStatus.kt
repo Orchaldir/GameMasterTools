@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.parseDate
+import at.orchaldir.gm.app.html.util.parseOptionalDate
 import at.orchaldir.gm.app.html.util.selectOptionalDate
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -92,7 +93,7 @@ fun FORM.editWarStatus(
 private fun HtmlBlockTag.editWarResult(
     state: State,
     result: WarResult,
-    deathDay: Date,
+    deathDay: Date?,
 ) {
     val catastrophes = state.getExistingCatastrophes(deathDay)
 
@@ -151,7 +152,7 @@ fun parseWarStatus(
     WarStatusType.Ongoing -> OngoingWar
     WarStatusType.Finished -> FinishedWar(
         parseWarResult(parameters),
-        parseDate(parameters, state, combine(END, DATE)),
+        parseOptionalDate(parameters, state, combine(END, DATE)),
     )
 }
 
