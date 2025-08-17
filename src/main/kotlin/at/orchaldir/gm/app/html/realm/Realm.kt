@@ -101,7 +101,7 @@ fun FORM.editRealm(
             state,
             "Realm",
             param,
-            state.getExistingRealms(start),
+            state.getExistingRealms(start).filter { it.id != realm.id },
             owner,
         )
     }
