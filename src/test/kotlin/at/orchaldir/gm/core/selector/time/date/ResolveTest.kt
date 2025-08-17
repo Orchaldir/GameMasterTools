@@ -158,6 +158,25 @@ class ResolveTest {
     }
 
     @Nested
+    inner class ResolveApproximateYearTest {
+        @Test
+        fun `Test resolving years`() {
+            assertResolve(-2, 0, 1)
+            assertResolve(-1, 0, 0)
+            assertResolve(0, 1, 0) // 1 AD
+            assertResolve(1, 1, 1)
+        }
+
+        private fun assertResolve(inputYear: Int, eraIndex: Int, yearIndex: Int) {
+            val year = ApproximateYear(inputYear)
+            val displayYear = DisplayApproximateYear(eraIndex, yearIndex)
+
+            assertEquals(displayYear, resolveApproximateYear(year))
+            assertEquals(year, resolveApproximateYear(displayYear))
+        }
+    }
+
+    @Nested
     inner class ResolveDecadeTest {
         @Test
         fun `Test resolving decades`() {

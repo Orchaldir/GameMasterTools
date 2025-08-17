@@ -4,6 +4,10 @@
   "0": {
    "id": 0,
    "name": "Siege of Tarsis",
+   "date": {
+    "type": "Year",
+    "year": 708
+   },
    "war": 4,
    "participants": [
     {

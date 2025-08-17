@@ -82,6 +82,11 @@ class MoveTest {
         }
 
         @Test
+        fun `Move approximate year up`() {
+            assertEquals(Decade(3), calendar0.moveUp(ApproximateYear(33)))
+        }
+
+        @Test
         fun `Move decade up`() {
             assertEquals(Century(1), calendar0.moveUp(Decade(12)))
         }
@@ -102,25 +107,38 @@ class MoveTest {
 
         @Test
         fun `Test day`() {
-            assertEquals(
-                DayRange(Day(7), Day(7)),
-                calendar1.getDayRange(Day(7)),
-            )
+            assertDayRange(Day(7), 7, 7)
         }
 
         @Test
         fun `Test week`() {
-            assertEquals(
-                DayRange(Day(0), Day(1)),
-                calendar1.getDayRange(Week(0)),
-            )
+            assertDayRange(Week(0), 0, 1)
         }
 
         @Test
         fun `Test year`() {
+            assertDayRange(Year(1), 5, 9)
+        }
+
+        @Test
+        fun `Test decade`() {
+            assertDayRange(Decade(1), 45, 94)
+        }
+
+        @Test
+        fun `Test century`() {
+            assertDayRange(Century(1), 495, 994)
+        }
+
+        @Test
+        fun `Test millennium`() {
+            assertDayRange(Millennium(1), 4995, 9994)
+        }
+
+        private fun assertDayRange(date: Date, startDay: Int, endDay: Int) {
             assertEquals(
-                DayRange(Day(5), Day(9)),
-                calendar1.getDayRange(Year(1)),
+                DayRange(Day(startDay), Day(endDay)),
+                calendar1.getDayRange(date),
             )
         }
 

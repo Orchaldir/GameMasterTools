@@ -28,19 +28,9 @@ private fun Calendar.getDateValue(
     is DayRange -> date.startDay.day
     is Week -> date.week * daysPerWeek
     is Month -> getStartDayOfMonth(date).day
-    is Year -> {
-        date.year * daysPerYear
-    }
-
-    is Decade -> {
-        date.decade * daysPerYear * 10
-    }
-
-    is Century -> {
-        date.century * daysPerYear * 100
-    }
-
-    is Millennium -> {
-        date.millennium * daysPerYear * 1000
-    }
+    is Year -> date.year * daysPerYear
+    is ApproximateYear -> date.year * daysPerYear
+    is Decade -> date.decade * daysPerYear * 10
+    is Century -> date.century * daysPerYear * 100
+    is Millennium -> date.millennium * daysPerYear * 1000
 }

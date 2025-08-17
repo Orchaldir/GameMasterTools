@@ -14,6 +14,7 @@ enum class DateType {
     Week,
     Month,
     Year,
+    ApproximateYear,
     Decade,
     Century,
     Millennium,
@@ -28,9 +29,22 @@ sealed interface Date {
         is Week -> DateType.Week
         is Month -> DateType.Month
         is Year -> DateType.Year
+        is ApproximateYear -> DateType.ApproximateYear
         is Decade -> DateType.Decade
         is Century -> DateType.Century
         is Millennium -> DateType.Millennium
+    }
+
+    fun getIndex() = when (this) {
+        is Day -> day
+        is DayRange -> error("Not supported!")
+        is Week -> week
+        is Month -> month
+        is Year -> year
+        is ApproximateYear -> year
+        is Decade -> decade
+        is Century -> century
+        is Millennium -> millennium
     }
 
     fun next(): Date?
@@ -145,6 +159,26 @@ data class Year(val year: Int) : Date {
     operator fun compareTo(other: Year): Int {
         return year.compareTo(other.year)
     }
+}
+
+@Serializable
+@SerialName("~Year")
+data class ApproximateYear(val year: Int) : Date {
+
+    override fun next() = nextYear()
+    override fun previous() = previousYear()
+
+    fun nextYear() = ApproximateYear(year + 1)
+    fun previousYear() = ApproximateYear(year - 1)
+
+    operator fun plus(duration: Int) = ApproximateYear(year + duration)
+    operator fun minus(duration: Int) = ApproximateYear(year - duration)
+
+    operator fun compareTo(other: ApproximateYear): Int {
+        return year.compareTo(other.year)
+    }
+
+    fun year() = Year(year)
 }
 
 @Serializable

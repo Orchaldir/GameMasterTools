@@ -12,6 +12,7 @@ fun Calendar.resolve(date: Date) = when (date) {
     is Week -> resolveWeek(date)
     is Month -> resolveMonth(date)
     is Year -> resolveYear(date)
+    is ApproximateYear -> resolveApproximateYear(date)
     is Decade -> resolveDecade(date)
     is Century -> resolveCentury(date)
     is Millennium -> resolveMillennium(date)
@@ -97,44 +98,20 @@ fun Calendar.resolveMonth(date: Month): DisplayMonth {
     return DisplayMonth(0, year, monthsPerYear - remainingMonths - 1)
 }
 
-fun resolveYear(date: Year): DisplayYear {
-    val year = date.year
+fun resolveYear(date: Year) = resolveYearOrHigher(date, ::DisplayYear)
+fun resolveApproximateYear(date: ApproximateYear) = resolveYearOrHigher(date, ::DisplayApproximateYear)
+fun resolveDecade(date: Decade) = resolveYearOrHigher(date, ::DisplayDecade)
+fun resolveCentury(date: Century) = resolveYearOrHigher(date, ::DisplayCentury)
+fun resolveMillennium(date: Millennium) = resolveYearOrHigher(date, ::DisplayMillennium)
 
-    if (year >= 0) {
-        return DisplayYear(1, year)
+fun <I : Date, O : DisplayDate> resolveYearOrHigher(date: I, create: (Int, Int) -> O): O {
+    val index = date.getIndex()
+
+    if (index >= 0) {
+        return create(1, index)
     }
 
-    return DisplayYear(0, -(year + 1))
-}
-
-fun resolveDecade(date: Decade): DisplayDecade {
-    val decade = date.decade
-
-    if (decade >= 0) {
-        return DisplayDecade(1, decade)
-    }
-
-    return DisplayDecade(0, -decade - 1)
-}
-
-fun resolveCentury(date: Century): DisplayCentury {
-    val century = date.century
-
-    if (century >= 0) {
-        return DisplayCentury(1, century)
-    }
-
-    return DisplayCentury(0, -century - 1)
-}
-
-fun resolveMillennium(date: Millennium): DisplayMillennium {
-    val millennium = date.millennium
-
-    if (millennium >= 0) {
-        return DisplayMillennium(1, millennium)
-    }
-
-    return DisplayMillennium(0, -millennium - 1)
+    return create(0, -(index + 1))
 }
 
 // resolve display date
@@ -145,6 +122,7 @@ fun Calendar.resolve(date: DisplayDate) = when (date) {
     is DisplayWeek -> resolveWeek(date)
     is DisplayMonth -> resolveMonth(date)
     is DisplayYear -> resolveYear(date)
+    is DisplayApproximateYear -> resolveApproximateYear(date)
     is DisplayDecade -> resolveDecade(date)
     is DisplayCentury -> resolveCentury(date)
     is DisplayMillennium -> resolveMillennium(date)
@@ -197,50 +175,14 @@ fun Calendar.resolveMonth(month: DisplayMonth): Month {
     return Month(monthIndex)
 }
 
-fun resolveYear(date: DisplayYear): Year {
-    if (date.eraIndex == 1) {
-        val year = date.yearIndex
+fun resolveYear(date: DisplayYear) = resolveYear(date, ::Year)
+fun resolveApproximateYear(date: DisplayApproximateYear) = resolveYear(date, ::ApproximateYear)
+fun resolveDecade(date: DisplayDecade) = resolveYear(date, ::Decade)
+fun resolveCentury(date: DisplayCentury) = resolveYear(date, ::Century)
+fun resolveMillennium(date: DisplayMillennium) = resolveYear(date, ::Millennium)
 
-        return Year(year)
-    }
-
-    val year = -(date.yearIndex + 1)
-
-    return Year(year)
-}
-
-fun resolveDecade(date: DisplayDecade): Decade {
-    if (date.eraIndex == 1) {
-        val decade = date.decadeIndex
-
-        return Decade(decade)
-    }
-
-    val decade = -(date.decadeIndex + 1)
-
-    return Decade(decade)
-}
-
-fun resolveCentury(date: DisplayCentury): Century {
-    if (date.eraIndex > 0) {
-        val century = date.centuryIndex
-
-        return Century(century)
-    }
-
-    val century = -(date.centuryIndex + 1)
-
-    return Century(century)
-}
-
-fun resolveMillennium(date: DisplayMillennium): Millennium {
-    if (date.eraIndex > 0) {
-        val century = date.millenniumIndex
-
-        return Millennium(century)
-    }
-
-    val millennium = -(date.millenniumIndex + 1)
-
-    return Millennium(millennium)
+fun <I : DisplayDate, O : Date> resolveYear(date: I, create: (Int) -> O) = if (date.eraIndex() == 1) {
+    create(date.index())
+} else {
+    create(-(date.index() + 1))
 }
