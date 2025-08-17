@@ -55,6 +55,14 @@ class DisplayTest {
         }
 
         @Test
+        fun `Test an approximate year in AD`() {
+            val date = DisplayApproximateYear(1, 2023)
+
+            assertDisplay(format0, date, "~2024 AD")
+            assertDisplay(format1, date, "~2024 AD")
+        }
+
+        @Test
         fun `Test a decade in AD`() {
             val date = DisplayDecade(1, 202)
 
@@ -168,6 +176,14 @@ class DisplayTest {
 
             assertDisplay(format0, date, "BC 1235")
             assertDisplay(format1, date, "BC 1235")
+        }
+
+        @Test
+        fun `Test an approximate year in AD`() {
+            val date = DisplayApproximateYear(0, 1234)
+
+            assertDisplay(format0, date, "BC ~1235")
+            assertDisplay(format1, date, "BC ~1235")
         }
 
         @Test
