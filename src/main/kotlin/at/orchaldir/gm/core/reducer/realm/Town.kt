@@ -5,9 +5,7 @@ import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALMS
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWNS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALMS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_TOWNS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.countCurrentOrFormerEmployees
