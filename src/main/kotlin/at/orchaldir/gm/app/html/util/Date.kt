@@ -268,6 +268,7 @@ private fun HtmlBlockTag.selectDate(
         is DisplayWeek -> selectWeek(param, calendar, displayDate, minDate)
         is DisplayMonth -> selectMonth(param, calendar, displayDate, minDate)
         is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
+        is DisplayApproximateYear -> selectYear(param, calendar, displayDate, minDate)
         is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
         is DisplayCentury -> selectCentury(param, calendar, displayDate, minDate)
         is DisplayMillennium -> selectMillennium(param, calendar, displayDate, minDate)
@@ -342,17 +343,17 @@ fun FORM.selectYear(
     }
 }
 
-private fun HtmlBlockTag.selectYear(
+private fun <D : DisplayDate> HtmlBlockTag.selectYear(
     param: String,
     calendar: Calendar,
-    year: DisplayYear,
+    year: D,
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
     val displayMinYear = minDate?.let { calendar.getStartDisplayYear(it) }
     val displayMaxYear = maxDate?.let { calendar.getStartDisplayYear(it) }
 
-    selectEraIndex(param, calendar, year.eraIndex, displayMinYear, displayMaxYear)
+    selectEraIndex(param, calendar, year.eraIndex(), displayMinYear, displayMaxYear)
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
 }
 
@@ -539,16 +540,16 @@ private fun HtmlBlockTag.selectDecadeIndex(
     +"0s"
 }
 
-private fun HtmlBlockTag.selectYearIndex(
+private fun <D : DisplayDate> HtmlBlockTag.selectYearIndex(
     param: String,
-    year: DisplayYear,
+    year: D,
     minYear: DisplayYear? = null,
     maxYear: DisplayYear? = null,
 ) {
     val yearParam = combine(param, YEAR)
     val (minYear, maxYear) = getMinMaxIndex(year, minYear, maxYear, 1)
 
-    selectInt(year.yearIndex + 1, minYear, maxYear, 1, yearParam)
+    selectInt(year.index() + 1, minYear, maxYear, 1, yearParam)
 }
 
 fun <D : DisplayDate> getMinMaxIndex(date: D, minDate: D?, maxDate: D?, offset: Int): Pair<Int, Int> {
@@ -740,7 +741,7 @@ fun parseOptionalYear(
     calendar: Calendar,
     param: String,
 ): Year? = parseOptional(parameters, param) {
-    parseYear(parameters, calendar, param)
+    parseYear(parameters, param)
 }
 
 fun parseOptionalMonth(
@@ -791,7 +792,8 @@ fun parseDate(
         DateType.DayRange -> error("Day Range is not supported!")
         DateType.Week -> parseWeek(parameters, calendar, param)
         DateType.Month -> parseMonth(parameters, calendar, param)
-        DateType.Year -> parseYear(parameters, calendar, param)
+        DateType.Year -> parseYear(parameters, param)
+        DateType.ApproximateYear -> parseApproximateYear(parameters, param)
         DateType.Decade -> parseDecade(parameters, calendar, param)
         DateType.Century -> parseCentury(parameters, calendar, param)
         DateType.Millennium -> parseMillennium(parameters, calendar, param)
@@ -847,13 +849,6 @@ fun parseMonth(
 
 fun parseYear(
     parameters: Parameters,
-    state: State,
-    param: String,
-): Year = parseYear(parameters, state.getDefaultCalendar(), param)
-
-fun parseYear(
-    parameters: Parameters,
-    calendar: Calendar,
     param: String,
 ): Year {
     val eraIndex = parseEraIndex(parameters, param)
@@ -861,6 +856,17 @@ fun parseYear(
     val calendarDate = DisplayYear(eraIndex, yearIndex)
 
     return resolveYear(calendarDate)
+}
+
+fun parseApproximateYear(
+    parameters: Parameters,
+    param: String,
+): ApproximateYear {
+    val eraIndex = parseEraIndex(parameters, param)
+    val yearIndex = parseYearIndex(parameters, param)
+    val calendarDate = DisplayApproximateYear(eraIndex, yearIndex)
+
+    return resolveApproximateYear(calendarDate)
 }
 
 fun parseDecade(

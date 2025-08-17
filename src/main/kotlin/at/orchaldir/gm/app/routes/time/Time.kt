@@ -33,6 +33,13 @@ class TimeRoutes {
     @Resource("year")
     class ShowYear(val year: Year, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
+    @Resource("ayear")
+    class ShowApproximateYear(
+        val year: ApproximateYear,
+        val calendar: CalendarId,
+        val parent: TimeRoutes = TimeRoutes(),
+    )
+
     @Resource("decade")
     class ShowDecade(val decade: Decade, val calendar: CalendarId, val parent: TimeRoutes = TimeRoutes())
 
@@ -81,6 +88,13 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDate(call, STORE.getState(), data.calendar, data.year, "Year")
+            }
+        }
+        get<TimeRoutes.ShowApproximateYear> { data ->
+            logger.info { "Show the approximate year ${data.year.year} for calendar ${data.calendar.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showDate(call, STORE.getState(), data.calendar, data.year, "Approximate Year")
             }
         }
         get<TimeRoutes.ShowDecade> { data ->

@@ -220,6 +220,7 @@ fun HtmlBlockTag.link(
             is Week -> link(call, calendar, date, text)
             is Month -> link(call, calendar, date, text)
             is Year -> link(call, calendar, date, text)
+            is ApproximateYear -> link(call, calendar, date, text)
             is Decade -> link(call, calendar, date, text)
             is Century -> link(call, calendar, date, text)
             is Millennium -> link(call, calendar, date, text)
@@ -270,6 +271,15 @@ fun HtmlBlockTag.link(
     text: String,
 ) {
     link(call.application.href(TimeRoutes.ShowYear(year, calendar)), text)
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    calendar: CalendarId,
+    year: ApproximateYear,
+    text: String,
+) {
+    link(call.application.href(TimeRoutes.ShowApproximateYear(year, calendar)), text)
 }
 
 fun HtmlBlockTag.link(

@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
+import at.orchaldir.gm.core.selector.time.date.resolveApproximateYear
 import at.orchaldir.gm.core.selector.time.date.resolveDay
 import at.orchaldir.gm.core.selector.time.date.resolveMonth
 import at.orchaldir.gm.core.selector.time.date.resolveWeek
@@ -42,6 +43,11 @@ class DateGenerator(
 
             is Year -> {
                 val displayYear = resolveYear(date)
+                DisplayDay(displayYear, monthIndex, dayIndex)
+            }
+
+            is ApproximateYear -> {
+                val displayYear = resolveYear(date, ::DisplayYear)
                 DisplayDay(displayYear, monthIndex, dayIndex)
             }
 

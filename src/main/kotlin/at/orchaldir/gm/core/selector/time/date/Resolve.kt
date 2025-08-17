@@ -12,6 +12,7 @@ fun Calendar.resolve(date: Date) = when (date) {
     is Week -> resolveWeek(date)
     is Month -> resolveMonth(date)
     is Year -> resolveYear(date)
+    is ApproximateYear -> resolveApproximateYear(date)
     is Decade -> resolveDecade(date)
     is Century -> resolveCentury(date)
     is Millennium -> resolveMillennium(date)
@@ -97,14 +98,17 @@ fun Calendar.resolveMonth(date: Month): DisplayMonth {
     return DisplayMonth(0, year, monthsPerYear - remainingMonths - 1)
 }
 
-fun resolveYear(date: Year): DisplayYear {
-    val year = date.year
+fun resolveYear(date: Year) = resolveYear(date, ::DisplayYear)
+fun resolveApproximateYear(date: ApproximateYear) = resolveYear(date, ::DisplayApproximateYear)
+
+fun <I : Date, O : DisplayDate> resolveYear(date: I, create: (Int, Int) -> O): O {
+    val year = date.getIndex()
 
     if (year >= 0) {
-        return DisplayYear(1, year)
+        return create(1, year)
     }
 
-    return DisplayYear(0, -(year + 1))
+    return create(0, -(year + 1))
 }
 
 fun resolveDecade(date: Decade): DisplayDecade {
@@ -145,6 +149,7 @@ fun Calendar.resolve(date: DisplayDate) = when (date) {
     is DisplayWeek -> resolveWeek(date)
     is DisplayMonth -> resolveMonth(date)
     is DisplayYear -> resolveYear(date)
+    is DisplayApproximateYear -> resolveApproximateYear(date)
     is DisplayDecade -> resolveDecade(date)
     is DisplayCentury -> resolveCentury(date)
     is DisplayMillennium -> resolveMillennium(date)
@@ -197,16 +202,19 @@ fun Calendar.resolveMonth(month: DisplayMonth): Month {
     return Month(monthIndex)
 }
 
-fun resolveYear(date: DisplayYear): Year {
-    if (date.eraIndex == 1) {
-        val year = date.yearIndex
+fun resolveYear(date: DisplayYear) = resolveYear(date, ::Year)
+fun resolveApproximateYear(date: DisplayApproximateYear) = resolveYear(date, ::ApproximateYear)
 
-        return Year(year)
+fun <I : DisplayDate, O : Date> resolveYear(date: I, create: (Int) -> O): O {
+    if (date.eraIndex() == 1) {
+        val year = date.index()
+
+        return create(year)
     }
 
-    val year = -(date.yearIndex + 1)
+    val year = -(date.index() + 1)
 
-    return Year(year)
+    return create(year)
 }
 
 fun resolveDecade(date: DisplayDecade): Decade {

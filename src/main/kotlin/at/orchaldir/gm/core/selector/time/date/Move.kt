@@ -11,6 +11,7 @@ fun Calendar.moveUp(date: Date): Date? = when (date) {
     is Week -> moveUpDayToMonth(getStartDayOfWeek(date))
     is Month -> resolveYear(resolveMonth(date).year)
     is Year -> resolveDecade(resolveYear(date).decade())
+    is ApproximateYear -> null
     is Decade -> resolveCentury(resolveDecade(date).century())
     is Century -> resolveMillennium(resolveCentury(date).millennium())
     is Millennium -> null
@@ -53,6 +54,7 @@ fun Calendar.getStartDay(date: Date) = when (date) {
     is Week -> getStartDayOfWeek(date)
     is Month -> getStartDayOfMonth(date)
     is Year -> getStartDayOfYear(date)
+    is ApproximateYear -> getStartDayOfYear(date.year())
     is Decade -> getStartDayOfDecade(date)
     is Century -> getStartDayOfCentury(date)
     is Millennium -> getStartDayOfMillennium(date)
@@ -64,6 +66,7 @@ fun Calendar.getStartDisplayDay(date: Date): DisplayDay = when (date) {
     is Week -> resolveDay(getStartDayOfWeek(date))
     is Month -> getStartDisplayDayOfMonth(date)
     is Year -> getStartDisplayDayOfYear(date)
+    is ApproximateYear -> getStartDisplayDayOfYear(date.year())
     is Decade -> getStartDisplayDayOfDecade(date)
     is Century -> getStartDisplayDayOfCentury(date)
     is Millennium -> getStartDisplayDayOfMillennium(date)
@@ -75,6 +78,7 @@ fun Calendar.getEndDay(date: Date) = when (date) {
     is Week -> getEndDayOfWeek(date)
     is Month -> getEndDayOfMonth(date)
     is Year -> getEndDayOfYear(date)
+    is ApproximateYear -> getEndDayOfYear(date.year())
     is Decade -> getEndDayOfDecade(date)
     is Century -> getEndDayOfCentury(date)
     is Millennium -> getEndDayOfMillennium(date)
@@ -155,6 +159,7 @@ fun Calendar.getStartDisplayYear(date: Date): DisplayYear = when (date) {
     is Week -> resolveWeek(date).year
     is Month -> resolveMonth(date).year
     is Year -> resolveYear(date)
+    is ApproximateYear -> resolveYear(date, ::DisplayYear)
     is Decade -> resolveDecade(date).startYear()
     is Century -> resolveCentury(date).startYear()
     is Millennium -> resolveMillennium(date).startYear()
@@ -181,6 +186,7 @@ fun Calendar.getStartDisplayDecade(date: Date): DisplayDecade = when (date) {
     is Week -> resolveWeek(date).year.decade()
     is Month -> resolveMonth(date).year.decade()
     is Year -> resolveYear(date).decade()
+    is ApproximateYear -> resolveYear(date, ::DisplayYear).decade()
     is Decade -> resolveDecade(date)
     is Century -> resolveCentury(date).startYear().decade()
     is Millennium -> resolveMillennium(date).startYear().decade()
@@ -207,6 +213,7 @@ fun Calendar.getDisplayCentury(date: Date): DisplayCentury = when (date) {
     is Week -> resolveWeek(date).year.decade().century()
     is Month -> resolveMonth(date).year.decade().century()
     is Year -> resolveYear(date).decade().century()
+    is ApproximateYear -> resolveYear(date, ::DisplayYear).decade().century()
     is Decade -> resolveDecade(date).century()
     is Century -> resolveCentury(date)
     is Millennium -> resolveMillennium(date).startYear().decade().century()
@@ -236,6 +243,7 @@ fun Calendar.getDisplayMillennium(date: Date): DisplayMillennium = when (date) {
     is Week -> resolveWeek(date).year.decade().century().millennium()
     is Month -> resolveMonth(date).year.decade().century().millennium()
     is Year -> resolveYear(date).decade().century().millennium()
+    is ApproximateYear -> resolveYear(date, ::DisplayYear).decade().century().millennium()
     is Decade -> resolveDecade(date).century().millennium()
     is Century -> resolveCentury(date).millennium()
     is Millennium -> resolveMillennium(date)

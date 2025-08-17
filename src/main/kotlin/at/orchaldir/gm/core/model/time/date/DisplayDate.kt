@@ -77,6 +77,15 @@ data class DisplayYear(
     fun decade() = DisplayDecade(eraIndex, decadeIndex())
 }
 
+data class DisplayApproximateYear(
+    val eraIndex: Int,
+    val yearIndex: Int,
+) : DisplayDate() {
+
+    override fun eraIndex() = eraIndex
+    override fun index() = yearIndex
+}
+
 data class DisplayDecade(
     val eraIndex: Int,
     val decadeIndex: Int,

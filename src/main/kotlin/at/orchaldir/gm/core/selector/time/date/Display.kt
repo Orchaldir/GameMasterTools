@@ -21,7 +21,8 @@ fun display(calendar: Calendar, format: DateFormat, displayDate: DisplayDate): S
         is DisplayWeek -> return displayWeek(calendar, displayDate)
         is DisplayMonth -> displayMonth(calendar, format, displayDate)
         is DisplayYear -> (displayDate.yearIndex + 1).toString()
-        is DisplayDecade -> (displayDate.decadeIndex * 10).toString() + "s"
+        is DisplayApproximateYear -> "~${displayDate.yearIndex + 1}"
+        is DisplayDecade -> "~${displayDate.decadeIndex * 10}s"
         is DisplayCentury -> {
             val century = displayDate.centuryIndex + 1
             "$century.century"
