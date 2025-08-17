@@ -71,9 +71,33 @@
      "year": 713
     }
    },
-   "realms": [
-    2,
-    0
+   "sides": [
+    {
+     "color": "Blue"
+    },
+    {
+     "color": "Red"
+    }
+   ],
+   "participants": [
+    {
+     "reference": {
+      "type": "Realm",
+      "realm": 0
+     },
+     "side": {
+      "current": 0
+     }
+    },
+    {
+     "reference": {
+      "type": "Realm",
+      "realm": 2
+     },
+     "side": {
+      "current": 1
+     }
+    }
    ]
   }
  }

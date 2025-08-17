@@ -1,30 +1,15 @@
 package at.orchaldir.gm.app.html.realm
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.PARTICIPANT
+import at.orchaldir.gm.app.SIDE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.fieldReference
-import at.orchaldir.gm.app.html.util.optionalField
-import at.orchaldir.gm.app.html.util.parseDate
-import at.orchaldir.gm.app.html.util.parseHistory
-import at.orchaldir.gm.app.html.util.parseOptionalDate
-import at.orchaldir.gm.app.html.util.parseReference
-import at.orchaldir.gm.app.html.util.selectHistory
-import at.orchaldir.gm.app.html.util.selectOptionalDate
-import at.orchaldir.gm.app.html.util.selectReference
-import at.orchaldir.gm.app.html.util.showHistory
-import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
-import at.orchaldir.gm.core.selector.util.sortTreaties
-import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.core.model.realm.War
+import at.orchaldir.gm.core.model.realm.WarParticipant
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -34,15 +19,13 @@ fun HtmlBlockTag.showWarParticipants(
     state: State,
     war: War,
 ) {
-    showDetails("Participants") {
-        showList(war.participants) { participant ->
-            fieldReference(call, state, participant.reference, "Participant")
-            showHistory(call, state, participant.side, "Side") { _, _, side ->
-                if (side != null) {
-                    +war.getSideName(side)
-                } else {
-                    +"Neutral"
-                }
+    fieldList("Participant", war.participants) { participant ->
+        showReference(call, state, participant.reference)
+        showHistory(call, state, participant.side, "Side") { _, _, side ->
+            if (side != null) {
+                +war.getSideName(side)
+            } else {
+                +"Neutral"
             }
         }
     }
@@ -54,7 +37,7 @@ fun HtmlBlockTag.editWarParticipants(
     state: State,
     war: War,
 ) {
-    showDetails("Participants") {
+    showDetails("Participants", true) {
         editList("Participant", PARTICIPANT, war.participants, 0, 100) { index, param, participant ->
             selectReference(state, participant.reference, war.startDate, param)
             selectHistory(
