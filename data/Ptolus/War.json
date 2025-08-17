@@ -54,7 +54,7 @@
    "id": 4,
    "name": "The Eastern Invasion",
    "startDate": {
-    "type": "Year",
+    "type": "~Year",
     "year": 699
    },
    "status": {

@@ -11,7 +11,7 @@ fun Calendar.moveUp(date: Date): Date? = when (date) {
     is Week -> moveUpDayToMonth(getStartDayOfWeek(date))
     is Month -> resolveYear(resolveMonth(date).year)
     is Year -> resolveDecade(resolveYear(date).decade())
-    is ApproximateYear -> null
+    is ApproximateYear -> resolveDecade(resolveYear(date, ::DisplayYear).decade())
     is Decade -> resolveCentury(resolveDecade(date).century())
     is Century -> resolveMillennium(resolveCentury(date).millennium())
     is Millennium -> null
