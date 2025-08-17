@@ -39,7 +39,7 @@ fun FORM.editWarSides(
 
 // parse
 
-fun parseWarSide(parameters: Parameters) = parseList(parameters, SIDE, 0) { index, param ->
+fun parseWarSides(parameters: Parameters) = parseList(parameters, SIDE, 0) { index, param ->
     WarSide(
         parse(parameters, combine(param, COLOR), Color.Pink),
         parseOptionalName(parameters, combine(param, NAME)),

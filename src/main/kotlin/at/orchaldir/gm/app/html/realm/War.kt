@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.realm
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.REALM
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
@@ -9,7 +8,6 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
@@ -17,7 +15,6 @@ import at.orchaldir.gm.core.selector.realm.getBattles
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.util.sortBattles
-import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -36,6 +33,7 @@ fun HtmlBlockTag.showWar(
     optionalField(call, state, "Start Date", war.startDate)
     showWarStatus(call, state, war.status)
     fieldAge("Duration", calendar.getYears(war.getDuration(state)))
+    showWarSides(war)
     fieldList(call, state, battles)
     //fieldIdList(call, state, "Participating Realms", war.realms)
     showDestroyed(call, state, war.id)
@@ -52,6 +50,7 @@ fun FORM.editWar(
     selectName(war.name)
     selectOptionalDate(state, "Start Date", war.startDate, combine(START, DATE))
     editWarStatus(state, war.startDate, war.status)
+    editWarSides(war)
     //selectElements(state, "Realms", REALM, state.sortRealms(), war.realms)
     editDataSources(state, war.sources)
 }
@@ -67,7 +66,7 @@ fun parseWar(parameters: Parameters, state: State, id: WarId) = War(
     parseName(parameters),
     parseOptionalDate(parameters, state, combine(START, DATE)),
     parseWarStatus(parameters, state),
-    emptyList(),
+    parseWarSides(parameters),
     emptyList(),
     //parseElements(parameters, REALM, ::parseRealmId),
     parseDataSources(parameters),
