@@ -68,7 +68,7 @@ fun HtmlBlockTag.selectReference(
     reference: Reference,
     date: Date?,
     param: String,
-    filter: (Any) -> Boolean,
+    filter: (Any) -> Boolean = { true },
 ) {
     val businesses = state.getOpenBusinesses(date)
         .filter { filter(it) }
@@ -158,7 +158,7 @@ fun HtmlBlockTag.selectReference(
 
 fun parseReference(
     parameters: Parameters,
-    param: String = CREATOR,
+    param: String,
 ): Reference {
     return when (parse(parameters, param, ReferenceType.Undefined)) {
         ReferenceType.Undefined -> UndefinedReference

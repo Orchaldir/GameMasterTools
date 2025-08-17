@@ -42,4 +42,6 @@ data class War(
         is FinishedWar -> status.date ?: startDate
     }
 
+    fun getSideName(index: Int) = sides.getOrNull(index)?.name?.text ?: "${index + 1}.Side"
+
 }
