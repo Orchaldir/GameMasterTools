@@ -21,10 +21,7 @@ import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -220,6 +217,45 @@ class CharacterTest {
                 ),
                 result.getCharacterStorage().getOrThrow(CHARACTER_ID_0)
             )
+        }
+
+        @Nested
+        inner class VitalStatusTest {
+
+            @Test
+            fun `A character can be alive`() {
+                testValidStatus(Alive)
+            }
+
+            @Test
+            fun `A character can die`() {
+                testValidStatus(Dead(DAY2))
+            }
+
+            @Test
+            fun `A character cannot be abandoned`() {
+                testInvalidStatus(Abandoned(DAY2))
+            }
+
+            @Test
+            fun `A character cannot be destroyed`() {
+                testInvalidStatus(Destroyed(DAY2))
+            }
+
+            private fun testValidStatus(status: VitalStatus) {
+                val character = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
+                val action = UpdateCharacter(character)
+
+                REDUCER.invoke(STATE, action);
+            }
+
+            private fun testInvalidStatus(status: VitalStatus) {
+                val character = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
+                val action = UpdateCharacter(character)
+
+                assertIllegalArgument("Invalid vital status ${status.getType()}!") { REDUCER.invoke(STATE, action) }
+            }
+
         }
 
         @Nested

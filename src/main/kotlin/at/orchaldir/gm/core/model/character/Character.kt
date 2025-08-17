@@ -123,7 +123,7 @@ data class Character(
         }
 
         if (vitalStatus is Dead) {
-            val deathDate = defaultCalendar.getStartDay(vitalStatus.deathDay)
+            val deathDate = defaultCalendar.getStartDay(vitalStatus.date)
 
             if (deathDate < currentDay) {
                 return deathDate.getDurationBetween(birthDate)
@@ -136,7 +136,7 @@ data class Character(
     fun isAlive(calendar: Calendar, date: Date): Boolean {
         if (calendar.isAfterOrEqual(date, birthDate)) {
             if (vitalStatus is Dead) {
-                return calendar.isAfterOrEqual(vitalStatus.deathDay, date)
+                return calendar.isAfterOrEqual(vitalStatus.date, date)
             }
 
             return true

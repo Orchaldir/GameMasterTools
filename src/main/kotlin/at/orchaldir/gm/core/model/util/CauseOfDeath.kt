@@ -5,19 +5,18 @@ import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.WarId
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val VALID_CAUSES_FOR_CHARACTERS = CauseOfDeathType.entries -
-        CauseOfDeathType.Abandoned
-val VALID_CAUSES_FOR_REALM = CauseOfDeathType.entries -
+val VALID_CAUSES_FOR_CHARACTERS = CauseOfDeathType.entries
+val VALID_CAUSES_FOR_REALMS = CauseOfDeathType.entries -
         CauseOfDeathType.Accident -
         CauseOfDeathType.Murder -
         CauseOfDeathType.OldAge
-val VALID_CAUSES_FOR_TOWN = VALID_CAUSES_FOR_REALM
+val VALID_CAUSES_FOR_TOWNS = VALID_CAUSES_FOR_REALMS
 
 enum class CauseOfDeathType {
-    Abandoned,
     Accident,
     Battle,
     Catastrophe,
@@ -31,7 +30,6 @@ enum class CauseOfDeathType {
 @Serializable
 sealed class CauseOfDeath {
     fun getType() = when (this) {
-        is Abandoned -> CauseOfDeathType.Abandoned
         is Accident -> CauseOfDeathType.Accident
         is DeathByCatastrophe -> CauseOfDeathType.Catastrophe
         is DeathByDisease -> CauseOfDeathType.Disease
@@ -41,11 +39,16 @@ sealed class CauseOfDeath {
         is OldAge -> CauseOfDeathType.OldAge
         is UndefinedCauseOfDeath -> CauseOfDeathType.Undefined
     }
-}
 
-@Serializable
-@SerialName("Abandoned")
-data object Abandoned : CauseOfDeath()
+    fun <ID : Id<ID>> isDestroyedBy(id: ID) = when (this) {
+        Accident, OldAge, UndefinedCauseOfDeath -> false
+        is DeathByCatastrophe -> catastrophe == id
+        is DeathByDisease -> disease == id
+        is DeathInBattle -> battle == id
+        is DeathInWar -> war == id
+        is Murder -> killer == id
+    }
+}
 
 @Serializable
 @SerialName("Accident")

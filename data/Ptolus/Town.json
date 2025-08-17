@@ -20,7 +20,23 @@
    "id": 2,
    "name": "Tarsis",
    "owner": {
-    "current": 0
+    "current": 0,
+    "previousEntries": [
+     {
+      "entry": 0,
+      "until": {
+       "type": "Year",
+       "year": 709
+      }
+     },
+     {
+      "entry": 2,
+      "until": {
+       "type": "Year",
+       "year": 713
+      }
+     }
+    ]
    }
   },
   "3": {
@@ -35,13 +51,14 @@
     "organization": 1
    },
    "status": {
-    "type": "Dead",
-    "deathDay": {
+    "type": "Abandoned",
+    "date": {
      "type": "Year",
      "year": -319
     },
     "cause": {
-     "type": "Abandoned"
+     "type": "War",
+     "war": 2
     }
    }
   }

@@ -13,7 +13,8 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALM
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALMS
+import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALMS
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -78,7 +79,14 @@ fun FORM.editRealm(
     editPopulation(call, state, realm.population)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
     selectOptionalDate(state, "Date", realm.date, DATE)
-    selectVitalStatus(state, realm.id, realm.date, realm.status, VALID_CAUSES_FOR_REALM)
+    selectVitalStatus(
+        state,
+        realm.id,
+        realm.date,
+        realm.status,
+        VALID_VITAL_STATUS_FOR_REALMS,
+        VALID_CAUSES_FOR_REALMS,
+    )
     selectHistory(state, TOWN, realm.capital, realm.date, "Capital") { _, param, town, start ->
         selectOptionalElement(
             state,
@@ -93,7 +101,7 @@ fun FORM.editRealm(
             state,
             "Realm",
             param,
-            state.getExistingRealms(start),
+            state.getExistingRealms(start).filter { it.id != realm.id },
             owner,
         )
     }

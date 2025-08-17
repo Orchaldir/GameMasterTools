@@ -13,8 +13,8 @@
     "year": 0
    },
    "status": {
-    "type": "Dead",
-    "deathDay": {
+    "type": "Destroyed",
+    "date": {
      "type": "Year",
      "year": 893
     },
@@ -126,8 +126,8 @@
    "id": 3,
    "name": "Cyre",
    "status": {
-    "type": "Dead",
-    "deathDay": {
+    "type": "Destroyed",
+    "date": {
      "type": "Day",
      "day": 333695
     },

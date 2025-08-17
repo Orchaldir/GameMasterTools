@@ -138,6 +138,6 @@ data class Calendar(
 
     fun getDuration(from: Date, to: Day) = getStartDay(from).getDurationBetween(to)
 
-    fun getYears(duration: Duration) = duration.day / getDaysPerYear()
+    fun getYears(duration: Duration) = duration.days / getDaysPerYear()
 
 }

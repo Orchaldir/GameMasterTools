@@ -16,7 +16,8 @@ import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWN
+import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWNS
+import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_TOWNS
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
@@ -76,7 +77,14 @@ fun FORM.editTown(
     selectOptionalNotEmptyString("Optional Title", town.title, TITLE)
     selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
     selectOptionalDate(state, "Founding Date", town.foundingDate, DATE)
-    selectVitalStatus(state, town.id, town.foundingDate, town.status, VALID_CAUSES_FOR_TOWN)
+    selectVitalStatus(
+        state,
+        town.id,
+        town.foundingDate,
+        town.status,
+        VALID_VITAL_STATUS_FOR_TOWNS,
+        VALID_CAUSES_FOR_TOWNS,
+    )
     selectHistory(state, OWNER, town.owner, town.foundingDate, "Owner") { _, param, owner, start ->
         selectOptionalElement(
             state,
