@@ -32,10 +32,8 @@ class DisplayTest {
         @Test
         fun `Test a week in AD`() {
             val date = DisplayWeek(1, 2023, 1)
-            val result = "2.Week of 2024 AD"
 
-            assertDisplay(format0, date, result)
-            assertDisplay(format1, date, result)
+            assertDisplay(format0, format1, date, "2.Week of 2024 AD")
         }
 
         @Test
@@ -50,40 +48,35 @@ class DisplayTest {
         fun `Test a year in AD`() {
             val date = DisplayYear(1, 2023)
 
-            assertDisplay(format0, date, "2024 AD")
-            assertDisplay(format1, date, "2024 AD")
+            assertDisplay(format0, format1, date, "2024 AD")
         }
 
         @Test
         fun `Test an approximate year in AD`() {
             val date = DisplayApproximateYear(1, 2023)
 
-            assertDisplay(format0, date, "~2024 AD")
-            assertDisplay(format1, date, "~2024 AD")
+            assertDisplay(format0, format1, date, "~2024 AD")
         }
 
         @Test
         fun `Test a decade in AD`() {
             val date = DisplayDecade(1, 202)
 
-            assertDisplay(format0, date, "2020s AD")
-            assertDisplay(format1, date, "2020s AD")
+            assertDisplay(format0, format1, date, "2020s AD")
         }
 
         @Test
         fun `Test a century in AD`() {
             val date = DisplayCentury(1, 20)
 
-            assertDisplay(format0, date, "21.century AD")
-            assertDisplay(format1, date, "21.century AD")
+            assertDisplay(format0, format1, date, "21.century AD")
         }
 
         @Test
         fun `Test a millennium in AD`() {
             val date = DisplayMillennium(1, 2)
 
-            assertDisplay(format0, date, "3.millennium AD")
-            assertDisplay(format1, date, "3.millennium AD")
+            assertDisplay(format0, format1, date, "3.millennium AD")
         }
 
         @Test
@@ -106,8 +99,7 @@ class DisplayTest {
         fun `Test the first year in AD`() {
             val date = DisplayYear(1, 0)
 
-            assertDisplay(format0, date, "1 AD")
-            assertDisplay(format1, date, "1 AD")
+            assertDisplay(format0, format1, date, "1 AD")
         }
 
         @Test
@@ -115,32 +107,28 @@ class DisplayTest {
             // not sure about this
             val date = DisplayDecade(1, 0)
 
-            assertDisplay(format0, date, "0s AD")
-            assertDisplay(format1, date, "0s AD")
+            assertDisplay(format0, format1, date, "0s AD")
         }
 
         @Test
         fun `Test a single digit decade in AD`() {
             val date = DisplayDecade(1, 5)
 
-            assertDisplay(format0, date, "50s AD")
-            assertDisplay(format1, date, "50s AD")
+            assertDisplay(format0, format1, date, "50s AD")
         }
 
         @Test
         fun `Test the first century in AD`() {
             val date = DisplayCentury(1, 0)
 
-            assertDisplay(format0, date, "1.century AD")
-            assertDisplay(format1, date, "1.century AD")
+            assertDisplay(format0, format1, date, "1.century AD")
         }
 
         @Test
         fun `Test the first millennium in AD`() {
             val date = DisplayMillennium(1, 0)
 
-            assertDisplay(format0, date, "1.millennium AD")
-            assertDisplay(format1, date, "1.millennium AD")
+            assertDisplay(format0, format1, date, "1.millennium AD")
         }
     }
 
@@ -156,10 +144,8 @@ class DisplayTest {
         @Test
         fun `Test a week in BC`() {
             val date = DisplayWeek(0, 101, 0)
-            val result = "1.Week of BC 102"
 
-            assertDisplay(format0, date, result)
-            assertDisplay(format1, date, result)
+            assertDisplay(format0, format1, date, "1.Week of BC 102")
         }
 
         @Test
@@ -174,40 +160,35 @@ class DisplayTest {
         fun `Test a year in BC`() {
             val date = DisplayYear(0, 1234)
 
-            assertDisplay(format0, date, "BC 1235")
-            assertDisplay(format1, date, "BC 1235")
+            assertDisplay(format0, format1, date, "BC 1235")
         }
 
         @Test
         fun `Test an approximate year in AD`() {
             val date = DisplayApproximateYear(0, 1234)
 
-            assertDisplay(format0, date, "BC ~1235")
-            assertDisplay(format1, date, "BC ~1235")
+            assertDisplay(format0, format1, date, "BC ~1235")
         }
 
         @Test
         fun `Test a decade in BC`() {
             val date = DisplayDecade(0, 11)
 
-            assertDisplay(format0, date, "BC 110s")
-            assertDisplay(format1, date, "BC 110s")
+            assertDisplay(format0, format1, date, "BC 110s")
         }
 
         @Test
         fun `Test a century in AD`() {
             val date = DisplayCentury(0, 2)
 
-            assertDisplay(format0, date, "BC 3.century")
-            assertDisplay(format1, date, "BC 3.century")
+            assertDisplay(format0, format1, date, "BC 3.century")
         }
 
         @Test
         fun `Test a millennium in AD`() {
             val date = DisplayMillennium(0, 2)
 
-            assertDisplay(format0, date, "BC 3.millennium")
-            assertDisplay(format1, date, "BC 3.millennium")
+            assertDisplay(format0, format1, date, "BC 3.millennium")
         }
 
         @Test
@@ -222,24 +203,21 @@ class DisplayTest {
         fun `Test the first decade in BC`() {
             val date = DisplayDecade(0, 0)
 
-            assertDisplay(format0, date, "BC 0s")
-            assertDisplay(format1, date, "BC 0s")
+            assertDisplay(format0, format1, date, "BC 0s")
         }
 
         @Test
         fun `Test the first century in AD`() {
             val date = DisplayCentury(0, 0)
 
-            assertDisplay(format0, date, "BC 1.century")
-            assertDisplay(format1, date, "BC 1.century")
+            assertDisplay(format0, format1, date, "BC 1.century")
         }
 
         @Test
         fun `Test the first millennium in AD`() {
             val date = DisplayMillennium(0, 0)
 
-            assertDisplay(format0, date, "BC 1.millennium")
-            assertDisplay(format1, date, "BC 1.millennium")
+            assertDisplay(format0, format1, date, "BC 1.millennium")
         }
     }
 
@@ -249,6 +227,11 @@ class DisplayTest {
 
         assertDisplay(format0, date, "BC 4.3.102 to 3.2.2024 AD")
         assertDisplay(format1, date, "BC 102/C/4 to 2024/B/3 AD")
+    }
+
+    private fun assertDisplay(format0: DateFormat, format1: DateFormat, date: DisplayDate, result: String) {
+        assertDisplay(format0, date, result)
+        assertDisplay(format1, date, result)
     }
 
     private fun assertDisplay(format: DateFormat, date: DisplayDate, result: String) {
