@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteTown
-import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*

@@ -237,6 +237,7 @@ fun parseVitalStatus(
         parseDeathDay(parameters, state),
         parseCauseOfDeath(parameters),
     )
+
     VitalStatusType.Alive -> Alive
     VitalStatusType.Dead -> Dead(
         parseDeathDay(parameters, state),
