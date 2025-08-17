@@ -43,8 +43,8 @@
    "id": 3,
    "name": "Dwarvenhearth",
    "foundingDate": {
-    "type": "Century",
-    "century": -21
+    "type": "~Year",
+    "year": -2000
    },
    "founder": {
     "type": "Organization",
