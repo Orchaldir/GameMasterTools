@@ -105,13 +105,13 @@ fun resolveCentury(date: Century) = resolveYearOrHigher(date, ::DisplayCentury)
 fun resolveMillennium(date: Millennium) = resolveYearOrHigher(date, ::DisplayMillennium)
 
 fun <I : Date, O : DisplayDate> resolveYearOrHigher(date: I, create: (Int, Int) -> O): O {
-    val year = date.getIndex()
+    val index = date.getIndex()
 
-    if (year >= 0) {
-        return create(1, year)
+    if (index >= 0) {
+        return create(1, index)
     }
 
-    return create(0, -(year + 1))
+    return create(0, -(index + 1))
 }
 
 // resolve display date
@@ -181,14 +181,8 @@ fun resolveDecade(date: DisplayDecade) = resolveYear(date, ::Decade)
 fun resolveCentury(date: DisplayCentury) = resolveYear(date, ::Century)
 fun resolveMillennium(date: DisplayMillennium) = resolveYear(date, ::Millennium)
 
-fun <I : DisplayDate, O : Date> resolveYear(date: I, create: (Int) -> O): O {
-    if (date.eraIndex() == 1) {
-        val year = date.index()
-
-        return create(year)
-    }
-
-    val year = -(date.index() + 1)
-
-    return create(year)
+fun <I : DisplayDate, O : Date> resolveYear(date: I, create: (Int) -> O) = if (date.eraIndex() == 1) {
+    create(date.index())
+} else {
+    create(-(date.index() + 1))
 }
