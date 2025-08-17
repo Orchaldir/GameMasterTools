@@ -45,7 +45,7 @@ val UPDATE_WAR: Reducer<UpdateWar, State> = { state, action ->
 
 fun validateWar(state: State, war: War) {
     validateHasStartAndEnd(state, war)
-    state.requireExist(state.getRealmStorage(), war.realms, war.startDate)
+    //TODO: state.requireExist(state.getRealmStorage(), war.realms, war.startDate)
     validateWarStatus(state, war.status)
 }
 

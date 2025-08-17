@@ -37,7 +37,7 @@ fun HtmlBlockTag.showWar(
     showWarStatus(call, state, war.status)
     fieldAge("Duration", calendar.getYears(war.getDuration(state)))
     fieldList(call, state, battles)
-    fieldIdList(call, state, "Participating Realms", war.realms)
+    //fieldIdList(call, state, "Participating Realms", war.realms)
     showDestroyed(call, state, war.id)
     fieldList(call, state, state.getHolidays(war.id))
     showDataSources(call, state, war.sources)
@@ -52,7 +52,7 @@ fun FORM.editWar(
     selectName(war.name)
     selectOptionalDate(state, "Start Date", war.startDate, combine(START, DATE))
     editWarStatus(state, war.startDate, war.status)
-    selectElements(state, "Realms", REALM, state.sortRealms(), war.realms)
+    //selectElements(state, "Realms", REALM, state.sortRealms(), war.realms)
     editDataSources(state, war.sources)
 }
 
@@ -67,6 +67,8 @@ fun parseWar(parameters: Parameters, state: State, id: WarId) = War(
     parseName(parameters),
     parseOptionalDate(parameters, state, combine(START, DATE)),
     parseWarStatus(parameters, state),
-    parseElements(parameters, REALM, ::parseRealmId),
+    emptyList(),
+    emptyList(),
+    //parseElements(parameters, REALM, ::parseRealmId),
     parseDataSources(parameters),
 )

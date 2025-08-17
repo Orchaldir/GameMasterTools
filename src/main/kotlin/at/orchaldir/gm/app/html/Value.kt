@@ -100,6 +100,19 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     state: State,
+    selectId: String,
+    elements: Collection<ELEMENT>,
+    current: ID,
+) {
+    selectValue(current.type(), selectId, elements) { element ->
+        label = element.name(state)
+        value = element.id().value().toString()
+        selected = element.id() == current
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
+    state: State,
     labelText: String,
     selectId: String,
     elements: Collection<ELEMENT>,

@@ -14,11 +14,11 @@ fun State.canDeleteWar(war: WarId) = !isDestroyer(war)
 
 fun State.countWars(realm: RealmId) = getWarStorage()
     .getAll()
-    .count { it.realms.contains(realm) }
+    .count { true } //TODO: it.realms.contains(realm) }
 
 fun State.getWars(realm: RealmId) = getWarStorage()
     .getAll()
-    .filter { it.realms.contains(realm) }
+    .filter { true } //TODO: it.realms.contains(realm) }
 
 fun State.getExistingWars(date: Date?) = getExistingElements(getWarStorage().getAll(), date)
 
