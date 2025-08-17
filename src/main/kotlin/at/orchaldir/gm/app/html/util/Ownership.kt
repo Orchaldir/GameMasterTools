@@ -36,15 +36,15 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     alwaysShowTitle: Boolean = false,
 ) {
     val buildings = getOwned(state.getBuildingStorage(), owner)
-    val previousBuildings = getPreviouslyOwned(state.getBuildingStorage(), owner)
+    val previousBuildings = getPreviouslyOwned(state.getBuildingStorage(), owner) - buildings
     val businesses = getOwned(state.getBusinessStorage(), owner)
-    val previousBusinesses = getPreviouslyOwned(state.getBusinessStorage(), owner)
+    val previousBusinesses = getPreviouslyOwned(state.getBusinessStorage(), owner) - businesses
     val periodicals = getOwned(state.getPeriodicalStorage(), owner)
-    val previousPeriodicals = getPreviouslyOwned(state.getPeriodicalStorage(), owner)
+    val previousPeriodicals = getPreviouslyOwned(state.getPeriodicalStorage(), owner) - periodicals
     val realms = state.sortRealms(state.getSubRealms(owner))
-    val previousRealms = state.sortRealms(state.getPreviousSubRealms(owner))
+    val previousRealms = state.sortRealms(state.getPreviousSubRealms(owner)) - realms
     val towns = state.sortTowns(state.getOwnedTowns(owner))
-    val previousTowns = state.sortTowns(state.getPreviousOwnedTowns(owner))
+    val previousTowns = state.sortTowns(state.getPreviousOwnedTowns(owner)) - towns
 
     if (!alwaysShowTitle &&
         buildings.isEmpty() && previousBuildings.isEmpty() &&

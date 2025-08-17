@@ -20,7 +20,23 @@
    "id": 2,
    "name": "Tarsis",
    "owner": {
-    "current": 0
+    "current": 0,
+    "previousEntries": [
+     {
+      "entry": 0,
+      "until": {
+       "type": "Year",
+       "year": 709
+      }
+     },
+     {
+      "entry": 2,
+      "until": {
+       "type": "Year",
+       "year": 713
+      }
+     }
+    ]
    }
   },
   "3": {
