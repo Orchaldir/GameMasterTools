@@ -42,6 +42,9 @@ fun HtmlBlockTag.editWarParticipants(
     showDetails("Participants", true) {
         editList("Participant", PARTICIPANT, war.participants, 0, 100) { index, param, participant ->
             selectReference(state, participant.reference, war.startDate, param)
+
+            var previousSide: Int? = war.sides.size
+
             selectHistory(
                 state,
                 combine(param, SIDE),
@@ -53,11 +56,13 @@ fun HtmlBlockTag.editWarParticipants(
                     "Side",
                     sideParam,
                     sideIndex,
-                    sideIndices,
+                    sideIndices.filter { it != previousSide },
                 ) { valueIndex ->
                     label = war.getSideName(valueIndex)
                     value = valueIndex.toString()
                 }
+
+                previousSide = sideIndex
             }
         }
     }
