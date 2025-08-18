@@ -53,7 +53,7 @@ fun FORM.editBeliefStatusHistory(
     state: State,
     history: History<BeliefStatus>,
     startDate: Date,
-) = selectHistory(state, BELIEVE, history, startDate, "Belief Status", HtmlBlockTag::editBeliefStatus)
+) = selectHistory(state, BELIEVE, history, "Belief Status", startDate, HtmlBlockTag::editBeliefStatus)
 
 fun HtmlBlockTag.editBeliefStatus(
     state: State,

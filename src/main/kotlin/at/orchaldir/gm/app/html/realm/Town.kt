@@ -85,7 +85,7 @@ fun FORM.editTown(
         VALID_VITAL_STATUS_FOR_TOWNS,
         VALID_CAUSES_FOR_TOWNS,
     )
-    selectHistory(state, OWNER, town.owner, town.foundingDate, "Owner") { _, param, owner, start ->
+    selectHistory(state, OWNER, town.owner, "Owner", town.foundingDate) { _, param, owner, start ->
         selectOptionalElement(
             state,
             "Realm",

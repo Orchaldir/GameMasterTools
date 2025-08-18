@@ -57,8 +57,8 @@ fun <T> HtmlBlockTag.selectHistory(
     state: State,
     param: String,
     history: History<T>,
-    startDate: Date?,
     label: String,
+    startDate: Date?,
     selectEntry: HtmlBlockTag.(State, String, T, Date?) -> Unit,
 ) {
     val previousOwnersParam = combine(param, HISTORY)

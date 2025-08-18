@@ -49,8 +49,8 @@ fun HtmlBlockTag.editWarParticipants(
                 state,
                 combine(param, SIDE),
                 participant.side,
-                war.startDate,
                 "Side",
+                war.startDate,
             ) { state, sideParam, sideIndex, date ->
                 selectOptionalValue(
                     "Side",

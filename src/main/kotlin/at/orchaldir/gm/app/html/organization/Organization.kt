@@ -99,8 +99,8 @@ private fun FORM.editMembers(
             state,
             combine(memberParam, RANK),
             history,
-            character.birthDate,
-            "Rank"
+            "Rank",
+            character.birthDate
         ) { _, param, currentRank, _ ->
             selectOptionalValue("Rank", param, currentRank, rankIds) { rank ->
                 label = organization.memberRanks[rank].name.text

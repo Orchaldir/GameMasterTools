@@ -115,7 +115,7 @@ fun FORM.selectEmploymentStatusHistory(
     state: State,
     ownership: History<EmploymentStatus>,
     startDate: Date,
-) = selectHistory(state, EMPLOYMENT, ownership, startDate, "Employment Status", HtmlBlockTag::selectEmploymentStatus)
+) = selectHistory(state, EMPLOYMENT, ownership, "Employment Status", startDate, HtmlBlockTag::selectEmploymentStatus)
 
 fun HtmlBlockTag.selectEmploymentStatus(
     state: State,

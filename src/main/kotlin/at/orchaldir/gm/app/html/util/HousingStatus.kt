@@ -63,7 +63,7 @@ fun FORM.selectHousingStatusHistory(
     state: State,
     housing: History<HousingStatus>,
     startDate: Date,
-) = selectHistory(state, HOME, housing, startDate, "Housing Status", HtmlBlockTag::selectHousingStatus)
+) = selectHistory(state, HOME, housing, "Housing Status", startDate, HtmlBlockTag::selectHousingStatus)
 
 fun HtmlBlockTag.selectHousingStatus(
     state: State,
