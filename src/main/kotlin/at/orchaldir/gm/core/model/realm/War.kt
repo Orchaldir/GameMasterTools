@@ -43,5 +43,6 @@ data class War(
     }
 
     fun getSideName(index: Int) = sides.getOrNull(index)?.name?.text ?: "${index + 1}.Side"
+    fun getSideIndices() = (0..<sides.size).toList()
 
 }

@@ -37,7 +37,7 @@ fun HtmlBlockTag.editWarParticipants(
     state: State,
     war: War,
 ) {
-    val sideIndices = (0..<war.sides.size).toList()
+    val sideIndices = war.getSideIndices()
 
     showDetails("Participants", true) {
         editList("Participant", PARTICIPANT, war.participants, 0, 100) { index, param, participant ->

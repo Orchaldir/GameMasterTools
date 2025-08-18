@@ -31,7 +31,7 @@ fun HtmlBlockTag.showWar(
     val calendar = state.getDefaultCalendar()
 
     optionalField(call, state, "Start Date", war.startDate)
-    showWarStatus(call, state, war.status)
+    showWarStatus(call, state, war)
     fieldAge("Duration", calendar.getYears(war.getDuration(state)))
     showWarSides(war)
     showWarParticipants(call, state, war)
@@ -49,7 +49,7 @@ fun FORM.editWar(
 ) {
     selectName(war.name)
     selectOptionalDate(state, "Start Date", war.startDate, combine(START, DATE))
-    editWarStatus(state, war.startDate, war.status)
+    editWarStatus(state, war.startDate, war)
     editWarSides(war)
     editWarParticipants(state, war)
     editDataSources(state, war.sources)
