@@ -57,6 +57,7 @@ fun HtmlBlockTag.editWarParticipants(
                     sideParam,
                     sideIndex,
                     sideIndices.filter { it != previousSide },
+                    previousSide != null,
                 ) { valueIndex ->
                     label = war.getSideName(valueIndex)
                     value = valueIndex.toString()

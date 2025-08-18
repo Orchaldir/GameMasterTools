@@ -161,10 +161,11 @@ fun <T> HtmlBlockTag.selectOptionalValue(
     selectId: String,
     selectedValue: T?,
     values: Collection<T>,
+    isNullAvailable: Boolean = true,
     content: OPTION.(T) -> Unit,
 ) {
     field(fieldLabel) {
-        selectOptionalValue(selectId, selectedValue, values, content)
+        selectOptionalValue(selectId, selectedValue, values, isNullAvailable, content)
     }
 }
 
@@ -172,16 +173,19 @@ fun <T> HtmlBlockTag.selectOptionalValue(
     selectId: String,
     selectedValue: T?,
     values: Collection<T>,
+    isNullAvailable: Boolean = true,
     content: OPTION.(T) -> Unit,
 ) {
     select {
         id = selectId
         name = selectId
         onChange = ON_CHANGE_SCRIPT
-        option {
-            label = "None"
-            value = ""
-            selected = selectedValue == null
+        if (isNullAvailable) {
+            option {
+                label = "None"
+                value = ""
+                selected = selectedValue == null
+            }
         }
         values.forEach { value ->
             option {
