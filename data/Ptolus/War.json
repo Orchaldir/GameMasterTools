@@ -64,7 +64,8 @@
    "status": {
     "type": "Finished",
     "result": {
-     "type": "TotalVictory"
+     "type": "TotalVictory",
+     "side": 1
     },
     "date": {
      "type": "Year",
