@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.selector.time.getCurrentDate
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
+import kotlin.math.min
 
 // show optional
 
@@ -179,10 +180,11 @@ fun HtmlBlockTag.selectOptionalMonth(
     month: Month?,
     param: String,
     minDate: Date? = null,
+    maxDate: Date? = null,
 ) {
     selectOptional(fieldLabel, month, param) {
         val displayMonth = calendar.resolveMonth(it)
-        selectMonth(param, calendar, displayMonth, minDate)
+        selectMonth(param, calendar, displayMonth, minDate, maxDate)
     }
 }
 
@@ -205,10 +207,11 @@ fun HtmlBlockTag.selectOptionalDay(
     day: Day?,
     param: String,
     minDate: Date? = null,
+    maxDate: Date? = null,
 ) {
     selectOptional(fieldLabel, day, param) {
         val displayDay = calendar.resolveDay(it)
-        selectDay(param, calendar, displayDay, minDate)
+        selectDay(param, calendar, displayDay, minDate, maxDate)
     }
 }
 
@@ -221,9 +224,10 @@ fun HtmlBlockTag.selectDate(
     date: Date,
     param: String,
     minDate: Date? = null,
+    maxDate: Date? = null,
     optionalDateTypes: Set<DateType>? = null,
 ) {
-    selectDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate, optionalDateTypes)
+    selectDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate, maxDate, optionalDateTypes)
 }
 
 fun HtmlBlockTag.selectDate(
@@ -232,10 +236,11 @@ fun HtmlBlockTag.selectDate(
     date: Date,
     param: String,
     minDate: Date? = null,
+    maxDate: Date? = null,
     optionalDateTypes: Set<DateType>? = null,
 ) {
     field(fieldLabel) {
-        selectDate(calendar, date, param, minDate, optionalDateTypes)
+        selectDate(calendar, date, param, minDate, maxDate, optionalDateTypes)
     }
 }
 
@@ -244,6 +249,7 @@ private fun HtmlBlockTag.selectDate(
     date: Date,
     param: String,
     minDate: Date? = null,
+    maxDate: Date? = null,
     optionalDateTypes: Set<DateType>? = null,
 ) {
     val displayDate = calendar.resolve(date)
@@ -263,15 +269,15 @@ private fun HtmlBlockTag.selectDate(
         }
     }
     when (displayDate) {
-        is DisplayDay -> selectDay(param, calendar, displayDate, minDate)
+        is DisplayDay -> selectDay(param, calendar, displayDate, minDate, maxDate)
         is DisplayDayRange -> error("Day Range is not supported!")
-        is DisplayWeek -> selectWeek(param, calendar, displayDate, minDate)
-        is DisplayMonth -> selectMonth(param, calendar, displayDate, minDate)
-        is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
-        is DisplayApproximateYear -> selectYear(param, calendar, displayDate, minDate)
-        is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
-        is DisplayCentury -> selectCentury(param, calendar, displayDate, minDate)
-        is DisplayMillennium -> selectMillennium(param, calendar, displayDate, minDate)
+        is DisplayWeek -> selectWeek(param, calendar, displayDate, minDate) // TODO
+        is DisplayMonth -> selectMonth(param, calendar, displayDate, minDate, maxDate)
+        is DisplayYear -> selectYear(param, calendar, displayDate, minDate, maxDate)
+        is DisplayApproximateYear -> selectYear(param, calendar, displayDate, minDate, maxDate)
+        is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate, maxDate)
+        is DisplayCentury -> selectCentury(param, calendar, displayDate, minDate, maxDate)
+        is DisplayMillennium -> selectMillennium(param, calendar, displayDate, minDate, maxDate)
     }
 }
 
@@ -397,11 +403,12 @@ fun FORM.selectMonth(
     month: Month,
     param: String,
     minDate: Date? = null,
+    maxDate: Date? = null,
 ) {
     val displayDate = calendar.resolveMonth(month)
 
     field(fieldLabel) {
-        selectMonth(param, calendar, displayDate, minDate)
+        selectMonth(param, calendar, displayDate, minDate, maxDate)
     }
 }
 
@@ -410,12 +417,14 @@ private fun HtmlBlockTag.selectMonth(
     calendar: Calendar,
     displayDate: DisplayMonth,
     minDate: Date?,
+    maxDate: Date?,
 ) {
     val displayMinDay = minDate?.let { calendar.getStartDisplayDay(it) }
+    val displayMaxDay = maxDate?.let { calendar.getStartDisplayDay(it) }
 
-    selectEraIndex(param, calendar, displayDate.year.eraIndex, displayMinDay?.month?.year)
-    selectYearIndex(param, displayDate.year, displayMinDay?.month?.year)
-    selectMonthIndex(param, calendar, displayDate, displayMinDay?.month)
+    selectEraIndex(param, calendar, displayDate.year.eraIndex, displayMinDay?.month?.year, displayMaxDay?.month?.year)
+    selectYearIndex(param, displayDate.year, displayMinDay?.month?.year, displayMaxDay?.month?.year)
+    selectMonthIndex(param, calendar, displayDate, displayMinDay?.month, displayMaxDay?.month)
 }
 
 fun FORM.selectDay(
@@ -433,11 +442,12 @@ fun FORM.selectDay(
     day: Day,
     param: String,
     minDate: Date? = null,
+    maxDate: Date? = null,
 ) {
     val displayDate = calendar.resolveDay(day)
 
     field(fieldLabel) {
-        selectDay(param, calendar, displayDate, minDate)
+        selectDay(param, calendar, displayDate, minDate, maxDate)
     }
 }
 
@@ -446,13 +456,21 @@ private fun HtmlBlockTag.selectDay(
     calendar: Calendar,
     displayDate: DisplayDay,
     minDate: Date?,
+    maxDate: Date?,
 ) {
     val displayMinDay = minDate?.let { calendar.getStartDisplayDay(it) }
+    val displayMaxDay = maxDate?.let { calendar.getStartDisplayDay(it) }
 
-    selectEraIndex(param, calendar, displayDate.month.year.eraIndex, displayMinDay?.month?.year)
-    selectYearIndex(param, displayDate.month.year, displayMinDay?.month?.year)
-    selectMonthIndex(param, calendar, displayDate.month, displayMinDay?.month)
-    selectDayIndex(param, calendar, displayDate, displayMinDay)
+    selectEraIndex(
+        param,
+        calendar,
+        displayDate.month.year.eraIndex,
+        displayMinDay?.month?.year,
+        displayMaxDay?.month?.year
+    )
+    selectYearIndex(param, displayDate.month.year, displayMinDay?.month?.year, displayMaxDay?.month?.year)
+    selectMonthIndex(param, calendar, displayDate.month, displayMinDay?.month, displayMaxDay?.month)
+    selectDayIndex(param, calendar, displayDate, displayMinDay, displayMaxDay)
 }
 
 // select indices
@@ -587,7 +605,7 @@ fun HtmlBlockTag.selectMonthIndex(
     monthIndex: Int,
 ) {
     field(label) {
-        selectMonthIndex(param, calendar, monthIndex, 0)
+        selectMonthIndex(param, calendar, monthIndex, 0, Int.MAX_VALUE)
     }
 }
 
@@ -596,14 +614,20 @@ private fun HtmlBlockTag.selectMonthIndex(
     calendar: Calendar,
     month: DisplayMonth,
     minMonth: DisplayMonth? = null,
+    maxMonth: DisplayMonth? = null,
 ) {
     val minIndex = if (minMonth != null && month.year == minMonth.year) {
         minMonth.monthIndex
     } else {
         0
     }
+    val maxIndex = if (maxMonth != null && month.year == maxMonth.year) {
+        maxMonth.monthIndex
+    } else {
+        Int.MAX_VALUE
+    }
 
-    selectMonthIndex(param, calendar, month.monthIndex, minIndex)
+    selectMonthIndex(param, calendar, month.monthIndex, minIndex, maxIndex)
 }
 
 private fun HtmlBlockTag.selectMonthIndex(
@@ -611,12 +635,13 @@ private fun HtmlBlockTag.selectMonthIndex(
     calendar: Calendar,
     monthIndex: Int,
     minMonthIndex: Int,
+    maxMonthIndex: Int,
 ) {
     selectWithIndex(combine(param, MONTH), calendar.months.months()) { index, month ->
         label = month.name.text
         value = index.toString()
         selected = monthIndex == index
-        disabled = index < minMonthIndex
+        disabled = index < minMonthIndex || index > maxMonthIndex
     }
 }
 
@@ -663,7 +688,7 @@ fun HtmlBlockTag.selectDayIndex(
     dayIndex: Int,
 ) {
     field(label) {
-        selectDayIndex(param, calendar, monthIndex, dayIndex, 0)
+        selectDayIndex(param, calendar, monthIndex, dayIndex, 0, Int.MAX_VALUE)
     }
 }
 
@@ -684,14 +709,20 @@ private fun HtmlBlockTag.selectDayIndex(
     calendar: Calendar,
     day: DisplayDay,
     minDay: DisplayDay? = null,
+    maxDay: DisplayDay? = null,
 ) {
     val minIndex = if (minDay != null && day.month == minDay.month) {
         minDay.dayIndex
     } else {
         0
     }
+    val maxIndex = if (maxDay != null && day.month == maxDay.month) {
+        maxDay.dayIndex
+    } else {
+        Int.MAX_VALUE
+    }
 
-    selectDayIndex(param, calendar, day.month.monthIndex, day.dayIndex, minIndex)
+    selectDayIndex(param, calendar, day.month.monthIndex, day.dayIndex, minIndex, maxIndex)
 }
 
 private fun HtmlBlockTag.selectDayIndex(
@@ -700,9 +731,10 @@ private fun HtmlBlockTag.selectDayIndex(
     monthIndex: Int,
     dayIndex: Int,
     minDayIndex: Int,
+    maxDayIndex: Int,
 ) {
     val month = calendar.months.getMonth(monthIndex)
-    selectDayIndex(param, dayIndex, minDayIndex, month.days - 1)
+    selectDayIndex(param, dayIndex, minDayIndex, min(maxDayIndex, month.days - 1))
 }
 
 fun HtmlBlockTag.selectDayIndex(

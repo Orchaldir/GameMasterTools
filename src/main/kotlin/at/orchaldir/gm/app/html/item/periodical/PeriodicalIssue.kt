@@ -56,6 +56,7 @@ private fun FORM.selectIssueNumber(
         issue.date,
         DATE,
         periodical.date,
+        null,
         dateTypes,
     )
 }
