@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.RealmReference
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -109,7 +110,19 @@ class WarTest {
                 val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
                 val action = UpdateWar(war)
 
-                assertIllegalArgument("The side doesn't exist!") {
+                assertIllegalArgument("The side '1' doesn't exist!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+
+            @Test
+            fun `The participant cannot have the same 2 times in a row`() {
+                val history = History<Int?>(0, HistoryEntry(0, DAY1))
+                val participant = WarParticipant(RealmReference(REALM_ID_0), history)
+                val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("Cannot have the same side 2 times in a row!") {
                     REDUCER.invoke(STATE, action)
                 }
             }
