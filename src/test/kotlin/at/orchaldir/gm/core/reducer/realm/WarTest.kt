@@ -116,8 +116,17 @@ class WarTest {
             }
 
             @Test
-            fun `The participant cannot have the same 2 times in a row`() {
-                val history = History<Int?>(0, HistoryEntry(0, DAY1))
+            fun `The participant cannot have the same side 2 times in a row`() {
+                testSameSideTwice(0)
+            }
+
+            @Test
+            fun `The participant cannot have no side 2 times in a row`() {
+                testSameSideTwice(null)
+            }
+
+            private fun testSameSideTwice(side: Int?) {
+                val history = History<Int?>(side, HistoryEntry(side, DAY1))
                 val participant = WarParticipant(RealmReference(REALM_ID_0), history)
                 val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
                 val action = UpdateWar(war)
