@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
+import at.orchaldir.gm.core.model.util.RealmReference
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -75,7 +76,8 @@ class WarTest {
 
         @Test
         fun `Realm must exist`() {
-            val war = War(WAR_ID_0, realms = setOf(UNKNOWN_REALM_ID))
+            val participant = WarParticipant(RealmReference(UNKNOWN_REALM_ID))
+            val war = War(WAR_ID_0, participants = listOf(participant))
             val action = UpdateWar(war)
 
             assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }

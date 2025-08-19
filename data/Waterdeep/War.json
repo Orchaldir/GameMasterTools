@@ -10,9 +10,6 @@
    },
    "status": {
     "type": "Finished",
-    "result": {
-     "type": "TotalVictory"
-    },
     "date": {
      "type": "Year",
      "year": 931
@@ -28,9 +25,6 @@
    },
    "status": {
     "type": "Finished",
-    "result": {
-     "type": "TotalVictory"
-    },
     "date": {
      "type": "Year",
      "year": 951
@@ -46,9 +40,6 @@
    },
    "status": {
     "type": "Finished",
-    "result": {
-     "type": "TotalVictory"
-    },
     "date": {
      "type": "Year",
      "year": 962

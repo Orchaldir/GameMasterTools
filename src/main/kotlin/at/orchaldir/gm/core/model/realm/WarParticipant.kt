@@ -10,5 +10,5 @@ val ALLOWED_WAR_PARTICIPANTS = ReferenceType.entries - ReferenceType.Business - 
 @Serializable
 data class WarParticipant(
     val reference: Reference,
-    val side: History<Int?>,
+    val side: History<Int?> = History(0),
 )

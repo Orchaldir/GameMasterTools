@@ -99,7 +99,8 @@ class RealmTest {
 
         @Test
         fun `Cannot delete a realm that participated in a war`() {
-            val war = War(WAR_ID_0, realms = setOf(REALM_ID_0))
+            val participant = WarParticipant(RealmReference(REALM_ID_0))
+            val war = War(WAR_ID_0, participants = listOf(participant))
 
             test(war, "Cannot delete Realm 0, because it is used!")
         }
