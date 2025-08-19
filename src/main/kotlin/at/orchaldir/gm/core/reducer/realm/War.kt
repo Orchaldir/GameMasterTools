@@ -80,7 +80,11 @@ fun validateWarParticipant(state: State, war: War, participant: WarParticipant, 
         }
 
         previousIds.add(id)
+    }
 
-        //checkHistory()
+    checkHistory(state, participant.side, war.startDate, "side") { state, side, noun, date ->
+        if (side != null) {
+            require(side < war.sides.size) { "The $noun doesn't exist!" }
+        }
     }
 }

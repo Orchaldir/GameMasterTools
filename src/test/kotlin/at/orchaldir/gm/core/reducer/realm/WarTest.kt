@@ -104,12 +104,12 @@ class WarTest {
             }
 
             @Test
-            fun `The participants side must exist`() {
+            fun `The participant's side must exist`() {
                 val participant = WarParticipant(RealmReference(REALM_ID_0), History(1))
                 val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
                 val action = UpdateWar(war)
 
-                assertIllegalArgument("Cannot have Participant Realm 0 multiple times!") {
+                assertIllegalArgument("The side doesn't exist!") {
                     REDUCER.invoke(STATE, action)
                 }
             }
