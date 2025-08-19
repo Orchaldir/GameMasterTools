@@ -74,13 +74,22 @@ class WarTest {
             assertIllegalArgument("Requires unknown War 99!") { REDUCER.invoke(STATE, action) }
         }
 
-        @Test
-        fun `Realm must exist`() {
-            val participant = WarParticipant(RealmReference(UNKNOWN_REALM_ID))
-            val war = War(WAR_ID_0, participants = listOf(participant))
-            val action = UpdateWar(war)
+        @Nested
+        inner class ParticipantsTest {
 
-            assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
+            @Test
+            fun `Realm must exist`() {
+                val participant = WarParticipant(RealmReference(UNKNOWN_REALM_ID))
+                val war = War(WAR_ID_0, participants = listOf(participant))
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("Cannot use an unknown Realm 99 as Participant!") {
+                    REDUCER.invoke(
+                        STATE,
+                        action
+                    )
+                }
+            }
         }
 
         @Test
