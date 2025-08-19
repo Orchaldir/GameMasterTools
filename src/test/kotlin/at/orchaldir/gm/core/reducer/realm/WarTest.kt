@@ -8,7 +8,9 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.RealmReference
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -77,11 +79,12 @@ class WarTest {
 
         @Nested
         inner class ParticipantsTest {
+            val sides = listOf(WarSide(Color.Red))
 
             @Test
             fun `Realm must exist`() {
                 val participant = WarParticipant(RealmReference(UNKNOWN_REALM_ID))
-                val war = War(WAR_ID_0, participants = listOf(participant))
+                val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
                 val action = UpdateWar(war)
 
                 assertIllegalArgument("Cannot use an unknown Realm 99 as Participant!") {
@@ -92,7 +95,18 @@ class WarTest {
             @Test
             fun `Cannot have the same participant twice`() {
                 val participant = WarParticipant(RealmReference(REALM_ID_0))
-                val war = War(WAR_ID_0, participants = listOf(participant, participant))
+                val war = War(WAR_ID_0, sides = sides, participants = listOf(participant, participant))
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("Cannot have Participant Realm 0 multiple times!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+
+            @Test
+            fun `The participants side must exist`() {
+                val participant = WarParticipant(RealmReference(REALM_ID_0), History(1))
+                val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
                 val action = UpdateWar(war)
 
                 assertIllegalArgument("Cannot have Participant Realm 0 multiple times!") {

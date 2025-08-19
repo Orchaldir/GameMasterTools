@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.realm.InterruptedByCatastrophe
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarParticipant
 import at.orchaldir.gm.core.model.realm.WarStatus
+import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.core.reducer.util.validateReference
@@ -65,17 +66,21 @@ fun validateWarStatus(state: State, status: WarStatus) {
 }
 
 fun validateWarParticipants(state: State, war: War) {
-    war.participants.forEach { validateWarParticipant(state, war, it) }
+    val previousIds = mutableSetOf<Id<*>>()
+
+    war.participants.forEach {
+        validateWarParticipant(state, war, it, previousIds)
+    }
 }
 
-fun validateWarParticipant(state: State, war: War, participant: WarParticipant) {
-    val ids = mutableSetOf<Id<*>>()
-
+fun validateWarParticipant(state: State, war: War, participant: WarParticipant, previousIds: MutableSet<Id<*>>) {
     validateReference(state, participant.reference, war.startDate, "Participant") { id ->
-        require(ids.contains(id)) {
+        require(!previousIds.contains(id)) {
             "Cannot have Participant ${id.print()} multiple times!"
         }
 
-        ids.add(id)
+        previousIds.add(id)
+
+        //checkHistory()
     }
 }
