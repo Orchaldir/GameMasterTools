@@ -116,6 +116,18 @@ class WarTest {
             }
 
             @Test
+            fun `The participant changes side before the war's start`() {
+                val history = History(1, HistoryEntry(null, DAY0))
+                val participant = WarParticipant(RealmReference(REALM_ID_0), history)
+                val war = War(WAR_ID_0, startDate = DAY1, sides = sides, participants = listOf(participant))
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("1.previous side's until is too early!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+
+            @Test
             fun `The participant cannot have the same side 2 times in a row`() {
                 testSameSideTwice(0)
             }
@@ -126,7 +138,7 @@ class WarTest {
             }
 
             private fun testSameSideTwice(side: Int?) {
-                val history = History<Int?>(side, HistoryEntry(side, DAY1))
+                val history = History(side, HistoryEntry(side, DAY1))
                 val participant = WarParticipant(RealmReference(REALM_ID_0), history)
                 val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
                 val action = UpdateWar(war)
