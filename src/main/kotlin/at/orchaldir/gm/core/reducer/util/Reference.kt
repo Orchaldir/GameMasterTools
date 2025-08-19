@@ -34,9 +34,6 @@ private fun <ID, ELEMENT> validateReference(
     noun: String,
     date: Date?,
 ) where ID : Id<ID>, ELEMENT : Element<ID>, ELEMENT : HasStartDate {
-    val typeNoun = reference.type()
-
-    require(reference != validateId) { "The $typeNoun cannot create itself!" }
     val element = state
         .getStorage<ID, ELEMENT>(reference)
         .getOrThrow(reference) { "Cannot use an unknown ${reference.print()} as $noun!" }

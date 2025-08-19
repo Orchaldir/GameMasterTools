@@ -20,6 +20,7 @@ class WarTest {
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
+            Storage(Realm(REALM_ID_0)),
             Storage(War(WAR_ID_0)),
         )
     )
@@ -84,10 +85,18 @@ class WarTest {
                 val action = UpdateWar(war)
 
                 assertIllegalArgument("Cannot use an unknown Realm 99 as Participant!") {
-                    REDUCER.invoke(
-                        STATE,
-                        action
-                    )
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+
+            @Test
+            fun `Cannot have the same participant twice`() {
+                val participant = WarParticipant(RealmReference(REALM_ID_0))
+                val war = War(WAR_ID_0, participants = listOf(participant, participant))
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("Cannot have Participant Realm 0 multiple times!") {
+                    REDUCER.invoke(STATE, action)
                 }
             }
         }

@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.core.selector.util.requireExist
 import at.orchaldir.gm.core.selector.util.requireExists
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -68,7 +69,13 @@ fun validateWarParticipants(state: State, war: War) {
 }
 
 fun validateWarParticipant(state: State, war: War, participant: WarParticipant) {
-    validateReference(state, participant.reference, war.startDate, "Participant") {
+    val ids = mutableSetOf<Id<*>>()
 
+    validateReference(state, participant.reference, war.startDate, "Participant") { id ->
+        require(ids.contains(id)) {
+            "Cannot have Participant ${id.print()} multiple times!"
+        }
+
+        ids.add(id)
     }
 }
