@@ -61,12 +61,16 @@ fun parseWarId(parameters: Parameters, param: String) = WarId(parseInt(parameter
 fun parseOptionalWarId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { WarId(it) }
 
-fun parseWar(parameters: Parameters, state: State, id: WarId) = War(
-    id,
-    parseName(parameters),
-    parseOptionalDate(parameters, state, combine(START, DATE)),
-    parseWarStatus(parameters, state),
-    parseWarSides(parameters),
-    parseWarParticipants(parameters, state),
-    parseDataSources(parameters),
-)
+fun parseWar(parameters: Parameters, state: State, id: WarId): War {
+    val startDate = parseOptionalDate(parameters, state, combine(START, DATE))
+    
+    return War(
+        id,
+        parseName(parameters),
+        startDate,
+        parseWarStatus(parameters, state),
+        parseWarSides(parameters),
+        parseWarParticipants(parameters, state, startDate),
+        parseDataSources(parameters),
+    )
+}

@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarParticipant
+import at.orchaldir.gm.core.model.time.date.Date
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -72,10 +73,14 @@ fun HtmlBlockTag.editWarParticipants(
 
 // parse
 
-fun parseWarParticipants(parameters: Parameters, state: State) = parseList(parameters, PARTICIPANT, 0) { index, param ->
+fun parseWarParticipants(
+    parameters: Parameters,
+    state: State,
+    date: Date?,
+) = parseList(parameters, PARTICIPANT, 0) { index, param ->
     WarParticipant(
         parseReference(parameters, param),
-        parseHistory(parameters, combine(param, SIDE), state, null) { _, _, sideParam ->
+        parseHistory(parameters, combine(param, SIDE), state, date) { _, _, sideParam ->
             parseSimpleOptionalInt(parameters, sideParam)
         }
     )
