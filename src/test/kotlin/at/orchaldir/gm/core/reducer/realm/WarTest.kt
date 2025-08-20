@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.*
+import at.orchaldir.gm.core.model.realm.WarSide
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.model.util.History
@@ -161,24 +162,25 @@ class WarTest {
 
             @Test
             fun `Cannot have the same color twice`() {
-                val sides = listOf(WarSide(Color.Red), WarSide(Color.Red))
-                val war = War(WAR_ID_0, sides = sides)
-                val action = UpdateWar(war)
-
-                assertIllegalArgument("Multiple sides cannot have the same color!") {
-                    REDUCER.invoke(STATE, action)
-                }
+                assertSides(
+                    listOf(WarSide(Color.Red), WarSide(Color.Red)),
+                    "Multiple sides cannot have the same color!"
+                )
             }
 
             @Test
             fun `Cannot have the same name twice`() {
-                val sides = listOf(WarSide.init(Color.Red, "A"), WarSide.init(Color.Blue, "A"))
+                assertSides(
+                    listOf(WarSide.init(Color.Red, "A"), WarSide.init(Color.Blue, "A")),
+                    "Multiple sides cannot have the same name!",
+                )
+            }
+
+            fun assertSides(sides: List<WarSide>, text: String) {
                 val war = War(WAR_ID_0, sides = sides)
                 val action = UpdateWar(war)
 
-                assertIllegalArgument("Multiple sides cannot have the same name!") {
-                    REDUCER.invoke(STATE, action)
-                }
+                assertIllegalArgument(text) { REDUCER.invoke(STATE, action) }
             }
         }
 
