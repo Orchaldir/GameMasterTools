@@ -86,34 +86,22 @@ class WarTest {
             @Test
             fun `Realm must exist`() {
                 val participant = WarParticipant(RealmReference(UNKNOWN_REALM_ID))
-                val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
-                val action = UpdateWar(war)
 
-                assertIllegalArgument("Cannot use an unknown Realm 99 as Participant!") {
-                    REDUCER.invoke(STATE, action)
-                }
+                assertSides(listOf(participant), "Cannot use an unknown Realm 99 as Participant!")
             }
 
             @Test
             fun `Cannot have the same participant twice`() {
                 val participant = WarParticipant(RealmReference(REALM_ID_0))
-                val war = War(WAR_ID_0, sides = sides, participants = listOf(participant, participant))
-                val action = UpdateWar(war)
 
-                assertIllegalArgument("Cannot have Participant Realm 0 multiple times!") {
-                    REDUCER.invoke(STATE, action)
-                }
+                assertSides(listOf(participant, participant), "Cannot have Participant Realm 0 multiple times!")
             }
 
             @Test
             fun `The participant's side must exist`() {
                 val participant = WarParticipant(RealmReference(REALM_ID_0), History(1))
-                val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
-                val action = UpdateWar(war)
 
-                assertIllegalArgument("The side '1' doesn't exist!") {
-                    REDUCER.invoke(STATE, action)
-                }
+                assertSides(listOf(participant), "The side '1' doesn't exist!")
             }
 
             @Test
@@ -141,12 +129,15 @@ class WarTest {
             private fun testSameSideTwice(side: Int?) {
                 val history = History(side, HistoryEntry(side, DAY1))
                 val participant = WarParticipant(RealmReference(REALM_ID_0), history)
-                val war = War(WAR_ID_0, sides = sides, participants = listOf(participant))
+
+                assertSides(listOf(participant), "Cannot have the same side 2 times in a row!")
+            }
+
+            fun assertSides(participants: List<WarParticipant>, text: String) {
+                val war = War(WAR_ID_0, sides = sides, participants = participants)
                 val action = UpdateWar(war)
 
-                assertIllegalArgument("Cannot have the same side 2 times in a row!") {
-                    REDUCER.invoke(STATE, action)
-                }
+                assertIllegalArgument(text) { REDUCER.invoke(STATE, action) }
             }
         }
 
