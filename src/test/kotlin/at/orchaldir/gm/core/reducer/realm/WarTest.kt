@@ -186,35 +186,29 @@ class WarTest {
         inner class StatusTest {
             @Test
             fun `The catastrophe that interrupted the war must exist`() {
-                val status = FinishedWar(InterruptedByCatastrophe(UNKNOWN_CATASTROPHE_ID), DAY0)
-                val war = War(WAR_ID_0, status = status)
-                val action = UpdateWar(war)
-
-                assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
+                assertResult(InterruptedByCatastrophe(UNKNOWN_CATASTROPHE_ID), "Requires unknown Catastrophe 99!")
             }
 
             @Test
             fun `The treaty must exist`() {
-                val war = War(WAR_ID_0, status = FinishedWar(Peace(UNKNOWN_TREATY_ID), DAY0))
-                val action = UpdateWar(war)
-
-                assertIllegalArgument("Requires unknown Treaty 99!") { REDUCER.invoke(STATE, action) }
+                assertResult(Peace(UNKNOWN_TREATY_ID), "Requires unknown Treaty 99!")
             }
 
             @Test
             fun `The victorious side must exist`() {
-                val war = War(WAR_ID_0, status = FinishedWar(TotalVictory(1)))
-                val action = UpdateWar(war)
-
-                assertIllegalArgument("The result's side '1' doesn't exist!") { REDUCER.invoke(STATE, action) }
+                assertResult(TotalVictory(1), "The result's side '1' doesn't exist!")
             }
 
             @Test
             fun `The surrendering side must exist`() {
-                val war = War(WAR_ID_0, status = FinishedWar(Surrender(1)))
+                assertResult(Surrender(1), "The result's side '1' doesn't exist!")
+            }
+
+            fun assertResult(result: WarResult, text: String) {
+                val war = War(WAR_ID_0, status = FinishedWar(result))
                 val action = UpdateWar(war)
 
-                assertIllegalArgument("The result's side '1' doesn't exist!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument(text) { REDUCER.invoke(STATE, action) }
             }
         }
 
@@ -228,6 +222,7 @@ class WarTest {
                     WarParticipant(RealmReference(REALM_ID_0)),
                     WarParticipant(RealmReference(REALM_ID_1))
                 ),
+                status = FinishedWar(TotalVictory(1)),
             )
             val action = UpdateWar(war)
 
