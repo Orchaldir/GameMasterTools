@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.reducer.util.validateReference
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
-import at.orchaldir.gm.core.selector.util.requireExist
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.Reducer
@@ -49,23 +48,12 @@ val UPDATE_WAR: Reducer<UpdateWar, State> = { state, action ->
 
 fun validateWar(state: State, war: War) {
     validateHasStartAndEnd(state, war)
-    validateWarParticipants(state, war)
-    validateWarStatus(state, war.status)
+    validateParticipants(state, war)
+    validateSides(state, war)
+    validateStatus(state, war.status)
 }
 
-fun validateWarStatus(state: State, status: WarStatus) {
-    if (status is FinishedWar) {
-        status.treaty()?.let {
-            state.requireExists(state.getTreatyStorage(), it, status.date)
-        }
-
-        if (status.result is InterruptedByCatastrophe) {
-            state.requireExists(state.getCatastropheStorage(), status.result.catastrophe, status.date)
-        }
-    }
-}
-
-fun validateWarParticipants(state: State, war: War) {
+private fun validateParticipants(state: State, war: War) {
     val previousIds = mutableSetOf<Id<*>>()
 
     war.participants.forEach {
@@ -73,7 +61,12 @@ fun validateWarParticipants(state: State, war: War) {
     }
 }
 
-fun validateWarParticipant(state: State, war: War, participant: WarParticipant, previousIds: MutableSet<Id<*>>) {
+private fun validateWarParticipant(
+    state: State,
+    war: War,
+    participant: WarParticipant,
+    previousIds: MutableSet<Id<*>>,
+) {
     validateReference(state, participant.reference, war.startDate, "Participant") { id ->
         require(!previousIds.contains(id)) {
             "Cannot have Participant ${id.print()} multiple times!"
@@ -85,6 +78,30 @@ fun validateWarParticipant(state: State, war: War, participant: WarParticipant, 
     checkHistory(state, participant.side, war.startDate, "side") { state, side, noun, date ->
         if (side != null) {
             require(side < war.sides.size) { "The $noun '$side' doesn't exist!" }
+        }
+    }
+}
+
+private fun validateSides(state: State, war: War) {
+    val numberOfUniqueColors = war.sides
+        .map { it.color }
+        .toSet()
+        .size
+
+    require(numberOfUniqueColors == war.sides.size) {
+        "Multiple sides cannot have the same color!"
+    }
+}
+
+
+private fun validateStatus(state: State, status: WarStatus) {
+    if (status is FinishedWar) {
+        status.treaty()?.let {
+            state.requireExists(state.getTreatyStorage(), it, status.date)
+        }
+
+        if (status.result is InterruptedByCatastrophe) {
+            state.requireExists(state.getCatastropheStorage(), status.result.catastrophe, status.date)
         }
     }
 }
