@@ -79,39 +79,6 @@ class WarTest {
         }
 
         @Nested
-        inner class SidesTest {
-            @Test
-            fun `A war with no sides is valid`() {
-                val war = War(WAR_ID_0)
-                val action = UpdateWar(war)
-
-                REDUCER.invoke(STATE, action)
-            }
-
-            @Test
-            fun `Cannot have the same color twice`() {
-                val sides = listOf(WarSide(Color.Red), WarSide(Color.Red))
-                val war = War(WAR_ID_0, sides = sides)
-                val action = UpdateWar(war)
-
-                assertIllegalArgument("Multiple sides cannot have the same color!") {
-                    REDUCER.invoke(STATE, action)
-                }
-            }
-
-            @Test
-            fun `Cannot have the same name twice`() {
-                val sides = listOf(WarSide.init(Color.Red, "A"), WarSide.init(Color.Blue, "A"))
-                val war = War(WAR_ID_0, sides = sides)
-                val action = UpdateWar(war)
-
-                assertIllegalArgument("Multiple sides cannot have the same name!") {
-                    REDUCER.invoke(STATE, action)
-                }
-            }
-        }
-
-        @Nested
         inner class ParticipantsTest {
             val sides = listOf(WarSide(Color.Red))
 
@@ -182,21 +149,65 @@ class WarTest {
             }
         }
 
-        @Test
-        fun `Catastrophe that interrupted the war must exist`() {
-            val status = FinishedWar(InterruptedByCatastrophe(UNKNOWN_CATASTROPHE_ID), DAY0)
-            val war = War(WAR_ID_0, status = status)
-            val action = UpdateWar(war)
+        @Nested
+        inner class SidesTest {
+            @Test
+            fun `A war with no sides is valid`() {
+                val war = War(WAR_ID_0)
+                val action = UpdateWar(war)
 
-            assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
+                REDUCER.invoke(STATE, action)
+            }
+
+            @Test
+            fun `Cannot have the same color twice`() {
+                val sides = listOf(WarSide(Color.Red), WarSide(Color.Red))
+                val war = War(WAR_ID_0, sides = sides)
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("Multiple sides cannot have the same color!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+
+            @Test
+            fun `Cannot have the same name twice`() {
+                val sides = listOf(WarSide.init(Color.Red, "A"), WarSide.init(Color.Blue, "A"))
+                val war = War(WAR_ID_0, sides = sides)
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("Multiple sides cannot have the same name!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
         }
 
-        @Test
-        fun `Treaty must exist`() {
-            val war = War(WAR_ID_0, status = FinishedWar(Peace(UNKNOWN_TREATY_ID), DAY0))
-            val action = UpdateWar(war)
+        @Nested
+        inner class StatusTest {
+            @Test
+            fun `Catastrophe that interrupted the war must exist`() {
+                val status = FinishedWar(InterruptedByCatastrophe(UNKNOWN_CATASTROPHE_ID), DAY0)
+                val war = War(WAR_ID_0, status = status)
+                val action = UpdateWar(war)
 
-            assertIllegalArgument("Requires unknown Treaty 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Treaty must exist`() {
+                val war = War(WAR_ID_0, status = FinishedWar(Peace(UNKNOWN_TREATY_ID), DAY0))
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("Requires unknown Treaty 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `The victorious side must exist`() {
+                val war = War(WAR_ID_0, status = FinishedWar(TotalVictory(1), DAY0))
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("The result's side '1' doesn't exist!") { REDUCER.invoke(STATE, action) }
+            }
         }
 
         @Test

@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.realm.FinishedWar
 import at.orchaldir.gm.core.model.realm.InterruptedByCatastrophe
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarParticipant
-import at.orchaldir.gm.core.model.realm.WarStatus
 import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
@@ -50,7 +49,7 @@ fun validateWar(state: State, war: War) {
     validateHasStartAndEnd(state, war)
     validateParticipants(state, war)
     validateSides(war)
-    validateStatus(state, war.status)
+    validateStatus(state, war)
 }
 
 private fun validateParticipants(state: State, war: War) {
@@ -76,9 +75,7 @@ private fun validateWarParticipant(
     }
 
     checkHistory(state, participant.side, war.startDate, "side") { state, side, noun, date ->
-        if (side != null) {
-            require(side < war.sides.size) { "The $noun '$side' doesn't exist!" }
-        }
+        validateSide(war, side, noun)
     }
 }
 
@@ -104,8 +101,12 @@ private fun validateSides(war: War) {
 }
 
 
-private fun validateStatus(state: State, status: WarStatus) {
+private fun validateStatus(state: State, war: War) {
+    val status = war.status
+
     if (status is FinishedWar) {
+        validateSide(war, status.result.side(), "result's side")
+
         status.treaty()?.let {
             state.requireExists(state.getTreatyStorage(), it, status.date)
         }
@@ -113,5 +114,11 @@ private fun validateStatus(state: State, status: WarStatus) {
         if (status.result is InterruptedByCatastrophe) {
             state.requireExists(state.getCatastropheStorage(), status.result.catastrophe, status.date)
         }
+    }
+}
+
+private fun validateSide(war: War, side: Int?, noun: String) {
+    if (side != null) {
+        require(side < war.sides.size) { "The $noun '$side' doesn't exist!" }
     }
 }

@@ -28,6 +28,15 @@ sealed class WarResult {
         UndefinedWarResult -> WarResultType.Undefined
     }
 
+    fun side() = when (this) {
+        is InterruptedByCatastrophe -> null
+        Disengagement -> null
+        is Peace -> null
+        is Surrender -> side
+        is TotalVictory -> side
+        UndefinedWarResult -> null
+    }
+
     fun treaty() = when (this) {
         is InterruptedByCatastrophe -> treaty
         Disengagement -> null
