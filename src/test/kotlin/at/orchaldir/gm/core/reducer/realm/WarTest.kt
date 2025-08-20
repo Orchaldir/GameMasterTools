@@ -185,7 +185,7 @@ class WarTest {
         @Nested
         inner class StatusTest {
             @Test
-            fun `Catastrophe that interrupted the war must exist`() {
+            fun `The catastrophe that interrupted the war must exist`() {
                 val status = FinishedWar(InterruptedByCatastrophe(UNKNOWN_CATASTROPHE_ID), DAY0)
                 val war = War(WAR_ID_0, status = status)
                 val action = UpdateWar(war)
@@ -194,7 +194,7 @@ class WarTest {
             }
 
             @Test
-            fun `Treaty must exist`() {
+            fun `The treaty must exist`() {
                 val war = War(WAR_ID_0, status = FinishedWar(Peace(UNKNOWN_TREATY_ID), DAY0))
                 val action = UpdateWar(war)
 
@@ -203,7 +203,15 @@ class WarTest {
 
             @Test
             fun `The victorious side must exist`() {
-                val war = War(WAR_ID_0, status = FinishedWar(TotalVictory(1), DAY0))
+                val war = War(WAR_ID_0, status = FinishedWar(TotalVictory(1)))
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("The result's side '1' doesn't exist!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `The surrendering side must exist`() {
+                val war = War(WAR_ID_0, status = FinishedWar(Surrender(1)))
                 val action = UpdateWar(war)
 
                 assertIllegalArgument("The result's side '1' doesn't exist!") { REDUCER.invoke(STATE, action) }
