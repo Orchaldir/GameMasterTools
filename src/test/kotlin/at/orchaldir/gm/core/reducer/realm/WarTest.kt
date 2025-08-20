@@ -105,7 +105,7 @@ class WarTest {
             }
 
             @Test
-            fun `The participant changes side before the war's start`() {
+            fun `The participant cannot change side before the war's start`() {
                 val history = History(1, HistoryEntry(null, DAY0))
                 val participant = WarParticipant(RealmReference(REALM_ID_0), history)
                 val war = War(WAR_ID_0, startDate = DAY1, sides = sides, participants = listOf(participant))
