@@ -90,10 +90,22 @@ class WarTest {
 
             @Test
             fun `Cannot have the same color twice`() {
-                val war = War(WAR_ID_0, sides = listOf(WarSide(Color.Red), WarSide(Color.Red)))
+                val sides = listOf(WarSide(Color.Red), WarSide(Color.Red))
+                val war = War(WAR_ID_0, sides = sides)
                 val action = UpdateWar(war)
 
                 assertIllegalArgument("Multiple sides cannot have the same color!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+
+            @Test
+            fun `Cannot have the same name twice`() {
+                val sides = listOf(WarSide.init(Color.Red, "A"), WarSide.init(Color.Blue, "A"))
+                val war = War(WAR_ID_0, sides = sides)
+                val action = UpdateWar(war)
+
+                assertIllegalArgument("Multiple sides cannot have the same name!") {
                     REDUCER.invoke(STATE, action)
                 }
             }

@@ -49,7 +49,7 @@ val UPDATE_WAR: Reducer<UpdateWar, State> = { state, action ->
 fun validateWar(state: State, war: War) {
     validateHasStartAndEnd(state, war)
     validateParticipants(state, war)
-    validateSides(state, war)
+    validateSides(war)
     validateStatus(state, war.status)
 }
 
@@ -82,7 +82,7 @@ private fun validateWarParticipant(
     }
 }
 
-private fun validateSides(state: State, war: War) {
+private fun validateSides(war: War) {
     val numberOfUniqueColors = war.sides
         .map { it.color }
         .toSet()
@@ -90,6 +90,16 @@ private fun validateSides(state: State, war: War) {
 
     require(numberOfUniqueColors == war.sides.size) {
         "Multiple sides cannot have the same color!"
+    }
+
+    val names = war.sides
+        .mapNotNull { it.name?.text }
+    val numberOfUniqueNames = names
+        .toSet()
+        .size
+
+    require(numberOfUniqueNames == names.size) {
+        "Multiple sides cannot have the same name!"
     }
 }
 
