@@ -23,7 +23,7 @@ class WarTest {
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(Realm(REALM_ID_0)),
+            Storage(listOf(Realm(REALM_ID_0), Realm(REALM_ID_1))),
             Storage(War(WAR_ID_0)),
         )
     )
@@ -201,7 +201,15 @@ class WarTest {
 
         @Test
         fun `Update a war`() {
-            val war = War(WAR_ID_0, NAME)
+            val war = War(
+                WAR_ID_0,
+                NAME,
+                sides = listOf(WarSide.init(Color.Red, "A"), WarSide.init(Color.Blue, "B")),
+                participants = listOf(
+                    WarParticipant(RealmReference(REALM_ID_0)),
+                    WarParticipant(RealmReference(REALM_ID_1))
+                ),
+            )
             val action = UpdateWar(war)
 
             assertEquals(war, REDUCER.invoke(STATE, action).first.getWarStorage().get(WAR_ID_0))
