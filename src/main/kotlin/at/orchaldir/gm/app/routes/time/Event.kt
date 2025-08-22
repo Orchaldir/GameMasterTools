@@ -22,7 +22,6 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Day
-import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.event.*
 import at.orchaldir.gm.core.model.util.font.FontId

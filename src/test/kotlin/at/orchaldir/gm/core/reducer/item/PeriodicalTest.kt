@@ -9,9 +9,9 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
+import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -72,7 +72,7 @@ class PeriodicalTest {
 
         @Test
         fun `Owner is an unknown character`() {
-            val ownership: History<Owner> = History(OwnedByCharacter(UNKNOWN_CHARACTER_ID))
+            val ownership: History<Reference> = History(CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, ownership = ownership))
 
             assertIllegalArgument("Cannot use an unknown Character 99 as owner!") { REDUCER.invoke(STATE, action) }

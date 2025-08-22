@@ -48,7 +48,6 @@ import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId

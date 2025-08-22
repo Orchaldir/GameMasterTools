@@ -53,7 +53,7 @@ class BusinessTest {
         // see OwnershipTest for other elements
         @Test
         fun `Cannot delete a business that owns another element`() {
-            val ownership = History<Owner>(OwnedByBusiness(BUSINESS_ID_0))
+            val ownership = History<Reference>(BusinessReference(BUSINESS_ID_0))
             val newState = createState(Building(BUILDING_ID_0, ownership = ownership))
 
             assertIllegalArgument("Cannot delete Business 0, because of owned elements (Building)!") {

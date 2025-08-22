@@ -55,7 +55,7 @@ class OrganizationTest {
         // see OwnershipTest for other elements
         @Test
         fun `Cannot delete an organization that owns another element`() {
-            val ownership = History<Owner>(OwnedByOrganization(ORGANIZATION_ID_0))
+            val ownership = History<Reference>(OrganizationReference(ORGANIZATION_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
             val newState = state.updateStorage(Storage(building))
 

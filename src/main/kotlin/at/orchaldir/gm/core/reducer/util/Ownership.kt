@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 
-fun checkOwnershipWithOptionalDate(
+fun checkOwnership(
     state: State,
     ownership: History<Reference>,
     creationDate: Date?,

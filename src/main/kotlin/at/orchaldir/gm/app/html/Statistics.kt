@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownMapId

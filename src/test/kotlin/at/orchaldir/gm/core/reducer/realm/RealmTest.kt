@@ -55,7 +55,7 @@ class RealmTest {
         // see OwnershipTest for other elements
         @Test
         fun `Cannot delete a realm that owns another element`() {
-            val ownership = History<Owner>(OwnedByRealm(REALM_ID_0))
+            val ownership = History<Reference>(RealmReference(REALM_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
 
             test(building, "Cannot delete Realm 0, because of owned elements (Building)!")

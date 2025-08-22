@@ -31,30 +31,30 @@ class OwnerTest {
             Storage(Town(TOWN_ID_0, foundingDate = DAY0)),
         )
     )
-    private val OWNED_BY_BUSINESS = History<Owner>(OwnedByBusiness(BUSINESS_ID_0))
-    private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER_ID_2))
-    private val OWNED_BY_ORGANIZATION = History<Owner>(OwnedByOrganization(ORGANIZATION_ID_0))
-    private val OWNED_BY_REALM = History<Owner>(OwnedByRealm(REALM_ID_0))
-    private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN_ID_0))
+    private val OWNED_BY_BUSINESS = History<Reference>(BusinessReference(BUSINESS_ID_0))
+    private val OWNED_BY_CHARACTER = History<Reference>(CharacterReference(CHARACTER_ID_2))
+    private val OWNED_BY_ORGANIZATION = History<Reference>(OrganizationReference(ORGANIZATION_ID_0))
+    private val OWNED_BY_REALM = History<Reference>(RealmReference(REALM_ID_0))
+    private val OWNED_BY_TOWN = History<Reference>(TownReference(TOWN_ID_0))
     private val CHARACTER_AS_PREVIOUS = History(
-        OwnedByTown(TOWN_ID_0),
-        HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY1),
+        TownReference(TOWN_ID_0),
+        HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY1),
     )
     private val ORGANIZATION_AS_PREVIOUS = History(
-        OwnedByCharacter(CHARACTER_ID_2),
-        HistoryEntry(OwnedByOrganization(ORGANIZATION_ID_0), DAY1),
+        CharacterReference(CHARACTER_ID_2),
+        HistoryEntry(OrganizationReference(ORGANIZATION_ID_0), DAY1),
     )
     private val TOWN_AS_PREVIOUS = History(
-        OwnedByCharacter(CHARACTER_ID_2),
-        HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1),
+        CharacterReference(CHARACTER_ID_2),
+        HistoryEntry(TownReference(TOWN_ID_0), DAY1),
     )
 
     @Nested
     inner class CanDeleteOwnerTest {
         private val action = DeleteCharacter(CHARACTER_ID_2)
-        val ownedByCharacter = OwnedByCharacter(CHARACTER_ID_2)
-        private val owner = History<Owner>(ownedByCharacter)
-        private val previousOwner = History(UndefinedOwner, listOf(HistoryEntry(ownedByCharacter, Day(0))))
+        val ownedByCharacter = CharacterReference(CHARACTER_ID_2)
+        private val owner = History<Reference>(ownedByCharacter)
+        private val previousOwner = History(UndefinedReference, listOf(HistoryEntry(ownedByCharacter, Day(0))))
 
         @Test
         fun `Owns a building`() {
@@ -121,7 +121,7 @@ class OwnerTest {
     inner class CheckOwnershipTest {
 
         @Test
-        fun `Owner is an unknown business`() {
+        fun `Reference is an unknown business`() {
             val state = STATE.removeStorage(BUSINESS_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Business 0 as owner!") {
@@ -130,7 +130,7 @@ class OwnerTest {
         }
 
         @Test
-        fun `Owner is an unknown character`() {
+        fun `Reference is an unknown character`() {
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Character 2 as owner!") {
@@ -139,7 +139,7 @@ class OwnerTest {
         }
 
         @Test
-        fun `Owner is an unknown organization`() {
+        fun `Reference is an unknown organization`() {
             val state = STATE.removeStorage(ORGANIZATION_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Organization 0 as owner!") {
@@ -148,7 +148,7 @@ class OwnerTest {
         }
 
         @Test
-        fun `Owner is an unknown Realm`() {
+        fun `Reference is an unknown Realm`() {
             val state = STATE.removeStorage(REALM_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Realm 0 as owner!") {
@@ -157,7 +157,7 @@ class OwnerTest {
         }
 
         @Test
-        fun `Owner is an unknown town`() {
+        fun `Reference is an unknown town`() {
             val state = STATE.removeStorage(TOWN_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Town 0 as owner!") {
@@ -206,10 +206,10 @@ class OwnerTest {
         @Test
         fun `A previous ownership ended before the one before it`() {
             val ownership = History(
-                OwnedByTown(TOWN_ID_0),
+                TownReference(TOWN_ID_0),
                 listOf(
-                    HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY2),
-                    HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1)
+                    HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2),
+                    HistoryEntry(TownReference(TOWN_ID_0), DAY1)
                 )
             )
 
@@ -239,10 +239,10 @@ class OwnerTest {
         @Test
         fun `Second owner didn't exist yet`() {
             val ownership = History(
-                NoOwner,
+                NoReference,
                 listOf(
-                    HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1),
-                    HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY2)
+                    HistoryEntry(TownReference(TOWN_ID_0), DAY1),
+                    HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2)
                 )
             )
             val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, birthDate = DAY2)))
@@ -296,16 +296,16 @@ class OwnerTest {
         fun `Successfully updated with 2 previous owners`() {
             testSuccess(
                 History(
-                    NoOwner,
+                    NoReference,
                     listOf(
-                        HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1),
-                        HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY2)
+                        HistoryEntry(TownReference(TOWN_ID_0), DAY1),
+                        HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2)
                     )
                 )
             )
         }
 
-        private fun testSuccess(ownership: History<Owner>) {
+        private fun testSuccess(ownership: History<Reference>) {
             checkOwnership(STATE, ownership, DAY0)
         }
     }

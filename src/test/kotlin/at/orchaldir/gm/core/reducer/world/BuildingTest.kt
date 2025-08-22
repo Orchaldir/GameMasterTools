@@ -36,7 +36,7 @@ class BuildingTest {
     private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1, STREET_ID_1))
     private val BIG_SIZE = MapSize2d(2, 1)
     private val BIG_SQUARE = square(2)
-    private val OWNERSHIP = History<Owner>(UndefinedOwner)
+    private val OWNERSHIP = History<Reference>(UndefinedReference)
     private val data = Data(time = Time(currentDate = Day(42)))
 
     @Nested
@@ -245,7 +245,7 @@ class BuildingTest {
                 Storage(TownMap(TOWN_MAP_ID_0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
             )
         )
-        private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER_ID_0))
+        private val OWNED_BY_CHARACTER = History<Reference>(CharacterReference(CHARACTER_ID_0))
         private val ACTION = UpdateBuilding(
             BUILDING_ID_0,
             Name.init("New"),
@@ -292,7 +292,8 @@ class BuildingTest {
 
         @Test
         fun `Founder is an unknown character`() {
-            val action = ACTION.copy(builder = CreatedByCharacter(CHARACTER_ID_0), ownership = History(UndefinedOwner))
+            val action =
+                ACTION.copy(builder = CreatedByCharacter(CHARACTER_ID_0), ownership = History(UndefinedReference))
             val state = STATE.removeStorage(CHARACTER_TYPE)
 
             assertIllegalArgument("Cannot use an unknown Character 0 as Builder!") { REDUCER.invoke(state, action) }

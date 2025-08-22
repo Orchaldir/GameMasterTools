@@ -62,7 +62,7 @@ class TownTest {
         // see OwnershipTest for other elements
         @Test
         fun `Cannot delete a town that owns another element`() {
-            val ownership = History<Owner>(OwnedByTown(TOWN_ID_0))
+            val ownership = History<Reference>(TownReference(TOWN_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
             val newState = STATE.updateStorage(Storage(building))
 
