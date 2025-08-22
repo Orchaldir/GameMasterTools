@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.realm.editTown
 import at.orchaldir.gm.app.html.realm.parseTown
 import at.orchaldir.gm.app.html.realm.showTown
 import at.orchaldir.gm.app.html.util.displayVitalStatus
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
@@ -167,7 +167,7 @@ private fun HTML.showAllTowns(
                 tr {
                     tdLink(call, state, town)
                     tdString(town.title)
-                    td { showCreator(call, state, town.founder, false) }
+                    td { showReference(call, state, town.founder, false) }
                     td { showOptionalDate(call, state, town.startDate()) }
                     td { showOptionalDate(call, state, town.endDate()) }
                     td { displayVitalStatus(call, state, town.status) }

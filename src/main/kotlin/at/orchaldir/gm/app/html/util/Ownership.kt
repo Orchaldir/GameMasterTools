@@ -79,7 +79,7 @@ fun FORM.selectOwnership(
     ownership: History<Reference>,
     startDate: Date?,
 ) = selectHistory(state, OWNER, ownership, "Owner", startDate, null) { state, param, owner, date ->
-    selectReference(state, owner, date, param, ALLOWED_OWNERS)
+    selectReference(state, "Owner", owner, date, param, ALLOWED_OWNERS)
 }
 
 // parsing

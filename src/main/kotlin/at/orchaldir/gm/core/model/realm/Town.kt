@@ -31,7 +31,7 @@ data class Town(
     val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val foundingDate: Date? = null,
-    val founder: Creator = UndefinedCreator,
+    val founder: Reference = UndefinedReference,
     val status: VitalStatus = Alive,
     val owner: History<RealmId?> = History(null),
     val population: Population = UndefinedPopulation,

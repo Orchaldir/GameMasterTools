@@ -43,7 +43,7 @@ fun HtmlBlockTag.editWarParticipants(
 
     showDetails("Participants", true) {
         editList("Participant", PARTICIPANT, war.participants, 0, 100) { index, param, participant ->
-            selectReference(state, participant.reference, war.startDate, param, ALLOWED_WAR_PARTICIPANTS)
+            selectReference(state, "Participant", participant.reference, war.startDate, param, ALLOWED_WAR_PARTICIPANTS)
 
             var previousSide: Int? = war.sides.size
 

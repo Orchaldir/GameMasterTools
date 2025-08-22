@@ -1,17 +1,20 @@
 package at.orchaldir.gm.app.html.world
 
+import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PLANE
 import at.orchaldir.gm.app.PURPOSE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.parseGodId
-import at.orchaldir.gm.app.html.util.fieldCreator
+import at.orchaldir.gm.app.html.util.fieldReference
 import at.orchaldir.gm.app.html.util.parseCreator
 import at.orchaldir.gm.app.html.util.selectCreator
+import at.orchaldir.gm.app.html.util.selectReference
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.ALLOWED_CREATORS
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.model.world.plane.PlanePurposeType.*
 import at.orchaldir.gm.core.selector.util.sortGods
@@ -38,7 +41,7 @@ fun HtmlBlockTag.showPlanePurpose(
         }
 
         is PrisonPlane -> {
-            fieldCreator(call, state, purpose.creator, "Creator")
+            fieldReference(call, state, purpose.creator, "Creator")
         }
 
         else -> doNothing()
@@ -107,7 +110,7 @@ fun HtmlBlockTag.editPlanePurpose(
             MaterialPlane -> doNothing()
             is PrisonPlane -> {
                 selectElements(state, "Gods", combine(PURPOSE, GOD), gods, purpose.gods)
-                selectCreator(state, purpose.creator, plane.id, null, "Creator")
+                selectCreator(state, purpose.creator, plane.id, null)
             }
 
             is ReflectivePlane -> selectOtherPlane(state, otherPlanes, purpose.plane)

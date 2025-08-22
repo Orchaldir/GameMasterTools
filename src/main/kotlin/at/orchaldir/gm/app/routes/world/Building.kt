@@ -209,7 +209,7 @@ private fun HTML.showAllBuildings(
                     tdSkipZero(state.countCharactersLivingInHouse(building.id))
                     tdLink(call, state, building.style)
                     td { showReference(call, state, building.ownership.current, false) }
-                    td { showCreator(call, state, building.builder, false) }
+                    td { showReference(call, state, building.builder, false) }
                 }
             }
         }
@@ -238,7 +238,7 @@ private fun HTML.showBuildingDetails(
             fieldAddress(call, state, building)
             optionalField(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state, building.constructionDate)
-            fieldCreator(call, state, building.builder, "Builder")
+            fieldReference(call, state, building.builder, "Builder")
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
             optionalFieldLink("Architectural Style", call, state, building.style)
@@ -271,7 +271,7 @@ private fun HTML.showBuildingEditor(
                 selectAddress(state, building)
                 selectOptionalDate(state, "Construction", building.constructionDate, DATE)
                 fieldAge("Age", state, building.constructionDate)
-                selectCreator(state, building.builder, building.id, building.constructionDate, "Builder")
+                selectCreator(state, building.builder, building.id, building.constructionDate)
                 selectOwnership(state, building.ownership, building.constructionDate)
                 selectOptionalElement(
                     state,

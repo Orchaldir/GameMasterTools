@@ -27,7 +27,7 @@ fun HtmlBlockTag.showQuote(
     field("Text", quote.text)
     optionalField("Description", quote.description)
     field("Type", quote.type)
-    fieldCreator(call, state, quote.source, "Source")
+    fieldReference(call, state, quote.source, "Source")
     optionalField(call, state, "Date", quote.date)
     fieldList(call, state, articles)
     fieldList(call, state, texts)
@@ -56,7 +56,6 @@ fun HtmlBlockTag.editQuote(state: State, quote: Quote) {
         quote.id,
         null,
         "Source",
-        CREATOR,
     )
     selectOptionalDate(state, "Date", quote.date, DATE)
 }

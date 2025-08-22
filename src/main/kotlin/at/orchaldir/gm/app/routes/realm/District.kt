@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editDistrict
 import at.orchaldir.gm.app.html.realm.parseDistrict
 import at.orchaldir.gm.app.html.realm.showDistrict
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreateDistrict
 import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.action.UpdateDistrict
@@ -162,7 +162,7 @@ private fun HTML.showAllDistricts(
                     tdLink(call, state, district)
                     tdLink(call, state, district.town)
                     td { showOptionalDate(call, state, district.foundingDate) }
-                    td { showCreator(call, state, district.founder, false) }
+                    td { showReference(call, state, district.founder, false) }
                     tdSkipZero(district.population.getTotalPopulation())
                 }
             }

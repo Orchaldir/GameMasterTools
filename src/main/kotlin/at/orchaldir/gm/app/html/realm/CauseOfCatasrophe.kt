@@ -1,16 +1,18 @@
 package at.orchaldir.gm.app.html.realm
 
+import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.parseCreator
 import at.orchaldir.gm.app.html.util.selectCreator
-import at.orchaldir.gm.app.html.util.showCreator
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.realm.CauseOfCatastropheType.Undefined
+import at.orchaldir.gm.core.model.util.ALLOWED_CREATORS
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -38,12 +40,12 @@ fun HtmlBlockTag.displayCauseOfCatastrophe(
     when (cause) {
         is AccidentalCatastrophe -> {
             +"Accident caused by "
-            showCreator(call, state, cause.creator)
+            showReference(call, state, cause.creator)
         }
 
         is CreatedCatastrophe -> {
             +"Caused by "
-            showCreator(call, state, cause.creator)
+            showReference(call, state, cause.creator)
         }
 
         NaturalDisaster -> +"Natural Disasters"

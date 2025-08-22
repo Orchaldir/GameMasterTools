@@ -254,7 +254,7 @@ class BuildingTest {
             OWNED_BY_CHARACTER,
             STYLE,
             SingleFamilyHouse,
-            UndefinedCreator
+            UndefinedReference
         )
 
         @Test
@@ -293,7 +293,7 @@ class BuildingTest {
         @Test
         fun `Founder is an unknown character`() {
             val action =
-                ACTION.copy(builder = CreatedByCharacter(CHARACTER_ID_0), ownership = History(UndefinedReference))
+                ACTION.copy(builder = CharacterReference(CHARACTER_ID_0), ownership = History(UndefinedReference))
             val state = STATE.removeStorage(CHARACTER_TYPE)
 
             assertIllegalArgument("Cannot use an unknown Character 0 as Builder!") { REDUCER.invoke(state, action) }
@@ -328,7 +328,7 @@ class BuildingTest {
                 OWNERSHIP,
                 STYLE,
                 SingleFamilyHouse,
-                UndefinedCreator
+                UndefinedReference
             )
 
             @Test
@@ -442,7 +442,7 @@ class BuildingTest {
 
             private fun testSuccessful(address: Address, state: State = STATE, id: BuildingId = BUILDING_ID_0): State {
                 val action =
-                    UpdateBuilding(id, null, address, DAY0, OWNERSHIP, STYLE, SingleFamilyHouse, UndefinedCreator)
+                    UpdateBuilding(id, null, address, DAY0, OWNERSHIP, STYLE, SingleFamilyHouse, UndefinedReference)
 
                 val result = REDUCER.invoke(state, action).first
 
@@ -466,7 +466,7 @@ class BuildingTest {
                 OWNED_BY_CHARACTER,
                 STYLE,
                 SingleFamilyHouse,
-                UndefinedCreator
+                UndefinedReference
             )
 
             @Test

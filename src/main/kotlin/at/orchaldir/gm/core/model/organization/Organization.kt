@@ -27,7 +27,7 @@ value class OrganizationId(val value: Int) : Id<OrganizationId> {
 data class Organization(
     val id: OrganizationId,
     val name: Name = Name.init(id),
-    val founder: Creator = UndefinedCreator,
+    val founder: Reference = UndefinedReference,
     val date: Date? = null,
     val memberRanks: List<MemberRank> = listOf(MemberRank()),
     val members: Map<CharacterId, History<Int?>> = emptyMap(),

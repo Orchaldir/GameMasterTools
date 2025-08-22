@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -55,8 +54,8 @@ fun <ELEMENT : Creation> HtmlBlockTag.showCreatorCount(
     collection: Collection<ELEMENT>,
     label: String,
 ) {
-    showMap(label, countEachCreator(collection)) { builder, count ->
-        showCreator(call, state, builder)
+    showMap(label, countEachCreator(collection)) { creator, count ->
+        showReference(call, state, creator)
         +": $count"
     }
 }

@@ -64,6 +64,7 @@ fun HtmlBlockTag.showReference(
 
 fun HtmlBlockTag.selectReference(
     state: State,
+    label: String,
     reference: Reference,
     date: Date?,
     param: String,
@@ -87,7 +88,7 @@ fun HtmlBlockTag.selectReference(
     val towns = state.getExistingTowns(date)
         .filter { filter(it) }
 
-    selectValue("Type", param, allowedTypes, reference.getType()) { type ->
+    selectValue("$label Type", param, allowedTypes, reference.getType()) { type ->
         when (type) {
             ReferenceType.None, ReferenceType.Undefined -> false
             ReferenceType.Business -> businesses.isEmpty()
@@ -103,6 +104,7 @@ fun HtmlBlockTag.selectReference(
     when (reference) {
         is BusinessReference -> selectElement(
             state,
+            label,
             combine(param, BUSINESS),
             state.sortBusinesses(businesses),
             reference.business,
@@ -110,6 +112,7 @@ fun HtmlBlockTag.selectReference(
 
         is CharacterReference -> selectElement(
             state,
+            label,
             combine(param, CHARACTER),
             characters,
             reference.character,
@@ -117,6 +120,7 @@ fun HtmlBlockTag.selectReference(
 
         is CultureReference -> selectElement(
             state,
+            label,
             combine(param, CULTURE),
             cultures,
             reference.culture,
@@ -124,6 +128,7 @@ fun HtmlBlockTag.selectReference(
 
         is GodReference -> selectElement(
             state,
+            label,
             combine(param, GOD),
             state.sortGods(gods),
             reference.god,
@@ -131,6 +136,7 @@ fun HtmlBlockTag.selectReference(
 
         is OrganizationReference -> selectElement(
             state,
+            label,
             combine(param, ORGANIZATION),
             state.sortOrganizations(organizations),
             reference.organization,
@@ -138,6 +144,7 @@ fun HtmlBlockTag.selectReference(
 
         is RealmReference -> selectElement(
             state,
+            label,
             combine(param, REALM),
             realms,
             reference.realm,
@@ -145,6 +152,7 @@ fun HtmlBlockTag.selectReference(
 
         is TownReference -> selectElement(
             state,
+            label,
             combine(param, TOWN),
             towns,
             reference.town,

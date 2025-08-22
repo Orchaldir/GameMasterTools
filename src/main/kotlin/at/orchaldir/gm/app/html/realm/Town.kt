@@ -39,7 +39,7 @@ fun HtmlBlockTag.showTown(
     town: Town,
 ) {
     optionalField("Title", town.title)
-    fieldCreator(call, state, town.founder, "Founder")
+    fieldReference(call, state, town.founder, "Founder")
     optionalField(call, state, "Founding Date", town.foundingDate)
     showVitalStatus(call, state, town.status)
     showHistory(call, state, town.owner, "Owner", "Independent") { _, _, owner ->

@@ -32,7 +32,7 @@ fun HtmlBlockTag.showBusiness(
     state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
     optionalField(call, state, "Start", business.startDate())
     fieldAge("Age", state, business.startDate())
-    fieldCreator(call, state, business.founder, "Founder")
+    fieldReference(call, state, business.founder, "Founder")
     showOwnership(call, state, business.ownership)
     showEmployees(call, state, employees, showOptionalBusiness = false)
     fieldList(call, state, "Previous Employees", previousEmployees)

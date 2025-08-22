@@ -29,7 +29,7 @@ value class RealmId(val value: Int) : Id<RealmId> {
 data class Realm(
     val id: RealmId,
     val name: Name = Name.init(id),
-    val founder: Creator = UndefinedCreator,
+    val founder: Reference = UndefinedReference,
     val date: Date? = null,
     val status: VitalStatus = Alive,
     val capital: History<TownId?> = History(null),

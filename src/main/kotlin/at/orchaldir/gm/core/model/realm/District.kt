@@ -2,9 +2,9 @@ package at.orchaldir.gm.core.model.realm
 
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.HasStartDate
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.population.HasPopulation
@@ -33,7 +33,7 @@ data class District(
     val name: Name = Name.init(id),
     val town: TownId = TownId(0),
     val foundingDate: Date? = null,
-    val founder: Creator = UndefinedCreator,
+    val founder: Reference = UndefinedReference,
     val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<DistrictId>, Creation, HasDataSources, HasPopulation, HasStartDate {

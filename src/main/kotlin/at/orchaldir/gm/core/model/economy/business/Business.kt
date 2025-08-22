@@ -27,7 +27,7 @@ data class Business(
     val id: BusinessId,
     val name: Name = Name.init(id),
     private val startDate: Date? = null,
-    val founder: Creator = UndefinedCreator,
+    val founder: Reference = UndefinedReference,
     val ownership: History<Reference> = History(UndefinedReference),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<BusinessId>, Creation, HasDataSources, HasOwner, HasStartDate {

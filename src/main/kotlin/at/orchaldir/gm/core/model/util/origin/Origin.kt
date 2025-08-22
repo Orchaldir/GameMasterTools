@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.model.util.origin
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -53,7 +53,7 @@ sealed class Origin : Creation {
         is CreatedElement -> creator
         is ModifiedElement -> modifier
         is TranslatedElement -> translator
-        else -> UndefinedCreator
+        else -> UndefinedReference
     }
 
 }
@@ -73,11 +73,11 @@ data class BornElement(
 @SerialName("Combined")
 data class CombinedElement(
     val parents: Set<Int> = emptySet(),
-    val creator: Creator = UndefinedCreator,
+    val creator: Reference = UndefinedReference,
 ) : Origin() {
 
     companion object {
-        fun init(parents: Set<Id<*>>, creator: Creator = UndefinedCreator) =
+        fun init(parents: Set<Id<*>>, creator: Reference = UndefinedReference) =
             CombinedElement(parents.map { it.value() }.toSet(), creator)
     }
 
@@ -86,7 +86,7 @@ data class CombinedElement(
 @Serializable
 @SerialName("Created")
 data class CreatedElement(
-    val creator: Creator = UndefinedCreator,
+    val creator: Reference = UndefinedReference,
 ) : Origin()
 
 @Serializable
@@ -101,10 +101,10 @@ data class EvolvedElement(val parent: Int) : Origin() {
 @SerialName("Modified")
 data class ModifiedElement(
     val parent: Int,
-    val modifier: Creator = UndefinedCreator,
+    val modifier: Reference = UndefinedReference,
 ) : Origin() {
 
-    constructor(id: Id<*>, modifier: Creator = UndefinedCreator) :
+    constructor(id: Id<*>, modifier: Reference = UndefinedReference) :
             this(id.value(), modifier)
 
 }
@@ -121,10 +121,10 @@ data object PlanarOrigin : Origin()
 @SerialName("Translated")
 data class TranslatedElement(
     val parent: Int,
-    val translator: Creator = UndefinedCreator,
+    val translator: Reference = UndefinedReference,
 ) : Origin() {
 
-    constructor(id: Id<*>, translator: Creator = UndefinedCreator) :
+    constructor(id: Id<*>, translator: Reference = UndefinedReference) :
             this(id.value(), translator)
 
 }

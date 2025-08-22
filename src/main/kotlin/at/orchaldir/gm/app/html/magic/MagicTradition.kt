@@ -25,7 +25,7 @@ fun HtmlBlockTag.showMagicTradition(
     tradition: MagicTradition,
 ) {
     optionalField(call, state, "Date", tradition.date)
-    fieldCreator(call, state, tradition.founder, "Founder")
+    fieldReference(call, state, tradition.founder, "Founder")
     fieldIdList(call, state, tradition.groups)
     showDataSources(call, state, tradition.sources)
 }
