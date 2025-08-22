@@ -24,7 +24,7 @@ fun HtmlBlockTag.showLegalCode(
     state: State,
     code: LegalCode,
 ) {
-    fieldCreator(call, state, code.creator, "Creator")
+    fieldReference(call, state, code.creator, "Creator")
     optionalField(call, state, "Date", code.date)
 
     val realms = state.sortRealms(state.getRealmsWithLegalCode(code.id))

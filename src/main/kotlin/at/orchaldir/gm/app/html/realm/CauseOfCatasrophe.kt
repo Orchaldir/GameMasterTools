@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.parseCreator
 import at.orchaldir.gm.app.html.util.selectCreator
-import at.orchaldir.gm.app.html.util.showCreator
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
@@ -38,12 +38,12 @@ fun HtmlBlockTag.displayCauseOfCatastrophe(
     when (cause) {
         is AccidentalCatastrophe -> {
             +"Accident caused by "
-            showCreator(call, state, cause.creator)
+            showReference(call, state, cause.creator)
         }
 
         is CreatedCatastrophe -> {
             +"Caused by "
-            showCreator(call, state, cause.creator)
+            showReference(call, state, cause.creator)
         }
 
         NaturalDisaster -> +"Natural Disasters"

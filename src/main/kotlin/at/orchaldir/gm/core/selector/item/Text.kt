@@ -7,11 +7,11 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.quote.QuoteId
-import at.orchaldir.gm.core.selector.util.getCreatorName
+import at.orchaldir.gm.core.selector.util.getReferenceName
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
 
@@ -53,7 +53,7 @@ fun State.getAuthorName(id: TextId): String? {
     return getAuthorName(original)
 }
 
-fun State.getAuthorName(text: Text) = getCreatorName(
+fun State.getAuthorName(text: Text) = getReferenceName(
     getOriginal(text)
         .origin
         .creator()
@@ -61,7 +61,7 @@ fun State.getAuthorName(text: Text) = getCreatorName(
 
 fun State.hasAuthor(text: Text) = getOriginal(text)
     .origin
-    .creator() != UndefinedCreator
+    .creator() != UndefinedReference
 
 fun State.getOriginal(id: TextId): Text {
     val text = getTextStorage().getOrThrow(id)

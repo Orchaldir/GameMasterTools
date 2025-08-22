@@ -30,7 +30,7 @@ fun HtmlBlockTag.showDistrict(
 ) {
     fieldLink("Town", call, state, district.town)
     optionalField(call, state, "Date", district.foundingDate)
-    fieldCreator(call, state, district.founder, "Founder")
+    fieldReference(call, state, district.founder, "Founder")
     val residents = state.sortCharacters(state.getCharactersLivingIn(district.id))
     fieldList(call, state, "Residents", residents)
     showPopulation(call, state, district)
@@ -47,7 +47,6 @@ fun FORM.editDistrict(
     selectName(district.name)
     selectElement(
         state,
-        "Town",
         TOWN,
         state.getExistingTowns(district.foundingDate),
         district.town,

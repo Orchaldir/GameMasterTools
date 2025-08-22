@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.Center
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.core.model.util.quote.Quote
-import at.orchaldir.gm.core.selector.util.getCreatorName
+import at.orchaldir.gm.core.selector.util.getReferenceName
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -195,7 +195,7 @@ private fun buildLinkedQuote(
 private fun getQuoteSource(
     state: TextRenderState,
     quote: Quote,
-) = state.state.getCreatorName(quote.source)
+) = state.state.getReferenceName(quote.source)
 
 private fun <C : Chapter> buildPagesForChapters(
     state: TextRenderState,

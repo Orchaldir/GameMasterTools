@@ -4,9 +4,6 @@
   "0": {
    "id": 0,
    "name": "Human",
-   "earShapes": {
-    "Round": "Common"
-   },
    "eye": {
     "eyeColors": {
      "Aqua": "Common",

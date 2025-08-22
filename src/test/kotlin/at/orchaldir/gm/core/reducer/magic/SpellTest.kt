@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.religion.Domain
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.ModifiedElement
@@ -114,7 +114,7 @@ class SpellTest {
 
         @Test
         fun `Creator must exist`() {
-            val origin = CreatedElement(CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val origin = CreatedElement(CharacterReference(UNKNOWN_CHARACTER_ID))
             val spell = Spell(SPELL_ID_0, origin = origin)
             val action = UpdateSpell(spell)
 

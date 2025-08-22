@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editMagicTradition
 import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreateMagicTradition
 import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.action.UpdateMagicTradition
@@ -161,7 +161,7 @@ private fun HTML.showAllMagicTraditions(
                 tr {
                     tdLink(call, state, tradition)
                     td { showOptionalDate(call, state, tradition.startDate()) }
-                    td { showCreator(call, state, tradition.founder, false) }
+                    td { showReference(call, state, tradition.founder, false) }
                     tdSkipZero(tradition.groups.size)
                 }
             }

@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.html.util.fieldCurrentDate
 import at.orchaldir.gm.app.html.util.showEmploymentStatus
-import at.orchaldir.gm.app.html.util.showOwner
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EmploymentStatus
@@ -22,7 +22,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Day
-import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.event.*
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -186,7 +186,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleHistoricEvent(
             "joins",
         )
 
-        HistoryEventType.Ownership -> handleOwnershipChanged(call, state, event as HistoryEvent<ID, Owner>)
+        HistoryEventType.Ownership -> handleOwnershipChanged(call, state, event as HistoryEvent<ID, Reference>)
     }
 }
 
@@ -237,12 +237,12 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleJobChanged(
 private fun <ID : Id<ID>> HtmlBlockTag.handleOwnershipChanged(
     call: ApplicationCall,
     state: State,
-    event: HistoryEvent<ID, Owner>,
+    event: HistoryEvent<ID, Reference>,
 ) {
     link(call, state, event.id)
     +"'s owner changed from "
-    showOwner(call, state, event.from)
+    showReference(call, state, event.from)
     +" to "
-    showOwner(call, state, event.to)
+    showReference(call, state, event.to)
     +"."
 }

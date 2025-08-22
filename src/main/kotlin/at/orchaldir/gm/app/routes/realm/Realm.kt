@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.realm.editRealm
 import at.orchaldir.gm.app.html.realm.parseRealm
 import at.orchaldir.gm.app.html.realm.showRealm
 import at.orchaldir.gm.app.html.util.displayVitalStatus
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreateRealm
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
@@ -169,7 +169,7 @@ private fun HTML.showAllRealms(
             realms.forEach { realm ->
                 tr {
                     tdLink(call, state, realm)
-                    td { showCreator(call, state, realm.founder, false) }
+                    td { showReference(call, state, realm.founder, false) }
                     td { showOptionalDate(call, state, realm.startDate()) }
                     td { showOptionalDate(call, state, realm.endDate()) }
                     tdSkipZero(realm.getAgeInYears(state))

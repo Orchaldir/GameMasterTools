@@ -3,7 +3,11 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Wars of Fire"
+   "name": "Wars of Fire",
+   "startDate": {
+    "type": "~Year",
+    "year": -4000
+   }
   },
   "1": {
    "id": 1,
@@ -60,16 +64,41 @@
    "status": {
     "type": "Finished",
     "result": {
-     "type": "TotalVictory"
+     "type": "TotalVictory",
+     "side": 1
     },
     "date": {
      "type": "Year",
      "year": 713
     }
    },
-   "realms": [
-    2,
-    0
+   "sides": [
+    {
+     "color": "Blue"
+    },
+    {
+     "color": "Red"
+    }
+   ],
+   "participants": [
+    {
+     "reference": {
+      "type": "Realm",
+      "realm": 0
+     },
+     "side": {
+      "current": 0
+     }
+    },
+    {
+     "reference": {
+      "type": "Realm",
+      "realm": 2
+     },
+     "side": {
+      "current": 1
+     }
+    }
    ]
   }
  }

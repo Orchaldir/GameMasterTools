@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.model.world.plane
 
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.model.util.UndefinedReference
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -31,7 +31,7 @@ sealed class PlanePurpose : Creation {
     override fun creator() = if (this is PrisonPlane) {
         creator
     } else {
-        UndefinedCreator
+        UndefinedReference
     }
 }
 
@@ -58,7 +58,7 @@ data object MaterialPlane : PlanePurpose()
 @SerialName("Prison")
 data class PrisonPlane(
     val gods: Set<GodId>,
-    val creator: Creator = UndefinedCreator,
+    val creator: Reference = UndefinedReference,
 ) : PlanePurpose()
 
 @Serializable

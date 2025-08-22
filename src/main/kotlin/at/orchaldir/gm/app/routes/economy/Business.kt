@@ -5,9 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.editBusiness
 import at.orchaldir.gm.app.html.economy.parseBusiness
 import at.orchaldir.gm.app.html.economy.showBusiness
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showOwner
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
@@ -160,8 +159,8 @@ private fun HTML.showAllBusinesses(
                 tr {
                     tdLink(call, state, business)
                     td { showOptionalDate(call, state, business.startDate()) }
-                    td { showCreator(call, state, business.founder, false) }
-                    td { showOwner(call, state, business.ownership.current, false) }
+                    td { showReference(call, state, business.founder, false) }
+                    td { showReference(call, state, business.ownership.current, false) }
                     tdSkipZero(state.getEmployees(business.id).size)
                 }
             }

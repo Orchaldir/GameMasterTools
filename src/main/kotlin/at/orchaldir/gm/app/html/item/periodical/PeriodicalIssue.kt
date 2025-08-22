@@ -36,7 +36,7 @@ fun FORM.editPeriodicalIssue(
     state: State,
     issue: PeriodicalIssue,
 ) {
-    selectElement(state, "Periodical", PERIODICAL, state.getPeriodicalStorage().getAll(), issue.periodical)
+    selectElement(state, PERIODICAL, state.getPeriodicalStorage().getAll(), issue.periodical)
     selectIssueNumber(state, issue)
     val possibleArticle = state.getExistingElements(state.getArticleStorage().getAll(), issue.date)
     selectElements(state, "Articles", CONTENT, possibleArticle, issue.articles)
@@ -56,6 +56,7 @@ private fun FORM.selectIssueNumber(
         issue.date,
         DATE,
         periodical.date,
+        null,
         dateTypes,
     )
 }

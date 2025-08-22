@@ -33,7 +33,7 @@ fun HtmlBlockTag.showOrganization(
     organization: Organization,
 ) {
     optionalField(call, state, "Date", organization.date)
-    fieldCreator(call, state, organization.founder, "Founder")
+    fieldReference(call, state, organization.founder, "Founder")
     showHolidays(call, state, organization.holidays)
     showCreated(call, state, organization.id)
     showMembers(call, state, organization)
@@ -91,7 +91,6 @@ private fun FORM.editMembers(
 
         selectElement(
             state,
-            "Character",
             combine(memberParam, CHARACTER),
             potentialCharacters,
             characterId,
@@ -100,8 +99,8 @@ private fun FORM.editMembers(
             state,
             combine(memberParam, RANK),
             history,
-            character.birthDate,
-            "Rank"
+            "Rank",
+            character.birthDate
         ) { _, param, currentRank, _ ->
             selectOptionalValue("Rank", param, currentRank, rankIds) { rank ->
                 label = organization.memberRanks[rank].name.text

@@ -26,8 +26,9 @@ data class War(
     val id: WarId,
     val name: Name = Name.init(id),
     val startDate: Date? = null,
-    val status: WarStatus = OngoingWar,
-    val realms: Set<RealmId> = emptySet(),
+    val status: WarStatus = FinishedWar(),
+    val sides: List<WarSide> = emptyList(),
+    val participants: List<WarParticipant> = emptyList(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<WarId>, HasDataSources, HasStartAndEndDate {
 
@@ -35,6 +36,12 @@ data class War(
     override fun name() = name.text
     override fun sources() = sources
     override fun startDate() = startDate
-    override fun endDate() = status.endDate()
+    override fun endDate() = when (status) {
+        OngoingWar -> null
+        is FinishedWar -> status.date ?: startDate
+    }
+
+    fun getSideName(index: Int) = sides.getOrNull(index)?.name?.text ?: "${index + 1}.Side"
+    fun getSideIndices() = (0..<sides.size).toList()
 
 }

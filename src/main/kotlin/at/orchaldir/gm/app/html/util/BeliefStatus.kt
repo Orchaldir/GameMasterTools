@@ -53,7 +53,7 @@ fun FORM.editBeliefStatusHistory(
     state: State,
     history: History<BeliefStatus>,
     startDate: Date,
-) = selectHistory(state, BELIEVE, history, startDate, "Belief Status", HtmlBlockTag::editBeliefStatus)
+) = selectHistory(state, BELIEVE, history, "Belief Status", startDate, null, HtmlBlockTag::editBeliefStatus)
 
 fun HtmlBlockTag.editBeliefStatus(
     state: State,
@@ -65,10 +65,9 @@ fun HtmlBlockTag.editBeliefStatus(
 
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()
-        is WorshipsGod -> selectElement(state, "God", combine(param, GOD), state.sortGods(), status.god)
+        is WorshipsGod -> selectElement(state, combine(param, GOD), state.sortGods(), status.god)
         is WorshipsPantheon -> selectElement(
             state,
-            "Pantheon",
             combine(param, PANTHEON),
             state.sortPantheons(),
             status.pantheon

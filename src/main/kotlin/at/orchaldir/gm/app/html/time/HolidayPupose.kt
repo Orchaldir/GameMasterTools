@@ -91,7 +91,6 @@ fun HtmlBlockTag.editHolidayPurpose(
         Anniversary, Fasting, Festival -> doNothing()
         is HolidayOfCatastrophe -> selectElement(
             state,
-            "Catastrophe",
             CATASTROPHE,
             catastrophes,
             purpose.catastrophe,
@@ -99,7 +98,6 @@ fun HtmlBlockTag.editHolidayPurpose(
 
         is HolidayOfGod -> selectElement(
             state,
-            "God",
             GOD,
             gods,
             purpose.god,
@@ -107,7 +105,6 @@ fun HtmlBlockTag.editHolidayPurpose(
 
         is HolidayOfTreaty -> selectElement(
             state,
-            "Treaty",
             TREATY,
             treaties,
             purpose.treaty,
@@ -115,7 +112,6 @@ fun HtmlBlockTag.editHolidayPurpose(
 
         is HolidayOfWar -> selectElement(
             state,
-            "War",
             WAR,
             wars,
             purpose.war,

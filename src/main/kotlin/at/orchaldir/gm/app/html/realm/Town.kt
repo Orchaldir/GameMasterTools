@@ -39,7 +39,7 @@ fun HtmlBlockTag.showTown(
     town: Town,
 ) {
     optionalField("Title", town.title)
-    fieldCreator(call, state, town.founder, "Founder")
+    fieldReference(call, state, town.founder, "Founder")
     optionalField(call, state, "Founding Date", town.foundingDate)
     showVitalStatus(call, state, town.status)
     showHistory(call, state, town.owner, "Owner", "Independent") { _, _, owner ->
@@ -85,7 +85,7 @@ fun FORM.editTown(
         VALID_VITAL_STATUS_FOR_TOWNS,
         VALID_CAUSES_FOR_TOWNS,
     )
-    selectHistory(state, OWNER, town.owner, town.foundingDate, "Owner") { _, param, owner, start ->
+    selectHistory(state, OWNER, town.owner, "Owner", town.foundingDate) { _, param, owner, start ->
         selectOptionalElement(
             state,
             "Realm",

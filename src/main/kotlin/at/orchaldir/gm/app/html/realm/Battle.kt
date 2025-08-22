@@ -84,7 +84,6 @@ private fun HtmlBlockTag.editBattleParticipant(
 ) {
     selectElement(
         state,
-        "Realm",
         combine(param, REALM),
         realms,
         participant.realm,

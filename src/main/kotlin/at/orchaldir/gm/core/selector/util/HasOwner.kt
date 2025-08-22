@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HasOwner
+import at.orchaldir.gm.core.model.util.isOwnedBy
 import at.orchaldir.gm.core.model.util.wasOwnedBy
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -15,7 +16,7 @@ fun <ID0, ID1, ELEMENT> getOwned(
         ELEMENT : Element<ID0>,
         ELEMENT : HasOwner = storage
     .getAll()
-    .filter { it.owner().current.isOwnedBy(id) }
+    .filter { it.owner().isOwnedBy(id) }
 
 fun <ID0, ID1, ELEMENT> getPreviouslyOwned(
     storage: Storage<ID0, ELEMENT>,
@@ -44,7 +45,7 @@ fun <ID0, ID1, ELEMENT> isCurrentOrFormerOwner(
     .any {
         val owner = it.owner()
 
-        owner.current.isOwnedBy(id) || owner.wasOwnedBy(id)
+        owner.isOwnedBy(id) || owner.wasOwnedBy(id)
     }
 
 fun <ID : Id<ID>> checkIfOwnerCanBeDeleted(

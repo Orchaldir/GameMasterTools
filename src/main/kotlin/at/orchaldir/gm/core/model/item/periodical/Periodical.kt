@@ -25,7 +25,7 @@ value class PeriodicalId(val value: Int) : Id<PeriodicalId> {
 data class Periodical(
     val id: PeriodicalId,
     val name: Name = Name.init(id),
-    val ownership: History<Owner> = History(UndefinedOwner),
+    val ownership: History<Reference> = History(UndefinedReference),
     val language: LanguageId = LanguageId(0),
     val calendar: CalendarId = CalendarId(0),
     val date: Date? = null,

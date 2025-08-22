@@ -183,7 +183,6 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
         Accident -> doNothing()
         is DeathByDisease -> selectElement(
             state,
-            "Diseases",
             DISEASE,
             diseases,
             cause.disease,
@@ -191,7 +190,6 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
 
         is DeathByCatastrophe -> selectElement(
             state,
-            "Catastrophe",
             CATASTROPHE,
             catastrophes,
             cause.catastrophe,
@@ -199,7 +197,6 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
 
         is DeathInWar -> selectElement(
             state,
-            "War",
             WAR,
             wars,
             cause.war,
@@ -207,7 +204,6 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
 
         is DeathInBattle -> selectElement(
             state,
-            "Battle",
             BATTLE,
             battles,
             cause.battle,
@@ -215,7 +211,6 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
 
         is Murder -> selectElement(
             state,
-            "Killer",
             KILLER,
             characters,
             cause.killer,

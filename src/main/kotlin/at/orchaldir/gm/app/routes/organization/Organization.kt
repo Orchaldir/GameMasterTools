@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.organization.editOrganization
 import at.orchaldir.gm.app.html.organization.parseOrganization
 import at.orchaldir.gm.app.html.organization.showOrganization
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
@@ -164,7 +164,7 @@ private fun HTML.showAllOrganizations(
                     tdLink(call, state, organization)
                     td { showOptionalDate(call, state, organization.date) }
                     tdSkipZero(state.getAgeInYears(organization.date))
-                    td { showCreator(call, state, organization.founder, false) }
+                    td { showReference(call, state, organization.founder, false) }
                     tdSkipZero(organization.memberRanks.size)
                     tdSkipZero(organization.countAllMembers())
                 }

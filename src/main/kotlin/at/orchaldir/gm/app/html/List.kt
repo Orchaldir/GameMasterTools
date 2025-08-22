@@ -99,6 +99,18 @@ fun <T> HtmlBlockTag.fieldList(
     }
 }
 
+fun <T> HtmlBlockTag.fieldListWithIndex(
+    label: String,
+    elements: Collection<T>,
+    content: HtmlBlockTag.(Int, T) -> Unit,
+) {
+    if (elements.isNotEmpty()) {
+        field(label) {
+            showListWithIndex(elements, content)
+        }
+    }
+}
+
 fun <T> HtmlBlockTag.showInlineList(
     elements: Collection<T>,
     content: (T) -> Unit,

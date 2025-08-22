@@ -40,7 +40,7 @@ fun FORM.editHoliday(
     val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
 
     selectName(holiday.name)
-    selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), holiday.calendar)
+    selectElement(state, CALENDAR, state.getCalendarStorage().getAll(), holiday.calendar)
     selectRelativeDate(DATE, holiday.relativeDate, calendar)
     editHolidayPurpose(state, holiday.purpose)
 }

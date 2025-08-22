@@ -6,10 +6,10 @@ import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.health.Disease
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathByDisease
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.EvolvedElement
 import at.orchaldir.gm.core.model.util.origin.ModifiedElement
@@ -45,7 +45,7 @@ class DiseaseTest {
 
         @Test
         fun `Cannot delete a modified disease`() {
-            val disease1 = Disease(DISEASE_ID_1, origin = ModifiedElement(DISEASE_ID_0, UndefinedCreator))
+            val disease1 = Disease(DISEASE_ID_1, origin = ModifiedElement(DISEASE_ID_0, UndefinedReference))
             val state = STATE.updateStorage(Storage(listOf(disease0, disease1)))
 
             assertIllegalArgument("Cannot delete Disease 0, because it is used!") {
@@ -108,7 +108,7 @@ class DiseaseTest {
 
         @Test
         fun `Modifier must exist`() {
-            val origin = CreatedElement(CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val origin = CreatedElement(CharacterReference(UNKNOWN_CHARACTER_ID))
             val disease = Disease(DISEASE_ID_0, origin = origin)
             val action = UpdateDisease(disease)
 

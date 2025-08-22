@@ -310,7 +310,6 @@ private fun HtmlBlockTag.selectColorSchemeToVisualizeEquipment(
 
     selectElement(
         state,
-        "Color Scheme",
         SCHEME,
         colorSchemes,
         colorSchemeId,

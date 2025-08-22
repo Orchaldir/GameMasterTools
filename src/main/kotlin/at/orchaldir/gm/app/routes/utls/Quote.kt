@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.quote.editQuote
 import at.orchaldir.gm.app.html.util.quote.parseQuote
 import at.orchaldir.gm.app.html.util.quote.showQuote
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreateQuote
 import at.orchaldir.gm.core.action.DeleteQuote
 import at.orchaldir.gm.core.action.UpdateQuote
@@ -158,7 +158,7 @@ private fun HTML.showAllQuotes(
                     tdLink(call, state, quote)
                     tdEnum(quote.type)
                     td { showOptionalDate(call, state, quote.startDate()) }
-                    td { showCreator(call, state, quote.source, false) }
+                    td { showReference(call, state, quote.source, false) }
                 }
             }
         }

@@ -43,7 +43,7 @@ class BusinessTest {
         // see CreatorTest for other elements
         @Test
         fun `Cannot delete a business that created another element`() {
-            val newState = createState(Building(BUILDING_ID_0, builder = CreatedByBusiness(BUSINESS_ID_0)))
+            val newState = createState(Building(BUILDING_ID_0, builder = BusinessReference(BUSINESS_ID_0)))
 
             assertIllegalArgument("Cannot delete Business 0, because of created elements (Building)!") {
                 REDUCER.invoke(newState, action)
@@ -53,7 +53,7 @@ class BusinessTest {
         // see OwnershipTest for other elements
         @Test
         fun `Cannot delete a business that owns another element`() {
-            val ownership = History<Owner>(OwnedByBusiness(BUSINESS_ID_0))
+            val ownership = History<Reference>(BusinessReference(BUSINESS_ID_0))
             val newState = createState(Building(BUILDING_ID_0, ownership = ownership))
 
             assertIllegalArgument("Cannot delete Business 0, because of owned elements (Building)!") {
@@ -120,7 +120,8 @@ class BusinessTest {
 
         @Test
         fun `Owner is an unknown character`() {
-            val action = UpdateBusiness(Business(BUSINESS_ID_0, ownership = History(OwnedByCharacter(CHARACTER_ID_0))))
+            val action =
+                UpdateBusiness(Business(BUSINESS_ID_0, ownership = History(CharacterReference(CHARACTER_ID_0))))
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Character 0 as owner!") { REDUCER.invoke(state, action) }
@@ -128,7 +129,7 @@ class BusinessTest {
 
         @Test
         fun `Founder is an unknown character`() {
-            val action = UpdateBusiness(Business(BUSINESS_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+            val action = UpdateBusiness(Business(BUSINESS_ID_0, founder = CharacterReference(CHARACTER_ID_0)))
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Character 0 as Founder!") { REDUCER.invoke(state, action) }

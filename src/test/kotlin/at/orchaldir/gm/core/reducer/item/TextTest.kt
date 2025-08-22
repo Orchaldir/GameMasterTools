@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.font.SolidFont
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.TranslatedElement
@@ -60,7 +60,7 @@ class TextTest {
 
         @Test
         fun `Cannot delete a translated text`() {
-            val origin = TranslatedElement(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(TEXT_ID_0, CharacterReference(CHARACTER_ID_0))
             val state = STATE.updateStorage(
                 Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, origin = origin)))
             )
@@ -90,7 +90,7 @@ class TextTest {
 
         @Test
         fun `Author must exist`() {
-            val origin = CreatedElement(CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val origin = CreatedElement(CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(STATE, action) }
@@ -117,7 +117,7 @@ class TextTest {
 
         @Test
         fun `Successfully update an original text`() {
-            val origin = CreatedElement(CreatedByCharacter(CHARACTER_ID_0))
+            val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
             val text = Text(TEXT_ID_0, origin = origin)
             val action = UpdateText(text)
 
@@ -126,7 +126,7 @@ class TextTest {
 
         @Test
         fun `Translator must exist`() {
-            val origin = TranslatedElement(TEXT_ID_1, CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val origin = TranslatedElement(TEXT_ID_1, CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(STATE, action) }
@@ -134,7 +134,7 @@ class TextTest {
 
         @Test
         fun `Translated text must exist`() {
-            val origin = TranslatedElement(UNKNOWN_TEXT_ID, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(UNKNOWN_TEXT_ID, CharacterReference(CHARACTER_ID_0))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Requires unknown parent Text 99!") { REDUCER.invoke(STATE, action) }
@@ -142,7 +142,7 @@ class TextTest {
 
         @Test
         fun `A text cannot translate itself`() {
-            val origin = TranslatedElement(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(TEXT_ID_0, CharacterReference(CHARACTER_ID_0))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Text 0 cannot be its own parent!") { REDUCER.invoke(STATE, action) }
@@ -150,7 +150,7 @@ class TextTest {
 
         @Test
         fun `The translation must happen after the original was written`() {
-            val origin = TranslatedElement(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(TEXT_ID_1, CharacterReference(CHARACTER_ID_0))
             val action = UpdateText(Text(TEXT_ID_0, date = DAY0, origin = origin))
 
             assertIllegalArgument("The parent Text 1 doesn't exist at the required date!") {
@@ -160,7 +160,7 @@ class TextTest {
 
         @Test
         fun `Successfully update a translated text`() {
-            val origin = TranslatedElement(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedElement(TEXT_ID_1, CharacterReference(CHARACTER_ID_0))
             val text = Text(TEXT_ID_0, origin = origin)
             val action = UpdateText(text)
 

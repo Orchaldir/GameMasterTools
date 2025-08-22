@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
+import at.orchaldir.gm.core.reducer.util.checkOwnership
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
 import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
@@ -44,7 +44,7 @@ fun validatePeriodical(
     state.getLanguageStorage().require(periodical.language)
     validateFrequency(state, periodical)
     checkDate(state, date, "Founding")
-    checkOwnershipWithOptionalDate(state, periodical.ownership, date)
+    checkOwnership(state, periodical.ownership, date)
 }
 
 private fun validateFrequency(state: State, periodical: Periodical) {

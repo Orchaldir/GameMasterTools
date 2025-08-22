@@ -2,9 +2,9 @@ package at.orchaldir.gm.core.model.magic
 
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.HasStartDate
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -29,7 +29,7 @@ data class MagicTradition(
     val id: MagicTraditionId,
     val name: Name = Name.init(id),
     val date: Date? = null,
-    val founder: Creator = UndefinedCreator,
+    val founder: Reference = UndefinedReference,
     val groups: Set<SpellGroupId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<MagicTraditionId>, Creation, HasDataSources, HasStartDate {

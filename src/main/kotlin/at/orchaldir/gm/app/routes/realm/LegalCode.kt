@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editLegalCode
 import at.orchaldir.gm.app.html.realm.parseLegalCode
 import at.orchaldir.gm.app.html.realm.showLegalCode
-import at.orchaldir.gm.app.html.util.showCreator
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreateLegalCode
 import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.action.UpdateLegalCode
@@ -161,7 +161,7 @@ private fun HTML.showAllLegalCodes(
                 tr {
                     tdLink(call, state, code)
                     td { showOptionalDate(call, state, code.date) }
-                    td { showCreator(call, state, code.creator, false) }
+                    td { showReference(call, state, code.creator, false) }
                     tdSkipZero(state.countRealmsWithLegalCodeAtAnyTime(code.id))
                 }
             }

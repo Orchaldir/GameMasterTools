@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Creator
+import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.origin.*
 import at.orchaldir.gm.core.selector.character.getPossibleFathers
 import at.orchaldir.gm.core.selector.character.getPossibleMothers
@@ -69,7 +69,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
 
         is CreatedElement -> {
             +"Created by "
-            showCreator(call, state, origin.creator)
+            showReference(call, state, origin.creator)
         }
 
         is EvolvedElement -> {
@@ -99,13 +99,13 @@ fun <ID : Id<ID>> HtmlBlockTag.showOrigin(
 private fun <ID : Id<ID>> HtmlBlockTag.showCreatorAndParent(
     call: ApplicationCall,
     state: State,
-    creator: Creator,
+    creator: Reference,
     original: ID,
     verb: String,
 ) {
     link(call, state, original)
     +" $verb by "
-    showCreator(call, state, creator)
+    showReference(call, state, creator)
 }
 
 // edit
@@ -158,10 +158,10 @@ fun <ID : Id<ID>> HtmlBlockTag.editOrigin(
                     .map(createId)
                     .toSet(),
             )
-            selectCreator(state, id, origin.creator, date)
+            selectCreator(state, origin.creator, id, date)
         }
 
-        is CreatedElement -> selectCreator(state, id, origin.creator, date)
+        is CreatedElement -> selectCreator(state, origin.creator, id, date)
         is EvolvedElement -> selectParent(state, availableParents, createId(origin.parent))
         is ModifiedElement -> selectCreatorAndParent(
             state,
@@ -191,11 +191,11 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectCreatorAndPa
     state: State,
     id: ID,
     availableParents: List<ELEMENT>,
-    creator: Creator,
+    creator: Reference,
     parent: ID,
     date: Date?,
 ) {
-    selectCreator(state, id, creator, date)
+    selectCreator(state, creator, id, date)
     selectParent(state, availableParents, parent)
 }
 
@@ -211,15 +211,6 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectParent(
         availableParents,
         parent,
     )
-}
-
-private fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
-    state: State,
-    id: ID,
-    creator: Creator,
-    date: Date?,
-) {
-    selectCreator(state, creator, id, date, "Creator")
 }
 
 // parse

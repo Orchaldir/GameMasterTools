@@ -52,7 +52,7 @@ class TownTest {
         // see CreatorTest for other elements
         @Test
         fun `Cannot delete a town that created another element`() {
-            val state = createState(Building(BUILDING_ID_0, builder = CreatedByTown(TOWN_ID_0)))
+            val state = createState(Building(BUILDING_ID_0, builder = TownReference(TOWN_ID_0)))
 
             assertIllegalArgument("Cannot delete Town 0, because of created elements (Building)!") {
                 REDUCER.invoke(state, action)
@@ -62,7 +62,7 @@ class TownTest {
         // see OwnershipTest for other elements
         @Test
         fun `Cannot delete a town that owns another element`() {
-            val ownership = History<Owner>(OwnedByTown(TOWN_ID_0))
+            val ownership = History<Reference>(TownReference(TOWN_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
             val newState = STATE.updateStorage(Storage(building))
 
@@ -198,7 +198,7 @@ class TownTest {
 
         @Test
         fun `Founder must exist`() {
-            val action = UpdateTown(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+            val action = UpdateTown(Town(TOWN_ID_0, founder = CharacterReference(CHARACTER_ID_0)))
 
             assertIllegalArgument("Cannot use an unknown Character 0 as founder!") { REDUCER.invoke(STATE, action) }
         }

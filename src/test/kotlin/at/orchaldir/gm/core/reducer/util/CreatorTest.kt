@@ -47,13 +47,13 @@ class CreatorTest {
         )
     )
 
-    private val createdByBusiness = CreatedByBusiness(BUSINESS_ID_0)
-    private val createdByCharacter = CreatedByCharacter(CHARACTER_ID_0)
-    private val createdByCulture = CreatedByCulture(CULTURE_ID_0)
-    private val createdByGod = CreatedByGod(GOD_ID_0)
-    private val createdByOrganization = CreatedByOrganization(ORGANIZATION_ID_0)
-    private val createdByRealm = CreatedByRealm(REALM_ID_0)
-    private val createdByTown = CreatedByTown(TOWN_ID_0)
+    private val createdByBusiness = BusinessReference(BUSINESS_ID_0)
+    private val createdByCharacter = CharacterReference(CHARACTER_ID_0)
+    private val createdByCulture = CultureReference(CULTURE_ID_0)
+    private val createdByGod = GodReference(GOD_ID_0)
+    private val createdByOrganization = OrganizationReference(ORGANIZATION_ID_0)
+    private val createdByRealm = RealmReference(REALM_ID_0)
+    private val createdByTown = TownReference(TOWN_ID_0)
 
     @Nested
     inner class CanDeleteCreatorTest {
@@ -71,7 +71,7 @@ class CreatorTest {
 
         @Test
         fun `Created a catastrophe`() {
-            val cause = CreatedCatastrophe(CreatedByCharacter(CHARACTER_ID_0))
+            val cause = CreatedCatastrophe(CharacterReference(CHARACTER_ID_0))
 
             test(Catastrophe(CATASTROPHE_ID_0, cause = cause))
         }
@@ -157,14 +157,14 @@ class CreatorTest {
 
             @Test
             fun `Creator cannot create itself`() {
-                assertIllegalArgument("The Business cannot create itself!") {
-                    validateCreator(STATE, createdByBusiness, BUSINESS_ID_0, DAY0, "Builder")
+                assertIllegalArgument("The Builder (Business 0) cannot create itself!") {
+                    validateCreator(STATE, createdByBusiness, BUSINESS_ID_0, null, "Builder")
                 }
             }
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("Builder (Business 0) does not exist!") {
+                assertIllegalArgument("The Builder (Business 0) does not exist!") {
                     validateCreator(STATE, createdByBusiness, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -189,7 +189,7 @@ class CreatorTest {
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("Builder (Character 0) does not exist!") {
+                assertIllegalArgument("The Builder (Character 0) does not exist!") {
                     validateCreator(STATE, createdByCharacter, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -250,14 +250,14 @@ class CreatorTest {
 
             @Test
             fun `Creator cannot create itself`() {
-                assertIllegalArgument("The Organization cannot create itself!") {
-                    validateCreator(STATE, createdByOrganization, ORGANIZATION_ID_0, DAY0, "Builder")
+                assertIllegalArgument("The Builder (Organization 0) cannot create itself!") {
+                    validateCreator(STATE, createdByOrganization, ORGANIZATION_ID_0, null, "Builder")
                 }
             }
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("Builder (Organization 0) does not exist!") {
+                assertIllegalArgument("The Builder (Organization 0) does not exist!") {
                     validateCreator(STATE, createdByOrganization, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -282,14 +282,14 @@ class CreatorTest {
 
             @Test
             fun `Creator cannot create itself`() {
-                assertIllegalArgument("The Realm cannot create itself!") {
-                    validateCreator(STATE, createdByRealm, REALM_ID_0, DAY0, "Builder")
+                assertIllegalArgument("The Builder (Realm 0) cannot create itself!") {
+                    validateCreator(STATE, createdByRealm, REALM_ID_0, null, "Builder")
                 }
             }
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("Builder (Realm 0) does not exist!") {
+                assertIllegalArgument("The Builder (Realm 0) does not exist!") {
                     validateCreator(STATE, createdByRealm, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -314,14 +314,14 @@ class CreatorTest {
 
             @Test
             fun `Creator cannot create itself`() {
-                assertIllegalArgument("The Town cannot create itself!") {
-                    validateCreator(STATE, createdByTown, TOWN_ID_0, DAY0, "Builder")
+                assertIllegalArgument("The Builder (Town 0) cannot create itself!") {
+                    validateCreator(STATE, createdByTown, TOWN_ID_0, null, "Builder")
                 }
             }
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("Builder (Town 0) does not exist!") {
+                assertIllegalArgument("The Builder (Town 0) does not exist!") {
                     validateCreator(STATE, createdByTown, BUILDING_ID_0, DAY0, "Builder")
                 }
             }

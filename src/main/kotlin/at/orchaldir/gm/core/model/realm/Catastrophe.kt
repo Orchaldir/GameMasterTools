@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.realm
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartAndEndDate
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -38,6 +38,6 @@ data class Catastrophe(
     override fun sources() = sources
     override fun startDate() = startDate
     override fun endDate() = endDate
-    override fun creator() = cause.creator() ?: UndefinedCreator
+    override fun creator() = cause.creator() ?: UndefinedReference
 
 }

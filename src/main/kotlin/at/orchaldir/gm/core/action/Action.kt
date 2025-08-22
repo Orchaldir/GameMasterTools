@@ -46,9 +46,8 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
-import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.Name
@@ -424,10 +423,10 @@ data class UpdateBuilding(
     val name: Name?,
     val address: Address,
     val constructionDate: Date?,
-    val ownership: History<Owner>,
+    val ownership: History<Reference>,
     val style: ArchitecturalStyleId?,
     val purpose: BuildingPurpose,
-    val builder: Creator,
+    val builder: Reference,
 ) : WorldAction() {
 
     fun applyTo(building: Building) = building.copy(

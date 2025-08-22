@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.realm
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.optionalField
-import at.orchaldir.gm.app.html.util.parseDate
+import at.orchaldir.gm.app.html.util.parseOptionalDate
 import at.orchaldir.gm.app.html.util.selectOptionalDate
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -23,30 +23,31 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showWarStatus(
     call: ApplicationCall,
     state: State,
-    status: WarStatus,
+    war: War,
 ) {
     field("Status") {
-        displayWarStatus(call, state, status)
+        displayWarStatus(call, state, war)
     }
-    optionalFieldLink(call, state, status.treaty())
-    optionalField(call, state, "End Date", status.endDate())
+    optionalFieldLink(call, state, war.status.treaty())
+    optionalField(call, state, "End Date", war.status.endDate())
 }
 
 fun HtmlBlockTag.displayWarStatus(
     call: ApplicationCall,
     state: State,
-    status: WarStatus,
+    war: War,
     showUndefined: Boolean = true,
 ) {
-    when (status) {
+    when (war.status) {
         OngoingWar -> +"Ongoing"
-        is FinishedWar -> displayWarResult(call, state, status.result, showUndefined)
+        is FinishedWar -> displayWarResult(call, state, war, war.status.result, showUndefined)
     }
 }
 
 fun HtmlBlockTag.displayWarResult(
     call: ApplicationCall,
     state: State,
+    war: War,
     result: WarResult,
     showUndefined: Boolean = true,
 ) {
@@ -58,8 +59,8 @@ fun HtmlBlockTag.displayWarResult(
 
         Disengagement -> +"Disengagement"
         is Peace -> +"Peace"
-        is Surrender -> +"Surrender"
-        TotalVictory -> +"Total Victory"
+        is Surrender -> +"${war.getSideName(result.side)} surrendered"
+        is TotalVictory -> +"Total Victory of ${war.getSideName(result.side)}"
         UndefinedWarResult -> if (showUndefined) {
             +"Finished"
         }
@@ -71,28 +72,29 @@ fun HtmlBlockTag.displayWarResult(
 fun FORM.editWarStatus(
     state: State,
     startDate: Date?,
-    status: WarStatus,
+    war: War,
 ) {
     showDetails("Status", true) {
-        selectValue("Type", VITAL, WarStatusType.entries, status.getType())
+        selectValue("Type", VITAL, WarStatusType.entries, war.status.getType())
 
-        if (status is FinishedWar) {
+        if (war.status is FinishedWar) {
             selectOptionalDate(
                 state,
                 "End Date",
-                status.date,
+                war.status.date,
                 combine(END, DATE),
                 startDate,
             )
-            editWarResult(state, status.result, status.date)
+            editWarResult(state, war, war.status.result, war.status.date)
         }
     }
 }
 
 private fun HtmlBlockTag.editWarResult(
     state: State,
+    war: War,
     result: WarResult,
-    deathDay: Date,
+    deathDay: Date?,
 ) {
     val catastrophes = state.getExistingCatastrophes(deathDay)
 
@@ -112,7 +114,6 @@ private fun HtmlBlockTag.editWarResult(
         is InterruptedByCatastrophe -> {
             selectElement(
                 state,
-                "Catastrophe",
                 CATASTROPHE,
                 catastrophes,
                 result.catastrophe,
@@ -122,11 +123,30 @@ private fun HtmlBlockTag.editWarResult(
 
         Disengagement -> doNothing()
         is Peace -> selectTreaty(state, result.treaty)
-        is Surrender -> selectTreaty(state, result.treaty)
-        TotalVictory -> doNothing()
+        is Surrender -> {
+            selectSide(war, result.side)
+            selectTreaty(state, result.treaty)
+        }
+
+        is TotalVictory -> selectSide(war, result.side)
         UndefinedWarResult -> doNothing()
     }
 
+}
+
+private fun HtmlBlockTag.selectSide(
+    war: War,
+    currentSide: Int,
+) {
+    selectValue(
+        "Side",
+        combine(END, SIDE),
+        war.getSideIndices(),
+    ) { sideIndex ->
+        label = war.getSideName(sideIndex)
+        value = sideIndex.toString()
+        selected = sideIndex == currentSide
+    }
 }
 
 private fun HtmlBlockTag.selectTreaty(
@@ -151,7 +171,7 @@ fun parseWarStatus(
     WarStatusType.Ongoing -> OngoingWar
     WarStatusType.Finished -> FinishedWar(
         parseWarResult(parameters),
-        parseDate(parameters, state, combine(END, DATE)),
+        parseOptionalDate(parameters, state, combine(END, DATE)),
     )
 }
 
@@ -166,8 +186,12 @@ private fun parseWarResult(parameters: Parameters) = when (parse(parameters, END
         parseTreatyId(parameters, TREATY),
     )
 
-    WarResultType.TotalVictory -> TotalVictory
+    WarResultType.TotalVictory -> TotalVictory(
+        parseInt(parameters, combine(END, SIDE)),
+    )
+
     WarResultType.Surrender -> Surrender(
+        parseInt(parameters, combine(END, SIDE)),
         parseTreatyId(parameters, TREATY),
     )
 

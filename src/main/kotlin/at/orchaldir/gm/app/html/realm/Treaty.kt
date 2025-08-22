@@ -79,7 +79,6 @@ private fun HtmlBlockTag.editTreatyParticipant(
 ) {
     selectElement(
         state,
-        "Realm",
         combine(param, REALM),
         realms,
         participant.realm,

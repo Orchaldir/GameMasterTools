@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.realm
 
-import at.orchaldir.gm.core.model.util.Creator
+import at.orchaldir.gm.core.model.util.Reference
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -32,11 +32,11 @@ sealed class CauseOfCatastrophe {
 
 @Serializable
 @SerialName("Accidental")
-data class AccidentalCatastrophe(val creator: Creator) : CauseOfCatastrophe()
+data class AccidentalCatastrophe(val creator: Reference) : CauseOfCatastrophe()
 
 @Serializable
 @SerialName("Created")
-data class CreatedCatastrophe(val creator: Creator) : CauseOfCatastrophe()
+data class CreatedCatastrophe(val creator: Reference) : CauseOfCatastrophe()
 
 @Serializable
 @SerialName("Natural")

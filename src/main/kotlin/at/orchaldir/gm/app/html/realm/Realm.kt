@@ -36,7 +36,7 @@ fun HtmlBlockTag.showRealm(
     realm: Realm,
 ) {
     showPopulation(call, state, realm)
-    fieldCreator(call, state, realm.founder, "Founder")
+    fieldReference(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showVitalStatus(call, state, realm.status)
     showHistory(call, state, realm.capital, "Capital", "None") { _, _, town ->
@@ -87,7 +87,7 @@ fun FORM.editRealm(
         VALID_VITAL_STATUS_FOR_REALMS,
         VALID_CAUSES_FOR_REALMS,
     )
-    selectHistory(state, TOWN, realm.capital, realm.date, "Capital") { _, param, town, start ->
+    selectHistory(state, TOWN, realm.capital, "Capital", realm.date) { _, param, town, start ->
         selectOptionalElement(
             state,
             "Town",
@@ -96,7 +96,7 @@ fun FORM.editRealm(
             town,
         )
     }
-    selectHistory(state, OWNER, realm.owner, realm.date, "Owner") { _, param, owner, start ->
+    selectHistory(state, OWNER, realm.owner, "Owner", realm.date) { _, param, owner, start ->
         selectOptionalElement(
             state,
             "Realm",
@@ -106,7 +106,7 @@ fun FORM.editRealm(
         )
     }
 
-    selectHistory(state, CURRENCY, realm.currency, realm.date, "Currency") { _, param, currency, start ->
+    selectHistory(state, CURRENCY, realm.currency, "Currency", realm.date) { _, param, currency, start ->
         selectOptionalElement(
             state,
             "Currency",
@@ -115,7 +115,7 @@ fun FORM.editRealm(
             currency,
         )
     }
-    selectHistory(state, LEGAL_CODE, realm.legalCode, realm.date, "Legal Code") { _, param, code, start ->
+    selectHistory(state, LEGAL_CODE, realm.legalCode, "Legal Code", realm.date) { _, param, code, start ->
         selectOptionalElement(
             state,
             "Legal Code",

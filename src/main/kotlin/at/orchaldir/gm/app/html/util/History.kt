@@ -57,8 +57,9 @@ fun <T> HtmlBlockTag.selectHistory(
     state: State,
     param: String,
     history: History<T>,
-    startDate: Date?,
     label: String,
+    startDate: Date? = null,
+    endDate: Date? = null,
     selectEntry: HtmlBlockTag.(State, String, T, Date?) -> Unit,
 ) {
     val previousOwnersParam = combine(param, HISTORY)
@@ -70,7 +71,7 @@ fun <T> HtmlBlockTag.selectHistory(
         showListWithIndex(history.previousEntries) { index, previous ->
             val previousParam = combine(previousOwnersParam, index)
             selectEntry(state, previousParam, previous.entry, minDate)
-            selectDate(state, "Until", previous.until, combine(previousParam, DATE), minDate)
+            selectDate(state, "Until", previous.until, combine(previousParam, DATE), minDate, endDate)
 
             minDate = previous.until.next()
         }

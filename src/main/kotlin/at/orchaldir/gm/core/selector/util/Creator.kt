@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.ComplexCreation
+import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -76,17 +77,4 @@ private fun <ID0, ID1, ELEMENT> checkCreator(
             creator
         )
     ) { "Cannot delete $creatorNoun ${creator.value()}, because of created elements ($createdNoun)!" }
-}
-
-fun State.getCreatorName(
-    creator: Creator,
-) = when (creator) {
-    is CreatedByBusiness -> getElementName(creator.business)
-    is CreatedByCharacter -> getElementName(creator.character)
-    is CreatedByCulture -> getElementName(creator.culture)
-    is CreatedByGod -> getElementName(creator.god)
-    is CreatedByOrganization -> getElementName(creator.organization)
-    is CreatedByRealm -> getElementName(creator.realm)
-    is CreatedByTown -> getElementName(creator.town)
-    UndefinedCreator -> null
 }

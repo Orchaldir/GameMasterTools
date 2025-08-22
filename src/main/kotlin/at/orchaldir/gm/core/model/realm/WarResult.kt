@@ -28,12 +28,21 @@ sealed class WarResult {
         UndefinedWarResult -> WarResultType.Undefined
     }
 
+    fun side() = when (this) {
+        is InterruptedByCatastrophe -> null
+        Disengagement -> null
+        is Peace -> null
+        is Surrender -> side
+        is TotalVictory -> side
+        UndefinedWarResult -> null
+    }
+
     fun treaty() = when (this) {
         is InterruptedByCatastrophe -> treaty
         Disengagement -> null
         is Peace -> treaty
         is Surrender -> treaty
-        TotalVictory -> null
+        is TotalVictory -> null
         UndefinedWarResult -> null
     }
 
@@ -63,11 +72,14 @@ data class Peace(
 
 @Serializable
 @SerialName("TotalVictory")
-data object TotalVictory : WarResult()
+data class TotalVictory(
+    val side: Int,
+) : WarResult()
 
 @Serializable
 @SerialName("Surrender")
 data class Surrender(
+    val side: Int,
     val treaty: TreatyId? = null,
 ) : WarResult()
 

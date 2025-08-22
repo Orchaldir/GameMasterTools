@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.population.PopulationPerRace
@@ -153,7 +153,7 @@ class RaceTest {
 
         @Test
         fun `Creator must exist`() {
-            val origin = CreatedElement(CreatedByCharacter(CHARACTER_ID_0))
+            val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
             val action = UpdateRace(Race(RACE_ID_0, date = DAY0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown Character 0 as Creator!") { REDUCER.invoke(state, action) }
@@ -161,7 +161,7 @@ class RaceTest {
 
         @Test
         fun `Date is in the future`() {
-            val origin = CreatedElement(CreatedByCharacter(CHARACTER_ID_0))
+            val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
             val action = UpdateRace(Race(RACE_ID_0, date = FUTURE_DAY_0, origin = origin))
             val newState = state.updateStorage(Storage(Character(CHARACTER_ID_0)))
 

@@ -115,7 +115,15 @@ fun FORM.selectEmploymentStatusHistory(
     state: State,
     ownership: History<EmploymentStatus>,
     startDate: Date,
-) = selectHistory(state, EMPLOYMENT, ownership, startDate, "Employment Status", HtmlBlockTag::selectEmploymentStatus)
+) = selectHistory(
+    state,
+    EMPLOYMENT,
+    ownership,
+    "Employment Status",
+    startDate,
+    null,
+    HtmlBlockTag::selectEmploymentStatus
+)
 
 fun HtmlBlockTag.selectEmploymentStatus(
     state: State,
@@ -131,7 +139,6 @@ fun HtmlBlockTag.selectEmploymentStatus(
         is Employed -> {
             selectElement(
                 state,
-                "Business",
                 combine(param, BUSINESS),
                 state.sortBusinesses(state.getOpenBusinesses(start)),
                 status.business,
@@ -142,7 +149,6 @@ fun HtmlBlockTag.selectEmploymentStatus(
         is EmployedByRealm -> {
             selectElement(
                 state,
-                "Realm",
                 combine(param, REALM),
                 state.sortRealms(state.getExistingRealms(start)),
                 status.realm,
@@ -153,7 +159,6 @@ fun HtmlBlockTag.selectEmploymentStatus(
         is EmployedByTown -> {
             selectElement(
                 state,
-                "Town",
                 combine(param, TOWN),
                 state.sortTowns(state.getExistingTowns(start)),
                 status.town,
@@ -177,7 +182,6 @@ private fun HtmlBlockTag.selectJob(
     job: JobId,
 ) = selectElement(
     state,
-    "Job",
     combine(param, JOB),
     state.sortJobs(state.getJobs(employerType)),
     job,

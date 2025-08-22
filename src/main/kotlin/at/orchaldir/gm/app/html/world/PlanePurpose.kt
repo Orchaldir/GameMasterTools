@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.PLANE
 import at.orchaldir.gm.app.PURPOSE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.parseGodId
-import at.orchaldir.gm.app.html.util.fieldCreator
+import at.orchaldir.gm.app.html.util.fieldReference
 import at.orchaldir.gm.app.html.util.parseCreator
 import at.orchaldir.gm.app.html.util.selectCreator
 import at.orchaldir.gm.app.parse.combine
@@ -38,7 +38,7 @@ fun HtmlBlockTag.showPlanePurpose(
         }
 
         is PrisonPlane -> {
-            fieldCreator(call, state, purpose.creator, "Creator")
+            fieldReference(call, state, purpose.creator, "Creator")
         }
 
         else -> doNothing()
@@ -102,12 +102,12 @@ fun HtmlBlockTag.editPlanePurpose(
         }
         when (val purpose = plane.purpose) {
             is Demiplane -> selectOtherPlane(state, otherPlanes, purpose.plane)
-            is HeartPlane -> selectElement(state, "God", combine(PURPOSE, GOD), gods, purpose.god)
+            is HeartPlane -> selectElement(state, combine(PURPOSE, GOD), gods, purpose.god)
             is IndependentPlane -> editPlaneAlignmentPattern(purpose.pattern)
             MaterialPlane -> doNothing()
             is PrisonPlane -> {
                 selectElements(state, "Gods", combine(PURPOSE, GOD), gods, purpose.gods)
-                selectCreator(state, purpose.creator, plane.id, null, "Creator")
+                selectCreator(state, purpose.creator, plane.id, null)
             }
 
             is ReflectivePlane -> selectOtherPlane(state, otherPlanes, purpose.plane)
@@ -120,7 +120,7 @@ private fun DETAILS.selectOtherPlane(
     otherPlanes: List<Plane>,
     plane: PlaneId,
 ) {
-    selectElement(state, "Plane", combine(PURPOSE, PLANE), otherPlanes, plane)
+    selectElement(state, combine(PURPOSE, PLANE), otherPlanes, plane)
 }
 
 // parse
