@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.character.HousingStatus
 import at.orchaldir.gm.core.model.character.InDistrict
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
@@ -82,7 +82,7 @@ class DistrictTest {
 
         @Test
         fun `Founder must exist`() {
-            val action = UpdateDistrict(District(DISTRICT_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+            val action = UpdateDistrict(District(DISTRICT_ID_0, founder = CharacterReference(CHARACTER_ID_0)))
 
             assertIllegalArgument("Cannot use an unknown Character 0 as founder!") { REDUCER.invoke(STATE, action) }
         }

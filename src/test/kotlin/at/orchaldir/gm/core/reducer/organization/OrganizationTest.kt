@@ -44,7 +44,7 @@ class OrganizationTest {
         // see CreatorTest for other elements
         @Test
         fun `Cannot delete an organization that created another element`() {
-            val building = Building(BUILDING_ID_0, builder = CreatedByOrganization(ORGANIZATION_ID_0))
+            val building = Building(BUILDING_ID_0, builder = OrganizationReference(ORGANIZATION_ID_0))
             val newState = state.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete Organization 0, because of created elements (Building)!") {
@@ -95,7 +95,7 @@ class OrganizationTest {
 
         @Test
         fun `Founder must exist`() {
-            val organization = Organization(ORGANIZATION_ID_0, founder = CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val organization = Organization(ORGANIZATION_ID_0, founder = CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdateOrganization(organization)
 
             assertIllegalArgument("Cannot use an unknown Character 99 as founder!") { REDUCER.invoke(state, action) }

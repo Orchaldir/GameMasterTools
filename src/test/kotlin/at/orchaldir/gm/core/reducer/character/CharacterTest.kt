@@ -71,7 +71,7 @@ class CharacterTest {
     inner class DeleteTest {
 
         private val action = DeleteCharacter(CHARACTER_ID_0)
-        private val createdByCharacter = CreatedByCharacter(CHARACTER_ID_0)
+        private val createdByCharacter = CharacterReference(CHARACTER_ID_0)
 
         @Test
         fun `Can delete an existing character`() {

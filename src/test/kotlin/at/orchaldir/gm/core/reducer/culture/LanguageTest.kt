@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.EvolvedElement
 import at.orchaldir.gm.core.model.world.plane.Plane
@@ -120,7 +120,7 @@ class LanguageTest {
 
         @Test
         fun `Inventor must exist`() {
-            val origin = CreatedElement(CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val origin = CreatedElement(CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, date = DAY0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(state, action) }
@@ -143,7 +143,7 @@ class LanguageTest {
 
         @Test
         fun `Date is in the future`() {
-            val origin = CreatedElement(CreatedByCharacter(CHARACTER_ID_0))
+            val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, date = FUTURE_DAY_0, origin = origin))
 
             assertIllegalArgument("Date (Language) is in the future!") { REDUCER.invoke(state, action) }

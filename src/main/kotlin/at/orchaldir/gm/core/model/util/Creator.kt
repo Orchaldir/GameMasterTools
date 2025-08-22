@@ -6,6 +6,8 @@ val ALLOWED_CREATORS = listOf(
     ReferenceType.Undefined,
     ReferenceType.Business,
     ReferenceType.Character,
+    ReferenceType.Culture,
+    ReferenceType.God,
     ReferenceType.Organization,
     ReferenceType.Realm,
     ReferenceType.Town,

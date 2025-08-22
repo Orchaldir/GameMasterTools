@@ -47,7 +47,7 @@ class RealmTest {
         // see CreatorTest for other elements
         @Test
         fun `Cannot delete a realm that created another element`() {
-            val building = Building(BUILDING_ID_0, builder = CreatedByRealm(REALM_ID_0))
+            val building = Building(BUILDING_ID_0, builder = RealmReference(REALM_ID_0))
 
             test(building, "Cannot delete Realm 0, because of created elements (Building)!")
         }
@@ -157,7 +157,7 @@ class RealmTest {
 
         @Test
         fun `The Founder must exist`() {
-            val realm = Realm(REALM_ID_0, founder = CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val realm = Realm(REALM_ID_0, founder = CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdateRealm(realm)
 
             assertIllegalArgument("Cannot use an unknown Character 99 as founder!") { REDUCER.invoke(STATE, action) }

@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.util.CreatedByCulture
+import at.orchaldir.gm.core.model.util.CultureReference
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.util.name.NameList
@@ -47,7 +47,7 @@ class CultureTest {
         // see CreatorTest for other elements
         @Test
         fun `Cannot delete a culture that created another element`() {
-            val building = Building(BUILDING_ID_0, builder = CreatedByCulture(CULTURE_ID_0))
+            val building = Building(BUILDING_ID_0, builder = CultureReference(CULTURE_ID_0))
             val newState = STATE.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete Culture 0, because of created elements (Building)!") {

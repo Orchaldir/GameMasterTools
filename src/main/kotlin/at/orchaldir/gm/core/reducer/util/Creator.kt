@@ -14,7 +14,7 @@ fun <ID : Id<ID>> validateCreator(
     noun: String,
 ) {
     validateReference(state, creator, date, noun, ALLOWED_CREATORS) { id ->
-        require(id != created) { "The $noun cannot create itself!" }
+        require(id != created) { "The $noun (${id.print()}) cannot create itself!" }
     }
 }
 
