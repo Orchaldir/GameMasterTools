@@ -6,13 +6,7 @@ import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.model.realm.WarSide
-import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.DeathInWar
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.HistoryEntry
-import at.orchaldir.gm.core.model.util.NoReference
-import at.orchaldir.gm.core.model.util.RealmReference
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
