@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.ALLOWED_WAR_PARTICIPANTS
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarParticipant
 import at.orchaldir.gm.core.model.time.date.Date
@@ -42,7 +43,7 @@ fun HtmlBlockTag.editWarParticipants(
 
     showDetails("Participants", true) {
         editList("Participant", PARTICIPANT, war.participants, 0, 100) { index, param, participant ->
-            selectReference(state, participant.reference, war.startDate, param)
+            selectReference(state, participant.reference, war.startDate, param, ALLOWED_WAR_PARTICIPANTS)
 
             var previousSide: Int? = war.sides.size
 

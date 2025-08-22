@@ -67,6 +67,7 @@ fun HtmlBlockTag.selectReference(
     reference: Reference,
     date: Date?,
     param: String,
+    allowedTypes: Collection<ReferenceType>,
     filter: (Any) -> Boolean = { true },
 ) {
     val businesses = state.getOpenBusinesses(date)
@@ -86,7 +87,7 @@ fun HtmlBlockTag.selectReference(
     val towns = state.getExistingTowns(date)
         .filter { filter(it) }
 
-    selectValue("Type", param, ReferenceType.entries, reference.getType()) { type ->
+    selectValue("Type", param, allowedTypes, reference.getType()) { type ->
         when (type) {
             ReferenceType.None, ReferenceType.Undefined -> false
             ReferenceType.Business -> businesses.isEmpty()

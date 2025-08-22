@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateWar
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.ALLOWED_WAR_PARTICIPANTS
 import at.orchaldir.gm.core.model.realm.FinishedWar
 import at.orchaldir.gm.core.model.realm.InterruptedByCatastrophe
 import at.orchaldir.gm.core.model.realm.War
@@ -66,7 +67,7 @@ private fun validateWarParticipant(
     participant: WarParticipant,
     previousIds: MutableSet<Id<*>>,
 ) {
-    validateReference(state, participant.reference, war.startDate, "Participant") { id ->
+    validateReference(state, participant.reference, war.startDate, "Participant", ALLOWED_WAR_PARTICIPANTS) { id ->
         require(!previousIds.contains(id)) {
             "Cannot have Participant ${id.print()} multiple times!"
         }

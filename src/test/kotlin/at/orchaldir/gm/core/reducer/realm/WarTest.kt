@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.core.model.util.NoReference
 import at.orchaldir.gm.core.model.util.RealmReference
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -82,6 +83,11 @@ class WarTest {
         @Nested
         inner class ParticipantsTest {
             val sides = listOf(WarSide(Color.Red))
+
+            @Test
+            fun `Reference has invalid type!`() {
+                assertSides(listOf(WarParticipant(NoReference)), "Reference has invalid type None!")
+            }
 
             @Test
             fun `Realm must exist`() {

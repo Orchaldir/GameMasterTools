@@ -27,7 +27,7 @@ enum class ReferenceType {
 sealed class Reference {
 
     fun getType() = when (this) {
-        is NoReference -> ReferenceType.Undefined
+        is NoReference -> ReferenceType.None
         is UndefinedReference -> ReferenceType.Undefined
         is BusinessReference -> ReferenceType.Business
         is CharacterReference -> ReferenceType.Character

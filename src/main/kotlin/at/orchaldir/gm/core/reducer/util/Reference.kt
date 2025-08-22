@@ -13,8 +13,11 @@ fun validateReference(
     reference: Reference,
     date: Date?,
     noun: String,
+    allowedTypes: Collection<ReferenceType>,
     validateId: (Id<*>) -> Unit,
 ) {
+    require(allowedTypes.contains(reference.getType())) { "Reference has invalid type ${reference.getType()}!" }
+
     when (reference) {
         is BusinessReference -> validateReference(state, reference.business, validateId, noun, date)
         is CharacterReference -> validateReference(state, reference.character, validateId, noun, date)
