@@ -222,7 +222,7 @@ class OwnerTest {
         fun `Character owns a building before his birth`() {
             val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, birthDate = DAY1)))
 
-            assertIllegalArgument("The owner didn't exist at the start of their ownership!") {
+            assertIllegalArgument("The owner (Character 2) does not exist!") {
                 checkOwnership(state, OWNED_BY_CHARACTER, DAY0)
             }
         }
@@ -231,7 +231,7 @@ class OwnerTest {
         fun `First owner didn't exist yet`() {
             val state = STATE.updateStorage(Storage(Town(TOWN_ID_0, foundingDate = DAY1)))
 
-            assertIllegalArgument("The 1.previous owner didn't exist at the start of their ownership!") {
+            assertIllegalArgument("The 1.previous owner (Town 0) does not exist!") {
                 checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
             }
         }
@@ -247,7 +247,7 @@ class OwnerTest {
             )
             val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, birthDate = DAY2)))
 
-            assertIllegalArgument("The 2.previous owner didn't exist at the start of their ownership!") {
+            assertIllegalArgument("The 2.previous owner (Character 2) does not exist!") {
                 checkOwnership(state, ownership, DAY0)
             }
         }

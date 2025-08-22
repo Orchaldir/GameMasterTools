@@ -120,7 +120,8 @@ class BusinessTest {
 
         @Test
         fun `Owner is an unknown character`() {
-            val action = UpdateBusiness(Business(BUSINESS_ID_0, ownership = History(OwnedByCharacter(CHARACTER_ID_0))))
+            val action =
+                UpdateBusiness(Business(BUSINESS_ID_0, ownership = History(CharacterReference(CHARACTER_ID_0))))
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Character 0 as owner!") { REDUCER.invoke(state, action) }

@@ -41,7 +41,7 @@ private fun <ID, ELEMENT> validateReference(
         .getStorage<ID, ELEMENT>(reference)
         .getOrThrow(reference) { "Cannot use an unknown ${reference.print()} as $noun!" }
 
-    require(state.exists(element, date)) { "$noun (${reference.print()}) does not exist!" }
+    require(state.exists(element, date)) { "The $noun (${reference.print()}) does not exist!" }
 
     validateId(reference)
 }
