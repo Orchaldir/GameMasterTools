@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.html.util.showCreator
-import at.orchaldir.gm.app.html.util.showOwner
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.*
@@ -137,15 +138,15 @@ fun HtmlBlockTag.showPeriodicalOwnershipCount(call: ApplicationCall, state: Stat
 fun HtmlBlockTag.showOwnerCount(
     call: ApplicationCall,
     state: State,
-    ownershipCollection: Collection<History<Owner>>,
+    ownershipCollection: Collection<History<Reference>>,
 ) {
     showMap("Ownership", countEachOwner(ownershipCollection)) { owner, count ->
-        showOwner(call, state, owner)
+        showReference(call, state, owner)
         +": $count"
     }
 }
 
-fun countEachOwner(ownershipCollection: Collection<History<Owner>>) = ownershipCollection
+fun countEachOwner(ownershipCollection: Collection<History<Reference>>) = ownershipCollection
     .groupingBy { it.current }
     .eachCount()
 

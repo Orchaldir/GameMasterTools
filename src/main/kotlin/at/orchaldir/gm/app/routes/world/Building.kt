@@ -208,7 +208,7 @@ private fun HTML.showAllBuildings(
                     tdEnum(building.purpose.getType())
                     tdSkipZero(state.countCharactersLivingInHouse(building.id))
                     tdLink(call, state, building.style)
-                    td { showOwner(call, state, building.ownership.current, false) }
+                    td { showReference(call, state, building.ownership.current, false) }
                     td { showCreator(call, state, building.builder, false) }
                 }
             }

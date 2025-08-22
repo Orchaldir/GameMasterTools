@@ -1,26 +1,21 @@
 package at.orchaldir.gm.app.html.util
 
-import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.character.parseCharacterId
-import at.orchaldir.gm.app.html.economy.parseBusinessId
+import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.organization.parseOrganizationId
-import at.orchaldir.gm.app.html.realm.parseRealmId
-import at.orchaldir.gm.app.html.realm.parseTownId
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.character.getLiving
-import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
-import at.orchaldir.gm.core.selector.realm.*
-import at.orchaldir.gm.core.selector.util.*
+import at.orchaldir.gm.core.model.util.ALLOWED_OWNERS
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.selector.realm.getOwnedTowns
+import at.orchaldir.gm.core.selector.realm.getPreviousOwnedTowns
+import at.orchaldir.gm.core.selector.realm.getPreviousSubRealms
+import at.orchaldir.gm.core.selector.realm.getSubRealms
+import at.orchaldir.gm.core.selector.util.getOwned
+import at.orchaldir.gm.core.selector.util.getPreviouslyOwned
+import at.orchaldir.gm.core.selector.util.sortRealms
+import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -74,105 +69,22 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
 fun HtmlBlockTag.showOwnership(
     call: ApplicationCall,
     state: State,
-    ownership: History<Owner>,
-) = showHistory(call, state, ownership, "Owner", HtmlBlockTag::showOwner)
-
-fun HtmlBlockTag.showOwner(
-    call: ApplicationCall,
-    state: State,
-    owner: Owner,
-    showUndefined: Boolean = true,
-) {
-    when (owner) {
-        NoOwner -> +"None"
-        is OwnedByBusiness -> link(call, state, owner.business)
-        is OwnedByCharacter -> link(call, state, owner.character)
-        is OwnedByOrganization -> link(call, state, owner.organization)
-        is OwnedByRealm -> link(call, state, owner.realm)
-        is OwnedByTown -> link(call, state, owner.town)
-        UndefinedOwner -> if (showUndefined) {
-            +"Undefined"
-        }
-
-    }
-}
+    ownership: History<Reference>,
+) = showHistory(call, state, ownership, "Owner", HtmlBlockTag::showReference)
 
 // edit
 
 fun FORM.selectOwnership(
     state: State,
-    ownership: History<Owner>,
+    ownership: History<Reference>,
     startDate: Date?,
-) = selectHistory(state, OWNER, ownership, "Owner", startDate, null, HtmlBlockTag::selectOwner)
-
-fun HtmlBlockTag.selectOwner(
-    state: State,
-    param: String,
-    owner: Owner,
-    start: Date?,
-) {
-    selectValue("Owner Type", param, OwnerType.entries, owner.getType())
-
-    when (owner) {
-        is OwnedByBusiness -> selectElement(
-            state,
-            "Owner",
-            combine(param, BUSINESS),
-            state.getExistingElements(state.getBusinessStorage(), start),
-            owner.business,
-        )
-
-        is OwnedByCharacter -> selectElement(
-            state,
-            "Owner",
-            combine(param, CHARACTER),
-            state.getLiving(start),
-            owner.character,
-        )
-
-        is OwnedByOrganization -> selectElement(
-            state,
-            "Owner",
-            combine(param, ORGANIZATION),
-            state.getExistingOrganizations(start),
-            owner.organization,
-        )
-
-        is OwnedByRealm -> selectElement(
-            state,
-            "Owner",
-            combine(param, REALM),
-            state.getExistingRealms(start),
-            owner.realm,
-        )
-
-        is OwnedByTown -> selectElement(
-            state,
-            "Owner",
-            combine(param, TOWN),
-            state.getExistingTowns(start),
-            owner.town,
-        )
-
-        NoOwner, UndefinedOwner -> doNothing()
-    }
+) = selectHistory(state, OWNER, ownership, "Owner", startDate, null) { state, param, owner, date ->
+    selectReference(state, owner, date, param, ALLOWED_OWNERS)
 }
 
 // parsing
 
 fun parseOwnership(parameters: Parameters, state: State, startDate: Date?) =
-    parseHistory(parameters, OWNER, state, startDate, ::parseOwner)
-
-private fun parseOwner(parameters: Parameters, state: State, param: String): Owner =
-    when (parse(parameters, param, OwnerType.Undefined)) {
-        OwnerType.None -> NoOwner
-        OwnerType.Business -> OwnedByBusiness(parseBusinessId(parameters, combine(param, BUSINESS)))
-        OwnerType.Character -> OwnedByCharacter(parseCharacterId(parameters, combine(param, CHARACTER)))
-        OwnerType.Organization -> OwnedByOrganization(
-            parseOrganizationId(parameters, combine(param, ORGANIZATION))
-        )
-
-        OwnerType.Realm -> OwnedByRealm(parseRealmId(parameters, combine(param, REALM)))
-        OwnerType.Town -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
-        OwnerType.Undefined -> UndefinedOwner
+    parseHistory(parameters, OWNER, state, startDate) { parameters, state, param ->
+        parseReference(parameters, param)
     }

@@ -52,7 +52,6 @@ sealed class Owner {
 
 }
 
-fun <ID : Id<ID>> History<Owner>.wasOwnedBy(id: ID) = previousEntries.any { it.entry.isOwnedBy(id) }
 
 @Serializable
 @SerialName("None")

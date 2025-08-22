@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.item.periodical.editPeriodical
 import at.orchaldir.gm.app.html.item.periodical.parsePeriodical
 import at.orchaldir.gm.app.html.item.periodical.showPeriodical
 import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showOwner
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreatePeriodical
 import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
@@ -160,7 +160,7 @@ private fun HTML.showAllPeriodicals(
                 tr {
                     tdLink(call, state, periodical)
                     td { showOptionalDate(call, state, periodical.calendar, periodical.startDate()) }
-                    td { showOwner(call, state, periodical.ownership.current, false) }
+                    td { showReference(call, state, periodical.ownership.current, false) }
                     tdLink(call, state, periodical.language)
                     tdEnum(periodical.frequency)
                     tdSkipZero(state.countPeriodicalIssues(periodical.id))

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.util.canDelete
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
@@ -12,7 +13,7 @@ import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.getBuildingAgeComparator
 
-fun State.canDelete(building: Building) = building.ownership.current.canDelete()
+fun State.canDelete(building: Building) = building.ownership.canDelete()
         && getCharactersLivingIn(building.id).isEmpty()
         && getCharactersPreviouslyLivingIn(building.id).isEmpty()
 

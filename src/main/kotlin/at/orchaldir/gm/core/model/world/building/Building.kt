@@ -28,7 +28,7 @@ data class Building(
     val lot: BuildingLot = BuildingLot(),
     val address: Address = NoAddress,
     val constructionDate: Date? = null,
-    val ownership: History<Owner> = History(UndefinedOwner),
+    val ownership: History<Reference> = History(UndefinedReference),
     val style: ArchitecturalStyleId? = null,
     val purpose: BuildingPurpose = SingleFamilyHouse,
     val builder: Creator = UndefinedCreator,

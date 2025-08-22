@@ -14,7 +14,7 @@ fun validateReference(
     date: Date?,
     noun: String,
     allowedTypes: Collection<ReferenceType>,
-    validateId: (Id<*>) -> Unit,
+    validateId: (Id<*>) -> Unit = {},
 ) {
     require(allowedTypes.contains(reference.getType())) { "Reference has invalid type ${reference.getType()}!" }
 
