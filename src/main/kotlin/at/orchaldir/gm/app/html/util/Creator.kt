@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.selector.util.getCreatedBy
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Id
-import io.ktor.http.Parameters
+import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2

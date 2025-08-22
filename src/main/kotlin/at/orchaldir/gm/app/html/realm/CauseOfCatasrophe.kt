@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.realm
 
-import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
@@ -12,7 +11,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.realm.CauseOfCatastropheType.Undefined
-import at.orchaldir.gm.core.model.util.ALLOWED_CREATORS
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

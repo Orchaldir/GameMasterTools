@@ -189,6 +189,7 @@ private fun parseWarResult(parameters: Parameters) = when (parse(parameters, END
     WarResultType.TotalVictory -> TotalVictory(
         parseInt(parameters, combine(END, SIDE)),
     )
+
     WarResultType.Surrender -> Surrender(
         parseInt(parameters, combine(END, SIDE)),
         parseTreatyId(parameters, TREATY),

@@ -63,7 +63,7 @@ fun parseOptionalWarId(parameters: Parameters, param: String) =
 
 fun parseWar(parameters: Parameters, state: State, id: WarId): War {
     val startDate = parseOptionalDate(parameters, state, combine(START, DATE))
-    
+
     return War(
         id,
         parseName(parameters),

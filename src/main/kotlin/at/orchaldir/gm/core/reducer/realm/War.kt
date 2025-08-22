@@ -4,11 +4,7 @@ import at.orchaldir.gm.core.action.CreateWar
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.ALLOWED_WAR_PARTICIPANTS
-import at.orchaldir.gm.core.model.realm.FinishedWar
-import at.orchaldir.gm.core.model.realm.InterruptedByCatastrophe
-import at.orchaldir.gm.core.model.realm.War
-import at.orchaldir.gm.core.model.realm.WarParticipant
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd

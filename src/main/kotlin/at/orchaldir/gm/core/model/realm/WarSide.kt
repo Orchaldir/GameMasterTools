@@ -2,8 +2,6 @@ package at.orchaldir.gm.core.model.realm
 
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.titlecaseFirstChar
 import kotlinx.serialization.Serializable
 
 @Serializable
