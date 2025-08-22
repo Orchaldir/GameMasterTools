@@ -20,8 +20,6 @@ import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
 import at.orchaldir.gm.core.selector.util.*
-import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -54,6 +52,7 @@ fun HtmlBlockTag.showReference(
         is OrganizationReference -> link(call, state, reference.organization)
         is RealmReference -> link(call, state, reference.realm)
         is TownReference -> link(call, state, reference.town)
+        NoReference -> +"None"
         UndefinedReference -> if (showUndefined) {
             +"Undefined"
         }
@@ -89,7 +88,7 @@ fun HtmlBlockTag.selectReference(
 
     selectValue("Type", param, ReferenceType.entries, reference.getType()) { type ->
         when (type) {
-            ReferenceType.Undefined -> false
+            ReferenceType.None, ReferenceType.Undefined -> false
             ReferenceType.Business -> businesses.isEmpty()
             ReferenceType.Character -> characters.isEmpty()
             ReferenceType.Culture -> cultures.isEmpty()
@@ -150,7 +149,7 @@ fun HtmlBlockTag.selectReference(
             reference.town,
         )
 
-        UndefinedReference -> doNothing()
+        NoReference, UndefinedReference -> doNothing()
     }
 }
 
@@ -161,6 +160,7 @@ fun parseReference(
     param: String,
 ): Reference {
     return when (parse(parameters, param, ReferenceType.Undefined)) {
+        ReferenceType.None -> NoReference
         ReferenceType.Undefined -> UndefinedReference
         ReferenceType.Business -> BusinessReference(
             parseBusinessId(parameters, combine(param, BUSINESS)),

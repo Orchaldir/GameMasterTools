@@ -12,6 +12,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class ReferenceType {
+    None,
     Undefined,
     Business,
     Character,
@@ -26,6 +27,7 @@ enum class ReferenceType {
 sealed class Reference {
 
     fun getType() = when (this) {
+        is NoReference -> ReferenceType.Undefined
         is UndefinedReference -> ReferenceType.Undefined
         is BusinessReference -> ReferenceType.Business
         is CharacterReference -> ReferenceType.Character
@@ -37,7 +39,7 @@ sealed class Reference {
     }
 
     fun <ID : Id<ID>> isId(id: ID) = when (this) {
-        UndefinedReference -> false
+        NoReference, UndefinedReference -> false
         is BusinessReference -> business == id
         is CharacterReference -> character == id
         is CultureReference -> culture == id
@@ -48,6 +50,10 @@ sealed class Reference {
     }
 
 }
+
+@Serializable
+@SerialName("None")
+data object NoReference : Reference()
 
 @Serializable
 @SerialName("Undefined")
