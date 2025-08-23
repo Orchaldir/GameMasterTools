@@ -18,6 +18,7 @@ fun State.canDeleteGod(god: GodId) = !isCreator(god)
         && getPrisonPlane(god) == null
         && canDeleteHasBelief(god)
         && getMasksOf(god).isEmpty()
+        && canDeleteHasBelief(god)
 
 fun State.getGodsAssociatedWith(id: JobId): List<God> {
     val domains = getDomainsAssociatedWith(id).map { it.id }
