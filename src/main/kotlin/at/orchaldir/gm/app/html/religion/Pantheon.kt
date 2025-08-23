@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.religion
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showCurrentAndFormerBelievers
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
@@ -24,8 +25,7 @@ fun HtmlBlockTag.showPantheon(
 ) {
     optionalField("Title", pantheon.title)
     fieldIdList(call, state, "Member Gods", pantheon.gods)
-    fieldList(call, state, "Believers", getBelievers(state.getCharacterStorage(), pantheon.id))
-    fieldList(call, state, "Former Believers", getFormerBelievers(state.getCharacterStorage(), pantheon.id))
+    showCurrentAndFormerBelievers(call, state, pantheon.id)
 }
 
 // edit

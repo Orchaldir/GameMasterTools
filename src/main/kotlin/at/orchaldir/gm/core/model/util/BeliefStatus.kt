@@ -23,9 +23,11 @@ sealed class BeliefStatus {
         is WorshipOfPantheon -> BeliefStatusType.Pantheon
     }
 
-    fun believesIn(id: GodId) = this is WorshipOfGod && god == id
-
-    fun believesIn(id: PantheonId) = this is WorshipOfPantheon && pantheon == id
+    fun <ID : Id<ID>> believesIn(id: ID) = when (this) {
+        is WorshipOfGod -> god == id
+        is WorshipOfPantheon -> pantheon == id
+        else -> false
+    }
 
 }
 
@@ -49,7 +51,5 @@ data class WorshipOfPantheon(
     val pantheon: PantheonId,
 ) : BeliefStatus()
 
-fun History<BeliefStatus>.believesIn(god: GodId) = current.believesIn(god)
-fun History<BeliefStatus>.believesIn(pantheon: PantheonId) = current.believesIn(pantheon)
-fun History<BeliefStatus>.believedIn(god: GodId) = previousEntries.any { it.entry.believesIn(god) }
-fun History<BeliefStatus>.believedIn(pantheon: PantheonId) = previousEntries.any { it.entry.believesIn(pantheon) }
+fun <ID : Id<ID>> History<BeliefStatus>.believesIn(id: ID) = current.believesIn(id)
+fun <ID : Id<ID>> History<BeliefStatus>.believedIn(id: ID) = previousEntries.any { it.entry.believesIn(id) }

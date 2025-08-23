@@ -1,7 +1,5 @@
 package at.orchaldir.gm.core.selector.util
 
-import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.believedIn
 import at.orchaldir.gm.core.model.util.believesIn
@@ -9,38 +7,22 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
-fun <ID, ELEMENT> getBelievers(
-    storage: Storage<ID, ELEMENT>,
-    god: GodId,
-) where ID : Id<ID>,
-        ELEMENT : Element<ID>,
+fun <ID0, ID1, ELEMENT> getBelievers(
+    storage: Storage<ID0, ELEMENT>,
+    id: ID1,
+) where ID0 : Id<ID0>,
+        ID1 : Id<ID1>,
+        ELEMENT : Element<ID0>,
         ELEMENT : HasBelief = storage
     .getAll()
-    .filter { it.belief().believesIn(god) }
+    .filter { it.belief().believesIn(id) }
 
-fun <ID, ELEMENT> getFormerBelievers(
-    storage: Storage<ID, ELEMENT>,
-    god: GodId,
-) where ID : Id<ID>,
-        ELEMENT : Element<ID>,
+fun <ID0, ID1, ELEMENT> getFormerBelievers(
+    storage: Storage<ID0, ELEMENT>,
+    id: ID1,
+) where ID0 : Id<ID0>,
+        ID1 : Id<ID1>,
+        ELEMENT : Element<ID0>,
         ELEMENT : HasBelief = storage
     .getAll()
-    .filter { it.belief().believedIn(god) }
-
-fun <ID, ELEMENT> getBelievers(
-    storage: Storage<ID, ELEMENT>,
-    pantheon: PantheonId,
-) where ID : Id<ID>,
-        ELEMENT : Element<ID>,
-        ELEMENT : HasBelief = storage
-    .getAll()
-    .filter { it.belief().believesIn(pantheon) }
-
-fun <ID, ELEMENT> getFormerBelievers(
-    storage: Storage<ID, ELEMENT>,
-    pantheon: PantheonId,
-) where ID : Id<ID>,
-        ELEMENT : Element<ID>,
-        ELEMENT : HasBelief = storage
-    .getAll()
-    .filter { it.belief().believedIn(pantheon) }
+    .filter { it.belief().believedIn(id) }

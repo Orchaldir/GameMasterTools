@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.BELIEVE
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PANTHEON
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.religion.parsePantheonId
@@ -19,8 +20,11 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.UndefinedBeliefStatus
 import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.util.WorshipOfPantheon
+import at.orchaldir.gm.core.selector.util.getBelievers
+import at.orchaldir.gm.core.selector.util.getFormerBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortPantheons
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -50,6 +54,20 @@ fun HtmlBlockTag.showBeliefStatus(
         is WorshipOfGod -> link(call, state, status.god)
         is WorshipOfPantheon -> link(call, state, status.pantheon)
     }
+}
+
+fun <ID : Id<ID>> HtmlBlockTag.showCurrentAndFormerBelievers(
+    call: ApplicationCall,
+    state: State,
+    id: ID,
+) {
+    val characters = state.getCharacterStorage()
+    val organizations = state.getOrganizationStorage()
+
+    fieldList(call, state, "Believers", getBelievers(characters, id))
+    fieldList(call, state, "Former Believers", getFormerBelievers(characters, id))
+    fieldList(call, state, "Organizations", getBelievers(organizations, id))
+    fieldList(call, state, "Former Organizations", getFormerBelievers(organizations, id))
 }
 
 // edit

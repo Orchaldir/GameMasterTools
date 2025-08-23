@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.character.parseGender
 import at.orchaldir.gm.app.html.character.parsePersonality
 import at.orchaldir.gm.app.html.character.showPersonality
 import at.orchaldir.gm.app.html.util.showCreated
+import at.orchaldir.gm.app.html.util.showCurrentAndFormerBelievers
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -24,6 +25,7 @@ import at.orchaldir.gm.core.selector.util.getFormerBelievers
 import at.orchaldir.gm.core.selector.util.sortDomains
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
+import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -47,13 +49,10 @@ fun HtmlBlockTag.showGod(
 
     fieldList(call, state, state.getHolidays(god.id))
     fieldList(call, state, state.getPantheonsContaining(god.id))
-    fieldList(call, state, "Believers", getBelievers(state.getCharacterStorage(), god.id))
-    fieldList(call, state, "Former Believers", getFormerBelievers(state.getCharacterStorage(), god.id))
-
+    showCurrentAndFormerBelievers(call, state, god.id)
     showCreated(call, state, god.id)
     showDataSources(call, state, god.sources)
 }
-
 // edit
 
 fun FORM.editGod(

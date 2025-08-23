@@ -155,6 +155,7 @@ private fun HTML.showAllGods(
                 th { +"Personality" }
                 th { +"Domain" }
                 th { +"Believers" }
+                th { +"Organizations" }
             }
             gods.forEach { god ->
                 tr {
@@ -174,6 +175,7 @@ private fun HTML.showAllGods(
                     tdLinks(call, state, personality)
                     tdLinks(call, state, domains)
                     tdSkipZero(getBelievers(state.getCharacterStorage(), god.id).size)
+                    tdSkipZero(getBelievers(state.getOrganizationStorage(), god.id).size)
                 }
             }
         }
