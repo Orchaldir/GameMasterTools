@@ -157,6 +157,7 @@ private fun HTML.showAllPantheons(
                 th { +"Title" }
                 th { +"Gods" }
                 th { +"Believers" }
+                th { +"Organizations" }
             }
             pantheons.forEach { pantheon ->
                 tr {
@@ -164,6 +165,7 @@ private fun HTML.showAllPantheons(
                     tdString(pantheon.title)
                     tdSkipZero(pantheon.gods.size)
                     tdSkipZero(getBelievers(state.getCharacterStorage(), pantheon.id).size)
+                    tdSkipZero(getBelievers(state.getOrganizationStorage(), pantheon.id).size)
                 }
             }
         }
