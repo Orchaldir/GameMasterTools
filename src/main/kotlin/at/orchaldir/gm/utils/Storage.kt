@@ -70,7 +70,7 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     fun getOrThrow(id: ID, message: () -> String) =
         elements[id] ?: throw IllegalArgumentException(message())
 
-    fun getOrThrow(id: ID) = getOrThrow(id) { "Requires unknown ${id.print()}}!" }
+    fun getOrThrow(id: ID) = getOrThrow(id) { "Requires unknown ${id.print()}!" }
 
     fun contains(id: ID) = elements.containsKey(id)
 

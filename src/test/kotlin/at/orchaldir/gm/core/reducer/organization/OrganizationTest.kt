@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.organization
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteOrganization
+import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -107,6 +108,14 @@ class OrganizationTest {
             val action = UpdateOrganization(organization)
 
             assertIllegalArgument("Requires unknown Holiday 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot believe in an unknown god`() {
+            val organization = Organization(ORGANIZATION_ID_0, beliefStatus = History(WorshipOfGod(UNKNOWN_GOD_ID)))
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("The belief's God 99 doesn't exist!") { REDUCER.invoke(state, action) }
         }
 
         @Nested

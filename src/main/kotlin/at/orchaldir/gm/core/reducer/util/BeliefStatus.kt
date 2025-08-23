@@ -13,7 +13,7 @@ import at.orchaldir.gm.utils.doNothing
 fun checkBeliefStatusHistory(
     state: State,
     history: History<BeliefStatus>,
-    startDate: Date,
+    startDate: Date?,
 ) = checkHistory(state, history, startDate, "belief", ::checkBeliefStatus)
 
 private fun checkBeliefStatus(
