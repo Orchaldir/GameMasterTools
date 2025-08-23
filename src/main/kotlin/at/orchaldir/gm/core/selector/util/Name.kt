@@ -8,8 +8,11 @@ import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.selector.character.getFather
 import at.orchaldir.gm.core.selector.character.getMother
 
-fun State.canHaveFamilyName(character: Character) = getCultureStorage()
-    .getOptional(character.culture)?.namingConvention is FamilyConvention
+fun State.canHaveFamilyName(character: Character): Boolean {
+    val culture = getCultureStorage().getOptional(character.culture) ?: return true
+
+    return culture.namingConvention is FamilyConvention
+}
 
 fun State.canHaveGenonym(character: Character) = getCultureStorage()
     .getOptional(character.culture)?.namingConvention
