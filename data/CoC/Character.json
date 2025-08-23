@@ -22,7 +22,8 @@
     "cause": {
      "type": "OldAge"
     }
-   }
+   },
+   "culture": 0
   },
   "1": {
    "id": 1,
@@ -36,6 +37,7 @@
     "type": "Day",
     "day": 694120
    },
+   "culture": 0,
    "personality": [
     1,
     24
@@ -109,6 +111,7 @@
     "type": "Day",
     "day": 679101
    },
+   "culture": 0,
    "personality": [
     12,
     28,
@@ -252,6 +255,7 @@
     "type": "Day",
     "day": 682280
    },
+   "culture": 0,
    "personality": [
     28
    ],
@@ -282,6 +286,7 @@
     "type": "Day",
     "day": 695115
    },
+   "culture": 0,
    "personality": [
     1
    ],
@@ -311,6 +316,7 @@
     "type": "Day",
     "day": 686625
    },
+   "culture": 0,
    "personality": [
     9,
     24,
@@ -394,6 +400,7 @@
      "disease": 0
     }
    },
+   "culture": 0,
    "personality": [
     28
    ],
@@ -415,6 +422,7 @@
     "type": "Year",
     "year": 1873
    },
+   "culture": 0,
    "personality": [
     30,
     42
@@ -443,6 +451,7 @@
     "type": "Year",
     "year": 1886
    },
+   "culture": 0,
    "personality": [
     5,
     46
@@ -516,6 +525,7 @@
     "type": "Year",
     "year": 1879
    },
+   "culture": 0,
    "relationships": {
     "10": [
      "Spouse"
@@ -588,6 +598,7 @@
     "type": "Year",
     "year": 1907
    },
+   "culture": 0,
    "personality": [
     10,
     47
@@ -618,6 +629,7 @@
     "type": "Year",
     "year": 1878
    },
+   "culture": 0,
    "personality": [
     24,
     49,
@@ -655,6 +667,7 @@
     "type": "Year",
     "year": 1898
    },
+   "culture": 0,
    "personality": [
     13
    ],
@@ -687,6 +700,7 @@
     "type": "Year",
     "year": 1913
    },
+   "culture": 0,
    "appearance": {
     "type": "Humanoid",
     "body": {
@@ -750,6 +764,7 @@
     "type": "Year",
     "year": 1890
    },
+   "culture": 0,
    "housingStatus": {
     "current": {
      "type": "Town",
@@ -776,6 +791,7 @@
     "type": "Year",
     "year": 1867
    },
+   "culture": 0,
    "relationships": {
     "17": [
      "Spouse"
@@ -808,6 +824,7 @@
     "type": "Year",
     "year": 1870
    },
+   "culture": 0,
    "relationships": {
     "16": [
      "Spouse"
@@ -834,7 +851,7 @@
     "name": "Abdul Alhazred"
    },
    "birthDate": {
-    "type": "Year",
+    "type": "~Year",
     "year": 699
    },
    "vitalStatus": {
