@@ -5,12 +5,19 @@
    "id": 0,
    "name": "Shub-Niggurath",
    "title": "Black Goat of the Woods with a Tousand Young",
-   "gender": "Female"
+   "gender": "Female",
+   "authenticity": {
+    "type": "Authentic"
+   }
   },
   "1": {
    "id": 1,
    "name": "The Mother",
-   "gender": "Female"
+   "gender": "Female",
+   "authenticity": {
+    "type": "Mask",
+    "god": 0
+   }
   },
   "2": {
    "id": 2,

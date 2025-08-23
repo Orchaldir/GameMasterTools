@@ -8,6 +8,10 @@ import at.orchaldir.gm.app.html.character.editPersonality
 import at.orchaldir.gm.app.html.character.parseGender
 import at.orchaldir.gm.app.html.character.parsePersonality
 import at.orchaldir.gm.app.html.character.showPersonality
+import at.orchaldir.gm.app.html.util.editAuthenticity
+import at.orchaldir.gm.app.html.util.fieldAuthenticity
+import at.orchaldir.gm.app.html.util.parseAuthenticity
+import at.orchaldir.gm.app.html.util.showAuthenticity
 import at.orchaldir.gm.app.html.util.showCreated
 import at.orchaldir.gm.app.html.util.showCurrentAndFormerBelievers
 import at.orchaldir.gm.app.html.util.source.editDataSources
@@ -41,8 +45,8 @@ fun HtmlBlockTag.showGod(
     optionalField("Title", god.title)
     field("Gender", god.gender)
     showPersonality(call, state, god.personality)
-
     fieldIdList(call, state, god.domains)
+    fieldAuthenticity(call, state, god.authenticity)
 
     optionalFieldLink("Heart Plane", call, state, state.getHeartPlane(god.id)?.id)
     optionalFieldLink("Prison Plane", call, state, state.getPrisonPlane(god.id)?.id)
@@ -65,6 +69,7 @@ fun FORM.editGod(
     selectValue("Gender", GENDER, Gender.entries, god.gender)
     editPersonality(call, state, god.personality)
     selectElements(state, "Domains", DOMAIN, state.sortDomains(), god.domains)
+    editAuthenticity(state, god.authenticity)
     editDataSources(state, god.sources)
 }
 
@@ -81,5 +86,6 @@ fun parseGod(parameters: Parameters, id: GodId) = God(
     parseGender(parameters),
     parsePersonality(parameters),
     parseElements(parameters, DOMAIN, ::parseDomainId),
+    parseAuthenticity(parameters),
     parseDataSources(parameters),
 )
