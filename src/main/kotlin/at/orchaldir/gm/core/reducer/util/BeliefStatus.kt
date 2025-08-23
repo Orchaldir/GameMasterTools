@@ -25,9 +25,9 @@ private fun checkBeliefStatus(
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()
         is WorshipOfGod -> state.getGodStorage()
-            .require(status.god) { "The $noun's god ${status.god.value} doesn't exist!" }
+            .require(status.god) { "The $noun's ${status.god.print()} doesn't exist!" }
 
         is WorshipOfPantheon -> state.getPantheonStorage()
-            .require(status.pantheon) { "The $noun's pantheon ${status.pantheon.value} doesn't exist!" }
+            .require(status.pantheon) { "The $noun's ${status.pantheon.print()} doesn't exist!" }
     }
 }

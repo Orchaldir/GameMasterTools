@@ -6,7 +6,10 @@ import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
+import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.core.model.util.UndefinedBeliefStatus
 import at.orchaldir.gm.core.selector.util.canDeleteHasBelief
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -35,16 +38,32 @@ class BeliefStatusTest {
     inner class UpdateTest {
 
         @Test
-        fun `Cannot use unknown god`() {
-            assertIllegalArgument("The belief's god 99 doesn't exist!") {
+        fun `Cannot worship an unknown god`() {
+            assertIllegalArgument("The belief's God 99 doesn't exist!") {
                 checkBeliefStatusHistory(state, History(WorshipOfGod(UNKNOWN_GOD_ID)), DAY0)
             }
         }
 
         @Test
-        fun `Cannot use unknown pantheon`() {
-            assertIllegalArgument("The belief's pantheon 99 doesn't exist!") {
+        fun `Cannot worship an unknown god in the past`() {
+            assertIllegalArgument("The 1.previous belief's God 99 doesn't exist!") {
+                val previousEntry = HistoryEntry<BeliefStatus>(WorshipOfGod(UNKNOWN_GOD_ID), DAY0)
+                checkBeliefStatusHistory(state, History(UndefinedBeliefStatus, previousEntry), DAY0)
+            }
+        }
+
+        @Test
+        fun `Cannot worship an unknown pantheon`() {
+            assertIllegalArgument("The belief's Pantheon 99 doesn't exist!") {
                 checkBeliefStatusHistory(state, History(WorshipOfPantheon(UNKNOWN_PANTHEON_ID)), DAY0)
+            }
+        }
+
+        @Test
+        fun `Cannot worship an unknown pantheon in the past`() {
+            assertIllegalArgument("The 1.previous belief's Pantheon 99 doesn't exist!") {
+                val previousEntry = HistoryEntry<BeliefStatus>(WorshipOfPantheon(UNKNOWN_PANTHEON_ID), DAY0)
+                checkBeliefStatusHistory(state, History(UndefinedBeliefStatus, previousEntry), DAY0)
             }
         }
 
