@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.race.RaceId
@@ -58,7 +59,7 @@ data class Character(
     val origin: Origin = UndefinedOrigin,
     val birthDate: Date = Year(0),
     val vitalStatus: VitalStatus = Alive,
-    val culture: CultureId = CultureId(0),
+    val culture: CultureId? = null,
     val personality: Set<PersonalityTraitId> = emptySet(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
@@ -82,9 +83,9 @@ data class Character(
 
         return when (name) {
             is FamilyName -> {
-                val culture = state.getCultureStorage().getOrThrow(culture)
-
-                culture.namingConvention.getFamilyName(name, gender, title)
+                state.getCultureStorage().getOptional(culture)?.namingConvention
+                    ?.getFamilyName(name, gender, title)
+                    ?: getDefaultFamilyName(name, gender, title)
             }
 
             is Genonym -> title.resolveFullName(state.getGenonymName(this, name), gender)

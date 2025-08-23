@@ -19,6 +19,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -293,6 +294,8 @@ private fun FORM.editClothingOptions(
 
 fun parseCultureId(parameters: Parameters, param: String) = CultureId(parseInt(parameters, param))
 fun parseCultureId(value: String) = CultureId(value.toInt())
+fun parseOptionalCultureId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { CultureId(it) }
 
 fun parseCulture(
     parameters: Parameters,

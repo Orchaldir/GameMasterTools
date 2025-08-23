@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.Rarity
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -70,7 +71,8 @@ private fun HTML.showLanguageEditor(
     state: State,
     character: Character,
 ) {
-    val culture = state.getCultureStorage().getOrThrow(character.culture)
+    val cultureLanguages = state.getCultureStorage()
+        .getOptional(character.culture)?.languages ?: SomeOf(emptyMap())
     val backLink = href(call, character.id)
     val updateLink = call.application.href(CharacterRoutes.Languages.Update(character.id))
 
@@ -86,7 +88,7 @@ private fun HTML.showLanguageEditor(
                         value = ""
                         selected = true
                     }
-                    reverseAndSort(culture.languages.getRarityMap())
+                    reverseAndSort(cultureLanguages.getRarityMap())
                         .filter { it.key != Rarity.Everyone }
                         .forEach { (rarity, values) ->
                             optGroup(rarity.toString()) {

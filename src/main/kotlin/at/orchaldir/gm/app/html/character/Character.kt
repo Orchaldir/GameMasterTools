@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.html.culture.parseCultureId
+import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
@@ -127,7 +128,7 @@ fun HtmlBlockTag.showSocial(
 
     h2 { +"Social" }
 
-    fieldLink("Culture", call, state, character.culture)
+    optionalFieldLink("Culture", call, state, character.culture)
     showBeliefStatusHistory(call, state, character.beliefStatus)
 
     showFamily(call, state, character)
@@ -238,7 +239,7 @@ fun FORM.editCharacter(
 
     h2 { +"Social" }
 
-    selectElement(state, CULTURE, state.getCultureStorage().getAll(), character.culture)
+    selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
     editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     editPersonality(call, state, character.personality)
     if (character.gender == Gender.Genderless) {
@@ -349,7 +350,7 @@ fun parseCharacter(
         origin = origin,
         birthDate = birthDate,
         vitalStatus = parseVitalStatus(parameters, state),
-        culture = parseCultureId(parameters, CULTURE),
+        culture = parseOptionalCultureId(parameters, CULTURE),
         personality = parsePersonality(parameters),
         housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),

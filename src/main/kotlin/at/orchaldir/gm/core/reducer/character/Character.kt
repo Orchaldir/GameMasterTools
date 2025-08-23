@@ -70,7 +70,7 @@ fun validateCharacterData(
     character: Character,
 ) {
     state.getRaceStorage().require(character.race)
-    state.getCultureStorage().require(character.culture)
+    state.getCultureStorage().requireOptional(character.culture)
     state.getTitleStorage().requireOptional(character.title)
     checkSexualOrientation(character)
     checkOrigin(state, character)

@@ -15,7 +15,7 @@ class NameGenerator(
     private val character: Character,
 ) {
     private val namingConvention: NamingConvention =
-        state.getCultureStorage().getOrThrow(character.culture).namingConvention
+        state.getCultureStorage().getOptional(character.culture)?.namingConvention ?: NoNamingConvention
 
     constructor(numberGenerator: NumberGenerator, state: State, id: CharacterId) :
             this(numberGenerator, state, state.getCharacterStorage().getOrThrow(id))
