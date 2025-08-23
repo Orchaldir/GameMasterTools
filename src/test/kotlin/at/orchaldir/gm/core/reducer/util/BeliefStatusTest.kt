@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.WorshipOfGod
-import at.orchaldir.gm.core.model.character.WorshipOfPantheon
+import at.orchaldir.gm.core.model.util.WorshipOfGod
+import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.util.History

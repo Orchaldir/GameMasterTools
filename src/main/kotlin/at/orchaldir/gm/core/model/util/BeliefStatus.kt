@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character
+package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId

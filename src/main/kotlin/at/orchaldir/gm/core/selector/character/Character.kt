@@ -150,6 +150,10 @@ fun State.getBelievers(god: GodId) = getCharacterStorage()
     .getAll()
     .filter { it.beliefStatus.current.believesIn(god) }
 
+fun State.getFormerBelievers(god: GodId) = getCharacterStorage()
+    .getAll()
+    .filter { it.beliefStatus.current.believesIn(god) }
+
 fun State.getBelievers(pantheon: PantheonId) = getCharacterStorage()
     .getAll()
     .filter { it.beliefStatus.current.believesIn(pantheon) }

@@ -11,9 +11,14 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.Atheist
+import at.orchaldir.gm.core.model.util.BeliefStatus
+import at.orchaldir.gm.core.model.util.BeliefStatusType
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.UndefinedBeliefStatus
+import at.orchaldir.gm.core.model.util.WorshipOfGod
+import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortPantheons
 import at.orchaldir.gm.utils.doNothing
