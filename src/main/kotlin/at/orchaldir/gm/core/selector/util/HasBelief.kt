@@ -1,11 +1,31 @@
 package at.orchaldir.gm.core.selector.util
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.believedIn
 import at.orchaldir.gm.core.model.util.believesIn
+import at.orchaldir.gm.core.model.util.believesOrBelievedIn
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+
+// can delete
+
+fun <ID : Id<ID>> State.canDeleteHasBelief(id: ID) = getCurrentOrFormerBelievers(getCharacterStorage(), id).isEmpty()
+        && getCurrentOrFormerBelievers(getOrganizationStorage(), id).isEmpty()
+
+// get believers
+
+fun <ID0, ID1, ELEMENT> getCurrentOrFormerBelievers(
+    storage: Storage<ID0, ELEMENT>,
+    id: ID1,
+) where ID0 : Id<ID0>,
+        ID1 : Id<ID1>,
+        ELEMENT : Element<ID0>,
+        ELEMENT : HasBelief = storage
+    .getAll()
+    .filter { it.belief().believesOrBelievedIn(id) }
 
 fun <ID0, ID1, ELEMENT> getBelievers(
     storage: Storage<ID0, ELEMENT>,

@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.selector.time.getHolidays
+import at.orchaldir.gm.core.selector.util.canDeleteHasBelief
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
@@ -15,6 +16,7 @@ fun State.canDeleteGod(god: GodId) = !isCreator(god)
         && getHeartPlane(god) == null
         && getHolidays(god).isEmpty()
         && getPrisonPlane(god) == null
+        && canDeleteHasBelief(god)
 
 fun State.getGodsAssociatedWith(id: JobId): List<God> {
     val domains = getDomainsAssociatedWith(id).map { it.id }

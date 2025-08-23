@@ -53,3 +53,4 @@ data class WorshipOfPantheon(
 
 fun <ID : Id<ID>> History<BeliefStatus>.believesIn(id: ID) = current.believesIn(id)
 fun <ID : Id<ID>> History<BeliefStatus>.believedIn(id: ID) = previousEntries.any { it.entry.believesIn(id) }
+fun <ID : Id<ID>> History<BeliefStatus>.believesOrBelievedIn(id: ID) = believedIn(id) || believedIn(id)
