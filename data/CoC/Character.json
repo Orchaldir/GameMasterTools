@@ -277,6 +277,41 @@
    "personality": [
     28
    ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Hourglass"
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Small"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "type": "Normal",
+       "pupilColor": "Aqua"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "cut": {
+       "type": "Bun",
+       "style": "Low"
+      },
+      "color": "Black"
+     },
+     "mouth": {
+      "type": "Female"
+     }
+    },
+    "height": 1800000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
+    }
+   },
    "housingStatus": {
     "current": {
      "type": "Town",
@@ -312,7 +347,8 @@
    },
    "culture": 0,
    "personality": [
-    1
+    1,
+    24
    ],
    "housingStatus": {
     "current": {
@@ -348,6 +384,7 @@
    },
    "culture": 0,
    "personality": [
+    0,
     9,
     24,
     27
@@ -403,7 +440,18 @@
      "job": 1,
      "town": 0,
      "optionalBusiness": 1
-    }
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Unemployed"
+      },
+      "until": {
+       "type": "Year",
+       "year": 1906
+      }
+     }
+    ]
    },
    "beliefStatus": {
     "current": {
