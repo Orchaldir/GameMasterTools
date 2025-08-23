@@ -23,6 +23,8 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Dead
+import at.orchaldir.gm.core.model.util.believedIn
+import at.orchaldir.gm.core.model.util.believesIn
 import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
@@ -143,20 +145,6 @@ fun State.getCharacters(race: RaceId) = getCharacterStorage()
 fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
     .getAll()
     .filter { it.title == titleId }
-
-// belief status
-
-fun State.getBelievers(god: GodId) = getCharacterStorage()
-    .getAll()
-    .filter { it.beliefStatus.current.believesIn(god) }
-
-fun State.getFormerBelievers(god: GodId) = getCharacterStorage()
-    .getAll()
-    .filter { it.beliefStatus.current.believesIn(god) }
-
-fun State.getBelievers(pantheon: PantheonId) = getCharacterStorage()
-    .getAll()
-    .filter { it.beliefStatus.current.believesIn(pantheon) }
 
 // housing status
 

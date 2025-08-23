@@ -36,10 +36,11 @@ data class Organization(
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val holidays: Set<HolidayId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<OrganizationId>, Creation, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<OrganizationId>, Creation, HasBelief, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
+    override fun belief() = beliefStatus
     override fun creator() = founder
     override fun sources() = sources
     override fun startDate() = date

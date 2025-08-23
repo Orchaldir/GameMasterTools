@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -47,3 +48,8 @@ data class WorshipOfGod(
 data class WorshipOfPantheon(
     val pantheon: PantheonId,
 ) : BeliefStatus()
+
+fun History<BeliefStatus>.believesIn(god: GodId) = current.believesIn(god)
+fun History<BeliefStatus>.believesIn(pantheon: PantheonId) = current.believesIn(pantheon)
+fun History<BeliefStatus>.believedIn(god: GodId) = previousEntries.any { it.entry.believesIn(god) }
+fun History<BeliefStatus>.believedIn(pantheon: PantheonId) = previousEntries.any { it.entry.believesIn(pantheon) }

@@ -70,7 +70,7 @@ data class Character(
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val title: TitleId? = null,
     val sources: Set<DataSourceId> = emptySet(),
-) : Element<CharacterId>, HasDataSources, HasVitalStatus {
+) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus {
 
     init {
         validateOriginType(origin, ALLOWED_CHARACTER_ORIGINS)
@@ -111,6 +111,7 @@ data class Character(
         }
     }
 
+    override fun belief() = beliefStatus
     override fun sources() = sources
     override fun startDate() = birthDate
     override fun vitalStatus() = vitalStatus

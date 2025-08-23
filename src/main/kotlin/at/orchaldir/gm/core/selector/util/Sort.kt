@@ -378,7 +378,7 @@ fun State.sortGods(
     .sortedWith(
         when (sort) {
             SortGod.Name -> compareBy { it.name.text }
-            SortGod.Believers -> compareByDescending { getBelievers(it.id).size }
+            SortGod.Believers -> compareByDescending { getBelievers(getCharacterStorage(), it.id).size }
         })
 
 // holiday
@@ -509,7 +509,7 @@ fun State.sortPantheons(
         when (sort) {
             SortPantheon.Name -> compareBy { it.name.text }
             SortPantheon.Gods -> compareBy { it.gods.size }
-            SortPantheon.Believers -> compareByDescending { getBelievers(it.id).size }
+            SortPantheon.Believers -> compareByDescending { getBelievers(getCharacterStorage(), it.id).size }
         })
 
 // periodical

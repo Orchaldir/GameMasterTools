@@ -7,7 +7,8 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.selector.character.getBelievers
+import at.orchaldir.gm.core.selector.util.getBelievers
+import at.orchaldir.gm.core.selector.util.getFormerBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -23,7 +24,8 @@ fun HtmlBlockTag.showPantheon(
 ) {
     optionalField("Title", pantheon.title)
     fieldIdList(call, state, "Member Gods", pantheon.gods)
-    fieldList(call, state, "Believers", state.getBelievers(pantheon.id))
+    fieldList(call, state, "Believers", getBelievers(state.getCharacterStorage(), pantheon.id))
+    fieldList(call, state, "Former Believers", getFormerBelievers(state.getCharacterStorage(), pantheon.id))
 }
 
 // edit
