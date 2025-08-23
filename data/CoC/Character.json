@@ -386,6 +386,12 @@
      "town": 0,
      "optionalBusiness": 1
     }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
    }
   },
   "6": {
@@ -670,6 +676,12 @@
      "business": 5,
      "job": 7
     }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
    }
   },
   "13": {
@@ -698,6 +710,12 @@
     "current": {
      "type": "House",
      "building": 72
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
     }
    }
   },
