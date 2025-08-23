@@ -90,6 +90,13 @@ class GodTest {
         }
 
         @Test
+        fun `Cannot be the mask of an unknown god`() {
+            val action = UpdateGod(God(GOD_ID_0, authenticity = MaskOfOtherGod(UNKNOWN_GOD_ID)))
+
+            assertIllegalArgument("Cannot be the mask of unknown God 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Cannot use an unknown domain`() {
             val action = UpdateGod(God(GOD_ID_0, domains = setOf(UNKNOWN_DOMAIN_ID)))
 

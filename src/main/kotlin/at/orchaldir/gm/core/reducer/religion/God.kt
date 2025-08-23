@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.reducer.util.checkAuthenticity
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
@@ -38,5 +39,6 @@ val UPDATE_GOD: Reducer<UpdateGod, State> = { state, action ->
 fun validateGod(state: State, god: God) {
     state.getDomainStorage().require(god.domains)
     state.getPersonalityTraitStorage().require(god.personality)
+    checkAuthenticity(state, god.authenticity)
     state.getDataSourceStorage().require(god.sources)
 }
