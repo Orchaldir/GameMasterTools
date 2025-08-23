@@ -23,7 +23,13 @@
      "type": "OldAge"
     }
    },
-   "culture": 0
+   "culture": 0,
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
+   }
   },
   "1": {
    "id": 1,
@@ -246,6 +252,12 @@
      "business": 4,
      "job": 6
     }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
    }
   },
   "3": {
@@ -276,6 +288,12 @@
      "type": "Employed",
      "business": 0,
      "job": 0
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
     }
    }
   },
@@ -426,6 +444,12 @@
     "7": [
      "Spouse"
     ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
    }
   },
   "7": {
@@ -454,6 +478,12 @@
     "current": {
      "type": "Town",
      "town": 0
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
     }
    }
   },
@@ -529,6 +559,12 @@
      "business": 2,
      "job": 3
     }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
    }
   },
   "9": {
@@ -560,6 +596,12 @@
      "type": "Employed",
      "business": 3,
      "job": 4
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
     }
    }
   },
@@ -596,6 +638,12 @@
      "type": "Employed",
      "business": 3,
      "job": 5
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
     }
    }
   },
@@ -819,6 +867,12 @@
      "business": 6,
      "job": 8
     }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
    }
   },
   "16": {
@@ -850,6 +904,12 @@
      "type": "Employed",
      "business": 8,
      "job": 9
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
     }
    }
   },
@@ -883,6 +943,12 @@
      "type": "Employed",
      "business": 8,
      "job": 9
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
     }
    }
   },
