@@ -97,6 +97,12 @@
      "town": 0,
      "optionalBusiness": 1
     }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 1
+    }
    }
   },
   "2": {
@@ -301,6 +307,12 @@
      "type": "Employed",
      "business": 0,
      "job": 0
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 1
     }
    }
   },
