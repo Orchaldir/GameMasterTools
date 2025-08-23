@@ -615,6 +615,12 @@
      "business": 3,
      "job": 5
     }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 1
+    }
    }
   },
   "12": {
@@ -748,6 +754,12 @@
     "current": {
      "type": "House",
      "building": 72
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 1
     }
    }
   },

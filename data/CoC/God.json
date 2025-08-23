@@ -1,5 +1,16 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Shub-Niggurath",
+   "title": "Black Goat of the Woods with a Tousand Young",
+   "gender": "Female"
+  },
+  "1": {
+   "id": 1,
+   "name": "The Mother",
+   "gender": "Female"
+  }
  }
 }
