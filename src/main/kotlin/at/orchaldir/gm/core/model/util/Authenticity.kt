@@ -1,5 +1,6 @@
-package at.orchaldir.gm.core.model.religion
+package at.orchaldir.gm.core.model.util
 
+import at.orchaldir.gm.core.model.religion.GodId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
