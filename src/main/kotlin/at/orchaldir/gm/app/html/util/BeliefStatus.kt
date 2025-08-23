@@ -52,7 +52,7 @@ fun HtmlBlockTag.showBeliefStatus(
 fun FORM.editBeliefStatusHistory(
     state: State,
     history: History<BeliefStatus>,
-    startDate: Date,
+    startDate: Date?,
 ) = selectHistory(state, BELIEVE, history, "Belief Status", startDate, null, HtmlBlockTag::editBeliefStatus)
 
 fun HtmlBlockTag.editBeliefStatus(
@@ -77,7 +77,7 @@ fun HtmlBlockTag.editBeliefStatus(
 
 // parse
 
-fun parseBeliefStatusHistory(parameters: Parameters, state: State, startDate: Date) =
+fun parseBeliefStatusHistory(parameters: Parameters, state: State, startDate: Date?) =
     parseHistory(parameters, BELIEVE, state, startDate, ::parseBeliefStatus)
 
 fun parseBeliefStatus(parameters: Parameters, state: State, param: String): BeliefStatus {

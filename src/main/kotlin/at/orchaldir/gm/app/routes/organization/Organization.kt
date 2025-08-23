@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.organization.editOrganization
 import at.orchaldir.gm.app.html.organization.parseOrganization
 import at.orchaldir.gm.app.html.organization.showOrganization
+import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CreateOrganization
@@ -158,6 +159,7 @@ private fun HTML.showAllOrganizations(
                 th { +"Founder" }
                 th { +"Ranks" }
                 th { +"Members" }
+                th { +"Belief" }
             }
             organizations.forEach { organization ->
                 tr {
@@ -167,6 +169,7 @@ private fun HTML.showAllOrganizations(
                     td { showReference(call, state, organization.founder, false) }
                     tdSkipZero(organization.memberRanks.size)
                     tdSkipZero(organization.countAllMembers())
+                    td { showBeliefStatus(call, state, organization.beliefStatus.current, false) }
                 }
             }
         }

@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.organization
 
+import at.orchaldir.gm.core.model.character.BeliefStatus
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.UndefinedBeliefStatus
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.*
@@ -31,6 +33,7 @@ data class Organization(
     val date: Date? = null,
     val memberRanks: List<MemberRank> = listOf(MemberRank()),
     val members: Map<CharacterId, History<Int?>> = emptyMap(),
+    val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val holidays: Set<HolidayId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<OrganizationId>, Creation, HasDataSources, HasStartDate {

@@ -34,9 +34,10 @@ fun HtmlBlockTag.showOrganization(
 ) {
     optionalField(call, state, "Date", organization.date)
     fieldReference(call, state, organization.founder, "Founder")
-    showHolidays(call, state, organization.holidays)
     showCreated(call, state, organization.id)
     showMembers(call, state, organization)
+    showBeliefStatusHistory(call, state, organization.beliefStatus)
+    showHolidays(call, state, organization.holidays)
     showOwnedElements(call, state, organization.id)
     showDataSources(call, state, organization.sources)
 }
@@ -65,6 +66,7 @@ fun FORM.editOrganization(
     selectOptionalDate(state, "Date", organization.date, DATE)
     selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
     editMembers(state, organization)
+    editBeliefStatusHistory(state, organization.beliefStatus, organization.date)
     editHolidays(state, organization.holidays)
     editDataSources(state, organization.sources)
 }
@@ -114,17 +116,21 @@ private fun FORM.editMembers(
 
 fun parseOrganizationId(parameters: Parameters, param: String) = OrganizationId(parseInt(parameters, param))
 
-fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId) =
-    Organization(
+fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId): Organization {
+    val date = parseOptionalDate(parameters, state, DATE)
+
+    return Organization(
         id,
         parseName(parameters),
         parseCreator(parameters),
-        parseOptionalDate(parameters, state, DATE),
+        date,
         parseRanks(parameters),
         parseMembers(state, parameters, id),
+        parseBeliefStatusHistory(parameters, state, date),
         parseHolidays(parameters),
         parseDataSources(parameters),
     )
+}
 
 private fun parseRanks(parameters: Parameters): List<MemberRank> {
     val count = parseInt(parameters, RANK, 1)

@@ -32,6 +32,12 @@
     "14": {
      "current": 0
     }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 1
+    }
    }
   }
  }
