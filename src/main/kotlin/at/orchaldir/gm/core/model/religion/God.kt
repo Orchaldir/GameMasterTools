@@ -31,6 +31,7 @@ data class God(
     val gender: Gender = Gender.Genderless,
     val personality: Set<PersonalityTraitId> = emptySet(),
     val domains: Set<DomainId> = emptySet(),
+    val authenticity: Authenticity = UndefinedAuthenticity,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<GodId>, HasDataSources, HasStartDate {
 
