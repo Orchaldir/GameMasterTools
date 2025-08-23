@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayOfGod
+import at.orchaldir.gm.core.model.util.MaskOfOtherGod
 import at.orchaldir.gm.core.model.world.plane.HeartPlane
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PrisonPlane
@@ -60,6 +61,14 @@ class GodTest {
         fun `Cannot delete the god worshipped on a holiday`() {
             val plane = Holiday(HOLIDAY_ID_0, purpose = HolidayOfGod(GOD_ID_0))
             val newState = state.updateStorage(Storage(plane))
+
+            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
+        }
+
+        @Test
+        fun `Cannot delete the god that has a mask`() {
+            val mask = God(GOD_ID_1, authenticity = MaskOfOtherGod(GOD_ID_0))
+            val newState = state.updateStorage(Storage(listOf(god0, mask)))
 
             assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
         }
