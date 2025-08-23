@@ -36,4 +36,8 @@ fun State.getGodsWith(id: PersonalityTraitId) = getGodStorage()
     .getAll()
     .filter { it.personality.contains(id) }
 
+fun State.getMasksOf(god: GodId) = getGodStorage()
+    .getAll()
+    .filter { it.authenticity.isMaskOf(god) }
+
 

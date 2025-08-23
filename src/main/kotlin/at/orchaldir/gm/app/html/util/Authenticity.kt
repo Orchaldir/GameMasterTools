@@ -24,7 +24,7 @@ fun HtmlBlockTag.fieldAuthenticity(
     state: State,
     authenticity: Authenticity,
 ) = field("Authenticity") {
-    showAuthenticity(call, state, authenticity, true)
+    showAuthenticity(call, state, authenticity)
 }
 
 fun HtmlBlockTag.showAuthenticity(

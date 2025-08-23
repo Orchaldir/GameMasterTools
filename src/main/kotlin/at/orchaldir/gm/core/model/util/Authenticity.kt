@@ -20,6 +20,8 @@ sealed class Authenticity {
         is MaskOfOtherGod -> AuthenticityType.Mask
         Authentic -> AuthenticityType.Authentic
     }
+
+    fun isMaskOf(god: GodId) = this is MaskOfOtherGod && this.god == god
 }
 
 @Serializable
