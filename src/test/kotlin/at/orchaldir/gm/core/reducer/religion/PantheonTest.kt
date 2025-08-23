@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdatePantheon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.BeliefStatus
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.WorshipsPantheon
+import at.orchaldir.gm.core.model.character.WorshipOfPantheon
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.util.History
@@ -43,7 +43,7 @@ class PantheonTest {
 
         @Test
         fun `Cannot delete the pantheon that a character believes in`() {
-            val beliefStatus = History<BeliefStatus>(WorshipsPantheon(PANTHEON_ID_0))
+            val beliefStatus = History<BeliefStatus>(WorshipOfPantheon(PANTHEON_ID_0))
             val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
             val newState = state.updateStorage(Storage(character))
 

@@ -349,7 +349,7 @@ class CharacterTest {
             @Test
             fun `Cannot believe in an unknown god`() {
                 val action =
-                    UpdateCharacter(Character(CHARACTER_ID_0, beliefStatus = History(WorshipsGod(UNKNOWN_GOD_ID))))
+                    UpdateCharacter(Character(CHARACTER_ID_0, beliefStatus = History(WorshipOfGod(UNKNOWN_GOD_ID))))
 
                 assertIllegalArgument("The belief's god 99 doesn't exist!") { REDUCER.invoke(STATE, action) }
             }

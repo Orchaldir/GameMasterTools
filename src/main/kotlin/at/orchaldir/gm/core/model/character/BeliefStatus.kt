@@ -18,13 +18,13 @@ sealed class BeliefStatus {
     fun getType() = when (this) {
         UndefinedBeliefStatus -> BeliefStatusType.Undefined
         Atheist -> BeliefStatusType.Atheist
-        is WorshipsGod -> BeliefStatusType.God
-        is WorshipsPantheon -> BeliefStatusType.Pantheon
+        is WorshipOfGod -> BeliefStatusType.God
+        is WorshipOfPantheon -> BeliefStatusType.Pantheon
     }
 
-    fun believesIn(id: GodId) = this is WorshipsGod && god == id
+    fun believesIn(id: GodId) = this is WorshipOfGod && god == id
 
-    fun believesIn(id: PantheonId) = this is WorshipsPantheon && pantheon == id
+    fun believesIn(id: PantheonId) = this is WorshipOfPantheon && pantheon == id
 
 }
 
@@ -38,12 +38,12 @@ data object Atheist : BeliefStatus()
 
 @Serializable
 @SerialName("God")
-data class WorshipsGod(
+data class WorshipOfGod(
     val god: GodId,
 ) : BeliefStatus()
 
 @Serializable
 @SerialName("Pantheon")
-data class WorshipsPantheon(
+data class WorshipOfPantheon(
     val pantheon: PantheonId,
 ) : BeliefStatus()

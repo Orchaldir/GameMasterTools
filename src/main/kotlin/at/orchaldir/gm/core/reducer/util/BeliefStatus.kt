@@ -20,10 +20,10 @@ private fun checkBeliefStatus(
 ) {
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()
-        is WorshipsGod -> state.getGodStorage()
+        is WorshipOfGod -> state.getGodStorage()
             .require(status.god) { "The $noun's god ${status.god.value} doesn't exist!" }
 
-        is WorshipsPantheon -> state.getPantheonStorage()
+        is WorshipOfPantheon -> state.getPantheonStorage()
             .require(status.pantheon) { "The $noun's pantheon ${status.pantheon.value} doesn't exist!" }
     }
 }
