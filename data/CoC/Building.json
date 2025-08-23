@@ -62,6 +62,12 @@
      "height": 1
     }
    },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
    "purpose": {
     "type": "SingleBusiness",
     "business": 7
