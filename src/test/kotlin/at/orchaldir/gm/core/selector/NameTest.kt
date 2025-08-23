@@ -93,7 +93,7 @@ class NameTest {
 
         private fun init(convention: NamingConvention, middle: Name?) = State(
             listOf(
-                Storage(Character(ID0, FamilyName(given, middle, family))),
+                Storage(Character(ID0, FamilyName(given, middle, family), culture = CULTURE0)),
                 Storage(Culture(CULTURE0, namingConvention = convention)),
             )
         )
@@ -107,7 +107,7 @@ class NameTest {
         fun `Without a father`() {
             val state = State(
                 listOf(
-                    Storage(Character(ID0, Genonym(given))),
+                    Storage(Character(ID0, Genonym(given), culture = CULTURE0)),
                     Storage(Culture(CULTURE0, namingConvention = PatronymConvention())),
                 )
             )
@@ -119,12 +119,13 @@ class NameTest {
         inner class OneGenerationTest {
             @Test
             fun `Names Only style`() {
+                val origin = BornElement(OTHER, ID1)
                 val state = State(
                     listOf(
                         Storage(
                             listOf(
-                                Character(ID0, Genonym(child), origin = BornElement(OTHER, ID1)),
-                                Character(ID1, Genonym(father))
+                                Character(ID0, Genonym(child), culture = CULTURE0, origin = origin),
+                                Character(ID1, Genonym(father), culture = CULTURE0)
                             )
                         ),
                         Storage(Culture(CULTURE0, namingConvention = PatronymConvention())),
@@ -176,47 +177,38 @@ class NameTest {
                 assertEquals("Child Fatherg", state.getElementName(ID0))
             }
 
-            private fun init(gender: Gender, style: GenonymicStyle) = State(
-                listOf(
-                    Storage(
-                        listOf(
-                            Character(ID0, Genonym(child), gender = gender, origin = BornElement(OTHER, ID1)),
-                            Character(ID1, Genonym(father))
-                        )
-                    ),
-                    Storage(
-                        Culture(
-                            CULTURE0, namingConvention = PatronymConvention(
-                                style = style
+            private fun init(gender: Gender, style: GenonymicStyle): State {
+                val origin = BornElement(OTHER, ID1)
+                val convention = PatronymConvention(style = style)
+                return State(
+                    listOf(
+                        Storage(
+                            listOf(
+                                Character(ID0, Genonym(child), culture = CULTURE0, gender = gender, origin = origin),
+                                Character(ID1, Genonym(father), culture = CULTURE0)
                             )
-                        )
+                        ),
+                        Storage(Culture(CULTURE0, namingConvention = convention)),
                     )
                 )
-            )
+            }
         }
 
         @Test
         fun `Two generations`() {
+            val origin0 = BornElement(OTHER, ID1)
+            val origin1 = BornElement(OTHER, ID2)
+            val convention = PatronymConvention(TwoGenerations, ChildOfStyle(GENDER_MAP))
             val state = State(
                 listOf(
                     Storage(
                         listOf(
-                            Character(ID0, Genonym(NAME0), gender = Female, origin = BornElement(OTHER, ID1)),
-                            Character(ID1, Genonym(NAME1), gender = Male, origin = BornElement(OTHER, ID2)),
-                            Character(ID2, Genonym(NAME2))
+                            Character(ID0, Genonym(NAME0), culture = CULTURE0, gender = Female, origin = origin0),
+                            Character(ID1, Genonym(NAME1), culture = CULTURE0, gender = Male, origin = origin1),
+                            Character(ID2, Genonym(NAME2), culture = CULTURE0)
                         )
                     ),
-                    Storage(
-                        listOf(
-                            Culture(
-                                CULTURE0, namingConvention = PatronymConvention(
-                                    TwoGenerations, ChildOfStyle(
-                                        GENDER_MAP
-                                    )
-                                )
-                            )
-                        )
-                    )
+                    Storage(Culture(CULTURE0, namingConvention = convention)),
                 )
             )
 
@@ -226,26 +218,19 @@ class NameTest {
 
     @Test
     fun `Test Matronym`() {
+        val origin0 = BornElement(ID1, OTHER)
+        val origin1 = BornElement(ID2, OTHER)
+        val convention = MatronymConvention(TwoGenerations, ChildOfStyle(GENDER_MAP))
         val state = State(
             listOf(
                 Storage(
                     listOf(
-                        Character(ID0, Genonym(NAME0), gender = Male, origin = BornElement(ID1, OTHER)),
-                        Character(ID1, Genonym(NAME1), gender = Female, origin = BornElement(ID2, OTHER)),
-                        Character(ID2, Genonym(NAME2))
+                        Character(ID0, Genonym(NAME0), culture = CULTURE0, gender = Male, origin = origin0),
+                        Character(ID1, Genonym(NAME1), culture = CULTURE0, gender = Female, origin = origin1),
+                        Character(ID2, Genonym(NAME2), culture = CULTURE0)
                     )
                 ),
-                Storage(
-                    listOf(
-                        Culture(
-                            CULTURE0, namingConvention = MatronymConvention(
-                                TwoGenerations, ChildOfStyle(
-                                    GENDER_MAP
-                                )
-                            )
-                        )
-                    )
-                )
+                Storage(Culture(CULTURE0, namingConvention = convention)),
             )
         )
 
@@ -269,28 +254,22 @@ class NameTest {
             assertEquals("A f B", state.getElementName(ID0))
         }
 
-        private fun init(gender: Gender) = State(
-            listOf(
-                Storage(
-                    listOf(
-                        Character(ID0, Genonym(NAME0), gender = gender, origin = BornElement(ID1, ID2)),
-                        Character(ID1, Genonym(NAME1), gender = Female),
-                        Character(ID2, Genonym(NAME2), gender = gender)
-                    )
-                ),
-                Storage(
-                    listOf(
-                        Culture(
-                            CULTURE0, namingConvention = GenonymConvention(
-                                OneGeneration, ChildOfStyle(
-                                    GENDER_MAP
-                                )
-                            )
+        private fun init(gender: Gender): State {
+            val origin = BornElement(ID1, ID2)
+            val convention = GenonymConvention(OneGeneration, ChildOfStyle(GENDER_MAP))
+            return State(
+                listOf(
+                    Storage(
+                        listOf(
+                            Character(ID0, Genonym(NAME0), gender = gender, culture = CULTURE0, origin = origin),
+                            Character(ID1, Genonym(NAME1), gender = Female, culture = CULTURE0),
+                            Character(ID2, Genonym(NAME2), gender = gender, culture = CULTURE0)
                         )
-                    )
+                    ),
+                    Storage(Culture(CULTURE0, namingConvention = convention)),
                 )
             )
-        )
+        }
     }
 
 }
