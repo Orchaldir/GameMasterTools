@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.core.model.util.Atheist
 import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
@@ -31,6 +32,8 @@ class BeliefStatusTest {
 
     @Nested
     inner class DeleteTest {
+        private val worshipOfGod = WorshipOfGod(GOD_ID_0)
+        private val worshipOfPantheon = WorshipOfPantheon(PANTHEON_ID_0)
 
         @Test
         fun `Can delete god without believers`() {
@@ -39,7 +42,14 @@ class BeliefStatusTest {
 
         @Test
         fun `Cannot delete god with a believer`() {
-            assertCannot(History(WorshipOfGod(GOD_ID_0)), GOD_ID_0)
+            assertCannot(History(worshipOfGod), GOD_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete god with a previous believer`() {
+            val previousEntry = HistoryEntry<BeliefStatus>(worshipOfGod, DAY0)
+
+            assertCannot(History(Atheist, previousEntry), GOD_ID_0)
         }
 
         @Test
@@ -49,7 +59,14 @@ class BeliefStatusTest {
 
         @Test
         fun `Cannot delete pantheon with a believer`() {
-            assertCannot(History(WorshipOfPantheon(PANTHEON_ID_0)), PANTHEON_ID_0)
+            assertCannot(History(worshipOfPantheon), PANTHEON_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete pantheon with a previous believer`() {
+            val previousEntry = HistoryEntry<BeliefStatus>(worshipOfPantheon, DAY0)
+
+            assertCannot(History(Atheist, previousEntry), PANTHEON_ID_0)
         }
 
         private fun <ID : Id<ID>> assertCannot(beliefStatus: History<BeliefStatus>, id: ID) {
