@@ -71,7 +71,7 @@ class GodTest {
         }
 
         @Test
-        fun `Cannot delete the god that has a mask`() {
+        fun `Cannot delete a god that has a mask`() {
             val mask = God(GOD_ID_1, authenticity = MaskOfOtherGod(GOD_ID_0))
             val newState = state.updateStorage(Storage(listOf(god0, mask)))
 
