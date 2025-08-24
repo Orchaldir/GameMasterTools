@@ -59,8 +59,9 @@ fun HtmlBlockTag.showAuthenticity(
 fun HtmlBlockTag.editAuthenticity(
     state: State,
     authenticity: Authenticity,
+    allowedTypes: Collection<AuthenticityType>,
 ) {
-    selectValue("Authenticity", AUTHENTICITY, AuthenticityType.entries, authenticity.getType())
+    selectValue("Authenticity", AUTHENTICITY, allowedTypes, authenticity.getType())
 
     when (authenticity) {
         Authentic, Invented, UndefinedAuthenticity -> doNothing()

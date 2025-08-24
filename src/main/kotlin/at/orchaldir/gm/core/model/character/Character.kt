@@ -38,6 +38,11 @@ val ALLOWED_CHARACTER_ORIGINS = listOf(
     OriginType.Created,
     OriginType.Undefined,
 )
+val ALLOWED_CHARACTER_AUTHENTICITY = listOf(
+    AuthenticityType.Undefined,
+    AuthenticityType.Authentic,
+    AuthenticityType.Secret,
+)
 
 @JvmInline
 @Serializable

@@ -263,7 +263,7 @@ fun FORM.editCharacter(
             character.sexuality,
         )
     }
-    editAuthenticity(state, character.authenticity)
+    editAuthenticity(state, character.authenticity, ALLOWED_CHARACTER_AUTHENTICITY)
 
     editDataSources(state, character.sources)
 }

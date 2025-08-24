@@ -20,6 +20,7 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.religion.ALLOWED_GOD_AUTHENTICITY
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.selector.religion.getMasksOf
@@ -71,7 +72,7 @@ fun FORM.editGod(
     selectValue("Gender", GENDER, Gender.entries, god.gender)
     editPersonality(call, state, god.personality)
     selectElements(state, "Domains", DOMAIN, state.sortDomains(), god.domains)
-    editAuthenticity(state, god.authenticity)
+    editAuthenticity(state, god.authenticity, ALLOWED_GOD_AUTHENTICITY)
     editDataSources(state, god.sources)
 }
 
