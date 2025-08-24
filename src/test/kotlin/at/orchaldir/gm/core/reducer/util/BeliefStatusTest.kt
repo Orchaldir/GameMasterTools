@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.model.religion.God
@@ -12,9 +13,9 @@ import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.UndefinedBeliefStatus
 import at.orchaldir.gm.core.selector.util.canDeleteHasBelief
 import at.orchaldir.gm.utils.Storage
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.assertTrue
 
 class BeliefStatusTest {
 
@@ -35,8 +36,24 @@ class BeliefStatusTest {
         }
 
         @Test
+        fun `Cannot delete god with a believer`() {
+            val character = Character(CHARACTER_ID_0, beliefStatus = History(WorshipOfGod(GOD_ID_0)))
+            val newState = state.updateStorage(Storage(character))
+
+            assertFalse(newState.canDeleteHasBelief(GOD_ID_0))
+        }
+
+        @Test
         fun `Can delete pantheon without believers`() {
             assertTrue(state.canDeleteHasBelief(PANTHEON_ID_0))
+        }
+
+        @Test
+        fun `Cannot delete pantheon with a believer`() {
+            val character = Character(CHARACTER_ID_0, beliefStatus = History(WorshipOfPantheon(PANTHEON_ID_0)))
+            val newState = state.updateStorage(Storage(character))
+
+            assertFalse(newState.canDeleteHasBelief(PANTHEON_ID_0))
         }
 
     }
