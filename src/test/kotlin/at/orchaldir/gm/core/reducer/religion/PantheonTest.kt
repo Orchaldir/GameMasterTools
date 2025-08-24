@@ -4,12 +4,12 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeletePantheon
 import at.orchaldir.gm.core.action.UpdatePantheon
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
+import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

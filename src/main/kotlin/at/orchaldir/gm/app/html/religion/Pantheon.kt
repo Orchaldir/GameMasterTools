@@ -8,8 +8,6 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.selector.util.getBelievers
-import at.orchaldir.gm.core.selector.util.getFormerBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.server.application.*

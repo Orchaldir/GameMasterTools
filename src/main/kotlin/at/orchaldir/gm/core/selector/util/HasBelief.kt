@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.believedIn
 import at.orchaldir.gm.core.model.util.believesIn

@@ -47,6 +47,7 @@ fun HtmlBlockTag.showAuthenticity(
             +"Mask of "
             link(call, state, authenticity.god)
         }
+
         is SecretIdentity -> {
             +"Secret Identity of "
             link(call, state, authenticity.character)
@@ -90,6 +91,7 @@ fun parseAuthenticity(parameters: Parameters) = when (parse(parameters, AUTHENTI
     AuthenticityType.Mask -> MaskOfOtherGod(
         parseGodId(parameters, combine(AUTHENTICITY, GOD)),
     )
+
     AuthenticityType.Secret -> SecretIdentity(
         parseCharacterId(parameters, combine(AUTHENTICITY, CHARACTER)),
     )

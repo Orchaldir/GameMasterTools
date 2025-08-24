@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.MaskOfOtherGod
 import at.orchaldir.gm.core.model.util.WorshipOfGod
-import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.model.world.plane.HeartPlane
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PrisonPlane

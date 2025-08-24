@@ -4,19 +4,14 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.organization.Organization
-import at.orchaldir.gm.core.model.util.WorshipOfGod
-import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
-import at.orchaldir.gm.core.model.util.Atheist
-import at.orchaldir.gm.core.model.util.BeliefStatus
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.HistoryEntry
-import at.orchaldir.gm.core.model.util.UndefinedBeliefStatus
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.util.canDeleteHasBelief
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

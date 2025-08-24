@@ -19,12 +19,8 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.believedIn
-import at.orchaldir.gm.core.model.util.believesIn
 import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId

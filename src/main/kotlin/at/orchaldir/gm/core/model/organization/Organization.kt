@@ -1,8 +1,6 @@
 package at.orchaldir.gm.core.model.organization
 
-import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.util.UndefinedBeliefStatus
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.*

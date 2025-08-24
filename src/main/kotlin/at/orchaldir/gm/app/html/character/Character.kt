@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.character
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.title.parseOptionalTitleId
-import at.orchaldir.gm.app.html.culture.parseCultureId
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.*
@@ -31,7 +30,6 @@ import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
-import at.orchaldir.gm.core.selector.religion.getMasksOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentYear
 import at.orchaldir.gm.core.selector.util.canHaveFamilyName
