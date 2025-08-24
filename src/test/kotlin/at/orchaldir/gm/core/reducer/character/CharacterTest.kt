@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
@@ -19,6 +20,7 @@ import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleParticipant
 import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyParticipant
+import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
@@ -348,6 +350,18 @@ class CharacterTest {
                 UpdateCharacter(Character(CHARACTER_ID_0, beliefStatus = History(WorshipOfGod(UNKNOWN_GOD_ID))))
 
             assertIllegalArgument("The belief's God 99 doesn't exist!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot be the secret identity of an unknown character`() {
+            val action = UpdateCharacter(Character(CHARACTER_ID_0, authenticity = SecretIdentity(UNKNOWN_CHARACTER_ID)))
+
+            assertIllegalArgument("Cannot be the secret identity of unknown Character 99!") {
+                REDUCER.invoke(
+                    STATE,
+                    action
+                )
+            }
         }
 
         @Nested

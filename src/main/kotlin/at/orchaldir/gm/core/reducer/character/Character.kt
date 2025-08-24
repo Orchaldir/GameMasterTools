@@ -85,6 +85,7 @@ fun validateCharacterData(
     checkBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     checkHousingStatusHistory(state, character.housingStatus, character.birthDate)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
+    checkAuthenticity(state, character.authenticity)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
 }
 
