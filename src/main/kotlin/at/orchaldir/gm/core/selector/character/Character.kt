@@ -146,6 +146,10 @@ fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
     .getAll()
     .filter { it.title == titleId }
 
+fun State.getSecretIdentitiesOf(character: CharacterId) = getCharacterStorage()
+    .getAll()
+    .filter { it.authenticity.isSecretIdentityOf(character) }
+
 // housing status
 
 fun State.getCharactersLivingIn(building: BuildingId) = getCharacterStorage()

@@ -31,6 +31,7 @@ import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
+import at.orchaldir.gm.core.selector.religion.getMasksOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentYear
 import at.orchaldir.gm.core.selector.util.canHaveFamilyName
@@ -143,6 +144,7 @@ fun HtmlBlockTag.showSocial(
     }
 
     fieldAuthenticity(call, state, character.authenticity)
+    fieldList(call, state, "Secret Identities", state.getSecretIdentitiesOf(character.id))
 
     showLanguages(call, state, character)
     showMemberships(call, state, character)
