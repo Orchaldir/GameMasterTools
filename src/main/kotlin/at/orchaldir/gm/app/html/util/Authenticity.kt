@@ -1,7 +1,9 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.AUTHENTICITY
+import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.GOD
+import at.orchaldir.gm.app.html.character.parseCharacterId
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.religion.parseGodId
@@ -11,6 +13,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -44,6 +47,10 @@ fun HtmlBlockTag.showAuthenticity(
             +"Mask of "
             link(call, state, authenticity.god)
         }
+        is SecretIdentity -> {
+            +"Secret Identity of "
+            link(call, state, authenticity.character)
+        }
     }
 }
 
@@ -57,7 +64,19 @@ fun HtmlBlockTag.editAuthenticity(
 
     when (authenticity) {
         Authentic, Invented, UndefinedAuthenticity -> doNothing()
-        is MaskOfOtherGod -> selectElement(state, combine(AUTHENTICITY, GOD), state.sortGods(), authenticity.god)
+        is MaskOfOtherGod -> selectElement(
+            state,
+            combine(AUTHENTICITY, GOD),
+            state.sortGods(),
+            authenticity.god,
+        )
+
+        is SecretIdentity -> selectElement(
+            state,
+            combine(AUTHENTICITY, CHARACTER),
+            state.sortCharacters(),
+            authenticity.character,
+        )
     }
 }
 
@@ -69,5 +88,8 @@ fun parseAuthenticity(parameters: Parameters) = when (parse(parameters, AUTHENTI
     AuthenticityType.Invented -> Invented
     AuthenticityType.Mask -> MaskOfOtherGod(
         parseGodId(parameters, combine(AUTHENTICITY, GOD)),
+    )
+    AuthenticityType.Secret -> SecretIdentity(
+        parseCharacterId(parameters, combine(AUTHENTICITY, CHARACTER)),
     )
 }

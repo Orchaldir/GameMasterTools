@@ -12,4 +12,7 @@ fun checkAuthenticity(
     is MaskOfOtherGod -> state.getGodStorage().require(authenticity.god) {
         "Cannot be the mask of unknown ${authenticity.god.print()}!"
     }
+    is SecretIdentity -> state.getCharacterStorage().require(authenticity.character) {
+        "Cannot be the secret identity of unknown ${authenticity.character.print()}!"
+    }
 }
