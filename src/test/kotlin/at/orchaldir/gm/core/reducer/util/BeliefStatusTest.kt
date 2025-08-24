@@ -7,11 +7,13 @@ import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
+import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.UndefinedBeliefStatus
 import at.orchaldir.gm.core.selector.util.canDeleteHasBelief
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
@@ -37,10 +39,7 @@ class BeliefStatusTest {
 
         @Test
         fun `Cannot delete god with a believer`() {
-            val character = Character(CHARACTER_ID_0, beliefStatus = History(WorshipOfGod(GOD_ID_0)))
-            val newState = state.updateStorage(Storage(character))
-
-            assertFalse(newState.canDeleteHasBelief(GOD_ID_0))
+            assertCannot(History(WorshipOfGod(GOD_ID_0)), GOD_ID_0)
         }
 
         @Test
@@ -50,10 +49,14 @@ class BeliefStatusTest {
 
         @Test
         fun `Cannot delete pantheon with a believer`() {
-            val character = Character(CHARACTER_ID_0, beliefStatus = History(WorshipOfPantheon(PANTHEON_ID_0)))
+            assertCannot(History(WorshipOfPantheon(PANTHEON_ID_0)), PANTHEON_ID_0)
+        }
+
+        private fun <ID : Id<ID>> assertCannot(beliefStatus: History<BeliefStatus>, id: ID) {
+            val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertFalse(newState.canDeleteHasBelief(PANTHEON_ID_0))
+            assertFalse(newState.canDeleteHasBelief(id))
         }
 
     }
