@@ -142,6 +142,8 @@ fun HtmlBlockTag.showSocial(
         +": ${relationships.joinToString { it.toString() }}"
     }
 
+    fieldAuthenticity(call, state, character.authenticity)
+
     showLanguages(call, state, character)
     showMemberships(call, state, character)
 
@@ -261,6 +263,7 @@ fun FORM.editCharacter(
             character.sexuality,
         )
     }
+    editAuthenticity(state, character.authenticity)
 
     editDataSources(state, character.sources)
 }
@@ -356,6 +359,7 @@ fun parseCharacter(
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
         title = parseOptionalTitleId(parameters, TITLE),
+        authenticity = parseAuthenticity(parameters),
         sources = parseDataSources(parameters),
     )
 }

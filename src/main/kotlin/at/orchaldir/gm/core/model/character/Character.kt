@@ -69,6 +69,7 @@ data class Character(
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val title: TitleId? = null,
+    val authenticity: Authenticity = Authentic,
     val sources: Set<DataSourceId> = emptySet(),
 ) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus {
 
