@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.BELIEVE
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PANTHEON
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.religion.parsePantheonId
@@ -11,11 +12,13 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.selector.util.getBelievers
+import at.orchaldir.gm.core.selector.util.getFormerBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortPantheons
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -42,9 +45,23 @@ fun HtmlBlockTag.showBeliefStatus(
         }
 
         Atheist -> +"Atheist"
-        is WorshipsGod -> link(call, state, status.god)
-        is WorshipsPantheon -> link(call, state, status.pantheon)
+        is WorshipOfGod -> link(call, state, status.god)
+        is WorshipOfPantheon -> link(call, state, status.pantheon)
     }
+}
+
+fun <ID : Id<ID>> HtmlBlockTag.showCurrentAndFormerBelievers(
+    call: ApplicationCall,
+    state: State,
+    id: ID,
+) {
+    val characters = state.getCharacterStorage()
+    val organizations = state.getOrganizationStorage()
+
+    fieldList(call, state, "Believers", getBelievers(characters, id))
+    fieldList(call, state, "Former Believers", getFormerBelievers(characters, id))
+    fieldList(call, state, "Organizations", getBelievers(organizations, id))
+    fieldList(call, state, "Former Organizations", getFormerBelievers(organizations, id))
 }
 
 // edit
@@ -52,7 +69,7 @@ fun HtmlBlockTag.showBeliefStatus(
 fun FORM.editBeliefStatusHistory(
     state: State,
     history: History<BeliefStatus>,
-    startDate: Date,
+    startDate: Date?,
 ) = selectHistory(state, BELIEVE, history, "Belief Status", startDate, null, HtmlBlockTag::editBeliefStatus)
 
 fun HtmlBlockTag.editBeliefStatus(
@@ -65,8 +82,8 @@ fun HtmlBlockTag.editBeliefStatus(
 
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()
-        is WorshipsGod -> selectElement(state, combine(param, GOD), state.sortGods(), status.god)
-        is WorshipsPantheon -> selectElement(
+        is WorshipOfGod -> selectElement(state, combine(param, GOD), state.sortGods(), status.god)
+        is WorshipOfPantheon -> selectElement(
             state,
             combine(param, PANTHEON),
             state.sortPantheons(),
@@ -77,14 +94,14 @@ fun HtmlBlockTag.editBeliefStatus(
 
 // parse
 
-fun parseBeliefStatusHistory(parameters: Parameters, state: State, startDate: Date) =
+fun parseBeliefStatusHistory(parameters: Parameters, state: State, startDate: Date?) =
     parseHistory(parameters, BELIEVE, state, startDate, ::parseBeliefStatus)
 
 fun parseBeliefStatus(parameters: Parameters, state: State, param: String): BeliefStatus {
     return when (parse(parameters, param, BeliefStatusType.Undefined)) {
         BeliefStatusType.Undefined -> UndefinedBeliefStatus
         BeliefStatusType.Atheist -> Atheist
-        BeliefStatusType.God -> WorshipsGod(parseGodId(parameters, combine(param, GOD)))
-        BeliefStatusType.Pantheon -> WorshipsPantheon(parsePantheonId(parameters, combine(param, PANTHEON)))
+        BeliefStatusType.God -> WorshipOfGod(parseGodId(parameters, combine(param, GOD)))
+        BeliefStatusType.Pantheon -> WorshipOfPantheon(parsePantheonId(parameters, combine(param, PANTHEON)))
     }
 }

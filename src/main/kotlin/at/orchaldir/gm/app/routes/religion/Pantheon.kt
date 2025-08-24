@@ -13,8 +13,8 @@ import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.SortPantheon
-import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
+import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.sortPantheons
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -157,13 +157,15 @@ private fun HTML.showAllPantheons(
                 th { +"Title" }
                 th { +"Gods" }
                 th { +"Believers" }
+                th { +"Organizations" }
             }
             pantheons.forEach { pantheon ->
                 tr {
                     tdLink(call, state, pantheon)
                     tdString(pantheon.title)
                     tdSkipZero(pantheon.gods.size)
-                    tdSkipZero(state.getBelievers(pantheon.id).size)
+                    tdSkipZero(getBelievers(state.getCharacterStorage(), pantheon.id).size)
+                    tdSkipZero(getBelievers(state.getOrganizationStorage(), pantheon.id).size)
                 }
             }
         }

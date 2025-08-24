@@ -70,7 +70,7 @@ fun HtmlBlockTag.showCultureCount(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
-) = showCount(call, state, "Cultures", countEachCulture(characters))
+) = showOptionalCount(call, state, "Cultures", countEachCulture(characters))
 
 fun HtmlBlockTag.showDomainCount(
     call: ApplicationCall,
@@ -194,6 +194,22 @@ fun <ID : Id<ID>> HtmlBlockTag.showCount(
 ) {
     showMap(label, map) { id, count ->
         link(call, state, id)
+        +": $count"
+    }
+}
+
+fun <ID : Id<ID>> HtmlBlockTag.showOptionalCount(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    map: Map<ID?, Int>,
+) {
+    showMap(label, map) { id, count ->
+        if (id != null) {
+            link(call, state, id)
+        } else {
+            +"None"
+        }
         +": $count"
     }
 }

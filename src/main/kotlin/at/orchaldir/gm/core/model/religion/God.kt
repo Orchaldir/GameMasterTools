@@ -2,7 +2,10 @@ package at.orchaldir.gm.core.model.religion
 
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.util.Authenticity
+import at.orchaldir.gm.core.model.util.AuthenticityType
 import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.UndefinedAuthenticity
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
@@ -12,6 +15,12 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val GOD_TYPE = "God"
+val ALLOWED_GOD_AUTHENTICITY = listOf(
+    AuthenticityType.Undefined,
+    AuthenticityType.Authentic,
+    AuthenticityType.Invented,
+    AuthenticityType.Mask,
+)
 
 @JvmInline
 @Serializable
@@ -31,6 +40,7 @@ data class God(
     val gender: Gender = Gender.Genderless,
     val personality: Set<PersonalityTraitId> = emptySet(),
     val domains: Set<DomainId> = emptySet(),
+    val authenticity: Authenticity = UndefinedAuthenticity,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<GodId>, HasDataSources, HasStartDate {
 

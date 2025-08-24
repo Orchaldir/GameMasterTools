@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.getChildren
 import at.orchaldir.gm.core.selector.character.getParents
+import at.orchaldir.gm.core.selector.character.getSecretIdentitiesOf
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.realm.countBattlesLedBy
 import at.orchaldir.gm.core.selector.time.getCurrentDate
@@ -37,6 +38,7 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     validateCanDelete(children.isEmpty(), action.id, "he has children")
     validateCanDelete(organizations.isEmpty(), action.id, "he is a member of an organization")
     validateCanDelete(state.countBattlesLedBy(action.id) == 0, action.id, "of a battle")
+    validateCanDelete(state.getSecretIdentitiesOf(action.id).isEmpty(), action.id, "of a secret identity")
 
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)
@@ -70,7 +72,7 @@ fun validateCharacterData(
     character: Character,
 ) {
     state.getRaceStorage().require(character.race)
-    state.getCultureStorage().require(character.culture)
+    state.getCultureStorage().requireOptional(character.culture)
     state.getTitleStorage().requireOptional(character.title)
     checkSexualOrientation(character)
     checkOrigin(state, character)
@@ -85,6 +87,7 @@ fun validateCharacterData(
     checkBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     checkHousingStatusHistory(state, character.housingStatus, character.birthDate)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
+    checkAuthenticity(state, character.authenticity)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
 }
 

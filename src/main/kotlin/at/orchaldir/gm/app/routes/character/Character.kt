@@ -295,9 +295,11 @@ private fun HTML.showCharacterEditor(
     val previewLink = call.application.href(CharacterRoutes.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Update(character.id))
 
-    simpleHtml("Edit Character: $characterName") {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editCharacter(call, state, character)
+    simpleHtml("Edit Character: $characterName", true) {
+        mainFrame {
+            formWithPreview(previewLink, updateLink, backLink) {
+                editCharacter(call, state, character)
+            }
         }
     }
 }

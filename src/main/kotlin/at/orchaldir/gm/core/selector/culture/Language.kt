@@ -26,10 +26,10 @@ fun State.getChildren(language: LanguageId) = getLanguageStorage()
 fun State.getKnownLanguages(character: Character) = getDefaultLanguages(character) + character.languages
 
 fun State.getDefaultLanguages(character: Character) = getCultureStorage()
-    .getOrThrow(character.culture)
-    .languages
-    .getValuesFor(Rarity.Everyone)
-    .associateWith { ComprehensionLevel.Native }
+    .getOptional(character.culture)
+    ?.languages
+    ?.getValuesFor(Rarity.Everyone)
+    ?.associateWith { ComprehensionLevel.Native } ?: emptyMap()
 
 fun State.getPossibleParents(language: LanguageId) = getLanguageStorage()
     .getAllExcept(language)

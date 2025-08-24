@@ -31,12 +31,14 @@ data class Organization(
     val date: Date? = null,
     val memberRanks: List<MemberRank> = listOf(MemberRank()),
     val members: Map<CharacterId, History<Int?>> = emptyMap(),
+    val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val holidays: Set<HolidayId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<OrganizationId>, Creation, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<OrganizationId>, Creation, HasBelief, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
+    override fun belief() = beliefStatus
     override fun creator() = founder
     override fun sources() = sources
     override fun startDate() = date

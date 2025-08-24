@@ -19,8 +19,6 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.origin.BornElement
@@ -144,15 +142,9 @@ fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
     .getAll()
     .filter { it.title == titleId }
 
-// belief status
-
-fun State.getBelievers(god: GodId) = getCharacterStorage()
+fun State.getSecretIdentitiesOf(character: CharacterId) = getCharacterStorage()
     .getAll()
-    .filter { it.beliefStatus.current.believesIn(god) }
-
-fun State.getBelievers(pantheon: PantheonId) = getCharacterStorage()
-    .getAll()
-    .filter { it.beliefStatus.current.believesIn(pantheon) }
+    .filter { it.authenticity.isSecretIdentityOf(character) }
 
 // housing status
 

@@ -33,9 +33,10 @@ import kotlin.test.assertEquals
 class CharacterTest {
 
     private val LANGUAGES = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native)
+    val character0 = Character(CHARACTER_ID_0)
     private val state = State(
         listOf(
-            Storage(listOf(Character(CHARACTER_ID_0))),
+            Storage(listOf(character0)),
             Storage(listOf(Language(LANGUAGE_ID_0)))
         )
     )
@@ -45,7 +46,6 @@ class CharacterTest {
 
         @Test
         fun `Create another character`() {
-            val character0 = Character(CHARACTER_ID_0)
             val character1 = Character(CHARACTER_ID_1, birthDate = Day(0))
             val state = State(Storage(listOf(character0)))
 
@@ -133,6 +133,19 @@ class CharacterTest {
             }
         }
 
+        @Test
+        fun `Cannot delete a character that has a secret identity`() {
+            val identity = Character(CHARACTER_ID_1, authenticity = SecretIdentity(CHARACTER_ID_0))
+            val newState = state.updateStorage(Storage(listOf(character0, identity)))
+
+            assertIllegalArgument("Cannot delete Character 0, because of a secret identity!") {
+                REDUCER.invoke(
+                    newState,
+                    action
+                )
+            }
+        }
+
         @Nested
         inner class DeleteFamilyMemberTest {
 
@@ -180,7 +193,7 @@ class CharacterTest {
         val STATE = State(
             listOf(
                 Storage(CALENDAR0),
-                Storage(Character(CHARACTER_ID_0)),
+                Storage(character0),
                 Storage(Business(BUSINESS_ID_0)),
                 Storage(Culture(CULTURE_ID_0)),
                 Storage(Language(LANGUAGE_ID_0)),
@@ -313,7 +326,7 @@ class CharacterTest {
             private val state = STATE.updateStorage(
                 Storage(
                     listOf(
-                        Character(CHARACTER_ID_0),
+                        character0,
                         Character(CHARACTER_ID_1, gender = Gender.Male),
                         Character(CHARACTER_ID_2, gender = Gender.Female)
                     )
@@ -342,16 +355,23 @@ class CharacterTest {
 
         }
 
+        @Test
+        fun `Cannot believe in an unknown god`() {
+            val action =
+                UpdateCharacter(Character(CHARACTER_ID_0, beliefStatus = History(WorshipOfGod(UNKNOWN_GOD_ID))))
 
-        @Nested
-        inner class BeliefStatusTest {
+            assertIllegalArgument("The belief's God 99 doesn't exist!") { REDUCER.invoke(STATE, action) }
+        }
 
-            @Test
-            fun `Cannot believe in an unknown god`() {
-                val action =
-                    UpdateCharacter(Character(CHARACTER_ID_0, beliefStatus = History(WorshipsGod(UNKNOWN_GOD_ID))))
+        @Test
+        fun `Cannot be the secret identity of an unknown character`() {
+            val action = UpdateCharacter(Character(CHARACTER_ID_0, authenticity = SecretIdentity(UNKNOWN_CHARACTER_ID)))
 
-                assertIllegalArgument("The belief's god 99 doesn't exist!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Cannot be the secret identity of unknown Character 99!") {
+                REDUCER.invoke(
+                    STATE,
+                    action
+                )
             }
         }
 
@@ -369,7 +389,7 @@ class CharacterTest {
         @Test
         fun `Cannot update unknown character`() {
             val state = STATE.removeStorage(CHARACTER_ID_0)
-            val action = UpdateCharacter(Character(CHARACTER_ID_0))
+            val action = UpdateCharacter(character0)
 
             assertIllegalArgument("Requires unknown Character 0!") { REDUCER.invoke(state, action) }
         }

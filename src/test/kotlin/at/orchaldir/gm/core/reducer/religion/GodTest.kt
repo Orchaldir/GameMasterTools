@@ -4,12 +4,17 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayOfGod
+import at.orchaldir.gm.core.model.util.BeliefStatus
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.MaskOfOtherGod
+import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.world.plane.HeartPlane
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PrisonPlane
@@ -65,6 +70,23 @@ class GodTest {
         }
 
         @Test
+        fun `Cannot delete a god that has a mask`() {
+            val mask = God(GOD_ID_1, authenticity = MaskOfOtherGod(GOD_ID_0))
+            val newState = state.updateStorage(Storage(listOf(god0, mask)))
+
+            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
+        }
+
+        @Test
+        fun `Cannot delete a god that a character believes in`() {
+            val beliefStatus = History<BeliefStatus>(WorshipOfGod(GOD_ID_0))
+            val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
+            val newState = state.updateStorage(Storage(character))
+
+            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
+        }
+
+        @Test
         fun `Cannot delete unknown id`() {
             assertIllegalArgument("Requires unknown God 0!") { REDUCER.invoke(State(), action) }
         }
@@ -78,6 +100,13 @@ class GodTest {
             val action = UpdateGod(God(UNKNOWN_GOD_ID))
 
             assertIllegalArgument("Requires unknown God 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot be the mask of an unknown god`() {
+            val action = UpdateGod(God(GOD_ID_0, authenticity = MaskOfOtherGod(UNKNOWN_GOD_ID)))
+
+            assertIllegalArgument("Cannot be the mask of unknown God 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test

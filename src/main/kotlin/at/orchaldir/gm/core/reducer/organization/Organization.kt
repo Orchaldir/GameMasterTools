@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.reducer.util.checkBeliefStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCreator
@@ -46,6 +47,7 @@ fun validateOrganization(
     validateCreator(state, organization.founder, organization.id, organization.date, "founder")
     validateRanks(state, organization)
     validateMembers(state, organization)
+    checkBeliefStatusHistory(state, organization.beliefStatus, organization.date)
     state.getHolidayStorage().require(organization.holidays)
     state.getDataSourceStorage().require(organization.sources)
 }

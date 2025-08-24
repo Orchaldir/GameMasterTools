@@ -1,7 +1,8 @@
-package at.orchaldir.gm.core.model.character
+package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -18,13 +19,15 @@ sealed class BeliefStatus {
     fun getType() = when (this) {
         UndefinedBeliefStatus -> BeliefStatusType.Undefined
         Atheist -> BeliefStatusType.Atheist
-        is WorshipsGod -> BeliefStatusType.God
-        is WorshipsPantheon -> BeliefStatusType.Pantheon
+        is WorshipOfGod -> BeliefStatusType.God
+        is WorshipOfPantheon -> BeliefStatusType.Pantheon
     }
 
-    fun believesIn(id: GodId) = this is WorshipsGod && god == id
-
-    fun believesIn(id: PantheonId) = this is WorshipsPantheon && pantheon == id
+    fun <ID : Id<ID>> believesIn(id: ID) = when (this) {
+        is WorshipOfGod -> god == id
+        is WorshipOfPantheon -> pantheon == id
+        else -> false
+    }
 
 }
 
@@ -38,12 +41,16 @@ data object Atheist : BeliefStatus()
 
 @Serializable
 @SerialName("God")
-data class WorshipsGod(
+data class WorshipOfGod(
     val god: GodId,
 ) : BeliefStatus()
 
 @Serializable
 @SerialName("Pantheon")
-data class WorshipsPantheon(
+data class WorshipOfPantheon(
     val pantheon: PantheonId,
 ) : BeliefStatus()
+
+fun <ID : Id<ID>> History<BeliefStatus>.believesIn(id: ID) = current.believesIn(id)
+fun <ID : Id<ID>> History<BeliefStatus>.believedIn(id: ID) = previousEntries.any { it.entry.believesIn(id) }
+fun <ID : Id<ID>> History<BeliefStatus>.believesOrBelievedIn(id: ID) = believesIn(id) || believedIn(id)

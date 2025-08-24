@@ -31,11 +31,7 @@ sealed class NamingConvention {
     fun getFamilyName(name: FamilyName, gender: Gender, title: AbstractTitle = NoTitle): String {
         when (this) {
             is FamilyConvention -> return when (nameOrder) {
-                NameOrder.GivenNameFirst -> getFamilyName(
-                    name.given.text,
-                    name.middle,
-                    title.resolveFamilyName(name.family.text, gender)
-                )
+                NameOrder.GivenNameFirst -> getDefaultFamilyName(name, gender, title)
 
                 NameOrder.FamilyNameFirst -> getFamilyName(
                     title.resolveFamilyName(name.family.text, gender),
@@ -57,6 +53,16 @@ sealed class NamingConvention {
         is PatronymConvention -> NamingConventionType.Patronym
     }
 }
+
+fun getDefaultFamilyName(
+    name: FamilyName,
+    gender: Gender,
+    title: AbstractTitle,
+): String = getFamilyName(
+    name.given.text,
+    name.middle,
+    title.resolveFamilyName(name.family.text, gender)
+)
 
 private fun getFamilyName(first: String, middle: Name?, last: String) = if (middle != null) {
     "$first ${middle.text} $last"

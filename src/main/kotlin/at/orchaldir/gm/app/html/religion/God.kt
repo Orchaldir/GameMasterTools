@@ -8,16 +8,17 @@ import at.orchaldir.gm.app.html.character.editPersonality
 import at.orchaldir.gm.app.html.character.parseGender
 import at.orchaldir.gm.app.html.character.parsePersonality
 import at.orchaldir.gm.app.html.character.showPersonality
-import at.orchaldir.gm.app.html.util.showCreated
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.religion.ALLOWED_GOD_AUTHENTICITY
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.selector.character.getBelievers
+import at.orchaldir.gm.core.selector.religion.getMasksOf
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.util.sortDomains
@@ -38,20 +39,19 @@ fun HtmlBlockTag.showGod(
     optionalField("Title", god.title)
     field("Gender", god.gender)
     showPersonality(call, state, god.personality)
-
     fieldIdList(call, state, god.domains)
+    fieldAuthenticity(call, state, god.authenticity)
 
     optionalFieldLink("Heart Plane", call, state, state.getHeartPlane(god.id)?.id)
     optionalFieldLink("Prison Plane", call, state, state.getPrisonPlane(god.id)?.id)
 
     fieldList(call, state, state.getHolidays(god.id))
     fieldList(call, state, state.getPantheonsContaining(god.id))
-    fieldList(call, state, "Believers", state.getBelievers(god.id))
-
+    fieldList(call, state, "Masks", state.getMasksOf(god.id))
+    showCurrentAndFormerBelievers(call, state, god.id)
     showCreated(call, state, god.id)
     showDataSources(call, state, god.sources)
 }
-
 // edit
 
 fun FORM.editGod(
@@ -64,6 +64,7 @@ fun FORM.editGod(
     selectValue("Gender", GENDER, Gender.entries, god.gender)
     editPersonality(call, state, god.personality)
     selectElements(state, "Domains", DOMAIN, state.sortDomains(), god.domains)
+    editAuthenticity(state, god.authenticity, ALLOWED_GOD_AUTHENTICITY)
     editDataSources(state, god.sources)
 }
 
@@ -80,5 +81,6 @@ fun parseGod(parameters: Parameters, id: GodId) = God(
     parseGender(parameters),
     parsePersonality(parameters),
     parseElements(parameters, DOMAIN, ::parseDomainId),
+    parseAuthenticity(parameters),
     parseDataSources(parameters),
 )

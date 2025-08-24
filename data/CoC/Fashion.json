@@ -97,10 +97,13 @@
     },
     "hair": {
      "hairStyles": {
+      "Bun": "Uncommon",
       "Long": "Common",
       "Ponytail": "Uncommon"
      },
      "bunStyles": {
+      "High": "Common",
+      "Low": "Common"
      },
      "ponytailPositions": {
       "High": "Common",

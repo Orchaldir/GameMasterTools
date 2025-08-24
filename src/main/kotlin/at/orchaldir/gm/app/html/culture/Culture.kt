@@ -293,6 +293,8 @@ private fun FORM.editClothingOptions(
 
 fun parseCultureId(parameters: Parameters, param: String) = CultureId(parseInt(parameters, param))
 fun parseCultureId(value: String) = CultureId(value.toInt())
+fun parseOptionalCultureId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { CultureId(it) }
 
 fun parseCulture(
     parameters: Parameters,

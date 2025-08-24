@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editGod
 import at.orchaldir.gm.app.html.religion.parseGod
 import at.orchaldir.gm.app.html.religion.showGod
+import at.orchaldir.gm.app.html.util.showAuthenticity
 import at.orchaldir.gm.core.action.CreateGod
 import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
@@ -13,9 +14,9 @@ import at.orchaldir.gm.core.model.religion.GOD_TYPE
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.SortGod
-import at.orchaldir.gm.core.selector.character.getBelievers
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
+import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -28,6 +29,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
+import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 import mu.KotlinLogging
@@ -154,7 +156,9 @@ private fun HTML.showAllGods(
                 th { +"Gender" }
                 th { +"Personality" }
                 th { +"Domain" }
+                th { +"Authenticity" }
                 th { +"Believers" }
+                th { +"Organizations" }
             }
             gods.forEach { god ->
                 tr {
@@ -173,7 +177,9 @@ private fun HTML.showAllGods(
                     tdEnum(god.gender)
                     tdLinks(call, state, personality)
                     tdLinks(call, state, domains)
-                    tdSkipZero(state.getBelievers(god.id).size)
+                    td { showAuthenticity(call, state, god.authenticity, false) }
+                    tdSkipZero(getBelievers(state.getCharacterStorage(), god.id).size)
+                    tdSkipZero(getBelievers(state.getOrganizationStorage(), god.id).size)
                 }
             }
         }

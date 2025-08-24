@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.race.RaceId
@@ -37,6 +38,11 @@ val ALLOWED_CHARACTER_ORIGINS = listOf(
     OriginType.Created,
     OriginType.Undefined,
 )
+val ALLOWED_CHARACTER_AUTHENTICITY = listOf(
+    AuthenticityType.Undefined,
+    AuthenticityType.Authentic,
+    AuthenticityType.Secret,
+)
 
 @JvmInline
 @Serializable
@@ -58,7 +64,7 @@ data class Character(
     val origin: Origin = UndefinedOrigin,
     val birthDate: Date = Year(0),
     val vitalStatus: VitalStatus = Alive,
-    val culture: CultureId = CultureId(0),
+    val culture: CultureId? = null,
     val personality: Set<PersonalityTraitId> = emptySet(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
@@ -68,8 +74,9 @@ data class Character(
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val title: TitleId? = null,
+    val authenticity: Authenticity = Authentic,
     val sources: Set<DataSourceId> = emptySet(),
-) : Element<CharacterId>, HasDataSources, HasVitalStatus {
+) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus {
 
     init {
         validateOriginType(origin, ALLOWED_CHARACTER_ORIGINS)
@@ -82,9 +89,9 @@ data class Character(
 
         return when (name) {
             is FamilyName -> {
-                val culture = state.getCultureStorage().getOrThrow(culture)
-
-                culture.namingConvention.getFamilyName(name, gender, title)
+                state.getCultureStorage().getOptional(culture)?.namingConvention
+                    ?.getFamilyName(name, gender, title)
+                    ?: getDefaultFamilyName(name, gender, title)
             }
 
             is Genonym -> title.resolveFullName(state.getGenonymName(this, name), gender)
@@ -110,6 +117,7 @@ data class Character(
         }
     }
 
+    override fun belief() = beliefStatus
     override fun sources() = sources
     override fun startDate() = birthDate
     override fun vitalStatus() = vitalStatus

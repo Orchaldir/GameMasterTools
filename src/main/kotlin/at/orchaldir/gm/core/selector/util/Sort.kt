@@ -43,7 +43,10 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.selector.character.*
+import at.orchaldir.gm.core.selector.character.countCharacters
+import at.orchaldir.gm.core.selector.character.countCharactersWithJob
+import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
@@ -378,7 +381,7 @@ fun State.sortGods(
     .sortedWith(
         when (sort) {
             SortGod.Name -> compareBy { it.name.text }
-            SortGod.Believers -> compareByDescending { getBelievers(it.id).size }
+            SortGod.Believers -> compareByDescending { getBelievers(getCharacterStorage(), it.id).size }
         })
 
 // holiday
@@ -509,7 +512,7 @@ fun State.sortPantheons(
         when (sort) {
             SortPantheon.Name -> compareBy { it.name.text }
             SortPantheon.Gods -> compareBy { it.gods.size }
-            SortPantheon.Believers -> compareByDescending { getBelievers(it.id).size }
+            SortPantheon.Believers -> compareByDescending { getBelievers(getCharacterStorage(), it.id).size }
         })
 
 // periodical

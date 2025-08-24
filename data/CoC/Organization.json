@@ -11,6 +11,33 @@
    "date": {
     "type": "Decade",
     "decade": 179
+   },
+   "memberRanks": [
+    {
+    },
+    {
+     "name": "Leader"
+    }
+   ],
+   "members": {
+    "1": {
+     "current": 1
+    },
+    "11": {
+     "current": 0
+    },
+    "4": {
+     "current": 0
+    },
+    "14": {
+     "current": 0
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 1
+    }
    }
   }
  }

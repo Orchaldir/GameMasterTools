@@ -109,6 +109,14 @@ class OrganizationTest {
             assertIllegalArgument("Requires unknown Holiday 99!") { REDUCER.invoke(state, action) }
         }
 
+        @Test
+        fun `Cannot believe in an unknown god`() {
+            val organization = Organization(ORGANIZATION_ID_0, beliefStatus = History(WorshipOfGod(UNKNOWN_GOD_ID)))
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("The belief's God 99 doesn't exist!") { REDUCER.invoke(state, action) }
+        }
+
         @Nested
         inner class MembersTest {
 

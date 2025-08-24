@@ -11,6 +11,9 @@
    "founder": {
     "type": "Character",
     "character": 0
+   },
+   "owner": {
+    "current": 0
    }
   }
  }
