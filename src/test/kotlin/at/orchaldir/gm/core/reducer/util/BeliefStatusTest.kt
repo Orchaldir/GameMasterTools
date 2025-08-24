@@ -28,10 +28,17 @@ class BeliefStatusTest {
 
     @Nested
     inner class DeleteTest {
+
         @Test
         fun `Can delete god without believers`() {
             assertTrue(state.canDeleteHasBelief(GOD_ID_0))
         }
+
+        @Test
+        fun `Can delete pantheon without believers`() {
+            assertTrue(state.canDeleteHasBelief(PANTHEON_ID_0))
+        }
+
     }
 
     @Nested
