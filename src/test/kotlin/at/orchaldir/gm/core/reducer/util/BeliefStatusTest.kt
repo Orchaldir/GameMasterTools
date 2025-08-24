@@ -3,11 +3,11 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
-import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.Atheist
 import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.History
@@ -42,14 +42,19 @@ class BeliefStatusTest {
 
         @Test
         fun `Cannot delete god with a believer`() {
-            assertCannot(History(worshipOfGod), GOD_ID_0)
+            assertCharacter(History(worshipOfGod), GOD_ID_0)
         }
 
         @Test
         fun `Cannot delete god with a previous believer`() {
             val previousEntry = HistoryEntry<BeliefStatus>(worshipOfGod, DAY0)
 
-            assertCannot(History(Atheist, previousEntry), GOD_ID_0)
+            assertCharacter(History(Atheist, previousEntry), GOD_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete god with a worshipping organization`() {
+            assertOrganization(History(worshipOfGod), GOD_ID_0)
         }
 
         @Test
@@ -59,19 +64,31 @@ class BeliefStatusTest {
 
         @Test
         fun `Cannot delete pantheon with a believer`() {
-            assertCannot(History(worshipOfPantheon), PANTHEON_ID_0)
+            assertCharacter(History(worshipOfPantheon), PANTHEON_ID_0)
         }
 
         @Test
         fun `Cannot delete pantheon with a previous believer`() {
             val previousEntry = HistoryEntry<BeliefStatus>(worshipOfPantheon, DAY0)
 
-            assertCannot(History(Atheist, previousEntry), PANTHEON_ID_0)
+            assertCharacter(History(Atheist, previousEntry), PANTHEON_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCannot(beliefStatus: History<BeliefStatus>, id: ID) {
+        @Test
+        fun `Cannot delete pantheon with a worshipping organization`() {
+            assertOrganization(History(worshipOfPantheon), PANTHEON_ID_0)
+        }
+
+        private fun <ID : Id<ID>> assertCharacter(beliefStatus: History<BeliefStatus>, id: ID) {
             val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
             val newState = state.updateStorage(Storage(character))
+
+            assertFalse(newState.canDeleteHasBelief(id))
+        }
+
+        private fun <ID : Id<ID>> assertOrganization(beliefStatus: History<BeliefStatus>, id: ID) {
+            val organization = Organization(ORGANIZATION_ID_0, beliefStatus = beliefStatus)
+            val newState = state.updateStorage(Storage(organization))
 
             assertFalse(newState.canDeleteHasBelief(id))
         }
