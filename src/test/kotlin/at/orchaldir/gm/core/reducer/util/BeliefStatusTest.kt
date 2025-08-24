@@ -58,6 +58,13 @@ class BeliefStatusTest {
         }
 
         @Test
+        fun `Cannot delete god with a worshipping organization in the past`() {
+            val previousEntry = HistoryEntry<BeliefStatus>(worshipOfGod, DAY0)
+
+            assertOrganization(History(Atheist, previousEntry), GOD_ID_0)
+        }
+
+        @Test
         fun `Can delete pantheon without believers`() {
             assertTrue(state.canDeleteHasBelief(PANTHEON_ID_0))
         }
@@ -77,6 +84,13 @@ class BeliefStatusTest {
         @Test
         fun `Cannot delete pantheon with a worshipping organization`() {
             assertOrganization(History(worshipOfPantheon), PANTHEON_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete pantheon with a worshipping organization in the past`() {
+            val previousEntry = HistoryEntry<BeliefStatus>(worshipOfPantheon, DAY0)
+
+            assertOrganization(History(Atheist, previousEntry), PANTHEON_ID_0)
         }
 
         private fun <ID : Id<ID>> assertCharacter(beliefStatus: History<BeliefStatus>, id: ID) {
