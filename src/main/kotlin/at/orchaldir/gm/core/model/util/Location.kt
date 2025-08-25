@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 
 enum class LocationType {
     Undefined,
-    None,
+    Homeless,
     Apartment,
     District,
     House,
@@ -23,7 +23,7 @@ enum class LocationType {
 sealed class Location {
 
     fun getType() = when (this) {
-        Homeless -> LocationType.None
+        Homeless -> LocationType.Homeless
         is InApartment -> LocationType.Apartment
         is InDistrict -> LocationType.District
         is InHouse -> LocationType.House
