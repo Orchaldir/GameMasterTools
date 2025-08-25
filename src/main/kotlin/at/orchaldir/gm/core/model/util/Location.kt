@@ -4,17 +4,19 @@ import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.plane.PlaneId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class LocationType {
     Undefined,
     None,
-    InApartment,
-    InDistrict,
-    InHouse,
-    InRealm,
-    InTown,
+    Apartment,
+    District,
+    House,
+    Plane,
+    Realm,
+    Town,
 }
 
 @Serializable
@@ -22,11 +24,12 @@ sealed class Location {
 
     fun getType() = when (this) {
         Homeless -> LocationType.None
-        is InApartment -> LocationType.InApartment
-        is InDistrict -> LocationType.InDistrict
-        is InHouse -> LocationType.InHouse
-        is InRealm -> LocationType.InRealm
-        is InTown -> LocationType.InTown
+        is InApartment -> LocationType.Apartment
+        is InDistrict -> LocationType.District
+        is InHouse -> LocationType.House
+        is InPlane -> LocationType.Plane
+        is InRealm -> LocationType.Realm
+        is InTown -> LocationType.Town
         UndefinedLocation -> LocationType.Undefined
     }
 
@@ -41,10 +44,11 @@ sealed class Location {
         else -> null
     }
 
-    open fun isIn(building: BuildingId) = false
     open fun isInApartment(building: BuildingId, apartmentIndex: Int) = false
     open fun isInHouse(building: BuildingId) = false
+    open fun isIn(building: BuildingId) = false
     open fun isIn(district: DistrictId) = false
+    open fun isIn(plane: PlaneId) = false
     open fun isIn(realm: RealmId) = false
     open fun isIn(town: TownId) = false
 
@@ -85,6 +89,14 @@ data class InHouse(val building: BuildingId) : Location() {
 
     override fun isIn(building: BuildingId) = isInHouse(building)
     override fun isInHouse(building: BuildingId) = this.building == building
+
+}
+
+@Serializable
+@SerialName("Plane")
+data class InPlane(val plane: PlaneId) : Location() {
+
+    override fun isIn(plane: PlaneId) = this.plane == plane
 
 }
 
