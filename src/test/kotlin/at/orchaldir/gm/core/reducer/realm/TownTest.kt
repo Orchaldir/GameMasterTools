@@ -120,7 +120,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town that is the home of a character`() {
-            val housingStatus = History<HousingStatus>(InTown(TOWN_ID_0))
+            val housingStatus = History<Location>(InTown(TOWN_ID_0))
             val state = createState(Character(CHARACTER_ID_0, housingStatus = housingStatus))
 
             assertIllegalArgument("Cannot delete Town 0, because it is a home!") {

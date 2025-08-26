@@ -219,7 +219,7 @@ class BuildingTest {
 
         @Test
         fun `Cannot delete a single family house, if someone lived inside`() {
-            val housingStatus = History(NoLocation, HistoryEntry(InHouse(BUILDING_ID_0), DAY0))
+            val housingStatus = History(Homeless, HistoryEntry(InHouse(BUILDING_ID_0), DAY0))
             val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, housingStatus = housingStatus)))
 
             assertIllegalArgument("Cannot delete Building 0, because it had inhabitants!") {
