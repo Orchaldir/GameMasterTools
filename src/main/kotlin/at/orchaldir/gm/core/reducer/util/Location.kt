@@ -1,26 +1,25 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.util.requireExists
 
-fun checkHousingStatusHistory(
+fun checkLocationHistory(
     state: State,
-    ownership: History<HousingStatus>,
+    ownership: History<Location>,
     startDate: Date,
-) = checkHistory(state, ownership, startDate, "home", ::checkHousingStatus)
+) = checkHistory(state, ownership, startDate, "home", ::checkLocation)
 
-private fun checkHousingStatus(
+private fun checkLocation(
     state: State,
-    status: HousingStatus,
+    status: Location,
     noun: String,
     date: Date?,
 ) {
     when (status) {
-        UndefinedHousingStatus -> return
+        UndefinedLocation -> return
         Homeless -> return
         is InApartment -> {
             val building = state
@@ -43,6 +42,7 @@ private fun checkHousingStatus(
         }
 
         is InRealm -> state.requireExists(state.getRealmStorage(), status.realm, date) { noun }
+        is InPlane -> state.getPlaneStorage().require(status.plane) { "Requires unknown $noun!" }
         is InTown -> state.requireExists(state.getTownStorage(), status.town, date) { noun }
     }
 }
