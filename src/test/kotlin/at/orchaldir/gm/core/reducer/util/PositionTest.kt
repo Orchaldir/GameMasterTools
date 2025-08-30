@@ -276,10 +276,30 @@ class PositionTest {
         }
 
         @Test
-        fun `The town doesn't exist yet`() {
+        fun `The town map doesn't exist yet`() {
             val state = createTownMapState(date = DAY1)
 
             assertIllegalArgument("The home doesn't exist at the required date!") {
+                checkPositionHistory(state, History(inTownMap), DAY0)
+            }
+        }
+
+        @Test
+        fun `Tile index must be positive`() {
+            val state = createTownMapState()
+            val inTownMap = InTownMap(TOWN_MAP_ID_0, -1)
+
+            assertIllegalArgument("The home's tile index -1 is outside the town map!") {
+                checkPositionHistory(state, History(inTownMap), DAY0)
+            }
+        }
+
+        @Test
+        fun `Tile index must be smaller than the size`() {
+            val state = createTownMapState()
+            val inTownMap = InTownMap(TOWN_MAP_ID_0, 100)
+
+            assertIllegalArgument("The home's tile index 100 is outside the town map!") {
                 checkPositionHistory(state, History(inTownMap), DAY0)
             }
         }
