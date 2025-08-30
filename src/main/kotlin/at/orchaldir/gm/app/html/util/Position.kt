@@ -204,7 +204,7 @@ fun HtmlBlockTag.selectPosition(
 fun parsePositionHistory(parameters: Parameters, state: State, startDate: Date) =
     parseHistory(parameters, HOME, state, startDate, ::parsePosition)
 
-private fun parsePosition(parameters: Parameters, state: State, param: String): Position {
+fun parsePosition(parameters: Parameters, state: State, param: String): Position {
     return when (parse(parameters, param, PositionType.Undefined)) {
         PositionType.Apartment -> InApartment(
             parseBuildingId(

@@ -4,18 +4,17 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
+import at.orchaldir.gm.app.parse.world.parseBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
+import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.SortBuilding
 import at.orchaldir.gm.core.model.world.building.*
-import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.character.countCharactersLivingInHouse
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.world.*
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.showSelectedBuilding
@@ -31,7 +30,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
-import kotlin.math.min
 
 private val logger = KotlinLogging.logger {}
 
@@ -109,9 +107,7 @@ fun Application.configureBuildingRouting() {
             logger.info { "Preview building ${preview.id.value}" }
 
             val state = STORE.getState()
-            val action = parseUpdateBuilding(call.receiveParameters(), state, preview.id)
-            val oldBuilding = state.getBuildingStorage().getOrThrow(preview.id)
-            val building = action.applyTo(oldBuilding)
+            val building = parseBuilding(call.receiveParameters(), state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showBuildingEditor(call, state, building)
@@ -121,9 +117,9 @@ fun Application.configureBuildingRouting() {
             logger.info { "Update building ${update.id.value}" }
 
             val state = STORE.getState()
-            val action = parseUpdateBuilding(call.receiveParameters(), state, update.id)
+            val building = parseBuilding(call.receiveParameters(), state, update.id)
 
-            STORE.dispatch(action)
+            STORE.dispatch(UpdateBuilding(building))
 
             call.respondRedirect(href(call, update.id))
 
@@ -235,7 +231,7 @@ private fun HTML.showBuildingDetails(
     simpleHtml("Building: ${building.name(state)}") {
         split({
             fieldPosition(call, state, building.position)
-            field("Size", building.size.format())
+            fieldMapSize("Size", building.size)
             fieldAddress(call, state, building)
             optionalField(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state, building.constructionDate)
@@ -270,6 +266,14 @@ private fun HTML.showBuildingEditor(
         split({
             formWithPreview(previewLink, updateLink, backLink) {
                 selectOptionalName(building.name)
+                selectPosition(state, POSITION, building.position, building.constructionDate) { townMapId ->
+                    val townMap = state.getTownMapStorage().getOrThrow(townMapId)
+
+                    (0..<townMap.map.size.tiles()).filter { index ->
+                        townMap.canResize(index, building.size, building.id)
+                    }
+                }
+                selectMapSize(SIZE, building.size, 1, 10)
                 selectAddress(state, building)
                 selectOptionalDate(state, "Construction", building.constructionDate, DATE)
                 fieldAge("Age", state, building.constructionDate)

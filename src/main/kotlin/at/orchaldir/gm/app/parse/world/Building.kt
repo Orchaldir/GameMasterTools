@@ -5,10 +5,11 @@ import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseOptionalName
 import at.orchaldir.gm.app.html.util.parseBuildingPurpose
 import at.orchaldir.gm.app.html.util.parseCreator
+import at.orchaldir.gm.app.html.util.parseMapSize
 import at.orchaldir.gm.app.html.util.parseOptionalDate
 import at.orchaldir.gm.app.html.util.parseOwnership
+import at.orchaldir.gm.app.html.util.parsePosition
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -17,12 +18,14 @@ import io.ktor.http.*
 fun parseBuildingId(parameters: Parameters, param: String, default: Int = 0) =
     BuildingId(parseInt(parameters, param, default))
 
-fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): UpdateBuilding {
+fun parseBuilding(parameters: Parameters, state: State, id: BuildingId): Building {
     val constructionDate = parseOptionalDate(parameters, state, DATE)
 
-    return UpdateBuilding(
+    return Building(
         id,
         parseOptionalName(parameters),
+        parsePosition(parameters, state, POSITION),
+        parseMapSize(parameters, SIZE, 1),
         parseAddress(parameters),
         constructionDate,
         parseOwnership(parameters, state, constructionDate),

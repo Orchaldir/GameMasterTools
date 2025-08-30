@@ -68,13 +68,10 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 }
 
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
-    val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
-
     //checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
-    val building = action.applyTo(oldBuilding)
-    validateBuilding(state, building)
+    validateBuilding(state, action.building)
 
-    noFollowUps(state.updateStorage(state.getBuildingStorage().update(building)))
+    noFollowUps(state.updateStorage(state.getBuildingStorage().update(action.building)))
 }
 
 fun validateBuilding(

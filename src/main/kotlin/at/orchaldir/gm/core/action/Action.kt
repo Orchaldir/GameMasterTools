@@ -43,15 +43,11 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
-import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InTownMap
-import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.Quote
@@ -60,7 +56,10 @@ import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
-import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
+import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
+import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.Plane
@@ -419,27 +418,7 @@ data class AddBuilding(
 
 data class DeleteBuilding(val id: BuildingId) : WorldAction()
 
-data class UpdateBuilding(
-    val id: BuildingId,
-    val name: Name?,
-    val address: Address,
-    val constructionDate: Date?,
-    val ownership: History<Reference>,
-    val style: ArchitecturalStyleId?,
-    val purpose: BuildingPurpose,
-    val builder: Reference,
-) : WorldAction() {
-
-    fun applyTo(building: Building) = building.copy(
-        name = name,
-        address = address,
-        constructionDate = constructionDate,
-        ownership = ownership,
-        style = style,
-        purpose = purpose,
-        builder = builder,
-    )
-}
+data class UpdateBuilding(val building: Building) : WorldAction()
 
 data class UpdateBuildingLot(
     val id: BuildingId,
