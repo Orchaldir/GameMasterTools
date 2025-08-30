@@ -33,7 +33,8 @@ fun HtmlBlockTag.showPositionHistory(
     call: ApplicationCall,
     state: State,
     history: History<Position>,
-) = showHistory(call, state, history, POSITION, HtmlBlockTag::showPosition)
+    label: String = POSITION,
+) = showHistory(call, state, history, label, HtmlBlockTag::showPosition)
 
 fun HtmlBlockTag.fieldPosition(
     call: ApplicationCall,
@@ -84,13 +85,15 @@ fun FORM.selectPositionHistory(
     state: State,
     history: History<Position>,
     startDate: Date,
-) = selectHistory(state, HOME, history, POSITION, startDate, null, HtmlBlockTag::selectPosition)
+    label: String = POSITION,
+) = selectHistory(state, HOME, history, label, startDate, null, HtmlBlockTag::selectPosition)
 
 fun HtmlBlockTag.selectPosition(
     state: State,
     param: String,
     position: Position,
     start: Date?,
+    label: String = POSITION,
 ) {
     val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
     val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
@@ -100,7 +103,7 @@ fun HtmlBlockTag.selectPosition(
     val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
     val townMaps = state.sortTownMaps(state.getExistingElements(state.getTownMapStorage(), start))
 
-    selectValue(POSITION, param, PositionType.entries, position.getType()) { type ->
+    selectValue(label, param, PositionType.entries, position.getType()) { type ->
         when (type) {
             PositionType.Undefined -> false
             PositionType.Apartment -> apartments.isEmpty()
