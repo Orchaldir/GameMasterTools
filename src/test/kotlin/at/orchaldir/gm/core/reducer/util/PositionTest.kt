@@ -28,20 +28,20 @@ class PositionTest {
 
         @Test
         fun `Cannot use unknown building as apartment house`() {
-            val ownership = History<Position>(InApartment(UNKNOWN_BUILDING_ID, 9))
+            val history = History<Position>(InApartment(UNKNOWN_BUILDING_ID, 9))
 
             assertIllegalArgument("Requires unknown home!") {
-                checkPositionHistory(createState(), ownership, DAY0)
+                checkPositionHistory(createState(), history, DAY0)
             }
         }
 
         @Test
         fun `Cannot use an apartment number higher than the building allows`() {
             val state = createState(ApartmentHouse(2))
-            val ownership = History<Position>(InApartment(BUILDING_ID_0, 2))
+            val history = History<Position>(InApartment(BUILDING_ID_0, 2))
 
             assertIllegalArgument("The home's apartment index is too high!") {
-                checkPositionHistory(state, ownership, DAY0)
+                checkPositionHistory(state, history, DAY0)
             }
         }
 
@@ -60,9 +60,9 @@ class PositionTest {
             val state = createState(ApartmentHouse(count))
 
             repeat(count) {
-                val ownership = History<Position>(InApartment(BUILDING_ID_0, it))
+                val history = History<Position>(InApartment(BUILDING_ID_0, it))
 
-                checkPositionHistory(state, ownership, DAY0)
+                checkPositionHistory(state, history, DAY0)
             }
         }
     }
@@ -73,10 +73,10 @@ class PositionTest {
         @Test
         fun `Cannot use unknown building as home`() {
             val state = createState()
-            val ownership = History<Position>(InHouse(UNKNOWN_BUILDING_ID))
+            val history = History<Position>(InHouse(UNKNOWN_BUILDING_ID))
 
             assertIllegalArgument("Requires unknown home!") {
-                checkPositionHistory(state, ownership, DAY0)
+                checkPositionHistory(state, history, DAY0)
             }
         }
 
@@ -84,10 +84,10 @@ class PositionTest {
         fun `Cannot use unknown building as a previous home`() {
             val state = createState()
             val entry = HistoryEntry<Position>(InHouse(UNKNOWN_BUILDING_ID), DAY1)
-            val ownership = History(inHouse, entry)
+            val history = History(inHouse, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
-                checkPositionHistory(state, ownership, DAY0)
+                checkPositionHistory(state, history, DAY0)
             }
         }
 
@@ -120,20 +120,20 @@ class PositionTest {
 
         @Test
         fun `Cannot use unknown district as home`() {
-            val ownership = History<Position>(InDistrict(UNKNOWN_DISTRICT_ID))
+            val history = History<Position>(InDistrict(UNKNOWN_DISTRICT_ID))
 
             assertIllegalArgument("Requires unknown home!") {
-                checkPositionHistory(createState(), ownership, DAY0)
+                checkPositionHistory(createState(), history, DAY0)
             }
         }
 
         @Test
         fun `Cannot use unknown district as a previous home`() {
             val entry = HistoryEntry<Position>(InDistrict(UNKNOWN_DISTRICT_ID), DAY1)
-            val ownership = History(inHouse, entry)
+            val history = History(inHouse, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
-                checkPositionHistory(createState(), ownership, DAY0)
+                checkPositionHistory(createState(), history, DAY0)
             }
         }
 
@@ -165,20 +165,20 @@ class PositionTest {
 
         @Test
         fun `Cannot use unknown realm as home`() {
-            val ownership = History<Position>(InRealm(UNKNOWN_REALM_ID))
+            val history = History<Position>(InRealm(UNKNOWN_REALM_ID))
 
             assertIllegalArgument("Requires unknown home!") {
-                checkPositionHistory(createState(), ownership, DAY0)
+                checkPositionHistory(createState(), history, DAY0)
             }
         }
 
         @Test
         fun `Cannot use unknown realm as a previous home`() {
             val entry = HistoryEntry<Position>(InRealm(UNKNOWN_REALM_ID), DAY1)
-            val ownership = History(inHouse, entry)
+            val history = History(inHouse, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
-                checkPositionHistory(createState(), ownership, DAY0)
+                checkPositionHistory(createState(), history, DAY0)
             }
         }
 
@@ -210,20 +210,20 @@ class PositionTest {
 
         @Test
         fun `Cannot use unknown town as home`() {
-            val ownership = History<Position>(InTown(UNKNOWN_TOWN_ID))
+            val history = History<Position>(InTown(UNKNOWN_TOWN_ID))
 
             assertIllegalArgument("Requires unknown home!") {
-                checkPositionHistory(createState(), ownership, DAY0)
+                checkPositionHistory(createState(), history, DAY0)
             }
         }
 
         @Test
         fun `Cannot use unknown town as a previous home`() {
             val entry = HistoryEntry<Position>(InTown(UNKNOWN_TOWN_ID), DAY1)
-            val ownership = History(inHouse, entry)
+            val history = History(inHouse, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
-                checkPositionHistory(createState(), ownership, DAY0)
+                checkPositionHistory(createState(), history, DAY0)
             }
         }
 
