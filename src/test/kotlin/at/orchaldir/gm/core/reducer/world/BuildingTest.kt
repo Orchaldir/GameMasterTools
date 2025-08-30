@@ -115,7 +115,7 @@ class BuildingTest {
             val result = REDUCER.invoke(state, action).first
 
             assertEquals(
-                Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0, 0, square(1)), constructionDate = Day(42)),
+                Building(BUILDING_ID_0, position = InTownMap(TOWN_MAP_ID_0, 0), constructionDate = Day(42)),
                 result.getBuildingStorage().getOrThrow(BUILDING_ID_0)
             )
             assertEquals(
@@ -133,11 +133,14 @@ class BuildingTest {
 
             val result = REDUCER.invoke(state, action).first
             val tilemap = result.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map
-
-            assertEquals(
-                Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0, 0, BIG_SIZE), constructionDate = Day(42)),
-                result.getBuildingStorage().getOrThrow(BUILDING_ID_0)
+            val expected = Building(
+                BUILDING_ID_0,
+                position = InTownMap(TOWN_MAP_ID_0, 0),
+                size = BIG_SIZE,
+                constructionDate = Day(42),
             )
+
+            assertEquals(expected, result.getBuildingStorage().getOrThrow(BUILDING_ID_0))
             assertEquals(BuildingTile(BUILDING_ID_0), tilemap.getRequiredTile(0).construction)
             assertEquals(BuildingTile(BUILDING_ID_0), tilemap.getRequiredTile(1).construction)
             assertEquals(NoConstruction, tilemap.getRequiredTile(2).construction)
@@ -148,7 +151,7 @@ class BuildingTest {
     @Nested
     inner class DeleteBuildingTileTest {
 
-        private val building = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0))
+        private val building = Building(BUILDING_ID_0, position = InTownMap(TOWN_MAP_ID_0, 0))
         private val town = TownMap(TOWN_MAP_ID_0, map = TileMap2d(BUILDING_TILE_0))
         private val state = State(listOf(Storage(building), Storage(town)))
         private val action = DeleteBuilding(BUILDING_ID_0)
@@ -178,7 +181,7 @@ class BuildingTest {
 
         @Test
         fun `Successfully removed a big building`() {
-            val building = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0, 0, BIG_SIZE))
+            val building = Building(BUILDING_ID_0, position = InTownMap(TOWN_MAP_ID_0, 0), size = BIG_SIZE)
             val town =
                 TownMap(
                     TOWN_MAP_ID_0,
@@ -596,12 +599,13 @@ class BuildingTest {
 
         private fun assertSuccess(tileIndex: Int, size: MapSize2d, tiles: List<TownTile>) {
             val action = UpdateBuildingLot(BUILDING_ID_0, tileIndex, size)
-            val lot = BuildingLot(TOWN_MAP_ID_0, tileIndex, size)
+            val position = InTownMap(TOWN_MAP_ID_0, tileIndex)
+            val building = Building(BUILDING_ID_0, position = position, size = size)
 
             assertEquals(
                 State(
                     listOf(
-                        Storage(listOf(Building(BUILDING_ID_0, lot = lot), Building(BUILDING_ID_1))),
+                        Storage(listOf(building, Building(BUILDING_ID_1))),
                         Storage(TownMap(TOWN_MAP_ID_0, map = TileMap2d(square(2), tiles)))
                     )
                 ),

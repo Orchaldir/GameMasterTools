@@ -4,8 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingLot
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.*
@@ -259,8 +259,8 @@ class TerrainTest {
                 )
             )
             val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
-            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0, 1, square(1)))
-            val newBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0, 7, square(1)))
+            val oldBuilding = Building(BUILDING_ID_0, position = InTownMap(TOWN_MAP_ID_0, 1))
+            val newBuilding = Building(BUILDING_ID_0, position = InTownMap(TOWN_MAP_ID_0, 7))
             val state = State(listOf(Storage(oldBuilding), Storage(oldTown)))
             val action = ResizeTerrain(TOWN_MAP_ID_0, Resize(2, 0, 1, 0), TerrainType.Plain, 0)
 
@@ -274,7 +274,7 @@ class TerrainTest {
         fun `Resize would remove a building`() {
             val oldMap = TileMap2d(MapSize2d(2, 1), listOf(EMPTY, BUILDING_TILE))
             val oldTown = TownMap(TOWN_MAP_ID_0, map = oldMap)
-            val oldBuilding = Building(BUILDING_ID_0, lot = BuildingLot(TOWN_MAP_ID_0, 1, square(1)))
+            val oldBuilding = Building(BUILDING_ID_0, position = InTownMap(TOWN_MAP_ID_0, 1))
             val state = State(listOf(Storage(oldBuilding), Storage(oldTown)))
             val action = ResizeTerrain(TOWN_MAP_ID_0, Resize(0, -1, 0, 0), TerrainType.Plain, 0)
 
