@@ -47,6 +47,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
@@ -446,9 +447,14 @@ data class UpdateBuildingLot(
     val size: MapSize2d,
 ) : WorldAction() {
 
-    fun applyTo(building: Building) = building.copy(
-        lot = building.lot.copy(tileIndex = tileIndex, size = size)
-    )
+    fun applyTo(building: Building) = if (building.position is InTownMap) {
+        building.copy(
+            position = building.position.copy(tileIndex = tileIndex),
+            size = size,
+        )
+    } else {
+        error("UpdateBuildingLot requires InTownMap!")
+    }
 }
 
 // town's streets

@@ -13,12 +13,6 @@ import at.orchaldir.gm.core.selector.util.getStartDateComparator
 
 fun State.canDeleteTownMap(town: TownMapId) = getBuildings(town).isEmpty()
 
-// count
-
-fun countEachTown(buildings: Collection<Building>) = buildings
-    .groupingBy { it.lot.town }
-    .eachCount()
-
 // get
 
 fun State.getCurrentTownMap(town: TownId): TownMap? {

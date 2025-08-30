@@ -12,21 +12,21 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.getBuildingAgeComparator
+import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(building: Building) = building.ownership.canDelete()
         && getCharactersLivingIn(building.id).isEmpty()
         && getCharactersPreviouslyLivingIn(building.id).isEmpty()
 
 fun State.countBuildings(townId: TownId): Int {
-    val townMap = getCurrentTownMap(townId)
-        ?: return 0
+    val countInTownMap = getCurrentTownMap(townId)?.let { countBuildings(it.id) } ?: 0
 
-    return countBuildings(townMap.id)
+    return countInTownMap + countBuildings(townId)
 }
 
-fun State.countBuildings(townMap: TownMapId) = getBuildingStorage()
+fun <ID : Id<ID>> State.countBuildings(id: ID) = getBuildingStorage()
     .getAll()
-    .count { it.lot.town == townMap }
+    .count { it.position.isIn(id) }
 
 fun countEachPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
@@ -55,5 +55,6 @@ fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
     .getAll()
     .filter { it.style == style }
 
-fun State.getBuildings(town: TownMapId) = getBuildingStorage().getAll()
-    .filter { it.lot.town == town }
+fun <ID : Id<ID>> State.getBuildings(id: ID) = getBuildingStorage()
+    .getAll()
+    .filter { it.position.isIn(id) }

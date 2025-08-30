@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
@@ -27,8 +28,9 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     val buildingId = state.getBuildingStorage().nextId
     val oldTownMap = state.getTownMapStorage().getOrThrow(action.town)
     val townMap = oldTownMap.build(action.tileIndex, action.size, BuildingTile(buildingId))
-    val lot = BuildingLot(action.town, action.tileIndex, action.size)
-    val building = Building(buildingId, lot = lot, constructionDate = state.getCurrentDate())
+    val position = InTownMap(action.town, action.tileIndex)
+    val building =
+        Building(buildingId, position = position, size = action.size, constructionDate = state.getCurrentDate())
 
     noFollowUps(
         state.updateStorage(
@@ -42,27 +44,33 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
 
 val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
     val id = action.id
-    val building = state.getBuildingStorage().getOrThrow(id)
-    val oldTownMap = state.getTownMapStorage().getOrThrow(building.lot.town)
-    val townMap = oldTownMap.removeBuilding(building.id)
 
     validateCanDelete(state.getCharactersLivingIn(id).isEmpty(), id, "it has inhabitants")
     validateCanDelete(state.getCharactersPreviouslyLivingIn(id).isEmpty(), id, "it had inhabitants")
 
-    noFollowUps(
-        state.updateStorage(
-            listOf(
-                state.getBuildingStorage().remove(id),
-                state.getTownMapStorage().update(townMap),
+    val building = state.getBuildingStorage().getOrThrow(id)
+
+    if (building.position is InTownMap) {
+        val oldTownMap = state.getTownMapStorage().getOrThrow(building.position.townMap)
+        val townMap = oldTownMap.removeBuilding(building.id)
+
+        noFollowUps(
+            state.updateStorage(
+                listOf(
+                    state.getBuildingStorage().remove(id),
+                    state.getTownMapStorage().update(townMap),
+                )
             )
         )
-    )
+    } else {
+        noFollowUps(state.updateStorage(state.getBuildingStorage().remove(id)))
+    }
 }
 
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
-    checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
+    //checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
     val building = action.applyTo(oldBuilding)
     validateBuilding(state, building)
 
@@ -82,20 +90,25 @@ fun validateBuilding(
 
 val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
-    val oldTownMap = state.getTownMapStorage().getOrThrow(oldBuilding.lot.town)
-    val building = action.applyTo(oldBuilding)
 
-    val townMap = oldTownMap.removeBuilding(action.id)
-        .build(action.tileIndex, action.size, BuildingTile(oldBuilding.id))
+    if (oldBuilding.position is InTownMap) {
+        val oldTownMap = state.getTownMapStorage().getOrThrow(oldBuilding.position.townMap)
+        val building = action.applyTo(oldBuilding)
 
-    noFollowUps(
-        state.updateStorage(
-            listOf(
-                state.getBuildingStorage().update(building),
-                state.getTownMapStorage().update(townMap),
+        val townMap = oldTownMap.removeBuilding(action.id)
+            .build(action.tileIndex, action.size, BuildingTile(oldBuilding.id))
+
+        noFollowUps(
+            state.updateStorage(
+                listOf(
+                    state.getBuildingStorage().update(building),
+                    state.getTownMapStorage().update(townMap),
+                )
             )
         )
-    )
+    } else {
+        error("Updating the building lot requires InTownMap!")
+    }
 }
 
 private fun checkArchitecturalStyle(state: State, building: Building) {

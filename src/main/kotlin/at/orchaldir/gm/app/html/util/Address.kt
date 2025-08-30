@@ -47,7 +47,7 @@ fun HtmlBlockTag.showAddress(
         }
 
         is TownAddress -> {
-            link(call, state, building.lot.town)
+            showPosition(call, state, building.position)
             +" ${address.houseNumber}"
         }
     }

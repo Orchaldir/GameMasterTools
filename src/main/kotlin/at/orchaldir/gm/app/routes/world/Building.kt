@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.SortBuilding
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -144,7 +145,7 @@ fun Application.configureBuildingRouting() {
             val building = state.getBuildingStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBuildingLotEditor(call, state, building, building.lot.size)
+                showBuildingLotEditor(call, state, building, building.size)
             }
         }
         post<BuildingRoutes.Lot.Preview> { preview ->
@@ -203,7 +204,7 @@ private fun HTML.showAllBuildings(
                 tr {
                     td { link(call, building.id, name) }
                     td { showOptionalDate(call, state, building.constructionDate) }
-                    tdLink(call, state, building.lot.town)
+                    td { showPosition(call, state, building.position) }
                     td { showAddress(call, state, building, false) }
                     tdEnum(building.purpose.getType())
                     tdSkipZero(state.countCharactersLivingInHouse(building.id))
@@ -217,7 +218,6 @@ private fun HTML.showAllBuildings(
         showCreatorCount(call, state, buildings, "Builder")
         showBuildingPurposeCount(buildings)
         showBuildingOwnershipCount(call, state, buildings)
-        showTownCount(call, state, buildings)
         back("/")
     }
 }
@@ -234,13 +234,13 @@ private fun HTML.showBuildingDetails(
 
     simpleHtml("Building: ${building.name(state)}") {
         split({
-            fieldLink("Town Map", call, state, building.lot.town)
+            fieldPosition(call, state, building.position)
+            field("Size", building.size.format())
             fieldAddress(call, state, building)
             optionalField(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state, building.constructionDate)
             fieldReference(call, state, building.builder, "Builder")
             showOwnership(call, state, building.ownership)
-            field("Size", building.lot.size.format())
             optionalFieldLink("Architectural Style", call, state, building.style)
             showBuildingPurpose(call, state, building)
             action(editLink, "Edit")
@@ -250,7 +250,9 @@ private fun HTML.showBuildingDetails(
             }
             back(backLink)
         }, {
-            svg(visualizeBuilding(call, state, building), 90)
+            if (building.position is InTownMap) {
+                svg(visualizeBuildingLot(call, state, building, building.position), 90)
+            }
         })
     }
 }
@@ -283,7 +285,9 @@ private fun HTML.showBuildingEditor(
                 selectBuildingPurpose(state, building)
             }
         }, {
-            svg(visualizeBuilding(call, state, building), 90)
+            if (building.position is InTownMap) {
+                svg(visualizeBuildingLot(call, state, building, building.position), 90)
+            }
         })
     }
 }
@@ -308,12 +312,15 @@ private fun HTML.showBuildingLotEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeBuildingLot(call, state, building, size), 90)
+            if (building.position is InTownMap) {
+                svg(visualizeBuildingLotEditor(call, state, building, building.position, size), 90)
+            }
         })
     }
 }
 
 private fun FORM.selectAddress(state: State, building: Building) {
+    /* TODO
     val streets = state.getStreets(building.lot.town)
 
     selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, building.address.getType()) { type ->
@@ -364,6 +371,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
             state.getHouseNumbersUsedByOthers(building.lot.town, address),
         )
     }
+    */
 }
 
 private fun FORM.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Set<Int>) {
@@ -376,12 +384,13 @@ private fun FORM.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Se
     }
 }
 
-private fun visualizeBuilding(
+private fun visualizeBuildingLot(
     call: ApplicationCall,
     state: State,
     selected: Building,
+    position: InTownMap,
 ): Svg {
-    val townMap = state.getTownMapStorage().getOrThrow(selected.lot.town)
+    val townMap = state.getTownMapStorage().getOrThrow(position.townMap)
 
     return visualizeTown(
         townMap,
@@ -396,13 +405,14 @@ private fun visualizeBuilding(
     )
 }
 
-private fun visualizeBuildingLot(
+private fun visualizeBuildingLotEditor(
     call: ApplicationCall,
     state: State,
     building: Building,
+    position: InTownMap,
     size: MapSize2d,
 ): Svg {
-    val townMap = state.getTownMapStorage().getOrThrow(building.lot.town)
+    val townMap = state.getTownMapStorage().getOrThrow(position.townMap)
 
     return visualizeTown(
         townMap,

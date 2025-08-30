@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.town
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.*
@@ -124,7 +125,11 @@ data class TownRenderer(
         layer: LayerRenderer,
         building: Building,
         color: Color,
-    ) = renderBuilding(layer, building.lot.tileIndex, building.lot.size, color)
+    ) {
+        if (building.position is InTownMap) {
+            renderBuilding(layer, building.position.tileIndex, building.size, color)
+        }
+    }
 
     private fun renderBuilding(
         layer: LayerRenderer,

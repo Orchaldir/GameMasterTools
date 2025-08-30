@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.map.MapSize2d
+import at.orchaldir.gm.utils.map.MapSize2d.Companion.square
 import at.orchaldir.gm.utils.math.length
 import kotlinx.serialization.Serializable
 
@@ -25,7 +27,8 @@ value class BuildingId(val value: Int) : Id<BuildingId> {
 data class Building(
     val id: BuildingId,
     val name: Name? = null,
-    val lot: BuildingLot = BuildingLot(),
+    val position: Position = UndefinedPosition,
+    val size: MapSize2d = square(1),
     val address: Address = NoAddress,
     val constructionDate: Date? = null,
     val ownership: History<Reference> = History(UndefinedReference),
@@ -86,7 +89,14 @@ data class Building(
 
         is StreetAddress -> state.getElementName(address.street) + " ${address.houseNumber}"
 
-        is TownAddress -> state.getElementName(lot.town) + " ${address.houseNumber}"
+        is TownAddress -> when (position) {
+            is InDistrict -> state.getElementName(position.district)
+            is InPlane -> state.getElementName(position.plane)
+            is InRealm -> state.getElementName(position.realm)
+            is InTown -> state.getElementName(position.town)
+            is InTownMap -> state.getElementName(position.townMap)
+            is InApartment, is InHouse, Homeless, UndefinedPosition -> error("Unsupported Position Type ${position.getType()} for Address")
+        } + " ${address.houseNumber}"
     }
 
 }

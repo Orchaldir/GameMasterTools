@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -36,6 +37,18 @@ sealed class Position {
         UndefinedPosition -> PositionType.Undefined
     }
 
+    fun getId() = when (this) {
+        Homeless -> null
+        is InApartment -> building
+        is InDistrict -> district
+        is InHouse -> building
+        is InPlane -> plane
+        is InRealm -> realm
+        is InTown -> town
+        is InTownMap -> townMap
+        UndefinedPosition -> null
+    }
+
     open fun getApartmentIndex(): Int? = when (this) {
         is InApartment -> apartmentIndex
         else -> null
@@ -47,6 +60,18 @@ sealed class Position {
         else -> null
     }
 
+    fun <ID : Id<ID>> isIn(id: ID) = when (this) {
+        Homeless -> false
+        is InApartment -> building == id
+        is InDistrict -> district == id
+        is InHouse -> building == id
+        is InPlane -> plane == id
+        is InRealm -> realm == id
+        is InTown -> town == id
+        is InTownMap -> townMap == id
+        UndefinedPosition -> false
+    }
+
     open fun isInApartment(building: BuildingId, apartmentIndex: Int) = false
     open fun isInHouse(building: BuildingId) = false
     open fun isIn(building: BuildingId) = false
@@ -54,6 +79,7 @@ sealed class Position {
     open fun isIn(plane: PlaneId) = false
     open fun isIn(realm: RealmId) = false
     open fun isIn(town: TownId) = false
+    open fun isIn(townMap: TownMapId) = false
 
 }
 
@@ -124,7 +150,11 @@ data class InTown(val town: TownId) : Position() {
 data class InTownMap(
     val townMap: TownMapId,
     val tileIndex: Int,
-) : Position()
+) : Position() {
+
+    override fun isIn(townMap: TownMapId) = this.townMap == townMap
+
+}
 
 @Serializable
 @SerialName("Undefined")

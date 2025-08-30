@@ -218,7 +218,7 @@ fun State.getResidents(town: TownId?, townMap: TownMapId?): List<Character> {
 }
 
 fun State.isResident(character: Character, town: TownMapId) = character.housingStatus.current.getBuilding()
-    ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
+    ?.let { getBuildingStorage().getOrThrow(it).position.isIn(town) }
     ?: false
 
 // employment status
@@ -257,7 +257,9 @@ fun State.getWorkingIn(town: TownMapId) = getCharacterStorage()
 
 fun State.isWorkingIn(character: Character, town: TownMapId) = character.getBusiness()
     ?.let {
-        getBuildingStorage().getAll().any { building -> building.purpose.contains(it) && building.lot.town == town }
+        getBuildingStorage()
+            .getAll()
+            .any { building -> building.purpose.contains(it) && building.position.isIn(town) }
     }
     ?: false
 
