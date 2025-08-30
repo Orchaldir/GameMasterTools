@@ -3,8 +3,9 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.world.parseBuilding
+import at.orchaldir.gm.app.html.world.editBuilding
+import at.orchaldir.gm.app.html.world.parseBuilding
+import at.orchaldir.gm.app.html.world.showBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
@@ -230,15 +231,8 @@ private fun HTML.showBuildingDetails(
 
     simpleHtml("Building: ${building.name(state)}") {
         split({
-            fieldPosition(call, state, building.position)
-            fieldMapSize("Size", building.size)
-            fieldAddress(call, state, building)
-            optionalField(call, state, "Construction", building.constructionDate)
-            fieldAge("Age", state, building.constructionDate)
-            fieldReference(call, state, building.builder, "Builder")
-            showOwnership(call, state, building.ownership)
-            optionalFieldLink("Architectural Style", call, state, building.style)
-            showBuildingPurpose(call, state, building)
+            showBuilding(call, state, building)
+
             action(editLink, "Edit")
             action(editLotLink, "Move & Resize")
             if (state.canDelete(building)) {
@@ -265,28 +259,7 @@ private fun HTML.showBuildingEditor(
     simpleHtml("Edit Building: ${building.name(state)}") {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
-                selectOptionalName(building.name)
-                selectPosition(state, POSITION, building.position, building.constructionDate) { townMapId ->
-                    val townMap = state.getTownMapStorage().getOrThrow(townMapId)
-
-                    (0..<townMap.map.size.tiles()).filter { index ->
-                        townMap.canResize(index, building.size, building.id)
-                    }
-                }
-                selectMapSize(SIZE, building.size, 1, 10)
-                selectAddress(state, building)
-                selectOptionalDate(state, "Construction", building.constructionDate, DATE)
-                fieldAge("Age", state, building.constructionDate)
-                selectCreator(state, building.builder, building.id, building.constructionDate)
-                selectOwnership(state, building.ownership, building.constructionDate)
-                selectOptionalElement(
-                    state,
-                    "Architectural Style",
-                    STYLE,
-                    state.getPossibleStyles(building),
-                    building.style
-                )
-                selectBuildingPurpose(state, building)
+                editBuilding(state, building)
             }
         }, {
             if (building.position is InTownMap) {
@@ -320,71 +293,6 @@ private fun HTML.showBuildingLotEditor(
                 svg(visualizeBuildingLotEditor(call, state, building, building.position, size), 90)
             }
         })
-    }
-}
-
-private fun FORM.selectAddress(state: State, building: Building) {
-    /* TODO
-    val streets = state.getStreets(building.lot.town)
-
-    selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, building.address.getType()) { type ->
-        when (type) {
-            AddressType.Street -> streets.isEmpty()
-            AddressType.Crossing -> streets.size < 2
-            else -> false
-        }
-    }
-    when (val address = building.address) {
-        is CrossingAddress -> {
-            selectInt(
-                "Streets",
-                address.streets.size,
-                2,
-                min(3, streets.size),
-                1,
-                combine(ADDRESS, STREET, NUMBER),
-            )
-            val previous = mutableListOf<StreetId>()
-            address.streets.withIndex().forEach { (index, streetId) ->
-                selectValue(
-                    "${index + 1}.Street",
-                    combine(ADDRESS, STREET, index),
-                    streets,
-                ) { street ->
-                    val alreadyUsed = previous.contains(street.id)
-                    label = street.name(state)
-                    value = street.id.value.toString()
-                    selected = street.id == streetId && !alreadyUsed
-                    disabled = alreadyUsed
-                }
-                previous.add(streetId)
-            }
-        }
-
-        NoAddress -> doNothing()
-        is StreetAddress -> {
-            selectElement(state, combine(ADDRESS, STREET), streets, address.street)
-            selectHouseNumber(
-                address.houseNumber,
-                state.getHouseNumbersUsedByOthers(building.lot.town, address),
-            )
-        }
-
-        is TownAddress -> selectHouseNumber(
-            address.houseNumber,
-            state.getHouseNumbersUsedByOthers(building.lot.town, address),
-        )
-    }
-    */
-}
-
-private fun FORM.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Set<Int>) {
-    val numbers = (1..1000).toList() - usedHouseNumbers
-
-    selectValue("Street", combine(ADDRESS, NUMBER), numbers) { number ->
-        label = number.toString()
-        value = number.toString()
-        selected = number == currentHouseNumber
     }
 }
 

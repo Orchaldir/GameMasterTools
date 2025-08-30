@@ -81,7 +81,7 @@ fun FORM.selectBuildingPurpose(state: State, building: Building) {
     }
 }
 
-private fun FORM.selectBusiness(
+private fun HtmlBlockTag.selectBusiness(
     availableBusinesses: Set<BusinessId>,
     state: State,
     selectedBusiness: BusinessId,
