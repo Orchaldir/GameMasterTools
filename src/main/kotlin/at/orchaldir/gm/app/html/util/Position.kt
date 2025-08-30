@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.util.Location
+import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
@@ -26,48 +26,48 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-private const val LOCATION = "Location"
+private const val POSITION = "Poistion"
 
-fun HtmlBlockTag.showLocationHistory(
+fun HtmlBlockTag.showPositionHistory(
     call: ApplicationCall,
     state: State,
-    housing: History<Location>,
-) = showHistory(call, state, housing, LOCATION, HtmlBlockTag::showLocation)
+    history: History<Position>,
+) = showHistory(call, state, history, POSITION, HtmlBlockTag::showPosition)
 
-fun HtmlBlockTag.fieldLocation(
+fun HtmlBlockTag.fieldPosition(
     call: ApplicationCall,
     state: State,
-    location: Location,
-    label: String = LOCATION,
+    position: Position,
+    label: String = POSITION,
 ) {
     field(label) {
-        showLocation(call, state, location)
+        showPosition(call, state, position)
     }
 }
 
-fun HtmlBlockTag.showLocation(
+fun HtmlBlockTag.showPosition(
     call: ApplicationCall,
     state: State,
-    location: Location,
+    position: Position,
     showUndefined: Boolean = true,
 ) {
-    when (location) {
+    when (position) {
         Homeless -> +"Homeless"
         is InApartment -> {
-            +"${location.apartmentIndex + 1}.Apartment of "
+            +"${position.apartmentIndex + 1}.Apartment of "
             link(
                 call,
                 state,
-                location.building
+                position.building
             )
         }
 
-        is InDistrict -> link(call, state, location.district)
-        is InHouse -> link(call, state, location.building)
-        is InPlane -> link(call, state, location.plane)
-        is InRealm -> link(call, state, location.realm)
-        is InTown -> link(call, state, location.town)
-        UndefinedLocation -> if (showUndefined) {
+        is InDistrict -> link(call, state, position.district)
+        is InHouse -> link(call, state, position.building)
+        is InPlane -> link(call, state, position.plane)
+        is InRealm -> link(call, state, position.realm)
+        is InTown -> link(call, state, position.town)
+        UndefinedPosition -> if (showUndefined) {
             +"Undefined"
         }
     }
@@ -75,16 +75,16 @@ fun HtmlBlockTag.showLocation(
 
 // select
 
-fun FORM.selectLocationHistory(
+fun FORM.selectPositionHistory(
     state: State,
-    housing: History<Location>,
+    history: History<Position>,
     startDate: Date,
-) = selectHistory(state, HOME, housing, LOCATION, startDate, null, HtmlBlockTag::selectLocation)
+) = selectHistory(state, HOME, history, POSITION, startDate, null, HtmlBlockTag::selectPosition)
 
-fun HtmlBlockTag.selectLocation(
+fun HtmlBlockTag.selectPosition(
     state: State,
     param: String,
-    status: Location,
+    position: Position,
     start: Date?,
 ) {
     val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
@@ -94,30 +94,30 @@ fun HtmlBlockTag.selectLocation(
     val realms = state.sortRealms(state.getExistingElements(state.getRealmStorage(), start))
     val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
 
-    selectValue("Housing Status", param, LocationType.entries, status.getType()) { type ->
+    selectValue(POSITION, param, PositionType.entries, position.getType()) { type ->
         when (type) {
-            LocationType.Undefined -> false
-            LocationType.Homeless -> false
-            LocationType.Apartment -> apartments.isEmpty()
-            LocationType.District -> districts.isEmpty()
-            LocationType.House -> homes.isEmpty()
-            LocationType.Plane -> planes.isEmpty()
-            LocationType.Realm -> realms.isEmpty()
-            LocationType.Town -> towns.isEmpty()
+            PositionType.Undefined -> false
+            PositionType.Homeless -> false
+            PositionType.Apartment -> apartments.isEmpty()
+            PositionType.District -> districts.isEmpty()
+            PositionType.House -> homes.isEmpty()
+            PositionType.Plane -> planes.isEmpty()
+            PositionType.Realm -> realms.isEmpty()
+            PositionType.Town -> towns.isEmpty()
         }
     }
-    when (status) {
-        UndefinedLocation -> doNothing()
+    when (position) {
+        UndefinedPosition -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
-            selectElement("Apartment House", combine(param, BUILDING), apartments, status.building)
+            selectElement("Apartment House", combine(param, BUILDING), apartments, position.building)
 
-            val apartmentHouse = state.getBuildingStorage().getOrThrow(status.building)
+            val apartmentHouse = state.getBuildingStorage().getOrThrow(position.building)
 
             if (apartmentHouse.purpose is ApartmentHouse) {
                 selectInt(
                     "Apartment",
-                    status.apartmentIndex,
+                    position.apartmentIndex,
                     0,
                     apartmentHouse.purpose.apartments - 1,
                     1,
@@ -130,47 +130,47 @@ fun HtmlBlockTag.selectLocation(
             state,
             combine(param, DISTRICT),
             districts,
-            status.district,
+            position.district,
         )
 
         is InHouse -> selectElement(
             "Home",
             combine(param, BUILDING),
             homes,
-            status.building,
+            position.building,
         )
 
         is InPlane -> selectElement(
             state,
             combine(param, PLANE),
             planes,
-            status.plane,
+            position.plane,
         )
 
         is InRealm -> selectElement(
             state,
             combine(param, REALM),
             realms,
-            status.realm,
+            position.realm,
         )
 
         is InTown -> selectElement(
             state,
             combine(param, TOWN),
             towns,
-            status.town,
+            position.town,
         )
     }
 }
 
 // parse
 
-fun parseLocationHistory(parameters: Parameters, state: State, startDate: Date) =
-    parseHistory(parameters, HOME, state, startDate, ::parseLocation)
+fun parsePositionHistory(parameters: Parameters, state: State, startDate: Date) =
+    parseHistory(parameters, HOME, state, startDate, ::parsePosition)
 
-private fun parseLocation(parameters: Parameters, state: State, param: String): Location {
-    return when (parse(parameters, param, LocationType.Undefined)) {
-        LocationType.Apartment -> InApartment(
+private fun parsePosition(parameters: Parameters, state: State, param: String): Position {
+    return when (parse(parameters, param, PositionType.Undefined)) {
+        PositionType.Apartment -> InApartment(
             parseBuildingId(
                 parameters,
                 combine(param, BUILDING),
@@ -178,42 +178,42 @@ private fun parseLocation(parameters: Parameters, state: State, param: String): 
             parseInt(parameters, combine(param, NUMBER)),
         )
 
-        LocationType.District -> InDistrict(
+        PositionType.District -> InDistrict(
             parseDistrictId(
                 parameters,
                 combine(param, DISTRICT),
             )
         )
 
-        LocationType.House -> InHouse(
+        PositionType.House -> InHouse(
             parseBuildingId(
                 parameters,
                 combine(param, BUILDING),
                 state.getHomes().minOfOrNull { it.id.value } ?: 0),
         )
 
-        LocationType.Plane -> InPlane(
+        PositionType.Plane -> InPlane(
             parsePlaneId(
                 parameters,
                 combine(param, PLANE),
             )
         )
 
-        LocationType.Realm -> InRealm(
+        PositionType.Realm -> InRealm(
             parseRealmId(
                 parameters,
                 combine(param, REALM),
             )
         )
 
-        LocationType.Town -> InTown(
+        PositionType.Town -> InTown(
             parseTownId(
                 parameters,
                 combine(param, TOWN),
             )
         )
 
-        LocationType.Homeless -> Homeless
-        LocationType.Undefined -> UndefinedLocation
+        PositionType.Homeless -> Homeless
+        PositionType.Undefined -> UndefinedPosition
     }
 }

@@ -122,7 +122,7 @@ class RealmTest {
 
         @Test
         fun `Cannot delete a realm that is the home of a character`() {
-            val housingStatus = History<Location>(InRealm(REALM_ID_0))
+            val housingStatus = History<Position>(InRealm(REALM_ID_0))
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
 
             test(character, "Cannot delete Realm 0, because it is used!")

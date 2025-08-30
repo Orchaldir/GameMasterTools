@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InDistrict
-import at.orchaldir.gm.core.model.util.Location
+import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -51,7 +51,7 @@ class DistrictTest {
 
         @Test
         fun `Cannot delete a district that is the home of a character`() {
-            val housingStatus = History<Location>(InDistrict(DISTRICT_ID_0))
+            val housingStatus = History<Position>(InDistrict(DISTRICT_ID_0))
             val state = createState(Character(CHARACTER_ID_0, housingStatus = housingStatus))
 
             assertIllegalArgument("Cannot delete District 0, because it is used!") {

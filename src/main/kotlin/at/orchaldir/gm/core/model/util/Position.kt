@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.world.plane.PlaneId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class LocationType {
+enum class PositionType {
     Undefined,
     Homeless,
     Apartment,
@@ -20,17 +20,17 @@ enum class LocationType {
 }
 
 @Serializable
-sealed class Location {
+sealed class Position {
 
     fun getType() = when (this) {
-        Homeless -> LocationType.Homeless
-        is InApartment -> LocationType.Apartment
-        is InDistrict -> LocationType.District
-        is InHouse -> LocationType.House
-        is InPlane -> LocationType.Plane
-        is InRealm -> LocationType.Realm
-        is InTown -> LocationType.Town
-        UndefinedLocation -> LocationType.Undefined
+        Homeless -> PositionType.Homeless
+        is InApartment -> PositionType.Apartment
+        is InDistrict -> PositionType.District
+        is InHouse -> PositionType.House
+        is InPlane -> PositionType.Plane
+        is InRealm -> PositionType.Realm
+        is InTown -> PositionType.Town
+        UndefinedPosition -> PositionType.Undefined
     }
 
     open fun getApartmentIndex(): Int? = when (this) {
@@ -56,14 +56,14 @@ sealed class Location {
 
 @Serializable
 @SerialName("Homeless")
-data object Homeless : Location()
+data object Homeless : Position()
 
 @Serializable
 @SerialName("Apartment")
 data class InApartment(
     val building: BuildingId,
     val apartmentIndex: Int,
-) : Location() {
+) : Position() {
 
     init {
         require(apartmentIndex >= 0) { "Apartment index must be greater 0!" }
@@ -77,7 +77,7 @@ data class InApartment(
 
 @Serializable
 @SerialName("District")
-data class InDistrict(val district: DistrictId) : Location() {
+data class InDistrict(val district: DistrictId) : Position() {
 
     override fun isIn(district: DistrictId) = this.district == district
 
@@ -85,7 +85,7 @@ data class InDistrict(val district: DistrictId) : Location() {
 
 @Serializable
 @SerialName("House")
-data class InHouse(val building: BuildingId) : Location() {
+data class InHouse(val building: BuildingId) : Position() {
 
     override fun isIn(building: BuildingId) = isInHouse(building)
     override fun isInHouse(building: BuildingId) = this.building == building
@@ -94,7 +94,7 @@ data class InHouse(val building: BuildingId) : Location() {
 
 @Serializable
 @SerialName("Plane")
-data class InPlane(val plane: PlaneId) : Location() {
+data class InPlane(val plane: PlaneId) : Position() {
 
     override fun isIn(plane: PlaneId) = this.plane == plane
 
@@ -102,7 +102,7 @@ data class InPlane(val plane: PlaneId) : Location() {
 
 @Serializable
 @SerialName("Realm")
-data class InRealm(val realm: RealmId) : Location() {
+data class InRealm(val realm: RealmId) : Position() {
 
     override fun isIn(realm: RealmId) = this.realm == realm
 
@@ -110,7 +110,7 @@ data class InRealm(val realm: RealmId) : Location() {
 
 @Serializable
 @SerialName("Town")
-data class InTown(val town: TownId) : Location() {
+data class InTown(val town: TownId) : Position() {
 
     override fun isIn(town: TownId) = this.town == town
 
@@ -118,4 +118,4 @@ data class InTown(val town: TownId) : Location() {
 
 @Serializable
 @SerialName("Undefined")
-data object UndefinedLocation : Location()
+data object UndefinedPosition : Position()

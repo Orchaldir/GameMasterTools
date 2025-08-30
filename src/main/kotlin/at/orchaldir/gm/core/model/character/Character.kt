@@ -70,7 +70,7 @@ data class Character(
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,
     val equipmentMap: EquipmentIdMap = EquipmentMap(),
-    val housingStatus: History<Location> = History(UndefinedLocation),
+    val housingStatus: History<Position> = History(UndefinedPosition),
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val title: TitleId? = null,
