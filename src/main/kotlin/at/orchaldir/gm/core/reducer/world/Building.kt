@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOwnership
+import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
@@ -82,6 +83,7 @@ fun validateBuilding(
     building: Building,
 ) {
     checkDate(state, building.constructionDate, "Building")
+    checkPosition(state, building.position, "position", building.constructionDate)
     checkAddress(state, building.id, building.position, building.address)
     checkArchitecturalStyle(state, building)
     validateCreator(state, building.builder, building.id, building.constructionDate, "Builder")

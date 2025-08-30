@@ -289,6 +289,13 @@ class BuildingTest {
         }
 
         @Test
+        fun `Cannot use an unknown town as location`() {
+            val newBuilding = building.copy(position = InTown(UNKNOWN_TOWN_ID))
+
+            failUpdate(newBuilding, "Requires unknown position!")
+        }
+
+        @Test
         fun `Founder is an unknown character`() {
             val newBuilding =
                 building.copy(builder = CharacterReference(CHARACTER_ID_0), ownership = History(UndefinedReference))

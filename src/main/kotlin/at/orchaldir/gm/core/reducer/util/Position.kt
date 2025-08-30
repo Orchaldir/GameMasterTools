@@ -12,7 +12,7 @@ fun checkPositionHistory(
     startDate: Date,
 ) = checkHistory(state, history, startDate, "home", ::checkPosition)
 
-private fun checkPosition(
+fun checkPosition(
     state: State,
     position: Position,
     noun: String,
