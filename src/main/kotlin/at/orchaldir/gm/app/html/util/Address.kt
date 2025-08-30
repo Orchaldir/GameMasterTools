@@ -128,7 +128,7 @@ fun FORM.selectAddress(state: State, building: Building) {
 private fun FORM.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Set<Int>) {
     val numbers = (1..1000).toList() - usedHouseNumbers
 
-    selectValue("Street", combine(ADDRESS, NUMBER), numbers) { number ->
+    selectValue("House Number", combine(ADDRESS, NUMBER), numbers) { number ->
         label = number.toString()
         value = number.toString()
         selected = number == currentHouseNumber
