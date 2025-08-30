@@ -164,4 +164,7 @@ data class TownMap(
         return copy(map = map.copy(tiles = map.tiles.update(tiles)))
     }
 
+    fun updateBuilding(building: BuildingId, tileIndex: Int, size: MapSize2d) = removeBuilding(building)
+        .build(tileIndex, size, BuildingTile(building))
+
 }

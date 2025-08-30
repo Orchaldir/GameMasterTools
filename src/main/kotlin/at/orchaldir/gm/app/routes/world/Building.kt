@@ -398,7 +398,8 @@ private fun visualizeBuildingLot(
 
     return visualizeTown(
         townMap,
-        state.getBuildings(townMap.id),
+        state.getBuildings(townMap.id)
+            .filter { it.id != selected.id } + selected,
         buildingColorLookup = showSelectedBuilding(selected),
         buildingLinkLookup = { b ->
             call.application.href(BuildingRoutes.Details(b.id))

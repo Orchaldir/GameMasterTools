@@ -92,8 +92,7 @@ val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
         val oldTownMap = state.getTownMapStorage().getOrThrow(oldBuilding.position.townMap)
         val building = action.applyTo(oldBuilding)
 
-        val townMap = oldTownMap.removeBuilding(action.id)
-            .build(action.tileIndex, action.size, BuildingTile(oldBuilding.id))
+        val townMap = oldTownMap.updateBuilding(action.id, action.tileIndex, action.size)
 
         noFollowUps(
             state.updateStorage(
