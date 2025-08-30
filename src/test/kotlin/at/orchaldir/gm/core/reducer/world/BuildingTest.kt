@@ -355,7 +355,7 @@ class BuildingTest {
             fun `Street of crossing must be part of the town`() {
                 val address = CrossingAddress(listOf(STREET_ID_0, STREET_NOT_IN_TOWN))
 
-                failUpdate(building.copy(address = address), "Street 199 is not part of town 0!")
+                failUpdate(building.copy(address = address), "Street 199 is not part of Town Map 0!")
             }
 
             @Test
@@ -381,15 +381,16 @@ class BuildingTest {
             fun `Street must be part of the town`() {
                 val address = StreetAddress(STREET_NOT_IN_TOWN, 1)
 
-                failUpdate(building.copy(address = address), "Street 199 is not part of town 0!")
+                failUpdate(building.copy(address = address), "Street 199 is not part of Town Map 0!")
             }
 
             @Test
             fun `Cannot reuse the same street address`() {
                 val address = StreetAddress(STREET_ID_0, 1)
                 val state = testSuccessful(address)
+                val otherBuilding = building.copy(id = BUILDING_ID_1, address = address)
 
-                failUpdate(state, building.copy(address = address), "House number 1 already used for street 0!")
+                failUpdate(state, otherBuilding, "House number 1 already used for Street 0!")
             }
 
             @Test

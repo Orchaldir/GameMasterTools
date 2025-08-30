@@ -168,7 +168,7 @@ private fun checkIfStreetIsPartOfTown(
     streetId: StreetId,
 ) {
     require(state.getStreetIds(townMapId).contains(streetId)) {
-        "Street ${streetId.value} is not part of town ${townMapId.value}!"
+        "Street ${streetId.value} is not part of ${townMapId.print()}!"
     }
 }
 
