@@ -70,10 +70,7 @@ fun HtmlBlockTag.showPosition(
         is InPlane -> link(call, state, position.plane)
         is InRealm -> link(call, state, position.realm)
         is InTown -> link(call, state, position.town)
-        is InTownMap -> {
-            +"Tile ${position.tileIndex + 1} of "
-            link(call, state, position.townMap)
-        }
+        is InTownMap -> link(call, state, position.townMap)
         UndefinedPosition -> if (showUndefined) {
             +"Undefined"
         }
