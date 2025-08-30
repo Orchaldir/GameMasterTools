@@ -73,7 +73,7 @@ fun HtmlBlockTag.showAddress(
 // edit
 
 fun FORM.selectAddress(state: State, building: Building) {
-    val streets = state.getStreets(building.position)
+    val streets = state.getStreets(building.position).toMutableList()
 
     selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, building.address.getType()) { type ->
         when (type) {
@@ -84,28 +84,21 @@ fun FORM.selectAddress(state: State, building: Building) {
     }
     when (val address = building.address) {
         is CrossingAddress -> {
-            selectInt(
-                "Streets",
-                address.streets.size,
+            editList(
+                "Street",
+                combine(ADDRESS, STREET),
+                address.streets,
                 2,
                 min(3, streets.size),
-                1,
-                combine(ADDRESS, STREET, NUMBER),
-            )
-            val previous = mutableListOf<StreetId>()
-            address.streets.withIndex().forEach { (index, streetId) ->
-                selectValue(
+            ) { index, streetParam, streetId ->
+                selectElement(
+                    state,
                     "${index + 1}.Street",
-                    combine(ADDRESS, STREET, index),
+                    streetParam,
                     streets,
-                ) { street ->
-                    val alreadyUsed = previous.contains(street.id)
-                    label = street.name(state)
-                    value = street.id.value.toString()
-                    selected = street.id == streetId && !alreadyUsed
-                    disabled = alreadyUsed
-                }
-                previous.add(streetId)
+                    streetId,
+                )
+                streets.removeIf { it.id == streetId }
             }
         }
 
