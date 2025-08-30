@@ -319,6 +319,7 @@ class BuildingTest {
             private val building = Building(
                 BUILDING_ID_0,
                 Name.init("New"),
+                InTownMap(TOWN_MAP_ID_0, 0),
                 constructionDate = DAY0,
                 ownership = OWNERSHIP,
                 style = STYLE,
@@ -417,7 +418,7 @@ class BuildingTest {
                 val state = testSuccessful(address)
                 val otherBuilding = building.copy(id = BUILDING_ID_1, address = address)
 
-                failUpdate(state, otherBuilding, "House number 1 already used for the town!")
+                failUpdate(state, otherBuilding, "House number 1 already used for Town Map 0!")
             }
 
             @Test
@@ -524,9 +525,11 @@ class BuildingTest {
     @Nested
     inner class UpdateLotTest {
 
+        val building0 = Building(BUILDING_ID_0, position = InTownMap(TOWN_MAP_ID_0, 0))
+        val building1 = Building(BUILDING_ID_1, position = InTownMap(TOWN_MAP_ID_0, 3))
         private val STATE = State(
             listOf(
-                Storage(listOf(Building(BUILDING_ID_0), Building(BUILDING_ID_1))),
+                Storage(listOf(building0, building1)),
                 Storage(
                     TownMap(
                         TOWN_MAP_ID_0,
@@ -581,7 +584,7 @@ class BuildingTest {
             assertEquals(
                 State(
                     listOf(
-                        Storage(listOf(building, Building(BUILDING_ID_1))),
+                        Storage(listOf(building, building1)),
                         Storage(TownMap(TOWN_MAP_ID_0, map = TileMap2d(square(2), tiles)))
                     )
                 ),
