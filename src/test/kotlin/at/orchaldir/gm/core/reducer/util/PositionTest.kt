@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingPurpose
 import at.orchaldir.gm.core.model.world.building.SingleFamilyHouse
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -22,6 +23,7 @@ class PositionTest {
     private val inDistrict = InDistrict(DISTRICT_ID_0)
     private val inRealm = InRealm(REALM_ID_0)
     private val inTown = InTown(TOWN_ID_0)
+    private val inTownMap = InTownMap(TOWN_MAP_ID_0, 0)
 
     @Nested
     inner class ApartmentTest {
@@ -246,6 +248,52 @@ class PositionTest {
                 Storage(Building(BUILDING_ID_0)),
                 Storage(CALENDAR0),
                 Storage(Town(TOWN_ID_0, foundingDate = date)),
+            )
+        )
+    }
+
+    @Nested
+    inner class TownMapTest {
+        val inUnknownTownMap = InTownMap(UNKNOWN_TOWN_MAP_ID, 0)
+
+        @Test
+        fun `Cannot use unknown town map as home`() {
+            val history = History<Position>(inUnknownTownMap)
+
+            assertIllegalArgument("Requires unknown home!") {
+                checkPositionHistory(createState(), history, DAY0)
+            }
+        }
+
+        @Test
+        fun `Cannot use unknown town map as a previous home`() {
+            val entry = HistoryEntry<Position>(inUnknownTownMap, DAY1)
+            val history = History(inHouse, entry)
+
+            assertIllegalArgument("Requires unknown 1.previous home!") {
+                checkPositionHistory(createState(), history, DAY0)
+            }
+        }
+
+        @Test
+        fun `The town doesn't exist yet`() {
+            val state = createTownMapState(date = DAY1)
+
+            assertIllegalArgument("The home doesn't exist at the required date!") {
+                checkPositionHistory(state, History(inTownMap), DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid town`() {
+            checkPositionHistory(createTownMapState(), History(inTownMap), DAY0)
+        }
+
+        private fun createTownMapState(date: Date = DAY0) = State(
+            listOf(
+                Storage(Building(BUILDING_ID_0)),
+                Storage(CALENDAR0),
+                Storage(TownMap(TOWN_MAP_ID_0, date = date)),
             )
         )
     }
