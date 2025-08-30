@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getHomes
@@ -86,14 +87,25 @@ fun FORM.selectPositionHistory(
     history: History<Position>,
     startDate: Date,
     label: String = POSITION,
-) = selectHistory(state, HOME, history, label, startDate, null, HtmlBlockTag::selectPosition)
+    getTiles: (TownMapId) -> List<Int> = { emptyList() },
+) = selectHistory(state, HOME, history, label, startDate, null) { state, param, position, date ->
+    selectPosition(
+        state,
+        param,
+        position,
+        date,
+        label,
+        getTiles,
+    )
+}
 
 fun HtmlBlockTag.selectPosition(
     state: State,
     param: String,
     position: Position,
     start: Date?,
-    label: String = POSITION,
+    noun: String = POSITION,
+    getTiles: (TownMapId) -> List<Int> = { emptyList() },
 ) {
     val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
     val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
@@ -103,7 +115,7 @@ fun HtmlBlockTag.selectPosition(
     val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
     val townMaps = state.sortTownMaps(state.getExistingElements(state.getTownMapStorage(), start))
 
-    selectValue(label, param, PositionType.entries, position.getType()) { type ->
+    selectValue(noun, param, PositionType.entries, position.getType()) { type ->
         when (type) {
             PositionType.Undefined -> false
             PositionType.Apartment -> apartments.isEmpty()
@@ -177,15 +189,15 @@ fun HtmlBlockTag.selectPosition(
                 townMaps,
                 position.townMap,
             )
-            val townMap = state.getTownMapStorage().getOrThrow(position.townMap)
-            selectInt(
+            selectValue(
                 "Tile",
-                position.tileIndex,
-                0,
-                townMap.map.size.tiles() - 1,
-                1,
                 combine(param, TILE),
-            )
+                getTiles(position.townMap),
+            ) { tile ->
+                label = tile.toString()
+                value = tile.toString()
+                selected = tile == position.tileIndex
+            }
         }
     }
 }
