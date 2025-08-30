@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.InTown
 import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.building.*
@@ -20,6 +19,7 @@ import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.world.getBuildingsForPosition
+import at.orchaldir.gm.core.selector.world.getBuildingsForStreet
 import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment
 import at.orchaldir.gm.core.selector.world.getStreetIds
 import at.orchaldir.gm.core.selector.world.getUsedHouseNumbers
@@ -71,7 +71,6 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 }
 
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
-    checkAddress(state, action.building.position, action.building.address)
     validateBuilding(state, action.building)
 
     noFollowUps(state.updateStorage(state.getBuildingStorage().update(action.building)))
@@ -82,6 +81,7 @@ fun validateBuilding(
     building: Building,
 ) {
     checkDate(state, building.constructionDate, "Building")
+    checkAddress(state, building.id, building.position, building.address)
     checkArchitecturalStyle(state, building)
     validateCreator(state, building.builder, building.id, building.constructionDate, "Builder")
     checkOwnership(state, building.ownership, building.constructionDate)
@@ -120,6 +120,7 @@ private fun checkArchitecturalStyle(state: State, building: Building) {
 
 private fun checkAddress(
     state: State,
+    building: BuildingId,
     position: Position,
     address: Address,
 ) {
@@ -139,14 +140,11 @@ private fun checkAddress(
         is StreetAddress -> {
             state.getStreetStorage().require(address.street)
 
-            /*
-            if (!(oldAddress is StreetAddress && oldAddress.houseNumber == address.houseNumber)) {
-                val buildings = state.getBuildingsForPosition(position)
-                require(!getUsedHouseNumbers(buildings, address.street).contains(address.houseNumber)) {
-                    "House number ${address.houseNumber} already used for street ${address.street.value}!"
-                }
+            val buildings = state.getBuildingsForStreet(address.street)
+                .filter { it.id != building }
+            require(!getUsedHouseNumbers(buildings, address.street).contains(address.houseNumber)) {
+                "House number ${address.houseNumber} already used for ${address.street.print()}!"
             }
-            */
 
             if (position is InTownMap) {
                 checkIfStreetIsPartOfTown(state, position.townMap, address.street)
@@ -154,14 +152,11 @@ private fun checkAddress(
         }
 
         is TownAddress -> {
-            /*
-            if (!(oldAddress is TownAddress && oldAddress.houseNumber == address.houseNumber)) {
-                val buildings = state.getBuildingsForPosition(position)
-                require(!getUsedHouseNumbers(buildings).contains(address.houseNumber)) {
-                    "House number ${address.houseNumber} already used for the town!"
-                }
+            val buildings = state.getBuildingsForPosition(position)
+                .filter { it.id != building }
+            require(!getUsedHouseNumbers(buildings).contains(address.houseNumber)) {
+                "House number ${address.houseNumber} already used for ${position.getId()?.print()}!"
             }
-            */
         }
     }
 }

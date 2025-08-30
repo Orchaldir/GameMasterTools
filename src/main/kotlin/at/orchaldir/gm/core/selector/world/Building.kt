@@ -14,6 +14,8 @@ import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.building.StreetAddress
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
@@ -64,6 +66,10 @@ fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
 fun <ID : Id<ID>> State.getBuildings(id: ID) = getBuildingStorage()
     .getAll()
     .filter { it.position.isIn(id) }
+
+fun State.getBuildingsForStreet(street: StreetId) = getBuildingStorage()
+    .getAll()
+    .filter { it.address.contains(street) }
 
 fun State.getBuildingsForPosition(position: Position) = when (position) {
     is InDistrict -> getBuildings(position.district)

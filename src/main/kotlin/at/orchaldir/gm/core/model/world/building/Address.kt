@@ -21,6 +21,12 @@ sealed class Address {
         is TownAddress -> AddressType.Town
     }
 
+    fun getHouseNumber(other: StreetId) = when (this) {
+        is CrossingAddress -> streets.contains(other)
+        is StreetAddress -> street == other
+        else -> false
+    }
+
     fun contains(other: StreetId) = when (this) {
         is CrossingAddress -> streets.contains(other)
         is StreetAddress -> street == other
