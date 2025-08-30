@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.realm.parseDistrictId
 import at.orchaldir.gm.app.html.realm.parseRealmId
 import at.orchaldir.gm.app.html.realm.parseTownId
 import at.orchaldir.gm.app.html.world.parsePlaneId
+import at.orchaldir.gm.app.html.world.parseTownMapId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.world.parseBuildingId
@@ -26,7 +27,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-private const val POSITION = "Poistion"
+private const val POSITION = "Position"
 
 fun HtmlBlockTag.showPositionHistory(
     call: ApplicationCall,
@@ -67,6 +68,10 @@ fun HtmlBlockTag.showPosition(
         is InPlane -> link(call, state, position.plane)
         is InRealm -> link(call, state, position.realm)
         is InTown -> link(call, state, position.town)
+        is InTownMap -> {
+            +"Tile ${position.tileIndex + 1} of "
+            link(call, state, position.townMap)
+        }
         UndefinedPosition -> if (showUndefined) {
             +"Undefined"
         }
@@ -93,17 +98,19 @@ fun HtmlBlockTag.selectPosition(
     val planes = state.sortPlanes(state.getPlaneStorage().getAll())
     val realms = state.sortRealms(state.getExistingElements(state.getRealmStorage(), start))
     val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
+    val townMaps = state.sortTownMaps(state.getExistingElements(state.getTownMapStorage(), start))
 
     selectValue(POSITION, param, PositionType.entries, position.getType()) { type ->
         when (type) {
             PositionType.Undefined -> false
-            PositionType.Homeless -> false
             PositionType.Apartment -> apartments.isEmpty()
             PositionType.District -> districts.isEmpty()
+            PositionType.Homeless -> false
             PositionType.House -> homes.isEmpty()
             PositionType.Plane -> planes.isEmpty()
             PositionType.Realm -> realms.isEmpty()
             PositionType.Town -> towns.isEmpty()
+            PositionType.TownMap -> townMaps.isEmpty()
         }
     }
     when (position) {
@@ -160,6 +167,23 @@ fun HtmlBlockTag.selectPosition(
             towns,
             position.town,
         )
+        is InTownMap -> {
+            selectElement(
+                state,
+                combine(param, TOWN),
+                townMaps,
+                position.townMap,
+            )
+            val townMap = state.getTownMapStorage().getOrThrow(position.townMap)
+            selectInt(
+                "Tile",
+                position.tileIndex,
+                0,
+                townMap.map.size.tiles() - 1,
+                1,
+                combine(param, TILE),
+            )
+        }
     }
 }
 
@@ -211,6 +235,14 @@ private fun parsePosition(parameters: Parameters, state: State, param: String): 
                 parameters,
                 combine(param, TOWN),
             )
+        )
+
+        PositionType.TownMap -> InTownMap(
+            parseTownMapId(
+                parameters,
+                combine(param, TOWN),
+            ),
+            parseInt(parameters, combine(param, TILE)),
         )
 
         PositionType.Homeless -> Homeless

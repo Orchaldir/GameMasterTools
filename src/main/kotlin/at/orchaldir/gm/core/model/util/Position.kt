@@ -5,18 +5,20 @@ import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.model.world.town.TownMapId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class PositionType {
     Undefined,
-    Homeless,
     Apartment,
     District,
+    Homeless,
     House,
     Plane,
     Realm,
     Town,
+    TownMap,
 }
 
 @Serializable
@@ -30,6 +32,7 @@ sealed class Position {
         is InPlane -> PositionType.Plane
         is InRealm -> PositionType.Realm
         is InTown -> PositionType.Town
+        is InTownMap -> PositionType.TownMap
         UndefinedPosition -> PositionType.Undefined
     }
 
@@ -115,6 +118,13 @@ data class InTown(val town: TownId) : Position() {
     override fun isIn(town: TownId) = this.town == town
 
 }
+
+@Serializable
+@SerialName("TownMap")
+data class InTownMap(
+    val townMap: TownMapId,
+    val tileIndex: Int,
+) : Position()
 
 @Serializable
 @SerialName("Undefined")
