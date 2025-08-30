@@ -4,19 +4,23 @@ import at.orchaldir.gm.app.ADDRESS
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.STREET
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.world.parseStreetId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
-import io.ktor.http.Parameters
+import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.world.getBuildingsForPosition
+import at.orchaldir.gm.core.selector.world.getHouseNumbersUsedByOthers
+import at.orchaldir.gm.core.selector.world.getStreets
+import at.orchaldir.gm.utils.doNothing
+import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlin.math.min
 
 // show
 
@@ -68,9 +72,8 @@ fun HtmlBlockTag.showAddress(
 
 // edit
 
-fun HtmlBlockTag.selectAddress(state: State, building: Building) {
-    /* TODO
-    val streets = state.getStreets(building.lot.town)
+fun FORM.selectAddress(state: State, building: Building) {
+    val streets = state.getStreets(building.position)
 
     selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, building.address.getType()) { type ->
         when (type) {
@@ -111,16 +114,15 @@ fun HtmlBlockTag.selectAddress(state: State, building: Building) {
             selectElement(state, combine(ADDRESS, STREET), streets, address.street)
             selectHouseNumber(
                 address.houseNumber,
-                state.getHouseNumbersUsedByOthers(building.lot.town, address),
+                getHouseNumbersUsedByOthers(state.getBuildingsForPosition(building.position), address),
             )
         }
 
         is TownAddress -> selectHouseNumber(
             address.houseNumber,
-            state.getHouseNumbersUsedByOthers(building.lot.town, address),
+            getHouseNumbersUsedByOthers(state.getBuildingsForPosition(building.position), address),
         )
     }
-    */
 }
 
 private fun FORM.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Set<Int>) {
