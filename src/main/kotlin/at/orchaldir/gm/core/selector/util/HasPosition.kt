@@ -29,7 +29,7 @@ fun <ID : Id<ID>, ELEMENT> getHasPositionsForPosition(
 }
 
 
-fun <ID : Id<ID>> State.getBuildings(id: ID) = getHasPositions(getBuildingStorage(), id)
+fun <ID : Id<ID>> State.getBuildingsIn(id: ID) = getHasPositions(getBuildingStorage(), id)
 
 fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> getHasPositions(
     storage: Storage<ID0, ELEMENT>,

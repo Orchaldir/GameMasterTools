@@ -7,8 +7,7 @@ import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.*
-import at.orchaldir.gm.core.selector.util.getBuildings
-import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -27,7 +26,7 @@ val RESIZE_TERRAIN: Reducer<ResizeTerrain, State> = { state, action ->
 
     val newTileMap = oldMap.map.resize(action.resize, tile)
     val newMap = oldMap.copy(map = newTileMap)
-    val newBuildings = state.getBuildings(action.town)
+    val newBuildings = state.getBuildingsIn(action.town)
         .map { building ->
             if (building.position is InTownMap) {
                 val newIndex = oldMap.map.getIndexAfterResize(building.position.tileIndex, action.resize)

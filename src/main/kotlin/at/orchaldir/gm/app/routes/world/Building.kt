@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.SortBuilding
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.character.countCharactersLivingInHouse
-import at.orchaldir.gm.core.selector.util.getBuildings
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -307,7 +307,7 @@ private fun visualizeBuildingLot(
 
     return visualizeTown(
         townMap,
-        state.getBuildings(townMap.id)
+        state.getBuildingsIn(townMap.id)
             .filter { it.id != selected.id } + selected,
         buildingColorLookup = showSelectedBuilding(selected),
         buildingLinkLookup = { b ->
@@ -330,7 +330,7 @@ private fun visualizeBuildingLotEditor(
 
     return visualizeTown(
         townMap,
-        state.getBuildings(townMap.id),
+        state.getBuildingsIn(townMap.id),
         tileLinkLookup = { index, _ ->
             if (townMap.canResize(index, size, building.id)) {
                 call.application.href(BuildingRoutes.Lot.Update(building.id, index, size))

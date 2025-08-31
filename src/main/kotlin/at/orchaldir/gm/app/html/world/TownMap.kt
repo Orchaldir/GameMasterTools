@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getResidents
 import at.orchaldir.gm.core.selector.character.getWorkingIn
-import at.orchaldir.gm.core.selector.util.getBuildings
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortTowns
@@ -49,9 +49,9 @@ fun HtmlBlockTag.showBuildingsOfTownMap(
     townMap: TownMapId,
     town: TownId? = null,
 ) {
-    val buildingsInMap = state.getBuildings(townMap)
+    val buildingsInMap = state.getBuildingsIn(townMap)
     val buildingsInTown = if (town != null) {
-        state.getBuildings(town)
+        state.getBuildingsIn(town)
     } else {
         emptyList()
     }
