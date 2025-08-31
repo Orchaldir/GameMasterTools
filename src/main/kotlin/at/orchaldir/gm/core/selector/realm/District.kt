@@ -7,9 +7,11 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.getExistingElements
+import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 
-fun State.canDeleteDistrict(code: DistrictId) = getCharactersLivingIn(code).isEmpty()
-        && getCharactersPreviouslyLivingIn(code).isEmpty()
+fun State.canDeleteDistrict(district: DistrictId) = getCharactersLivingIn(district).isEmpty()
+        && getCharactersPreviouslyLivingIn(district).isEmpty()
+        && hasNoHasPositionsIn(district)
 
 fun State.getDistricts(town: TownId) = getDistrictStorage()
     .getAll()
