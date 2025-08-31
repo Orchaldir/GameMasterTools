@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.ALLOWED_HOUSING_TYPES
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
@@ -85,7 +86,7 @@ fun validateCharacterData(
         VALID_CAUSES_FOR_CHARACTERS,
     )
     checkBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
-    checkPositionHistory(state, character.housingStatus, character.birthDate)
+    checkPositionHistory(state, character.housingStatus, character.birthDate, ALLOWED_HOUSING_TYPES)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
     checkAuthenticity(state, character.authenticity)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }

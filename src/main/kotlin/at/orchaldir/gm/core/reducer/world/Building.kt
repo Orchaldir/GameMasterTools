@@ -83,7 +83,7 @@ fun validateBuilding(
     building: Building,
 ) {
     checkDate(state, building.constructionDate, "Building")
-    checkPosition(state, building.position, "position", building.constructionDate)
+    checkPosition(state, building.position, "position", building.constructionDate, ALLOWED_BUILDING_POSITIONS)
     checkAddress(state, building.id, building.position, building.address)
     checkArchitecturalStyle(state, building)
     validateCreator(state, building.builder, building.id, building.constructionDate, "Builder")

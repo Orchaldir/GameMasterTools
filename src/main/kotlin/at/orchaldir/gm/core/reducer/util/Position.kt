@@ -10,14 +10,20 @@ fun checkPositionHistory(
     state: State,
     history: History<Position>,
     startDate: Date,
-) = checkHistory(state, history, startDate, "home", ::checkPosition)
+    allowedTypes: Collection<PositionType> = PositionType.entries,
+) = checkHistory(state, history, startDate, "home") { state, param, position, date ->
+    checkPosition(state, param, position, date, allowedTypes)
+}
 
 fun checkPosition(
     state: State,
     position: Position,
     noun: String,
     date: Date?,
+    allowedTypes: Collection<PositionType>,
 ) {
+    require(allowedTypes.contains(position.getType())) { "Position has invalid type ${position.getType()}!" }
+
     when (position) {
         UndefinedPosition -> return
         Homeless -> return
