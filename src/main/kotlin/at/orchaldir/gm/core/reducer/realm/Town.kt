@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCapital
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
+import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.core.selector.world.getTownMaps
 import at.orchaldir.gm.utils.redux.Reducer
@@ -40,6 +41,7 @@ val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
     validateCanDelete(state.getRealmsWithCapital(action.id).isEmpty(), action.id, "it is a capital")
     validateCanDelete(state.getRealmsWithPreviousCapital(action.id).isEmpty(), action.id, "it was a capital")
     validateCanDelete(state.getTownMaps(action.id).isEmpty(), action.id, "it has a town map")
+    validateCanDelete(state.hasNoHasPositionsIn(action.id), action.id, "it is used as a position")
 
     noFollowUps(state.updateStorage(state.getTownStorage().remove(action.id)))
 }

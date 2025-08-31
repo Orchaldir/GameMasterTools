@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
@@ -135,6 +136,15 @@ class TownTest {
             val state = createState(Character(CHARACTER_ID_0, employmentStatus = employmentStatus))
 
             assertIllegalArgument("Cannot delete Town 0, because it has or had employees!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a town used as a position`() {
+            val state = createState(Business(BUSINESS_ID_0, position = InTown(TOWN_ID_0)))
+
+            assertIllegalArgument("Cannot delete Town 0, because it is used as a position!") {
                 REDUCER.invoke(state, action)
             }
         }
