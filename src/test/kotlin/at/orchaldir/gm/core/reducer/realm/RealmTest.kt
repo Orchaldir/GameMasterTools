@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
@@ -133,6 +134,13 @@ class RealmTest {
             val treaty = Treaty(TREATY_ID_0, participants = listOf(TreatyParticipant(REALM_ID_0)))
 
             test(treaty, "Cannot delete Realm 0, because of created elements (Treaty)!")
+        }
+
+        @Test
+        fun `Cannot delete a realm used as a position`() {
+            val business = Business(BUSINESS_ID_0, position = InRealm(REALM_ID_0))
+
+            test(business, "Cannot delete Realm 0, because it is used!")
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> test(element: ELEMENT, message: String) {
