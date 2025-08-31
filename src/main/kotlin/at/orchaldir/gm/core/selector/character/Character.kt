@@ -255,12 +255,9 @@ fun State.getWorkingIn(town: TownMapId) = getCharacterStorage()
     .getAll()
     .filter { isWorkingIn(it, town) }
 
-fun State.isWorkingIn(character: Character, town: TownMapId) = character.getBusiness()
-    ?.let {
-        getBuildingStorage()
-            .getAll()
-            .any { building -> building.purpose.contains(it) && building.position.isIn(town) }
-    }
+fun State.isWorkingIn(character: Character, town: TownMapId) = getBusinessStorage()
+    .getOptional(character.getBusiness())
+    ?.position?.isIn(town)
     ?: false
 
 // get relatives

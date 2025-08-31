@@ -12,6 +12,10 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
+fun <ID : Id<ID>> State.hasNoHasPositionsIn(id: ID) =
+    getBuildingsIn(id).isEmpty() &&
+            getBusinessesIn(id).isEmpty()
+
 fun State.getBuildingsForPosition(position: Position) = getHasPositionsForPosition(getBuildingStorage(), position)
 
 fun <ID : Id<ID>, ELEMENT> getHasPositionsForPosition(
@@ -20,18 +24,19 @@ fun <ID : Id<ID>, ELEMENT> getHasPositionsForPosition(
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPosition = when (position) {
-    is InDistrict -> getHasPositions(storage, position.district)
-    is InPlane -> getHasPositions(storage, position.plane)
-    is InRealm -> getHasPositions(storage, position.realm)
-    is InTown -> getHasPositions(storage, position.town)
-    is InTownMap -> getHasPositions(storage, position.townMap)
+    is InDistrict -> getHasPositionsIn(storage, position.district)
+    is InPlane -> getHasPositionsIn(storage, position.plane)
+    is InRealm -> getHasPositionsIn(storage, position.realm)
+    is InTown -> getHasPositionsIn(storage, position.town)
+    is InTownMap -> getHasPositionsIn(storage, position.townMap)
     else -> error("House Number is not supported by Position type ${position.getType()}!")
 }
 
 
-fun <ID : Id<ID>> State.getBuildingsIn(id: ID) = getHasPositions(getBuildingStorage(), id)
+fun <ID : Id<ID>> State.getBuildingsIn(id: ID) = getHasPositionsIn(getBuildingStorage(), id)
+fun <ID : Id<ID>> State.getBusinessesIn(id: ID) = getHasPositionsIn(getBusinessStorage(), id)
 
-fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> getHasPositions(
+fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> getHasPositionsIn(
     storage: Storage<ID0, ELEMENT>,
     id: ID1,
 ) where

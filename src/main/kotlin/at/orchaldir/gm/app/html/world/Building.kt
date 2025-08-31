@@ -88,7 +88,7 @@ fun parseBuilding(parameters: Parameters, state: State, id: BuildingId): Buildin
         constructionDate,
         parseOwnership(parameters, state, constructionDate),
         parseOptionalArchitecturalStyleId(parameters, STYLE),
-        parseBuildingPurpose(parameters, state),
+        parseBuildingPurpose(parameters),
         parseCreator(parameters),
     )
 }

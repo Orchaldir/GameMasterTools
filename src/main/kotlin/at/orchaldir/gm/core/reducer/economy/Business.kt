@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
-import at.orchaldir.gm.core.selector.world.getBuilding
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -27,7 +26,6 @@ val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
     state.getBusinessStorage().require(action.id)
     checkIfCreatorCanBeDeleted(state, action.id)
     checkIfOwnerCanBeDeleted(state, action.id)
-    validateCanDelete(state.getBuilding(action.id) == null, action.id, "it has a building")
     validateCanDelete(state.getEmployees(action.id).isEmpty(), action.id, "it has employees")
     validateCanDelete(state.getPreviousEmployees(action.id).isEmpty(), action.id, "it has previous employees")
 

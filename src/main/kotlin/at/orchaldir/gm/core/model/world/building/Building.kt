@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.selector.util.getBusinessesIn
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -51,30 +52,34 @@ data class Building(
         name != null -> {
             name.text
         }
-
-        purpose is SingleBusiness -> {
-            state.getElementName(purpose.business)
-        }
-
-        purpose is BusinessAndHome -> {
-            state.getElementName(purpose.business)
-        }
-
-        address !is NoAddress -> {
-            address(state)
-        }
-
-        else -> {
-            val digits = state.getBuildingStorage().getSize().length()
-            val paddedNumber = id.value.toString().padStart(digits, '0')
-            "Building $paddedNumber"
-        }
+        purpose is SingleBusiness -> businessName(state)
+        purpose is BusinessAndHome -> businessName(state)
+        else -> defaultName(state)
     }
 
     override fun creator() = builder
     override fun owner() = ownership
     override fun position() = position
     override fun startDate() = constructionDate
+
+    private fun businessName(state: State): String {
+        val businesses = state.getBusinessesIn(id)
+
+        return if (businesses.size == 1) {
+            businesses[0].name()
+        } else {
+            defaultName(state)
+        }
+    }
+
+    private fun defaultName(state: State) = if (address !is NoAddress) {
+        address(state)
+    } else {
+        val digits = state.getBuildingStorage().getSize().length()
+        val paddedNumber = id.value.toString().padStart(digits, '0')
+
+        "Building $paddedNumber"
+    }
 
     fun address(state: State) = when (address) {
         is CrossingAddress -> {

@@ -7,17 +7,9 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
-import at.orchaldir.gm.core.selector.world.getBuilding
 
-fun State.canDelete(id: BusinessId) = getBuilding(id) == null
-        && getEmployees(id).isEmpty()
+fun State.canDelete(id: BusinessId) = getEmployees(id).isEmpty()
         && !isCreator(id)
-
-fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
-    .flatMap { it.purpose.getBusinesses() }
-    .toSet()
-
-fun State.getBusinessesWithoutBuilding() = getBusinessStorage().getIds() - getBusinessesWithBuilding()
 
 fun State.getBusinesses(job: JobId) = getCharacterStorage()
     .getAll()

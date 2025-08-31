@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
-import at.orchaldir.gm.core.selector.world.getBuilding
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -31,7 +30,6 @@ fun HtmlBlockTag.showBusiness(
     val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
     val published = state.getTextsPublishedBy(business.id)
 
-    state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
     fieldPosition(call, state, business.position)
     optionalField(call, state, "Start", business.startDate())
     fieldAge("Age", state, business.startDate())
