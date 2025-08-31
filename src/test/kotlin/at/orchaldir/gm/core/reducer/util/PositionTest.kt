@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 class PositionTest {
 
     private val inApartment = InApartment(BUILDING_ID_0, 0)
-    private val inHouse = InHouse(BUILDING_ID_0)
+    private val inBuilding = InBuilding(BUILDING_ID_0)
     private val inDistrict = InDistrict(DISTRICT_ID_0)
     private val inRealm = InRealm(REALM_ID_0)
     private val inTown = InTown(TOWN_ID_0)
@@ -75,7 +75,7 @@ class PositionTest {
         @Test
         fun `Cannot use unknown building as home`() {
             val state = createState()
-            val history = History<Position>(InHouse(UNKNOWN_BUILDING_ID))
+            val history = History<Position>(InBuilding(UNKNOWN_BUILDING_ID))
 
             assertIllegalArgument("Requires unknown home!") {
                 checkPositionHistory(state, history, DAY0)
@@ -85,8 +85,8 @@ class PositionTest {
         @Test
         fun `Cannot use unknown building as a previous home`() {
             val state = createState()
-            val entry = HistoryEntry<Position>(InHouse(UNKNOWN_BUILDING_ID), DAY1)
-            val history = History(inHouse, entry)
+            val entry = HistoryEntry<Position>(InBuilding(UNKNOWN_BUILDING_ID), DAY1)
+            val history = History(inBuilding, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
                 checkPositionHistory(state, history, DAY0)
@@ -98,7 +98,7 @@ class PositionTest {
             val state = createState(ApartmentHouse(2))
 
             assertIllegalArgument("The home is not a home!") {
-                checkPositionHistory(state, History(inHouse), DAY0)
+                checkPositionHistory(state, History(inBuilding), DAY0)
             }
         }
 
@@ -107,13 +107,13 @@ class PositionTest {
             val state = createState(date = DAY1)
 
             assertIllegalArgument("The home doesn't exist at the required date!") {
-                checkPositionHistory(state, History(inHouse), DAY0)
+                checkPositionHistory(state, History(inBuilding), DAY0)
             }
         }
 
         @Test
         fun `Live in a valid single family house`() {
-            checkPositionHistory(createState(), History(inHouse), DAY0)
+            checkPositionHistory(createState(), History(inBuilding), DAY0)
         }
     }
 
@@ -132,7 +132,7 @@ class PositionTest {
         @Test
         fun `Cannot use unknown district as a previous home`() {
             val entry = HistoryEntry<Position>(InDistrict(UNKNOWN_DISTRICT_ID), DAY1)
-            val history = History(inHouse, entry)
+            val history = History(inBuilding, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
                 checkPositionHistory(createState(), history, DAY0)
@@ -177,7 +177,7 @@ class PositionTest {
         @Test
         fun `Cannot use unknown realm as a previous home`() {
             val entry = HistoryEntry<Position>(InRealm(UNKNOWN_REALM_ID), DAY1)
-            val history = History(inHouse, entry)
+            val history = History(inBuilding, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
                 checkPositionHistory(createState(), history, DAY0)
@@ -222,7 +222,7 @@ class PositionTest {
         @Test
         fun `Cannot use unknown town as a previous home`() {
             val entry = HistoryEntry<Position>(InTown(UNKNOWN_TOWN_ID), DAY1)
-            val history = History(inHouse, entry)
+            val history = History(inBuilding, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
                 checkPositionHistory(createState(), history, DAY0)
@@ -268,7 +268,7 @@ class PositionTest {
         @Test
         fun `Cannot use unknown town map as a previous home`() {
             val entry = HistoryEntry<Position>(inUnknownTownMap, DAY1)
-            val history = History(inHouse, entry)
+            val history = History(inBuilding, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
                 checkPositionHistory(createState(), history, DAY0)

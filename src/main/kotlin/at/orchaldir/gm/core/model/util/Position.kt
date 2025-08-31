@@ -15,7 +15,7 @@ enum class PositionType {
     Apartment,
     District,
     Homeless,
-    House,
+    Building,
     Plane,
     Realm,
     Town,
@@ -28,8 +28,8 @@ sealed class Position {
     fun getType() = when (this) {
         Homeless -> PositionType.Homeless
         is InApartment -> PositionType.Apartment
+        is InBuilding -> PositionType.Building
         is InDistrict -> PositionType.District
-        is InHouse -> PositionType.House
         is InPlane -> PositionType.Plane
         is InRealm -> PositionType.Realm
         is InTown -> PositionType.Town
@@ -41,7 +41,7 @@ sealed class Position {
         Homeless -> null
         is InApartment -> building
         is InDistrict -> district
-        is InHouse -> building
+        is InBuilding -> building
         is InPlane -> plane
         is InRealm -> realm
         is InTown -> town
@@ -56,7 +56,7 @@ sealed class Position {
 
     fun getBuilding() = when (this) {
         is InApartment -> building
-        is InHouse -> building
+        is InBuilding -> building
         else -> null
     }
 
@@ -64,7 +64,7 @@ sealed class Position {
         Homeless -> false
         is InApartment -> building == id
         is InDistrict -> district == id
-        is InHouse -> building == id
+        is InBuilding -> building == id
         is InPlane -> plane == id
         is InRealm -> realm == id
         is InTown -> town == id
@@ -73,7 +73,7 @@ sealed class Position {
     }
 
     open fun isInApartment(building: BuildingId, apartmentIndex: Int) = false
-    open fun isInHouse(building: BuildingId) = false
+    open fun isInBuilding(building: BuildingId) = false
     open fun isIn(building: BuildingId) = false
     open fun isIn(district: DistrictId) = false
     open fun isIn(plane: PlaneId) = false
@@ -114,10 +114,10 @@ data class InDistrict(val district: DistrictId) : Position() {
 
 @Serializable
 @SerialName("House")
-data class InHouse(val building: BuildingId) : Position() {
+data class InBuilding(val building: BuildingId) : Position() {
 
-    override fun isIn(building: BuildingId) = isInHouse(building)
-    override fun isInHouse(building: BuildingId) = this.building == building
+    override fun isIn(building: BuildingId) = isInBuilding(building)
+    override fun isInBuilding(building: BuildingId) = this.building == building
 
 }
 

@@ -158,7 +158,7 @@ fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) =
 
 fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
-    .filter { it.housingStatus.current.isInHouse(building) }
+    .filter { it.housingStatus.current.isInBuilding(building) }
 
 fun State.getCharactersLivingIn(district: DistrictId) = getCharacterStorage()
     .getAll()
@@ -178,7 +178,7 @@ fun State.getCharactersLivingIn(townMap: TownMapId) = getCharacterStorage()
 
 fun State.countCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
-    .count { it.housingStatus.current.isInHouse(building) }
+    .count { it.housingStatus.current.isInBuilding(building) }
 
 fun State.getCharactersPreviouslyLivingIn(building: BuildingId) = getCharacterStorage()
     .getAll()

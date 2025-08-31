@@ -66,7 +66,7 @@ fun HtmlBlockTag.showPosition(
         }
 
         is InDistrict -> link(call, state, position.district)
-        is InHouse -> link(call, state, position.building)
+        is InBuilding -> link(call, state, position.building)
         is InPlane -> link(call, state, position.plane)
         is InRealm -> link(call, state, position.realm)
         is InTown -> link(call, state, position.town)
@@ -143,7 +143,7 @@ private fun HtmlBlockTag.selectPositionIntern(
             PositionType.Apartment -> apartments.isEmpty()
             PositionType.District -> districts.isEmpty()
             PositionType.Homeless -> false
-            PositionType.House -> homes.isEmpty()
+            PositionType.Building -> homes.isEmpty()
             PositionType.Plane -> planes.isEmpty()
             PositionType.Realm -> realms.isEmpty()
             PositionType.Town -> towns.isEmpty()
@@ -177,7 +177,7 @@ private fun HtmlBlockTag.selectPositionIntern(
             position.district,
         )
 
-        is InHouse -> selectElement(
+        is InBuilding -> selectElement(
             "Home",
             combine(param, BUILDING),
             homes,
@@ -246,7 +246,7 @@ fun parsePosition(parameters: Parameters, state: State, param: String): Position
             )
         )
 
-        PositionType.House -> InHouse(
+        PositionType.Building -> InBuilding(
             parseBuildingId(
                 parameters,
                 combine(param, BUILDING),

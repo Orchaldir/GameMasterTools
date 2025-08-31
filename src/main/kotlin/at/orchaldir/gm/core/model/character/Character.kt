@@ -48,7 +48,7 @@ val ALLOWED_HOUSING_TYPES = listOf(
     PositionType.Apartment,
     PositionType.District,
     PositionType.Homeless,
-    PositionType.House,
+    PositionType.Building,
     PositionType.Plane,
     PositionType.Realm,
     PositionType.Town,

@@ -1,16 +1,8 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Homeless
-import at.orchaldir.gm.core.model.util.InApartment
-import at.orchaldir.gm.core.model.util.InDistrict
-import at.orchaldir.gm.core.model.util.InHouse
-import at.orchaldir.gm.core.model.util.InPlane
-import at.orchaldir.gm.core.model.util.InRealm
-import at.orchaldir.gm.core.model.util.InTown
 import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.Position
-import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 

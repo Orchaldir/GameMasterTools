@@ -103,7 +103,7 @@ data class Building(
             is InRealm -> state.getElementName(position.realm)
             is InTown -> state.getElementName(position.town)
             is InTownMap -> state.getElementName(position.townMap)
-            is InApartment, is InHouse, Homeless, UndefinedPosition -> error("Unsupported Position Type ${position.getType()} for Address")
+            is InApartment, is InBuilding, Homeless, UndefinedPosition -> error("Unsupported Position Type ${position.getType()} for Address")
         } + " ${address.houseNumber}"
     }
 
