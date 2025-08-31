@@ -74,51 +74,53 @@ fun HtmlBlockTag.showAddress(
 
 fun FORM.selectAddress(state: State, building: Building) {
     val streets = state.getStreets(building.position).toMutableList()
+    showDetails("Address", true) {
 
-    selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, building.address.getType()) { type ->
-        when (type) {
-            AddressType.Street -> streets.isEmpty()
-            AddressType.Crossing -> streets.size < 2
-            else -> false
-        }
-    }
-    when (val address = building.address) {
-        is CrossingAddress -> {
-            editList(
-                "Street",
-                combine(ADDRESS, STREET),
-                address.streets,
-                2,
-                min(3, streets.size),
-            ) { index, streetParam, streetId ->
-                selectElement(
-                    state,
-                    "${index + 1}.Street",
-                    streetParam,
-                    streets,
-                    streetId,
-                )
-                streets.removeIf { it.id == streetId }
+        selectValue("Type", combine(ADDRESS, TYPE), AddressType.entries, building.address.getType()) { type ->
+            when (type) {
+                AddressType.Street -> streets.isEmpty()
+                AddressType.Crossing -> streets.size < 2
+                else -> false
             }
         }
+        when (val address = building.address) {
+            is CrossingAddress -> {
+                editList(
+                    "Street",
+                    combine(ADDRESS, STREET),
+                    address.streets,
+                    2,
+                    min(3, streets.size),
+                ) { index, streetParam, streetId ->
+                    selectElement(
+                        state,
+                        "${index + 1}.Street",
+                        streetParam,
+                        streets,
+                        streetId,
+                    )
+                    streets.removeIf { it.id == streetId }
+                }
+            }
 
-        NoAddress -> doNothing()
-        is StreetAddress -> {
-            selectElement(state, combine(ADDRESS, STREET), streets, address.street)
-            selectHouseNumber(
+            NoAddress -> doNothing()
+            is StreetAddress -> {
+                selectElement(state, combine(ADDRESS, STREET), streets, address.street)
+                selectHouseNumber(
+                    address.houseNumber,
+                    getHouseNumbersUsedByOthers(state.getBuildingsForPosition(building.position), address),
+                )
+            }
+
+            is TownAddress -> selectHouseNumber(
                 address.houseNumber,
                 getHouseNumbersUsedByOthers(state.getBuildingsForPosition(building.position), address),
             )
         }
-
-        is TownAddress -> selectHouseNumber(
-            address.houseNumber,
-            getHouseNumbersUsedByOthers(state.getBuildingsForPosition(building.position), address),
-        )
     }
 }
 
-private fun FORM.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Set<Int>) {
+private fun HtmlBlockTag.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Set<Int>) {
     val numbers = (1..1000).toList() - usedHouseNumbers
 
     selectValue("House Number", combine(ADDRESS, NUMBER), numbers) { number ->

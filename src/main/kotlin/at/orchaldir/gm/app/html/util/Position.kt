@@ -87,7 +87,7 @@ fun FORM.selectPositionHistory(
     label: String = POSITION,
     getTiles: (TownMapId) -> List<Int> = { emptyList() },
 ) = selectHistory(state, HOME, history, label, startDate, null) { state, param, position, date ->
-    selectPosition(
+    selectPositionIntern(
         state,
         param,
         position,
@@ -99,6 +99,28 @@ fun FORM.selectPositionHistory(
 }
 
 fun HtmlBlockTag.selectPosition(
+    state: State,
+    param: String,
+    position: Position,
+    start: Date?,
+    allowedTypes: Collection<PositionType>,
+    noun: String = POSITION,
+    getTiles: (TownMapId) -> List<Int> = { emptyList() },
+) {
+    showDetails(noun, true) {
+        selectPositionIntern(
+            state,
+            param,
+            position,
+            start,
+            allowedTypes,
+            "Type",
+            getTiles,
+        )
+    }
+}
+
+private fun HtmlBlockTag.selectPositionIntern(
     state: State,
     param: String,
     position: Position,

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import io.ktor.http.*
 import io.ktor.server.util.*
 import kotlinx.html.*
+import kotlin.math.max
 
 // show
 
@@ -281,14 +282,15 @@ private fun HtmlBlockTag.selectString(
 private fun HtmlBlockTag.selectString(
     text: String,
     param: String,
-    min: Int = 1,
-    max: Int? = null,
+    minLength: Int = 1,
+    maxLength: Int? = null,
 ) {
+    val size = max(text.length + 5, maxLength ?: 20)
+
     textInput(name = param) {
-        minLength = "$min"
-        if (max != null) {
-            maxLength = "$max"
-        }
+        this.minLength = "$minLength"
+        this.maxLength = "$size"
+        this.size = "$size"
         value = text
         onChange = ON_CHANGE_SCRIPT
     }

@@ -27,27 +27,30 @@ fun HtmlBlockTag.showBuildingPurpose(
     building: Building,
 ) {
     val purpose = building.purpose
-    field("Purpose", purpose.getType())
 
-    when (purpose) {
-        is ApartmentHouse -> {
-            field("Apartments", purpose.apartments)
-            repeat(purpose.apartments) { i ->
-                fieldList(call, state, "${i + 1}.Apartment", state.getCharactersLivingInApartment(building.id, i))
+    showDetails("Purpose", true) {
+        field("Type", purpose.getType())
+
+        when (purpose) {
+            is ApartmentHouse -> {
+                field("Apartments", purpose.apartments)
+                repeat(purpose.apartments) { i ->
+                    fieldList(call, state, "${i + 1}.Apartment", state.getCharactersLivingInApartment(building.id, i))
+                }
             }
+
+            is BusinessAndHome -> {
+                fieldLink("Business", call, state, purpose.business)
+                showInhabitants(call, state, building)
+            }
+
+            is SingleBusiness -> fieldLink("Business", call, state, purpose.business)
+
+            is SingleFamilyHouse -> showInhabitants(call, state, building)
         }
 
-        is BusinessAndHome -> {
-            fieldLink("Business", call, state, purpose.business)
-            showInhabitants(call, state, building)
-        }
-
-        is SingleBusiness -> fieldLink("Business", call, state, purpose.business)
-
-        is SingleFamilyHouse -> showInhabitants(call, state, building)
+        fieldList(call, state, "Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id))
     }
-
-    fieldList(call, state, "Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id))
 }
 
 private fun HtmlBlockTag.showInhabitants(
@@ -59,25 +62,27 @@ private fun HtmlBlockTag.showInhabitants(
 }
 
 fun FORM.selectBuildingPurpose(state: State, building: Building) {
-    val purpose = building.purpose
-    val inhabitants = state.getCharactersLivingIn(building.id)
-    val availableBusinesses = state.getBusinessesWithoutBuilding() + purpose.getBusinesses()
+    showDetails("Purpose", true) {
+        val purpose = building.purpose
+        val inhabitants = state.getCharactersLivingIn(building.id)
+        val availableBusinesses = state.getBusinessesWithoutBuilding() + purpose.getBusinesses()
 
-    selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, purpose.getType()) { type ->
-        (!type.isHome() && inhabitants.isNotEmpty()) || (type.isBusiness() && availableBusinesses.isEmpty())
-    }
-
-    when (purpose) {
-        is ApartmentHouse -> {
-            val min = state.getMinNumberOfApartment(building.id)
-            selectInt("Apartments", purpose.apartments, min, 1000, 1, combine(PURPOSE, NUMBER))
+        selectValue("Type", PURPOSE, BuildingPurposeType.entries, purpose.getType()) { type ->
+            (!type.isHome() && inhabitants.isNotEmpty()) || (type.isBusiness() && availableBusinesses.isEmpty())
         }
 
-        is BusinessAndHome -> selectBusiness(availableBusinesses, state, purpose.business)
+        when (purpose) {
+            is ApartmentHouse -> {
+                val min = state.getMinNumberOfApartment(building.id)
+                selectInt("Apartments", purpose.apartments, min, 1000, 1, combine(PURPOSE, NUMBER))
+            }
 
-        is SingleBusiness -> selectBusiness(availableBusinesses, state, purpose.business)
+            is BusinessAndHome -> selectBusiness(availableBusinesses, state, purpose.business)
 
-        SingleFamilyHouse -> doNothing()
+            is SingleBusiness -> selectBusiness(availableBusinesses, state, purpose.business)
+
+            SingleFamilyHouse -> doNothing()
+        }
     }
 }
 
