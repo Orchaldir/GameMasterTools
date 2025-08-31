@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
@@ -149,7 +150,7 @@ class BuildingTest {
     }
 
     @Nested
-    inner class DeleteBuildingTileTest {
+    inner class DeleteBuildingTest {
 
         private val building = Building(BUILDING_ID_0, position = InTownMap(TOWN_MAP_ID_0, 0))
         private val town = TownMap(TOWN_MAP_ID_0, map = TileMap2d(BUILDING_TILE_0))
@@ -233,6 +234,15 @@ class BuildingTest {
             val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, housingStatus = housingStatus)))
 
             assertIllegalArgument("Cannot delete Building 0, because it had inhabitants!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a building used as a position`() {
+            val state = state.updateStorage(Storage(Business(BUSINESS_ID_0, position = InBuilding(BUILDING_ID_0))))
+
+            assertIllegalArgument("Cannot delete Building 0, because is used as a position!") {
                 REDUCER.invoke(state, action)
             }
         }

@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.getBuildingsForPosition
+import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 import at.orchaldir.gm.core.selector.world.getBuildingsForStreet
 import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment
 import at.orchaldir.gm.core.selector.world.getStreetIds
@@ -51,6 +52,7 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 
     validateCanDelete(state.getCharactersLivingIn(id).isEmpty(), id, "it has inhabitants")
     validateCanDelete(state.getCharactersPreviouslyLivingIn(id).isEmpty(), id, "it had inhabitants")
+    validateCanDelete(state.hasNoHasPositionsIn(id), id, "is used as a position")
 
     val building = state.getBuildingStorage().getOrThrow(id)
 
