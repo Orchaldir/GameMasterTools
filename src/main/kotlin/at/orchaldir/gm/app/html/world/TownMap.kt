@@ -47,14 +47,28 @@ fun HtmlBlockTag.showBuildingsOfTownMap(
     call: ApplicationCall,
     state: State,
     townMap: TownMapId,
+    town: TownId? = null,
 ) {
-    val buildings = state.getBuildings(townMap)
+    val buildingsInMap = state.getBuildings(townMap)
+    val buildingsInTown = if (town != null) {
+        state.getBuildings(town)
+    } else {
+        emptyList()
+    }
+    val buildings = buildingsInMap + buildingsInTown
 
     h2 { +"Buildings" }
 
-    showDetails("Buildings") {
-        showList(state.sortBuildings(buildings)) { (building, name) ->
+    showDetails("Buildings in Map") {
+        showList(state.sortBuildings(buildingsInMap)) { (building, name) ->
             link(call, building.id, name)
+        }
+    }
+    if (town != null) {
+        showDetails("Buildings in Town") {
+            showList(state.sortBuildings(buildingsInTown)) { (building, name) ->
+                link(call, building.id, name)
+            }
         }
     }
 
