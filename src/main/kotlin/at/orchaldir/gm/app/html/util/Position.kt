@@ -28,20 +28,20 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-private const val POSITION = "Position"
+private const val POSITION_TEXT = "Position"
 
 fun HtmlBlockTag.showPositionHistory(
     call: ApplicationCall,
     state: State,
     history: History<Position>,
-    label: String = POSITION,
+    label: String = POSITION_TEXT,
 ) = showHistory(call, state, history, label, HtmlBlockTag::showPosition)
 
 fun HtmlBlockTag.fieldPosition(
     call: ApplicationCall,
     state: State,
     position: Position,
-    label: String = POSITION,
+    label: String = POSITION_TEXT,
 ) {
     field(label) {
         showPosition(call, state, position)
@@ -104,7 +104,7 @@ fun HtmlBlockTag.selectPosition(
     position: Position,
     start: Date?,
     allowedTypes: Collection<PositionType>,
-    noun: String = POSITION,
+    noun: String = POSITION_TEXT,
     getTiles: (TownMapId) -> List<Int> = { emptyList() },
 ) {
     showDetails(noun, true) {
@@ -126,7 +126,7 @@ private fun HtmlBlockTag.selectPositionIntern(
     position: Position,
     start: Date?,
     allowedTypes: Collection<PositionType>,
-    noun: String = POSITION,
+    noun: String = POSITION_TEXT,
     getTiles: (TownMapId) -> List<Int> = { emptyList() },
 ) {
     val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
@@ -229,7 +229,7 @@ private fun HtmlBlockTag.selectPositionIntern(
 fun parsePositionHistory(parameters: Parameters, state: State, startDate: Date) =
     parseHistory(parameters, HOME, state, startDate, ::parsePosition)
 
-fun parsePosition(parameters: Parameters, state: State, param: String): Position {
+fun parsePosition(parameters: Parameters, state: State, param: String = POSITION): Position {
     return when (parse(parameters, param, PositionType.Undefined)) {
         PositionType.Apartment -> InApartment(
             parseBuildingId(

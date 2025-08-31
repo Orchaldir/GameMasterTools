@@ -1,12 +1,14 @@
 package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.ALLOWED_BUSINESS_POSITIONS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.selector.character.getEmployees
@@ -30,6 +32,7 @@ fun HtmlBlockTag.showBusiness(
     val published = state.getTextsPublishedBy(business.id)
 
     state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
+    fieldPosition(call, state, business.position)
     optionalField(call, state, "Start", business.startDate())
     fieldAge("Age", state, business.startDate())
     fieldReference(call, state, business.founder, "Founder")
@@ -51,6 +54,7 @@ fun FORM.editBusiness(
     business: Business,
 ) {
     selectName(business.name)
+    selectPosition(state, POSITION, business.position, business.startDate(), ALLOWED_BUSINESS_POSITIONS)
     selectOptionalDate(state, "Start", business.startDate(), DATE)
     selectCreator(state, business.founder, business.id, business.startDate(), "Founder")
     selectOwnership(state, business.ownership, business.startDate())
@@ -72,6 +76,7 @@ fun parseBusiness(parameters: Parameters, state: State, id: BusinessId): Busines
         startDate,
         parseCreator(parameters),
         parseOwnership(parameters, state, startDate),
+        parsePosition(parameters, state),
         parseDataSources(parameters),
     )
 }
