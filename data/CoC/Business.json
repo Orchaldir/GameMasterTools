@@ -9,6 +9,10 @@
      "type": "Town",
      "town": 0
     }
+   },
+   "position": {
+    "type": "Building",
+    "building": 33
    }
   },
   "1": {
@@ -19,6 +23,10 @@
      "type": "Town",
      "town": 0
     }
+   },
+   "position": {
+    "type": "Building",
+    "building": 3
    }
   },
   "2": {
@@ -33,6 +41,10 @@
      "type": "Character",
      "character": 8
     }
+   },
+   "position": {
+    "type": "Building",
+    "building": 9
    }
   },
   "3": {
@@ -47,6 +59,10 @@
      "type": "Character",
      "character": 9
     }
+   },
+   "position": {
+    "type": "Building",
+    "building": 66
    }
   },
   "4": {
@@ -61,6 +77,10 @@
      "type": "Character",
      "character": 2
     }
+   },
+   "position": {
+    "type": "Building",
+    "building": 35
    }
   },
   "5": {
@@ -71,6 +91,10 @@
      "type": "Character",
      "character": 12
     }
+   },
+   "position": {
+    "type": "Building",
+    "building": 72
    }
   },
   "6": {
@@ -81,6 +105,10 @@
      "type": "Town",
      "town": 0
     }
+   },
+   "position": {
+    "type": "Building",
+    "building": 70
    }
   },
   "7": {
@@ -91,6 +119,10 @@
      "type": "Town",
      "town": 0
     }
+   },
+   "position": {
+    "type": "Building",
+    "building": 32
    }
   },
   "8": {
@@ -101,6 +133,10 @@
      "type": "Character",
      "character": 16
     }
+   },
+   "position": {
+    "type": "Building",
+    "building": 13
    }
   },
   "9": {

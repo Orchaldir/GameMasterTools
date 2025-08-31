@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.util.countBuildingsIn
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortTownMaps
 import at.orchaldir.gm.core.selector.world.*
@@ -131,7 +132,7 @@ private fun HTML.showAllTownMaps(
                     tdLink(call, state, townMap)
                     tdLink(call, state, townMap.town)
                     td { showOptionalDate(call, state, townMap.date) }
-                    tdSkipZero(state.countBuildings(townMap.id))
+                    tdSkipZero(state.countBuildingsIn(townMap.id))
                     tdSkipZero(state.countResident(townMap.id))
                 }
             }

@@ -65,8 +65,9 @@ fun HtmlBlockTag.showPosition(
             )
         }
 
-        is InDistrict -> link(call, state, position.district)
         is InBuilding -> link(call, state, position.building)
+        is InDistrict -> link(call, state, position.district)
+        is InHome -> link(call, state, position.building)
         is InPlane -> link(call, state, position.plane)
         is InRealm -> link(call, state, position.realm)
         is InTown -> link(call, state, position.town)
@@ -131,6 +132,7 @@ private fun HtmlBlockTag.selectPositionIntern(
 ) {
     val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
     val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
+    val buildings = state.sortBuildings(state.getExistingElements(state.getBuildingStorage(), start))
     val districts = state.sortDistricts(state.getExistingElements(state.getDistrictStorage(), start))
     val planes = state.sortPlanes(state.getPlaneStorage().getAll())
     val realms = state.sortRealms(state.getExistingElements(state.getRealmStorage(), start))
@@ -142,8 +144,9 @@ private fun HtmlBlockTag.selectPositionIntern(
             PositionType.Undefined -> false
             PositionType.Apartment -> apartments.isEmpty()
             PositionType.District -> districts.isEmpty()
+            PositionType.Home -> homes.isEmpty()
             PositionType.Homeless -> false
-            PositionType.Building -> homes.isEmpty()
+            PositionType.Building -> buildings.isEmpty()
             PositionType.Plane -> planes.isEmpty()
             PositionType.Realm -> realms.isEmpty()
             PositionType.Town -> towns.isEmpty()
@@ -154,7 +157,12 @@ private fun HtmlBlockTag.selectPositionIntern(
         UndefinedPosition -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
-            selectElement("Apartment House", combine(param, BUILDING), apartments, position.building)
+            selectElement(
+                "Apartment House",
+                combine(param, BUILDING),
+                apartments,
+                position.building,
+            )
 
             val apartmentHouse = state.getBuildingStorage().getOrThrow(position.building)
 
@@ -178,6 +186,13 @@ private fun HtmlBlockTag.selectPositionIntern(
         )
 
         is InBuilding -> selectElement(
+            "Building",
+            combine(param, BUILDING),
+            buildings,
+            position.building,
+        )
+
+        is InHome -> selectElement(
             "Home",
             combine(param, BUILDING),
             homes,
@@ -239,46 +254,36 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
             parseInt(parameters, combine(param, NUMBER)),
         )
 
-        PositionType.District -> InDistrict(
-            parseDistrictId(
-                parameters,
-                combine(param, DISTRICT),
-            )
+        PositionType.Building -> InBuilding(
+            parseBuildingId(parameters, combine(param, BUILDING)),
         )
 
-        PositionType.Building -> InBuilding(
+        PositionType.District -> InDistrict(
+            parseDistrictId(parameters, combine(param, DISTRICT)),
+        )
+
+        PositionType.Home -> InBuilding(
             parseBuildingId(
                 parameters,
                 combine(param, BUILDING),
                 state.getHomes().minOfOrNull { it.id.value } ?: 0),
         )
 
+
         PositionType.Plane -> InPlane(
-            parsePlaneId(
-                parameters,
-                combine(param, PLANE),
-            )
+            parsePlaneId(parameters, combine(param, PLANE)),
         )
 
         PositionType.Realm -> InRealm(
-            parseRealmId(
-                parameters,
-                combine(param, REALM),
-            )
+            parseRealmId(parameters, combine(param, REALM)),
         )
 
         PositionType.Town -> InTown(
-            parseTownId(
-                parameters,
-                combine(param, TOWN),
-            )
+            parseTownId(parameters, combine(param, TOWN)),
         )
 
         PositionType.TownMap -> InTownMap(
-            parseTownMapId(
-                parameters,
-                combine(param, TOWN),
-            ),
+            parseTownMapId(parameters, combine(param, TOWN)),
             parseInt(parameters, combine(param, TILE)),
         )
 

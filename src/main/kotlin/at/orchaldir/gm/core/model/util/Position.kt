@@ -13,9 +13,10 @@ import kotlinx.serialization.Serializable
 enum class PositionType {
     Undefined,
     Apartment,
+    Building,
     District,
     Homeless,
-    Building,
+    Home,
     Plane,
     Realm,
     Town,
@@ -30,6 +31,7 @@ sealed class Position {
         is InApartment -> PositionType.Apartment
         is InBuilding -> PositionType.Building
         is InDistrict -> PositionType.District
+        is InHome -> PositionType.Home
         is InPlane -> PositionType.Plane
         is InRealm -> PositionType.Realm
         is InTown -> PositionType.Town
@@ -40,8 +42,9 @@ sealed class Position {
     fun getId() = when (this) {
         Homeless -> null
         is InApartment -> building
-        is InDistrict -> district
         is InBuilding -> building
+        is InDistrict -> district
+        is InHome -> building
         is InPlane -> plane
         is InRealm -> realm
         is InTown -> town
@@ -57,14 +60,16 @@ sealed class Position {
     fun getBuilding() = when (this) {
         is InApartment -> building
         is InBuilding -> building
+        is InHome -> building
         else -> null
     }
 
     fun <ID : Id<ID>> isIn(id: ID) = when (this) {
         Homeless -> false
         is InApartment -> building == id
-        is InDistrict -> district == id
         is InBuilding -> building == id
+        is InDistrict -> district == id
+        is InHome -> building == id
         is InPlane -> plane == id
         is InRealm -> realm == id
         is InTown -> town == id
@@ -118,6 +123,15 @@ data class InBuilding(val building: BuildingId) : Position() {
 data class InDistrict(val district: DistrictId) : Position() {
 
     override fun isIn(district: DistrictId) = this.district == district
+
+}
+
+@Serializable
+@SerialName("Home")
+data class InHome(val building: BuildingId) : Position() {
+
+    override fun isIn(building: BuildingId) = isInBuilding(building)
+    override fun isInBuilding(building: BuildingId) = this.building == building
 
 }
 

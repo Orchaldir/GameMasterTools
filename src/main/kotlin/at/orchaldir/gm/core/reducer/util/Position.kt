@@ -38,9 +38,10 @@ fun checkPosition(
             }
         }
 
+        is InBuilding -> state.requireExists(state.getBuildingStorage(), position.building, date) { noun }
         is InDistrict -> state.requireExists(state.getDistrictStorage(), position.district, date) { noun }
 
-        is InBuilding -> {
+        is InHome -> {
             val building = state
                 .requireExists(state.getBuildingStorage(), position.building, date) { noun }
 
