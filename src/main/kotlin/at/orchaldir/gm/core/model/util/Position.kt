@@ -113,7 +113,7 @@ data class InDistrict(val district: DistrictId) : Position() {
 }
 
 @Serializable
-@SerialName("House")
+@SerialName("Building")
 data class InBuilding(val building: BuildingId) : Position() {
 
     override fun isIn(building: BuildingId) = isInBuilding(building)
