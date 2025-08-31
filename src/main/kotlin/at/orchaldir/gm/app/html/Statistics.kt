@@ -29,7 +29,6 @@ import at.orchaldir.gm.core.selector.util.countEachCreator
 import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle
 import at.orchaldir.gm.core.selector.world.countEachPurpose
 import at.orchaldir.gm.core.selector.world.countEachStreetTemplate
-import at.orchaldir.gm.core.selector.world.countEachTown
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -179,12 +178,6 @@ fun HtmlBlockTag.showStreetTemplateCount(
     state: State,
     townMap: TownMapId,
 ) = showCount(call, state, "Street Templates", state.countEachStreetTemplate(townMap))
-
-fun HtmlBlockTag.showTownCount(
-    call: ApplicationCall,
-    state: State,
-    buildings: Collection<Building>,
-) = showCount(call, state, "Towns", countEachTown(buildings))
 
 fun <ID : Id<ID>> HtmlBlockTag.showCount(
     call: ApplicationCall,

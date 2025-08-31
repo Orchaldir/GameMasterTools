@@ -4,7 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.util.InPlane
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -61,6 +63,16 @@ class PlaneTest {
             val action = DeletePlane(UNKNOWN_PLANE_ID)
 
             assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete a plane used as a position`() {
+            val plane = Business(BUSINESS_ID_0, position = InPlane(PLANE_ID_0))
+            val newState = state.updateStorage(Storage(plane))
+
+            assertIllegalArgument("Cannot delete Plane 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
         }
     }
 

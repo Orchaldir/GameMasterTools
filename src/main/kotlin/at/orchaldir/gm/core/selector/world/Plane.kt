@@ -8,11 +8,13 @@ import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getStartYear
+import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 import at.orchaldir.gm.utils.doNothing
 
 fun State.canDeletePlane(plane: PlaneId) = getDemiplanes(plane).isEmpty()
         && getReflections(plane).isEmpty()
         && getMoons(plane).isEmpty()
+        && hasNoHasPositionsIn(plane)
 
 // count
 

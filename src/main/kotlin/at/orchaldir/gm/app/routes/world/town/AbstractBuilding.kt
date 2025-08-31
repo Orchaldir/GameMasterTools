@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.action.AddAbstractBuilding
 import at.orchaldir.gm.core.action.RemoveAbstractBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.*
-import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.visualizeTown
@@ -116,7 +116,7 @@ fun visualizeAbstractBuildingEditor(
     size: MapSize2d,
 ): Svg {
     return visualizeTown(
-        town, state.getBuildings(town.id),
+        town, state.getBuildingsIn(town.id),
         tileLinkLookup = { index, tile ->
             when (tile.construction) {
                 NoConstruction -> call.application.href(Add(town.id, index, size))

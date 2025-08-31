@@ -72,7 +72,7 @@ fun HtmlBlockTag.showData(
     field(call, state, "Birthdate", character.birthDate)
     showVitalStatus(call, state, character.vitalStatus)
     showAge(state, character, race)
-    showHousingStatusHistory(call, state, character.housingStatus)
+    showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     showDestroyed(call, state, character.id)
     fieldList(call, state, "Led Battles", state.getBattlesLedBy(character.id))
@@ -236,7 +236,13 @@ fun FORM.editCharacter(
         VALID_CAUSES_FOR_CHARACTERS,
     )
     showAge(state, character, race)
-    selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
+    selectPositionHistory(
+        state,
+        character.housingStatus,
+        character.birthDate,
+        ALLOWED_HOUSING_TYPES,
+        "Housing Status",
+    )
     selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
 
     h2 { +"Social" }
@@ -355,7 +361,7 @@ fun parseCharacter(
         vitalStatus = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
         personality = parsePersonality(parameters),
-        housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
+        housingStatus = parsePositionHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
         title = parseOptionalTitleId(parameters, TITLE),

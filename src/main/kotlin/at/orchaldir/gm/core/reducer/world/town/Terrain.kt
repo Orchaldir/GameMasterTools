@@ -3,10 +3,11 @@ package at.orchaldir.gm.core.reducer.world.town
 import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.*
-import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -25,14 +26,18 @@ val RESIZE_TERRAIN: Reducer<ResizeTerrain, State> = { state, action ->
 
     val newTileMap = oldMap.map.resize(action.resize, tile)
     val newMap = oldMap.copy(map = newTileMap)
-    val newBuildings = state.getBuildings(action.town)
+    val newBuildings = state.getBuildingsIn(action.town)
         .map { building ->
-            val newIndex = oldMap.map.getIndexAfterResize(building.lot.tileIndex, action.resize)
+            if (building.position is InTownMap) {
+                val newIndex = oldMap.map.getIndexAfterResize(building.position.tileIndex, action.resize)
 
-            if (newIndex != null) {
-                building.copy(lot = building.lot.copy(tileIndex = newIndex))
+                if (newIndex != null) {
+                    building.copy(position = building.position.copy(tileIndex = newIndex))
+                } else {
+                    error("Resize would remove building ${building.id.value}!")
+                }
             } else {
-                error("Resize would remove building ${building.id.value}!")
+                error("Resize requires InTownMap!")
             }
         }
 

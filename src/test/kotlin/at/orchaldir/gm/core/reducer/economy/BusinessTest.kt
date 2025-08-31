@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.SingleBusiness
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -58,15 +57,6 @@ class BusinessTest {
 
             assertIllegalArgument("Cannot delete Business 0, because of owned elements (Building)!") {
                 REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a business used by a building`() {
-            val state = createState(Building(BUILDING_ID_0, purpose = SingleBusiness(BUSINESS_ID_0)))
-
-            assertIllegalArgument("Cannot delete Business 0, because it has a building!") {
-                REDUCER.invoke(state, action)
             }
         }
 
@@ -133,6 +123,13 @@ class BusinessTest {
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Character 0 as Founder!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `In unknown building`() {
+            val action = UpdateBusiness(Business(BUSINESS_ID_0, position = InBuilding(UNKNOWN_BUILDING_ID)))
+
+            assertIllegalArgument("Requires unknown position!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

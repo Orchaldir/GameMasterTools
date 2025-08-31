@@ -10,6 +10,14 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val BUSINESS_TYPE = "Business"
+val ALLOWED_BUSINESS_POSITIONS = listOf(
+    PositionType.Undefined,
+    PositionType.Building,
+    PositionType.District,
+    PositionType.Plane,
+    PositionType.Realm,
+    PositionType.Town,
+)
 
 @JvmInline
 @Serializable
@@ -29,14 +37,16 @@ data class Business(
     private val startDate: Date? = null,
     val founder: Reference = UndefinedReference,
     val ownership: History<Reference> = History(UndefinedReference),
+    val position: Position = UndefinedPosition,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<BusinessId>, Creation, HasDataSources, HasOwner, HasStartDate {
+) : ElementWithSimpleName<BusinessId>, Creation, HasDataSources, HasOwner, HasPosition, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = founder
     override fun sources() = sources
     override fun owner() = ownership
+    override fun position() = position
     override fun startDate() = startDate
 
 }

@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.getExistingElements
+import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
 import at.orchaldir.gm.utils.Id
@@ -25,6 +26,7 @@ fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
         && getPreviousSubRealms(realm).isEmpty()
         && getOwnedTowns(realm).isEmpty()
         && getPreviousOwnedTowns(realm).isEmpty()
+        && hasNoHasPositionsIn(realm)
 
 // count
 

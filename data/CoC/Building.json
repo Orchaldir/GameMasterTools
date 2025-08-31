@@ -3,7 +3,9 @@
  "elements": {
   "3": {
    "id": 3,
-   "lot": {
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
     "tileIndex": 146
    },
    "ownership": {
@@ -13,13 +15,14 @@
     }
    },
    "purpose": {
-    "type": "SingleBusiness",
-    "business": 1
+    "type": "SingleBusiness"
    }
   },
   "9": {
    "id": 9,
-   "lot": {
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
     "tileIndex": 220
    },
    "ownership": {
@@ -29,18 +32,19 @@
     }
    },
    "purpose": {
-    "type": "BusinessAndHome",
-    "business": 2
+    "type": "BusinessAndHome"
    }
   },
   "13": {
    "id": 13,
-   "lot": {
-    "tileIndex": 169,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
+    "tileIndex": 169
+   },
+   "size": {
+    "width": 2,
+    "height": 1
    },
    "ownership": {
     "current": {
@@ -49,18 +53,19 @@
     }
    },
    "purpose": {
-    "type": "SingleBusiness",
-    "business": 8
+    "type": "SingleBusiness"
    }
   },
   "32": {
    "id": 32,
-   "lot": {
-    "tileIndex": 263,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
+    "tileIndex": 263
+   },
+   "size": {
+    "width": 2,
+    "height": 1
    },
    "ownership": {
     "current": {
@@ -69,18 +74,19 @@
     }
    },
    "purpose": {
-    "type": "SingleBusiness",
-    "business": 7
+    "type": "SingleBusiness"
    }
   },
   "33": {
    "id": 33,
-   "lot": {
-    "tileIndex": 211,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
+    "tileIndex": 211
+   },
+   "size": {
+    "width": 2,
+    "height": 1
    },
    "ownership": {
     "current": {
@@ -89,14 +95,15 @@
     }
    },
    "purpose": {
-    "type": "SingleBusiness",
-    "business": 0
+    "type": "SingleBusiness"
    }
   },
   "35": {
    "id": 35,
    "name": "Dr Owen Perry's Home and Practice",
-   "lot": {
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
     "tileIndex": 313
    },
    "ownership": {
@@ -106,14 +113,15 @@
     }
    },
    "purpose": {
-    "type": "BusinessAndHome",
-    "business": 4
+    "type": "BusinessAndHome"
    }
   },
   "52": {
    "id": 52,
    "name": "Home of John Cutter",
-   "lot": {
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
     "tileIndex": 460
    },
    "ownership": {
@@ -136,12 +144,14 @@
   },
   "66": {
    "id": 66,
-   "lot": {
-    "tileIndex": 449,
-    "size": {
-     "width": 2,
-     "height": 1
-    }
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
+    "tileIndex": 449
+   },
+   "size": {
+    "width": 2,
+    "height": 1
    },
    "ownership": {
     "current": {
@@ -150,13 +160,14 @@
     }
    },
    "purpose": {
-    "type": "BusinessAndHome",
-    "business": 3
+    "type": "BusinessAndHome"
    }
   },
   "70": {
    "id": 70,
-   "lot": {
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
     "tileIndex": 549
    },
    "ownership": {
@@ -166,18 +177,19 @@
     }
    },
    "purpose": {
-    "type": "SingleBusiness",
-    "business": 6
+    "type": "SingleBusiness"
    }
   },
   "72": {
    "id": 72,
-   "lot": {
-    "tileIndex": 560,
-    "size": {
-     "width": 3,
-     "height": 2
-    }
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
+    "tileIndex": 560
+   },
+   "size": {
+    "width": 3,
+    "height": 2
    },
    "ownership": {
     "current": {
@@ -186,14 +198,15 @@
     }
    },
    "purpose": {
-    "type": "BusinessAndHome",
-    "business": 5
+    "type": "BusinessAndHome"
    }
   },
   "74": {
    "id": 74,
    "name": "Home of Family Karner",
-   "lot": {
+   "position": {
+    "type": "TownMap",
+    "townMap": 0,
     "tileIndex": 168
    },
    "ownership": {

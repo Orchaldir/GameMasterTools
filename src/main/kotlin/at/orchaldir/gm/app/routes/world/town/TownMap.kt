@@ -14,8 +14,13 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.util.countBuildingsIn
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortTownMaps
-import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.core.selector.world.canDeleteTownMap
+import at.orchaldir.gm.core.selector.world.getRegions
+import at.orchaldir.gm.core.selector.world.getRivers
+import at.orchaldir.gm.core.selector.world.getStreets
 import at.orchaldir.gm.visualization.town.getStreetTemplateFill
 import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown
@@ -130,7 +135,7 @@ private fun HTML.showAllTownMaps(
                     tdLink(call, state, townMap)
                     tdLink(call, state, townMap.town)
                     td { showOptionalDate(call, state, townMap.date) }
-                    tdSkipZero(state.countBuildings(townMap.id))
+                    tdSkipZero(state.countBuildingsIn(townMap.id))
                     tdSkipZero(state.countResident(townMap.id))
                 }
             }
@@ -211,7 +216,7 @@ private fun visualizeTownWithLinks(
     state: State,
     town: TownMap,
 ) = visualizeTown(
-    town, state.getBuildings(town.id),
+    town, state.getBuildingsIn(town.id),
     tileTooltipLookup = showTerrainName(state),
     buildingLinkLookup = { building ->
         call.application.href(BuildingRoutes.Details(building.id))

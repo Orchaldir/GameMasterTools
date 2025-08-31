@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -119,7 +119,7 @@ fun visualizeStreetEditor(
     selectedType: StreetTemplateId,
     selectedStreet: StreetId?,
 ) = visualizeTown(
-    townMap, state.getBuildings(townMap.id),
+    townMap, state.getBuildingsIn(townMap.id),
     tileLinkLookup = { index, tile ->
         if (tile.canBuild()) {
             call.application.href(TownMapRoutes.StreetRoutes.Add(townMap.id, index, selectedType, selectedStreet))

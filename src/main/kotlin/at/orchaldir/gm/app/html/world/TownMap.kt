@@ -21,10 +21,10 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getResidents
 import at.orchaldir.gm.core.selector.character.getWorkingIn
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortTowns
-import at.orchaldir.gm.core.selector.world.getBuildings
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -47,14 +47,28 @@ fun HtmlBlockTag.showBuildingsOfTownMap(
     call: ApplicationCall,
     state: State,
     townMap: TownMapId,
+    town: TownId? = null,
 ) {
-    val buildings = state.getBuildings(townMap)
+    val buildingsInMap = state.getBuildingsIn(townMap)
+    val buildingsInTown = if (town != null) {
+        state.getBuildingsIn(town)
+    } else {
+        emptyList()
+    }
+    val buildings = buildingsInMap + buildingsInTown
 
     h2 { +"Buildings" }
 
-    showDetails("Buildings") {
-        showList(state.sortBuildings(buildings)) { (building, name) ->
+    showDetails("Buildings in Map") {
+        showList(state.sortBuildings(buildingsInMap)) { (building, name) ->
             link(call, building.id, name)
+        }
+    }
+    if (town != null) {
+        showDetails("Buildings in Town") {
+            showList(state.sortBuildings(buildingsInTown)) { (building, name) ->
+                link(call, building.id, name)
+            }
         }
     }
 
