@@ -486,10 +486,10 @@ class BuildingTest {
                         )
                     )
                 )
-                val newBuilding = building.copy(purpose = BusinessAndHome(BUSINESS_ID_0))
+                val newBuilding = building.copy(purpose = BusinessAndHome)
 
                 assertEquals(
-                    BusinessAndHome(BUSINESS_ID_0),
+                    BusinessAndHome,
                     REDUCER.invoke(state, UpdateBuilding(newBuilding)).first.getBuildingStorage()
                         .getOrThrow(BUILDING_ID_0).purpose
                 )

@@ -381,7 +381,7 @@ class CharacterTest {
             @Test
             fun `Cannot use unknown building as home`() {
                 val action =
-                    UpdateCharacter(Character(CHARACTER_ID_0, housingStatus = History(InBuilding(BUILDING_ID_0))))
+                    UpdateCharacter(Character(CHARACTER_ID_0, housingStatus = History(InHome(BUILDING_ID_0))))
 
                 assertIllegalArgument("Requires unknown home!") { REDUCER.invoke(STATE, action) }
             }

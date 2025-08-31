@@ -62,15 +62,6 @@ class BusinessTest {
         }
 
         @Test
-        fun `Cannot delete a business used by a building`() {
-            val state = createState(Building(BUILDING_ID_0, purpose = SingleBusiness(BUSINESS_ID_0)))
-
-            assertIllegalArgument("Cannot delete Business 0, because it has a building!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
         fun `Cannot delete a business where a character is employed`() {
             val state =
                 createState(Character(CHARACTER_ID_0, employmentStatus = History(Employed(BUSINESS_ID_0, JobId(0)))))
@@ -133,6 +124,13 @@ class BusinessTest {
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown Character 0 as Founder!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `In unknown building`() {
+            val action = UpdateBusiness(Business(BUSINESS_ID_0, position = InBuilding(UNKNOWN_BUILDING_ID)))
+
+            assertIllegalArgument("Requires unknown position!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
