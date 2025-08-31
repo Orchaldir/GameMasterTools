@@ -1,13 +1,7 @@
 package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.HasPosition
-import at.orchaldir.gm.core.model.util.InDistrict
-import at.orchaldir.gm.core.model.util.InPlane
-import at.orchaldir.gm.core.model.util.InRealm
-import at.orchaldir.gm.core.model.util.InTown
-import at.orchaldir.gm.core.model.util.InTownMap
-import at.orchaldir.gm.core.model.util.Position
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

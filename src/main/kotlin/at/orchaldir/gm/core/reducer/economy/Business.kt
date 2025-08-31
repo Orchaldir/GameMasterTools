@@ -6,11 +6,7 @@ import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.ALLOWED_BUSINESS_POSITIONS
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.checkOwnership
-import at.orchaldir.gm.core.reducer.util.checkPosition
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted

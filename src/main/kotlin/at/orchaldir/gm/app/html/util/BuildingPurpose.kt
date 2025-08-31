@@ -103,4 +103,4 @@ fun parseBuildingPurpose(parameters: Parameters): BuildingPurpose =
         BuildingPurposeType.BusinessAndHome -> BusinessAndHome
         BuildingPurposeType.SingleBusiness -> SingleBusiness
         BuildingPurposeType.SingleFamilyHouse -> SingleFamilyHouse
-}
+    }

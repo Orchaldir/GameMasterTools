@@ -11,11 +11,7 @@ import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.checkOwnership
-import at.orchaldir.gm.core.reducer.util.checkPosition
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.time.getCurrentDate

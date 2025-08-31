@@ -4,11 +4,7 @@ import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.ALLOWED_HOUSING_TYPES
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.SEXUAL_ORIENTATION_FOR_GENDERLESS
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.reducer.util.*

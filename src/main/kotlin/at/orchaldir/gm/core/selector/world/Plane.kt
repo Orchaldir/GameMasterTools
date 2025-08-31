@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.world.plane.*
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getStartYear
 import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn

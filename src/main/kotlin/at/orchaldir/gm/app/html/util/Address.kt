@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.world.parseStreetId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.util.getBuildingsForPosition

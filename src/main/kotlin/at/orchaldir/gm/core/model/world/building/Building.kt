@@ -52,6 +52,7 @@ data class Building(
         name != null -> {
             name.text
         }
+
         purpose is SingleBusiness -> businessName(state)
         purpose is BusinessAndHome -> businessName(state)
         else -> defaultName(state)

@@ -17,7 +17,10 @@ import at.orchaldir.gm.core.selector.character.countResident
 import at.orchaldir.gm.core.selector.util.countBuildingsIn
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortTownMaps
-import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.core.selector.world.canDeleteTownMap
+import at.orchaldir.gm.core.selector.world.getRegions
+import at.orchaldir.gm.core.selector.world.getRivers
+import at.orchaldir.gm.core.selector.world.getStreets
 import at.orchaldir.gm.visualization.town.getStreetTemplateFill
 import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown

@@ -1,8 +1,13 @@
 package at.orchaldir.gm.app.routes.world
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.HEIGHT
+import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.showAddress
+import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showPosition
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.html.world.editBuilding
 import at.orchaldir.gm.app.html.world.parseBuilding
 import at.orchaldir.gm.app.html.world.showBuilding
@@ -12,11 +17,13 @@ import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.SortBuilding
-import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.world.building.BUILDING_TYPE
+import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.character.countCharactersLivingInHouse
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
-import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.showSelectedBuilding

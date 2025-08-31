@@ -12,9 +12,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.util.*
@@ -219,6 +217,7 @@ private fun HtmlBlockTag.selectPositionIntern(
             towns,
             position.town,
         )
+
         is InTownMap -> {
             selectElement(
                 state,

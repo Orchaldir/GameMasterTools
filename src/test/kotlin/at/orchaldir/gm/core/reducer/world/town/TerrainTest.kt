@@ -14,7 +14,6 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.MapSize2d
-import at.orchaldir.gm.utils.map.MapSize2d.Companion.square
 import at.orchaldir.gm.utils.map.Resize
 import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested

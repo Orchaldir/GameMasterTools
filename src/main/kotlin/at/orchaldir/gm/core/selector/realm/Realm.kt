@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.getExistingElements

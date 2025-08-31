@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.SingleBusiness
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

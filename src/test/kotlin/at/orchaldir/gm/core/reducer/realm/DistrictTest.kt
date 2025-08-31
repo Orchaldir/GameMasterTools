@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.InBuilding
 import at.orchaldir.gm.core.model.util.InDistrict
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.name.Name
