@@ -83,6 +83,7 @@ fun FORM.selectPositionHistory(
     state: State,
     history: History<Position>,
     startDate: Date,
+    allowedTypes: Collection<PositionType>,
     label: String = POSITION,
     getTiles: (TownMapId) -> List<Int> = { emptyList() },
 ) = selectHistory(state, HOME, history, label, startDate, null) { state, param, position, date ->
@@ -91,6 +92,7 @@ fun FORM.selectPositionHistory(
         param,
         position,
         date,
+        allowedTypes,
         label,
         getTiles,
     )
@@ -101,6 +103,7 @@ fun HtmlBlockTag.selectPosition(
     param: String,
     position: Position,
     start: Date?,
+    allowedTypes: Collection<PositionType>,
     noun: String = POSITION,
     getTiles: (TownMapId) -> List<Int> = { emptyList() },
 ) {
@@ -112,7 +115,7 @@ fun HtmlBlockTag.selectPosition(
     val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
     val townMaps = state.sortTownMaps(state.getExistingElements(state.getTownMapStorage(), start))
 
-    selectValue(noun, param, PositionType.entries, position.getType()) { type ->
+    selectValue(noun, param, allowedTypes, position.getType()) { type ->
         when (type) {
             PositionType.Undefined -> false
             PositionType.Apartment -> apartments.isEmpty()

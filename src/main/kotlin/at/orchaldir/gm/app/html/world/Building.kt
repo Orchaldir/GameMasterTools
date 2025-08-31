@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.world.parseOptionalArchitecturalStyleId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.building.ALLOWED_BUILDING_POSITIONS
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.world.getPossibleStyles
@@ -41,7 +42,13 @@ fun FORM.editBuilding(
     building: Building,
 ) {
     selectOptionalName(building.name)
-    selectPosition(state, POSITION, building.position, building.constructionDate) { townMapId ->
+    selectPosition(
+        state,
+        POSITION,
+        building.position,
+        building.constructionDate,
+        ALLOWED_BUILDING_POSITIONS,
+    ) { townMapId ->
         val townMap = state.getTownMapStorage().getOrThrow(townMapId)
 
         (0..<townMap.map.size.tiles()).filter { index ->

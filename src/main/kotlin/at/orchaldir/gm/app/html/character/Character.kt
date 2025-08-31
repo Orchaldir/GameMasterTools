@@ -236,7 +236,13 @@ fun FORM.editCharacter(
         VALID_CAUSES_FOR_CHARACTERS,
     )
     showAge(state, character, race)
-    selectPositionHistory(state, character.housingStatus, character.birthDate, "Housing Status")
+    selectPositionHistory(
+        state,
+        character.housingStatus,
+        character.birthDate,
+        ALLOWED_HOUSING_TYPES,
+        "Housing Status",
+    )
     selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
 
     h2 { +"Social" }

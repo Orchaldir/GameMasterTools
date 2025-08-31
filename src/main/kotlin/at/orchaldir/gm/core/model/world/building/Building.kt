@@ -12,6 +12,14 @@ import at.orchaldir.gm.utils.math.length
 import kotlinx.serialization.Serializable
 
 const val BUILDING_TYPE = "Building"
+val ALLOWED_BUILDING_POSITIONS = listOf(
+    PositionType.Undefined,
+    PositionType.District,
+    PositionType.Plane,
+    PositionType.Realm,
+    PositionType.Town,
+    PositionType.TownMap,
+)
 
 @JvmInline
 @Serializable

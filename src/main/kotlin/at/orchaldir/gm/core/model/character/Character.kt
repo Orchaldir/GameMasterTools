@@ -33,15 +33,25 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val CHARACTER_TYPE = "Character"
+val ALLOWED_CHARACTER_AUTHENTICITY = listOf(
+    AuthenticityType.Undefined,
+    AuthenticityType.Authentic,
+    AuthenticityType.Secret,
+)
 val ALLOWED_CHARACTER_ORIGINS = listOf(
     OriginType.Born,
     OriginType.Created,
     OriginType.Undefined,
 )
-val ALLOWED_CHARACTER_AUTHENTICITY = listOf(
-    AuthenticityType.Undefined,
-    AuthenticityType.Authentic,
-    AuthenticityType.Secret,
+val ALLOWED_HOUSING_TYPES = listOf(
+    PositionType.Undefined,
+    PositionType.Apartment,
+    PositionType.District,
+    PositionType.Homeless,
+    PositionType.House,
+    PositionType.Plane,
+    PositionType.Realm,
+    PositionType.Town,
 )
 
 @JvmInline
