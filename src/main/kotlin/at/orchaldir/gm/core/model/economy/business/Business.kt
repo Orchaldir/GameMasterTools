@@ -39,13 +39,14 @@ data class Business(
     val ownership: History<Reference> = History(UndefinedReference),
     val position: Position = UndefinedPosition,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<BusinessId>, Creation, HasDataSources, HasOwner, HasStartDate {
+) : ElementWithSimpleName<BusinessId>, Creation, HasDataSources, HasOwner, HasPosition, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = founder
     override fun sources() = sources
     override fun owner() = ownership
+    override fun position() = position
     override fun startDate() = startDate
 
 }

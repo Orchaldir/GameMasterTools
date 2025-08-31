@@ -43,7 +43,7 @@ data class Building(
     val style: ArchitecturalStyleId? = null,
     val purpose: BuildingPurpose = SingleFamilyHouse,
     val builder: Reference = UndefinedReference,
-) : Element<BuildingId>, Creation, HasOwner, HasStartDate {
+) : Element<BuildingId>, Creation, HasOwner, HasPosition, HasStartDate {
 
     override fun id() = id
 
@@ -73,6 +73,7 @@ data class Building(
 
     override fun creator() = builder
     override fun owner() = ownership
+    override fun position() = position
     override fun startDate() = constructionDate
 
     fun address(state: State) = when (address) {

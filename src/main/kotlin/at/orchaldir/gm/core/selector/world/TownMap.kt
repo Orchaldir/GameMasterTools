@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.selector.util.getBuildings
 import at.orchaldir.gm.core.selector.util.getStartDateComparator
 
 fun State.canDeleteTownMap(town: TownMapId) = getBuildings(town).isEmpty()

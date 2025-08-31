@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
 import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.selector.util.getBuildings
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing

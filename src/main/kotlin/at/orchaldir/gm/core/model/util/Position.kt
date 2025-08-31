@@ -105,19 +105,19 @@ data class InApartment(
 }
 
 @Serializable
-@SerialName("District")
-data class InDistrict(val district: DistrictId) : Position() {
-
-    override fun isIn(district: DistrictId) = this.district == district
-
-}
-
-@Serializable
 @SerialName("Building")
 data class InBuilding(val building: BuildingId) : Position() {
 
     override fun isIn(building: BuildingId) = isInBuilding(building)
     override fun isInBuilding(building: BuildingId) = this.building == building
+
+}
+
+@Serializable
+@SerialName("District")
+data class InDistrict(val district: DistrictId) : Position() {
+
+    override fun isIn(district: DistrictId) = this.district == district
 
 }
 

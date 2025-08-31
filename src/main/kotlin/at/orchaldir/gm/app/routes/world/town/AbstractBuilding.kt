@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.action.AddAbstractBuilding
 import at.orchaldir.gm.core.action.RemoveAbstractBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.*
-import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.util.getBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.visualizeTown

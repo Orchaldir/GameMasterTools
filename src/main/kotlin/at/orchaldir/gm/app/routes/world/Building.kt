@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.SortBuilding
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.character.countCharactersLivingInHouse
+import at.orchaldir.gm.core.selector.util.getBuildings
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.map.MapSize2d

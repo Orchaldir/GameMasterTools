@@ -21,10 +21,10 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getResidents
 import at.orchaldir.gm.core.selector.character.getWorkingIn
+import at.orchaldir.gm.core.selector.util.getBuildings
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortTowns
-import at.orchaldir.gm.core.selector.world.getBuildings
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM

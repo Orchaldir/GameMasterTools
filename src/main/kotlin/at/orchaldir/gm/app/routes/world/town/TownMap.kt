@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.util.getBuildings
 import at.orchaldir.gm.core.selector.util.sortTownMaps
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTemplateFill

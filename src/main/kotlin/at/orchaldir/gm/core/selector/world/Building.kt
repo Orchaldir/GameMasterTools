@@ -63,19 +63,7 @@ fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
     .getAll()
     .filter { it.style == style }
 
-fun <ID : Id<ID>> State.getBuildings(id: ID) = getBuildingStorage()
-    .getAll()
-    .filter { it.position.isIn(id) }
-
 fun State.getBuildingsForStreet(street: StreetId) = getBuildingStorage()
     .getAll()
     .filter { it.address.contains(street) }
 
-fun State.getBuildingsForPosition(position: Position) = when (position) {
-    is InDistrict -> getBuildings(position.district)
-    is InPlane -> getBuildings(position.plane)
-    is InRealm -> getBuildings(position.realm)
-    is InTown -> getBuildings(position.town)
-    is InTownMap -> getBuildings(position.townMap)
-    else -> error("House Number is not supported by Position type ${position.getType()}!")
-}

@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.time.getCurrentDate
-import at.orchaldir.gm.core.selector.world.getBuildingsForPosition
+import at.orchaldir.gm.core.selector.util.getBuildingsForPosition
 import at.orchaldir.gm.core.selector.world.getBuildingsForStreet
 import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment
 import at.orchaldir.gm.core.selector.world.getStreetIds

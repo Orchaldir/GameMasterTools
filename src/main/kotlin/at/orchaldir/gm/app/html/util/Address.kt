@@ -11,8 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.selector.world.getBuildings
-import at.orchaldir.gm.core.selector.world.getBuildingsForPosition
+import at.orchaldir.gm.core.selector.util.getBuildingsForPosition
 import at.orchaldir.gm.core.selector.world.getHouseNumbersUsedByOthers
 import at.orchaldir.gm.core.selector.world.getStreets
 import at.orchaldir.gm.utils.doNothing
