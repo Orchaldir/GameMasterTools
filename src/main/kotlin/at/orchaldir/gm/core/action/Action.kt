@@ -35,6 +35,8 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.organization.Team
+import at.orchaldir.gm.core.model.organization.TeamId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
@@ -287,6 +289,11 @@ sealed class OrganizationAction : Action()
 data object CreateOrganization : OrganizationAction()
 data class DeleteOrganization(val id: OrganizationId) : OrganizationAction()
 data class UpdateOrganization(val organization: Organization) : OrganizationAction()
+
+// team
+data object CreateTeam : OrganizationAction()
+data class DeleteTeam(val id: TeamId) : OrganizationAction()
+data class UpdateTeam(val team: Team) : OrganizationAction()
 
 //-- realm --
 

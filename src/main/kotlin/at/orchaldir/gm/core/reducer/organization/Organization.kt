@@ -16,9 +16,9 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_ORGANIZATION: Reducer<CreateOrganization, State> = { state, _ ->
-    val material = Organization(state.getOrganizationStorage().nextId)
+    val organization = Organization(state.getOrganizationStorage().nextId)
 
-    noFollowUps(state.updateStorage(state.getOrganizationStorage().add(material)))
+    noFollowUps(state.updateStorage(state.getOrganizationStorage().add(organization)))
 }
 
 val DELETE_ORGANIZATION: Reducer<DeleteOrganization, State> = { state, action ->
