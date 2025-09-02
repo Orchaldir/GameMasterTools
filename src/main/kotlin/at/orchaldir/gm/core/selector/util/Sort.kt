@@ -26,6 +26,7 @@ import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.organization.Team
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
@@ -658,6 +659,21 @@ fun State.sortSpellGroups(
         when (sort) {
             SortSpellGroup.Name -> compareBy { it.name.text }
             SortSpellGroup.Spells -> compareByDescending { it.spells.size }
+        })
+
+// team
+
+fun State.sortTeams(sort: SortTeam = SortTeam.Name) =
+    sortTeams(getTeamStorage().getAll(), sort)
+
+fun State.sortTeams(
+    teams: Collection<Team>,
+    sort: SortTeam = SortTeam.Name,
+) = teams
+    .sortedWith(
+        when (sort) {
+            SortTeam.Name -> compareBy { it.name.text }
+            SortTeam.Date -> getStartDateComparator()
         })
 
 // text

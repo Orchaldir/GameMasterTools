@@ -190,6 +190,11 @@ enum class SortSpellGroup {
     Spells,
 }
 
+enum class SortTeam {
+    Name,
+    Date,
+}
+
 enum class SortText {
     Name,
     Date,
