@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.organization.TeamId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.religion.GodId
@@ -20,6 +21,7 @@ enum class ReferenceType {
     God,
     Organization,
     Realm,
+    Team,
     Town,
 }
 
@@ -35,6 +37,7 @@ sealed class Reference {
         is GodReference -> ReferenceType.God
         is OrganizationReference -> ReferenceType.Organization
         is RealmReference -> ReferenceType.Realm
+        is TeamReference -> ReferenceType.Team
         is TownReference -> ReferenceType.Town
     }
 
@@ -46,6 +49,7 @@ sealed class Reference {
         is GodReference -> god == id
         is OrganizationReference -> organization == id
         is RealmReference -> realm == id
+        is TeamReference -> team == id
         is TownReference -> town == id
     }
 
@@ -82,6 +86,10 @@ data class OrganizationReference(val organization: OrganizationId) : Reference()
 @Serializable
 @SerialName("Realm")
 data class RealmReference(val realm: RealmId) : Reference()
+
+@Serializable
+@SerialName("Team")
+data class TeamReference(val team: TeamId) : Reference()
 
 @Serializable
 @SerialName("Town")

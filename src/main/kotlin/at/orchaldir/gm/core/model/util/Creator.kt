@@ -10,6 +10,7 @@ val ALLOWED_CREATORS = listOf(
     ReferenceType.God,
     ReferenceType.Organization,
     ReferenceType.Realm,
+    ReferenceType.Team,
     ReferenceType.Town,
 )
 

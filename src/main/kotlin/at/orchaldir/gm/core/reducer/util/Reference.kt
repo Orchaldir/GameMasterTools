@@ -25,6 +25,7 @@ fun validateReference(
         is GodReference -> validateReference(state, reference.god, validateId, noun, date)
         is OrganizationReference -> validateReference(state, reference.organization, validateId, noun, date)
         is RealmReference -> validateReference(state, reference.realm, validateId, noun, date)
+        is TeamReference -> validateReference(state, reference.team, validateId, noun, date)
         is TownReference -> validateReference(state, reference.town, validateId, noun, date)
         NoReference, UndefinedReference -> doNothing()
     }

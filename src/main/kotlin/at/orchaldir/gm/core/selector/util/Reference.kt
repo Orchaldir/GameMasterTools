@@ -12,6 +12,7 @@ fun State.getReferenceName(
     is GodReference -> getElementName(creator.god)
     is OrganizationReference -> getElementName(creator.organization)
     is RealmReference -> getElementName(creator.realm)
+    is TeamReference -> getElementName(creator.team)
     is TownReference -> getElementName(creator.town)
     NoReference, UndefinedReference -> null
 }
