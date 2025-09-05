@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.organization
 
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -30,6 +31,8 @@ data class Team(
     val name: Name = Name.init(id),
     val founder: Reference = UndefinedReference,
     val date: Date? = null,
+    val members: Set<CharacterId> = emptySet(),
+    val formerMembers: Set<CharacterId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<TeamId>, Creation, HasDataSources, HasStartDate {
 
