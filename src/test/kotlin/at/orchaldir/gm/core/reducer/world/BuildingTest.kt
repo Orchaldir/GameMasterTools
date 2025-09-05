@@ -303,7 +303,7 @@ class BuildingTest {
         fun `Owner is an unknown character`() {
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
-            failUpdate(state, "Cannot use an unknown Character 0 as owner!")
+            failUpdate(state, "Requires unknown owner (Character 0)!")
         }
 
         @Test
@@ -319,7 +319,7 @@ class BuildingTest {
                 building.copy(builder = CharacterReference(CHARACTER_ID_0), ownership = History(UndefinedReference))
             val state = STATE.removeStorage(CHARACTER_TYPE)
 
-            failUpdate(state, newBuilding, "Cannot use an unknown Character 0 as Builder!")
+            failUpdate(state, newBuilding, "Requires unknown Builder (Character 0)!")
         }
 
         @Test

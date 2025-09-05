@@ -112,7 +112,7 @@ class DiseaseTest {
             val disease = Disease(DISEASE_ID_0, origin = origin)
             val action = UpdateDisease(disease)
 
-            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") {
+            assertIllegalArgument("Requires unknown Creator (Character 99)!") {
                 REDUCER.invoke(STATE, action)
             }
         }

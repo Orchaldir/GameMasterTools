@@ -118,7 +118,7 @@ class SpellTest {
             val spell = Spell(SPELL_ID_0, origin = origin)
             val action = UpdateSpell(spell)
 
-            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") {
+            assertIllegalArgument("Requires unknown Creator (Character 99)!") {
                 REDUCER.invoke(STATE, action)
             }
         }

@@ -61,7 +61,9 @@ private fun <ID : Id<ID>> checkCauseOfDeath(
     is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
     is KilledBy -> {
         require(id != cause.killer) { "The murderer must be another Character!" }
-        validateReference(state, cause.killer, date, "killer", ALLOWED_KILLERS)
+        validateReference(state, cause.killer, date, "killer", ALLOWED_KILLERS) { referenceId ->
+            require(id != referenceId) { "${id.print()} cannot kill itself!" }
+        }
     }
 
     OldAge -> doNothing()
