@@ -45,22 +45,23 @@ private fun <ID : Id<ID>> checkVitalStatus(
 
     require(allowedCauses.contains(cause.getType())) { "Invalid status of death ${cause.getType()}!" }
 
-    checkCauseOfDeath(state, id, cause)
+    checkCauseOfDeath(state, id, cause, date)
 }
 
 private fun <ID : Id<ID>> checkCauseOfDeath(
     state: State,
     id: ID,
     cause: CauseOfDeath,
+    date: Date,
 ) = when (cause) {
     Accident -> doNothing()
     is DeathByCatastrophe -> checkCauseElement(state.getCatastropheStorage(), cause.catastrophe)
     is DeathByDisease -> checkCauseElement(state.getDiseaseStorage(), cause.disease)
     is DeathInWar -> checkCauseElement(state.getWarStorage(), cause.war)
     is DeathInBattle -> checkCauseElement(state.getBattleStorage(), cause.battle)
-    is Murder -> {
+    is KilledBy -> {
         require(id != cause.killer) { "The murderer must be another Character!" }
-        checkCauseElement(state.getCharacterStorage(), cause.killer)
+        validateReference(state, cause.killer, date, "killer", ALLOWED_KILLERS)
     }
 
     OldAge -> doNothing()

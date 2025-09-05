@@ -28,6 +28,7 @@ import at.orchaldir.gm.core.selector.realm.getExistingTowns
 import at.orchaldir.gm.core.selector.util.sortBusinesses
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortOrganizations
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -78,7 +79,7 @@ fun HtmlBlockTag.selectReference(
     date: Date?,
     param: String,
     allowedTypes: Collection<ReferenceType>,
-    filter: (Any) -> Boolean = { true },
+    filter: (Element<*>) -> Boolean = { true },
 ) {
     val businesses = state.getOpenBusinesses(date)
         .filter { filter(it) }

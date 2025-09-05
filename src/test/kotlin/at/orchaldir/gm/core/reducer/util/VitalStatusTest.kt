@@ -107,17 +107,17 @@ class VitalStatusTest {
 
             @Test
             fun `Died from murder`() {
-                testDie(Day(5), Murder(CHARACTER_ID_1))
+                testDie(Day(5), KilledBy(CHARACTER_ID_1))
             }
 
             @Test
             fun `Murderer doesn't exist`() {
-                testFailToDie(Day(5), Murder(CHARACTER_ID_2))
+                testFailToDie(Day(5), KilledBy(CHARACTER_ID_2))
             }
 
             @Test
             fun `Murderer cannot be the same character`() {
-                testFailToDie(Day(5), Murder(CHARACTER_ID_0))
+                testFailToDie(Day(5), KilledBy(CHARACTER_ID_0))
             }
         }
 

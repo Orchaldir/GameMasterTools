@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.util
 
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.CatastropheId
@@ -12,16 +11,25 @@ import kotlinx.serialization.Serializable
 val VALID_CAUSES_FOR_CHARACTERS = CauseOfDeathType.entries
 val VALID_CAUSES_FOR_REALMS = CauseOfDeathType.entries -
         CauseOfDeathType.Accident -
-        CauseOfDeathType.Murder -
+        CauseOfDeathType.Killed -
         CauseOfDeathType.OldAge
 val VALID_CAUSES_FOR_TOWNS = VALID_CAUSES_FOR_REALMS
+val ALLOWED_KILLERS = listOf(
+    ReferenceType.Undefined,
+    ReferenceType.Character,
+    ReferenceType.Culture,
+    ReferenceType.God,
+    ReferenceType.Organization,
+    ReferenceType.Realm,
+    ReferenceType.Team,
+)
 
 enum class CauseOfDeathType {
     Accident,
     Battle,
     Catastrophe,
     Disease,
-    Murder,
+    Killed,
     OldAge,
     War,
     Undefined,
@@ -35,7 +43,7 @@ sealed class CauseOfDeath {
         is DeathByDisease -> CauseOfDeathType.Disease
         is DeathInBattle -> CauseOfDeathType.Battle
         is DeathInWar -> CauseOfDeathType.War
-        is Murder -> CauseOfDeathType.Murder
+        is KilledBy -> CauseOfDeathType.Killed
         is OldAge -> CauseOfDeathType.OldAge
         is UndefinedCauseOfDeath -> CauseOfDeathType.Undefined
     }
@@ -46,7 +54,7 @@ sealed class CauseOfDeath {
         is DeathByDisease -> disease == id
         is DeathInBattle -> battle == id
         is DeathInWar -> war == id
-        is Murder -> killer == id
+        is KilledBy -> killer.isId(id)
     }
 }
 
@@ -79,9 +87,9 @@ data class DeathInWar(
 ) : CauseOfDeath()
 
 @Serializable
-@SerialName("Murder")
-data class Murder(
-    val killer: CharacterId,
+@SerialName("Killed")
+data class KilledBy(
+    val killer: Reference,
 ) : CauseOfDeath()
 
 @Serializable
