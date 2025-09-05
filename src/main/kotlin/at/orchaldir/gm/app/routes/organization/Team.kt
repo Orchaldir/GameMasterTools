@@ -156,6 +156,8 @@ private fun HTML.showAllTeams(
                 th { +"Date" }
                 th { +"Age" }
                 th { +"Founder" }
+                th { +"Members" }
+                thMultiLines(listOf("Former", "Members"))
             }
             teams.forEach { team ->
                 tr {
@@ -163,6 +165,8 @@ private fun HTML.showAllTeams(
                     td { showOptionalDate(call, state, team.date) }
                     tdSkipZero(state.getAgeInYears(team.date))
                     td { showReference(call, state, team.founder, false) }
+                    tdSkipZero(team.members())
+                    tdSkipZero(team.formerMembers())
                 }
             }
         }

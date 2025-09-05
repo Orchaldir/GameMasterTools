@@ -161,7 +161,7 @@ private fun HTML.showAllBusinesses(
                     td { showOptionalDate(call, state, business.startDate()) }
                     td { showReference(call, state, business.founder, false) }
                     td { showReference(call, state, business.ownership.current, false) }
-                    tdSkipZero(state.getEmployees(business.id).size)
+                    tdSkipZero(state.getEmployees(business.id))
                 }
             }
         }

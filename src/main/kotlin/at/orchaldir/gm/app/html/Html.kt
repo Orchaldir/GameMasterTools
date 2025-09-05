@@ -299,6 +299,8 @@ fun TR.tdPercentage(number: Int, total: Int) = tdPercentage(
     }
 )
 
+fun <T> TR.tdSkipZero(collection: Collection<T>) = tdSkipZero(collection.size)
+
 fun TR.tdSkipZero(value: Int?) {
     td {
         if (value != null && value != 0) {

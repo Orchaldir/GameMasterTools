@@ -166,7 +166,7 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
                     td { showOptionalDate(call, state, style.start) }
                     td { showOptionalDate(call, state, style.end) }
                     tdLink(call, state, style.revival)
-                    tdSkipZero(state.getBuildings(style.id).size)
+                    tdSkipZero(state.getBuildings(style.id))
                 }
             }
         }

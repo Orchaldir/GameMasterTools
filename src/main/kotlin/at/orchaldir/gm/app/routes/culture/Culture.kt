@@ -164,8 +164,8 @@ private fun HTML.showAllCultures(
                     tdLink(call, state, culture.calendar)
                     tdInlineIds(call, state, culture.languages.getValuesFor(Rarity.Everyone))
                     tdEnum(culture.namingConvention.getType())
-                    tdSkipZero(culture.holidays.size)
-                    tdSkipZero(state.getCharacters(culture.id).size)
+                    tdSkipZero(culture.holidays)
+                    tdSkipZero(state.getCharacters(culture.id))
                 }
             }
         }

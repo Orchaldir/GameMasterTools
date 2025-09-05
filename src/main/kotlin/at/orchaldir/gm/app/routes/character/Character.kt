@@ -212,7 +212,7 @@ private fun HTML.showAllCharacters(
                     td { displayVitalStatus(call, state, character.vitalStatus, false) }
                     td { showPosition(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false, false) }
-                    tdSkipZero(state.getOrganizations(character.id).size)
+                    tdSkipZero(state.getOrganizations(character.id))
                 }
             }
         }

@@ -161,7 +161,7 @@ private fun HTML.showAllBattles(
                 tr {
                     tdLink(call, state, battle)
                     td { showOptionalDate(call, state, battle.date) }
-                    tdSkipZero(battle.participants.size)
+                    tdSkipZero(battle.participants)
                     tdDestroyed(state, battle.id)
                 }
             }

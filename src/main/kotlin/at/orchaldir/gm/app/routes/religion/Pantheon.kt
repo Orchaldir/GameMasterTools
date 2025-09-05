@@ -163,9 +163,9 @@ private fun HTML.showAllPantheons(
                 tr {
                     tdLink(call, state, pantheon)
                     tdString(pantheon.title)
-                    tdSkipZero(pantheon.gods.size)
-                    tdSkipZero(getBelievers(state.getCharacterStorage(), pantheon.id).size)
-                    tdSkipZero(getBelievers(state.getOrganizationStorage(), pantheon.id).size)
+                    tdSkipZero(pantheon.gods)
+                    tdSkipZero(getBelievers(state.getCharacterStorage(), pantheon.id))
+                    tdSkipZero(getBelievers(state.getOrganizationStorage(), pantheon.id))
                 }
             }
         }

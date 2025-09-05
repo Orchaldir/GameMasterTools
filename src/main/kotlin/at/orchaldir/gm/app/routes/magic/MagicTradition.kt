@@ -162,7 +162,7 @@ private fun HTML.showAllMagicTraditions(
                     tdLink(call, state, tradition)
                     td { showOptionalDate(call, state, tradition.startDate()) }
                     td { showReference(call, state, tradition.founder, false) }
-                    tdSkipZero(tradition.groups.size)
+                    tdSkipZero(tradition.groups)
                 }
             }
         }

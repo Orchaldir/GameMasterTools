@@ -31,8 +31,8 @@ data class Team(
     val name: Name = Name.init(id),
     val founder: Reference = UndefinedReference,
     val date: Date? = null,
-    val members: Set<CharacterId> = emptySet(),
-    val formerMembers: Set<CharacterId> = emptySet(),
+    private val members: Set<CharacterId> = emptySet(),
+    private val formerMembers: Set<CharacterId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<TeamId>, Creation, HasDataSources, HasStartDate {
 
@@ -41,4 +41,7 @@ data class Team(
     override fun creator() = founder
     override fun sources() = sources
     override fun startDate() = date
+
+    fun members() = members
+    fun formerMembers() = formerMembers
 }
