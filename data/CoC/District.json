@@ -8,6 +8,14 @@
    "sources": [
     0
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Downtown",
+   "town": 1,
+   "sources": [
+    0
+   ]
   }
  }
 }

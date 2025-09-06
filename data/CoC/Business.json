@@ -159,6 +159,21 @@
    "sources": [
     0
    ]
+  },
+  "11": {
+   "id": 11,
+   "name": "Pickering Psychopathic Hospital",
+   "startDate": {
+    "type": "Decade",
+    "decade": 187
+   },
+   "position": {
+    "type": "District",
+    "district": 1
+   },
+   "sources": [
+    0
+   ]
   }
  }
 }

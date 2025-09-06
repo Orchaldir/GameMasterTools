@@ -285,7 +285,7 @@ private fun HtmlBlockTag.selectString(
     minLength: Int = 1,
     maxLength: Int? = null,
 ) {
-    val size = max(text.length + 5, maxLength ?: 20)
+    val size = max(text.length, maxLength ?: 100)
 
     textInput(name = param) {
         this.minLength = "$minLength"
