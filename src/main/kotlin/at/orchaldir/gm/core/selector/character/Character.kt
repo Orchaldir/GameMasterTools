@@ -152,6 +152,10 @@ fun <ID : Id<ID>> State.getCharactersLivingIn(id: ID) = getCharacterStorage()
     .getAll()
     .filter { it.housingStatus.current.isIn(id) }
 
+fun <ID : Id<ID>> State.getCharactersLivingIn(ids: Collection<ID>) = getCharacterStorage()
+    .getAll()
+    .filter { ids.any { id -> it.housingStatus.current.isIn(id) } }
+
 fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) = getCharacterStorage()
     .getAll()
     .filter { it.housingStatus.current.isInApartment(building, apartment) }
