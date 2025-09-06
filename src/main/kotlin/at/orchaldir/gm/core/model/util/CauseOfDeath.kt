@@ -21,7 +21,6 @@ val ALLOWED_KILLERS = listOf(
     ReferenceType.God,
     ReferenceType.Organization,
     ReferenceType.Realm,
-    ReferenceType.Team,
 )
 
 enum class CauseOfDeathType {

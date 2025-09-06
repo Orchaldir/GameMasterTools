@@ -12,17 +12,14 @@ import at.orchaldir.gm.app.html.realm.parseTownId
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.team.parseTeamId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.organization.Team
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
-import at.orchaldir.gm.core.selector.organization.getExistingTeams
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
 import at.orchaldir.gm.core.selector.util.sortBusinesses
@@ -60,7 +57,6 @@ fun HtmlBlockTag.showReference(
         is GodReference -> link(call, state, reference.god)
         is OrganizationReference -> link(call, state, reference.organization)
         is RealmReference -> link(call, state, reference.realm)
-        is TeamReference -> link(call, state, reference.team)
         is TownReference -> link(call, state, reference.town)
         NoReference -> +"None"
         UndefinedReference -> if (showUndefined) {
@@ -95,8 +91,6 @@ fun HtmlBlockTag.selectReference(
         .filter { filter(it) }
     val realms = state.getExistingRealms(date)
         .filter { filter(it) }
-    val teams = state.getExistingTeams(date)
-        .filter { filter(it) }
     val towns = state.getExistingTowns(date)
         .filter { filter(it) }
 
@@ -109,7 +103,6 @@ fun HtmlBlockTag.selectReference(
             ReferenceType.God -> gods.isEmpty()
             ReferenceType.Organization -> organizations.isEmpty()
             ReferenceType.Realm -> realms.isEmpty()
-            ReferenceType.Team -> teams.isEmpty()
             ReferenceType.Town -> towns.isEmpty()
         }
     }
@@ -163,14 +156,6 @@ fun HtmlBlockTag.selectReference(
             reference.realm,
         )
 
-        is TeamReference -> selectElement(
-            state,
-            label,
-            combine(param, TEAM),
-            teams,
-            reference.team,
-        )
-
         is TownReference -> selectElement(
             state,
             label,
@@ -215,11 +200,6 @@ fun parseReference(
         ReferenceType.Realm -> RealmReference(
             parseRealmId(parameters, combine(param, REALM)),
         )
-
-        ReferenceType.Team -> TeamReference(
-            parseTeamId(parameters, combine(param, TEAM)),
-        )
-
         ReferenceType.Town -> TownReference(
             parseTownId(parameters, combine(param, TOWN)),
         )

@@ -44,9 +44,6 @@ import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
-import at.orchaldir.gm.core.model.organization.TEAM_TYPE
-import at.orchaldir.gm.core.model.organization.Team
-import at.orchaldir.gm.core.model.organization.TeamId
 import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -113,7 +110,6 @@ import at.orchaldir.gm.core.reducer.realm.*
 import at.orchaldir.gm.core.reducer.religion.validateDomain
 import at.orchaldir.gm.core.reducer.religion.validateGod
 import at.orchaldir.gm.core.reducer.religion.validatePantheon
-import at.orchaldir.gm.core.reducer.team.validateTeam
 import at.orchaldir.gm.core.reducer.time.validateCalendar
 import at.orchaldir.gm.core.reducer.time.validateHoliday
 import at.orchaldir.gm.core.reducer.util.color.validateColorSchemes
@@ -177,7 +173,6 @@ val ELEMENTS =
         SPELL_GROUP_TYPE,
         STREET_TYPE,
         STREET_TEMPLATE_TYPE,
-        TEAM_TYPE,
         TEXT_TYPE,
         TITLE_TYPE,
         TOWN_TYPE,
@@ -252,7 +247,6 @@ data class State(
     fun getSpellGroupStorage() = getStorage<SpellGroupId, SpellGroup>(SPELL_GROUP_TYPE)
     fun getStreetStorage() = getStorage<StreetId, Street>(STREET_TYPE)
     fun getStreetTemplateStorage() = getStorage<StreetTemplateId, StreetTemplate>(STREET_TEMPLATE_TYPE)
-    fun getTeamStorage() = getStorage<TeamId, Team>(TEAM_TYPE)
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
     fun getTitleStorage() = getStorage<TitleId, Title>(TITLE_TYPE)
     fun getTownStorage() = getStorage<TownId, Town>(TOWN_TYPE)
@@ -374,7 +368,6 @@ data class State(
         validate(getSpellStorage()) { validateSpell(this, it) }
         validate(getSpellGroupStorage()) { validateSpellGroup(this, it) }
         validate(getStreetTemplateStorage()) { validateStreetTemplate(this, it) }
-        validate(getTeamStorage()) { validateTeam(this, it) }
         validate(getTextStorage()) { validateText(this, it) }
         validate(getTownStorage()) { validateTown(this, it) }
         validate(getTownMapStorage()) { validateTownMap(this, it) }
@@ -430,7 +423,6 @@ data class State(
         saveStorage(path, getSpellGroupStorage())
         saveStorage(path, getStreetStorage())
         saveStorage(path, getStreetTemplateStorage())
-        saveStorage(path, getTeamStorage())
         saveStorage(path, getTextStorage())
         saveStorage(path, getTitleStorage())
         saveStorage(path, getTownStorage())
@@ -487,7 +479,6 @@ fun createStorage(type: String) = when (type) {
     SPELL_GROUP_TYPE -> Storage(SpellGroupId(0))
     STREET_TYPE -> Storage(StreetId(0))
     STREET_TEMPLATE_TYPE -> Storage(StreetTemplateId(0))
-    TEAM_TYPE -> Storage(TeamId(0))
     TEXT_TYPE -> Storage(TextId(0))
     TITLE_TYPE -> Storage(TitleId(0))
     TOWN_TYPE -> Storage(TownId(0))
@@ -547,7 +538,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     SPELL_GROUP_TYPE -> loadStorage<SpellGroupId, SpellGroup>(path, SpellGroupId(0))
     STREET_TYPE -> loadStorage<StreetId, Street>(path, StreetId(0))
     STREET_TEMPLATE_TYPE -> loadStorage<StreetTemplateId, StreetTemplate>(path, StreetTemplateId(0))
-    TEAM_TYPE -> loadStorage<TeamId, Team>(path, TeamId(0))
     TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
     TITLE_TYPE -> loadStorage<TitleId, Title>(path, TitleId(0))
     TOWN_TYPE -> loadStorage<TownId, Town>(path, TownId(0))

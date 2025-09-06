@@ -27,7 +27,6 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
-import at.orchaldir.gm.app.routes.team.TeamRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
@@ -80,9 +79,6 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
                     fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes.All())
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
-                    h3 { +"Groups" }
-                    fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
-                    fieldStorageLink(call, state.getTeamStorage(), TeamRoutes.All())
                     h3 { +"Health" }
                     fieldStorageLink(call, state.getDiseaseStorage(), DiseaseRoutes.All())
                     h3 { +"Items" }
@@ -108,6 +104,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getCatastropheStorage(), CatastropheRoutes.All())
                     fieldStorageLink(call, state.getDistrictStorage(), DistrictRoutes.All())
                     fieldStorageLink(call, state.getLegalCodeStorage(), LegalCodeRoutes.All())
+                    fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
                     fieldStorageLink(call, state.getRealmStorage(), RealmRoutes.All())
                     fieldStorageLink(call, state.getTownStorage(), TownRoutes.All())
                     fieldStorageLink(call, state.getTreatyStorage(), TreatyRoutes.All())

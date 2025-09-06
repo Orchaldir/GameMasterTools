@@ -9,7 +9,6 @@ val ALLOWED_OWNERS = listOf(
     ReferenceType.Character,
     ReferenceType.Organization,
     ReferenceType.Realm,
-    ReferenceType.Team,
     ReferenceType.Town,
 )
 

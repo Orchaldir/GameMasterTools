@@ -23,7 +23,6 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
-import at.orchaldir.gm.app.routes.team.TeamRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
@@ -54,7 +53,6 @@ import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
-import at.orchaldir.gm.core.model.organization.TeamId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
@@ -413,7 +411,6 @@ fun <ID : Id<ID>> href(
     is StandardOfLivingId -> call.application.href(StandardOfLivingRoutes.Details(id))
     is StreetId -> call.application.href(StreetRoutes.Details(id))
     is StreetTemplateId -> call.application.href(StreetTemplateRoutes.Details(id))
-    is TeamId -> call.application.href(TeamRoutes.Details(id))
     is TextId -> call.application.href(TextRoutes.Details(id))
     is TitleId -> call.application.href(TitleRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
