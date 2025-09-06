@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingPurpose
 import at.orchaldir.gm.core.model.world.building.SingleFamilyHouse
+import at.orchaldir.gm.core.model.world.moon.Moon
+import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -23,10 +25,12 @@ class PositionTest {
     private val inBuilding = InBuilding(BUILDING_ID_0)
     private val inDistrict = InDistrict(DISTRICT_ID_0)
     private val inHome = InHome(BUILDING_ID_0)
+    private val inPlane = InPlane(PLANE_ID_0)
     private val inRealm = InRealm(REALM_ID_0)
     private val inTown = InTown(TOWN_ID_0)
     private val inTownMap = InTownMap(TOWN_MAP_ID_0, 0)
     private val longTermCare = LongTermCareIn(BUSINESS_ID_0)
+    private val onMoon = OnMoon(MOON_ID_0)
 
     @Nested
     inner class ApartmentTest {
@@ -194,6 +198,56 @@ class PositionTest {
             listOf(
                 Storage(CALENDAR0),
                 Storage(Business(BUSINESS_ID_0, startDate = date)),
+            )
+        )
+    }
+
+    @Nested
+    inner class MoonTest {
+
+        @Test
+        fun `Cannot use unknown plane as home`() {
+            val history = History<Position>(OnMoon(UNKNOWN_MOON_ID))
+
+            assertIllegalArgument("Requires unknown Moon 99 as home!") {
+                checkPositionHistory(createState(), history, DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid plan`() {
+            checkPositionHistory(createRealmState(), History(onMoon), DAY0)
+        }
+
+        private fun createRealmState() = State(
+            listOf(
+                Storage(CALENDAR0),
+                Storage(Moon(MOON_ID_0)),
+            )
+        )
+    }
+
+    @Nested
+    inner class PlaneTest {
+
+        @Test
+        fun `Cannot use unknown plane as home`() {
+            val history = History<Position>(InPlane(UNKNOWN_PLANE_ID))
+
+            assertIllegalArgument("Requires unknown Plane 99 as home!") {
+                checkPositionHistory(createState(), history, DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid plan`() {
+            checkPositionHistory(createRealmState(), History(inPlane), DAY0)
+        }
+
+        private fun createRealmState() = State(
+            listOf(
+                Storage(CALENDAR0),
+                Storage(Plane(PLANE_ID_0)),
             )
         )
     }
