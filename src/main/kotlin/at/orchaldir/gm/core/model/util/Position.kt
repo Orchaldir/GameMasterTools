@@ -187,3 +187,6 @@ data class LongTermCareIn(val business: BusinessId) : Position() {
 @Serializable
 @SerialName("Undefined")
 data object UndefinedPosition : Position()
+
+fun <ID : Id<ID>> History<Position>.isIn(id: ID) = current.isIn(id)
+fun <ID : Id<ID>> History<Position>.wasIn(id: ID) = previousEntries.any { it.entry.isIn(id) }

@@ -21,7 +21,9 @@ import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Dead
+import at.orchaldir.gm.core.model.util.isIn
 import at.orchaldir.gm.core.model.util.origin.BornElement
+import at.orchaldir.gm.core.model.util.wasIn
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
@@ -150,11 +152,11 @@ fun State.getSecretIdentitiesOf(character: CharacterId) = getCharacterStorage()
 
 fun <ID : Id<ID>> State.getCharactersLivingIn(id: ID) = getCharacterStorage()
     .getAll()
-    .filter { it.housingStatus.current.isIn(id) }
+    .filter { it.housingStatus.isIn(id) }
 
 fun <ID : Id<ID>> State.getCharactersLivingIn(ids: Collection<ID>) = getCharacterStorage()
     .getAll()
-    .filter { ids.any { id -> it.housingStatus.current.isIn(id) } }
+    .filter { ids.any { id -> it.housingStatus.isIn(id) } }
 
 fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) = getCharacterStorage()
     .getAll()
@@ -170,7 +172,11 @@ fun State.countCharactersLivingInHouse(building: BuildingId) = getCharacterStora
 
 fun <ID : Id<ID>> State.getCharactersPreviouslyLivingIn(id: ID) = getCharacterStorage()
     .getAll()
-    .filter { it.housingStatus.previousEntries.any { it.entry.isIn(id) } }
+    .filter { it.housingStatus.wasIn(id) }
+
+fun <ID : Id<ID>> State.getCharactersPreviouslyLivingIn(ids: Collection<ID>) = getCharacterStorage()
+    .getAll()
+    .filter { ids.any { id -> it.housingStatus.wasIn(id) } }
 
 fun State.getResidents(townId: TownId): List<Character> {
     val townMap = getCurrentTownMap(townId)
