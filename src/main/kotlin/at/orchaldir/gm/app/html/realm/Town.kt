@@ -49,18 +49,19 @@ fun HtmlBlockTag.showTown(
     showPopulation(call, state, town)
     fieldList(call, state, "Districts", state.sortDistricts(state.getDistricts(town.id)))
     showDataSources(call, state, town.sources)
-    showLocalElements(call, state, town.id)
 
-    val currentOptionalTownMaps = state.getCurrentTownMap(town.id)
+    val currentTownMap = state.getCurrentTownMap(town.id)
 
-    currentOptionalTownMaps?.let { currentTownMap ->
+    if (currentTownMap != null) {
         optionalFieldLink(call, state, currentTownMap.id)
         val previousTownMaps = state.sortTownMaps(state.getTownMaps(town.id) - currentTownMap)
         fieldList(call, state, "Previous Town Maps", previousTownMaps)
 
-        showLocalElements(call, state, currentTownMap.id)
+        showLocalElements(call, state, town, currentTownMap)
+    } else {
+        showLocalElements(call, state, town.id)
     }
-    showCharactersOfTownMap(call, state, town.id, currentOptionalTownMaps?.id)
+    showCharactersOfTownMap(call, state, town.id, currentTownMap?.id)
 
     showCreated(call, state, town.id)
     showOwnedElements(call, state, town.id)
