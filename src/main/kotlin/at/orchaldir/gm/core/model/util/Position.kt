@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
@@ -23,6 +24,7 @@ enum class PositionType {
     Moon,
     Plane,
     Realm,
+    Region,
     Town,
     TownMap,
 }
@@ -38,6 +40,7 @@ sealed class Position {
         is InHome -> PositionType.Home
         is InPlane -> PositionType.Plane
         is InRealm -> PositionType.Realm
+        is InRegion -> PositionType.Region
         is InTown -> PositionType.Town
         is InTownMap -> PositionType.TownMap
         is LongTermCareIn -> PositionType.LongTermCare
@@ -53,6 +56,7 @@ sealed class Position {
         is InHome -> building
         is InPlane -> plane
         is InRealm -> realm
+        is InRegion -> region
         is InTown -> town
         is InTownMap -> townMap
         is LongTermCareIn -> business
@@ -80,6 +84,7 @@ sealed class Position {
         is InHome -> building == id
         is InPlane -> plane == id
         is InRealm -> realm == id
+        is InRegion -> region == id
         is InTown -> town == id
         is InTownMap -> townMap == id
         is LongTermCareIn -> business == id
@@ -161,6 +166,10 @@ data class InRealm(val realm: RealmId) : Position() {
     override fun isIn(realm: RealmId) = this.realm == realm
 
 }
+
+@Serializable
+@SerialName("Region")
+data class InRegion(val region: RegionId) : Position()
 
 @Serializable
 @SerialName("Town")

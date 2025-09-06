@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.realm.parseTownId
 import at.orchaldir.gm.app.html.world.parseBuildingId
 import at.orchaldir.gm.app.html.world.parseMoonId
 import at.orchaldir.gm.app.html.world.parsePlaneId
+import at.orchaldir.gm.app.html.world.parseRegionId
 import at.orchaldir.gm.app.html.world.parseTownMapId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -66,6 +67,7 @@ fun HtmlBlockTag.showPosition(
         is InHome -> link(call, state, position.building)
         is InPlane -> link(call, state, position.plane)
         is InRealm -> link(call, state, position.realm)
+        is InRegion -> link(call, state, position.region)
         is InTown -> link(call, state, position.town)
         is InTownMap -> link(call, state, position.townMap)
         is LongTermCareIn -> {
@@ -139,6 +141,7 @@ private fun HtmlBlockTag.selectPositionIntern(
     val moons = state.getMoonStorage().getAll()
     val planes = state.sortPlanes(state.getPlaneStorage().getAll())
     val realms = state.sortRealms(state.getExistingElements(state.getRealmStorage(), start))
+    val regions = state.sortRegions(state.getRegionStorage().getAll())
     val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
     val townMaps = state.sortTownMaps(state.getExistingElements(state.getTownMapStorage(), start))
 
@@ -154,6 +157,7 @@ private fun HtmlBlockTag.selectPositionIntern(
             PositionType.Moon -> moons.isEmpty()
             PositionType.Plane -> planes.isEmpty()
             PositionType.Realm -> realms.isEmpty()
+            PositionType.Region -> regions.isEmpty()
             PositionType.Town -> towns.isEmpty()
             PositionType.TownMap -> townMaps.isEmpty()
         }
@@ -216,6 +220,13 @@ private fun HtmlBlockTag.selectPositionIntern(
             combine(param, REALM),
             realms,
             position.realm,
+        )
+
+        is InRegion -> selectElement(
+            state,
+            combine(param, REGION),
+            regions,
+            position.region,
         )
 
         is InTown -> selectElement(
@@ -302,6 +313,10 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
 
         PositionType.Realm -> InRealm(
             parseRealmId(parameters, combine(param, REALM)),
+        )
+
+        PositionType.Region -> InRegion(
+            parseRegionId(parameters, combine(param, REGION)),
         )
 
         PositionType.Town -> InTown(

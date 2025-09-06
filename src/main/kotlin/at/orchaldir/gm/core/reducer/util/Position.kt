@@ -53,6 +53,7 @@ fun checkPosition(
         }
 
         is InRealm -> state.requireExists(state.getRealmStorage(), position.realm, date) { noun }
+        is InRegion -> requires(state.getRegionStorage(), position.region, noun)
         is InPlane -> requires(state.getPlaneStorage(), position.plane, noun)
         is InTown -> state.requireExists(state.getTownStorage(), position.town, date) { noun }
         is InTownMap -> {

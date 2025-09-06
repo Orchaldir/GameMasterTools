@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.world.building.BuildingPurpose
 import at.orchaldir.gm.core.model.world.building.SingleFamilyHouse
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -27,6 +28,7 @@ class PositionTest {
     private val inHome = InHome(BUILDING_ID_0)
     private val inPlane = InPlane(PLANE_ID_0)
     private val inRealm = InRealm(REALM_ID_0)
+    private val inRegion = InRegion(REGION_ID_0)
     private val inTown = InTown(TOWN_ID_0)
     private val inTownMap = InTownMap(TOWN_MAP_ID_0, 0)
     private val longTermCare = LongTermCareIn(BUSINESS_ID_0)
@@ -292,6 +294,31 @@ class PositionTest {
             listOf(
                 Storage(CALENDAR0),
                 Storage(Realm(REALM_ID_0, date = date)),
+            )
+        )
+    }
+
+    @Nested
+    inner class RegionTest {
+
+        @Test
+        fun `Cannot use unknown region as home`() {
+            val history = History<Position>(InRegion(UNKNOWN_REGION_ID))
+
+            assertIllegalArgument("Requires unknown Region 99 as home!") {
+                checkPositionHistory(createState(), history, DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid plan`() {
+            checkPositionHistory(createRealmState(), History(inRegion), DAY0)
+        }
+
+        private fun createRealmState() = State(
+            listOf(
+                Storage(CALENDAR0),
+                Storage(Region(REGION_ID_0)),
             )
         )
     }

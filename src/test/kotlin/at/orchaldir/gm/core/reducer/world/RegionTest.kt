@@ -4,6 +4,12 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.InPlane
+import at.orchaldir.gm.core.model.util.InRegion
+import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.Wasteland
@@ -25,6 +31,7 @@ class RegionTest {
             Storage(region0),
         )
     )
+    private val inRegion = InRegion(REGION_ID_0)
 
     @Nested
     inner class DeleteTest {
@@ -54,6 +61,27 @@ class RegionTest {
             val state = state.updateStorage(Storage(listOf(region0, region1)))
 
             assertIllegalArgument("Cannot delete Region 0, because it is used!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete a region used as home`() {
+            val housingStatus = History<Position>(inRegion)
+            val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
+            val newState = state.updateStorage(Storage(character))
+
+            assertIllegalArgument("Cannot delete Region 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a region used as a position`() {
+            val plane = Business(BUSINESS_ID_0, position = inRegion)
+            val newState = state.updateStorage(Storage(plane))
+
+            assertIllegalArgument("Cannot delete Region 0, because it is used!") {
+                REDUCER.invoke(newState, action)
+            }
         }
     }
 
