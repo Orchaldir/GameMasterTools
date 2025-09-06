@@ -277,7 +277,7 @@ private fun HtmlBlockTag.visualizeFrontAndContent(
         val frontSvg = visualizeText(state, TEXT_CONFIG, text)
         svg(frontSvg, width)
     }
-    if (text.content !is UndefinedTextContent) {
+    if (text.format !is UndefinedTextFormat && text.content !is UndefinedTextContent) {
         val contentSvg = visualizePageOfContent(state, TEXT_CONFIG, text, pageIndex)!!
         svg(contentSvg, width)
 

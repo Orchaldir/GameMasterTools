@@ -55,5 +55,6 @@ fun checkPosition(
             val townMap = state.requireExists(state.getTownMapStorage(), position.townMap, date) { noun }
             require(position.tileIndex in 0..<townMap.map.size.tiles()) { "The $noun's tile index ${position.tileIndex} is outside the town map!" }
         }
+        is LongTermCareIn -> state.requireExists(state.getBusinessStorage(), position.business, date) { noun }
     }
 }

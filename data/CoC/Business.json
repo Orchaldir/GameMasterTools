@@ -142,6 +142,38 @@
   "9": {
    "id": 9,
    "name": "Golden Goblin Press"
+  },
+  "10": {
+   "id": 10,
+   "name": "Pump House",
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 1
+    }
+   },
+   "position": {
+    "type": "District",
+    "district": 0
+   },
+   "sources": [
+    0
+   ]
+  },
+  "11": {
+   "id": 11,
+   "name": "Pickering Psychopathic Hospital",
+   "startDate": {
+    "type": "Decade",
+    "decade": 187
+   },
+   "position": {
+    "type": "District",
+    "district": 1
+   },
+   "sources": [
+    0
+   ]
   }
  }
 }

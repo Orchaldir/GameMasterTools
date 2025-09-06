@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.util
 
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
@@ -17,6 +18,7 @@ enum class PositionType {
     District,
     Homeless,
     Home,
+    LongTermCare,
     Plane,
     Realm,
     Town,
@@ -36,6 +38,7 @@ sealed class Position {
         is InRealm -> PositionType.Realm
         is InTown -> PositionType.Town
         is InTownMap -> PositionType.TownMap
+        is LongTermCareIn -> PositionType.LongTermCare
         UndefinedPosition -> PositionType.Undefined
     }
 
@@ -49,6 +52,7 @@ sealed class Position {
         is InRealm -> realm
         is InTown -> town
         is InTownMap -> townMap
+        is LongTermCareIn -> business
         UndefinedPosition -> null
     }
 
@@ -74,12 +78,14 @@ sealed class Position {
         is InRealm -> realm == id
         is InTown -> town == id
         is InTownMap -> townMap == id
+        is LongTermCareIn -> business == id
         UndefinedPosition -> false
     }
 
     open fun isInApartment(building: BuildingId, apartmentIndex: Int) = false
     open fun isInBuilding(building: BuildingId) = false
     open fun isIn(building: BuildingId) = false
+    open fun isIn(business: BusinessId) = false
     open fun isIn(district: DistrictId) = false
     open fun isIn(plane: PlaneId) = false
     open fun isIn(realm: RealmId) = false
@@ -167,6 +173,14 @@ data class InTownMap(
 ) : Position() {
 
     override fun isIn(townMap: TownMapId) = this.townMap == townMap
+
+}
+
+@Serializable
+@SerialName("LongTermCare")
+data class LongTermCareIn(val business: BusinessId) : Position() {
+
+    override fun isIn(business: BusinessId) = this.business == business
 
 }
 

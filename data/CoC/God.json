@@ -8,7 +8,10 @@
    "gender": "Female",
    "authenticity": {
     "type": "Authentic"
-   }
+   },
+   "sources": [
+    1
+   ]
   },
   "1": {
    "id": 1,
@@ -17,7 +20,10 @@
    "authenticity": {
     "type": "Mask",
     "god": 0
-   }
+   },
+   "sources": [
+    1
+   ]
   },
   "2": {
    "id": 2,

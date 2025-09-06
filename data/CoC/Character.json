@@ -1043,6 +1043,82 @@
      "type": "Accident"
     }
    }
+  },
+  "20": {
+   "id": 20,
+   "name": {
+    "type": "Family",
+    "given": "Arthur",
+    "middle": null,
+    "family": "Bowen"
+   },
+   "birthDate": {
+    "type": "Year",
+    "year": 1873
+   },
+   "culture": 0,
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 1
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 10,
+     "job": 98
+    }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
+   },
+   "sources": [
+    0
+   ]
+  },
+  "21": {
+   "id": 21,
+   "name": {
+    "type": "Family",
+    "given": "Richard",
+    "middle": null,
+    "family": "Tobey"
+   },
+   "birthDate": {
+    "type": "Year",
+    "year": 1867
+   },
+   "culture": 0,
+   "housingStatus": {
+    "current": {
+     "type": "LongTermCare",
+     "business": 11
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 1895
+      }
+     }
+    ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
+   },
+   "sources": [
+    0
+   ]
   }
  }
 }

@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.ALLOWED_BUSINESS_POSITIONS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.reducer.util.*
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
@@ -26,6 +28,8 @@ val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
     checkIfOwnerCanBeDeleted(state, action.id)
     validateCanDelete(state.getEmployees(action.id).isEmpty(), action.id, "it has employees")
     validateCanDelete(state.getPreviousEmployees(action.id).isEmpty(), action.id, "it has previous employees")
+    validateCanDelete(state.getCharactersLivingIn(action.id).isEmpty(), action.id, "it has patients")
+    validateCanDelete(state.getCharactersPreviouslyLivingIn(action.id).isEmpty(), action.id, "it has previous patients")
 
     noFollowUps(state.updateStorage(state.getBusinessStorage().remove(action.id)))
 }

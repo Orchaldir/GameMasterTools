@@ -64,7 +64,6 @@ class BusinessTest {
         fun `Cannot delete a business where a character is employed`() {
             val state =
                 createState(Character(CHARACTER_ID_0, employmentStatus = History(Employed(BUSINESS_ID_0, JobId(0)))))
-            val action = DeleteBusiness(BUSINESS_ID_0)
 
             assertIllegalArgument("Cannot delete Business 0, because it has employees!") {
                 REDUCER.invoke(state, action)
@@ -75,9 +74,18 @@ class BusinessTest {
         fun `Cannot delete a business where a character was previously employed`() {
             val employmentStatus = History(Unemployed, listOf(HistoryEntry(Employed(BUSINESS_ID_0, JobId(0)), DAY0)))
             val state = createState(Character(CHARACTER_ID_0, employmentStatus = employmentStatus))
-            val action = DeleteBusiness(BUSINESS_ID_0)
 
             assertIllegalArgument("Cannot delete Business 0, because it has previous employees!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a business with a long term patient`() {
+            val housingStatus = History<Position>(LongTermCareIn(BUSINESS_ID_0))
+            val state = createState(Character(CHARACTER_ID_0, housingStatus = housingStatus))
+
+            assertIllegalArgument("Cannot delete Business 0, because it has patients!") {
                 REDUCER.invoke(state, action)
             }
         }

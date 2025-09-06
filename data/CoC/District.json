@@ -1,5 +1,21 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Northside",
+   "town": 1,
+   "sources": [
+    0
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Downtown",
+   "town": 1,
+   "sources": [
+    0
+   ]
+  }
  }
 }
