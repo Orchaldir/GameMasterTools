@@ -34,6 +34,7 @@ fun HtmlBlockTag.showDistrict(
     val residents = state.sortCharacters(state.getCharactersLivingIn(district.id))
     fieldList(call, state, "Residents", residents)
     showPopulation(call, state, district)
+    showLocalElements(call, state, district.id)
     showDataSources(call, state, district.sources)
 }
 

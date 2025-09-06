@@ -35,6 +35,10 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
         ELEMENT : HasPopulation {
     val population = element.population()
 
+    if (population is UndefinedPopulation) {
+        return
+    }
+
     showDetails("Population", true) {
         optionalField("Total", population.getTotalPopulation())
         optionalField("Index", state.getPopulationIndex(element))
