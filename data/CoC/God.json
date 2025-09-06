@@ -17,7 +17,10 @@
    "authenticity": {
     "type": "Mask",
     "god": 0
-   }
+   },
+   "sources": [
+    1
+   ]
   },
   "2": {
    "id": 2,

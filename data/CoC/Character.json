@@ -1070,6 +1070,12 @@
      "job": 98
     }
    },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
+   },
    "sources": [
     0
    ]
@@ -1103,6 +1109,12 @@
       }
      }
     ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "God",
+     "god": 2
+    }
    },
    "sources": [
     0
