@@ -168,7 +168,7 @@ class PositionTest {
     inner class LongTermCareTest {
 
         @Test
-        fun `Cannot use unknown district as home`() {
+        fun `Cannot use unknown business for long term care`() {
             val history = History<Position>(LongTermCareIn(UNKNOWN_BUSINESS_ID))
 
             assertIllegalArgument("Requires unknown home!") {
@@ -177,17 +177,7 @@ class PositionTest {
         }
 
         @Test
-        fun `Cannot use unknown district as a previous home`() {
-            val entry = HistoryEntry<Position>(LongTermCareIn(UNKNOWN_BUSINESS_ID), DAY1)
-            val history = History(inHome, entry)
-
-            assertIllegalArgument("Requires unknown 1.previous home!") {
-                checkPositionHistory(createState(), history, DAY0)
-            }
-        }
-
-        @Test
-        fun `The district doesn't exist yet`() {
+        fun `The business doesn't exist yet`() {
             val state = createLongTermCareState(date = DAY1)
 
             assertIllegalArgument("The home doesn't exist at the required date!") {
@@ -196,7 +186,7 @@ class PositionTest {
         }
 
         @Test
-        fun `Live in a valid district`() {
+        fun `Long term care in a valid business`() {
             checkPositionHistory(createLongTermCareState(), History(longTermCare), DAY0)
         }
 
