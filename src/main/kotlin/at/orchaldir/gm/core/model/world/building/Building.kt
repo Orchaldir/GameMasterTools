@@ -110,7 +110,8 @@ data class Building(
             is InRealm -> state.getElementName(position.realm)
             is InTown -> state.getElementName(position.town)
             is InTownMap -> state.getElementName(position.townMap)
-            Homeless, is InApartment, is InBuilding, is InHome, is LongTermCareIn, UndefinedPosition -> error("Unsupported Position Type ${position.getType()} for Address")
+            is OnMoon -> state.getElementName(position.moon)
+            else -> error("Unsupported Position Type ${position.getType()} for Address")
         } + " ${address.houseNumber}"
     }
 

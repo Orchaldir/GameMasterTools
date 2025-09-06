@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.realm.parseDistrictId
 import at.orchaldir.gm.app.html.realm.parseRealmId
 import at.orchaldir.gm.app.html.realm.parseTownId
 import at.orchaldir.gm.app.html.world.parseBuildingId
+import at.orchaldir.gm.app.html.world.parseMoonId
 import at.orchaldir.gm.app.html.world.parsePlaneId
 import at.orchaldir.gm.app.html.world.parseTownMapId
 import at.orchaldir.gm.app.parse.combine
@@ -71,6 +72,7 @@ fun HtmlBlockTag.showPosition(
             +"Patient in "
             link(call, state, position.business)
         }
+        is OnMoon -> link(call, state, position.moon)
         UndefinedPosition -> if (showUndefined) {
             +"Undefined"
         }
@@ -134,6 +136,7 @@ private fun HtmlBlockTag.selectPositionIntern(
     val buildings = state.sortBuildings(state.getExistingElements(state.getBuildingStorage(), start))
     val businesses = state.sortBusinesses(state.getExistingElements(state.getBusinessStorage(), start))
     val districts = state.sortDistricts(state.getExistingElements(state.getDistrictStorage(), start))
+    val moons = state.getMoonStorage().getAll()
     val planes = state.sortPlanes(state.getPlaneStorage().getAll())
     val realms = state.sortRealms(state.getExistingElements(state.getRealmStorage(), start))
     val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
@@ -148,6 +151,7 @@ private fun HtmlBlockTag.selectPositionIntern(
             PositionType.Homeless -> false
             PositionType.Building -> buildings.isEmpty()
             PositionType.LongTermCare -> businesses.isEmpty()
+            PositionType.Moon -> moons.isEmpty()
             PositionType.Plane -> planes.isEmpty()
             PositionType.Realm -> realms.isEmpty()
             PositionType.Town -> towns.isEmpty()
@@ -244,6 +248,13 @@ private fun HtmlBlockTag.selectPositionIntern(
             businesses,
             position.business,
         )
+
+        is OnMoon -> selectElement(
+            state,
+            combine(param, MOON),
+            moons,
+            position.moon,
+        )
     }
 }
 
@@ -281,6 +292,9 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
             parseBusinessId(parameters, combine(param, BUSINESS)),
         )
 
+        PositionType.Moon -> OnMoon(
+            parseMoonId(parameters, combine(param, MOON)),
+        )
 
         PositionType.Plane -> InPlane(
             parsePlaneId(parameters, combine(param, PLANE)),
