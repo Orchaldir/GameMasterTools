@@ -58,10 +58,14 @@ private fun HtmlBlockTag.showLocalElementsInternal(
     }
 
     val buildingIds = buildings.map { it.id }
+    val businessIds = businesses.map { it.id }
     val residentsInBuildings = state.getCharactersLivingIn(buildingIds)
-    val allResidents = residents.toSet() + residentsInBuildings.toSet()
+    val residentsInBusinesses = state.getCharactersLivingIn(businessIds)
+    val allResidents = (residents + residentsInBuildings + residentsInBusinesses).toSet()
     val formerResidentsInBuildings = state.getCharactersLivingIn(buildingIds)
-    val allFormerResidents = formerResidents.toSet() + formerResidentsInBuildings.toSet() - allResidents
+    val formerResidentsInBusinesses = state.getCharactersPreviouslyLivingIn(businessIds)
+    val allFormerResidents =
+        (formerResidents + formerResidentsInBuildings + formerResidentsInBusinesses).toSet() - allResidents
 
     showDetails("Local Elements", true) {
         fieldList(call, state, buildings)
