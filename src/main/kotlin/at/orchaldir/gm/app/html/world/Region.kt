@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.realm.parseOptionalBattleId
 import at.orchaldir.gm.app.html.realm.parseOptionalCatastropheId
+import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
@@ -32,6 +33,7 @@ fun HtmlBlockTag.showRegion(
     fieldList(call, state, "Subregions", state.getSubRegions(region.id))
     fieldIdList(call, state, "Resources", region.resources)
     fieldList(call, state, state.getTowns(region.id))
+    showLocalElements(call, state, region.id)
 }
 
 private fun HtmlBlockTag.showRegionData(

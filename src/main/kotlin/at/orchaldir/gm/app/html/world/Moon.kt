@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.util.field
+import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
@@ -33,6 +34,7 @@ fun HtmlBlockTag.showMoon(
     fieldColor(moon.color)
     optionalFieldLink("Plane", call, state, moon.plane)
     fieldIdList(call, state, "Resources", moon.resources)
+    showLocalElements(call, state, moon.id)
 
     if (nextNewMoon > nextFullMoon) {
         field(call, state, "Next Full Moon", nextFullMoon)
