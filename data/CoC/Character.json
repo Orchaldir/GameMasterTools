@@ -1043,6 +1043,36 @@
      "type": "Accident"
     }
    }
+  },
+  "20": {
+   "id": 20,
+   "name": {
+    "type": "Family",
+    "given": "Arthur",
+    "middle": null,
+    "family": "Bowen"
+   },
+   "birthDate": {
+    "type": "Year",
+    "year": 1873
+   },
+   "culture": 0,
+   "housingStatus": {
+    "current": {
+     "type": "Town",
+     "town": 1
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 10,
+     "job": 98
+    }
+   },
+   "sources": [
+    0
+   ]
   }
  }
 }

@@ -797,6 +797,14 @@
     "type": "SoL",
     "standard": 3
    }
+  },
+  "98": {
+   "id": 98,
+   "name": "Foreman",
+   "income": {
+    "type": "SoL",
+    "standard": 4
+   }
   }
  }
 }
