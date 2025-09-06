@@ -167,7 +167,7 @@ private fun HTML.showAllOrganizations(
                     td { showOptionalDate(call, state, organization.date) }
                     tdSkipZero(state.getAgeInYears(organization.date))
                     td { showReference(call, state, organization.founder, false) }
-                    tdSkipZero(organization.memberRanks.size)
+                    tdSkipZero(organization.memberRanks)
                     tdSkipZero(organization.countAllMembers())
                     td { showBeliefStatus(call, state, organization.beliefStatus.current, false) }
                 }

@@ -200,8 +200,8 @@ private fun HTML.showAllEquipment(
                     tdInlineIds(call, state, equipment.data.materials())
                     tdInlineIds(call, state, equipment.colorSchemes)
                     tdSkipZero(equipment.data.requiredSchemaColors())
-                    tdSkipZero(state.getEquippedBy(equipment.id).size)
-                    tdSkipZero(state.getFashions(equipment.id).size)
+                    tdSkipZero(state.getEquippedBy(equipment.id))
+                    tdSkipZero(state.getFashions(equipment.id))
                 }
             }
         }

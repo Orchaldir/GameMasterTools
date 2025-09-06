@@ -178,8 +178,8 @@ private fun HTML.showAllGods(
                     tdLinks(call, state, personality)
                     tdLinks(call, state, domains)
                     td { showAuthenticity(call, state, god.authenticity, false) }
-                    tdSkipZero(getBelievers(state.getCharacterStorage(), god.id).size)
-                    tdSkipZero(getBelievers(state.getOrganizationStorage(), god.id).size)
+                    tdSkipZero(getBelievers(state.getCharacterStorage(), god.id))
+                    tdSkipZero(getBelievers(state.getOrganizationStorage(), god.id))
                 }
             }
         }

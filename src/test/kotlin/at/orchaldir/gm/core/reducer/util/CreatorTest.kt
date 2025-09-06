@@ -150,7 +150,7 @@ class CreatorTest {
             fun `Creator is an unknown business`() {
                 val state = STATE.removeStorage(BUSINESS_ID_0)
 
-                assertIllegalArgument("Cannot use an unknown Business 0 as Builder!") {
+                assertIllegalArgument("Requires unknown Builder (Business 0)!") {
                     validateCreator(state, createdByBusiness, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -164,7 +164,7 @@ class CreatorTest {
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("The Builder (Business 0) does not exist!") {
+                assertIllegalArgument("The Builder (Business 0) doesn't exist at the required date!") {
                     validateCreator(STATE, createdByBusiness, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -182,14 +182,14 @@ class CreatorTest {
             fun `Creator is an unknown character`() {
                 val state = STATE.removeStorage(CHARACTER_ID_0)
 
-                assertIllegalArgument("Cannot use an unknown Character 0 as Builder!") {
+                assertIllegalArgument("Requires unknown Builder (Character 0)!") {
                     validateCreator(state, createdByCharacter, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("The Builder (Character 0) does not exist!") {
+                assertIllegalArgument("The Builder (Character 0) doesn't exist at the required date!") {
                     validateCreator(STATE, createdByCharacter, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -207,7 +207,7 @@ class CreatorTest {
             fun `Creator is an unknown culture`() {
                 val state = STATE.removeStorage(CULTURE_TYPE)
 
-                assertIllegalArgument("Cannot use an unknown Culture 0 as Builder!") {
+                assertIllegalArgument("Requires unknown Builder (Culture 0)!") {
                     validateCreator(state, createdByCulture, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -225,7 +225,7 @@ class CreatorTest {
             fun `Creator is an unknown god`() {
                 val state = STATE.removeStorage(GOD_ID_0)
 
-                assertIllegalArgument("Cannot use an unknown God 0 as Builder!") {
+                assertIllegalArgument("Requires unknown Builder (God 0)!") {
                     validateCreator(state, createdByGod, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -243,7 +243,7 @@ class CreatorTest {
             fun `Creator is an unknown organization`() {
                 val state = STATE.removeStorage(ORGANIZATION_ID_0)
 
-                assertIllegalArgument("Cannot use an unknown Organization 0 as Builder!") {
+                assertIllegalArgument("Requires unknown Builder (Organization 0)!") {
                     validateCreator(state, createdByOrganization, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -257,7 +257,7 @@ class CreatorTest {
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("The Builder (Organization 0) does not exist!") {
+                assertIllegalArgument("The Builder (Organization 0) doesn't exist at the required date!") {
                     validateCreator(STATE, createdByOrganization, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -275,7 +275,7 @@ class CreatorTest {
             fun `Creator is an unknown realm`() {
                 val state = STATE.removeStorage(REALM_ID_0)
 
-                assertIllegalArgument("Cannot use an unknown Realm 0 as Builder!") {
+                assertIllegalArgument("Requires unknown Builder (Realm 0)!") {
                     validateCreator(state, createdByRealm, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -289,7 +289,7 @@ class CreatorTest {
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("The Builder (Realm 0) does not exist!") {
+                assertIllegalArgument("The Builder (Realm 0) doesn't exist at the required date!") {
                     validateCreator(STATE, createdByRealm, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -307,7 +307,7 @@ class CreatorTest {
             fun `Creator is an unknown town`() {
                 val state = STATE.removeStorage(TOWN_ID_0)
 
-                assertIllegalArgument("Cannot use an unknown Town 0 as Builder!") {
+                assertIllegalArgument("Requires unknown Builder (Town 0)!") {
                     validateCreator(state, createdByTown, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
@@ -321,7 +321,7 @@ class CreatorTest {
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("The Builder (Town 0) does not exist!") {
+                assertIllegalArgument("The Builder (Town 0) doesn't exist at the required date!") {
                     validateCreator(STATE, createdByTown, BUILDING_ID_0, DAY0, "Builder")
                 }
             }

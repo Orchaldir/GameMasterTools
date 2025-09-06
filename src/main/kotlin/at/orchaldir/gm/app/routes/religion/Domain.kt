@@ -156,8 +156,8 @@ private fun HTML.showAllDomains(
                 tr {
                     tdLink(call, state, domain)
                     tdSkipZero(domain.spells.getSize())
-                    tdSkipZero(domain.jobs.size)
-                    tdSkipZero(state.getGodsWith(domain.id).size)
+                    tdSkipZero(domain.jobs)
+                    tdSkipZero(state.getGodsWith(domain.id))
                 }
             }
         }

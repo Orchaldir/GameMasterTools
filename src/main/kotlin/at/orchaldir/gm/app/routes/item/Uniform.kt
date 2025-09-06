@@ -170,7 +170,7 @@ private fun HTML.showAllUniforms(
             uniforms.forEach { uniform ->
                 tr {
                     tdLink(call, state, uniform)
-                    tdSkipZero(uniform.equipmentMap.getAllEquipment().size)
+                    tdSkipZero(uniform.equipmentMap.getAllEquipment())
                 }
             }
         }

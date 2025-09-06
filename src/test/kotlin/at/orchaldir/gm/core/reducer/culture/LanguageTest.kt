@@ -123,7 +123,7 @@ class LanguageTest {
             val origin = CreatedElement(CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, date = DAY0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Creator (Character 99)!") { REDUCER.invoke(state, action) }
         }
 
         @Test

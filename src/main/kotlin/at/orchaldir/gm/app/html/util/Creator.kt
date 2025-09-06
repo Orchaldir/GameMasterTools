@@ -53,8 +53,8 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
     created: ID,
     date: Date?,
     noun: String = "Creator",
-) = selectReference(state, noun, creator, date, CREATOR, ALLOWED_CREATORS) { id ->
-    id != created
+) = selectReference(state, noun, creator, date, CREATOR, ALLOWED_CREATORS) {
+    it.id() != created
 }
 
 // parse

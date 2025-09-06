@@ -93,7 +93,7 @@ class TextTest {
             val origin = CreatedElement(CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Creator (Character 99)!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -129,7 +129,7 @@ class TextTest {
             val origin = TranslatedElement(TEXT_ID_1, CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown Character 99 as Creator!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Creator (Character 99)!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

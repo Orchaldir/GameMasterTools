@@ -75,7 +75,7 @@ class PeriodicalTest {
             val ownership: History<Reference> = History(CharacterReference(UNKNOWN_CHARACTER_ID))
             val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, ownership = ownership))
 
-            assertIllegalArgument("Cannot use an unknown Character 99 as owner!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown owner (Character 99)!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

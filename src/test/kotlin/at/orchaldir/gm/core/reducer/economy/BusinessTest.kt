@@ -114,7 +114,7 @@ class BusinessTest {
                 UpdateBusiness(Business(BUSINESS_ID_0, ownership = History(CharacterReference(CHARACTER_ID_0))))
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
-            assertIllegalArgument("Cannot use an unknown Character 0 as owner!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown owner (Character 0)!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -122,7 +122,7 @@ class BusinessTest {
             val action = UpdateBusiness(Business(BUSINESS_ID_0, founder = CharacterReference(CHARACTER_ID_0)))
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
-            assertIllegalArgument("Cannot use an unknown Character 0 as Founder!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Founder (Character 0)!") { REDUCER.invoke(state, action) }
         }
 
         @Test

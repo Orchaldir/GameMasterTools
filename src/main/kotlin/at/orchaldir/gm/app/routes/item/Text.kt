@@ -183,7 +183,7 @@ private fun HTML.showAllTexts(
                     tdEnum(text.format.getType())
                     tdInlineIds(call, state, text.materials())
                     tdSkipZero(text.content.pages())
-                    tdSkipZero(text.content.spells().size)
+                    tdSkipZero(text.content.spells())
                 }
             }
         }

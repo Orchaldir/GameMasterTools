@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.parseCharacterId
 import at.orchaldir.gm.app.html.health.parseDiseaseId
 import at.orchaldir.gm.app.html.realm.parseBattleId
 import at.orchaldir.gm.app.html.realm.parseCatastropheId
@@ -12,7 +11,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.health.getExistingDiseases
 import at.orchaldir.gm.core.selector.realm.getExistingBattles
 import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
@@ -98,9 +96,9 @@ fun HtmlBlockTag.displayCauseOfDeath(
             link(call, state, cause.war)
         }
 
-        is Murder -> {
+        is KilledBy -> {
             +"Killed by "
-            link(call, state, cause.killer)
+            showReference(call, state, cause.killer)
         }
 
         is OldAge -> +"Old Age"
@@ -158,8 +156,6 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
     allowedCauses: Collection<CauseOfDeathType>,
 ) {
     val catastrophes = state.getExistingCatastrophes(deathDay)
-    val characters = state.getLiving(deathDay)
-        .filter { it.id != id }
     val diseases = state.getExistingDiseases(deathDay)
     val wars = state.getExistingWars(deathDay)
     val battles = state.getExistingBattles(deathDay)
@@ -173,7 +169,6 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
         when (type) {
             CauseOfDeathType.Battle -> battles.isEmpty()
             CauseOfDeathType.Catastrophe -> catastrophes.isEmpty()
-            CauseOfDeathType.Murder -> characters.isEmpty()
             CauseOfDeathType.War -> wars.isEmpty()
             else -> false
         }
@@ -209,12 +204,16 @@ private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
             cause.battle,
         )
 
-        is Murder -> selectElement(
+        is KilledBy -> selectReference(
             state,
             KILLER,
-            characters,
             cause.killer,
-        )
+            deathDay,
+            KILLER,
+            ALLOWED_KILLERS,
+        ) {
+            it.id() != id
+        }
 
         OldAge -> doNothing()
         UndefinedCauseOfDeath -> doNothing()
@@ -259,8 +258,8 @@ private fun parseCauseOfDeath(parameters: Parameters) = when (parse(parameters, 
         parseDiseaseId(parameters, DISEASE),
     )
 
-    CauseOfDeathType.Murder -> Murder(
-        parseCharacterId(parameters, KILLER),
+    CauseOfDeathType.Killed -> KilledBy(
+        parseReference(parameters, KILLER),
     )
 
     CauseOfDeathType.OldAge -> OldAge

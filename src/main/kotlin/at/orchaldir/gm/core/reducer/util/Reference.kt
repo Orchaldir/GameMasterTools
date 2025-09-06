@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.util.exists
+import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -37,11 +37,9 @@ private fun <ID, ELEMENT> validateReference(
     noun: String,
     date: Date?,
 ) where ID : Id<ID>, ELEMENT : Element<ID>, ELEMENT : HasStartDate {
-    val element = state
-        .getStorage<ID, ELEMENT>(reference)
-        .getOrThrow(reference) { "Cannot use an unknown ${reference.print()} as $noun!" }
-
-    require(state.exists(element, date)) { "The $noun (${reference.print()}) does not exist!" }
+    state.requireExists(reference, date) {
+        "$noun (${reference.print()})"
+    }
 
     validateId(reference)
 }

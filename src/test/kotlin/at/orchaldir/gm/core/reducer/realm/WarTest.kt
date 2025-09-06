@@ -87,7 +87,7 @@ class WarTest {
             fun `Realm must exist`() {
                 val participant = WarParticipant(RealmReference(UNKNOWN_REALM_ID))
 
-                assertSides(listOf(participant), "Cannot use an unknown Realm 99 as Participant!")
+                assertSides(listOf(participant), "Requires unknown Participant (Realm 99)!")
             }
 
             @Test
