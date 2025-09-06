@@ -200,6 +200,7 @@ fun parseReference(
         ReferenceType.Realm -> RealmReference(
             parseRealmId(parameters, combine(param, REALM)),
         )
+
         ReferenceType.Town -> TownReference(
             parseTownId(parameters, combine(param, TOWN)),
         )
