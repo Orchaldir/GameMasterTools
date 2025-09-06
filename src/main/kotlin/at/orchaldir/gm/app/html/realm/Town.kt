@@ -50,6 +50,7 @@ fun HtmlBlockTag.showTown(
     showPopulation(call, state, town)
     fieldList(call, state, "Districts", state.sortDistricts(state.getDistricts(town.id)))
     showDataSources(call, state, town.sources)
+    showLocalElements(call, state, town.id)
 
     val currentOptionalTownMaps = state.getCurrentTownMap(town.id)
 
@@ -58,7 +59,7 @@ fun HtmlBlockTag.showTown(
         val previousTownMaps = state.sortTownMaps(state.getTownMaps(town.id) - currentTownMap)
         fieldList(call, state, "Previous Town Maps", previousTownMaps)
 
-        showBuildingsOfTownMap(call, state, currentTownMap.id, town.id)
+        showLocalElements(call, state, currentTownMap.id)
     }
     showCharactersOfTownMap(call, state, town.id, currentOptionalTownMaps?.id)
 

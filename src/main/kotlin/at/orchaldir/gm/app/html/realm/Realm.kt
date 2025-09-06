@@ -51,7 +51,7 @@ fun HtmlBlockTag.showRealm(
     showHistory(call, state, realm.legalCode, "Legal Code", "Lawless") { _, _, code ->
         link(call, state, code)
     }
-
+    showLocalElements(call, state, realm.id)
     showEmployees(call, state, state.getEmployees(realm.id), showTown = false)
     showEmployees(call, state, state.getPreviousEmployees(realm.id), "Previous Employees", showTown = false)
     val residents = state.sortCharacters(state.getCharactersLivingIn(realm.id))

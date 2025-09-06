@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.parseLanguageId
+import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -38,6 +39,7 @@ fun HtmlBlockTag.showPlane(
     fieldList(call, state, "Demiplanes", state.getDemiplanes(plane.id))
     fieldList(call, state, "Reflection", state.getReflections(plane.id))
     fieldList(call, state, "Associated Moons", state.getMoons(plane.id))
+    showLocalElements(call, state, plane.id)
     showDataSources(call, state, plane.sources)
 }
 

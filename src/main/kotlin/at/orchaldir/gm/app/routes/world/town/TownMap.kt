@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
@@ -181,7 +182,7 @@ private fun HTML.showTownMapDetails(
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
 
-            showBuildingsOfTownMap(call, state, townMap.id)
+            showLocalElements(call, state, townMap.id)
             showCharactersOfTownMap(call, state, townMap.town, townMap.id)
 
             back(backLink)
