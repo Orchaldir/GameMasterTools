@@ -57,10 +57,10 @@ private fun HtmlBlockTag.showLocalElementsInternal(
         return
     }
 
-    val residentsInBuildings = state.getCharactersLivingIn(buildings.map { it.id })
+    val buildingIds = buildings.map { it.id }
+    val residentsInBuildings = state.getCharactersLivingIn(buildingIds)
     val allResidents = residents.toSet() + residentsInBuildings.toSet()
-
-    val formerResidentsInBuildings = state.getCharactersLivingIn(buildings.map { it.id })
+    val formerResidentsInBuildings = state.getCharactersLivingIn(buildingIds)
     val allFormerResidents = formerResidents.toSet() + formerResidentsInBuildings.toSet() - allResidents
 
     showDetails("Local Elements", true) {

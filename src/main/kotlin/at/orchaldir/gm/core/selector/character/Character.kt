@@ -178,13 +178,6 @@ fun <ID : Id<ID>> State.getCharactersPreviouslyLivingIn(ids: Collection<ID>) = g
     .getAll()
     .filter { ids.any { id -> it.housingStatus.wasIn(id) } }
 
-fun State.getResidents(townId: TownId): List<Character> {
-    val townMap = getCurrentTownMap(townId)
-        ?: return emptyList()
-
-    return getResidents(townId, townMap.id)
-}
-
 fun State.getResidents(town: TownId?, townMap: TownMapId?): List<Character> {
     val residents = if (town != null) {
         getCharactersLivingIn(town)
