@@ -256,11 +256,13 @@ class BuildingTest {
         private val UNKNOWN_STREET = StreetId(99)
         private val STREET_NOT_IN_TOWN = StreetId(199)
         private val STYLE = ArchitecturalStyleId(0)
-        private val emptyMap = TileMap2d(MapSize2d(2, 2), listOf(STREET_TILE_0, STREET_TILE_1, TownTile(), TownTile()))
-        private val firstMap =
-            TileMap2d(MapSize2d(2, 2), listOf(STREET_TILE_0, STREET_TILE_1, BUILDING_TILE_0, TownTile()))
-        private val secondMap =
-            TileMap2d(MapSize2d(2, 2), listOf(STREET_TILE_0, STREET_TILE_1, TownTile(), BUILDING_TILE_0))
+        private val mapSize = MapSize2d(2, 2)
+        private val emptyMap = TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, TownTile(), TownTile()))
+        private val firstMap = TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, BUILDING_TILE_0, TownTile()))
+        private val secondMap = TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, TownTile(), BUILDING_TILE_0))
+        private val emptyTownMap = TownMap(TOWN_MAP_ID_0, map = emptyMap)
+        private val firstTownMap = TownMap(TOWN_MAP_ID_0, map = firstMap)
+        private val secondTownMap = TownMap(TOWN_MAP_ID_0, map = secondMap)
         private val STATE = State(
             listOf(
                 Storage(listOf(ArchitecturalStyle(STYLE, start = YEAR0))),
@@ -269,12 +271,7 @@ class BuildingTest {
                 Storage(Character(CHARACTER_ID_0, birthDate = DAY0)),
                 Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1), Street(STREET_NOT_IN_TOWN))),
                 Storage(Town(TOWN_ID_0)),
-                Storage(
-                    TownMap(
-                        TOWN_MAP_ID_0,
-                        map = emptyMap
-                    )
-                ),
+                Storage(emptyTownMap),
             )
         )
         private val OWNED_BY_CHARACTER = History<Reference>(CharacterReference(CHARACTER_ID_0))
@@ -492,12 +489,26 @@ class BuildingTest {
         inner class PositionTest {
 
             @Test
-            fun `Move to a town map`() {
+            fun `Move into a town map`() {
                 val newBuilding = building.copy(position = firstPosition)
 
                 val result = REDUCER.invoke(STATE, UpdateBuilding(newBuilding)).first
 
                 assertEquals(firstMap, result.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
+            }
+
+            @Test
+            fun `Move away from a town map`() {
+                val newState = STATE.updateStorage(
+                    listOf(
+                        Storage(building.copy(position = firstPosition)),
+                        Storage(firstTownMap),
+                    )
+                )
+
+                val result = REDUCER.invoke(newState, UpdateBuilding(building)).first
+
+                assertEquals(emptyMap, result.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
             }
         }
 
