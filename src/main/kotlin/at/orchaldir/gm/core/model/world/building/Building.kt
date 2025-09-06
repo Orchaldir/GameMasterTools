@@ -16,8 +16,10 @@ const val BUILDING_TYPE = "Building"
 val ALLOWED_BUILDING_POSITIONS = listOf(
     PositionType.Undefined,
     PositionType.District,
+    PositionType.Moon,
     PositionType.Plane,
     PositionType.Realm,
+    PositionType.Region,
     PositionType.Town,
     PositionType.TownMap,
 )
