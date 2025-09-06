@@ -256,6 +256,11 @@ class BuildingTest {
         private val UNKNOWN_STREET = StreetId(99)
         private val STREET_NOT_IN_TOWN = StreetId(199)
         private val STYLE = ArchitecturalStyleId(0)
+        private val emptyMap = TileMap2d(MapSize2d(2, 2), listOf(STREET_TILE_0, STREET_TILE_1, TownTile(), TownTile()))
+        private val firstMap =
+            TileMap2d(MapSize2d(2, 2), listOf(STREET_TILE_0, STREET_TILE_1, BUILDING_TILE_0, TownTile()))
+        private val secondMap =
+            TileMap2d(MapSize2d(2, 2), listOf(STREET_TILE_0, STREET_TILE_1, TownTile(), BUILDING_TILE_0))
         private val STATE = State(
             listOf(
                 Storage(listOf(ArchitecturalStyle(STYLE, start = YEAR0))),
@@ -267,7 +272,7 @@ class BuildingTest {
                 Storage(
                     TownMap(
                         TOWN_MAP_ID_0,
-                        map = TileMap2d(MapSize2d(2, 2), listOf(STREET_TILE_0, STREET_TILE_1, TownTile(), TownTile()))
+                        map = emptyMap
                     )
                 ),
             )
@@ -285,6 +290,8 @@ class BuildingTest {
             SingleFamilyHouse,
             UndefinedReference
         )
+        val firstPosition = InTownMap(TOWN_MAP_ID_0, 2)
+        val secondPosition = InTownMap(TOWN_MAP_ID_0, 3)
 
         @Test
         fun `Cannot update unknown id`() {
@@ -350,13 +357,12 @@ class BuildingTest {
             private val building = Building(
                 BUILDING_ID_0,
                 Name.init("New"),
-                InTownMap(TOWN_MAP_ID_0, 2),
+                firstPosition,
                 constructionDate = DAY0,
                 ownership = OWNERSHIP,
                 style = STYLE,
                 purpose = SingleFamilyHouse,
             )
-            val secondPosition = InTownMap(TOWN_MAP_ID_0, 3)
 
             @Test
             fun `Updated crossing address`() {
@@ -479,6 +485,19 @@ class BuildingTest {
                 assertEquals(newBuilding, result.getBuildingStorage().get(newBuilding.id))
 
                 return result
+            }
+        }
+
+        @Nested
+        inner class PositionTest {
+
+            @Test
+            fun `Move to a town map`() {
+                val newBuilding = building.copy(position = firstPosition)
+
+                val result = REDUCER.invoke(STATE, UpdateBuilding(newBuilding)).first
+
+                assertEquals(firstMap, result.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
             }
         }
 
