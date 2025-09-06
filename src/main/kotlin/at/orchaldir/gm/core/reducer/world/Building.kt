@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
+import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
@@ -70,10 +71,46 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 }
 
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
-    state.getBuildingStorage().require(action.building.id)
-    validateBuilding(state, action.building)
+    val newBuilding = action.building
+    val oldBuilding = state.getBuildingStorage().getOrThrow(newBuilding.id)
+    val updatedTownMaps = mutableListOf<TownMap>()
 
-    noFollowUps(state.updateStorage(state.getBuildingStorage().update(action.building)))
+    validateBuilding(state, newBuilding)
+
+    if (oldBuilding.position is InTownMap) {
+        val oldTownMap = state.getTownMapStorage().getOrThrow(oldBuilding.position.townMap)
+
+        if (newBuilding.position is InTownMap) {
+            val newTownMap = state.getTownMapStorage().getOrThrow(newBuilding.position.townMap)
+
+            if (newTownMap.id != oldTownMap.id) {
+                updatedTownMaps.add(oldTownMap.removeBuilding(oldBuilding.id))
+            }
+
+            updatedTownMaps.add(
+                oldTownMap.updateBuilding(
+                    newBuilding.id,
+                    newBuilding.position.tileIndex,
+                    newBuilding.size
+                )
+            )
+        } else {
+            updatedTownMaps.add(oldTownMap.removeBuilding(oldBuilding.id))
+        }
+    } else if (newBuilding.position is InTownMap) {
+        val newTownMap = state.getTownMapStorage().getOrThrow(newBuilding.position.townMap)
+
+        updatedTownMaps.add(newTownMap.updateBuilding(newBuilding.id, newBuilding.position.tileIndex, newBuilding.size))
+    }
+
+    noFollowUps(
+        state.updateStorage(
+            listOf(
+                state.getBuildingStorage().update(newBuilding),
+                state.getTownMapStorage().update(updatedTownMaps),
+            )
+        )
+    )
 }
 
 fun validateBuilding(

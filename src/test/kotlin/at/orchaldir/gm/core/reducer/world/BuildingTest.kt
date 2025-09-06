@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
@@ -255,7 +256,6 @@ class BuildingTest {
         private val UNKNOWN_STREET = StreetId(99)
         private val STREET_NOT_IN_TOWN = StreetId(199)
         private val STYLE = ArchitecturalStyleId(0)
-        private val UNKNOWN_STYLE = ArchitecturalStyleId(1)
         private val STATE = State(
             listOf(
                 Storage(listOf(ArchitecturalStyle(STYLE, start = YEAR0))),
@@ -263,7 +263,13 @@ class BuildingTest {
                 Storage(CALENDAR0),
                 Storage(Character(CHARACTER_ID_0, birthDate = DAY0)),
                 Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1), Street(STREET_NOT_IN_TOWN))),
-                Storage(TownMap(TOWN_MAP_ID_0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
+                Storage(Town(TOWN_ID_0)),
+                Storage(
+                    TownMap(
+                        TOWN_MAP_ID_0,
+                        map = TileMap2d(MapSize2d(2, 2), listOf(STREET_TILE_0, STREET_TILE_1, TownTile(), TownTile()))
+                    )
+                ),
             )
         )
         private val OWNED_BY_CHARACTER = History<Reference>(CharacterReference(CHARACTER_ID_0))
@@ -289,7 +295,7 @@ class BuildingTest {
 
         @Test
         fun `Architectural style is unknown`() {
-            failUpdate(building.copy(style = UNKNOWN_STYLE), "Requires unknown Architectural Style 1!")
+            failUpdate(building.copy(style = UNKNOWN_ARCHITECTURAL_ID), "Requires unknown Architectural Style 99!")
         }
 
         @Test
@@ -344,12 +350,13 @@ class BuildingTest {
             private val building = Building(
                 BUILDING_ID_0,
                 Name.init("New"),
-                InTownMap(TOWN_MAP_ID_0, 0),
+                InTownMap(TOWN_MAP_ID_0, 2),
                 constructionDate = DAY0,
                 ownership = OWNERSHIP,
                 style = STYLE,
                 purpose = SingleFamilyHouse,
             )
+            val secondPosition = InTownMap(TOWN_MAP_ID_0, 3)
 
             @Test
             fun `Updated crossing address`() {
@@ -366,7 +373,7 @@ class BuildingTest {
                 val address = CrossingAddress(listOf(STREET_ID_0, STREET_ID_1))
                 val state = testSuccessful(address)
 
-                testSuccessful(address, state, BUILDING_ID_1)
+                testSuccessful(state, building.copy(BUILDING_ID_0, address = address, position = secondPosition))
             }
 
             @Test
@@ -429,8 +436,9 @@ class BuildingTest {
             @Test
             fun `Can reuse the same street with a different house number`() {
                 val state = testSuccessful(StreetAddress(STREET_ID_0, 1))
+                val newAddress = StreetAddress(STREET_ID_0, 2)
 
-                testSuccessful(StreetAddress(STREET_ID_0, 2), state, BUILDING_ID_1)
+                testSuccessful(state, building.copy(BUILDING_ID_0, address = newAddress, position = secondPosition))
             }
 
             @Test
@@ -457,11 +465,18 @@ class BuildingTest {
 
             private fun testSuccessful(address: Address, state: State = STATE, id: BuildingId = BUILDING_ID_0): State {
                 val newBuilding = building.copy(id = id, address = address)
+                return testSuccessful(state, newBuilding)
+            }
+
+            private fun testSuccessful(
+                state: State,
+                newBuilding: Building,
+            ): State {
                 val action = UpdateBuilding(newBuilding)
 
                 val result = REDUCER.invoke(state, action).first
 
-                assertEquals(newBuilding, result.getBuildingStorage().get(id))
+                assertEquals(newBuilding, result.getBuildingStorage().get(newBuilding.id))
 
                 return result
             }
