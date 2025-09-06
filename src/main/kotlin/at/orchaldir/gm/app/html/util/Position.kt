@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.realm.parseDistrictId
 import at.orchaldir.gm.app.html.realm.parseRealmId
 import at.orchaldir.gm.app.html.realm.parseTownId
@@ -56,11 +57,7 @@ fun HtmlBlockTag.showPosition(
         Homeless -> +"Homeless"
         is InApartment -> {
             +"${position.apartmentIndex + 1}.Apartment of "
-            link(
-                call,
-                state,
-                position.building
-            )
+            link(call, state, position.building)
         }
 
         is InBuilding -> link(call, state, position.building)
@@ -70,6 +67,10 @@ fun HtmlBlockTag.showPosition(
         is InRealm -> link(call, state, position.realm)
         is InTown -> link(call, state, position.town)
         is InTownMap -> link(call, state, position.townMap)
+        is LongTermCareIn -> {
+            +"Patient in "
+            link(call, state, position.business)
+        }
         UndefinedPosition -> if (showUndefined) {
             +"Undefined"
         }
@@ -131,6 +132,7 @@ private fun HtmlBlockTag.selectPositionIntern(
     val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
     val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
     val buildings = state.sortBuildings(state.getExistingElements(state.getBuildingStorage(), start))
+    val businesses = state.sortBusinesses(state.getExistingElements(state.getBusinessStorage(), start))
     val districts = state.sortDistricts(state.getExistingElements(state.getDistrictStorage(), start))
     val planes = state.sortPlanes(state.getPlaneStorage().getAll())
     val realms = state.sortRealms(state.getExistingElements(state.getRealmStorage(), start))
@@ -145,6 +147,7 @@ private fun HtmlBlockTag.selectPositionIntern(
             PositionType.Home -> homes.isEmpty()
             PositionType.Homeless -> false
             PositionType.Building -> buildings.isEmpty()
+            PositionType.LongTermCare -> businesses.isEmpty()
             PositionType.Plane -> planes.isEmpty()
             PositionType.Realm -> realms.isEmpty()
             PositionType.Town -> towns.isEmpty()
@@ -235,6 +238,12 @@ private fun HtmlBlockTag.selectPositionIntern(
                 selected = tile == position.tileIndex
             }
         }
+        is LongTermCareIn -> selectElement(
+            state,
+            combine(param, BUSINESS),
+            businesses,
+            position.business,
+        )
     }
 }
 
@@ -266,6 +275,10 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
                 parameters,
                 combine(param, BUILDING),
                 state.getHomes().minOfOrNull { it.id.value } ?: 0),
+        )
+
+        PositionType.LongTermCare -> LongTermCareIn(
+            parseBusinessId(parameters, combine(param, BUSINESS)),
         )
 
 

@@ -1073,6 +1073,40 @@
    "sources": [
     0
    ]
+  },
+  "21": {
+   "id": 21,
+   "name": {
+    "type": "Family",
+    "given": "Richard",
+    "middle": null,
+    "family": "Tobey"
+   },
+   "birthDate": {
+    "type": "Year",
+    "year": 1867
+   },
+   "culture": 0,
+   "housingStatus": {
+    "current": {
+     "type": "LongTermCare",
+     "business": 11
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 1895
+      }
+     }
+    ]
+   },
+   "sources": [
+    0
+   ]
   }
  }
 }
