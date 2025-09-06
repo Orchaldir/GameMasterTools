@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
@@ -25,6 +26,7 @@ class PositionTest {
     private val inRealm = InRealm(REALM_ID_0)
     private val inTown = InTown(TOWN_ID_0)
     private val inTownMap = InTownMap(TOWN_MAP_ID_0, 0)
+    private val longTermCare = LongTermCareIn(BUSINESS_ID_0)
 
     @Nested
     inner class ApartmentTest {
@@ -156,9 +158,52 @@ class PositionTest {
 
         private fun createDistrictState(date: Date = DAY0) = State(
             listOf(
-                Storage(Building(BUILDING_ID_0)),
                 Storage(CALENDAR0),
                 Storage(District(DISTRICT_ID_0, foundingDate = date)),
+            )
+        )
+    }
+
+    @Nested
+    inner class LongTermCareTest {
+
+        @Test
+        fun `Cannot use unknown district as home`() {
+            val history = History<Position>(LongTermCareIn(UNKNOWN_BUSINESS_ID))
+
+            assertIllegalArgument("Requires unknown home!") {
+                checkPositionHistory(createState(), history, DAY0)
+            }
+        }
+
+        @Test
+        fun `Cannot use unknown district as a previous home`() {
+            val entry = HistoryEntry<Position>(LongTermCareIn(UNKNOWN_BUSINESS_ID), DAY1)
+            val history = History(inHome, entry)
+
+            assertIllegalArgument("Requires unknown 1.previous home!") {
+                checkPositionHistory(createState(), history, DAY0)
+            }
+        }
+
+        @Test
+        fun `The district doesn't exist yet`() {
+            val state = createLongTermCareState(date = DAY1)
+
+            assertIllegalArgument("The home doesn't exist at the required date!") {
+                checkPositionHistory(state, History(longTermCare), DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid district`() {
+            checkPositionHistory(createLongTermCareState(), History(longTermCare), DAY0)
+        }
+
+        private fun createLongTermCareState(date: Date = DAY0) = State(
+            listOf(
+                Storage(CALENDAR0),
+                Storage(Business(BUSINESS_ID_0, startDate = date)),
             )
         )
     }
@@ -201,7 +246,6 @@ class PositionTest {
 
         private fun createRealmState(date: Date = DAY0) = State(
             listOf(
-                Storage(Building(BUILDING_ID_0)),
                 Storage(CALENDAR0),
                 Storage(Realm(REALM_ID_0, date = date)),
             )

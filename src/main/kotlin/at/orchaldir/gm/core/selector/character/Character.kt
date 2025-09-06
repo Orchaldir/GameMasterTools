@@ -148,9 +148,9 @@ fun State.getSecretIdentitiesOf(character: CharacterId) = getCharacterStorage()
 
 // housing status
 
-fun State.getCharactersLivingIn(building: BuildingId) = getCharacterStorage()
+fun <ID : Id<ID>> State.getCharactersLivingIn(id: ID) = getCharacterStorage()
     .getAll()
-    .filter { it.housingStatus.current.isIn(building) }
+    .filter { it.housingStatus.current.isIn(id) }
 
 fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) = getCharacterStorage()
     .getAll()
@@ -160,41 +160,13 @@ fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage
     .getAll()
     .filter { it.housingStatus.current.isInBuilding(building) }
 
-fun State.getCharactersLivingIn(district: DistrictId) = getCharacterStorage()
-    .getAll()
-    .filter { it.housingStatus.current.isIn(district) }
-
-fun State.getCharactersLivingIn(realm: RealmId) = getCharacterStorage()
-    .getAll()
-    .filter { it.housingStatus.current.isIn(realm) }
-
-fun State.getCharactersLivingIn(town: TownId) = getCharacterStorage()
-    .getAll()
-    .filter { it.housingStatus.current.isIn(town) }
-
-fun State.getCharactersLivingIn(townMap: TownMapId) = getCharacterStorage()
-    .getAll()
-    .filter { isResident(it, townMap) }
-
 fun State.countCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
     .count { it.housingStatus.current.isInBuilding(building) }
 
-fun State.getCharactersPreviouslyLivingIn(building: BuildingId) = getCharacterStorage()
+fun <ID : Id<ID>> State.getCharactersPreviouslyLivingIn(id: ID) = getCharacterStorage()
     .getAll()
-    .filter { it.housingStatus.previousEntries.any { it.entry.isIn(building) } }
-
-fun State.getCharactersPreviouslyLivingIn(district: DistrictId) = getCharacterStorage()
-    .getAll()
-    .filter { it.housingStatus.previousEntries.any { it.entry.isIn(district) } }
-
-fun State.getCharactersPreviouslyLivingIn(realm: RealmId) = getCharacterStorage()
-    .getAll()
-    .filter { it.housingStatus.previousEntries.any { it.entry.isIn(realm) } }
-
-fun State.getCharactersPreviouslyLivingIn(town: TownId) = getCharacterStorage()
-    .getAll()
-    .filter { it.housingStatus.previousEntries.any { it.entry.isIn(town) } }
+    .filter { it.housingStatus.previousEntries.any { it.entry.isIn(id) } }
 
 fun State.getResidents(townId: TownId): List<Character> {
     val townMap = getCurrentTownMap(townId)
