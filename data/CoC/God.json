@@ -8,7 +8,10 @@
    "gender": "Female",
    "authenticity": {
     "type": "Authentic"
-   }
+   },
+   "sources": [
+    1
+   ]
   },
   "1": {
    "id": 1,
