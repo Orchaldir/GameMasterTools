@@ -489,7 +489,7 @@ class BuildingTest {
         inner class PositionTest {
 
             @Test
-            fun `Move into a town map`() {
+            fun `New position is not a town map now`() {
                 val newBuilding = building.copy(position = firstPosition)
 
                 val result = REDUCER.invoke(STATE, UpdateBuilding(newBuilding)).first
@@ -498,7 +498,7 @@ class BuildingTest {
             }
 
             @Test
-            fun `Move away from a town map`() {
+            fun `New position is not a town map anymore`() {
                 val newState = STATE.updateStorage(
                     listOf(
                         Storage(building.copy(position = firstPosition)),
@@ -509,6 +509,21 @@ class BuildingTest {
                 val result = REDUCER.invoke(newState, UpdateBuilding(building)).first
 
                 assertEquals(emptyMap, result.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
+            }
+
+            @Test
+            fun `New position is a different tile`() {
+                val newState = STATE.updateStorage(
+                    listOf(
+                        Storage(building.copy(position = firstPosition)),
+                        Storage(firstTownMap),
+                    )
+                )
+                val newBuilding = building.copy(position = secondPosition)
+
+                val result = REDUCER.invoke(newState, UpdateBuilding(newBuilding)).first
+
+                assertEquals(secondMap, result.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
             }
         }
 
