@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InRegion
+import at.orchaldir.gm.core.model.util.InTown
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -56,7 +57,7 @@ class RegionTest {
 
         @Test
         fun `Cannot delete, if having subregions`() {
-            val region1 = Region(REGION_ID_1, parent = REGION_ID_0)
+            val region1 = Region(REGION_ID_1, position = InRegion(REGION_ID_0))
             val state = state.updateStorage(Storage(listOf(region0, region1)))
 
             assertIllegalArgument("Cannot delete Region 0, because it is used!") { REDUCER.invoke(state, action) }
@@ -95,11 +96,19 @@ class RegionTest {
         }
 
         @Test
-        fun `Cannot use unknown parent`() {
-            val region = Region(REGION_ID_0, parent = UNKNOWN_REGION_ID)
+        fun `Cannot use an unknown region as position`() {
+            val region = Region(REGION_ID_0, position = InRegion(UNKNOWN_REGION_ID))
             val action = UpdateRegion(region)
 
-            assertIllegalArgument("Requires unknown parent!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Region 99 as position!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use an invalid type as position`() {
+            val region = Region(REGION_ID_0, position = InTown(TOWN_ID_0))
+            val action = UpdateRegion(region)
+
+            assertIllegalArgument("Position has invalid type Town!") { REDUCER.invoke(state, action) }
         }
 
         @Test
