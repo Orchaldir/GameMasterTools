@@ -29,6 +29,10 @@ class RiverTest {
             )
             val expected = DeleteResult(RIVER_ID_0).addId(TOWN_MAP_ID_0)
 
+            assertCanDelete(state, expected)
+        }
+
+        private fun assertCanDelete(state: State, expected: DeleteResult) {
             assertEquals(expected, state.canDeleteRiver(RIVER_ID_0))
         }
     }
