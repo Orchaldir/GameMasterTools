@@ -156,7 +156,10 @@
   },
   "15": {
    "id": 15,
-   "name": "Southern Sea"
+   "name": "Southern Sea",
+   "data": {
+    "type": "Sea"
+   }
   },
   "16": {
    "id": 16,
@@ -168,6 +171,9 @@
   "17": {
    "id": 17,
    "name": "Lake Deval",
+   "data": {
+    "type": "Lake"
+   },
    "position": {
     "type": "Region",
     "region": 5
