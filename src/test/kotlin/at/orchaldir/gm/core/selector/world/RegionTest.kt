@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.town.MountainTerrain
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
@@ -34,18 +35,16 @@ class RegionTest {
         fun `Cannot delete, if used by a town map`() {
             val map = TileMap2d(TownTile(MountainTerrain(REGION_ID_0)))
             val newState = state.updateStorage(Storage(TownMap(TOWN_MAP_ID_0, map = map)))
-            val expected = DeleteResult(REGION_ID_0).addId(TOWN_MAP_ID_0)
 
-            assertCanDelete(newState, expected)
+            assertCanDelete(newState, TOWN_MAP_ID_0)
         }
 
         @Test
         fun `Cannot delete, if having subregions`() {
             val region1 = Region(REGION_ID_1, position = InRegion(REGION_ID_0))
             val newState = state.updateStorage(Storage(listOf(region, region1)))
-            val expected = DeleteResult(REGION_ID_0).addId(REGION_ID_1)
 
-            assertCanDelete(newState, expected)
+            assertCanDelete(newState, REGION_ID_1)
         }
 
         @Test
@@ -53,22 +52,20 @@ class RegionTest {
             val housingStatus = History<Position>(position)
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
-            val expected = DeleteResult(REGION_ID_0).addId(CHARACTER_ID_0)
 
-            assertCanDelete(newState, expected)
+            assertCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
         fun `Cannot delete an element used as a position`() {
             val business = Business(BUSINESS_ID_0, position = position)
             val newState = state.updateStorage(Storage(business))
-            val expected = DeleteResult(REGION_ID_0).addId(BUSINESS_ID_0)
 
-            assertCanDelete(newState, expected)
+            assertCanDelete(newState, BUSINESS_ID_0)
         }
 
-        private fun assertCanDelete(state: State, expected: DeleteResult) {
-            assertEquals(expected, state.canDeleteRegion(REGION_ID_0))
+        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+            assertEquals(DeleteResult(REGION_ID_0).addId(blockingId), state.canDeleteRegion(REGION_ID_0))
         }
     }
 

@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Demiplane
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.ReflectivePlane
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -32,27 +33,24 @@ class PlaneTest {
         @Test
         fun `Cannot delete the plane linked to a moon`() {
             val newState = state.updateStorage(Storage(Moon(MOON_ID_0, plane = PLANE_ID_0)))
-            val expected = DeleteResult(PLANE_ID_0).addId(MOON_ID_0)
 
-            assertCanDelete(newState, expected)
+            assertCanDelete(newState, MOON_ID_0)
         }
 
         @Test
         fun `Cannot delete the plane linked to a demiplane`() {
             val plane1 = Plane(PLANE_ID_1, purpose = Demiplane(PLANE_ID_0))
             val newState = state.updateStorage(Storage(listOf(plane, plane1)))
-            val expected = DeleteResult(PLANE_ID_0).addId(PLANE_ID_1)
 
-            assertCanDelete(newState, expected)
+            assertCanDelete(newState, PLANE_ID_1)
         }
 
         @Test
         fun `Cannot delete a reflected plane`() {
             val plane1 = Plane(PLANE_ID_1, purpose = ReflectivePlane(PLANE_ID_0))
             val newState = state.updateStorage(Storage(listOf(plane, plane1)))
-            val expected = DeleteResult(PLANE_ID_0).addId(PLANE_ID_1)
 
-            assertCanDelete(newState, expected)
+            assertCanDelete(newState, PLANE_ID_1)
         }
 
         @Test
@@ -60,22 +58,20 @@ class PlaneTest {
             val housingStatus = History<Position>(position)
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
-            val expected = DeleteResult(PLANE_ID_0).addId(CHARACTER_ID_0)
 
-            assertCanDelete(newState, expected)
+            assertCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
         fun `Cannot delete an element used as a position`() {
             val business = Business(BUSINESS_ID_0, position = position)
             val newState = state.updateStorage(Storage(business))
-            val expected = DeleteResult(PLANE_ID_0).addId(BUSINESS_ID_0)
 
-            assertCanDelete(newState, expected)
+            assertCanDelete(newState, BUSINESS_ID_0)
         }
 
-        private fun assertCanDelete(state: State, expected: DeleteResult) {
-            assertEquals(expected, state.canDeletePlane(PLANE_ID_0))
+        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+            assertEquals(DeleteResult(PLANE_ID_0).addId(blockingId), state.canDeletePlane(PLANE_ID_0))
         }
     }
 
