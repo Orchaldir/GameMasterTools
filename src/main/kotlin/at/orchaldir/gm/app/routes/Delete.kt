@@ -14,10 +14,10 @@ import io.ktor.server.resources.href
 import io.ktor.server.response.respondRedirect
 import io.ktor.util.pipeline.PipelineContext
 
-suspend fun PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
+suspend inline fun <reified T : Any> PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
     id: Id<*>,
     action: Action,
-    routes: Any,
+    routes: T,
 ) {
     logger.info { "Delete ${id.print()}" }
 
