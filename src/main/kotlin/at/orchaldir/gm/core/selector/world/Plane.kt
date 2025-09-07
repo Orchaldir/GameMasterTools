@@ -7,8 +7,6 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.world.plane.*
-import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getStartYear
 import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
@@ -18,8 +16,6 @@ fun State.canDeletePlane(plane: PlaneId) = DeleteResult(plane)
     .addElements(getDemiplanes(plane))
     .addElements(getReflections(plane))
     .addElements(getMoons(plane))
-    .addElements(getCharactersLivingIn(plane))
-    .addElements(getCharactersPreviouslyLivingIn(plane))
     .apply { canDeleteWithPositions(plane, it) }
 
 // count

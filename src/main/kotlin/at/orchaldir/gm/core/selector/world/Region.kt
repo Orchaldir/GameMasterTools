@@ -16,8 +16,6 @@ import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 fun State.canDeleteRegion(region: RegionId) = DeleteResult(region)
     .addElements(getTowns(region))
     .addElements(getSubRegions(region))
-    .addElements(getCharactersLivingIn(region))
-    .addElements(getCharactersPreviouslyLivingIn(region))
     .apply { canDeleteWithPositions(region, it) }
 
 fun State.getRegions(type: RegionDataType) = getRegionStorage()
