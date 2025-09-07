@@ -17,12 +17,6 @@ val CREATE_TOWN_MAP: Reducer<CreateTownMap, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getTownMapStorage().add(town)))
 }
 
-val DELETE_TOWN_MAP: Reducer<DeleteTownMap, State> = { state, action ->
-    state.getTownMapStorage().require(action.id)
-
-    noFollowUps(state.updateStorage(state.getTownMapStorage().remove(action.id)))
-}
-
 val UPDATE_TOWN_MAP: Reducer<UpdateTownMap, State> = { state, action ->
     val townMap = action.townMap
     state.getTownMapStorage().require(townMap.id)

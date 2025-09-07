@@ -1,17 +1,21 @@
 package at.orchaldir.gm.core.selector.world
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.getStartDateComparator
 
-fun State.canDeleteTownMap(town: TownMapId) = getBuildingsIn(town).isEmpty()
+fun State.canDeleteTownMap(town: TownMapId) = DeleteResult(town)
+    .apply { canDeleteWithPositions(town, it) }
 
 // get
 

@@ -8,10 +8,13 @@ import at.orchaldir.gm.app.html.world.editTownMap
 import at.orchaldir.gm.app.html.world.parseTownMap
 import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.app.html.world.showTownMap
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
+import at.orchaldir.gm.app.routes.world.RiverRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
 import at.orchaldir.gm.core.action.CreateTownMap
+import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
@@ -71,13 +74,7 @@ fun Application.configureTownMapRouting() {
             STORE.getState().save()
         }
         get<TownMapRoutes.Delete> { delete ->
-            logger.info { "Delete town map ${delete.id.value}" }
-
-            STORE.dispatch(DeleteTownMap(delete.id))
-
-            call.respondRedirect(call.application.href(TownMapRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteTownMap(delete.id), TownMapRoutes())
         }
         get<TownMapRoutes.Edit> { edit ->
             logger.info { "Get editor for town map ${edit.id.value}" }
@@ -169,10 +166,7 @@ private fun HTML.showTownMapDetails(
             action(editAbstractBuildingsLink, "Edit Abstract Buildings")
             action(editBuildingsLink, "Edit Buildings")
             action(editLink, "Edit")
-
-            if (state.canDeleteTownMap(townMap.id)) {
-                action(deleteLink, "Delete")
-            }
+            action(deleteLink, "Delete")
 
             h2 { +"Terrain" }
 

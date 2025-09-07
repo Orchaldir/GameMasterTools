@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.selector.world.canDeleteRegion
 import at.orchaldir.gm.core.selector.world.canDeleteRiver
 import at.orchaldir.gm.core.selector.world.canDeleteStreet
 import at.orchaldir.gm.core.selector.world.canDeleteStreetTemplate
+import at.orchaldir.gm.core.selector.world.canDeleteTownMap
 import at.orchaldir.gm.utils.redux.Reducer
 
 val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
@@ -45,7 +46,7 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is UpdateStreetTemplate -> UPDATE_STREET_TEMPLATE(state, action)
         // town
         is CreateTownMap -> CREATE_TOWN_MAP(state, action)
-        is DeleteTownMap -> DELETE_TOWN_MAP(state, action)
+        is DeleteTownMap -> deleteElement(state, action.id, State::canDeleteTownMap)
         is UpdateTownMap -> UPDATE_TOWN_MAP(state, action)
         // town's abstract buildings
         is AddAbstractBuilding -> ADD_ABSTRACT_BUILDING(state, action)
