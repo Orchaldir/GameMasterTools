@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.DayRange
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 
 fun State.convertDateToDefault(from: CalendarId, date: Date) =
     convertDateToDefault(getCalendarStorage().getOrThrow(from), date)

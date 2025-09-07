@@ -28,7 +28,7 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.realm.countBattlesLedBy
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap

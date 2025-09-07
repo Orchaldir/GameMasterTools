@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.time.calendar
+package at.orchaldir.gm.core.selector.time
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -8,8 +8,6 @@ import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
 import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
-import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
-import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.utils.doNothing
 import kotlin.math.max
 

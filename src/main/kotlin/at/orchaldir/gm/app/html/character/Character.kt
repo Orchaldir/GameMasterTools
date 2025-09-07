@@ -30,7 +30,7 @@ import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentYear
 import at.orchaldir.gm.core.selector.util.canHaveFamilyName
 import at.orchaldir.gm.core.selector.util.canHaveGenonym

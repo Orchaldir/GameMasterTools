@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.reducer.util.checkBeliefStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer

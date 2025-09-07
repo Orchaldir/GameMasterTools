@@ -4,6 +4,10 @@ import at.orchaldir.gm.HOLIDAY_ID_0
 import at.orchaldir.gm.core.model.time.holiday.DayInYear
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.selector.time.getMinNumberOfDays
+import at.orchaldir.gm.core.selector.time.getMinNumberOfMonths
+import at.orchaldir.gm.core.selector.time.getMinNumberOfWeekdays
+import at.orchaldir.gm.core.selector.time.supportsDayOfTheMonth
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

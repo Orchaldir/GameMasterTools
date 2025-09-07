@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.util.SortWar
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
 import at.orchaldir.gm.core.selector.realm.countBattles
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
 import io.ktor.resources.*

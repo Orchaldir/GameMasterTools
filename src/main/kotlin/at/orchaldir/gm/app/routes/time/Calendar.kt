@@ -13,8 +13,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.selector.time.calendar.canDelete
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.canDelete
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.convertDate
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import io.ktor.http.*

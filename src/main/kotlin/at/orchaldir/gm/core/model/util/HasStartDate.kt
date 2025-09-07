@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getEndDay
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 

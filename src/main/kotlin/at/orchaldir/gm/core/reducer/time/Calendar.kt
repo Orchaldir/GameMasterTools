@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.time.calendar.canDelete
+import at.orchaldir.gm.core.selector.time.canDelete
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.utils.doNothing

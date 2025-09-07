@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe
 import at.orchaldir.gm.core.selector.realm.canDeleteCatastrophe
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import io.ktor.http.*
 import io.ktor.resources.*
