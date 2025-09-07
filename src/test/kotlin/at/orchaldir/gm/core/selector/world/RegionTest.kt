@@ -28,7 +28,7 @@ class RegionTest {
                 Storage(region),
             )
         )
-        private val inRegion = InRegion(REGION_ID_0)
+        private val position = InRegion(REGION_ID_0)
 
         @Test
         fun `Cannot delete, if used by a town map`() {
@@ -49,8 +49,8 @@ class RegionTest {
         }
 
         @Test
-        fun `Cannot delete a region used as home`() {
-            val housingStatus = History<Position>(inRegion)
+        fun `Cannot delete an element used as home`() {
+            val housingStatus = History<Position>(position)
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
             val expected = DeleteResult(REGION_ID_0).addId(CHARACTER_ID_0)
@@ -59,9 +59,9 @@ class RegionTest {
         }
 
         @Test
-        fun `Cannot delete a region used as a position`() {
-            val plane = Business(BUSINESS_ID_0, position = inRegion)
-            val newState = state.updateStorage(Storage(plane))
+        fun `Cannot delete an element used as a position`() {
+            val business = Business(BUSINESS_ID_0, position = position)
+            val newState = state.updateStorage(Storage(business))
             val expected = DeleteResult(REGION_ID_0).addId(BUSINESS_ID_0)
 
             assertCanDelete(newState, expected)

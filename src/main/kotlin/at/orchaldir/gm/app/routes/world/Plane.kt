@@ -3,8 +3,10 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.world.*
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreatePlane
 import at.orchaldir.gm.core.action.DeletePlane
+import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortPlane
@@ -86,13 +88,7 @@ fun Application.configurePlaneRouting() {
             STORE.getState().save()
         }
         get<PlaneRoutes.Delete> { delete ->
-            logger.info { "Delete plane ${delete.id.value}" }
-
-            STORE.dispatch(DeletePlane(delete.id))
-
-            call.respondRedirect(call.application.href(PlaneRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeletePlane(delete.id), PlaneRoutes())
         }
         get<PlaneRoutes.Edit> { edit ->
             logger.info { "Get editor for plane ${edit.id.value}" }

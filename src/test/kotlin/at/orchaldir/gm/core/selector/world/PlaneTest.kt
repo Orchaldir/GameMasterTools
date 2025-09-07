@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Demiplane
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.ReflectivePlane
-import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -28,7 +27,7 @@ class PlaneTest {
                 Storage(plane),
             )
         )
-        private val inPlane = InPlane(PLANE_ID_0)
+        private val position = InPlane(PLANE_ID_0)
 
         @Test
         fun `Cannot delete the plane linked to a moon`() {
@@ -57,8 +56,8 @@ class PlaneTest {
         }
 
         @Test
-        fun `Cannot delete a plane used as home`() {
-            val housingStatus = History<Position>(inPlane)
+        fun `Cannot delete an element used as home`() {
+            val housingStatus = History<Position>(position)
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
             val expected = DeleteResult(PLANE_ID_0).addId(CHARACTER_ID_0)
@@ -67,9 +66,9 @@ class PlaneTest {
         }
 
         @Test
-        fun `Cannot delete a plane used as a position`() {
-            val plane = Business(BUSINESS_ID_0, position = inPlane)
-            val newState = state.updateStorage(Storage(plane))
+        fun `Cannot delete an element used as a position`() {
+            val business = Business(BUSINESS_ID_0, position = position)
+            val newState = state.updateStorage(Storage(business))
             val expected = DeleteResult(PLANE_ID_0).addId(BUSINESS_ID_0)
 
             assertCanDelete(newState, expected)

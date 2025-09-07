@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.reducer.world.town.*
+import at.orchaldir.gm.core.selector.world.canDeleteMoon
 import at.orchaldir.gm.core.selector.world.canDeletePlane
 import at.orchaldir.gm.core.selector.world.canDeleteRegion
 import at.orchaldir.gm.core.selector.world.canDeleteRiver
@@ -17,7 +18,7 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is UpdateArchitecturalStyle -> UPDATE_ARCHITECTURAL_STYLE(state, action)
         // moon
         is CreateMoon -> CREATE_MOON(state, action)
-        is DeleteMoon -> DELETE_MOON(state, action)
+        is DeleteMoon -> deleteElement(state, action.id, State::canDeleteMoon)
         is UpdateMoon -> UPDATE_MOON(state, action)
         // plane
         is CreatePlane -> CREATE_PLANE(state, action)

@@ -16,14 +16,6 @@ val CREATE_MOON: Reducer<CreateMoon, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getMoonStorage().add(moon)))
 }
 
-val DELETE_MOON: Reducer<DeleteMoon, State> = { state, action ->
-    state.getMoonStorage().require(action.id)
-
-    validateCanDelete(state.canDeleteMoon(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getMoonStorage().remove(action.id)))
-}
-
 val UPDATE_MOON: Reducer<UpdateMoon, State> = { state, action ->
     val moon = action.moon
 
