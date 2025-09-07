@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.world.terrain
 
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType
 import at.orchaldir.gm.core.model.util.UndefinedPosition
@@ -35,9 +36,10 @@ data class Region(
     val data: RegionData = UndefinedRegionData,
     val position: Position = UndefinedPosition,
     val resources: Set<MaterialId> = emptySet(),
-) : ElementWithSimpleName<RegionId> {
+) : ElementWithSimpleName<RegionId>, HasPosition {
 
     override fun id() = id
     override fun name() = name.text
+    override fun position() = position
 
 }

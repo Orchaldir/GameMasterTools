@@ -22,9 +22,9 @@ fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> countHasPositionsIn(
 
 // get
 
-fun <ID : Id<ID>> State.hasNoHasPositionsIn(id: ID) =
-    getBuildingsIn(id).isEmpty() &&
-            getBusinessesIn(id).isEmpty()
+fun <ID : Id<ID>> State.hasNoHasPositionsIn(id: ID) = getBuildingsIn(id).isEmpty()
+        && getBusinessesIn(id).isEmpty()
+        && getRegionsIn(id).isEmpty()
 
 fun State.getBuildingsForPosition(position: Position) = getHasPositionsForPosition(getBuildingStorage(), position)
 
@@ -45,6 +45,7 @@ fun <ID : Id<ID>, ELEMENT> getHasPositionsForPosition(
 
 fun <ID : Id<ID>> State.getBuildingsIn(id: ID) = getHasPositionsIn(getBuildingStorage(), id)
 fun <ID : Id<ID>> State.getBusinessesIn(id: ID) = getHasPositionsIn(getBusinessStorage(), id)
+fun <ID : Id<ID>> State.getRegionsIn(id: ID) = getHasPositionsIn(getRegionStorage(), id)
 
 fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> getHasPositionsIn(
     storage: Storage<ID0, ELEMENT>,
