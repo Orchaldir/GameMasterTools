@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model
 
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 
 data class DeleteResult(
     val id: Id<*>,
@@ -21,6 +22,14 @@ data class DeleteResult(
 
     fun <ID : Id<ID>, ELEMENT : Element<ID>> addElements(elements: Collection<ELEMENT>) =
         addIds(elements.map { it.id() })
+
+    fun <ID : Id<ID>, ELEMENT : Element<ID>> addElement(element: ELEMENT?): DeleteResult {
+        if (element != null) {
+            addId(element.id())
+        }
+
+        return this
+    }
 
     fun apply(function: (DeleteResult) -> Unit): DeleteResult {
         function.invoke(this)

@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.selector.util.canDeleteHasBelief
+import at.orchaldir.gm.core.selector.util.canDeleteTargetOfBelief
 
 fun State.canDeletePantheon(pantheon: PantheonId) = canDeleteHasBelief(pantheon)
 

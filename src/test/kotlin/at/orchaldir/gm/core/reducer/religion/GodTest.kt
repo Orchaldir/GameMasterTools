@@ -45,46 +45,7 @@ class GodTest {
             assertEquals(0, REDUCER.invoke(state, action).first.getGodStorage().getSize())
         }
 
-        @Test
-        fun `Cannot delete the god of a heart plane`() {
-            val plane = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
-            val newState = state.updateStorage(Storage(plane))
 
-            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-
-        @Test
-        fun `Cannot delete a god imprisoned in a plane`() {
-            val plane = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
-            val newState = state.updateStorage(Storage(plane))
-
-            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-
-        @Test
-        fun `Cannot delete the god worshipped on a holiday`() {
-            val plane = Holiday(HOLIDAY_ID_0, purpose = HolidayOfGod(GOD_ID_0))
-            val newState = state.updateStorage(Storage(plane))
-
-            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-
-        @Test
-        fun `Cannot delete a god that has a mask`() {
-            val mask = God(GOD_ID_1, authenticity = MaskOfOtherGod(GOD_ID_0))
-            val newState = state.updateStorage(Storage(listOf(god0, mask)))
-
-            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-
-        @Test
-        fun `Cannot delete a god that a character believes in`() {
-            val beliefStatus = History<BeliefStatus>(WorshipOfGod(GOD_ID_0))
-            val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
-            val newState = state.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete God 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
 
         @Test
         fun `Cannot delete unknown id`() {

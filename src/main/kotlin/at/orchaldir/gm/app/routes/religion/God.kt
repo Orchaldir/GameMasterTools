@@ -6,7 +6,9 @@ import at.orchaldir.gm.app.html.religion.editGod
 import at.orchaldir.gm.app.html.religion.parseGod
 import at.orchaldir.gm.app.html.religion.showGod
 import at.orchaldir.gm.app.html.util.showAuthenticity
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateGod
+import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
@@ -92,13 +94,7 @@ fun Application.configureGodRouting() {
             STORE.getState().save()
         }
         get<GodRoutes.Delete> { delete ->
-            logger.info { "Delete god ${delete.id.value}" }
-
-            STORE.dispatch(DeleteGod(delete.id))
-
-            call.respondRedirect(call.application.href(GodRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteGod(delete.id), DomainRoutes())
         }
         get<GodRoutes.Edit> { edit ->
             logger.info { "Get editor for god ${edit.id.value}" }
@@ -205,11 +201,7 @@ private fun HTML.showGodDetails(
         showGod(call, state, god)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteGod(god.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

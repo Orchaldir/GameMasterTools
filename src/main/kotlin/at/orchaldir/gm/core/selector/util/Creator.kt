@@ -1,11 +1,31 @@
 package at.orchaldir.gm.core.selector.util
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.ComplexCreation
 import at.orchaldir.gm.core.model.util.Creation
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+
+fun <ID : Id<ID>> State.canDeleteCreator(id: ID, result: DeleteResult) = result
+    .addElements(getCreatedBy(getArticleStorage(), id))
+    .addElements(getCreatedBy(getBuildingStorage(), id))
+    .addElements(getCreatedBy(getBusinessStorage(), id))
+    .addElements(getCreatedBy(getCatastropheStorage(), id))
+    .addElements(getCreatedBy(getDiseaseStorage(), id))
+    .addElements(getCreatedBy(getLanguageStorage(), id))
+    .addElements(getCreatedBy(getMagicTraditionStorage(), id))
+    .addElements(getCreatedBy(getOrganizationStorage(), id))
+    .addElements(getCreatedBy(getPlaneStorage(), id))
+    .addElements(getCreatedBy(getQuoteStorage(), id))
+    .addElements(getCreatedBy(getRealmStorage(), id))
+    .addElements(getCreatedBy(getRaceStorage(), id))
+    .addElements(getCreatedBy(getSpellStorage(), id))
+    .addElements(getCreatedBy(getTextStorage(), id))
+    .addElements(getCreatedBy(getTownStorage(), id))
+    .addElements(getCreatedBy(getTreatyStorage(), id))
 
 fun <ID : Id<ID>> State.isCreator(id: ID) = isCreator(getArticleStorage(), id)
         || isCreator(getBuildingStorage(), id)
