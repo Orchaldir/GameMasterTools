@@ -22,6 +22,12 @@ data class DeleteResult(
     fun <ID : Id<ID>, ELEMENT : Element<ID>> addElements(elements: Collection<ELEMENT>) =
         addIds(elements.map { it.id() })
 
+    fun apply(function: (DeleteResult) -> Unit): DeleteResult {
+        function.invoke(this)
+
+        return this
+    }
+
     fun countElements(): Int {
         var count = 0
 

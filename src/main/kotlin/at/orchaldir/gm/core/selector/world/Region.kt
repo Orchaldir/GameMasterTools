@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
+import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 
 fun State.canDeleteRegion(region: RegionId) = DeleteResult(region)
@@ -17,7 +18,7 @@ fun State.canDeleteRegion(region: RegionId) = DeleteResult(region)
     .addElements(getSubRegions(region))
     .addElements(getCharactersLivingIn(region))
     .addElements(getCharactersPreviouslyLivingIn(region))
-//    && hasNoHasPositionsIn(region)
+    .apply { canDeleteWithPositions(region, it) }
 
 fun State.getRegions(type: RegionDataType) = getRegionStorage()
     .getAll()

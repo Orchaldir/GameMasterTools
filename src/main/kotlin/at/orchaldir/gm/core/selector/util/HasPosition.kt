@@ -1,10 +1,18 @@
 package at.orchaldir.gm.core.selector.util
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+
+// delete
+
+fun <ID : Id<ID>> State.canDeleteWithPositions(id: ID, result: DeleteResult) = result
+    .addElements(getBuildingsIn(id))
+    .addElements(getBusinessesIn(id))
+    .addElements(getRegionsIn(id))
 
 // count
 
