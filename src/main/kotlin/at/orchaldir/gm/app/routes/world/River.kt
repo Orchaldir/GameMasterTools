@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseRiver
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
@@ -11,7 +13,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.selector.world.canDeleteRiver
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -22,6 +23,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.util.pipeline.PipelineContext
 import kotlinx.html.HTML
 import kotlinx.html.form
 import mu.KotlinLogging
@@ -75,20 +77,7 @@ fun Application.configureRiverRouting() {
             STORE.getState().save()
         }
         get<RiverRoutes.Delete> { delete ->
-            logger.info { "Delete river ${delete.id.value}" }
-
-            try {
-                STORE.dispatch(DeleteRiver(delete.id))
-
-                call.respondRedirect(call.application.href(RiverRoutes()))
-
-                STORE.getState().save()
-            } catch (e: CannotDeleteException) {
-                logger.warn { e.message }
-                call.respondHtml(HttpStatusCode.OK) {
-                    showDeleteResult(call, STORE.getState(), e.result)
-                }
-            }
+            handleDeleteElement(delete.id, DeleteRiver(delete.id), RiverRoutes())
         }
         get<RiverRoutes.Edit> { edit ->
             logger.info { "Get editor for river ${edit.id.value}" }
