@@ -7,7 +7,9 @@ import at.orchaldir.gm.app.html.realm.parseDistrict
 import at.orchaldir.gm.app.html.realm.showDistrict
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateDistrict
+import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.action.UpdateDistrict
 import at.orchaldir.gm.core.model.State
@@ -93,13 +95,7 @@ fun Application.configureDistrictRouting() {
             STORE.getState().save()
         }
         get<DistrictRoutes.Delete> { delete ->
-            logger.info { "Delete legal code ${delete.id.value}" }
-
-            STORE.dispatch(DeleteDistrict(delete.id))
-
-            call.respondRedirect(call.application.href(DistrictRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteDistrict(delete.id), DistrictRoutes())
         }
         get<DistrictRoutes.Edit> { edit ->
             logger.info { "Get editor for legal code ${edit.id.value}" }
@@ -188,11 +184,7 @@ private fun HTML.showDistrictDetails(
         showDistrict(call, state, code)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteDistrict(code.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

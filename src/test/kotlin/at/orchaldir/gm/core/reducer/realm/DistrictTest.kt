@@ -34,53 +34,6 @@ class DistrictTest {
     )
 
     @Nested
-    inner class DeleteTest {
-
-        private val action = DeleteDistrict(DISTRICT_ID_0)
-
-        @Test
-        fun `Can delete an existing District`() {
-            val state = State(Storage(District(DISTRICT_ID_0)))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getDistrictStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a district that is the home of a character`() {
-            val housingStatus = History<Position>(InDistrict(DISTRICT_ID_0))
-            val state = createState(Character(CHARACTER_ID_0, housingStatus = housingStatus))
-
-            assertIllegalArgument("Cannot delete District 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a district used by a position`() {
-            val state = createState(Business(BUSINESS_ID_0, position = InDistrict(DISTRICT_ID_0)))
-
-            assertIllegalArgument("Cannot delete District 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        private fun <ID : Id<ID>, ELEMENT : Element<ID>> createState(element: ELEMENT): State {
-            val state = State(
-                listOf(
-                    Storage(listOf(District(DISTRICT_ID_0))),
-                    Storage(listOf(element))
-                )
-            )
-            return state
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

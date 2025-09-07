@@ -20,14 +20,6 @@ val CREATE_DISTRICT: Reducer<CreateDistrict, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getDistrictStorage().add(district)))
 }
 
-val DELETE_DISTRICT: Reducer<DeleteDistrict, State> = { state, action ->
-    state.getDistrictStorage().require(action.id)
-
-    validateCanDelete(state.canDeleteDistrict(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getDistrictStorage().remove(action.id)))
-}
-
 val UPDATE_DISTRICT: Reducer<UpdateDistrict, State> = { state, action ->
     val district = action.district
     state.getDistrictStorage().require(district.id)
