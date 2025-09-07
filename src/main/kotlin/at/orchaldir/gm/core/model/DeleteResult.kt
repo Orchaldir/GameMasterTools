@@ -17,6 +17,8 @@ data class DeleteResult(
         return this
     }
 
+    fun <ID : Id<ID>> addId(id: ID) = addIds(setOf(id))
+
     fun <ID : Id<ID>, ELEMENT : Element<ID>> addElements(elements: Collection<ELEMENT>) =
         addIds(elements.map { it.id() })
 

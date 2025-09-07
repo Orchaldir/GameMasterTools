@@ -2,14 +2,15 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.NAME
 import at.orchaldir.gm.RIVER_ID_0
+import at.orchaldir.gm.TOWN_MAP_ID_0
+import at.orchaldir.gm.assertCannotDelete
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
-import at.orchaldir.gm.core.model.CannotDeleteException
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.RiverTerrain
 import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -45,15 +46,12 @@ class RiverTest {
             val state = State(
                 listOf(
                     Storage(River(RIVER_ID_0)),
-                    Storage(TownMap(TownMapId(0), map = TileMap2d(TownTile(RiverTerrain(RIVER_ID_0)))))
+                    Storage(TownMap(TOWN_MAP_ID_0, map = TileMap2d(TownTile(RiverTerrain(RIVER_ID_0)))))
                 )
             )
 
-            assertFailsWith<CannotDeleteException>("Cannot delete River 0 because of 1 elements!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+            assertCannotDelete(DeleteResult(RIVER_ID_0).addId(TOWN_MAP_ID_0)) {
+                REDUCER.invoke(state, action)
             }
         }
     }
