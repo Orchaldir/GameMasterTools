@@ -6,12 +6,14 @@ data class DeleteResult(
     val id: Id<*>,
     val elements: MutableMap<String, MutableSet<Id<*>>> = mutableMapOf(),
 ) {
-    fun <ID : Id<ID>> addElements(newElements: Set<ID>) {
-        val first = newElements.firstOrNull() ?: return
+    fun <ID : Id<ID>> addElements(newElements: Set<ID>): DeleteResult {
+        val first = newElements.firstOrNull() ?: return this
 
         elements.computeIfAbsent(first.type()) { _ ->
             mutableSetOf()
         }.addAll(newElements)
+
+        return this
     }
 
     fun countElements(): Int {
@@ -24,7 +26,7 @@ data class DeleteResult(
         return count
     }
 
-    fun validateCanDelete() {
+    fun validate() {
         if (elements.isNotEmpty()) {
             throw CannotDeleteException(this)
         }

@@ -134,9 +134,7 @@ private fun HTML.showRiverDetails(
         fieldList(call, state, state.getTowns(river.id))
 
         action(editLink, "Edit")
-        if (state.canDelete(river.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }
