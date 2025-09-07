@@ -6,7 +6,7 @@ data class DeleteResult(
     val id: Id<*>,
     val elements: MutableMap<String, MutableSet<Id<*>>> = mutableMapOf(),
 ) {
-    fun <ID : Id<ID>> addElements(newElements: Set<ID>): DeleteResult {
+    fun <ID : Id<ID>> addElements(newElements: Collection<ID>): DeleteResult {
         val first = newElements.firstOrNull() ?: return this
 
         elements.computeIfAbsent(first.type()) { _ ->
