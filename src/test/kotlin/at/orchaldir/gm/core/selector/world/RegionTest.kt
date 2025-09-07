@@ -36,7 +36,7 @@ class RegionTest {
             val newState = state.updateStorage(Storage(TownMap(TOWN_MAP_ID_0, map = map)))
             val expected = DeleteResult(REGION_ID_0).addId(TOWN_MAP_ID_0)
 
-            assertEquals(expected, newState.canDeleteRegion(REGION_ID_0))
+            assertCanDelete(newState, expected)
         }
 
         @Test
@@ -45,7 +45,7 @@ class RegionTest {
             val newState = state.updateStorage(Storage(listOf(region, region1)))
             val expected = DeleteResult(REGION_ID_0).addId(REGION_ID_1)
 
-            assertEquals(expected, newState.canDeleteRegion(REGION_ID_0))
+            assertCanDelete(newState, expected)
         }
 
         @Test
@@ -55,7 +55,7 @@ class RegionTest {
             val newState = state.updateStorage(Storage(character))
             val expected = DeleteResult(REGION_ID_0).addId(CHARACTER_ID_0)
 
-            assertEquals(expected, newState.canDeleteRegion(REGION_ID_0))
+            assertCanDelete(newState, expected)
         }
 
         @Test
@@ -64,7 +64,11 @@ class RegionTest {
             val newState = state.updateStorage(Storage(plane))
             val expected = DeleteResult(REGION_ID_0).addId(BUSINESS_ID_0)
 
-            assertEquals(expected, newState.canDeleteRegion(REGION_ID_0))
+            assertCanDelete(newState, expected)
+        }
+
+        private fun assertCanDelete(state: State, expected: DeleteResult) {
+            assertEquals(expected, state.canDeleteRegion(REGION_ID_0))
         }
     }
 
