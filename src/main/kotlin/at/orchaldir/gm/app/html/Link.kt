@@ -350,21 +350,21 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
     text: String,
 ) = link(href(call, element.id()), text)
 
-fun <ID : Id<ID>> HtmlBlockTag.link(
+fun HtmlBlockTag.link(
     call: ApplicationCall,
-    id: ID,
+    id: Id<*>,
     text: String,
 ) = link(href(call, id), text)
 
-fun <ID : Id<ID>> HtmlBlockTag.link(
+fun HtmlBlockTag.link(
     call: ApplicationCall,
-    id: ID,
+    id: Id<*>,
     content: A.() -> Unit,
 ) = link(href(call, id), content)
 
-fun <ID : Id<ID>> href(
+fun href(
     call: ApplicationCall,
-    id: ID,
+    id: Id<*>,
 ) = when (id) {
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
     is ArticleId -> call.application.href(ArticleRoutes.Details(id))
