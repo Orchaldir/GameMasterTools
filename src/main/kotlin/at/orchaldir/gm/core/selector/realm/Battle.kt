@@ -1,17 +1,19 @@
 package at.orchaldir.gm.core.selector.realm
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.selector.util.canDeleteDestroyer
 import at.orchaldir.gm.core.selector.util.getExistingElements
-import at.orchaldir.gm.core.selector.util.isDestroyer
 import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 
-fun State.canDeleteBattle(battle: BattleId) = !isDestroyer(battle)
-        && getRegionsCreatedBy(battle).isEmpty()
+fun State.canDeleteBattle(battle: BattleId) = DeleteResult(battle)
+    .addElements(getRegionsCreatedBy(battle))
+    .apply { canDeleteDestroyer(battle, it) }
 
 fun State.countBattlesLedBy(character: CharacterId) = getBattleStorage()
     .getAll()

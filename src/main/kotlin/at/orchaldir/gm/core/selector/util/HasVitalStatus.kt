@@ -1,10 +1,16 @@
 package at.orchaldir.gm.core.selector.util
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HasVitalStatus
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+
+fun <ID : Id<ID>> State.canDeleteDestroyer(id: ID, result: DeleteResult) = result
+    .addElements(getDestroyedBy(getCharacterStorage(), id))
+    .addElements(getDestroyedBy(getRealmStorage(), id))
+    .addElements(getDestroyedBy(getTownStorage(), id))
 
 fun <ID : Id<ID>> State.isDestroyer(destroyer: ID) = isDestroyer(getCharacterStorage(), destroyer)
         || isDestroyer(getRealmStorage(), destroyer)

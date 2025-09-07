@@ -20,14 +20,6 @@ val CREATE_BATTLE: Reducer<CreateBattle, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getBattleStorage().add(battle)))
 }
 
-val DELETE_BATTLE: Reducer<DeleteBattle, State> = { state, action ->
-    state.getBattleStorage().require(action.id)
-
-    validateCanDelete(state.canDeleteBattle(action.id), action.id, "it is used")
-
-    noFollowUps(state.updateStorage(state.getBattleStorage().remove(action.id)))
-}
-
 val UPDATE_BATTLE: Reducer<UpdateBattle, State> = { state, action ->
     val battle = action.battle
     state.getBattleStorage().require(battle.id)

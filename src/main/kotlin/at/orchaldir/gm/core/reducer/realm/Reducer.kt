@@ -2,13 +2,16 @@ package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.reducer.deleteElement
+import at.orchaldir.gm.core.selector.realm.canDeleteBattle
+import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REALM_REDUCER: Reducer<RealmAction, State> = { state, action ->
     when (action) {
         // battle
         is CreateBattle -> CREATE_BATTLE(state, action)
-        is DeleteBattle -> DELETE_BATTLE(state, action)
+        is DeleteBattle -> deleteElement(state, action.id, State::canDeleteBattle)
         is UpdateBattle -> UPDATE_BATTLE(state, action)
         // catastrophe
         is CreateCatastrophe -> CREATE_CATASTROPHE(state, action)
