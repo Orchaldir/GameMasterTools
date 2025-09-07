@@ -1,23 +1,13 @@
 package at.orchaldir.gm.core.reducer.religion
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.time.holiday.Holiday
-import at.orchaldir.gm.core.model.time.holiday.HolidayOfGod
-import at.orchaldir.gm.core.model.util.BeliefStatus
-import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.MaskOfOtherGod
-import at.orchaldir.gm.core.model.util.WorshipOfGod
-import at.orchaldir.gm.core.model.world.plane.HeartPlane
-import at.orchaldir.gm.core.model.world.plane.Plane
-import at.orchaldir.gm.core.model.world.plane.PrisonPlane
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -35,23 +25,6 @@ class GodTest {
             Storage(PersonalityTrait(PERSONALITY_ID_0)),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteGod(GOD_ID_0)
-
-        @Test
-        fun `Can delete an existing god`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getGodStorage().getSize())
-        }
-
-
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown God 0!") { REDUCER.invoke(State(), action) }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

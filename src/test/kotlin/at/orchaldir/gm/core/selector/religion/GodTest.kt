@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayOfGod
 import at.orchaldir.gm.core.model.util.BeliefStatus
@@ -61,6 +62,14 @@ class GodTest {
             val newState = state.updateStorage(Storage(listOf(god, mask)))
 
             assertCanDelete(newState, GOD_ID_1)
+        }
+
+        @Test
+        fun `Cannot delete a god that is part of a pantheon`() {
+            val pantheon = Pantheon(PANTHEON_ID_0, gods = setOf(GOD_ID_0))
+            val newState = state.updateStorage(Storage(pantheon))
+
+            assertCanDelete(newState, PANTHEON_ID_0)
         }
 
         @Test

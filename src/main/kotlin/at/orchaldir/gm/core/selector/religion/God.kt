@@ -18,6 +18,7 @@ fun State.canDeleteGod(god: GodId) = DeleteResult(god)
     .addElement(getPrisonPlane(god))
     .addElements(getHolidays(god))
     .addElements(getMasksOf(god))
+    .addElements(getPantheonsContaining(god))
     .apply { canDeleteCreator(god, it) }
     .apply { canDeleteTargetOfBelief(god, it) }
 
