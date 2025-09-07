@@ -7,7 +7,9 @@ import at.orchaldir.gm.app.html.realm.parseLegalCode
 import at.orchaldir.gm.app.html.realm.showLegalCode
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateLegalCode
+import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.action.UpdateLegalCode
 import at.orchaldir.gm.core.model.State
@@ -94,13 +96,7 @@ fun Application.configureLegalCodeRouting() {
             STORE.getState().save()
         }
         get<LegalCodeRoutes.Delete> { delete ->
-            logger.info { "Delete legal code ${delete.id.value}" }
-
-            STORE.dispatch(DeleteLegalCode(delete.id))
-
-            call.respondRedirect(call.application.href(LegalCodeRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteLegalCode(delete.id), LegalCodeRoutes())
         }
         get<LegalCodeRoutes.Edit> { edit ->
             logger.info { "Get editor for legal code ${edit.id.value}" }
@@ -187,11 +183,7 @@ private fun HTML.showLegalCodeDetails(
         showLegalCode(call, state, code)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteLegalCode(code.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

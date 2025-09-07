@@ -204,11 +204,7 @@ private fun HTML.showRealmDetails(
         showRealm(call, state, realm)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteRealm(realm.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

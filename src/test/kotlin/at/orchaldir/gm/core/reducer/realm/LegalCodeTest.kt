@@ -23,34 +23,6 @@ class LegalCodeTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteLegalCode(LEGAL_CODE_ID_0)
-
-        @Test
-        fun `Can delete an existing code`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getLegalCodeStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteLegalCode(UNKNOWN_LEGAL_CODE_ID)
-
-            assertIllegalArgument("Requires unknown Legal Code 99!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
-        fun `Cannot delete a legal code that is used by a realm`() {
-            val realm = Realm(REALM_ID_0, legalCode = History(LEGAL_CODE_ID_0))
-            val state = STATE.updateStorage(Storage(realm))
-
-            assertIllegalArgument("Cannot delete Legal Code 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

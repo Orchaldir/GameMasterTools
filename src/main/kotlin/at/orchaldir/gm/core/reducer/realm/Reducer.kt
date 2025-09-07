@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.realm.canDeleteBattle
 import at.orchaldir.gm.core.selector.realm.canDeleteCatastrophe
 import at.orchaldir.gm.core.selector.realm.canDeleteDistrict
+import at.orchaldir.gm.core.selector.realm.canDeleteLegalCode
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -25,7 +26,7 @@ val REALM_REDUCER: Reducer<RealmAction, State> = { state, action ->
         is UpdateDistrict -> UPDATE_DISTRICT(state, action)
         // legal code
         is CreateLegalCode -> CREATE_LEGAL_CODE(state, action)
-        is DeleteLegalCode -> DELETE_LEGAL_CODE(state, action)
+        is DeleteLegalCode -> deleteElement(state, action.id, State::canDeleteLegalCode)
         is UpdateLegalCode -> UPDATE_LEGAL_CODE(state, action)
         // realm
         is CreateRealm -> CREATE_REALM(state, action)
