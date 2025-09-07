@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
+import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.utils.redux.Reducer
 
 val RELIGION_REDUCER: Reducer<ReligionAction, State> = { state, action ->
@@ -19,7 +20,7 @@ val RELIGION_REDUCER: Reducer<ReligionAction, State> = { state, action ->
         is UpdateGod -> UPDATE_GOD(state, action)
         // god
         is CreatePantheon -> CREATE_PANTHEON(state, action)
-        is DeletePantheon -> DELETE_PANTHEON(state, action)
+        is DeletePantheon -> deleteElement(state, action.id, State::canDeletePantheon)
         is UpdatePantheon -> UPDATE_PANTHEON(state, action)
     }
 }

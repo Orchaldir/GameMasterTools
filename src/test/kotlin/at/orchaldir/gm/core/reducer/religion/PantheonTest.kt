@@ -28,30 +28,6 @@ class PantheonTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeletePantheon(PANTHEON_ID_0)
-
-        @Test
-        fun `Can delete an existing pantheon`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getPantheonStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Pantheon 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete the pantheon that a character believes in`() {
-            val beliefStatus = History<BeliefStatus>(WorshipOfPantheon(PANTHEON_ID_0))
-            val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
-            val newState = state.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete Pantheon 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

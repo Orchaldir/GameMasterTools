@@ -16,14 +16,6 @@ val CREATE_PANTHEON: Reducer<CreatePantheon, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getPantheonStorage().add(pantheon)))
 }
 
-val DELETE_PANTHEON: Reducer<DeletePantheon, State> = { state, action ->
-    state.getPantheonStorage().require(action.id)
-
-    validateCanDelete(state.canDeletePantheon(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getPantheonStorage().remove(action.id)))
-}
-
 val UPDATE_PANTHEON: Reducer<UpdatePantheon, State> = { state, action ->
     val pantheon = action.pantheon
     state.getPantheonStorage().require(pantheon.id)

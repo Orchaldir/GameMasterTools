@@ -5,7 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editPantheon
 import at.orchaldir.gm.app.html.religion.parsePantheon
 import at.orchaldir.gm.app.html.religion.showPantheon
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreatePantheon
+import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.DeletePantheon
 import at.orchaldir.gm.core.action.UpdatePantheon
 import at.orchaldir.gm.core.model.State
@@ -95,13 +97,7 @@ fun Application.configurePantheonRouting() {
             STORE.getState().save()
         }
         get<PantheonRoutes.Delete> { delete ->
-            logger.info { "Delete pantheon ${delete.id.value}" }
-
-            STORE.dispatch(DeletePantheon(delete.id))
-
-            call.respondRedirect(call.application.href(PantheonRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeletePantheon(delete.id), PantheonRoutes())
         }
         get<PantheonRoutes.Edit> { edit ->
             logger.info { "Get editor for pantheon ${edit.id.value}" }
@@ -188,11 +184,7 @@ private fun HTML.showPantheonDetails(
         showPantheon(call, state, pantheon)
 
         action(editLink, "Edit")
-
-        if (state.canDeletePantheon(pantheon.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

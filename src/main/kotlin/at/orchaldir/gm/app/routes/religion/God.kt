@@ -94,7 +94,7 @@ fun Application.configureGodRouting() {
             STORE.getState().save()
         }
         get<GodRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteGod(delete.id), DomainRoutes())
+            handleDeleteElement(delete.id, DeleteGod(delete.id), GodRoutes())
         }
         get<GodRoutes.Edit> { edit ->
             logger.info { "Get editor for god ${edit.id.value}" }
