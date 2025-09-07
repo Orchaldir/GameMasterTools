@@ -186,11 +186,7 @@ private fun HTML.showPlaneDetails(
         showPlane(call, state, plane)
 
         action(editLink, "Edit")
-
-        if (state.canDeletePlane(plane.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

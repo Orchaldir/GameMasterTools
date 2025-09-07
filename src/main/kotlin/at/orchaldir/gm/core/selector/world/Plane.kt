@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.world
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.religion.GodId
@@ -10,15 +11,16 @@ import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getStartYear
-import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
+import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 import at.orchaldir.gm.utils.doNothing
 
-fun State.canDeletePlane(plane: PlaneId) = getDemiplanes(plane).isEmpty()
-        && getReflections(plane).isEmpty()
-        && getMoons(plane).isEmpty()
-        && getCharactersLivingIn(plane).isEmpty()
-        && getCharactersPreviouslyLivingIn(plane).isEmpty()
-        && hasNoHasPositionsIn(plane)
+fun State.canDeletePlane(plane: PlaneId) = DeleteResult(plane)
+    .addElements(getDemiplanes(plane))
+    .addElements(getReflections(plane))
+    .addElements(getMoons(plane))
+    .addElements(getCharactersLivingIn(plane))
+    .addElements(getCharactersPreviouslyLivingIn(plane))
+    .apply { canDeleteWithPositions(plane, it) }
 
 // count
 

@@ -19,14 +19,6 @@ val CREATE_PLANE: Reducer<CreatePlane, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getPlaneStorage().add(plane)))
 }
 
-val DELETE_PLANE: Reducer<DeletePlane, State> = { state, action ->
-    state.getPlaneStorage().require(action.id)
-
-    validateCanDelete(state.canDeletePlane(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getPlaneStorage().remove(action.id)))
-}
-
 val UPDATE_PLANE: Reducer<UpdatePlane, State> = { state, action ->
     val plane = action.plane
 

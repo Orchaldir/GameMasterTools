@@ -28,68 +28,6 @@ class PlaneTest {
             Storage(listOf(Plane(PLANE_ID_0), Plane(PLANE_ID_1))),
         )
     )
-    private val inPlane = InPlane(PLANE_ID_0)
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeletePlane(PLANE_ID_0)
-
-        @Test
-        fun `Can delete an existing plane`() {
-            assertEquals(1, REDUCER.invoke(state, action).first.getPlaneStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete the plane linked to a moon`() {
-            val newState = state.updateStorage(Storage(Moon(MOON_ID_0, plane = PLANE_ID_0)))
-
-            assertIllegalArgument("Cannot delete Plane 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-
-        @Test
-        fun `Cannot delete the plane linked to a demiplane`() {
-            val plane = Plane(PLANE_ID_1, purpose = Demiplane(PLANE_ID_0))
-            val newState = state.updateStorage(Storage(listOf(Plane(PLANE_ID_0), plane)))
-
-            assertIllegalArgument("Cannot delete Plane 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-
-        @Test
-        fun `Cannot delete a reflected plane`() {
-            val plane = Plane(PLANE_ID_1, purpose = ReflectivePlane(PLANE_ID_0))
-            val newState = state.updateStorage(Storage(listOf(Plane(PLANE_ID_0), plane)))
-
-            assertIllegalArgument("Cannot delete Plane 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeletePlane(UNKNOWN_PLANE_ID)
-
-            assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot delete a plane used as home`() {
-            val housingStatus = History<Position>(inPlane)
-            val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
-            val newState = state.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete Plane 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a plane used as a position`() {
-            val plane = Business(BUSINESS_ID_0, position = inPlane)
-            val newState = state.updateStorage(Storage(plane))
-
-            assertIllegalArgument("Cannot delete Plane 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-    }
 
     @Nested
     inner class UpdateTest {
