@@ -24,48 +24,6 @@ private val STATE = State(Storage(Street(STREET_ID_0)))
 class StreetTest {
 
     @Nested
-    inner class DeleteTest {
-
-        @Test
-        fun `Can delete an existing street`() {
-            val action = DeleteStreet(STREET_ID_0)
-
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getStreetStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteStreet(STREET_ID_0)
-
-            assertFailMessage<IllegalArgumentException>("Requires unknown Street 0!") {
-                REDUCER.invoke(
-                    State(),
-                    action
-                )
-            }
-        }
-
-        @Test
-        fun `Cannot delete, if used by a town`() {
-            val action = DeleteStreet(STREET_ID_0)
-            val map = TileMap2d(TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0)))
-            val state = State(
-                listOf(
-                    Storage(Street(STREET_ID_0)),
-                    Storage(TownMap(TOWN_MAP_ID_0, map = map))
-                )
-            )
-
-            assertFailMessage<IllegalArgumentException>("Cannot delete Street 0, because it is used!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

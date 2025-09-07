@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.selector.world.canDeleteMoon
 import at.orchaldir.gm.core.selector.world.canDeletePlane
 import at.orchaldir.gm.core.selector.world.canDeleteRegion
 import at.orchaldir.gm.core.selector.world.canDeleteRiver
+import at.orchaldir.gm.core.selector.world.canDeleteStreet
 import at.orchaldir.gm.utils.redux.Reducer
 
 val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
@@ -35,7 +36,7 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is UpdateRiver -> UPDATE_RIVER(state, action)
         // street
         is CreateStreet -> CREATE_STREET(state, action)
-        is DeleteStreet -> DELETE_STREET(state, action)
+        is DeleteStreet -> deleteElement(state, action.id, State::canDeleteStreet)
         is UpdateStreet -> UPDATE_STREET(state, action)
         // street template
         is CreateStreetTemplate -> CREATE_STREET_TEMPLATE(state, action)

@@ -28,7 +28,8 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Cannot delete a style used by building`() {
-            val newState = state.updateStorage(Storage(Building(BUILDING_ID_0, style = ARCHITECTURAL_ID_0)))
+            val building = Building(BUILDING_ID_0, style = ARCHITECTURAL_ID_0)
+            val newState = state.updateStorage(Storage(building))
 
             assertCanDelete(newState, BUILDING_ID_0)
         }
