@@ -12,13 +12,10 @@ import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.building.ALLOWED_BUILDING_POSITIONS
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.selector.util.sortBattles
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import at.orchaldir.gm.core.selector.util.sortMaterial
-import at.orchaldir.gm.core.selector.util.sortRegions
-import at.orchaldir.gm.core.selector.world.getSubRegions
 import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

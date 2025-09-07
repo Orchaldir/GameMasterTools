@@ -6,11 +6,7 @@ import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.realm.parseDistrictId
 import at.orchaldir.gm.app.html.realm.parseRealmId
 import at.orchaldir.gm.app.html.realm.parseTownId
-import at.orchaldir.gm.app.html.world.parseBuildingId
-import at.orchaldir.gm.app.html.world.parseMoonId
-import at.orchaldir.gm.app.html.world.parsePlaneId
-import at.orchaldir.gm.app.html.world.parseRegionId
-import at.orchaldir.gm.app.html.world.parseTownMapId
+import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -74,6 +70,7 @@ fun HtmlBlockTag.showPosition(
             +"Patient in "
             link(call, state, position.business)
         }
+
         is OnMoon -> link(call, state, position.moon)
         UndefinedPosition -> if (showUndefined) {
             +"Undefined"
@@ -253,6 +250,7 @@ private fun HtmlBlockTag.selectPositionIntern(
                 selected = tile == position.tileIndex
             }
         }
+
         is LongTermCareIn -> selectElement(
             state,
             combine(param, BUSINESS),

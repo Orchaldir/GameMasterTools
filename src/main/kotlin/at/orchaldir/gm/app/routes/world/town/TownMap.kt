@@ -4,7 +4,10 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.world.*
+import at.orchaldir.gm.app.html.world.editTownMap
+import at.orchaldir.gm.app.html.world.parseTownMap
+import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
+import at.orchaldir.gm.app.html.world.showTownMap
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes

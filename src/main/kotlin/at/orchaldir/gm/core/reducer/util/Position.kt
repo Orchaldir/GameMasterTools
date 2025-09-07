@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
-import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -60,6 +59,7 @@ fun checkPosition(
             val townMap = state.requireExists(state.getTownMapStorage(), position.townMap, date) { noun }
             require(position.tileIndex in 0..<townMap.map.size.tiles()) { "The $noun's tile index ${position.tileIndex} is outside the town map!" }
         }
+
         is LongTermCareIn -> state.requireExists(state.getBusinessStorage(), position.business, date) { noun }
         is OnMoon -> requires(state.getMoonStorage(), position.moon, noun)
     }
