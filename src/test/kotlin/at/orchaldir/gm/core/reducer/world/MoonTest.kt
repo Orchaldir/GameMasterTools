@@ -7,8 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.InDistrict
-import at.orchaldir.gm.core.model.util.InPlane
 import at.orchaldir.gm.core.model.util.OnMoon
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.moon.Moon

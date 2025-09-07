@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InPlane
-import at.orchaldir.gm.core.model.util.InTown
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.*

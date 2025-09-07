@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editRegion
 import at.orchaldir.gm.app.html.world.parseRegion
 import at.orchaldir.gm.app.html.world.showRegion
@@ -26,6 +27,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
+import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 import mu.KotlinLogging
@@ -115,7 +117,7 @@ fun Application.configureRegionRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val region = parseRegion(preview.id, formParameters)
+            val region = parseRegion(formParameters, state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showRegionEditor(call, state, region)
@@ -124,7 +126,7 @@ fun Application.configureRegionRouting() {
         post<RegionRoutes.Update> { update ->
             logger.info { "Update region ${update.id.value}" }
 
-            val region = parseRegion(update.id, call.receiveParameters())
+            val region = parseRegion(call.receiveParameters(), STORE.getState(), update.id)
 
             STORE.dispatch(UpdateRegion(region))
 
@@ -158,7 +160,7 @@ private fun HTML.showAllRegions(
                 tr {
                     tdLink(call, state, region)
                     tdEnum(region.data.getType())
-                    tdLink(call, state, region.parent)
+                    td { showPosition(call, state, region.position) }
                     tdInlineIds(call, state, region.resources)
                 }
             }

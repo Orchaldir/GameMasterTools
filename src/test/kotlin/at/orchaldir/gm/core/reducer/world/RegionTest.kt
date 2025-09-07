@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.InPlane
 import at.orchaldir.gm.core.model.util.InRegion
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.terrain.Battlefield

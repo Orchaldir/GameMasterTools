@@ -43,5 +43,5 @@ fun State.getRegionsIds(town: TownMapId) = getTownMapStorage()
 
 fun State.getSubRegions(region: RegionId) = getRegionStorage()
     .getAll()
-    .filter { it.parent == region }
+    .filter { it.position.isIn(region) }
 
