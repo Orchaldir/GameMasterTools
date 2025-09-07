@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.util.population.showPopulation
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
-import at.orchaldir.gm.app.html.world.showBuildingsOfTownMap
 import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
@@ -51,16 +50,18 @@ fun HtmlBlockTag.showTown(
     fieldList(call, state, "Districts", state.sortDistricts(state.getDistricts(town.id)))
     showDataSources(call, state, town.sources)
 
-    val currentOptionalTownMaps = state.getCurrentTownMap(town.id)
+    val currentTownMap = state.getCurrentTownMap(town.id)
 
-    currentOptionalTownMaps?.let { currentTownMap ->
+    if (currentTownMap != null) {
         optionalFieldLink(call, state, currentTownMap.id)
         val previousTownMaps = state.sortTownMaps(state.getTownMaps(town.id) - currentTownMap)
         fieldList(call, state, "Previous Town Maps", previousTownMaps)
 
-        showBuildingsOfTownMap(call, state, currentTownMap.id, town.id)
+        showLocalElements(call, state, town, currentTownMap)
+    } else {
+        showLocalElements(call, state, town.id)
     }
-    showCharactersOfTownMap(call, state, town.id, currentOptionalTownMaps?.id)
+    showCharactersOfTownMap(call, state, town.id, currentTownMap?.id)
 
     showCreated(call, state, town.id)
     showOwnedElements(call, state, town.id)

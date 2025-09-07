@@ -5,6 +5,9 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.util.requireExists
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 
 fun checkPositionHistory(
     state: State,
@@ -49,12 +52,23 @@ fun checkPosition(
         }
 
         is InRealm -> state.requireExists(state.getRealmStorage(), position.realm, date) { noun }
-        is InPlane -> state.getPlaneStorage().require(position.plane) { "Requires unknown $noun!" }
+        is InRegion -> requires(state.getRegionStorage(), position.region, noun)
+        is InPlane -> requires(state.getPlaneStorage(), position.plane, noun)
         is InTown -> state.requireExists(state.getTownStorage(), position.town, date) { noun }
         is InTownMap -> {
             val townMap = state.requireExists(state.getTownMapStorage(), position.townMap, date) { noun }
             require(position.tileIndex in 0..<townMap.map.size.tiles()) { "The $noun's tile index ${position.tileIndex} is outside the town map!" }
         }
+
         is LongTermCareIn -> state.requireExists(state.getBusinessStorage(), position.business, date) { noun }
+        is OnMoon -> requires(state.getMoonStorage(), position.moon, noun)
     }
+}
+
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> requires(
+    storage: Storage<ID, ELEMENT>,
+    id: ID,
+    noun: String,
+) {
+    storage.require(id) { "Requires unknown ${id.print()} as $noun!" }
 }

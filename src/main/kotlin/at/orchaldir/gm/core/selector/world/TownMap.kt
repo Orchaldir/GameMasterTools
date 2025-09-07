@@ -24,9 +24,9 @@ fun State.getTownMaps(town: TownId) = getTownMapStorage()
     .getAll()
     .filter { it.town == town }
 
-fun State.getTowns(mountain: RegionId) = getTownMapStorage()
+fun State.getTowns(regionId: RegionId) = getTownMapStorage()
     .getAll()
-    .filter { it.map.contains { it.terrain.contains(mountain) } }
+    .filter { it.map.contains { it.terrain.contains(regionId) } }
 
 fun State.getTowns(river: RiverId) = getTownMapStorage()
     .getAll()

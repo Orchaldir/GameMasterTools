@@ -1,12 +1,22 @@
 package at.orchaldir.gm.core.model.world.terrain
 
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.util.HasPosition
+import at.orchaldir.gm.core.model.util.Position
+import at.orchaldir.gm.core.model.util.PositionType
+import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val REGION_TYPE = "Region"
+val ALLOWED_CONTINENT_POSITIONS = listOf(
+    PositionType.Undefined,
+    PositionType.Moon,
+    PositionType.Plane,
+)
+val ALLOWED_REGION_POSITIONS = ALLOWED_CONTINENT_POSITIONS + PositionType.Region
 
 @JvmInline
 @Serializable
@@ -24,11 +34,12 @@ data class Region(
     val id: RegionId,
     val name: Name = Name.init(id),
     val data: RegionData = UndefinedRegionData,
-    val parent: RegionId? = null,
+    val position: Position = UndefinedPosition,
     val resources: Set<MaterialId> = emptySet(),
-) : ElementWithSimpleName<RegionId> {
+) : ElementWithSimpleName<RegionId>, HasPosition {
 
     override fun id() = id
     override fun name() = name.text
+    override fun position() = position
 
 }

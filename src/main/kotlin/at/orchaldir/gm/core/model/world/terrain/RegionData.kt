@@ -32,6 +32,12 @@ sealed class RegionData {
         is Wasteland -> RegionDataType.Wasteland
     }
 
+    fun getAllowedRegionTypes() = if (this is Continent) {
+        ALLOWED_CONTINENT_POSITIONS
+    } else {
+        ALLOWED_REGION_POSITIONS
+    }
+
     fun isCreatedBy(battle: BattleId) = when (this) {
         is Battlefield -> this.battle == battle
         else -> false

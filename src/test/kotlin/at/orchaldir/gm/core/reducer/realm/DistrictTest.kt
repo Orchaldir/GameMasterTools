@@ -61,7 +61,7 @@ class DistrictTest {
         }
 
         @Test
-        fun `Cannot delete a district used as a position`() {
+        fun `Cannot delete a district used by a position`() {
             val state = createState(Business(BUSINESS_ID_0, position = InDistrict(DISTRICT_ID_0)))
 
             assertIllegalArgument("Cannot delete District 0, because it is used!") {

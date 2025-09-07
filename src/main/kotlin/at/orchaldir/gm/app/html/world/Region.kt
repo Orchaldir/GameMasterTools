@@ -5,6 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.realm.parseOptionalBattleId
 import at.orchaldir.gm.app.html.realm.parseOptionalCatastropheId
+import at.orchaldir.gm.app.html.util.fieldPosition
+import at.orchaldir.gm.app.html.util.parsePosition
+import at.orchaldir.gm.app.html.util.selectPosition
+import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
@@ -12,8 +16,6 @@ import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.selector.util.sortBattles
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import at.orchaldir.gm.core.selector.util.sortMaterial
-import at.orchaldir.gm.core.selector.util.sortRegions
-import at.orchaldir.gm.core.selector.world.getSubRegions
 import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -28,10 +30,10 @@ fun HtmlBlockTag.showRegion(
     region: Region,
 ) {
     showRegionData(call, state, region.data)
-    optionalFieldLink("Parent Region", call, state, region.parent)
-    fieldList(call, state, "Subregions", state.getSubRegions(region.id))
+    fieldPosition(call, state, region.position)
     fieldIdList(call, state, "Resources", region.resources)
     fieldList(call, state, state.getTowns(region.id))
+    showLocalElements(call, state, region.id)
 }
 
 private fun HtmlBlockTag.showRegionData(
@@ -55,11 +57,16 @@ fun HtmlBlockTag.editRegion(
     region: Region,
 ) {
     val materials = state.sortMaterial()
-    val regions = state.sortRegions(state.getRegionStorage().getAllExcept(region.id))
 
     selectName(region.name)
     editRegionData(state, region.data)
-    selectOptionalElement(state, "Parent Region", PARENT, regions, region.parent)
+    selectPosition(
+        state,
+        POSITION,
+        region.position,
+        null,
+        region.data.getAllowedRegionTypes(),
+    )
     selectElements(state, "Resources", MATERIAL, materials, region.resources)
 }
 
@@ -104,11 +111,11 @@ fun parseRegionId(parameters: Parameters, param: String) = RegionId(parseInt(par
 fun parseOptionalRegionId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { RegionId(it) }
 
-fun parseRegion(id: RegionId, parameters: Parameters) = Region(
+fun parseRegion(parameters: Parameters, state: State, id: RegionId) = Region(
     id,
     parseName(parameters),
     parseRegionData(parameters),
-    parseOptionalRegionId(parameters, PARENT),
+    parsePosition(parameters, state),
     parseElements(parameters, MATERIAL, ::parseMaterialId),
 )
 

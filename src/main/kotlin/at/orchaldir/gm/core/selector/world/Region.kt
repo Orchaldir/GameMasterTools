@@ -7,9 +7,15 @@ import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
+import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 
 fun State.canDeleteRegion(region: RegionId) = getTowns(region).isEmpty()
         && getSubRegions(region).isEmpty()
+        && getCharactersLivingIn(region).isEmpty()
+        && getCharactersPreviouslyLivingIn(region).isEmpty()
+        && hasNoHasPositionsIn(region)
 
 fun State.getRegions(type: RegionDataType) = getRegionStorage()
     .getAll()
@@ -37,5 +43,5 @@ fun State.getRegionsIds(town: TownMapId) = getTownMapStorage()
 
 fun State.getSubRegions(region: RegionId) = getRegionStorage()
     .getAll()
-    .filter { it.parent == region }
+    .filter { it.position.isIn(region) }
 

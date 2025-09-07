@@ -21,8 +21,6 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getResidents
 import at.orchaldir.gm.core.selector.character.getWorkingIn
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
-import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortTowns
 import io.ktor.http.*
@@ -41,41 +39,6 @@ fun HtmlBlockTag.showTownMap(
     optionalFieldLink(call, state, townMap.town)
     optionalField(call, state, "Date", townMap.date)
     field("Size", townMap.map.size.format())
-}
-
-fun HtmlBlockTag.showBuildingsOfTownMap(
-    call: ApplicationCall,
-    state: State,
-    townMap: TownMapId,
-    town: TownId? = null,
-) {
-    val buildingsInMap = state.getBuildingsIn(townMap)
-    val buildingsInTown = if (town != null) {
-        state.getBuildingsIn(town)
-    } else {
-        emptyList()
-    }
-    val buildings = buildingsInMap + buildingsInTown
-
-    h2 { +"Buildings" }
-
-    showDetails("Buildings in Map") {
-        showList(state.sortBuildings(buildingsInMap)) { (building, name) ->
-            link(call, building.id, name)
-        }
-    }
-    if (town != null) {
-        showDetails("Buildings in Town") {
-            showList(state.sortBuildings(buildingsInTown)) { (building, name) ->
-                link(call, building.id, name)
-            }
-        }
-    }
-
-    showArchitecturalStyleCount(call, state, buildings)
-    showCreatorCount(call, state, buildings, "Builder")
-    showBuildingPurposeCount(buildings)
-    showBuildingOwnershipCount(call, state, buildings)
 }
 
 fun HtmlBlockTag.showCharactersOfTownMap(

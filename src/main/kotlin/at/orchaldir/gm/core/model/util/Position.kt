@@ -5,7 +5,9 @@ import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
@@ -19,8 +21,10 @@ enum class PositionType {
     Homeless,
     Home,
     LongTermCare,
+    Moon,
     Plane,
     Realm,
+    Region,
     Town,
     TownMap,
 }
@@ -36,9 +40,11 @@ sealed class Position {
         is InHome -> PositionType.Home
         is InPlane -> PositionType.Plane
         is InRealm -> PositionType.Realm
+        is InRegion -> PositionType.Region
         is InTown -> PositionType.Town
         is InTownMap -> PositionType.TownMap
         is LongTermCareIn -> PositionType.LongTermCare
+        is OnMoon -> PositionType.Moon
         UndefinedPosition -> PositionType.Undefined
     }
 
@@ -50,9 +56,11 @@ sealed class Position {
         is InHome -> building
         is InPlane -> plane
         is InRealm -> realm
+        is InRegion -> region
         is InTown -> town
         is InTownMap -> townMap
         is LongTermCareIn -> business
+        is OnMoon -> moon
         UndefinedPosition -> null
     }
 
@@ -76,9 +84,11 @@ sealed class Position {
         is InHome -> building == id
         is InPlane -> plane == id
         is InRealm -> realm == id
+        is InRegion -> region == id
         is InTown -> town == id
         is InTownMap -> townMap == id
         is LongTermCareIn -> business == id
+        is OnMoon -> moon == id
         UndefinedPosition -> false
     }
 
@@ -158,6 +168,10 @@ data class InRealm(val realm: RealmId) : Position() {
 }
 
 @Serializable
+@SerialName("Region")
+data class InRegion(val region: RegionId) : Position()
+
+@Serializable
 @SerialName("Town")
 data class InTown(val town: TownId) : Position() {
 
@@ -185,5 +199,12 @@ data class LongTermCareIn(val business: BusinessId) : Position() {
 }
 
 @Serializable
+@SerialName("Moon")
+data class OnMoon(val moon: MoonId) : Position()
+
+@Serializable
 @SerialName("Undefined")
 data object UndefinedPosition : Position()
+
+fun <ID : Id<ID>> History<Position>.isIn(id: ID) = current.isIn(id)
+fun <ID : Id<ID>> History<Position>.wasIn(id: ID) = previousEntries.any { it.entry.isIn(id) }
