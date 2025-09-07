@@ -30,7 +30,7 @@ class CalendarTest {
 
     @Nested
     inner class CanDeleteTest {
-        val calendar = Calendar(CALENDAR_ID_0)
+        private val calendar = Calendar(CALENDAR_ID_0)
         private val state = State(
             listOf(
                 Storage(calendar),

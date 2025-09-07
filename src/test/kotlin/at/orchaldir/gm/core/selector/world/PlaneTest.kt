@@ -22,7 +22,7 @@ class PlaneTest {
 
     @Nested
     inner class CanDeleteTest {
-        val plane = Plane(PLANE_ID_0)
+        private val plane = Plane(PLANE_ID_0)
         private val state = State(
             listOf(
                 Storage(plane),

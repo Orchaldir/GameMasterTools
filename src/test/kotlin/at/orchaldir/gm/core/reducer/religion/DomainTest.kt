@@ -1,13 +1,11 @@
 package at.orchaldir.gm.core.reducer.religion
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.UpdateDomain
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.religion.Domain
-import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -25,30 +23,6 @@ class DomainTest {
             Storage(Job(JOB_ID_0)),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteDomain(DOMAIN_ID_0)
-
-        @Test
-        fun `Can delete an existing domain`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getDomainStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteDomain(UNKNOWN_DOMAIN_ID)
-
-            assertIllegalArgument("Requires unknown Domain 99!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
-        fun `Cannot delete a domain used by a god`() {
-            val state = STATE.updateStorage(Storage(God(GOD_ID_0, domains = setOf(DOMAIN_ID_0))))
-
-            assertIllegalArgument("Cannot delete Domain 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

@@ -25,7 +25,7 @@ class StreetTest {
 
     @Nested
     inner class CanDeleteTest {
-        val state = State(
+        private val state = State(
             listOf(
                 Storage(Street(STREET_ID_0)),
             )

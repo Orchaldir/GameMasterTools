@@ -19,7 +19,7 @@ class MoonTest {
 
     @Nested
     inner class CanDeleteTest {
-        val moon = Moon(MOON_ID_0)
+        private val moon = Moon(MOON_ID_0)
         private val state = State(
             listOf(
                 Storage(moon),

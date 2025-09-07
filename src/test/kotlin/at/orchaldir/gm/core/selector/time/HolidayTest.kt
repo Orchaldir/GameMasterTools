@@ -18,7 +18,7 @@ class HolidayTest {
 
     @Nested
     inner class CanDeleteTest {
-        val holiday = Holiday(HOLIDAY_ID_0)
+        private val holiday = Holiday(HOLIDAY_ID_0)
         private val state = State(
             listOf(
                 Storage(holiday),

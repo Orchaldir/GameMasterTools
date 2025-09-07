@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editDomain
 import at.orchaldir.gm.app.html.religion.parseDomain
 import at.orchaldir.gm.app.html.religion.showDomain
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateDomain
 import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.UpdateDomain
@@ -13,7 +14,6 @@ import at.orchaldir.gm.core.model.religion.DOMAIN_TYPE
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.util.SortDomain
-import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.util.sortDomains
 import io.ktor.http.*
@@ -89,13 +89,7 @@ fun Application.configureDomainRouting() {
             STORE.getState().save()
         }
         get<DomainRoutes.Delete> { delete ->
-            logger.info { "Delete domain ${delete.id.value}" }
-
-            STORE.dispatch(DeleteDomain(delete.id))
-
-            call.respondRedirect(call.application.href(DomainRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteDomain(delete.id), DomainRoutes())
         }
         get<DomainRoutes.Edit> { edit ->
             logger.info { "Get editor for domain ${edit.id.value}" }
@@ -182,11 +176,7 @@ private fun HTML.showDomainDetails(
         fieldList(call, state, state.getGodsWith(domain.id))
 
         action(editLink, "Edit")
-
-        if (state.canDeleteDomain(domain.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

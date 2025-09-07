@@ -19,7 +19,7 @@ class BuildingTest {
 
     @Nested
     inner class CanDeleteTest {
-        val building = Building(BUILDING_ID_0)
+        private val building = Building(BUILDING_ID_0)
         private val state = State(
             listOf(
                 Storage(building),

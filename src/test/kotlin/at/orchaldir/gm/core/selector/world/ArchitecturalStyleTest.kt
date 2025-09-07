@@ -19,7 +19,7 @@ class ArchitecturalStyleTest {
 
     @Nested
     inner class CanDeleteTest {
-        val style = ArchitecturalStyle(ARCHITECTURAL_ID_0)
+        private val style = ArchitecturalStyle(ARCHITECTURAL_ID_0)
         private val state = State(
             listOf(
                 Storage(style),
