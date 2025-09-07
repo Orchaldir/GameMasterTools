@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.realm.canDeleteBattle
+import at.orchaldir.gm.core.selector.realm.canDeleteCatastrophe
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -15,7 +16,7 @@ val REALM_REDUCER: Reducer<RealmAction, State> = { state, action ->
         is UpdateBattle -> UPDATE_BATTLE(state, action)
         // catastrophe
         is CreateCatastrophe -> CREATE_CATASTROPHE(state, action)
-        is DeleteCatastrophe -> DELETE_CATASTROPHE(state, action)
+        is DeleteCatastrophe -> deleteElement(state, action.id, State::canDeleteCatastrophe)
         is UpdateCatastrophe -> UPDATE_CATASTROPHE(state, action)
         // district
         is CreateDistrict -> CREATE_DISTRICT(state, action)
