@@ -23,14 +23,6 @@ val CREATE_ARCHITECTURAL_STYLE: Reducer<CreateArchitecturalStyle, State> = { sta
     noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().add(style)))
 }
 
-val DELETE_ARCHITECTURAL_STYLE: Reducer<DeleteArchitecturalStyle, State> = { state, action ->
-    state.getArchitecturalStyleStorage().require(action.id)
-
-    validateCanDelete(state.canDelete(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().remove(action.id)))
-}
-
 val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { state, action ->
     val style = action.style
     state.getArchitecturalStyleStorage().require(style.id)

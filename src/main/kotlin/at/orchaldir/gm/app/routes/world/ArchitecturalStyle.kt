@@ -9,8 +9,10 @@ import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.selectOptionalYear
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
+import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
@@ -97,13 +99,7 @@ fun Application.configureArchitecturalStyleRouting() {
             STORE.getState().save()
         }
         get<ArchitecturalStyleRoutes.Delete> { delete ->
-            logger.info { "Delete architectural style ${delete.id.value}" }
-
-            STORE.dispatch(DeleteArchitecturalStyle(delete.id))
-
-            call.respondRedirect(call.application.href(ArchitecturalStyleRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteArchitecturalStyle(delete.id), ArchitecturalStyleRoutes())
         }
         get<ArchitecturalStyleRoutes.Edit> { edit ->
             logger.info { "Get editor for architectural style ${edit.id.value}" }
@@ -196,9 +192,7 @@ private fun HTML.showArchitecturalStyleDetails(
             link(call, building.id, name)
         }
         action(editLink, "Edit")
-        if (state.canDelete(style.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

@@ -51,8 +51,8 @@ import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 
-val ARCHITECTURAL_ID0 = ArchitecturalStyleId(0)
-val ARCHITECTURAL_ID1 = ArchitecturalStyleId(1)
+val ARCHITECTURAL_ID_0 = ArchitecturalStyleId(0)
+val ARCHITECTURAL_ID_1 = ArchitecturalStyleId(1)
 val UNKNOWN_ARCHITECTURAL_ID = ArchitecturalStyleId(99)
 val ARTICLE_ID_0 = ArticleId(0)
 val UNKNOWN_ARTICLE_ID = ArticleId(99)
