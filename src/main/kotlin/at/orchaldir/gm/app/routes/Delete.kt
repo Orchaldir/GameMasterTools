@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.showDeleteResult
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
-import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.utils.Id
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
@@ -15,7 +15,7 @@ import io.ktor.server.response.respondRedirect
 import io.ktor.util.pipeline.PipelineContext
 
 suspend fun PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
-    id: RiverId,
+    id: Id<*>,
     action: Action,
     routes: Any,
 ) {

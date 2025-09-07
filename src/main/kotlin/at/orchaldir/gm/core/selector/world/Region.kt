@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.world
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.realm.BattleId
@@ -11,11 +12,12 @@ import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 
-fun State.canDeleteRegion(region: RegionId) = getTowns(region).isEmpty()
-        && getSubRegions(region).isEmpty()
-        && getCharactersLivingIn(region).isEmpty()
-        && getCharactersPreviouslyLivingIn(region).isEmpty()
-        && hasNoHasPositionsIn(region)
+fun State.canDeleteRegion(region: RegionId) = DeleteResult(region)
+    .addElements(getTowns(region))
+    .addElements(getSubRegions(region))
+    .addElements(getCharactersLivingIn(region))
+    .addElements(getCharactersPreviouslyLivingIn(region))
+//    && hasNoHasPositionsIn(region)
 
 fun State.getRegions(type: RegionDataType) = getRegionStorage()
     .getAll()

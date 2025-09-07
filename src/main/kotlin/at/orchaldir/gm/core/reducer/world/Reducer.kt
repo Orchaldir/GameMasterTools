@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.reducer.world.town.*
+import at.orchaldir.gm.core.selector.world.canDeleteRegion
 import at.orchaldir.gm.core.selector.world.canDeleteRiver
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -23,7 +24,7 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is UpdatePlane -> UPDATE_PLANE(state, action)
         // region
         is CreateRegion -> CREATE_MOUNTAIN(state, action)
-        is DeleteRegion -> DELETE_MOUNTAIN(state, action)
+        is DeleteRegion -> deleteElement(state, action.id, State::canDeleteRegion)
         is UpdateRegion -> UPDATE_MOUNTAIN(state, action)
         // river
         is CreateRiver -> CREATE_RIVER(state, action)

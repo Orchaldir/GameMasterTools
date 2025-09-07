@@ -18,13 +18,6 @@ val CREATE_MOUNTAIN: Reducer<CreateRegion, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getRegionStorage().add(moon)))
 }
 
-val DELETE_MOUNTAIN: Reducer<DeleteRegion, State> = { state, action ->
-    state.getRegionStorage().require(action.id)
-    validateCanDelete(state.canDeleteRegion(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getRegionStorage().remove(action.id)))
-}
-
 val UPDATE_MOUNTAIN: Reducer<UpdateRegion, State> = { state, action ->
     val region = action.region
     state.getRegionStorage().require(region.id)

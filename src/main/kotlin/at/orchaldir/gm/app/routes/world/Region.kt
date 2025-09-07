@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editRegion
 import at.orchaldir.gm.app.html.world.parseRegion
 import at.orchaldir.gm.app.html.world.showRegion
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateRegion
 import at.orchaldir.gm.core.action.DeleteRegion
+import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortRegion
@@ -94,13 +96,7 @@ fun Application.configureRegionRouting() {
             STORE.getState().save()
         }
         get<RegionRoutes.Delete> { delete ->
-            logger.info { "Delete region ${delete.id.value}" }
-
-            STORE.dispatch(DeleteRegion(delete.id))
-
-            call.respondRedirect(call.application.href(RegionRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteRegion(delete.id), RegionRoutes())
         }
         get<RegionRoutes.Edit> { edit ->
             logger.info { "Get editor for region ${edit.id.value}" }
@@ -184,11 +180,7 @@ private fun HTML.showRegionDetails(
         showRegion(call, state, region)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteRegion(region.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }
