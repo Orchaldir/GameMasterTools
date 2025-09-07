@@ -22,18 +22,6 @@ val CREATE_REALM: Reducer<CreateRealm, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getRealmStorage().add(realm)))
 }
 
-val DELETE_REALM: Reducer<DeleteRealm, State> = { state, action ->
-    state.getRealmStorage().require(action.id)
-
-    validateCanDelete(state.countCurrentOrFormerEmployees(action.id) == 0, action.id, "it has or had employees")
-
-    checkIfCreatorCanBeDeleted(state, action.id)
-    checkIfOwnerCanBeDeleted(state, action.id)
-    validateCanDelete(state.canDeleteRealm(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getRealmStorage().remove(action.id)))
-}
-
 val UPDATE_REALM: Reducer<UpdateRealm, State> = { state, action ->
     val realm = action.realm
     state.getRealmStorage().require(realm.id)

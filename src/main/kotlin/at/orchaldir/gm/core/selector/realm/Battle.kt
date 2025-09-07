@@ -17,11 +17,11 @@ fun State.canDeleteBattle(battle: BattleId) = DeleteResult(battle)
 
 fun State.countBattlesLedBy(character: CharacterId) = getBattleStorage()
     .getAll()
-    .count { it.participants.any { it.leader == character } }
+    .count { it.isLedBy(character) }
 
 fun State.countBattles(realm: RealmId) = getBattleStorage()
     .getAll()
-    .count { it.participants.any { it.realm == realm } }
+    .count { it.isParticipant(realm) }
 
 fun State.countBattles(war: WarId) = getBattleStorage()
     .getAll()
@@ -29,11 +29,11 @@ fun State.countBattles(war: WarId) = getBattleStorage()
 
 fun State.getBattlesLedBy(character: CharacterId) = getBattleStorage()
     .getAll()
-    .filter { it.participants.any { it.leader == character } }
+    .filter { it.isLedBy(character) }
 
 fun State.getBattles(realm: RealmId) = getBattleStorage()
     .getAll()
-    .filter { it.participants.any { it.realm == realm } }
+    .filter { it.isParticipant(realm) }
 
 fun State.getBattles(war: WarId) = getBattleStorage()
     .getAll()

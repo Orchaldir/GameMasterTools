@@ -25,3 +25,4 @@ fun History<Reference>.canDelete() = when (this.current) {
 
 fun <ID : Id<ID>> History<Reference>.isOwnedBy(id: ID) = current.isId(id)
 fun <ID : Id<ID>> History<Reference>.wasOwnedBy(id: ID) = previousEntries.any { it.entry.isId(id) }
+fun <ID : Id<ID>> History<Reference>.isOrWasOwnedBy(id: ID) = isOwnedBy(id) || wasOwnedBy(id)
