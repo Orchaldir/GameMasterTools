@@ -149,7 +149,10 @@
   },
   "14": {
    "id": 14,
-   "name": "Whitewind Sea"
+   "name": "Whitewind Sea",
+   "data": {
+    "type": "Sea"
+   }
   },
   "15": {
    "id": 15,
@@ -157,7 +160,10 @@
   },
   "16": {
    "id": 16,
-   "name": "Gulf of Satran"
+   "name": "Gulf of Satran",
+   "data": {
+    "type": "Sea"
+   }
   },
   "17": {
    "id": 17,
