@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.parse.world.parseRiver
 import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
+import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.River
@@ -76,11 +77,18 @@ fun Application.configureRiverRouting() {
         get<RiverRoutes.Delete> { delete ->
             logger.info { "Delete river ${delete.id.value}" }
 
-            STORE.dispatch(DeleteRiver(delete.id))
+            try {
+                STORE.dispatch(DeleteRiver(delete.id))
 
-            call.respondRedirect(call.application.href(RiverRoutes()))
+                call.respondRedirect(call.application.href(RiverRoutes()))
 
-            STORE.getState().save()
+                STORE.getState().save()
+            } catch (e: CannotDeleteException) {
+                logger.warn { e.message }
+                call.respondHtml(HttpStatusCode.OK) {
+                    showDeleteResult(call, STORE.getState(), e.result)
+                }
+            }
         }
         get<RiverRoutes.Edit> { edit ->
             logger.info { "Get editor for river ${edit.id.value}" }

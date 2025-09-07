@@ -56,6 +56,8 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     fun getType() = nextId.type()
     fun getPlural() = nextId.plural()
 
+    fun getName(id: Id<*>, state: State) = elements[id]?.name(state) ?: "Unknown"
+
     fun get(id: ID) = elements[id]
 
     fun get(ids: Collection<ID>) = ids.map { elements[it] }

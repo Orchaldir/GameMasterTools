@@ -100,11 +100,11 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
     }
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
+fun HtmlBlockTag.fieldLink(
     label: String,
     call: ApplicationCall,
     state: State,
-    id: ID,
+    id: Id<*>,
 ) {
     field(label) {
         link(call, state, id)
@@ -311,18 +311,18 @@ fun HtmlBlockTag.link(
 
 // element
 
-fun <ID : Id<ID>> HtmlBlockTag.link(
+fun HtmlBlockTag.link(
     call: ApplicationCall,
     state: State,
-    id: ID,
+    id: Id<*>,
 ) {
     link(call, id, state.getElementName(id))
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.optionalLink(
+fun HtmlBlockTag.optionalLink(
     call: ApplicationCall,
     state: State,
-    id: ID?,
+    id: Id<*>?,
 ) {
     if (id != null) {
         link(call, id, state.getElementName(id))
