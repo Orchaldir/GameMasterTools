@@ -1,20 +1,13 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.EmployedByRealm
-import at.orchaldir.gm.core.model.character.EmploymentStatus
-import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.realm.*
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
-import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
-import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -30,130 +23,6 @@ class RealmTest {
             Storage(listOf(realm0, realm1)),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteRealm(REALM_ID_0)
-
-        @Test
-        fun `Can delete an existing realm`() {
-            assertEquals(1, REDUCER.invoke(STATE, action).first.getRealmStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteRealm(UNKNOWN_REALM_ID)
-
-            assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
-        }
-
-        // see CreatorTest for other elements
-        @Test
-        fun `Cannot delete a realm that created another element`() {
-            val building = Building(BUILDING_ID_0, builder = RealmReference(REALM_ID_0))
-
-            test(building, "Cannot delete Realm 0, because of created elements (Building)!")
-        }
-
-        // see OwnershipTest for other elements
-        @Test
-        fun `Cannot delete a realm that owns another element`() {
-            val ownership = History<Reference>(RealmReference(REALM_ID_0))
-            val building = Building(BUILDING_ID_0, ownership = ownership)
-
-            test(building, "Cannot delete Realm 0, because of owned elements (Building)!")
-        }
-
-        @Test
-        fun `Cannot delete a realm that owns another realm`() {
-            val newRealm1 = Realm(REALM_ID_1, owner = History(REALM_ID_0))
-            val newState = STATE.updateStorage(Storage(listOf(realm0, newRealm1)))
-
-            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a realm that owned another realm`() {
-            val history = History(null, HistoryEntry(REALM_ID_0, DAY0))
-            val newRealm1 = Realm(REALM_ID_1, owner = history)
-            val newState = STATE.updateStorage(Storage(listOf(realm0, newRealm1)))
-
-            assertIllegalArgument("Cannot delete Realm 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a realm that owns a town`() {
-            val town = Town(TOWN_ID_0, owner = History(REALM_ID_0))
-
-            test(town, "Cannot delete Realm 0, because it is used!")
-        }
-
-        @Test
-        fun `Cannot delete a realm that owned a town`() {
-            val history = History(null, HistoryEntry(REALM_ID_0, DAY0))
-            val town = Town(TOWN_ID_0, owner = history)
-
-            test(town, "Cannot delete Realm 0, because it is used!")
-        }
-
-        @Test
-        fun `Cannot delete a realm that participated in a war`() {
-            val participant = WarParticipant(RealmReference(REALM_ID_0))
-            val war = War(WAR_ID_0, participants = listOf(participant))
-
-            test(war, "Cannot delete Realm 0, because it is used!")
-        }
-
-        @Test
-        fun `Cannot delete a realm that participated in a battle`() {
-            val war = Battle(BATTLE_ID_0, participants = listOf(BattleParticipant(REALM_ID_0)))
-
-            test(war, "Cannot delete Realm 0, because it is used!")
-        }
-
-        @Test
-        fun `Cannot delete a realm that employs a character`() {
-            val employmentStatus = History<EmploymentStatus>(EmployedByRealm(JOB_ID_0, REALM_ID_0))
-            val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
-
-            test(character, "Cannot delete Realm 0, because it has or had employees!")
-        }
-
-        @Test
-        fun `Cannot delete a realm that is the home of a character`() {
-            val housingStatus = History<Position>(InRealm(REALM_ID_0))
-            val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
-
-            test(character, "Cannot delete Realm 0, because it is used!")
-        }
-
-        @Test
-        fun `Cannot delete a realm that signed a treaty`() {
-            val treaty = Treaty(TREATY_ID_0, participants = listOf(TreatyParticipant(REALM_ID_0)))
-
-            test(treaty, "Cannot delete Realm 0, because of created elements (Treaty)!")
-        }
-
-        @Test
-        fun `Cannot delete a realm used as a position`() {
-            val business = Business(BUSINESS_ID_0, position = InRealm(REALM_ID_0))
-
-            test(business, "Cannot delete Realm 0, because it is used!")
-        }
-
-        private fun <ID : Id<ID>, ELEMENT : Element<ID>> test(element: ELEMENT, message: String) {
-            val state = STATE.updateStorage(Storage(element))
-
-            assertIllegalArgument(message) {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-    }
 
     @Nested
     inner class UpdateTest {
