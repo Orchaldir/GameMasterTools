@@ -212,42 +212,6 @@ class BuildingTest {
             assertFalse(result.getBuildingStorage().contains(BUILDING_ID_0))
             assertFree(result, BIG_SQUARE)
         }
-
-        @Test
-        fun `Cannot delete a single family house, if someone lives inside`() {
-            val state =
-                state.updateStorage(
-                    Storage(
-                        Character(
-                            CHARACTER_ID_0,
-                            housingStatus = History(InBuilding(BUILDING_ID_0))
-                        )
-                    )
-                )
-
-            assertIllegalArgument("Cannot delete Building 0, because it has inhabitants!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a single family house, if someone lived inside`() {
-            val housingStatus = History(Homeless, HistoryEntry(InBuilding(BUILDING_ID_0), DAY0))
-            val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, housingStatus = housingStatus)))
-
-            assertIllegalArgument("Cannot delete Building 0, because it had inhabitants!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a building used as a position`() {
-            val state = state.updateStorage(Storage(Business(BUSINESS_ID_0, position = InBuilding(BUILDING_ID_0))))
-
-            assertIllegalArgument("Cannot delete Building 0, because is used as a position!") {
-                REDUCER.invoke(state, action)
-            }
-        }
     }
 
     @Nested

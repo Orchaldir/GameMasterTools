@@ -1,23 +1,20 @@
 package at.orchaldir.gm.core.selector.world
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.util.canDelete
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
+import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 import at.orchaldir.gm.core.selector.util.countBuildingsIn
 import at.orchaldir.gm.core.selector.util.getBuildingAgeComparator
-import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
 
-fun State.canDelete(building: Building) = building.ownership.canDelete()
-        && getCharactersLivingIn(building.id).isEmpty()
-        && getCharactersPreviouslyLivingIn(building.id).isEmpty()
-        && hasNoHasPositionsIn(building.id)
+fun State.canDeleteBuilding(building: BuildingId) = DeleteResult(building)
+    .apply { canDeleteWithPositions(building, it) }
 
 fun State.countBuildings(townId: TownId): Int {
     val countInTownMap = getCurrentTownMap(townId)?.let { countBuildingsIn(it.id) } ?: 0
