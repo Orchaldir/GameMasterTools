@@ -35,13 +35,11 @@ import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
 
 val REDUCER: Reducer<Action, State> = { state, action ->
     when (action) {
         // meta
         is LoadData -> LOAD_DATA(state, action)
-        is DeleteElement<*> -> noFollowUps(state)
         // character
         is CreateCharacter -> CREATE_CHARACTER(state, action)
         is DeleteCharacter -> DELETE_CHARACTER(state, action)

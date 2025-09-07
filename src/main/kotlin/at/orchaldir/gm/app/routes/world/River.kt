@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseRiver
 import at.orchaldir.gm.core.action.CreateRiver
-import at.orchaldir.gm.core.action.DeleteElement
+import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
@@ -78,7 +78,7 @@ fun Application.configureRiverRouting() {
             logger.info { "Delete river ${delete.id.value}" }
 
             try {
-                STORE.dispatch(DeleteElement(delete.id, State::canDeleteRiver))
+                STORE.dispatch(DeleteRiver(delete.id))
 
                 call.respondRedirect(call.application.href(RiverRoutes()))
 

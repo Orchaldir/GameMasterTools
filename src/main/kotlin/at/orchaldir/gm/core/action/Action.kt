@@ -86,10 +86,6 @@ sealed class Action
 // META
 
 data class LoadData(val path: String) : Action()
-data class DeleteElement<ID : Id<ID>>(
-    val id: ID,
-    val validation: (State, ID) -> DeleteResult,
-) : Action()
 
 // character
 data object CreateCharacter : Action()
@@ -384,6 +380,7 @@ data class UpdateRegion(val region: Region) : WorldAction()
 
 // river
 data object CreateRiver : WorldAction()
+data class DeleteRiver(val id: RiverId) : WorldAction()
 data class UpdateRiver(val river: River) : WorldAction()
 
 // street
