@@ -10,12 +10,12 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val REGION_TYPE = "Region"
-val ALLOWED_REGION_POSITIONS = listOf(
+val ALLOWED_CONTINENT_POSITIONS = listOf(
     PositionType.Undefined,
     PositionType.Moon,
     PositionType.Plane,
-    PositionType.Region,
 )
+val ALLOWED_REGION_POSITIONS = ALLOWED_CONTINENT_POSITIONS + PositionType.Region
 
 @JvmInline
 @Serializable

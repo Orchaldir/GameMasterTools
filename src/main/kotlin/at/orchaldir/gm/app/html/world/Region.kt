@@ -61,7 +61,6 @@ fun HtmlBlockTag.editRegion(
     region: Region,
 ) {
     val materials = state.sortMaterial()
-    val regions = state.sortRegions(state.getRegionStorage().getAllExcept(region.id))
 
     selectName(region.name)
     editRegionData(state, region.data)
@@ -70,7 +69,7 @@ fun HtmlBlockTag.editRegion(
         POSITION,
         region.position,
         null,
-        ALLOWED_REGION_POSITIONS,
+        region.data.getAllowedRegionTypes(),
     )
     selectElements(state, "Resources", MATERIAL, materials, region.resources)
 }

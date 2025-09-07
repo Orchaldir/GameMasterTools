@@ -39,7 +39,7 @@ fun validateRegion(
     region: Region,
 ) {
     validateRegion(state, region.data)
-    checkPosition(state, region.position, "position", null, ALLOWED_REGION_POSITIONS)
+    checkPosition(state, region.position, "position", null, region.data.getAllowedRegionTypes())
     region.resources.forEach { state.getMaterialStorage().require(it) }
 }
 
