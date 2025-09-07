@@ -10,10 +10,6 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarId
 
 fun State.canDeletePeriodical(periodical: PeriodicalId) = countPeriodicalIssues(periodical) == 0
 
-fun State.countPeriodicals(calendar: CalendarId) = getPeriodicalStorage()
-    .getAll()
-    .count { b -> b.calendar == calendar }
-
 fun State.countPeriodicals(language: LanguageId) = getPeriodicalStorage()
     .getAll()
     .count { b -> b.language == language }

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.time
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.DayInMonth
@@ -7,14 +8,15 @@ import at.orchaldir.gm.core.model.time.holiday.DayInYear
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
 import at.orchaldir.gm.core.selector.culture.getCultures
-import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
+import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.utils.doNothing
 import kotlin.math.max
 
-fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty() &&
-        getCultures(calendar).isEmpty() &&
-        getHolidays(calendar).isEmpty() &&
-        countPeriodicals(calendar) == 0
+fun State.canDeleteCalendar(calendar: CalendarId) = DeleteResult(calendar)
+    .addElements(getChildren(calendar))
+    .addElements(getCultures(calendar))
+    .addElements(getHolidays(calendar))
+    .addElements(getPeriodicals(calendar))
 
 fun State.getChildren(calendar: CalendarId) = getCalendarStorage()
     .getAll()

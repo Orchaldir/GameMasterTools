@@ -1,13 +1,22 @@
-package at.orchaldir.gm.core.selector.time.calendar
+package at.orchaldir.gm.core.selector.time
 
+import at.orchaldir.gm.CALENDAR_ID_0
+import at.orchaldir.gm.CALENDAR_ID_1
+import at.orchaldir.gm.CULTURE_ID_0
 import at.orchaldir.gm.HOLIDAY_ID_0
+import at.orchaldir.gm.LANGUAGE_ID_1
+import at.orchaldir.gm.PERIODICAL_ID_0
+import at.orchaldir.gm.core.model.DeleteResult
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.item.periodical.Periodical
+import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.holiday.DayInYear
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.WeekdayInMonth
-import at.orchaldir.gm.core.selector.time.getMinNumberOfDays
-import at.orchaldir.gm.core.selector.time.getMinNumberOfMonths
-import at.orchaldir.gm.core.selector.time.getMinNumberOfWeekdays
-import at.orchaldir.gm.core.selector.time.supportsDayOfTheMonth
+import at.orchaldir.gm.core.model.util.origin.ModifiedElement
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -18,6 +27,52 @@ class CalendarTest {
 
     private val FIXED_DAY_HOLIDAY = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(4, 2))
     private val WEEKDAY_HOLIDAY = Holiday(HOLIDAY_ID_0, relativeDate = WeekdayInMonth(2, 0, 3))
+
+    @Nested
+    inner class CanDeleteTest {
+        val calendar = Calendar(CALENDAR_ID_0)
+        private val state = State(
+            listOf(
+                Storage(calendar),
+            )
+        )
+
+        @Test
+        fun `Cannot delete a calendar used by a culture`() {
+            val culture = Culture(CULTURE_ID_0, calendar = CALENDAR_ID_0)
+            val newState = state.updateStorage(Storage(culture))
+
+            assertCanDelete(newState, CULTURE_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a calendar used by a holiday`() {
+            val holiday = Holiday(HOLIDAY_ID_0, calendar = CALENDAR_ID_0)
+            val newState = state.updateStorage(Storage(holiday))
+
+            assertCanDelete(newState, HOLIDAY_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a calendar used by a periodical`() {
+            val periodical = Periodical(PERIODICAL_ID_0, calendar = CALENDAR_ID_0)
+            val newState = state.updateStorage(Storage(periodical))
+
+            assertCanDelete(newState, PERIODICAL_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a calendar with a child`() {
+            val calendar1 = Calendar(CALENDAR_ID_1, origin = ModifiedElement(CALENDAR_ID_0))
+            val newState = state.updateStorage(Storage(listOf(calendar, calendar1)))
+
+            assertCanDelete(newState, CALENDAR_ID_1)
+        }
+
+        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+            assertEquals(DeleteResult(CALENDAR_ID_0).addId(blockingId), state.canDeleteCalendar(CALENDAR_ID_0))
+        }
+    }
 
     @Nested
     inner class GetMinNumberOfDaysTest {

@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.reducer.util.source.CREATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
+import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -53,7 +54,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is RemoveLanguages -> REMOVE_LANGUAGES(state, action)
         // calendar
         is CreateCalendar -> CREATE_CALENDAR(state, action)
-        is DeleteCalendar -> DELETE_CALENDAR(state, action)
+        is DeleteCalendar -> deleteElement(state, action.id, State::canDeleteCalendar)
         is UpdateCalendar -> UPDATE_CALENDAR(state, action)
         // color schemes
         is CreateColorScheme -> CREATE_COLOR_SCHEME(state, action)

@@ -6,14 +6,15 @@ import at.orchaldir.gm.app.html.time.editCalendar
 import at.orchaldir.gm.app.html.time.parseCalendar
 import at.orchaldir.gm.app.html.time.showCalendar
 import at.orchaldir.gm.app.html.util.showDate
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateCalendar
 import at.orchaldir.gm.core.action.DeleteCalendar
+import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.selector.time.canDelete
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.convertDate
 import at.orchaldir.gm.core.selector.time.getCurrentDate
@@ -87,13 +88,7 @@ fun Application.configureCalendarRouting() {
             STORE.getState().save()
         }
         get<CalendarRoutes.Delete> { delete ->
-            logger.info { "Delete calendar ${delete.id.value}" }
-
-            STORE.dispatch(DeleteCalendar(delete.id))
-
-            call.respondRedirect(call.application.href(CalendarRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteCalendar(delete.id), CalendarRoutes())
         }
         get<CalendarRoutes.Edit> { edit ->
             logger.info { "Get editor for calendar ${edit.id.value}" }
@@ -184,11 +179,7 @@ private fun HTML.showCalendarDetails(
         showCalendar(call, state, calendar)
 
         action(editLink, "Edit")
-
-        if (state.canDelete(calendar.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

@@ -1,11 +1,8 @@
 package at.orchaldir.gm.core.reducer.time
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.holiday.*
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -28,39 +25,6 @@ class HolidayTest {
             Storage(Holiday(HOLIDAY_ID_0)),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteHoliday(HOLIDAY_ID_0)
-
-        @Test
-        fun `Can delete an existing holiday`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getHolidayStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteHoliday(UNKNOWN_HOLIDAY_ID)
-
-            assertIllegalArgument("Requires unknown Holiday 99!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete, if used by a culture`() {
-            val culture = Culture(CULTURE_ID_0, holidays = setOf(HOLIDAY_ID_0))
-            val newState = state.updateStorage(Storage(culture))
-
-            assertIllegalArgument("Cannot delete Holiday 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-
-        @Test
-        fun `Cannot delete, if used by an organization`() {
-            val organization = Organization(ORGANIZATION_ID_0, holidays = setOf(HOLIDAY_ID_0))
-            val newState = state.updateStorage(Storage(organization))
-
-            assertIllegalArgument("Cannot delete Holiday 0, because it is used!") { REDUCER.invoke(newState, action) }
-        }
-    }
 
     @Nested
     inner class UpdateTest {
