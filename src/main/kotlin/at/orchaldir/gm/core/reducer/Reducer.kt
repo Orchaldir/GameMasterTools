@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.reducer.util.source.CREATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
+import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
@@ -83,7 +84,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateFont -> UPDATE_FONT(state, action)
         // holiday
         is CreateHoliday -> CREATE_HOLIDAY(state, action)
-        is DeleteHoliday -> DELETE_HOLIDAY(state, action)
+        is DeleteHoliday -> deleteElement(state, action.id, State::canDeleteHoliday)
         is UpdateHoliday -> UPDATE_HOLIDAY(state, action)
         // language
         is CreateLanguage -> CREATE_LANGUAGE(state, action)
