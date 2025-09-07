@@ -4,6 +4,7 @@ import at.orchaldir.gm.NAME
 import at.orchaldir.gm.RIVER_ID_0
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
+import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.RiverTerrain
@@ -48,7 +49,12 @@ class RiverTest {
                 )
             )
 
-            assertFailsWith<IllegalArgumentException>("River 0 is used") { REDUCER.invoke(state, action) }
+            assertFailsWith<CannotDeleteException>("Cannot delete River 0 because of 1 elements!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
         }
     }
 
