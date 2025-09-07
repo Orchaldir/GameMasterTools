@@ -4,14 +4,14 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseRiver
 import at.orchaldir.gm.core.action.CreateRiver
-import at.orchaldir.gm.core.action.DeleteRiver
+import at.orchaldir.gm.core.action.DeleteElement
 import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.canDeleteRiver
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -78,7 +78,7 @@ fun Application.configureRiverRouting() {
             logger.info { "Delete river ${delete.id.value}" }
 
             try {
-                STORE.dispatch(DeleteRiver(delete.id))
+                STORE.dispatch(DeleteElement(delete.id, State::canDeleteRiver))
 
                 call.respondRedirect(call.application.href(RiverRoutes()))
 
