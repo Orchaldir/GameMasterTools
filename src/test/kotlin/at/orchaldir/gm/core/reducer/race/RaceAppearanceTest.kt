@@ -25,41 +25,6 @@ import kotlin.test.assertEquals
 class RaceAppearanceTest {
 
     @Nested
-    inner class DeleteTest {
-
-        @Test
-        fun `Can delete an existing appearance`() {
-            val state = State(Storage(RaceAppearance(RACE_APPEARANCE_ID_0)))
-            val action = DeleteRaceAppearance(RACE_APPEARANCE_ID_0)
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getRaceAppearanceStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteRaceAppearance(RACE_APPEARANCE_ID_0)
-
-            assertIllegalArgument("Requires unknown Race Appearance 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete an appearance used by a race`() {
-            val race = Race(RaceId(0), lifeStages = ImmutableLifeStage(RACE_APPEARANCE_ID_0))
-            val state = State(
-                listOf(
-                    Storage(race),
-                    Storage(RaceAppearance(RACE_APPEARANCE_ID_0)),
-                )
-            )
-            val action = DeleteRaceAppearance(RACE_APPEARANCE_ID_0)
-
-            assertIllegalArgument("Cannot delete Race Appearance 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
         val state = State(Storage(RaceAppearance(RACE_APPEARANCE_ID_0)))
 

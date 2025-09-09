@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.reducer.race
 
 import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateRaceAppearance
-import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.FeatureColorType
@@ -10,8 +9,6 @@ import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.race.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -27,13 +24,6 @@ val CLONE_RACE_APPEARANCE: Reducer<CloneRaceAppearance, State> = { state, action
     val clone = original.copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 
     noFollowUps(state.updateStorage(state.getRaceAppearanceStorage().add(clone)))
-}
-
-val DELETE_RACE_APPEARANCE: Reducer<DeleteRaceAppearance, State> = { state, action ->
-    state.getRaceAppearanceStorage().require(action.id)
-    validateCanDelete(state.canDelete(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getRaceAppearanceStorage().remove(action.id)))
 }
 
 val UPDATE_RACE_APPEARANCE: Reducer<UpdateRaceAppearance, State> = { state, action ->

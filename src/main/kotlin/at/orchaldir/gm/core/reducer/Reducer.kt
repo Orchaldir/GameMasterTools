@@ -35,6 +35,7 @@ import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.core.selector.race.canDeleteRace
+import at.orchaldir.gm.core.selector.race.canDeleteRaceAppearance
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.utils.redux.Reducer
@@ -116,7 +117,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         // race appearance
         is CreateRaceAppearance -> CREATE_RACE_APPEARANCE(state, action)
         is CloneRaceAppearance -> CLONE_RACE_APPEARANCE(state, action)
-        is DeleteRaceAppearance -> DELETE_RACE_APPEARANCE(state, action)
+        is DeleteRaceAppearance -> deleteElement(state, action.id, State::canDeleteRaceAppearance)
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // title
         is CreateTitle -> CREATE_TITLE(state, action)

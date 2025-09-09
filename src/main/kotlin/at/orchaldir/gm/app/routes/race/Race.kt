@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.realm.TownRoutes
 import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
@@ -24,7 +23,6 @@ import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.race.canDelete
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.getTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
