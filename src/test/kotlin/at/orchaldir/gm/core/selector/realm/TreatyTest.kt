@@ -67,7 +67,7 @@ class TreatyTest {
         }
 
         @Test
-        fun `Cannot delete a treated that ended a war`() {
+        fun `Cannot delete a treaty that ended a war`() {
             val status = FinishedWar(Peace(TREATY_ID_0), DAY0)
             val war = War(WAR_ID_0, status = status)
             val newState = state.updateStorage(Storage(war))

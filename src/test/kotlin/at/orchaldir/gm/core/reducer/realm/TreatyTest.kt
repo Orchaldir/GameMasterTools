@@ -26,46 +26,6 @@ class TreatyTest {
     )
 
     @Nested
-    inner class DeleteTest {
-
-        private val action = DeleteTreaty(TREATY_ID_0)
-
-        @Test
-        fun `Can delete an existing Treaty`() {
-            val state = State(Storage(Treaty(TREATY_ID_0)))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getTreatyStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a treaty that is celebrated by a holiday`() {
-            val purpose = HolidayOfTreaty(TREATY_ID_0)
-            val holiday = Holiday(HOLIDAY_ID_0, purpose = purpose)
-            val newState = STATE.updateStorage(Storage(holiday))
-
-            assertIllegalArgument("Cannot delete Treaty 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a treated that ended a war`() {
-            val status = FinishedWar(Peace(TREATY_ID_0), DAY0)
-            val war = War(WAR_ID_0, status = status)
-            val newState = STATE.updateStorage(Storage(war))
-
-            assertIllegalArgument("Cannot delete Treaty 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

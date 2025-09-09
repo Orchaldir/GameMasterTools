@@ -1,17 +1,22 @@
 package at.orchaldir.gm.core.selector.realm
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.selector.time.getHolidays
+import at.orchaldir.gm.core.selector.util.canDeleteDestroyer
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isDestroyer
 import at.orchaldir.gm.utils.Id
 
-fun State.canDeleteWar(war: WarId) = !isDestroyer(war)
-        && countBattles(war) == 0
+fun State.canDeleteWar(war: WarId) = DeleteResult(war)
+    .addElements(getBattles(war))
+    .addElements(getHolidays(war))
+    .apply { canDeleteDestroyer(war, it) }
 
 fun <ID : Id<ID>> State.getWars(id: ID) = getWarStorage()
     .getAll()

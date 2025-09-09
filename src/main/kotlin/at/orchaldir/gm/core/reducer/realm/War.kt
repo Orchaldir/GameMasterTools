@@ -23,16 +23,6 @@ val CREATE_WAR: Reducer<CreateWar, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getWarStorage().add(war)))
 }
 
-val DELETE_WAR: Reducer<DeleteWar, State> = { state, action ->
-    state.getWarStorage().require(action.id)
-
-    checkIfCreatorCanBeDeleted(state, action.id)
-    checkIfOwnerCanBeDeleted(state, action.id)
-    validateCanDelete(state.canDeleteWar(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getWarStorage().remove(action.id)))
-}
-
 val UPDATE_WAR: Reducer<UpdateWar, State> = { state, action ->
     val war = action.war
     state.getWarStorage().require(war.id)
