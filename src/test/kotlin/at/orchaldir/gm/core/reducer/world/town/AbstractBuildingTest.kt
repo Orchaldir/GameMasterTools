@@ -19,13 +19,13 @@ class AbstractBuildingTest {
 
     private val ABSTRACT_TILE = TownTile(construction = AbstractBuildingTile)
     private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING_ID_0))
-    private val STREET_TILE = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
+    private val STREET_TILE = TownTile(construction = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0))
     private val EMPTY = TownTile()
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
             Storage(Street(STREET_ID_0)),
-            Storage(StreetTemplate(STREET_TYPE_ID_0)),
+            Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
             Storage(TownMap(TOWN_MAP_ID_0)),
         )
     )

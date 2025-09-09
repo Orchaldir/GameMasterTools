@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.StreetAddress
-import at.orchaldir.gm.core.model.world.street.Street
+import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownTile
@@ -19,13 +19,13 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class StreetTest {
+class StreetTemplateTest {
 
     @Nested
     inner class CanDeleteTest {
         private val state = State(
             listOf(
-                Storage(Street(STREET_ID_0)),
+                Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
             )
         )
 
@@ -38,16 +38,8 @@ class StreetTest {
             assertCanDelete(newState, TOWN_MAP_ID_0)
         }
 
-        @Test
-        fun `Cannot delete, because it is used by the address of a building`() {
-            val building = Building(BUILDING_ID_0, address = StreetAddress(STREET_ID_0, 4))
-            val newState = state.updateStorage(Storage(building))
-
-            assertCanDelete(newState, BUILDING_ID_0)
-        }
-
         private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(STREET_ID_0).addId(blockingId), state.canDeleteStreet(STREET_ID_0))
+            assertEquals(DeleteResult(STREET_TEMPLATE_ID_0).addId(blockingId), state.canDeleteStreetTemplate(STREET_TEMPLATE_ID_0))
         }
     }
 

@@ -25,7 +25,7 @@ class TownMapTest {
             Storage(CALENDAR0),
             Storage(Region(REGION_ID_0)),
             Storage(Street(STREET_ID_0)),
-            Storage(StreetTemplate(STREET_TYPE_ID_0)),
+            Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
             Storage(Town(TOWN_ID_0)),
             Storage(townMap),
         )
@@ -99,12 +99,12 @@ class TownMapTest {
 
             @Test
             fun `Street template must exist`() {
-                testValid("Street Template", TownTile(construction = StreetTile(UNKNOWN_STREET_TYPE_ID)))
+                testValid("Street Template", TownTile(construction = StreetTile(UNKNOWN_STREET_TEMPLATE_ID)))
             }
 
             @Test
             fun `Street must exist`() {
-                val construction = StreetTile(STREET_TYPE_ID_0, UNKNOWN_STREET_ID)
+                val construction = StreetTile(STREET_TEMPLATE_ID_0, UNKNOWN_STREET_ID)
                 testValid("Street", TownTile(construction = construction))
             }
 

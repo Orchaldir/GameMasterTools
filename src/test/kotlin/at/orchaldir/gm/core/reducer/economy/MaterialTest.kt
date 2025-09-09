@@ -56,7 +56,7 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material used by a street template`() {
-            failDeleting(StreetTemplate(STREET_TYPE_ID_0, materialCost = MaterialCost(MATERIAL_ID_0)))
+            failDeleting(StreetTemplate(STREET_TEMPLATE_ID_0, materialCost = MaterialCost(MATERIAL_ID_0)))
         }
 
         @Test

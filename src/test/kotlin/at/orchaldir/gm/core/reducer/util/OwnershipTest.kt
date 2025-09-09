@@ -27,7 +27,7 @@ class OwnerTest {
             Storage(Character(CHARACTER_ID_2, birthDate = DAY0)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
             Storage(Realm(REALM_ID_0, date = DAY0)),
-            Storage(listOf(StreetTemplate(STREET_TYPE_ID_0), StreetTemplate(STREET_TYPE_ID_0))),
+            Storage(listOf(StreetTemplate(STREET_TEMPLATE_ID_0), StreetTemplate(STREET_TEMPLATE_ID_0))),
             Storage(Town(TOWN_ID_0, foundingDate = DAY0)),
         )
     )

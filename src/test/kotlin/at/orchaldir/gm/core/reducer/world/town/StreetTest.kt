@@ -18,13 +18,13 @@ class StreetTest {
 
     private val ABSTRACT_TILE = TownTile(construction = AbstractBuildingTile)
     private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING_ID_0))
-    private val STREET_TILE = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
+    private val STREET_TILE = TownTile(construction = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0))
     private val EMPTY = TownTile()
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
             Storage(Street(STREET_ID_0)),
-            Storage(StreetTemplate(STREET_TYPE_ID_0)),
+            Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
             Storage(TownMap(TOWN_MAP_ID_0)),
         )
     )
@@ -34,28 +34,28 @@ class StreetTest {
 
         @Test
         fun `Cannot update unknown town`() {
-            val action = AddStreetTile(UNKNOWN_TOWN_MAP_ID, 0, STREET_TYPE_ID_0, STREET_ID_0)
+            val action = AddStreetTile(UNKNOWN_TOWN_MAP_ID, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
             assertIllegalArgument("Requires unknown Town Map 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot use unknown street`() {
-            val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TYPE_ID_0, UNKNOWN_STREET_ID)
+            val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TEMPLATE_ID_0, UNKNOWN_STREET_ID)
 
             assertIllegalArgument("Requires unknown Street 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot use unknown street template`() {
-            val action = AddStreetTile(TOWN_MAP_ID_0, 0, UNKNOWN_STREET_TYPE_ID, STREET_ID_0)
+            val action = AddStreetTile(TOWN_MAP_ID_0, 0, UNKNOWN_STREET_TEMPLATE_ID, STREET_ID_0)
 
             assertIllegalArgument("Requires unknown Street Template 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Tile is outside the map`() {
-            val action = AddStreetTile(TOWN_MAP_ID_0, 100, STREET_TYPE_ID_0, STREET_ID_0)
+            val action = AddStreetTile(TOWN_MAP_ID_0, 100, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
             assertIllegalArgument("Tile 100 is outside the map!") {
                 REDUCER.invoke(
@@ -84,7 +84,7 @@ class StreetTest {
             val map = TileMap2d(townTile)
             val town = TownMap(TOWN_MAP_ID_0, map = map)
             val state = STATE.updateStorage(Storage(town))
-            val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TYPE_ID_0, STREET_ID_0)
+            val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
             assertIllegalArgument("Tile 0 is not empty!") { REDUCER.invoke(state, action) }
         }
@@ -94,7 +94,7 @@ class StreetTest {
             val map = TileMap2d(EMPTY)
             val town = TownMap(TOWN_MAP_ID_0, map = map)
             val state = STATE.updateStorage(Storage(town))
-            val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TYPE_ID_0, STREET_ID_0)
+            val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
             assertEquals(
                 STREET_TILE,
