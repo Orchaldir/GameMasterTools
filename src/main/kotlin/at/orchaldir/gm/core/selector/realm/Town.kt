@@ -1,25 +1,30 @@
 package at.orchaldir.gm.core.selector.realm
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EmployedByTown
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
-import at.orchaldir.gm.core.selector.util.getExistingElements
-import at.orchaldir.gm.core.selector.util.isCreator
-import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
+import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.character.getPreviousEmployees
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.core.selector.world.getTownMaps
 import at.orchaldir.gm.utils.Id
 
-fun State.canDeleteTown(town: TownId) = !isCurrentOrFormerOwner(town)
-        && !isCreator(town)
-        && getCharactersLivingIn(town).isEmpty()
-        && getCharactersPreviouslyLivingIn(town).isEmpty()
-        && getDistricts(town).isEmpty()
-        && getTownMaps(town).isEmpty()
+fun State.canDeleteTown(town: TownId) = DeleteResult(town)
+    .addElements(getRealmsWithCapital(town))
+    .addElements(getRealmsWithPreviousCapital(town))
+    .addElements(getDistricts(town))
+    .addElements(getEmployees(town))
+    .addElements(getPreviousEmployees(town))
+    .addElements(getTownMaps(town))
+    .addElements(getWars(town))
+    .apply { canDeleteCreator(town, it) }
+    .apply { canDeleteDestroyer(town, it) }
+    .apply { canDeleteOwner(town, it) }
+    .apply { canDeleteWithPositions(town, it) }
 
 // count
 

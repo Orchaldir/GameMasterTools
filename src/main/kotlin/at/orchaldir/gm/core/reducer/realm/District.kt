@@ -30,7 +30,7 @@ val UPDATE_DISTRICT: Reducer<UpdateDistrict, State> = { state, action ->
 }
 
 fun validateDistrict(state: State, district: District) {
-    state.getTownStorage().require(district.town)
+    state.getTownStorage().requireOptional(district.town)
     validateCreator(state, district.founder, district.id, district.foundingDate, "founder")
     validatePopulation(state, district.population)
 }

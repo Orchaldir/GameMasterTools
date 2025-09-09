@@ -8,7 +8,9 @@ import at.orchaldir.gm.app.html.realm.showTown
 import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateTown
+import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
@@ -95,13 +97,7 @@ fun Application.configureTownRouting() {
             STORE.getState().save()
         }
         get<TownRoutes.Delete> { delete ->
-            logger.info { "Delete town ${delete.id.value}" }
-
-            STORE.dispatch(DeleteTown(delete.id))
-
-            call.respondRedirect(call.application.href(TownRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteTown(delete.id), TownRoutes())
         }
         get<TownRoutes.Edit> { edit ->
             logger.info { "Get editor for town ${edit.id.value}" }
@@ -198,9 +194,7 @@ private fun HTML.showTownDetails(
         showTown(call, state, town)
 
         action(editLink, "Edit Town")
-        if (state.canDeleteTown(town.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

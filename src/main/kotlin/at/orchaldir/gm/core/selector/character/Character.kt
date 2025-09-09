@@ -225,6 +225,10 @@ fun State.getPreviousEmployees(realm: RealmId) = getCharacterStorage()
     .getAll()
     .filter { it.checkPreviousEmploymentStatus { it.isEmployedAt(realm) } }
 
+fun State.getPreviousEmployees(town: TownId) = getCharacterStorage()
+    .getAll()
+    .filter { it.checkPreviousEmploymentStatus { it.isEmployedAt(town) } }
+
 fun State.getWorkingIn(town: TownMapId) = getCharacterStorage()
     .getAll()
     .filter { isWorkingIn(it, town) }

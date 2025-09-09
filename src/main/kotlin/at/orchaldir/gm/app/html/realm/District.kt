@@ -28,7 +28,7 @@ fun HtmlBlockTag.showDistrict(
     state: State,
     district: District,
 ) {
-    fieldLink("Town", call, state, district.town)
+    optionalFieldLink("Town", call, state, district.town)
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
     val residents = state.sortCharacters(state.getCharactersLivingIn(district.id))
@@ -46,7 +46,7 @@ fun FORM.editDistrict(
     district: District,
 ) {
     selectName(district.name)
-    selectElement(
+    selectOptionalElement(
         state,
         TOWN,
         state.getExistingTowns(district.foundingDate),
@@ -68,7 +68,7 @@ fun parseOptionalDistrictId(parameters: Parameters, param: String) =
 fun parseDistrict(parameters: Parameters, state: State, id: DistrictId) = District(
     id,
     parseName(parameters),
-    parseTownId(parameters, TOWN),
+    parseOptionalTownId(parameters, TOWN),
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
     parsePopulation(parameters, state),
