@@ -13,9 +13,6 @@ import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOrigin
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.util.hasNoPopulation
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.redux.Reducer
@@ -33,15 +30,6 @@ val CLONE_RACE: Reducer<CloneRace, State> = { state, action ->
     val clone = original.copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 
     noFollowUps(state.updateStorage(state.getRaceStorage().add(clone)))
-}
-
-val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
-    state.getRaceStorage().require(action.id)
-    require(state.getRaceStorage().getSize() > 1) { "Cannot delete the last race" }
-    validateCanDelete(state.countCharacters(action.id), action.id, "it is used by a character")
-    validateCanDelete(state.hasNoPopulation(action.id), action.id, "it is used by a population")
-
-    noFollowUps(state.updateStorage(state.getRaceStorage().remove(action.id)))
 }
 
 val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
