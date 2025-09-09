@@ -21,15 +21,6 @@ val CREATE_ORGANIZATION: Reducer<CreateOrganization, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getOrganizationStorage().add(organization)))
 }
 
-val DELETE_ORGANIZATION: Reducer<DeleteOrganization, State> = { state, action ->
-    state.getOrganizationStorage().require(action.id)
-
-    checkIfCreatorCanBeDeleted(state, action.id)
-    checkIfOwnerCanBeDeleted(state, action.id)
-
-    noFollowUps(state.updateStorage(state.getOrganizationStorage().remove(action.id)))
-}
-
 val UPDATE_ORGANIZATION: Reducer<UpdateOrganization, State> = { state, action ->
     val organization = action.organization
     state.getOrganizationStorage().require(organization.id)

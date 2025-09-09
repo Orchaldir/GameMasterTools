@@ -28,44 +28,6 @@ class OrganizationTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteOrganization(ORGANIZATION_ID_0)
-
-        @Test
-        fun `Can delete an existing organization`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getOrganizationStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Organization 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        // see CreatorTest for other elements
-        @Test
-        fun `Cannot delete an organization that created another element`() {
-            val building = Building(BUILDING_ID_0, builder = OrganizationReference(ORGANIZATION_ID_0))
-            val newState = state.updateStorage(Storage(building))
-
-            assertIllegalArgument("Cannot delete Organization 0, because of created elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        // see OwnershipTest for other elements
-        @Test
-        fun `Cannot delete an organization that owns another element`() {
-            val ownership = History<Reference>(OrganizationReference(ORGANIZATION_ID_0))
-            val building = Building(BUILDING_ID_0, ownership = ownership)
-            val newState = state.updateStorage(Storage(building))
-
-            assertIllegalArgument("Cannot delete Organization 0, because of owned elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test
