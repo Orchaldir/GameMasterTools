@@ -45,8 +45,8 @@ class TreatyTest {
         @Test
         fun `Cannot delete a treaty that is celebrated by a holiday`() {
             val purpose = HolidayOfTreaty(TREATY_ID_0)
-            val organization = Holiday(HOLIDAY_ID_0, purpose = purpose)
-            val newState = STATE.updateStorage(Storage(organization))
+            val holiday = Holiday(HOLIDAY_ID_0, purpose = purpose)
+            val newState = STATE.updateStorage(Storage(holiday))
 
             assertIllegalArgument("Cannot delete Treaty 0, because it is used!") {
                 REDUCER.invoke(newState, action)

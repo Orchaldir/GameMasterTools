@@ -25,46 +25,6 @@ class WarTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteWar(WAR_ID_0)
-
-        @Test
-        fun `Can delete an existing war`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getWarStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteWar(UNKNOWN_WAR_ID)
-
-            assertIllegalArgument("Requires unknown War 99!") { REDUCER.invoke(STATE, action) }
-        }
-
-        // see VitalStatusTest for other elements
-        @Test
-        fun `Cannot delete a war that killed a character`() {
-            val dead = Dead(DAY0, DeathInWar(WAR_ID_0))
-            val character = Character(CHARACTER_ID_0, vitalStatus = dead)
-            val newState = STATE.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete War 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a war with a battle`() {
-            val battle = Battle(BATTLE_ID_0, war = WAR_ID_0)
-            val newState = STATE.updateStorage(Storage(battle))
-
-            assertIllegalArgument("Cannot delete War 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

@@ -6,7 +6,9 @@ import at.orchaldir.gm.app.html.realm.editTreaty
 import at.orchaldir.gm.app.html.realm.parseTreaty
 import at.orchaldir.gm.app.html.realm.showTreaty
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateTreaty
+import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.DeleteTreaty
 import at.orchaldir.gm.core.action.UpdateTreaty
 import at.orchaldir.gm.core.model.State
@@ -92,13 +94,7 @@ fun Application.configureTreatyRouting() {
             STORE.getState().save()
         }
         get<TreatyRoutes.Delete> { delete ->
-            logger.info { "Delete treaty ${delete.id.value}" }
-
-            STORE.dispatch(DeleteTreaty(delete.id))
-
-            call.respondRedirect(call.application.href(TreatyRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteTreaty(delete.id), TreatyRoutes())
         }
         get<TreatyRoutes.Edit> { edit ->
             logger.info { "Get editor for treaty ${edit.id.value}" }
@@ -181,11 +177,7 @@ private fun HTML.showTreatyDetails(
         showTreaty(call, state, treaty)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteTreaty(treaty.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }
