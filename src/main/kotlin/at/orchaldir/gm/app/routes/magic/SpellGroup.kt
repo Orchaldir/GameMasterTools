@@ -5,7 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editSpellGroup
 import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.magic.showSpellGroup
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateSpellGroup
+import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.DeleteSpellGroup
 import at.orchaldir.gm.core.action.UpdateSpellGroup
 import at.orchaldir.gm.core.model.State
@@ -94,13 +96,7 @@ fun Application.configureSpellGroupRouting() {
             STORE.getState().save()
         }
         get<SpellGroupRoutes.Delete> { delete ->
-            logger.info { "Delete group ${delete.id.value}" }
-
-            STORE.dispatch(DeleteSpellGroup(delete.id))
-
-            call.respondRedirect(call.application.href(SpellGroupRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteSpellGroup(delete.id), SpellGroupRoutes())
         }
         get<SpellGroupRoutes.Edit> { edit ->
             logger.info { "Get editor for group ${edit.id.value}" }
@@ -181,11 +177,7 @@ private fun HTML.showSpellGroupDetails(
         showSpellGroup(call, state, group)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteSpellGroup(group.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

@@ -16,13 +16,6 @@ val CREATE_SPELL_GROUP: Reducer<CreateSpellGroup, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getSpellGroupStorage().add(group)))
 }
 
-val DELETE_SPELL_GROUP: Reducer<DeleteSpellGroup, State> = { state, action ->
-    state.getSpellGroupStorage().require(action.id)
-    validateCanDelete(state.canDeleteSpellGroup(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getSpellGroupStorage().remove(action.id)))
-}
-
 val UPDATE_SPELL_GROUP: Reducer<UpdateSpellGroup, State> = { state, action ->
     val group = action.group
     state.getSpellGroupStorage().require(group.id)
