@@ -19,13 +19,6 @@ val CREATE_DISEASE: Reducer<CreateDisease, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getDiseaseStorage().add(disease)))
 }
 
-val DELETE_DISEASE: Reducer<DeleteDisease, State> = { state, action ->
-    state.getDiseaseStorage().require(action.id)
-    validateCanDelete(state.canDeleteDisease(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getDiseaseStorage().remove(action.id)))
-}
-
 val UPDATE_DISEASE: Reducer<UpdateDisease, State> = { state, action ->
     val disease = action.disease
     state.getDiseaseStorage().require(disease.id)

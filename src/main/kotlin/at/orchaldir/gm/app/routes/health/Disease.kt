@@ -8,8 +8,11 @@ import at.orchaldir.gm.app.html.health.showDisease
 import at.orchaldir.gm.app.html.util.showDestroyed
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.item.EquipmentRoutes
 import at.orchaldir.gm.core.action.CreateDisease
 import at.orchaldir.gm.core.action.DeleteDisease
+import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
@@ -89,13 +92,7 @@ fun Application.configureDiseaseRouting() {
             STORE.getState().save()
         }
         get<DiseaseRoutes.Delete> { delete ->
-            logger.info { "Delete disease ${delete.id.value}" }
-
-            STORE.dispatch(DeleteDisease(delete.id))
-
-            call.respondRedirect(call.application.href(DiseaseRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteDisease(delete.id), DiseaseRoutes())
         }
         get<DiseaseRoutes.Edit> { edit ->
             logger.info { "Get editor for disease ${edit.id.value}" }
@@ -181,11 +178,7 @@ private fun HTML.showDiseaseDetails(
         fieldList(call, state, "Diseases based on it", state.getDiseasesBasedOn(disease.id))
 
         action(editLink, "Edit")
-
-        if (state.canDeleteDisease(disease.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

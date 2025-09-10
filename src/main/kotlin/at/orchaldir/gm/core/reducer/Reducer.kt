@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.reducer.economy.DELETE_MATERIAL
 import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
 import at.orchaldir.gm.core.reducer.economy.UPDATE_MATERIAL
 import at.orchaldir.gm.core.reducer.health.CREATE_DISEASE
-import at.orchaldir.gm.core.reducer.health.DELETE_DISEASE
 import at.orchaldir.gm.core.reducer.health.UPDATE_DISEASE
 import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.magic.MAGIC_REDUCER
@@ -34,6 +33,7 @@ import at.orchaldir.gm.core.reducer.util.source.CREATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
+import at.orchaldir.gm.core.selector.health.canDeleteDisease
 import at.orchaldir.gm.core.selector.race.canDeleteRace
 import at.orchaldir.gm.core.selector.race.canDeleteRaceAppearance
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
@@ -75,7 +75,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateDataSource -> UPDATE_DATA_SOURCE(state, action)
         // disease
         is CreateDisease -> CREATE_DISEASE(state, action)
-        is DeleteDisease -> DELETE_DISEASE(state, action)
+        is DeleteDisease -> deleteElement(state, action.id, State::canDeleteDisease)
         is UpdateDisease -> UPDATE_DISEASE(state, action)
         // fashion
         is CreateFashion -> CREATE_FASHION(state, action)
