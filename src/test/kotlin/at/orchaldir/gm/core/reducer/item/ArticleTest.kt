@@ -25,21 +25,6 @@ class ArticleTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteArticle(ARTICLE_ID_0)
-
-        @Test
-        fun `Can delete an existing article`() {
-            assertFalse(REDUCER.invoke(STATE, action).first.getArticleStorage().contains(ARTICLE_ID_0))
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Article 0!") { REDUCER.invoke(State(), action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

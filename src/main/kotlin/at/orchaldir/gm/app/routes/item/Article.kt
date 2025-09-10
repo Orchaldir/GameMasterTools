@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.item.periodical.editArticle
 import at.orchaldir.gm.app.html.item.periodical.parseArticle
 import at.orchaldir.gm.app.html.item.periodical.showArticle
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateArticle
 import at.orchaldir.gm.core.action.DeleteArticle
+import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateArticle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ARTICLE_TYPE
@@ -92,13 +94,7 @@ fun Application.configureArticleRouting() {
             STORE.getState().save()
         }
         get<ArticleRoutes.Delete> { delete ->
-            logger.info { "Delete periodical ${delete.id.value}" }
-
-            STORE.dispatch(DeleteArticle(delete.id))
-
-            call.respondRedirect(call.application.href(ArticleRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteArticle(delete.id), ArticleRoutes())
         }
         get<ArticleRoutes.Edit> { edit ->
             logger.info { "Get editor for periodical ${edit.id.value}" }
@@ -175,9 +171,7 @@ private fun HTML.showArticleDetails(
         showArticle(call, state, article)
 
         action(editLink, "Edit")
-        if (state.canDeleteArticle(article.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }
