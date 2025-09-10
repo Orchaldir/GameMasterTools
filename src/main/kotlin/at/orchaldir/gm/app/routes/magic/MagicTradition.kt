@@ -7,8 +7,11 @@ import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.core.action.CreateMagicTradition
 import at.orchaldir.gm.core.action.DeleteMagicTradition
+import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateMagicTradition
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MAGIC_TRADITION_TYPE
@@ -93,13 +96,7 @@ fun Application.configureMagicTraditionRouting() {
             STORE.getState().save()
         }
         get<MagicTraditionRoutes.Delete> { delete ->
-            logger.info { "Delete tradition ${delete.id.value}" }
-
-            STORE.dispatch(DeleteMagicTradition(delete.id))
-
-            call.respondRedirect(call.application.href(MagicTraditionRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteMagicTradition(delete.id), MagicTraditionRoutes())
         }
         get<MagicTraditionRoutes.Edit> { edit ->
             logger.info { "Get editor for tradition ${edit.id.value}" }
@@ -185,11 +182,7 @@ private fun HTML.showMagicTraditionDetails(
         showMagicTradition(call, state, tradition)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteMagicTradition(tradition.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

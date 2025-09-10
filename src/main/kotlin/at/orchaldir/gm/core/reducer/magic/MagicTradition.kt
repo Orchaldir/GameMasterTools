@@ -16,13 +16,6 @@ val CREATE_MAGIC_TRADITION: Reducer<CreateMagicTradition, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getMagicTraditionStorage().add(tradition)))
 }
 
-val DELETE_MAGIC_TRADITION: Reducer<DeleteMagicTradition, State> = { state, action ->
-    state.getMagicTraditionStorage().require(action.id)
-    validateCanDelete(state.canDeleteMagicTradition(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getMagicTraditionStorage().remove(action.id)))
-}
-
 val UPDATE_MAGIC_TRADITION: Reducer<UpdateMagicTradition, State> = { state, action ->
     val tradition = action.tradition
     state.getMagicTraditionStorage().require(tradition.id)

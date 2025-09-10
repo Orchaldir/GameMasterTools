@@ -23,23 +23,6 @@ class MagicTraditionTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteMagicTradition(MAGIC_TRADITION_ID_0)
-
-        @Test
-        fun `Can delete an existing domain`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getMagicTraditionStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteMagicTradition(UNKNOWN_MAGIC_TRADITION_ID)
-
-            assertIllegalArgument("Requires unknown Magic Tradition 99!") { REDUCER.invoke(STATE, action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test
