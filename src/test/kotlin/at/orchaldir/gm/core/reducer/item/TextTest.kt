@@ -45,33 +45,6 @@ class TextTest {
     val unknownFont = SolidFont(fromMillimeters(2), font = UNKNOWN_FONT_ID)
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteText(TEXT_ID_0)
-
-        @Test
-        fun `Can delete an existing text`() {
-            assertFalse(REDUCER.invoke(STATE, action).first.getTextStorage().contains(TEXT_ID_0))
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Text 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a translated text`() {
-            val origin = TranslatedElement(TEXT_ID_0, CharacterReference(CHARACTER_ID_0))
-            val state = STATE.updateStorage(
-                Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, origin = origin)))
-            )
-
-            assertIllegalArgument("Cannot delete Text 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

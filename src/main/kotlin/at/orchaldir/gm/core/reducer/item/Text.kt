@@ -36,13 +36,6 @@ val CREATE_TEXT: Reducer<CreateText, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getTextStorage().add(text)))
 }
 
-val DELETE_TEXT: Reducer<DeleteText, State> = { state, action ->
-    state.getTextStorage().require(action.id)
-    validateCanDelete(state.canDeleteText(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getTextStorage().remove(action.id)))
-}
-
 val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
     val text = updatePageCount(state, TEXT_CONFIG, action.text)
     state.getTextStorage().require(text.id)

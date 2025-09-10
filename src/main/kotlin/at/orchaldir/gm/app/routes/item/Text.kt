@@ -7,7 +7,9 @@ import at.orchaldir.gm.app.html.item.text.parseText
 import at.orchaldir.gm.app.html.item.text.showText
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateText
+import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
@@ -105,13 +107,7 @@ fun Application.configureTextRouting() {
             STORE.getState().save()
         }
         get<TextRoutes.Delete> { delete ->
-            logger.info { "Delete text ${delete.id.value}" }
-
-            STORE.dispatch(DeleteText(delete.id))
-
-            call.respondRedirect(call.application.href(TextRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteText(delete.id), TextRoutes())
         }
         get<TextRoutes.Edit> { edit ->
             logger.info { "Get editor for text ${edit.id.value}" }
@@ -235,11 +231,7 @@ private fun HTML.showTextDetails(
         showText(call, state, text)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteText(text.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }
