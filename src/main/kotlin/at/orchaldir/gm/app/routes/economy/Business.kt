@@ -20,7 +20,6 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.SortBusiness
 import at.orchaldir.gm.core.selector.character.getEmployees
-import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.util.sortBusinesses
 import io.ktor.http.*
 import io.ktor.resources.*

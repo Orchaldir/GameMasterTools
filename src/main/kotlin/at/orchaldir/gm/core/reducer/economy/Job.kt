@@ -19,15 +19,6 @@ val CREATE_JOB: Reducer<CreateJob, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getJobStorage().add(material)))
 }
 
-val DELETE_JOB: Reducer<DeleteJob, State> = { state, action ->
-    state.getJobStorage().require(action.id)
-    validateCanDelete(state.countCharactersWithJob(action.id), action.id, "it is used by a character")
-    validateCanDelete(state.getPreviousEmployees(action.id).isEmpty(), action.id, "it is the former job of a character")
-    validateCanDelete(state.countDomains(action.id), action.id, "it is associated with a domain")
-
-    noFollowUps(state.updateStorage(state.getJobStorage().remove(action.id)))
-}
-
 val UPDATE_JOB: Reducer<UpdateJob, State> = { state, action ->
     val job = action.job
     state.getJobStorage().require(job.id)
