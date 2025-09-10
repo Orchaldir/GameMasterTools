@@ -2,7 +2,10 @@ package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.reducer.item.periodical.*
+import at.orchaldir.gm.core.selector.item.canDeleteEquipment
+import at.orchaldir.gm.core.selector.organization.canDeleteOrganization
 import at.orchaldir.gm.utils.redux.Reducer
 
 val ITEM_REDUCER: Reducer<ItemAction, State> = { state, action ->
@@ -13,7 +16,7 @@ val ITEM_REDUCER: Reducer<ItemAction, State> = { state, action ->
         is UpdateArticle -> UPDATE_ARTICLE(state, action)
         // item template
         is CreateEquipment -> CREATE_EQUIPMENT(state, action)
-        is DeleteEquipment -> DELETE_EQUIPMENT(state, action)
+        is DeleteEquipment -> deleteElement(state, action.id, State::canDeleteEquipment)
         is UpdateEquipment -> UPDATE_EQUIPMENT(state, action)
         // periodical
         is CreatePeriodical -> CREATE_PERIODICAL(state, action)

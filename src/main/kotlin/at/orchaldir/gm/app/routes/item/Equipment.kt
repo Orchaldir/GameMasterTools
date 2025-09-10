@@ -7,8 +7,11 @@ import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
+import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
@@ -19,7 +22,6 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.culture.getFashions
-import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.core.selector.util.getColors
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
@@ -124,13 +126,7 @@ fun Application.configureEquipmentRouting() {
             STORE.getState().save()
         }
         get<EquipmentRoutes.Delete> { delete ->
-            logger.info { "Delete equipment ${delete.id.value}" }
-
-            STORE.dispatch(DeleteEquipment(delete.id))
-
-            call.respondRedirect(call.application.href(EquipmentRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteEquipment(delete.id), EquipmentRoutes())
         }
         get<EquipmentRoutes.Edit> { edit ->
             logger.info { "Get editor for equipment ${edit.id.value}" }
@@ -264,11 +260,7 @@ private fun HTML.showEquipmentDetails(
         fieldList(call, state, "Part of Fashion", fashions)
 
         action(editLink, "Edit")
-
-        if (state.canDelete(equipment.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.RealmId
@@ -126,6 +127,14 @@ fun <ID : Id<ID>> State.countKilledCharacters(id: ID) = getCharacterStorage()
 fun State.getCharacters(culture: CultureId) = getCharacterStorage()
     .getAll()
     .filter { it.culture == culture }
+
+fun State.getCharactersWith(equipment: EquipmentId) = getCharacterStorage()
+    .getAll()
+    .filter {
+        it.equipmentMap
+            .getAllEquipment()
+            .any { pair -> pair.first == equipment }
+    }
 
 fun State.getCharacters(language: LanguageId) = getCharacterStorage()
     .getAll()

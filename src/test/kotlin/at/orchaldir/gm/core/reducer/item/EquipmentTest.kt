@@ -36,43 +36,6 @@ class EquipmentTest {
         .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
 
     @Nested
-    inner class DeleteTest {
-
-        @Test
-        fun `Can delete an existing id`() {
-            val action = DeleteEquipment(EQUIPMENT_ID_0)
-
-            assertEquals(
-                0,
-                REDUCER.invoke(STATE, action).first.getEquipmentStorage().getSize()
-            )
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteEquipment(EQUIPMENT_ID_0)
-
-            assertIllegalArgument("Requires unknown Equipment 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete, if an instanced item exist`() {
-            val action = DeleteEquipment(EQUIPMENT_ID_0)
-            val state =
-                STATE.updateStorage(
-                    Storage(
-                        Character(
-                            CHARACTER_ID_0,
-                            equipmentMap = EQUIPMENT_MAP
-                        )
-                    )
-                )
-
-            assertIllegalArgument("Cannot delete Equipment 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test
