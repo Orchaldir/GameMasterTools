@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.reducer.item.periodical.*
 import at.orchaldir.gm.core.selector.item.canDeleteEquipment
 import at.orchaldir.gm.core.selector.item.canDeleteText
+import at.orchaldir.gm.core.selector.item.canDeleteUniform
 import at.orchaldir.gm.core.selector.organization.canDeleteOrganization
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -33,7 +34,7 @@ val ITEM_REDUCER: Reducer<ItemAction, State> = { state, action ->
         is UpdateText -> UPDATE_TEXT(state, action)
         // uniform
         is CreateUniform -> CREATE_UNIFORM(state, action)
-        is DeleteUniform -> DELETE_UNIFORM(state, action)
+        is DeleteUniform -> deleteElement(state, action.id, State::canDeleteUniform)
         is UpdateUniform -> UPDATE_UNIFORM(state, action)
     }
 }

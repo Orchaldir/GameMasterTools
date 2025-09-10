@@ -16,13 +16,6 @@ val CREATE_UNIFORM: Reducer<CreateUniform, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getUniformStorage().add(uniform)))
 }
 
-val DELETE_UNIFORM: Reducer<DeleteUniform, State> = { state, action ->
-    state.getUniformStorage().require(action.id)
-    validateCanDelete(state.canDeleteUniform(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getUniformStorage().remove(action.id)))
-}
-
 val UPDATE_UNIFORM: Reducer<UpdateUniform, State> = { state, action ->
     val uniform = action.uniform
 
