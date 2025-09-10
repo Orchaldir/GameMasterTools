@@ -8,8 +8,11 @@ import at.orchaldir.gm.app.html.economy.showBusiness
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
+import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
@@ -95,13 +98,7 @@ fun Application.configureBusinessRouting() {
             STORE.getState().save()
         }
         get<BusinessRoutes.Delete> { delete ->
-            logger.info { "Delete business ${delete.id.value}" }
-
-            STORE.dispatch(DeleteBusiness(delete.id))
-
-            call.respondRedirect(call.application.href(BusinessRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteBusiness(delete.id), BusinessRoutes())
         }
         get<BusinessRoutes.Edit> { edit ->
             logger.info { "Get editor for business ${edit.id.value}" }
@@ -188,9 +185,7 @@ private fun HTML.showBusinessDetails(
         showBusiness(call, state, business)
 
         action(editLink, "Edit")
-        if (state.canDelete(business.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }
