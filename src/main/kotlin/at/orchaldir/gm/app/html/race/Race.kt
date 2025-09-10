@@ -13,7 +13,6 @@ import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
-import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -39,7 +38,7 @@ fun HtmlBlockTag.showRace(
     fieldWeight("Weight", race.weight)
     field("BMI", String.format("%.1f", race.calculateBodyMassIndex()))
     optionalField(call, state, "Date", race.date)
-    fieldOrigin(call, state, race.origin, ::SpellId)
+    fieldOrigin(call, state, race.origin, ::RaceId)
     showDataSources(call, state, race.sources)
     showLifeStages(call, state, race)
     showPopulation(call, state, race.id)

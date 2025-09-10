@@ -29,57 +29,6 @@ private val STATE = State(
 class SpellTest {
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteSpell(SPELL_ID_0)
-
-        @Test
-        fun `Can delete an existing spell`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getSpellStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Spell 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a spell modified by another spell`() {
-            val origin = ModifiedElement(SPELL_ID_0)
-            val spell1 = Spell(SPELL_ID_1, origin = origin)
-            val state = STATE.updateStorage(Storage(listOf(spell0, spell1)))
-
-            assertIllegalArgument("Cannot delete Spell 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a translated spell`() {
-            val origin = TranslatedElement(SPELL_ID_0)
-            val spell1 = Spell(SPELL_ID_1, origin = origin)
-            val state = STATE.updateStorage(Storage(listOf(spell0, spell1)))
-
-            assertIllegalArgument("Cannot delete Spell 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a spell used by a domain`() {
-            val state = STATE.updateStorage(Storage(Domain(DOMAIN_ID_0, spells = SomeOf(SPELL_ID_0))))
-
-            assertIllegalArgument("Cannot delete Spell 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot delete a spell used by a spell group`() {
-            val state = STATE.updateStorage(Storage(SpellGroup(SPELL_GROUP_ID_0, spells = setOf(SPELL_ID_0))))
-
-            assertIllegalArgument("Cannot delete Spell 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

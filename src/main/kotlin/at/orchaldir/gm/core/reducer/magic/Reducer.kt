@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.magic.canDeleteMagicTradition
+import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.core.selector.race.canDeleteRace
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -15,7 +16,7 @@ val MAGIC_REDUCER: Reducer<MagicAction, State> = { state, action ->
         is UpdateMagicTradition -> UPDATE_MAGIC_TRADITION(state, action)
         // spell
         is CreateSpell -> CREATE_SPELL(state, action)
-        is DeleteSpell -> DELETE_SPELL(state, action)
+        is DeleteSpell -> deleteElement(state, action.id, State::canDeleteSpell)
         is UpdateSpell -> UPDATE_SPELL(state, action)
         // spell group
         is CreateSpellGroup -> CREATE_SPELL_GROUP(state, action)

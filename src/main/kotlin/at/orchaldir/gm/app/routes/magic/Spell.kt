@@ -7,7 +7,9 @@ import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.magic.showSpell
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateSpell
+import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
@@ -96,13 +98,7 @@ fun Application.configureSpellRouting() {
             STORE.getState().save()
         }
         get<SpellRoutes.Delete> { delete ->
-            logger.info { "Delete spell ${delete.id.value}" }
-
-            STORE.dispatch(DeleteSpell(delete.id))
-
-            call.respondRedirect(call.application.href(SpellRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteSpell(delete.id), SpellRoutes())
         }
         get<SpellRoutes.Edit> { edit ->
             logger.info { "Get editor for spell ${edit.id.value}" }
@@ -206,11 +202,7 @@ private fun HTML.showSpellDetails(
         }
 
         action(editLink, "Edit")
-
-        if (state.canDeleteSpell(spell.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }
