@@ -19,13 +19,6 @@ val CREATE_PERIODICAL: Reducer<CreatePeriodical, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getPeriodicalStorage().add(periodical)))
 }
 
-val DELETE_PERIODICAL: Reducer<DeletePeriodical, State> = { state, action ->
-    state.getPeriodicalStorage().require(action.id)
-    validateCanDelete(state.canDeletePeriodical(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getPeriodicalStorage().remove(action.id)))
-}
-
 val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     val periodical = action.periodical
     validatePeriodical(state, periodical)
