@@ -25,23 +25,6 @@ class PeriodicalIssueTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeletePeriodicalIssue(ISSUE_ID_0)
-
-        @Test
-        fun `Can delete an existing issue`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getPeriodicalIssueStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeletePeriodicalIssue(UNKNOWN_ISSUE_ID)
-
-            assertIllegalArgument("Requires unknown Periodical Issue 99!") { REDUCER.invoke(State(), action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

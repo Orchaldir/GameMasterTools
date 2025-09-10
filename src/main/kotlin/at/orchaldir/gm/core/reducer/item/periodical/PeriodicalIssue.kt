@@ -18,13 +18,6 @@ val CREATE_PERIODICAL_ISSUE: Reducer<CreatePeriodicalIssue, State> = { state, _ 
     noFollowUps(state.updateStorage(state.getPeriodicalIssueStorage().add(periodical)))
 }
 
-val DELETE_PERIODICAL_ISSUE: Reducer<DeletePeriodicalIssue, State> = { state, action ->
-    state.getPeriodicalIssueStorage().require(action.id)
-    validateCanDelete(state.canDeletePeriodicalIssue(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getPeriodicalIssueStorage().remove(action.id)))
-}
-
 val UPDATE_PERIODICAL_ISSUE: Reducer<UpdatePeriodicalIssue, State> = { state, action ->
     val issue = action.issue
     state.getPeriodicalIssueStorage().require(issue.id)
