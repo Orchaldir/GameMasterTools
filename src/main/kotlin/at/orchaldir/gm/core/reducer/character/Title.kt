@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.action.CreateTitle
-import at.orchaldir.gm.core.action.DeleteTitle
 import at.orchaldir.gm.core.action.UpdateTitle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.Title
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

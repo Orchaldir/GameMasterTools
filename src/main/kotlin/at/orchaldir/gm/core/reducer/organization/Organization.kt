@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.organization
 
 import at.orchaldir.gm.core.action.CreateOrganization
-import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.Organization
@@ -10,8 +9,6 @@ import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
-import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
-import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

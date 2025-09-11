@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.util.font
 
 import at.orchaldir.gm.core.action.CreateFont
-import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.font.Font

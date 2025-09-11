@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.magic
 
 import at.orchaldir.gm.core.action.CreateSpell
-import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.Spell

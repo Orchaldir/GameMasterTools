@@ -7,9 +7,7 @@ import at.orchaldir.gm.app.html.culture.parseLanguage
 import at.orchaldir.gm.app.html.culture.showLanguage
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateLanguage
-import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
@@ -18,7 +16,6 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.SortLanguage
 import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
 import at.orchaldir.gm.core.selector.culture.countChildren
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.item.countTexts

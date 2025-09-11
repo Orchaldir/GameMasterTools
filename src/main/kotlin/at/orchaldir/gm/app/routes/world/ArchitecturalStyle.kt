@@ -12,7 +12,6 @@ import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
-import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
@@ -22,7 +21,10 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.util.sortArchitecturalStyles
 import at.orchaldir.gm.core.selector.util.sortBuildings
-import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.world.getEarliestBuilding
+import at.orchaldir.gm.core.selector.world.getPossibleStylesForRevival
+import at.orchaldir.gm.core.selector.world.getRevivedBy
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*

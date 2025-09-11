@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.world.showMoon
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateMoon
 import at.orchaldir.gm.core.action.DeleteMoon
-import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE

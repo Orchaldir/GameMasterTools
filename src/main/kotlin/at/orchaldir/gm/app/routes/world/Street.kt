@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseStreet
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateStreet
-import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State

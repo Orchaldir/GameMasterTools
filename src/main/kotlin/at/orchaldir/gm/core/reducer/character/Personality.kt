@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.action.CreatePersonalityTrait
-import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PersonalityTrait

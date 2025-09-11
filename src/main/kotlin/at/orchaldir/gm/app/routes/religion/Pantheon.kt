@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.religion.parsePantheon
 import at.orchaldir.gm.app.html.religion.showPantheon
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreatePantheon
-import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.DeletePantheon
 import at.orchaldir.gm.core.action.UpdatePantheon
 import at.orchaldir.gm.core.model.State
@@ -15,7 +14,6 @@ import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.SortPantheon
-import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.sortPantheons
 import io.ktor.http.*

@@ -10,11 +10,9 @@ import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.app.html.world.showTownMap
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
-import at.orchaldir.gm.app.routes.world.RiverRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
 import at.orchaldir.gm.core.action.CreateTownMap
-import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
@@ -24,7 +22,6 @@ import at.orchaldir.gm.core.selector.character.countResident
 import at.orchaldir.gm.core.selector.util.countBuildingsIn
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortTownMaps
-import at.orchaldir.gm.core.selector.world.canDeleteTownMap
 import at.orchaldir.gm.core.selector.world.getRegions
 import at.orchaldir.gm.core.selector.world.getRivers
 import at.orchaldir.gm.core.selector.world.getStreets

@@ -1,17 +1,12 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.core.action.CreateWar
-import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.reducer.util.checkHistory
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.core.reducer.util.validateReference
-import at.orchaldir.gm.core.selector.realm.canDeleteWar
-import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
-import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.Reducer

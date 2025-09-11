@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.core.action.CreateUniform
-import at.orchaldir.gm.core.action.DeleteUniform
 import at.orchaldir.gm.core.action.UpdateUniform
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.item.canDeleteUniform
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

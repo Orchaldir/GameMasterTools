@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.reducer.magic
 
 import at.orchaldir.gm.core.action.CreateSpellGroup
-import at.orchaldir.gm.core.action.DeleteSpellGroup
 import at.orchaldir.gm.core.action.UpdateSpellGroup
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SpellGroup
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.magic.canDeleteSpellGroup
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

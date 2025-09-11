@@ -9,17 +9,14 @@ import at.orchaldir.gm.app.html.util.showDestroyed
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.item.EquipmentRoutes
 import at.orchaldir.gm.core.action.CreateDisease
 import at.orchaldir.gm.core.action.DeleteDisease
-import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.util.SortDisease
-import at.orchaldir.gm.core.selector.health.canDeleteDisease
 import at.orchaldir.gm.core.selector.health.getDiseasesBasedOn
 import at.orchaldir.gm.core.selector.util.sortDiseases
 import io.ktor.http.*

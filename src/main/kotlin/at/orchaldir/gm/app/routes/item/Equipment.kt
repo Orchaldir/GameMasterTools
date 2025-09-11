@@ -8,10 +8,8 @@ import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
-import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*

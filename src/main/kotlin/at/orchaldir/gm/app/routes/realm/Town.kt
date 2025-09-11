@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateTown
-import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
@@ -19,7 +18,6 @@ import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.SortTown
 import at.orchaldir.gm.core.selector.character.countResident
-import at.orchaldir.gm.core.selector.realm.canDeleteTown
 import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.core.selector.world.countBuildings
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap

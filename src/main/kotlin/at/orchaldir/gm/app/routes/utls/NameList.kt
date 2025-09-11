@@ -6,9 +6,7 @@ import at.orchaldir.gm.app.html.util.name.editNameList
 import at.orchaldir.gm.app.html.util.name.parseNameList
 import at.orchaldir.gm.app.html.util.name.showNameList
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateNameList
-import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.State

@@ -1,15 +1,12 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.core.action.CreateTreaty
-import at.orchaldir.gm.core.action.DeleteTreaty
 import at.orchaldir.gm.core.action.UpdateTreaty
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.realm.canDeleteTreaty
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps

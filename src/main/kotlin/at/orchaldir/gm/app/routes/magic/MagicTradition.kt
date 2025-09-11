@@ -8,17 +8,14 @@ import at.orchaldir.gm.app.html.magic.showMagicTradition
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.core.action.CreateMagicTradition
 import at.orchaldir.gm.core.action.DeleteMagicTradition
-import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateMagicTradition
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MAGIC_TRADITION_TYPE
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.util.SortMagicTradition
-import at.orchaldir.gm.core.selector.magic.canDeleteMagicTradition
 import at.orchaldir.gm.core.selector.util.sortMagicTraditions
 import io.ktor.http.*
 import io.ktor.resources.*

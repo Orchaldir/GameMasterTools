@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.util.SortUniform
-import at.orchaldir.gm.core.selector.item.canDeleteUniform
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG

@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.item.periodical.parsePeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.showPeriodicalIssue
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreatePeriodicalIssue
-import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.DeletePeriodicalIssue
 import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
 import at.orchaldir.gm.core.model.State
@@ -15,7 +14,6 @@ import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_ISSUE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
-import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodicalIssue
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.resources.*

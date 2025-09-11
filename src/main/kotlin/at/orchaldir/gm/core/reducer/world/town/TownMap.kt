@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.world.town
 
 import at.orchaldir.gm.core.action.CreateTownMap
-import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType

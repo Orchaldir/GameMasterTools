@@ -15,7 +15,10 @@ import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
 import at.orchaldir.gm.core.reducer.race.*
 import at.orchaldir.gm.core.reducer.realm.REALM_REDUCER
 import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
-import at.orchaldir.gm.core.reducer.time.*
+import at.orchaldir.gm.core.reducer.time.CREATE_CALENDAR
+import at.orchaldir.gm.core.reducer.time.CREATE_HOLIDAY
+import at.orchaldir.gm.core.reducer.time.UPDATE_CALENDAR
+import at.orchaldir.gm.core.reducer.time.UPDATE_HOLIDAY
 import at.orchaldir.gm.core.reducer.util.color.CREATE_COLOR_SCHEME
 import at.orchaldir.gm.core.reducer.util.color.UPDATE_COLOR_SCHEME
 import at.orchaldir.gm.core.reducer.util.font.CREATE_FONT
@@ -33,18 +36,13 @@ import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.core.selector.culture.canDeleteCulture
 import at.orchaldir.gm.core.selector.culture.canDeleteFashion
 import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
-import at.orchaldir.gm.core.selector.economy.canDeleteBusiness
 import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
 import at.orchaldir.gm.core.selector.health.canDeleteDisease
 import at.orchaldir.gm.core.selector.race.canDeleteRace
 import at.orchaldir.gm.core.selector.race.canDeleteRaceAppearance
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
-import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
-import at.orchaldir.gm.core.selector.util.canDeleteDataSource
-import at.orchaldir.gm.core.selector.util.canDeleteFont
-import at.orchaldir.gm.core.selector.util.canDeleteNameList
-import at.orchaldir.gm.core.selector.util.canDeleteQuote
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->

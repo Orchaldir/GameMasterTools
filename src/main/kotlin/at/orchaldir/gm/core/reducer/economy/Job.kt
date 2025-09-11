@@ -1,15 +1,10 @@
 package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.core.action.CreateJob
-import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.character.countCharactersWithJob
-import at.orchaldir.gm.core.selector.character.getPreviousEmployees
-import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

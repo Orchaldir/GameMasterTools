@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model
 
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 
 data class DeleteResult(
     val id: Id<*>,

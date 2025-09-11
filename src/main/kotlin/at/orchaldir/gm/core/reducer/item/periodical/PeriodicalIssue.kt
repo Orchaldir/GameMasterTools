@@ -1,13 +1,10 @@
 package at.orchaldir.gm.core.reducer.item.periodical
 
 import at.orchaldir.gm.core.action.CreatePeriodicalIssue
-import at.orchaldir.gm.core.action.DeletePeriodicalIssue
 import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodicalIssue
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps

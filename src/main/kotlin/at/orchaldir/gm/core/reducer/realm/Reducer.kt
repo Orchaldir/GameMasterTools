@@ -3,14 +3,7 @@ package at.orchaldir.gm.core.reducer.realm
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
-import at.orchaldir.gm.core.selector.realm.canDeleteBattle
-import at.orchaldir.gm.core.selector.realm.canDeleteCatastrophe
-import at.orchaldir.gm.core.selector.realm.canDeleteDistrict
-import at.orchaldir.gm.core.selector.realm.canDeleteLegalCode
-import at.orchaldir.gm.core.selector.realm.canDeleteRealm
-import at.orchaldir.gm.core.selector.realm.canDeleteTown
-import at.orchaldir.gm.core.selector.realm.canDeleteTreaty
-import at.orchaldir.gm.core.selector.realm.canDeleteWar
+import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REALM_REDUCER: Reducer<RealmAction, State> = { state, action ->

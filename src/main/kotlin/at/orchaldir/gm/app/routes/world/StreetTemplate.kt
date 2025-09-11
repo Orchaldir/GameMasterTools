@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.economy.material.showMaterialCost
 import at.orchaldir.gm.app.parse.world.parseStreetTemplate
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateStreetTemplate
-import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.DeleteStreetTemplate
 import at.orchaldir.gm.core.action.UpdateStreetTemplate
 import at.orchaldir.gm.core.model.State

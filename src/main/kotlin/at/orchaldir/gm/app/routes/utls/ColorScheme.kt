@@ -6,10 +6,8 @@ import at.orchaldir.gm.app.html.util.color.editColorScheme
 import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.color.showColorScheme
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateColorScheme
 import at.orchaldir.gm.core.action.DeleteColorScheme
-import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortColorScheme
@@ -17,7 +15,6 @@ import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.item.countEquipment
-import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import io.ktor.http.*
 import io.ktor.resources.*

@@ -4,9 +4,6 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.SpellGroupId
-import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.util.canDeletePopulationOf
 
 fun State.canDeleteMagicTradition(tradition: MagicTraditionId) = DeleteResult(tradition)
 

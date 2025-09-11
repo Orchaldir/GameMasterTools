@@ -1,13 +1,10 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.core.action.CreateLegalCode
-import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.action.UpdateLegalCode
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LegalCode
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.selector.realm.canDeleteLegalCode
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

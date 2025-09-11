@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateDistrict
-import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.action.UpdateDistrict
 import at.orchaldir.gm.core.model.State
@@ -17,7 +16,6 @@ import at.orchaldir.gm.core.model.realm.DISTRICT_TYPE
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.util.SortDistrict
-import at.orchaldir.gm.core.selector.realm.canDeleteDistrict
 import at.orchaldir.gm.core.selector.util.sortDistricts
 import io.ktor.http.*
 import io.ktor.resources.*

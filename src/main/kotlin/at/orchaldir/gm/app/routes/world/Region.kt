@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.world.showRegion
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateRegion
 import at.orchaldir.gm.core.action.DeleteRegion
-import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortRegion
@@ -17,7 +16,6 @@ import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.selector.util.sortRegions
-import at.orchaldir.gm.core.selector.world.canDeleteRegion
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*

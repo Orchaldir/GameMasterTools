@@ -6,13 +6,12 @@ import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.utils.Id
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
-import io.ktor.server.html.respondHtml
-import io.ktor.server.resources.href
-import io.ktor.server.response.respondRedirect
-import io.ktor.util.pipeline.PipelineContext
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.html.*
+import io.ktor.server.resources.*
+import io.ktor.server.response.*
+import io.ktor.util.pipeline.*
 
 suspend inline fun <reified T : Any> PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
     id: Id<*>,

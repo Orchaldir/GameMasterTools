@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.magic.canDeleteMagicTradition
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.core.selector.magic.canDeleteSpellGroup
-import at.orchaldir.gm.core.selector.race.canDeleteRace
 import at.orchaldir.gm.utils.redux.Reducer
 
 val MAGIC_REDUCER: Reducer<MagicAction, State> = { state, action ->

@@ -4,14 +4,7 @@ import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.reducer.world.town.*
-import at.orchaldir.gm.core.selector.world.canDeleteArchitecturalStyle
-import at.orchaldir.gm.core.selector.world.canDeleteMoon
-import at.orchaldir.gm.core.selector.world.canDeletePlane
-import at.orchaldir.gm.core.selector.world.canDeleteRegion
-import at.orchaldir.gm.core.selector.world.canDeleteRiver
-import at.orchaldir.gm.core.selector.world.canDeleteStreet
-import at.orchaldir.gm.core.selector.world.canDeleteStreetTemplate
-import at.orchaldir.gm.core.selector.world.canDeleteTownMap
+import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.redux.Reducer
 
 val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->

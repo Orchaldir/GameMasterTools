@@ -9,14 +9,12 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateArticle
 import at.orchaldir.gm.core.action.DeleteArticle
-import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateArticle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ARTICLE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.util.SortArticle
-import at.orchaldir.gm.core.selector.item.periodical.canDeleteArticle
 import at.orchaldir.gm.core.selector.util.sortArticles
 import io.ktor.http.*
 import io.ktor.resources.*

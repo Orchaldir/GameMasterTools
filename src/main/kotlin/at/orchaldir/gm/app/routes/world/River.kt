@@ -4,11 +4,9 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseRiver
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
-import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.River
@@ -23,7 +21,6 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.pipeline.PipelineContext
 import kotlinx.html.HTML
 import kotlinx.html.form
 import mu.KotlinLogging

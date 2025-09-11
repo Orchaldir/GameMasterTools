@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 
 fun State.canDeleteSpellGroup(group: SpellGroupId) = DeleteResult(group)
     .addElements(getMagicTraditions(group))

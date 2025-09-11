@@ -9,17 +9,14 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.core.action.CreateBattle
 import at.orchaldir.gm.core.action.DeleteBattle
-import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.UpdateBattle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.BATTLE_TYPE
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.util.SortBattle
-import at.orchaldir.gm.core.selector.realm.canDeleteBattle
 import at.orchaldir.gm.core.selector.util.sortBattles
 import io.ktor.http.*
 import io.ktor.resources.*

@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.core.action.CreateFashion
-import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType

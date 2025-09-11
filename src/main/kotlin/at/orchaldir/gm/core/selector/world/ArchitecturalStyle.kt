@@ -5,8 +5,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.plane.PlaneId
-import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.core.selector.util.getExistingElements
 

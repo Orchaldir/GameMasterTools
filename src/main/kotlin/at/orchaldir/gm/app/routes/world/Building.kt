@@ -13,7 +13,6 @@ import at.orchaldir.gm.app.html.world.parseBuilding
 import at.orchaldir.gm.app.html.world.showBuilding
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.DeleteBuilding
-import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State

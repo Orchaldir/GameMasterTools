@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.ComplexCreation
 import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

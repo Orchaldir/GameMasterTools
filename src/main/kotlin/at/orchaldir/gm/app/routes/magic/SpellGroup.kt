@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.magic.showSpellGroup
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateSpellGroup
-import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.DeleteSpellGroup
 import at.orchaldir.gm.core.action.UpdateSpellGroup
 import at.orchaldir.gm.core.model.State
@@ -15,7 +14,6 @@ import at.orchaldir.gm.core.model.magic.SPELL_GROUP_TYPE
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.util.SortSpellGroup
-import at.orchaldir.gm.core.selector.magic.canDeleteSpellGroup
 import at.orchaldir.gm.core.selector.util.sortSpellGroups
 import io.ktor.http.*
 import io.ktor.resources.*

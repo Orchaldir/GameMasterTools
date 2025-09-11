@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.action
 
 import at.orchaldir.gm.core.model.Data
-import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.title.Title
@@ -76,8 +75,6 @@ import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.Resize
 

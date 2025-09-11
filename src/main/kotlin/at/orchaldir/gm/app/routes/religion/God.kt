@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.religion.showGod
 import at.orchaldir.gm.app.html.util.showAuthenticity
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateGod
-import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
@@ -16,7 +15,6 @@ import at.orchaldir.gm.core.model.religion.GOD_TYPE
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.SortGod
-import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.sortGods

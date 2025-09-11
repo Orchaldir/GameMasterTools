@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateSpell
-import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
@@ -21,7 +20,6 @@ import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.economy.getJobsContaining
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTextsContaining
-import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.core.selector.magic.countSpellGroups
 import at.orchaldir.gm.core.selector.magic.getSpellGroups
 import at.orchaldir.gm.core.selector.magic.getSpellsBasedOn

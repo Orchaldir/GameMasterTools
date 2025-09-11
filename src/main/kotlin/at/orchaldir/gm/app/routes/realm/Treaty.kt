@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.realm.showTreaty
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateTreaty
-import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.DeleteTreaty
 import at.orchaldir.gm.core.action.UpdateTreaty
 import at.orchaldir.gm.core.model.State
@@ -16,7 +15,6 @@ import at.orchaldir.gm.core.model.realm.TREATY_TYPE
 import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.util.SortTreaty
-import at.orchaldir.gm.core.selector.realm.canDeleteTreaty
 import at.orchaldir.gm.core.selector.util.sortTreaties
 import io.ktor.http.*
 import io.ktor.resources.*

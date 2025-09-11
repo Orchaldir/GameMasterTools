@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreatePeriodical
-import at.orchaldir.gm.core.action.DeleteArticle
 import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
@@ -17,7 +16,6 @@ import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.util.SortPeriodical
-import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicalIssues
 import at.orchaldir.gm.core.selector.util.sortPeriodicals
 import io.ktor.http.*

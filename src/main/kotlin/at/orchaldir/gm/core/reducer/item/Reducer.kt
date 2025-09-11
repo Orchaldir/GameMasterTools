@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.selector.item.canDeleteUniform
 import at.orchaldir.gm.core.selector.item.periodical.canDeleteArticle
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodicalIssue
-import at.orchaldir.gm.core.selector.organization.canDeleteOrganization
 import at.orchaldir.gm.utils.redux.Reducer
 
 val ITEM_REDUCER: Reducer<ItemAction, State> = { state, action ->

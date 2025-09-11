@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.CreatePlane
-import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.*
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.world.canDeletePlane
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
 import at.orchaldir.gm.utils.doNothing

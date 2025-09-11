@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.economy.money.parseCurrencyUnit
 import at.orchaldir.gm.app.html.economy.money.showCurrencyUnit
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateCurrencyUnit
-import at.orchaldir.gm.core.action.DeleteCurrency
 import at.orchaldir.gm.core.action.DeleteCurrencyUnit
 import at.orchaldir.gm.core.action.UpdateCurrencyUnit
 import at.orchaldir.gm.core.model.State
@@ -17,7 +16,6 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
-import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrencyUnit
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import at.orchaldir.gm.prototypes.visualization.currency.CURRENCY_CONFIG
 import at.orchaldir.gm.visualization.currency.visualizeCurrencyUnit

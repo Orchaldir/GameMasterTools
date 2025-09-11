@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateCatastrophe
-import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe
 import at.orchaldir.gm.core.model.State
@@ -19,7 +18,6 @@ import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe
-import at.orchaldir.gm.core.selector.realm.canDeleteCatastrophe
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import io.ktor.http.*

@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateLegalCode
-import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.action.UpdateLegalCode
 import at.orchaldir.gm.core.model.State
@@ -17,7 +16,6 @@ import at.orchaldir.gm.core.model.realm.LEGAL_CODE_TYPE
 import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.util.SortLegalCode
-import at.orchaldir.gm.core.selector.realm.canDeleteLegalCode
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.util.sortLegalCodes
 import io.ktor.http.*

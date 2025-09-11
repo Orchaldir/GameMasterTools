@@ -6,17 +6,14 @@ import at.orchaldir.gm.app.html.util.source.editDataSource
 import at.orchaldir.gm.app.html.util.source.parseDataSource
 import at.orchaldir.gm.app.html.util.source.showDataSource
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateDataSource
 import at.orchaldir.gm.core.action.DeleteDataSource
-import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateDataSource
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortDataSource
 import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
-import at.orchaldir.gm.core.selector.util.canDeleteDataSource
 import at.orchaldir.gm.core.selector.util.sortDataSources
 import io.ktor.http.*
 import io.ktor.resources.*

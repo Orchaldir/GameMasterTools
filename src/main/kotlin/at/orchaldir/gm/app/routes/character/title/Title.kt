@@ -6,9 +6,7 @@ import at.orchaldir.gm.app.html.character.title.editTitle
 import at.orchaldir.gm.app.html.character.title.parseTitle
 import at.orchaldir.gm.app.html.character.title.showTitle
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateTitle
-import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.DeleteTitle
 import at.orchaldir.gm.core.action.UpdateTitle
 import at.orchaldir.gm.core.model.State
@@ -16,7 +14,6 @@ import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.util.SortTitle
-import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.util.sortTitles
 import io.ktor.http.*
