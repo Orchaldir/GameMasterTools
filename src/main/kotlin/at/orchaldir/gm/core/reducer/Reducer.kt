@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.reducer.time.*
 import at.orchaldir.gm.core.reducer.util.color.CREATE_COLOR_SCHEME
 import at.orchaldir.gm.core.reducer.util.color.UPDATE_COLOR_SCHEME
 import at.orchaldir.gm.core.reducer.util.font.CREATE_FONT
-import at.orchaldir.gm.core.reducer.util.font.DELETE_FONT
 import at.orchaldir.gm.core.reducer.util.font.UPDATE_FONT
 import at.orchaldir.gm.core.reducer.util.name.CREATE_NAME_LIST
 import at.orchaldir.gm.core.reducer.util.name.DELETE_NAME_LIST
@@ -45,6 +44,7 @@ import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
 import at.orchaldir.gm.core.selector.util.canDeleteDataSource
+import at.orchaldir.gm.core.selector.util.canDeleteFont
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
@@ -90,7 +90,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateFashion -> UPDATE_FASHION(state, action)
         // font
         is CreateFont -> CREATE_FONT(state, action)
-        is DeleteFont -> DELETE_FONT(state, action)
+        is DeleteFont -> deleteElement(state, action.id, State::canDeleteFont)
         is UpdateFont -> UPDATE_FONT(state, action)
         // holiday
         is CreateHoliday -> CREATE_HOLIDAY(state, action)
