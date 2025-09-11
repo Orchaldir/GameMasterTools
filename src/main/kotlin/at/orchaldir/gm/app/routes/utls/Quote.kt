@@ -7,7 +7,10 @@ import at.orchaldir.gm.app.html.util.quote.parseQuote
 import at.orchaldir.gm.app.html.util.quote.showQuote
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateQuote
+import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.DeleteQuote
 import at.orchaldir.gm.core.action.UpdateQuote
 import at.orchaldir.gm.core.model.State
@@ -93,13 +96,7 @@ fun Application.configureQuoteRouting() {
             STORE.getState().save()
         }
         get<QuoteRoutes.Delete> { delete ->
-            logger.info { "Delete quote ${delete.id.value}" }
-
-            STORE.dispatch(DeleteQuote(delete.id))
-
-            call.respondRedirect(call.application.href(QuoteRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteQuote(delete.id), QuoteRoutes())
         }
         get<QuoteRoutes.Edit> { edit ->
             logger.info { "Get editor for quote ${edit.id.value}" }
@@ -181,9 +178,7 @@ private fun HTML.showQuoteDetails(
         showQuote(call, state, quote)
 
         action(editLink, "Edit")
-        if (state.canDeleteQuote(quote.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

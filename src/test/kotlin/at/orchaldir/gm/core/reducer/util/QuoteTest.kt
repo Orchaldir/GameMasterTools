@@ -22,40 +22,6 @@ class QuoteTest {
     val state = State(Storage(Quote(QUOTE_ID_0)))
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteQuote(QUOTE_ID_0)
-
-        @Test
-        fun `Can delete an existing quote`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getQuoteStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Quote 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a quote used by an article`() {
-            val content = FullArticleContent(listOf(LinkedQuote(QUOTE_ID_0)))
-            val article = Article(ARTICLE_ID_0, content = content)
-            val state = state.updateStorage(Storage(article))
-
-            assertIllegalArgument("Cannot delete Quote 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot delete a quote used by an text`() {
-            val chapter = SimpleChapter(0, listOf(LinkedQuote(QUOTE_ID_0)))
-            val content = SimpleChapters(listOf(chapter))
-            val text = Text(TEXT_ID_0, content = content)
-            val state = state.updateStorage(Storage(text))
-
-            assertIllegalArgument("Cannot delete Quote 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

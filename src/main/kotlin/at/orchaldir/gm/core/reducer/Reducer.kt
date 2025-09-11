@@ -23,7 +23,6 @@ import at.orchaldir.gm.core.reducer.util.font.UPDATE_FONT
 import at.orchaldir.gm.core.reducer.util.name.CREATE_NAME_LIST
 import at.orchaldir.gm.core.reducer.util.name.UPDATE_NAME_LIST
 import at.orchaldir.gm.core.reducer.util.quote.CREATE_QUOTE
-import at.orchaldir.gm.core.reducer.util.quote.DELETE_QUOTE
 import at.orchaldir.gm.core.reducer.util.quote.UPDATE_QUOTE
 import at.orchaldir.gm.core.reducer.util.source.CREATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
@@ -45,6 +44,7 @@ import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
 import at.orchaldir.gm.core.selector.util.canDeleteDataSource
 import at.orchaldir.gm.core.selector.util.canDeleteFont
 import at.orchaldir.gm.core.selector.util.canDeleteNameList
+import at.orchaldir.gm.core.selector.util.canDeleteQuote
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
@@ -114,7 +114,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdatePersonalityTrait -> UPDATE_PERSONALITY_TRAIT(state, action)
         // quote
         is CreateQuote -> CREATE_QUOTE(state, action)
-        is DeleteQuote -> DELETE_QUOTE(state, action)
+        is DeleteQuote -> deleteElement(state, action.id, State::canDeleteQuote)
         is UpdateQuote -> UPDATE_QUOTE(state, action)
         // race
         is CreateRace -> CREATE_RACE(state, action)

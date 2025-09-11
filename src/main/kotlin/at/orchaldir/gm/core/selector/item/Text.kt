@@ -13,8 +13,6 @@ import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.quote.QuoteId
-import at.orchaldir.gm.core.selector.character.getCharactersWith
-import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.util.getReferenceName
 
 fun State.canDeleteText(text: TextId) = DeleteResult(text)
