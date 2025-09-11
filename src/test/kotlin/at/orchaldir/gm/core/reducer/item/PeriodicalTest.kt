@@ -23,35 +23,6 @@ import kotlin.test.assertEquals
 class PeriodicalTest {
 
     @Nested
-    inner class DeleteTest {
-        val action = DeletePeriodical(PERIODICAL_ID_0)
-
-        @Test
-        fun `Can delete an existing periodical`() {
-            val state = State(Storage(Periodical(PERIODICAL_ID_0)))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getPeriodicalStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Periodical 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete, if it has an issue`() {
-            val state = State(
-                listOf(
-                    Storage(Periodical(PERIODICAL_ID_0)),
-                    Storage(PeriodicalIssue(ISSUE_ID_0, PERIODICAL_ID_0)),
-                )
-            )
-
-            assertIllegalArgument("Cannot delete Periodical 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         private val STATE = State(

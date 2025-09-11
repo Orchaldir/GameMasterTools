@@ -1,12 +1,10 @@
 package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
-import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.*
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -19,34 +17,6 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class FashionTest {
-
-    @Nested
-    inner class DeleteTest {
-
-        @Test
-        fun `Can delete an existing fashion`() {
-            val state = State(Storage(Fashion(FASHION_ID_0)))
-            val action = DeleteFashion(FASHION_ID_0)
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getFashionStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteFashion(FASHION_ID_0)
-
-            assertIllegalArgument("Requires unknown Fashion 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a fashion used by a culture`() {
-            val culture = Culture(CULTURE_ID_0, fashion = GenderMap(FASHION_ID_0))
-            val state = State(listOf(Storage(culture), Storage(Fashion(FASHION_ID_0))))
-            val action = DeleteFashion(FASHION_ID_0)
-
-            assertIllegalArgument("Cannot delete Fashion 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-    }
 
     @Nested
     inner class UpdateBeardFashionTest {

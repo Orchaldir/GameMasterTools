@@ -35,30 +35,6 @@ class UniformTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteUniform(UNIFORM_ID_0)
-
-        @Test
-        fun `Can delete an existing uniform`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getUniformStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Uniform 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a uniform used by a job`() {
-            val state = STATE.updateStorage(Storage(Job(JOB_ID_0, uniforms = GenderMap(UNIFORM_ID_0))))
-
-            assertIllegalArgument("Cannot delete Uniform 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

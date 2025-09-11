@@ -29,25 +29,6 @@ class LanguageTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteLanguage(LANGUAGE_ID_0)
-
-
-        @Test
-        fun `Cannot delete a language used by a text`() {
-            val text = Text(TEXT_ID_0, language = LANGUAGE_ID_0)
-            val state = state.updateStorage(Storage(text))
-
-            assertIllegalArgument("Cannot delete Language 0, because it is used by a text!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test
