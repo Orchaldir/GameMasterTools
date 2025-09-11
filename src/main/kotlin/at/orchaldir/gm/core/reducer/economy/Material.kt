@@ -16,13 +16,6 @@ val CREATE_MATERIAL: Reducer<CreateMaterial, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getMaterialStorage().add(material)))
 }
 
-val DELETE_MATERIAL: Reducer<DeleteMaterial, State> = { state, action ->
-    state.getMaterialStorage().require(action.id)
-    validateCanDelete(state.canDeleteMaterial(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getMaterialStorage().remove(action.id)))
-}
-
 val UPDATE_MATERIAL: Reducer<UpdateMaterial, State> = { state, action ->
     val material = action.material
 

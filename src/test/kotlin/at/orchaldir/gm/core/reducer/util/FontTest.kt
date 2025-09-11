@@ -47,7 +47,7 @@ class FontTest {
 
         @Test
         fun `Cannot delete, if used by a currency coin`() {
-            val coin = Coin(front = ShowValue(FONT_ID_0))
+            val coin = Coin(MATERIAL_ID_0, front = ShowValue(FONT_ID_0))
             val state = STATE.updateStorage(Storage(CurrencyUnit(CURRENCY_UNIT_ID_0, format = coin)))
 
             assertIllegalArgument("Cannot delete Font 0, because it is used!") { REDUCER.invoke(state, action) }

@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.character.*
 import at.orchaldir.gm.core.reducer.culture.*
 import at.orchaldir.gm.core.reducer.economy.CREATE_MATERIAL
-import at.orchaldir.gm.core.reducer.economy.DELETE_MATERIAL
 import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
 import at.orchaldir.gm.core.reducer.economy.UPDATE_MATERIAL
 import at.orchaldir.gm.core.reducer.health.CREATE_DISEASE
@@ -33,6 +32,8 @@ import at.orchaldir.gm.core.reducer.util.source.CREATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
+import at.orchaldir.gm.core.selector.economy.canDeleteBusiness
+import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
 import at.orchaldir.gm.core.selector.health.canDeleteDisease
 import at.orchaldir.gm.core.selector.race.canDeleteRace
 import at.orchaldir.gm.core.selector.race.canDeleteRaceAppearance
@@ -95,7 +96,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateLanguage -> UPDATE_LANGUAGE(state, action)
         // material
         is CreateMaterial -> CREATE_MATERIAL(state, action)
-        is DeleteMaterial -> DELETE_MATERIAL(state, action)
+        is DeleteMaterial -> deleteElement(state, action.id, State::canDeleteMaterial)
         is UpdateMaterial -> UPDATE_MATERIAL(state, action)
         // name list
         is CreateNameList -> CREATE_NAME_LIST(state, action)

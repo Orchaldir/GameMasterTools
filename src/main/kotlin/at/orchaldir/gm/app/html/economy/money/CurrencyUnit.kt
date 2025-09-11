@@ -287,11 +287,11 @@ fun parseCurrencyFormat(parameters: Parameters) =
 
         CurrencyFormatType.BiMetallicCoin -> BiMetallicCoin(
             parseMaterialId(parameters, MATERIAL),
+            parseMaterialId(parameters, combine(HOLE, MATERIAL)),
             parseComplexShape(parameters, SHAPE),
             parseRadius(parameters),
             parseThickness(parameters),
             parseRimFactor(parameters),
-            parseMaterialId(parameters, combine(HOLE, MATERIAL)),
             parseComplexShape(parameters, combine(HOLE, SHAPE)),
             parseRadiusFactor(parameters),
             parseCoinSide(parameters, FRONT)
