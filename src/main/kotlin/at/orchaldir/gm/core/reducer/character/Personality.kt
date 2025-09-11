@@ -14,12 +14,6 @@ val CREATE_PERSONALITY_TRAIT: Reducer<CreatePersonalityTrait, State> = { state, 
     noFollowUps(state.updateStorage(state.getPersonalityTraitStorage().add(personalityTrait)))
 }
 
-val DELETE_PERSONALITY_TRAIT: Reducer<DeletePersonalityTrait, State> = { state, action ->
-    state.getPersonalityTraitStorage().require(action.id)
-
-    noFollowUps(state.updateStorage(state.getPersonalityTraitStorage().remove(action.id)))
-}
-
 val UPDATE_PERSONALITY_TRAIT: Reducer<UpdatePersonalityTrait, State> = { state, action ->
     state.getPersonalityTraitStorage().require(action.trait.id)
 
