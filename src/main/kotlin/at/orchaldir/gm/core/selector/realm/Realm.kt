@@ -22,7 +22,7 @@ fun State.canDeleteRealm(realm: RealmId) = DeleteResult(realm)
     .addElements(getPreviousSubRealms(realm))
     .addElements(getOwnedTowns(realm))
     .addElements(getPreviousOwnedTowns(realm))
-    .addElements(getWars(realm))
+    .addElements(getWarsWithParticipant(realm))
     .apply { canDeleteCreator(realm, it) }
     .apply { canDeleteDestroyer(realm, it) }
     .apply { canDeleteOwner(realm, it) }

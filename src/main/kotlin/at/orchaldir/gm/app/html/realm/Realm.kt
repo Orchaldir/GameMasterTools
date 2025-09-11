@@ -58,7 +58,7 @@ fun HtmlBlockTag.showRealm(
     fieldList(call, state, "Residents", residents)
 
     val battles = state.sortBattles(state.getBattles(realm.id))
-    val wars = state.sortWars(state.getWars(realm.id))
+    val wars = state.sortWars(state.getWarsWithParticipant(realm.id))
 
     fieldList(call, state, battles)
     fieldList(call, state, wars)

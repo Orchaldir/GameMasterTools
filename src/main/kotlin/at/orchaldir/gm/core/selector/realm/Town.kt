@@ -20,7 +20,7 @@ fun State.canDeleteTown(town: TownId) = DeleteResult(town)
     .addElements(getEmployees(town))
     .addElements(getPreviousEmployees(town))
     .addElements(getTownMaps(town))
-    .addElements(getWars(town))
+    .addElements(getWarsWithParticipant(town))
     .apply { canDeleteCreator(town, it) }
     .apply { canDeleteDestroyer(town, it) }
     .apply { canDeleteOwner(town, it) }

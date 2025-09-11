@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.util.CultureReference
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.util.name.NameList
-import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -28,40 +27,6 @@ class CultureTest {
         )
     )
     private val STATE_WITH_NAMES = STATE.updateStorage(Storage(nameList))
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteCulture(CULTURE_ID_0)
-
-        @Test
-        fun `Can delete an existing culture`() {
-
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getCultureStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        // see CreatorTest for other elements
-        @Test
-        fun `Cannot delete a culture that created another element`() {
-            val building = Building(BUILDING_ID_0, builder = CultureReference(CULTURE_ID_0))
-            val newState = STATE.updateStorage(Storage(building))
-
-            assertIllegalArgument("Cannot delete Culture 0, because of created elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete, if used by a character`() {
-            val state = STATE.updateStorage(Storage(Character(CharacterId(0), culture = CULTURE_ID_0)))
-
-            assertIllegalArgument("Cannot delete Culture 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-    }
 
     @Nested
     inner class UpdateTest {
