@@ -1,15 +1,10 @@
 package at.orchaldir.gm.core.reducer.util
 
-import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteQuote
+import at.orchaldir.gm.QUOTE_ID_0
+import at.orchaldir.gm.UNKNOWN_QUOTE_ID
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateQuote
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.periodical.Article
-import at.orchaldir.gm.core.model.item.periodical.FullArticleContent
-import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.content.LinkedQuote
-import at.orchaldir.gm.core.model.item.text.content.SimpleChapter
-import at.orchaldir.gm.core.model.item.text.content.SimpleChapters
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.reducer.REDUCER

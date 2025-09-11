@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.util.canDeleteHasBelief
-import at.orchaldir.gm.core.selector.util.canDeleteTargetOfBelief
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertFalse

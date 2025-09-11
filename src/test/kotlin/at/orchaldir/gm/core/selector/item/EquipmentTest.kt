@@ -9,11 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
-import at.orchaldir.gm.core.model.item.equipment.Pants
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

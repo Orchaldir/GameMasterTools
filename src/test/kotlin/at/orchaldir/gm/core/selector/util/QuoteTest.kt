@@ -1,14 +1,10 @@
 package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.ARTICLE_ID_0
-import at.orchaldir.gm.CULTURE_ID_0
-import at.orchaldir.gm.NAME_LIST_ID0
 import at.orchaldir.gm.QUOTE_ID_0
 import at.orchaldir.gm.TEXT_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.FullArticleContent
 import at.orchaldir.gm.core.model.item.text.Text

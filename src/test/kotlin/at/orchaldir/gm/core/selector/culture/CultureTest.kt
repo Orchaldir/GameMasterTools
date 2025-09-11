@@ -67,5 +67,5 @@ class CultureTest {
             assertEquals(DeleteResult(CULTURE_ID_0).addId(blockingId), state.canDeleteCulture(CULTURE_ID_0))
         }
     }
-  
+
 }

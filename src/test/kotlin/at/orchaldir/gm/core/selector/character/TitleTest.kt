@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.PERSONALITY_ID_0
 import at.orchaldir.gm.TITLE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State

@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.selector.realm
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.BUSINESS_ID_0
+import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.DISTRICT_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character

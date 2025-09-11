@@ -34,7 +34,10 @@ class RaceAppearanceTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(RACE_APPEARANCE_ID_0).addId(blockingId), state.canDeleteRaceAppearance(RACE_APPEARANCE_ID_0))
+            assertEquals(
+                DeleteResult(RACE_APPEARANCE_ID_0).addId(blockingId),
+                state.canDeleteRaceAppearance(RACE_APPEARANCE_ID_0)
+            )
         }
     }
 

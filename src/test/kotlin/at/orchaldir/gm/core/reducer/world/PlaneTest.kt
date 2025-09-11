@@ -1,16 +1,9 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.InPlane
-import at.orchaldir.gm.core.model.util.Position
-import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage

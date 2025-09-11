@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.CHARACTER_ID_0
 import at.orchaldir.gm.COLOR_SCHEME_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_0
-import at.orchaldir.gm.TITLE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -11,7 +10,6 @@ import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.util.render.ColorScheme
-import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -47,7 +45,10 @@ class ColorSchemeTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(COLOR_SCHEME_ID_0).addId(blockingId), state.canDeleteColorScheme(COLOR_SCHEME_ID_0))
+            assertEquals(
+                DeleteResult(COLOR_SCHEME_ID_0).addId(blockingId),
+                state.canDeleteColorScheme(COLOR_SCHEME_ID_0)
+            )
         }
     }
 

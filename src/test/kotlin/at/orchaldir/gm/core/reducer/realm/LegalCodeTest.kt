@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.action.UpdateLegalCode
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LegalCode
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

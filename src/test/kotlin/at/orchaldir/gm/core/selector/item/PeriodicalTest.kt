@@ -1,13 +1,11 @@
 package at.orchaldir.gm.core.selector.item
 
-import at.orchaldir.gm.ARTICLE_ID_0
 import at.orchaldir.gm.ISSUE_ID_0
 import at.orchaldir.gm.PERIODICAL_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
-import at.orchaldir.gm.core.selector.item.periodical.canDeleteArticle
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

@@ -1,13 +1,10 @@
 package at.orchaldir.gm.core.reducer.util
 
-import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteColorScheme
+import at.orchaldir.gm.CALENDAR0
+import at.orchaldir.gm.COLOR_SCHEME_ID_0
+import at.orchaldir.gm.REALM_ID_0
 import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorScheme

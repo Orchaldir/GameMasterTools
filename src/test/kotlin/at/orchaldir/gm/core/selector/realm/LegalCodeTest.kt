@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.selector.realm
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.LEGAL_CODE_ID_0
+import at.orchaldir.gm.REALM_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.History

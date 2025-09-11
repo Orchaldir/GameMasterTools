@@ -42,7 +42,10 @@ class PersonalityTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(PERSONALITY_ID_0).addId(blockingId), state.canDeletePersonalityTrait(PERSONALITY_ID_0))
+            assertEquals(
+                DeleteResult(PERSONALITY_ID_0).addId(blockingId),
+                state.canDeletePersonalityTrait(PERSONALITY_ID_0)
+            )
         }
     }
 

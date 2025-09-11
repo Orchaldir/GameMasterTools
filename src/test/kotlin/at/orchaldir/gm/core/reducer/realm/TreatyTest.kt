@@ -1,12 +1,11 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteTreaty
 import at.orchaldir.gm.core.action.UpdateTreaty
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.model.time.holiday.Holiday
-import at.orchaldir.gm.core.model.time.holiday.HolidayOfTreaty
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Treaty
+import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage

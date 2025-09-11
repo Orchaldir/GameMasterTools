@@ -3,12 +3,10 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.ARCHITECTURAL_ID_0
 import at.orchaldir.gm.ARCHITECTURAL_ID_1
 import at.orchaldir.gm.BUILDING_ID_0
-import at.orchaldir.gm.BUSINESS_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

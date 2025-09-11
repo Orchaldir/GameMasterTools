@@ -1,13 +1,6 @@
 package at.orchaldir.gm.core.selector.economy
 
-import at.orchaldir.gm.BUILDING_ID_0
-import at.orchaldir.gm.BUSINESS_ID_0
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.DAY0
-import at.orchaldir.gm.DISEASE_ID_0
-import at.orchaldir.gm.DISEASE_ID_1
-import at.orchaldir.gm.JOB_ID_0
-import at.orchaldir.gm.TEXT_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -16,21 +9,9 @@ import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.util.BusinessReference
-import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.DeathByDisease
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.HistoryEntry
-import at.orchaldir.gm.core.model.util.LongTermCareIn
-import at.orchaldir.gm.core.model.util.Position
-import at.orchaldir.gm.core.model.util.Reference
-import at.orchaldir.gm.core.model.util.UndefinedReference
-import at.orchaldir.gm.core.model.util.origin.EvolvedElement
-import at.orchaldir.gm.core.model.util.origin.ModifiedElement
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.selector.health.canDeleteDisease
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

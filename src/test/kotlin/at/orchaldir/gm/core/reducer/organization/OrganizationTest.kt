@@ -1,13 +1,14 @@
 package at.orchaldir.gm.core.reducer.organization
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.organization.Organization
-import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.util.CharacterReference
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

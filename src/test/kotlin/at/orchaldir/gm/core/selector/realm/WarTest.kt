@@ -1,21 +1,14 @@
 package at.orchaldir.gm.core.selector.town
 
-import at.orchaldir.gm.BATTLE_ID_0
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.DAY0
-import at.orchaldir.gm.HOLIDAY_ID_0
-import at.orchaldir.gm.TREATY_ID_0
-import at.orchaldir.gm.WAR_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.time.holiday.Holiday
-import at.orchaldir.gm.core.model.time.holiday.HolidayOfTreaty
 import at.orchaldir.gm.core.model.time.holiday.HolidayOfWar
 import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
 import at.orchaldir.gm.utils.Id

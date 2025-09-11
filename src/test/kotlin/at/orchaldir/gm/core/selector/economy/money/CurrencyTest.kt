@@ -1,23 +1,16 @@
 package at.orchaldir.gm.core.selector.economy.money
 
-import at.orchaldir.gm.BUSINESS_ID_0
-import at.orchaldir.gm.CHARACTER_ID_0
 import at.orchaldir.gm.CURRENCY_ID_0
 import at.orchaldir.gm.CURRENCY_UNIT_ID_0
 import at.orchaldir.gm.DAY0
-import at.orchaldir.gm.DOMAIN_ID_0
-import at.orchaldir.gm.JOB_ID_0
 import at.orchaldir.gm.REALM_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.money.Currency
-import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.utils.Id

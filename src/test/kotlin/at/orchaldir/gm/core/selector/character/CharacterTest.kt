@@ -1,12 +1,6 @@
 package at.orchaldir.gm.core.selector.character
 
-import at.orchaldir.gm.BATTLE_ID_0
-import at.orchaldir.gm.BUILDING_ID_0
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.CHARACTER_ID_1
-import at.orchaldir.gm.ORGANIZATION_ID_0
-import at.orchaldir.gm.REALM_ID_0
-import at.orchaldir.gm.TREATY_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character

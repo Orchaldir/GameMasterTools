@@ -36,5 +36,5 @@ class FashionTest {
             assertEquals(DeleteResult(FASHION_ID_0).addId(blockingId), state.canDeleteFashion(FASHION_ID_0))
         }
     }
-  
+
 }

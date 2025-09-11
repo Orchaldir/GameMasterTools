@@ -1,22 +1,11 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.Coin
-import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.economy.money.ShowValue
-import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.book.Hardcover
-import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
-import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.font.Font
-import at.orchaldir.gm.core.model.util.font.SolidFont
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.unit.Distance
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

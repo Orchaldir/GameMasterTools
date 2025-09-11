@@ -1,12 +1,6 @@
 package at.orchaldir.gm.core.selector.culture
 
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.CULTURE_ID_0
-import at.orchaldir.gm.LANGUAGE_ID_0
-import at.orchaldir.gm.LANGUAGE_ID_1
-import at.orchaldir.gm.PERIODICAL_ID_0
-import at.orchaldir.gm.PLANE_ID_0
-import at.orchaldir.gm.TEXT_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -104,5 +98,5 @@ class LanguageTest {
             assertEquals(DeleteResult(language), state.canDeleteLanguage(language))
         }
     }
-  
+
 }

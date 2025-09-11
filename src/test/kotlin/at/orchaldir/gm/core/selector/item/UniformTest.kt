@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.JOB_ID_0
-import at.orchaldir.gm.TEXT_ID_1
 import at.orchaldir.gm.UNIFORM_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State

@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.selector.util
 
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.COLOR_SCHEME_ID_0
 import at.orchaldir.gm.CURRENCY_UNIT_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.FONT_ID_0
 import at.orchaldir.gm.MATERIAL_ID_0
 import at.orchaldir.gm.TEXT_ID_0
@@ -12,18 +9,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.ShowValue
-import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
-import at.orchaldir.gm.core.model.item.text.content.AbstractChapters
-import at.orchaldir.gm.core.model.item.text.content.AbstractText
-import at.orchaldir.gm.core.model.item.text.content.ComplexTableOfContents
-import at.orchaldir.gm.core.model.item.text.content.ContentStyle
-import at.orchaldir.gm.core.model.item.text.content.FontInitials
-import at.orchaldir.gm.core.model.item.text.content.PageNumberingReusingFont
-import at.orchaldir.gm.core.model.item.text.content.SimplePageNumbering
+import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.SolidFont
 import at.orchaldir.gm.utils.Id

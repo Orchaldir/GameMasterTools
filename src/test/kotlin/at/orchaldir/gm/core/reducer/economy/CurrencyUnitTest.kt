@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteCurrencyUnit
 import at.orchaldir.gm.core.action.UpdateCurrencyUnit
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency

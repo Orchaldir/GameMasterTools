@@ -8,7 +8,9 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.realm.*
+import at.orchaldir.gm.core.model.realm.Battle
+import at.orchaldir.gm.core.model.realm.Catastrophe
+import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*

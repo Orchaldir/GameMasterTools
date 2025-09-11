@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.ARTICLE_ID_0
 import at.orchaldir.gm.ISSUE_ID_0
-import at.orchaldir.gm.JOB_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Article
@@ -27,7 +26,7 @@ class ArticleTest {
 
         @Test
         fun `Cannot delete an article published in a periodical issue`() {
-            val issue = PeriodicalIssue(ISSUE_ID_0, articles =setOf(ARTICLE_ID_0))
+            val issue = PeriodicalIssue(ISSUE_ID_0, articles = setOf(ARTICLE_ID_0))
             val newState = state.updateStorage(Storage(issue))
 
             failCanDelete(newState, ISSUE_ID_0)

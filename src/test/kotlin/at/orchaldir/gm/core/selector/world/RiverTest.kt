@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.selector.world
 
-import at.orchaldir.gm.MOON_ID_0
 import at.orchaldir.gm.RIVER_ID_0
 import at.orchaldir.gm.TOWN_MAP_ID_0
 import at.orchaldir.gm.core.model.DeleteResult

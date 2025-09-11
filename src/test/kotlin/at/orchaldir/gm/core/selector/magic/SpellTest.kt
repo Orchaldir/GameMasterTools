@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.selector.magic
 
-import at.orchaldir.gm.DOMAIN_ID_0
-import at.orchaldir.gm.JOB_ID_0
-import at.orchaldir.gm.SPELL_GROUP_ID_0
-import at.orchaldir.gm.SPELL_ID_0
-import at.orchaldir.gm.SPELL_ID_1
-import at.orchaldir.gm.TEXT_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.Job

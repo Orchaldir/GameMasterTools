@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.selector.race
 
-import at.orchaldir.gm.BATTLE_ID_0
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.DISTRICT_ID_0
-import at.orchaldir.gm.RACE_ID_0
-import at.orchaldir.gm.REALM_ID_0
-import at.orchaldir.gm.TOWN_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -15,7 +10,6 @@ import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.population.PopulationPerRace
-import at.orchaldir.gm.core.selector.realm.canDeleteBattle
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF

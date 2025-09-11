@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.world
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.BUILDING_ID_0
+import at.orchaldir.gm.TOWN_MAP_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap

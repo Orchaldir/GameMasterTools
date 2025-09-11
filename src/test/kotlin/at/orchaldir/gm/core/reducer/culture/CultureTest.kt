@@ -1,14 +1,12 @@
 package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.util.CultureReference
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.util.name.NameList

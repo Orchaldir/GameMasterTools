@@ -1,16 +1,10 @@
 package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteCurrency
 import at.orchaldir.gm.core.action.UpdateCurrency
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.money.Currency
-import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

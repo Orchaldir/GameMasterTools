@@ -1,27 +1,18 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.action.UpdateDistrict
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.CharacterReference
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.InDistrict
-import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.reducer.REDUCER
-import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class DistrictTest {
 

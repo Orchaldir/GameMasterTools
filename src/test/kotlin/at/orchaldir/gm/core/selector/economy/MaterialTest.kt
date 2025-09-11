@@ -1,14 +1,6 @@
 package at.orchaldir.gm.core.selector.economy
 
-import at.orchaldir.gm.CURRENCY_UNIT_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_1
-import at.orchaldir.gm.MATERIAL_ID_0
-import at.orchaldir.gm.MATERIAL_ID_1
-import at.orchaldir.gm.MOON_ID_0
-import at.orchaldir.gm.REGION_ID_0
-import at.orchaldir.gm.STREET_TEMPLATE_ID_0
-import at.orchaldir.gm.TEXT_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
@@ -97,7 +89,6 @@ class MaterialTest {
             )
         }
     }
-
 
 
     @Test

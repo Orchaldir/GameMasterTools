@@ -1,13 +1,13 @@
 package at.orchaldir.gm.core.selector.religion
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.PANTHEON_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.util.WorshipOfPantheon
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

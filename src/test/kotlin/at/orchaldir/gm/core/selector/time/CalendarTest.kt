@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.selector.time
 
-import at.orchaldir.gm.CALENDAR_ID_0
-import at.orchaldir.gm.CALENDAR_ID_1
-import at.orchaldir.gm.CULTURE_ID_0
-import at.orchaldir.gm.HOLIDAY_ID_0
-import at.orchaldir.gm.LANGUAGE_ID_1
-import at.orchaldir.gm.PERIODICAL_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture

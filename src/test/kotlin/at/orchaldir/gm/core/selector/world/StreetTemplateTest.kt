@@ -1,13 +1,10 @@
 package at.orchaldir.gm.core.selector.world
 
-import at.orchaldir.gm.BUILDING_ID_0
 import at.orchaldir.gm.STREET_ID_0
 import at.orchaldir.gm.STREET_TEMPLATE_ID_0
 import at.orchaldir.gm.TOWN_MAP_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.StreetAddress
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.TownMap
@@ -39,7 +36,10 @@ class StreetTemplateTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(STREET_TEMPLATE_ID_0).addId(blockingId), state.canDeleteStreetTemplate(STREET_TEMPLATE_ID_0))
+            assertEquals(
+                DeleteResult(STREET_TEMPLATE_ID_0).addId(blockingId),
+                state.canDeleteStreetTemplate(STREET_TEMPLATE_ID_0)
+            )
         }
     }
 
