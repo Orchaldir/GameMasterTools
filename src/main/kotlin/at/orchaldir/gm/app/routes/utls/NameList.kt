@@ -5,14 +5,16 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.name.editNameList
 import at.orchaldir.gm.app.html.util.name.parseNameList
 import at.orchaldir.gm.app.html.util.name.showNameList
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateNameList
+import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.name.NameListId
-import at.orchaldir.gm.core.selector.util.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -80,13 +82,7 @@ fun Application.configureNameListRouting() {
             STORE.getState().save()
         }
         get<NameListRoutes.Delete> { delete ->
-            logger.info { "Delete name list ${delete.id.value}" }
-
-            STORE.dispatch(DeleteNameList(delete.id))
-
-            call.respondRedirect(call.application.href(NameListRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteNameList(delete.id), NameListRoutes())
         }
         get<NameListRoutes.Edit> { edit ->
             logger.info { "Get editor for name list ${edit.id.value}" }
@@ -151,10 +147,9 @@ private fun HTML.showNameListDetails(
 
     simpleHtmlDetails(nameList) {
         showNameList(call, state, nameList)
+
         action(editLink, "Edit")
-        if (state.canDelete(nameList.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

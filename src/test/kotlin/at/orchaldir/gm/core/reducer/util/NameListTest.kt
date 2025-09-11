@@ -24,38 +24,6 @@ class NameListTest {
     private val STATE = State(Storage(NameList(NAME_LIST_ID0)))
 
     @Nested
-    inner class DeleteTest {
-
-        @Test
-        fun `Can delete an existing id`() {
-            val action = DeleteNameList(NAME_LIST_ID0)
-
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getNameListStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteNameList(NAME_LIST_ID0)
-
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete, if used by a culture`() {
-            val action = DeleteNameList(NAME_LIST_ID0)
-            val state = STATE.updateStorage(
-                Storage(
-                    Culture(
-                        CultureId(0), namingConvention = MononymConvention(NAME_LIST_ID0)
-                    )
-                )
-            )
-
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

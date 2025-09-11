@@ -21,7 +21,6 @@ import at.orchaldir.gm.core.reducer.util.color.UPDATE_COLOR_SCHEME
 import at.orchaldir.gm.core.reducer.util.font.CREATE_FONT
 import at.orchaldir.gm.core.reducer.util.font.UPDATE_FONT
 import at.orchaldir.gm.core.reducer.util.name.CREATE_NAME_LIST
-import at.orchaldir.gm.core.reducer.util.name.DELETE_NAME_LIST
 import at.orchaldir.gm.core.reducer.util.name.UPDATE_NAME_LIST
 import at.orchaldir.gm.core.reducer.util.quote.CREATE_QUOTE
 import at.orchaldir.gm.core.reducer.util.quote.DELETE_QUOTE
@@ -45,6 +44,7 @@ import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
 import at.orchaldir.gm.core.selector.util.canDeleteDataSource
 import at.orchaldir.gm.core.selector.util.canDeleteFont
+import at.orchaldir.gm.core.selector.util.canDeleteNameList
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
@@ -106,7 +106,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateMaterial -> UPDATE_MATERIAL(state, action)
         // name list
         is CreateNameList -> CREATE_NAME_LIST(state, action)
-        is DeleteNameList -> DELETE_NAME_LIST(state, action)
+        is DeleteNameList -> deleteElement(state, action.id, State::canDeleteNameList)
         is UpdateNameList -> UPDATE_NAME_LIST(state, action)
         // personality
         is CreatePersonalityTrait -> CREATE_PERSONALITY_TRAIT(state, action)
