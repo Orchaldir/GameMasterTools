@@ -63,7 +63,7 @@ class TownTest {
                 val town = Town(TOWN_ID_0, status = status)
                 val action = UpdateTown(town)
 
-                REDUCER.invoke(STATE, action);
+                REDUCER.invoke(STATE, action)
             }
 
         }

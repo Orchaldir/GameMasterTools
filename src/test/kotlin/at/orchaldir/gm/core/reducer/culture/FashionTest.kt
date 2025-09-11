@@ -1,13 +1,15 @@
 package at.orchaldir.gm.core.reducer.culture
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.EQUIPMENT_ID_0
+import at.orchaldir.gm.EQUIPMENT_ID_1
+import at.orchaldir.gm.FASHION_ID_0
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.culture.fashion.*
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.reducer.REDUCER

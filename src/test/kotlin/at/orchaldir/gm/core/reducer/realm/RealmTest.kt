@@ -122,7 +122,7 @@ class RealmTest {
                 val realm = Realm(REALM_ID_0, status = status)
                 val action = UpdateRealm(realm)
 
-                REDUCER.invoke(STATE, action);
+                REDUCER.invoke(STATE, action)
             }
 
         }

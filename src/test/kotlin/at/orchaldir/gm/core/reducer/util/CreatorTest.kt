@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteCharacter
-import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
@@ -24,8 +23,6 @@ import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.reducer.REDUCER
-import at.orchaldir.gm.core.selector.item.canDeleteUniform
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -33,7 +30,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 class CreatorTest {
 

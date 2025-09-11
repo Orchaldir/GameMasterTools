@@ -126,7 +126,7 @@ class CharacterTest {
                 val character = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
                 val action = UpdateCharacter(character)
 
-                REDUCER.invoke(STATE, action);
+                REDUCER.invoke(STATE, action)
             }
 
             private fun testInvalidStatus(status: VitalStatus) {
