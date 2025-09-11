@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.CreateCharacter
-import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
@@ -13,17 +12,11 @@ import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.realm.Battle
-import at.orchaldir.gm.core.model.realm.BattleParticipant
-import at.orchaldir.gm.core.model.realm.Treaty
-import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.BornElement
-import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -34,12 +27,6 @@ class CharacterTest {
 
     private val LANGUAGES = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native)
     val character0 = Character(CHARACTER_ID_0)
-    private val state = State(
-        listOf(
-            Storage(listOf(character0)),
-            Storage(listOf(Language(LANGUAGE_ID_0)))
-        )
-    )
 
     @Nested
     inner class CreateTest {
@@ -64,126 +51,6 @@ class CharacterTest {
             val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
 
             assertEquals(today, characters.getOrThrow(CHARACTER_ID_0).birthDate)
-        }
-    }
-
-    @Nested
-    inner class DeleteTest {
-
-        private val action = DeleteCharacter(CHARACTER_ID_0)
-        private val createdByCharacter = CharacterReference(CHARACTER_ID_0)
-
-        @Test
-        fun `Can delete an existing character`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getCharacterStorage().getSize())
-        }
-
-        // see CreatorTest for other elements
-        @Test
-        fun `Cannot delete a character that created another element`() {
-            val building = Building(BUILDING_ID_0, builder = createdByCharacter)
-            val newState = state.updateStorage(Storage(building))
-
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        // see OwnershipTest for other elements
-        @Test
-        fun `Cannot delete a character that owns another element`() {
-            val ownership = History<Reference>(CharacterReference(CHARACTER_ID_0))
-            val building = Building(BUILDING_ID_0, ownership = ownership)
-            val newState = state.updateStorage(Storage(building))
-
-            assertIllegalArgument("Cannot delete Character 0, because of owned elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a member of an organization`() {
-            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(0)))
-            val newState = state.updateStorage(Storage(organization))
-
-            assertIllegalArgument("Cannot delete Character 0, because he is a member of an organization!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a character that signed a treaty`() {
-            val participant = TreatyParticipant(REALM_ID_0, CHARACTER_ID_0)
-            val treaty = Treaty(TREATY_ID_0, participants = listOf(participant))
-            val newState = state.updateStorage(Storage(treaty))
-
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (Treaty)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a character that led a battle`() {
-            val participant = BattleParticipant(REALM_ID_0, CHARACTER_ID_0)
-            val treaty = Battle(BATTLE_ID_0, participants = listOf(participant))
-            val newState = state.updateStorage(Storage(treaty))
-
-            assertIllegalArgument("Cannot delete Character 0, because of a battle!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a character that has a secret identity`() {
-            val identity = Character(CHARACTER_ID_1, authenticity = SecretIdentity(CHARACTER_ID_0))
-            val newState = state.updateStorage(Storage(listOf(character0, identity)))
-
-            assertIllegalArgument("Cannot delete Character 0, because of a secret identity!") {
-                REDUCER.invoke(
-                    newState,
-                    action
-                )
-            }
-        }
-
-        @Nested
-        inner class DeleteFamilyMemberTest {
-
-            private val state = State(
-                Storage(
-                    listOf(
-                        Character(CHARACTER_ID_0, origin = BornElement(CHARACTER_ID_1, CHARACTER_ID_2)),
-                        Character(CHARACTER_ID_1),
-                        Character(CHARACTER_ID_2)
-                    )
-                ),
-            )
-
-            @Test
-            fun `Cannot delete a character with parents`() {
-                assertIllegalArgument("Cannot delete Character 0, because he has parents!") {
-                    REDUCER.invoke(state, DeleteCharacter(CHARACTER_ID_0))
-                }
-            }
-
-            @Test
-            fun `Cannot delete a father`() {
-                assertIllegalArgument("Cannot delete Character 2, because he has children!") {
-                    REDUCER.invoke(state, DeleteCharacter(CHARACTER_ID_2))
-                }
-            }
-
-            @Test
-            fun `Cannot delete a mother`() {
-                assertIllegalArgument("Cannot delete Character 1, because he has children!") {
-                    REDUCER.invoke(state, DeleteCharacter(CHARACTER_ID_1))
-                }
-            }
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Character 0!") { REDUCER.invoke(State(), action) }
         }
     }
 

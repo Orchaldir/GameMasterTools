@@ -32,6 +32,7 @@ import at.orchaldir.gm.core.reducer.util.source.CREATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
+import at.orchaldir.gm.core.selector.character.canDeleteCharacter
 import at.orchaldir.gm.core.selector.culture.canDeleteCulture
 import at.orchaldir.gm.core.selector.culture.canDeleteFashion
 import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
@@ -50,7 +51,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is LoadData -> LOAD_DATA(state, action)
         // character
         is CreateCharacter -> CREATE_CHARACTER(state, action)
-        is DeleteCharacter -> DELETE_CHARACTER(state, action)
+        is DeleteCharacter -> deleteElement(state, action.id, State::canDeleteCharacter)
         is UpdateCharacter -> UPDATE_CHARACTER(state, action)
         is UpdateAppearance -> UPDATE_APPEARANCE(state, action)
         is UpdateEquipmentOfCharacter -> UPDATE_EQUIPMENT_MAP(state, action)

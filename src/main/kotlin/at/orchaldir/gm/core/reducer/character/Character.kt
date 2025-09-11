@@ -1,21 +1,13 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.action.CreateCharacter
-import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.reducer.util.*
-import at.orchaldir.gm.core.selector.character.getChildren
-import at.orchaldir.gm.core.selector.character.getParents
-import at.orchaldir.gm.core.selector.character.getSecretIdentitiesOf
-import at.orchaldir.gm.core.selector.organization.getOrganizations
-import at.orchaldir.gm.core.selector.realm.countBattlesLedBy
 import at.orchaldir.gm.core.selector.time.getCurrentDate
-import at.orchaldir.gm.core.selector.util.checkIfCreatorCanBeDeleted
-import at.orchaldir.gm.core.selector.util.checkIfOwnerCanBeDeleted
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -23,24 +15,6 @@ val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
     val character = Character(state.getCharacterStorage().nextId, birthDate = state.getCurrentDate())
     val characters = state.getCharacterStorage().add(character)
     noFollowUps(state.updateStorage(characters))
-}
-
-val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
-    state.getCharacterStorage().require(action.id)
-
-    val parents = state.getParents(action.id)
-    val children = state.getChildren(action.id)
-    val organizations = state.getOrganizations(action.id)
-    validateCanDelete(parents.isEmpty(), action.id, "he has parents")
-    validateCanDelete(children.isEmpty(), action.id, "he has children")
-    validateCanDelete(organizations.isEmpty(), action.id, "he is a member of an organization")
-    validateCanDelete(state.countBattlesLedBy(action.id) == 0, action.id, "of a battle")
-    validateCanDelete(state.getSecretIdentitiesOf(action.id).isEmpty(), action.id, "of a secret identity")
-
-    checkIfCreatorCanBeDeleted(state, action.id)
-    checkIfOwnerCanBeDeleted(state, action.id)
-
-    noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))
 }
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->

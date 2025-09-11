@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.character
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -28,22 +29,23 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
-import at.orchaldir.gm.core.selector.realm.countBattlesLedBy
+import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
-import at.orchaldir.gm.core.selector.util.isCreator
-import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
+import at.orchaldir.gm.core.selector.util.canDeleteCreator
+import at.orchaldir.gm.core.selector.util.canDeleteDestroyer
+import at.orchaldir.gm.core.selector.util.canDeleteOwner
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Distance
 
-fun State.canCreateCharacter() = getCultureStorage().getSize() > 0
-
-fun State.canDeleteCharacter(character: CharacterId) = getChildren(character).isEmpty()
-        && getParents(character).isEmpty()
-        && !isCurrentOrFormerOwner(character)
-        && !isCreator(character)
-        && getOrganizations(character).isEmpty()
-        && countBattlesLedBy(character) == 0
+fun State.canDeleteCharacter(character: CharacterId) = DeleteResult(character)
+    .addElements(getBattlesLedBy(character))
+    .addElements(getChildren(character))
+    .addElements(getOrganizations(character))
+    .addElements(getSecretIdentitiesOf(character))
+    .apply { canDeleteCreator(character, it) }
+    .apply { canDeleteDestroyer(character, it) }
+    .apply { canDeleteOwner(character, it) }
 
 // count
 

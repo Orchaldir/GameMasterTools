@@ -81,9 +81,7 @@ fun HtmlBlockTag.showData(
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
     action(editLink, "Edit")
-    if (state.canDeleteCharacter(character.id)) {
-        action(deleteLink, "Delete")
-    }
+    action(deleteLink, "Delete")
 }
 
 private fun HtmlBlockTag.showHeight(
