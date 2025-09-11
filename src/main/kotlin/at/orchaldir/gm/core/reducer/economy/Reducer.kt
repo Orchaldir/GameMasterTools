@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.economy.canDeleteBusiness
 import at.orchaldir.gm.core.selector.economy.canDeleteJob
-import at.orchaldir.gm.core.selector.item.periodical.canDeleteArticle
+import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrency
 import at.orchaldir.gm.utils.redux.Reducer
 
 val ECONOMY_REDUCER: Reducer<EconomyAction, State> = { state, action ->
@@ -16,7 +16,7 @@ val ECONOMY_REDUCER: Reducer<EconomyAction, State> = { state, action ->
         is UpdateBusiness -> UPDATE_BUSINESS(state, action)
         // currency
         is CreateCurrency -> CREATE_CURRENCY(state, action)
-        is DeleteCurrency -> DELETE_CURRENCY(state, action)
+        is DeleteCurrency -> deleteElement(state, action.id, State::canDeleteCurrency)
         is UpdateCurrency -> UPDATE_CURRENCY(state, action)
         // currency unit
         is CreateCurrencyUnit -> CREATE_CURRENCY_UNIT(state, action)
