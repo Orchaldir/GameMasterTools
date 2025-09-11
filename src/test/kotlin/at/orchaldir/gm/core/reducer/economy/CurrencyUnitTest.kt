@@ -26,23 +26,6 @@ class CurrencyUnitTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteCurrencyUnit(CURRENCY_UNIT_ID_0)
-
-        @Test
-        fun `Can delete an existing business`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getCurrencyUnitStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteCurrencyUnit(UNKNOWN_CURRENCY_UNIT_ID)
-
-            assertIllegalArgument("Requires unknown Currency Unit 99!") { REDUCER.invoke(state, action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

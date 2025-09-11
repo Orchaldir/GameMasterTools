@@ -5,7 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.editCurrencyUnit
 import at.orchaldir.gm.app.html.economy.money.parseCurrencyUnit
 import at.orchaldir.gm.app.html.economy.money.showCurrencyUnit
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateCurrencyUnit
+import at.orchaldir.gm.core.action.DeleteCurrency
 import at.orchaldir.gm.core.action.DeleteCurrencyUnit
 import at.orchaldir.gm.core.action.UpdateCurrencyUnit
 import at.orchaldir.gm.core.model.State
@@ -108,13 +110,7 @@ fun Application.configureCurrencyUnitRouting() {
             STORE.getState().save()
         }
         get<CurrencyUnitRoutes.Delete> { delete ->
-            logger.info { "Delete unit ${delete.id.value}" }
-
-            STORE.dispatch(DeleteCurrencyUnit(delete.id))
-
-            call.respondRedirect(call.application.href(CurrencyUnitRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteCurrencyUnit(delete.id), CurrencyUnitRoutes())
         }
         get<CurrencyUnitRoutes.Edit> { edit ->
             logger.info { "Get editor for unit ${edit.id.value}" }
@@ -229,9 +225,7 @@ private fun HTML.showCurrencyUnitDetails(
         showCurrencyUnit(call, state, unit)
 
         action(editLink, "Edit")
-        if (state.canDeleteCurrencyUnit(unit.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

@@ -20,12 +20,6 @@ val CREATE_CURRENCY_UNIT: Reducer<CreateCurrencyUnit, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getCurrencyUnitStorage().add(currency)))
 }
 
-val DELETE_CURRENCY_UNIT: Reducer<DeleteCurrencyUnit, State> = { state, action ->
-    state.getCurrencyUnitStorage().require(action.id)
-
-    noFollowUps(state.updateStorage(state.getCurrencyUnitStorage().remove(action.id)))
-}
-
 val UPDATE_CURRENCY_UNIT: Reducer<UpdateCurrencyUnit, State> = { state, action ->
     val unit = action.unit
     state.getCurrencyUnitStorage().require(unit.id)
