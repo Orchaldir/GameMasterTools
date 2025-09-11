@@ -6,6 +6,7 @@
    "name": "Penny",
    "format": {
     "type": "Coin",
+    "material": 0,
     "shape": {
      "type": "Circular",
      "shape": "Octagon"
