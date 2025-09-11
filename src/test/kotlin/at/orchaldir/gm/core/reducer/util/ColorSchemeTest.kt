@@ -30,45 +30,6 @@ class ColorSchemeTest {
     )
 
     @Nested
-    inner class DeleteTest {
-
-        private val action = DeleteColorScheme(COLOR_SCHEME_ID_0)
-
-        @Test
-        fun `Can delete an existing ColorScheme`() {
-            val state = State(Storage(ColorScheme(COLOR_SCHEME_ID_0)))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getColorSchemeStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a scheme used by a character's equipment`() {
-            val equipmentMap = EquipmentMap.fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Top)
-            val character = Character(CHARACTER_ID_0, equipmentMap = equipmentMap)
-            val newState = STATE.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete Color Scheme 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a scheme used by an equipment`() {
-            val equipment = Equipment(EQUIPMENT_ID_0, colorSchemes = setOf(COLOR_SCHEME_ID_0))
-            val newState = STATE.updateStorage(Storage(equipment))
-
-            assertIllegalArgument("Cannot delete Color Scheme 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

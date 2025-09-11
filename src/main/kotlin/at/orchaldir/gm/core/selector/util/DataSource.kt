@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.util
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
@@ -7,28 +8,30 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
-fun State.canDeleteDataSource(source: DataSourceId) = canDeleteDataSource(getBusinessStorage(), source) &&
-        canDeleteDataSource(getCatastropheStorage(), source) &&
-        canDeleteDataSource(getCultureStorage(), source) &&
-        canDeleteDataSource(getCharacterStorage(), source) &&
-        canDeleteDataSource(getDiseaseStorage(), source) &&
-        canDeleteDataSource(getGodStorage(), source) &&
-        canDeleteDataSource(getMagicTraditionStorage(), source) &&
-        canDeleteDataSource(getOrganizationStorage(), source) &&
-        canDeleteDataSource(getPlaneStorage(), source) &&
-        canDeleteDataSource(getRaceStorage(), source) &&
-        canDeleteDataSource(getRealmStorage(), source) &&
-        canDeleteDataSource(getSpellStorage(), source) &&
-        canDeleteDataSource(getTextStorage(), source) &&
-        canDeleteDataSource(getTownStorage(), source) &&
-        canDeleteDataSource(getTreatyStorage(), source) &&
-        canDeleteDataSource(getWarStorage(), source)
+fun State.canDeleteDataSource(source: DataSourceId) = DeleteResult(source)
+    .addElements(getElementsInDataSource(getBusinessStorage(), source))
+    .addElements(getElementsInDataSource(getCatastropheStorage(), source))
+    .addElements(getElementsInDataSource(getCultureStorage(), source))
+    .addElements(getElementsInDataSource(getCharacterStorage(), source))
+    .addElements(getElementsInDataSource(getDiseaseStorage(), source))
+    .addElements(getElementsInDataSource(getGodStorage(), source))
+    .addElements(getElementsInDataSource(getMagicTraditionStorage(), source))
+    .addElements(getElementsInDataSource(getOrganizationStorage(), source))
+    .addElements(getElementsInDataSource(getPlaneStorage(), source))
+    .addElements(getElementsInDataSource(getRaceStorage(), source))
+    .addElements(getElementsInDataSource(getRealmStorage(), source))
+    .addElements(getElementsInDataSource(getSpellStorage(), source))
+    .addElements(getElementsInDataSource(getTextStorage(), source))
+    .addElements(getElementsInDataSource(getTownStorage(), source))
+    .addElements(getElementsInDataSource(getTreatyStorage(), source))
+    .addElements(getElementsInDataSource(getWarStorage(), source))
 
-fun <ID : Id<ID>, ELEMENT> canDeleteDataSource(
+fun <ID : Id<ID>, ELEMENT> getElementsInDataSource(
     storage: Storage<ID, ELEMENT>,
     source: DataSourceId,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasDataSources =
-    storage.getAll()
-        .none { it.sources().contains(source) }
+    storage
+        .getAll()
+        .filter { it.sources().contains(source) }

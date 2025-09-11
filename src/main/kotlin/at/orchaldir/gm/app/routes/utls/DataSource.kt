@@ -5,8 +5,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.source.editDataSource
 import at.orchaldir.gm.app.html.util.source.parseDataSource
 import at.orchaldir.gm.app.html.util.source.showDataSource
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateDataSource
 import at.orchaldir.gm.core.action.DeleteDataSource
+import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateDataSource
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortDataSource
@@ -91,13 +94,7 @@ fun Application.configureDataSourceRouting() {
             STORE.getState().save()
         }
         get<DataSourceRoutes.Delete> { delete ->
-            logger.info { "Delete source ${delete.id.value}" }
-
-            STORE.dispatch(DeleteDataSource(delete.id))
-
-            call.respondRedirect(call.application.href(DataSourceRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteDataSource(delete.id), DataSourceRoutes())
         }
         get<DataSourceRoutes.Edit> { edit ->
             logger.info { "Get editor for source ${edit.id.value}" }
@@ -176,9 +173,7 @@ private fun HTML.showDataSourceDetails(
         showDataSource(call, state, source)
 
         action(editLink, "Edit")
-        if (state.canDeleteDataSource(source.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

@@ -28,7 +28,6 @@ import at.orchaldir.gm.core.reducer.util.quote.CREATE_QUOTE
 import at.orchaldir.gm.core.reducer.util.quote.DELETE_QUOTE
 import at.orchaldir.gm.core.reducer.util.quote.UPDATE_QUOTE
 import at.orchaldir.gm.core.reducer.util.source.CREATE_DATA_SOURCE
-import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.core.selector.character.canDeleteCharacter
@@ -45,6 +44,7 @@ import at.orchaldir.gm.core.selector.race.canDeleteRaceAppearance
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
+import at.orchaldir.gm.core.selector.util.canDeleteDataSource
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
@@ -78,7 +78,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateData -> UPDATE_DATA(state, action)
         // data source
         is CreateDataSource -> CREATE_DATA_SOURCE(state, action)
-        is DeleteDataSource -> DELETE_DATA_SOURCE(state, action)
+        is DeleteDataSource -> deleteElement(state, action.id, State::canDeleteDataSource)
         is UpdateDataSource -> UPDATE_DATA_SOURCE(state, action)
         // disease
         is CreateDisease -> CREATE_DISEASE(state, action)

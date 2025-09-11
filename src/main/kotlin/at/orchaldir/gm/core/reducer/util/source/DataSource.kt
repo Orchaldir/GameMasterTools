@@ -16,13 +16,6 @@ val CREATE_DATA_SOURCE: Reducer<CreateDataSource, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getDataSourceStorage().add(source)))
 }
 
-val DELETE_DATA_SOURCE: Reducer<DeleteDataSource, State> = { state, action ->
-    state.getDataSourceStorage().require(action.id)
-    validateCanDelete(state.canDeleteDataSource(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getDataSourceStorage().remove(action.id)))
-}
-
 val UPDATE_DATA_SOURCE: Reducer<UpdateDataSource, State> = { state, action ->
     state.getDataSourceStorage().require(action.source.id)
 
