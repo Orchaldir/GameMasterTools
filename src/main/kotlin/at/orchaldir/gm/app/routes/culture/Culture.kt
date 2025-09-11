@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editCulture
 import at.orchaldir.gm.app.html.culture.parseCulture
 import at.orchaldir.gm.app.html.culture.showCulture
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CloneCulture
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
@@ -15,7 +16,6 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.culture.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -95,13 +95,7 @@ fun Application.configureCultureRouting() {
             STORE.getState().save()
         }
         get<CultureRoutes.Delete> { delete ->
-            logger.info { "Delete culture ${delete.id.value}" }
-
-            STORE.dispatch(DeleteCulture(delete.id))
-
-            call.respondRedirect(call.application.href(CultureRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteCulture(delete.id), CultureRoutes())
         }
         get<CultureRoutes.Edit> { edit ->
             logger.info { "Get editor for culture ${edit.id.value}" }
@@ -190,11 +184,7 @@ private fun HTML.showCultureDetails(
 
         action(editLink, "Edit")
         action(cloneLink, "Clone")
-
-        if (state.canDelete(culture.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

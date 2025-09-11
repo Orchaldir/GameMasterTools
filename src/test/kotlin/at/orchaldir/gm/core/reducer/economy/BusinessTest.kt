@@ -1,20 +1,15 @@
 package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.Employed
-import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.CharacterReference
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.InBuilding
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
-import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -22,81 +17,6 @@ import kotlin.test.assertEquals
 
 
 class BusinessTest {
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteBusiness(BUSINESS_ID_0)
-
-        @Test
-        fun `Can delete an existing business`() {
-            val state = State(Storage(Business(BUSINESS_ID_0)))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getBusinessStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Business 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        // see CreatorTest for other elements
-        @Test
-        fun `Cannot delete a business that created another element`() {
-            val newState = createState(Building(BUILDING_ID_0, builder = BusinessReference(BUSINESS_ID_0)))
-
-            assertIllegalArgument("Cannot delete Business 0, because of created elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        // see OwnershipTest for other elements
-        @Test
-        fun `Cannot delete a business that owns another element`() {
-            val ownership = History<Reference>(BusinessReference(BUSINESS_ID_0))
-            val newState = createState(Building(BUILDING_ID_0, ownership = ownership))
-
-            assertIllegalArgument("Cannot delete Business 0, because of owned elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a business where a character is employed`() {
-            val state =
-                createState(Character(CHARACTER_ID_0, employmentStatus = History(Employed(BUSINESS_ID_0, JobId(0)))))
-
-            assertIllegalArgument("Cannot delete Business 0, because it has employees!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a business where a character was previously employed`() {
-            val employmentStatus = History(Unemployed, listOf(HistoryEntry(Employed(BUSINESS_ID_0, JobId(0)), DAY0)))
-            val state = createState(Character(CHARACTER_ID_0, employmentStatus = employmentStatus))
-
-            assertIllegalArgument("Cannot delete Business 0, because it has previous employees!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a business with a long term patient`() {
-            val housingStatus = History<Position>(LongTermCareIn(BUSINESS_ID_0))
-            val state = createState(Character(CHARACTER_ID_0, housingStatus = housingStatus))
-
-            assertIllegalArgument("Cannot delete Business 0, because it has patients!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        private fun <ID : Id<ID>, ELEMENT : Element<ID>> createState(element: ELEMENT) = State(
-            listOf(
-                Storage(listOf(Business(BUSINESS_ID_0))),
-                Storage(listOf(element))
-            )
-        )
-    }
 
     @Nested
     inner class UpdateTest {

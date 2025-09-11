@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.editUniform
 import at.orchaldir.gm.app.html.item.parseUniform
 import at.orchaldir.gm.app.html.item.showUniform
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateUniform
 import at.orchaldir.gm.core.action.DeleteUniform
 import at.orchaldir.gm.core.action.UpdateUniform
@@ -16,7 +17,6 @@ import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.util.SortUniform
-import at.orchaldir.gm.core.selector.item.canDeleteUniform
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -106,13 +106,7 @@ fun Application.configureUniformRouting() {
             STORE.getState().save()
         }
         get<UniformRoutes.Delete> { delete ->
-            logger.info { "Delete uniform ${delete.id.value}" }
-
-            STORE.dispatch(DeleteUniform(delete.id))
-
-            call.respondRedirect(call.application.href(UniformRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteUniform(delete.id), UniformRoutes())
         }
         get<UniformRoutes.Edit> { edit ->
             logger.info { "Get editor for uniform ${edit.id.value}" }
@@ -213,11 +207,7 @@ private fun HTML.showUniformDetails(
         showUniform(call, state, uniform)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteUniform(uniform.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.culture.editLanguage
 import at.orchaldir.gm.app.html.culture.parseLanguage
 import at.orchaldir.gm.app.html.culture.showLanguage
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
@@ -15,7 +16,6 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.SortLanguage
 import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
 import at.orchaldir.gm.core.selector.culture.countChildren
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.item.countTexts
@@ -98,13 +98,7 @@ fun Application.configureLanguageRouting() {
             STORE.getState().save()
         }
         get<LanguageRoutes.Delete> { delete ->
-            logger.info { "Delete language ${delete.id.value}" }
-
-            STORE.dispatch(DeleteLanguage(delete.id))
-
-            call.respondRedirect(call.application.href(LanguageRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteLanguage(delete.id), LanguageRoutes())
         }
         get<LanguageRoutes.Edit> { edit ->
             logger.info { "Get editor for language ${edit.id.value}" }
@@ -197,10 +191,7 @@ private fun HTML.showLanguageDetails(
         showLanguage(call, state, language)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteLanguage(language.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

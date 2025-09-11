@@ -51,8 +51,8 @@ import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 
-val ARCHITECTURAL_ID0 = ArchitecturalStyleId(0)
-val ARCHITECTURAL_ID1 = ArchitecturalStyleId(1)
+val ARCHITECTURAL_ID_0 = ArchitecturalStyleId(0)
+val ARCHITECTURAL_ID_1 = ArchitecturalStyleId(1)
 val UNKNOWN_ARCHITECTURAL_ID = ArchitecturalStyleId(99)
 val ARTICLE_ID_0 = ArticleId(0)
 val UNKNOWN_ARTICLE_ID = ArticleId(99)
@@ -158,9 +158,9 @@ val UNKNOWN_STANDARD_ID = StandardOfLivingId(99)
 val STREET_ID_0 = StreetId(0)
 val STREET_ID_1 = StreetId(1)
 val UNKNOWN_STREET_ID = StreetId(99)
-val STREET_TYPE_ID_0 = StreetTemplateId(0)
-val STREET_TYPE_ID_1 = StreetTemplateId(1)
-val UNKNOWN_STREET_TYPE_ID = StreetTemplateId(99)
+val STREET_TEMPLATE_ID_0 = StreetTemplateId(0)
+val STREET_TEMPLATE_ID_1 = StreetTemplateId(1)
+val UNKNOWN_STREET_TEMPLATE_ID = StreetTemplateId(99)
 val TEXT_ID_0 = TextId(0)
 val TEXT_ID_1 = TextId(1)
 val UNKNOWN_TEXT_ID = TextId(99)

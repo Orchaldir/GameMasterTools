@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.realm
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EmployedByRealm
 import at.orchaldir.gm.core.model.economy.job.JobId
@@ -8,25 +9,24 @@ import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
-import at.orchaldir.gm.core.selector.util.getExistingElements
-import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
-import at.orchaldir.gm.core.selector.util.isCreator
-import at.orchaldir.gm.core.selector.util.isCurrentOrFormerOwner
+import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.character.getPreviousEmployees
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.utils.Id
 
-fun State.canDeleteRealm(realm: RealmId) = !isCreator(realm)
-        && !isCurrentOrFormerOwner(realm)
-        && countBattles(realm) == 0
-        && getCharactersLivingIn(realm).isEmpty()
-        && getCharactersPreviouslyLivingIn(realm).isEmpty()
-        && countWars(realm) == 0
-        && getSubRealms(realm).isEmpty()
-        && getPreviousSubRealms(realm).isEmpty()
-        && getOwnedTowns(realm).isEmpty()
-        && getPreviousOwnedTowns(realm).isEmpty()
-        && hasNoHasPositionsIn(realm)
+fun State.canDeleteRealm(realm: RealmId) = DeleteResult(realm)
+    .addElements(getBattles(realm))
+    .addElements(getEmployees(realm))
+    .addElements(getPreviousEmployees(realm))
+    .addElements(getSubRealms(realm))
+    .addElements(getPreviousSubRealms(realm))
+    .addElements(getOwnedTowns(realm))
+    .addElements(getPreviousOwnedTowns(realm))
+    .addElements(getWarsWithParticipant(realm))
+    .apply { canDeleteCreator(realm, it) }
+    .apply { canDeleteDestroyer(realm, it) }
+    .apply { canDeleteOwner(realm, it) }
+    .apply { canDeleteWithPositions(realm, it) }
 
 // count
 

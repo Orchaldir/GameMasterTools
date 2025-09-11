@@ -23,7 +23,6 @@ import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -133,10 +132,6 @@ class CreatorTest {
             val newState = STATE.updateStorage(Storage(element))
 
             assertTrue(newState.isCreator(CHARACTER_ID_0))
-
-            assertIllegalArgument("Cannot delete Character 0, because of created elements (${element.id().type()})!") {
-                REDUCER.invoke(newState, action)
-            }
         }
     }
 

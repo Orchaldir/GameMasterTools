@@ -1,12 +1,14 @@
 package at.orchaldir.gm.core.selector.culture
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 
-fun State.canDelete(fashion: FashionId) = getCultures(fashion).isEmpty()
+fun State.canDeleteFashion(fashion: FashionId) = DeleteResult(fashion)
+    .addElements(getCultures(fashion))
 
 fun State.getFashions(id: EquipmentId): List<Fashion> {
     val equipment = getEquipmentStorage().getOrThrow(id)

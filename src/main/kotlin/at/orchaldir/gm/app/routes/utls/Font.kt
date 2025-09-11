@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.font.editFont
 import at.orchaldir.gm.app.html.util.font.parseFont
 import at.orchaldir.gm.app.html.util.font.showFont
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
@@ -18,7 +19,6 @@ import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
-import at.orchaldir.gm.core.selector.util.canDelete
 import at.orchaldir.gm.core.selector.util.sortFonts
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.visualization.visualizeString
@@ -110,13 +110,7 @@ fun Application.configureFontRouting() {
             STORE.getState().save()
         }
         get<FontRoutes.Delete> { delete ->
-            logger.info { "Delete font ${delete.id.value}" }
-
-            STORE.dispatch(DeleteFont(delete.id))
-
-            call.respondRedirect(call.application.href(FontRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteFont(delete.id), FontRoutes())
         }
         get<FontRoutes.Edit> { edit ->
             logger.info { "Get editor for font ${edit.id.value}" }
@@ -249,9 +243,7 @@ private fun HTML.showFontDetails(
 
         action(editLink, "Edit")
         action(uploaderLink, "Upload Font File")
-        if (state.canDelete(font.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

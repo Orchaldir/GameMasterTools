@@ -1,12 +1,11 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteTreaty
 import at.orchaldir.gm.core.action.UpdateTreaty
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.model.time.holiday.Holiday
-import at.orchaldir.gm.core.model.time.holiday.HolidayOfTreaty
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Treaty
+import at.orchaldir.gm.core.model.realm.TreatyParticipant
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -24,46 +23,6 @@ class TreatyTest {
             Storage(Treaty(TREATY_ID_0)),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-
-        private val action = DeleteTreaty(TREATY_ID_0)
-
-        @Test
-        fun `Can delete an existing Treaty`() {
-            val state = State(Storage(Treaty(TREATY_ID_0)))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getTreatyStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a treaty that is celebrated by a holiday`() {
-            val purpose = HolidayOfTreaty(TREATY_ID_0)
-            val organization = Holiday(HOLIDAY_ID_0, purpose = purpose)
-            val newState = STATE.updateStorage(Storage(organization))
-
-            assertIllegalArgument("Cannot delete Treaty 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a treated that ended a war`() {
-            val status = FinishedWar(Peace(TREATY_ID_0), DAY0)
-            val war = War(WAR_ID_0, status = status)
-            val newState = STATE.updateStorage(Storage(war))
-
-            assertIllegalArgument("Cannot delete Treaty 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

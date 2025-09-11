@@ -36,11 +36,11 @@ fun main() {
     ) { shape, innerShape ->
         BiMetallicCoin(
             gold,
+            silver,
             UsingCircularShape(shape),
             radius,
             DEFAULT_THICKNESS,
             DEFAULT_RIM_FACTOR,
-            silver,
             UsingCircularShape(innerShape),
             fromPercentage(40),
             ShowValue(),

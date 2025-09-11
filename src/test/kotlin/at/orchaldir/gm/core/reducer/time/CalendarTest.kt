@@ -1,11 +1,8 @@
 package at.orchaldir.gm.core.reducer.time
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.holiday.DayInYear
@@ -20,69 +17,6 @@ import kotlin.test.assertEquals
 class CalendarTest {
 
     private val validMonths = ComplexMonths(listOf(MonthDefinition(NAME0, 10), MonthDefinition(NAME1, 10)))
-
-    @Nested
-    inner class DeleteTest {
-
-        @Test
-        fun `Can delete an existing calendar`() {
-            val state = State(Storage(Calendar(CALENDAR_ID_0)))
-            val action = DeleteCalendar(CALENDAR_ID_0)
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getCalendarStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteCalendar(CALENDAR_ID_0)
-
-            assertIllegalArgument("Requires unknown Calendar 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a calendar with children`() {
-            val state = State(
-                Storage(
-                    listOf(
-                        Calendar(CALENDAR_ID_0),
-                        Calendar(CALENDAR_ID_1, origin = ModifiedElement(CALENDAR_ID_0))
-                    )
-                )
-            )
-            val action = DeleteCalendar(CALENDAR_ID_0)
-
-            assertIllegalArgument("Cannot delete Calendar 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot delete a calendar used by a culture`() {
-            val culture = Culture(CULTURE_ID_0, calendar = CALENDAR_ID_0)
-            val state = State(listOf(Storage(culture), Storage(Calendar(CALENDAR_ID_0))))
-            val action = DeleteCalendar(CALENDAR_ID_0)
-
-            assertIllegalArgument("Cannot delete Calendar 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot delete a calendar used by a holiday`() {
-            val holiday = Holiday(HOLIDAY_ID_0, calendar = CALENDAR_ID_0)
-            val state = State(listOf(Storage(holiday), Storage(Calendar(CALENDAR_ID_0))))
-            val action = DeleteCalendar(CALENDAR_ID_0)
-
-            assertIllegalArgument("Cannot delete Calendar 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot delete a calendar used by a periodical`() {
-            val periodical = Periodical(PERIODICAL_ID_0, language = LANGUAGE_ID_1)
-            val state = State(listOf(Storage(periodical), Storage(Calendar(CALENDAR_ID_0))))
-            val action = DeleteCalendar(CALENDAR_ID_0)
-
-            assertIllegalArgument("Cannot delete Calendar 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

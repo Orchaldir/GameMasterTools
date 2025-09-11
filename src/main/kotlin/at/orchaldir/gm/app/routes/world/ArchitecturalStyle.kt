@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.selectOptionalYear
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
@@ -20,7 +21,10 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.util.sortArchitecturalStyles
 import at.orchaldir.gm.core.selector.util.sortBuildings
-import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.world.getEarliestBuilding
+import at.orchaldir.gm.core.selector.world.getPossibleStylesForRevival
+import at.orchaldir.gm.core.selector.world.getRevivedBy
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -97,13 +101,7 @@ fun Application.configureArchitecturalStyleRouting() {
             STORE.getState().save()
         }
         get<ArchitecturalStyleRoutes.Delete> { delete ->
-            logger.info { "Delete architectural style ${delete.id.value}" }
-
-            STORE.dispatch(DeleteArchitecturalStyle(delete.id))
-
-            call.respondRedirect(call.application.href(ArchitecturalStyleRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteArchitecturalStyle(delete.id), ArchitecturalStyleRoutes())
         }
         get<ArchitecturalStyleRoutes.Edit> { edit ->
             logger.info { "Get editor for architectural style ${edit.id.value}" }
@@ -196,9 +194,7 @@ private fun HTML.showArchitecturalStyleDetails(
             link(call, building.id, name)
         }
         action(editLink, "Edit")
-        if (state.canDelete(style.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

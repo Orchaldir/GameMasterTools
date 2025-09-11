@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.realm.showRealm
 import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateRealm
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
@@ -16,7 +17,6 @@ import at.orchaldir.gm.core.model.realm.REALM_TYPE
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.SortRealm
-import at.orchaldir.gm.core.selector.realm.canDeleteRealm
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.http.*
@@ -95,13 +95,7 @@ fun Application.configureRealmRouting() {
             STORE.getState().save()
         }
         get<RealmRoutes.Delete> { delete ->
-            logger.info { "Delete realm ${delete.id.value}" }
-
-            STORE.dispatch(DeleteRealm(delete.id))
-
-            call.respondRedirect(call.application.href(RealmRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteRealm(delete.id), RealmRoutes())
         }
         get<RealmRoutes.Edit> { edit ->
             logger.info { "Get editor for realm ${edit.id.value}" }
@@ -204,11 +198,7 @@ private fun HTML.showRealmDetails(
         showRealm(call, state, realm)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteRealm(realm.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.culture
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
@@ -8,8 +9,15 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.realm.getWarsWithParticipant
+import at.orchaldir.gm.core.selector.util.canDeleteCreator
+import at.orchaldir.gm.core.selector.util.canDeleteDestroyer
 
-fun State.canDelete(culture: CultureId) = getCharacters(culture).isEmpty()
+fun State.canDeleteCulture(culture: CultureId) = DeleteResult(culture)
+    .addElements(getCharacters(culture))
+    .addElements(getWarsWithParticipant(culture))
+    .apply { canDeleteCreator(culture, it) }
+    .apply { canDeleteDestroyer(culture, it) }
 
 fun State.countCultures(language: LanguageId) = getCultureStorage()
     .getAll()

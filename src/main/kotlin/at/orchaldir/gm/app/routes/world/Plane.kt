@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.world.*
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreatePlane
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
@@ -14,7 +15,6 @@ import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.sortPlanes
-import at.orchaldir.gm.core.selector.world.canDeletePlane
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -86,13 +86,7 @@ fun Application.configurePlaneRouting() {
             STORE.getState().save()
         }
         get<PlaneRoutes.Delete> { delete ->
-            logger.info { "Delete plane ${delete.id.value}" }
-
-            STORE.dispatch(DeletePlane(delete.id))
-
-            call.respondRedirect(call.application.href(PlaneRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeletePlane(delete.id), PlaneRoutes())
         }
         get<PlaneRoutes.Edit> { edit ->
             logger.info { "Get editor for plane ${edit.id.value}" }
@@ -186,11 +180,7 @@ private fun HTML.showPlaneDetails(
         showPlane(call, state, plane)
 
         action(editLink, "Edit")
-
-        if (state.canDeletePlane(plane.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

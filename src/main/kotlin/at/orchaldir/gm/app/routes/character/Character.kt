@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -15,7 +16,6 @@ import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.SortCharacter
-import at.orchaldir.gm.core.selector.character.canCreateCharacter
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
@@ -82,13 +82,7 @@ fun Application.configureCharacterRouting() {
             STORE.getState().save()
         }
         get<CharacterRoutes.Delete> { delete ->
-            logger.info { "Delete character ${delete.id.value}" }
-
-            STORE.dispatch(DeleteCharacter(delete.id))
-
-            call.respondRedirect(call.application.href(CharacterRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteCharacter(delete.id), CharacterRoutes())
         }
         get<CharacterRoutes.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}" }
@@ -217,9 +211,7 @@ private fun HTML.showAllCharacters(
             }
         }
 
-        if (state.canCreateCharacter()) {
-            action(createLink, "Add")
-        }
+        action(createLink, "Add")
         back("/")
 
         showCauseOfDeath(characters)

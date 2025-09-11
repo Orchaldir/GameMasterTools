@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.organization.showOrganization
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
@@ -16,7 +17,6 @@ import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.util.SortOrganization
-import at.orchaldir.gm.core.selector.organization.canDeleteOrganization
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortOrganizations
 import io.ktor.http.*
@@ -95,13 +95,7 @@ fun Application.configureOrganizationRouting() {
             STORE.getState().save()
         }
         get<OrganizationRoutes.Delete> { delete ->
-            logger.info { "Delete organization ${delete.id.value}" }
-
-            STORE.dispatch(DeleteOrganization(delete.id))
-
-            call.respondRedirect(call.application.href(OrganizationRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteOrganization(delete.id), OrganizationRoutes())
         }
         get<OrganizationRoutes.Edit> { edit ->
             logger.info { "Get editor for organization ${edit.id.value}" }
@@ -194,11 +188,7 @@ private fun HTML.showOrganizationDetails(
         showOrganization(call, state, organization)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteOrganization(organization.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

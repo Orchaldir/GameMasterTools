@@ -15,8 +15,8 @@ import at.orchaldir.gm.core.selector.health.getExistingDiseases
 import at.orchaldir.gm.core.selector.realm.getExistingBattles
 import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
 import at.orchaldir.gm.core.selector.realm.getExistingWars
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

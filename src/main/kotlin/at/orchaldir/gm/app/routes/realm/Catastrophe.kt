@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.realm.showCatastrophe
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateCatastrophe
 import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe
@@ -17,8 +18,7 @@ import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe
-import at.orchaldir.gm.core.selector.realm.canDeleteCatastrophe
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -96,13 +96,7 @@ fun Application.configureCatastropheRouting() {
             STORE.getState().save()
         }
         get<CatastropheRoutes.Delete> { delete ->
-            logger.info { "Delete catastrophe ${delete.id.value}" }
-
-            STORE.dispatch(DeleteCatastrophe(delete.id))
-
-            call.respondRedirect(call.application.href(CatastropheRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteCatastrophe(delete.id), CatastropheRoutes())
         }
         get<CatastropheRoutes.Edit> { edit ->
             logger.info { "Get editor for catastrophe ${edit.id.value}" }
@@ -192,11 +186,7 @@ private fun HTML.showCatastropheDetails(
         showCatastrophe(call, state, catastrophe)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteCatastrophe(catastrophe.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

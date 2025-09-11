@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
@@ -13,7 +14,6 @@ import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
-import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
@@ -102,13 +102,7 @@ fun Application.configureMaterialRouting() {
             STORE.getState().save()
         }
         get<MaterialRoutes.Delete> { delete ->
-            logger.info { "Delete material ${delete.id.value}" }
-
-            STORE.dispatch(DeleteMaterial(delete.id))
-
-            call.respondRedirect(call.application.href(MaterialRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteMaterial(delete.id), MaterialRoutes())
         }
         get<MaterialRoutes.Edit> { edit ->
             logger.info { "Get editor for material ${edit.id.value}" }
@@ -210,9 +204,7 @@ private fun HTML.showMaterialDetails(
         }
 
         action(editLink, "Edit")
-        if (state.canDeleteMaterial(material.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

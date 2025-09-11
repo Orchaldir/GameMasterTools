@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.selectMaterialCost
 import at.orchaldir.gm.app.html.economy.material.showMaterialCost
 import at.orchaldir.gm.app.parse.world.parseStreetTemplate
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateStreetTemplate
 import at.orchaldir.gm.core.action.DeleteStreetTemplate
 import at.orchaldir.gm.core.action.UpdateStreetTemplate
@@ -14,7 +15,6 @@ import at.orchaldir.gm.core.model.util.render.Solid
 import at.orchaldir.gm.core.model.world.street.STREET_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
@@ -98,13 +98,7 @@ fun Application.configureStreetTemplateRouting() {
             STORE.getState().save()
         }
         get<StreetTemplateRoutes.Delete> { delete ->
-            logger.info { "Delete street template ${delete.id.value}" }
-
-            STORE.dispatch(DeleteStreetTemplate(delete.id))
-
-            call.respondRedirect(call.application.href(StreetTemplateRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteStreetTemplate(delete.id), StreetTemplateRoutes())
         }
         get<StreetTemplateRoutes.Edit> { edit ->
             logger.info { "Get editor for street template ${edit.id.value}" }
@@ -186,9 +180,7 @@ private fun HTML.showStreetTemplateDetails(
             fieldList(call, state, state.getTowns(type.id))
 
             action(editLink, "Edit")
-            if (state.canDelete(type.id)) {
-                action(deleteLink, "Delete")
-            }
+            action(deleteLink, "Delete")
             back(backLink)
         }, {
             svg(visualizeStreetTemplate(type), 90)

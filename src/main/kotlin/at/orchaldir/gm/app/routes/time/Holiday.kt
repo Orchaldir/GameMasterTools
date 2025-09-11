@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.time.displayHolidayPurpose
 import at.orchaldir.gm.app.html.time.editHoliday
 import at.orchaldir.gm.app.html.time.parseHoliday
 import at.orchaldir.gm.app.html.time.showHoliday
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
@@ -13,8 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
-import at.orchaldir.gm.core.selector.time.canDelete
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortHolidays
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -80,13 +80,7 @@ fun Application.configureHolidayRouting() {
             STORE.getState().save()
         }
         get<HolidayRoutes.Delete> { delete ->
-            logger.info { "Delete holiday ${delete.id.value}" }
-
-            STORE.dispatch(DeleteHoliday(delete.id))
-
-            call.respondRedirect(call.application.href(HolidayRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteHoliday(delete.id), HolidayRoutes())
         }
         get<HolidayRoutes.Edit> { edit ->
             logger.info { "Get editor for holiday ${edit.id.value}" }
@@ -167,9 +161,7 @@ private fun HTML.showHolidayDetails(
         showHoliday(call, state, holiday)
 
         action(editLink, "Edit")
-        if (state.canDelete(holiday.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

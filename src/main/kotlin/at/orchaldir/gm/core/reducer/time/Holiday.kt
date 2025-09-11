@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.time
 
 import at.orchaldir.gm.core.action.CreateHoliday
-import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -9,8 +8,6 @@ import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.model.time.holiday.*
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.time.canDelete
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -19,13 +16,6 @@ val CREATE_HOLIDAY: Reducer<CreateHoliday, State> = { state, _ ->
     val holiday = Holiday(state.getHolidayStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getHolidayStorage().add(holiday)))
-}
-
-val DELETE_HOLIDAY: Reducer<DeleteHoliday, State> = { state, action ->
-    state.getHolidayStorage().require(action.id)
-    validateCanDelete(state.canDelete(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getHolidayStorage().remove(action.id)))
 }
 
 val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->

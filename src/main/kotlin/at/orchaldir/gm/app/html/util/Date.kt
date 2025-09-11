@@ -8,10 +8,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.*
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*

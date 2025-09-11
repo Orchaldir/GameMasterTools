@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.time
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.realm.TreatyId
@@ -12,8 +13,9 @@ import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.date.resolveDay
 
-fun State.canDelete(holiday: HolidayId) = getCultures(holiday).isEmpty()
-        && getOrganizations(holiday).isEmpty()
+fun State.canDeleteHoliday(holiday: HolidayId) = DeleteResult(holiday)
+    .addElements(getCultures(holiday))
+    .addElements(getOrganizations(holiday))
 
 fun State.getHolidays(calendar: CalendarId) = getHolidayStorage().getAll()
     .filter { it.calendar == calendar }

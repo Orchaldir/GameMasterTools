@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
@@ -35,8 +34,8 @@ class BuildingTest {
 
     private val BUILDING_TILE_0 = TownTile(construction = BuildingTile(BUILDING_ID_0))
     private val BUILDING_TILE_1 = TownTile(construction = BuildingTile(BUILDING_ID_1))
-    private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
-    private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1, STREET_ID_1))
+    private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0))
+    private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TEMPLATE_ID_1, STREET_ID_1))
     private val BIG_SIZE = MapSize2d(2, 1)
     private val BIG_SQUARE = square(2)
     private val OWNERSHIP = History<Reference>(UndefinedReference)
@@ -211,42 +210,6 @@ class BuildingTest {
 
             assertFalse(result.getBuildingStorage().contains(BUILDING_ID_0))
             assertFree(result, BIG_SQUARE)
-        }
-
-        @Test
-        fun `Cannot delete a single family house, if someone lives inside`() {
-            val state =
-                state.updateStorage(
-                    Storage(
-                        Character(
-                            CHARACTER_ID_0,
-                            housingStatus = History(InBuilding(BUILDING_ID_0))
-                        )
-                    )
-                )
-
-            assertIllegalArgument("Cannot delete Building 0, because it has inhabitants!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a single family house, if someone lived inside`() {
-            val housingStatus = History(Homeless, HistoryEntry(InBuilding(BUILDING_ID_0), DAY0))
-            val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, housingStatus = housingStatus)))
-
-            assertIllegalArgument("Cannot delete Building 0, because it had inhabitants!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a building used as a position`() {
-            val state = state.updateStorage(Storage(Business(BUSINESS_ID_0, position = InBuilding(BUILDING_ID_0))))
-
-            assertIllegalArgument("Cannot delete Building 0, because is used as a position!") {
-                REDUCER.invoke(state, action)
-            }
         }
     }
 

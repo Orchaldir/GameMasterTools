@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.time
 
 import at.orchaldir.gm.core.action.CreateCalendar
-import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -9,8 +8,6 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.reducer.util.checkOrigin
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.time.calendar.canDelete
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.utils.doNothing
@@ -21,13 +18,6 @@ val CREATE_CALENDAR: Reducer<CreateCalendar, State> = { state, _ ->
     val calendar = Calendar(state.getCalendarStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getCalendarStorage().add(calendar)))
-}
-
-val DELETE_CALENDAR: Reducer<DeleteCalendar, State> = { state, action ->
-    state.getCalendarStorage().require(action.id)
-    validateCanDelete(state.canDelete(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getCalendarStorage().remove(action.id)))
 }
 
 val UPDATE_CALENDAR: Reducer<UpdateCalendar, State> = { state, action ->

@@ -1,15 +1,10 @@
 package at.orchaldir.gm.core.reducer.health
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.util.CharacterReference
-import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.DeathByDisease
-import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.EvolvedElement
 import at.orchaldir.gm.core.model.util.origin.ModifiedElement
@@ -28,52 +23,6 @@ private val STATE = State(
 )
 
 class DiseaseTest {
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteDisease(DISEASE_ID_0)
-
-        @Test
-        fun `Can delete an existing disease`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getDiseaseStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Disease 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a modified disease`() {
-            val disease1 = Disease(DISEASE_ID_1, origin = ModifiedElement(DISEASE_ID_0, UndefinedReference))
-            val state = STATE.updateStorage(Storage(listOf(disease0, disease1)))
-
-            assertIllegalArgument("Cannot delete Disease 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete an evolved disease`() {
-            val disease1 = Disease(DISEASE_ID_1, origin = EvolvedElement(DISEASE_ID_0))
-            val state = STATE.updateStorage(Storage(listOf(disease0, disease1)))
-
-            assertIllegalArgument("Cannot delete Disease 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a disease that killed a character`() {
-            val dead = Dead(DAY0, DeathByDisease(DISEASE_ID_0))
-            val character = Character(CHARACTER_ID_0, vitalStatus = dead)
-            val newState = STATE.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete Disease 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

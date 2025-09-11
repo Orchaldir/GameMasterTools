@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.world
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.realm.BattleId
@@ -7,15 +8,11 @@ import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
-import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
+import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 
-fun State.canDeleteRegion(region: RegionId) = getTowns(region).isEmpty()
-        && getSubRegions(region).isEmpty()
-        && getCharactersLivingIn(region).isEmpty()
-        && getCharactersPreviouslyLivingIn(region).isEmpty()
-        && hasNoHasPositionsIn(region)
+fun State.canDeleteRegion(region: RegionId) = DeleteResult(region)
+    .addElements(getTowns(region))
+    .apply { canDeleteWithPositions(region, it) }
 
 fun State.getRegions(type: RegionDataType) = getRegionStorage()
     .getAll()
@@ -40,8 +37,4 @@ fun State.getRegionsIds(town: TownMapId) = getTownMapStorage()
     .getOrThrow(town)
     .map.tiles.mapNotNull { it.terrain.getMountain() }
     .distinct()
-
-fun State.getSubRegions(region: RegionId) = getRegionStorage()
-    .getAll()
-    .filter { it.position.isIn(region) }
 

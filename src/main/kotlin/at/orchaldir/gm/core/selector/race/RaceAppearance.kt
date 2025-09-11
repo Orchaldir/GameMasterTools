@@ -1,12 +1,14 @@
 package at.orchaldir.gm.core.selector.race
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 
-fun State.canDelete(id: RaceAppearanceId) = getRaces(id).isEmpty()
+fun State.canDeleteRaceAppearance(appearance: RaceAppearanceId) = DeleteResult(appearance)
+    .addElements(getRaces(appearance))
 
 fun State.getRaceAppearance(character: Character): RaceAppearance {
     val race = getRaceStorage().getOrThrow(character.race)

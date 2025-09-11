@@ -1,18 +1,12 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateBattle
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleParticipant
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.world.terrain.Battlefield
-import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -29,46 +23,6 @@ class BattleTest {
             Storage(Battle(BATTLE_ID_0)),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-
-        private val action = DeleteBattle(BATTLE_ID_0)
-
-        @Test
-        fun `Can delete an existing Battle`() {
-            val state = State(Storage(Battle(BATTLE_ID_0)))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getBattleStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
-        }
-
-        // see VitalStatusTest for other elements
-        @Test
-        fun `Cannot delete a battle that killed a character`() {
-            val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
-            val character = Character(CHARACTER_ID_0, vitalStatus = dead)
-            val newState = STATE.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete Battle 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a battle with a battlefield`() {
-            val region = Region(REGION_ID_0, data = Battlefield(BATTLE_ID_0))
-            val newState = STATE.updateStorage(Storage(region))
-
-            assertIllegalArgument("Cannot delete Battle 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

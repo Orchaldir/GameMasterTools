@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.world.town
 
 import at.orchaldir.gm.core.action.CreateTownMap
-import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
@@ -15,12 +14,6 @@ val CREATE_TOWN_MAP: Reducer<CreateTownMap, State> = { state, _ ->
     val town = TownMap(state.getTownMapStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getTownMapStorage().add(town)))
-}
-
-val DELETE_TOWN_MAP: Reducer<DeleteTownMap, State> = { state, action ->
-    state.getTownMapStorage().require(action.id)
-
-    noFollowUps(state.updateStorage(state.getTownMapStorage().remove(action.id)))
 }
 
 val UPDATE_TOWN_MAP: Reducer<UpdateTownMap, State> = { state, action ->

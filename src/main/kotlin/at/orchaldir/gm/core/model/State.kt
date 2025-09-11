@@ -269,16 +269,11 @@ data class State(
         return createStorage(type) as Storage<ID, ELEMENT>
     }
 
-    fun <ID : Id<ID>> getElementName(id: ID): String {
+    fun getElementName(id: Id<*>): String {
         val storage = storageMap[id.type()]
 
         if (storage != null) {
-            @Suppress("UNCHECKED_CAST")
-            val element = (storage as Storage<ID, Element<ID>>).get(id)
-
-            if (element != null) {
-                return element.name(this)
-            }
+            return storage.getName(id, this)
         } else if (id is StandardOfLivingId) {
             return data.economy.getStandardOfLiving(id).name()
         }

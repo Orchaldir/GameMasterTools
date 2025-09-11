@@ -1,13 +1,10 @@
 package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteCurrency
 import at.orchaldir.gm.core.action.UpdateCurrency
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -23,43 +20,6 @@ class CurrencyTest {
             Storage(Currency(CURRENCY_ID_0)),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteCurrency(CURRENCY_ID_0)
-
-        @Test
-        fun `Can delete an existing business`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getCurrencyStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteCurrency(UNKNOWN_CURRENCY_ID)
-
-            assertIllegalArgument("Requires unknown Currency 99!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot delete a currency with units`() {
-            val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, currency = CURRENCY_ID_0)
-            val state = state.updateStorage(Storage(unit))
-
-            assertIllegalArgument("Cannot delete Currency 0, because it has units!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a currency used by a realm`() {
-            val unit = Realm(REALM_ID_0, currency = History(CURRENCY_ID_0))
-            val state = state.updateStorage(Storage(unit))
-
-            assertIllegalArgument("Cannot delete Currency 0, because it is used by a realm!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

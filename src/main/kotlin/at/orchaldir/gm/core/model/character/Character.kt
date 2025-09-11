@@ -25,8 +25,8 @@ import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.getStartDay
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.getGenonymName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

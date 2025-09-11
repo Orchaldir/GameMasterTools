@@ -31,7 +31,7 @@ value class DistrictId(val value: Int) : Id<DistrictId> {
 data class District(
     val id: DistrictId,
     val name: Name = Name.init(id),
-    val town: TownId = TownId(0),
+    val town: TownId? = null,
     val foundingDate: Date? = null,
     val founder: Reference = UndefinedReference,
     val population: Population = UndefinedPopulation,

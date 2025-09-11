@@ -74,7 +74,7 @@ data object UndefinedCurrencyFormat : CurrencyFormat()
 @Serializable
 @SerialName("Coin")
 data class Coin(
-    val material: MaterialId = MaterialId(0),
+    val material: MaterialId,
     val shape: ComplexShape = UsingCircularShape(CircularShape.Circle),
     val radius: Distance = DEFAULT_RADIUS,
     val thickness: Distance = DEFAULT_THICKNESS,
@@ -85,7 +85,7 @@ data class Coin(
 @Serializable
 @SerialName("Holed")
 data class HoledCoin(
-    val material: MaterialId = MaterialId(0),
+    val material: MaterialId,
     val shape: ComplexShape = UsingCircularShape(CircularShape.Circle),
     val radius: Distance = DEFAULT_RADIUS,
     val thickness: Distance = DEFAULT_THICKNESS,
@@ -104,12 +104,12 @@ data class HoledCoin(
 @Serializable
 @SerialName("BiMetallic")
 data class BiMetallicCoin(
-    val material: MaterialId = MaterialId(0),
+    val material: MaterialId,
+    val innerMaterial: MaterialId,
     val shape: ComplexShape = UsingCircularShape(CircularShape.Circle),
     val radius: Distance = DEFAULT_RADIUS,
     val thickness: Distance = DEFAULT_THICKNESS,
     val rimFactor: Factor = DEFAULT_RIM_FACTOR,
-    val innerMaterial: MaterialId = MaterialId(1),
     val innerShape: ComplexShape = UsingCircularShape(CircularShape.Circle),
     val innerFactor: Factor = DEFAULT_RADIUS_FACTOR,
     val front: CoinSide = BlankCoinSide,

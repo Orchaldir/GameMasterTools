@@ -1,12 +1,14 @@
 package at.orchaldir.gm.core.selector.religion
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.God
 
-fun State.canDeleteDomain(domain: DomainId) = getGodsWith(domain).isEmpty()
+fun State.canDeleteDomain(domain: DomainId) = DeleteResult(domain)
+    .addElements(getGodsWith(domain))
 
 fun State.countDomains(job: JobId) = getDomainStorage()
     .getAll()

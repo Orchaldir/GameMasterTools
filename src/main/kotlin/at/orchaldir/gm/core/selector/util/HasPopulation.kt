@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.util
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
@@ -16,18 +17,18 @@ data class PopulationEntry<ID : Id<ID>>(
     val percentage: Factor,
 )
 
-fun State.hasNoPopulation(race: RaceId) = !hasAnyPopulation(race)
-fun State.hasAnyPopulation(race: RaceId) = hasAnyPopulation(getDistrictStorage(), race)
-        || hasAnyPopulation(getRealmStorage(), race)
-        || hasAnyPopulation(getTownStorage(), race)
+fun State.canDeletePopulationOf(race: RaceId, result: DeleteResult) = result
+    .addElements(getPopulations(getDistrictStorage(), race))
+    .addElements(getPopulations(getRealmStorage(), race))
+    .addElements(getPopulations(getTownStorage(), race))
 
-fun <ID : Id<ID>, ELEMENT> hasAnyPopulation(
+fun <ID : Id<ID>, ELEMENT> getPopulations(
     storage: Storage<ID, ELEMENT>,
     race: RaceId,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = storage.getAll()
-    .any { it.population().contains(race) }
+    .filter { it.population().contains(race) }
 
 fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     storage: Storage<ID, ELEMENT>,

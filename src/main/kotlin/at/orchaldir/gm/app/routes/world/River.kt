@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseRiver
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
@@ -10,7 +11,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -74,13 +74,7 @@ fun Application.configureRiverRouting() {
             STORE.getState().save()
         }
         get<RiverRoutes.Delete> { delete ->
-            logger.info { "Delete river ${delete.id.value}" }
-
-            STORE.dispatch(DeleteRiver(delete.id))
-
-            call.respondRedirect(call.application.href(RiverRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteRiver(delete.id), RiverRoutes())
         }
         get<RiverRoutes.Edit> { edit ->
             logger.info { "Get editor for river ${edit.id.value}" }
@@ -134,9 +128,7 @@ private fun HTML.showRiverDetails(
         fieldList(call, state, state.getTowns(river.id))
 
         action(editLink, "Edit")
-        if (state.canDelete(river.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

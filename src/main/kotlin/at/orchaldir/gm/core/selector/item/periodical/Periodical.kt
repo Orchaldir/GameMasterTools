@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.item.periodical
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -8,11 +9,8 @@ import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 
-fun State.canDeletePeriodical(periodical: PeriodicalId) = countPeriodicalIssues(periodical) == 0
-
-fun State.countPeriodicals(calendar: CalendarId) = getPeriodicalStorage()
-    .getAll()
-    .count { b -> b.calendar == calendar }
+fun State.canDeletePeriodical(periodical: PeriodicalId) = DeleteResult(periodical)
+    .addElements(getPeriodicalIssues(periodical))
 
 fun State.countPeriodicals(language: LanguageId) = getPeriodicalStorage()
     .getAll()

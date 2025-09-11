@@ -1,14 +1,8 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.OnMoon
-import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -25,43 +19,6 @@ class MoonTest {
             Storage(Plane(PLANE_ID_0)),
         )
     )
-    val onMoon = OnMoon(MOON_ID_0)
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteMoon(MOON_ID_0)
-
-        @Test
-        fun `Can delete an existing moon`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getMoonStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Moon 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a moon used as home`() {
-            val housingStatus = History<Position>(onMoon)
-            val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
-            val newState = state.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete Moon 0, because it is used!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a moon used by a position`() {
-            val business = Business(BUSINESS_ID_0, position = onMoon)
-            val state = state.updateStorage(Storage(business))
-
-            assertIllegalArgument("Cannot delete Moon 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

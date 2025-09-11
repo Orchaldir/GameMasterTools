@@ -1,14 +1,20 @@
 package at.orchaldir.gm.core.selector.economy.money
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.selector.realm.getRealmsWithCurrency
+import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCurrency
 import at.orchaldir.gm.core.selector.util.getExistingElements
 
-fun State.canDeleteCurrency(id: CurrencyId) = countCurrencyUnits(id) == 0
+fun State.canDeleteCurrency(currency: CurrencyId) = DeleteResult(currency)
+    .addElements(getCurrencyUnits(currency))
+    .addElements(getRealmsWithCurrency(currency))
+    .addElements(getRealmsWithPreviousCurrency(currency))
 
 // get
 

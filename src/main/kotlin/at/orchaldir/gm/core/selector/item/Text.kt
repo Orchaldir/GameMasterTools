@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.item
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
@@ -13,7 +14,8 @@ import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.selector.util.getReferenceName
 
-fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
+fun State.canDeleteText(text: TextId) = DeleteResult(text)
+    .addElements(getTranslationsOf(text))
 
 fun State.countTexts(font: FontId) = getTextStorage()
     .getAll()

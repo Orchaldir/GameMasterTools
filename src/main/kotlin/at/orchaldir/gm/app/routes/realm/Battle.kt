@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.realm.showBattle
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateBattle
 import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateBattle
@@ -16,7 +17,6 @@ import at.orchaldir.gm.core.model.realm.BATTLE_TYPE
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.util.SortBattle
-import at.orchaldir.gm.core.selector.realm.canDeleteBattle
 import at.orchaldir.gm.core.selector.util.sortBattles
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -94,13 +94,7 @@ fun Application.configureBattleRouting() {
             STORE.getState().save()
         }
         get<BattleRoutes.Delete> { delete ->
-            logger.info { "Delete battle ${delete.id.value}" }
-
-            STORE.dispatch(DeleteBattle(delete.id))
-
-            call.respondRedirect(call.application.href(BattleRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteBattle(delete.id), BattleRoutes())
         }
         get<BattleRoutes.Edit> { edit ->
             logger.info { "Get editor for battle ${edit.id.value}" }
@@ -185,11 +179,7 @@ private fun HTML.showBattleDetails(
         showBattle(call, state, battle)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteBattle(battle.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

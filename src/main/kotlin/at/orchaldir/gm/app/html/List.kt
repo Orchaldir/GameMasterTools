@@ -60,10 +60,10 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldIdList(
     }
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.fieldIdList(
+fun HtmlBlockTag.fieldIdList(
     call: ApplicationCall,
     state: State,
-    ids: Collection<ID>,
+    ids: Collection<Id<*>>,
 ) {
     if (ids.isNotEmpty()) {
         val first = ids.first()

@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.periodical.editPeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.parsePeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.showPeriodicalIssue
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreatePeriodicalIssue
 import at.orchaldir.gm.core.action.DeletePeriodicalIssue
 import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
@@ -13,7 +14,6 @@ import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_ISSUE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
-import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodicalIssue
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -91,13 +91,7 @@ fun Application.configurePeriodicalIssueRouting() {
             STORE.getState().save()
         }
         get<PeriodicalIssueRoutes.Delete> { delete ->
-            logger.info { "Delete periodical issues ${delete.id.value}" }
-
-            STORE.dispatch(DeletePeriodicalIssue(delete.id))
-
-            call.respondRedirect(call.application.href(PeriodicalIssueRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeletePeriodicalIssue(delete.id), PeriodicalIssueRoutes())
         }
         get<PeriodicalIssueRoutes.Edit> { edit ->
             logger.info { "Get editor for periodical issues ${edit.id.value}" }
@@ -177,9 +171,7 @@ private fun HTML.showPeriodicalIssueDetails(
         showPeriodicalIssue(call, state, periodical)
 
         action(editLink, "Edit")
-        if (state.canDeletePeriodicalIssue(periodical.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

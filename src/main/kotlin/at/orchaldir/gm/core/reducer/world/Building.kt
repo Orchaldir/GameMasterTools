@@ -12,16 +12,14 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.reducer.util.*
+import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkOwnership
+import at.orchaldir.gm.core.reducer.util.checkPosition
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.getBuildingsForPosition
-import at.orchaldir.gm.core.selector.util.hasNoHasPositionsIn
-import at.orchaldir.gm.core.selector.world.getBuildingsForStreet
-import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment
-import at.orchaldir.gm.core.selector.world.getStreetIds
-import at.orchaldir.gm.core.selector.world.getUsedHouseNumbers
+import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -47,9 +45,7 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
 val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
     val id = action.id
 
-    validateCanDelete(state.getCharactersLivingIn(id).isEmpty(), id, "it has inhabitants")
-    validateCanDelete(state.getCharactersPreviouslyLivingIn(id).isEmpty(), id, "it had inhabitants")
-    validateCanDelete(state.hasNoHasPositionsIn(id), id, "is used as a position")
+    state.canDeleteBuilding(action.id).validate()
 
     val building = state.getBuildingStorage().getOrThrow(id)
 

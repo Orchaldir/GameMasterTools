@@ -100,11 +100,11 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
     }
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
+fun HtmlBlockTag.fieldLink(
     label: String,
     call: ApplicationCall,
     state: State,
-    id: ID,
+    id: Id<*>,
 ) {
     field(label) {
         link(call, state, id)
@@ -311,18 +311,18 @@ fun HtmlBlockTag.link(
 
 // element
 
-fun <ID : Id<ID>> HtmlBlockTag.link(
+fun HtmlBlockTag.link(
     call: ApplicationCall,
     state: State,
-    id: ID,
+    id: Id<*>,
 ) {
     link(call, id, state.getElementName(id))
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.optionalLink(
+fun HtmlBlockTag.optionalLink(
     call: ApplicationCall,
     state: State,
-    id: ID?,
+    id: Id<*>?,
 ) {
     if (id != null) {
         link(call, id, state.getElementName(id))
@@ -350,21 +350,21 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
     text: String,
 ) = link(href(call, element.id()), text)
 
-fun <ID : Id<ID>> HtmlBlockTag.link(
+fun HtmlBlockTag.link(
     call: ApplicationCall,
-    id: ID,
+    id: Id<*>,
     text: String,
 ) = link(href(call, id), text)
 
-fun <ID : Id<ID>> HtmlBlockTag.link(
+fun HtmlBlockTag.link(
     call: ApplicationCall,
-    id: ID,
+    id: Id<*>,
     content: A.() -> Unit,
 ) = link(href(call, id), content)
 
-fun <ID : Id<ID>> href(
+fun href(
     call: ApplicationCall,
-    id: ID,
+    id: Id<*>,
 ) = when (id) {
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
     is ArticleId -> call.application.href(ArticleRoutes.Details(id))

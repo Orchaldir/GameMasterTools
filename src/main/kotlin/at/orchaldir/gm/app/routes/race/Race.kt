@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
@@ -21,7 +22,6 @@ import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.race.canDelete
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.getTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
@@ -88,13 +88,7 @@ fun Application.configureRaceRouting() {
             STORE.getState().save()
         }
         get<RaceRoutes.Delete> { delete ->
-            logger.info { "Delete race ${delete.id.value}" }
-
-            STORE.dispatch(DeleteRace(delete.id))
-
-            call.respondRedirect(call.application.href(RaceRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteRace(delete.id), RaceRoutes())
         }
         get<RaceRoutes.Edit> { edit ->
             logger.info { "Get editor for race ${edit.id.value}" }
@@ -241,11 +235,7 @@ private fun HTML.showRaceDetails(
 
             action(editLink, "Edit")
             action(cloneLink, "Clone")
-
-            if (state.canDelete(race.id)) {
-                action(deleteLink, "Delete")
-            }
-
+            action(deleteLink, "Delete")
             back(backLink)
         }, {
             race.genders.getValidValues().forEach { gender ->

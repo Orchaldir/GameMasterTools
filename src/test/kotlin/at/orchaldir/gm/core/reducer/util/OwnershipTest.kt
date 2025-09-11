@@ -1,19 +1,14 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
-import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -27,7 +22,7 @@ class OwnerTest {
             Storage(Character(CHARACTER_ID_2, birthDate = DAY0)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
             Storage(Realm(REALM_ID_0, date = DAY0)),
-            Storage(listOf(StreetTemplate(STREET_TYPE_ID_0), StreetTemplate(STREET_TYPE_ID_0))),
+            Storage(listOf(StreetTemplate(STREET_TEMPLATE_ID_0), StreetTemplate(STREET_TEMPLATE_ID_0))),
             Storage(Town(TOWN_ID_0, foundingDate = DAY0)),
         )
     )
@@ -48,74 +43,6 @@ class OwnerTest {
         CharacterReference(CHARACTER_ID_2),
         HistoryEntry(TownReference(TOWN_ID_0), DAY1),
     )
-
-    @Nested
-    inner class CanDeleteOwnerTest {
-        private val action = DeleteCharacter(CHARACTER_ID_2)
-        val ownedByCharacter = CharacterReference(CHARACTER_ID_2)
-        private val owner = History<Reference>(ownedByCharacter)
-        private val previousOwner = History(UndefinedReference, listOf(HistoryEntry(ownedByCharacter, Day(0))))
-
-        @Test
-        fun `Owns a building`() {
-            val building = Building(BUILDING_ID_0, ownership = owner)
-            val newState = STATE.updateStorage(Storage(building))
-
-            assertIllegalArgument("Cannot delete Character 2, because of owned elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Owned a building`() {
-            val building = Building(BUILDING_ID_0, ownership = previousOwner)
-            val newState = STATE.updateStorage(Storage(building))
-
-            assertIllegalArgument("Cannot delete Character 2, because of previously owned elements (Building)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Owns a business`() {
-            val business = Business(BUSINESS_ID_0, ownership = owner)
-            val newState = STATE.updateStorage(Storage(business))
-
-            assertIllegalArgument("Cannot delete Character 2, because of owned elements (Business)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Owned a business`() {
-            val business = Business(BUSINESS_ID_0, ownership = previousOwner)
-            val newState = STATE.updateStorage(Storage(business))
-
-            assertIllegalArgument("Cannot delete Character 2, because of previously owned elements (Business)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Owns a periodical`() {
-            val periodical = Periodical(PERIODICAL_ID_0, ownership = owner)
-            val newState = STATE.updateStorage(Storage(periodical))
-
-            assertIllegalArgument("Cannot delete Character 2, because of owned elements (Periodical)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-
-        @Test
-        fun `Owned a periodical`() {
-            val periodical = Periodical(PERIODICAL_ID_0, ownership = previousOwner)
-            val newState = STATE.updateStorage(Storage(periodical))
-
-            assertIllegalArgument("Cannot delete Character 2, because of previously owned elements (Periodical)!") {
-                REDUCER.invoke(newState, action)
-            }
-        }
-    }
 
     @Nested
     inner class CheckOwnershipTest {

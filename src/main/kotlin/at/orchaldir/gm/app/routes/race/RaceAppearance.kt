@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.race.editRaceAppearance
 import at.orchaldir.gm.app.html.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.race.showRaceAppearance
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateRaceAppearance
@@ -15,7 +16,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.selector.race.canDelete
 import at.orchaldir.gm.core.selector.race.getRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -95,13 +95,7 @@ fun Application.configureRaceAppearanceRouting() {
             STORE.getState().save()
         }
         get<AppearanceRoutes.Delete> { delete ->
-            logger.info { "Delete race appearance ${delete.id.value}" }
-
-            STORE.dispatch(DeleteRaceAppearance(delete.id))
-
-            call.respondRedirect(call.application.href(AppearanceRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteRaceAppearance(delete.id), AppearanceRoutes())
         }
         get<AppearanceRoutes.Edit> { edit ->
             logger.info { "Get editor for race appearance ${edit.id.value}" }
@@ -211,11 +205,7 @@ private fun HTML.showDetails(
 
             action(editLink, "Edit")
             action(cloneLink, "Clone")
-
-            if (state.canDelete(appearance.id)) {
-                action(deleteLink, "Delete")
-            }
-
+            action(deleteLink, "Delete")
             back(backLink)
         }, {
             showRandomExamples(state, appearance, 20, 20)

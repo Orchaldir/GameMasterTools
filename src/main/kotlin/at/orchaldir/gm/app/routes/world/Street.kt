@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseStreet
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateStreet
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
@@ -12,7 +13,6 @@ import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
-import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -76,13 +76,7 @@ fun Application.configureStreetRouting() {
             STORE.getState().save()
         }
         get<StreetRoutes.Delete> { delete ->
-            logger.info { "Delete street ${delete.id.value}" }
-
-            STORE.dispatch(DeleteStreet(delete.id))
-
-            call.respondRedirect(call.application.href(StreetRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteStreet(delete.id), StreetRoutes())
         }
         get<StreetRoutes.Edit> { edit ->
             logger.info { "Get editor for street ${edit.id.value}" }
@@ -147,9 +141,7 @@ private fun HTML.showStreetDetails(
             }
         }
         action(editLink, "Edit")
-        if (state.canDelete(street.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

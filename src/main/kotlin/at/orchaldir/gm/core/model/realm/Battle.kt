@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.realm
 
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -36,4 +37,6 @@ data class Battle(
     override fun sources() = sources
     override fun startDate() = date
 
+    fun isLedBy(character: CharacterId) = participants.any { it.leader == character }
+    fun isParticipant(realm: RealmId) = participants.any { it.realm == realm }
 }

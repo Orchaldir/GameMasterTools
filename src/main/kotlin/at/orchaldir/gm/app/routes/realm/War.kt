@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.realm.showWar
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateWar
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
@@ -17,9 +18,8 @@ import at.orchaldir.gm.core.model.realm.WAR_TYPE
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.model.util.SortWar
-import at.orchaldir.gm.core.selector.realm.canDeleteWar
 import at.orchaldir.gm.core.selector.realm.countBattles
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -97,13 +97,7 @@ fun Application.configureWarRouting() {
             STORE.getState().save()
         }
         get<WarRoutes.Delete> { delete ->
-            logger.info { "Delete war ${delete.id.value}" }
-
-            STORE.dispatch(DeleteWar(delete.id))
-
-            call.respondRedirect(call.application.href(WarRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteWar(delete.id), WarRoutes())
         }
         get<WarRoutes.Edit> { edit ->
             logger.info { "Get editor for war ${edit.id.value}" }
@@ -197,11 +191,7 @@ private fun HTML.showWarDetails(
         showWar(call, state, war)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteWar(war.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

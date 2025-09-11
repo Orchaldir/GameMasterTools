@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeletePeriodicalIssue
 import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -23,23 +22,6 @@ class PeriodicalIssueTest {
             Storage(issue0),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeletePeriodicalIssue(ISSUE_ID_0)
-
-        @Test
-        fun `Can delete an existing issue`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getPeriodicalIssueStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeletePeriodicalIssue(UNKNOWN_ISSUE_ID)
-
-            assertIllegalArgument("Requires unknown Periodical Issue 99!") { REDUCER.invoke(State(), action) }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

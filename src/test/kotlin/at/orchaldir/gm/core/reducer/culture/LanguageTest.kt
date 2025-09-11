@@ -1,19 +1,14 @@
 package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
-import at.orchaldir.gm.core.model.item.periodical.Periodical
-import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.EvolvedElement
-import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -30,83 +25,6 @@ class LanguageTest {
             Storage(Language(LANGUAGE_ID_0)),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteLanguage(LANGUAGE_ID_0)
-
-        @Test
-        fun `Can delete an existing language`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getLanguageStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Language 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete a language with children`() {
-            val state = state.updateStorage(
-                Storage(
-                    listOf(
-                        Language(LANGUAGE_ID_0),
-                        Language(LANGUAGE_ID_1, origin = EvolvedElement(LANGUAGE_ID_0.value))
-                    )
-                )
-            )
-
-            assertIllegalArgument("Cannot delete Language 0, because it has children!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
-        }
-
-        @Test
-        fun `Cannot delete a language known by a character`() {
-            val character = Character(CHARACTER_ID_0, languages = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native))
-            val state = state.updateStorage(Storage(character))
-
-            assertIllegalArgument("Cannot delete Language 0, because it is known by characters!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a language used by a periodical`() {
-            val periodical = Periodical(PERIODICAL_ID_0, language = LANGUAGE_ID_0)
-            val state = state.updateStorage(Storage(periodical))
-
-            assertIllegalArgument("Cannot delete Language 0, because it is used by a periodical!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a language used by a plane`() {
-            val plane = Plane(PLANE_ID_0, languages = setOf(LANGUAGE_ID_0))
-            val state = state.updateStorage(Storage(plane))
-
-            assertIllegalArgument("Cannot delete Language 0, because it is used by a plane!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-        @Test
-        fun `Cannot delete a language used by a text`() {
-            val text = Text(TEXT_ID_0, language = LANGUAGE_ID_0)
-            val state = state.updateStorage(Storage(text))
-
-            assertIllegalArgument("Cannot delete Language 0, because it is used by a text!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

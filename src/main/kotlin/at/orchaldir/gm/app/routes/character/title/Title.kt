@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.title.editTitle
 import at.orchaldir.gm.app.html.character.title.parseTitle
 import at.orchaldir.gm.app.html.character.title.showTitle
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateTitle
 import at.orchaldir.gm.core.action.DeleteTitle
 import at.orchaldir.gm.core.action.UpdateTitle
@@ -13,7 +14,6 @@ import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.util.SortTitle
-import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.util.sortTitles
 import io.ktor.http.*
@@ -95,13 +95,7 @@ fun Application.configureTitleRouting() {
             STORE.getState().save()
         }
         get<TitleRoutes.Delete> { delete ->
-            logger.info { "Delete title ${delete.id.value}" }
-
-            STORE.dispatch(DeleteTitle(delete.id))
-
-            call.respondRedirect(call.application.href(TitleRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteTitle(delete.id), TitleRoutes())
         }
         get<TitleRoutes.Edit> { edit ->
             logger.info { "Get editor for title ${edit.id.value}" }
@@ -186,9 +180,7 @@ private fun HTML.showTitleDetails(
         showTitle(call, state, title)
 
         action(editLink, "Edit")
-        if (state.canDeleteTitle(title.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

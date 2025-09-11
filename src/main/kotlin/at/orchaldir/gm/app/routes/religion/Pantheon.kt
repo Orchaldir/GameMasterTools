@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editPantheon
 import at.orchaldir.gm.app.html.religion.parsePantheon
 import at.orchaldir.gm.app.html.religion.showPantheon
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreatePantheon
 import at.orchaldir.gm.core.action.DeletePantheon
 import at.orchaldir.gm.core.action.UpdatePantheon
@@ -13,7 +14,6 @@ import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.SortPantheon
-import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.sortPantheons
 import io.ktor.http.*
@@ -95,13 +95,7 @@ fun Application.configurePantheonRouting() {
             STORE.getState().save()
         }
         get<PantheonRoutes.Delete> { delete ->
-            logger.info { "Delete pantheon ${delete.id.value}" }
-
-            STORE.dispatch(DeletePantheon(delete.id))
-
-            call.respondRedirect(call.application.href(PantheonRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeletePantheon(delete.id), PantheonRoutes())
         }
         get<PantheonRoutes.Edit> { edit ->
             logger.info { "Get editor for pantheon ${edit.id.value}" }
@@ -188,11 +182,7 @@ private fun HTML.showPantheonDetails(
         showPantheon(call, state, pantheon)
 
         action(editLink, "Edit")
-
-        if (state.canDeletePantheon(pantheon.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

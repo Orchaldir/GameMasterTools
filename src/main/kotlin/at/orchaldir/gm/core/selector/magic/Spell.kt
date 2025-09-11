@@ -1,16 +1,22 @@
 package at.orchaldir.gm.core.selector.magic
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.selector.religion.countDomains
+import at.orchaldir.gm.core.selector.economy.getJobsContaining
+import at.orchaldir.gm.core.selector.item.getTextsContaining
+import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.util.getExistingElements
 
-fun State.canDeleteSpell(spell: SpellId) = getSpellsBasedOn(spell).isEmpty()
-        && countDomains(spell) == 0
-        && countSpellGroups(spell) == 0
+fun State.canDeleteSpell(spell: SpellId) = DeleteResult(spell)
+    .addElements(getDomainsAssociatedWith(spell))
+    .addElements(getJobsContaining(spell))
+    .addElements(getSpellsBasedOn(spell))
+    .addElements(getSpellGroups(spell))
+    .addElements(getTextsContaining(spell))
 
 fun countEachLanguage(spells: Collection<Spell>) = spells
     .filter { it.language != null }

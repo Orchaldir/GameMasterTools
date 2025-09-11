@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.action.UpdateLegalCode
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LegalCode
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -21,34 +18,6 @@ class LegalCodeTest {
             Storage(LegalCode(LEGAL_CODE_ID_0)),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeleteLegalCode(LEGAL_CODE_ID_0)
-
-        @Test
-        fun `Can delete an existing code`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getLegalCodeStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            val action = DeleteLegalCode(UNKNOWN_LEGAL_CODE_ID)
-
-            assertIllegalArgument("Requires unknown Legal Code 99!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
-        fun `Cannot delete a legal code that is used by a realm`() {
-            val realm = Realm(REALM_ID_0, legalCode = History(LEGAL_CODE_ID_0))
-            val state = STATE.updateStorage(Storage(realm))
-
-            assertIllegalArgument("Cannot delete Legal Code 0, because it is used!") {
-                REDUCER.invoke(state, action)
-            }
-        }
-
-    }
 
     @Nested
     inner class UpdateTest {

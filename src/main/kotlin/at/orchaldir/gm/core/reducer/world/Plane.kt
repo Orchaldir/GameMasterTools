@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.CreatePlane
-import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.*
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
-import at.orchaldir.gm.core.selector.world.canDeletePlane
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
 import at.orchaldir.gm.utils.doNothing
@@ -17,14 +14,6 @@ val CREATE_PLANE: Reducer<CreatePlane, State> = { state, _ ->
     val plane = Plane(state.getPlaneStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getPlaneStorage().add(plane)))
-}
-
-val DELETE_PLANE: Reducer<DeletePlane, State> = { state, action ->
-    state.getPlaneStorage().require(action.id)
-
-    validateCanDelete(state.canDeletePlane(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getPlaneStorage().remove(action.id)))
 }
 
 val UPDATE_PLANE: Reducer<UpdatePlane, State> = { state, action ->

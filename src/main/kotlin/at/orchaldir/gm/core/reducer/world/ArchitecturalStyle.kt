@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.CreateArchitecturalStyle
-import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -9,10 +8,8 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.validateCanDelete
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
-import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -21,14 +18,6 @@ val CREATE_ARCHITECTURAL_STYLE: Reducer<CreateArchitecturalStyle, State> = { sta
     val style = ArchitecturalStyle(state.getArchitecturalStyleStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().add(style)))
-}
-
-val DELETE_ARCHITECTURAL_STYLE: Reducer<DeleteArchitecturalStyle, State> = { state, action ->
-    state.getArchitecturalStyleStorage().require(action.id)
-
-    validateCanDelete(state.canDelete(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().remove(action.id)))
 }
 
 val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { state, action ->

@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.display
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.map.MapSize2d

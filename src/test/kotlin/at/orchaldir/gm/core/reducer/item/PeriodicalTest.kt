@@ -1,13 +1,11 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.item.periodical.Periodical
-import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
@@ -21,35 +19,6 @@ import kotlin.test.assertEquals
 
 
 class PeriodicalTest {
-
-    @Nested
-    inner class DeleteTest {
-        val action = DeletePeriodical(PERIODICAL_ID_0)
-
-        @Test
-        fun `Can delete an existing periodical`() {
-            val state = State(Storage(Periodical(PERIODICAL_ID_0)))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getPeriodicalStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Periodical 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete, if it has an issue`() {
-            val state = State(
-                listOf(
-                    Storage(Periodical(PERIODICAL_ID_0)),
-                    Storage(PeriodicalIssue(ISSUE_ID_0, PERIODICAL_ID_0)),
-                )
-            )
-
-            assertIllegalArgument("Cannot delete Periodical 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-    }
 
     @Nested
     inner class UpdateTest {

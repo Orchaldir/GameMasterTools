@@ -1,14 +1,67 @@
 package at.orchaldir.gm.core.selector.economy.money
 
 import at.orchaldir.gm.CURRENCY_ID_0
+import at.orchaldir.gm.CURRENCY_UNIT_ID_0
+import at.orchaldir.gm.DAY0
+import at.orchaldir.gm.REALM_ID_0
+import at.orchaldir.gm.core.model.DeleteResult
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.economy.money.Price
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class CurrencyTest {
+
+    @Nested
+    inner class CanDeleteTest {
+        private val currency = Currency(CURRENCY_ID_0)
+        private val state = State(
+            listOf(
+                Storage(currency),
+            )
+        )
+
+        @Test
+        fun `Cannot delete a currency with units`() {
+            val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, currency = CURRENCY_ID_0)
+            val newState = state.updateStorage(Storage(unit))
+
+            failCanDelete(newState, CURRENCY_UNIT_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a currency used by a realm`() {
+            val realm = Realm(REALM_ID_0, currency = History(CURRENCY_ID_0))
+            val newState = state.updateStorage(Storage(realm))
+
+            failCanDelete(newState, REALM_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a currency used by a realm in the past`() {
+            val history = History(null, HistoryEntry(CURRENCY_ID_0, DAY0))
+            val realm = Realm(REALM_ID_0, currency = history)
+            val newState = state.updateStorage(Storage(realm))
+
+            failCanDelete(newState, REALM_ID_0)
+        }
+
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
+            assertEquals(
+                DeleteResult(CURRENCY_ID_0).addId(blockingId),
+                state.canDeleteCurrency(CURRENCY_ID_0)
+            )
+        }
+    }
 
     @Nested
     inner class DisplayDollarTest {

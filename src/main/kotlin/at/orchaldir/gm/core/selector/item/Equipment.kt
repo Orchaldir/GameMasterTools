@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.item
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -9,13 +10,12 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.selector.character.getCharactersWith
+import at.orchaldir.gm.core.selector.culture.getFashions
 
-fun State.canDelete(equipment: EquipmentId) = getCharacterStorage().getAll()
-    .none {
-        it.equipmentMap
-            .getAllEquipment()
-            .any { pair -> pair.first == equipment }
-    }
+fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
+    .addElements(getCharactersWith(equipment))
+    .addElements(getFashions(equipment))
 
 // count
 

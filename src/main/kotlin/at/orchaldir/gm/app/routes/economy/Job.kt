@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.editJob
 import at.orchaldir.gm.app.html.economy.parseJob
 import at.orchaldir.gm.app.html.economy.showJob
+import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
@@ -12,7 +13,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
 import at.orchaldir.gm.core.selector.character.countCharactersWithCurrentOrFormerJob
-import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.religion.countDomains
@@ -94,13 +94,7 @@ fun Application.configureJobRouting() {
             STORE.getState().save()
         }
         get<JobRoutes.Delete> { delete ->
-            logger.info { "Delete job ${delete.id.value}" }
-
-            STORE.dispatch(DeleteJob(delete.id))
-
-            call.respondRedirect(call.application.href(JobRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteJob(delete.id), JobRoutes())
         }
         get<JobRoutes.Edit> { edit ->
             logger.info { "Get editor for job ${edit.id.value}" }
@@ -199,9 +193,7 @@ private fun HTML.showJobDetails(
         showJob(call, state, job)
 
         action(editLink, "Edit")
-        if (state.canDelete(job.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

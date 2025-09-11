@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.util
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.believedIn
@@ -10,6 +11,10 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
 // can delete
+
+fun <ID : Id<ID>> State.canDeleteTargetOfBelief(id: ID, result: DeleteResult) = result
+    .addElements(getCurrentOrFormerBelievers(getCharacterStorage(), id))
+    .addElements(getCurrentOrFormerBelievers(getOrganizationStorage(), id))
 
 fun <ID : Id<ID>> State.canDeleteHasBelief(id: ID) = getCurrentOrFormerBelievers(getCharacterStorage(), id).isEmpty()
         && getCurrentOrFormerBelievers(getOrganizationStorage(), id).isEmpty()
