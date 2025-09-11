@@ -39,7 +39,7 @@ class EquipmentTest {
             val character = Character(CHARACTER_ID_0, equipmentMap = map)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -48,10 +48,10 @@ class EquipmentTest {
             val fashion = Fashion(FASHION_ID_0, clothing = ClothingFashion(equipmentRarityMap = map))
             val newState = state.updateStorage(Storage(fashion))
 
-            assertCanDelete(newState, FASHION_ID_0)
+            failCanDelete(newState, FASHION_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(EQUIPMENT_ID_0).addId(blockingId),
                 state.canDeleteEquipment(EQUIPMENT_ID_0)

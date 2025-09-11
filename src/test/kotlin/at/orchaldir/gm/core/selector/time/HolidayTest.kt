@@ -30,7 +30,7 @@ class HolidayTest {
             val culture = Culture(CULTURE_ID_0, holidays = setOf(HOLIDAY_ID_0))
             val newState = state.updateStorage(Storage(culture))
 
-            assertCanDelete(newState, CULTURE_ID_0)
+            failCanDelete(newState, CULTURE_ID_0)
         }
 
         @Test
@@ -38,10 +38,10 @@ class HolidayTest {
             val organization = Organization(ORGANIZATION_ID_0, holidays = setOf(HOLIDAY_ID_0))
             val newState = state.updateStorage(Storage(organization))
 
-            assertCanDelete(newState, ORGANIZATION_ID_0)
+            failCanDelete(newState, ORGANIZATION_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(HOLIDAY_ID_0).addId(blockingId), state.canDeleteHoliday(HOLIDAY_ID_0))
         }
     }

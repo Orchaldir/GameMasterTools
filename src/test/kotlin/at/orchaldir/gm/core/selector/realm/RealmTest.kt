@@ -57,7 +57,7 @@ class RealmTest {
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -65,7 +65,7 @@ class RealmTest {
             val building = Building(BUILDING_ID_0, builder = RealmReference(REALM_ID_0))
             val newState = state.updateStorage(Storage(building))
 
-            assertCanDelete(newState, BUILDING_ID_0)
+            failCanDelete(newState, BUILDING_ID_0)
         }
 
         @Test
@@ -74,7 +74,7 @@ class RealmTest {
             val building = Building(BUILDING_ID_0, ownership = ownership)
             val newState = state.updateStorage(Storage(building))
 
-            assertCanDelete(newState, BUILDING_ID_0)
+            failCanDelete(newState, BUILDING_ID_0)
         }
 
         @Test
@@ -82,7 +82,7 @@ class RealmTest {
             val realm1 = Realm(REALM_ID_1, owner = History(REALM_ID_0))
             val newState = state.updateStorage(Storage(listOf(realm, realm1)))
 
-            assertCanDelete(newState, REALM_ID_1)
+            failCanDelete(newState, REALM_ID_1)
         }
 
         @Test
@@ -91,7 +91,7 @@ class RealmTest {
             val realm1 = Realm(REALM_ID_1, owner = history)
             val newState = state.updateStorage(Storage(listOf(realm, realm1)))
 
-            assertCanDelete(newState, REALM_ID_1)
+            failCanDelete(newState, REALM_ID_1)
         }
 
         @Test
@@ -99,7 +99,7 @@ class RealmTest {
             val town = Town(TOWN_ID_0, owner = History(REALM_ID_0))
             val newState = state.updateStorage(Storage(town))
 
-            assertCanDelete(newState, TOWN_ID_0)
+            failCanDelete(newState, TOWN_ID_0)
         }
 
         @Test
@@ -108,7 +108,7 @@ class RealmTest {
             val town = Town(TOWN_ID_0, owner = history)
             val newState = state.updateStorage(Storage(town))
 
-            assertCanDelete(newState, TOWN_ID_0)
+            failCanDelete(newState, TOWN_ID_0)
         }
 
         @Test
@@ -117,7 +117,7 @@ class RealmTest {
             val war = War(WAR_ID_0, participants = listOf(participant))
             val newState = state.updateStorage(Storage(war))
 
-            assertCanDelete(newState, WAR_ID_0)
+            failCanDelete(newState, WAR_ID_0)
         }
 
         @Test
@@ -125,7 +125,7 @@ class RealmTest {
             val battle = Battle(BATTLE_ID_0, participants = listOf(BattleParticipant(REALM_ID_0)))
             val newState = state.updateStorage(Storage(battle))
 
-            assertCanDelete(newState, BATTLE_ID_0)
+            failCanDelete(newState, BATTLE_ID_0)
         }
 
         @Test
@@ -134,7 +134,7 @@ class RealmTest {
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -143,7 +143,7 @@ class RealmTest {
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -151,7 +151,7 @@ class RealmTest {
             val treaty = Treaty(TREATY_ID_0, participants = listOf(TreatyParticipant(REALM_ID_0)))
             val newState = state.updateStorage(Storage(treaty))
 
-            assertCanDelete(newState, TREATY_ID_0)
+            failCanDelete(newState, TREATY_ID_0)
         }
 
         @Test
@@ -159,10 +159,10 @@ class RealmTest {
             val business = Business(BUSINESS_ID_0, position = InRealm(REALM_ID_0))
             val newState = state.updateStorage(Storage(business))
 
-            assertCanDelete(newState, BUSINESS_ID_0)
+            failCanDelete(newState, BUSINESS_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(REALM_ID_0).addId(blockingId), state.canDeleteRealm(REALM_ID_0))
         }
     }

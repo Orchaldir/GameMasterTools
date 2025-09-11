@@ -34,7 +34,7 @@ class CultureTest {
             val character = Character(CHARACTER_ID_0, culture = CULTURE_ID_0)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -43,7 +43,7 @@ class CultureTest {
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -51,7 +51,7 @@ class CultureTest {
             val building = Building(BUILDING_ID_0, builder = reference)
             val newState = state.updateStorage(Storage(building))
 
-            assertCanDelete(newState, BUILDING_ID_0)
+            failCanDelete(newState, BUILDING_ID_0)
         }
 
         @Test
@@ -60,10 +60,10 @@ class CultureTest {
             val war = War(WAR_ID_0, participants = listOf(participant))
             val newState = state.updateStorage(Storage(war))
 
-            assertCanDelete(newState, WAR_ID_0)
+            failCanDelete(newState, WAR_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(CULTURE_ID_0).addId(blockingId), state.canDeleteCulture(CULTURE_ID_0))
         }
     }

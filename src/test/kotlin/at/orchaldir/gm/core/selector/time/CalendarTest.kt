@@ -42,7 +42,7 @@ class CalendarTest {
             val culture = Culture(CULTURE_ID_0, calendar = CALENDAR_ID_0)
             val newState = state.updateStorage(Storage(culture))
 
-            assertCanDelete(newState, CULTURE_ID_0)
+            failCanDelete(newState, CULTURE_ID_0)
         }
 
         @Test
@@ -50,7 +50,7 @@ class CalendarTest {
             val holiday = Holiday(HOLIDAY_ID_0, calendar = CALENDAR_ID_0)
             val newState = state.updateStorage(Storage(holiday))
 
-            assertCanDelete(newState, HOLIDAY_ID_0)
+            failCanDelete(newState, HOLIDAY_ID_0)
         }
 
         @Test
@@ -58,7 +58,7 @@ class CalendarTest {
             val periodical = Periodical(PERIODICAL_ID_0, calendar = CALENDAR_ID_0)
             val newState = state.updateStorage(Storage(periodical))
 
-            assertCanDelete(newState, PERIODICAL_ID_0)
+            failCanDelete(newState, PERIODICAL_ID_0)
         }
 
         @Test
@@ -66,10 +66,10 @@ class CalendarTest {
             val calendar1 = Calendar(CALENDAR_ID_1, origin = ModifiedElement(CALENDAR_ID_0))
             val newState = state.updateStorage(Storage(listOf(calendar, calendar1)))
 
-            assertCanDelete(newState, CALENDAR_ID_1)
+            failCanDelete(newState, CALENDAR_ID_1)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(CALENDAR_ID_0).addId(blockingId), state.canDeleteCalendar(CALENDAR_ID_0))
         }
     }

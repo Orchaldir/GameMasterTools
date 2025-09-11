@@ -34,7 +34,7 @@ class PlaneTest {
         fun `Cannot delete the plane linked to a moon`() {
             val newState = state.updateStorage(Storage(Moon(MOON_ID_0, plane = PLANE_ID_0)))
 
-            assertCanDelete(newState, MOON_ID_0)
+            failCanDelete(newState, MOON_ID_0)
         }
 
         @Test
@@ -42,7 +42,7 @@ class PlaneTest {
             val plane1 = Plane(PLANE_ID_1, purpose = Demiplane(PLANE_ID_0))
             val newState = state.updateStorage(Storage(listOf(plane, plane1)))
 
-            assertCanDelete(newState, PLANE_ID_1)
+            failCanDelete(newState, PLANE_ID_1)
         }
 
         @Test
@@ -50,7 +50,7 @@ class PlaneTest {
             val plane1 = Plane(PLANE_ID_1, purpose = ReflectivePlane(PLANE_ID_0))
             val newState = state.updateStorage(Storage(listOf(plane, plane1)))
 
-            assertCanDelete(newState, PLANE_ID_1)
+            failCanDelete(newState, PLANE_ID_1)
         }
 
         @Test
@@ -59,7 +59,7 @@ class PlaneTest {
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -67,10 +67,10 @@ class PlaneTest {
             val business = Business(BUSINESS_ID_0, position = position)
             val newState = state.updateStorage(Storage(business))
 
-            assertCanDelete(newState, BUSINESS_ID_0)
+            failCanDelete(newState, BUSINESS_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(PLANE_ID_0).addId(blockingId), state.canDeletePlane(PLANE_ID_0))
         }
     }

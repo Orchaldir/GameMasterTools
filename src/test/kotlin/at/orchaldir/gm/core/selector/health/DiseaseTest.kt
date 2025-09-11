@@ -45,7 +45,7 @@ class DiseaseTest {
             val disease1 = Disease(DISEASE_ID_1, origin = ModifiedElement(DISEASE_ID_0, UndefinedReference))
             val newState = state.updateStorage(Storage(listOf(disease, disease1)))
 
-            assertCanDelete(newState, DISEASE_ID_1)
+            failCanDelete(newState, DISEASE_ID_1)
         }
 
         @Test
@@ -53,7 +53,7 @@ class DiseaseTest {
             val disease1 = Disease(DISEASE_ID_1, origin = EvolvedElement(DISEASE_ID_0))
             val newState = state.updateStorage(Storage(listOf(disease, disease1)))
 
-            assertCanDelete(newState, DISEASE_ID_1)
+            failCanDelete(newState, DISEASE_ID_1)
         }
 
         @Test
@@ -62,10 +62,10 @@ class DiseaseTest {
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(DISEASE_ID_0).addId(blockingId),
                 state.canDeleteDisease(DISEASE_ID_0)

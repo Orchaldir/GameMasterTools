@@ -42,7 +42,7 @@ class CurrencyTest {
             val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, currency = CURRENCY_ID_0)
             val newState = state.updateStorage(Storage(unit))
 
-            assertCanDelete(newState, CURRENCY_UNIT_ID_0)
+            failCanDelete(newState, CURRENCY_UNIT_ID_0)
         }
 
         @Test
@@ -50,7 +50,7 @@ class CurrencyTest {
             val realm = Realm(REALM_ID_0, currency = History(CURRENCY_ID_0))
             val newState = state.updateStorage(Storage(realm))
 
-            assertCanDelete(newState, REALM_ID_0)
+            failCanDelete(newState, REALM_ID_0)
         }
 
         @Test
@@ -59,10 +59,10 @@ class CurrencyTest {
             val realm = Realm(REALM_ID_0, currency = history)
             val newState = state.updateStorage(Storage(realm))
 
-            assertCanDelete(newState, REALM_ID_0)
+            failCanDelete(newState, REALM_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(CURRENCY_ID_0).addId(blockingId),
                 state.canDeleteCurrency(CURRENCY_ID_0)

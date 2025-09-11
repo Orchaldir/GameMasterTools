@@ -63,7 +63,7 @@ class TreatyTest {
             val holiday = Holiday(HOLIDAY_ID_0, purpose = purpose)
             val newState = state.updateStorage(Storage(holiday))
 
-            assertCanDelete(newState, HOLIDAY_ID_0)
+            failCanDelete(newState, HOLIDAY_ID_0)
         }
 
         @Test
@@ -72,10 +72,10 @@ class TreatyTest {
             val war = War(WAR_ID_0, status = status)
             val newState = state.updateStorage(Storage(war))
 
-            assertCanDelete(newState, WAR_ID_0)
+            failCanDelete(newState, WAR_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(TREATY_ID_0).addId(blockingId), state.canDeleteTreaty(TREATY_ID_0))
         }
     }

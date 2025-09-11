@@ -53,7 +53,7 @@ class BusinessTest {
             val building = Building(BUILDING_ID_0, builder = BusinessReference(BUSINESS_ID_0))
             val newState = state.updateStorage(Storage(building))
 
-            assertCanDelete(newState, BUILDING_ID_0)
+            failCanDelete(newState, BUILDING_ID_0)
         }
 
         @Test
@@ -62,7 +62,7 @@ class BusinessTest {
             val building = Building(BUILDING_ID_0, ownership = ownership)
             val newState = state.updateStorage(Storage(building))
 
-            assertCanDelete(newState, BUILDING_ID_0)
+            failCanDelete(newState, BUILDING_ID_0)
         }
 
         @Test
@@ -71,7 +71,7 @@ class BusinessTest {
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -80,7 +80,7 @@ class BusinessTest {
             val character = Character(CHARACTER_ID_0, employmentStatus = History(Unemployed, listOf(entry)))
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -89,7 +89,7 @@ class BusinessTest {
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -97,10 +97,10 @@ class BusinessTest {
             val character = Text(TEXT_ID_0, publisher = BUSINESS_ID_0)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, TEXT_ID_0)
+            failCanDelete(newState, TEXT_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(BUSINESS_ID_0).addId(blockingId),
                 state.canDeleteBusiness(BUSINESS_ID_0)

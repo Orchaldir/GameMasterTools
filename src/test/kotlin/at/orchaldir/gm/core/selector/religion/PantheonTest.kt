@@ -32,10 +32,10 @@ class PantheonTest {
             val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(PANTHEON_ID_0).addId(blockingId), state.canDeletePantheon(PANTHEON_ID_0))
         }
     }

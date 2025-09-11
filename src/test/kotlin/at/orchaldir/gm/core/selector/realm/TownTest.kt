@@ -62,7 +62,7 @@ class TownTest {
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -70,7 +70,7 @@ class TownTest {
             val building = Building(BUILDING_ID_0, builder = TownReference(TOWN_ID_0))
             val newState = state.updateStorage(Storage(building))
 
-            assertCanDelete(newState, BUILDING_ID_0)
+            failCanDelete(newState, BUILDING_ID_0)
         }
 
         @Test
@@ -79,7 +79,7 @@ class TownTest {
             val building = Building(BUILDING_ID_0, ownership = ownership)
             val newState = state.updateStorage(Storage(building))
 
-            assertCanDelete(newState, BUILDING_ID_0)
+            failCanDelete(newState, BUILDING_ID_0)
         }
 
         @Test
@@ -87,7 +87,7 @@ class TownTest {
             val district = District(DISTRICT_ID_0, town = TOWN_ID_0)
             val newState = state.updateStorage(Storage(district))
 
-            assertCanDelete(newState, DISTRICT_ID_0)
+            failCanDelete(newState, DISTRICT_ID_0)
         }
 
         @Test
@@ -95,7 +95,7 @@ class TownTest {
             val map = TownMap(TOWN_MAP_ID_0, TOWN_ID_0)
             val newState = state.updateStorage(Storage(map))
 
-            assertCanDelete(newState, TOWN_MAP_ID_0)
+            failCanDelete(newState, TOWN_MAP_ID_0)
         }
 
         @Test
@@ -103,7 +103,7 @@ class TownTest {
             val capital = Realm(REALM_ID_0, capital = History(TOWN_ID_0))
             val newState = state.updateStorage(Storage(capital))
 
-            assertCanDelete(newState, REALM_ID_0)
+            failCanDelete(newState, REALM_ID_0)
         }
 
         @Test
@@ -112,7 +112,7 @@ class TownTest {
             val capital = Realm(REALM_ID_0, capital = history)
             val newState = state.updateStorage(Storage(capital))
 
-            assertCanDelete(newState, REALM_ID_0)
+            failCanDelete(newState, REALM_ID_0)
         }
 
         @Test
@@ -121,7 +121,7 @@ class TownTest {
             val war = War(WAR_ID_0, participants = listOf(participant))
             val newState = state.updateStorage(Storage(war))
 
-            assertCanDelete(newState, WAR_ID_0)
+            failCanDelete(newState, WAR_ID_0)
         }
 
         @Test
@@ -130,7 +130,7 @@ class TownTest {
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -139,7 +139,7 @@ class TownTest {
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -149,7 +149,7 @@ class TownTest {
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -157,10 +157,10 @@ class TownTest {
             val business = Business(BUSINESS_ID_0, position = InTown(TOWN_ID_0))
             val newState = state.updateStorage(Storage(business))
 
-            assertCanDelete(newState, BUSINESS_ID_0)
+            failCanDelete(newState, BUSINESS_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(TOWN_ID_0).addId(blockingId), state.canDeleteTown(TOWN_ID_0))
         }
     }

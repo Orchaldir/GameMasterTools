@@ -29,10 +29,10 @@ class TownMapTest {
             val building = Building(BUILDING_ID_0, position = position)
             val newState = state.updateStorage(Storage(building))
 
-            assertCanDelete(newState, BUILDING_ID_0)
+            failCanDelete(newState, BUILDING_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(TOWN_MAP_ID_0).addId(blockingId), state.canDeleteTownMap(TOWN_MAP_ID_0))
         }
     }

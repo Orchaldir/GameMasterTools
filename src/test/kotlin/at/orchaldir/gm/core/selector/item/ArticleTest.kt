@@ -30,10 +30,10 @@ class ArticleTest {
             val issue = PeriodicalIssue(ISSUE_ID_0, articles =setOf(ARTICLE_ID_0))
             val newState = state.updateStorage(Storage(issue))
 
-            assertCanDelete(newState, ISSUE_ID_0)
+            failCanDelete(newState, ISSUE_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(ARTICLE_ID_0).addId(blockingId),
                 state.canDeleteArticle(ARTICLE_ID_0)

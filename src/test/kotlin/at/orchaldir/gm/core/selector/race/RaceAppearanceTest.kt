@@ -30,10 +30,10 @@ class RaceAppearanceTest {
             val race = Race(RaceId(0), lifeStages = ImmutableLifeStage(RACE_APPEARANCE_ID_0))
             val newState = state.updateStorage(Storage(race))
 
-            assertCanDelete(newState, RACE_ID_0)
+            failCanDelete(newState, RACE_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(RACE_APPEARANCE_ID_0).addId(blockingId), state.canDeleteRaceAppearance(RACE_APPEARANCE_ID_0))
         }
     }

@@ -37,7 +37,7 @@ class CatastropheTest {
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -46,7 +46,7 @@ class CatastropheTest {
             val holiday = Holiday(HOLIDAY_ID_0, purpose = purpose)
             val newState = state.updateStorage(Storage(holiday))
 
-            assertCanDelete(newState, HOLIDAY_ID_0)
+            failCanDelete(newState, HOLIDAY_ID_0)
         }
 
         @Test
@@ -54,7 +54,7 @@ class CatastropheTest {
             val region = Region(REGION_ID_0, data = Wasteland(CATASTROPHE_ID_0))
             val newState = state.updateStorage(Storage(region))
 
-            assertCanDelete(newState, REGION_ID_0)
+            failCanDelete(newState, REGION_ID_0)
         }
 
         @Test
@@ -63,10 +63,10 @@ class CatastropheTest {
             val war = War(WAR_ID_0, status = status)
             val newState = state.updateStorage(Storage(war))
 
-            assertCanDelete(newState, WAR_ID_0)
+            failCanDelete(newState, WAR_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(CATASTROPHE_ID_0).addId(blockingId), state.canDeleteCatastrophe(CATASTROPHE_ID_0))
         }
     }

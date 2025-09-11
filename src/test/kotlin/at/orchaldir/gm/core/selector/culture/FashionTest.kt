@@ -29,10 +29,10 @@ class FashionTest {
             val culture = Culture(CULTURE_ID_0, fashion = GenderMap(FASHION_ID_0))
             val newState = state.updateStorage(Storage(culture))
 
-            assertCanDelete(newState, CULTURE_ID_0)
+            failCanDelete(newState, CULTURE_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(FASHION_ID_0).addId(blockingId), state.canDeleteFashion(FASHION_ID_0))
         }
     }

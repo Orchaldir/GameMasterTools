@@ -30,10 +30,10 @@ class UniformTest {
             val job = Job(JOB_ID_0, uniforms = GenderMap(UNIFORM_ID_0))
             val newState = state.updateStorage(Storage(job))
 
-            assertCanDelete(newState, JOB_ID_0)
+            failCanDelete(newState, JOB_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(UNIFORM_ID_0).addId(blockingId),
                 state.canDeleteUniform(UNIFORM_ID_0)

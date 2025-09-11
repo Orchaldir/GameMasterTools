@@ -31,10 +31,10 @@ class TextTest {
             val text1 = Text(TEXT_ID_1, origin = origin)
             val newState = state.updateStorage(Storage(listOf(text, text1)))
 
-            assertCanDelete(newState, TEXT_ID_1)
+            failCanDelete(newState, TEXT_ID_1)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(TEXT_ID_0).addId(blockingId),
                 state.canDeleteText(TEXT_ID_0)

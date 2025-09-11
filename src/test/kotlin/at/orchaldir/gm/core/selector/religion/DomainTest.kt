@@ -28,10 +28,10 @@ class DomainTest {
             val god = God(GOD_ID_0, domains = setOf(DOMAIN_ID_0))
             val newState = state.updateStorage(Storage(god))
 
-            assertCanDelete(newState, GOD_ID_0)
+            failCanDelete(newState, GOD_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(DOMAIN_ID_0).addId(blockingId), state.canDeleteDomain(DOMAIN_ID_0))
         }
     }

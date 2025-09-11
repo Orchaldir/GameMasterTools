@@ -35,10 +35,10 @@ class StreetTemplateTest {
             val townMap = TownMap(TOWN_MAP_ID_0, map = TileMap2d(TownTile(construction = tile)))
             val newState = state.updateStorage(Storage(townMap))
 
-            assertCanDelete(newState, TOWN_MAP_ID_0)
+            failCanDelete(newState, TOWN_MAP_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(STREET_TEMPLATE_ID_0).addId(blockingId), state.canDeleteStreetTemplate(STREET_TEMPLATE_ID_0))
         }
     }

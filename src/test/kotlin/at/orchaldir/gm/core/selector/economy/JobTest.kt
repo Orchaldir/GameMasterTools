@@ -47,7 +47,7 @@ class JobTest {
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -56,7 +56,7 @@ class JobTest {
             val character = Character(CHARACTER_ID_0, employmentStatus = History(Unemployed, entry))
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -64,10 +64,10 @@ class JobTest {
             val character = Domain(DOMAIN_ID_0, jobs = setOf(JOB_ID_0))
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, DOMAIN_ID_0)
+            failCanDelete(newState, DOMAIN_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(JOB_ID_0).addId(blockingId),
                 state.canDeleteJob(JOB_ID_0)

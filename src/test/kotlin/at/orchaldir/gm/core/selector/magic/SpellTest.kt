@@ -41,7 +41,7 @@ class SpellTest {
             val spell1 = Spell(SPELL_ID_1, origin = origin)
             val newState = state.updateStorage(Storage(listOf(spell, spell1)))
 
-            assertCanDelete(newState, SPELL_ID_1)
+            failCanDelete(newState, SPELL_ID_1)
         }
 
         @Test
@@ -50,7 +50,7 @@ class SpellTest {
             val spell1 = Spell(SPELL_ID_1, origin = origin)
             val newState = state.updateStorage(Storage(listOf(spell, spell1)))
 
-            assertCanDelete(newState, SPELL_ID_1)
+            failCanDelete(newState, SPELL_ID_1)
         }
 
         @Test
@@ -58,7 +58,7 @@ class SpellTest {
             val domain = Domain(DOMAIN_ID_0, spells = SomeOf(SPELL_ID_0))
             val newState = state.updateStorage(Storage(domain))
 
-            assertCanDelete(newState, DOMAIN_ID_0)
+            failCanDelete(newState, DOMAIN_ID_0)
         }
 
         @Test
@@ -66,7 +66,7 @@ class SpellTest {
             val job = Job(JOB_ID_0, spells = SomeOf(SPELL_ID_0))
             val newState = state.updateStorage(Storage(job))
 
-            assertCanDelete(newState, JOB_ID_0)
+            failCanDelete(newState, JOB_ID_0)
         }
 
         @Test
@@ -74,7 +74,7 @@ class SpellTest {
             val group = SpellGroup(SPELL_GROUP_ID_0, spells = setOf(SPELL_ID_0))
             val newState = state.updateStorage(Storage(group))
 
-            assertCanDelete(newState, SPELL_GROUP_ID_0)
+            failCanDelete(newState, SPELL_GROUP_ID_0)
         }
 
         @Test
@@ -83,10 +83,10 @@ class SpellTest {
             val group = Text(TEXT_ID_0, content = AbstractText(content))
             val newState = state.updateStorage(Storage(group))
 
-            assertCanDelete(newState, TEXT_ID_0)
+            failCanDelete(newState, TEXT_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(SPELL_ID_0).addId(blockingId),
                 state.canDeleteSpell(SPELL_ID_0)

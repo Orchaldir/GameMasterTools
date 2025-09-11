@@ -35,7 +35,7 @@ class StreetTest {
             val townMap = TownMap(TOWN_MAP_ID_0, map = TileMap2d(TownTile(construction = tile)))
             val newState = state.updateStorage(Storage(townMap))
 
-            assertCanDelete(newState, TOWN_MAP_ID_0)
+            failCanDelete(newState, TOWN_MAP_ID_0)
         }
 
         @Test
@@ -43,10 +43,10 @@ class StreetTest {
             val building = Building(BUILDING_ID_0, address = StreetAddress(STREET_ID_0, 4))
             val newState = state.updateStorage(Storage(building))
 
-            assertCanDelete(newState, BUILDING_ID_0)
+            failCanDelete(newState, BUILDING_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(STREET_ID_0).addId(blockingId), state.canDeleteStreet(STREET_ID_0))
         }
     }

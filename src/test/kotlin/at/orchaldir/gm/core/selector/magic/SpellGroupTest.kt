@@ -42,10 +42,10 @@ class SpellGroupTest {
             val tradition = MagicTradition(MAGIC_TRADITION_ID_0, groups = setOf(SPELL_GROUP_ID_0))
             val newState = state.updateStorage(Storage(tradition))
 
-            assertCanDelete(newState, MAGIC_TRADITION_ID_0)
+            failCanDelete(newState, MAGIC_TRADITION_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(SPELL_GROUP_ID_0).addId(blockingId),
                 state.canDeleteSpellGroup(SPELL_GROUP_ID_0)

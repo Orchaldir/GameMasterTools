@@ -23,17 +23,6 @@ val CREATE_LANGUAGE: Reducer<CreateLanguage, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getLanguageStorage().add(language)))
 }
 
-val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
-    state.getLanguageStorage().require(action.id)
-    validateCanDelete(state.countCharacters(action.id), action.id, "it is known by characters")
-    validateCanDelete(state.countChildren(action.id), action.id, "it has children")
-    validateCanDelete(state.countPeriodicals(action.id), action.id, "it is used by a periodical")
-    validateCanDelete(state.countPlanes(action.id), action.id, "it is used by a plane")
-    validateCanDelete(state.countTexts(action.id), action.id, "it is used by a text")
-
-    noFollowUps(state.updateStorage(state.getLanguageStorage().remove(action.id)))
-}
-
 val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
     val language = action.language
 

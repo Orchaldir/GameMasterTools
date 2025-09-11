@@ -37,7 +37,7 @@ class GodTest {
             val plane = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
             val newState = state.updateStorage(Storage(plane))
 
-            assertCanDelete(newState, PLANE_ID_0)
+            failCanDelete(newState, PLANE_ID_0)
         }
 
         @Test
@@ -45,7 +45,7 @@ class GodTest {
             val plane = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
             val newState = state.updateStorage(Storage(plane))
 
-            assertCanDelete(newState, PLANE_ID_0)
+            failCanDelete(newState, PLANE_ID_0)
         }
 
         @Test
@@ -53,7 +53,7 @@ class GodTest {
             val plane = Holiday(HOLIDAY_ID_0, purpose = HolidayOfGod(GOD_ID_0))
             val newState = state.updateStorage(Storage(plane))
 
-            assertCanDelete(newState, HOLIDAY_ID_0)
+            failCanDelete(newState, HOLIDAY_ID_0)
         }
 
         @Test
@@ -61,7 +61,7 @@ class GodTest {
             val mask = God(GOD_ID_1, authenticity = MaskOfOtherGod(GOD_ID_0))
             val newState = state.updateStorage(Storage(listOf(god, mask)))
 
-            assertCanDelete(newState, GOD_ID_1)
+            failCanDelete(newState, GOD_ID_1)
         }
 
         @Test
@@ -69,7 +69,7 @@ class GodTest {
             val pantheon = Pantheon(PANTHEON_ID_0, gods = setOf(GOD_ID_0))
             val newState = state.updateStorage(Storage(pantheon))
 
-            assertCanDelete(newState, PANTHEON_ID_0)
+            failCanDelete(newState, PANTHEON_ID_0)
         }
 
         @Test
@@ -78,10 +78,10 @@ class GodTest {
             val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(GOD_ID_0).addId(blockingId), state.canDeleteGod(GOD_ID_0))
         }
     }

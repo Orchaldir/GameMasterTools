@@ -33,7 +33,7 @@ class BuildingTest {
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -41,10 +41,10 @@ class BuildingTest {
             val business = Business(BUSINESS_ID_0, position = position)
             val newState = state.updateStorage(Storage(business))
 
-            assertCanDelete(newState, BUSINESS_ID_0)
+            failCanDelete(newState, BUSINESS_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(BUILDING_ID_0).addId(blockingId), state.canDeleteBuilding(BUILDING_ID_0))
         }
     }

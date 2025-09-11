@@ -40,7 +40,7 @@ class RaceTest {
             val character = Character(CharacterId(0), race = RACE_ID_0)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -48,7 +48,7 @@ class RaceTest {
             val district = District(DISTRICT_ID_0, population = population)
             val newState = state.updateStorage(Storage(district))
 
-            assertCanDelete(newState, DISTRICT_ID_0)
+            failCanDelete(newState, DISTRICT_ID_0)
         }
 
         @Test
@@ -56,7 +56,7 @@ class RaceTest {
             val realm = Realm(REALM_ID_0, population = population)
             val newState = state.updateStorage(Storage(realm))
 
-            assertCanDelete(newState, REALM_ID_0)
+            failCanDelete(newState, REALM_ID_0)
         }
 
         @Test
@@ -64,10 +64,10 @@ class RaceTest {
             val town = Town(TOWN_ID_0, population = population)
             val newState = state.updateStorage(Storage(town))
 
-            assertCanDelete(newState, TOWN_ID_0)
+            failCanDelete(newState, TOWN_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(RACE_ID_0).addId(blockingId), state.canDeleteRace(RACE_ID_0))
         }
     }

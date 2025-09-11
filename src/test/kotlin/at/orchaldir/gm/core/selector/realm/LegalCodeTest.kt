@@ -29,10 +29,10 @@ class LegalCodeTest {
             val realm = Realm(REALM_ID_0, legalCode = History(LEGAL_CODE_ID_0))
             val newState = state.updateStorage(Storage(realm))
 
-            assertCanDelete(newState, REALM_ID_0)
+            failCanDelete(newState, REALM_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(LEGAL_CODE_ID_0).addId(blockingId), state.canDeleteLegalCode(LEGAL_CODE_ID_0))
         }
     }

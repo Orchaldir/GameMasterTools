@@ -36,7 +36,7 @@ class RegionTest {
             val map = TileMap2d(TownTile(MountainTerrain(REGION_ID_0)))
             val newState = state.updateStorage(Storage(TownMap(TOWN_MAP_ID_0, map = map)))
 
-            assertCanDelete(newState, TOWN_MAP_ID_0)
+            failCanDelete(newState, TOWN_MAP_ID_0)
         }
 
         @Test
@@ -44,7 +44,7 @@ class RegionTest {
             val region1 = Region(REGION_ID_1, position = InRegion(REGION_ID_0))
             val newState = state.updateStorage(Storage(listOf(region, region1)))
 
-            assertCanDelete(newState, REGION_ID_1)
+            failCanDelete(newState, REGION_ID_1)
         }
 
         @Test
@@ -53,7 +53,7 @@ class RegionTest {
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -61,10 +61,10 @@ class RegionTest {
             val business = Business(BUSINESS_ID_0, position = position)
             val newState = state.updateStorage(Storage(business))
 
-            assertCanDelete(newState, BUSINESS_ID_0)
+            failCanDelete(newState, BUSINESS_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(REGION_ID_0).addId(blockingId), state.canDeleteRegion(REGION_ID_0))
         }
     }

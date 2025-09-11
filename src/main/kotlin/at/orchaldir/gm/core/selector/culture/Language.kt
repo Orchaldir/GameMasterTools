@@ -1,19 +1,23 @@
 package at.orchaldir.gm.core.selector.culture
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.Rarity
-import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.item.countTexts
-import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
+import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.item.getTexts
+import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
+import at.orchaldir.gm.core.selector.world.getPlanes
 
-fun State.canDeleteLanguage(language: LanguageId) = countCharacters(language) == 0 &&
-        countChildren(language) == 0 &&
-        countCultures(language) == 0 &&
-        countPeriodicals(language) == 0 &&
-        countTexts(language) == 0
+fun State.canDeleteLanguage(language: LanguageId) = DeleteResult(language)
+    .addElements(getCharacters(language))
+    .addElements(getChildren(language))
+    .addElements(getCultures(language))
+    .addElements(getPeriodicals(language))
+    .addElements(getPlanes(language))
+    .addElements(getTexts(language))
 
 fun State.countChildren(language: LanguageId) = getLanguageStorage()
     .getAll()

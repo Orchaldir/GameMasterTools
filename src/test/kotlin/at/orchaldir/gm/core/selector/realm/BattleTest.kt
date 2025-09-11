@@ -35,7 +35,7 @@ class BattleTest {
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
         @Test
@@ -43,10 +43,10 @@ class BattleTest {
             val region = Region(REGION_ID_0, data = Battlefield(BATTLE_ID_0))
             val newState = state.updateStorage(Storage(region))
 
-            assertCanDelete(newState, REGION_ID_0)
+            failCanDelete(newState, REGION_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(BATTLE_ID_0).addId(blockingId), state.canDeleteBattle(BATTLE_ID_0))
         }
     }

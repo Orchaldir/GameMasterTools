@@ -41,7 +41,7 @@ class WarTest {
             val holiday = Holiday(HOLIDAY_ID_0, purpose = purpose)
             val newState = state.updateStorage(Storage(holiday))
 
-            assertCanDelete(newState, HOLIDAY_ID_0)
+            failCanDelete(newState, HOLIDAY_ID_0)
         }
 
         @Test
@@ -49,7 +49,7 @@ class WarTest {
             val battle = Battle(BATTLE_ID_0, war = WAR_ID_0)
             val newState = state.updateStorage(Storage(battle))
 
-            assertCanDelete(newState, BATTLE_ID_0)
+            failCanDelete(newState, BATTLE_ID_0)
         }
 
         @Test
@@ -58,10 +58,10 @@ class WarTest {
             val character = Character(CHARACTER_ID_0, vitalStatus = dead)
             val newState = state.updateStorage(Storage(character))
 
-            assertCanDelete(newState, CHARACTER_ID_0)
+            failCanDelete(newState, CHARACTER_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(WAR_ID_0).addId(blockingId), state.canDeleteWar(WAR_ID_0))
         }
     }

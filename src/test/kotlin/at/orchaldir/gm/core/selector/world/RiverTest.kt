@@ -30,10 +30,10 @@ class RiverTest {
                 )
             )
 
-            assertCanDelete(state, TOWN_MAP_ID_0)
+            failCanDelete(state, TOWN_MAP_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(DeleteResult(RIVER_ID_0).addId(blockingId), state.canDeleteRiver(RIVER_ID_0))
         }
     }

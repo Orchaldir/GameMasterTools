@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.core.selector.culture.canDeleteCulture
 import at.orchaldir.gm.core.selector.culture.canDeleteFashion
+import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
 import at.orchaldir.gm.core.selector.economy.canDeleteBusiness
 import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
 import at.orchaldir.gm.core.selector.health.canDeleteDisease
@@ -94,7 +95,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateHoliday -> UPDATE_HOLIDAY(state, action)
         // language
         is CreateLanguage -> CREATE_LANGUAGE(state, action)
-        is DeleteLanguage -> DELETE_LANGUAGE(state, action)
+        is DeleteLanguage -> deleteElement(state, action.id, State::canDeleteLanguage)
         is UpdateLanguage -> UPDATE_LANGUAGE(state, action)
         // material
         is CreateMaterial -> CREATE_MATERIAL(state, action)

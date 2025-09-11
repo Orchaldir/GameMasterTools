@@ -47,7 +47,7 @@ class MaterialTest {
             val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, format = Coin(MATERIAL_ID_0))
             val newState = state.updateStorage(Storage(unit))
 
-            assertCanDelete(newState, CURRENCY_UNIT_ID_0)
+            failCanDelete(newState, CURRENCY_UNIT_ID_0)
         }
 
         @Test
@@ -55,7 +55,7 @@ class MaterialTest {
             val equipment = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_0)))
             val newState = state.updateStorage(Storage(equipment))
 
-            assertCanDelete(newState, EQUIPMENT_ID_0)
+            failCanDelete(newState, EQUIPMENT_ID_0)
         }
 
         @Test
@@ -63,7 +63,7 @@ class MaterialTest {
             val template = StreetTemplate(STREET_TEMPLATE_ID_0, materialCost = MaterialCost(MATERIAL_ID_0))
             val newState = state.updateStorage(Storage(template))
 
-            assertCanDelete(newState, STREET_TEMPLATE_ID_0)
+            failCanDelete(newState, STREET_TEMPLATE_ID_0)
         }
 
         @Test
@@ -71,7 +71,7 @@ class MaterialTest {
             val text = Text(TEXT_ID_0, format = Book(Hardcover(), 100))
             val newState = state.updateStorage(Storage(text))
 
-            assertCanDelete(newState, TEXT_ID_0)
+            failCanDelete(newState, TEXT_ID_0)
         }
 
         @Test
@@ -79,7 +79,7 @@ class MaterialTest {
             val region = Region(REGION_ID_0, resources = setOf(MATERIAL_ID_0))
             val newState = state.updateStorage(Storage(region))
 
-            assertCanDelete(newState, REGION_ID_0)
+            failCanDelete(newState, REGION_ID_0)
         }
 
         @Test
@@ -87,10 +87,10 @@ class MaterialTest {
             val moon = Moon(MOON_ID_0, resources = setOf(MATERIAL_ID_0))
             val newState = state.updateStorage(Storage(moon))
 
-            assertCanDelete(newState, MOON_ID_0)
+            failCanDelete(newState, MOON_ID_0)
         }
 
-        private fun <ID : Id<ID>> assertCanDelete(state: State, blockingId: ID) {
+        private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(MATERIAL_ID_0).addId(blockingId),
                 state.canDeleteMaterial(MATERIAL_ID_0)
