@@ -5,6 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editFashion
 import at.orchaldir.gm.app.html.culture.parseFashion
 import at.orchaldir.gm.app.html.culture.showFashion
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
@@ -12,7 +14,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
-import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.core.selector.culture.getCultures
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -79,13 +80,7 @@ fun Application.configureFashionRouting() {
             STORE.getState().save()
         }
         get<FashionRoutes.Delete> { delete ->
-            logger.info { "Delete fashion ${delete.id.value}" }
-
-            STORE.dispatch(DeleteFashion(delete.id))
-
-            call.respondRedirect(call.application.href(FashionRoutes()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteFashion(delete.id), DiseaseRoutes())
         }
         get<FashionRoutes.Edit> { edit ->
             logger.info { "Get editor for fashion ${edit.id.value}" }
@@ -148,9 +143,7 @@ private fun HTML.showFashionDetails(
         h2 { +"Usage" }
         fieldList(call, state, state.getCultures(fashion.id))
         action(editLink, "Edit")
-        if (state.canDelete(fashion.id)) {
-            action(deleteLink, "Delete")
-        }
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

@@ -33,6 +33,7 @@ import at.orchaldir.gm.core.reducer.util.source.DELETE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.core.selector.culture.canDeleteCulture
+import at.orchaldir.gm.core.selector.culture.canDeleteFashion
 import at.orchaldir.gm.core.selector.economy.canDeleteBusiness
 import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
 import at.orchaldir.gm.core.selector.health.canDeleteDisease
@@ -81,7 +82,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateDisease -> UPDATE_DISEASE(state, action)
         // fashion
         is CreateFashion -> CREATE_FASHION(state, action)
-        is DeleteFashion -> DELETE_FASHION(state, action)
+        is DeleteFashion -> deleteElement(state, action.id, State::canDeleteFashion)
         is UpdateFashion -> UPDATE_FASHION(state, action)
         // font
         is CreateFont -> CREATE_FONT(state, action)
