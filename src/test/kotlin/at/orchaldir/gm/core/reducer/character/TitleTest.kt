@@ -22,28 +22,6 @@ class TitleTest {
     )
 
     @Nested
-    inner class DeleteTest {
-        val action = DeleteTitle(TITLE_ID_0)
-
-        @Test
-        fun `Can delete an existing title`() {
-            assertEquals(0, REDUCER.invoke(state, action).first.getTitleStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Title 0!") { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Cannot delete, if used by a character`() {
-            val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, title = TITLE_ID_0)))
-
-            assertIllegalArgument("Cannot delete Title 0, because it is used!") { REDUCER.invoke(state, action) }
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         @Test

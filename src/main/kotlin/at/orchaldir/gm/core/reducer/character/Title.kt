@@ -16,13 +16,6 @@ val CREATE_TITLE: Reducer<CreateTitle, State> = { state, _ ->
     noFollowUps(state.updateStorage(state.getTitleStorage().add(title)))
 }
 
-val DELETE_TITLE: Reducer<DeleteTitle, State> = { state, action ->
-    state.getTitleStorage().require(action.id)
-    validateCanDelete(state.canDeleteTitle(action.id), action.id)
-
-    noFollowUps(state.updateStorage(state.getTitleStorage().remove(action.id)))
-}
-
 val UPDATE_TITLE: Reducer<UpdateTitle, State> = { state, action ->
     val title = action.title
     state.getTitleStorage().require(title.id)
