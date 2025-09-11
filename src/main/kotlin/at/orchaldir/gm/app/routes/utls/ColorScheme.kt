@@ -5,8 +5,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.color.editColorScheme
 import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.color.showColorScheme
+import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.CreateColorScheme
 import at.orchaldir.gm.core.action.DeleteColorScheme
+import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortColorScheme
@@ -96,13 +99,7 @@ fun Application.configureColorSchemeRouting() {
             STORE.getState().save()
         }
         get<ColorSchemeRoutes.Delete> { delete ->
-            logger.info { "Delete color scheme ${delete.id.value}" }
-
-            STORE.dispatch(DeleteColorScheme(delete.id))
-
-            call.respondRedirect(call.application.href(ColorSchemeRoutes.All()))
-
-            STORE.getState().save()
+            handleDeleteElement(delete.id, DeleteColorScheme(delete.id), ColorSchemeRoutes())
         }
         get<ColorSchemeRoutes.Edit> { edit ->
             logger.info { "Get editor for color scheme ${edit.id.value}" }
@@ -187,11 +184,7 @@ private fun HTML.showColorSchemeDetails(
         showColorScheme(call, state, scheme)
 
         action(editLink, "Edit")
-
-        if (state.canDeleteColorScheme(scheme.id)) {
-            action(deleteLink, "Delete")
-        }
-
+        action(deleteLink, "Delete")
         back(backLink)
     }
 }

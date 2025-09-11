@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.reducer.realm.REALM_REDUCER
 import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
 import at.orchaldir.gm.core.reducer.time.*
 import at.orchaldir.gm.core.reducer.util.color.CREATE_COLOR_SCHEME
-import at.orchaldir.gm.core.reducer.util.color.DELETE_COLOR_SCHEME
 import at.orchaldir.gm.core.reducer.util.color.UPDATE_COLOR_SCHEME
 import at.orchaldir.gm.core.reducer.util.font.CREATE_FONT
 import at.orchaldir.gm.core.reducer.util.font.DELETE_FONT
@@ -45,6 +44,7 @@ import at.orchaldir.gm.core.selector.race.canDeleteRace
 import at.orchaldir.gm.core.selector.race.canDeleteRaceAppearance
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
+import at.orchaldir.gm.core.selector.util.canDeleteColorScheme
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
@@ -67,7 +67,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateCalendar -> UPDATE_CALENDAR(state, action)
         // color schemes
         is CreateColorScheme -> CREATE_COLOR_SCHEME(state, action)
-        is DeleteColorScheme -> DELETE_COLOR_SCHEME(state, action)
+        is DeleteColorScheme -> deleteElement(state, action.id, State::canDeleteColorScheme)
         is UpdateColorScheme -> UPDATE_COLOR_SCHEME(state, action)
         // culture
         is CreateCulture -> CREATE_CULTURE(state, action)
