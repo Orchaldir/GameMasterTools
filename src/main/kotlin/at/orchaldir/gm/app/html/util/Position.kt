@@ -72,6 +72,7 @@ fun HtmlBlockTag.showPosition(
         }
 
         is OnMoon -> link(call, state, position.moon)
+        is OnWorld -> link(call, state, position.world)
         UndefinedPosition -> if (showUndefined) {
             +"Undefined"
         }
@@ -141,6 +142,7 @@ private fun HtmlBlockTag.selectPositionIntern(
     val regions = state.sortRegions(state.getRegionStorage().getAll())
     val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
     val townMaps = state.sortTownMaps(state.getExistingElements(state.getTownMapStorage(), start))
+    val worlds = state.sortWorlds()
 
     selectValue(noun, param, allowedTypes, position.getType()) { type ->
         when (type) {
@@ -157,6 +159,7 @@ private fun HtmlBlockTag.selectPositionIntern(
             PositionType.Region -> regions.isEmpty()
             PositionType.Town -> towns.isEmpty()
             PositionType.TownMap -> townMaps.isEmpty()
+            PositionType.World -> worlds.isEmpty()
         }
     }
     when (position) {
@@ -264,6 +267,13 @@ private fun HtmlBlockTag.selectPositionIntern(
             moons,
             position.moon,
         )
+
+        is OnWorld -> selectElement(
+            state,
+            combine(param, WORD),
+            worlds,
+            position.world,
+        )
     }
 }
 
@@ -324,6 +334,10 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
         PositionType.TownMap -> InTownMap(
             parseTownMapId(parameters, combine(param, TOWN)),
             parseInt(parameters, combine(param, TILE)),
+        )
+
+        PositionType.World -> OnWorld(
+            parseWorldId(parameters, combine(param, WORD)),
         )
 
         PositionType.Homeless -> Homeless

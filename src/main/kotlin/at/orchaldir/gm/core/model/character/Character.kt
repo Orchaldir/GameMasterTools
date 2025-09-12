@@ -55,6 +55,7 @@ val ALLOWED_HOUSING_TYPES = listOf(
     PositionType.Realm,
     PositionType.Region,
     PositionType.Town,
+    PositionType.World,
 )
 
 @JvmInline

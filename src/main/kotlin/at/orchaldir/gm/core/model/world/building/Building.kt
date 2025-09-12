@@ -22,6 +22,7 @@ val ALLOWED_BUILDING_POSITIONS = listOf(
     PositionType.Region,
     PositionType.Town,
     PositionType.TownMap,
+    PositionType.World,
 )
 
 @JvmInline

@@ -19,6 +19,7 @@ val ALLOWED_BUSINESS_POSITIONS = listOf(
     PositionType.Realm,
     PositionType.Region,
     PositionType.Town,
+    PositionType.World,
 )
 
 @JvmInline

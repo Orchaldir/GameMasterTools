@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
@@ -27,6 +28,7 @@ enum class PositionType {
     Region,
     Town,
     TownMap,
+    World,
 }
 
 @Serializable
@@ -45,6 +47,7 @@ sealed class Position {
         is InTownMap -> PositionType.TownMap
         is LongTermCareIn -> PositionType.LongTermCare
         is OnMoon -> PositionType.Moon
+        is OnWorld -> PositionType.World
         UndefinedPosition -> PositionType.Undefined
     }
 
@@ -61,6 +64,7 @@ sealed class Position {
         is InTownMap -> townMap
         is LongTermCareIn -> business
         is OnMoon -> moon
+        is OnWorld -> world
         UndefinedPosition -> null
     }
 
@@ -89,6 +93,7 @@ sealed class Position {
         is InTownMap -> townMap == id
         is LongTermCareIn -> business == id
         is OnMoon -> moon == id
+        is OnWorld -> world == id
         UndefinedPosition -> false
     }
 
@@ -201,6 +206,10 @@ data class LongTermCareIn(val business: BusinessId) : Position() {
 @Serializable
 @SerialName("Moon")
 data class OnMoon(val moon: MoonId) : Position()
+
+@Serializable
+@SerialName("World")
+data class OnWorld(val world: WorldId) : Position()
 
 @Serializable
 @SerialName("Undefined")

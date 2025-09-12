@@ -2,6 +2,10 @@ package at.orchaldir.gm.core.model.world.moon
 
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.util.HasPosition
+import at.orchaldir.gm.core.model.util.Position
+import at.orchaldir.gm.core.model.util.PositionType
+import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
@@ -12,6 +16,11 @@ import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
 const val MOON_TYPE = "Moon"
+val ALLOWED_MOON_POSITIONS = listOf(
+    PositionType.Undefined,
+    PositionType.Plane,
+    PositionType.World,
+)
 
 @JvmInline
 @Serializable
@@ -28,14 +37,16 @@ data class Moon(
     val id: MoonId,
     val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
+    val position: Position = UndefinedPosition,
     val daysPerQuarter: Int = 1,
     val color: Color = Color.White,
     val plane: PlaneId? = null,
     val resources: Set<MaterialId> = emptySet(),
-) : ElementWithSimpleName<MoonId> {
+) : ElementWithSimpleName<MoonId>, HasPosition {
 
     override fun id() = id
     override fun name() = name.text
+    override fun position() = position
 
     fun getCycle() = daysPerQuarter * 4
 

@@ -1,43 +1,38 @@
-package at.orchaldir.gm.core.model.world.terrain
+package at.orchaldir.gm.core.model.world
 
-import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType
 import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val REGION_TYPE = "Region"
-val ALLOWED_CONTINENT_POSITIONS = listOf(
+const val WORLD_TYPE = "World"
+val ALLOWED_WORLD_POSITIONS = listOf(
     PositionType.Undefined,
-    PositionType.Moon,
     PositionType.Plane,
-    PositionType.World,
 )
-val ALLOWED_REGION_POSITIONS = ALLOWED_CONTINENT_POSITIONS + PositionType.Region
 
 @JvmInline
 @Serializable
-value class RegionId(val value: Int) : Id<RegionId> {
+value class WorldId(val value: Int) : Id<WorldId> {
 
-    override fun next() = RegionId(value + 1)
-    override fun type() = REGION_TYPE
-
+    override fun next() = WorldId(value + 1)
+    override fun type() = WORLD_TYPE
     override fun value() = value
 
 }
 
 @Serializable
-data class Region(
-    val id: RegionId,
+data class World(
+    val id: WorldId,
     val name: Name = Name.init(id),
-    val data: RegionData = UndefinedRegionData,
+    val title: NotEmptyString? = null,
     val position: Position = UndefinedPosition,
-    val resources: Set<MaterialId> = emptySet(),
-) : ElementWithSimpleName<RegionId>, HasPosition {
+) : ElementWithSimpleName<WorldId>, HasPosition {
 
     override fun id() = id
     override fun name() = name.text

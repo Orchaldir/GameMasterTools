@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.OnWorld
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -51,6 +52,14 @@ class MoonTest {
             val action = UpdateMoon(Moon(MOON_ID_0, plane = UNKNOWN_PLANE_ID))
 
             assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use an unknown element as position`() {
+            val moon = Moon(MOON_ID_0, position = OnWorld(UNKNOWN_WORLD_ID))
+            val action = UpdateMoon(moon)
+
+            assertIllegalArgument("Requires unknown World 99 as position!") { REDUCER.invoke(state, action) }
         }
     }
 

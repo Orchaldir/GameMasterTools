@@ -120,13 +120,14 @@ fun Application.configureRouting() {
                     h3 { +"World" }
                     fieldStorageLink(call, state.getArchitecturalStyleStorage(), ArchitecturalStyleRoutes.All())
                     fieldStorageLink(call, state.getBuildingStorage(), BuildingRoutes.All())
-                    fieldStorageLink(call, state.getMoonStorage(), MoonRoutes())
+                    fieldStorageLink(call, state.getMoonStorage(), MoonRoutes.All())
                     fieldStorageLink(call, state.getPlaneStorage(), PlaneRoutes.All())
                     fieldStorageLink(call, state.getRegionStorage(), RegionRoutes.All())
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
                     fieldStorageLink(call, state.getStreetStorage(), StreetRoutes())
                     fieldStorageLink(call, state.getStreetTemplateStorage(), StreetTemplateRoutes())
                     fieldStorageLink(call, state.getTownMapStorage(), TownMapRoutes.All())
+                    fieldStorageLink(call, state.getWorldStorage(), WorldRoutes.All())
                 }
             }
         }

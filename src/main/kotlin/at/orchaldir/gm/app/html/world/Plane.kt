@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.sortLanguages
 import at.orchaldir.gm.core.selector.world.getDemiplanes
-import at.orchaldir.gm.core.selector.world.getMoons
+import at.orchaldir.gm.core.selector.world.getMoonsLinkedTo
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
 import at.orchaldir.gm.core.selector.world.getReflections
 import io.ktor.http.*
@@ -38,7 +38,7 @@ fun HtmlBlockTag.showPlane(
 
     fieldList(call, state, "Demiplanes", state.getDemiplanes(plane.id))
     fieldList(call, state, "Reflection", state.getReflections(plane.id))
-    fieldList(call, state, "Associated Moons", state.getMoons(plane.id))
+    fieldList(call, state, "Associated Moons", state.getMoonsLinkedTo(plane.id))
     showLocalElements(call, state, plane.id)
     showDataSources(call, state, plane.sources)
 }

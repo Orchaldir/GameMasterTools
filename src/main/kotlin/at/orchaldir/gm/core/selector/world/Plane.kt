@@ -15,7 +15,7 @@ import at.orchaldir.gm.utils.doNothing
 fun State.canDeletePlane(plane: PlaneId) = DeleteResult(plane)
     .addElements(getDemiplanes(plane))
     .addElements(getReflections(plane))
-    .addElements(getMoons(plane))
+    .addElements(getMoonsLinkedTo(plane))
     .apply { canDeleteWithPositions(plane, it) }
 
 // count

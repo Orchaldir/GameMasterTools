@@ -123,6 +123,7 @@ fun Application.module() {
     configureTreatyRouting()
     configureUniformRouting()
     configureWarRouting()
+    configureWorldRouting()
 }
 
 fun Application.configureSerialization() {

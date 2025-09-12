@@ -69,6 +69,7 @@ import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DataSourceId
+import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -418,5 +419,6 @@ fun href(
     is TreatyId -> call.application.href(TreatyRoutes.Details(id))
     is UniformId -> call.application.href(UniformRoutes.Details(id))
     is WarId -> call.application.href(WarRoutes.Details(id))
+    is WorldId -> call.application.href(WorldRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }
