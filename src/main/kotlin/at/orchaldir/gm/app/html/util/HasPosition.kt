@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.getBusinessesIn
-import at.orchaldir.gm.core.selector.util.getMoonsAround
+import at.orchaldir.gm.core.selector.util.getMoonsOf
 import at.orchaldir.gm.core.selector.util.getRegionsIn
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
@@ -47,7 +47,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showLocalElements(
     state,
     state.getBuildingsIn(id),
     state.getBusinessesIn(id),
-    state.getMoonsAround(id),
+    state.getMoonsOf(id),
     state.getRegionsIn(id),
     state.getCharactersLivingIn(id),
     state.getCharactersPreviouslyLivingIn(id),

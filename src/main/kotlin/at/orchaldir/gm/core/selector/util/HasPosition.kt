@@ -16,7 +16,7 @@ fun <ID : Id<ID>> State.canDeleteWithPositions(id: ID, result: DeleteResult) = r
     .addElements(getCharactersPreviouslyLivingIn(id))
     .addElements(getBuildingsIn(id))
     .addElements(getBusinessesIn(id))
-    .addElements(getMoonsAround(id))
+    .addElements(getMoonsOf(id))
     .addElements(getRegionsIn(id))
 
 // count
@@ -56,7 +56,7 @@ fun <ID : Id<ID>, ELEMENT> getHasPositionsForPosition(
 
 fun <ID : Id<ID>> State.getBuildingsIn(id: ID) = getHasPositionsIn(getBuildingStorage(), id)
 fun <ID : Id<ID>> State.getBusinessesIn(id: ID) = getHasPositionsIn(getBusinessStorage(), id)
-fun <ID : Id<ID>> State.getMoonsAround(id: ID) = getHasPositionsIn(getMoonStorage(), id)
+fun <ID : Id<ID>> State.getMoonsOf(id: ID) = getHasPositionsIn(getMoonStorage(), id)
 fun <ID : Id<ID>> State.getRegionsIn(id: ID) = getHasPositionsIn(getRegionStorage(), id)
 
 fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> getHasPositionsIn(

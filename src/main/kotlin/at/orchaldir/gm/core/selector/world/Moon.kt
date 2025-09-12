@@ -11,7 +11,7 @@ fun State.canDeleteMoon(moon: MoonId) = DeleteResult(moon)
     .apply { canDeleteWithPositions(moon, it) }
 
 
-fun State.getMoons(plane: PlaneId) = getMoonStorage()
+fun State.getMoonsLinkedTo(plane: PlaneId) = getMoonStorage()
     .getAll()
     .filter { it.plane == plane }
 
