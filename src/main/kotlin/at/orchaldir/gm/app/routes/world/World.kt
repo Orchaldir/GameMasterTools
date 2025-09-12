@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.world.WORLD_TYPE
 import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.selector.util.getMoonsOf
+import at.orchaldir.gm.core.selector.util.getRegionsIn
 import at.orchaldir.gm.core.selector.util.sortWorlds
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -143,12 +144,14 @@ private fun HTML.showAllWorlds(
                 th { +"Name" }
                 th { +"Title" }
                 th { +"Moons" }
+                th { +"Regions" }
             }
             worlds.forEach { world ->
                 tr {
                     tdLink(call, state, world)
                     tdString(world.title)
                     tdSkipZero(state.getMoonsOf(world.id))
+                    tdSkipZero(state.getRegionsIn(world.id))
                 }
             }
         }
