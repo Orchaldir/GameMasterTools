@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.world.moon
 
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType
 import at.orchaldir.gm.core.model.util.UndefinedPosition
@@ -41,10 +42,11 @@ data class Moon(
     val color: Color = Color.White,
     val plane: PlaneId? = null,
     val resources: Set<MaterialId> = emptySet(),
-) : ElementWithSimpleName<MoonId> {
+) : ElementWithSimpleName<MoonId>, HasPosition {
 
     override fun id() = id
     override fun name() = name.text
+    override fun position() = position
 
     fun getCycle() = daysPerQuarter * 4
 

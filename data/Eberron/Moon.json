@@ -35,7 +35,11 @@
   "4": {
    "id": 4,
    "name": "Barrakas",
-   "title": "The Lantern ",
+   "title": "The Lantern",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "LightGray",
    "plane": 4
   },

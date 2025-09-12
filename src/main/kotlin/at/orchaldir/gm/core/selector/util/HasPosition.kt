@@ -16,6 +16,7 @@ fun <ID : Id<ID>> State.canDeleteWithPositions(id: ID, result: DeleteResult) = r
     .addElements(getCharactersPreviouslyLivingIn(id))
     .addElements(getBuildingsIn(id))
     .addElements(getBusinessesIn(id))
+    .addElements(getMoonsAround(id))
     .addElements(getRegionsIn(id))
 
 // count
@@ -34,10 +35,6 @@ fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> countHasPositionsIn(
 
 // get
 
-fun <ID : Id<ID>> State.hasNoHasPositionsIn(id: ID) = getBuildingsIn(id).isEmpty()
-        && getBusinessesIn(id).isEmpty()
-        && getRegionsIn(id).isEmpty()
-
 fun State.getBuildingsForPosition(position: Position) = getHasPositionsForPosition(getBuildingStorage(), position)
 
 fun <ID : Id<ID>, ELEMENT> getHasPositionsForPosition(
@@ -51,12 +48,15 @@ fun <ID : Id<ID>, ELEMENT> getHasPositionsForPosition(
     is InRealm -> getHasPositionsIn(storage, position.realm)
     is InTown -> getHasPositionsIn(storage, position.town)
     is InTownMap -> getHasPositionsIn(storage, position.townMap)
+    is OnMoon -> getHasPositionsIn(storage, position.moon)
+    is OnWorld -> getHasPositionsIn(storage, position.world)
     else -> error("House Number is not supported by Position type ${position.getType()}!")
 }
 
 
 fun <ID : Id<ID>> State.getBuildingsIn(id: ID) = getHasPositionsIn(getBuildingStorage(), id)
 fun <ID : Id<ID>> State.getBusinessesIn(id: ID) = getHasPositionsIn(getBusinessStorage(), id)
+fun <ID : Id<ID>> State.getMoonsAround(id: ID) = getHasPositionsIn(getMoonStorage(), id)
 fun <ID : Id<ID>> State.getRegionsIn(id: ID) = getHasPositionsIn(getRegionStorage(), id)
 
 fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> getHasPositionsIn(
