@@ -15,6 +15,7 @@ val ALLOWED_CONTINENT_POSITIONS = listOf(
     PositionType.Undefined,
     PositionType.Moon,
     PositionType.Plane,
+    PositionType.World,
 )
 val ALLOWED_REGION_POSITIONS = ALLOWED_CONTINENT_POSITIONS + PositionType.Region
 

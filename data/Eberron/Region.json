@@ -45,6 +45,10 @@
    "name": "Khorvaire",
    "data": {
     "type": "Continent"
+   },
+   "position": {
+    "type": "World",
+    "world": 0
    }
   },
   "4": {
