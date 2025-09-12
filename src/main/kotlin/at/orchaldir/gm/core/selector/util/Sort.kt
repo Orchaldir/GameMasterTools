@@ -38,6 +38,7 @@ import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.source.DataSource
+import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
@@ -622,9 +623,9 @@ fun State.sortRegions(sort: SortRegion = SortRegion.Name) =
     sortRegions(getRegionStorage().getAll(), sort)
 
 fun State.sortRegions(
-    planes: Collection<Region>,
+    regions: Collection<Region>,
     sort: SortRegion = SortRegion.Name,
-) = planes
+) = regions
     .sortedWith(
         when (sort) {
             SortRegion.Name -> compareBy { it.name.text }
@@ -771,4 +772,18 @@ fun State.sortWars(
             SortWar.Start -> getStartDateComparator()
             SortWar.End -> getEndDateComparator()
             SortWar.Duration -> compareByDescending { it.getDuration(this).days }
+        })
+
+// world
+
+fun State.sortWorlds(sort: SortWorld = SortWorld.Name) =
+    sortWorlds(getWorldStorage().getAll(), sort)
+
+fun State.sortWorlds(
+    worlds: Collection<World>,
+    sort: SortWorld = SortWorld.Name,
+) = worlds
+    .sortedWith(
+        when (sort) {
+            SortWorld.Name -> compareBy { it.name.text }
         })

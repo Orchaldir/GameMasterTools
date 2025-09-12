@@ -230,3 +230,7 @@ enum class SortWar {
     End,
     Duration,
 }
+
+enum class SortWorld {
+    Name,
+}

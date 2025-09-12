@@ -52,7 +52,7 @@ fun HtmlBlockTag.editMoon(
     moon: Moon,
 ) {
     selectName(moon.name)
-    selectOptionalNotEmptyString("Optional Name", moon.title, TITLE)
+    selectOptionalNotEmptyString("Optional Title", moon.title, TITLE)
     selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, 1, LENGTH)
     selectColor(moon.color)
     selectOptionalElement(state, "Plane", PLANE, state.sortPlanes(), moon.plane)
