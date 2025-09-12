@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world
 
+import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType
 import at.orchaldir.gm.core.model.util.UndefinedPosition
@@ -31,9 +32,10 @@ data class World(
     val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val position: Position = UndefinedPosition,
-) : ElementWithSimpleName<WorldId> {
+) : ElementWithSimpleName<WorldId>, HasPosition {
 
     override fun id() = id
     override fun name() = name.text
+    override fun position() = position
 
 }

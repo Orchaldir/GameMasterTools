@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -16,6 +17,7 @@ import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.getBusinessesIn
 import at.orchaldir.gm.core.selector.util.getMoonsOf
 import at.orchaldir.gm.core.selector.util.getRegionsIn
+import at.orchaldir.gm.core.selector.util.getWorldsIn
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -36,6 +38,7 @@ fun HtmlBlockTag.showLocalElements(
     state.getRegionsIn(town.id).toSet() + state.getRegionsIn(townMap.id).toSet(),
     state.getCharactersLivingIn(town.id).toSet() + state.getCharactersLivingIn(townMap.id).toSet(),
     state.getCharactersPreviouslyLivingIn(town.id).toSet() + state.getCharactersPreviouslyLivingIn(townMap.id).toSet(),
+    emptySet(),
 )
 
 fun <ID : Id<ID>> HtmlBlockTag.showLocalElements(
@@ -51,6 +54,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showLocalElements(
     state.getRegionsIn(id),
     state.getCharactersLivingIn(id),
     state.getCharactersPreviouslyLivingIn(id),
+    state.getWorldsIn(id),
 )
 
 private fun HtmlBlockTag.showLocalElementsInternal(
@@ -62,8 +66,9 @@ private fun HtmlBlockTag.showLocalElementsInternal(
     regions: Collection<Region>,
     residents: Collection<Character>,
     formerResidents: Collection<Character>,
+    worlds: Collection<World>,
 ) {
-    if (buildings.isEmpty() && businesses.isEmpty() && moons.isEmpty() && regions.isEmpty() && residents.isEmpty() && formerResidents.isEmpty()) {
+    if (buildings.isEmpty() && businesses.isEmpty() && moons.isEmpty() && regions.isEmpty() && residents.isEmpty() && formerResidents.isEmpty() && worlds.isEmpty()) {
         return
     }
 
@@ -84,5 +89,6 @@ private fun HtmlBlockTag.showLocalElementsInternal(
         fieldList(call, state, regions)
         fieldList(call, state, "Residents", allResidents)
         fieldList(call, state, "Former Residents", allFormerResidents)
+        fieldList(call, state, worlds)
     }
 }
