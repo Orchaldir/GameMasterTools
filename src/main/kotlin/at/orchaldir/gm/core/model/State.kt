@@ -73,6 +73,9 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
+import at.orchaldir.gm.core.model.world.WORLD_TYPE
+import at.orchaldir.gm.core.model.world.World
+import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -180,6 +183,7 @@ val ELEMENTS =
         TREATY_TYPE,
         UNIFORM_TYPE,
         WAR_TYPE,
+        WORLD_TYPE,
     )
 private const val DATA = "Data"
 
@@ -254,6 +258,7 @@ data class State(
     fun getTreatyStorage() = getStorage<TreatyId, Treaty>(TREATY_TYPE)
     fun getUniformStorage() = getStorage<UniformId, Uniform>(UNIFORM_TYPE)
     fun getWarStorage() = getStorage<WarId, War>(WAR_TYPE)
+    fun getWorldStorage() = getStorage<WorldId, World>(WORLD_TYPE)
 
     fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(id: ID) = getStorage<ID, ELEMENT>(id.type())
 
@@ -369,6 +374,7 @@ data class State(
         validate(getTreatyStorage()) { validateTreaty(this, it) }
         validate(getUniformStorage()) { validateUniform(this, it) }
         validate(getWarStorage()) { validateWar(this, it) }
+        validate(getWorldStorage()) { validateWorld(this, it) }
 
         validateData(this, data)
     }
@@ -425,6 +431,7 @@ data class State(
         saveStorage(path, getTreatyStorage())
         saveStorage(path, getUniformStorage())
         saveStorage(path, getWarStorage())
+        saveStorage(path, getWorldStorage())
         save(path, DATA, data)
     }
 }
@@ -481,6 +488,7 @@ fun createStorage(type: String) = when (type) {
     TREATY_TYPE -> Storage(TreatyId(0))
     UNIFORM_TYPE -> Storage(UniformId(0))
     WAR_TYPE -> Storage(WarId(0))
+    WORLD_TYPE -> Storage(WorldId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
@@ -540,6 +548,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     TREATY_TYPE -> loadStorage<TreatyId, Treaty>(path, TreatyId(0))
     UNIFORM_TYPE -> loadStorage<UniformId, Uniform>(path, UniformId(0))
     WAR_TYPE -> loadStorage<WarId, War>(path, WarId(0))
+    WORLD_TYPE -> loadStorage<WorldId, World>(path, WorldId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 

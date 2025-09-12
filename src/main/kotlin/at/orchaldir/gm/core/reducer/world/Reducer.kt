@@ -55,5 +55,9 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         // town's terrain
         is ResizeTerrain -> RESIZE_TERRAIN(state, action)
         is SetTerrainTile -> SET_TERRAIN_TILE(state, action)
+        // world
+        is CreateWorld -> CREATE_WORLD(state, action)
+        is DeleteWorld -> deleteElement(state, action.id, State::canDeleteWorld)
+        is UpdateWorld -> UPDATE_WORLD(state, action)
     }
 }

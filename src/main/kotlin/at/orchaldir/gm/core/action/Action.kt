@@ -56,6 +56,8 @@ import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
+import at.orchaldir.gm.core.model.world.World
+import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
@@ -465,3 +467,8 @@ data class SetTerrainTile(
     val terrainId: Int,
     val tileIndex: Int,
 ) : WorldAction()
+
+// world
+data object CreateWorld : WorldAction()
+data class DeleteWorld(val id: WorldId) : WorldAction()
+data class UpdateWorld(val world: World) : WorldAction()
