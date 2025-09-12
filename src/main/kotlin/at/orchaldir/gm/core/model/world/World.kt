@@ -1,5 +1,8 @@
 package at.orchaldir.gm.core.model.world
 
+import at.orchaldir.gm.core.model.util.Position
+import at.orchaldir.gm.core.model.util.PositionType
+import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
@@ -7,6 +10,10 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val WORLD_TYPE = "World"
+val ALLOWED_WORLD_POSITIONS = listOf(
+    PositionType.Undefined,
+    PositionType.Plane,
+)
 
 @JvmInline
 @Serializable
@@ -23,6 +30,7 @@ data class World(
     val id: WorldId,
     val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
+    val position: Position = UndefinedPosition,
 ) : ElementWithSimpleName<WorldId> {
 
     override fun id() = id

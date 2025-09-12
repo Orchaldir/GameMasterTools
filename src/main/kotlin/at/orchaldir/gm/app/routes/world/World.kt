@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editWorld
 import at.orchaldir.gm.app.html.world.parseWorld
 import at.orchaldir.gm.app.html.world.showWorld
@@ -28,6 +29,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
+import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 import mu.KotlinLogging
@@ -107,7 +109,7 @@ fun Application.configureWorldRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val region = parseWorld(preview.id, formParameters)
+            val region = parseWorld(formParameters, state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showWorldEditor(call, state, region)
@@ -116,7 +118,7 @@ fun Application.configureWorldRouting() {
         post<WorldRoutes.Update> { update ->
             logger.info { "Update world ${update.id.value}" }
 
-            val world = parseWorld(update.id, call.receiveParameters())
+            val world = parseWorld(call.receiveParameters(), STORE.getState(), update.id)
 
             STORE.dispatch(UpdateWorld(world))
 
@@ -143,6 +145,7 @@ private fun HTML.showAllWorlds(
             tr {
                 th { +"Name" }
                 th { +"Title" }
+                th { +"Position" }
                 th { +"Moons" }
                 th { +"Regions" }
             }
@@ -150,6 +153,7 @@ private fun HTML.showAllWorlds(
                 tr {
                     tdLink(call, state, world)
                     tdString(world.title)
+                    td { showPosition(call, state, world.position, false) }
                     tdSkipZero(state.getMoonsOf(world.id))
                     tdSkipZero(state.getRegionsIn(world.id))
                 }
