@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editMoon
 import at.orchaldir.gm.app.html.world.parseMoon
 import at.orchaldir.gm.app.html.world.showMoon
@@ -114,14 +115,16 @@ private fun HTML.showAllMoons(
             tr {
                 th { +"Name" }
                 th { +"Title" }
+                th { +"Position" }
                 th { +"Duration" }
                 th { +"Color" }
-                th { +"Plane" }
+                thMultiLines(listOf("Associated", "Plane"))
             }
             moons.forEach { moon ->
                 tr {
                     tdLink(call, state, moon)
                     tdString(moon.title)
+                    td { showPosition(call, state, moon.position, false) }
                     td { +"${moon.getCycle()} days" }
                     td { showOptionalColor(moon.color) }
                     tdLink(call, state, moon.plane)
