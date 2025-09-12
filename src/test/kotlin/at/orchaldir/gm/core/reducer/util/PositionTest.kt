@@ -449,7 +449,7 @@ class PositionTest {
         }
 
         @Test
-        fun `Live in a valid plan`() {
+        fun `Live on a valid world`() {
             checkPositionHistory(createRealmState(), History(onWorld), DAY0)
         }
 
