@@ -38,6 +38,7 @@ class WorldTest {
 
             assertEquals(moon, REDUCER.invoke(state, action).first.getWorldStorage().get(WORLD_ID_0))
         }
+
         @Test
         fun `Cannot use an unknown element as position`() {
             val moon = World(WORLD_ID_0, position = InPlane(UNKNOWN_PLANE_ID))

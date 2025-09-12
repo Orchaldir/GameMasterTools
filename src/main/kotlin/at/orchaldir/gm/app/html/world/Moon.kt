@@ -3,11 +3,7 @@ package at.orchaldir.gm.app.html.world
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
-import at.orchaldir.gm.app.html.util.field
-import at.orchaldir.gm.app.html.util.fieldPosition
-import at.orchaldir.gm.app.html.util.parsePosition
-import at.orchaldir.gm.app.html.util.selectPosition
-import at.orchaldir.gm.app.html.util.showLocalElements
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State

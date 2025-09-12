@@ -13,11 +13,7 @@ import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
-import at.orchaldir.gm.core.selector.util.getBusinessesIn
-import at.orchaldir.gm.core.selector.util.getMoonsOf
-import at.orchaldir.gm.core.selector.util.getRegionsIn
-import at.orchaldir.gm.core.selector.util.getWorldsIn
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

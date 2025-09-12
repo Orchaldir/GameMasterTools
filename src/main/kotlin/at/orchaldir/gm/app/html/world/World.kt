@@ -11,8 +11,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.ALLOWED_WORLD_POSITIONS
 import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.WorldId
-import at.orchaldir.gm.core.model.world.moon.ALLOWED_MOON_POSITIONS
-import at.orchaldir.gm.core.model.world.moon.MoonId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

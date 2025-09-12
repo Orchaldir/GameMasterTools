@@ -2,13 +2,10 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateMoon
-import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.InRegion
 import at.orchaldir.gm.core.model.util.OnWorld
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
-import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
