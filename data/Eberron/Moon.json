@@ -4,7 +4,11 @@
   "0": {
    "id": 0,
    "name": "Nymm",
-   "title": "The Crown ",
+   "title": "The Crown",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "Gold",
    "plane": 0
   },
@@ -33,6 +37,10 @@
    "id": 3,
    "name": "Eyre",
    "title": "The Anvil",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "Silver",
    "plane": 3
   },
@@ -51,12 +59,20 @@
    "id": 5,
    "name": "Zarantyr",
    "title": "The Storm",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "plane": 5
   },
   "6": {
    "id": 6,
    "name": "Olarune",
    "title": "The Sentinel",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "Orange",
    "plane": 6
   },
@@ -64,6 +80,10 @@
    "id": 7,
    "name": "Sypheros",
    "title": "The Shadow",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "DimGray",
    "plane": 7
   },
@@ -71,6 +91,10 @@
    "id": 8,
    "name": "Dravago",
    "title": "The Herder",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "Lavender",
    "plane": 8
   },
@@ -78,6 +102,10 @@
    "id": 9,
    "name": "Vult",
    "title": "The Warder",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "Gray",
    "plane": 9
   },
@@ -85,6 +113,10 @@
    "id": 10,
    "name": "Therendor",
    "title": "The Healer",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "SteelBlue",
    "plane": 10
   },
@@ -92,6 +124,10 @@
    "id": 11,
    "name": "Rhaan",
    "title": "The Book",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "SkyBlue",
    "plane": 11
   },
@@ -99,6 +135,10 @@
    "id": 12,
    "name": "Lharvion",
    "title": "The Eye",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "plane": 12
   }
  }

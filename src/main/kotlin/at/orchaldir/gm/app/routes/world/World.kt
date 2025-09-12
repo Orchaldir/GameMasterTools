@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.action.CreateWorld
 import at.orchaldir.gm.core.action.DeleteWorld
 import at.orchaldir.gm.core.action.UpdateWorld
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.SortRegion
 import at.orchaldir.gm.core.model.util.SortWorld
 import at.orchaldir.gm.core.model.world.WORLD_TYPE
 import at.orchaldir.gm.core.model.world.World
@@ -25,7 +24,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.table
+import kotlinx.html.th
+import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -49,6 +51,9 @@ class WorldRoutes {
 
     @Resource("edit")
     class Edit(val id: WorldId, val parent: WorldRoutes = WorldRoutes())
+
+    @Resource("preview")
+    class Preview(val id: WorldId, val parent: WorldRoutes = WorldRoutes())
 
     @Resource("update")
     class Update(val id: WorldId, val parent: WorldRoutes = WorldRoutes())
@@ -93,6 +98,17 @@ fun Application.configureWorldRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showWorldEditor(call, state, world)
+            }
+        }
+        post<WorldRoutes.Preview> { preview ->
+            logger.info { "Get preview for ${preview.id.print()}" }
+
+            val formParameters = call.receiveParameters()
+            val state = STORE.getState()
+            val region = parseWorld(preview.id, formParameters)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showWorldEditor(call, state, region)
             }
         }
         post<WorldRoutes.Update> { update ->
@@ -163,14 +179,12 @@ private fun HTML.showWorldEditor(
     world: World,
 ) {
     val backLink = href(call, world.id)
+    val previewLink = call.application.href(WorldRoutes.Preview(world.id))
     val updateLink = call.application.href(WorldRoutes.Update(world.id))
 
     simpleHtmlEditor(world) {
-        form {
+        formWithPreview(previewLink, updateLink, backLink) {
             editWorld(state, world)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }
