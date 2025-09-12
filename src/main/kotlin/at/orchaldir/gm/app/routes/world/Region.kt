@@ -188,7 +188,6 @@ private fun HTML.showRegionEditor(
     state: State,
     region: Region,
 ) {
-
     val backLink = href(call, region.id)
     val previewLink = call.application.href(RegionRoutes.Preview(region.id))
     val updateLink = call.application.href(RegionRoutes.Update(region.id))

@@ -11,9 +11,11 @@ import at.orchaldir.gm.core.action.CreateMoon
 import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortMoon
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.selector.util.sortMoons
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -30,6 +32,12 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/$MOON_TYPE")
 class MoonRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortMoon = SortMoon.Name,
+        val parent: MoonRoutes = MoonRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: MoonId, val parent: MoonRoutes = MoonRoutes())
 
@@ -42,17 +50,20 @@ class MoonRoutes {
     @Resource("edit")
     class Edit(val id: MoonId, val parent: MoonRoutes = MoonRoutes())
 
+    @Resource("preview")
+    class Preview(val id: MoonId, val parent: MoonRoutes = MoonRoutes())
+
     @Resource("update")
     class Update(val id: MoonId, val parent: MoonRoutes = MoonRoutes())
 }
 
 fun Application.configureMoonRouting() {
     routing {
-        get<MoonRoutes> {
+        get<MoonRoutes.All> { all ->
             logger.info { "Get all moons" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMoons(call, STORE.getState())
+                showAllMoons(call, STORE.getState(), all.sort)
             }
         }
         get<MoonRoutes.Details> { details ->
@@ -87,6 +98,17 @@ fun Application.configureMoonRouting() {
                 showMoonEditor(call, state, moon)
             }
         }
+        post<MoonRoutes.Preview> { preview ->
+            logger.info { "Get preview for moon ${preview.id.value}" }
+
+            val formParameters = call.receiveParameters()
+            val state = STORE.getState()
+            val moon = parseMoon(formParameters, state, preview.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showMoonEditor(call, state, moon)
+            }
+        }
         post<MoonRoutes.Update> { update ->
             logger.info { "Update moon ${update.id.value}" }
 
@@ -104,8 +126,9 @@ fun Application.configureMoonRouting() {
 private fun HTML.showAllMoons(
     call: ApplicationCall,
     state: State,
+    sort: SortMoon = SortMoon.Name,
 ) {
-    val moons = STORE.getState().getMoonStorage().getAll().sortedBy { it.name.text }
+    val moons = state.sortMoons(sort)
     val createLink = call.application.href(MoonRoutes.New())
 
     simpleHtml("Moons") {
@@ -142,7 +165,7 @@ private fun HTML.showMoonDetails(
     state: State,
     moon: Moon,
 ) {
-    val backLink = call.application.href(MoonRoutes())
+    val backLink = call.application.href(MoonRoutes.All())
     val deleteLink = call.application.href(MoonRoutes.Delete(moon.id))
     val editLink = call.application.href(MoonRoutes.Edit(moon.id))
 
@@ -161,14 +184,12 @@ private fun HTML.showMoonEditor(
     moon: Moon,
 ) {
     val backLink = href(call, moon.id)
+    val previewLink = call.application.href(MoonRoutes.Preview(moon.id))
     val updateLink = call.application.href(MoonRoutes.Update(moon.id))
 
     simpleHtmlEditor(moon) {
-        form {
+        formWithPreview(previewLink, updateLink, backLink) {
             editMoon(state, moon)
-
-            button("Update", updateLink)
         }
-        back(backLink)
     }
 }

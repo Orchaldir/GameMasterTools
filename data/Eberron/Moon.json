@@ -11,6 +11,10 @@
   "1": {
    "id": 1,
    "name": "Crya",
+   "position": {
+    "type": "World",
+    "world": 0
+   },
    "color": "Black",
    "plane": 1
   },

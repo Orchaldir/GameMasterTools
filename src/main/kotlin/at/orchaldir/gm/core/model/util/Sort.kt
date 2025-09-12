@@ -126,6 +126,10 @@ enum class SortMaterial {
     Equipment,
 }
 
+enum class SortMoon {
+    Name,
+}
+
 enum class SortOrganization {
     Name,
     Date,

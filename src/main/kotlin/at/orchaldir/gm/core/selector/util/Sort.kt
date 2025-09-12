@@ -41,6 +41,7 @@ import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.town.TownMap
@@ -483,6 +484,20 @@ fun State.sortMaterial(
             SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }
         }
     )
+
+// moon
+
+fun State.sortMoons(sort: SortMoon = SortMoon.Name) =
+    sortMoons(getMoonStorage().getAll(), sort)
+
+fun State.sortMoons(
+    regions: Collection<Moon>,
+    sort: SortMoon = SortMoon.Name,
+) = regions
+    .sortedWith(
+        when (sort) {
+            SortMoon.Name -> compareBy { it.name.text }
+        })
 
 // organization
 
