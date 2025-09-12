@@ -56,11 +56,11 @@ class WorldRoutes {
 
 fun Application.configureWorldRouting() {
     routing {
-        get<WorldRoutes> {
+        get<WorldRoutes.All> { all ->
             logger.info { "Get all worlds" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllWorlds(call, STORE.getState())
+                showAllWorlds(call, STORE.getState(), all.sort)
             }
         }
         get<WorldRoutes.Details> { details ->
@@ -144,7 +144,7 @@ private fun HTML.showWorldDetails(
     state: State,
     world: World,
 ) {
-    val backLink = call.application.href(WorldRoutes())
+    val backLink = call.application.href(WorldRoutes.All())
     val deleteLink = call.application.href(WorldRoutes.Delete(world.id))
     val editLink = call.application.href(WorldRoutes.Edit(world.id))
 
