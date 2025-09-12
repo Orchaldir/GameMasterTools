@@ -41,6 +41,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -178,6 +179,8 @@ val UNIFORM_ID_0 = UniformId(0)
 val UNKNOWN_UNIFORM_ID = UniformId(99)
 val WAR_ID_0 = WarId(0)
 val UNKNOWN_WAR_ID = WarId(99)
+val WORLD_ID_0 = WorldId(0)
+val UNKNOWN_WORLD_ID = WorldId(99)
 
 val NAME = Name.init("Test")
 

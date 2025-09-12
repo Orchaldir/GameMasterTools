@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingPurpose
@@ -33,6 +34,7 @@ class PositionTest {
     private val inTownMap = InTownMap(TOWN_MAP_ID_0, 0)
     private val longTermCare = LongTermCareIn(BUSINESS_ID_0)
     private val onMoon = OnMoon(MOON_ID_0)
+    private val onWorld = OnWorld(WORLD_ID_0)
 
     @Nested
     inner class ApartmentTest {
@@ -430,6 +432,31 @@ class PositionTest {
                 Storage(Building(BUILDING_ID_0)),
                 Storage(CALENDAR0),
                 Storage(TownMap(TOWN_MAP_ID_0, date = date)),
+            )
+        )
+    }
+
+    @Nested
+    inner class WorldTest {
+
+        @Test
+        fun `Cannot use unknown world as position`() {
+            val history = History<Position>(OnWorld(UNKNOWN_WORLD_ID))
+
+            assertIllegalArgument("Requires unknown World 99 as home!") {
+                checkPositionHistory(createState(), history, DAY0)
+            }
+        }
+
+        @Test
+        fun `Live in a valid plan`() {
+            checkPositionHistory(createRealmState(), History(onWorld), DAY0)
+        }
+
+        private fun createRealmState() = State(
+            listOf(
+                Storage(CALENDAR0),
+                Storage(World(WORLD_ID_0)),
             )
         )
     }
