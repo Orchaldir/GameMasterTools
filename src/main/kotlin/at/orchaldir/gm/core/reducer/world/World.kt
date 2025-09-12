@@ -14,12 +14,12 @@ val CREATE_WORLD: Reducer<CreateWorld, State> = { state, _ ->
 }
 
 val UPDATE_WORLD: Reducer<UpdateWorld, State> = { state, action ->
-    val moon = action.world
+    val world = action.world
 
-    state.getWorldStorage().require(moon.id)
-    validateWorld(state, moon)
+    state.getWorldStorage().require(world.id)
+    validateWorld(state, world)
 
-    noFollowUps(state.updateStorage(state.getWorldStorage().update(moon)))
+    noFollowUps(state.updateStorage(state.getWorldStorage().update(world)))
 }
 
 fun validateWorld(state: State, moon: World) {

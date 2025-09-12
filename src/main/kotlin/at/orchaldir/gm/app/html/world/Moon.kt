@@ -4,11 +4,15 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.util.field
+import at.orchaldir.gm.app.html.util.fieldPosition
+import at.orchaldir.gm.app.html.util.parsePosition
+import at.orchaldir.gm.app.html.util.selectPosition
 import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.world.moon.ALLOWED_MOON_POSITIONS
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
@@ -30,6 +34,7 @@ fun HtmlBlockTag.showMoon(
     val nextFullMoon = moon.getNextFullMoon(currentDate)
 
     optionalField("Title", moon.title)
+    fieldPosition(call, state, moon.position)
     field("Cycle", moon.getCycle().toString() + " days")
     fieldColor(moon.color)
     optionalFieldLink("Plane", call, state, moon.plane)
@@ -53,6 +58,13 @@ fun HtmlBlockTag.editMoon(
 ) {
     selectName(moon.name)
     selectOptionalNotEmptyString("Optional Title", moon.title, TITLE)
+    selectPosition(
+        state,
+        POSITION,
+        moon.position,
+        null,
+        ALLOWED_MOON_POSITIONS,
+    )
     selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, 1, LENGTH)
     selectColor(moon.color)
     selectOptionalElement(state, "Plane", PLANE, state.sortPlanes(), moon.plane)
@@ -63,10 +75,11 @@ fun HtmlBlockTag.editMoon(
 
 fun parseMoonId(parameters: Parameters, param: String) = MoonId(parseInt(parameters, param))
 
-fun parseMoon(id: MoonId, parameters: Parameters) = Moon(
+fun parseMoon(parameters: Parameters, state: State, id: MoonId) = Moon(
     id,
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),
+    parsePosition(parameters, state),
     parseInt(parameters, LENGTH, 1),
     parse(parameters, COLOR, Color.White),
     parseOptionalPlaneId(parameters, PLANE),

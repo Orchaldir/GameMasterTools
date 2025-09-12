@@ -89,7 +89,7 @@ fun Application.configureMoonRouting() {
         post<MoonRoutes.Update> { update ->
             logger.info { "Update moon ${update.id.value}" }
 
-            val moon = parseMoon(update.id, call.receiveParameters())
+            val moon = parseMoon(call.receiveParameters(), STORE.getState(), update.id)
 
             STORE.dispatch(UpdateMoon(moon))
 
