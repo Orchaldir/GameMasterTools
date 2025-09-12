@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 
 fun State.canDeleteWorld(world: WorldId) = DeleteResult(world)
+    .apply { canDeleteWithPositions(world, it) }
 
 
 

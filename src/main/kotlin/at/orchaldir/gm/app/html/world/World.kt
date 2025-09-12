@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.world
 
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.WorldId
@@ -17,6 +18,7 @@ fun HtmlBlockTag.showWorld(
     world: World,
 ) {
     optionalField("Title", world.title)
+    showLocalElements(call, state, world.id)
 }
 
 // edit
