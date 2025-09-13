@@ -5,6 +5,10 @@
    "id": 0,
    "data": {
     "type": "Lights"
+   },
+   "position": {
+    "type": "Town",
+    "town": 1
    }
   }
  }

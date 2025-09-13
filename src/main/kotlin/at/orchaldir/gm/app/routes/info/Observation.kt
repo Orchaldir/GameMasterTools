@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.info.displayObservationData
 import at.orchaldir.gm.app.html.info.editObservation
 import at.orchaldir.gm.app.html.info.parseObservation
 import at.orchaldir.gm.app.html.info.showObservation
+import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateObservation
 import at.orchaldir.gm.core.action.DeleteObservation
@@ -143,11 +144,13 @@ private fun HTML.showAllObservations(
             tr {
                 th { +"Name" }
                 th { +"Data" }
+                th { +"Position" }
             }
             observations.forEach { observation ->
                 tr {
                     tdLink(call, state, observation)
                     td { displayObservationData(call, state, observation.data) }
+                    td { showPosition(call, state, observation.position, false) }
                 }
             }
         }

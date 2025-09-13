@@ -3,7 +3,9 @@ package at.orchaldir.gm.core.reducer.info
 import at.orchaldir.gm.core.action.CreateObservation
 import at.orchaldir.gm.core.action.UpdateObservation
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.info.observation.ALLOWED_OBSERVATION_POSITIONS
 import at.orchaldir.gm.core.model.info.observation.Observation
+import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -23,5 +25,5 @@ val UPDATE_OBSERVATION: Reducer<UpdateObservation, State> = { state, action ->
 }
 
 fun validateObservation(state: State, observation: Observation) {
-
+    checkPosition(state, observation.position, "position", null, ALLOWED_OBSERVATION_POSITIONS)
 }
