@@ -67,9 +67,9 @@ import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.name.NameListId
-import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
-import at.orchaldir.gm.core.model.util.quote.Quote
-import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.info.quote.QUOTE_TYPE
+import at.orchaldir.gm.core.model.info.quote.Quote
+import at.orchaldir.gm.core.model.info.quote.QuoteId
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId

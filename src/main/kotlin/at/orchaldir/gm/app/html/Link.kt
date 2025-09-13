@@ -66,7 +66,7 @@ import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.NameListId
-import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.info.quote.QuoteId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.world.WorldId

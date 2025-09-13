@@ -35,7 +35,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.font.Font
-import at.orchaldir.gm.core.model.util.quote.Quote
+import at.orchaldir.gm.core.model.info.quote.Quote
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.world.World

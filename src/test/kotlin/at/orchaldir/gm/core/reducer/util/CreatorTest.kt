@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.TranslatedElement
-import at.orchaldir.gm.core.model.util.quote.Quote
+import at.orchaldir.gm.core.model.info.quote.Quote
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Element
