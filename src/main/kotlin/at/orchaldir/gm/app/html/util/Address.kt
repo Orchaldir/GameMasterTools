@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.parse.world.parseStreetId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.selector.util.getBuildingsForPosition
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.world.getHouseNumbersUsedByOthers
 import at.orchaldir.gm.core.selector.world.getStreets
 import at.orchaldir.gm.utils.doNothing
@@ -106,13 +106,13 @@ fun FORM.selectAddress(state: State, building: Building) {
                 selectElement(state, combine(ADDRESS, STREET), streets, address.street)
                 selectHouseNumber(
                     address.houseNumber,
-                    getHouseNumbersUsedByOthers(state.getBuildingsForPosition(building.position), address),
+                    getHouseNumbersUsedByOthers(state.getBuildingsIn(building.position), address),
                 )
             }
 
             is TownAddress -> selectHouseNumber(
                 address.houseNumber,
-                getHouseNumbersUsedByOthers(state.getBuildingsForPosition(building.position), address),
+                getHouseNumbersUsedByOthers(state.getBuildingsIn(building.position), address),
             )
         }
     }

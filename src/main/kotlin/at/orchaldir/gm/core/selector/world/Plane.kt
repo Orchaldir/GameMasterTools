@@ -9,14 +9,14 @@ import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.selector.time.date.getStartYear
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
-import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
+import at.orchaldir.gm.core.selector.util.canDeletePosition
 import at.orchaldir.gm.utils.doNothing
 
 fun State.canDeletePlane(plane: PlaneId) = DeleteResult(plane)
     .addElements(getDemiplanes(plane))
     .addElements(getReflections(plane))
     .addElements(getMoonsLinkedTo(plane))
-    .apply { canDeleteWithPositions(plane, it) }
+    .apply { canDeletePosition(plane, it) }
 
 // count
 

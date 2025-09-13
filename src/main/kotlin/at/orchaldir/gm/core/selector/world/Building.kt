@@ -9,12 +9,12 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
+import at.orchaldir.gm.core.selector.util.canDeletePosition
 import at.orchaldir.gm.core.selector.util.countBuildingsIn
 import at.orchaldir.gm.core.selector.util.getBuildingAgeComparator
 
 fun State.canDeleteBuilding(building: BuildingId) = DeleteResult(building)
-    .apply { canDeleteWithPositions(building, it) }
+    .apply { canDeletePosition(building, it) }
 
 fun State.countBuildings(townId: TownId): Int {
     val countInTownMap = getCurrentTownMap(townId)?.let { countBuildingsIn(it.id) } ?: 0

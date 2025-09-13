@@ -26,7 +26,7 @@ fun State.canDeleteRealm(realm: RealmId) = DeleteResult(realm)
     .apply { canDeleteCreator(realm, it) }
     .apply { canDeleteDestroyer(realm, it) }
     .apply { canDeleteOwner(realm, it) }
-    .apply { canDeleteWithPositions(realm, it) }
+    .apply { canDeletePosition(realm, it) }
 
 // count
 
