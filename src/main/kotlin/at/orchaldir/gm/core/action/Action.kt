@@ -24,6 +24,8 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
+import at.orchaldir.gm.core.model.info.observation.Observation
+import at.orchaldir.gm.core.model.info.observation.ObservationId
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
@@ -261,6 +263,15 @@ data class UpdateCurrencyUnit(val unit: CurrencyUnit) : EconomyAction()
 data object CreateJob : EconomyAction()
 data class DeleteJob(val id: JobId) : EconomyAction()
 data class UpdateJob(val job: Job) : EconomyAction()
+
+//-- information --
+
+sealed class InformationAction : Action()
+
+// magic tradition
+data object CreateObservation : InformationAction()
+data class DeleteObservation(val id: ObservationId) : InformationAction()
+data class UpdateObservation(val observation: Observation) : InformationAction()
 
 //-- magic --
 
