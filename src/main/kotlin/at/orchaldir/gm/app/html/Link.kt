@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.routes.economy.StandardOfLivingRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
+import at.orchaldir.gm.app.routes.info.ObservationRoutes
 import at.orchaldir.gm.app.routes.info.QuoteRoutes
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
@@ -44,6 +45,7 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.health.DiseaseId
+import at.orchaldir.gm.core.model.info.observation.ObservationId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
@@ -397,6 +399,7 @@ fun href(
     is MoonId -> call.application.href(MoonRoutes.Details(id))
     is RegionId -> call.application.href(RegionRoutes.Details(id))
     is NameListId -> call.application.href(NameListRoutes.Details(id))
+    is ObservationId -> call.application.href(ObservationRoutes.Details(id))
     is OrganizationId -> call.application.href(OrganizationRoutes.Details(id))
     is PantheonId -> call.application.href(PantheonRoutes.Details(id))
     is PeriodicalId -> call.application.href(PeriodicalRoutes.Details(id))
