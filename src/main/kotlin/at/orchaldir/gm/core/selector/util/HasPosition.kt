@@ -58,6 +58,7 @@ fun <ID : Id<ID>, ELEMENT> getHasPositionsForPosition(
 fun <ID : Id<ID>> State.getBuildingsIn(id: ID) = getHasPositionsIn(getBuildingStorage(), id)
 fun <ID : Id<ID>> State.getBusinessesIn(id: ID) = getHasPositionsIn(getBusinessStorage(), id)
 fun <ID : Id<ID>> State.getMoonsOf(id: ID) = getHasPositionsIn(getMoonStorage(), id)
+fun <ID : Id<ID>> State.getObservationsIn(id: ID) = getHasPositionsIn(getObservationStorage(), id)
 fun <ID : Id<ID>> State.getRegionsIn(id: ID) = getHasPositionsIn(getRegionStorage(), id)
 fun <ID : Id<ID>> State.getWorldsIn(id: ID) = getHasPositionsIn(getWorldStorage(), id)
 

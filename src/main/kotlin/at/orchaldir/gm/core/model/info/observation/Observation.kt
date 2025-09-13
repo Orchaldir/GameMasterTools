@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.info.observation
 
+import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType
 import at.orchaldir.gm.core.model.util.UndefinedPosition
@@ -25,9 +26,10 @@ data class Observation(
     val id: ObservationId,
     val data: ObservationData = UndefinedObservationData,
     val position: Position = UndefinedPosition,
-) : ElementWithSimpleName<ObservationId> {
+) : ElementWithSimpleName<ObservationId>, HasPosition {
 
     override fun id() = id
     override fun name() = id.print()
+    override fun position() = position
 
 }
