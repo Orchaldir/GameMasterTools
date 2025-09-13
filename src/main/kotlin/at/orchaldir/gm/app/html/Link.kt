@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.routes.economy.StandardOfLivingRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
+import at.orchaldir.gm.app.routes.info.QuoteRoutes
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
 import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes

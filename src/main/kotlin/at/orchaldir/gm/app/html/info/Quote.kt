@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.util.quote
+package at.orchaldir.gm.app.html.info
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
