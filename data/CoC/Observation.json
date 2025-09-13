@@ -7,8 +7,8 @@
     "type": "Lights"
    },
    "position": {
-    "type": "Town",
-    "town": 1
+    "type": "Business",
+    "business": 10
    }
   }
  }

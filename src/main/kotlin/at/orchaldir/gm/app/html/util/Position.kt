@@ -59,6 +59,7 @@ fun HtmlBlockTag.showPosition(
         }
 
         is InBuilding -> link(call, state, position.building)
+        is InBusiness -> link(call, state, position.business)
         is InDistrict -> link(call, state, position.district)
         is InHome -> link(call, state, position.building)
         is InPlane -> link(call, state, position.plane)
@@ -148,10 +149,11 @@ private fun HtmlBlockTag.selectPositionIntern(
         when (type) {
             PositionType.Undefined -> false
             PositionType.Apartment -> apartments.isEmpty()
+            PositionType.Building -> buildings.isEmpty()
+            PositionType.Business -> businesses.isEmpty()
             PositionType.District -> districts.isEmpty()
             PositionType.Home -> homes.isEmpty()
             PositionType.Homeless -> false
-            PositionType.Building -> buildings.isEmpty()
             PositionType.LongTermCare -> businesses.isEmpty()
             PositionType.Moon -> moons.isEmpty()
             PositionType.Plane -> planes.isEmpty()
@@ -187,18 +189,25 @@ private fun HtmlBlockTag.selectPositionIntern(
             }
         }
 
-        is InDistrict -> selectElement(
-            state,
-            combine(param, DISTRICT),
-            districts,
-            position.district,
-        )
-
         is InBuilding -> selectElement(
             "Building",
             combine(param, BUILDING),
             buildings,
             position.building,
+        )
+
+        is InBusiness -> selectElement(
+            state,
+            combine(param, BUSINESS),
+            businesses,
+            position.business,
+        )
+
+        is InDistrict -> selectElement(
+            state,
+            combine(param, DISTRICT),
+            districts,
+            position.district,
         )
 
         is InHome -> selectElement(
@@ -294,6 +303,10 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
 
         PositionType.Building -> InBuilding(
             parseBuildingId(parameters, combine(param, BUILDING)),
+        )
+
+        PositionType.Business -> InBusiness(
+            parseBusinessId(parameters, combine(param, BUSINESS)),
         )
 
         PositionType.District -> InDistrict(
