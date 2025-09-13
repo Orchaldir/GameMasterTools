@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.info
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.info.displayObservationData
 import at.orchaldir.gm.app.html.info.editObservation
 import at.orchaldir.gm.app.html.info.parseObservation
 import at.orchaldir.gm.app.html.info.showObservation
@@ -26,6 +27,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
+import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 import mu.KotlinLogging
@@ -140,10 +142,12 @@ private fun HTML.showAllObservations(
         table {
             tr {
                 th { +"Name" }
+                th { +"Data" }
             }
             observations.forEach { observation ->
                 tr {
                     tdLink(call, state, observation)
+                    td { displayObservationData(call, state, observation.data) }
                 }
             }
         }

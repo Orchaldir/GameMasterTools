@@ -15,13 +15,13 @@ fun HtmlBlockTag.showObservation(
     state: State,
     observation: Observation,
 ) {
-
+    showObservationData(call, state, observation.data)
 }
 
 // edit
 
 fun HtmlBlockTag.editObservation(state: State, observation: Observation) {
-
+    editObservationData(state, observation)
 }
 
 // parse
@@ -32,4 +32,5 @@ fun parseObservationId(parameters: Parameters, param: String) = ObservationId(pa
 
 fun parseObservation(parameters: Parameters, state: State, id: ObservationId) = Observation(
     id,
+    parseObservationData(parameters),
 )

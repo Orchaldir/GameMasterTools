@@ -19,6 +19,7 @@ value class ObservationId(val value: Int) : Id<ObservationId> {
 @Serializable
 data class Observation(
     val id: ObservationId,
+    val data: ObservationData = UndefinedObservationData,
 ) : ElementWithSimpleName<ObservationId> {
 
     override fun id() = id
