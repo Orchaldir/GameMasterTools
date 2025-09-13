@@ -5,18 +5,15 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.info.editObservation
 import at.orchaldir.gm.app.html.info.parseObservation
 import at.orchaldir.gm.app.html.info.showObservation
-import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateObservation
 import at.orchaldir.gm.core.action.DeleteObservation
 import at.orchaldir.gm.core.action.UpdateObservation
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.info.observation.OBSERVATION_TYPE
 import at.orchaldir.gm.core.model.info.observation.Observation
 import at.orchaldir.gm.core.model.info.observation.ObservationId
 import at.orchaldir.gm.core.model.util.SortObservation
-import at.orchaldir.gm.core.model.world.WORLD_TYPE
-import at.orchaldir.gm.core.selector.util.getMoonsOf
-import at.orchaldir.gm.core.selector.util.getRegionsIn
 import at.orchaldir.gm.core.selector.util.sortObservations
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -29,14 +26,13 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
-import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/$WORLD_TYPE")
+@Resource("/$OBSERVATION_TYPE")
 class ObservationRoutes {
     @Resource("all")
     class All(
