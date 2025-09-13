@@ -189,11 +189,6 @@ data object CreatePersonalityTrait : Action()
 data class DeletePersonalityTrait(val id: PersonalityTraitId) : Action()
 data class UpdatePersonalityTrait(val trait: PersonalityTrait) : Action()
 
-// quote
-data object CreateQuote : Action()
-data class DeleteQuote(val id: QuoteId) : Action()
-data class UpdateQuote(val quote: Quote) : Action()
-
 // race
 data object CreateRace : Action()
 data class CloneRace(val id: RaceId) : Action()
@@ -205,6 +200,44 @@ data object CreateRaceAppearance : Action()
 data class CloneRaceAppearance(val id: RaceAppearanceId) : Action()
 data class DeleteRaceAppearance(val id: RaceAppearanceId) : Action()
 data class UpdateRaceAppearance(val appearance: RaceAppearance) : Action()
+
+//-- economy --
+
+sealed class EconomyAction : Action()
+
+// business
+data object CreateBusiness : EconomyAction()
+data class DeleteBusiness(val id: BusinessId) : EconomyAction()
+data class UpdateBusiness(val business: Business) : EconomyAction()
+
+// currency
+data object CreateCurrency : EconomyAction()
+data class DeleteCurrency(val id: CurrencyId) : EconomyAction()
+data class UpdateCurrency(val currency: Currency) : EconomyAction()
+
+// currency unit
+data object CreateCurrencyUnit : EconomyAction()
+data class DeleteCurrencyUnit(val id: CurrencyUnitId) : EconomyAction()
+data class UpdateCurrencyUnit(val unit: CurrencyUnit) : EconomyAction()
+
+// job
+data object CreateJob : EconomyAction()
+data class DeleteJob(val id: JobId) : EconomyAction()
+data class UpdateJob(val job: Job) : EconomyAction()
+
+//-- information --
+
+sealed class InformationAction : Action()
+
+// magic tradition
+data object CreateObservation : InformationAction()
+data class DeleteObservation(val id: ObservationId) : InformationAction()
+data class UpdateObservation(val observation: Observation) : InformationAction()
+
+// quote
+data object CreateQuote : InformationAction()
+data class DeleteQuote(val id: QuoteId) : InformationAction()
+data class UpdateQuote(val quote: Quote) : InformationAction()
 
 //-- items --
 
@@ -239,39 +272,6 @@ data class UpdateText(val text: Text) : ItemAction()
 data object CreateUniform : ItemAction()
 data class DeleteUniform(val id: UniformId) : ItemAction()
 data class UpdateUniform(val uniform: Uniform) : ItemAction()
-
-//-- economy --
-
-sealed class EconomyAction : Action()
-
-// business
-data object CreateBusiness : EconomyAction()
-data class DeleteBusiness(val id: BusinessId) : EconomyAction()
-data class UpdateBusiness(val business: Business) : EconomyAction()
-
-// currency
-data object CreateCurrency : EconomyAction()
-data class DeleteCurrency(val id: CurrencyId) : EconomyAction()
-data class UpdateCurrency(val currency: Currency) : EconomyAction()
-
-// currency unit
-data object CreateCurrencyUnit : EconomyAction()
-data class DeleteCurrencyUnit(val id: CurrencyUnitId) : EconomyAction()
-data class UpdateCurrencyUnit(val unit: CurrencyUnit) : EconomyAction()
-
-// job
-data object CreateJob : EconomyAction()
-data class DeleteJob(val id: JobId) : EconomyAction()
-data class UpdateJob(val job: Job) : EconomyAction()
-
-//-- information --
-
-sealed class InformationAction : Action()
-
-// magic tradition
-data object CreateObservation : InformationAction()
-data class DeleteObservation(val id: ObservationId) : InformationAction()
-data class UpdateObservation(val observation: Observation) : InformationAction()
 
 //-- magic --
 

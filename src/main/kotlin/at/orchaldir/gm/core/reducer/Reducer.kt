@@ -111,10 +111,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreatePersonalityTrait -> CREATE_PERSONALITY_TRAIT(state, action)
         is DeletePersonalityTrait -> deleteElement(state, action.id, State::canDeletePersonalityTrait)
         is UpdatePersonalityTrait -> UPDATE_PERSONALITY_TRAIT(state, action)
-        // quote
-        is CreateQuote -> CREATE_QUOTE(state, action)
-        is DeleteQuote -> deleteElement(state, action.id, State::canDeleteQuote)
-        is UpdateQuote -> UPDATE_QUOTE(state, action)
         // race
         is CreateRace -> CREATE_RACE(state, action)
         is CloneRace -> CLONE_RACE(state, action)
@@ -130,9 +126,9 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is DeleteTitle -> deleteElement(state, action.id, State::canDeleteTitle)
         is UpdateTitle -> UPDATE_TITLE(state, action)
         // sub reducers
-        is ItemAction -> ITEM_REDUCER(state, action)
         is EconomyAction -> ECONOMY_REDUCER(state, action)
         is InformationAction -> INFORMATION_REDUCER(state, action)
+        is ItemAction -> ITEM_REDUCER(state, action)
         is MagicAction -> MAGIC_REDUCER(state, action)
         is OrganizationAction -> ORGANIZATION_REDUCER(state, action)
         is RealmAction -> REALM_REDUCER(state, action)
