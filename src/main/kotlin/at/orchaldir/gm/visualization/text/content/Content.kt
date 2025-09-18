@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.Center
 import at.orchaldir.gm.core.model.util.VerticalAlignment
-import at.orchaldir.gm.core.model.util.quote.Quote
+import at.orchaldir.gm.core.model.info.quote.Quote
 import at.orchaldir.gm.core.selector.util.getReferenceName
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.convert

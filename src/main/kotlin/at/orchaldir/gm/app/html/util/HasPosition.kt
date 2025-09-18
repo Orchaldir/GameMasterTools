@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.info.observation.Observation
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.Building
@@ -31,6 +32,7 @@ fun HtmlBlockTag.showLocalElements(
     state.getBuildingsIn(town.id).toSet() + state.getBuildingsIn(townMap.id).toSet(),
     state.getBusinessesIn(town.id).toSet() + state.getBusinessesIn(townMap.id).toSet(),
     emptySet(),
+    state.getObservationsIn(town.id).toSet() + state.getObservationsIn(townMap.id).toSet(),
     state.getRegionsIn(town.id).toSet() + state.getRegionsIn(townMap.id).toSet(),
     state.getCharactersLivingIn(town.id).toSet() + state.getCharactersLivingIn(townMap.id).toSet(),
     state.getCharactersPreviouslyLivingIn(town.id).toSet() + state.getCharactersPreviouslyLivingIn(townMap.id).toSet(),
@@ -47,6 +49,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showLocalElements(
     state.getBuildingsIn(id),
     state.getBusinessesIn(id),
     state.getMoonsOf(id),
+    state.getObservationsIn(id),
     state.getRegionsIn(id),
     state.getCharactersLivingIn(id),
     state.getCharactersPreviouslyLivingIn(id),
@@ -59,12 +62,13 @@ private fun HtmlBlockTag.showLocalElementsInternal(
     buildings: Collection<Building>,
     businesses: Collection<Business>,
     moons: Collection<Moon>,
+    observations: Collection<Observation>,
     regions: Collection<Region>,
     residents: Collection<Character>,
     formerResidents: Collection<Character>,
     worlds: Collection<World>,
 ) {
-    if (buildings.isEmpty() && businesses.isEmpty() && moons.isEmpty() && regions.isEmpty() && residents.isEmpty() && formerResidents.isEmpty() && worlds.isEmpty()) {
+    if (buildings.isEmpty() && businesses.isEmpty() && moons.isEmpty() && observations.isEmpty() && regions.isEmpty() && residents.isEmpty() && formerResidents.isEmpty() && worlds.isEmpty()) {
         return
     }
 
@@ -82,6 +86,7 @@ private fun HtmlBlockTag.showLocalElementsInternal(
         fieldList(call, state, buildings)
         fieldList(call, state, businesses)
         fieldList(call, state, moons)
+        fieldList(call, state, observations)
         fieldList(call, state, regions)
         fieldList(call, state, "Residents", allResidents)
         fieldList(call, state, "Former Residents", allFormerResidents)

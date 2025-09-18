@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.reducer.util.quote
 import at.orchaldir.gm.core.action.CreateQuote
 import at.orchaldir.gm.core.action.UpdateQuote
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.quote.Quote
+import at.orchaldir.gm.core.model.info.quote.Quote
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.util.quote
+package at.orchaldir.gm.core.model.info.quote
 
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation

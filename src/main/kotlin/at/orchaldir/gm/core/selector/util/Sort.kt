@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.health.Disease
+import at.orchaldir.gm.core.model.info.observation.Observation
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.periodical.Article
@@ -35,7 +36,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.font.Font
-import at.orchaldir.gm.core.model.util.quote.Quote
+import at.orchaldir.gm.core.model.info.quote.Quote
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.world.World
@@ -499,6 +500,23 @@ fun State.sortMoons(
             SortMoon.Name -> compareBy { it.name.text }
         })
 
+
+
+// quote
+
+fun State.sortObservations(sort: SortObservation = SortObservation.Name) =
+    sortObservations(getObservationStorage().getAll(), sort)
+
+fun State.sortObservations(
+    observations: Collection<Observation>,
+    sort: SortObservation = SortObservation.Name,
+) = observations
+    .sortedWith(
+        when (sort) {
+            SortObservation.Name -> compareBy { it.id.value }
+        }
+    )
+
 // organization
 
 fun State.sortOrganizations(sort: SortOrganization = SortOrganization.Name) =
@@ -521,9 +539,9 @@ fun State.sortPantheons(sort: SortPantheon = SortPantheon.Name) =
     sortPantheons(getPantheonStorage().getAll(), sort)
 
 fun State.sortPantheons(
-    domains: Collection<Pantheon>,
+    pantheons: Collection<Pantheon>,
     sort: SortPantheon = SortPantheon.Name,
-) = domains
+) = pantheons
     .sortedWith(
         when (sort) {
             SortPantheon.Name -> compareBy { it.name.text }
@@ -583,9 +601,9 @@ fun State.sortQuotes(sort: SortQuote = SortQuote.Name) =
     sortQuotes(getQuoteStorage().getAll(), sort)
 
 fun State.sortQuotes(
-    businesses: Collection<Quote>,
+    quotes: Collection<Quote>,
     sort: SortQuote = SortQuote.Name,
-) = businesses
+) = quotes
     .sortedWith(
         when (sort) {
             SortQuote.Name -> compareBy { it.text.text }

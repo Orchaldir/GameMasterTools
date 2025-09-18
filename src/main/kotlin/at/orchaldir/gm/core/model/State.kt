@@ -30,6 +30,9 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
+import at.orchaldir.gm.core.model.info.observation.OBSERVATION_TYPE
+import at.orchaldir.gm.core.model.info.observation.Observation
+import at.orchaldir.gm.core.model.info.observation.ObservationId
 import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
@@ -64,9 +67,9 @@ import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.name.NameListId
-import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
-import at.orchaldir.gm.core.model.util.quote.Quote
-import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.info.quote.QUOTE_TYPE
+import at.orchaldir.gm.core.model.info.quote.Quote
+import at.orchaldir.gm.core.model.info.quote.QuoteId
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
@@ -97,6 +100,7 @@ import at.orchaldir.gm.core.reducer.economy.validateCurrency
 import at.orchaldir.gm.core.reducer.economy.validateCurrencyUnit
 import at.orchaldir.gm.core.reducer.economy.validateJob
 import at.orchaldir.gm.core.reducer.health.validateDisease
+import at.orchaldir.gm.core.reducer.info.validateObservation
 import at.orchaldir.gm.core.reducer.item.periodical.validateArticle
 import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodical
 import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodicalIssue
@@ -166,6 +170,7 @@ val ELEMENTS =
         PERIODICAL_ISSUE_TYPE,
         PERSONALITY_TRAIT_TYPE,
         PLANE_TYPE,
+        OBSERVATION_TYPE,
         QUOTE_TYPE,
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
@@ -241,6 +246,7 @@ data class State(
     fun getPeriodicalIssueStorage() = getStorage<PeriodicalIssueId, PeriodicalIssue>(PERIODICAL_ISSUE_TYPE)
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT_TYPE)
     fun getPlaneStorage() = getStorage<PlaneId, Plane>(PLANE_TYPE)
+    fun getObservationStorage() = getStorage<ObservationId, Observation>(OBSERVATION_TYPE)
     fun getQuoteStorage() = getStorage<QuoteId, Quote>(QUOTE_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
@@ -360,6 +366,7 @@ data class State(
         validate(getPeriodicalStorage()) { validatePeriodical(this, it) }
         validate(getPeriodicalIssueStorage()) { validatePeriodicalIssue(this, it) }
         validate(getPlaneStorage()) { validatePlane(this, it) }
+        validate(getObservationStorage()) { validateObservation(this, it) }
         validate(getQuoteStorage()) { validateQuote(this, it) }
         validate(getRaceStorage()) { validateRace(this, it) }
         validate(getRaceAppearanceStorage()) { validateRaceAppearance(it) }
@@ -414,6 +421,7 @@ data class State(
         saveStorage(path, getPeriodicalIssueStorage())
         saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getPlaneStorage())
+        saveStorage(path, getObservationStorage())
         saveStorage(path, getQuoteStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
@@ -471,6 +479,7 @@ fun createStorage(type: String) = when (type) {
     PERIODICAL_ISSUE_TYPE -> Storage(PeriodicalIssueId(0))
     PERSONALITY_TRAIT_TYPE -> Storage(PersonalityTraitId(0))
     PLANE_TYPE -> Storage(PlaneId(0))
+    OBSERVATION_TYPE -> Storage(ObservationId(0))
     QUOTE_TYPE -> Storage(QuoteId(0))
     RACE_TYPE -> Storage(RaceId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
@@ -531,6 +540,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     )
 
     PLANE_TYPE -> loadStorage<PlaneId, Plane>(path, PlaneId(0))
+    OBSERVATION_TYPE -> loadStorage<ObservationId, Observation>(path, ObservationId(0))
     QUOTE_TYPE -> loadStorage<QuoteId, Quote>(path, QuoteId(0))
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))

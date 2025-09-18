@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.time.getCurrentDate
-import at.orchaldir.gm.core.selector.util.getBuildingsForPosition
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -186,7 +186,7 @@ private fun checkAddress(
         }
 
         is TownAddress -> {
-            val buildings = state.getBuildingsForPosition(position)
+            val buildings = state.getBuildingsIn(position)
                 .filter { it.id != building }
             require(!getUsedHouseNumbers(buildings).contains(address.houseNumber)) {
                 "House number ${address.houseNumber} already used for ${position.getId()?.print()}!"

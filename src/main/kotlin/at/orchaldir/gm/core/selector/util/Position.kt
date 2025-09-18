@@ -1,0 +1,73 @@
+package at.orchaldir.gm.core.selector.util
+
+import at.orchaldir.gm.core.model.DeleteResult
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
+
+// delete
+
+fun <ID : Id<ID>> State.canDeletePosition(id: ID, result: DeleteResult) = result
+    .addElements(getCharactersLivingIn(id))
+    .addElements(getCharactersPreviouslyLivingIn(id))
+    .addElements(getBuildingsIn(id))
+    .addElements(getBusinessesIn(id))
+    .addElements(getMoonsOf(id))
+    .addElements(getObservationsIn(id))
+    .addElements(getRegionsIn(id))
+    .addElements(getWorldsIn(id))
+
+// count
+
+fun <ID : Id<ID>> State.countBuildingsIn(id: ID) = countLocalElementsIn(getBuildingStorage(), id)
+fun <ID : Id<ID>> State.countBusinessesIn(id: ID) = countLocalElementsIn(getBusinessStorage(), id)
+
+fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> countLocalElementsIn(
+    storage: Storage<ID0, ELEMENT>,
+    id: ID1,
+) where
+        ELEMENT : Element<ID0>,
+        ELEMENT : HasPosition = storage
+    .getAll()
+    .count { it.position().isIn(id) }
+
+// get
+
+fun State.getBuildingsIn(position: Position) = getLocalElementsIn(getBuildingStorage(), position)
+
+fun <ID : Id<ID>, ELEMENT> getLocalElementsIn(
+    storage: Storage<ID, ELEMENT>,
+    position: Position,
+) where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasPosition = when (position) {
+    is InDistrict -> getLocalElementsIn(storage, position.district)
+    is InPlane -> getLocalElementsIn(storage, position.plane)
+    is InRealm -> getLocalElementsIn(storage, position.realm)
+    is InTown -> getLocalElementsIn(storage, position.town)
+    is InTownMap -> getLocalElementsIn(storage, position.townMap)
+    is OnMoon -> getLocalElementsIn(storage, position.moon)
+    is OnWorld -> getLocalElementsIn(storage, position.world)
+    else -> error("House Number is not supported by Position type ${position.getType()}!")
+}
+
+
+fun <ID : Id<ID>> State.getBuildingsIn(id: ID) = getLocalElementsIn(getBuildingStorage(), id)
+fun <ID : Id<ID>> State.getBusinessesIn(id: ID) = getLocalElementsIn(getBusinessStorage(), id)
+fun <ID : Id<ID>> State.getMoonsOf(id: ID) = getLocalElementsIn(getMoonStorage(), id)
+fun <ID : Id<ID>> State.getObservationsIn(id: ID) = getLocalElementsIn(getObservationStorage(), id)
+fun <ID : Id<ID>> State.getRegionsIn(id: ID) = getLocalElementsIn(getRegionStorage(), id)
+fun <ID : Id<ID>> State.getWorldsIn(id: ID) = getLocalElementsIn(getWorldStorage(), id)
+
+fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT> getLocalElementsIn(
+    storage: Storage<ID0, ELEMENT>,
+    id: ID1,
+) where
+        ELEMENT : Element<ID0>,
+        ELEMENT : HasPosition = storage
+    .getAll()
+    .filter { it.position().isIn(id) }

@@ -130,6 +130,10 @@ enum class SortMoon {
     Name,
 }
 
+enum class SortObservation {
+    Name,
+}
+
 enum class SortOrganization {
     Name,
     Date,

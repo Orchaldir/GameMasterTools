@@ -1,10 +1,10 @@
-package at.orchaldir.gm.app.routes.utls
+package at.orchaldir.gm.app.routes.info
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.quote.editQuote
-import at.orchaldir.gm.app.html.util.quote.parseQuote
-import at.orchaldir.gm.app.html.util.quote.showQuote
+import at.orchaldir.gm.app.html.info.editQuote
+import at.orchaldir.gm.app.html.info.parseQuote
+import at.orchaldir.gm.app.html.info.showQuote
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleDeleteElement
@@ -13,9 +13,9 @@ import at.orchaldir.gm.core.action.DeleteQuote
 import at.orchaldir.gm.core.action.UpdateQuote
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortQuote
-import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
-import at.orchaldir.gm.core.model.util.quote.Quote
-import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.info.quote.QUOTE_TYPE
+import at.orchaldir.gm.core.model.info.quote.Quote
+import at.orchaldir.gm.core.model.info.quote.QuoteId
 import at.orchaldir.gm.core.selector.util.sortQuotes
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -134,11 +134,11 @@ private fun HTML.showAllQuotes(
     state: State,
     sort: SortQuote,
 ) {
-    val qquotes = state.sortQuotes(sort)
+    val quotes = state.sortQuotes(sort)
     val createLink = call.application.href(QuoteRoutes.New())
 
     simpleHtml("Quotes") {
-        field("Count", qquotes.size)
+        field("Count", quotes.size)
         showSortTableLinks(call, SortQuote.entries, QuoteRoutes(), QuoteRoutes::All)
         table {
             tr {
@@ -147,7 +147,7 @@ private fun HTML.showAllQuotes(
                 th { +"Start" }
                 th { +"Source" }
             }
-            qquotes.forEach { quote ->
+            quotes.forEach { quote ->
                 tr {
                     tdLink(call, state, quote)
                     tdEnum(quote.type)
@@ -156,7 +156,7 @@ private fun HTML.showAllQuotes(
                 }
             }
         }
-        showCreatorCount(call, state, qquotes, "Sources")
+        showCreatorCount(call, state, quotes, "Sources")
         action(createLink, "Add")
         back("/")
     }

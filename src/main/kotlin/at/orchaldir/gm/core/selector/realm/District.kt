@@ -5,11 +5,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
+import at.orchaldir.gm.core.selector.util.canDeletePosition
 import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDeleteDistrict(district: DistrictId) = DeleteResult(district)
-    .apply { canDeleteWithPositions(district, it) }
+    .apply { canDeletePosition(district, it) }
 
 fun State.getDistricts(town: TownId) = getDistrictStorage()
     .getAll()

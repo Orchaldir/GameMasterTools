@@ -8,11 +8,11 @@ import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
+import at.orchaldir.gm.core.selector.util.canDeletePosition
 
 fun State.canDeleteRegion(region: RegionId) = DeleteResult(region)
     .addElements(getTowns(region))
-    .apply { canDeleteWithPositions(region, it) }
+    .apply { canDeletePosition(region, it) }
 
 fun State.getRegions(type: RegionDataType) = getRegionStorage()
     .getAll()

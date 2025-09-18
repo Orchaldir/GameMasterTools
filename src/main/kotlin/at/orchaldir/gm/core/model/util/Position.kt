@@ -18,6 +18,7 @@ enum class PositionType {
     Undefined,
     Apartment,
     Building,
+    Business,
     District,
     Homeless,
     Home,
@@ -38,6 +39,7 @@ sealed class Position {
         Homeless -> PositionType.Homeless
         is InApartment -> PositionType.Apartment
         is InBuilding -> PositionType.Building
+        is InBusiness -> PositionType.Business
         is InDistrict -> PositionType.District
         is InHome -> PositionType.Home
         is InPlane -> PositionType.Plane
@@ -55,6 +57,7 @@ sealed class Position {
         Homeless -> null
         is InApartment -> building
         is InBuilding -> building
+        is InBusiness -> business
         is InDistrict -> district
         is InHome -> building
         is InPlane -> plane
@@ -84,6 +87,7 @@ sealed class Position {
         Homeless -> false
         is InApartment -> building == id
         is InBuilding -> building == id
+        is InBusiness -> business == id
         is InDistrict -> district == id
         is InHome -> building == id
         is InPlane -> plane == id
@@ -138,6 +142,10 @@ data class InBuilding(val building: BuildingId) : Position() {
     override fun isInBuilding(building: BuildingId) = this.building == building
 
 }
+
+@Serializable
+@SerialName("Business")
+data class InBusiness(val business: BusinessId) : Position()
 
 @Serializable
 @SerialName("District")

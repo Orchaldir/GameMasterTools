@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
 import at.orchaldir.gm.core.selector.util.canDeleteCreator
 import at.orchaldir.gm.core.selector.util.canDeleteOwner
-import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
+import at.orchaldir.gm.core.selector.util.canDeletePosition
 import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDeleteBusiness(business: BusinessId) = DeleteResult(business)
@@ -19,7 +19,7 @@ fun State.canDeleteBusiness(business: BusinessId) = DeleteResult(business)
     .addElements(getTextsPublishedBy(business))
     .apply { canDeleteCreator(business, it) }
     .apply { canDeleteOwner(business, it) }
-    .apply { canDeleteWithPositions(business, it) }
+    .apply { canDeletePosition(business, it) }
 
 fun State.getBusinesses(job: JobId) = getCharacterStorage()
     .getAll()

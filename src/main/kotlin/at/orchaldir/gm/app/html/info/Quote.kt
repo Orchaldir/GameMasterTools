@@ -1,13 +1,13 @@
-package at.orchaldir.gm.app.html.util.quote
+package at.orchaldir.gm.app.html.info
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.quote.Quote
-import at.orchaldir.gm.core.model.util.quote.QuoteId
-import at.orchaldir.gm.core.model.util.quote.QuoteType
+import at.orchaldir.gm.core.model.info.quote.Quote
+import at.orchaldir.gm.core.model.info.quote.QuoteId
+import at.orchaldir.gm.core.model.info.quote.QuoteType
 import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.item.periodical.getArticlesContaining
 import io.ktor.http.*

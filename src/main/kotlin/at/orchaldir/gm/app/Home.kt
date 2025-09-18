@@ -16,6 +16,8 @@ import at.orchaldir.gm.app.routes.economy.MaterialRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
+import at.orchaldir.gm.app.routes.info.ObservationRoutes
+import at.orchaldir.gm.app.routes.info.QuoteRoutes
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
 import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
@@ -67,7 +69,6 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getColorSchemeStorage(), ColorSchemeRoutes.All())
                     fieldStorageLink(call, state.getDataSourceStorage(), DataSourceRoutes.All())
                     fieldStorageLink(call, state.getFontStorage(), FontRoutes.All())
-                    fieldStorageLink(call, state.getQuoteStorage(), QuoteRoutes.All())
                     h3 { +"Characters" }
                     fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes.All())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
@@ -79,8 +80,16 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
                     fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes.All())
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
+                    h3 { +"Economy" }
+                    fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())
+                    fieldStorageLink(call, state.getCurrencyStorage(), CurrencyRoutes.All())
+                    fieldStorageLink(call, state.getCurrencyUnitStorage(), CurrencyUnitRoutes.All())
+                    fieldStorageLink(call, state.getJobStorage(), JobRoutes.All())
                     h3 { +"Health" }
                     fieldStorageLink(call, state.getDiseaseStorage(), DiseaseRoutes.All())
+                    h3 { +"Information" }
+                    fieldStorageLink(call, state.getObservationStorage(), ObservationRoutes.All())
+                    fieldStorageLink(call, state.getQuoteStorage(), QuoteRoutes.All())
                     h3 { +"Items" }
                     fieldStorageLink(call, state.getEquipmentStorage(), EquipmentRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes.All())
@@ -90,11 +99,6 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getArticleStorage(), ArticleRoutes.All())
                     fieldStorageLink(call, state.getPeriodicalStorage(), PeriodicalRoutes.All())
                     fieldStorageLink(call, state.getPeriodicalIssueStorage(), PeriodicalIssueRoutes.All())
-                    h3 { +"Economy" }
-                    fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())
-                    fieldStorageLink(call, state.getCurrencyStorage(), CurrencyRoutes.All())
-                    fieldStorageLink(call, state.getCurrencyUnitStorage(), CurrencyUnitRoutes.All())
-                    fieldStorageLink(call, state.getJobStorage(), JobRoutes.All())
                     h3 { +"Magic" }
                     fieldStorageLink(call, state.getMagicTraditionStorage(), MagicTraditionRoutes.All())
                     fieldStorageLink(call, state.getSpellStorage(), SpellRoutes.All())

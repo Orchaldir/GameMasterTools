@@ -42,6 +42,7 @@ fun checkPosition(
         }
 
         is InBuilding -> state.requireExists(state.getBuildingStorage(), position.building, date) { noun }
+        is InBusiness -> state.requireExists(state.getBusinessStorage(), position.business, date) { noun }
         is InDistrict -> state.requireExists(state.getDistrictStorage(), position.district, date) { noun }
 
         is InHome -> {

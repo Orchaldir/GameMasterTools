@@ -9,11 +9,11 @@ import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
+import at.orchaldir.gm.core.selector.util.canDeletePosition
 import at.orchaldir.gm.core.selector.util.getStartDateComparator
 
 fun State.canDeleteTownMap(town: TownMapId) = DeleteResult(town)
-    .apply { canDeleteWithPositions(town, it) }
+    .apply { canDeletePosition(town, it) }
 
 // get
 

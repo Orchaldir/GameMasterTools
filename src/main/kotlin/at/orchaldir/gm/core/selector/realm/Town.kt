@@ -24,7 +24,7 @@ fun State.canDeleteTown(town: TownId) = DeleteResult(town)
     .apply { canDeleteCreator(town, it) }
     .apply { canDeleteDestroyer(town, it) }
     .apply { canDeleteOwner(town, it) }
-    .apply { canDeleteWithPositions(town, it) }
+    .apply { canDeletePosition(town, it) }
 
 // count
 
