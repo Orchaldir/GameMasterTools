@@ -156,7 +156,6 @@ private fun HTML.showPersonalityTraitDetails(
         if (trait.group != null) {
             val traits = state.getPersonalityTraits(trait.group)
                 .filter { it != trait }
-                .sortedBy { it.name.text }
 
             fieldElements(call, state, "Conflicting", traits)
         }
