@@ -131,9 +131,9 @@ private fun HtmlBlockTag.selectPositionIntern(
     noun: String = POSITION_TEXT,
     getTiles: (TownMapId) -> List<Int> = { emptyList() },
 ) {
-    val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
-    val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
-    val buildings = state.sortBuildings(state.getExistingElements(state.getBuildingStorage(), start))
+    val apartments = state.getExistingElements(state.getApartmentHouses(), start)
+    val homes = state.getExistingElements(state.getHomes(), start)
+    val buildings = state.getExistingElements(state.getBuildingStorage(), start)
     val businesses = state.getExistingElements(state.getBusinessStorage(), start)
     val districts = state.getExistingElements(state.getDistrictStorage(), start)
     val moons = state.getMoonStorage().getAll()
@@ -167,6 +167,7 @@ private fun HtmlBlockTag.selectPositionIntern(
         Homeless -> doNothing()
         is InApartment -> {
             selectElement(
+                state,
                 "Apartment House",
                 combine(param, BUILDING),
                 apartments,
@@ -195,6 +196,7 @@ private fun HtmlBlockTag.selectPositionIntern(
         )
 
         is InBuilding -> selectElement(
+            state,
             "Building",
             combine(param, BUILDING),
             buildings,
@@ -202,6 +204,7 @@ private fun HtmlBlockTag.selectPositionIntern(
         )
 
         is InHome -> selectElement(
+            state,
             "Home",
             combine(param, BUILDING),
             homes,

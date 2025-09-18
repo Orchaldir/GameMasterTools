@@ -16,17 +16,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
     selectedIds: Set<ID>,
 ) {
     showDetails(labelText, true) {
-        state.sortElements(elements).forEach { element ->
-            p {
-                checkBoxInput {
-                    name = param
-                    value = element.id().value().toString()
-                    checked = selectedIds.contains(element.id())
-                    onChange = ON_CHANGE_SCRIPT
-                    +element.name(state)
-                }
-            }
-        }
+        selectElements(state, param, elements, selectedIds)
     }
 }
 
@@ -42,24 +32,10 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
                 name = param
                 value = element.id().value().toString()
                 checked = selectedIds.contains(element.id())
+                onChange = ON_CHANGE_SCRIPT
                 +element.name(state)
             }
         }
-    }
-}
-
-// elements + name
-
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
-    labelText: String,
-    selectId: String,
-    elements: Collection<Pair<ELEMENT, String>>,
-    current: ID,
-) {
-    selectValue(labelText, selectId, elements) { (element, name) ->
-        label = name
-        value = element.id().value().toString()
-        selected = element.id() == current
     }
 }
 
