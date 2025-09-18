@@ -28,7 +28,7 @@ fun HtmlBlockTag.showEquipment(
     equipment: Equipment,
 ) {
     fieldWeight("Weight", equipment.weight)
-    fieldIds(call, state, "Color Schemes", equipment.colorSchemes)
+    fieldIds(call, state, equipment.colorSchemes)
     showEquipmentData(call, state, equipment)
 }
 

@@ -35,9 +35,19 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldElements(
 ) {
     if (elements.isNotEmpty()) {
         field(label) {
-            showList(state.sortElements(elements)) {
-                link(call, state, it)
-            }
+            showElements(call, state, elements)
+        }
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showElements(
+    call: ApplicationCall,
+    state: State,
+    elements: Collection<ELEMENT>,
+) {
+    if (elements.isNotEmpty()) {
+        showList(state.sortElements(elements)) {
+            link(call, state, it)
         }
     }
 }
@@ -50,9 +60,7 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldIds(
 ) {
     if (ids.isNotEmpty()) {
         field(label) {
-            showList(ids) {
-                link(call, state, it)
-            }
+            showElements(call, state, state.getStorage(ids.first()).get(ids))
         }
     }
 }
@@ -65,21 +73,7 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldIds(
     if (ids.isNotEmpty()) {
         val first = ids.first()
         field(first.plural()) {
-            showList(ids) {
-                link(call, state, it)
-            }
-        }
-    }
-}
-
-fun <ID : Id<ID>> HtmlBlockTag.showIds(
-    call: ApplicationCall,
-    state: State,
-    ids: Collection<ID>,
-) {
-    if (ids.isNotEmpty()) {
-        showList(ids) {
-            link(call, state, it)
+            showElements(call, state, state.getStorage(first).get(ids))
         }
     }
 }
