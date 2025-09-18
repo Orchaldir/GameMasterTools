@@ -2,9 +2,6 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.FamilyName
-import at.orchaldir.gm.core.model.character.Genonym
-import at.orchaldir.gm.core.model.character.Mononym
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -60,8 +57,13 @@ import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.countBuildings
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 
 // generic
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> State.sortElements(elements: Collection<ELEMENT>) = elements
+    .sortedWith( compareBy { it.toSortString(this) } )
 
 fun <Element : HasStartDate> State.getStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
     getDateComparator<Element>(valueForNull) { it.startDate() }
@@ -214,12 +216,7 @@ fun State.sortCharacters(
 
     return characters
         .map {
-            val name = when (it.name) {
-                is FamilyName -> it.name.family.text + it.name.given.text + it.name.middle?.text
-                is Genonym -> it.name.given.text
-                is Mononym -> it.name.name.text
-            }.lowercase()
-            Pair(it, name)
+            Pair(it, it.name.toSortString())
         }
         .sortedWith(
             when (sort) {

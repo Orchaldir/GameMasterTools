@@ -15,6 +15,7 @@ interface Element<ID> {
     fun id(): ID
 
     fun name(state: State): String
+    fun toSortString(state: State) = name(state)
 }
 
 @Serializable
