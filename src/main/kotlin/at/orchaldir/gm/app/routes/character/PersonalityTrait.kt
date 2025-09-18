@@ -15,8 +15,6 @@ import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.character.getPersonalityTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
-import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -146,8 +144,8 @@ private fun HTML.showPersonalityTraitDetails(
     state: State,
     trait: PersonalityTrait,
 ) {
-    val characters = state.sortCharacters(state.getCharacters(trait.id))
-    val gods = state.sortGods(state.getGodsWith(trait.id))
+    val characters = state.getCharacters(trait.id)
+    val gods = state.getGodsWith(trait.id)
     val backLink = call.application.href(PersonalityTraitRoutes())
     val deleteLink = call.application.href(PersonalityTraitRoutes.Delete(trait.id))
     val editLink = call.application.href(PersonalityTraitRoutes.Edit(trait.id))

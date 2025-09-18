@@ -131,14 +131,11 @@ private fun HTML.showStreetDetails(
     simpleHtmlDetails(street) {
         fieldName(street.name)
         fieldList("Towns", state.getTowns(street.id)) { town ->
-            val buildings = state.sortBuildings(
-                state.getBuildingsIn(town.id)
-                    .filter { it.address.contains(street.id) })
+            val buildings = state.getBuildingsIn(town.id)
+                .filter { it.address.contains(street.id) }
 
             link(call, state, town)
-            showList(buildings) { (building, name) ->
-                link(call, building.id, name)
-            }
+            fieldElements(call, state, buildings)
         }
         action(editLink, "Edit")
         action(deleteLink, "Delete")

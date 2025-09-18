@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
+import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicalIssues
 import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
 import at.orchaldir.gm.core.selector.time.date.display
@@ -39,7 +40,9 @@ fun HtmlBlockTag.showPeriodical(
 
     h2 { +"Usage" }
 
-    fieldList("Issues", state.sortPeriodicalIssues(state.getPeriodicalIssues(periodical.id))) { issue ->
+    val issues = state.sortPeriodicalIssues(state.getPeriodicalIssues(periodical.id))
+
+    fieldList("Issues", issues) { issue ->
         link(call, issue.id, display(calendar, issue.date))
     }
 }

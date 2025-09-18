@@ -190,9 +190,7 @@ private fun HTML.showArchitecturalStyleDetails(
             fieldLink("Revival of", call, state, style.revival)
         }
         fieldElements(call, state, "Revived by", revivedBy)
-        fieldList("Buildings", state.sortBuildings()) { (building, name) ->
-            link(call, building.id, name)
-        }
+        fieldElements(call, state, state.getBuildings(style.id))
         action(editLink, "Edit")
         action(deleteLink, "Delete")
         back(backLink)

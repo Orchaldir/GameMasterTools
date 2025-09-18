@@ -142,7 +142,7 @@ private fun HtmlBlockTag.selectPositionIntern(
     val regions = state.getRegionStorage().getAll()
     val towns = state.getExistingElements(state.getTownStorage(), start)
     val townMaps = state.getExistingElements(state.getTownMapStorage(), start)
-    val worlds = state.sortWorlds()
+    val worlds = state.getWorldStorage().getAll()
 
     selectValue(noun, param, allowedTypes, position.getType()) { type ->
         when (type) {
