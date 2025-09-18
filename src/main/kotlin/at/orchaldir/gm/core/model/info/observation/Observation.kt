@@ -26,6 +26,7 @@ data class Observation(
     val id: ObservationId,
     val data: ObservationData = UndefinedObservationData,
     val position: Position = UndefinedPosition,
+    val time: ObservationWhen = UndefinedObservationWhen,
 ) : ElementWithSimpleName<ObservationId>, HasPosition {
 
     override fun id() = id
