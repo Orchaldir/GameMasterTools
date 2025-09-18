@@ -21,7 +21,6 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.selector.religion.getMasksOf
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.time.getHolidays
-import at.orchaldir.gm.core.selector.util.sortDomains
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
 import io.ktor.http.*
@@ -63,7 +62,7 @@ fun FORM.editGod(
     selectOptionalNotEmptyString("Optional Title", god.title, TITLE)
     selectValue("Gender", GENDER, Gender.entries, god.gender)
     editPersonality(call, state, god.personality)
-    selectElements(state, "Domains", DOMAIN, state.sortDomains(), god.domains)
+    selectElements(state, "Domains", DOMAIN, state.getDomainStorage().getAll(), god.domains)
     editAuthenticity(state, god.authenticity, ALLOWED_GOD_AUTHENTICITY)
     editDataSources(state, god.sources)
 }

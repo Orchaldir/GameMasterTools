@@ -140,7 +140,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
             selectElement(
                 state,
                 combine(param, BUSINESS),
-                state.sortBusinesses(state.getOpenBusinesses(start)),
+                state.getOpenBusinesses(start),
                 status.business,
             )
             selectJob(state, param, EmployerType.Business, status.job)
@@ -150,7 +150,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
             selectElement(
                 state,
                 combine(param, REALM),
-                state.sortRealms(state.getExistingRealms(start)),
+                state.getExistingRealms(start),
                 status.realm,
             )
             selectJob(state, param, EmployerType.Realm, status.job)
@@ -160,7 +160,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
             selectElement(
                 state,
                 combine(param, TOWN),
-                state.sortTowns(state.getExistingTowns(start)),
+                state.getExistingTowns(start),
                 status.town,
             )
             selectJob(state, param, EmployerType.Town, status.job)
@@ -168,7 +168,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 state,
                 "Business",
                 combine(param, BUSINESS),
-                state.sortBusinesses(state.getOpenBusinesses(start)),
+                state.getOpenBusinesses(start),
                 status.optionalBusiness,
             )
         }
@@ -183,7 +183,7 @@ private fun HtmlBlockTag.selectJob(
 ) = selectElement(
     state,
     combine(param, JOB),
-    state.sortJobs(state.getJobs(employerType)),
+    state.getJobs(employerType),
     job,
 )
 

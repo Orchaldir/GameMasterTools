@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
-import at.orchaldir.gm.core.selector.util.sortDataSources
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -82,7 +81,7 @@ fun HtmlBlockTag.editDataSource(state: State, source: DataSource) {
 }
 
 fun HtmlBlockTag.editDataSources(state: State, sources: Set<DataSourceId>) {
-    selectElements(state, "Data Sources", SOURCE, state.sortDataSources(), sources)
+    selectElements(state, "Data Sources", SOURCE, state.getDataSourceStorage().getAll(), sources)
 }
 
 // parse

@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.selector.time.date.convertDate
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.sortElements
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -125,7 +126,7 @@ fun Application.configureCalendarRouting() {
 }
 
 private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
-    val calendars = STORE.getState().getCalendarStorage().getAll().sortedBy { it.name.text }
+    val calendars = state.sortElements(state.getCalendarStorage().getAll())
     val defaultCalendar = state.getDefaultCalendar()
     val count = calendars.size
     val createLink = call.application.href(CalendarRoutes.New())

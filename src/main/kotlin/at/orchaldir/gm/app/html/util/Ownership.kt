@@ -13,8 +13,6 @@ import at.orchaldir.gm.core.selector.realm.getPreviousSubRealms
 import at.orchaldir.gm.core.selector.realm.getSubRealms
 import at.orchaldir.gm.core.selector.util.getOwned
 import at.orchaldir.gm.core.selector.util.getPreviouslyOwned
-import at.orchaldir.gm.core.selector.util.sortRealms
-import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -36,10 +34,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     val previousBusinesses = getPreviouslyOwned(state.getBusinessStorage(), owner) - businesses
     val periodicals = getOwned(state.getPeriodicalStorage(), owner)
     val previousPeriodicals = getPreviouslyOwned(state.getPeriodicalStorage(), owner) - periodicals
-    val realms = state.sortRealms(state.getSubRealms(owner))
-    val previousRealms = state.sortRealms(state.getPreviousSubRealms(owner)) - realms
-    val towns = state.sortTowns(state.getOwnedTowns(owner))
-    val previousTowns = state.sortTowns(state.getPreviousOwnedTowns(owner)) - towns
+    val realms = state.getSubRealms(owner)
+    val previousRealms = state.getPreviousSubRealms(owner) - realms
+    val towns = state.getOwnedTowns(owner)
+    val previousTowns =state.getPreviousOwnedTowns(owner) - towns
 
     if (!alwaysShowTitle &&
         buildings.isEmpty() && previousBuildings.isEmpty() &&

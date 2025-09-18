@@ -16,8 +16,6 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.getFormerBelievers
-import at.orchaldir.gm.core.selector.util.sortGods
-import at.orchaldir.gm.core.selector.util.sortPantheons
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -82,11 +80,11 @@ fun HtmlBlockTag.editBeliefStatus(
 
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()
-        is WorshipOfGod -> selectElement(state, combine(param, GOD), state.sortGods(), status.god)
+        is WorshipOfGod -> selectElement(state, combine(param, GOD), state.getGodStorage().getAll(), status.god)
         is WorshipOfPantheon -> selectElement(
             state,
             combine(param, PANTHEON),
-            state.sortPantheons(),
+            state.getPantheonStorage().getAll(),
             status.pantheon
         )
     }

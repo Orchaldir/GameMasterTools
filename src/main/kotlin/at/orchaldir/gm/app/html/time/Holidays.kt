@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
-import at.orchaldir.gm.core.selector.util.sortHolidays
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -19,9 +18,7 @@ fun HtmlBlockTag.showHolidays(
     state: State,
     holidayIds: Set<HolidayId>,
 ) {
-    val holidays = state.sortHolidays(state.getHolidayStorage().get(holidayIds))
-
-    fieldElements(call, state, holidays)
+    fieldElements(call, state, state.getHolidayStorage().get(holidayIds))
 }
 
 // edit
@@ -31,8 +28,7 @@ fun HtmlBlockTag.editHolidays(
     holidayIds: Set<HolidayId>,
 ) {
     showDetails("Holidays") {
-        val holidays = state.sortHolidays()
-        selectElements(state, HOLIDAY, holidays, holidayIds)
+        selectElements(state, HOLIDAY, state.getHolidayStorage().getAll(), holidayIds)
     }
 }
 

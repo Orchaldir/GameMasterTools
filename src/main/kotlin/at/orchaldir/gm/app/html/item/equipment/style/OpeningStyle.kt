@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -100,7 +99,7 @@ fun HtmlBlockTag.selectMaterial(
     param: String = MATERIAL,
     label: String = "Material",
 ) {
-    selectElement(state, label, param, state.sortMaterial(), materialId)
+    selectElement(state, label, param, state.getMaterialStorage().getAll(), materialId)
 }
 
 // parse

@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
-import at.orchaldir.gm.core.selector.util.sortLanguages
 import at.orchaldir.gm.core.selector.world.getDemiplanes
 import at.orchaldir.gm.core.selector.world.getMoonsLinkedTo
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
@@ -56,7 +55,7 @@ fun HtmlBlockTag.editPlane(
         state,
         "Languages",
         LANGUAGES,
-        state.sortLanguages(),
+        state.getLanguageStorage().getAll(),
         plane.languages,
     )
     editDataSources(state, plane.sources)

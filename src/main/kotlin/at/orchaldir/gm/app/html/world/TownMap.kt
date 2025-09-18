@@ -21,8 +21,6 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getResidents
 import at.orchaldir.gm.core.selector.character.getWorkingIn
-import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.util.sortTowns
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -82,8 +80,8 @@ private fun HtmlBlockTag.showCharactersOfTownMap(
     h2 { +"Characters" }
 
     showEmployees(call, state, employees, showTown = false)
-    fieldElements(call, state, "Residents", state.sortCharacters(residents))
-    fieldElements(call, state, "Workers, but not Residents", state.sortCharacters(workers))
+    fieldElements(call, state, "Residents", residents)
+    fieldElements(call, state, "Workers, but not Residents", workers)
 
     val characters = residents.toSet() + workers.toSet()
 
@@ -102,7 +100,7 @@ fun FORM.editTownMap(
     state: State,
     townMap: TownMap,
 ) {
-    selectOptionalElement(state, "Town", TOWN, state.sortTowns(), townMap.town)
+    selectOptionalElement(state, "Town", TOWN, state.getTownStorage().getAll(), townMap.town)
     selectOptionalDate(state, "Date", townMap.date, DATE)
 }
 

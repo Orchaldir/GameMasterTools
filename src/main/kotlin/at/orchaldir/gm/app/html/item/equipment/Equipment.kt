@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
 import at.orchaldir.gm.core.selector.util.getValidColorSchemes
-import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -100,7 +99,7 @@ private fun FORM.selectColorSchemes(
             state,
             "Color Schemas",
             combine(COLOR, SCHEME),
-            state.sortColorSchemes(colorSchemes),
+            colorSchemes,
             equipment.colorSchemes,
         )
     }

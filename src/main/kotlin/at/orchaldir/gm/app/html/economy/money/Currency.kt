@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCurrency
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCurrency
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
-import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -32,8 +31,8 @@ fun HtmlBlockTag.showCurrency(
 
     showUnits(state, currency, call)
 
-    val currencies = state.sortRealms(state.getRealmsWithCurrency(currency.id))
-    val prevCurrencies = state.sortRealms(state.getRealmsWithPreviousCurrency(currency.id))
+    val currencies = state.getRealmsWithCurrency(currency.id)
+    val prevCurrencies = state.getRealmsWithPreviousCurrency(currency.id)
 
     fieldElements(call, state, "Used By", currencies)
     fieldElements(call, state, "Previously Used By", prevCurrencies)

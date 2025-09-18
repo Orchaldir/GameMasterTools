@@ -14,8 +14,6 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.model.world.plane.PlanePurposeType.*
-import at.orchaldir.gm.core.selector.util.sortGods
-import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -89,8 +87,8 @@ fun HtmlBlockTag.editPlanePurpose(
     state: State,
     plane: Plane,
 ) {
-    val otherPlanes = state.sortPlanes(state.getPlaneStorage().getAllExcept(plane.id))
-    val gods = state.sortGods()
+    val otherPlanes = state.getPlaneStorage().getAllExcept(plane.id)
+    val gods = state.getGodStorage().getAll()
 
     showDetails("Purpose", true) {
         selectValue("Type", PURPOSE, PlanePurposeType.entries, plane.purpose.getType()) {

@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.selector.item.getEquipment
-import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -34,7 +33,7 @@ fun HtmlBlockTag.showColorScheme(
         UndefinedColors -> doNothing()
     }
 
-    fieldElements(call, state, state.sortEquipmentList(state.getEquipment(scheme.id)))
+    fieldElements(call, state, state.getEquipment(scheme.id))
 }
 
 // edit

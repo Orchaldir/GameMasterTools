@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.selector.realm.getRealmsWithLegalCode
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousLegalCode
-import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -27,8 +26,8 @@ fun HtmlBlockTag.showLegalCode(
     fieldReference(call, state, code.creator, "Creator")
     optionalField(call, state, "Date", code.date)
 
-    val realms = state.sortRealms(state.getRealmsWithLegalCode(code.id))
-    val prevRealms = state.sortRealms(state.getRealmsWithPreviousLegalCode(code.id))
+    val realms = state.getRealmsWithLegalCode(code.id)
+    val prevRealms = state.getRealmsWithPreviousLegalCode(code.id)
 
     fieldElements(call, state, "Used By", realms)
     fieldElements(call, state, "Previously Used By", prevRealms)

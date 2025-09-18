@@ -12,8 +12,6 @@ import at.orchaldir.gm.core.model.world.moon.ALLOWED_MOON_POSITIONS
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
-import at.orchaldir.gm.core.selector.util.sortMaterial
-import at.orchaldir.gm.core.selector.util.sortPlanes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -63,8 +61,8 @@ fun HtmlBlockTag.editMoon(
     )
     selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, 1, LENGTH)
     selectColor(moon.color)
-    selectOptionalElement(state, "Plane", PLANE, state.sortPlanes(), moon.plane)
-    selectElements(state, "Resources", MATERIAL, state.sortMaterial(), moon.resources)
+    selectOptionalElement(state, "Plane", PLANE, state.getPlaneStorage().getAll(), moon.plane)
+    selectElements(state, "Resources", MATERIAL, state.getMaterialStorage().getAll(), moon.resources)
 }
 
 // parse

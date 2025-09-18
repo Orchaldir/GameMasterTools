@@ -237,7 +237,7 @@ private fun HtmlBlockTag.selectAppearance(
         state,
         "Appearance",
         combine(RACE, APPEARANCE, index),
-        state.getRaceAppearanceStorage().getAll().sortedBy { it.name.text },
+        state.getRaceAppearanceStorage().getAll(),
         raceAppearanceId,
     )
 }

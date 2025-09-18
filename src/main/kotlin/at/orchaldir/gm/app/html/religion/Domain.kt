@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.DomainId
-import at.orchaldir.gm.core.selector.util.sortJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -38,7 +37,7 @@ fun FORM.editDomain(
 ) {
     selectName(domain.name)
     selectRarityMap("Spells", SPELLS, state.getSpellStorage(), domain.spells) { it.name.text }
-    selectElements(state, "Jobs", JOB, state.sortJobs(), domain.jobs)
+    selectElements(state, "Jobs", JOB, state.getJobStorage().getAll(), domain.jobs)
 }
 
 // parse

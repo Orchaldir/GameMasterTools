@@ -35,7 +35,6 @@ import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.canHaveFamilyName
 import at.orchaldir.gm.core.selector.util.canHaveGenonym
 import at.orchaldir.gm.core.selector.util.getGivenName
-import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import io.ktor.http.*
@@ -222,7 +221,7 @@ fun FORM.editCharacter(
 
     selectCharacterName(state, character)
     selectOptionalElement(state, "Title", TITLE, state.getTitleStorage().getAll(), character.title)
-    selectElement(state, RACE, state.sortRaces(races), character.race)
+    selectElement(state, RACE, races, character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
     selectVitalStatus(
