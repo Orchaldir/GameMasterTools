@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
-import at.orchaldir.gm.core.selector.util.*
+import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

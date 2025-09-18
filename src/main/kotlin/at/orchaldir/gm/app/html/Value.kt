@@ -80,7 +80,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     selectId: String,
     elements: Collection<ELEMENT>,
     current: ID,
-)  = selectElement(state, current.type(), selectId, elements, current)
+) = selectElement(state, current.type(), selectId, elements, current)
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     state: State,

@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.item.periodical.PublicationFrequency
-import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicalIssues
 import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
 import at.orchaldir.gm.core.selector.time.date.display

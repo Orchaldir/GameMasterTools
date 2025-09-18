@@ -37,7 +37,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     val realms = state.getSubRealms(owner)
     val previousRealms = state.getPreviousSubRealms(owner) - realms
     val towns = state.getOwnedTowns(owner)
-    val previousTowns =state.getPreviousOwnedTowns(owner) - towns
+    val previousTowns = state.getPreviousOwnedTowns(owner) - towns
 
     if (!alwaysShowTitle &&
         buildings.isEmpty() && previousBuildings.isEmpty() &&
