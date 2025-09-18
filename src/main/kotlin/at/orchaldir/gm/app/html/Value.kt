@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.selector.util.sortElements
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.html.*
@@ -15,17 +16,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
     selectedIds: Set<ID>,
 ) {
     showDetails(labelText, true) {
-        elements.forEach { element ->
-            p {
-                checkBoxInput {
-                    name = param
-                    value = element.id().value().toString()
-                    checked = selectedIds.contains(element.id())
-                    onChange = ON_CHANGE_SCRIPT
-                    +element.name(state)
-                }
-            }
-        }
+        selectElements(state, param, elements, selectedIds)
     }
 }
 
@@ -35,30 +26,16 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
     elements: Collection<ELEMENT>,
     selectedIds: Set<ID>,
 ) {
-    elements.forEach { element ->
+    state.sortElements(elements).forEach { element ->
         p {
             checkBoxInput {
                 name = param
                 value = element.id().value().toString()
                 checked = selectedIds.contains(element.id())
+                onChange = ON_CHANGE_SCRIPT
                 +element.name(state)
             }
         }
-    }
-}
-
-// elements + name
-
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
-    labelText: String,
-    selectId: String,
-    elements: Collection<Pair<ELEMENT, String>>,
-    current: ID,
-) {
-    selectValue(labelText, selectId, elements) { (element, name) ->
-        label = name
-        value = element.id().value().toString()
-        selected = element.id() == current
     }
 }
 
@@ -75,7 +52,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
         labelText,
         selectId,
         current?.let { state.getStorage<ID, ELEMENT>(current).get(current) },
-        elements,
+        state.sortElements(elements),
     ) { element ->
         label = element.name(state)
         value = element.id().value().toString()
@@ -91,7 +68,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
     selectOptionalValue(
         selectId,
         current?.let { state.getStorage<ID, ELEMENT>(current).get(current) },
-        elements,
+        state.sortElements(elements),
     ) { element ->
         label = element.name(state)
         value = element.id().value().toString()
@@ -103,13 +80,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     selectId: String,
     elements: Collection<ELEMENT>,
     current: ID,
-) {
-    selectValue(current.type(), selectId, elements) { element ->
-        label = element.name(state)
-        value = element.id().value().toString()
-        selected = element.id() == current
-    }
-}
+) = selectElement(state, current.type(), selectId, elements, current)
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     state: State,
@@ -118,7 +89,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     elements: Collection<ELEMENT>,
     current: ID,
 ) {
-    selectValue(labelText, selectId, elements) { element ->
+    selectValue(labelText, selectId, state.sortElements(elements)) { element ->
         label = element.name(state)
         value = element.id().value().toString()
         selected = element.id() == current

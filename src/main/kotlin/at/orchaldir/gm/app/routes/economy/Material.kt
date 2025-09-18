@@ -22,8 +22,6 @@ import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
-import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
-import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
 import at.orchaldir.gm.core.selector.world.getMoonsContaining
@@ -177,8 +175,8 @@ private fun HTML.showMaterialDetails(
     state: State,
     material: Material,
 ) {
-    val currencyUnits = state.sortCurrencyUnits(state.getCurrencyUnits(material.id))
-    val equipmentList = state.sortEquipmentList(state.getEquipmentMadeOf(material.id))
+    val currencyUnits = state.getCurrencyUnits(material.id)
+    val equipmentList = state.getEquipmentMadeOf(material.id)
     val moons = state.getMoonsContaining(material.id)
     val regions = state.getRegionsContaining(material.id)
     val raceAppearances = state.getRaceAppearancesMadeOf(material.id)
@@ -193,12 +191,12 @@ private fun HTML.showMaterialDetails(
 
         h2 { +"Usage" }
 
-        fieldList(call, state, currencyUnits)
-        fieldList(call, state, equipmentList)
-        fieldList(call, state, moons)
-        fieldList(call, state, regions)
-        fieldList(call, state, raceAppearances)
-        fieldList(call, state, streetTemplates)
+        fieldElements(call, state, currencyUnits)
+        fieldElements(call, state, equipmentList)
+        fieldElements(call, state, moons)
+        fieldElements(call, state, regions)
+        fieldElements(call, state, raceAppearances)
+        fieldElements(call, state, streetTemplates)
         fieldList("Texts", texts) { text ->
             link(call, text, text.getNameWithDate(state))
         }

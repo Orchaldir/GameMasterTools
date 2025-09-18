@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
-import at.orchaldir.gm.core.selector.util.sortLanguages
 import at.orchaldir.gm.core.selector.world.getDemiplanes
 import at.orchaldir.gm.core.selector.world.getMoonsLinkedTo
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
@@ -34,11 +33,11 @@ fun HtmlBlockTag.showPlane(
     optionalField("Title", plane.title)
     showPlanePurpose(call, state, plane.purpose)
     optionalField("Current Alignment", state.getPlanarAlignment(plane, currentDate))
-    fieldIdList(call, state, plane.languages)
+    fieldIds(call, state, plane.languages)
 
-    fieldList(call, state, "Demiplanes", state.getDemiplanes(plane.id))
-    fieldList(call, state, "Reflection", state.getReflections(plane.id))
-    fieldList(call, state, "Associated Moons", state.getMoonsLinkedTo(plane.id))
+    fieldElements(call, state, "Demiplanes", state.getDemiplanes(plane.id))
+    fieldElements(call, state, "Reflection", state.getReflections(plane.id))
+    fieldElements(call, state, "Associated Moons", state.getMoonsLinkedTo(plane.id))
     showLocalElements(call, state, plane.id)
     showDataSources(call, state, plane.sources)
 }
@@ -56,7 +55,7 @@ fun HtmlBlockTag.editPlane(
         state,
         "Languages",
         LANGUAGES,
-        state.sortLanguages(),
+        state.getLanguageStorage().getAll(),
         plane.languages,
     )
     editDataSources(state, plane.sources)

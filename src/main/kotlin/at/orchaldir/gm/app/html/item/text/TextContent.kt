@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.selector.util.sortSpells
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -100,7 +99,7 @@ private fun HtmlBlockTag.showAbstractContent(
     content: AbstractContent,
 ) {
     field("Pages", content.pages)
-    fieldIdList(call, state, content.spells)
+    fieldIds(call, state, content.spells)
 }
 
 // edit
@@ -207,7 +206,7 @@ private fun HtmlBlockTag.editSpells(
     param: String,
 ) {
     showDetails("Spells", true) {
-        selectElements(state, param, state.sortSpells(), spells)
+        selectElements(state, param, state.getSpellStorage().getAll(), spells)
     }
 }
 

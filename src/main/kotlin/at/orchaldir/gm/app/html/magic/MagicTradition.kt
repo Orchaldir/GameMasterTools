@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.MagicTraditionId
-import at.orchaldir.gm.core.selector.util.sortSpellGroups
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -26,7 +25,7 @@ fun HtmlBlockTag.showMagicTradition(
 ) {
     optionalField(call, state, "Date", tradition.date)
     fieldReference(call, state, tradition.founder, "Founder")
-    fieldIdList(call, state, tradition.groups)
+    fieldIds(call, state, tradition.groups)
     showDataSources(call, state, tradition.sources)
 }
 
@@ -39,7 +38,7 @@ fun FORM.editMagicTradition(
     selectName(tradition.name)
     selectOptionalDate(state, "Date", tradition.date, DATE)
     selectCreator(state, tradition.founder, tradition.id, tradition.date, "Founder")
-    selectElements(state, "Spell Groups", SPELLS, state.sortSpellGroups(), tradition.groups)
+    selectElements(state, "Spell Groups", SPELLS, state.getSpellGroupStorage().getAll(), tradition.groups)
     editDataSources(state, tradition.sources)
 }
 

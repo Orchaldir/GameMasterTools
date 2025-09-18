@@ -5,7 +5,15 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class CharacterName
+sealed class CharacterName {
+
+    fun toSortString() = when (this) {
+        is FamilyName -> family.text + given.text + middle?.text
+        is Genonym -> given.text
+        is Mononym -> name.text
+    }.lowercase()
+
+}
 
 @Serializable
 @SerialName("Mononym")

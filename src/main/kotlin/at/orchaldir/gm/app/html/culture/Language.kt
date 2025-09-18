@@ -40,16 +40,16 @@ fun HtmlBlockTag.showLanguage(
     optionalField(call, state, "Date", language.date)
     fieldOrigin(call, state, language.origin, ::LanguageId)
 
-    fieldList(call, state, "Child Languages", children)
+    fieldElements(call, state, "Child Languages", children)
 
     h2 { +"Usage" }
 
-    fieldList(call, state, characters)
-    fieldList(call, state, cultures)
-    fieldList(call, state, periodicals)
-    fieldList(call, state, planes)
-    fieldList(call, state, spells)
-    fieldList(call, state, texts)
+    fieldElements(call, state, characters)
+    fieldElements(call, state, cultures)
+    fieldElements(call, state, periodicals)
+    fieldElements(call, state, planes)
+    fieldElements(call, state, spells)
+    fieldElements(call, state, texts)
 }
 
 // edit

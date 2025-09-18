@@ -13,8 +13,6 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -69,14 +67,14 @@ fun HtmlBlockTag.editAuthenticity(
         is MaskOfOtherGod -> selectElement(
             state,
             combine(AUTHENTICITY, GOD),
-            state.sortGods(),
+            state.getGodStorage().getAll(),
             authenticity.god,
         )
 
         is SecretIdentity -> selectElement(
             state,
             combine(AUTHENTICITY, CHARACTER),
-            state.sortCharacters(),
+            state.getCharacterStorage().getAll(),
             authenticity.character,
         )
     }

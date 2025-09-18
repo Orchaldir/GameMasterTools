@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.selector.util.sortElements
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -15,22 +16,18 @@ import kotlinx.html.ul
 
 // show
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldList(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldElements(
     call: ApplicationCall,
     state: State,
     elements: Collection<ELEMENT>,
 ) {
     if (elements.isNotEmpty()) {
         val first = elements.first()
-        field(first.id().plural()) {
-            showList(elements) {
-                link(call, state, it)
-            }
-        }
+        fieldElements(call, state, first.id().plural(), elements)
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldList(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldElements(
     call: ApplicationCall,
     state: State,
     label: String,
@@ -38,14 +35,24 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldList(
 ) {
     if (elements.isNotEmpty()) {
         field(label) {
-            showList(elements) {
-                link(call, state, it)
-            }
+            showElements(call, state, elements)
         }
     }
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.fieldIdList(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showElements(
+    call: ApplicationCall,
+    state: State,
+    elements: Collection<ELEMENT>,
+) {
+    if (elements.isNotEmpty()) {
+        showList(state.sortElements(elements)) {
+            link(call, state, it)
+        }
+    }
+}
+
+fun <ID : Id<ID>> HtmlBlockTag.fieldIds(
     call: ApplicationCall,
     state: State,
     label: String,
@@ -53,36 +60,20 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldIdList(
 ) {
     if (ids.isNotEmpty()) {
         field(label) {
-            showList(ids) {
-                link(call, state, it)
-            }
+            showElements(call, state, state.getStorage(ids.first()).get(ids))
         }
     }
 }
 
-fun HtmlBlockTag.fieldIdList(
-    call: ApplicationCall,
-    state: State,
-    ids: Collection<Id<*>>,
-) {
-    if (ids.isNotEmpty()) {
-        val first = ids.first()
-        field(first.plural()) {
-            showList(ids) {
-                link(call, state, it)
-            }
-        }
-    }
-}
-
-fun <ID : Id<ID>> HtmlBlockTag.showIdList(
+fun <ID : Id<ID>> HtmlBlockTag.fieldIds(
     call: ApplicationCall,
     state: State,
     ids: Collection<ID>,
 ) {
     if (ids.isNotEmpty()) {
-        showList(ids) {
-            link(call, state, it)
+        val first = ids.first()
+        field(first.plural()) {
+            showElements(call, state, state.getStorage(first).get(ids))
         }
     }
 }

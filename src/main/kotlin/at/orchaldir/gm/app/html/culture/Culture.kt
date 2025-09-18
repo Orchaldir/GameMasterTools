@@ -59,7 +59,7 @@ private fun HtmlBlockTag.showUsages(
 ) {
     h2 { +"Usage" }
 
-    fieldList(call, state, state.getCharacters(culture.id))
+    fieldElements(call, state, state.getCharacters(culture.id))
 }
 
 private fun HtmlBlockTag.showNamingConvention(

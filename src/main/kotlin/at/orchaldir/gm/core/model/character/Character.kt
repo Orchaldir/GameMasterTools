@@ -113,6 +113,8 @@ data class Character(
         }
     }
 
+    override fun toSortString(state: State) = name.toSortString()
+
     fun nameForSorting(state: State): String {
         val title: AbstractTitle = state.getTitleStorage().getOptional(title) ?: NoTitle
 

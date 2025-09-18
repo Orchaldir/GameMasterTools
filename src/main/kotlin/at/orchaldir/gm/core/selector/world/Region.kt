@@ -18,8 +18,7 @@ fun State.getRegions(type: RegionDataType) = getRegionStorage()
     .getAll()
     .filter { it.data.getType() == type }
 
-fun State.getRegions(town: TownMapId) = getRegionsIds(town)
-    .map { getRegionStorage().getOrThrow(it) }
+fun State.getRegions(town: TownMapId) = getRegionStorage().get(getRegionsIds(town))
 
 fun State.getRegionsContaining(material: MaterialId) = getRegionStorage()
     .getAll()

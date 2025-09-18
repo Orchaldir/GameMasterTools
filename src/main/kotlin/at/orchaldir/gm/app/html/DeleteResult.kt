@@ -2,8 +2,10 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
 fun HTML.showDeleteResult(
@@ -17,7 +19,22 @@ fun HTML.showDeleteResult(
         h2 { +"Blocking Elements" }
 
         result.elements.forEach { (_, ids) ->
-            fieldIdList(call, state, ids)
+            fieldAnyIds(call, state, ids)
+        }
+    }
+}
+
+private fun HtmlBlockTag.fieldAnyIds(
+    call: ApplicationCall,
+    state: State,
+    ids: Collection<Id<*>>,
+) {
+    if (ids.isNotEmpty()) {
+        val first = ids.first()
+        field(first.plural()) {
+            showList(ids) {
+                link(call, state, it)
+            }
         }
     }
 }

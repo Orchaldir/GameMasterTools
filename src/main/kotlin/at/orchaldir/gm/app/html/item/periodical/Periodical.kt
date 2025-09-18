@@ -39,7 +39,9 @@ fun HtmlBlockTag.showPeriodical(
 
     h2 { +"Usage" }
 
-    fieldList("Issues", state.sortPeriodicalIssues(state.getPeriodicalIssues(periodical.id))) { issue ->
+    val issues = state.sortPeriodicalIssues(state.getPeriodicalIssues(periodical.id))
+
+    fieldList("Issues", issues) { issue ->
         link(call, issue.id, display(calendar, issue.date))
     }
 }

@@ -16,8 +16,7 @@ fun State.getStreets(position: Position) = when (position) {
     else -> getStreetStorage().getAll()
 }
 
-fun State.getStreets(town: TownMapId) = getStreetIds(town)
-    .map { getStreetStorage().getOrThrow(it) }
+fun State.getStreets(town: TownMapId) = getStreetStorage().get(getStreetIds(town))
 
 fun State.getStreetIds(town: TownMapId) = getTownMapStorage()
     .getOrThrow(town)

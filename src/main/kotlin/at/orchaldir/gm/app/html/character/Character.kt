@@ -35,7 +35,6 @@ import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.canHaveFamilyName
 import at.orchaldir.gm.core.selector.util.canHaveGenonym
 import at.orchaldir.gm.core.selector.util.getGivenName
-import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import io.ktor.http.*
@@ -75,7 +74,7 @@ fun HtmlBlockTag.showData(
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     showDestroyed(call, state, character.id)
-    fieldList(call, state, "Led Battles", state.getBattlesLedBy(character.id))
+    fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
     showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
@@ -140,7 +139,7 @@ fun HtmlBlockTag.showSocial(
     }
 
     fieldAuthenticity(call, state, character.authenticity)
-    fieldList(call, state, "Secret Identities", state.getSecretIdentitiesOf(character.id))
+    fieldElements(call, state, "Secret Identities", state.getSecretIdentitiesOf(character.id))
 
     showLanguages(call, state, character)
     showMemberships(call, state, character)
@@ -158,9 +157,9 @@ private fun HtmlBlockTag.showFamily(
     val children = state.getChildren(character.id)
     val siblings = state.getSiblings(character.id)
 
-    fieldList(call, state, "Parents", parents)
-    fieldList(call, state, "Children", children)
-    fieldList(call, state, "Siblings", siblings)
+    fieldElements(call, state, "Parents", parents)
+    fieldElements(call, state, "Children", children)
+    fieldElements(call, state, "Siblings", siblings)
 }
 
 fun HtmlBlockTag.showLanguages(
@@ -222,7 +221,7 @@ fun FORM.editCharacter(
 
     selectCharacterName(state, character)
     selectOptionalElement(state, "Title", TITLE, state.getTitleStorage().getAll(), character.title)
-    selectElement(state, RACE, state.sortRaces(races), character.race)
+    selectElement(state, RACE, races, character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
     selectOrigin(state, character, race)
     selectVitalStatus(

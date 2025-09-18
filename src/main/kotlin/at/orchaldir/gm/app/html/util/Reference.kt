@@ -22,9 +22,6 @@ import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
-import at.orchaldir.gm.core.selector.util.sortBusinesses
-import at.orchaldir.gm.core.selector.util.sortGods
-import at.orchaldir.gm.core.selector.util.sortOrganizations
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -112,7 +109,7 @@ fun HtmlBlockTag.selectReference(
             state,
             label,
             combine(param, BUSINESS),
-            state.sortBusinesses(businesses),
+            businesses,
             reference.business,
         )
 
@@ -136,7 +133,7 @@ fun HtmlBlockTag.selectReference(
             state,
             label,
             combine(param, GOD),
-            state.sortGods(gods),
+            gods,
             reference.god,
         )
 
@@ -144,7 +141,7 @@ fun HtmlBlockTag.selectReference(
             state,
             label,
             combine(param, ORGANIZATION),
-            state.sortOrganizations(organizations),
+            organizations,
             reference.organization,
         )
 

@@ -21,7 +21,6 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.selector.religion.getMasksOf
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.time.getHolidays
-import at.orchaldir.gm.core.selector.util.sortDomains
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
 import io.ktor.http.*
@@ -39,15 +38,15 @@ fun HtmlBlockTag.showGod(
     optionalField("Title", god.title)
     field("Gender", god.gender)
     showPersonality(call, state, god.personality)
-    fieldIdList(call, state, god.domains)
+    fieldIds(call, state, god.domains)
     fieldAuthenticity(call, state, god.authenticity)
 
     optionalFieldLink("Heart Plane", call, state, state.getHeartPlane(god.id)?.id)
     optionalFieldLink("Prison Plane", call, state, state.getPrisonPlane(god.id)?.id)
 
-    fieldList(call, state, state.getHolidays(god.id))
-    fieldList(call, state, state.getPantheonsContaining(god.id))
-    fieldList(call, state, "Masks", state.getMasksOf(god.id))
+    fieldElements(call, state, state.getHolidays(god.id))
+    fieldElements(call, state, state.getPantheonsContaining(god.id))
+    fieldElements(call, state, "Masks", state.getMasksOf(god.id))
     showCurrentAndFormerBelievers(call, state, god.id)
     showCreated(call, state, god.id)
     showDataSources(call, state, god.sources)
@@ -63,7 +62,7 @@ fun FORM.editGod(
     selectOptionalNotEmptyString("Optional Title", god.title, TITLE)
     selectValue("Gender", GENDER, Gender.entries, god.gender)
     editPersonality(call, state, god.personality)
-    selectElements(state, "Domains", DOMAIN, state.sortDomains(), god.domains)
+    selectElements(state, "Domains", DOMAIN, state.getDomainStorage().getAll(), god.domains)
     editAuthenticity(state, god.authenticity, ALLOWED_GOD_AUTHENTICITY)
     editDataSources(state, god.sources)
 }

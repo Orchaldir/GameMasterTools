@@ -18,7 +18,6 @@ import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.organization.getNotMembers
-import at.orchaldir.gm.core.selector.util.sortCharacters
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -52,7 +51,7 @@ private fun HtmlBlockTag.showMembers(
 
     showListWithIndex(organization.memberRanks) { index, rank ->
         fieldName("Rank", rank.name)
-        fieldIdList(call, state, "Members", organization.getMembers(index))
+        fieldIds(call, state, "Members", organization.getMembers(index))
     }
 }
 
@@ -88,7 +87,7 @@ private fun FORM.editMembers(
     selectInt("Members", organization.members.size, 0, maxMembers, 1, MEMBER)
     showListWithIndex(organization.members.entries) { memberIndex, (characterId, history) ->
         val character = state.getCharacterStorage().getOrThrow(characterId)
-        val potentialCharacters = state.sortCharacters(state.getCharacterStorage().get(notMembers + characterId))
+        val potentialCharacters = state.getCharacterStorage().get(notMembers + characterId)
         val memberParam = combine(MEMBER, memberIndex)
 
         selectElement(

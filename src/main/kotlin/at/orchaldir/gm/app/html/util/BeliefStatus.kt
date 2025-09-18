@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.BELIEVE
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PANTHEON
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.religion.parsePantheonId
@@ -16,8 +16,6 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.getFormerBelievers
-import at.orchaldir.gm.core.selector.util.sortGods
-import at.orchaldir.gm.core.selector.util.sortPantheons
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -58,10 +56,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showCurrentAndFormerBelievers(
     val characters = state.getCharacterStorage()
     val organizations = state.getOrganizationStorage()
 
-    fieldList(call, state, "Believers", getBelievers(characters, id))
-    fieldList(call, state, "Former Believers", getFormerBelievers(characters, id))
-    fieldList(call, state, "Organizations", getBelievers(organizations, id))
-    fieldList(call, state, "Former Organizations", getFormerBelievers(organizations, id))
+    fieldElements(call, state, "Believers", getBelievers(characters, id))
+    fieldElements(call, state, "Former Believers", getFormerBelievers(characters, id))
+    fieldElements(call, state, "Organizations", getBelievers(organizations, id))
+    fieldElements(call, state, "Former Organizations", getFormerBelievers(organizations, id))
 }
 
 // edit
@@ -82,11 +80,11 @@ fun HtmlBlockTag.editBeliefStatus(
 
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()
-        is WorshipOfGod -> selectElement(state, combine(param, GOD), state.sortGods(), status.god)
+        is WorshipOfGod -> selectElement(state, combine(param, GOD), state.getGodStorage().getAll(), status.god)
         is WorshipOfPantheon -> selectElement(
             state,
             combine(param, PANTHEON),
-            state.sortPantheons(),
+            state.getPantheonStorage().getAll(),
             status.pantheon
         )
     }

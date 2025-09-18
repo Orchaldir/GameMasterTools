@@ -39,8 +39,8 @@ fun HtmlBlockTag.showTreaty(
     fieldList("Participants", treaty.participants) {
         showTreatyParticipant(call, state, it)
     }
-    fieldList(call, state, "Ended Wars", state.getWarsEndedBy(treaty.id))
-    fieldList(call, state, state.getHolidays(treaty.id))
+    fieldElements(call, state, "Ended Wars", state.getWarsEndedBy(treaty.id))
+    fieldElements(call, state, state.getHolidays(treaty.id))
     showDataSources(call, state, treaty.sources)
 }
 

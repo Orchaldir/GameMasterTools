@@ -15,6 +15,7 @@ interface Element<ID> {
     fun id(): ID
 
     fun name(state: State): String
+    fun toSortString(state: State) = name(state)
 }
 
 @Serializable
@@ -60,8 +61,7 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun get(id: ID) = elements[id]
 
-    fun get(ids: Collection<ID>) = ids.map { elements[it] }
-        .filterNotNull()
+    fun get(ids: Collection<ID>) = ids.mapNotNull { elements[it] }
 
     fun getOptional(id: ID?) = if (id != null) {
         elements[id]

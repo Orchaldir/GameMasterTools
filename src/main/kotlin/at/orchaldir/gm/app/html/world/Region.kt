@@ -13,9 +13,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.selector.util.sortBattles
-import at.orchaldir.gm.core.selector.util.sortCatastrophes
-import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -31,8 +28,8 @@ fun HtmlBlockTag.showRegion(
 ) {
     showRegionData(call, state, region.data)
     fieldPosition(call, state, region.position)
-    fieldIdList(call, state, "Resources", region.resources)
-    fieldList(call, state, state.getTowns(region.id))
+    fieldIds(call, state, "Resources", region.resources)
+    fieldElements(call, state, state.getTowns(region.id))
     showLocalElements(call, state, region.id)
 }
 
@@ -56,8 +53,6 @@ fun HtmlBlockTag.editRegion(
     state: State,
     region: Region,
 ) {
-    val materials = state.sortMaterial()
-
     selectName(region.name)
     editRegionData(state, region.data)
     selectPosition(
@@ -67,15 +62,15 @@ fun HtmlBlockTag.editRegion(
         null,
         region.data.getAllowedRegionTypes(),
     )
-    selectElements(state, "Resources", MATERIAL, materials, region.resources)
+    selectElements(state, "Resources", MATERIAL, state.getMaterialStorage().getAll(), region.resources)
 }
 
 private fun HtmlBlockTag.editRegionData(
     state: State,
     data: RegionData,
 ) {
-    val battles = state.sortBattles()
-    val catastrophes = state.sortCatastrophes()
+    val battles = state.getBattleStorage().getAll()
+    val catastrophes = state.getCatastropheStorage().getAll()
 
     selectValue("Type", TYPE, RegionDataType.entries, data.getType()) {
         when (it) {

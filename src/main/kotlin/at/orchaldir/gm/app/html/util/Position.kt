@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.selector.util.*
+import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getHomes
 import at.orchaldir.gm.utils.doNothing
@@ -131,18 +131,18 @@ private fun HtmlBlockTag.selectPositionIntern(
     noun: String = POSITION_TEXT,
     getTiles: (TownMapId) -> List<Int> = { emptyList() },
 ) {
-    val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
-    val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
-    val buildings = state.sortBuildings(state.getExistingElements(state.getBuildingStorage(), start))
-    val businesses = state.sortBusinesses(state.getExistingElements(state.getBusinessStorage(), start))
-    val districts = state.sortDistricts(state.getExistingElements(state.getDistrictStorage(), start))
+    val apartments = state.getExistingElements(state.getApartmentHouses(), start)
+    val homes = state.getExistingElements(state.getHomes(), start)
+    val buildings = state.getExistingElements(state.getBuildingStorage(), start)
+    val businesses = state.getExistingElements(state.getBusinessStorage(), start)
+    val districts = state.getExistingElements(state.getDistrictStorage(), start)
     val moons = state.getMoonStorage().getAll()
-    val planes = state.sortPlanes(state.getPlaneStorage().getAll())
-    val realms = state.sortRealms(state.getExistingElements(state.getRealmStorage(), start))
-    val regions = state.sortRegions(state.getRegionStorage().getAll())
-    val towns = state.sortTowns(state.getExistingElements(state.getTownStorage(), start))
-    val townMaps = state.sortTownMaps(state.getExistingElements(state.getTownMapStorage(), start))
-    val worlds = state.sortWorlds()
+    val planes = state.getPlaneStorage().getAll()
+    val realms = state.getExistingElements(state.getRealmStorage(), start)
+    val regions = state.getRegionStorage().getAll()
+    val towns = state.getExistingElements(state.getTownStorage(), start)
+    val townMaps = state.getExistingElements(state.getTownMapStorage(), start)
+    val worlds = state.getWorldStorage().getAll()
 
     selectValue(noun, param, allowedTypes, position.getType()) { type ->
         when (type) {
@@ -167,6 +167,7 @@ private fun HtmlBlockTag.selectPositionIntern(
         Homeless -> doNothing()
         is InApartment -> {
             selectElement(
+                state,
                 "Apartment House",
                 combine(param, BUILDING),
                 apartments,
@@ -195,6 +196,7 @@ private fun HtmlBlockTag.selectPositionIntern(
         )
 
         is InBuilding -> selectElement(
+            state,
             "Building",
             combine(param, BUILDING),
             buildings,
@@ -202,6 +204,7 @@ private fun HtmlBlockTag.selectPositionIntern(
         )
 
         is InHome -> selectElement(
+            state,
             "Home",
             combine(param, BUILDING),
             homes,

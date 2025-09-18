@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -22,7 +21,7 @@ fun HtmlBlockTag.showPantheon(
     pantheon: Pantheon,
 ) {
     optionalField("Title", pantheon.title)
-    fieldIdList(call, state, "Member Gods", pantheon.gods)
+    fieldIds(call, state, "Member Gods", pantheon.gods)
     showCurrentAndFormerBelievers(call, state, pantheon.id)
 }
 
@@ -34,7 +33,7 @@ fun FORM.editPantheon(
 ) {
     selectName(pantheon.name)
     selectOptionalNotEmptyString("Title", pantheon.title, TITLE)
-    selectElements(state, "Member Gods", GOD, state.sortGods(), pantheon.gods)
+    selectElements(state, "Member Gods", GOD, state.getGodStorage().getAll(), pantheon.gods)
 }
 
 // parse

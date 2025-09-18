@@ -8,8 +8,7 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 fun State.canDeleteRiver(river: RiverId) = DeleteResult(river)
     .addElements(getTowns(river))
 
-fun State.getRivers(town: TownMapId) = getRiverIds(town)
-    .map { getRiverStorage().getOrThrow(it) }
+fun State.getRivers(town: TownMapId) = getRiverStorage().get(getRiverIds(town))
 
 fun State.getRiverIds(town: TownMapId) = getTownMapStorage()
     .getOrThrow(town)

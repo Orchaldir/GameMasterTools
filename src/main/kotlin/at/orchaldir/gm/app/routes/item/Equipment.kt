@@ -22,7 +22,6 @@ import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.core.selector.util.getColors
-import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -254,8 +253,8 @@ private fun HTML.showEquipmentDetails(
 
         h2 { +"Usage" }
 
-        fieldList(call, state, "Equipped By", characters)
-        fieldList(call, state, "Part of Fashion", fashions)
+        fieldElements(call, state, "Equipped By", characters)
+        fieldElements(call, state, "Part of Fashion", fashions)
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")
@@ -296,7 +295,7 @@ private fun HtmlBlockTag.selectColorSchemeToVisualizeEquipment(
 ) {
     val colorSchemeId = optionalColorSchemeId ?: equipment.colorSchemes.first()
     val colorScheme = state.getColorSchemeStorage().getOrThrow(colorSchemeId)
-    val colorSchemes = state.sortColorSchemes(state.getColorSchemeStorage().get(equipment.colorSchemes))
+    val colorSchemes = state.getColorSchemeStorage().get(equipment.colorSchemes)
 
     selectElement(
         state,

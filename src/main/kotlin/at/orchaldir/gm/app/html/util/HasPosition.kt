@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.html.util
 
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -79,12 +79,12 @@ private fun HtmlBlockTag.showLocalElementsInternal(
         (formerResidents + formerResidentsInBuildings + formerResidentsInBusinesses).toSet() - allResidents
 
     showDetails("Local Elements", true) {
-        fieldList(call, state, buildings)
-        fieldList(call, state, businesses)
-        fieldList(call, state, moons)
-        fieldList(call, state, regions)
-        fieldList(call, state, "Residents", allResidents)
-        fieldList(call, state, "Former Residents", allFormerResidents)
-        fieldList(call, state, worlds)
+        fieldElements(call, state, buildings)
+        fieldElements(call, state, businesses)
+        fieldElements(call, state, moons)
+        fieldElements(call, state, regions)
+        fieldElements(call, state, "Residents", allResidents)
+        fieldElements(call, state, "Former Residents", allFormerResidents)
+        fieldElements(call, state, worlds)
     }
 }

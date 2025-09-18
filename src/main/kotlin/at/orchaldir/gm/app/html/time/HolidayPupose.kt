@@ -12,10 +12,6 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.*
-import at.orchaldir.gm.core.selector.util.sortCatastrophes
-import at.orchaldir.gm.core.selector.util.sortGods
-import at.orchaldir.gm.core.selector.util.sortTreaties
-import at.orchaldir.gm.core.selector.util.sortWars
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -70,10 +66,10 @@ fun HtmlBlockTag.editHolidayPurpose(
     state: State,
     purpose: HolidayPurpose,
 ) {
-    val catastrophes = state.sortCatastrophes()
-    val gods = state.sortGods()
-    val treaties = state.sortTreaties()
-    val wars = state.sortWars()
+    val catastrophes = state.getCatastropheStorage().getAll()
+    val gods = state.getGodStorage().getAll()
+    val treaties = state.getTreatyStorage().getAll()
+    val wars = state.getWarStorage().getAll()
 
     selectValue("Purpose", PURPOSE, HolidayPurposeType.entries, purpose.getType()) { type ->
         when (type) {

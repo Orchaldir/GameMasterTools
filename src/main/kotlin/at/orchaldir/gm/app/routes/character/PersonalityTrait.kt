@@ -15,8 +15,6 @@ import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.character.getPersonalityTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
-import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -134,7 +132,7 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
             }
         }
 
-        fieldList(call, state, "Without Group", personalityTraits.filter { it.group == null })
+        fieldElements(call, state, "Without Group", personalityTraits.filter { it.group == null })
 
         action(createLink, "Add")
         back("/")
@@ -146,8 +144,8 @@ private fun HTML.showPersonalityTraitDetails(
     state: State,
     trait: PersonalityTrait,
 ) {
-    val characters = state.sortCharacters(state.getCharacters(trait.id))
-    val gods = state.sortGods(state.getGodsWith(trait.id))
+    val characters = state.getCharacters(trait.id)
+    val gods = state.getGodsWith(trait.id)
     val backLink = call.application.href(PersonalityTraitRoutes())
     val deleteLink = call.application.href(PersonalityTraitRoutes.Delete(trait.id))
     val editLink = call.application.href(PersonalityTraitRoutes.Edit(trait.id))
@@ -158,13 +156,12 @@ private fun HTML.showPersonalityTraitDetails(
         if (trait.group != null) {
             val traits = state.getPersonalityTraits(trait.group)
                 .filter { it != trait }
-                .sortedBy { it.name.text }
 
-            fieldList(call, state, "Conflicting", traits)
+            fieldElements(call, state, "Conflicting", traits)
         }
 
-        fieldList(call, state, characters)
-        fieldList(call, state, gods)
+        fieldElements(call, state, characters)
+        fieldElements(call, state, gods)
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")

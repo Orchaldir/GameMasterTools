@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.item.getEquipmentOf
-import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -86,15 +85,10 @@ private fun FORM.selectEquipment(
                 }
 
                 if (optionalEquipment != null && currentSchema != null) {
-                    val colorSchemes = state.sortColorSchemes(
-                        state.getColorSchemeStorage()
-                            .get(optionalEquipment.colorSchemes)
-                    )
-
                     selectElement(
                         state,
                         combine(COLOR, slotsParam),
-                        colorSchemes,
+                        state.getColorSchemeStorage().get(optionalEquipment.colorSchemes),
                         currentSchema,
                     )
                 }

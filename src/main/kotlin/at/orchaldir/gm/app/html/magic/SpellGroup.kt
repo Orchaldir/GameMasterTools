@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.selector.magic.getMagicTraditions
-import at.orchaldir.gm.core.selector.util.sortSpells
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -20,8 +19,8 @@ fun HtmlBlockTag.showSpellGroup(
     state: State,
     group: SpellGroup,
 ) {
-    fieldIdList(call, state, group.spells)
-    fieldList(call, state, "Magic Traditions", state.getMagicTraditions(group.id))
+    fieldIds(call, state, group.spells)
+    fieldElements(call, state, "Magic Traditions", state.getMagicTraditions(group.id))
 }
 
 // edit
@@ -31,7 +30,7 @@ fun FORM.editSpellGroup(
     group: SpellGroup,
 ) {
     selectName(group.name)
-    selectElements(state, "Spells", SPELLS, state.sortSpells(), group.spells)
+    selectElements(state, "Spells", SPELLS, state.getSpellStorage().getAll(), group.spells)
 }
 
 // parse

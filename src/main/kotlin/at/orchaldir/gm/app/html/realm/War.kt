@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.realm.WarId
 import at.orchaldir.gm.core.selector.realm.getBattles
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getHolidays
-import at.orchaldir.gm.core.selector.util.sortBattles
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -27,7 +26,6 @@ fun HtmlBlockTag.showWar(
     state: State,
     war: War,
 ) {
-    val battles = state.sortBattles(state.getBattles(war.id))
     val calendar = state.getDefaultCalendar()
 
     optionalField(call, state, "Start Date", war.startDate)
@@ -35,9 +33,9 @@ fun HtmlBlockTag.showWar(
     fieldAge("Duration", calendar.getYears(war.getDuration(state)))
     showWarSides(war)
     showWarParticipants(call, state, war)
-    fieldList(call, state, battles)
+    fieldElements(call, state, state.getBattles(war.id))
     showDestroyed(call, state, war.id)
-    fieldList(call, state, state.getHolidays(war.id))
+    fieldElements(call, state, state.getHolidays(war.id))
     showDataSources(call, state, war.sources)
 }
 

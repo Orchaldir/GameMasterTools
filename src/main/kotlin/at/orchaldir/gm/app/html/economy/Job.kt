@@ -23,10 +23,6 @@ import at.orchaldir.gm.core.selector.realm.getRealms
 import at.orchaldir.gm.core.selector.realm.getTowns
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.religion.getGodsAssociatedWith
-import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.util.sortDomains
-import at.orchaldir.gm.core.selector.util.sortGods
-import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -75,17 +71,17 @@ private fun HtmlBlockTag.showJobUsage(
     val domains = state.getDomainsAssociatedWith(job.id)
     val gods = state.getGodsAssociatedWith(job.id)
 
-    fieldIdList(call, state, state.getBusinesses(job.id))
-    fieldIdList(call, state, state.getTowns(job.id))
-    fieldIdList(call, state, state.getRealms(job.id))
-    fieldList(call, state, "Current Characters", state.sortCharacters(characters))
-    fieldList(call, state, "Previous Characters", state.sortCharacters(previousCharacters))
-    fieldList(call, state, "Associated Domains", state.sortDomains(domains))
-    fieldList(
+    fieldIds(call, state, state.getBusinesses(job.id))
+    fieldIds(call, state, state.getTowns(job.id))
+    fieldIds(call, state, state.getRealms(job.id))
+    fieldElements(call, state, "Current Characters", characters)
+    fieldElements(call, state, "Previous Characters", previousCharacters)
+    fieldElements(call, state, "Associated Domains", domains)
+    fieldElements(
         call,
         state,
         "Associated Gods",
-        state.sortGods(gods)
+        gods,
     )
 }
 
@@ -100,7 +96,7 @@ fun FORM.editJob(
     editSalary(state, job.income)
     selectOptionalValue("Preferred Gender", GENDER, job.preferredGender, Gender.entries)
     selectGenderMap("Uniforms", job.uniforms, UNIFORM) { genderParam, uniform ->
-        selectOptionalElement(state, genderParam, state.sortUniforms(), uniform)
+        selectOptionalElement(state, genderParam, state.getUniformStorage().getAll(), uniform)
     }
     selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells) { it.name.text }
 }
