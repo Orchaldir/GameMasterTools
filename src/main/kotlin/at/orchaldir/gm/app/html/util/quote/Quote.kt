@@ -29,8 +29,8 @@ fun HtmlBlockTag.showQuote(
     field("Type", quote.type)
     fieldReference(call, state, quote.source, "Source")
     optionalField(call, state, "Date", quote.date)
-    fieldList(call, state, articles)
-    fieldList(call, state, texts)
+    fieldElements(call, state, articles)
+    fieldElements(call, state, texts)
 }
 
 // edit

@@ -62,7 +62,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showDataSourceContent(
     val elements = storage.getAll()
         .filter { it.sources().contains(source) }
 
-    fieldList(call, state, elements)
+    fieldElements(call, state, elements)
 }
 
 fun HtmlBlockTag.showDataSources(

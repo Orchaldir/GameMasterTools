@@ -36,9 +36,9 @@ fun HtmlBlockTag.showPlane(
     optionalField("Current Alignment", state.getPlanarAlignment(plane, currentDate))
     fieldIdList(call, state, plane.languages)
 
-    fieldList(call, state, "Demiplanes", state.getDemiplanes(plane.id))
-    fieldList(call, state, "Reflection", state.getReflections(plane.id))
-    fieldList(call, state, "Associated Moons", state.getMoonsLinkedTo(plane.id))
+    fieldElements(call, state, "Demiplanes", state.getDemiplanes(plane.id))
+    fieldElements(call, state, "Reflection", state.getReflections(plane.id))
+    fieldElements(call, state, "Associated Moons", state.getMoonsLinkedTo(plane.id))
     showLocalElements(call, state, plane.id)
     showDataSources(call, state, plane.sources)
 }

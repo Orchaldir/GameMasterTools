@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.POSITION
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
@@ -39,10 +39,10 @@ fun HtmlBlockTag.showBusiness(
     fieldReference(call, state, business.founder, "Founder")
     showOwnership(call, state, business.ownership)
     showEmployees(call, state, employees, showOptionalBusiness = false)
-    fieldList(call, state, "Previous Employees", previousEmployees)
+    fieldElements(call, state, "Previous Employees", previousEmployees)
     showCreated(call, state, business.id, true)
 
-    fieldList(call, state, "Published Texts", published)
+    fieldElements(call, state, "Published Texts", published)
 
     showOwnedElements(call, state, business.id, true)
     showDataSources(call, state, business.sources)

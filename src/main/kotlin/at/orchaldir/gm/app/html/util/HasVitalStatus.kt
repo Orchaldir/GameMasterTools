@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.html.util
 
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.html.thMultiLines
 import at.orchaldir.gm.core.model.State
@@ -37,7 +37,7 @@ private fun <ID : Id<ID>, ELEMENT, DESTROYER : Id<DESTROYER>> HtmlBlockTag.showD
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasVitalStatus {
-    fieldList(call, state, label, getDestroyedBy(storage, destroyer))
+    fieldElements(call, state, label, getDestroyedBy(storage, destroyer))
 }
 
 fun TR.thDestroyed() {

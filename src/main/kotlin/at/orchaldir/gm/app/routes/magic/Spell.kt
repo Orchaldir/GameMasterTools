@@ -191,10 +191,10 @@ private fun HTML.showSpellDetails(
     simpleHtmlDetails(spell) {
         showSpell(call, state, spell)
 
-        fieldList(call, state, "Domains containing it", state.getDomainsAssociatedWith(spell.id))
-        fieldList(call, state, "Spell Groups containing it", state.getSpellGroups(spell.id))
-        fieldList(call, state, "Jobs using it", state.getJobsContaining(spell.id))
-        fieldList(call, state, "Spells based on it", state.getSpellsBasedOn(spell.id))
+        fieldElements(call, state, "Domains containing it", state.getDomainsAssociatedWith(spell.id))
+        fieldElements(call, state, "Spell Groups containing it", state.getSpellGroups(spell.id))
+        fieldElements(call, state, "Jobs using it", state.getJobsContaining(spell.id))
+        fieldElements(call, state, "Spells based on it", state.getSpellsBasedOn(spell.id))
         fieldList("Texts containing it", state.getTextsContaining(spell.id)) { text ->
             link(call, text.id, text.getNameWithDate(state))
         }

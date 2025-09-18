@@ -35,8 +35,8 @@ fun HtmlBlockTag.showCurrency(
     val currencies = state.sortRealms(state.getRealmsWithCurrency(currency.id))
     val prevCurrencies = state.sortRealms(state.getRealmsWithPreviousCurrency(currency.id))
 
-    fieldList(call, state, "Used By", currencies)
-    fieldList(call, state, "Previously Used By", prevCurrencies)
+    fieldElements(call, state, "Used By", currencies)
+    fieldElements(call, state, "Previously Used By", prevCurrencies)
 }
 
 private fun HtmlBlockTag.showDenominations(currency: Currency) {

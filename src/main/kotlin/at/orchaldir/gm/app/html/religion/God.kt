@@ -45,9 +45,9 @@ fun HtmlBlockTag.showGod(
     optionalFieldLink("Heart Plane", call, state, state.getHeartPlane(god.id)?.id)
     optionalFieldLink("Prison Plane", call, state, state.getPrisonPlane(god.id)?.id)
 
-    fieldList(call, state, state.getHolidays(god.id))
-    fieldList(call, state, state.getPantheonsContaining(god.id))
-    fieldList(call, state, "Masks", state.getMasksOf(god.id))
+    fieldElements(call, state, state.getHolidays(god.id))
+    fieldElements(call, state, state.getPantheonsContaining(god.id))
+    fieldElements(call, state, "Masks", state.getMasksOf(god.id))
     showCurrentAndFormerBelievers(call, state, god.id)
     showCreated(call, state, god.id)
     showDataSources(call, state, god.sources)

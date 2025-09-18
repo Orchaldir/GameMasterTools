@@ -254,8 +254,8 @@ private fun HTML.showEquipmentDetails(
 
         h2 { +"Usage" }
 
-        fieldList(call, state, "Equipped By", characters)
-        fieldList(call, state, "Part of Fashion", fashions)
+        fieldElements(call, state, "Equipped By", characters)
+        fieldElements(call, state, "Part of Fashion", fashions)
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")

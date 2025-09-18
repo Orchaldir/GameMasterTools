@@ -167,9 +167,9 @@ private fun HTML.showTownMapDetails(
 
             h2 { +"Terrain" }
 
-            fieldList(call, state, state.getRegions(townMap.id).sortedBy { it.name.text })
-            fieldList(call, state, state.getRivers(townMap.id).sortedBy { it.name.text })
-            fieldList(call, state, state.getStreets(townMap.id).sortedBy { it.name(state) })
+            fieldElements(call, state, state.getRegions(townMap.id).sortedBy { it.name.text })
+            fieldElements(call, state, state.getRivers(townMap.id).sortedBy { it.name.text })
+            fieldElements(call, state, state.getStreets(townMap.id).sortedBy { it.name(state) })
 
             showStreetTemplateCount(call, state, townMap.id)
 

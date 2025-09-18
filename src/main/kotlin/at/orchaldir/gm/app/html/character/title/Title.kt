@@ -30,7 +30,7 @@ fun HtmlBlockTag.showTitle(
     }
     field("Position", title.position)
     field("Separator", title.separator)
-    fieldList(call, state, state.getCharacters(title.id))
+    fieldElements(call, state, state.getCharacters(title.id))
 }
 
 // edit

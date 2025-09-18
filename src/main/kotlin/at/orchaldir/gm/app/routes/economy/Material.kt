@@ -193,12 +193,12 @@ private fun HTML.showMaterialDetails(
 
         h2 { +"Usage" }
 
-        fieldList(call, state, currencyUnits)
-        fieldList(call, state, equipmentList)
-        fieldList(call, state, moons)
-        fieldList(call, state, regions)
-        fieldList(call, state, raceAppearances)
-        fieldList(call, state, streetTemplates)
+        fieldElements(call, state, currencyUnits)
+        fieldElements(call, state, equipmentList)
+        fieldElements(call, state, moons)
+        fieldElements(call, state, regions)
+        fieldElements(call, state, raceAppearances)
+        fieldElements(call, state, streetTemplates)
         fieldList("Texts", texts) { text ->
             link(call, text, text.getNameWithDate(state))
         }

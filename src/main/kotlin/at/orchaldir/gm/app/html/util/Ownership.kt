@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.OWNER
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ALLOWED_OWNERS
@@ -53,16 +53,16 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
 
     h2 { +"Possession" }
 
-    fieldList(call, state, "Owned Buildings", buildings)
-    fieldList(call, state, "Previously owned Buildings", previousBuildings)
-    fieldList(call, state, "Owned Businesses", businesses)
-    fieldList(call, state, "Previously owned Businesses", previousBusinesses)
-    fieldList(call, state, "Owned Periodicals", periodicals)
-    fieldList(call, state, "Previously owned Periodicals", previousPeriodicals)
-    fieldList(call, state, "Realms", realms)
-    fieldList(call, state, "Previous Realms", previousRealms)
-    fieldList(call, state, "Towns", towns)
-    fieldList(call, state, "Previous Towns", previousTowns)
+    fieldElements(call, state, "Owned Buildings", buildings)
+    fieldElements(call, state, "Previously owned Buildings", previousBuildings)
+    fieldElements(call, state, "Owned Businesses", businesses)
+    fieldElements(call, state, "Previously owned Businesses", previousBusinesses)
+    fieldElements(call, state, "Owned Periodicals", periodicals)
+    fieldElements(call, state, "Previously owned Periodicals", previousPeriodicals)
+    fieldElements(call, state, "Realms", realms)
+    fieldElements(call, state, "Previous Realms", previousRealms)
+    fieldElements(call, state, "Towns", towns)
+    fieldElements(call, state, "Previous Towns", previousTowns)
 }
 
 

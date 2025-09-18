@@ -75,7 +75,7 @@ fun HtmlBlockTag.showData(
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     showDestroyed(call, state, character.id)
-    fieldList(call, state, "Led Battles", state.getBattlesLedBy(character.id))
+    fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
     showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
@@ -140,7 +140,7 @@ fun HtmlBlockTag.showSocial(
     }
 
     fieldAuthenticity(call, state, character.authenticity)
-    fieldList(call, state, "Secret Identities", state.getSecretIdentitiesOf(character.id))
+    fieldElements(call, state, "Secret Identities", state.getSecretIdentitiesOf(character.id))
 
     showLanguages(call, state, character)
     showMemberships(call, state, character)
@@ -158,9 +158,9 @@ private fun HtmlBlockTag.showFamily(
     val children = state.getChildren(character.id)
     val siblings = state.getSiblings(character.id)
 
-    fieldList(call, state, "Parents", parents)
-    fieldList(call, state, "Children", children)
-    fieldList(call, state, "Siblings", siblings)
+    fieldElements(call, state, "Parents", parents)
+    fieldElements(call, state, "Children", children)
+    fieldElements(call, state, "Siblings", siblings)
 }
 
 fun HtmlBlockTag.showLanguages(

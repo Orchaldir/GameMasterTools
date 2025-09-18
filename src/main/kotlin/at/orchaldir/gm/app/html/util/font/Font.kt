@@ -29,8 +29,8 @@ fun HtmlBlockTag.showFont(
     }
     h2 { +"Usage" }
 
-    fieldList(call, state, state.getCurrencyUnits(font.id))
-    fieldList(call, state, state.getTexts(font.id))
+    fieldElements(call, state, state.getCurrencyUnits(font.id))
+    fieldElements(call, state, state.getTexts(font.id))
 }
 
 // edit

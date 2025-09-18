@@ -15,7 +15,7 @@ import kotlinx.html.ul
 
 // show
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldList(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldElements(
     call: ApplicationCall,
     state: State,
     elements: Collection<ELEMENT>,
@@ -30,7 +30,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldList(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldList(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldElements(
     call: ApplicationCall,
     state: State,
     label: String,

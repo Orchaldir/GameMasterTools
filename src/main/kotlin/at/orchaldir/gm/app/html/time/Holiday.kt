@@ -27,8 +27,8 @@ fun HtmlBlockTag.showHoliday(
     showRelativeDate("Relative Date", calendar, holiday.relativeDate)
     fieldHolidayPurpose(call, state, holiday.purpose)
 
-    fieldList(call, state, state.getCultures(holiday.id))
-    fieldList(call, state, state.getOrganizations(holiday.id))
+    fieldElements(call, state, state.getCultures(holiday.id))
+    fieldElements(call, state, state.getOrganizations(holiday.id))
 }
 
 // edit

@@ -55,13 +55,13 @@ fun HtmlBlockTag.showRealm(
     showEmployees(call, state, state.getEmployees(realm.id), showTown = false)
     showEmployees(call, state, state.getPreviousEmployees(realm.id), "Previous Employees", showTown = false)
     val residents = state.sortCharacters(state.getCharactersLivingIn(realm.id))
-    fieldList(call, state, "Residents", residents)
+    fieldElements(call, state, "Residents", residents)
 
     val battles = state.sortBattles(state.getBattles(realm.id))
     val wars = state.sortWars(state.getWarsWithParticipant(realm.id))
 
-    fieldList(call, state, battles)
-    fieldList(call, state, wars)
+    fieldElements(call, state, battles)
+    fieldElements(call, state, wars)
     showDataSources(call, state, realm.sources)
 
     showCreated(call, state, realm.id)

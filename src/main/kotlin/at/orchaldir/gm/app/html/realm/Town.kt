@@ -44,10 +44,10 @@ fun HtmlBlockTag.showTown(
     showHistory(call, state, town.owner, "Owner", "Independent") { _, _, owner ->
         link(call, state, owner)
     }
-    fieldList(call, state, "Capital of", state.getRealmsWithCapital(town.id))
-    fieldList(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
+    fieldElements(call, state, "Capital of", state.getRealmsWithCapital(town.id))
+    fieldElements(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
     showPopulation(call, state, town)
-    fieldList(call, state, "Districts", state.sortDistricts(state.getDistricts(town.id)))
+    fieldElements(call, state, "Districts", state.sortDistricts(state.getDistricts(town.id)))
     showDataSources(call, state, town.sources)
 
     val currentTownMap = state.getCurrentTownMap(town.id)
@@ -55,7 +55,7 @@ fun HtmlBlockTag.showTown(
     if (currentTownMap != null) {
         optionalFieldLink(call, state, currentTownMap.id)
         val previousTownMaps = state.sortTownMaps(state.getTownMaps(town.id) - currentTownMap)
-        fieldList(call, state, "Previous Town Maps", previousTownMaps)
+        fieldElements(call, state, "Previous Town Maps", previousTownMaps)
 
         showLocalElements(call, state, town, currentTownMap)
     } else {

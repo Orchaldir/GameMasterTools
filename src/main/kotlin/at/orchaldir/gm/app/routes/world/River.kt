@@ -125,7 +125,7 @@ private fun HTML.showRiverDetails(
 
     simpleHtmlDetails(river) {
         fieldName(river.name)
-        fieldList(call, state, state.getTowns(river.id))
+        fieldElements(call, state, state.getTowns(river.id))
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")

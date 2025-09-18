@@ -32,7 +32,7 @@ fun HtmlBlockTag.showRegion(
     showRegionData(call, state, region.data)
     fieldPosition(call, state, region.position)
     fieldIdList(call, state, "Resources", region.resources)
-    fieldList(call, state, state.getTowns(region.id))
+    fieldElements(call, state, state.getTowns(region.id))
     showLocalElements(call, state, region.id)
 }
 

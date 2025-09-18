@@ -34,7 +34,7 @@ fun HtmlBlockTag.showColorScheme(
         UndefinedColors -> doNothing()
     }
 
-    fieldList(call, state, state.sortEquipmentList(state.getEquipment(scheme.id)))
+    fieldElements(call, state, state.sortEquipmentList(state.getEquipment(scheme.id)))
 }
 
 // edit

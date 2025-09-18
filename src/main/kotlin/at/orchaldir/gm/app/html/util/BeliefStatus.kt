@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.BELIEVE
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PANTHEON
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.religion.parsePantheonId
@@ -58,10 +58,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showCurrentAndFormerBelievers(
     val characters = state.getCharacterStorage()
     val organizations = state.getOrganizationStorage()
 
-    fieldList(call, state, "Believers", getBelievers(characters, id))
-    fieldList(call, state, "Former Believers", getFormerBelievers(characters, id))
-    fieldList(call, state, "Organizations", getBelievers(organizations, id))
-    fieldList(call, state, "Former Organizations", getFormerBelievers(organizations, id))
+    fieldElements(call, state, "Believers", getBelievers(characters, id))
+    fieldElements(call, state, "Former Believers", getFormerBelievers(characters, id))
+    fieldElements(call, state, "Organizations", getBelievers(organizations, id))
+    fieldElements(call, state, "Former Organizations", getFormerBelievers(organizations, id))
 }
 
 // edit

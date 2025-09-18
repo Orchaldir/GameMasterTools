@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html.time
 
 import at.orchaldir.gm.app.HOLIDAY
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.selectElements
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.parseElements
@@ -21,7 +21,7 @@ fun HtmlBlockTag.showHolidays(
 ) {
     val holidays = state.sortHolidays(state.getHolidayStorage().get(holidayIds))
 
-    fieldList(call, state, holidays)
+    fieldElements(call, state, holidays)
 }
 
 // edit

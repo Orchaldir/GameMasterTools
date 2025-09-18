@@ -30,8 +30,8 @@ fun HtmlBlockTag.showLegalCode(
     val realms = state.sortRealms(state.getRealmsWithLegalCode(code.id))
     val prevRealms = state.sortRealms(state.getRealmsWithPreviousLegalCode(code.id))
 
-    fieldList(call, state, "Used By", realms)
-    fieldList(call, state, "Previously Used By", prevRealms)
+    fieldElements(call, state, "Used By", realms)
+    fieldElements(call, state, "Previously Used By", prevRealms)
     showDataSources(call, state, code.sources)
 }
 

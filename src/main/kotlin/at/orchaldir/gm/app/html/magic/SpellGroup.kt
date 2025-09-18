@@ -21,7 +21,7 @@ fun HtmlBlockTag.showSpellGroup(
     group: SpellGroup,
 ) {
     fieldIdList(call, state, group.spells)
-    fieldList(call, state, "Magic Traditions", state.getMagicTraditions(group.id))
+    fieldElements(call, state, "Magic Traditions", state.getMagicTraditions(group.id))
 }
 
 // edit

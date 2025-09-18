@@ -78,10 +78,10 @@ private fun HtmlBlockTag.showJobUsage(
     fieldIdList(call, state, state.getBusinesses(job.id))
     fieldIdList(call, state, state.getTowns(job.id))
     fieldIdList(call, state, state.getRealms(job.id))
-    fieldList(call, state, "Current Characters", state.sortCharacters(characters))
-    fieldList(call, state, "Previous Characters", state.sortCharacters(previousCharacters))
-    fieldList(call, state, "Associated Domains", state.sortDomains(domains))
-    fieldList(
+    fieldElements(call, state, "Current Characters", state.sortCharacters(characters))
+    fieldElements(call, state, "Previous Characters", state.sortCharacters(previousCharacters))
+    fieldElements(call, state, "Associated Domains", state.sortDomains(domains))
+    fieldElements(
         call,
         state,
         "Associated Gods",

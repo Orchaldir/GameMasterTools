@@ -172,7 +172,7 @@ private fun HTML.showDiseaseDetails(
         showDisease(call, state, disease)
 
         showDestroyed(call, state, disease.id)
-        fieldList(call, state, "Diseases based on it", state.getDiseasesBasedOn(disease.id))
+        fieldElements(call, state, "Diseases based on it", state.getDiseasesBasedOn(disease.id))
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")

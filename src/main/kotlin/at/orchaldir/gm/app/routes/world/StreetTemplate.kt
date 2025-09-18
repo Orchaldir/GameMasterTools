@@ -177,7 +177,7 @@ private fun HTML.showStreetTemplateDetails(
             fieldName(type.name)
             fieldColor(type.color)
             showMaterialCost(call, state, type.materialCost)
-            fieldList(call, state, state.getTowns(type.id))
+            fieldElements(call, state, state.getTowns(type.id))
 
             action(editLink, "Edit")
             action(deleteLink, "Delete")

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.CREATOR
-import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ALLOWED_CREATORS
@@ -28,21 +28,21 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
     h2 { +"Created" }
 
-    fieldList(call, state, getCreatedBy(state.getArticleStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getBuildingStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getBusinessStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getCatastropheStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getLanguageStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getMagicTraditionStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getOrganizationStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getPlaneStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getQuoteStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getRaceStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getRealmStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getSpellStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getTextStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getTownStorage(), id))
-    fieldList(call, state, getCreatedBy(state.getTreatyStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getArticleStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getBuildingStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getBusinessStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getCatastropheStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getLanguageStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getMagicTraditionStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getOrganizationStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getPlaneStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getQuoteStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getRaceStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getRealmStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getSpellStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getTextStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getTownStorage(), id))
+    fieldElements(call, state, getCreatedBy(state.getTreatyStorage(), id))
 }
 
 // select

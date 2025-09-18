@@ -33,7 +33,7 @@ fun HtmlBlockTag.showArticle(
     optionalField(call, state, "Date", article.date)
     showContent(call, state, article.content)
 
-    fieldList(call, state, state.getPeriodicalIssues(article.id))
+    fieldElements(call, state, state.getPeriodicalIssues(article.id))
 }
 
 private fun HtmlBlockTag.showContent(

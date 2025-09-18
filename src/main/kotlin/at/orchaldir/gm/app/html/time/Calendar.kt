@@ -40,13 +40,13 @@ fun HtmlBlockTag.showCalendar(
 
     h2 { +"Usage" }
 
-    fieldList(call, state, cultures)
+    fieldElements(call, state, cultures)
     fieldList("Holidays", holidays) { holiday ->
         link(call, holiday)
         +": "
         +holiday.relativeDate.display(calendar)
     }
-    fieldList(call, state, periodicals)
+    fieldElements(call, state, periodicals)
 }
 
 private fun HtmlBlockTag.showOrigin(
@@ -57,7 +57,7 @@ private fun HtmlBlockTag.showOrigin(
     val children = state.getChildren(calendar.id)
 
     fieldOrigin(call, state, calendar.origin, ::CalendarId)
-    fieldList(call, state, "Child Calendars", children)
+    fieldElements(call, state, "Child Calendars", children)
 }
 
 private fun HtmlBlockTag.showDays(
