@@ -69,7 +69,7 @@ fun HtmlBlockTag.showDataSources(
     state: State,
     sources: Set<DataSourceId>,
 ) {
-    fieldIdList(call, state, sources)
+    fieldIds(call, state, sources)
 }
 
 // edit

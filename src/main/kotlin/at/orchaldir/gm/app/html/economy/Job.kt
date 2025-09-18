@@ -71,9 +71,9 @@ private fun HtmlBlockTag.showJobUsage(
     val domains = state.getDomainsAssociatedWith(job.id)
     val gods = state.getGodsAssociatedWith(job.id)
 
-    fieldIdList(call, state, state.getBusinesses(job.id))
-    fieldIdList(call, state, state.getTowns(job.id))
-    fieldIdList(call, state, state.getRealms(job.id))
+    fieldIds(call, state, state.getBusinesses(job.id))
+    fieldIds(call, state, state.getTowns(job.id))
+    fieldIds(call, state, state.getRealms(job.id))
     fieldElements(call, state, "Current Characters", characters)
     fieldElements(call, state, "Previous Characters", previousCharacters)
     fieldElements(call, state, "Associated Domains", domains)

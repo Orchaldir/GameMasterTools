@@ -33,7 +33,7 @@ fun HtmlBlockTag.showPlane(
     optionalField("Title", plane.title)
     showPlanePurpose(call, state, plane.purpose)
     optionalField("Current Alignment", state.getPlanarAlignment(plane, currentDate))
-    fieldIdList(call, state, plane.languages)
+    fieldIds(call, state, plane.languages)
 
     fieldElements(call, state, "Demiplanes", state.getDemiplanes(plane.id))
     fieldElements(call, state, "Reflection", state.getReflections(plane.id))

@@ -25,7 +25,7 @@ fun HtmlBlockTag.showDomain(
     showRarityMap("Spells", domain.spells) { spell ->
         link(call, state, spell)
     }
-    fieldIdList(call, state, domain.jobs)
+    fieldIds(call, state, domain.jobs)
 }
 
 // edit

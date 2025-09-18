@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.PERSONALITY_PREFIX
-import at.orchaldir.gm.app.html.fieldIdList
+import at.orchaldir.gm.app.html.fieldIds
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.showDetails
@@ -23,7 +23,7 @@ fun HtmlBlockTag.showPersonality(
     state: State,
     personality: Set<PersonalityTraitId>,
 ) {
-    fieldIdList(call, state, "Personality", personality)
+    fieldIds(call, state, "Personality", personality)
 }
 
 // edit

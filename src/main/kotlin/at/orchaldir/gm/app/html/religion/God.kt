@@ -38,7 +38,7 @@ fun HtmlBlockTag.showGod(
     optionalField("Title", god.title)
     field("Gender", god.gender)
     showPersonality(call, state, god.personality)
-    fieldIdList(call, state, god.domains)
+    fieldIds(call, state, god.domains)
     fieldAuthenticity(call, state, god.authenticity)
 
     optionalFieldLink("Heart Plane", call, state, state.getHeartPlane(god.id)?.id)

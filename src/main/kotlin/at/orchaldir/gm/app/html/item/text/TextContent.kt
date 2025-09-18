@@ -99,7 +99,7 @@ private fun HtmlBlockTag.showAbstractContent(
     content: AbstractContent,
 ) {
     field("Pages", content.pages)
-    fieldIdList(call, state, content.spells)
+    fieldIds(call, state, content.spells)
 }
 
 // edit

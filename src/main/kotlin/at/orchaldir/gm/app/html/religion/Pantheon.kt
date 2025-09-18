@@ -21,7 +21,7 @@ fun HtmlBlockTag.showPantheon(
     pantheon: Pantheon,
 ) {
     optionalField("Title", pantheon.title)
-    fieldIdList(call, state, "Member Gods", pantheon.gods)
+    fieldIds(call, state, "Member Gods", pantheon.gods)
     showCurrentAndFormerBelievers(call, state, pantheon.id)
 }
 

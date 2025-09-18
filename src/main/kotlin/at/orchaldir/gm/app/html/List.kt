@@ -42,7 +42,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldElements(
     }
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.fieldIdList(
+fun <ID : Id<ID>> HtmlBlockTag.fieldIds(
     call: ApplicationCall,
     state: State,
     label: String,
@@ -57,7 +57,7 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldIdList(
     }
 }
 
-fun HtmlBlockTag.fieldIdList(
+fun HtmlBlockTag.fieldIds(
     call: ApplicationCall,
     state: State,
     ids: Collection<Id<*>>,
@@ -72,7 +72,7 @@ fun HtmlBlockTag.fieldIdList(
     }
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.showIdList(
+fun <ID : Id<ID>> HtmlBlockTag.showIds(
     call: ApplicationCall,
     state: State,
     ids: Collection<ID>,

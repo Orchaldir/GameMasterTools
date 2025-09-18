@@ -17,7 +17,7 @@ fun HTML.showDeleteResult(
         h2 { +"Blocking Elements" }
 
         result.elements.forEach { (_, ids) ->
-            fieldIdList(call, state, ids)
+            fieldIds(call, state, ids)
         }
     }
 }
