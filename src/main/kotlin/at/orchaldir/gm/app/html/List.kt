@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.selector.util.sortElements
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -22,11 +23,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldElements(
 ) {
     if (elements.isNotEmpty()) {
         val first = elements.first()
-        field(first.id().plural()) {
-            showList(elements) {
-                link(call, state, it)
-            }
-        }
+        fieldElements(call, state, first.id().plural(), elements)
     }
 }
 
@@ -38,7 +35,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldElements(
 ) {
     if (elements.isNotEmpty()) {
         field(label) {
-            showList(elements) {
+            showList(state.sortElements(elements)) {
                 link(call, state, it)
             }
         }
