@@ -70,6 +70,7 @@ fun Application.module() {
     configureBusinessRouting()
     configureCatastropheRouting()
     configureCharacterRouting()
+    configureCharacterTemplateRouting()
     configureColorSchemeRouting()
     configureCurrencyRouting()
     configureCurrencyUnitRouting()
