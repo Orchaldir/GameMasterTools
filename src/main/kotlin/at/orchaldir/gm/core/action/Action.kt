@@ -86,38 +86,6 @@ sealed class Action
 
 data class LoadData(val path: String) : Action()
 
-// character
-data object CreateCharacter : Action()
-data class DeleteCharacter(val id: CharacterId) : Action()
-data class UpdateCharacter(val character: Character) : Action()
-data class UpdateAppearance(
-    val id: CharacterId,
-    val appearance: Appearance,
-) : Action()
-
-data class UpdateEquipmentOfCharacter(
-    val id: CharacterId,
-    val map: EquipmentIdMap,
-) : Action()
-
-data class UpdateRelationships(
-    val id: CharacterId,
-    val relationships: Map<CharacterId, Set<InterpersonalRelationship>>,
-) : Action()
-
-// character's languages
-
-data class AddLanguage(
-    val id: CharacterId,
-    val language: LanguageId,
-    val level: ComprehensionLevel,
-) : Action()
-
-data class RemoveLanguages(
-    val id: CharacterId,
-    val languages: Set<LanguageId>,
-) : Action()
-
 // calendar
 data object CreateCalendar : Action()
 data class DeleteCalendar(val id: CalendarId) : Action()
@@ -203,6 +171,44 @@ data object CreateRaceAppearance : Action()
 data class CloneRaceAppearance(val id: RaceAppearanceId) : Action()
 data class DeleteRaceAppearance(val id: RaceAppearanceId) : Action()
 data class UpdateRaceAppearance(val appearance: RaceAppearance) : Action()
+
+//-- characters --
+
+sealed class CharacterAction : Action()
+
+// character
+data object CreateCharacter : CharacterAction()
+data class DeleteCharacter(val id: CharacterId) : CharacterAction()
+data class UpdateCharacter(val character: Character) : CharacterAction()
+data class UpdateAppearance(
+    val id: CharacterId,
+    val appearance: Appearance,
+) : CharacterAction()
+data class UpdateEquipmentOfCharacter(
+    val id: CharacterId,
+    val map: EquipmentIdMap,
+) : CharacterAction()
+data class UpdateRelationships(
+    val id: CharacterId,
+    val relationships: Map<CharacterId, Set<InterpersonalRelationship>>,
+) : CharacterAction()
+
+// character's languages
+
+data class AddLanguage(
+    val id: CharacterId,
+    val language: LanguageId,
+    val level: ComprehensionLevel,
+) : CharacterAction()
+data class RemoveLanguages(
+    val id: CharacterId,
+    val languages: Set<LanguageId>,
+) : CharacterAction()
+
+// character template
+data object CreateCharacterTemplate : CharacterAction()
+data class DeleteCharacterTemplate(val id: CharacterTemplateId) : CharacterAction()
+data class UpdateCharacterTemplate(val template: CharacterTemplate) : CharacterAction()
 
 //-- items --
 

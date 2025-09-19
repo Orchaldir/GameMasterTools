@@ -1,0 +1,27 @@
+package at.orchaldir.gm.core.reducer.character
+
+import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.reducer.deleteElement
+import at.orchaldir.gm.core.selector.character.canDeleteCharacter
+import at.orchaldir.gm.core.selector.character.canDeleteCharacterTemplate
+import at.orchaldir.gm.utils.redux.Reducer
+
+val CHARACTER_REDUCER: Reducer<CharacterAction, State> = { state, action ->
+    when (action) {
+        // character
+        is CreateCharacter -> CREATE_CHARACTER(state, action)
+        is DeleteCharacter -> deleteElement(state, action.id, State::canDeleteCharacter)
+        is UpdateCharacter -> UPDATE_CHARACTER(state, action)
+        is UpdateAppearance -> UPDATE_APPEARANCE(state, action)
+        is UpdateEquipmentOfCharacter -> UPDATE_EQUIPMENT_MAP(state, action)
+        is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
+        // character's languages
+        is AddLanguage -> ADD_LANGUAGE(state, action)
+        is RemoveLanguages -> REMOVE_LANGUAGES(state, action)
+        // character templates
+        is CreateCharacterTemplate -> CREATE_CHARACTER_TEMPLATE(state, action)
+        is DeleteCharacterTemplate -> deleteElement(state, action.id, State::canDeleteCharacterTemplate)
+        is UpdateCharacterTemplate -> UPDATE_CHARACTER_TEMPLATE(state, action)
+    }
+}
