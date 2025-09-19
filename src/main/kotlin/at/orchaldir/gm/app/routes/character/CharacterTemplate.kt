@@ -111,7 +111,7 @@ fun Application.configureCharacterTemplateRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val template = parseCharacterTemplate(formParameters, preview.id)
+            val template = parseCharacterTemplate(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterTemplateEditor(call, state, template)
@@ -121,7 +121,8 @@ fun Application.configureCharacterTemplateRouting() {
             logger.info { "Update template ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val template = parseCharacterTemplate(formParameters, update.id)
+            val state = STORE.getState()
+            val template = parseCharacterTemplate(state, formParameters, update.id)
 
             STORE.dispatch(UpdateCharacterTemplate(template))
 

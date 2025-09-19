@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.showLanguages
+import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.core.action.AddLanguage
 import at.orchaldir.gm.core.action.RemoveLanguages
 import at.orchaldir.gm.core.model.State
@@ -77,7 +77,7 @@ private fun HTML.showLanguageEditor(
     val updateLink = call.application.href(CharacterRoutes.Languages.Update(character.id))
 
     simpleHtml("Edit Languages: ${character.name(state)}") {
-        showLanguages(call, state, character)
+        showKnownLanguages(call, state, character)
         form {
             field("Language to Update") {
                 select {

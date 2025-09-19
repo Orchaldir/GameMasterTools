@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
+import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
@@ -26,7 +27,6 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.selector.character.*
-import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
@@ -141,7 +141,7 @@ fun HtmlBlockTag.showSocial(
     fieldAuthenticity(call, state, character.authenticity)
     fieldElements(call, state, "Secret Identities", state.getSecretIdentitiesOf(character.id))
 
-    showLanguages(call, state, character)
+    showKnownLanguages(call, state, character)
     showMemberships(call, state, character)
 
     action(editLanguagesLink, "Edit Languages")
@@ -160,17 +160,6 @@ private fun HtmlBlockTag.showFamily(
     fieldElements(call, state, "Parents", parents)
     fieldElements(call, state, "Children", children)
     fieldElements(call, state, "Siblings", siblings)
-}
-
-fun HtmlBlockTag.showLanguages(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    showMap("Known Languages", state.getKnownLanguages(character)) { id, level ->
-        link(call, state, id)
-        +": $level"
-    }
 }
 
 fun HtmlBlockTag.showMemberships(

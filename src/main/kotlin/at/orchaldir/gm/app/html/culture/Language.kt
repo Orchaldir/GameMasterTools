@@ -5,12 +5,16 @@ import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.culture.language.ALLOWED_LANGUAGE_ORIGINS
+import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.getChildren
 import at.orchaldir.gm.core.selector.culture.getCultures
+import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.magic.getSpells
@@ -22,6 +26,29 @@ import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
 // show
+
+fun HtmlBlockTag.showKnownLanguages(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) = showKnownLanguages(call, state, state.getKnownLanguages(character))
+
+fun HtmlBlockTag.showKnownLanguages(
+    call: ApplicationCall,
+    state: State,
+    template: CharacterTemplate,
+) = showKnownLanguages(call, state, state.getKnownLanguages(template))
+
+fun HtmlBlockTag.showKnownLanguages(
+    call: ApplicationCall,
+    state: State,
+    languages: Map<LanguageId, ComprehensionLevel>,
+) {
+    showMap("Known Languages", languages) { id, level ->
+        link(call, state, id)
+        +": $level"
+    }
+}
 
 fun HtmlBlockTag.showLanguage(
     call: ApplicationCall,

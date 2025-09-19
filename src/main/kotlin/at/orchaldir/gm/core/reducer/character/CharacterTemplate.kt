@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateCharacterTemplate
 import at.orchaldir.gm.core.action.UpdateCharacterTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.reducer.util.*
@@ -12,7 +13,7 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_CHARACTER_TEMPLATE: Reducer<CreateCharacterTemplate, State> = { state, _ ->
-    val template = CharacterTemplate(state.getCharacterTemplateStorage().nextId)
+    val template = CharacterTemplate(state.getCharacterTemplateStorage().nextId, race = RaceId(0))
     val templates = state.getCharacterTemplateStorage().add(template)
     noFollowUps(state.updateStorage(templates))
 }

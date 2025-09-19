@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.selector.culture
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.Rarity
@@ -27,10 +29,11 @@ fun State.getChildren(language: LanguageId) = getLanguageStorage()
     .getAll()
     .filter { l -> l.origin.isChildOf(language.value) }
 
-fun State.getKnownLanguages(character: Character) = getDefaultLanguages(character) + character.languages
+fun State.getKnownLanguages(character: Character) = getDefaultLanguages(character.culture) + character.languages
+fun State.getKnownLanguages(template: CharacterTemplate) = getDefaultLanguages(template.culture) + template.languages
 
-fun State.getDefaultLanguages(character: Character) = getCultureStorage()
-    .getOptional(character.culture)
+fun State.getDefaultLanguages(culture: CultureId?) = getCultureStorage()
+    .getOptional(culture)
     ?.languages
     ?.getValuesFor(Rarity.Everyone)
     ?.associateWith { ComprehensionLevel.Native } ?: emptyMap()

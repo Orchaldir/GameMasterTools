@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.BELIEVE
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PANTHEON
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.religion.parseGodId
@@ -30,6 +31,14 @@ fun HtmlBlockTag.showBeliefStatusHistory(
     state: State,
     history: History<BeliefStatus>,
 ) = showHistory(call, state, history, "Belief Status", HtmlBlockTag::showBeliefStatus)
+
+fun HtmlBlockTag.fieldBeliefStatus(
+    call: ApplicationCall,
+    state: State,
+    status: BeliefStatus,
+) = field("Belief Status") {
+    showBeliefStatus(call, state, status)
+}
 
 fun HtmlBlockTag.showBeliefStatus(
     call: ApplicationCall,
