@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.HasBelief
@@ -36,6 +37,7 @@ data class CharacterTemplate(
     val culture: CultureId? = null,
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val belief: BeliefStatus = UndefinedBeliefStatus,
+    val uniform: UniformId? = null,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<CharacterTemplateId>, HasBelief, HasDataSources {
 
