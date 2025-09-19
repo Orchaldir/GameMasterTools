@@ -1,5 +1,13 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.util.BeliefStatus
+import at.orchaldir.gm.core.model.util.HasBelief
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.UndefinedBeliefStatus
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -23,11 +31,16 @@ value class CharacterTemplateId(val value: Int) : Id<CharacterTemplateId> {
 data class CharacterTemplate(
     val id: CharacterTemplateId,
     val name: Name = Name.init("Character Template ${id.value}"),
+    val race: RaceId,
+    val gender: Gender? = null,
+    val culture: CultureId? = null,
+    val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
+    val belief: BeliefStatus = UndefinedBeliefStatus,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<CharacterTemplateId>, HasDataSources {
+) : ElementWithSimpleName<CharacterTemplateId>, HasBelief, HasDataSources {
 
     override fun id() = id
-
     override fun name() = name.text
+    override fun belief() = History(belief)
     override fun sources() = sources
 }
