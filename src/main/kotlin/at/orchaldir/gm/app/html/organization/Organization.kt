@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.html.organization
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.parseOptionalCharacterId
+import at.orchaldir.gm.app.html.economy.editStandardOfLiving
+import at.orchaldir.gm.app.html.economy.parseStandardOfLiving
 import at.orchaldir.gm.app.html.time.editHolidays
 import at.orchaldir.gm.app.html.time.parseHolidays
 import at.orchaldir.gm.app.html.time.showHolidays
@@ -13,6 +15,7 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.organization.MemberRank
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
@@ -80,9 +83,15 @@ private fun FORM.editMembers(
 
     h2 { +"Members" }
 
-    selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK)
-    showListWithIndex(organization.memberRanks) { index, rank ->
-        selectName("Name", rank.name, combine(RANK, NAME, index))
+    editList(
+        "Ranks",
+        RANK,
+        organization.memberRanks,
+        1,
+        20,
+        1,
+    ) { _, param, rank ->
+        selectName("Name", rank.name, combine(param, NAME))
     }
     selectInt("Members", organization.members.size, 0, maxMembers, 1, MEMBER)
     showListWithIndex(organization.members.entries) { memberIndex, (characterId, history) ->
@@ -123,7 +132,9 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId):
         parseName(parameters),
         parseCreator(parameters),
         date,
-        parseRanks(parameters),
+        parseList(parameters, RANK, 1) { index, param ->
+            parseRank(parameters, index, param)
+        },
         parseMembers(state, parameters, id),
         parseBeliefStatusHistory(parameters, state, date),
         parseHolidays(parameters),
@@ -131,15 +142,8 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId):
     )
 }
 
-private fun parseRanks(parameters: Parameters): List<MemberRank> {
-    val count = parseInt(parameters, RANK, 1)
-
-    return (0..<count)
-        .map { parseRank(parameters, it) }
-}
-
-private fun parseRank(parameters: Parameters, index: Int) = MemberRank(
-    parseName(parameters, combine(RANK, NAME, index), "${index + 1}.Rank"),
+private fun parseRank(parameters: Parameters, index: Int, param: String) = MemberRank(
+    parseName(parameters, combine(param, NAME), "${index + 1}.Rank"),
 )
 
 private fun parseMembers(
