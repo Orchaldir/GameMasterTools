@@ -198,6 +198,10 @@ enum class SortSpellGroup {
     Spells,
 }
 
+enum class SortStatistic {
+    Name,
+}
+
 enum class SortText {
     Name,
     Date,

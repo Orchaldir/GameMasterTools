@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -686,6 +687,20 @@ fun State.sortSpellGroups(
         when (sort) {
             SortSpellGroup.Name -> compareBy { it.name.text }
             SortSpellGroup.Spells -> compareByDescending { it.spells.size }
+        })
+
+// statistic
+
+fun State.sortStatistics(sort: SortStatistic = SortStatistic.Name) =
+    sortStatistics(getStatisticStorage().getAll(), sort)
+
+fun State.sortStatistics(
+    templates: Collection<Statistic>,
+    sort: SortStatistic = SortStatistic.Name,
+) = templates
+    .sortedWith(
+        when (sort) {
+            SortStatistic.Name -> compareBy { it.name.text }
         })
 
 // text
