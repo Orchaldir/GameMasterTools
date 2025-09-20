@@ -213,7 +213,7 @@ private fun HTML.showRaceDetails(
     state: State,
     race: Race,
 ) {
-    val characters = state.getCharacters(race.id)
+
     val backLink = call.application.href(RaceRoutes.All())
     val cloneLink = call.application.href(RaceRoutes.Clone(race.id))
     val deleteLink = call.application.href(RaceRoutes.Delete(race.id))
@@ -222,14 +222,6 @@ private fun HTML.showRaceDetails(
     simpleHtmlDetails(race) {
         split({
             showRace(call, state, race)
-
-            if (characters.isNotEmpty()) {
-                h2 { +"Characters" }
-
-                showList(characters) { character ->
-                    link(call, state, character)
-                }
-            }
 
             h2 { +"Actions" }
 

@@ -13,10 +13,13 @@ import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
+import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -42,6 +45,7 @@ fun HtmlBlockTag.showRace(
     showDataSources(call, state, race.sources)
     showLifeStages(call, state, race)
     showPopulation(call, state, race.id)
+    showUsages(call, state, race.id)
 }
 
 private fun HtmlBlockTag.showLifeStages(
@@ -110,6 +114,24 @@ private fun HtmlBlockTag.showAppearance(
 
 private fun HtmlBlockTag.showMaxAge(maxAge: Int) {
     field("Max Age", maxAge)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    race: RaceId,
+) {
+    val characters = state.getCharacters(race)
+    val templates = state.getCharacterTemplates(race)
+
+    if (characters.isEmpty() && templates.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, characters)
+    fieldElements(call, state, templates)
 }
 
 // edit
