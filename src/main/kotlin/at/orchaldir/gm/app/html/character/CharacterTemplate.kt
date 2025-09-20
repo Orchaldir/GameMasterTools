@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.culture.editKnownLanguages
+import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.item.parseOptionalUniformId
@@ -50,6 +52,7 @@ fun FORM.editCharacterTemplate(
     selectElement(state, RACE, state.getRaceStorage().getAll(), template.race)
     selectOptionalFromOneOf("Gender", GENDER, race.genders, template.gender)
     editOptionalElement(state, CULTURE, state.getCultureStorage().getAll(), template.culture)
+    editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
     editOptionalElement(state, UNIFORM, state.getUniformStorage().getAll(), template.uniform)
     editDataSources(state, template.sources)
@@ -69,7 +72,7 @@ fun parseCharacterTemplate(
     parseRaceId(parameters, RACE),
     parse<Gender>(parameters, GENDER),
     parseOptionalCultureId(parameters, CULTURE),
-    emptyMap(),
+    parseKnownLanguages(parameters, state),
     parseBeliefStatus(parameters, state, BELIEVE),
     parseOptionalUniformId(parameters, UNIFORM),
     parseDataSources(parameters),

@@ -1,9 +1,18 @@
 package at.orchaldir.gm.app.html.culture
 
+import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.LANGUAGE
+import at.orchaldir.gm.app.LANGUAGES
+import at.orchaldir.gm.app.MEMBER
+import at.orchaldir.gm.app.RANK
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.parseOptionalCharacterId
+import at.orchaldir.gm.app.html.organization.parseMemberRank
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
@@ -18,6 +27,7 @@ import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.magic.getSpells
+import at.orchaldir.gm.core.selector.organization.getNotMembers
 import at.orchaldir.gm.core.selector.world.getPlanes
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -81,6 +91,36 @@ fun HtmlBlockTag.showLanguage(
 
 // edit
 
+fun FORM.editKnownLanguages(
+    state: State,
+    languages: Map<LanguageId, ComprehensionLevel>,
+) {
+    var availableLanguages = state.getLanguageStorage().getAll()
+
+    editMap(
+        "Known Languages",
+        LANGUAGES,
+        languages,
+        0,
+        availableLanguages.size,
+    ) { _, memberParam, language, level ->
+        selectElement(
+            state,
+            combine(memberParam, LANGUAGE),
+            availableLanguages,
+            language,
+        )
+        selectValue(
+            "Comprehension Level",
+            combine(memberParam, RANK),
+            ComprehensionLevel.entries,
+            level,
+        )
+
+        availableLanguages = availableLanguages.filter { it.id != language }
+    }
+}
+
 fun FORM.editLanguage(
     state: State,
     language: Language,
@@ -92,6 +132,17 @@ fun FORM.editLanguage(
 }
 
 // parse
+
+fun parseKnownLanguages(parameters: Parameters, state: State) = parseIdMap(
+    parameters,
+    LANGUAGES,
+    state.getLanguageStorage().getIds().toList(),
+    { index, param ->
+        parseOptionalLanguageId(parameters, combine(param, LANGUAGE))
+    },
+) { languageId, index, param ->
+    parse(parameters, combine(param, RANK), ComprehensionLevel.Native)
+}
 
 fun parseLanguageId(value: String) = LanguageId(value.toInt())
 

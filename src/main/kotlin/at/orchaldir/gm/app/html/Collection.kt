@@ -212,7 +212,7 @@ fun <ID: Id<ID>, V> parseIdMap(
     var freeIdIndex = 0
 
     for (index in 0..<count) {
-        val indexParam = combine(MEMBER, index)
+        val indexParam = combine(param, index)
         val key = parseKey(index, indexParam) ?: freeIds[freeIdIndex++]
 
         map[key] = parseValue(key, index, indexParam)
