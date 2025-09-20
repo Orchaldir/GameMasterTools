@@ -11,11 +11,11 @@ fun checkBeliefStatusHistory(
     startDate: Date?,
 ) = checkHistory(state, history, startDate, "belief", ::checkBeliefStatus)
 
-private fun checkBeliefStatus(
+fun checkBeliefStatus(
     state: State,
     status: BeliefStatus,
-    noun: String,
-    date: Date?,
+    noun: String = "belief",
+    date: Date? = null,
 ) {
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()
