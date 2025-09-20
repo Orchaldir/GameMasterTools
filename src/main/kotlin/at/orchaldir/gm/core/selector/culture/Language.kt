@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.Rarity
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
@@ -15,6 +16,7 @@ import at.orchaldir.gm.core.selector.world.getPlanes
 
 fun State.canDeleteLanguage(language: LanguageId) = DeleteResult(language)
     .addElements(getCharacters(language))
+    .addElements(getCharacterTemplates(language))
     .addElements(getChildren(language))
     .addElements(getCultures(language))
     .addElements(getPeriodicals(language))
