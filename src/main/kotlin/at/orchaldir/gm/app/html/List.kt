@@ -1,12 +1,7 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.MEMBER
 import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.RANK
-import at.orchaldir.gm.app.html.character.parseOptionalCharacterId
-import at.orchaldir.gm.app.html.organization.parseMemberRank
-import at.orchaldir.gm.app.html.util.parseHistory
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.selector.util.sortElements
@@ -184,6 +179,27 @@ fun <T> parseList(
         .map { index ->
             parseElement(index, combine(param, index))
         }
+}
+
+fun <ID: Id<ID>, V> parseIdMap(
+    parameters: Parameters,
+    param: String,
+    freeIds: List<ID>,
+    parseKey: (Int, String) -> ID?,
+    parseValue: (ID, Int, String) -> V,
+): Map<ID,V> {
+    val count = parseInt(parameters, combine(param, NUMBER), 0)
+    val map = mutableMapOf<ID, V>()
+    var freeIdIndex = 0
+
+    for (index in 0..<count) {
+        val indexParam = combine(MEMBER, index)
+        val key = parseKey(index, indexParam) ?: freeIds[freeIdIndex++]
+
+        map[key] = parseValue(key, index, indexParam)
+    }
+
+    return map
 }
 
 fun <K, V> parseMap(

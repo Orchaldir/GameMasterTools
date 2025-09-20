@@ -12,11 +12,9 @@ import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.organization.MemberRank
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
-import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.organization.getNotMembers
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -150,20 +148,16 @@ private fun parseMembers(
     state: State,
     parameters: Parameters,
     id: OrganizationId,
-): Map<CharacterId, History<Int?>> {
-    val notMembers = state.getNotMembers(id).toList()
-    var notMemberIndex = 0
-
-    return parseMap(
+) = parseIdMap(
         parameters,
         MEMBER,
+        state.getNotMembers(id).toList(),
         { index, keyParam ->
-            parseOptionalCharacterId(parameters, combine(keyParam, CHARACTER)) ?: notMembers[notMemberIndex++]
+            parseOptionalCharacterId(parameters, combine(keyParam, CHARACTER))
         },
-    ) { characterId, index, memberParam ->
-        val character = state.getCharacterStorage().getOrThrow(characterId)
-        parseHistory(parameters, combine(memberParam, RANK), state, character.birthDate, ::parseMemberRank)
-    }
+) { characterId, index, memberParam ->
+    val character = state.getCharacterStorage().getOrThrow(characterId)
+    parseHistory(parameters, combine(memberParam, RANK), state, character.birthDate, ::parseMemberRank)
 }
 
 fun parseMemberRank(parameters: Parameters, state: State, param: String) = parseSimpleOptionalInt(parameters, param)
