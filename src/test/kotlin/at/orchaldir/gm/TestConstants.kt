@@ -1,6 +1,7 @@
 package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -73,6 +74,8 @@ val CHARACTER_ID_0 = CharacterId(0)
 val CHARACTER_ID_1 = CharacterId(1)
 val CHARACTER_ID_2 = CharacterId(2)
 val UNKNOWN_CHARACTER_ID = CharacterId(99)
+val CHARACTER_TEMPLATE_ID_0 = CharacterTemplateId(0)
+val UNKNOWN_CHARACTER_TEMPLATE_ID = CharacterTemplateId(99)
 val COLOR_SCHEME_ID_0 = ColorSchemeId(0)
 val COLOR_SCHEME_ID_1 = ColorSchemeId(1)
 val COLOR_SCHEME_ID_2 = ColorSchemeId(2)
