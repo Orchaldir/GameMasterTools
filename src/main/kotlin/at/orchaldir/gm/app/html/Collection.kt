@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.MEMBER
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
@@ -153,11 +154,32 @@ fun <T> HtmlBlockTag.editList(
     step: Int = 1,
     editElement: HtmlBlockTag.(Int, String, T) -> Unit,
 ) {
-    selectInt("$label Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
+    showDetails(label, true) {
+        selectInt("Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
 
-    showListWithIndex(elements) { index, element ->
-        val elementParam = combine(param, index)
-        editElement(index, elementParam, element)
+        showListWithIndex(elements) { index, element ->
+            val elementParam = combine(param, index)
+            editElement(index, elementParam, element)
+        }
+    }
+}
+
+fun <K, V> HtmlBlockTag.editMap(
+    label: String,
+    param: String,
+    elements: Map<K, V>,
+    minSize: Int,
+    maxSize: Int,
+    step: Int = 1,
+    editElement: HtmlBlockTag.(Int, String, K, V) -> Unit,
+) {
+    showDetails(label, true) {
+        selectInt("Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
+
+        showListWithIndex(elements.entries) { index, (key, value) ->
+            val elementParam = combine(param, index)
+            editElement(index, elementParam, key, value)
+        }
     }
 }
 
@@ -175,5 +197,45 @@ fun <T> parseList(
         .map { index ->
             parseElement(index, combine(param, index))
         }
+}
+
+fun <ID : Id<ID>, V> parseIdMap(
+    parameters: Parameters,
+    param: String,
+    freeIds: List<ID>,
+    parseKey: (Int, String) -> ID?,
+    parseValue: (ID, Int, String) -> V,
+): Map<ID, V> {
+    val count = parseInt(parameters, combine(param, NUMBER), 0)
+    val map = mutableMapOf<ID, V>()
+    var freeIdIndex = 0
+
+    for (index in 0..<count) {
+        val indexParam = combine(param, index)
+        val key = parseKey(index, indexParam) ?: freeIds[freeIdIndex++]
+
+        map[key] = parseValue(key, index, indexParam)
+    }
+
+    return map
+}
+
+fun <K, V> parseMap(
+    parameters: Parameters,
+    param: String,
+    parseKey: (Int, String) -> K,
+    parseValue: (K, Int, String) -> V,
+): Map<K, V> {
+    val count = parseInt(parameters, combine(param, NUMBER), 0)
+    val map = mutableMapOf<K, V>()
+
+    for (index in 0..<count) {
+        val indexParam = combine(MEMBER, index)
+        val key = parseKey(index, indexParam)
+
+        map[key] = parseValue(key, index, indexParam)
+    }
+
+    return map
 }
 

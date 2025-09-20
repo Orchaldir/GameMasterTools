@@ -27,6 +27,7 @@ import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.name.NameListId
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -48,18 +49,26 @@ fun HtmlBlockTag.showCulture(
     showDataSources(call, state, culture.sources)
     showNamingConvention(culture.namingConvention, call, state)
     showClothingOptions(call, state, culture)
-    showUsages(call, state, culture)
+    showUsages(call, state, culture.id)
     showCreated(call, state, culture.id)
 }
 
 private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
-    culture: Culture,
+    culture: CultureId,
 ) {
+    val characters = state.getCharacters(culture)
+    val templates = state.getCharacterTemplates(culture)
+
+    if (characters.isEmpty() && templates.isEmpty()) {
+        return
+    }
+
     h2 { +"Usage" }
 
-    fieldElements(call, state, state.getCharacters(culture.id))
+    fieldElements(call, state, characters)
+    fieldElements(call, state, templates)
 }
 
 private fun HtmlBlockTag.showNamingConvention(

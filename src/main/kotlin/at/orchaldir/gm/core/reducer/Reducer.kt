@@ -30,7 +30,6 @@ import at.orchaldir.gm.core.reducer.util.quote.UPDATE_QUOTE
 import at.orchaldir.gm.core.reducer.util.source.CREATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.util.source.UPDATE_DATA_SOURCE
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
-import at.orchaldir.gm.core.selector.character.canDeleteCharacter
 import at.orchaldir.gm.core.selector.character.canDeletePersonalityTrait
 import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.core.selector.culture.canDeleteCulture
@@ -49,16 +48,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
     when (action) {
         // meta
         is LoadData -> LOAD_DATA(state, action)
-        // character
-        is CreateCharacter -> CREATE_CHARACTER(state, action)
-        is DeleteCharacter -> deleteElement(state, action.id, State::canDeleteCharacter)
-        is UpdateCharacter -> UPDATE_CHARACTER(state, action)
-        is UpdateAppearance -> UPDATE_APPEARANCE(state, action)
-        is UpdateEquipmentOfCharacter -> UPDATE_EQUIPMENT_MAP(state, action)
-        is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
-        // character's languages
-        is AddLanguage -> ADD_LANGUAGE(state, action)
-        is RemoveLanguages -> REMOVE_LANGUAGES(state, action)
         // calendar
         is CreateCalendar -> CREATE_CALENDAR(state, action)
         is DeleteCalendar -> deleteElement(state, action.id, State::canDeleteCalendar)
@@ -129,6 +118,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is DeleteTitle -> deleteElement(state, action.id, State::canDeleteTitle)
         is UpdateTitle -> UPDATE_TITLE(state, action)
         // sub reducers
+        is CharacterAction -> CHARACTER_REDUCER(state, action)
         is ItemAction -> ITEM_REDUCER(state, action)
         is EconomyAction -> ECONOMY_REDUCER(state, action)
         is MagicAction -> MAGIC_REDUCER(state, action)

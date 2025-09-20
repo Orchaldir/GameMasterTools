@@ -4,8 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel.Native
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -25,6 +26,7 @@ class LanguageTest {
     @Nested
     inner class CanDeleteTest {
         private val language = Language(LANGUAGE_ID_0)
+        private val languages = mapOf(LANGUAGE_ID_0 to Native)
         private val state = State(
             listOf(
                 Storage(language),
@@ -52,10 +54,18 @@ class LanguageTest {
 
         @Test
         fun `Cannot delete a language known by a character`() {
-            val character = Character(CHARACTER_ID_0, languages = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native))
+            val character = Character(CHARACTER_ID_0, languages = languages)
             val newState = state.updateStorage(Storage(character))
 
             failCanDelete(newState, CHARACTER_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a language known by a character template`() {
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, languages = languages)
+            val newState = state.updateStorage(Storage(template))
+
+            failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
         }
 
         @Test

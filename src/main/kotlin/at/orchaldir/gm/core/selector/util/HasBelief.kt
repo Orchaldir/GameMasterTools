@@ -14,10 +14,8 @@ import at.orchaldir.gm.utils.Storage
 
 fun <ID : Id<ID>> State.canDeleteTargetOfBelief(id: ID, result: DeleteResult) = result
     .addElements(getCurrentOrFormerBelievers(getCharacterStorage(), id))
+    .addElements(getBelievers(getCharacterTemplateStorage(), id))
     .addElements(getCurrentOrFormerBelievers(getOrganizationStorage(), id))
-
-fun <ID : Id<ID>> State.canDeleteHasBelief(id: ID) = getCurrentOrFormerBelievers(getCharacterStorage(), id).isEmpty()
-        && getCurrentOrFormerBelievers(getOrganizationStorage(), id).isEmpty()
 
 // get believers
 

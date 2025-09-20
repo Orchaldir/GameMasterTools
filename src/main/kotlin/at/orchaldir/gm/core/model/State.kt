@@ -89,6 +89,7 @@ import at.orchaldir.gm.core.model.world.town.TOWN_MAP_TYPE
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.reducer.character.validateCharacter
+import at.orchaldir.gm.core.reducer.character.validateCharacterTemplate
 import at.orchaldir.gm.core.reducer.culture.validateCulture
 import at.orchaldir.gm.core.reducer.culture.validateFashion
 import at.orchaldir.gm.core.reducer.culture.validateLanguage
@@ -139,6 +140,7 @@ val ELEMENTS =
         BUSINESS_TYPE,
         CALENDAR_TYPE,
         CATASTROPHE_TYPE,
+        CHARACTER_TEMPLATE_TYPE,
         CHARACTER_TYPE,
         COLOR_SCHEME_TYPE,
         CULTURE_TYPE,
@@ -214,6 +216,7 @@ data class State(
     fun getBusinessStorage() = getStorage<BusinessId, Business>(BUSINESS_TYPE)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
     fun getCatastropheStorage() = getStorage<CatastropheId, Catastrophe>(CATASTROPHE_TYPE)
+    fun getCharacterTemplateStorage() = getStorage<CharacterTemplateId, CharacterTemplate>(CHARACTER_TEMPLATE_TYPE)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
     fun getColorSchemeStorage() = getStorage<ColorSchemeId, ColorScheme>(COLOR_SCHEME_TYPE)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
@@ -338,6 +341,7 @@ data class State(
         validate(getCalendarStorage()) { validateCalendar(this, it) }
         validate(getCatastropheStorage()) { validateCatastrophe(this, it) }
         validate(getCharacterStorage()) { validateCharacter(this, it) }
+        validate(getCharacterTemplateStorage()) { validateCharacterTemplate(this, it) }
         validateColorSchemes(this)
         validate(getCultureStorage()) { validateCulture(this, it) }
         validate(getCurrencyStorage()) { validateCurrency(this, it) }
@@ -388,6 +392,7 @@ data class State(
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCatastropheStorage())
         saveStorage(path, getCharacterStorage())
+        saveStorage(path, getCharacterTemplateStorage())
         saveStorage(path, getColorSchemeStorage())
         saveStorage(path, getCultureStorage())
         saveStorage(path, getCurrencyStorage())
@@ -444,6 +449,7 @@ fun createStorage(type: String) = when (type) {
     BUSINESS_TYPE -> Storage(BusinessId(0))
     CALENDAR_TYPE -> Storage(CalendarId(0))
     CATASTROPHE_TYPE -> Storage(CatastropheId(0))
+    CHARACTER_TEMPLATE_TYPE -> Storage(CharacterTemplateId(0))
     CHARACTER_TYPE -> Storage(CharacterId(0))
     COLOR_SCHEME_TYPE -> Storage(ColorSchemeId(0))
     CULTURE_TYPE -> Storage(CultureId(0))
@@ -500,6 +506,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     BUSINESS_TYPE -> loadStorage<BusinessId, Business>(path, BusinessId(0))
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CATASTROPHE_TYPE -> loadStorage<CatastropheId, Catastrophe>(path, CatastropheId(0))
+    CHARACTER_TEMPLATE_TYPE -> loadStorage<CharacterTemplateId, CharacterTemplate>(path, CharacterTemplateId(0))
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     COLOR_SCHEME_TYPE -> loadStorage<ColorSchemeId, ColorScheme>(path, ColorSchemeId(0))
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))

@@ -1,0 +1,15 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Brelish Soldier",
+   "race": 0,
+   "culture": 0,
+   "belief": {
+    "type": "Pantheon",
+    "pantheon": 0
+   }
+  }
+ }
+}

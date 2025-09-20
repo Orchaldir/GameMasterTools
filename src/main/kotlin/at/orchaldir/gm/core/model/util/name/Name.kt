@@ -18,3 +18,10 @@ value class Name private constructor(val text: String) {
     }
 
 }
+
+fun parseNames(input: String): List<Name> = input
+    .split("\n", ",", ".", ";")
+    .map { it.trim() }
+    .filter { it.isNotEmpty() }
+    .map { Name.init(it) }
+    .toList()

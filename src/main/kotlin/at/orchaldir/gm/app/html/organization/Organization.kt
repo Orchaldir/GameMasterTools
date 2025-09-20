@@ -12,11 +12,9 @@ import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.organization.MemberRank
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
-import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.organization.getNotMembers
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -80,15 +78,24 @@ private fun FORM.editMembers(
 
     h2 { +"Members" }
 
-    selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK)
-    showListWithIndex(organization.memberRanks) { index, rank ->
-        selectName("Name", rank.name, combine(RANK, NAME, index))
+    editList(
+        "Ranks",
+        RANK,
+        organization.memberRanks,
+        1,
+        20,
+    ) { _, param, rank ->
+        selectName("Name", rank.name, combine(param, NAME))
     }
-    selectInt("Members", organization.members.size, 0, maxMembers, 1, MEMBER)
-    showListWithIndex(organization.members.entries) { memberIndex, (characterId, history) ->
+    editMap(
+        "Members",
+        MEMBER,
+        organization.members,
+        1,
+        maxMembers,
+    ) { _, memberParam, characterId, history ->
         val character = state.getCharacterStorage().getOrThrow(characterId)
         val potentialCharacters = state.getCharacterStorage().get(notMembers + characterId)
-        val memberParam = combine(MEMBER, memberIndex)
 
         selectElement(
             state,
@@ -123,7 +130,9 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId):
         parseName(parameters),
         parseCreator(parameters),
         date,
-        parseRanks(parameters),
+        parseList(parameters, RANK, 1) { index, param ->
+            parseRank(parameters, index, param)
+        },
         parseMembers(state, parameters, id),
         parseBeliefStatusHistory(parameters, state, date),
         parseHolidays(parameters),
@@ -131,39 +140,24 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId):
     )
 }
 
-private fun parseRanks(parameters: Parameters): List<MemberRank> {
-    val count = parseInt(parameters, RANK, 1)
-
-    return (0..<count)
-        .map { parseRank(parameters, it) }
-}
-
-private fun parseRank(parameters: Parameters, index: Int) = MemberRank(
-    parseName(parameters, combine(RANK, NAME, index), "${index + 1}.Rank"),
+private fun parseRank(parameters: Parameters, index: Int, param: String) = MemberRank(
+    parseName(parameters, combine(param, NAME), "${index + 1}.Rank"),
 )
 
 private fun parseMembers(
     state: State,
     parameters: Parameters,
     id: OrganizationId,
-): Map<CharacterId, History<Int?>> {
-    val count = parseInt(parameters, MEMBER, 0)
-    val members = mutableMapOf<CharacterId, History<Int?>>()
-    val notMembers = state.getNotMembers(id).toList()
-    var notMemberIndex = 0
-
-    for (memberIndex in 0..<count) {
-        val memberParam = combine(MEMBER, memberIndex)
-        val characterId =
-            parseOptionalCharacterId(parameters, combine(memberParam, CHARACTER)) ?: notMembers[notMemberIndex++]
-        val character = state.getCharacterStorage().getOrThrow(characterId)
-        val history =
-            parseHistory(parameters, combine(memberParam, RANK), state, character.birthDate, ::parseMemberRank)
-
-        members[characterId] = history
-    }
-
-    return members
+) = parseIdMap(
+    parameters,
+    MEMBER,
+    state.getNotMembers(id).toList(),
+    { index, keyParam ->
+        parseOptionalCharacterId(parameters, combine(keyParam, CHARACTER))
+    },
+) { characterId, index, memberParam ->
+    val character = state.getCharacterStorage().getOrThrow(characterId)
+    parseHistory(parameters, combine(memberParam, RANK), state, character.birthDate, ::parseMemberRank)
 }
 
 fun parseMemberRank(parameters: Parameters, state: State, param: String) = parseSimpleOptionalInt(parameters, param)

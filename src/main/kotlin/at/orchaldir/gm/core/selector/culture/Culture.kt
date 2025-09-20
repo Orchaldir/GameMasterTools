@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.name.NameListId
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.realm.getWarsWithParticipant
 import at.orchaldir.gm.core.selector.util.canDeleteCreator
@@ -15,6 +16,7 @@ import at.orchaldir.gm.core.selector.util.canDeleteDestroyer
 
 fun State.canDeleteCulture(culture: CultureId) = DeleteResult(culture)
     .addElements(getCharacters(culture))
+    .addElements(getCharacterTemplates(culture))
     .addElements(getWarsWithParticipant(culture))
     .apply { canDeleteCreator(culture, it) }
     .apply { canDeleteDestroyer(culture, it) }

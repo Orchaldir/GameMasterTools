@@ -72,6 +72,19 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOptionalOneOf(
     selectFromOneOf(text, selectId, values, current)
 }
 
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectOptionalFromOneOf(
+    text: String,
+    selectId: String,
+    values: RarityMap<T>,
+    current: T?,
+) {
+    selectFromOneOrNone(text, selectId, values, current == null) { v ->
+        label = v.name
+        value = v.toString()
+        selected = v == current
+    }
+}
+
 inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
     text: String,
     selectId: String,
@@ -81,6 +94,22 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectFromOneOf(
     selectFromOneOf(text, selectId, values, current) { v ->
         label = v.name
         value = v.toString()
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalFromOneOf(
+    text: String,
+    selectId: String,
+    storage: Storage<ID, ELEMENT>,
+    values: RarityMap<ID>,
+    current: ID?,
+    getName: (ELEMENT) -> String,
+) {
+    selectFromOneOrNone(text, selectId, values, current == null) { id ->
+        val element = storage.getOrThrow(id)
+        label = getName(element)
+        value = id.value().toString()
+        selected = id == current
     }
 }
 

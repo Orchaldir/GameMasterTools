@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -226,6 +227,20 @@ fun State.sortCharacters(
             })
         .map { it.first }
 }
+
+// character template
+
+fun State.sortCharacterTemplates(sort: SortCharacterTemplate = SortCharacterTemplate.Name) =
+    sortCharacterTemplates(getCharacterTemplateStorage().getAll(), sort)
+
+fun State.sortCharacterTemplates(
+    templates: Collection<CharacterTemplate>,
+    sort: SortCharacterTemplate = SortCharacterTemplate.Name,
+) = templates
+    .sortedWith(
+        when (sort) {
+            SortCharacterTemplate.Name -> compareBy { it.name.text }
+        })
 
 // color scheme
 

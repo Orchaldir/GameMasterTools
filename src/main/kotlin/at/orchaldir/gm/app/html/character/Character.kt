@@ -3,7 +3,10 @@ package at.orchaldir.gm.app.html.character
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.title.parseOptionalTitleId
+import at.orchaldir.gm.app.html.culture.editKnownLanguages
+import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
+import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
@@ -26,7 +29,6 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.selector.character.*
-import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
@@ -119,12 +121,12 @@ fun HtmlBlockTag.showSocial(
     state: State,
     character: Character,
 ) {
-    val editLanguagesLink = call.application.href(CharacterRoutes.Languages.Edit(character.id))
     val editRelationshipsLink = call.application.href(CharacterRoutes.Relationships.Edit(character.id))
 
     h2 { +"Social" }
 
     optionalFieldLink("Culture", call, state, character.culture)
+    showKnownLanguages(call, state, character)
     showBeliefStatusHistory(call, state, character.beliefStatus)
 
     showFamily(call, state, character)
@@ -141,10 +143,8 @@ fun HtmlBlockTag.showSocial(
     fieldAuthenticity(call, state, character.authenticity)
     fieldElements(call, state, "Secret Identities", state.getSecretIdentitiesOf(character.id))
 
-    showLanguages(call, state, character)
     showMemberships(call, state, character)
 
-    action(editLanguagesLink, "Edit Languages")
     action(editRelationshipsLink, "Edit Relationships")
 }
 
@@ -160,17 +160,6 @@ private fun HtmlBlockTag.showFamily(
     fieldElements(call, state, "Parents", parents)
     fieldElements(call, state, "Children", children)
     fieldElements(call, state, "Siblings", siblings)
-}
-
-fun HtmlBlockTag.showLanguages(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    showMap("Known Languages", state.getKnownLanguages(character)) { id, level ->
-        link(call, state, id)
-        +": $level"
-    }
 }
 
 fun HtmlBlockTag.showMemberships(
@@ -245,6 +234,7 @@ fun FORM.editCharacter(
     h2 { +"Social" }
 
     selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
+    editKnownLanguages(state, character.languages)
     editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     editPersonality(call, state, character.personality)
     if (character.gender == Gender.Genderless) {
@@ -358,6 +348,7 @@ fun parseCharacter(
         vitalStatus = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
         personality = parsePersonality(parameters),
+        languages = parseKnownLanguages(parameters, state),
         housingStatus = parsePositionHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
