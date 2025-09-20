@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.religion.parsePantheonId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -79,13 +80,23 @@ fun FORM.editBeliefStatusHistory(
     startDate: Date?,
 ) = selectHistory(state, BELIEVE, history, "Belief Status", startDate, null, HtmlBlockTag::editBeliefStatus)
 
-fun HtmlBlockTag.editBeliefStatus(
+fun HtmlBlockTag.selectBeliefStatus(
+    state: State,
+    param: String,
+    status: BeliefStatus,
+) {
+    showDetails("Belief Status", true) {
+        editBeliefStatus(state, param, status, null)
+    }
+}
+
+private fun HtmlBlockTag.editBeliefStatus(
     state: State,
     param: String,
     status: BeliefStatus,
     start: Date?,
 ) {
-    selectValue("Belief Status", param, BeliefStatusType.entries, status.getType())
+    selectValue("Type", param, BeliefStatusType.entries, status.getType())
 
     when (status) {
         Atheist, UndefinedBeliefStatus -> doNothing()

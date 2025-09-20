@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.item.parseOptionalUniformId
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.fieldBeliefStatus
 import at.orchaldir.gm.app.html.util.parseBeliefStatus
+import at.orchaldir.gm.app.html.util.selectBeliefStatus
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -43,7 +44,14 @@ fun FORM.editCharacterTemplate(
     state: State,
     template: CharacterTemplate,
 ) {
+    val race = state.getRaceStorage().getOrThrow(template.race)
+
     selectName(template.name)
+    selectElement(state, RACE, state.getRaceStorage().getAll(), template.race)
+    selectOptionalFromOneOf("Gender", GENDER, race.genders, template.gender)
+    selectOptionalElement(state, RACE, state.getCultureStorage().getAll(), template.culture)
+    selectBeliefStatus(state, BELIEVE, template.belief)
+    selectOptionalElement(state, RACE, state.getUniformStorage().getAll(), template.uniform)
     editDataSources(state, template.sources)
 }
 
