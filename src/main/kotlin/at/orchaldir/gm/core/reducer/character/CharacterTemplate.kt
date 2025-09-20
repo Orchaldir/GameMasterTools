@@ -20,6 +20,7 @@ val CREATE_CHARACTER_TEMPLATE: Reducer<CreateCharacterTemplate, State> = { state
 
 val UPDATE_CHARACTER_TEMPLATE: Reducer<UpdateCharacterTemplate, State> = { state, action ->
     val template = action.template
+    state.getCharacterTemplateStorage().require(template.id)
 
     validateCharacterTemplate(state, template)
 

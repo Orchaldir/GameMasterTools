@@ -16,9 +16,6 @@ val CHARACTER_REDUCER: Reducer<CharacterAction, State> = { state, action ->
         is UpdateAppearance -> UPDATE_APPEARANCE(state, action)
         is UpdateEquipmentOfCharacter -> UPDATE_EQUIPMENT_MAP(state, action)
         is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
-        // character's languages
-        is AddLanguage -> ADD_LANGUAGE(state, action)
-        is RemoveLanguages -> REMOVE_LANGUAGES(state, action)
         // character templates
         is CreateCharacterTemplate -> CREATE_CHARACTER_TEMPLATE(state, action)
         is DeleteCharacterTemplate -> deleteElement(state, action.id, State::canDeleteCharacterTemplate)

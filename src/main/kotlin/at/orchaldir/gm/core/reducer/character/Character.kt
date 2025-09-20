@@ -19,6 +19,7 @@ val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     val character = action.character
+    state.getCharacterStorage().require(character.id)
 
     validateCharacterData(state, character)
 

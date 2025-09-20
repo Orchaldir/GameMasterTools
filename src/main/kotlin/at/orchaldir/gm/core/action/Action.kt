@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
-import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -191,18 +190,6 @@ data class UpdateEquipmentOfCharacter(
 data class UpdateRelationships(
     val id: CharacterId,
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>>,
-) : CharacterAction()
-
-// character's languages
-
-data class AddLanguage(
-    val id: CharacterId,
-    val language: LanguageId,
-    val level: ComprehensionLevel,
-) : CharacterAction()
-data class RemoveLanguages(
-    val id: CharacterId,
-    val languages: Set<LanguageId>,
 ) : CharacterAction()
 
 // character template

@@ -73,16 +73,6 @@ class CharacterRoutes {
         class Generate(val id: CharacterId, val parent: Equipment = Equipment())
     }
 
-    @Resource("/languages")
-    class Languages(val parent: CharacterRoutes = CharacterRoutes()) {
-
-        @Resource("edit")
-        class Edit(val id: CharacterId, val parent: Languages = Languages())
-
-        @Resource("update")
-        class Update(val id: CharacterId, val parent: Languages = Languages())
-    }
-
     @Resource("/name")
     class Name(val parent: CharacterRoutes = CharacterRoutes()) {
 

@@ -70,35 +70,6 @@ class CharacterTest {
             )
         )
 
-        @Test
-        fun `Do not overwrite languages`() {
-            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, languages = LANGUAGES)))
-            val action =
-                UpdateCharacter(
-                    Character(
-                        CHARACTER_ID_0,
-                        Mononym(NAME0),
-                        RACE_ID_1,
-                        Gender.Male,
-                        personality = setOf(PERSONALITY_ID_0)
-                    )
-                )
-
-            val result = REDUCER.invoke(state, action).first
-
-            assertEquals(
-                Character(
-                    CHARACTER_ID_0,
-                    Mononym(NAME0),
-                    RACE_ID_1,
-                    Gender.Male,
-                    personality = setOf(PERSONALITY_ID_0),
-                    languages = LANGUAGES,
-                ),
-                result.getCharacterStorage().getOrThrow(CHARACTER_ID_0)
-            )
-        }
-
         @Nested
         inner class VitalStatusTest {
 

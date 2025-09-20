@@ -121,7 +121,6 @@ fun HtmlBlockTag.showSocial(
     state: State,
     character: Character,
 ) {
-    val editLanguagesLink = call.application.href(CharacterRoutes.Languages.Edit(character.id))
     val editRelationshipsLink = call.application.href(CharacterRoutes.Relationships.Edit(character.id))
 
     h2 { +"Social" }
@@ -146,7 +145,6 @@ fun HtmlBlockTag.showSocial(
 
     showMemberships(call, state, character)
 
-    action(editLanguagesLink, "Edit Languages")
     action(editRelationshipsLink, "Edit Relationships")
 }
 

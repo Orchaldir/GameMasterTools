@@ -75,7 +75,6 @@ fun Application.module() {
     configureCurrencyRouting()
     configureCurrencyUnitRouting()
     configureEquipmentMapRouting()
-    configureCharacterLanguageRouting()
     configureCharacterRelationshipRouting()
     configureAppearanceRouting()
     configureCalendarRouting()
