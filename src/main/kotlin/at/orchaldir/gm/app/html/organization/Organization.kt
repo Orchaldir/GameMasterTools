@@ -87,13 +87,13 @@ private fun FORM.editMembers(
     ) { _, param, rank ->
         selectName("Name", rank.name, combine(param, NAME))
     }
-    editList(
+    editMap(
         "Members",
         MEMBER,
-        organization.members.entries,
+        organization.members,
         1,
         maxMembers,
-    ) { _, memberParam, (characterId, history) ->
+    ) { _, memberParam, characterId, history ->
         val character = state.getCharacterStorage().getOrThrow(characterId)
         val potentialCharacters = state.getCharacterStorage().get(notMembers + characterId)
 

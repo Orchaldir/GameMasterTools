@@ -165,6 +165,25 @@ fun <T> HtmlBlockTag.editList(
     }
 }
 
+fun <K,V> HtmlBlockTag.editMap(
+    label: String,
+    param: String,
+    elements: Map<K,V>,
+    minSize: Int,
+    maxSize: Int,
+    step: Int = 1,
+    editElement: HtmlBlockTag.(Int, String, K, V) -> Unit,
+) {
+    showDetails(label, true) {
+        selectInt("Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
+
+        showListWithIndex(elements.entries) { index, (key, value) ->
+            val elementParam = combine(param, index)
+            editElement(index, elementParam, key, value)
+        }
+    }
+}
+
 // parse
 
 fun <T> parseList(
