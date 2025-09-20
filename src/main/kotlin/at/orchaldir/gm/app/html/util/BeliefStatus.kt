@@ -24,6 +24,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -63,13 +64,23 @@ fun <ID : Id<ID>> HtmlBlockTag.showCurrentAndFormerBelievers(
     state: State,
     id: ID,
 ) {
-    val characters = state.getCharacterStorage()
-    val organizations = state.getOrganizationStorage()
+    val characters = getBelievers(state.getCharacterStorage(), id)
+    val formerCharacters = getFormerBelievers(state.getCharacterStorage(), id) - characters
+    val organizations = getBelievers(state.getOrganizationStorage(), id)
+    val formerOrganizations = getFormerBelievers(state.getOrganizationStorage(), id) -  organizations
+    val templates = getBelievers(state.getCharacterTemplateStorage(), id)
 
-    fieldElements(call, state, "Believers", getBelievers(characters, id))
-    fieldElements(call, state, "Former Believers", getFormerBelievers(characters, id))
-    fieldElements(call, state, "Organizations", getBelievers(organizations, id))
-    fieldElements(call, state, "Former Organizations", getFormerBelievers(organizations, id))
+    if (characters.isEmpty() && formerCharacters.isEmpty() && organizations.isEmpty() && formerOrganizations.isEmpty() && templates.isEmpty()) {
+        return
+    }
+
+    h2 { +"Believers" }
+
+    fieldElements(call, state, characters)
+    fieldElements(call, state, "Characters in the Past", formerCharacters)
+    fieldElements(call, state, organizations)
+    fieldElements(call, state, "Organizations in the Past", formerOrganizations)
+    fieldElements(call, state, templates)
 }
 
 // edit
