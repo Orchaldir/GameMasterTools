@@ -47,8 +47,10 @@ data class DeleteResult(
     }
 
     fun validate() {
-        if (elements.isNotEmpty()) {
+        if (!canDelete()) {
             throw CannotDeleteException(this)
         }
     }
+
+    fun canDelete() = elements.isEmpty()
 }
