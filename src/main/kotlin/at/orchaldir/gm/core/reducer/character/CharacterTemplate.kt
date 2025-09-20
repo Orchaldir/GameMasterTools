@@ -3,12 +3,9 @@ package at.orchaldir.gm.core.reducer.character
 import at.orchaldir.gm.core.action.CreateCharacterTemplate
 import at.orchaldir.gm.core.action.UpdateCharacterTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
-import at.orchaldir.gm.core.reducer.util.*
-import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.core.reducer.util.checkBeliefStatus
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

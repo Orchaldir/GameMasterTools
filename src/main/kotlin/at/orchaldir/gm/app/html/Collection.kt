@@ -14,7 +14,6 @@ import kotlinx.html.HtmlBlockTag
 import kotlinx.html.LI
 import kotlinx.html.li
 import kotlinx.html.ul
-import kotlin.collections.set
 
 // show
 
@@ -165,10 +164,10 @@ fun <T> HtmlBlockTag.editList(
     }
 }
 
-fun <K,V> HtmlBlockTag.editMap(
+fun <K, V> HtmlBlockTag.editMap(
     label: String,
     param: String,
-    elements: Map<K,V>,
+    elements: Map<K, V>,
     minSize: Int,
     maxSize: Int,
     step: Int = 1,
@@ -200,13 +199,13 @@ fun <T> parseList(
         }
 }
 
-fun <ID: Id<ID>, V> parseIdMap(
+fun <ID : Id<ID>, V> parseIdMap(
     parameters: Parameters,
     param: String,
     freeIds: List<ID>,
     parseKey: (Int, String) -> ID?,
     parseValue: (ID, Int, String) -> V,
-): Map<ID,V> {
+): Map<ID, V> {
     val count = parseInt(parameters, combine(param, NUMBER), 0)
     val map = mutableMapOf<ID, V>()
     var freeIdIndex = 0
@@ -226,7 +225,7 @@ fun <K, V> parseMap(
     param: String,
     parseKey: (Int, String) -> K,
     parseValue: (K, Int, String) -> V,
-): Map<K,V> {
+): Map<K, V> {
     val count = parseInt(parameters, combine(param, NUMBER), 0)
     val map = mutableMapOf<K, V>()
 

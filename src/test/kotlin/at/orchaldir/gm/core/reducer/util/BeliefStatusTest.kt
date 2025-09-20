@@ -34,7 +34,7 @@ class BeliefStatusTest {
 
         @Test
         fun `Can delete god without believers`() {
-            assertTrue(state.canDeleteTargetOfBelief(GOD_ID_0,DeleteResult(GOD_ID_0)).canDelete())
+            assertTrue(state.canDeleteTargetOfBelief(GOD_ID_0, DeleteResult(GOD_ID_0)).canDelete())
         }
 
         @Test
@@ -68,7 +68,7 @@ class BeliefStatusTest {
 
         @Test
         fun `Can delete a pantheon without believers`() {
-            assertTrue(state.canDeleteTargetOfBelief(PANTHEON_ID_0,DeleteResult(PANTHEON_ID_0)).canDelete())
+            assertTrue(state.canDeleteTargetOfBelief(PANTHEON_ID_0, DeleteResult(PANTHEON_ID_0)).canDelete())
         }
 
         @Test
@@ -122,7 +122,7 @@ class BeliefStatusTest {
         }
 
         private fun <ID0 : Id<ID0>, ID1 : Id<ID1>> failCanDelete(state: State, id: ID0, blockingId: ID1) {
-            assertEquals(DeleteResult(id).addId(blockingId), (state.canDeleteTargetOfBelief(id,DeleteResult(id))))
+            assertEquals(DeleteResult(id).addId(blockingId), (state.canDeleteTargetOfBelief(id, DeleteResult(id))))
         }
     }
 

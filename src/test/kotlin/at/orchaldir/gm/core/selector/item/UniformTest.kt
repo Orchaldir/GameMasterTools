@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
-import at.orchaldir.gm.CULTURE_ID_0
 import at.orchaldir.gm.JOB_ID_0
 import at.orchaldir.gm.RACE_ID_0
 import at.orchaldir.gm.UNIFORM_ID_0

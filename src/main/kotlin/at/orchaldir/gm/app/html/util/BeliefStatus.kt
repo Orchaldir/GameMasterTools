@@ -3,14 +3,9 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.BELIEVE
 import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PANTHEON
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldElements
-import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.religion.parsePantheonId
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -67,7 +62,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showCurrentAndFormerBelievers(
     val characters = getBelievers(state.getCharacterStorage(), id)
     val formerCharacters = getFormerBelievers(state.getCharacterStorage(), id) - characters
     val organizations = getBelievers(state.getOrganizationStorage(), id)
-    val formerOrganizations = getFormerBelievers(state.getOrganizationStorage(), id) -  organizations
+    val formerOrganizations = getFormerBelievers(state.getOrganizationStorage(), id) - organizations
     val templates = getBelievers(state.getCharacterTemplateStorage(), id)
 
     if (characters.isEmpty() && formerCharacters.isEmpty() && organizations.isEmpty() && formerOrganizations.isEmpty() && templates.isEmpty()) {

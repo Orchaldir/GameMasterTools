@@ -21,7 +21,6 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
-import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.getTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces

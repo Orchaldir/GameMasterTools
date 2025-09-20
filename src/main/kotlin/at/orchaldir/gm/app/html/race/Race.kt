@@ -13,7 +13,6 @@ import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
-import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId

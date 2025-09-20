@@ -149,12 +149,12 @@ private fun parseMembers(
     parameters: Parameters,
     id: OrganizationId,
 ) = parseIdMap(
-        parameters,
-        MEMBER,
-        state.getNotMembers(id).toList(),
-        { index, keyParam ->
-            parseOptionalCharacterId(parameters, combine(keyParam, CHARACTER))
-        },
+    parameters,
+    MEMBER,
+    state.getNotMembers(id).toList(),
+    { index, keyParam ->
+        parseOptionalCharacterId(parameters, combine(keyParam, CHARACTER))
+    },
 ) { characterId, index, memberParam ->
     val character = state.getCharacterStorage().getOrThrow(characterId)
     parseHistory(parameters, combine(memberParam, RANK), state, character.birthDate, ::parseMemberRank)

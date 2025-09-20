@@ -61,7 +61,11 @@ class CharacterTemplateTest {
 
         @Test
         fun `Using an unknown language`() {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, languages = mapOf(UNKNOWN_LANGUAGE_ID to Native))
+            val template = CharacterTemplate(
+                CHARACTER_TEMPLATE_ID_0,
+                race = RACE_ID_0,
+                languages = mapOf(UNKNOWN_LANGUAGE_ID to Native)
+            )
             val action = UpdateCharacterTemplate(template)
 
             assertIllegalArgument("Requires unknown Language 99!") { REDUCER.invoke(STATE, action) }
@@ -69,7 +73,8 @@ class CharacterTemplateTest {
 
         @Test
         fun `Using an unknown god`() {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, belief = WorshipOfGod(UNKNOWN_GOD_ID))
+            val template =
+                CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, belief = WorshipOfGod(UNKNOWN_GOD_ID))
             val action = UpdateCharacterTemplate(template)
 
             assertIllegalArgument("The belief's God 99 doesn't exist!") { REDUCER.invoke(STATE, action) }
@@ -97,7 +102,10 @@ class CharacterTemplateTest {
             )
             val action = UpdateCharacterTemplate(template)
 
-            assertEquals(template, REDUCER.invoke(STATE, action).first.getCharacterTemplateStorage().get(CHARACTER_TEMPLATE_ID_0))
+            assertEquals(
+                template,
+                REDUCER.invoke(STATE, action).first.getCharacterTemplateStorage().get(CHARACTER_TEMPLATE_ID_0)
+            )
         }
     }
 
