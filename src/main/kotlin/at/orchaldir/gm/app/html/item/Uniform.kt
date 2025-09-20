@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -25,6 +26,7 @@ fun HtmlBlockTag.showUniform(
     uniform: Uniform,
 ) {
     showEquipmentMap(call, state, "Equipment", uniform.equipmentMap)
+    fieldElements(call, state, state.getCharacterTemplates(uniform.id))
     fieldElements(call, state, state.getJobs(uniform.id))
 }
 
