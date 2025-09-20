@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
+import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CreateCharacterTemplate
 import at.orchaldir.gm.core.action.DeleteCharacterTemplate
@@ -26,6 +27,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
+import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 import mu.KotlinLogging
@@ -148,10 +150,18 @@ private fun HTML.showAllCharacterTemplates(
         table {
             tr {
                 th { +"Name" }
+                th { +"Race" }
+                th { +"Culture" }
+                th { +"Belief" }
+                th { +"Uniform" }
             }
             templates.forEach { template ->
                 tr {
                     tdLink(call, state, template)
+                    tdLink(call, state, template.race)
+                    tdLink(call, state, template.culture)
+                    td { showBeliefStatus(call, state, template.belief, false) }
+                    tdLink(call, state, template.uniform)
                 }
             }
         }
