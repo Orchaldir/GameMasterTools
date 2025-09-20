@@ -31,5 +31,8 @@ fun validateCharacterTemplate(
     state: State,
     template: CharacterTemplate,
 ) {
+    state.getCultureStorage().requireOptional(template.culture)
+    state.getLanguageStorage().require(template.languages.keys)
+    state.getRaceStorage().require(template.race)
     state.getDataSourceStorage().require(template.sources)
 }
