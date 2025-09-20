@@ -41,6 +41,17 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
 
 // elements
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.editOptionalElement(
+    state: State,
+    selectId: String,
+    elements: Collection<ELEMENT>,
+    current: ID?,
+) {
+    val label = elements.firstOrNull()?.id()?.type() ?: return
+
+    selectOptionalElement(state, label, selectId, elements, current)
+}
+
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
     state: State,
     labelText: String,

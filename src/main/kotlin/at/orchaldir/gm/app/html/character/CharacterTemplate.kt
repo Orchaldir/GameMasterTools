@@ -49,9 +49,9 @@ fun FORM.editCharacterTemplate(
     selectName(template.name)
     selectElement(state, RACE, state.getRaceStorage().getAll(), template.race)
     selectOptionalFromOneOf("Gender", GENDER, race.genders, template.gender)
-    selectOptionalElement(state, CULTURE, state.getCultureStorage().getAll(), template.culture)
+    editOptionalElement(state, CULTURE, state.getCultureStorage().getAll(), template.culture)
     selectBeliefStatus(state, BELIEVE, template.belief)
-    selectOptionalElement(state, UNIFORM, state.getUniformStorage().getAll(), template.uniform)
+    editOptionalElement(state, UNIFORM, state.getUniformStorage().getAll(), template.uniform)
     editDataSources(state, template.sources)
 }
 
