@@ -1,6 +1,12 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.CHARACTER
+import at.orchaldir.gm.app.MEMBER
 import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.RANK
+import at.orchaldir.gm.app.html.character.parseOptionalCharacterId
+import at.orchaldir.gm.app.html.organization.parseMemberRank
+import at.orchaldir.gm.app.html.util.parseHistory
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.selector.util.sortElements
@@ -13,6 +19,7 @@ import kotlinx.html.HtmlBlockTag
 import kotlinx.html.LI
 import kotlinx.html.li
 import kotlinx.html.ul
+import kotlin.collections.set
 
 // show
 
@@ -177,5 +184,24 @@ fun <T> parseList(
         .map { index ->
             parseElement(index, combine(param, index))
         }
+}
+
+fun <K, V> parseMap(
+    parameters: Parameters,
+    param: String,
+    parseKey: (Int, String) -> K,
+    parseValue: (K, Int, String) -> V,
+): Map<K,V> {
+    val count = parseInt(parameters, combine(param, NUMBER), 0)
+    val map = mutableMapOf<K, V>()
+
+    for (index in 0..<count) {
+        val indexParam = combine(MEMBER, index)
+        val key = parseKey(index, indexParam)
+
+        map[key] = parseValue(key, index, indexParam)
+    }
+
+    return map
 }
 
