@@ -22,10 +22,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
 
     validateCharacterData(state, character)
 
-    val oldCharacter = state.getCharacterStorage().getOrThrow(character.id)
-    val update = character.copy(languages = oldCharacter.languages)
-
-    noFollowUps(state.updateStorage(state.getCharacterStorage().update(update)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(character)))
 }
 
 fun validateCharacter(

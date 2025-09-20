@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.html.character
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.title.parseOptionalTitleId
+import at.orchaldir.gm.app.html.culture.editKnownLanguages
+import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
@@ -125,6 +127,7 @@ fun HtmlBlockTag.showSocial(
     h2 { +"Social" }
 
     optionalFieldLink("Culture", call, state, character.culture)
+    showKnownLanguages(call, state, character)
     showBeliefStatusHistory(call, state, character.beliefStatus)
 
     showFamily(call, state, character)
@@ -141,7 +144,6 @@ fun HtmlBlockTag.showSocial(
     fieldAuthenticity(call, state, character.authenticity)
     fieldElements(call, state, "Secret Identities", state.getSecretIdentitiesOf(character.id))
 
-    showKnownLanguages(call, state, character)
     showMemberships(call, state, character)
 
     action(editLanguagesLink, "Edit Languages")
@@ -234,6 +236,7 @@ fun FORM.editCharacter(
     h2 { +"Social" }
 
     selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
+    editKnownLanguages(state, character.languages)
     editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     editPersonality(call, state, character.personality)
     if (character.gender == Gender.Genderless) {
@@ -347,6 +350,7 @@ fun parseCharacter(
         vitalStatus = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
         personality = parsePersonality(parameters),
+        languages = parseKnownLanguages(parameters, state),
         housingStatus = parsePositionHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
