@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.character.canDeleteCharacter
 import at.orchaldir.gm.core.selector.character.canDeleteCharacterTemplate
+import at.orchaldir.gm.core.selector.character.canDeleteStatistic
 import at.orchaldir.gm.utils.redux.Reducer
 
 val CHARACTER_REDUCER: Reducer<CharacterAction, State> = { state, action ->
@@ -20,5 +21,9 @@ val CHARACTER_REDUCER: Reducer<CharacterAction, State> = { state, action ->
         is CreateCharacterTemplate -> CREATE_CHARACTER_TEMPLATE(state, action)
         is DeleteCharacterTemplate -> deleteElement(state, action.id, State::canDeleteCharacterTemplate)
         is UpdateCharacterTemplate -> UPDATE_CHARACTER_TEMPLATE(state, action)
+        // statistic
+        is CreateStatistic -> CREATE_STATISTIC(state, action)
+        is DeleteStatistic -> deleteElement(state, action.id, State::canDeleteStatistic)
+        is UpdateStatistic -> UPDATE_STATISTIC(state, action)
     }
 }
