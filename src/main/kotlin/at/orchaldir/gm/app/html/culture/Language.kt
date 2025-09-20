@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.culture.language.ALLOWED_LANGUAGE_ORIGINS
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.getChildren
 import at.orchaldir.gm.core.selector.culture.getCultures
@@ -65,23 +66,34 @@ fun HtmlBlockTag.showLanguage(
     state: State,
     language: Language,
 ) {
-    val children = state.getChildren(language.id)
-    val characters = state.getCharacters(language.id)
-    val cultures = state.getCultures(language.id)
-    val periodicals = state.getPeriodicals(language.id)
-    val planes = state.getPlanes(language.id)
-    val spells = state.getSpells(language.id)
-    val texts = state.getTexts(language.id)
-
     optionalField("Title", language.title)
     optionalField(call, state, "Date", language.date)
     fieldOrigin(call, state, language.origin, ::LanguageId)
+    fieldElements(call, state, "Child Languages", state.getChildren(language.id))
+    showLanguageUsage(call, state, language.id)
+}
 
-    fieldElements(call, state, "Child Languages", children)
+private fun HtmlBlockTag.showLanguageUsage(
+    call: ApplicationCall,
+    state: State,
+    language: LanguageId,
+) {
+    val characters = state.getCharacters(language)
+    val templates = state.getCharacterTemplates(language)
+    val cultures = state.getCultures(language)
+    val periodicals = state.getPeriodicals(language)
+    val planes = state.getPlanes(language)
+    val spells = state.getSpells(language)
+    val texts = state.getTexts(language)
+
+    if (characters.isEmpty() && templates.isEmpty() && cultures.isEmpty() && periodicals.isEmpty() && planes.isEmpty() && spells.isEmpty() && texts.isEmpty()) {
+        return
+    }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, characters)
+    fieldElements(call, state, templates)
     fieldElements(call, state, cultures)
     fieldElements(call, state, periodicals)
     fieldElements(call, state, planes)

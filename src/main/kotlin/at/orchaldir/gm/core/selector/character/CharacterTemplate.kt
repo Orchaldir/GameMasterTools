@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.race.RaceId
 
@@ -14,6 +15,10 @@ fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResu
 fun State.getCharacterTemplates(culture: CultureId) = getCharacterTemplateStorage()
     .getAll()
     .filter { it.culture == culture }
+
+fun State.getCharacterTemplates(language: LanguageId) = getCharacterTemplateStorage()
+    .getAll()
+    .filter { it.languages.containsKey(language) }
 
 fun State.getCharacterTemplates(race: RaceId) = getCharacterTemplateStorage()
     .getAll()
