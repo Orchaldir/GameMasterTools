@@ -61,9 +61,9 @@ private fun HtmlBlockTag.showUsage(
             th { +"Statblocks" }
             th { +"Value" }
         }
-        statblocks.forEach { (id, statblock) ->
-            val value = statblock.resolve(state, statistic)
-
+        statblocks
+            .sortedByDescending { it.second }
+            .forEach { (id, value) ->
             tr {
                 tdLink(call, state, id)
                 tdSkipZero(value)

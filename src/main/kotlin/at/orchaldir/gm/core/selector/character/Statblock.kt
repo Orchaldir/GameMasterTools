@@ -9,27 +9,38 @@ import at.orchaldir.gm.core.model.character.statistic.UseStatblockOfTemplate
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 
-fun State.getStatblocksWith(statistic: StatisticId): List<Pair<Id<*>, Statblock>> {
-    val statblocks = mutableListOf<Pair<Id<*>, Statblock>>()
+fun State.getStatblocksWith(statistic: StatisticId): List<Pair<Id<*>, Int>> {
+    val statblocks = mutableListOf<Pair<Id<*>, Int>>()
 
     getCharacterTemplateStorage().getAll()
         .filter { it.statblock.statistics.containsKey(statistic) }
         .forEach { template ->
-            statblocks.add(Pair(template.id, template.statblock))
+            addStatblock(statblocks, statistic, template.statblock, template.id)
         }
 
     getCharacterStorage().getAll()
         .forEach { character ->
             when (character.stateblock) {
                 UndefinedCharacterStatblock -> doNothing()
-                is UniqueCharacterStatblock -> statblocks.add(Pair(character.id, character.stateblock.statblock))
+                is UniqueCharacterStatblock -> addStatblock(statblocks, statistic, character.stateblock.statblock, character.id)
                 is UseStatblockOfTemplate -> {
                     val template = getCharacterTemplateStorage().getOrThrow(character.stateblock.template)
 
-                    statblocks.add(Pair(character.id, template.statblock))
+                    addStatblock(statblocks, statistic, template.statblock, character.id)
                 }
             }
         }
 
     return statblocks
+}
+
+private fun State.addStatblock(
+    statblocks: MutableList<Pair<Id<*>, Int>>,
+    statistic: StatisticId,
+    statblock: Statblock,
+    id: Id<*>,
+) {
+    val value = statblock.resolve(this, statistic) ?: error("Unreachable!")
+
+    statblocks.add(Pair(id, value))
 }
