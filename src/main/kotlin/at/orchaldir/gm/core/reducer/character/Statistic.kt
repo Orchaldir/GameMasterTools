@@ -45,7 +45,10 @@ private fun validateBaseValue(
     value: BaseValue,
 ) {
     when (value) {
-        is BasedOnStatistic -> state.getStatisticStorage().require(value.statistic)
+        is BasedOnStatistic -> {
+            state.getStatisticStorage().require(value.statistic)
+            require(statistic != value.statistic) { "${statistic.print()} cannot be based on itself!" }
+        }
         is FixedNumber -> doNothing()
     }
 }

@@ -40,6 +40,14 @@ class StatisticTest {
         }
 
         @Test
+        fun `Cannot be based on itself`() {
+            val statistic = Statistic(STATISTIC_ID_0, data = Attribute(BasedOnStatistic(STATISTIC_ID_0)))
+            val action = UpdateStatistic(statistic)
+
+            assertIllegalArgument("Statistic 0 cannot be based on itself!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Update with all values set`() {
             val statistic = Statistic(STATISTIC_ID_0, data = Attribute(BasedOnStatistic(STATISTIC_ID_1)))
             val action = UpdateStatistic(statistic)
