@@ -5,6 +5,9 @@ import at.orchaldir.gm.core.action.UpdateCharacterTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.statistic.Statblock
+import at.orchaldir.gm.core.model.character.statistic.Statistic
+import at.orchaldir.gm.core.model.character.statistic.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel.Native
 import at.orchaldir.gm.core.model.culture.language.Language
@@ -28,6 +31,7 @@ class CharacterTemplateTest {
             Storage(God(GOD_ID_0)),
             Storage(Language(LANGUAGE_ID_0)),
             Storage(Race(RACE_ID_0)),
+            Storage(Statistic(STATISTIC_ID_0)),
             Storage(Uniform(UNIFORM_ID_0)),
             Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0)),
         )
@@ -57,6 +61,15 @@ class CharacterTemplateTest {
             val action = UpdateCharacterTemplate(template)
 
             assertIllegalArgument("Requires unknown Culture 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Using an unknown statistic`() {
+            val statblock = Statblock(mapOf(UNKNOWN_STATISTIC_ID to 4))
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
+            val action = UpdateCharacterTemplate(template)
+
+            assertIllegalArgument("Requires unknown Statistic 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

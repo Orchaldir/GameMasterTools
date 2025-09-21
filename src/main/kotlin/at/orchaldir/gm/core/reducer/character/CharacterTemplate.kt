@@ -44,5 +44,6 @@ fun validateCharacterTemplate(
     state.getLanguageStorage().require(template.languages.keys)
     state.getRaceStorage().require(template.race)
     state.getUniformStorage().requireOptional(template.uniform)
+    validateStatblock(state, template.statblock)
     checkBeliefStatus(state, template.belief)
 }
