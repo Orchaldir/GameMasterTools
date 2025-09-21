@@ -27,5 +27,5 @@ data class FixedNumber(
 @SerialName("Statistic")
 data class BasedOnStatistic(
     val statistic: StatisticId,
-    val offset: Int,
+    val offset: Int = 0,
 ) : BaseValue()
