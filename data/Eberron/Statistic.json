@@ -1,5 +1,17 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Strength",
+   "short": "ST",
+   "data": {
+    "type": "Attribute",
+    "base": {
+     "type": "Fixed",
+     "default": 10
+    }
+   }
+  }
  }
 }

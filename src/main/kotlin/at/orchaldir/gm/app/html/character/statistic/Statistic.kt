@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.character
+package at.orchaldir.gm.app.html.character.statistic
 
 import at.orchaldir.gm.app.SHORT
 import at.orchaldir.gm.app.html.*
@@ -18,21 +18,23 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showStatistic(
     call: ApplicationCall,
     state: State,
-    template: Statistic,
+    statistic: Statistic,
 ) {
-    optionalFieldName("Short", template.short)
-    showDataSources(call, state, template.sources)
+    optionalFieldName("Short", statistic.short)
+    showStatisticData(call, state, statistic.data)
+    showDataSources(call, state, statistic.sources)
 }
 
 // edit
 
 fun FORM.editStatistic(
     state: State,
-    template: Statistic,
+    statistic: Statistic,
 ) {
-    selectName(template.name)
-    selectOptionalName("Short", template.short, SHORT)
-    editDataSources(state, template.sources)
+    selectName(statistic.name)
+    selectOptionalName("Short", statistic.short, SHORT)
+    editStatisticData(state, statistic.id, statistic.data)
+    editDataSources(state, statistic.sources)
 }
 
 // parse
@@ -46,5 +48,6 @@ fun parseStatistic(
     id,
     parseName(parameters),
     parseOptionalName(parameters, SHORT),
+    parseStatisticData(parameters),
     parseDataSources(parameters),
 )
