@@ -31,6 +31,7 @@ fun validateStatistic(
 
     when (statistic.data) {
         is Attribute -> validateBaseValue(state, statistic.id, statistic.data.base)
+        is Skill -> validateBaseValue(state, statistic.id, statistic.data.base)
     }
 }
 
