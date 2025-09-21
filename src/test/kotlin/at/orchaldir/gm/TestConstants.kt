@@ -3,6 +3,7 @@ package at.orchaldir.gm
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
@@ -160,6 +161,9 @@ val UNKNOWN_SPELL_GROUP_ID = SpellGroupId(99)
 val STANDARD_ID_0 = StandardOfLivingId(0)
 val STANDARD_ID_1 = StandardOfLivingId(1)
 val UNKNOWN_STANDARD_ID = StandardOfLivingId(99)
+val STATISTIC_ID_0 = StatisticId(0)
+val STATISTIC_ID_1 = StatisticId(1)
+val UNKNOWN_STATISTIC_ID = StatisticId(99)
 val STREET_ID_0 = StreetId(0)
 val STREET_ID_1 = StreetId(1)
 val UNKNOWN_STREET_ID = StreetId(99)
