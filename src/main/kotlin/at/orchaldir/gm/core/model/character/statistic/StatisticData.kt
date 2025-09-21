@@ -15,6 +15,11 @@ sealed class StatisticData {
         is Attribute -> StatisticDataType.Attribute
         is Skill -> StatisticDataType.Skill
     }
+
+    fun isBasedOn(statistic: StatisticId) = when(this) {
+        is Attribute -> base.isBasedOn(statistic)
+        is Skill -> base.isBasedOn(statistic)
+    }
 }
 
 @Serializable

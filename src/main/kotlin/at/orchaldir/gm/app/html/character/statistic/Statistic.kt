@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.selector.character.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -34,14 +35,16 @@ private fun HtmlBlockTag.showUsage(
     statistic: Statistic,
 ) {
     val jobs = state.getJobs(statistic.id)
+    val statistics = state.getStatisticsBasedOn(statistic.id)
 
-    if (jobs.isEmpty()) {
+    if (jobs.isEmpty() && statistics.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, jobs)
+    fieldElements(call, state, statistics)
 }
 
 // edit

@@ -16,3 +16,8 @@ fun State.getAttributes() = getStatisticStorage()
 fun State.getSkills() = getStatisticStorage()
     .getAll()
     .filter { it.data.getType() == StatisticDataType.Attribute }
+
+fun State.getStatisticsBasedOn(statistic: StatisticId) = getStatisticStorage()
+    .getAll()
+    .filter { it.data.isBasedOn(statistic) }
+
