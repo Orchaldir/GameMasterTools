@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import io.ktor.http.*
@@ -40,6 +41,7 @@ fun FORM.editStatistic(
 // parse
 
 fun parseStatisticId(parameters: Parameters, param: String) = StatisticId(parseInt(parameters, param))
+fun parseStatisticId(value: String) = StatisticId(value.toInt())
 
 fun parseStatistic(
     parameters: Parameters,
