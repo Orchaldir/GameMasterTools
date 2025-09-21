@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.statistic.editStatblock
+import at.orchaldir.gm.app.html.character.statistic.parseStatblock
+import at.orchaldir.gm.app.html.character.statistic.showStatblock
 import at.orchaldir.gm.app.html.culture.editKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
@@ -19,10 +22,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -37,12 +42,31 @@ fun HtmlBlockTag.showCharacterTemplate(
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
     optionalFieldLink(call, state, template.uniform)
+    showStatblock(call, state, template.statblock)
     showDataSources(call, state, template.sources)
+    showUsage(call, state, template)
+}
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    template: CharacterTemplate,
+) {
+    val characters = state.getCharactersUsing(template.id)
+
+    if (characters.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, characters)
 }
 
 // edit
 
 fun FORM.editCharacterTemplate(
+    call: ApplicationCall,
     state: State,
     template: CharacterTemplate,
 ) {
@@ -55,6 +79,7 @@ fun FORM.editCharacterTemplate(
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
     editOptionalElement(state, UNIFORM, state.getUniformStorage().getAll(), template.uniform)
+    editStatblock(call, state, template.statblock)
     editDataSources(state, template.sources)
 }
 
@@ -75,5 +100,6 @@ fun parseCharacterTemplate(
     parseKnownLanguages(parameters, state),
     parseBeliefStatus(parameters, state, BELIEVE),
     parseOptionalUniformId(parameters, UNIFORM),
+    parseStatblock(state, parameters),
     parseDataSources(parameters),
 )

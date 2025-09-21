@@ -224,10 +224,10 @@ fun <T : Enum<T>> TR.tdOptionalEnum(value: T?) {
     tdString(value?.name)
 }
 
-fun <ID : Id<ID>> TR.tdLink(
+fun TR.tdLink(
     call: ApplicationCall,
     state: State,
-    id: ID?,
+    id: Id<*>?,
 ) {
     td {
         optionalLink(call, state, id)

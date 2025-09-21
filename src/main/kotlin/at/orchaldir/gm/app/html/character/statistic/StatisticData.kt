@@ -5,10 +5,7 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.Attribute
-import at.orchaldir.gm.core.model.character.statistic.StatisticData
-import at.orchaldir.gm.core.model.character.statistic.StatisticDataType
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.character.statistic.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -25,6 +22,7 @@ fun HtmlBlockTag.showStatisticData(
 
     when (data) {
         is Attribute -> showBaseValue(call, state, data.base)
+        is Skill -> showBaseValue(call, state, data.base)
     }
 }
 
@@ -44,6 +42,7 @@ fun FORM.editStatisticData(
 
     when (data) {
         is Attribute -> editBaseValue(state, statistic, data.base)
+        is Skill -> editBaseValue(state, statistic, data.base)
     }
 }
 
@@ -53,6 +52,10 @@ fun parseStatisticData(
     parameters: Parameters,
 ) = when (parse(parameters, TYPE, StatisticDataType.Attribute)) {
     StatisticDataType.Attribute -> Attribute(
+        parseBaseValue(parameters),
+    )
+
+    StatisticDataType.Skill -> Skill(
         parseBaseValue(parameters),
     )
 }

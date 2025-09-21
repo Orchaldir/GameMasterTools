@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.core.action.CloneCharacterTemplate
 import at.orchaldir.gm.core.action.CreateCharacterTemplate
 import at.orchaldir.gm.core.action.DeleteCharacterTemplate
 import at.orchaldir.gm.core.action.UpdateCharacterTemplate
@@ -47,6 +48,9 @@ class CharacterTemplateRoutes {
 
     @Resource("new")
     class New(val parent: CharacterTemplateRoutes = CharacterTemplateRoutes())
+
+    @Resource("clone")
+    class Clone(val id: CharacterTemplateId, val parent: CharacterTemplateRoutes = CharacterTemplateRoutes())
 
     @Resource("delete")
     class Delete(val id: CharacterTemplateId, val parent: CharacterTemplateRoutes = CharacterTemplateRoutes())
@@ -92,6 +96,16 @@ fun Application.configureCharacterTemplateRouting() {
                     )
                 )
             )
+
+            STORE.getState().save()
+        }
+        get<CharacterTemplateRoutes.Clone> { clone ->
+            logger.info { "Clone ${clone.id.print()}" }
+
+            STORE.dispatch(CloneCharacterTemplate(clone.id))
+
+            val resource = CharacterTemplateRoutes.Edit(STORE.getState().getCharacterTemplateStorage().lastId)
+            call.respondRedirect(call.application.href(resource))
 
             STORE.getState().save()
         }
@@ -177,12 +191,14 @@ private fun HTML.showCharacterTemplateDetails(
     template: CharacterTemplate,
 ) {
     val backLink = call.application.href(CharacterTemplateRoutes.All())
+    val cloneLink = call.application.href(CharacterTemplateRoutes.Clone(template.id))
     val deleteLink = call.application.href(CharacterTemplateRoutes.Delete(template.id))
     val editLink = call.application.href(CharacterTemplateRoutes.Edit(template.id))
 
     simpleHtmlDetails(template) {
         showCharacterTemplate(call, state, template)
 
+        action(cloneLink, "Clone")
         action(editLink, "Edit")
         action(deleteLink, "Delete")
         back(backLink)
@@ -200,7 +216,7 @@ private fun HTML.showCharacterTemplateEditor(
 
     simpleHtmlEditor(template) {
         formWithPreview(previewLink, updateLink, backLink) {
-            editCharacterTemplate(state, template)
+            editCharacterTemplate(call, state, template)
         }
     }
 }

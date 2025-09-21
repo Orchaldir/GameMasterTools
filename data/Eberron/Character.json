@@ -57,7 +57,11 @@
      "pantheon": 0
     }
    },
-   "title": 0
+   "title": 0,
+   "statblock": {
+    "type": "Template",
+    "template": 1
+   }
   },
   "1": {
    "id": 1,

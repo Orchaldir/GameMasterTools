@@ -2,14 +2,12 @@ package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.updateBeard
 import at.orchaldir.gm.core.model.character.appearance.updateHairColor
+import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
@@ -157,6 +155,14 @@ fun State.getCharacters(titleId: TitleId) = getCharacterStorage()
 fun State.getSecretIdentitiesOf(character: CharacterId) = getCharacterStorage()
     .getAll()
     .filter { it.authenticity.isSecretIdentityOf(character) }
+
+fun State.getCharacters(statistic: StatisticId) = getCharacterStorage()
+    .getAll()
+    .filter { it.statblock.contains(statistic) }
+
+fun State.getCharactersUsing(template: CharacterTemplateId) = getCharacterStorage()
+    .getAll()
+    .filter { it.statblock.contains(template) }
 
 // housing status
 

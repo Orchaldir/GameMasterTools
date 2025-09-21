@@ -7,6 +7,9 @@ import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.Genderless
+import at.orchaldir.gm.core.model.character.statistic.Statblock
+import at.orchaldir.gm.core.model.character.statistic.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.character.statistic.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
@@ -69,6 +72,28 @@ class CharacterTest {
                 Storage(listOf(Race(RACE_ID_0), Race(RACE_ID_1)))
             )
         )
+
+        @Nested
+        inner class StatblockTest {
+
+            @Test
+            fun `Using an unknown statistic`() {
+                val statblock = UniqueCharacterStatblock(Statblock(mapOf(UNKNOWN_STATISTIC_ID to 4)))
+                val character = Character(CHARACTER_ID_0, statblock = statblock)
+                val action = UpdateCharacter(character)
+
+                assertIllegalArgument("Requires unknown Statistic 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Using an unknown template`() {
+                val statblock = UseStatblockOfTemplate(UNKNOWN_CHARACTER_TEMPLATE_ID)
+                val character = Character(CHARACTER_ID_0, statblock = statblock)
+                val action = UpdateCharacter(character)
+
+                assertIllegalArgument("Requires unknown Character Template 99!") { REDUCER.invoke(STATE, action) }
+            }
+        }
 
         @Nested
         inner class VitalStatusTest {

@@ -8,12 +8,12 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.selector.character.getStatblocksWith
+import at.orchaldir.gm.core.selector.character.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
+import kotlinx.html.*
 
 // show
 
@@ -34,14 +34,32 @@ private fun HtmlBlockTag.showUsage(
     statistic: Statistic,
 ) {
     val jobs = state.getJobs(statistic.id)
+    val statblocks = state.getStatblocksWith(statistic.id)
+    val statistics = state.getStatisticsBasedOn(statistic.id)
 
-    if (jobs.isEmpty()) {
+    if (jobs.isEmpty() && statblocks.isEmpty() && statistics.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, jobs)
+    fieldElements(call, state, statistics)
+
+    table {
+        tr {
+            th { +"Statblocks" }
+            th { +"Value" }
+        }
+        statblocks
+            .sortedByDescending { it.second }
+            .forEach { (id, value) ->
+                tr {
+                    tdLink(call, state, id)
+                    tdSkipZero(value)
+                }
+            }
+    }
 }
 
 // edit

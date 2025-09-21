@@ -141,7 +141,7 @@ private fun HTML.showAllStatistics(
     val statistics = state.sortStatistics(sort)
     val createLink = call.application.href(StatisticRoutes.New())
 
-    simpleHtml("Character Templates") {
+    simpleHtml("Statistics") {
         field("Count", statistics.size)
         showSortTableLinks(call, SortStatistic.entries, StatisticRoutes(), StatisticRoutes::All)
 

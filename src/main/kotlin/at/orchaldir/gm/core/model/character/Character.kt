@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.character.statistic.CharacterStatblock
+import at.orchaldir.gm.core.model.character.statistic.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.character.title.AbstractTitle
 import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.character.title.TitleId
@@ -89,6 +91,7 @@ data class Character(
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val title: TitleId? = null,
     val authenticity: Authenticity = Authentic,
+    val statblock: CharacterStatblock = UndefinedCharacterStatblock,
     val sources: Set<DataSourceId> = emptySet(),
 ) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus {
 

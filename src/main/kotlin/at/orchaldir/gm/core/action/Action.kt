@@ -198,6 +198,7 @@ data class UpdateRelationships(
 
 // character template
 data object CreateCharacterTemplate : CharacterAction()
+data class CloneCharacterTemplate(val id: CharacterTemplateId) : CharacterAction()
 data class DeleteCharacterTemplate(val id: CharacterTemplateId) : CharacterAction()
 data class UpdateCharacterTemplate(val template: CharacterTemplate) : CharacterAction()
 

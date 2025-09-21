@@ -4,10 +4,15 @@ import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.statistic.CharacterStatblock
+import at.orchaldir.gm.core.model.character.statistic.UndefinedCharacterStatblock
+import at.orchaldir.gm.core.model.character.statistic.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.character.statistic.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -57,7 +62,19 @@ fun validateCharacterData(
     checkPositionHistory(state, character.housingStatus, character.birthDate, ALLOWED_HOUSING_TYPES)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
     checkAuthenticity(state, character.authenticity)
-    character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
+    state.getPersonalityTraitStorage().require(character.personality)
+    validateCharacterStatblock(state, character.statblock)
+}
+
+fun validateCharacterStatblock(
+    state: State,
+    statblock: CharacterStatblock,
+) {
+    when (statblock) {
+        UndefinedCharacterStatblock -> doNothing()
+        is UniqueCharacterStatblock -> validateStatblock(state, statblock.statblock)
+        is UseStatblockOfTemplate -> state.getCharacterTemplateStorage().require(statblock.template)
+    }
 }
 
 private fun checkSexualOrientation(character: Character) {

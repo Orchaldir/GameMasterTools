@@ -15,6 +15,11 @@ sealed class BaseValue {
         is FixedNumber -> BaseValueType.FixedNumber
         is BasedOnStatistic -> BaseValueType.BasedOnStatistic
     }
+
+    fun isBasedOn(statistic: StatisticId) = when (this) {
+        is BasedOnStatistic -> this.statistic == statistic
+        is FixedNumber -> false
+    }
 }
 
 @Serializable
