@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.character.appearance.Appearance
@@ -162,6 +163,10 @@ fun State.getSecretIdentitiesOf(character: CharacterId) = getCharacterStorage()
 fun State.getCharacters(statistic: StatisticId) = getCharacterStorage()
     .getAll()
     .filter { it.statblock.contains(statistic) }
+
+fun State.getCharactersUsing(template: CharacterTemplateId) = getCharacterStorage()
+    .getAll()
+    .filter { it.statblock.contains(template) }
 
 // housing status
 

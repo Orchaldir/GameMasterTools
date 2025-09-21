@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.race.RaceId
 
 fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResult(template)
+    .addElements(getCharactersUsing(template))
 
 // get characters
 

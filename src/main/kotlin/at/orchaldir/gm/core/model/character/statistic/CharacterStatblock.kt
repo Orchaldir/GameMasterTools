@@ -24,6 +24,8 @@ sealed class CharacterStatblock {
         is UniqueCharacterStatblock -> statblock.statistics.containsKey(statistic)
         is UseStatblockOfTemplate -> false
     }
+
+    fun contains(template: CharacterTemplateId) = this is UseStatblockOfTemplate && this.template == template
 }
 
 @Serializable
