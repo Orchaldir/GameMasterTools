@@ -45,6 +45,13 @@ class JobTest {
         }
 
         @Test
+        fun `Cannot update job with unknown statistic`() {
+            val action = UpdateJob(Job(JOB_ID_0, importantStatistics = setOf(UNKNOWN_STATISTIC_ID)))
+
+            assertIllegalArgument("Requires unknown Statistic 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Cannot update job with unknown uniform`() {
             val action = UpdateJob(Job(JOB_ID_0, uniforms = GenderMap(UNKNOWN_UNIFORM_ID)))
 

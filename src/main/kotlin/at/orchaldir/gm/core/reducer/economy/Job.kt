@@ -27,8 +27,8 @@ fun validateJob(state: State, job: Job) {
     if (job.income is AffordableStandardOfLiving) {
         state.data.economy.requireStandardOfLiving(job.income.standard)
     }
-    job.spells.getValidValues()
-        .forEach { state.getSpellStorage().require(it) }
-    job.uniforms.getValues()
-        .forEach { state.getUniformStorage().requireOptional(it) }
+
+    state.getSpellStorage().require(job.spells.getValidValues())
+    state.getStatisticStorage().require(job.importantStatistics)
+    state.getUniformStorage().requireOptional(job.uniforms.getValues())
 }

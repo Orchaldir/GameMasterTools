@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.model.economy.job.EmployerType
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
@@ -47,6 +48,10 @@ fun State.getJobsContaining(spell: SpellId) = getJobStorage()
 fun State.getJobs(standard: StandardOfLivingId) = getJobStorage()
     .getAll()
     .filter { it.income.hasStandard(standard) }
+
+fun State.getJobs(statistic: StatisticId) = getJobStorage()
+    .getAll()
+    .filter { it.importantStatistics.contains(statistic) }
 
 fun State.getJobs(uniform: UniformId) = getJobStorage()
     .getAll()

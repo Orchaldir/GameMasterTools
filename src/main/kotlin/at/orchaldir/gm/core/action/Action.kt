@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.action
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.character.statistic.Statistic
+import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.Culture
@@ -198,6 +200,11 @@ data class UpdateRelationships(
 data object CreateCharacterTemplate : CharacterAction()
 data class DeleteCharacterTemplate(val id: CharacterTemplateId) : CharacterAction()
 data class UpdateCharacterTemplate(val template: CharacterTemplate) : CharacterAction()
+
+// statistic
+data object CreateStatistic : CharacterAction()
+data class DeleteStatistic(val id: StatisticId) : CharacterAction()
+data class UpdateStatistic(val statistic: Statistic) : CharacterAction()
 
 //-- items --
 

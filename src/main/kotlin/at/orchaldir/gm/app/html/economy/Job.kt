@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.economy.money.editPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.showPrice
@@ -12,6 +13,7 @@ import at.orchaldir.gm.app.html.util.selectGenderMap
 import at.orchaldir.gm.app.html.util.showGenderMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -39,6 +41,7 @@ fun HtmlBlockTag.showJob(
     field("Employer Type", job.employerType)
     showSalary(call, state, job.income)
     optionalField("Preferred Gender", job.preferredGender)
+    fieldIds(call, state, "Important Statistics", job.importantStatistics)
     showGenderMap("Uniforms", job.uniforms) { uniform ->
         optionalLink(call, state, uniform)
     }
@@ -95,6 +98,13 @@ fun FORM.editJob(
     selectValue("Employer Type", EMPLOYMENT, EmployerType.entries, job.employerType)
     editSalary(state, job.income)
     selectOptionalValue("Preferred Gender", GENDER, job.preferredGender, Gender.entries)
+    selectElements(
+        state,
+        "Important Statistics",
+        STATISTIC,
+        state.getStatisticStorage().getAll(),
+        job.importantStatistics,
+    )
     selectGenderMap("Uniforms", job.uniforms, UNIFORM) { genderParam, uniform ->
         selectOptionalElement(state, genderParam, state.getUniformStorage().getAll(), uniform)
     }
@@ -136,6 +146,7 @@ fun parseJob(id: JobId, parameters: Parameters) = Job(
     parse(parameters, EMPLOYMENT, EmployerType.Business),
     parseIncome(parameters),
     parse<Gender>(parameters, GENDER),
+    parseElements(parameters, STATISTIC, ::parseStatisticId),
     parseGenderMap(UNIFORM) { param ->
         parseOptionalUniformId(parameters, param)
     },

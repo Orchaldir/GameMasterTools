@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.economy.job
 
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -29,6 +30,7 @@ data class Job(
     val employerType: EmployerType = EmployerType.Business,
     val income: Income = UndefinedIncome,
     val preferredGender: Gender? = null,
+    val importantStatistics: Set<StatisticId> = emptySet(),
     val uniforms: GenderMap<UniformId?> = GenderMap(null),
     val spells: SomeOf<SpellId> = SomeOf(),
 ) : ElementWithSimpleName<JobId> {

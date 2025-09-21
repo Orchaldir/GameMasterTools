@@ -43,6 +43,12 @@ fun HtmlBlockTag.fieldName(label: String, name: Name) {
     }
 }
 
+fun HtmlBlockTag.optionalFieldName(label: String, name: Name?) {
+    if (name != null) {
+        fieldName(label, name)
+    }
+}
+
 fun HtmlBlockTag.showName(name: Name) {
     +name.text
 }

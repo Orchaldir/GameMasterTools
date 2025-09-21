@@ -4,6 +4,9 @@ import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.load
 import at.orchaldir.gm.core.loadStorage
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.statistic.STATISTIC_TYPE
+import at.orchaldir.gm.core.model.character.statistic.Statistic
+import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
@@ -90,6 +93,7 @@ import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.reducer.character.validateCharacter
 import at.orchaldir.gm.core.reducer.character.validateCharacterTemplate
+import at.orchaldir.gm.core.reducer.character.validateStatistic
 import at.orchaldir.gm.core.reducer.culture.validateCulture
 import at.orchaldir.gm.core.reducer.culture.validateFashion
 import at.orchaldir.gm.core.reducer.culture.validateLanguage
@@ -176,6 +180,7 @@ val ELEMENTS =
         RIVER_TYPE,
         SPELL_TYPE,
         SPELL_GROUP_TYPE,
+        STATISTIC_TYPE,
         STREET_TYPE,
         STREET_TEMPLATE_TYPE,
         TEXT_TYPE,
@@ -252,6 +257,7 @@ data class State(
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
     fun getSpellStorage() = getStorage<SpellId, Spell>(SPELL_TYPE)
     fun getSpellGroupStorage() = getStorage<SpellGroupId, SpellGroup>(SPELL_GROUP_TYPE)
+    fun getStatisticStorage() = getStorage<StatisticId, Statistic>(STATISTIC_TYPE)
     fun getStreetStorage() = getStorage<StreetId, Street>(STREET_TYPE)
     fun getStreetTemplateStorage() = getStorage<StreetTemplateId, StreetTemplate>(STREET_TEMPLATE_TYPE)
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
@@ -371,6 +377,8 @@ data class State(
         validate(getRegionStorage()) { validateRegion(this, it) }
         validate(getSpellStorage()) { validateSpell(this, it) }
         validate(getSpellGroupStorage()) { validateSpellGroup(this, it) }
+        validate(getStatisticStorage()) { validateStatistic(this, it) }
+        // street
         validate(getStreetTemplateStorage()) { validateStreetTemplate(this, it) }
         validate(getTextStorage()) { validateText(this, it) }
         validate(getTownStorage()) { validateTown(this, it) }
@@ -427,6 +435,7 @@ data class State(
         saveStorage(path, getRiverStorage())
         saveStorage(path, getSpellStorage())
         saveStorage(path, getSpellGroupStorage())
+        saveStorage(path, getStatisticStorage())
         saveStorage(path, getStreetStorage())
         saveStorage(path, getStreetTemplateStorage())
         saveStorage(path, getTextStorage())
@@ -485,6 +494,7 @@ fun createStorage(type: String) = when (type) {
     RIVER_TYPE -> Storage(RiverId(0))
     SPELL_TYPE -> Storage(SpellId(0))
     SPELL_GROUP_TYPE -> Storage(SpellGroupId(0))
+    STATISTIC_TYPE -> Storage(StatisticId(0))
     STREET_TYPE -> Storage(StreetId(0))
     STREET_TEMPLATE_TYPE -> Storage(StreetTemplateId(0))
     TEXT_TYPE -> Storage(TextId(0))
@@ -546,6 +556,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))
     SPELL_TYPE -> loadStorage<SpellId, Spell>(path, SpellId(0))
     SPELL_GROUP_TYPE -> loadStorage<SpellGroupId, SpellGroup>(path, SpellGroupId(0))
+    STATISTIC_TYPE -> loadStorage<StatisticId, Statistic>(path, StatisticId(0))
     STREET_TYPE -> loadStorage<StreetId, Street>(path, StreetId(0))
     STREET_TEMPLATE_TYPE -> loadStorage<StreetTemplateId, StreetTemplate>(path, StreetTemplateId(0))
     TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
