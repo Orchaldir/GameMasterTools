@@ -20,11 +20,11 @@ fun State.getStatblocksWith(statistic: StatisticId): List<Pair<Id<*>, Int>> {
 
     getCharacterStorage().getAll()
         .forEach { character ->
-            when (character.stateblock) {
+            when (character.statblock) {
                 UndefinedCharacterStatblock -> doNothing()
-                is UniqueCharacterStatblock -> addStatblock(statblocks, statistic, character.stateblock.statblock, character.id)
+                is UniqueCharacterStatblock -> addStatblock(statblocks, statistic, character.statblock.statblock, character.id)
                 is UseStatblockOfTemplate -> {
-                    val template = getCharacterTemplateStorage().getOrThrow(character.stateblock.template)
+                    val template = getCharacterTemplateStorage().getOrThrow(character.statblock.template)
 
                     addStatblock(statblocks, statistic, template.statblock, character.id)
                 }

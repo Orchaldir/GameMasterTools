@@ -80,7 +80,7 @@ fun HtmlBlockTag.showData(
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     showDestroyed(call, state, character.id)
     fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
-    showCharacterStatblock(call, state, character.stateblock)
+    showCharacterStatblock(call, state, character.statblock)
     showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
@@ -234,7 +234,7 @@ fun FORM.editCharacter(
         "Housing Status",
     )
     selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
-    editCharacterStatblock(call, state, character.stateblock)
+    editCharacterStatblock(call, state, character.statblock)
 
     h2 { +"Social" }
 
@@ -359,7 +359,7 @@ fun parseCharacter(
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
         title = parseOptionalTitleId(parameters, TITLE),
         authenticity = parseAuthenticity(parameters),
-        stateblock = parseCharacterStatblock(state, parameters),
+        statblock = parseCharacterStatblock(state, parameters),
         sources = parseDataSources(parameters),
     )
 }

@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
 
 fun State.canDeleteStatistic(statistic: StatisticId) = DeleteResult(statistic)
+    .addElements(getCharacters(statistic))
+    .addElements(getCharacterTemplates(statistic))
     .addElements(getJobs(statistic))
 
 fun State.getAttributes() = getStatisticStorage()

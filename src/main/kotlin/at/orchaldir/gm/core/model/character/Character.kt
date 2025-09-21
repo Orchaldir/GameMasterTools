@@ -91,7 +91,7 @@ data class Character(
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val title: TitleId? = null,
     val authenticity: Authenticity = Authentic,
-    val stateblock: CharacterStatblock = UndefinedCharacterStatblock,
+    val statblock: CharacterStatblock = UndefinedCharacterStatblock,
     val sources: Set<DataSourceId> = emptySet(),
 ) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus {
 

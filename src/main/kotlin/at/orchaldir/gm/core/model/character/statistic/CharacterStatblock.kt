@@ -18,6 +18,12 @@ sealed class CharacterStatblock {
         is UniqueCharacterStatblock -> CharacterStatblockType.Statblock
         is UseStatblockOfTemplate -> CharacterStatblockType.Template
     }
+
+    fun contains(statistic: StatisticId) = when (this) {
+        UndefinedCharacterStatblock -> false
+        is UniqueCharacterStatblock -> statblock.statistics.containsKey(statistic)
+        is UseStatblockOfTemplate -> false
+    }
 }
 
 @Serializable
