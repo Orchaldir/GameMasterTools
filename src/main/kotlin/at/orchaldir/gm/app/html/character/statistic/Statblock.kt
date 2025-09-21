@@ -1,25 +1,24 @@
 package at.orchaldir.gm.app.html.character.statistic
 
-import at.orchaldir.gm.app.ATTRIBUTE
-import at.orchaldir.gm.app.RANK
+import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.parseOptionalInt
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.tdEnum
 import at.orchaldir.gm.app.html.tdLink
 import at.orchaldir.gm.app.html.tdSkipZero
-import at.orchaldir.gm.app.html.tdString
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.Statblock
+import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.selector.character.getAttributes
+import at.orchaldir.gm.core.selector.character.getSkills
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
@@ -35,15 +34,25 @@ fun HtmlBlockTag.showStatblock(
     statblock: Statblock,
 ) {
     val attributes = state.sortStatistics(state.getAttributes())
-    val attributeValues = attributes.mapNotNull { attribute ->
-        statblock.resolve(state, attribute)?.let { Pair(attribute, it) }
-    }
+    val attributeValues = statblock.resolve(state, attributes)
+    val skills = state.sortStatistics(state.getSkills())
+    val skillValues = statblock.resolve(state, skills)
 
     showDetails("Stateblock", true) {
-        fieldList("Attributes", attributeValues) { (attribute , value) ->
-            link(call, state, attribute)
-            +": $value"
-        }
+        showStatistics(call, state, attributeValues, "Attributes")
+        showStatistics(call, state, skillValues, "Skills")
+    }
+}
+
+private fun DETAILS.showStatistics(
+    call: ApplicationCall,
+    state: State,
+    values: List<Pair<Statistic, Int>>,
+    label: String,
+) {
+    fieldList(label, values) { (statistic, value) ->
+        link(call, state, statistic)
+        +": $value"
     }
 }
 
@@ -55,31 +64,43 @@ fun FORM.editStatblock(
     statblock: Statblock,
 ) {
     val attributes = state.sortStatistics(state.getAttributes())
+    val skills = state.sortStatistics(state.getSkills())
 
     showDetails("Stateblock", true) {
-        table {
-            tr {
-                th { +"Attribute" }
-                th { +"Offset" }
-                th { +"Result" }
-            }
-            attributes.forEach { attribute ->
-                val offset = statblock.statistics[attribute.id] ?: 0
-                val value = statblock.resolve(state, attribute) ?: return@forEach
+        editStatistics(state, call, statblock, attributes, "Attribute")
+        editStatistics(state, call, statblock, skills, "Skills")
+    }
+}
 
-                tr {
-                    tdLink(call, state, attribute)
-                    td {
-                        selectInt(
-                            offset,
-                            -10,
-                            +10,
-                            1,
-                            combine(ATTRIBUTE, attribute.id.value),
-                        )
-                    }
-                    tdSkipZero(value)
+private fun DETAILS.editStatistics(
+    state: State,
+    call: ApplicationCall,
+    statblock: Statblock,
+    statistics: List<Statistic>,
+    label: String,
+) {
+    table {
+        tr {
+            th { +label }
+            th { +"Offset" }
+            th { +"Result" }
+        }
+        statistics.forEach { statistic ->
+            val offset = statblock.statistics[statistic.id] ?: 0
+            val value = statblock.resolve(state, statistic)
+
+            tr {
+                tdLink(call, state, statistic)
+                td {
+                    selectInt(
+                        offset,
+                        -10,
+                        +10,
+                        1,
+                        combine(STATISTIC, statistic.id.value),
+                    )
                 }
+                tdSkipZero(value)
             }
         }
     }
@@ -93,8 +114,10 @@ fun parseStatblock(
 ): Statblock {
     val values = mutableMapOf<StatisticId,Int>()
 
-    state.getAttributes().forEach { attribute ->
-        parseSimpleOptionalInt(parameters, combine(ATTRIBUTE, attribute.id.value))?.let {
+    state.getStatisticStorage()
+        .getAll()
+        .forEach { attribute ->
+        parseSimpleOptionalInt(parameters, combine(STATISTIC, attribute.id.value))?.let {
             if (it != 0) {
                 values[attribute.id] = it
             }

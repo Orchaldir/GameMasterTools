@@ -7,6 +7,10 @@ import at.orchaldir.gm.core.model.State
 data class Statblock(
     val statistics: Map<StatisticId, Int> = emptyMap(),
 ) {
+    fun resolve(state: State, statistics: List<Statistic>) = statistics.mapNotNull { statistic ->
+        resolve(state, statistic)?.let { Pair(statistic, it) }
+    }
+
     fun resolve(state: State, statistic: StatisticId) =
         resolve(state, state.getStatisticStorage().getOrThrow(statistic))
 
