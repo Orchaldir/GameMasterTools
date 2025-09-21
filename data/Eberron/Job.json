@@ -78,10 +78,7 @@
    "income": {
     "type": "SoL",
     "standard": 3
-   },
-   "importantStatistics": [
-    0
-   ]
+   }
   },
   "9": {
    "id": 9,
