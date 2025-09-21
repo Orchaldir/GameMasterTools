@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.selector.character
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.CHARACTER_ID_1
+import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
+import at.orchaldir.gm.RACE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -30,8 +32,12 @@ class CharacterTemplateTest {
 
             failCanDelete(newState, CHARACTER_ID_1)
         }
+
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(CHARACTER_TEMPLATE_ID_0).addId(blockingId), state.canDeleteCharacterTemplate(CHARACTER_TEMPLATE_ID_0))
+            assertEquals(
+                DeleteResult(CHARACTER_TEMPLATE_ID_0).addId(blockingId),
+                state.canDeleteCharacterTemplate(CHARACTER_TEMPLATE_ID_0)
+            )
         }
     }
 

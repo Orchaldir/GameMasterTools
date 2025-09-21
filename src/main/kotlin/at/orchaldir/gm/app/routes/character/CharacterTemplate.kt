@@ -6,10 +6,8 @@ import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.util.showBeliefStatus
-import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CloneCharacterTemplate
-import at.orchaldir.gm.core.action.CloneCulture
 import at.orchaldir.gm.core.action.CreateCharacterTemplate
 import at.orchaldir.gm.core.action.DeleteCharacterTemplate
 import at.orchaldir.gm.core.action.UpdateCharacterTemplate
@@ -17,7 +15,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import io.ktor.http.*

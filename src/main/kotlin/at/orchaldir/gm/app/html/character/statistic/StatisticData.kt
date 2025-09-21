@@ -5,11 +5,7 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.Attribute
-import at.orchaldir.gm.core.model.character.statistic.Skill
-import at.orchaldir.gm.core.model.character.statistic.StatisticData
-import at.orchaldir.gm.core.model.character.statistic.StatisticDataType
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.character.statistic.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -58,6 +54,7 @@ fun parseStatisticData(
     StatisticDataType.Attribute -> Attribute(
         parseBaseValue(parameters),
     )
+
     StatisticDataType.Skill -> Skill(
         parseBaseValue(parameters),
     )

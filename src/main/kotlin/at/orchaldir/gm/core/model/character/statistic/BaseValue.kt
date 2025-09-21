@@ -16,7 +16,7 @@ sealed class BaseValue {
         is BasedOnStatistic -> BaseValueType.BasedOnStatistic
     }
 
-    fun isBasedOn(statistic: StatisticId) = when(this) {
+    fun isBasedOn(statistic: StatisticId) = when (this) {
         is BasedOnStatistic -> this.statistic == statistic
         is FixedNumber -> false
     }

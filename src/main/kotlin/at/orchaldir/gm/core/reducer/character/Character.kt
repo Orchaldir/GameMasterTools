@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.statistic.CharacterStatblock
-import at.orchaldir.gm.core.model.character.statistic.Statblock
 import at.orchaldir.gm.core.model.character.statistic.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.character.statistic.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.character.statistic.UseStatblockOfTemplate

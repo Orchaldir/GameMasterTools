@@ -2,11 +2,7 @@ package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.updateBeard

@@ -16,7 +16,7 @@ sealed class StatisticData {
         is Skill -> StatisticDataType.Skill
     }
 
-    fun isBasedOn(statistic: StatisticId) = when(this) {
+    fun isBasedOn(statistic: StatisticId) = when (this) {
         is Attribute -> base.isBasedOn(statistic)
         is Skill -> base.isBasedOn(statistic)
     }

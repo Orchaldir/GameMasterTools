@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.character.statistic
 
-import kotlinx.serialization.Serializable
 import at.orchaldir.gm.core.model.State
+import kotlinx.serialization.Serializable
 
 @Serializable
 data class Statblock(
@@ -22,6 +22,7 @@ data class Statblock(
 
                 base + offset
             }
+
             is Skill -> {
                 val base = resolve(state, statistic.data.base) ?: return null
                 val offset = statistics[statistic.id] ?: return null
@@ -37,6 +38,7 @@ data class Statblock(
                 val resolvedBase = resolve(state, base.statistic) ?: return null
                 resolvedBase + base.offset
             }
+
             is FixedNumber -> base.default
         }
     }

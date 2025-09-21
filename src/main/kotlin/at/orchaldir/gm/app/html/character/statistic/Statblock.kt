@@ -1,13 +1,7 @@
 package at.orchaldir.gm.app.html.character.statistic
 
 import at.orchaldir.gm.app.STATISTIC
-import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.parseSimpleOptionalInt
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.tdLink
-import at.orchaldir.gm.app.html.tdSkipZero
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.Statblock
@@ -18,13 +12,7 @@ import at.orchaldir.gm.core.selector.character.getSkills
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.DETAILS
-import kotlinx.html.FORM
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
+import kotlinx.html.*
 
 // show
 
@@ -112,17 +100,17 @@ fun parseStatblock(
     state: State,
     parameters: Parameters,
 ): Statblock {
-    val values = mutableMapOf<StatisticId,Int>()
+    val values = mutableMapOf<StatisticId, Int>()
 
     state.getStatisticStorage()
         .getAll()
         .forEach { attribute ->
-        parseSimpleOptionalInt(parameters, combine(STATISTIC, attribute.id.value))?.let {
-            if (it != 0) {
-                values[attribute.id] = it
+            parseSimpleOptionalInt(parameters, combine(STATISTIC, attribute.id.value))?.let {
+                if (it != 0) {
+                    values[attribute.id] = it
+                }
             }
         }
-    }
 
     return Statblock(values)
 }
