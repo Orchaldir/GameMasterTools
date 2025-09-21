@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.statistic.editStatblock
+import at.orchaldir.gm.app.html.character.statistic.parseStatblock
+import at.orchaldir.gm.app.html.character.statistic.showStatblock
 import at.orchaldir.gm.app.html.culture.editKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
@@ -37,6 +40,7 @@ fun HtmlBlockTag.showCharacterTemplate(
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
     optionalFieldLink(call, state, template.uniform)
+    showStatblock(call, state, template.statblock)
     showDataSources(call, state, template.sources)
 }
 
@@ -55,6 +59,7 @@ fun FORM.editCharacterTemplate(
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
     editOptionalElement(state, UNIFORM, state.getUniformStorage().getAll(), template.uniform)
+    editStatblock(state, template.statblock)
     editDataSources(state, template.sources)
 }
 
@@ -75,5 +80,6 @@ fun parseCharacterTemplate(
     parseKnownLanguages(parameters, state),
     parseBeliefStatus(parameters, state, BELIEVE),
     parseOptionalUniformId(parameters, UNIFORM),
+    parseStatblock(parameters),
     parseDataSources(parameters),
 )
