@@ -12,6 +12,89 @@
      "default": 10
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Dexterity",
+   "short": "DX",
+   "data": {
+    "type": "Attribute",
+    "base": {
+     "type": "Fixed",
+     "default": 10
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Intelligence",
+   "short": "IQ",
+   "data": {
+    "type": "Attribute",
+    "base": {
+     "type": "Fixed",
+     "default": 10
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Health",
+   "short": "HT",
+   "data": {
+    "type": "Attribute",
+    "base": {
+     "type": "Fixed",
+     "default": 10
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Will",
+   "data": {
+    "type": "Attribute",
+    "base": {
+     "type": "Fixed",
+     "default": 10
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Perception",
+   "short": "PER",
+   "data": {
+    "type": "Attribute",
+    "base": {
+     "type": "Fixed",
+     "default": 10
+    }
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Fighting",
+   "data": {
+    "type": "Skill",
+    "base": {
+     "type": "Statistic",
+     "statistic": 1,
+     "offset": -2
+    }
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Shooting",
+   "data": {
+    "type": "Skill",
+    "base": {
+     "type": "Statistic",
+     "statistic": 5,
+     "offset": -2
+    }
+   }
   }
  }
 }

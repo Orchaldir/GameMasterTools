@@ -47,6 +47,7 @@ fun HtmlBlockTag.showCharacterTemplate(
 // edit
 
 fun FORM.editCharacterTemplate(
+    call: ApplicationCall,
     state: State,
     template: CharacterTemplate,
 ) {
@@ -59,7 +60,7 @@ fun FORM.editCharacterTemplate(
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
     editOptionalElement(state, UNIFORM, state.getUniformStorage().getAll(), template.uniform)
-    editStatblock(state, template.statblock)
+    editStatblock(call, state, template.statblock)
     editDataSources(state, template.sources)
 }
 
@@ -80,6 +81,6 @@ fun parseCharacterTemplate(
     parseKnownLanguages(parameters, state),
     parseBeliefStatus(parameters, state, BELIEVE),
     parseOptionalUniformId(parameters, UNIFORM),
-    parseStatblock(parameters),
+    parseStatblock(state, parameters),
     parseDataSources(parameters),
 )

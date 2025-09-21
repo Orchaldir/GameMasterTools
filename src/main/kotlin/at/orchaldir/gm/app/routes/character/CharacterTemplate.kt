@@ -200,7 +200,7 @@ private fun HTML.showCharacterTemplateEditor(
 
     simpleHtmlEditor(template) {
         formWithPreview(previewLink, updateLink, backLink) {
-            editCharacterTemplate(state, template)
+            editCharacterTemplate(call, state, template)
         }
     }
 }
