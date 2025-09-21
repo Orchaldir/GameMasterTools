@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.STATISTIC_ID_0
+import at.orchaldir.gm.STATISTIC_ID_1
+import at.orchaldir.gm.UNKNOWN_STATISTIC_ID
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateStatistic
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.Attribute

@@ -3,12 +3,7 @@ package at.orchaldir.gm.core.reducer.character
 import at.orchaldir.gm.core.action.CreateStatistic
 import at.orchaldir.gm.core.action.UpdateStatistic
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.Attribute
-import at.orchaldir.gm.core.model.character.statistic.BaseValue
-import at.orchaldir.gm.core.model.character.statistic.BasedOnStatistic
-import at.orchaldir.gm.core.model.character.statistic.FixedNumber
-import at.orchaldir.gm.core.model.character.statistic.Statistic
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.character.statistic.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -49,6 +44,7 @@ private fun validateBaseValue(
             state.getStatisticStorage().require(value.statistic)
             require(statistic != value.statistic) { "${statistic.print()} cannot be based on itself!" }
         }
+
         is FixedNumber -> doNothing()
     }
 }

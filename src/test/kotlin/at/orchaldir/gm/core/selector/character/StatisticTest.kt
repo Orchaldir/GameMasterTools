@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.character
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.JOB_ID_0
+import at.orchaldir.gm.STATISTIC_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.Statistic

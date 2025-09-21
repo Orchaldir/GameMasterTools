@@ -50,7 +50,7 @@ fun FORM.editBaseValue(
             combine(param, TYPE),
             BaseValueType.entries,
             value.getType(),
-        ){ type ->
+        ) { type ->
             when (type) {
                 BaseValueType.FixedNumber -> false
                 BaseValueType.BasedOnStatistic -> statistics.isEmpty()
@@ -65,7 +65,8 @@ fun FORM.editBaseValue(
                 100,
                 1,
                 combine(param, NUMBER),
-                )
+            )
+
             is BasedOnStatistic -> {
                 selectElement(
                     state,
@@ -93,8 +94,9 @@ fun parseBaseValue(
     param: String = BASE,
 ) = when (parse(parameters, combine(param, TYPE), BaseValueType.FixedNumber)) {
     BaseValueType.FixedNumber -> FixedNumber(
-parseInt(parameters, combine(param, NUMBER), 0),
+        parseInt(parameters, combine(param, NUMBER), 0),
     )
+
     BaseValueType.BasedOnStatistic -> BasedOnStatistic(
         parseStatisticId(parameters, combine(param, REFERENCE)),
         parseInt(parameters, combine(param, NUMBER), 0),
