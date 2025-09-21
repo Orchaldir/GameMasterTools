@@ -22,10 +22,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -42,6 +44,23 @@ fun HtmlBlockTag.showCharacterTemplate(
     optionalFieldLink(call, state, template.uniform)
     showStatblock(call, state, template.statblock)
     showDataSources(call, state, template.sources)
+    showUsage(call, state, template)
+}
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    template: CharacterTemplate,
+) {
+    val characters = state.getCharactersUsing(template.id)
+
+    if (characters.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, characters)
 }
 
 // edit

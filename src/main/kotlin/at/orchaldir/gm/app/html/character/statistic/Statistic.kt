@@ -54,8 +54,6 @@ private fun HtmlBlockTag.showUsage(
     fieldElements(call, state, jobs)
     fieldElements(call, state, statistics)
 
-
-
     table {
         tr {
             th { +"Statblocks" }
