@@ -9,6 +9,11 @@
    "belief": {
     "type": "Pantheon",
     "pantheon": 0
+   },
+   "statblock": {
+    "statistics": {
+     "0": 2
+    }
    }
   }
  }
