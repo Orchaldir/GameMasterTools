@@ -25,6 +25,7 @@ data class Statistic(
     val name: Name = Name.init("$STATISTIC_TYPE ${id.value}"),
     val short: Name? = null,
     val sources: Set<DataSourceId> = emptySet(),
+    val data: StatisticData = Attribute(),
 ) : ElementWithSimpleName<StatisticId>, HasDataSources {
 
     override fun id() = id
