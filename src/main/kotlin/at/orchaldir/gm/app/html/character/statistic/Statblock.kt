@@ -95,7 +95,9 @@ fun parseStatblock(
 
     state.getAttributes().forEach { attribute ->
         parseSimpleOptionalInt(parameters, combine(ATTRIBUTE, attribute.id.value))?.let {
-            values[attribute.id] = it
+            if (it != 0) {
+                values[attribute.id] = it
+            }
         }
     }
 
