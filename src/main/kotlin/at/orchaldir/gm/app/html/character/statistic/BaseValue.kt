@@ -42,13 +42,20 @@ fun FORM.editBaseValue(
     value: BaseValue,
     param: String = BASE,
 ) {
+    val statistics = state.getStatisticStorage().getAllExcept(statistic)
+
     showDetails("Base Value", true) {
         selectValue(
             "Type",
             combine(param, TYPE),
             BaseValueType.entries,
             value.getType(),
-        )
+        ){ type ->
+            when (type) {
+                BaseValueType.FixedNumber -> false
+                BaseValueType.BasedOnStatistic -> statistics.isEmpty()
+            }
+        }
 
         when (value) {
             is FixedNumber -> selectInt(
@@ -63,7 +70,7 @@ fun FORM.editBaseValue(
                 selectElement(
                     state,
                     combine(param, REFERENCE),
-                    state.getStatisticStorage().getAllExcept(statistic),
+                    statistics,
                     value.statistic,
                 )
                 selectInt(

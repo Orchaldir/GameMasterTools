@@ -149,11 +149,13 @@ private fun HTML.showAllStatistics(
             tr {
                 th { +"Name" }
                 th { +"Short" }
+                th { +"Type" }
             }
             statistics.forEach { statistic ->
                 tr {
                     tdLink(call, state, statistic)
                     tdString(statistic.short)
+                    tdEnum(statistic.data.getType())
                 }
             }
         }
