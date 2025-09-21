@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.statistic.editCharacterStatblock
+import at.orchaldir.gm.app.html.character.statistic.parseCharacterStatblock
+import at.orchaldir.gm.app.html.character.statistic.showCharacterStatblock
 import at.orchaldir.gm.app.html.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.html.culture.editKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseKnownLanguages
@@ -77,6 +80,7 @@ fun HtmlBlockTag.showData(
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     showDestroyed(call, state, character.id)
     fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
+    showCharacterStatblock(call, state, character.stateblock)
     showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
@@ -230,6 +234,7 @@ fun FORM.editCharacter(
         "Housing Status",
     )
     selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
+    editCharacterStatblock(call, state, character.stateblock)
 
     h2 { +"Social" }
 
@@ -354,6 +359,7 @@ fun parseCharacter(
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
         title = parseOptionalTitleId(parameters, TITLE),
         authenticity = parseAuthenticity(parameters),
+        stateblock = parseCharacterStatblock(state, parameters),
         sources = parseDataSources(parameters),
     )
 }

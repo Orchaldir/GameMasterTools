@@ -58,7 +58,7 @@ private fun DETAILS.showStatistics(
 
 // edit
 
-fun FORM.editStatblock(
+fun HtmlBlockTag.editStatblock(
     call: ApplicationCall,
     state: State,
     statblock: Statblock,
