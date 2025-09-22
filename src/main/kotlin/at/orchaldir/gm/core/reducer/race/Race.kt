@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.race
 
-import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
@@ -9,7 +8,6 @@ import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.*
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.utils.doNothing
@@ -21,14 +19,6 @@ val CREATE_RACE: Reducer<CreateRace, State> = { state, _ ->
     val character = Race(state.getRaceStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getRaceStorage().add(character)))
-}
-
-val CLONE_RACE: Reducer<CloneRace, State> = { state, action ->
-    val original = state.getRaceStorage().getOrThrow(action.id)
-    val cloneId = state.getRaceStorage().nextId
-    val clone = original.copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
-
-    noFollowUps(state.updateStorage(state.getRaceStorage().add(clone)))
 }
 
 val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->

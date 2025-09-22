@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.race
 
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.time.date.Date
@@ -70,5 +71,7 @@ data class Race(
     override fun startDate() = date
 
     fun calculateBodyMassIndex() = weight.toKilograms() / height.center.toMeters().pow(2)
+
+    override fun clone(cloneId: RaceId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 
 }
