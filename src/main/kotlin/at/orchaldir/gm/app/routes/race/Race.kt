@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace

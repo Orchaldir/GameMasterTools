@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CloneCharacterTemplate
 import at.orchaldir.gm.core.action.CreateCharacterTemplate
 import at.orchaldir.gm.core.action.DeleteCharacterTemplate
 import at.orchaldir.gm.core.action.UpdateCharacterTemplate

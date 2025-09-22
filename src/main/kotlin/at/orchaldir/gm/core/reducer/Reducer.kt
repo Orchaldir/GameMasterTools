@@ -59,7 +59,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
             is CultureId -> cloneElement(state, action.id)
             is RaceAppearanceId -> cloneElement(state, action.id)
             is RaceId -> cloneElement(state, action.id)
-            else -> error("")
+            else -> error("Not Supported!")
         }
         // meta
         is LoadData -> LOAD_DATA(state, action)
@@ -73,7 +73,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateColorScheme -> UPDATE_COLOR_SCHEME(state, action)
         // culture
         is CreateCulture -> CREATE_CULTURE(state, action)
-        is CloneCulture -> cloneElement(state, action.id)
         is DeleteCulture -> deleteElement(state, action.id, State::canDeleteCulture)
         is UpdateCulture -> UPDATE_CULTURE(state, action)
         // data
@@ -120,12 +119,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateQuote -> UPDATE_QUOTE(state, action)
         // race
         is CreateRace -> CREATE_RACE(state, action)
-        is CloneRace -> cloneElement(state, action.id)
         is DeleteRace -> deleteElement(state, action.id, State::canDeleteRace)
         is UpdateRace -> UPDATE_RACE(state, action)
         // race appearance
         is CreateRaceAppearance -> CREATE_RACE_APPEARANCE(state, action)
-        is CloneRaceAppearance -> cloneElement(state, action.id)
         is DeleteRaceAppearance -> deleteElement(state, action.id, State::canDeleteRaceAppearance)
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // title

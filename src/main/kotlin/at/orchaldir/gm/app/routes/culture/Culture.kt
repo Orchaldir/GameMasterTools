@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.culture.parseCulture
 import at.orchaldir.gm.app.html.culture.showCulture
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CloneCulture
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
