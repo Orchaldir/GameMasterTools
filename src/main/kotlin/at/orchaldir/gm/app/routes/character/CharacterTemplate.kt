@@ -18,7 +18,6 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
-import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -28,7 +27,6 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.pipeline.PipelineContext
 import kotlinx.html.HTML
 import kotlinx.html.table
 import kotlinx.html.td

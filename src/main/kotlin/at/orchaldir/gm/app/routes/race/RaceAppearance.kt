@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.race.showRaceAppearance
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateRaceAppearance
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
