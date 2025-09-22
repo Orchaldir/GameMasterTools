@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.race.editRaceAppearance
 import at.orchaldir.gm.app.html.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.race.showRaceAppearance
+import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
+import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateRaceAppearance
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
@@ -80,19 +82,9 @@ fun Application.configureRaceAppearanceRouting() {
             STORE.getState().save()
         }
         get<AppearanceRoutes.Clone> { clone ->
-            logger.info { "Clone race appearance ${clone.id.value}" }
-
-            STORE.dispatch(CloneRaceAppearance(clone.id))
-
-            call.respondRedirect(
-                call.application.href(
-                    AppearanceRoutes.Edit(
-                        STORE.getState().getRaceAppearanceStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCloneElement(clone.id, CloneRaceAppearance(clone.id)) { cloneId ->
+                AppearanceRoutes.Edit(cloneId)
+            }
         }
         get<AppearanceRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteRaceAppearance(delete.id), AppearanceRoutes())
