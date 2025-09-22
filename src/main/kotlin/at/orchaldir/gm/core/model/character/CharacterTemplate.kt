@@ -49,6 +49,6 @@ data class CharacterTemplate(
     override fun belief() = History(belief)
     override fun sources() = sources
 
-    override fun <ELEMENT : Element<CharacterTemplateId>> clone(cloneId: CharacterTemplateId): ELEMENT =
-        copy(id = cloneId, name = Name.init("Clone ${cloneId.value}")) as ELEMENT
+    override fun clone(cloneId: CharacterTemplateId) =
+        copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 }

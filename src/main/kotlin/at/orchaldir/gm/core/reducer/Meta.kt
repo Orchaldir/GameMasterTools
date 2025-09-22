@@ -23,7 +23,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> cloneElement(
     val storage = state.getStorage<ID, ELEMENT>(id)
     val original = storage.getOrThrow(id)
     val cloneId = storage.nextId
-    val clone = original.clone<ELEMENT>(cloneId)
+    val clone = original.clone(cloneId) as ELEMENT
 
     return noFollowUps(state.updateStorage(storage.add(clone)))
 }
