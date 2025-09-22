@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.reducer.cloneElement
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.character.canDeleteCharacter
 import at.orchaldir.gm.core.selector.character.canDeleteCharacterTemplate
