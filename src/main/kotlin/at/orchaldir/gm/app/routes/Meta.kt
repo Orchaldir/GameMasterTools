@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.showDeleteResult
-import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.CloneCharacterTemplate
 import at.orchaldir.gm.core.logger
@@ -18,7 +17,7 @@ import io.ktor.util.pipeline.*
 
 suspend inline fun <reified T : Any, ID: Id<ID>, ELEMENT: Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCloneElement(
     id: ID,
-    action: CloneCharacterTemplate,
+    action: Action,
     createResource: (ID) -> T,
 ) {
     logger.info { "Clone ${id.print()}" }
