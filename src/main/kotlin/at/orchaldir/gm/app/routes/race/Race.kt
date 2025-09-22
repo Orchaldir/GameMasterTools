@@ -79,7 +79,7 @@ fun Application.configureRaceRouting() {
             STORE.getState().save()
         }
         get<RaceRoutes.Clone> { clone ->
-            handleCloneElement(clone.id, CloneRace(clone.id)) { cloneId ->
+            handleCloneElement(clone.id) { cloneId ->
                 RaceRoutes.Edit(cloneId)
             }
         }

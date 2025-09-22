@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.showDeleteResult
 import at.orchaldir.gm.core.action.Action
+import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.utils.Element
@@ -16,12 +17,11 @@ import io.ktor.util.pipeline.*
 
 suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCloneElement(
     id: ID,
-    action: Action,
     createResource: (ID) -> T,
 ) {
     logger.info { "Clone ${id.print()}" }
 
-    STORE.dispatch(action)
+    STORE.dispatch(CloneAction(id))
 
     val storage = STORE.getState().getStorage<ID, ELEMENT>(id)
     val resource = createResource(storage.lastId)

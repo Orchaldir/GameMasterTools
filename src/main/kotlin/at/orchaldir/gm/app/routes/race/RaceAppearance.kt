@@ -81,7 +81,7 @@ fun Application.configureRaceAppearanceRouting() {
             STORE.getState().save()
         }
         get<AppearanceRoutes.Clone> { clone ->
-            handleCloneElement(clone.id, CloneRaceAppearance(clone.id)) { cloneId ->
+            handleCloneElement(clone.id) { cloneId ->
                 AppearanceRoutes.Edit(cloneId)
             }
         }

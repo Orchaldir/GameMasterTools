@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.NamingConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.GenderMap

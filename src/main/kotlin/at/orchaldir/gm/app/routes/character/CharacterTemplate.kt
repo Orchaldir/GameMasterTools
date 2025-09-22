@@ -101,7 +101,7 @@ fun Application.configureCharacterTemplateRouting() {
             STORE.getState().save()
         }
         get<CharacterTemplateRoutes.Clone> { clone ->
-            handleCloneElement(clone.id, CloneCharacterTemplate(clone.id)) { cloneId ->
+            handleCloneElement(clone.id) { cloneId ->
                 CharacterTemplateRoutes.Edit(cloneId)
             }
         }

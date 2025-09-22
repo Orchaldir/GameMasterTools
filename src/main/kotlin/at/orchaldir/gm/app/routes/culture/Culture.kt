@@ -87,7 +87,7 @@ fun Application.configureCultureRouting() {
             STORE.getState().save()
         }
         get<CultureRoutes.Clone> { clone ->
-            handleCloneElement(clone.id, CloneCulture(clone.id)) { cloneId ->
+            handleCloneElement(clone.id) { cloneId ->
                 CultureRoutes.Edit(cloneId)
             }
         }
