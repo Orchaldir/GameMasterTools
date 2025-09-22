@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -47,5 +48,7 @@ data class RaceAppearance(
     fun contains(material: MaterialId) = skin.contains(material) ||
             horn.contains(material) ||
             tail.contains(material)
+
+    override fun clone(cloneId: RaceAppearanceId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 
 }

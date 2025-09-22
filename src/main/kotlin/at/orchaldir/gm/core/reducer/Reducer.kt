@@ -110,7 +110,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateRace -> UPDATE_RACE(state, action)
         // race appearance
         is CreateRaceAppearance -> CREATE_RACE_APPEARANCE(state, action)
-        is CloneRaceAppearance -> CLONE_RACE_APPEARANCE(state, action)
+        is CloneRaceAppearance -> cloneElement(state, action.id)
         is DeleteRaceAppearance -> deleteElement(state, action.id, State::canDeleteRaceAppearance)
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // title
