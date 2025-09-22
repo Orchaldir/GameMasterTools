@@ -59,7 +59,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
             is CultureId -> cloneElement(state, action.id)
             is RaceAppearanceId -> cloneElement(state, action.id)
             is RaceId -> cloneElement(state, action.id)
-            else -> error("Not Supported!")
+            else -> error("Cloning ${action.id.plural()} is not Supported!")
         }
         // meta
         is LoadData -> LOAD_DATA(state, action)
