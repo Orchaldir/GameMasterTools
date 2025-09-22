@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.reducer.cloneElement
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.character.canDeleteCharacter
 import at.orchaldir.gm.core.selector.character.canDeleteCharacterTemplate
@@ -19,7 +20,7 @@ val CHARACTER_REDUCER: Reducer<CharacterAction, State> = { state, action ->
         is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
         // character templates
         is CreateCharacterTemplate -> CREATE_CHARACTER_TEMPLATE(state, action)
-        is CloneCharacterTemplate -> CLONE_CHARACTER_TEMPLATE(state, action)
+        is CloneCharacterTemplate -> cloneElement(state, action.id)
         is DeleteCharacterTemplate -> deleteElement(state, action.id, State::canDeleteCharacterTemplate)
         is UpdateCharacterTemplate -> UPDATE_CHARACTER_TEMPLATE(state, action)
         // statistic
