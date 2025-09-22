@@ -48,4 +48,6 @@ data class RaceAppearance(
             horn.contains(material) ||
             tail.contains(material)
 
+    override fun clone(cloneId: RaceAppearanceId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
+
 }

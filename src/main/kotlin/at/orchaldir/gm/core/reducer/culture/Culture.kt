@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.culture
 
-import at.orchaldir.gm.core.action.CloneCulture
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
@@ -13,7 +12,6 @@ import at.orchaldir.gm.core.model.culture.name.FamilyConvention
 import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.core.model.culture.name.isAnyGenonym
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -25,14 +23,6 @@ val CREATE_CULTURE: Reducer<CreateCulture, State> = { state, _ ->
     val culture = Culture(state.getCultureStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getCultureStorage().add(culture)))
-}
-
-val CLONE_CULTURE: Reducer<CloneCulture, State> = { state, action ->
-    val original = state.getCultureStorage().getOrThrow(action.id)
-    val cloneId = state.getCultureStorage().nextId
-    val clone = original.copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
-
-    noFollowUps(state.updateStorage(state.getCultureStorage().add(clone)))
 }
 
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->

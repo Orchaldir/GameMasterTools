@@ -78,6 +78,7 @@ import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.Resize
 
@@ -85,6 +86,7 @@ sealed class Action
 
 // META
 
+data class CloneAction<ID : Id<ID>>(val id: ID) : Action()
 data class LoadData(val path: String) : Action()
 
 // calendar
@@ -99,7 +101,6 @@ data class UpdateColorScheme(val scheme: ColorScheme) : Action()
 
 // culture
 data object CreateCulture : Action()
-data class CloneCulture(val id: CultureId) : Action()
 data class DeleteCulture(val id: CultureId) : Action()
 data class UpdateCulture(val culture: Culture) : Action()
 
@@ -163,13 +164,11 @@ data class UpdateQuote(val quote: Quote) : Action()
 
 // race
 data object CreateRace : Action()
-data class CloneRace(val id: RaceId) : Action()
 data class DeleteRace(val id: RaceId) : Action()
 data class UpdateRace(val race: Race) : Action()
 
 // race appearance
 data object CreateRaceAppearance : Action()
-data class CloneRaceAppearance(val id: RaceAppearanceId) : Action()
 data class DeleteRaceAppearance(val id: RaceAppearanceId) : Action()
 data class UpdateRaceAppearance(val appearance: RaceAppearance) : Action()
 
@@ -198,7 +197,6 @@ data class UpdateRelationships(
 
 // character template
 data object CreateCharacterTemplate : CharacterAction()
-data class CloneCharacterTemplate(val id: CharacterTemplateId) : CharacterAction()
 data class DeleteCharacterTemplate(val id: CharacterTemplateId) : CharacterAction()
 data class UpdateCharacterTemplate(val template: CharacterTemplate) : CharacterAction()
 

@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
@@ -78,13 +78,9 @@ fun Application.configureRaceRouting() {
             STORE.getState().save()
         }
         get<RaceRoutes.Clone> { clone ->
-            logger.info { "Clone race ${clone.id.value}" }
-
-            STORE.dispatch(CloneRace(clone.id))
-
-            call.respondRedirect(call.application.href(RaceRoutes.Edit(STORE.getState().getRaceStorage().lastId)))
-
-            STORE.getState().save()
+            handleCloneElement(clone.id) { cloneId ->
+                RaceRoutes.Edit(cloneId)
+            }
         }
         get<RaceRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteRace(delete.id), RaceRoutes())

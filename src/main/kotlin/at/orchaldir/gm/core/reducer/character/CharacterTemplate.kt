@@ -1,12 +1,10 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.core.action.CloneCharacterTemplate
 import at.orchaldir.gm.core.action.CreateCharacterTemplate
 import at.orchaldir.gm.core.action.UpdateCharacterTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.util.checkBeliefStatus
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -15,14 +13,6 @@ val CREATE_CHARACTER_TEMPLATE: Reducer<CreateCharacterTemplate, State> = { state
     val template = CharacterTemplate(state.getCharacterTemplateStorage().nextId, race = RaceId(0))
     val templates = state.getCharacterTemplateStorage().add(template)
     noFollowUps(state.updateStorage(templates))
-}
-
-val CLONE_CHARACTER_TEMPLATE: Reducer<CloneCharacterTemplate, State> = { state, action ->
-    val original = state.getCharacterTemplateStorage().getOrThrow(action.id)
-    val cloneId = state.getCharacterTemplateStorage().nextId
-    val clone = original.copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
-
-    noFollowUps(state.updateStorage(state.getCharacterTemplateStorage().add(clone)))
 }
 
 val UPDATE_CHARACTER_TEMPLATE: Reducer<UpdateCharacterTemplate, State> = { state, action ->

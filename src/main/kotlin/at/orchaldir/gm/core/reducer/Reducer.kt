@@ -2,6 +2,10 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.reducer.character.*
 import at.orchaldir.gm.core.reducer.culture.*
 import at.orchaldir.gm.core.reducer.economy.CREATE_MATERIAL
@@ -12,7 +16,10 @@ import at.orchaldir.gm.core.reducer.health.UPDATE_DISEASE
 import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.magic.MAGIC_REDUCER
 import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
-import at.orchaldir.gm.core.reducer.race.*
+import at.orchaldir.gm.core.reducer.race.CREATE_RACE
+import at.orchaldir.gm.core.reducer.race.CREATE_RACE_APPEARANCE
+import at.orchaldir.gm.core.reducer.race.UPDATE_RACE
+import at.orchaldir.gm.core.reducer.race.UPDATE_RACE_APPEARANCE
 import at.orchaldir.gm.core.reducer.realm.REALM_REDUCER
 import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
 import at.orchaldir.gm.core.reducer.time.CREATE_CALENDAR
@@ -46,6 +53,14 @@ import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
     when (action) {
+        // clone
+        is CloneAction<*> -> when (action.id) {
+            is CharacterTemplateId -> cloneElement(state, action.id)
+            is CultureId -> cloneElement(state, action.id)
+            is RaceAppearanceId -> cloneElement(state, action.id)
+            is RaceId -> cloneElement(state, action.id)
+            else -> error("Cloning is not supported!")
+        }
         // meta
         is LoadData -> LOAD_DATA(state, action)
         // calendar
@@ -58,7 +73,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateColorScheme -> UPDATE_COLOR_SCHEME(state, action)
         // culture
         is CreateCulture -> CREATE_CULTURE(state, action)
-        is CloneCulture -> CLONE_CULTURE(state, action)
         is DeleteCulture -> deleteElement(state, action.id, State::canDeleteCulture)
         is UpdateCulture -> UPDATE_CULTURE(state, action)
         // data
@@ -105,12 +119,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateQuote -> UPDATE_QUOTE(state, action)
         // race
         is CreateRace -> CREATE_RACE(state, action)
-        is CloneRace -> CLONE_RACE(state, action)
         is DeleteRace -> deleteElement(state, action.id, State::canDeleteRace)
         is UpdateRace -> UPDATE_RACE(state, action)
         // race appearance
         is CreateRaceAppearance -> CREATE_RACE_APPEARANCE(state, action)
-        is CloneRaceAppearance -> CLONE_RACE_APPEARANCE(state, action)
         is DeleteRaceAppearance -> deleteElement(state, action.id, State::canDeleteRaceAppearance)
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // title

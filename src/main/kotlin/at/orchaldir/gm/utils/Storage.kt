@@ -16,6 +16,8 @@ interface Element<ID> {
 
     fun name(state: State): String
     fun toSortString(state: State) = name(state)
+
+    fun clone(cloneId: ID): Element<ID> = error("Not supported!")
 }
 
 @Serializable

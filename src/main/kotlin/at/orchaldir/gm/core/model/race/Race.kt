@@ -71,4 +71,6 @@ data class Race(
 
     fun calculateBodyMassIndex() = weight.toKilograms() / height.center.toMeters().pow(2)
 
+    override fun clone(cloneId: RaceId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
+
 }

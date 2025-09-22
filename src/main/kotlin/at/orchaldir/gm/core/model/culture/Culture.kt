@@ -48,4 +48,6 @@ data class Culture(
 
     fun getFashion(character: Character) = fashion.get(character.gender)
 
+    override fun clone(cloneId: CultureId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
+
 }

@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.util.showBeliefStatus
+import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CloneCharacterTemplate
 import at.orchaldir.gm.core.action.CreateCharacterTemplate
 import at.orchaldir.gm.core.action.DeleteCharacterTemplate
 import at.orchaldir.gm.core.action.UpdateCharacterTemplate
@@ -100,14 +100,9 @@ fun Application.configureCharacterTemplateRouting() {
             STORE.getState().save()
         }
         get<CharacterTemplateRoutes.Clone> { clone ->
-            logger.info { "Clone ${clone.id.print()}" }
-
-            STORE.dispatch(CloneCharacterTemplate(clone.id))
-
-            val resource = CharacterTemplateRoutes.Edit(STORE.getState().getCharacterTemplateStorage().lastId)
-            call.respondRedirect(call.application.href(resource))
-
-            STORE.getState().save()
+            handleCloneElement(clone.id) { cloneId ->
+                CharacterTemplateRoutes.Edit(cloneId)
+            }
         }
         get<CharacterTemplateRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteCharacterTemplate(delete.id), CharacterTemplateRoutes())
@@ -148,6 +143,7 @@ fun Application.configureCharacterTemplateRouting() {
         }
     }
 }
+
 
 private fun HTML.showAllCharacterTemplates(
     call: ApplicationCall,
