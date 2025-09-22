@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.util.showBeliefStatus
+import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.CloneCharacterTemplate
 import at.orchaldir.gm.core.action.CreateCharacterTemplate
@@ -17,6 +18,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
+import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -26,6 +28,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.util.pipeline.PipelineContext
 import kotlinx.html.HTML
 import kotlinx.html.table
 import kotlinx.html.td
@@ -100,14 +103,9 @@ fun Application.configureCharacterTemplateRouting() {
             STORE.getState().save()
         }
         get<CharacterTemplateRoutes.Clone> { clone ->
-            logger.info { "Clone ${clone.id.print()}" }
-
-            STORE.dispatch(CloneCharacterTemplate(clone.id))
-
-            val resource = CharacterTemplateRoutes.Edit(STORE.getState().getCharacterTemplateStorage().lastId)
-            call.respondRedirect(call.application.href(resource))
-
-            STORE.getState().save()
+            handleCloneElement(clone.id, CloneCharacterTemplate(clone.id)) { cloneId ->
+                CharacterTemplateRoutes.Edit(cloneId)
+            }
         }
         get<CharacterTemplateRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteCharacterTemplate(delete.id), CharacterTemplateRoutes())
@@ -148,6 +146,7 @@ fun Application.configureCharacterTemplateRouting() {
         }
     }
 }
+
 
 private fun HTML.showAllCharacterTemplates(
     call: ApplicationCall,
