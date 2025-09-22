@@ -5,8 +5,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editCulture
 import at.orchaldir.gm.app.html.culture.parseCulture
 import at.orchaldir.gm.app.html.culture.showCulture
+import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.CloneCulture
+import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
@@ -86,13 +89,9 @@ fun Application.configureCultureRouting() {
             STORE.getState().save()
         }
         get<CultureRoutes.Clone> { clone ->
-            logger.info { "Clone culture ${clone.id.value}" }
-
-            STORE.dispatch(CloneCulture(clone.id))
-
-            call.respondRedirect(call.application.href(CultureRoutes.Edit(STORE.getState().getCultureStorage().lastId)))
-
-            STORE.getState().save()
+            handleCloneElement(clone.id, CloneCulture(clone.id)) { cloneId ->
+                CultureRoutes.Edit(cloneId)
+            }
         }
         get<CultureRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteCulture(delete.id), CultureRoutes())
