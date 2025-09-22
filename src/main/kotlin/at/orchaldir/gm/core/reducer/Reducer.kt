@@ -58,7 +58,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateColorScheme -> UPDATE_COLOR_SCHEME(state, action)
         // culture
         is CreateCulture -> CREATE_CULTURE(state, action)
-        is CloneCulture -> CLONE_CULTURE(state, action)
+        is CloneCulture -> cloneElement(state, action.id)
         is DeleteCulture -> deleteElement(state, action.id, State::canDeleteCulture)
         is UpdateCulture -> UPDATE_CULTURE(state, action)
         // data

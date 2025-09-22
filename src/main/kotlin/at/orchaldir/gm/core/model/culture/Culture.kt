@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.NamingConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -47,5 +48,7 @@ data class Culture(
     override fun startDate() = null
 
     fun getFashion(character: Character) = fashion.get(character.gender)
+
+    override fun clone(cloneId: CultureId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 
 }
