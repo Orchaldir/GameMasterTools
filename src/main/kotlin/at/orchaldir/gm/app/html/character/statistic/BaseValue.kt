@@ -35,11 +35,12 @@ fun HtmlBlockTag.displayBaseValue(
     call: ApplicationCall,
     state: State,
     value: BaseValue,
+    isTopLevel: Boolean = true,
 ) {
     when (value) {
         is BasedOnStatistic -> {
             if (value.offset != 0) {
-                brackets {
+                brackets(isTopLevel) {
                     link(call, state, value.statistic)
                     if (value.offset > 0) {
                         +" + ${value.offset}"
@@ -54,13 +55,13 @@ fun HtmlBlockTag.displayBaseValue(
             }
         }
         is FixedNumber -> +"${value.default}"
-        is DivisionOfValues -> brackets {
-            displayBaseValue(call, state, value.dividend)
+        is DivisionOfValues -> brackets(isTopLevel) {
+            displayBaseValue(call, state, value.dividend, false)
             +" / "
-            displayBaseValue(call, state, value.divisor)
+            displayBaseValue(call, state, value.divisor, false)
         }
-        is ProductOfValues -> displayValues(call, state, value.values, "*")
-        is SumOfValues -> displayValues(call, state, value.values, "*")
+        is ProductOfValues -> displayValues(call, state, value.values, isTopLevel, "*")
+        is SumOfValues -> displayValues(call, state, value.values, isTopLevel, "*")
     }
 }
 
@@ -68,24 +69,31 @@ private fun HtmlBlockTag.displayValues(
     call: ApplicationCall,
     state: State,
     values: List<BaseValue>,
+    isTopLevel: Boolean,
     sign: String,
 ) {
-    brackets {
+    brackets(isTopLevel) {
         values.withIndex().forEach { (i, subValue) ->
             if (i > 0) {
                 +" $sign "
             }
-            displayBaseValue(call, state, subValue)
+            displayBaseValue(call, state, subValue, false)
         }
     }
 }
 
 private fun HtmlBlockTag.brackets(
+    isTopLevel: Boolean,
     content: HtmlBlockTag.() -> Unit,
 ) {
-    +"("
-    content()
-    +")"
+    if (isTopLevel) {
+        content()
+    }
+    else {
+        +"("
+        content()
+        +")"
+    }
 }
 
 // edit
