@@ -41,11 +41,26 @@ private fun validateBaseValue(
     value: BaseValue,
 ) {
     when (value) {
+
+        is FixedNumber -> doNothing()
         is BasedOnStatistic -> {
             state.getStatisticStorage().require(value.statistic)
             require(statistic != value.statistic) { "${statistic.print()} cannot be based on itself!" }
         }
-
-        is FixedNumber -> doNothing()
+        is DivisionOfValues -> {
+            validateBaseValue(state, statistic, value.dividend)
+            validateBaseValue(state, statistic, value.divisor)
+        }
+        is ProductOfValues -> validateBaseValues(state, statistic, value.values)
+        is SumOfValues -> validateBaseValues(state, statistic, value.values)
     }
+}
+
+private fun validateBaseValues(
+    state: State,
+    statistic: StatisticId,
+    values: List<BaseValue>,
+) {
+    require(values.size > 1) { "Requires at least 2 values!"}
+    values.map { validateBaseValue(state, statistic, it) }
 }
