@@ -95,6 +95,34 @@
      "offset": -2
     }
    }
+  },
+  "8": {
+   "id": 8,
+   "name": "Basic Lift",
+   "short": "BL",
+   "data": {
+    "type": "Attribute",
+    "base": {
+     "type": "Division",
+     "dividend": {
+      "type": "Product",
+      "values": [
+       {
+        "type": "Fixed",
+        "default": 0
+       },
+       {
+        "type": "Fixed",
+        "default": 0
+       }
+      ]
+     },
+     "divisor": {
+      "type": "Fixed",
+      "default": 5
+     }
+    }
+   }
   }
  }
 }
