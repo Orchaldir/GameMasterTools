@@ -29,27 +29,6 @@ fun HtmlBlockTag.showBaseValue(
     field(label) {
         displayBaseValue(call, state, value)
     }
-    showDetails(label, true) {
-        field("Type", value.getType())
-
-        when (value) {
-            is BasedOnStatistic -> {
-                fieldLink(call, state, value.statistic)
-                field("Offset", value.offset)
-            }
-            is FixedNumber -> field("Default", value.default)
-            is DivisionOfValues -> {
-                showBaseValue(call, state, value.dividend, "Dividend")
-                showBaseValue(call, state, value.divisor, "Divisor")
-            }
-            is ProductOfValues -> value.values.withIndex().forEach { (i, subValue) ->
-                showBaseValue(call, state, subValue, "${i+1}.Value")
-            }
-            is SumOfValues -> value.values.withIndex().forEach { (i, subValue) ->
-                showBaseValue(call, state, subValue, "${i+1}.Value")
-            }
-        }
-    }
 }
 
 fun HtmlBlockTag.displayBaseValue(
@@ -104,7 +83,7 @@ private fun HtmlBlockTag.displayValues(
 private fun HtmlBlockTag.brackets(
     content: HtmlBlockTag.() -> Unit,
 ) {
-    +"( "
+    +"("
     content()
     +")"
 }

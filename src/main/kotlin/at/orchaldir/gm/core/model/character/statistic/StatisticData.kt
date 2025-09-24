@@ -20,6 +20,11 @@ sealed class StatisticData {
         is Attribute -> base.isBasedOn(statistic)
         is Skill -> base.isBasedOn(statistic)
     }
+
+    fun baseValue() = when (this) {
+        is Attribute -> base
+        is Skill -> base
+    }
 }
 
 @Serializable
