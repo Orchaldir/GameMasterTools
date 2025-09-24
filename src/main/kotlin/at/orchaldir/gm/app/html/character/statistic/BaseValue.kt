@@ -158,6 +158,6 @@ fun parseBaseValue(
 private fun parseValues(
     parameters: Parameters,
     param: String,
-) = parseList(parameters, param, 2) { _, param ->
-    parseBaseValue(parameters, param)
+) = parseList(parameters, combine(param, LIST), 2) { _, subParam ->
+    parseBaseValue(parameters, subParam)
 }

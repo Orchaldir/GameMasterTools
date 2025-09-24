@@ -108,12 +108,12 @@
       "type": "Product",
       "values": [
        {
-        "type": "Fixed",
-        "default": 0
+        "type": "Statistic",
+        "statistic": 0
        },
        {
-        "type": "Fixed",
-        "default": 0
+        "type": "Statistic",
+        "statistic": 0
        }
       ]
      },
