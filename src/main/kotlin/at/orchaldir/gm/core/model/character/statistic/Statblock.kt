@@ -16,20 +16,21 @@ data class Statblock(
 
     fun resolve(state: State, statistic: Statistic): Int {
         return when (statistic.data) {
-            is Attribute -> {
-                val base = resolve(state, statistic.data.base)
-                val offset = statistics[statistic.id] ?: 0
-
-                base + offset
-            }
-
-            is Skill -> {
-                val base = resolve(state, statistic.data.base)
-                val offset = statistics[statistic.id] ?: 0
-
-                base + offset
-            }
+            is Attribute -> resolve(state, statistic.id, statistic.data.base)
+            is DerivedAttribute -> resolve(state, statistic.id, statistic.data.base)
+            is Skill -> resolve(state, statistic.id, statistic.data.base)
         }
+    }
+
+    private fun Statblock.resolve(
+        state: State,
+        statistic: StatisticId,
+        value: BaseValue,
+    ): Int {
+        val base = resolve(state, value)
+        val offset = statistics[statistic] ?: 0
+
+        return base + offset
     }
 
     private fun resolve(state: State, base: BaseValue): Int {

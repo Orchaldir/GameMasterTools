@@ -101,7 +101,7 @@
    "name": "Basic Lift",
    "short": "BL",
    "data": {
-    "type": "Attribute",
+    "type": "Derived",
     "base": {
      "type": "Division",
      "dividend": {
