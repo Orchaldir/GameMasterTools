@@ -16,6 +16,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
+import kotlin.math.absoluteValue
 
 // show
 
@@ -25,6 +26,9 @@ fun HtmlBlockTag.showBaseValue(
     value: BaseValue,
     label: String = "Base Value",
 ) {
+    field(label) {
+        displayBaseValue(call, state, value)
+    }
     showDetails(label, true) {
         field("Type", value.getType())
 
@@ -46,6 +50,63 @@ fun HtmlBlockTag.showBaseValue(
             }
         }
     }
+}
+
+fun HtmlBlockTag.displayBaseValue(
+    call: ApplicationCall,
+    state: State,
+    value: BaseValue,
+) {
+    when (value) {
+        is BasedOnStatistic -> {
+            if (value.offset != 0) {
+                brackets {
+                    link(call, state, value.statistic)
+                    if (value.offset > 0) {
+                        +" + ${value.offset}"
+                    }
+                    else {
+                        +" - ${value.offset.absoluteValue}"
+                    }
+                }
+            }
+            else {
+                link(call, state, value.statistic)
+            }
+        }
+        is FixedNumber -> +"${value.default}"
+        is DivisionOfValues -> brackets {
+            displayBaseValue(call, state, value.dividend)
+            +" / "
+            displayBaseValue(call, state, value.divisor)
+        }
+        is ProductOfValues -> displayValues(call, state, value.values, "*")
+        is SumOfValues -> displayValues(call, state, value.values, "*")
+    }
+}
+
+private fun HtmlBlockTag.displayValues(
+    call: ApplicationCall,
+    state: State,
+    values: List<BaseValue>,
+    sign: String,
+) {
+    brackets {
+        values.withIndex().forEach { (i, subValue) ->
+            if (i > 0) {
+                +" $sign "
+            }
+            displayBaseValue(call, state, subValue)
+        }
+    }
+}
+
+private fun HtmlBlockTag.brackets(
+    content: HtmlBlockTag.() -> Unit,
+) {
+    +"( "
+    content()
+    +")"
 }
 
 // edit
