@@ -7,44 +7,66 @@ import kotlinx.serialization.Serializable
 data class Statblock(
     val statistics: Map<StatisticId, Int> = emptyMap(),
 ) {
-    fun resolve(state: State, statistics: List<Statistic>) = statistics.map { statistic ->
-        Pair(statistic, resolve(state, statistic))
+    fun resolve(state: State, statistics: List<Statistic>) = statistics.mapNotNull { statistic ->
+        resolve(state, statistic)?.let { Pair(statistic, it) }
     }
 
     fun resolve(state: State, statistic: StatisticId) =
         resolve(state, state.getStatisticStorage().getOrThrow(statistic))
 
-    fun resolve(state: State, statistic: Statistic): Int {
+    fun resolve(state: State, statistic: Statistic): Int? {
         return when (statistic.data) {
-            is Attribute -> resolve(state, statistic.id, statistic.data.base)
-            is DerivedAttribute -> resolve(state, statistic.id, statistic.data.base)
-            is Skill -> resolve(state, statistic.id, statistic.data.base)
+            is Attribute -> resolveAttribute(state, statistic.id, statistic.data.base)
+            is DerivedAttribute -> resolveAttribute(state, statistic.id, statistic.data.base)
+            is Skill -> resolveSkill(state, statistic.id, statistic.data.base)
         }
     }
 
-    private fun Statblock.resolve(
+    private fun Statblock.resolveAttribute(
         state: State,
         statistic: StatisticId,
         value: BaseValue,
-    ): Int {
-        val base = resolve(state, value)
+    ): Int? {
+        val base = resolve(state, value) ?: return null
         val offset = statistics[statistic] ?: 0
 
         return base + offset
     }
 
-    private fun resolve(state: State, base: BaseValue): Int {
+    private fun Statblock.resolveSkill(
+        state: State,
+        statistic: StatisticId,
+        value: BaseValue,
+    ): Int? {
+        val base = resolve(state, value) ?: return null
+        val offset = statistics[statistic] ?: return null
+
+        return base + offset
+    }
+
+    private fun resolve(state: State, base: BaseValue): Int? {
         return when (base) {
             is BasedOnStatistic -> {
-                val resolvedBase = resolve(state, base.statistic)
+                val resolvedBase = resolve(state, base.statistic) ?: return null
                 resolvedBase + base.offset
             }
             is FixedNumber -> base.default
-            is DivisionOfValues -> resolve(state, base.dividend) / resolve(state, base.divisor)
+            is DivisionOfValues -> {
+                val dividend = resolve(state, base.dividend)
+                val divisor = resolve(state, base.divisor)
+
+                return if (dividend != null && divisor != null) {
+                    dividend / divisor
+                } else {
+                    null
+                }
+            }
             is ProductOfValues -> base.values
-                .map { resolve(state, it) }
-                .reduce { product, value -> product * value }
-            is SumOfValues -> base.values.sumOf { resolve(state, it) }
+                .mapNotNull { resolve(state, it) }
+                .reduceOrNull { product, value -> product * value }
+            is SumOfValues -> base.values
+                .mapNotNull { resolve(state, it) }
+                .reduceOrNull { sum, value -> sum + value }
         }
     }
 
