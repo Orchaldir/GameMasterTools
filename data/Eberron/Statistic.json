@@ -123,6 +123,18 @@
      }
     }
    }
+  },
+  "9": {
+   "id": 9,
+   "name": "Hit Points",
+   "short": "HP",
+   "data": {
+    "type": "Derived",
+    "base": {
+     "type": "Statistic",
+     "statistic": 0
+    }
+   }
   }
  }
 }
