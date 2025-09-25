@@ -135,6 +135,83 @@
      "statistic": 0
     }
    }
+  },
+  "10": {
+   "id": 10,
+   "name": "Fatigue Points",
+   "short": "FP",
+   "data": {
+    "type": "Derived",
+    "base": {
+     "type": "Statistic",
+     "statistic": 3
+    }
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Basic Speed",
+   "data": {
+    "type": "Attribute",
+    "base": {
+     "type": "Sum",
+     "values": [
+      {
+       "type": "Statistic",
+       "statistic": 1
+      },
+      {
+       "type": "Statistic",
+       "statistic": 3
+      }
+     ]
+    }
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Dodge",
+   "data": {
+    "type": "Derived",
+    "base": {
+     "type": "Sum",
+     "values": [
+      {
+       "type": "Division",
+       "dividend": {
+        "type": "Statistic",
+        "statistic": 11
+       },
+       "divisor": {
+        "type": "Fixed",
+        "default": 4
+       }
+      },
+      {
+       "type": "Fixed",
+       "default": 3
+      }
+     ]
+    }
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Basic Move",
+   "data": {
+    "type": "Derived",
+    "base": {
+     "type": "Division",
+     "dividend": {
+      "type": "Statistic",
+      "statistic": 11
+     },
+     "divisor": {
+      "type": "Fixed",
+      "default": 4
+     }
+    }
+   }
   }
  }
 }
