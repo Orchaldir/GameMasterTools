@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.culture
 
-import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.Language
@@ -9,12 +8,6 @@ import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_LANGUAGE: Reducer<CreateLanguage, State> = { state, _ ->
-    val language = Language(state.getLanguageStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getLanguageStorage().add(language)))
-}
 
 val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
     val language = action.language

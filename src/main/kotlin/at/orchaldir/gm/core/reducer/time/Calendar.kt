@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.time
 
-import at.orchaldir.gm.core.action.CreateCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -13,12 +12,6 @@ import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_CALENDAR: Reducer<CreateCalendar, State> = { state, _ ->
-    val calendar = Calendar(state.getCalendarStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getCalendarStorage().add(calendar)))
-}
 
 val UPDATE_CALENDAR: Reducer<UpdateCalendar, State> = { state, action ->
     val calendar = action.calendar

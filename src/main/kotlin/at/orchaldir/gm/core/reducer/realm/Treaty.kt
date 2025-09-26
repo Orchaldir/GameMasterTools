@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.realm
 
-import at.orchaldir.gm.core.action.CreateTreaty
 import at.orchaldir.gm.core.action.UpdateTreaty
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Treaty
@@ -10,12 +9,6 @@ import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_TREATY: Reducer<CreateTreaty, State> = { state, _ ->
-    val treaty = Treaty(state.getTreatyStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getTreatyStorage().add(treaty)))
-}
 
 val UPDATE_TREATY: Reducer<UpdateTreaty, State> = { state, action ->
     val treaty = action.treaty

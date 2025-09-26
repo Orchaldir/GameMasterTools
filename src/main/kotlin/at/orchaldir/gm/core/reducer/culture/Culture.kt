@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.culture
 
-import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -18,12 +17,6 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
-
-val CREATE_CULTURE: Reducer<CreateCulture, State> = { state, _ ->
-    val culture = Culture(state.getCultureStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getCultureStorage().add(culture)))
-}
 
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
     val culture = action.culture

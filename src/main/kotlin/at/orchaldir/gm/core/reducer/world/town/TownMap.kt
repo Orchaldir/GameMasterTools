@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.world.town
 
-import at.orchaldir.gm.core.action.CreateTownMap
 import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
@@ -9,12 +8,6 @@ import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_TOWN_MAP: Reducer<CreateTownMap, State> = { state, _ ->
-    val town = TownMap(state.getTownMapStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getTownMapStorage().add(town)))
-}
 
 val UPDATE_TOWN_MAP: Reducer<UpdateTownMap, State> = { state, action ->
     val townMap = action.townMap

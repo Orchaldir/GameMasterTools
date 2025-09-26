@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.economy
 
-import at.orchaldir.gm.core.action.CreateCurrencyUnit
 import at.orchaldir.gm.core.action.UpdateCurrencyUnit
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
@@ -12,12 +11,6 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_CURRENCY_UNIT: Reducer<CreateCurrencyUnit, State> = { state, _ ->
-    val currency = CurrencyUnit(state.getCurrencyUnitStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getCurrencyUnitStorage().add(currency)))
-}
 
 val UPDATE_CURRENCY_UNIT: Reducer<UpdateCurrencyUnit, State> = { state, action ->
     val unit = action.unit

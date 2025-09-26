@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.item
 
-import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -13,12 +12,6 @@ import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.checkInt
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_EQUIPMENT: Reducer<CreateEquipment, State> = { state, _ ->
-    val equipment = Equipment(state.getEquipmentStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getEquipmentStorage().add(equipment)))
-}
 
 val UPDATE_EQUIPMENT: Reducer<UpdateEquipment, State> = { state, action ->
     val equipment = action.equipment

@@ -1,17 +1,11 @@
 package at.orchaldir.gm.core.reducer.item
 
-import at.orchaldir.gm.core.action.CreateUniform
 import at.orchaldir.gm.core.action.UpdateUniform
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
-val CREATE_UNIFORM: Reducer<CreateUniform, State> = { state, _ ->
-    val uniform = Uniform(state.getUniformStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getUniformStorage().add(uniform)))
-}
 
 val UPDATE_UNIFORM: Reducer<UpdateUniform, State> = { state, action ->
     val uniform = action.uniform

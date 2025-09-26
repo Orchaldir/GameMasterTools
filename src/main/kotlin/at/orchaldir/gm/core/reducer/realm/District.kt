@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.realm
 
-import at.orchaldir.gm.core.action.CreateDistrict
 import at.orchaldir.gm.core.action.UpdateDistrict
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.District
@@ -8,14 +7,6 @@ import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.validatePopulation
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_DISTRICT: Reducer<CreateDistrict, State> = { state, _ ->
-    val district = District(state.getDistrictStorage().nextId)
-
-    validateDistrict(state, district)
-
-    noFollowUps(state.updateStorage(state.getDistrictStorage().add(district)))
-}
 
 val UPDATE_DISTRICT: Reducer<UpdateDistrict, State> = { state, action ->
     val district = action.district

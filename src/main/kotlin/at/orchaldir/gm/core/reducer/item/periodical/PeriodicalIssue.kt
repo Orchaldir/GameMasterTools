@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.item.periodical
 
-import at.orchaldir.gm.core.action.CreatePeriodicalIssue
 import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -8,12 +7,6 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_PERIODICAL_ISSUE: Reducer<CreatePeriodicalIssue, State> = { state, _ ->
-    val periodical = PeriodicalIssue(state.getPeriodicalIssueStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getPeriodicalIssueStorage().add(periodical)))
-}
 
 val UPDATE_PERIODICAL_ISSUE: Reducer<UpdatePeriodicalIssue, State> = { state, action ->
     val issue = action.issue
