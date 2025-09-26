@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.character.statistic.displayBaseValue
 import at.orchaldir.gm.app.html.character.statistic.editStatistic
 import at.orchaldir.gm.app.html.character.statistic.parseStatistic
 import at.orchaldir.gm.app.html.character.statistic.showStatistic
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateStatistic
 import at.orchaldir.gm.core.action.DeleteStatistic
 import at.orchaldir.gm.core.action.UpdateStatistic
 import at.orchaldir.gm.core.model.State
@@ -81,19 +81,9 @@ fun Application.configureStatisticRouting() {
             }
         }
         get<StatisticRoutes.New> {
-            logger.info { "Add new statistic" }
-
-            STORE.dispatch(CreateStatistic)
-
-            call.respondRedirect(
-                call.application.href(
-                    StatisticRoutes.Edit(
-                        STORE.getState().getStatisticStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement( STORE.getState().getStatisticStorage()) { id ->
+                StatisticRoutes.Edit(id)
+            }
         }
         get<StatisticRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteStatistic(delete.id), StatisticRoutes())
