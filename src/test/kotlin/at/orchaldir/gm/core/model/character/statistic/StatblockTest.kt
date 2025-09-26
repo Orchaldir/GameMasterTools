@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class StatblockTest {
@@ -22,10 +23,24 @@ class StatblockTest {
     inner class ResolveTest {
 
         @Test
-        fun `Unknown statistic`() {
+        fun `Resolve unknown statistic`() {
             val statblock = Statblock()
 
             assertIllegalArgument("Requires unknown Statistic 99!") { statblock.resolve(state, UNKNOWN_STATISTIC_ID) }
+        }
+
+        @Test
+        fun `Resolve contained attribute`() {
+            val statblock = Statblock(mapOf(STATISTIC_ID_0 to 2))
+
+            assertEquals(12, statblock.resolve(state, STATISTIC_ID_0))
+        }
+
+        @Test
+        fun `Resolve default value of attribute`() {
+            val statblock = Statblock()
+
+            assertEquals(10, statblock.resolve(state, STATISTIC_ID_0))
         }
 
     }
