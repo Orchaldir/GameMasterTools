@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.RIVER_ID_0
+import at.orchaldir.gm.TEXT_ID_0
+import at.orchaldir.gm.UNKNOWN_RIVER_ID
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.model.State

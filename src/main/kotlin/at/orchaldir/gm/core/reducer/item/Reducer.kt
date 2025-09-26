@@ -3,7 +3,9 @@ package at.orchaldir.gm.core.reducer.item
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
-import at.orchaldir.gm.core.reducer.item.periodical.*
+import at.orchaldir.gm.core.reducer.item.periodical.UPDATE_ARTICLE
+import at.orchaldir.gm.core.reducer.item.periodical.UPDATE_PERIODICAL
+import at.orchaldir.gm.core.reducer.item.periodical.UPDATE_PERIODICAL_ISSUE
 import at.orchaldir.gm.core.selector.item.canDeleteEquipment
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.canDeleteUniform

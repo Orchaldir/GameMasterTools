@@ -36,7 +36,7 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     )
 
     fun add(element: ELEMENT): Storage<ID, ELEMENT> {
-        require(element.id() == nextId) { "Added ${element.id().print()} doesn't have the next free id!"}
+        require(element.id() == nextId) { "Added ${element.id().print()} doesn't have the next free id!" }
 
         return Storage(elements + mapOf(nextId to element), nextId.next(), nextId)
     }

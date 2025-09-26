@@ -29,48 +29,18 @@ import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.item.periodical.Article
-import at.orchaldir.gm.core.model.item.periodical.ArticleId
-import at.orchaldir.gm.core.model.item.periodical.Periodical
-import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
-import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
-import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
+import at.orchaldir.gm.core.model.item.periodical.*
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
-import at.orchaldir.gm.core.model.magic.MagicTradition
-import at.orchaldir.gm.core.model.magic.MagicTraditionId
-import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.magic.SpellGroup
-import at.orchaldir.gm.core.model.magic.SpellGroupId
-import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.realm.Battle
-import at.orchaldir.gm.core.model.realm.BattleId
-import at.orchaldir.gm.core.model.realm.Catastrophe
-import at.orchaldir.gm.core.model.realm.CatastropheId
-import at.orchaldir.gm.core.model.realm.District
-import at.orchaldir.gm.core.model.realm.DistrictId
-import at.orchaldir.gm.core.model.realm.LegalCode
-import at.orchaldir.gm.core.model.realm.LegalCodeId
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.realm.Treaty
-import at.orchaldir.gm.core.model.realm.TreatyId
-import at.orchaldir.gm.core.model.realm.War
-import at.orchaldir.gm.core.model.realm.WarId
-import at.orchaldir.gm.core.model.religion.Domain
-import at.orchaldir.gm.core.model.religion.DomainId
-import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.model.religion.Pantheon
-import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.core.model.realm.*
+import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.Holiday
@@ -234,6 +204,7 @@ private fun createElement(
         val race = state.getRaceStorage().getIds().first()
         createElement(state, CharacterTemplate(id, race = race))
     }
+
     is ColorSchemeId -> createElement(state, ColorScheme(id))
     is CultureId -> createElement(state, Culture(id))
     is CurrencyId -> createElement(state, Currency(id))
