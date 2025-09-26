@@ -80,6 +80,16 @@ class StatblockTest {
         }
 
         @Test
+        fun `Resolve skill that is a division`() {
+            val base = DivisionOfValues(
+                    BasedOnStatistic(STATISTIC_ID_0),
+                    FixedNumber(2),
+            )
+
+            assertDerivedStatistic(Skill(base), 9, mapOf(STATISTIC_ID_1 to 4))
+        }
+
+        @Test
         fun `Skills have no default value`() {
             assertDerivedStatistic(Skill(FixedNumber(50)), null)
         }
