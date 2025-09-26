@@ -113,7 +113,6 @@ fun Application.configureStatisticRouting() {
             logger.info { "Update statistic ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            STORE.getState()
             val statistic = parseStatistic(formParameters, update.id)
 
             STORE.dispatch(UpdateStatistic(statistic))
