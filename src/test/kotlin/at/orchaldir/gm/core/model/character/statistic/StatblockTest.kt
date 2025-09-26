@@ -9,7 +9,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 class StatblockTest {
 
@@ -46,7 +45,7 @@ class StatblockTest {
 
         @Test
         fun `Resolve derived attribute`() {
-            val derived = Statistic(STATISTIC_ID_1, data = Attribute(BasedOnStatistic(STATISTIC_ID_0, -1)))
+            val derived = Statistic(STATISTIC_ID_1, data = DerivedAttribute(BasedOnStatistic(STATISTIC_ID_0, -1)))
             val newState = state.updateStorage(Storage(listOf(attribute, derived)))
             val statblock = Statblock(mapOf(STATISTIC_ID_0 to 5, STATISTIC_ID_1 to 4))
 
@@ -55,11 +54,21 @@ class StatblockTest {
 
         @Test
         fun `Resolve default value derived attribute`() {
-            val derived = Statistic(STATISTIC_ID_1, data = Attribute(BasedOnStatistic(STATISTIC_ID_0, -1)))
+            val derived = Statistic(STATISTIC_ID_1, data = DerivedAttribute(BasedOnStatistic(STATISTIC_ID_0, -1)))
             val newState = state.updateStorage(Storage(listOf(attribute, derived)))
             val statblock = Statblock()
 
             assertEquals(9, statblock.resolve(newState, STATISTIC_ID_1))
+        }
+
+        @Test
+        fun `Resolve skill that is a sum`() {
+            val skill = Statistic(STATISTIC_ID_1, data = Skill(SumOfValues(listOf(BasedOnStatistic(STATISTIC_ID_0),
+                FixedNumber(20)))))
+            val newState = state.updateStorage(Storage(listOf(attribute, skill)))
+            val statblock = Statblock(mapOf(STATISTIC_ID_0 to 2, STATISTIC_ID_1 to 4))
+
+            assertEquals(36, statblock.resolve(newState, STATISTIC_ID_1))
         }
 
     }
