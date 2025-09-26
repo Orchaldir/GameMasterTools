@@ -83,11 +83,19 @@ class StatblockTest {
 
         @Test
         fun `Skills have no default value`() {
-            val skill = Statistic(STATISTIC_ID_1, data = Skill(FixedNumber(50)))
-            val newState = state.updateStorage(Storage(listOf(attribute, skill)))
-            val statblock = Statblock()
+            assertDerivedStatistic(Skill(FixedNumber(50)), null)
+        }
 
-            assertEquals(null, statblock.resolve(newState, STATISTIC_ID_1))
+        private fun assertDerivedStatistic(
+            data: StatisticData,
+            result: Int?,
+            map: Map<StatisticId, Int> = emptyMap(),
+        ) {
+            val derived = Statistic(STATISTIC_ID_1, data = data)
+            val newState = state.updateStorage(Storage(listOf(attribute, derived)))
+            val statblock = Statblock(map)
+
+            assertEquals(result, statblock.resolve(newState, STATISTIC_ID_1))
         }
 
     }
