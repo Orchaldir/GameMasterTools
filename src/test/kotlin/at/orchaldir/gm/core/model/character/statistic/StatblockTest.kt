@@ -48,9 +48,18 @@ class StatblockTest {
         fun `Resolve derived attribute`() {
             val derived = Statistic(STATISTIC_ID_1, data = Attribute(BasedOnStatistic(STATISTIC_ID_0, -1)))
             val newState = state.updateStorage(Storage(listOf(attribute, derived)))
-            val statblock = Statblock(mapOf(STATISTIC_ID_1 to 4))
+            val statblock = Statblock(mapOf(STATISTIC_ID_0 to 5, STATISTIC_ID_1 to 4))
 
-            assertEquals(13, statblock.resolve(newState, STATISTIC_ID_1))
+            assertEquals(18, statblock.resolve(newState, STATISTIC_ID_1))
+        }
+
+        @Test
+        fun `Resolve default value derived attribute`() {
+            val derived = Statistic(STATISTIC_ID_1, data = Attribute(BasedOnStatistic(STATISTIC_ID_0, -1)))
+            val newState = state.updateStorage(Storage(listOf(attribute, derived)))
+            val statblock = Statblock()
+
+            assertEquals(9, statblock.resolve(newState, STATISTIC_ID_1))
         }
 
     }
