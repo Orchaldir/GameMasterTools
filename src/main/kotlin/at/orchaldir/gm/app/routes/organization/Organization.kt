@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.organization.showOrganization
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
@@ -80,19 +80,9 @@ fun Application.configureOrganizationRouting() {
             }
         }
         get<OrganizationRoutes.New> {
-            logger.info { "Add new organization" }
-
-            STORE.dispatch(CreateOrganization)
-
-            call.respondRedirect(
-                call.application.href(
-                    OrganizationRoutes.Edit(
-                        STORE.getState().getOrganizationStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getOrganizationStorage()) { id ->
+                OrganizationRoutes.Edit(id)
+            }
         }
         get<OrganizationRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteOrganization(delete.id), OrganizationRoutes())

@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.item.periodical
 
-import at.orchaldir.gm.core.action.CreatePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -9,12 +8,6 @@ import at.orchaldir.gm.core.reducer.util.checkOwnership
 import at.orchaldir.gm.core.selector.item.periodical.getValidPublicationFrequencies
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_PERIODICAL: Reducer<CreatePeriodical, State> = { state, _ ->
-    val periodical = Periodical(state.getPeriodicalStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getPeriodicalStorage().add(periodical)))
-}
 
 val UPDATE_PERIODICAL: Reducer<UpdatePeriodical, State> = { state, action ->
     val periodical = action.periodical

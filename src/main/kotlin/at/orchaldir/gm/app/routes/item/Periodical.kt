@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.item.periodical.parsePeriodical
 import at.orchaldir.gm.app.html.item.periodical.showPeriodical
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreatePeriodical
 import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
@@ -79,19 +79,9 @@ fun Application.configurePeriodicalRouting() {
             }
         }
         get<PeriodicalRoutes.New> {
-            logger.info { "Add new periodical" }
-
-            STORE.dispatch(CreatePeriodical)
-
-            call.respondRedirect(
-                call.application.href(
-                    PeriodicalRoutes.Edit(
-                        STORE.getState().getPeriodicalStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getPeriodicalStorage()) { id ->
+                PeriodicalRoutes.Edit(id)
+            }
         }
         get<PeriodicalRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeletePeriodical(delete.id), PeriodicalRoutes())

@@ -8,11 +8,11 @@ import at.orchaldir.gm.app.html.world.editTownMap
 import at.orchaldir.gm.app.html.world.parseTownMap
 import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.app.html.world.showTownMap
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
-import at.orchaldir.gm.core.action.CreateTownMap
 import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
@@ -61,14 +61,9 @@ fun Application.configureTownMapRouting() {
             }
         }
         get<TownMapRoutes.New> {
-            logger.info { "Add new town map" }
-
-            STORE.dispatch(CreateTownMap)
-
-            val id = STORE.getState().getTownMapStorage().lastId
-            call.respondRedirect(call.application.href(TownMapRoutes.Details(id)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getTownMapStorage()) { id ->
+                TownMapRoutes.Edit(id)
+            }
         }
         get<TownMapRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteTownMap(delete.id), TownMapRoutes())

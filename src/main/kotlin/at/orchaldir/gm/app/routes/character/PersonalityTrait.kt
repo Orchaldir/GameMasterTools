@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.routes.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.parsePersonalityTrait
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
 import at.orchaldir.gm.core.model.State
@@ -67,14 +67,9 @@ fun Application.configurePersonalityRouting() {
             }
         }
         get<PersonalityTraitRoutes.New> {
-            logger.info { "Add new personalityTrait" }
-
-            STORE.dispatch(CreatePersonalityTrait)
-
-            val state = STORE.getState()
-            call.respondRedirect(call.application.href(PersonalityTraitRoutes.Edit(state.getPersonalityTraitStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getPersonalityTraitStorage()) { id ->
+                PersonalityTraitRoutes.Edit(id)
+            }
         }
         get<PersonalityTraitRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeletePersonalityTrait(delete.id), PersonalityTraitRoutes())

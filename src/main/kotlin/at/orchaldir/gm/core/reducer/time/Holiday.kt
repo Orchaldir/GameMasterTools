@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.time
 
-import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -11,12 +10,6 @@ import at.orchaldir.gm.core.model.time.holiday.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_HOLIDAY: Reducer<CreateHoliday, State> = { state, _ ->
-    val holiday = Holiday(state.getHolidayStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getHolidayStorage().add(holiday)))
-}
 
 val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->
     val holiday = action.holiday

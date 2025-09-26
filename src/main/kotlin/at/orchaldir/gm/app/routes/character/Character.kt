@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.generator.DateGenerator
@@ -67,19 +67,9 @@ fun Application.configureCharacterRouting() {
             }
         }
         get<CharacterRoutes.New> {
-            logger.info { "Add new character" }
-
-            STORE.dispatch(CreateCharacter)
-
-            call.respondRedirect(
-                call.application.href(
-                    CharacterRoutes.Edit(
-                        STORE.getState().getCharacterStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getCharacterStorage()) { id ->
+                CharacterRoutes.Edit(id)
+            }
         }
         get<CharacterRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteCharacter(delete.id), CharacterRoutes())

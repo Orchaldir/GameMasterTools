@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCloneElement
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
@@ -69,13 +69,9 @@ fun Application.configureRaceRouting() {
             }
         }
         get<RaceRoutes.New> {
-            logger.info { "Add new race" }
-
-            STORE.dispatch(CreateRace)
-
-            call.respondRedirect(call.application.href(RaceRoutes.Edit(STORE.getState().getRaceStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getRaceStorage()) { id ->
+                RaceRoutes.Edit(id)
+            }
         }
         get<RaceRoutes.Clone> { clone ->
             handleCloneElement(clone.id) { cloneId ->

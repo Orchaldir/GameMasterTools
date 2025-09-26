@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.time.displayHolidayPurpose
 import at.orchaldir.gm.app.html.time.editHoliday
 import at.orchaldir.gm.app.html.time.parseHoliday
 import at.orchaldir.gm.app.html.time.showHoliday
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
@@ -71,13 +71,9 @@ fun Application.configureHolidayRouting() {
             }
         }
         get<HolidayRoutes.New> {
-            logger.info { "Add new holiday" }
-
-            STORE.dispatch(CreateHoliday)
-
-            call.respondRedirect(call.application.href(HolidayRoutes.Edit(STORE.getState().getHolidayStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getHolidayStorage()) { id ->
+                HolidayRoutes.Edit(id)
+            }
         }
         get<HolidayRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteHoliday(delete.id), HolidayRoutes())

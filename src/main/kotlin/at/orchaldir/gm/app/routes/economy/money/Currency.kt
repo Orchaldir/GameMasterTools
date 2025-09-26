@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.economy.money.editCurrency
 import at.orchaldir.gm.app.html.economy.money.parseCurrency
 import at.orchaldir.gm.app.html.economy.money.showCurrency
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateCurrency
 import at.orchaldir.gm.core.action.DeleteCurrency
 import at.orchaldir.gm.core.action.UpdateCurrency
 import at.orchaldir.gm.core.model.State
@@ -78,19 +78,9 @@ fun Application.configureCurrencyRouting() {
             }
         }
         get<CurrencyRoutes.New> {
-            logger.info { "Add new currency" }
-
-            STORE.dispatch(CreateCurrency)
-
-            call.respondRedirect(
-                call.application.href(
-                    CurrencyRoutes.Edit(
-                        STORE.getState().getCurrencyStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getCurrencyStorage()) { id ->
+                CurrencyRoutes.Edit(id)
+            }
         }
         get<CurrencyRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteCurrency(delete.id), CurrencyRoutes())

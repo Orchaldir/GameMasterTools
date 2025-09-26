@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.util.font.editFont
 import at.orchaldir.gm.app.html.util.font.parseFont
 import at.orchaldir.gm.app.html.util.font.showFont
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
@@ -95,19 +95,9 @@ fun Application.configureFontRouting() {
             }
         }
         get<FontRoutes.New> {
-            logger.info { "Add new font" }
-
-            STORE.dispatch(CreateFont)
-
-            call.respondRedirect(
-                call.application.href(
-                    FontRoutes.Edit(
-                        STORE.getState().getFontStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getFontStorage()) { id ->
+                FontRoutes.Edit(id)
+            }
         }
         get<FontRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteFont(delete.id), FontRoutes())

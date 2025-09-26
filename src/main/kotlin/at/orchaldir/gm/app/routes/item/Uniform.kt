@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.editUniform
 import at.orchaldir.gm.app.html.item.parseUniform
 import at.orchaldir.gm.app.html.item.showUniform
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateUniform
 import at.orchaldir.gm.core.action.DeleteUniform
 import at.orchaldir.gm.core.action.UpdateUniform
 import at.orchaldir.gm.core.model.State
@@ -97,13 +97,9 @@ fun Application.configureUniformRouting() {
             }
         }
         get<UniformRoutes.New> {
-            logger.info { "Add new uniform" }
-
-            STORE.dispatch(CreateUniform)
-
-            call.respondRedirect(call.application.href(UniformRoutes.Edit(STORE.getState().getUniformStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getUniformStorage()) { id ->
+                UniformRoutes.Edit(id)
+            }
         }
         get<UniformRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteUniform(delete.id), UniformRoutes())

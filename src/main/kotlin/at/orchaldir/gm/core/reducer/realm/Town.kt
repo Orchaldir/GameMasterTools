@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.realm
 
-import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
@@ -10,12 +9,6 @@ import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
-    val town = Town(state.getTownStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getTownStorage().add(town)))
-}
 
 val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
     val town = action.town

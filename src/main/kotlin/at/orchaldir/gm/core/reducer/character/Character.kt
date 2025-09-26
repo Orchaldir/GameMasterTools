@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
@@ -11,16 +10,9 @@ import at.orchaldir.gm.core.model.character.statistic.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.reducer.util.*
-import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
-    val character = Character(state.getCharacterStorage().nextId, birthDate = state.getCurrentDate())
-    val characters = state.getCharacterStorage().add(character)
-    noFollowUps(state.updateStorage(characters))
-}
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     val character = action.character

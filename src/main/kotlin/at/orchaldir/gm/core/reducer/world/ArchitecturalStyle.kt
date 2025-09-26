@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.world
 
-import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -13,12 +12,6 @@ import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_ARCHITECTURAL_STYLE: Reducer<CreateArchitecturalStyle, State> = { state, _ ->
-    val style = ArchitecturalStyle(state.getArchitecturalStyleStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().add(style)))
-}
 
 val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { state, action ->
     val style = action.style

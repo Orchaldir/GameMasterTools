@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.realm
 
-import at.orchaldir.gm.core.action.CreateWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
@@ -11,12 +10,6 @@ import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_WAR: Reducer<CreateWar, State> = { state, _ ->
-    val war = War(state.getWarStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getWarStorage().add(war)))
-}
 
 val UPDATE_WAR: Reducer<UpdateWar, State> = { state, action ->
     val war = action.war

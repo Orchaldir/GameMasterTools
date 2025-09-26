@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
@@ -108,19 +108,9 @@ fun Application.configureEquipmentRouting() {
             }
         }
         get<EquipmentRoutes.New> {
-            logger.info { "Add new equipment" }
-
-            STORE.dispatch(CreateEquipment)
-
-            call.respondRedirect(
-                call.application.href(
-                    EquipmentRoutes.Edit(
-                        STORE.getState().getEquipmentStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getEquipmentStorage()) { id ->
+                EquipmentRoutes.Edit(id)
+            }
         }
         get<EquipmentRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteEquipment(delete.id), EquipmentRoutes())

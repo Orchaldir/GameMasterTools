@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.item
 
-import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
@@ -26,12 +25,6 @@ import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.text.content.buildPages
 import at.orchaldir.gm.visualization.text.resolveTextData
-
-val CREATE_TEXT: Reducer<CreateText, State> = { state, _ ->
-    val text = Text(state.getTextStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getTextStorage().add(text)))
-}
 
 val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
     val text = updatePageCount(state, TEXT_CONFIG, action.text)

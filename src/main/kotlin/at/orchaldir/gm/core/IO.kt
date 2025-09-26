@@ -36,7 +36,7 @@ inline fun <reified T> save(
     name: String,
     data: T,
 ) {
-    logger.info { "save(): $name" }
+    logger.debug { "save(): $name" }
 
     File("$path/$name.json").writeText(prettyJson.encodeToString(data))
 }

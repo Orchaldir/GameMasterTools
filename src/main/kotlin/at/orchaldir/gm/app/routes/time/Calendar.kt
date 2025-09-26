@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.time.editCalendar
 import at.orchaldir.gm.app.html.time.parseCalendar
 import at.orchaldir.gm.app.html.time.showCalendar
 import at.orchaldir.gm.app.html.util.showDate
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateCalendar
 import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
@@ -73,19 +73,9 @@ fun Application.configureCalendarRouting() {
             }
         }
         get<CalendarRoutes.New> {
-            logger.info { "Add new calendar" }
-
-            STORE.dispatch(CreateCalendar)
-
-            call.respondRedirect(
-                call.application.href(
-                    CalendarRoutes.Edit(
-                        STORE.getState().getCalendarStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getCalendarStorage()) { id ->
+                CalendarRoutes.Edit(id)
+            }
         }
         get<CalendarRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteCalendar(delete.id), CalendarRoutes())

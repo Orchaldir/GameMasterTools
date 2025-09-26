@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editSpellGroup
 import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.magic.showSpellGroup
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateSpellGroup
 import at.orchaldir.gm.core.action.DeleteSpellGroup
 import at.orchaldir.gm.core.action.UpdateSpellGroup
 import at.orchaldir.gm.core.model.State
@@ -79,19 +79,9 @@ fun Application.configureSpellGroupRouting() {
             }
         }
         get<SpellGroupRoutes.New> {
-            logger.info { "Add new group" }
-
-            STORE.dispatch(CreateSpellGroup)
-
-            call.respondRedirect(
-                call.application.href(
-                    SpellGroupRoutes.Edit(
-                        STORE.getState().getSpellGroupStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getSpellGroupStorage()) { id ->
+                SpellGroupRoutes.Edit(id)
+            }
         }
         get<SpellGroupRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteSpellGroup(delete.id), SpellGroupRoutes())

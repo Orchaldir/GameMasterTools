@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.source.editDataSource
 import at.orchaldir.gm.app.html.util.source.parseDataSource
 import at.orchaldir.gm.app.html.util.source.showDataSource
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateDataSource
 import at.orchaldir.gm.core.action.DeleteDataSource
 import at.orchaldir.gm.core.action.UpdateDataSource
 import at.orchaldir.gm.core.model.State
@@ -76,19 +76,9 @@ fun Application.configureDataSourceRouting() {
             }
         }
         get<DataSourceRoutes.New> {
-            logger.info { "Add new source" }
-
-            STORE.dispatch(CreateDataSource)
-
-            call.respondRedirect(
-                call.application.href(
-                    DataSourceRoutes.Edit(
-                        STORE.getState().getDataSourceStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getDataSourceStorage()) { id ->
+                DataSourceRoutes.Edit(id)
+            }
         }
         get<DataSourceRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteDataSource(delete.id), DataSourceRoutes())

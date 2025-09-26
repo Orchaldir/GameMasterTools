@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.economy.showBusiness
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
@@ -80,19 +80,9 @@ fun Application.configureBusinessRouting() {
             }
         }
         get<BusinessRoutes.New> {
-            logger.info { "Add new business" }
-
-            STORE.dispatch(CreateBusiness)
-
-            call.respondRedirect(
-                call.application.href(
-                    BusinessRoutes.Edit(
-                        STORE.getState().getBusinessStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getBusinessStorage()) { id ->
+                BusinessRoutes.Edit(id)
+            }
         }
         get<BusinessRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteBusiness(delete.id), BusinessRoutes())

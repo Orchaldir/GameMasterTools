@@ -392,6 +392,8 @@ data class State(
     }
 
     fun save() {
+        logger.info { "Save to $path" }
+
         saveStorage(path, getArchitecturalStyleStorage())
         saveStorage(path, getArticleStorage())
         saveStorage(path, getBattleStorage())

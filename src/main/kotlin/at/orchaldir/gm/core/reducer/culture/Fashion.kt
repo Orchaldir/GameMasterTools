@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.culture
 
-import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
@@ -10,12 +9,6 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_FASHION: Reducer<CreateFashion, State> = { state, _ ->
-    val fashion = Fashion(state.getFashionStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getFashionStorage().add(fashion)))
-}
 
 val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     val fashion = action.fashion

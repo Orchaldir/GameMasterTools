@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.selectMaterialCost
 import at.orchaldir.gm.app.html.economy.material.showMaterialCost
 import at.orchaldir.gm.app.parse.world.parseStreetTemplate
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateStreetTemplate
 import at.orchaldir.gm.core.action.DeleteStreetTemplate
 import at.orchaldir.gm.core.action.UpdateStreetTemplate
 import at.orchaldir.gm.core.model.State
@@ -83,19 +83,9 @@ fun Application.configureStreetTemplateRouting() {
             }
         }
         get<StreetTemplateRoutes.New> {
-            logger.info { "Add new street template" }
-
-            STORE.dispatch(CreateStreetTemplate)
-
-            call.respondRedirect(
-                call.application.href(
-                    StreetTemplateRoutes.Edit(
-                        STORE.getState().getStreetTemplateStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getStreetTemplateStorage()) { id ->
+                StreetTemplateRoutes.Edit(id)
+            }
         }
         get<StreetTemplateRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteStreetTemplate(delete.id), StreetTemplateRoutes())

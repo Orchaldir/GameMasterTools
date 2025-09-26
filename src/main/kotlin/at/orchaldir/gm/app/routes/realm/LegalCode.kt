@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.realm.parseLegalCode
 import at.orchaldir.gm.app.html.realm.showLegalCode
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateLegalCode
 import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.action.UpdateLegalCode
 import at.orchaldir.gm.core.model.State
@@ -79,19 +79,9 @@ fun Application.configureLegalCodeRouting() {
             }
         }
         get<LegalCodeRoutes.New> {
-            logger.info { "Add new legal code" }
-
-            STORE.dispatch(CreateLegalCode)
-
-            call.respondRedirect(
-                call.application.href(
-                    LegalCodeRoutes.Edit(
-                        STORE.getState().getLegalCodeStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getLegalCodeStorage()) { id ->
+                LegalCodeRoutes.Edit(id)
+            }
         }
         get<LegalCodeRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteLegalCode(delete.id), LegalCodeRoutes())

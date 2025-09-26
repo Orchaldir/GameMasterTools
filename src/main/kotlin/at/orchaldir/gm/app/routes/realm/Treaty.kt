@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.realm.editTreaty
 import at.orchaldir.gm.app.html.realm.parseTreaty
 import at.orchaldir.gm.app.html.realm.showTreaty
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateTreaty
 import at.orchaldir.gm.core.action.DeleteTreaty
 import at.orchaldir.gm.core.action.UpdateTreaty
 import at.orchaldir.gm.core.model.State
@@ -77,19 +77,9 @@ fun Application.configureTreatyRouting() {
             }
         }
         get<TreatyRoutes.New> {
-            logger.info { "Add new treaty" }
-
-            STORE.dispatch(CreateTreaty)
-
-            call.respondRedirect(
-                call.application.href(
-                    TreatyRoutes.Edit(
-                        STORE.getState().getTreatyStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getTreatyStorage()) { id ->
+                TreatyRoutes.Edit(id)
+            }
         }
         get<TreatyRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteTreaty(delete.id), TreatyRoutes())

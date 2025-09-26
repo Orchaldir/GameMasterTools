@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editFashion
 import at.orchaldir.gm.app.html.culture.parseFashion
 import at.orchaldir.gm.app.html.culture.showFashion
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
-import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
@@ -71,13 +71,9 @@ fun Application.configureFashionRouting() {
             }
         }
         get<FashionRoutes.New> {
-            logger.info { "Add new fashion" }
-
-            STORE.dispatch(CreateFashion)
-
-            call.respondRedirect(call.application.href(FashionRoutes.Edit(STORE.getState().getFashionStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getFashionStorage()) { id ->
+                FashionRoutes.Edit(id)
+            }
         }
         get<FashionRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteFashion(delete.id), DiseaseRoutes())

@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editPantheon
 import at.orchaldir.gm.app.html.religion.parsePantheon
 import at.orchaldir.gm.app.html.religion.showPantheon
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreatePantheon
 import at.orchaldir.gm.core.action.DeletePantheon
 import at.orchaldir.gm.core.action.UpdatePantheon
 import at.orchaldir.gm.core.model.State
@@ -80,19 +80,9 @@ fun Application.configurePantheonRouting() {
             }
         }
         get<PantheonRoutes.New> {
-            logger.info { "Add new pantheon" }
-
-            STORE.dispatch(CreatePantheon)
-
-            call.respondRedirect(
-                call.application.href(
-                    PantheonRoutes.Edit(
-                        STORE.getState().getPantheonStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getPantheonStorage()) { id ->
+                PantheonRoutes.Edit(id)
+            }
         }
         get<PantheonRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeletePantheon(delete.id), PantheonRoutes())

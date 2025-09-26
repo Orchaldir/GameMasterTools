@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.routes.handleCloneElement
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateCharacterTemplate
 import at.orchaldir.gm.core.action.DeleteCharacterTemplate
 import at.orchaldir.gm.core.action.UpdateCharacterTemplate
 import at.orchaldir.gm.core.model.State
@@ -85,19 +85,9 @@ fun Application.configureCharacterTemplateRouting() {
             }
         }
         get<CharacterTemplateRoutes.New> {
-            logger.info { "Add new template" }
-
-            STORE.dispatch(CreateCharacterTemplate)
-
-            call.respondRedirect(
-                call.application.href(
-                    CharacterTemplateRoutes.Edit(
-                        STORE.getState().getCharacterTemplateStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getCharacterTemplateStorage()) { id ->
+                CharacterTemplateRoutes.Edit(id)
+            }
         }
         get<CharacterTemplateRoutes.Clone> { clone ->
             handleCloneElement(clone.id) { cloneId ->

@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.health.showDisease
 import at.orchaldir.gm.app.html.util.showDestroyed
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateDisease
 import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
@@ -80,13 +80,9 @@ fun Application.configureDiseaseRouting() {
             }
         }
         get<DiseaseRoutes.New> {
-            logger.info { "Add new disease" }
-
-            STORE.dispatch(CreateDisease)
-
-            call.respondRedirect(call.application.href(DiseaseRoutes.Edit(STORE.getState().getDiseaseStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getDiseaseStorage()) { id ->
+                DiseaseRoutes.Edit(id)
+            }
         }
         get<DiseaseRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteDisease(delete.id), DiseaseRoutes())

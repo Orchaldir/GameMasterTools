@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.CreateCharacter
+import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
@@ -35,23 +35,11 @@ class CharacterTest {
     inner class CreateTest {
 
         @Test
-        fun `Create another character`() {
-            val character1 = Character(CHARACTER_ID_1, birthDate = Day(0))
-            val state = State(Storage(listOf(character0)))
-
-            val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
-
-            assertEquals(2, characters.getSize())
-            assertEquals(character0, characters.getOrThrow(CHARACTER_ID_0))
-            assertEquals(character1, characters.getOrThrow(CHARACTER_ID_1))
-        }
-
-        @Test
         fun `Default birthday is today`() {
             val today = Day(42)
             val state = State(data = Data(time = Time(currentDate = today)))
 
-            val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
+            val characters = REDUCER.invoke(state, CreateAction(CHARACTER_ID_0)).first.getCharacterStorage()
 
             assertEquals(today, characters.getOrThrow(CHARACTER_ID_0).birthDate)
         }

@@ -86,26 +86,23 @@ sealed class Action
 
 // META
 
+data class CreateAction<ID : Id<ID>>(val id: ID) : Action()
 data class CloneAction<ID : Id<ID>>(val id: ID) : Action()
 data class LoadData(val path: String) : Action()
 
 // calendar
-data object CreateCalendar : Action()
 data class DeleteCalendar(val id: CalendarId) : Action()
 data class UpdateCalendar(val calendar: Calendar) : Action()
 
 // color scheme
-data object CreateColorScheme : Action()
 data class DeleteColorScheme(val id: ColorSchemeId) : Action()
 data class UpdateColorScheme(val scheme: ColorScheme) : Action()
 
 // culture
-data object CreateCulture : Action()
 data class DeleteCulture(val id: CultureId) : Action()
 data class UpdateCulture(val culture: Culture) : Action()
 
 // title
-data object CreateTitle : Action()
 data class DeleteTitle(val id: TitleId) : Action()
 data class UpdateTitle(val title: Title) : Action()
 
@@ -113,62 +110,50 @@ data class UpdateTitle(val title: Title) : Action()
 data class UpdateData(val data: Data) : Action()
 
 // data source
-data object CreateDataSource : Action()
 data class DeleteDataSource(val id: DataSourceId) : Action()
 data class UpdateDataSource(val source: DataSource) : Action()
 
 // disease
-data object CreateDisease : Action()
 data class DeleteDisease(val id: DiseaseId) : Action()
 data class UpdateDisease(val disease: Disease) : Action()
 
 // fashion
-data object CreateFashion : Action()
 data class DeleteFashion(val id: FashionId) : Action()
 data class UpdateFashion(val fashion: Fashion) : Action()
 
 // font
-data object CreateFont : Action()
 data class DeleteFont(val id: FontId) : Action()
 data class UpdateFont(val font: Font) : Action()
 
 // holiday
-data object CreateHoliday : Action()
 data class DeleteHoliday(val id: HolidayId) : Action()
 data class UpdateHoliday(val holiday: Holiday) : Action()
 
 // language
-data object CreateLanguage : Action()
 data class DeleteLanguage(val id: LanguageId) : Action()
 data class UpdateLanguage(val language: Language) : Action()
 
 // material
-data object CreateMaterial : Action()
 data class DeleteMaterial(val id: MaterialId) : Action()
 data class UpdateMaterial(val material: Material) : Action()
 
 // name list
-data object CreateNameList : Action()
 data class DeleteNameList(val id: NameListId) : Action()
 data class UpdateNameList(val nameList: NameList) : Action()
 
 // personality
-data object CreatePersonalityTrait : Action()
 data class DeletePersonalityTrait(val id: PersonalityTraitId) : Action()
 data class UpdatePersonalityTrait(val trait: PersonalityTrait) : Action()
 
 // quote
-data object CreateQuote : Action()
 data class DeleteQuote(val id: QuoteId) : Action()
 data class UpdateQuote(val quote: Quote) : Action()
 
 // race
-data object CreateRace : Action()
 data class DeleteRace(val id: RaceId) : Action()
 data class UpdateRace(val race: Race) : Action()
 
 // race appearance
-data object CreateRaceAppearance : Action()
 data class DeleteRaceAppearance(val id: RaceAppearanceId) : Action()
 data class UpdateRaceAppearance(val appearance: RaceAppearance) : Action()
 
@@ -177,7 +162,6 @@ data class UpdateRaceAppearance(val appearance: RaceAppearance) : Action()
 sealed class CharacterAction : Action()
 
 // character
-data object CreateCharacter : CharacterAction()
 data class DeleteCharacter(val id: CharacterId) : CharacterAction()
 data class UpdateCharacter(val character: Character) : CharacterAction()
 data class UpdateAppearance(
@@ -196,12 +180,10 @@ data class UpdateRelationships(
 ) : CharacterAction()
 
 // character template
-data object CreateCharacterTemplate : CharacterAction()
 data class DeleteCharacterTemplate(val id: CharacterTemplateId) : CharacterAction()
 data class UpdateCharacterTemplate(val template: CharacterTemplate) : CharacterAction()
 
 // statistic
-data object CreateStatistic : CharacterAction()
 data class DeleteStatistic(val id: StatisticId) : CharacterAction()
 data class UpdateStatistic(val statistic: Statistic) : CharacterAction()
 
@@ -210,32 +192,26 @@ data class UpdateStatistic(val statistic: Statistic) : CharacterAction()
 sealed class ItemAction : Action()
 
 // article
-data object CreateArticle : ItemAction()
 data class DeleteArticle(val id: ArticleId) : ItemAction()
 data class UpdateArticle(val article: Article) : ItemAction()
 
 // equipment
-data object CreateEquipment : ItemAction()
 data class DeleteEquipment(val id: EquipmentId) : ItemAction()
 data class UpdateEquipment(val equipment: Equipment) : ItemAction()
 
 // periodical
-data object CreatePeriodical : ItemAction()
 data class DeletePeriodical(val id: PeriodicalId) : ItemAction()
 data class UpdatePeriodical(val periodical: Periodical) : ItemAction()
 
 // periodical issue
-data object CreatePeriodicalIssue : ItemAction()
 data class DeletePeriodicalIssue(val id: PeriodicalIssueId) : ItemAction()
 data class UpdatePeriodicalIssue(val issue: PeriodicalIssue) : ItemAction()
 
 // text
-data object CreateText : ItemAction()
 data class DeleteText(val id: TextId) : ItemAction()
 data class UpdateText(val text: Text) : ItemAction()
 
 // uniform
-data object CreateUniform : ItemAction()
 data class DeleteUniform(val id: UniformId) : ItemAction()
 data class UpdateUniform(val uniform: Uniform) : ItemAction()
 
@@ -244,22 +220,18 @@ data class UpdateUniform(val uniform: Uniform) : ItemAction()
 sealed class EconomyAction : Action()
 
 // business
-data object CreateBusiness : EconomyAction()
 data class DeleteBusiness(val id: BusinessId) : EconomyAction()
 data class UpdateBusiness(val business: Business) : EconomyAction()
 
 // currency
-data object CreateCurrency : EconomyAction()
 data class DeleteCurrency(val id: CurrencyId) : EconomyAction()
 data class UpdateCurrency(val currency: Currency) : EconomyAction()
 
 // currency unit
-data object CreateCurrencyUnit : EconomyAction()
 data class DeleteCurrencyUnit(val id: CurrencyUnitId) : EconomyAction()
 data class UpdateCurrencyUnit(val unit: CurrencyUnit) : EconomyAction()
 
 // job
-data object CreateJob : EconomyAction()
 data class DeleteJob(val id: JobId) : EconomyAction()
 data class UpdateJob(val job: Job) : EconomyAction()
 
@@ -268,17 +240,14 @@ data class UpdateJob(val job: Job) : EconomyAction()
 sealed class MagicAction : Action()
 
 // magic tradition
-data object CreateMagicTradition : MagicAction()
 data class DeleteMagicTradition(val id: MagicTraditionId) : MagicAction()
 data class UpdateMagicTradition(val tradition: MagicTradition) : MagicAction()
 
 // spell
-data object CreateSpell : MagicAction()
 data class DeleteSpell(val id: SpellId) : MagicAction()
 data class UpdateSpell(val spell: Spell) : MagicAction()
 
 // spell group
-data object CreateSpellGroup : MagicAction()
 data class DeleteSpellGroup(val id: SpellGroupId) : MagicAction()
 data class UpdateSpellGroup(val group: SpellGroup) : MagicAction()
 
@@ -287,7 +256,6 @@ data class UpdateSpellGroup(val group: SpellGroup) : MagicAction()
 sealed class OrganizationAction : Action()
 
 // organization
-data object CreateOrganization : OrganizationAction()
 data class DeleteOrganization(val id: OrganizationId) : OrganizationAction()
 data class UpdateOrganization(val organization: Organization) : OrganizationAction()
 
@@ -296,42 +264,34 @@ data class UpdateOrganization(val organization: Organization) : OrganizationActi
 sealed class RealmAction : Action()
 
 // battle
-data object CreateBattle : RealmAction()
 data class DeleteBattle(val id: BattleId) : RealmAction()
 data class UpdateBattle(val battle: Battle) : RealmAction()
 
 // catastrophe
-data object CreateCatastrophe : RealmAction()
 data class DeleteCatastrophe(val id: CatastropheId) : RealmAction()
 data class UpdateCatastrophe(val catastrophe: Catastrophe) : RealmAction()
 
 // district
-data object CreateDistrict : RealmAction()
 data class DeleteDistrict(val id: DistrictId) : RealmAction()
 data class UpdateDistrict(val district: District) : RealmAction()
 
 // legal code
-data object CreateLegalCode : RealmAction()
 data class DeleteLegalCode(val id: LegalCodeId) : RealmAction()
 data class UpdateLegalCode(val code: LegalCode) : RealmAction()
 
 // realm
-data object CreateRealm : RealmAction()
 data class DeleteRealm(val id: RealmId) : RealmAction()
 data class UpdateRealm(val realm: Realm) : RealmAction()
 
 // town
-data object CreateTown : RealmAction()
 data class DeleteTown(val id: TownId) : RealmAction()
 data class UpdateTown(val town: Town) : RealmAction()
 
 // treaty
-data object CreateTreaty : RealmAction()
 data class DeleteTreaty(val id: TreatyId) : RealmAction()
 data class UpdateTreaty(val treaty: Treaty) : RealmAction()
 
 // war
-data object CreateWar : RealmAction()
 data class DeleteWar(val id: WarId) : RealmAction()
 data class UpdateWar(val war: War) : RealmAction()
 
@@ -340,17 +300,14 @@ data class UpdateWar(val war: War) : RealmAction()
 sealed class ReligionAction : Action()
 
 // domain
-data object CreateDomain : ReligionAction()
 data class DeleteDomain(val id: DomainId) : ReligionAction()
 data class UpdateDomain(val domain: Domain) : ReligionAction()
 
 // god
-data object CreateGod : ReligionAction()
 data class DeleteGod(val id: GodId) : ReligionAction()
 data class UpdateGod(val god: God) : ReligionAction()
 
 // pantheon
-data object CreatePantheon : ReligionAction()
 data class DeletePantheon(val id: PantheonId) : ReligionAction()
 data class UpdatePantheon(val pantheon: Pantheon) : ReligionAction()
 
@@ -359,42 +316,34 @@ data class UpdatePantheon(val pantheon: Pantheon) : ReligionAction()
 sealed class WorldAction : Action()
 
 // architectural style
-data object CreateArchitecturalStyle : WorldAction()
 data class DeleteArchitecturalStyle(val id: ArchitecturalStyleId) : WorldAction()
 data class UpdateArchitecturalStyle(val style: ArchitecturalStyle) : WorldAction()
 
 // moon
-data object CreateMoon : WorldAction()
 data class DeleteMoon(val id: MoonId) : WorldAction()
 data class UpdateMoon(val moon: Moon) : WorldAction()
 
 // plane
-data object CreatePlane : WorldAction()
 data class DeletePlane(val id: PlaneId) : WorldAction()
 data class UpdatePlane(val plane: Plane) : WorldAction()
 
 // region
-data object CreateRegion : WorldAction()
 data class DeleteRegion(val id: RegionId) : WorldAction()
 data class UpdateRegion(val region: Region) : WorldAction()
 
 // river
-data object CreateRiver : WorldAction()
 data class DeleteRiver(val id: RiverId) : WorldAction()
 data class UpdateRiver(val river: River) : WorldAction()
 
 // street
-data object CreateStreet : WorldAction()
 data class DeleteStreet(val id: StreetId) : WorldAction()
 data class UpdateStreet(val street: Street) : WorldAction()
 
 // street template
-data object CreateStreetTemplate : WorldAction()
 data class DeleteStreetTemplate(val id: StreetTemplateId) : WorldAction()
 data class UpdateStreetTemplate(val template: StreetTemplate) : WorldAction()
 
 // town
-data object CreateTownMap : WorldAction()
 data class DeleteTownMap(val id: TownMapId) : WorldAction()
 data class UpdateTownMap(val townMap: TownMap) : WorldAction()
 
@@ -470,6 +419,5 @@ data class SetTerrainTile(
 ) : WorldAction()
 
 // world
-data object CreateWorld : WorldAction()
 data class DeleteWorld(val id: WorldId) : WorldAction()
 data class UpdateWorld(val world: World) : WorldAction()

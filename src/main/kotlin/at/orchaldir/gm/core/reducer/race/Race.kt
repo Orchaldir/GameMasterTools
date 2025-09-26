@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.race
 
-import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
@@ -14,12 +13,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-
-val CREATE_RACE: Reducer<CreateRace, State> = { state, _ ->
-    val character = Race(state.getRaceStorage().nextId)
-
-    noFollowUps(state.updateStorage(state.getRaceStorage().add(character)))
-}
 
 val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
     val race = action.race

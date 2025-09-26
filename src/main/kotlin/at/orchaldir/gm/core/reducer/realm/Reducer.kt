@@ -9,35 +9,27 @@ import at.orchaldir.gm.utils.redux.Reducer
 val REALM_REDUCER: Reducer<RealmAction, State> = { state, action ->
     when (action) {
         // battle
-        is CreateBattle -> CREATE_BATTLE(state, action)
         is DeleteBattle -> deleteElement(state, action.id, State::canDeleteBattle)
         is UpdateBattle -> UPDATE_BATTLE(state, action)
         // catastrophe
-        is CreateCatastrophe -> CREATE_CATASTROPHE(state, action)
         is DeleteCatastrophe -> deleteElement(state, action.id, State::canDeleteCatastrophe)
         is UpdateCatastrophe -> UPDATE_CATASTROPHE(state, action)
         // district
-        is CreateDistrict -> CREATE_DISTRICT(state, action)
         is DeleteDistrict -> deleteElement(state, action.id, State::canDeleteDistrict)
         is UpdateDistrict -> UPDATE_DISTRICT(state, action)
         // legal code
-        is CreateLegalCode -> CREATE_LEGAL_CODE(state, action)
         is DeleteLegalCode -> deleteElement(state, action.id, State::canDeleteLegalCode)
         is UpdateLegalCode -> UPDATE_LEGAL_CODE(state, action)
         // realm
-        is CreateRealm -> CREATE_REALM(state, action)
         is DeleteRealm -> deleteElement(state, action.id, State::canDeleteRealm)
         is UpdateRealm -> UPDATE_REALM(state, action)
         // town
-        is CreateTown -> CREATE_TOWN(state, action)
         is DeleteTown -> deleteElement(state, action.id, State::canDeleteTown)
         is UpdateTown -> UPDATE_TOWN(state, action)
         // treaty
-        is CreateTreaty -> CREATE_TREATY(state, action)
         is DeleteTreaty -> deleteElement(state, action.id, State::canDeleteTreaty)
         is UpdateTreaty -> UPDATE_TREATY(state, action)
         // war
-        is CreateWar -> CREATE_WAR(state, action)
         is DeleteWar -> deleteElement(state, action.id, State::canDeleteWar)
         is UpdateWar -> UPDATE_WAR(state, action)
     }

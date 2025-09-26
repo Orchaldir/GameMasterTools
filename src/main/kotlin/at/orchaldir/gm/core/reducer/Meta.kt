@@ -16,6 +16,15 @@ val LOAD_DATA: Reducer<LoadData, State> = { _, action ->
     noFollowUps(newState)
 }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> createElement(
+    state: State,
+    element: ELEMENT,
+): Pair<State, List<Action>> {
+    val storage = state.getStorage<ID, ELEMENT>(element.id())
+
+    return noFollowUps(state.updateStorage(storage.add(element)))
+}
+
 fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> cloneElement(
     state: State,
     id: ID,
