@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.selectOptionalYear
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
@@ -85,19 +85,9 @@ fun Application.configureArchitecturalStyleRouting() {
             }
         }
         get<ArchitecturalStyleRoutes.New> {
-            logger.info { "Add new architectural style" }
-
-            STORE.dispatch(CreateArchitecturalStyle)
-
-            call.respondRedirect(
-                call.application.href(
-                    ArchitecturalStyleRoutes.Edit(
-                        STORE.getState().getArchitecturalStyleStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getArchitecturalStyleStorage()) { id ->
+                ArchitecturalStyleRoutes.Edit(id)
+            }
         }
         get<ArchitecturalStyleRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteArchitecturalStyle(delete.id), ArchitecturalStyleRoutes())

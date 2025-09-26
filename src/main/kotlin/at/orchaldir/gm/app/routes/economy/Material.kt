@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
@@ -85,19 +85,9 @@ fun Application.configureMaterialRouting() {
             }
         }
         get<MaterialRoutes.New> {
-            logger.info { "Add new material" }
-
-            STORE.dispatch(CreateMaterial)
-
-            call.respondRedirect(
-                call.application.href(
-                    MaterialRoutes.Edit(
-                        STORE.getState().getMaterialStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getMaterialStorage()) { id ->
+                MaterialRoutes.Edit(id)
+            }
         }
         get<MaterialRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteMaterial(delete.id), MaterialRoutes())

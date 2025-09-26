@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.util.quote.parseQuote
 import at.orchaldir.gm.app.html.util.quote.showQuote
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateQuote
 import at.orchaldir.gm.core.action.DeleteQuote
 import at.orchaldir.gm.core.action.UpdateQuote
 import at.orchaldir.gm.core.model.State
@@ -78,19 +78,9 @@ fun Application.configureQuoteRouting() {
             }
         }
         get<QuoteRoutes.New> {
-            logger.info { "Add new quote" }
-
-            STORE.dispatch(CreateQuote)
-
-            call.respondRedirect(
-                call.application.href(
-                    QuoteRoutes.Edit(
-                        STORE.getState().getQuoteStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getQuoteStorage()) { id ->
+                QuoteRoutes.Edit(id)
+            }
         }
         get<QuoteRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteQuote(delete.id), QuoteRoutes())

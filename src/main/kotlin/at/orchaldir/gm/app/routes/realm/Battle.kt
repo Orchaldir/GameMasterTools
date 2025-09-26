@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.realm.showBattle
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateBattle
 import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateBattle
 import at.orchaldir.gm.core.model.State
@@ -79,19 +79,9 @@ fun Application.configureBattleRouting() {
             }
         }
         get<BattleRoutes.New> {
-            logger.info { "Add new battle" }
-
-            STORE.dispatch(CreateBattle)
-
-            call.respondRedirect(
-                call.application.href(
-                    BattleRoutes.Edit(
-                        STORE.getState().getBattleStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getBattleStorage()) { id ->
+                BattleRoutes.Edit(id)
+            }
         }
         get<BattleRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteBattle(delete.id), BattleRoutes())

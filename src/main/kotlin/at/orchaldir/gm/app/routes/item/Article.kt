@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.item.periodical.editArticle
 import at.orchaldir.gm.app.html.item.periodical.parseArticle
 import at.orchaldir.gm.app.html.item.periodical.showArticle
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateArticle
 import at.orchaldir.gm.core.action.DeleteArticle
 import at.orchaldir.gm.core.action.UpdateArticle
 import at.orchaldir.gm.core.model.State
@@ -77,19 +77,9 @@ fun Application.configureArticleRouting() {
             }
         }
         get<ArticleRoutes.New> {
-            logger.info { "Add new periodical" }
-
-            STORE.dispatch(CreateArticle)
-
-            call.respondRedirect(
-                call.application.href(
-                    ArticleRoutes.Edit(
-                        STORE.getState().getArticleStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getArticleStorage()) { id ->
+                ArticleRoutes.Edit(id)
+            }
         }
         get<ArticleRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteArticle(delete.id), ArticleRoutes())

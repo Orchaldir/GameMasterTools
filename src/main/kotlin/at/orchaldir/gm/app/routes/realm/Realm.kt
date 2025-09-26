@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.realm.showRealm
 import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateRealm
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
@@ -80,19 +80,9 @@ fun Application.configureRealmRouting() {
             }
         }
         get<RealmRoutes.New> {
-            logger.info { "Add new realm" }
-
-            STORE.dispatch(CreateRealm)
-
-            call.respondRedirect(
-                call.application.href(
-                    RealmRoutes.Edit(
-                        STORE.getState().getRealmStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getRealmStorage()) { id ->
+                RealmRoutes.Edit(id)
+            }
         }
         get<RealmRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteRealm(delete.id), RealmRoutes())

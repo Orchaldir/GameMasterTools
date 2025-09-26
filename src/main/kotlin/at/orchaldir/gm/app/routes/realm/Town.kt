@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.realm.showTown
 import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
@@ -86,13 +86,9 @@ fun Application.configureTownRouting() {
             }
         }
         get<TownRoutes.New> {
-            logger.info { "Add new town" }
-
-            STORE.dispatch(CreateTown)
-
-            call.respondRedirect(call.application.href(TownRoutes.Edit(STORE.getState().getTownStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getTownStorage()) { id ->
+                TownRoutes.Edit(id)
+            }
         }
         get<TownRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteTown(delete.id), TownRoutes())

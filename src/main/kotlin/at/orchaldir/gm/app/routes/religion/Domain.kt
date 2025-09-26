@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editDomain
 import at.orchaldir.gm.app.html.religion.parseDomain
 import at.orchaldir.gm.app.html.religion.showDomain
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateDomain
 import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.UpdateDomain
 import at.orchaldir.gm.core.model.State
@@ -80,13 +80,9 @@ fun Application.configureDomainRouting() {
             }
         }
         get<DomainRoutes.New> {
-            logger.info { "Add new domain" }
-
-            STORE.dispatch(CreateDomain)
-
-            call.respondRedirect(call.application.href(DomainRoutes.Edit(STORE.getState().getDomainStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getDomainStorage()) { id ->
+                DomainRoutes.Edit(id)
+            }
         }
         get<DomainRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteDomain(delete.id), DomainRoutes())

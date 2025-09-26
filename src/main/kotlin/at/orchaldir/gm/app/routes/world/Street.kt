@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseStreet
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateStreet
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
@@ -66,13 +66,9 @@ fun Application.configureStreetRouting() {
             }
         }
         get<StreetRoutes.New> {
-            logger.info { "Add new street" }
-
-            STORE.dispatch(CreateStreet)
-
-            call.respondRedirect(call.application.href(StreetRoutes.Edit(STORE.getState().getStreetStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getStreetStorage()) { id ->
+                StreetRoutes.Edit(id)
+            }
         }
         get<StreetRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteStreet(delete.id), StreetRoutes())

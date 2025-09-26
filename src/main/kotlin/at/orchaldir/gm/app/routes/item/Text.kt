@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.item.text.parseText
 import at.orchaldir.gm.app.html.item.text.showText
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
@@ -96,13 +96,9 @@ fun Application.configureTextRouting() {
             }
         }
         get<TextRoutes.New> {
-            logger.info { "Add new text" }
-
-            STORE.dispatch(CreateText)
-
-            call.respondRedirect(call.application.href(TextRoutes.Edit(STORE.getState().getTextStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getTextStorage()) { id ->
+                TextRoutes.Edit(id)
+            }
         }
         get<TextRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteText(delete.id), TextRoutes())

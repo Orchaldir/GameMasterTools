@@ -6,9 +6,9 @@ import at.orchaldir.gm.app.html.race.editRaceAppearance
 import at.orchaldir.gm.app.html.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.race.showRaceAppearance
 import at.orchaldir.gm.app.routes.handleCloneElement
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.core.action.CreateRaceAppearance
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
@@ -70,14 +70,9 @@ fun Application.configureRaceAppearanceRouting() {
             }
         }
         get<AppearanceRoutes.New> {
-            logger.info { "Add new race appearance" }
-
-            STORE.dispatch(CreateRaceAppearance)
-
-            val id = STORE.getState().getRaceAppearanceStorage().lastId
-            call.respondRedirect(call.application.href(AppearanceRoutes.Edit(id)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getRaceAppearanceStorage()) { id ->
+                AppearanceRoutes.Edit(id)
+            }
         }
         get<AppearanceRoutes.Clone> { clone ->
             handleCloneElement(clone.id) { cloneId ->

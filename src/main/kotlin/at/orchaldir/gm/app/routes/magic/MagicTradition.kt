@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateMagicTradition
 import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.action.UpdateMagicTradition
 import at.orchaldir.gm.core.model.State
@@ -78,19 +78,9 @@ fun Application.configureMagicTraditionRouting() {
             }
         }
         get<MagicTraditionRoutes.New> {
-            logger.info { "Add new tradition" }
-
-            STORE.dispatch(CreateMagicTradition)
-
-            call.respondRedirect(
-                call.application.href(
-                    MagicTraditionRoutes.Edit(
-                        STORE.getState().getMagicTraditionStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getMagicTraditionStorage()) { id ->
+                MagicTraditionRoutes.Edit(id)
+            }
         }
         get<MagicTraditionRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteMagicTradition(delete.id), MagicTraditionRoutes())

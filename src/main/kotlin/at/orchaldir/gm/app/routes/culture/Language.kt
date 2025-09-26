@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.culture.editLanguage
 import at.orchaldir.gm.app.html.culture.parseLanguage
 import at.orchaldir.gm.app.html.culture.showLanguage
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
@@ -83,19 +83,9 @@ fun Application.configureLanguageRouting() {
             }
         }
         get<LanguageRoutes.New> {
-            logger.info { "Add new language" }
-
-            STORE.dispatch(CreateLanguage)
-
-            call.respondRedirect(
-                call.application.href(
-                    LanguageRoutes.Edit(
-                        STORE.getState().getLanguageStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getLanguageStorage()) { id ->
+                LanguageRoutes.Edit(id)
+            }
         }
         get<LanguageRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteLanguage(delete.id), LanguageRoutes())

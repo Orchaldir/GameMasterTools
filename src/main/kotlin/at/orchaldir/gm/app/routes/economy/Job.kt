@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.editJob
 import at.orchaldir.gm.app.html.economy.parseJob
 import at.orchaldir.gm.app.html.economy.showJob
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
@@ -79,19 +79,9 @@ fun Application.configureJobRouting() {
             }
         }
         get<JobRoutes.New> {
-            logger.info { "Add new job" }
-
-            STORE.dispatch(CreateJob)
-
-            call.respondRedirect(
-                call.application.href(
-                    JobRoutes.Edit(
-                        STORE.getState().getJobStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getJobStorage()) { id ->
+                JobRoutes.Edit(id)
+            }
         }
         get<JobRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteJob(delete.id), JobRoutes())

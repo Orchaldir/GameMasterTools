@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editMoon
 import at.orchaldir.gm.app.html.world.parseMoon
 import at.orchaldir.gm.app.html.world.showMoon
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateMoon
 import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
@@ -77,13 +77,9 @@ fun Application.configureMoonRouting() {
             }
         }
         get<MoonRoutes.New> {
-            logger.info { "Add new moon" }
-
-            STORE.dispatch(CreateMoon)
-
-            call.respondRedirect(call.application.href(MoonRoutes.Edit(STORE.getState().getMoonStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getMoonStorage()) { id ->
+                MoonRoutes.Edit(id)
+            }
         }
         get<MoonRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteMoon(delete.id), MoonRoutes())

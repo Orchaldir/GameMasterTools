@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseRiver
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
@@ -65,13 +65,9 @@ fun Application.configureRiverRouting() {
             }
         }
         get<RiverRoutes.New> {
-            logger.info { "Add new river" }
-
-            STORE.dispatch(CreateRiver)
-
-            call.respondRedirect(call.application.href(RiverRoutes.Edit(STORE.getState().getRiverStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getRiverStorage()) { id ->
+                RiverRoutes.Edit(id)
+            }
         }
         get<RiverRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteRiver(delete.id), RiverRoutes())

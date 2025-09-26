@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.magic.showSpell
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateSpell
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
@@ -87,13 +87,9 @@ fun Application.configureSpellRouting() {
             }
         }
         get<SpellRoutes.New> {
-            logger.info { "Add new spell" }
-
-            STORE.dispatch(CreateSpell)
-
-            call.respondRedirect(call.application.href(SpellRoutes.Edit(STORE.getState().getSpellStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getSpellStorage()) { id ->
+                SpellRoutes.Edit(id)
+            }
         }
         get<SpellRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteSpell(delete.id), SpellRoutes())

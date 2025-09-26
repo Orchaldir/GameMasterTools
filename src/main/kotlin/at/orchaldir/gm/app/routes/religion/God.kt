@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.religion.editGod
 import at.orchaldir.gm.app.html.religion.parseGod
 import at.orchaldir.gm.app.html.religion.showGod
 import at.orchaldir.gm.app.html.util.showAuthenticity
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateGod
 import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
@@ -83,13 +83,9 @@ fun Application.configureGodRouting() {
             }
         }
         get<GodRoutes.New> {
-            logger.info { "Add new god" }
-
-            STORE.dispatch(CreateGod)
-
-            call.respondRedirect(call.application.href(GodRoutes.Edit(STORE.getState().getGodStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getGodStorage()) { id ->
+                GodRoutes.Edit(id)
+            }
         }
         get<GodRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteGod(delete.id), GodRoutes())

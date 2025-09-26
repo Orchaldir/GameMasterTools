@@ -85,7 +85,7 @@ fun Application.configureCharacterTemplateRouting() {
             }
         }
         get<CharacterTemplateRoutes.New> {
-            handleCreateElement( STORE.getState().getCharacterTemplateStorage()) { id ->
+            handleCreateElement(STORE.getState().getCharacterTemplateStorage()) { id ->
                 CharacterTemplateRoutes.Edit(id)
             }
         }

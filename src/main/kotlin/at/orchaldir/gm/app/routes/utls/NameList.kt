@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.name.editNameList
 import at.orchaldir.gm.app.html.util.name.parseNameList
 import at.orchaldir.gm.app.html.util.name.showNameList
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateNameList
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.State
@@ -65,19 +65,9 @@ fun Application.configureNameListRouting() {
             }
         }
         get<NameListRoutes.New> {
-            logger.info { "Add new name list" }
-
-            STORE.dispatch(CreateNameList)
-
-            call.respondRedirect(
-                call.application.href(
-                    NameListRoutes.Edit(
-                        STORE.getState().getNameListStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getNameListStorage()) { id ->
+                NameListRoutes.Edit(id)
+            }
         }
         get<NameListRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteNameList(delete.id), NameListRoutes())

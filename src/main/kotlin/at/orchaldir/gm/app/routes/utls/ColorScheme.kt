@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.color.editColorScheme
 import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.color.showColorScheme
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateColorScheme
 import at.orchaldir.gm.core.action.DeleteColorScheme
 import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
@@ -81,19 +81,9 @@ fun Application.configureColorSchemeRouting() {
             }
         }
         get<ColorSchemeRoutes.New> {
-            logger.info { "Add new color scheme" }
-
-            STORE.dispatch(CreateColorScheme)
-
-            call.respondRedirect(
-                call.application.href(
-                    ColorSchemeRoutes.Edit(
-                        STORE.getState().getColorSchemeStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getColorSchemeStorage()) { id ->
+                ColorSchemeRoutes.Edit(id)
+            }
         }
         get<ColorSchemeRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteColorScheme(delete.id), ColorSchemeRoutes())

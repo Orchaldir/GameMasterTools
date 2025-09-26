@@ -67,7 +67,7 @@ fun Application.configureCharacterRouting() {
             }
         }
         get<CharacterRoutes.New> {
-            handleCreateElement( STORE.getState().getCharacterStorage()) { id ->
+            handleCreateElement(STORE.getState().getCharacterStorage()) { id ->
                 CharacterRoutes.Edit(id)
             }
         }

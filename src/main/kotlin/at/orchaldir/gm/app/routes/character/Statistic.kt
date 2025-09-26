@@ -81,7 +81,7 @@ fun Application.configureStatisticRouting() {
             }
         }
         get<StatisticRoutes.New> {
-            handleCreateElement( STORE.getState().getStatisticStorage()) { id ->
+            handleCreateElement(STORE.getState().getStatisticStorage()) { id ->
                 StatisticRoutes.Edit(id)
             }
         }
@@ -113,7 +113,7 @@ fun Application.configureStatisticRouting() {
             logger.info { "Update statistic ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val state = STORE.getState()
+            STORE.getState()
             val statistic = parseStatistic(formParameters, update.id)
 
             STORE.dispatch(UpdateStatistic(statistic))

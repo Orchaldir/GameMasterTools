@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.realm.showCatastrophe
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateCatastrophe
 import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe
 import at.orchaldir.gm.core.model.State
@@ -81,19 +81,9 @@ fun Application.configureCatastropheRouting() {
             }
         }
         get<CatastropheRoutes.New> {
-            logger.info { "Add new catastrophe" }
-
-            STORE.dispatch(CreateCatastrophe)
-
-            call.respondRedirect(
-                call.application.href(
-                    CatastropheRoutes.Edit(
-                        STORE.getState().getCatastropheStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getCatastropheStorage()) { id ->
+                CatastropheRoutes.Edit(id)
+            }
         }
         get<CatastropheRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteCatastrophe(delete.id), CatastropheRoutes())

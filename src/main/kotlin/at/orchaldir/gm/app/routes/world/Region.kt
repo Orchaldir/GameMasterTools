@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editRegion
 import at.orchaldir.gm.app.html.world.parseRegion
 import at.orchaldir.gm.app.html.world.showRegion
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateRegion
 import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
@@ -81,17 +81,9 @@ fun Application.configureRegionRouting() {
             }
         }
         get<RegionRoutes.New> {
-            logger.info { "Add new region" }
-
-            STORE.dispatch(CreateRegion)
-
-            call.respondRedirect(
-                call.application.href(
-                    RegionRoutes.Edit(STORE.getState().getRegionStorage().lastId)
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getRegionStorage()) { id ->
+                RegionRoutes.Edit(id)
+            }
         }
         get<RegionRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteRegion(delete.id), RegionRoutes())

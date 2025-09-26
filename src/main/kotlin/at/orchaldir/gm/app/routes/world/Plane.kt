@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.world.*
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreatePlane
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
@@ -77,13 +77,9 @@ fun Application.configurePlaneRouting() {
             }
         }
         get<PlaneRoutes.New> {
-            logger.info { "Add new plane" }
-
-            STORE.dispatch(CreatePlane)
-
-            call.respondRedirect(call.application.href(PlaneRoutes.Edit(STORE.getState().getPlaneStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getPlaneStorage()) { id ->
+                PlaneRoutes.Edit(id)
+            }
         }
         get<PlaneRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeletePlane(delete.id), PlaneRoutes())

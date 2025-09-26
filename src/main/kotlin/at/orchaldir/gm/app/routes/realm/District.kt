@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.realm.parseDistrict
 import at.orchaldir.gm.app.html.realm.showDistrict
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateDistrict
 import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.action.UpdateDistrict
 import at.orchaldir.gm.core.model.State
@@ -78,19 +78,9 @@ fun Application.configureDistrictRouting() {
             }
         }
         get<DistrictRoutes.New> {
-            logger.info { "Add new legal code" }
-
-            STORE.dispatch(CreateDistrict)
-
-            call.respondRedirect(
-                call.application.href(
-                    DistrictRoutes.Edit(
-                        STORE.getState().getDistrictStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getDistrictStorage()) { id ->
+                DistrictRoutes.Edit(id)
+            }
         }
         get<DistrictRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteDistrict(delete.id), DistrictRoutes())

@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editWorld
 import at.orchaldir.gm.app.html.world.parseWorld
 import at.orchaldir.gm.app.html.world.showWorld
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateWorld
 import at.orchaldir.gm.core.action.DeleteWorld
 import at.orchaldir.gm.core.action.UpdateWorld
 import at.orchaldir.gm.core.model.State
@@ -83,13 +83,9 @@ fun Application.configureWorldRouting() {
             }
         }
         get<WorldRoutes.New> {
-            logger.info { "Add new world" }
-
-            STORE.dispatch(CreateWorld)
-
-            call.respondRedirect(call.application.href(WorldRoutes.Edit(STORE.getState().getWorldStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getWorldStorage()) { id ->
+                WorldRoutes.Edit(id)
+            }
         }
         get<WorldRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteWorld(delete.id), WorldRoutes())

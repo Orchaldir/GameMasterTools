@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.realm.showWar
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateWar
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
@@ -82,19 +82,9 @@ fun Application.configureWarRouting() {
             }
         }
         get<WarRoutes.New> {
-            logger.info { "Add new war" }
-
-            STORE.dispatch(CreateWar)
-
-            call.respondRedirect(
-                call.application.href(
-                    WarRoutes.Edit(
-                        STORE.getState().getWarStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getWarStorage()) { id ->
+                WarRoutes.Edit(id)
+            }
         }
         get<WarRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteWar(delete.id), WarRoutes())

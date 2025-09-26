@@ -67,7 +67,7 @@ fun Application.configurePersonalityRouting() {
             }
         }
         get<PersonalityTraitRoutes.New> {
-            handleCreateElement( STORE.getState().getPersonalityTraitStorage()) { id ->
+            handleCreateElement(STORE.getState().getPersonalityTraitStorage()) { id ->
                 PersonalityTraitRoutes.Edit(id)
             }
         }

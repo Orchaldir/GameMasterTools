@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.culture.editCulture
 import at.orchaldir.gm.app.html.culture.parseCulture
 import at.orchaldir.gm.app.html.culture.showCulture
 import at.orchaldir.gm.app.routes.handleCloneElement
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
@@ -77,13 +77,9 @@ fun Application.configureCultureRouting() {
             }
         }
         get<CultureRoutes.New> {
-            logger.info { "Add new culture" }
-
-            STORE.dispatch(CreateCulture)
-
-            call.respondRedirect(call.application.href(CultureRoutes.Edit(STORE.getState().getCultureStorage().lastId)))
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getCultureStorage()) { id ->
+                CultureRoutes.Edit(id)
+            }
         }
         get<CultureRoutes.Clone> { clone ->
             handleCloneElement(clone.id) { cloneId ->
