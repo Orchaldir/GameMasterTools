@@ -178,7 +178,6 @@ data class UpdateRaceAppearance(val appearance: RaceAppearance) : Action()
 sealed class CharacterAction : Action()
 
 // character
-data object CreateCharacter : CharacterAction()
 data class DeleteCharacter(val id: CharacterId) : CharacterAction()
 data class UpdateCharacter(val character: Character) : CharacterAction()
 data class UpdateAppearance(
@@ -197,7 +196,6 @@ data class UpdateRelationships(
 ) : CharacterAction()
 
 // character template
-data object CreateCharacterTemplate : CharacterAction()
 data class DeleteCharacterTemplate(val id: CharacterTemplateId) : CharacterAction()
 data class UpdateCharacterTemplate(val template: CharacterTemplate) : CharacterAction()
 
