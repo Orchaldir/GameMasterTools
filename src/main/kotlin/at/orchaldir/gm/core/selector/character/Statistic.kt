@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticDataType
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
@@ -11,13 +12,13 @@ fun State.canDeleteStatistic(statistic: StatisticId) = DeleteResult(statistic)
     .addElements(getCharacterTemplates(statistic))
     .addElements(getJobs(statistic))
 
-fun State.getAttributes() = getStatisticStorage()
-    .getAll()
-    .filter { it.data.getType() == StatisticDataType.Attribute }
+fun State.getAttributes() = getStatistics(StatisticDataType.Attribute)
+fun State.getDerivedAttributes() = getStatistics(StatisticDataType.DerivedAttribute)
+fun State.getSkills() = getStatistics(StatisticDataType.Skill)
 
-fun State.getSkills() = getStatisticStorage()
+private fun State.getStatistics(type: StatisticDataType): List<Statistic> = getStatisticStorage()
     .getAll()
-    .filter { it.data.getType() == StatisticDataType.Skill }
+    .filter { it.data.getType() == type }
 
 fun State.getStatisticsBasedOn(statistic: StatisticId) = getStatisticStorage()
     .getAll()

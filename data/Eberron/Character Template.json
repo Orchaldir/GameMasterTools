@@ -39,6 +39,23 @@
      "7": 2
     }
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Brelish Archer",
+   "race": 0,
+   "culture": 0,
+   "belief": {
+    "type": "Pantheon",
+    "pantheon": 0
+   },
+   "statblock": {
+    "statistics": {
+     "1": 2,
+     "5": 2,
+     "7": 4
+    }
+   }
   }
  }
 }

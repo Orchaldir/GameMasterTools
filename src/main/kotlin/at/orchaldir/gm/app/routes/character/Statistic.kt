@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.statistic.displayBaseValue
 import at.orchaldir.gm.app.html.character.statistic.editStatistic
 import at.orchaldir.gm.app.html.character.statistic.parseStatistic
 import at.orchaldir.gm.app.html.character.statistic.showStatistic
@@ -26,6 +27,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
+import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 import mu.KotlinLogging
@@ -150,12 +152,14 @@ private fun HTML.showAllStatistics(
                 th { +"Name" }
                 th { +"Short" }
                 th { +"Type" }
+                th { +"Base Value" }
             }
             statistics.forEach { statistic ->
                 tr {
                     tdLink(call, state, statistic)
                     tdString(statistic.short)
                     tdEnum(statistic.data.getType())
+                    td { displayBaseValue(call, state, statistic.data.baseValue()) }
                 }
             }
         }

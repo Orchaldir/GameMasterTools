@@ -22,6 +22,7 @@ fun HtmlBlockTag.showStatisticData(
 
     when (data) {
         is Attribute -> showBaseValue(call, state, data.base)
+        is DerivedAttribute -> showBaseValue(call, state, data.base)
         is Skill -> showBaseValue(call, state, data.base)
     }
 }
@@ -42,6 +43,7 @@ fun FORM.editStatisticData(
 
     when (data) {
         is Attribute -> editBaseValue(state, statistic, data.base)
+        is DerivedAttribute -> editBaseValue(state, statistic, data.base)
         is Skill -> editBaseValue(state, statistic, data.base)
     }
 }
@@ -52,6 +54,10 @@ fun parseStatisticData(
     parameters: Parameters,
 ) = when (parse(parameters, TYPE, StatisticDataType.Attribute)) {
     StatisticDataType.Attribute -> Attribute(
+        parseBaseValue(parameters),
+    )
+
+    StatisticDataType.DerivedAttribute -> DerivedAttribute(
         parseBaseValue(parameters),
     )
 

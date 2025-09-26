@@ -9,7 +9,6 @@ fun State.getStatblocksWith(statistic: StatisticId): List<Pair<Id<*>, Int>> {
     val statblocks = mutableListOf<Pair<Id<*>, Int>>()
 
     getCharacterTemplateStorage().getAll()
-        .filter { it.statblock.statistics.containsKey(statistic) }
         .forEach { template ->
             addStatblock(statblocks, statistic, template.statblock, template.id)
         }
@@ -42,7 +41,7 @@ private fun State.addStatblock(
     statblock: Statblock,
     id: Id<*>,
 ) {
-    val value = statblock.resolve(this, statistic) ?: error("Unreachable!")
-
-    statblocks.add(Pair(id, value))
+    statblock.resolve(this, statistic)?.let { value ->
+        statblocks.add(Pair(id, value))
+    }
 }
