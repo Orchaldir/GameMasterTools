@@ -50,6 +50,7 @@ data class Statblock(
                 val resolvedBase = resolve(state, base.statistic) ?: return null
                 resolvedBase + base.offset
             }
+
             is FixedNumber -> base.default
             is DivisionOfValues -> {
                 val dividend = resolve(state, base.dividend)
@@ -61,9 +62,11 @@ data class Statblock(
                     null
                 }
             }
+
             is ProductOfValues -> base.values
                 .mapNotNull { resolve(state, it) }
                 .reduceOrNull { product, value -> product * value }
+
             is SumOfValues -> base.values
                 .mapNotNull { resolve(state, it) }
                 .reduceOrNull { sum, value -> sum + value }

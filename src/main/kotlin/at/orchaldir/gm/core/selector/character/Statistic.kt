@@ -12,7 +12,7 @@ fun State.canDeleteStatistic(statistic: StatisticId) = DeleteResult(statistic)
     .addElements(getCharacterTemplates(statistic))
     .addElements(getJobs(statistic))
 
-fun State.getAttributes() =getStatistics(StatisticDataType.Attribute)
+fun State.getAttributes() = getStatistics(StatisticDataType.Attribute)
 fun State.getDerivedAttributes() = getStatistics(StatisticDataType.DerivedAttribute)
 fun State.getSkills() = getStatistics(StatisticDataType.Skill)
 

@@ -1,12 +1,6 @@
 package at.orchaldir.gm.app.html.character.statistic
 
-import at.orchaldir.gm.app.BASE
-import at.orchaldir.gm.app.DIVIDEND
-import at.orchaldir.gm.app.DIVISOR
-import at.orchaldir.gm.app.LIST
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.REFERENCE
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -44,22 +38,22 @@ fun HtmlBlockTag.displayBaseValue(
                     link(call, state, value.statistic)
                     if (value.offset > 0) {
                         +" + ${value.offset}"
-                    }
-                    else {
+                    } else {
                         +" - ${value.offset.absoluteValue}"
                     }
                 }
-            }
-            else {
+            } else {
                 link(call, state, value.statistic)
             }
         }
+
         is FixedNumber -> +"${value.default}"
         is DivisionOfValues -> brackets(isTopLevel) {
             displayBaseValue(call, state, value.dividend, false)
             +" / "
             displayBaseValue(call, state, value.divisor, false)
         }
+
         is ProductOfValues -> displayValues(call, state, value.values, isTopLevel, "*")
         is SumOfValues -> displayValues(call, state, value.values, isTopLevel, "*")
     }
@@ -88,8 +82,7 @@ private fun HtmlBlockTag.brackets(
 ) {
     if (isTopLevel) {
         content()
-    }
-    else {
+    } else {
         +"("
         content()
         +")"
@@ -133,12 +126,14 @@ fun HtmlBlockTag.editBaseValue(
                 )
                 selectOffset(value.offset, "Offset", param)
             }
+
             is FixedNumber -> selectOffset(value.default, "Default", param)
 
             is DivisionOfValues -> {
                 editBaseValue(state, statistic, value.dividend, "Dividend", combine(param, DIVIDEND))
                 editBaseValue(state, statistic, value.divisor, "Divisor", combine(param, DIVISOR))
             }
+
             is ProductOfValues -> editListOfValues(state, statistic, value.values, param)
             is SumOfValues -> editListOfValues(state, statistic, value.values, param)
         }
@@ -187,6 +182,7 @@ fun parseBaseValue(
         parseStatisticId(parameters, combine(param, REFERENCE)),
         parseInt(parameters, combine(param, NUMBER), 0),
     )
+
     BaseValueType.FixedNumber -> FixedNumber(
         parseInt(parameters, combine(param, NUMBER), 0),
     )
@@ -195,9 +191,11 @@ fun parseBaseValue(
         parseBaseValue(parameters, combine(param, DIVIDEND)),
         parseBaseValue(parameters, combine(param, DIVISOR)),
     )
+
     BaseValueType.Product -> ProductOfValues(
         parseValues(parameters, param),
     )
+
     BaseValueType.Sum -> SumOfValues(
         parseValues(parameters, param),
     )

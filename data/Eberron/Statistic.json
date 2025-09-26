@@ -152,7 +152,7 @@
    "id": 11,
    "name": "Basic Speed",
    "data": {
-    "type": "Attribute",
+    "type": "Derived",
     "base": {
      "type": "Sum",
      "values": [
