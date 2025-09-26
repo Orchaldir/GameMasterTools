@@ -20,7 +20,6 @@ val CHARACTER_REDUCER: Reducer<CharacterAction, State> = { state, action ->
         is DeleteCharacterTemplate -> deleteElement(state, action.id, State::canDeleteCharacterTemplate)
         is UpdateCharacterTemplate -> UPDATE_CHARACTER_TEMPLATE(state, action)
         // statistic
-        is CreateStatistic -> CREATE_STATISTIC(state, action)
         is DeleteStatistic -> deleteElement(state, action.id, State::canDeleteStatistic)
         is UpdateStatistic -> UPDATE_STATISTIC(state, action)
     }

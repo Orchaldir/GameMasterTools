@@ -6,6 +6,12 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.character.PersonalityTrait
+import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.character.statistic.Statistic
+import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.character.title.Title
+import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -53,19 +59,13 @@ import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.*
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
     when (action) {
         // create
-        is CreateAction<*> -> when (action.id) {
-            is CharacterId -> createElement(state, Character(action.id, birthDate = state.getCurrentDate()))
-            is CharacterTemplateId -> {
-                val race = state.getRaceStorage().getIds().first()
-                createElement(state, CharacterTemplate(action.id, race = race))
-            }
-            else -> error("Creating is not supported!")
-        }
+        is CreateAction<*> -> createElement(state, action.id)
         // clone
         is CloneAction<*> -> when (action.id) {
             is CharacterTemplateId -> cloneElement(state, action.id)
@@ -123,7 +123,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is DeleteNameList -> deleteElement(state, action.id, State::canDeleteNameList)
         is UpdateNameList -> UPDATE_NAME_LIST(state, action)
         // personality
-        is CreatePersonalityTrait -> CREATE_PERSONALITY_TRAIT(state, action)
         is DeletePersonalityTrait -> deleteElement(state, action.id, State::canDeletePersonalityTrait)
         is UpdatePersonalityTrait -> UPDATE_PERSONALITY_TRAIT(state, action)
         // quote
@@ -139,7 +138,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is DeleteRaceAppearance -> deleteElement(state, action.id, State::canDeleteRaceAppearance)
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // title
-        is CreateTitle -> CREATE_TITLE(state, action)
         is DeleteTitle -> deleteElement(state, action.id, State::canDeleteTitle)
         is UpdateTitle -> UPDATE_TITLE(state, action)
         // sub reducers
@@ -153,3 +151,20 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is WorldAction -> WORLD_REDUCER(state, action)
     }
 }
+
+private fun createElement(
+    state: State,
+    id: Id<*>,
+): Pair<State, List<Action>> = when (id) {
+    is CharacterId -> createElement(state, Character(id, birthDate = state.getCurrentDate()))
+    is CharacterTemplateId -> {
+        val race = state.getRaceStorage().getIds().first()
+        createElement(state, CharacterTemplate(id, race = race))
+    }
+    is PersonalityTraitId -> createElement(state, PersonalityTrait(id))
+    is StatisticId -> createElement(state, Statistic(id))
+    is TitleId -> createElement(state, Title(id))
+
+    else -> error("Creating is not supported!")
+}
+

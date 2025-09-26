@@ -106,7 +106,6 @@ data class DeleteCulture(val id: CultureId) : Action()
 data class UpdateCulture(val culture: Culture) : Action()
 
 // title
-data object CreateTitle : Action()
 data class DeleteTitle(val id: TitleId) : Action()
 data class UpdateTitle(val title: Title) : Action()
 
@@ -154,7 +153,6 @@ data class DeleteNameList(val id: NameListId) : Action()
 data class UpdateNameList(val nameList: NameList) : Action()
 
 // personality
-data object CreatePersonalityTrait : Action()
 data class DeletePersonalityTrait(val id: PersonalityTraitId) : Action()
 data class UpdatePersonalityTrait(val trait: PersonalityTrait) : Action()
 
@@ -200,7 +198,6 @@ data class DeleteCharacterTemplate(val id: CharacterTemplateId) : CharacterActio
 data class UpdateCharacterTemplate(val template: CharacterTemplate) : CharacterAction()
 
 // statistic
-data object CreateStatistic : CharacterAction()
 data class DeleteStatistic(val id: StatisticId) : CharacterAction()
 data class UpdateStatistic(val statistic: Statistic) : CharacterAction()
 

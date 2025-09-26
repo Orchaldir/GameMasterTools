@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.title.editTitle
 import at.orchaldir.gm.app.html.character.title.parseTitle
 import at.orchaldir.gm.app.html.character.title.showTitle
+import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.core.action.CreateTitle
 import at.orchaldir.gm.core.action.DeleteTitle
 import at.orchaldir.gm.core.action.UpdateTitle
 import at.orchaldir.gm.core.model.State
@@ -80,19 +80,9 @@ fun Application.configureTitleRouting() {
             }
         }
         get<TitleRoutes.New> {
-            logger.info { "Add new title" }
-
-            STORE.dispatch(CreateTitle)
-
-            call.respondRedirect(
-                call.application.href(
-                    TitleRoutes.Edit(
-                        STORE.getState().getTitleStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
+            handleCreateElement(STORE.getState().getTitleStorage()) { id ->
+                TitleRoutes.Edit(id)
+            }
         }
         get<TitleRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteTitle(delete.id), TitleRoutes())

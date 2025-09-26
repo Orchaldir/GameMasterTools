@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
