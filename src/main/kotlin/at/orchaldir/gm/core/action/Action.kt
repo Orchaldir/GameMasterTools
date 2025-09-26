@@ -86,6 +86,7 @@ sealed class Action
 
 // META
 
+data class CreateAction<ID : Id<ID>>(val id: ID) : Action()
 data class CloneAction<ID : Id<ID>>(val id: ID) : Action()
 data class LoadData(val path: String) : Action()
 

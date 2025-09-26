@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
@@ -53,6 +54,14 @@ import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
     when (action) {
+        // create
+        is CreateAction<*> -> when (action.id) {
+            is CharacterTemplateId -> {
+                val race = state.getRaceStorage().getIds().first()
+                createElement(state, CharacterTemplate(action.id, race = race))
+            }
+            else -> error("Creating is not supported!")
+        }
         // clone
         is CloneAction<*> -> when (action.id) {
             is CharacterTemplateId -> cloneElement(state, action.id)
