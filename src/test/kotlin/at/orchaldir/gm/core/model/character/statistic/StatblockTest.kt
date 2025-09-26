@@ -71,6 +71,25 @@ class StatblockTest {
             assertEquals(36, statblock.resolve(newState, STATISTIC_ID_1))
         }
 
+        @Test
+        fun `Resolve skill that is a product`() {
+            val skill = Statistic(STATISTIC_ID_1, data = Skill(ProductOfValues(listOf(BasedOnStatistic(STATISTIC_ID_0),
+                FixedNumber(20)))))
+            val newState = state.updateStorage(Storage(listOf(attribute, skill)))
+            val statblock = Statblock(mapOf(STATISTIC_ID_0 to 2, STATISTIC_ID_1 to 4))
+
+            assertEquals(244, statblock.resolve(newState, STATISTIC_ID_1))
+        }
+
+        @Test
+        fun `Skills have no default value`() {
+            val skill = Statistic(STATISTIC_ID_1, data = Skill(FixedNumber(50)))
+            val newState = state.updateStorage(Storage(listOf(attribute, skill)))
+            val statblock = Statblock()
+
+            assertEquals(null, statblock.resolve(newState, STATISTIC_ID_1))
+        }
+
     }
 
 }
