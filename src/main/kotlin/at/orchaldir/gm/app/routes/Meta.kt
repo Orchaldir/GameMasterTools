@@ -4,16 +4,33 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.showDeleteResult
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.CloneAction
+import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
+
+suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
+    storage: Storage<ID, ELEMENT>,
+    createResource: (ID) -> T,
+) {
+    val id = storage.nextId
+    logger.info { "Create ${id.print()}" }
+
+    STORE.dispatch(CreateAction(id))
+
+    val resource = createResource(id)
+    call.respondRedirect(call.application.href(resource))
+
+    STORE.getState().save()
+}
 
 suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCloneElement(
     id: ID,
