@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val CATASTROPHE_TYPE = "Catastrophe"

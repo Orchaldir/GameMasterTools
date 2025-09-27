@@ -309,7 +309,7 @@ data class State(
         validateColorSchemes(this)
 
         storageMap.entries
-            .filter { it.key != COLOR_SCHEME_TYPE}
+            .filter { it.key != COLOR_SCHEME_TYPE }
             .forEach { (_, storage) -> validate(storage) }
 
         validateData(this, data)

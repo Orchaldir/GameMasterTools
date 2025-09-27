@@ -77,7 +77,7 @@ suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Applicati
     parse: (State, Parameters, ID) -> ELEMENT,
 ) {
     val parameters = call.receiveParameters()
-    handleUpdateElement(id, { state, id -> parse(state, parameters, id)})
+    handleUpdateElement(id, { state, id -> parse(state, parameters, id) })
 }
 
 suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(
