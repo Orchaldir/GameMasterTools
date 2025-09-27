@@ -46,9 +46,12 @@ data class ArchitecturalStyle(
         validateDate(state, end, "Architectural Style's End")
         state.getBuildings(id).forEach { validateStartDate(calendar, this, it.id, it.constructionDate) }
 
-        state.getArchitecturalStyleStorage().requireOptional(revival) {
-            "Cannot revive unknown architectural style!"
+        revival?.let { revivalId ->
+            state.getArchitecturalStyleStorage().require(revivalId) {
+                "Cannot revive unknown ${revivalId.print()}!"
+            }
         }
+
 
         validateHasStartAndEnd(state, this)
     }

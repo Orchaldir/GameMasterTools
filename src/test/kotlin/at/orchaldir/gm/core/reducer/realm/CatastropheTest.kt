@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateCatastrophe
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -24,7 +24,7 @@ class CatastropheTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateCatastrophe(Catastrophe(UNKNOWN_CATASTROPHE_ID))
+            val action = UpdateAction(Catastrophe(UNKNOWN_CATASTROPHE_ID))
 
             assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -32,7 +32,7 @@ class CatastropheTest {
         @Test
         fun `Update a catastrophe`() {
             val catastrophe = Catastrophe(CATASTROPHE_ID_0, NAME)
-            val action = UpdateCatastrophe(catastrophe)
+            val action = UpdateAction(catastrophe)
 
             assertEquals(catastrophe, REDUCER.invoke(STATE, action).first.getCatastropheStorage().get(CATASTROPHE_ID_0))
         }

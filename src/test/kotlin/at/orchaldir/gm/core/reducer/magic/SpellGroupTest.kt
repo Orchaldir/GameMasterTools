@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.magic
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateSpellGroup
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
@@ -26,14 +26,14 @@ class SpellGroupTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateSpellGroup(SpellGroup(UNKNOWN_SPELL_GROUP_ID))
+            val action = UpdateAction(SpellGroup(UNKNOWN_SPELL_GROUP_ID))
 
             assertIllegalArgument("Requires unknown Spell Group 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot use an unknown spell`() {
-            val action = UpdateSpellGroup(SpellGroup(SPELL_GROUP_ID_0, spells = setOf(UNKNOWN_SPELL_ID)))
+            val action = UpdateAction(SpellGroup(SPELL_GROUP_ID_0, spells = setOf(UNKNOWN_SPELL_ID)))
 
             assertIllegalArgument("Requires unknown Spell 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -41,7 +41,7 @@ class SpellGroupTest {
         @Test
         fun `Update a domain`() {
             val domain = SpellGroup(SPELL_GROUP_ID_0, NAME, setOf(SPELL_ID_0))
-            val action = UpdateSpellGroup(domain)
+            val action = UpdateAction(domain)
 
             assertEquals(domain, REDUCER.invoke(STATE, action).first.getSpellGroupStorage().get(SPELL_GROUP_ID_0))
         }

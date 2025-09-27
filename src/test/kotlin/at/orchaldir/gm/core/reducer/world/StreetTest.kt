@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.STREET_ID_0
 import at.orchaldir.gm.assertFailMessage
-import at.orchaldir.gm.core.action.UpdateStreet
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.world.street.Street
@@ -21,7 +21,7 @@ class StreetTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateStreet(Street(STREET_ID_0))
+            val action = UpdateAction(Street(STREET_ID_0))
 
             assertFailMessage<IllegalArgumentException>("Requires unknown Street 0!") {
                 REDUCER.invoke(
@@ -34,7 +34,7 @@ class StreetTest {
         @Test
         fun `Update is valid`() {
             val street = Street(STREET_ID_0, Name.init("Test"))
-            val action = UpdateStreet(street)
+            val action = UpdateAction(street)
 
             assertEquals(street, REDUCER.invoke(STATE, action).first.getStreetStorage().get(STREET_ID_0))
         }

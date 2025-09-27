@@ -1,10 +1,11 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.NAME_LIST_ID0
-import at.orchaldir.gm.core.action.UpdateNameList
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameList
+import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -24,28 +25,28 @@ class NameListTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateNameList(NameList(NAME_LIST_ID0))
+            val action = UpdateAction(NameList(NAME_LIST_ID0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Update an existing id`() {
-            val action = UpdateNameList(NAME_LIST)
+            val action = UpdateAction(NAME_LIST)
 
             assertAction(action)
         }
 
         @Test
         fun `Sort the names`() {
-            val action = UpdateNameList(NameList(NAME_LIST_ID0, names = listOf(B, A)))
+            val action = UpdateAction(NameList(NAME_LIST_ID0, names = listOf(B, A)))
 
             assertAction(action)
         }
 
-        private fun assertAction(action: UpdateNameList) = assertAction(action, NAME_LIST)
+        private fun assertAction(action: UpdateAction<NameListId, NameList>) = assertAction(action, NAME_LIST)
 
-        private fun assertAction(action: UpdateNameList, result: NameList) {
+        private fun assertAction(action: UpdateAction<NameListId, NameList>, result: NameList) {
             assertEquals(Storage(result), REDUCER.invoke(STATE, action).first.getNameListStorage())
         }
     }

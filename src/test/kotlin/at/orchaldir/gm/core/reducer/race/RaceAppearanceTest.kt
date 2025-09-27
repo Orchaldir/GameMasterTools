@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.reducer.race
 import at.orchaldir.gm.NAME
 import at.orchaldir.gm.RACE_APPEARANCE_ID_0
 import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.core.action.UpdateRaceAppearance
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.FeatureColorType.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
@@ -26,7 +26,7 @@ class RaceAppearanceTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateRaceAppearance(RaceAppearance(RACE_APPEARANCE_ID_0))
+            val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0))
 
             assertIllegalArgument("Requires unknown Race Appearance 0!") { REDUCER.invoke(State(), action) }
         }
@@ -34,7 +34,7 @@ class RaceAppearanceTest {
         @Test
         fun `No tail options for for a simple tail shape`() {
             val options = TailOptions(simpleShapes = OneOf(Rat))
-            val action = UpdateRaceAppearance(RaceAppearance(RACE_APPEARANCE_ID_0, tail = options))
+            val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, tail = options))
 
             assertIllegalArgument("No options for Rat tail!") { REDUCER.invoke(state, action) }
         }
@@ -42,7 +42,7 @@ class RaceAppearanceTest {
         @Test
         fun `Having wings requires wing types`() {
             val options = WingOptions(layouts = OneOf(WingsLayout.Two))
-            val action = UpdateRaceAppearance(RaceAppearance(RACE_APPEARANCE_ID_0, wing = options))
+            val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, wing = options))
 
             assertIllegalArgument("Having wings requires wing types!") { REDUCER.invoke(state, action) }
         }
@@ -50,7 +50,7 @@ class RaceAppearanceTest {
         @Test
         fun `Reuse hair color option requires hair`() {
             val tailOptions = TailOptions(simpleOptions = mapOf(Cat to FeatureColorOptions(Hair)))
-            val action = UpdateRaceAppearance(
+            val action = UpdateAction(
                 RaceAppearance(
                     RACE_APPEARANCE_ID_0,
                     hair = HairOptions(hairTypes = OneOf(HairType.None)),
@@ -64,7 +64,7 @@ class RaceAppearanceTest {
         @Test
         fun `Update is valid`() {
             val appearance = RaceAppearance(RACE_APPEARANCE_ID_0, NAME)
-            val action = UpdateRaceAppearance(appearance)
+            val action = UpdateAction(appearance)
 
             assertEquals(
                 appearance,

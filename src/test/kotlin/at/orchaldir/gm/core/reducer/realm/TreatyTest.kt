@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateTreaty
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Treaty
@@ -29,7 +29,7 @@ class TreatyTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateTreaty(Treaty(TREATY_ID_0))
+            val action = UpdateAction(Treaty(TREATY_ID_0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -37,7 +37,7 @@ class TreatyTest {
         @Test
         fun `A participating realm must exist`() {
             val participant = TreatyParticipant(UNKNOWN_REALM_ID)
-            val action = UpdateTreaty(Treaty(TREATY_ID_0, participants = listOf(participant)))
+            val action = UpdateAction(Treaty(TREATY_ID_0, participants = listOf(participant)))
 
             assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -45,7 +45,7 @@ class TreatyTest {
         @Test
         fun `A character signing the treaty must exist`() {
             val participant = TreatyParticipant(REALM_ID_0, UNKNOWN_CHARACTER_ID)
-            val action = UpdateTreaty(Treaty(TREATY_ID_0, participants = listOf(participant)))
+            val action = UpdateAction(Treaty(TREATY_ID_0, participants = listOf(participant)))
 
             assertIllegalArgument("Requires unknown Character 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -53,7 +53,7 @@ class TreatyTest {
         @Test
         fun `Update is valid`() {
             val treaty = Treaty(TREATY_ID_0, Name.Companion.init("Test"))
-            val action = UpdateTreaty(treaty)
+            val action = UpdateAction(treaty)
 
             assertEquals(treaty, REDUCER.invoke(STATE, action).first.getTreatyStorage().get(TREATY_ID_0))
         }

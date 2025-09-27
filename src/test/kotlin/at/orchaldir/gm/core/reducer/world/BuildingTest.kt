@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
-import at.orchaldir.gm.core.action.UpdateBuilding
-import at.orchaldir.gm.core.action.UpdateBuildingLot
+import at.orchaldir.gm.core.action.UpdateAction
+import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
@@ -305,7 +305,7 @@ class BuildingTest {
 
             @Test
             fun `Null is valid`() {
-                val action = UpdateBuilding(building.copy(name = null))
+                val action = UpdateAction(building.copy(name = null))
 
                 assertNull(REDUCER.invoke(STATE, action).first.getBuildingStorage().getOrThrow(BUILDING_ID_0).name)
             }
@@ -438,7 +438,7 @@ class BuildingTest {
                 state: State,
                 newBuilding: Building,
             ): State {
-                val action = UpdateBuilding(newBuilding)
+                val action = UpdateAction(newBuilding)
 
                 val result = REDUCER.invoke(state, action).first
 
@@ -455,7 +455,7 @@ class BuildingTest {
             fun `New position is not a town map now`() {
                 val newBuilding = building.copy(position = firstPosition)
 
-                val result = REDUCER.invoke(STATE, UpdateBuilding(newBuilding)).first
+                val result = REDUCER.invoke(STATE, UpdateAction(newBuilding)).first
 
                 assertEquals(firstMap, result.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
             }
@@ -469,7 +469,7 @@ class BuildingTest {
                     )
                 )
 
-                val result = REDUCER.invoke(newState, UpdateBuilding(building)).first
+                val result = REDUCER.invoke(newState, UpdateAction(building)).first
 
                 assertEquals(emptyMap, result.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
             }
@@ -484,7 +484,7 @@ class BuildingTest {
                 )
                 val newBuilding = building.copy(position = secondPosition)
 
-                val result = REDUCER.invoke(newState, UpdateBuilding(newBuilding)).first
+                val result = REDUCER.invoke(newState, UpdateAction(newBuilding)).first
 
                 assertEquals(secondMap, result.getTownMapStorage().getOrThrow(TOWN_MAP_ID_0).map)
             }
@@ -524,7 +524,7 @@ class BuildingTest {
 
                 assertEquals(
                     BusinessAndHome,
-                    REDUCER.invoke(state, UpdateBuilding(newBuilding)).first.getBuildingStorage()
+                    REDUCER.invoke(state, UpdateAction(newBuilding)).first.getBuildingStorage()
                         .getOrThrow(BUILDING_ID_0).purpose
                 )
             }
@@ -567,7 +567,7 @@ class BuildingTest {
         fun failUpdate(newBuilding: Building, message: String) = failUpdate(STATE, newBuilding, message)
 
         fun failUpdate(state: State, newBuilding: Building, message: String) {
-            assertIllegalArgument(message) { REDUCER.invoke(state, UpdateBuilding(newBuilding)) }
+            assertIllegalArgument(message) { REDUCER.invoke(state, UpdateAction(newBuilding)) }
         }
     }
 
@@ -590,21 +590,21 @@ class BuildingTest {
 
         @Test
         fun `Cannot update unknown building`() {
-            val action = UpdateBuildingLot(BUILDING_ID_0, 0, MapSize2d(2, 1))
+            val action = UpdateActionLot(BUILDING_ID_0, 0, MapSize2d(2, 1))
 
             assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Resize is blocked by other building`() {
-            val action = UpdateBuildingLot(BUILDING_ID_0, 0, MapSize2d(2, 2))
+            val action = UpdateActionLot(BUILDING_ID_0, 0, MapSize2d(2, 2))
 
             assertIllegalArgument("Tile 3 is not empty!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Change nothing`() {
-            val action = UpdateBuildingLot(BUILDING_ID_0, 0, square(1))
+            val action = UpdateActionLot(BUILDING_ID_0, 0, square(1))
 
             assertEquals(STATE, REDUCER.invoke(STATE, action).first)
         }
@@ -626,7 +626,7 @@ class BuildingTest {
         }
 
         private fun assertSuccess(tileIndex: Int, size: MapSize2d, tiles: List<TownTile>) {
-            val action = UpdateBuildingLot(BUILDING_ID_0, tileIndex, size)
+            val action = UpdateActionLot(BUILDING_ID_0, tileIndex, size)
             val position = InTownMap(TOWN_MAP_ID_0, tileIndex)
             val building = Building(BUILDING_ID_0, position = position, size = size)
 

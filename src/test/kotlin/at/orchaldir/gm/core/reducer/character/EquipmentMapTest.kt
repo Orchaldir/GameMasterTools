@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
+import at.orchaldir.gm.core.action.UpdateActionOfCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -15,7 +15,7 @@ class EquipmentMapTest {
 
     private val equipmentMap = EquipmentMap
         .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
-    private val action = UpdateEquipmentOfCharacter(CHARACTER_ID_0, equipmentMap)
+    private val action = UpdateActionOfCharacter(CHARACTER_ID_0, equipmentMap)
     val state = State(
         listOf(
             Storage(listOf(Character(CHARACTER_ID_0))),
@@ -76,7 +76,7 @@ class EquipmentMapTest {
             )
                 .mapKeys { Pair(it.key, COLOR_SCHEME_ID_0) }
         )
-        val action = UpdateEquipmentOfCharacter(CHARACTER_ID_0, equipmentMap)
+        val action = UpdateActionOfCharacter(CHARACTER_ID_0, equipmentMap)
 
         assertIllegalArgument("Body slot InnerTop is occupied multiple times!") { REDUCER.invoke(state, action) }
     }

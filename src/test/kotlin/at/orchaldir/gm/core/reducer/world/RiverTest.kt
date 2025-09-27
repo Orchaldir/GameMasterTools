@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.NAME
 import at.orchaldir.gm.RIVER_ID_0
-import at.orchaldir.gm.core.action.UpdateRiver
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -19,7 +19,7 @@ class RiverTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateRiver(River(RIVER_ID_0))
+            val action = UpdateAction(River(RIVER_ID_0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -28,7 +28,7 @@ class RiverTest {
         fun `Update is valid`() {
             val state = State(Storage(River(RIVER_ID_0)))
             val river = River(RIVER_ID_0, NAME)
-            val action = UpdateRiver(river)
+            val action = UpdateAction(river)
 
             assertEquals(river, REDUCER.invoke(state, action).first.getRiverStorage().get(RIVER_ID_0))
         }

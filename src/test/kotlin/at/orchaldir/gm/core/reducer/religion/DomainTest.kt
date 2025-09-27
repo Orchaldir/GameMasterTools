@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.religion
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateDomain
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.magic.Spell
@@ -29,21 +29,21 @@ class DomainTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateDomain(Domain(UNKNOWN_DOMAIN_ID))
+            val action = UpdateAction(Domain(UNKNOWN_DOMAIN_ID))
 
             assertIllegalArgument("Requires unknown Domain 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot use an unknown job`() {
-            val action = UpdateDomain(Domain(DOMAIN_ID_0, jobs = setOf(UNKNOWN_JOB_ID)))
+            val action = UpdateAction(Domain(DOMAIN_ID_0, jobs = setOf(UNKNOWN_JOB_ID)))
 
             assertIllegalArgument("Requires unknown Job 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot use an unknown spell`() {
-            val action = UpdateDomain(Domain(DOMAIN_ID_0, spells = SomeOf(UNKNOWN_SPELL_ID)))
+            val action = UpdateAction(Domain(DOMAIN_ID_0, spells = SomeOf(UNKNOWN_SPELL_ID)))
 
             assertIllegalArgument("Requires unknown Spell 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -56,7 +56,7 @@ class DomainTest {
                 SomeOf(SPELL_ID_0),
                 setOf(JOB_ID_0),
             )
-            val action = UpdateDomain(domain)
+            val action = UpdateAction(domain)
 
             assertEquals(domain, REDUCER.invoke(STATE, action).first.getDomainStorage().get(DOMAIN_ID_0))
         }

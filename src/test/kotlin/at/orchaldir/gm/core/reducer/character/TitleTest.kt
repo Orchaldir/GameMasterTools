@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateTitle
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -24,7 +24,7 @@ class TitleTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateTitle(Title(UNKNOWN_TITLE_ID))
+            val action = UpdateAction(Title(UNKNOWN_TITLE_ID))
 
             assertIllegalArgument("Requires unknown Title 99!") { REDUCER.invoke(state, action) }
         }
@@ -33,7 +33,7 @@ class TitleTest {
         @Test
         fun `Update a title`() {
             val title = Title(TITLE_ID_0, NAME)
-            val action = UpdateTitle(title)
+            val action = UpdateAction(title)
 
             assertEquals(title, REDUCER.invoke(state, action).first.getTitleStorage().get(TITLE_ID_0))
         }

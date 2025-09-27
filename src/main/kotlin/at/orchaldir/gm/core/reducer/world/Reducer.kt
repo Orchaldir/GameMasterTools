@@ -31,7 +31,7 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         // town's buildings
         is AddBuilding -> ADD_BUILDING(state, action)
         is DeleteBuilding -> DELETE_BUILDING(state, action)
-        is UpdateBuildingLot -> UPDATE_BUILDING_LOT(state, action)
+        is UpdateActionLot -> UPDATE_BUILDING_LOT(state, action)
         // town's streets
         is AddStreetTile -> ADD_STREET_TILE(state, action)
         is RemoveStreetTile -> REMOVE_STREET_TILE(state, action)

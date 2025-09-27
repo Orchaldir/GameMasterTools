@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
@@ -27,21 +27,21 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID_0))
+            val action = UpdateAction(ArchitecturalStyle(ARCHITECTURAL_ID_0))
 
             assertIllegalArgument("Requires unknown Architectural Style 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot revive an unknown style`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID_0, revival = ARCHITECTURAL_ID_1))
+            val action = UpdateAction(ArchitecturalStyle(ARCHITECTURAL_ID_0, revival = UNKNOWN_ARCHITECTURAL_ID))
 
-            assertIllegalArgument("Cannot revive unknown architectural style 1!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot revive unknown Architectural Style 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot end before it started`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID_0, start = YEAR1, end = YEAR0))
+            val action = UpdateAction(ArchitecturalStyle(ARCHITECTURAL_ID_0, start = YEAR1, end = YEAR0))
 
             assertIllegalArgument("The Architectural Style 0 must end after it started!") {
                 REDUCER.invoke(
@@ -54,7 +54,7 @@ class ArchitecturalStyleTest {
         @Test
         fun `Style ends after it started`() {
             val style = ArchitecturalStyle(ARCHITECTURAL_ID_0, start = YEAR0, end = YEAR1)
-            val action = UpdateArchitecturalStyle(style)
+            val action = UpdateAction(style)
 
             assertEquals(
                 style,
@@ -66,7 +66,7 @@ class ArchitecturalStyleTest {
         fun `Style cannot start after a building using it was build`() {
             val building = Building(BuildingId(0), constructionDate = YEAR0, style = ARCHITECTURAL_ID_0)
             val newState = state.updateStorage(Storage(building))
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID_0, start = YEAR1))
+            val action = UpdateAction(ArchitecturalStyle(ARCHITECTURAL_ID_0, start = YEAR1))
 
             assertIllegalArgument("Architectural Style 0 didn't exist yet, when building 0 was build!") {
                 REDUCER.invoke(newState, action)
@@ -75,7 +75,7 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Start date is in the future`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID_0, start = FUTURE_YEAR_0))
+            val action = UpdateAction(ArchitecturalStyle(ARCHITECTURAL_ID_0, start = FUTURE_YEAR_0))
 
             assertIllegalArgument("Date (Architectural Style's Start) is in the future!") {
                 REDUCER.invoke(
@@ -87,7 +87,7 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `End date is in the future`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID_0, end = FUTURE_YEAR_0))
+            val action = UpdateAction(ArchitecturalStyle(ARCHITECTURAL_ID_0, end = FUTURE_YEAR_0))
 
             assertIllegalArgument("Date (Architectural Style's End) is in the future!") {
                 REDUCER.invoke(
@@ -100,7 +100,7 @@ class ArchitecturalStyleTest {
         @Test
         fun `Update is valid`() {
             val style = ArchitecturalStyle(ARCHITECTURAL_ID_0, NAME)
-            val action = UpdateArchitecturalStyle(style)
+            val action = UpdateAction(style)
 
             assertEquals(
                 style,

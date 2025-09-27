@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.health
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateDisease
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.util.CharacterReference
@@ -29,7 +29,7 @@ class DiseaseTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateDisease(Disease(DISEASE_ID_0))
+            val action = UpdateAction(Disease(DISEASE_ID_0))
             val state = STATE.removeStorage(DISEASE_ID_0)
 
             assertIllegalArgument("Requires unknown Disease 0!") { REDUCER.invoke(state, action) }
@@ -38,7 +38,7 @@ class DiseaseTest {
         @Test
         fun `Cannot modify an unknown disease`() {
             val disease = Disease(DISEASE_ID_0, origin = ModifiedElement(UNKNOWN_DISEASE_ID))
-            val action = UpdateDisease(disease)
+            val action = UpdateAction(disease)
 
             assertIllegalArgument("Requires unknown parent Disease 99!") {
                 REDUCER.invoke(STATE, action)
@@ -48,7 +48,7 @@ class DiseaseTest {
         @Test
         fun `Cannot evolve from an unknown disease`() {
             val disease = Disease(DISEASE_ID_0, origin = EvolvedElement(UNKNOWN_DISEASE_ID))
-            val action = UpdateDisease(disease)
+            val action = UpdateAction(disease)
 
             assertIllegalArgument("Requires unknown parent Disease 99!") {
                 REDUCER.invoke(STATE, action)
@@ -59,7 +59,7 @@ class DiseaseTest {
         fun `Modifier must exist`() {
             val origin = CreatedElement(CharacterReference(UNKNOWN_CHARACTER_ID))
             val disease = Disease(DISEASE_ID_0, origin = origin)
-            val action = UpdateDisease(disease)
+            val action = UpdateAction(disease)
 
             assertIllegalArgument("Requires unknown Creator (Character 99)!") {
                 REDUCER.invoke(STATE, action)
@@ -68,7 +68,7 @@ class DiseaseTest {
 
         @Test
         fun `Date is in the future`() {
-            val action = UpdateDisease(Disease(DISEASE_ID_0, date = FUTURE_DAY_0))
+            val action = UpdateAction(Disease(DISEASE_ID_0, date = FUTURE_DAY_0))
 
             assertIllegalArgument("Date (Disease) is in the future!") { REDUCER.invoke(STATE, action) }
         }
@@ -76,7 +76,7 @@ class DiseaseTest {
         @Test
         fun `Update a disease`() {
             val disease = Disease(DISEASE_ID_0, NAME)
-            val action = UpdateDisease(disease)
+            val action = UpdateAction(disease)
 
             assertEquals(disease, REDUCER.invoke(STATE, action).first.getDiseaseStorage().get(DISEASE_ID_0))
         }

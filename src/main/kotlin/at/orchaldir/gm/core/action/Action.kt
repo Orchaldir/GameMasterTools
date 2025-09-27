@@ -131,7 +131,7 @@ data class UpdateAppearance(
     val appearance: Appearance,
 ) : CharacterAction()
 
-data class UpdateEquipmentOfCharacter(
+data class UpdateActionOfCharacter(
     val id: CharacterId,
     val map: EquipmentIdMap,
 ) : CharacterAction()
@@ -297,7 +297,7 @@ data class AddBuilding(
 
 data class DeleteBuilding(val id: BuildingId) : WorldAction()
 
-data class UpdateBuildingLot(
+data class UpdateActionLot(
     val id: BuildingId,
     val tileIndex: Int,
     val size: MapSize2d,
@@ -309,7 +309,7 @@ data class UpdateBuildingLot(
             size = size,
         )
     } else {
-        error("UpdateBuildingLot requires InTownMap!")
+        error("UpdateActionLot requires InTownMap!")
     }
 }
 

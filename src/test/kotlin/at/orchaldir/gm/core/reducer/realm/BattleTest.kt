@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateBattle
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleParticipant
@@ -29,7 +29,7 @@ class BattleTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateBattle(Battle(BATTLE_ID_0))
+            val action = UpdateAction(Battle(BATTLE_ID_0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -37,7 +37,7 @@ class BattleTest {
         @Test
         fun `A participating realm must exist`() {
             val participant = BattleParticipant(UNKNOWN_REALM_ID)
-            val action = UpdateBattle(Battle(BATTLE_ID_0, participants = listOf(participant)))
+            val action = UpdateAction(Battle(BATTLE_ID_0, participants = listOf(participant)))
 
             assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -45,7 +45,7 @@ class BattleTest {
         @Test
         fun `A character leading the battle must exist`() {
             val participant = BattleParticipant(REALM_ID_0, UNKNOWN_CHARACTER_ID)
-            val action = UpdateBattle(Battle(BATTLE_ID_0, participants = listOf(participant)))
+            val action = UpdateAction(Battle(BATTLE_ID_0, participants = listOf(participant)))
 
             assertIllegalArgument("Requires unknown Character 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -53,7 +53,7 @@ class BattleTest {
         @Test
         fun `Update is valid`() {
             val battle = Battle(BATTLE_ID_0, Name.Companion.init("Test"))
-            val action = UpdateBattle(battle)
+            val action = UpdateAction(battle)
 
             assertEquals(battle, REDUCER.invoke(STATE, action).first.getBattleStorage().get(BATTLE_ID_0))
         }

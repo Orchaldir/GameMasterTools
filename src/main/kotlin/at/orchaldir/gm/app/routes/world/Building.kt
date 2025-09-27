@@ -14,7 +14,7 @@ import at.orchaldir.gm.app.html.world.showBuilding
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteBuilding
-import at.orchaldir.gm.core.action.UpdateBuildingLot
+import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.SortBuilding
@@ -153,7 +153,7 @@ fun Application.configureBuildingRouting() {
         get<BuildingRoutes.Lot.Update> { update ->
             logger.info { "Update building lot ${update.id.value}" }
 
-            val action = UpdateBuildingLot(update.id, update.tileIndex, update.size)
+            val action = UpdateActionLot(update.id, update.tileIndex, update.size)
 
             STORE.dispatch(action)
 

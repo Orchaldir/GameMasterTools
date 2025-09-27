@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
-import at.orchaldir.gm.core.action.UpdateBuildingLot
+import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.Position
@@ -104,7 +104,7 @@ fun updateBuilding(state: State, newBuilding: Building): Pair<State, List<Action
     )
 }
 
-val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
+val UPDATE_BUILDING_LOT: Reducer<UpdateActionLot, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
     if (oldBuilding.position is InTownMap) {

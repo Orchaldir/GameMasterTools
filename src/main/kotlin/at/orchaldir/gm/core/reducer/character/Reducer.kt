@@ -13,7 +13,7 @@ val CHARACTER_REDUCER: Reducer<CharacterAction, State> = { state, action ->
         // character
         is DeleteCharacter -> deleteElement(state, action.id, State::canDeleteCharacter)
         is UpdateAppearance -> UPDATE_APPEARANCE(state, action)
-        is UpdateEquipmentOfCharacter -> UPDATE_EQUIPMENT_MAP(state, action)
+        is UpdateActionOfCharacter -> UPDATE_EQUIPMENT_MAP(state, action)
         is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
         // character templates
         is DeleteCharacterTemplate -> deleteElement(state, action.id, State::canDeleteCharacterTemplate)

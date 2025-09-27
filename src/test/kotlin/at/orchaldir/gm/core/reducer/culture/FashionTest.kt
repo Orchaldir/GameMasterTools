@@ -4,7 +4,7 @@ import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_1
 import at.orchaldir.gm.FASHION_ID_0
 import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.core.action.UpdateFashion
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
@@ -70,7 +70,7 @@ class FashionTest {
         private fun assertBeardFashion(beardFashion: BeardFashion, message: String) {
             val state = State(Storage(Fashion(FASHION_ID_0)))
             val fashion = Fashion(FASHION_ID_0, appearance = AppearanceFashion(beard = beardFashion))
-            val action = UpdateFashion(fashion)
+            val action = UpdateAction(fashion)
 
             assertIllegalArgument(message) {
                 REDUCER.invoke(state, action)
@@ -150,7 +150,7 @@ class FashionTest {
         private fun assertHairFashion(hairFashion: HairFashion, message: String) {
             val state = State(Storage(Fashion(FASHION_ID_0)))
             val fashion = Fashion(FASHION_ID_0, appearance = AppearanceFashion(hair = hairFashion))
-            val action = UpdateFashion(fashion)
+            val action = UpdateAction(fashion)
 
             assertIllegalArgument(message) {
                 REDUCER.invoke(state, action)
@@ -179,14 +179,14 @@ class FashionTest {
                 equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(EQUIPMENT_ID_0))
             )
             val result = Fashion(FASHION_ID_0, clothing = resultStyle)
-            val action = UpdateFashion(fashion)
+            val action = UpdateAction(fashion)
 
             assertEquals(result, REDUCER.invoke(state, action).first.getFashionStorage().get(FASHION_ID_0))
         }
 
         @Test
         fun `Cannot update unknown fashion`() {
-            val action = UpdateFashion(Fashion(FASHION_ID_0))
+            val action = UpdateAction(Fashion(FASHION_ID_0))
 
             assertIllegalArgument("Requires unknown Fashion 0!") { REDUCER.invoke(State(), action) }
         }
@@ -197,7 +197,7 @@ class FashionTest {
             val style =
                 ClothingFashion(equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(EQUIPMENT_ID_0)))
             val fashion = Fashion(FASHION_ID_0, clothing = style)
-            val action = UpdateFashion(fashion)
+            val action = UpdateAction(fashion)
 
             assertIllegalArgument("Requires unknown Equipment 0!") { REDUCER.invoke(state, action) }
         }
@@ -207,7 +207,7 @@ class FashionTest {
             val state = State(Storage(Fashion(FASHION_ID_0)))
             val style = ClothingFashion(clothingSets = OneOf(ClothingSet.Dress))
             val fashion = Fashion(FASHION_ID_0, clothing = style)
-            val action = UpdateFashion(fashion)
+            val action = UpdateAction(fashion)
 
             assertIllegalArgument("Clothing set Dress requires at least one Dress!") { REDUCER.invoke(state, action) }
         }
@@ -221,7 +221,7 @@ class FashionTest {
                 equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(EQUIPMENT_ID_0))
             )
             val fashion = Fashion(FASHION_ID_0, clothing = style)
-            val action = UpdateFashion(fashion)
+            val action = UpdateAction(fashion)
 
             assertIllegalArgument("Type Dress has item 0 of wrong type!") { REDUCER.invoke(state, action) }
         }
@@ -316,7 +316,7 @@ class FashionTest {
                 equipmentRarityMap = mapOf(type to OneOrNone(EQUIPMENT_ID_0))
             )
             val fashion = Fashion(FASHION_ID_0, clothing = style)
-            val action = UpdateFashion(fashion)
+            val action = UpdateAction(fashion)
 
             assertIllegalArgument(message) { REDUCER.invoke(state, action) }
         }
@@ -344,7 +344,7 @@ class FashionTest {
                 equipmentRarityMap = mapOf(type0 to OneOrNone(EQUIPMENT_ID_0), type1 to OneOrNone(EQUIPMENT_ID_1))
             )
             val fashion = Fashion(FASHION_ID_0, clothing = style)
-            val action = UpdateFashion(fashion)
+            val action = UpdateAction(fashion)
 
             assertIllegalArgument(message) { REDUCER.invoke(state, action) }
         }

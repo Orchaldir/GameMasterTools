@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateUniform
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.Economy
@@ -36,7 +36,7 @@ class UniformTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateUniform(Uniform(UNKNOWN_UNIFORM_ID))
+            val action = UpdateAction(Uniform(UNKNOWN_UNIFORM_ID))
 
             assertIllegalArgument("Requires unknown Uniform 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -44,7 +44,7 @@ class UniformTest {
         @Test
         fun `Cannot update uniform with unknown equipment`() {
             val equipmentMap = EquipmentMap.fromId(UNKNOWN_EQUIPMENT_ID, COLOR_SCHEME_ID_0, BodySlot.Head)
-            val action = UpdateUniform(Uniform(UNIFORM_ID_0, equipmentMap = equipmentMap))
+            val action = UpdateAction(Uniform(UNIFORM_ID_0, equipmentMap = equipmentMap))
 
             assertIllegalArgument("Requires unknown Equipment 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -53,7 +53,7 @@ class UniformTest {
         fun `Success`() {
             val equipmentMap = EquipmentMap.fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
             val uniform = Uniform(UNIFORM_ID_0, equipmentMap = equipmentMap)
-            val action = UpdateUniform(uniform)
+            val action = UpdateAction(uniform)
 
             assertEquals(uniform, REDUCER.invoke(STATE, action).first.getUniformStorage().get(UNIFORM_ID_0))
         }

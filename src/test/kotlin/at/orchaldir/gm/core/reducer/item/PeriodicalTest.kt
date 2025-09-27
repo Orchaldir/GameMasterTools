@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdatePeriodical
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.language.Language
@@ -34,7 +34,7 @@ class PeriodicalTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdatePeriodical(Periodical(UNKNOWN_PERIODICAL_ID))
+            val action = UpdateAction(Periodical(UNKNOWN_PERIODICAL_ID))
 
             assertIllegalArgument("Requires unknown Periodical 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -42,35 +42,35 @@ class PeriodicalTest {
         @Test
         fun `Owner is an unknown character`() {
             val ownership: History<Reference> = History(CharacterReference(UNKNOWN_CHARACTER_ID))
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, ownership = ownership))
+            val action = UpdateAction(Periodical(PERIODICAL_ID_0, ownership = ownership))
 
             assertIllegalArgument("Requires unknown owner (Character 99)!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Date is in the future`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, date = FUTURE_DAY_0))
+            val action = UpdateAction(Periodical(PERIODICAL_ID_0, date = FUTURE_DAY_0))
 
             assertIllegalArgument("Date (Founding) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `The calendar is unknown`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, calendar = UNKNOWN_CALENDAR_ID))
+            val action = UpdateAction(Periodical(PERIODICAL_ID_0, calendar = UNKNOWN_CALENDAR_ID))
 
             assertIllegalArgument("Requires unknown Calendar 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `The calendar doesn't support weeks`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, frequency = PublicationFrequency.Weekly))
+            val action = UpdateAction(Periodical(PERIODICAL_ID_0, frequency = PublicationFrequency.Weekly))
 
             assertIllegalArgument("The Calendar 0 doesn't support Weekly!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `The language is unknown`() {
-            val action = UpdatePeriodical(Periodical(PERIODICAL_ID_0, language = UNKNOWN_LANGUAGE_ID))
+            val action = UpdateAction(Periodical(PERIODICAL_ID_0, language = UNKNOWN_LANGUAGE_ID))
 
             assertIllegalArgument("Requires unknown Language 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -78,7 +78,7 @@ class PeriodicalTest {
         @Test
         fun `Test Success`() {
             val periodical = Periodical(PERIODICAL_ID_0, Name.init("Test"))
-            val action = UpdatePeriodical(periodical)
+            val action = UpdateAction(periodical)
 
             assertEquals(periodical, REDUCER.invoke(STATE, action).first.getPeriodicalStorage().get(PERIODICAL_ID_0))
         }

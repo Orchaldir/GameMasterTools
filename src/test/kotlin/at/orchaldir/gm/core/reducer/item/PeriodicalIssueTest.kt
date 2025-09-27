@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdatePeriodicalIssue
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
@@ -28,14 +28,14 @@ class PeriodicalIssueTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdatePeriodicalIssue(PeriodicalIssue(UNKNOWN_ISSUE_ID))
+            val action = UpdateAction(PeriodicalIssue(UNKNOWN_ISSUE_ID))
 
             assertIllegalArgument("Requires unknown Periodical Issue 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `The periodical is unknown`() {
-            val action = UpdatePeriodicalIssue(PeriodicalIssue(ISSUE_ID_0, UNKNOWN_PERIODICAL_ID))
+            val action = UpdateAction(PeriodicalIssue(ISSUE_ID_0, UNKNOWN_PERIODICAL_ID))
 
             assertIllegalArgument("Requires unknown Periodical 99!") { REDUCER.invoke(state, action) }
         }
@@ -47,7 +47,7 @@ class PeriodicalIssueTest {
             @Test
             fun `Issue cannot be published before the start of the periodical`() {
                 val issue = PeriodicalIssue(ISSUE_ID_0, PERIODICAL_ID_0, YEAR0)
-                val action = UpdatePeriodicalIssue(issue)
+                val action = UpdateAction(issue)
 
                 assertIllegalArgument("The Issue 0 cannot be published before the start of the periodical!") {
                     REDUCER.invoke(state, action)
@@ -80,7 +80,7 @@ class PeriodicalIssueTest {
             oldState: State,
             issue: PeriodicalIssue,
         ) {
-            val action = UpdatePeriodicalIssue(issue)
+            val action = UpdateAction(issue)
 
             val newState = REDUCER.invoke(oldState, action).first
 

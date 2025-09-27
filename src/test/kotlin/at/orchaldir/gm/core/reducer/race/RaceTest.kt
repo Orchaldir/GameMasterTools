@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.race
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateRace
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.race.Race
@@ -32,7 +32,7 @@ class RaceTest {
 
     @Nested
     inner class UpdateTest {
-        val action = UpdateRace(Race(RACE_ID_0))
+        val action = UpdateAction(Race(RACE_ID_0))
 
         @Test
         fun `Cannot update unknown id`() {
@@ -63,7 +63,7 @@ class RaceTest {
                         )
                     )
                 )
-                val action = UpdateRace(race)
+                val action = UpdateAction(race)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }
@@ -77,7 +77,7 @@ class RaceTest {
         @Test
         fun `Creator must exist`() {
             val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
-            val action = UpdateRace(Race(RACE_ID_0, date = DAY0, origin = origin))
+            val action = UpdateAction(Race(RACE_ID_0, date = DAY0, origin = origin))
 
             assertIllegalArgument("Requires unknown Creator (Character 0)!") { REDUCER.invoke(state, action) }
         }
@@ -85,7 +85,7 @@ class RaceTest {
         @Test
         fun `Date is in the future`() {
             val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
-            val action = UpdateRace(Race(RACE_ID_0, date = FUTURE_DAY_0, origin = origin))
+            val action = UpdateAction(Race(RACE_ID_0, date = FUTURE_DAY_0, origin = origin))
             val newState = state.updateStorage(Storage(Character(CHARACTER_ID_0)))
 
             assertIllegalArgument("Date (Race) is in the future!") { REDUCER.invoke(newState, action) }
@@ -103,7 +103,7 @@ class RaceTest {
                     )
                 )
             )
-            val action = UpdateRace(race)
+            val action = UpdateAction(race)
 
             assertEquals(race, REDUCER.invoke(state, action).first.getRaceStorage().get(RACE_ID_0))
         }

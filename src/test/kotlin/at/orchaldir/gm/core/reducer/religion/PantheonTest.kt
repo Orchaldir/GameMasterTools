@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.religion
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdatePantheon
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
@@ -27,14 +27,14 @@ class PantheonTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdatePantheon(Pantheon(UNKNOWN_PANTHEON_ID))
+            val action = UpdateAction(Pantheon(UNKNOWN_PANTHEON_ID))
 
             assertIllegalArgument("Requires unknown Pantheon 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use an unknown god`() {
-            val action = UpdatePantheon(Pantheon(PANTHEON_ID_0, gods = setOf(UNKNOWN_GOD_ID)))
+            val action = UpdateAction(Pantheon(PANTHEON_ID_0, gods = setOf(UNKNOWN_GOD_ID)))
 
             assertIllegalArgument("Requires unknown God 99!") { REDUCER.invoke(state, action) }
         }
@@ -45,7 +45,7 @@ class PantheonTest {
                 PANTHEON_ID_0,
                 gods = setOf(GOD_ID_0),
             )
-            val action = UpdatePantheon(pantheon)
+            val action = UpdateAction(pantheon)
 
             assertEquals(pantheon, REDUCER.invoke(state, action).first.getPantheonStorage().get(PANTHEON_ID_0))
         }
