@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
@@ -116,17 +117,7 @@ fun Application.configureSpellRouting() {
             }
         }
         post<SpellRoutes.Update> { update ->
-            logger.info { "Update spell ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val spell = parseSpell(formParameters, state, update.id)
-
-            STORE.dispatch(UpdateAction(spell))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseSpell(call.receiveParameters(), STORE.getState(), update.id))
         }
     }
 }
