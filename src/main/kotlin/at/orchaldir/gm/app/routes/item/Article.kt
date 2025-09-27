@@ -107,7 +107,7 @@ fun Application.configureArticleRouting() {
             }
         }
         post<ArticleRoutes.Update> { update ->
-            handleUpdateElement(parseArticle(STORE.getState(), call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseArticle)
         }
     }
 }

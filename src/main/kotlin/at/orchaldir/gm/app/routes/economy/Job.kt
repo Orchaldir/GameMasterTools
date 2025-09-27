@@ -102,14 +102,14 @@ fun Application.configureJobRouting() {
             logger.info { "Preview job ${preview.id.value}" }
 
             val state = STORE.getState()
-            val job = parseJob(call.receiveParameters(), preview.id)
+            val job = parseJob(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showJobEditor(call, state, job)
             }
         }
         post<JobRoutes.Update> { update ->
-            handleUpdateElement(parseJob( call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseJob)
         }
     }
 }

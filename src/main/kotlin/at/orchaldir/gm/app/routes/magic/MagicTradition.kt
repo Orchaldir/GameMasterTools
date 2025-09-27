@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.magic
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.item.parseUniform
 import at.orchaldir.gm.app.html.magic.editMagicTradition
 import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
@@ -9,6 +10,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.action.UpdateMagicTradition
 import at.orchaldir.gm.core.model.State
@@ -100,24 +102,14 @@ fun Application.configureMagicTraditionRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val tradition = parseMagicTradition(formParameters, state, preview.id)
+            val tradition = parseMagicTradition(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showMagicTraditionEditor(call, state, tradition)
             }
         }
         post<MagicTraditionRoutes.Update> { update ->
-            logger.info { "Update tradition ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val tradition = parseMagicTradition(formParameters, state, update.id)
-
-            STORE.dispatch(UpdateMagicTradition(tradition))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseMagicTradition)
         }
     }
 }

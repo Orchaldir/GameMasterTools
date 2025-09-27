@@ -103,7 +103,11 @@ fun parseBattleId(parameters: Parameters, param: String) = BattleId(parseInt(par
 fun parseOptionalBattleId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { BattleId(it) }
 
-fun parseBattle(parameters: Parameters, state: State, id: BattleId) = Battle(
+fun parseBattle(
+    state: State,
+    parameters: Parameters,
+    id: BattleId,
+) = Battle(
     id,
     parseName(parameters),
     parseOptionalDate(parameters, state, DATE),

@@ -118,7 +118,7 @@ fun Application.configureCharacterTemplateRouting() {
             }
         }
         post<CharacterTemplateRoutes.Update> { update ->
-            handleUpdateElement(parseCharacterTemplate(STORE.getState(), call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseCharacterTemplate)
         }
     }
 }

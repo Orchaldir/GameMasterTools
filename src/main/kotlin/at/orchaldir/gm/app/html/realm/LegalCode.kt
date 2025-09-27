@@ -53,7 +53,11 @@ fun parseLegalCodeId(value: String) = LegalCodeId(value.toInt())
 fun parseOptionalLegalCodeId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { LegalCodeId(it) }
 
-fun parseLegalCode(parameters: Parameters, state: State, id: LegalCodeId) = LegalCode(
+fun parseLegalCode(
+    state: State,
+    parameters: Parameters,
+    id: LegalCodeId,
+) = LegalCode(
     id,
     parseName(parameters),
     parseCreator(parameters),

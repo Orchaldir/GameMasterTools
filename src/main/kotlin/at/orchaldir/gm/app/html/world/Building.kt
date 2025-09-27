@@ -76,7 +76,7 @@ fun FORM.editBuilding(
 fun parseBuildingId(parameters: Parameters, param: String, default: Int = 0) =
     BuildingId(parseInt(parameters, param, default))
 
-fun parseBuilding(parameters: Parameters, state: State, id: BuildingId): Building {
+fun parseBuilding(state: State, parameters: Parameters, id: BuildingId): Building {
     val constructionDate = parseOptionalDate(parameters, state, DATE)
 
     return Building(

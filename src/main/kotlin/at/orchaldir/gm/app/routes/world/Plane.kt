@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
@@ -99,23 +101,14 @@ fun Application.configurePlaneRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val plane = parsePlane(formParameters, preview.id)
+            val plane = parsePlane(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showPlaneEditor(call, state, plane)
             }
         }
         post<PlaneRoutes.Update> { update ->
-            logger.info { "Update plane ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val plane = parsePlane(formParameters, update.id)
-
-            STORE.dispatch(UpdatePlane(plane))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parsePlane)
         }
     }
 }

@@ -3,12 +3,14 @@ package at.orchaldir.gm.app.routes.realm
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editDistrict
+import at.orchaldir.gm.app.html.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.realm.parseDistrict
 import at.orchaldir.gm.app.html.realm.showDistrict
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.action.UpdateDistrict
 import at.orchaldir.gm.core.model.State
@@ -100,23 +102,14 @@ fun Application.configureDistrictRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val code = parseDistrict(formParameters, state, preview.id)
+            val code = parseDistrict(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDistrictEditor(call, state, code)
             }
         }
         post<DistrictRoutes.Update> { update ->
-            logger.info { "Update legal code ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val code = parseDistrict(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateDistrict(code))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseDistrict)
         }
     }
 }

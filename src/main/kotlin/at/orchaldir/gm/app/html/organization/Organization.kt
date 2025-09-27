@@ -122,7 +122,11 @@ private fun FORM.editMembers(
 
 fun parseOrganizationId(parameters: Parameters, param: String) = OrganizationId(parseInt(parameters, param))
 
-fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId): Organization {
+fun parseOrganization(
+    state: State,
+    parameters: Parameters,
+    id: OrganizationId,
+): Organization {
     val date = parseOptionalDate(parameters, state, DATE)
 
     return Organization(

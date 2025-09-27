@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.item.periodical.parsePeriodicalIssue
 import at.orchaldir.gm.app.html.item.text.editText
 import at.orchaldir.gm.app.html.item.text.parseText
 import at.orchaldir.gm.app.html.item.text.showText
@@ -9,6 +10,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
@@ -117,23 +119,14 @@ fun Application.configureTextRouting() {
             logger.info { "Get preview for text ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val text = parseText(formParameters, STORE.getState(), preview.id)
+            val text = parseText(STORE.getState(), formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTextEditor(call, STORE.getState(), text)
             }
         }
         post<TextRoutes.Update> { update ->
-            logger.info { "Update text ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val text = parseText(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateText(text))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseText)
         }
     }
 }

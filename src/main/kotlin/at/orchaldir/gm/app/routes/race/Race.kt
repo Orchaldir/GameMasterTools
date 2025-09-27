@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.organization.parseOrganization
 import at.orchaldir.gm.app.html.race.editRace
 import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
@@ -10,6 +11,7 @@ import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
@@ -102,15 +104,7 @@ fun Application.configureRaceRouting() {
             }
         }
         post<RaceRoutes.Update> { update ->
-            logger.info { "Update race ${update.id.value}" }
-
-            val race = parseRace(STORE.getState(), call.receiveParameters(), update.id)
-
-            STORE.dispatch(UpdateRace(race))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseRace)
         }
     }
 }

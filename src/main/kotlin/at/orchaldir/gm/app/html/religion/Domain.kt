@@ -46,7 +46,11 @@ fun parseDomainId(parameters: Parameters, param: String) = DomainId(parseInt(par
 
 fun parseDomainId(value: String) = DomainId(value.toInt())
 
-fun parseDomain(parameters: Parameters, id: DomainId) = Domain(
+fun parseDomain(
+    state: State,
+    parameters: Parameters,
+    id: DomainId,
+) = Domain(
     id,
     parseName(parameters),
     parseSomeOf(parameters, SPELLS, ::parseSpellId),

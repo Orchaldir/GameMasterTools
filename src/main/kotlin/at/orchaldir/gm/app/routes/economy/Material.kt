@@ -105,7 +105,7 @@ fun Application.configureMaterialRouting() {
             }
         }
         post<MaterialRoutes.Update> { update ->
-            handleUpdateElement(parseMaterial(call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseMaterial)
         }
     }
 }

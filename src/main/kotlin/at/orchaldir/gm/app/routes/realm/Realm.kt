@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.realm
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editRealm
+import at.orchaldir.gm.app.html.realm.parseLegalCode
 import at.orchaldir.gm.app.html.realm.parseRealm
 import at.orchaldir.gm.app.html.realm.showRealm
 import at.orchaldir.gm.app.html.util.displayVitalStatus
@@ -10,6 +11,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
@@ -102,23 +104,14 @@ fun Application.configureRealmRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val realm = parseRealm(formParameters, state, preview.id)
+            val realm = parseRealm(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showRealmEditor(call, state, realm)
             }
         }
         post<RealmRoutes.Update> { update ->
-            logger.info { "Update realm ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val realm = parseRealm(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateRealm(realm))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseRealm)
         }
     }
 }

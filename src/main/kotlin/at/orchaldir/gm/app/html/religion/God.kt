@@ -73,7 +73,11 @@ fun parseGodId(parameters: Parameters, param: String) = GodId(parseInt(parameter
 
 fun parseGodId(value: String) = GodId(value.toInt())
 
-fun parseGod(parameters: Parameters, id: GodId) = God(
+fun parseGod(
+    state: State,
+    parameters: Parameters,
+    id: GodId,
+) = God(
     id,
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),

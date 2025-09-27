@@ -46,7 +46,11 @@ fun parseUniformId(parameters: Parameters, param: String) = parseOptionalUniform
 fun parseOptionalUniformId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { UniformId(it) }
 
-fun parseUniform(parameters: Parameters, id: UniformId) = Uniform(
+fun parseUniform(
+    state: State,
+    parameters: Parameters,
+    id: UniformId,
+) = Uniform(
     id,
     parseName(parameters),
     parseEquipmentMap(parameters, UNIFORM),

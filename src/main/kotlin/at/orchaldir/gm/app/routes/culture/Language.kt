@@ -113,7 +113,7 @@ fun Application.configureLanguageRouting() {
             }
         }
         post<LanguageRoutes.Update> { update ->
-            handleUpdateElement(parseLanguage(STORE.getState(), call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseLanguage)
         }
     }
 }

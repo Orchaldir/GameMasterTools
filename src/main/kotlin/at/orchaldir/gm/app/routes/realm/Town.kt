@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.realm
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editTown
+import at.orchaldir.gm.app.html.realm.parseRealm
 import at.orchaldir.gm.app.html.realm.parseTown
 import at.orchaldir.gm.app.html.realm.showTown
 import at.orchaldir.gm.app.html.util.displayVitalStatus
@@ -10,6 +11,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
@@ -107,23 +109,14 @@ fun Application.configureTownRouting() {
             logger.info { "Preview town ${preview.id.value}" }
 
             val state = STORE.getState()
-            val town = parseTown(call.receiveParameters(), state, preview.id)
+            val town = parseTown(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTownEditor(call, state, town)
             }
         }
         post<TownRoutes.Update> { update ->
-            logger.info { "Update town ${update.id.value}" }
-
-            val state = STORE.getState()
-            val town = parseTown(call.receiveParameters(), state, update.id)
-
-            STORE.dispatch(UpdateTown(town))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseTown)
         }
     }
 }

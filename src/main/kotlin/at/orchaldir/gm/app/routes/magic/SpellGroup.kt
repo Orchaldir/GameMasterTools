@@ -3,10 +3,12 @@ package at.orchaldir.gm.app.routes.magic
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editSpellGroup
+import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.magic.showSpellGroup
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteSpellGroup
 import at.orchaldir.gm.core.action.UpdateSpellGroup
 import at.orchaldir.gm.core.model.State
@@ -101,23 +103,14 @@ fun Application.configureSpellGroupRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val group = parseSpellGroup(formParameters, preview.id)
+            val group = parseSpellGroup(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showSpellGroupEditor(call, state, group)
             }
         }
         post<SpellGroupRoutes.Update> { update ->
-            logger.info { "Update group ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val group = parseSpellGroup(formParameters, update.id)
-
-            STORE.dispatch(UpdateSpellGroup(group))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseSpellGroup)
         }
     }
 }

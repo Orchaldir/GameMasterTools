@@ -93,14 +93,15 @@ fun Application.configureFashionRouting() {
         post<FashionRoutes.Preview> { preview ->
             logger.info { "Get preview for fashion ${preview.id.value}" }
 
-            val fashion = parseFashion(call.receiveParameters(), preview.id)
+            val state = STORE.getState()
+            val fashion = parseFashion(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showFashionEditor(call, STORE.getState(), fashion)
+                showFashionEditor(call, state, fashion)
             }
         }
         post<FashionRoutes.Update> { update ->
-            handleUpdateElement(parseFashion(call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseFashion)
         }
     }
 }

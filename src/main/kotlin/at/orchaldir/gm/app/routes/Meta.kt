@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.href
-import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.showDeleteResult
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.CloneAction
@@ -20,6 +19,7 @@ import io.ktor.server.request.receiveParameters
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
+import at.orchaldir.gm.core.model.State
 
 suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
     storage: Storage<ID, ELEMENT>,
@@ -73,13 +73,15 @@ suspend inline fun <reified T : Any> PipelineContext<Unit, ApplicationCall>.hand
 }
 
 suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(
-    element: ELEMENT,
+    id: ID,
+    parse: (State, Parameters, ID) ->ELEMENT,
 ) {
-    logger.info { "Update ${element.id().print()}" }
+    logger.info { "Update ${id.print()}" }
 
+    val element = parse(STORE.getState(), call.receiveParameters(), id)
     STORE.dispatch(UpdateAction(element))
 
-    call.respondRedirect(href(call, element.id()))
+    call.respondRedirect(href(call, id))
 
     STORE.getState().save()
 }

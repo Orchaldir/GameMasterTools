@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.magic
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editSpell
+import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.magic.showSpell
 import at.orchaldir.gm.app.html.util.showOptionalDate
@@ -117,7 +118,7 @@ fun Application.configureSpellRouting() {
             }
         }
         post<SpellRoutes.Update> { update ->
-            handleUpdateElement(parseSpell(STORE.getState(), call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseSpell)
         }
     }
 }

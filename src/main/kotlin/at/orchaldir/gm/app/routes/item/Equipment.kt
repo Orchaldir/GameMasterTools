@@ -140,7 +140,7 @@ fun Application.configureEquipmentRouting() {
             }
         }
         post<EquipmentRoutes.Update> { update ->
-            handleUpdateElement(parseEquipment(STORE.getState(), call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseEquipment)
         }
     }
 }

@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteQuote
-import at.orchaldir.gm.core.action.UpdateQuote
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortQuote
 import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
@@ -24,7 +24,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -99,22 +98,14 @@ fun Application.configureQuoteRouting() {
             logger.info { "Preview quote ${preview.id.value}" }
 
             val state = STORE.getState()
-            val quote = parseQuote(call.receiveParameters(), state, preview.id)
+            val quote = parseQuote(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showQuoteEditor(call, state, quote)
             }
         }
         post<QuoteRoutes.Update> { update ->
-            logger.info { "Update quote ${update.id.value}" }
-
-            val quote = parseQuote(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateQuote(quote))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseQuote)
         }
     }
 }

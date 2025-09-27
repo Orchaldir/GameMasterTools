@@ -39,6 +39,7 @@ fun parseOptionalFashionId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { FashionId(it) }
 
 fun parseFashion(
+    state: State,
     parameters: Parameters,
     id: FashionId,
 ) = Fashion(

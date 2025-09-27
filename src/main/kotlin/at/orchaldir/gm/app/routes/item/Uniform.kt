@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.editUniform
 import at.orchaldir.gm.app.html.item.parseUniform
 import at.orchaldir.gm.app.html.item.showUniform
+import at.orchaldir.gm.app.html.item.text.parseText
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteUniform
 import at.orchaldir.gm.core.action.UpdateUniform
 import at.orchaldir.gm.core.model.State
@@ -118,23 +120,15 @@ fun Application.configureUniformRouting() {
             logger.info { "Get preview for uniform ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val uniform = parseUniform(formParameters, preview.id)
+            val state = STORE.getState()
+            val uniform = parseUniform(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showUniformEditor(call, STORE.getState(), uniform)
+                showUniformEditor(call, state, uniform)
             }
         }
         post<UniformRoutes.Update> { update ->
-            logger.info { "Update uniform ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val uniform = parseUniform(formParameters, update.id)
-
-            STORE.dispatch(UpdateUniform(uniform))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseUniform)
         }
     }
 }

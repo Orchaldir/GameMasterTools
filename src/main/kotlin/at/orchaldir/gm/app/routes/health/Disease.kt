@@ -111,7 +111,7 @@ fun Application.configureDiseaseRouting() {
             }
         }
         post<DiseaseRoutes.Update> { update ->
-            handleUpdateElement(parseDisease(STORE.getState(), call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseDisease)
         }
     }
 }

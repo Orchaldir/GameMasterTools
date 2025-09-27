@@ -2,11 +2,13 @@ package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.time.parseHoliday
 import at.orchaldir.gm.app.html.util.color.editColorScheme
 import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.color.showColorScheme
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteColorScheme
 import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
@@ -103,23 +105,14 @@ fun Application.configureColorSchemeRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val scheme = parseColorScheme(formParameters, state, preview.id)
+            val scheme = parseColorScheme(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showColorSchemeEditor(call, state, scheme)
             }
         }
         post<ColorSchemeRoutes.Update> { update ->
-            logger.info { "Update color scheme ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val scheme = parseColorScheme(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateColorScheme(scheme))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseColorScheme)
         }
     }
 }

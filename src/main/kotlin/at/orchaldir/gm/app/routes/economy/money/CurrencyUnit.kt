@@ -116,14 +116,14 @@ fun Application.configureCurrencyUnitRouting() {
             logger.info { "Preview unit ${preview.id.value}" }
 
             val state = STORE.getState()
-            val unit = parseCurrencyUnit(call.receiveParameters(), preview.id)
+            val unit = parseCurrencyUnit(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCurrencyUnitEditor(call, state, unit)
             }
         }
         post<CurrencyUnitRoutes.Update> { update ->
-            handleUpdateElement(parseCurrencyUnit(call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseCurrencyUnit)
         }
     }
 }

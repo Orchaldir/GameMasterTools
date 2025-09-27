@@ -74,7 +74,11 @@ fun FORM.editText(
 
 fun parseTextId(parameters: Parameters, param: String) = TextId(parseInt(parameters, param))
 
-fun parseText(parameters: Parameters, state: State, id: TextId) =
+fun parseText(
+    state: State,
+    parameters: Parameters,
+    id: TextId,
+) =
     Text(
         id,
         parseName(parameters),

@@ -87,7 +87,7 @@ fun Application.configurePersonalityRouting() {
             }
         }
         post<PersonalityTraitRoutes.Update> { update ->
-            handleUpdateElement(parsePersonalityTrait(call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parsePersonalityTrait)
         }
     }
 }

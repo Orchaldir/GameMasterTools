@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.realm.editBattle
 import at.orchaldir.gm.app.html.realm.parseBattle
 import at.orchaldir.gm.app.html.realm.showBattle
@@ -10,6 +11,7 @@ import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.action.UpdateBattle
 import at.orchaldir.gm.core.model.State
@@ -101,23 +103,14 @@ fun Application.configureBattleRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val battle = parseBattle(formParameters, state, preview.id)
+            val battle = parseBattle(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showBattleEditor(call, state, battle)
             }
         }
         post<BattleRoutes.Update> { update ->
-            logger.info { "Update battle ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val battle = parseBattle(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateBattle(battle))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseBattle)
         }
     }
 }

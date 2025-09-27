@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.economy.material.showMaterialCost
 import at.orchaldir.gm.app.parse.world.parseStreetTemplate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteStreetTemplate
-import at.orchaldir.gm.core.action.UpdateStreetTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Solid
@@ -31,7 +31,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -103,22 +102,15 @@ fun Application.configureStreetTemplateRouting() {
         post<StreetTemplateRoutes.Preview> { preview ->
             logger.info { "Preview street template ${preview.id.value}" }
 
-            val type = parseStreetTemplate(preview.id, call.receiveParameters())
+            val state = STORE.getState()
+            val type = parseStreetTemplate(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetTemplateEditor(call, STORE.getState(), type)
+                showStreetTemplateEditor(call, state, type)
             }
         }
         post<StreetTemplateRoutes.Update> { update ->
-            logger.info { "Update street template ${update.id.value}" }
-
-            val type = parseStreetTemplate(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateStreetTemplate(type))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseStreetTemplate)
         }
     }
 }

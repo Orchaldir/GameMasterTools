@@ -54,7 +54,11 @@ fun parseHolidayId(
 
 fun parseHolidayId(value: String) = HolidayId(value.toInt())
 
-fun parseHoliday(id: HolidayId, parameters: Parameters) = Holiday(
+fun parseHoliday(
+    state: State,
+    parameters: Parameters,
+    id: HolidayId,
+) = Holiday(
     id,
     parseName(parameters),
     parseCalendarId(parameters, CALENDAR_TYPE),

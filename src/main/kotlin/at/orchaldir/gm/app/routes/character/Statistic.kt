@@ -105,14 +105,14 @@ fun Application.configureStatisticRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val statistic = parseStatistic(formParameters, preview.id)
+            val statistic = parseStatistic(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showStatisticEditor(call, state, statistic)
             }
         }
         post<StatisticRoutes.Update> { update ->
-            handleUpdateElement(parseStatistic(call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseStatistic)
         }
     }
 }

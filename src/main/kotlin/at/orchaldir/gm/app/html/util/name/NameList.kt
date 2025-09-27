@@ -47,7 +47,7 @@ fun parseNameListId(
     param: String,
 ) = NameListId(parseInt(parameters, param))
 
-fun parseNameList(id: NameListId, parameters: Parameters) = NameList(
+fun parseNameList(state: State, parameters: Parameters, id: NameListId) = NameList(
     id,
     parseName(parameters),
     parseNames(parameters.getOrFail(NAMES)),

@@ -42,7 +42,11 @@ fun parsePantheonId(parameters: Parameters, param: String) = PantheonId(parseInt
 
 fun parsePantheonId(value: String) = PantheonId(value.toInt())
 
-fun parsePantheon(parameters: Parameters, id: PantheonId) = Pantheon(
+fun parsePantheon(
+    state: State,
+    parameters: Parameters,
+    id: PantheonId,
+) = Pantheon(
     id,
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),

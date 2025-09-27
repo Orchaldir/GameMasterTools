@@ -110,7 +110,7 @@ fun Application.configureBusinessRouting() {
             }
         }
         post<BusinessRoutes.Update> { update ->
-            handleUpdateElement(parseBusiness(STORE.getState(), call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseBusiness)
         }
     }
 }

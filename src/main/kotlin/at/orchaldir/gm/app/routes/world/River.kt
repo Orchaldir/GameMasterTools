@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.parse.world.parseRiver
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
@@ -83,15 +85,7 @@ fun Application.configureRiverRouting() {
             }
         }
         post<RiverRoutes.Update> { update ->
-            logger.info { "Update river ${update.id.value}" }
-
-            val river = parseRiver(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateRiver(river))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseRiver)
         }
     }
 }

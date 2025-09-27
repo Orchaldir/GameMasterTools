@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.displayCauseOfCatastrophe
 import at.orchaldir.gm.app.html.realm.editCatastrophe
+import at.orchaldir.gm.app.html.realm.parseBattle
 import at.orchaldir.gm.app.html.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.realm.showCatastrophe
 import at.orchaldir.gm.app.html.util.showOptionalDate
@@ -11,6 +12,7 @@ import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.action.UpdateCatastrophe
 import at.orchaldir.gm.core.model.State
@@ -103,23 +105,14 @@ fun Application.configureCatastropheRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val catastrophe = parseCatastrophe(formParameters, state, preview.id)
+            val catastrophe = parseCatastrophe(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCatastropheEditor(call, state, catastrophe)
             }
         }
         post<CatastropheRoutes.Update> { update ->
-            logger.info { "Update catastrophe ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val catastrophe = parseCatastrophe(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateCatastrophe(catastrophe))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseCatastrophe)
         }
     }
 }

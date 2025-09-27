@@ -109,7 +109,7 @@ fun Application.configurePeriodicalRouting() {
             }
         }
         post<PeriodicalRoutes.Update> { update ->
-            handleUpdateElement(parsePeriodical(STORE.getState(), call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parsePeriodical)
         }
     }
 }

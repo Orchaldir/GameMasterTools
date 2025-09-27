@@ -2,12 +2,14 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.organization.parseOrganization
 import at.orchaldir.gm.app.html.race.editRaceAppearance
 import at.orchaldir.gm.app.html.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.race.showRaceAppearance
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
@@ -95,22 +97,15 @@ fun Application.configureRaceAppearanceRouting() {
         post<AppearanceRoutes.Preview> { preview ->
             logger.info { "Get preview for race appearance ${preview.id.value}" }
 
-            val race = parseRaceAppearance(preview.id, call.receiveParameters())
+            val state = STORE.getState()
+            val race = parseRaceAppearance(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEditor(call, STORE.getState(), race)
+                showEditor(call, state, race)
             }
         }
         post<AppearanceRoutes.Update> { update ->
-            logger.info { "Update race appearance ${update.id.value}" }
-
-            val race = parseRaceAppearance(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateRaceAppearance(race))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseRaceAppearance)
         }
     }
 }

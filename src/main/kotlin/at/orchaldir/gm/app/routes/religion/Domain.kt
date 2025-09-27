@@ -2,11 +2,13 @@ package at.orchaldir.gm.app.routes.religion
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.realm.parseWar
 import at.orchaldir.gm.app.html.religion.editDomain
 import at.orchaldir.gm.app.html.religion.parseDomain
 import at.orchaldir.gm.app.html.religion.showDomain
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.UpdateDomain
 import at.orchaldir.gm.core.model.State
@@ -102,23 +104,14 @@ fun Application.configureDomainRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val domain = parseDomain(formParameters, preview.id)
+            val domain = parseDomain(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDomainEditor(call, state, domain)
             }
         }
         post<DomainRoutes.Update> { update ->
-            logger.info { "Update domain ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val domain = parseDomain(formParameters, update.id)
-
-            STORE.dispatch(UpdateDomain(domain))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseDomain)
         }
     }
 }

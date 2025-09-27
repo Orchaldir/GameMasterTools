@@ -2,11 +2,13 @@ package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.name.editNameList
 import at.orchaldir.gm.app.html.util.name.parseNameList
 import at.orchaldir.gm.app.html.util.name.showNameList
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.State
@@ -83,15 +85,7 @@ fun Application.configureNameListRouting() {
             }
         }
         post<NameListRoutes.Update> { update ->
-            logger.info { "Update name list ${update.id.value}" }
-
-            val nameList = parseNameList(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateNameList(nameList))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseNameList)
         }
     }
 }

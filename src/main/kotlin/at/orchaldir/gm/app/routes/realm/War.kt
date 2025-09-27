@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.displayWarStatus
 import at.orchaldir.gm.app.html.realm.editWar
+import at.orchaldir.gm.app.html.realm.parseTreaty
 import at.orchaldir.gm.app.html.realm.parseWar
 import at.orchaldir.gm.app.html.realm.showWar
 import at.orchaldir.gm.app.html.util.showOptionalDate
@@ -11,6 +12,7 @@ import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
@@ -104,23 +106,14 @@ fun Application.configureWarRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val war = parseWar(formParameters, state, preview.id)
+            val war = parseWar(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showWarEditor(call, state, war)
             }
         }
         post<WarRoutes.Update> { update ->
-            logger.info { "Update war ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val war = parseWar(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateWar(war))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseWar)
         }
     }
 }

@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.organization
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.organization.editOrganization
 import at.orchaldir.gm.app.html.organization.parseOrganization
 import at.orchaldir.gm.app.html.organization.showOrganization
@@ -10,6 +11,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
@@ -102,23 +104,14 @@ fun Application.configureOrganizationRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val organization = parseOrganization(formParameters, state, preview.id)
+            val organization = parseOrganization(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showOrganizationEditor(call, state, organization)
             }
         }
         post<OrganizationRoutes.Update> { update ->
-            logger.info { "Update organization ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val organization = parseOrganization(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateOrganization(organization))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseOrganization)
         }
     }
 }

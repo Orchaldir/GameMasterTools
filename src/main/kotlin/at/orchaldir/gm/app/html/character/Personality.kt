@@ -81,6 +81,7 @@ fun parsePersonality(parameters: Parameters) = parameters.entries()
     .toSet()
 
 fun parsePersonalityTrait(
+    state: State,
     parameters: Parameters,
     id: PersonalityTraitId,
 ): PersonalityTrait {

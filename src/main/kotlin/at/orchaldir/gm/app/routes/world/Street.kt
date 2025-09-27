@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.parse.world.parseStreet
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
@@ -84,15 +86,7 @@ fun Application.configureStreetRouting() {
             }
         }
         post<StreetRoutes.Update> { update ->
-            logger.info { "Update street ${update.id.value}" }
-
-            val street = parseStreet(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateStreet(street))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseStreet)
         }
     }
 }

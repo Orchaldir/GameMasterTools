@@ -63,7 +63,11 @@ fun parseDistrictId(value: String) = DistrictId(value.toInt())
 fun parseOptionalDistrictId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { DistrictId(it) }
 
-fun parseDistrict(parameters: Parameters, state: State, id: DistrictId) = District(
+fun parseDistrict(
+    state: State,
+    parameters: Parameters,
+    id: DistrictId,
+) = District(
     id,
     parseName(parameters),
     parseOptionalTownId(parameters, TOWN),

@@ -104,15 +104,16 @@ fun Application.configureCultureRouting() {
         post<CultureRoutes.Preview> { preview ->
             logger.info { "Get preview for culture ${preview.id.value}" }
 
+            val state = STORE.getState()
             val formParameters = call.receiveParameters()
-            val culture = parseCulture(formParameters, preview.id)
+            val culture = parseCulture(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showCultureEditor(call, STORE.getState(), culture)
+                showCultureEditor(call, state, culture)
             }
         }
         post<CultureRoutes.Update> { update ->
-            handleUpdateElement(parseCulture(call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseCulture)
         }
     }
 }

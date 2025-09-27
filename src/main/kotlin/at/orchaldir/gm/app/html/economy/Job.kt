@@ -141,6 +141,7 @@ fun parseJobId(parameters: Parameters, param: String) = JobId(parseInt(parameter
 fun parseJobId(value: String) = JobId(value.toInt())
 
 fun parseJob(
+    state: State,
     parameters: Parameters,
     id: JobId,
 ) = Job(

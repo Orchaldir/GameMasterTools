@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.util.font.showFont
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
@@ -116,23 +117,14 @@ fun Application.configureFontRouting() {
             logger.info { "Get preview for font ${preview.id.value}" }
 
             val state = STORE.getState()
-            val font = parseFont(call.receiveParameters(), state, preview.id)
+            val font = parseFont(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showFontEditor(call, state, font)
             }
         }
         post<FontRoutes.Update> { update ->
-            logger.info { "Update font ${update.id.value}" }
-
-            val state = STORE.getState()
-            val font = parseFont(call.receiveParameters(), state, update.id)
-
-            STORE.dispatch(UpdateFont(font))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseFont)
         }
         post<FontRoutes.Upload> { upload ->
             logger.info { "Get uploader for font ${upload.id.value}" }

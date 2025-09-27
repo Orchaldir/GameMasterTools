@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.world.parseRegion
 import at.orchaldir.gm.app.html.world.showRegion
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteRegion
-import at.orchaldir.gm.core.action.UpdateRegion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortRegion
 import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -103,22 +102,14 @@ fun Application.configureRegionRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val region = parseRegion(formParameters, state, preview.id)
+            val region = parseRegion(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showRegionEditor(call, state, region)
             }
         }
         post<RegionRoutes.Update> { update ->
-            logger.info { "Update region ${update.id.value}" }
-
-            val region = parseRegion(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateRegion(region))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseRegion)
         }
     }
 }

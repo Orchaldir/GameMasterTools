@@ -108,7 +108,7 @@ fun Application.configureCurrencyRouting() {
             }
         }
         post<CurrencyRoutes.Update> { update ->
-            handleUpdateElement(parseCurrency(STORE.getState(), call.receiveParameters(), update.id))
+            handleUpdateElement(update.id, ::parseCurrency)
         }
     }
 }
