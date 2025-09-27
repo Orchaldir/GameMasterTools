@@ -39,7 +39,7 @@ data class Quote(
     override fun creator() = source
     override fun startDate() = date
     override fun validate(state: State) {
-        validateCreator(state, source, id, date, "Source")
+        validateCreator(state, source, id, date, "source")
     }
 
 }

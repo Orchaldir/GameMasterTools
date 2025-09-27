@@ -9,8 +9,10 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val CATASTROPHE_TYPE = "Catastrophe"
@@ -44,6 +46,8 @@ data class Catastrophe(
 
     override fun validate(state: State) {
         validateHasStartAndEnd(state, this)
+
+        validateCreator(state, creator(), id, startDate, "creator")
     }
 
 
