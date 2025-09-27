@@ -34,7 +34,7 @@ sealed class StatisticCost {
 }
 
 @Serializable
-@SerialName("Fixe")
+@SerialName("Fixed")
 data class FixedStatisticCost(
     val cost: Int,
 ) : StatisticCost()
