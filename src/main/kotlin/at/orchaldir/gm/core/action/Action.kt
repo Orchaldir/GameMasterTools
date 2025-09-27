@@ -85,12 +85,13 @@ import at.orchaldir.gm.utils.map.Resize
 
 sealed class Action
 
-// META
+// data
+data class LoadData(val path: String) : Action()
 
+// element
 data class CreateAction<ID : Id<ID>>(val id: ID) : Action()
 data class CloneAction<ID : Id<ID>>(val id: ID) : Action()
-data class EditAction<ID : Id<ID>, ELEMENT: Element<ID>>(val element: ELEMENT) : Action()
-data class LoadData(val path: String) : Action()
+data class UpdateAction<ID : Id<ID>, ELEMENT: Element<ID>>(val element: ELEMENT) : Action()
 
 // calendar
 data class DeleteCalendar(val id: CalendarId) : Action()

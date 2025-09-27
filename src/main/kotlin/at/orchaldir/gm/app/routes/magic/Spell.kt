@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.core.action.DeleteSpell
-import at.orchaldir.gm.core.action.EditAction
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
 import at.orchaldir.gm.core.model.magic.Spell
@@ -122,7 +122,7 @@ fun Application.configureSpellRouting() {
             val state = STORE.getState()
             val spell = parseSpell(formParameters, state, update.id)
 
-            STORE.dispatch(EditAction(spell))
+            STORE.dispatch(UpdateAction(spell))
 
             call.respondRedirect(href(call, update.id))
 

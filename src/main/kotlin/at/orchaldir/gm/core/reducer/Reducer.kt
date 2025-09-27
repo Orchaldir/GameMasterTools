@@ -45,7 +45,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         // meta
         is CreateAction<*> -> reduceCreateElement(state, action.id)
         is CloneAction<*> -> reduceCloneElement(state, action.id)
-        is EditAction<*,*> -> reduceEditElement(state, action.element)
+        is UpdateAction<*,*> -> reduceUpdateElement(state, action.element)
         is LoadData -> LOAD_DATA(state, action)
         // calendar
         is DeleteCalendar -> deleteElement(state, action.id, State::canDeleteCalendar)

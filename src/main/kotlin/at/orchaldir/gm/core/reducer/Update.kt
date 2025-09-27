@@ -7,15 +7,15 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.noFollowUps
 
-fun reduceEditElement(
+fun reduceUpdateElement(
     state: State,
     element: Element<*>,
 ): Pair<State, List<Action>> = when (element) {
-    is Spell -> editElement(state, element)
-    else -> error("Creating is not supported!")
+    is Spell -> updateElement(state, element)
+    else -> error("Updating is not supported!")
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> editElement(
+fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> updateElement(
     state: State,
     element: ELEMENT,
 ): Pair<State, List<Action>> {
