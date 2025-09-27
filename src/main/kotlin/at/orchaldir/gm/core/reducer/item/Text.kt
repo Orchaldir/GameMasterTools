@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.item
 
-import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
@@ -9,30 +8,17 @@ import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.font.FontOption
 import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.Segments
-import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.selector.util.requireExists
-import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.checkSize
 import at.orchaldir.gm.utils.math.unit.checkDistance
-import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.text.content.buildPages
 import at.orchaldir.gm.visualization.text.resolveTextData
-
-val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
-    val text = updatePageCount(state, TEXT_CONFIG, action.text)
-    state.getTextStorage().require(text.id)
-    validateText(state, text)
-
-    noFollowUps(state.updateStorage(state.getTextStorage().update(text)))
-}
 
 fun updatePageCount(state: State, config: TextRenderConfig, text: Text) = if (text.content is SimpleChapters) {
     val data = resolveTextData(state, text)
@@ -48,21 +34,14 @@ fun updatePageCount(state: State, config: TextRenderConfig, text: Text) = if (te
     text
 }
 
-fun validateText(state: State, text: Text) {
-    checkDate(state, text.date, "Text")
-    checkOrigin(state, text.id, text.origin, text.date, ::TextId)
-    checkPublisher(state, text)
-    checkTextFormat(text.format)
-    checkTextContent(state, text.content)
-}
 
-private fun checkPublisher(state: State, text: Text) {
+fun validateTextPublisher(state: State, text: Text) {
     if (text.publisher != null) {
         state.requireExists(state.getBusinessStorage(), text.publisher, text.date)
     }
 }
 
-private fun checkTextFormat(format: TextFormat) {
+fun validateTextFormat(format: TextFormat) {
     when (format) {
         is Book -> {
             require(format.pages >= MIN_PAGES) { "The text requires at least $MIN_PAGES pages!" }
@@ -113,7 +92,7 @@ private fun checkHandleSegment(segment: Segment, number: Int) {
     checkFactor(segment.diameter, "$number.segment's diameter", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
 }
 
-private fun checkTextContent(
+fun validateTextContent(
     state: State,
     content: TextContent,
 ) {

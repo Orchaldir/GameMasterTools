@@ -11,8 +11,8 @@ import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteWar
-import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.WAR_TYPE
 import at.orchaldir.gm.core.model.realm.War
@@ -28,7 +28,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -104,23 +103,14 @@ fun Application.configureWarRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val war = parseWar(formParameters, state, preview.id)
+            val war = parseWar(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showWarEditor(call, state, war)
             }
         }
         post<WarRoutes.Update> { update ->
-            logger.info { "Update war ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val war = parseWar(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateWar(war))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseWar)
         }
     }
 }

@@ -80,6 +80,7 @@ fun parseStatisticId(parameters: Parameters, param: String) = StatisticId(parseI
 fun parseStatisticId(value: String) = StatisticId(value.toInt())
 
 fun parseStatistic(
+    state: State,
     parameters: Parameters,
     id: StatisticId,
 ) = Statistic(

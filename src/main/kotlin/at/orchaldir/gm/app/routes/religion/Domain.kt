@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.religion.parseDomain
 import at.orchaldir.gm.app.html.religion.showDomain
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteDomain
-import at.orchaldir.gm.core.action.UpdateDomain
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.DOMAIN_TYPE
 import at.orchaldir.gm.core.model.religion.Domain
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -102,23 +101,14 @@ fun Application.configureDomainRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val domain = parseDomain(formParameters, preview.id)
+            val domain = parseDomain(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDomainEditor(call, state, domain)
             }
         }
         post<DomainRoutes.Update> { update ->
-            logger.info { "Update domain ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val domain = parseDomain(formParameters, update.id)
-
-            STORE.dispatch(UpdateDomain(domain))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseDomain)
         }
     }
 }

@@ -59,7 +59,11 @@ fun parseWarId(parameters: Parameters, param: String) = WarId(parseInt(parameter
 fun parseOptionalWarId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { WarId(it) }
 
-fun parseWar(parameters: Parameters, state: State, id: WarId): War {
+fun parseWar(
+    state: State,
+    parameters: Parameters,
+    id: WarId,
+): War {
     val startDate = parseOptionalDate(parameters, state, combine(START, DATE))
 
     return War(

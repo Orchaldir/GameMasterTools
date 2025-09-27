@@ -90,7 +90,7 @@ fun HtmlBlockTag.editDataSources(state: State, sources: Set<DataSourceId>) {
 fun parseDataSourceId(value: String) = DataSourceId(value.toInt())
 fun parseDataSourceId(parameters: Parameters, param: String) = DataSourceId(parseInt(parameters, param))
 
-fun parseDataSource(parameters: Parameters, state: State, id: DataSourceId) = DataSource(
+fun parseDataSource(state: State, parameters: Parameters, id: DataSourceId) = DataSource(
     id,
     parseName(parameters),
     parseInt(parameters, DATE),

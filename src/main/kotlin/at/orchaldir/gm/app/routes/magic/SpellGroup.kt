@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.magic.showSpellGroup
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteSpellGroup
-import at.orchaldir.gm.core.action.UpdateSpellGroup
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_GROUP_TYPE
 import at.orchaldir.gm.core.model.magic.SpellGroup
@@ -22,7 +22,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -101,23 +100,14 @@ fun Application.configureSpellGroupRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val group = parseSpellGroup(formParameters, preview.id)
+            val group = parseSpellGroup(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showSpellGroupEditor(call, state, group)
             }
         }
         post<SpellGroupRoutes.Update> { update ->
-            logger.info { "Update group ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val group = parseSpellGroup(formParameters, update.id)
-
-            STORE.dispatch(UpdateSpellGroup(group))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseSpellGroup)
         }
     }
 }

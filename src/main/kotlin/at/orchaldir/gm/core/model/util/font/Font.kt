@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.model.util.font
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.util.validateDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -30,4 +32,8 @@ data class Font(
     override fun id() = id
     override fun name() = name.text
     override fun startDate() = date
+
+    override fun validate(state: State) {
+        validateDate(state, date, "Font")
+    }
 }

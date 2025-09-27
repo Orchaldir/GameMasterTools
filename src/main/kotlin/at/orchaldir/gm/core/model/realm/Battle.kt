@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.realm
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -7,6 +8,8 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.realm.validateParticipant
+import at.orchaldir.gm.core.reducer.util.validateDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -36,6 +39,13 @@ data class Battle(
     override fun name() = name.text
     override fun sources() = sources
     override fun startDate() = date
+
+    override fun validate(state: State) {
+        validateDate(state, date, "Battle")
+        state.getDataSourceStorage().require(sources)
+
+        participants.forEach { validateParticipant(state, it, date) }
+    }
 
     fun isLedBy(character: CharacterId) = participants.any { it.leader == character }
     fun isParticipant(realm: RealmId) = participants.any { it.realm == realm }

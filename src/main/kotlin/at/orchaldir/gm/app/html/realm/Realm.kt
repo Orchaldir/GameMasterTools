@@ -126,7 +126,11 @@ fun parseRealmId(value: String) = RealmId(value.toInt())
 fun parseOptionalRealmId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { RealmId(it) }
 
-fun parseRealm(parameters: Parameters, state: State, id: RealmId): Realm {
+fun parseRealm(
+    state: State,
+    parameters: Parameters,
+    id: RealmId,
+): Realm {
     val date = parseOptionalDate(parameters, state, DATE)
 
     return Realm(

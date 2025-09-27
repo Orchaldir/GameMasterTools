@@ -17,7 +17,7 @@ fun parseArchitecturalStyleId(parameters: Parameters, param: String) = Architect
 fun parseOptionalArchitecturalStyleId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { ArchitecturalStyleId(it) }
 
-fun parseArchitecturalStyle(parameters: Parameters, state: State, id: ArchitecturalStyleId) = ArchitecturalStyle(
+fun parseArchitecturalStyle(state: State, parameters: Parameters, id: ArchitecturalStyleId) = ArchitecturalStyle(
     id,
     parseName(parameters),
     parseOptionalYear(parameters, state, START),

@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.item.periodical.showArticle
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteArticle
-import at.orchaldir.gm.core.action.UpdateArticle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ARTICLE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Article
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -98,22 +97,14 @@ fun Application.configureArticleRouting() {
             logger.info { "Preview periodical ${preview.id.value}" }
 
             val state = STORE.getState()
-            val periodical = parseArticle(call.receiveParameters(), state, preview.id)
+            val periodical = parseArticle(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showArticleEditor(call, state, periodical)
             }
         }
         post<ArticleRoutes.Update> { update ->
-            logger.info { "Update periodical ${update.id.value}" }
-
-            val periodical = parseArticle(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateArticle(periodical))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseArticle)
         }
     }
 }

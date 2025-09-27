@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.race.appearance
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.AppearanceType
 import at.orchaldir.gm.core.model.character.appearance.EarShape
 import at.orchaldir.gm.core.model.character.appearance.EarsLayout
@@ -8,6 +9,8 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.race.validateTails
+import at.orchaldir.gm.core.reducer.race.validateWings
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -49,5 +52,10 @@ data class RaceAppearance(
             tail.contains(material)
 
     override fun clone(cloneId: RaceAppearanceId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
+
+    override fun validate(state: State) {
+        validateTails(this)
+        validateWings(wing)
+    }
 
 }

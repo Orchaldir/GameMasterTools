@@ -98,7 +98,11 @@ fun parseTreatyId(parameters: Parameters, param: String) = TreatyId(parseInt(par
 fun parseOptionalTreatyId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { TreatyId(it) }
 
-fun parseTreaty(parameters: Parameters, state: State, id: TreatyId) = Treaty(
+fun parseTreaty(
+    state: State,
+    parameters: Parameters,
+    id: TreatyId,
+) = Treaty(
     id,
     parseName(parameters),
     parseOptionalDate(parameters, state, DATE),

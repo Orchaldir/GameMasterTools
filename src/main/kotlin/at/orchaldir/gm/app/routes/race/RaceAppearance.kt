@@ -8,9 +8,9 @@ import at.orchaldir.gm.app.html.race.showRaceAppearance
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
-import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -30,7 +30,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
@@ -95,22 +94,15 @@ fun Application.configureRaceAppearanceRouting() {
         post<AppearanceRoutes.Preview> { preview ->
             logger.info { "Get preview for race appearance ${preview.id.value}" }
 
-            val race = parseRaceAppearance(preview.id, call.receiveParameters())
+            val state = STORE.getState()
+            val race = parseRaceAppearance(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEditor(call, STORE.getState(), race)
+                showEditor(call, state, race)
             }
         }
         post<AppearanceRoutes.Update> { update ->
-            logger.info { "Update race appearance ${update.id.value}" }
-
-            val race = parseRaceAppearance(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateRaceAppearance(race))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseRaceAppearance)
         }
     }
 }

@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.world.town
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteTownMap
-import at.orchaldir.gm.core.action.UpdateTownMap
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.world.street.Street
@@ -54,7 +54,7 @@ class TownMapTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateTownMap(townMap)
+            val action = UpdateAction(townMap)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -113,7 +113,7 @@ class TownMapTest {
 
             private fun testValid(tile: TownTile, message: String) {
                 val map = TileMap2d(tile)
-                val action = UpdateTownMap(TownMap(TOWN_MAP_ID_0, map = map))
+                val action = UpdateAction(TownMap(TOWN_MAP_ID_0, map = map))
 
                 assertIllegalArgument(message) { REDUCER.invoke(STATE, action) }
             }
@@ -122,7 +122,7 @@ class TownMapTest {
         @Test
         fun `Town must exist`() {
             val town = TownMap(TOWN_MAP_ID_0, town = UNKNOWN_TOWN_ID)
-            val action = UpdateTownMap(town)
+            val action = UpdateAction(town)
 
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -132,7 +132,7 @@ class TownMapTest {
             val map0 = TownMap(TOWN_MAP_ID_0, town = TOWN_ID_0, date = DAY0)
             val map1 = TownMap(TOWN_MAP_ID_1, town = TOWN_ID_0, date = DAY0)
             val state = STATE.updateStorage(Storage(listOf(townMap, map1)))
-            val action = UpdateTownMap(map0)
+            val action = UpdateAction(map0)
 
             assertIllegalArgument("Multiple maps have the same town & date combination!") {
                 REDUCER.invoke(state, action)
@@ -142,7 +142,7 @@ class TownMapTest {
         @Test
         fun `Update is valid`() {
             val town = TownMap(TOWN_MAP_ID_0, date = DAY0)
-            val action = UpdateTownMap(town)
+            val action = UpdateAction(town)
 
             assertEquals(town, REDUCER.invoke(STATE, action).first.getTownMapStorage().get(TOWN_MAP_ID_0))
         }

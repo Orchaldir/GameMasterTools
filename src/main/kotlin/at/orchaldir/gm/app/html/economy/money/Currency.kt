@@ -110,7 +110,11 @@ fun parseCurrencyId(parameters: Parameters, param: String) = parseOptionalCurren
 fun parseOptionalCurrencyId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { CurrencyId(it) }
 
-fun parseCurrency(parameters: Parameters, state: State, id: CurrencyId): Currency {
+fun parseCurrency(
+    state: State,
+    parameters: Parameters,
+    id: CurrencyId,
+): Currency {
     var lastThreshold = 0
     val subDenominations = parseList(parameters, DENOMINATION, 0) { _, param ->
         lastThreshold = parseInt(parameters, combine(param, NUMBER), lastThreshold + 1)

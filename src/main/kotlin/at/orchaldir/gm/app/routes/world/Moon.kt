@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.world.parseMoon
 import at.orchaldir.gm.app.html.world.showMoon
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteMoon
-import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortMoon
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -99,22 +98,14 @@ fun Application.configureMoonRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val moon = parseMoon(formParameters, state, preview.id)
+            val moon = parseMoon(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showMoonEditor(call, state, moon)
             }
         }
         post<MoonRoutes.Update> { update ->
-            logger.info { "Update moon ${update.id.value}" }
-
-            val moon = parseMoon(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateMoon(moon))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseMoon)
         }
     }
 }

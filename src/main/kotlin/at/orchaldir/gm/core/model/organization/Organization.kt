@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.organization
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
@@ -8,6 +9,11 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.organization.validateMembers
+import at.orchaldir.gm.core.reducer.organization.validateRanks
+import at.orchaldir.gm.core.reducer.util.checkBeliefStatusHistory
+import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.reducer.util.validateDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -42,6 +48,17 @@ data class Organization(
     override fun creator() = founder
     override fun sources() = sources
     override fun startDate() = date
+
+    override fun validate(state: State) {
+        validateDate(state, date, "Organization")
+
+        validateCreator(state, founder, id, date, "founder")
+        validateRanks(state, this)
+        validateMembers(state, this)
+        checkBeliefStatusHistory(state, beliefStatus, date)
+        state.getHolidayStorage().require(holidays)
+        state.getDataSourceStorage().require(sources)
+    }
 
     fun countAllMembers() = members.count { it.value.isMemberCurrently() }
 

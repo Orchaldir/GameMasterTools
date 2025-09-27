@@ -12,9 +12,9 @@ import at.orchaldir.gm.app.html.world.editBuilding
 import at.orchaldir.gm.app.html.world.parseBuilding
 import at.orchaldir.gm.app.html.world.showBuilding
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteBuilding
-import at.orchaldir.gm.core.action.UpdateBuilding
-import at.orchaldir.gm.core.action.UpdateBuildingLot
+import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.SortBuilding
@@ -116,23 +116,14 @@ fun Application.configureBuildingRouting() {
             logger.info { "Preview building ${preview.id.value}" }
 
             val state = STORE.getState()
-            val building = parseBuilding(call.receiveParameters(), state, preview.id)
+            val building = parseBuilding(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showBuildingEditor(call, state, building)
             }
         }
         post<BuildingRoutes.Update> { update ->
-            logger.info { "Update building ${update.id.value}" }
-
-            val state = STORE.getState()
-            val building = parseBuilding(call.receiveParameters(), state, update.id)
-
-            STORE.dispatch(UpdateBuilding(building))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseBuilding)
         }
         get<BuildingRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DeleteBuilding(delete.id), BuildingRoutes())
@@ -162,7 +153,7 @@ fun Application.configureBuildingRouting() {
         get<BuildingRoutes.Lot.Update> { update ->
             logger.info { "Update building lot ${update.id.value}" }
 
-            val action = UpdateBuildingLot(update.id, update.tileIndex, update.size)
+            val action = UpdateActionLot(update.id, update.tileIndex, update.size)
 
             STORE.dispatch(action)
 

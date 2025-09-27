@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeletePeriodical
-import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -25,7 +25,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -100,22 +99,14 @@ fun Application.configurePeriodicalRouting() {
             logger.info { "Preview periodical ${preview.id.value}" }
 
             val state = STORE.getState()
-            val periodical = parsePeriodical(call.receiveParameters(), state, preview.id)
+            val periodical = parsePeriodical(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showPeriodicalEditor(call, state, periodical)
             }
         }
         post<PeriodicalRoutes.Update> { update ->
-            logger.info { "Update periodical ${update.id.value}" }
-
-            val periodical = parsePeriodical(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdatePeriodical(periodical))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parsePeriodical)
         }
     }
 }

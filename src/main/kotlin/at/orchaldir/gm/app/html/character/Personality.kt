@@ -80,7 +80,11 @@ fun parsePersonality(parameters: Parameters) = parameters.entries()
     .map { PersonalityTraitId(it.toInt()) }
     .toSet()
 
-fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters): PersonalityTrait {
+fun parsePersonalityTrait(
+    state: State,
+    parameters: Parameters,
+    id: PersonalityTraitId,
+): PersonalityTrait {
     val group = parameters["group"]
         ?.toIntOrNull()
         ?.let { PersonalityTraitGroup(it) }

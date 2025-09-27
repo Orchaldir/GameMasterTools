@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 
-fun <T> checkHistory(
+fun <T> validateHistory(
     state: State,
     history: History<T>,
     startDate: Date?,
@@ -43,7 +43,7 @@ private fun <T> compareWithPreviousValue(
     }
 }
 
-fun <T> checkHistory(
+fun <T> validateHistory(
     state: State,
     history: History<T>,
     noun: String,

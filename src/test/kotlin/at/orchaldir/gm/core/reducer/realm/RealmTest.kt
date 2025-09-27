@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateRealm
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
@@ -29,7 +29,7 @@ class RealmTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateRealm(Realm(UNKNOWN_REALM_ID))
+            val action = UpdateAction(Realm(UNKNOWN_REALM_ID))
 
             assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -37,7 +37,7 @@ class RealmTest {
         @Test
         fun `The Founder must exist`() {
             val realm = Realm(REALM_ID_0, founder = CharacterReference(UNKNOWN_CHARACTER_ID))
-            val action = UpdateRealm(realm)
+            val action = UpdateAction(realm)
 
             assertIllegalArgument("Requires unknown founder (Character 99)!") { REDUCER.invoke(STATE, action) }
         }
@@ -45,7 +45,7 @@ class RealmTest {
         @Test
         fun `The Capital must exist`() {
             val realm = Realm(REALM_ID_0, capital = History(UNKNOWN_TOWN_ID))
-            val action = UpdateRealm(realm)
+            val action = UpdateAction(realm)
 
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -53,7 +53,7 @@ class RealmTest {
         @Test
         fun `The realm owning this realm must exist`() {
             val realm = Realm(REALM_ID_0, owner = History(UNKNOWN_REALM_ID))
-            val action = UpdateRealm(realm)
+            val action = UpdateAction(realm)
 
             assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -61,7 +61,7 @@ class RealmTest {
         @Test
         fun `A realm cannot own itself`() {
             val realm = Realm(REALM_ID_0, owner = History(REALM_ID_0))
-            val action = UpdateRealm(realm)
+            val action = UpdateAction(realm)
 
             assertIllegalArgument("A realm cannot own itself!") { REDUCER.invoke(STATE, action) }
         }
@@ -70,7 +70,7 @@ class RealmTest {
         fun `Cannot have the same owner 2 times in a row`() {
             val history = History<RealmId?>(REALM_ID_1, HistoryEntry(REALM_ID_1, DAY0))
             val realm = Realm(REALM_ID_0, owner = history)
-            val action = UpdateRealm(realm)
+            val action = UpdateAction(realm)
 
             assertIllegalArgument("Cannot have the same owner 2 times in a row!") { REDUCER.invoke(STATE, action) }
         }
@@ -78,7 +78,7 @@ class RealmTest {
         @Test
         fun `The legal code must exist`() {
             val realm = Realm(REALM_ID_0, legalCode = History(UNKNOWN_LEGAL_CODE_ID))
-            val action = UpdateRealm(realm)
+            val action = UpdateAction(realm)
 
             assertIllegalArgument("Requires unknown Legal Code 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -86,7 +86,7 @@ class RealmTest {
         @Test
         fun `The currency must exist`() {
             val realm = Realm(REALM_ID_0, currency = History(UNKNOWN_CURRENCY_ID))
-            val action = UpdateRealm(realm)
+            val action = UpdateAction(realm)
 
             assertIllegalArgument("Requires unknown Currency 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -98,7 +98,7 @@ class RealmTest {
             fun `A realm cannot die`() {
                 val status = Dead(DAY0, DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
                 val realm = Realm(REALM_ID_0, status = status)
-                val action = UpdateRealm(realm)
+                val action = UpdateAction(realm)
 
                 assertIllegalArgument("Invalid vital status Dead!") { REDUCER.invoke(STATE, action) }
             }
@@ -120,7 +120,7 @@ class RealmTest {
 
             private fun testValidStatus(status: VitalStatus) {
                 val realm = Realm(REALM_ID_0, status = status)
-                val action = UpdateRealm(realm)
+                val action = UpdateAction(realm)
 
                 REDUCER.invoke(STATE, action)
             }
@@ -129,7 +129,7 @@ class RealmTest {
 
         @Test
         fun `The population is validated`() {
-            val action = UpdateRealm(Realm(REALM_ID_0, population = TotalPopulation(0)))
+            val action = UpdateAction(Realm(REALM_ID_0, population = TotalPopulation(0)))
 
             assertIllegalArgument("The total population must be greater than 0!") { REDUCER.invoke(STATE, action) }
         }
@@ -137,7 +137,7 @@ class RealmTest {
         @Test
         fun `Update a realm`() {
             val realm = Realm(REALM_ID_0, NAME)
-            val action = UpdateRealm(realm)
+            val action = UpdateAction(realm)
 
             assertEquals(realm, REDUCER.invoke(STATE, action).first.getRealmStorage().get(REALM_ID_0))
         }

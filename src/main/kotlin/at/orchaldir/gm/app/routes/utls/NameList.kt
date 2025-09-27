@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.util.name.parseNameList
 import at.orchaldir.gm.app.html.util.name.showNameList
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteNameList
-import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.util.name.NameList
@@ -17,10 +17,8 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -83,15 +81,7 @@ fun Application.configureNameListRouting() {
             }
         }
         post<NameListRoutes.Update> { update ->
-            logger.info { "Update name list ${update.id.value}" }
-
-            val nameList = parseNameList(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateNameList(nameList))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseNameList)
         }
     }
 }

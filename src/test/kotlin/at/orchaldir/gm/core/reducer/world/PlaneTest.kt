@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdatePlane
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.world.plane.*
@@ -24,7 +24,7 @@ class PlaneTest {
 
     @Nested
     inner class UpdateTest {
-        val action = UpdatePlane(Plane(PLANE_ID_0))
+        val action = UpdateAction(Plane(PLANE_ID_0))
 
         @Test
         fun `Cannot update unknown id`() {
@@ -34,7 +34,7 @@ class PlaneTest {
         @Test
         fun `Reflected plane must exist`() {
             val plane = Plane(PLANE_ID_0, purpose = ReflectivePlane(UNKNOWN_PLANE_ID))
-            val action = UpdatePlane(plane)
+            val action = UpdateAction(plane)
 
             assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
         }
@@ -42,7 +42,7 @@ class PlaneTest {
         @Test
         fun `A demiplane requires another plane`() {
             val plane = Plane(PLANE_ID_0, purpose = Demiplane(UNKNOWN_PLANE_ID))
-            val action = UpdatePlane(plane)
+            val action = UpdateAction(plane)
 
             assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
         }
@@ -50,7 +50,7 @@ class PlaneTest {
         @Test
         fun `A language of a plane must exist `() {
             val plane = Plane(PLANE_ID_0, languages = setOf(UNKNOWN_LANGUAGE_ID))
-            val action = UpdatePlane(plane)
+            val action = UpdateAction(plane)
 
             assertIllegalArgument("Requires unknown Language 99!") { REDUCER.invoke(state, action) }
         }
@@ -61,7 +61,7 @@ class PlaneTest {
             @Test
             fun `A heart plane requires a god`() {
                 val plane = Plane(PLANE_ID_0, purpose = HeartPlane(UNKNOWN_GOD_ID))
-                val action = UpdatePlane(plane)
+                val action = UpdateAction(plane)
 
                 assertIllegalArgument("Requires unknown God 99!") { REDUCER.invoke(state, action) }
             }
@@ -71,7 +71,7 @@ class PlaneTest {
                 val plane0 = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
                 val plane1 = Plane(PLANE_ID_1, purpose = HeartPlane(GOD_ID_0))
                 val newState = state.updateStorage(Storage(listOf(plane0, Plane(PLANE_ID_1))))
-                val action = UpdatePlane(plane1)
+                val action = UpdateAction(plane1)
 
                 assertIllegalArgument("God 0 already has a heart plane!") { REDUCER.invoke(newState, action) }
             }
@@ -81,7 +81,7 @@ class PlaneTest {
                 val plane0 = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
                 val plane1 = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
                 val newState = state.updateStorage(Storage(listOf(plane0, Plane(PLANE_ID_1))))
-                val action = UpdatePlane(plane1)
+                val action = UpdateAction(plane1)
 
                 assertEquals(plane1, REDUCER.invoke(newState, action).first.getPlaneStorage().get(PLANE_ID_0))
             }
@@ -93,7 +93,7 @@ class PlaneTest {
             @Test
             fun `A prison plane requires a god`() {
                 val plane = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(UNKNOWN_GOD_ID)))
-                val action = UpdatePlane(plane)
+                val action = UpdateAction(plane)
 
                 assertIllegalArgument("Requires unknown God 99!") { REDUCER.invoke(state, action) }
             }
@@ -103,7 +103,7 @@ class PlaneTest {
                 val plane0 = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
                 val plane1 = Plane(PLANE_ID_1, purpose = PrisonPlane(setOf(GOD_ID_0)))
                 val newState = state.updateStorage(Storage(listOf(plane0, Plane(PLANE_ID_1))))
-                val action = UpdatePlane(plane1)
+                val action = UpdateAction(plane1)
 
                 assertIllegalArgument("God 0 already has a prison plane!") { REDUCER.invoke(newState, action) }
             }
@@ -113,7 +113,7 @@ class PlaneTest {
                 val plane0 = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
                 val plane1 = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
                 val newState = state.updateStorage(Storage(listOf(plane0, Plane(PLANE_ID_1))))
-                val action = UpdatePlane(plane1)
+                val action = UpdateAction(plane1)
 
                 assertEquals(plane1, REDUCER.invoke(newState, action).first.getPlaneStorage().get(PLANE_ID_0))
             }
@@ -122,7 +122,7 @@ class PlaneTest {
         @Test
         fun `Update is valid`() {
             val plane = Plane(PLANE_ID_0, NAME)
-            val action = UpdatePlane(plane)
+            val action = UpdateAction(plane)
 
             assertEquals(plane, REDUCER.invoke(state, action).first.getPlaneStorage().get(PLANE_ID_0))
         }

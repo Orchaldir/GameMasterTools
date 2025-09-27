@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.religion
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateGod
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTrait
@@ -31,28 +31,28 @@ class GodTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateGod(God(UNKNOWN_GOD_ID))
+            val action = UpdateAction(God(UNKNOWN_GOD_ID))
 
             assertIllegalArgument("Requires unknown God 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot be the mask of an unknown god`() {
-            val action = UpdateGod(God(GOD_ID_0, authenticity = MaskOfOtherGod(UNKNOWN_GOD_ID)))
+            val action = UpdateAction(God(GOD_ID_0, authenticity = MaskOfOtherGod(UNKNOWN_GOD_ID)))
 
             assertIllegalArgument("Cannot be the mask of unknown God 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use an unknown domain`() {
-            val action = UpdateGod(God(GOD_ID_0, domains = setOf(UNKNOWN_DOMAIN_ID)))
+            val action = UpdateAction(God(GOD_ID_0, domains = setOf(UNKNOWN_DOMAIN_ID)))
 
             assertIllegalArgument("Requires unknown Domain 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use an unknown personality trait`() {
-            val action = UpdateGod(God(GOD_ID_0, personality = setOf(UNKNOWN_PERSONALITY_ID)))
+            val action = UpdateAction(God(GOD_ID_0, personality = setOf(UNKNOWN_PERSONALITY_ID)))
 
             assertIllegalArgument("Requires unknown Personality Trait 99!") { REDUCER.invoke(state, action) }
         }
@@ -67,7 +67,7 @@ class GodTest {
                 setOf(PERSONALITY_ID_0),
                 setOf(DOMAIN_ID_0),
             )
-            val action = UpdateGod(god)
+            val action = UpdateAction(god)
 
             assertEquals(god, REDUCER.invoke(state, action).first.getGodStorage().get(GOD_ID_0))
         }

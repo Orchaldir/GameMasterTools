@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.util.parseWeight
 import at.orchaldir.gm.app.html.util.selectWeight
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCategory
 import at.orchaldir.gm.core.model.economy.material.MaterialId
@@ -48,7 +49,11 @@ fun parseMaterialId(parameters: Parameters, param: String) = MaterialId(parseInt
 fun parseOptionalMaterialId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { MaterialId(it) }
 
-fun parseMaterial(id: MaterialId, parameters: Parameters): Material {
+fun parseMaterial(
+    state: State,
+    parameters: Parameters,
+    id: MaterialId,
+): Material {
     val density = parseWeight(parameters, DENSITY, SiPrefix.Kilo)
     return Material(
         id,

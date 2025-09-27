@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateEquipment
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.material.Material
@@ -39,7 +39,7 @@ class EquipmentTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateEquipment(ITEM)
+            val action = UpdateAction(ITEM)
 
             assertIllegalArgument("Requires unknown Equipment 0!") { REDUCER.invoke(State(), action) }
         }
@@ -55,7 +55,7 @@ class EquipmentTest {
                     Storage(Material(MATERIAL_ID_0)),
                 )
             )
-            val action = UpdateEquipment(newItem)
+            val action = UpdateAction(newItem)
 
             assertIllegalArgument("Cannot change equipment 0 while it is equipped") { REDUCER.invoke(state, action) }
         }
@@ -71,7 +71,7 @@ class EquipmentTest {
                     Storage(listOf(Material(MATERIAL_ID_0), Material(MATERIAL_ID_1))),
                 )
             )
-            val action = UpdateEquipment(newItem)
+            val action = UpdateAction(newItem)
 
             assertEquals(newItem, REDUCER.invoke(state, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
         }
@@ -79,7 +79,7 @@ class EquipmentTest {
         @Test
         fun `Material must exist`() {
             val item = createItem(material = UNKNOWN_MATERIAL_ID)
-            val action = UpdateEquipment(item)
+            val action = UpdateAction(item)
 
             assertIllegalArgument("Requires unknown Material 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -87,7 +87,7 @@ class EquipmentTest {
         @Test
         fun `Color scheme must exist`() {
             val item = createItem(UNKNOWN_COLOR_SCHEME_ID)
-            val action = UpdateEquipment(item)
+            val action = UpdateAction(item)
 
             assertIllegalArgument("Requires unknown Color Scheme 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -142,14 +142,14 @@ class EquipmentTest {
 
             private fun success(scheme: ColorSchemeId, lookup: ColorLookup) {
                 val item = createItem(scheme, lookup = lookup)
-                val action = UpdateEquipment(item)
+                val action = UpdateAction(item)
 
                 REDUCER.invoke(STATE, action)
             }
 
             private fun fail(scheme: ColorSchemeId, lookup: ColorLookup) {
                 val item = createItem(scheme, lookup = lookup)
-                val action = UpdateEquipment(item)
+                val action = UpdateAction(item)
 
                 assertIllegalArgument("${scheme.print()} has too few colors!") { REDUCER.invoke(STATE, action) }
             }
@@ -157,7 +157,7 @@ class EquipmentTest {
 
         @Test
         fun `Update template`() {
-            val action = UpdateEquipment(ITEM)
+            val action = UpdateAction(ITEM)
 
             assertEquals(
                 ITEM,
@@ -168,7 +168,7 @@ class EquipmentTest {
         @Test
         fun `Update template with material`() {
             val item = createItem(lookup = LookupSchema0)
-            val action = UpdateEquipment(item)
+            val action = UpdateAction(item)
 
             assertEquals(item, REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
         }

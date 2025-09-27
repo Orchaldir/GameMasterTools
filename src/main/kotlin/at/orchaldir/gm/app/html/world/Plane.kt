@@ -67,7 +67,11 @@ fun parsePlaneId(parameters: Parameters, param: String) = parseOptionalPlaneId(p
 fun parseOptionalPlaneId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { PlaneId(it) }
 
-fun parsePlane(parameters: Parameters, id: PlaneId) = Plane(
+fun parsePlane(
+    state: State,
+    parameters: Parameters,
+    id: PlaneId,
+) = Plane(
     id,
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateWar
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.History
@@ -30,7 +30,7 @@ class WarTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateWar(War(UNKNOWN_WAR_ID))
+            val action = UpdateAction(War(UNKNOWN_WAR_ID))
 
             assertIllegalArgument("Requires unknown War 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -70,7 +70,7 @@ class WarTest {
                 val history = History(1, HistoryEntry(null, DAY0))
                 val participant = WarParticipant(RealmReference(REALM_ID_0), history)
                 val war = War(WAR_ID_0, startDate = DAY1, sides = sides, participants = listOf(participant))
-                val action = UpdateWar(war)
+                val action = UpdateAction(war)
 
                 assertIllegalArgument("1.previous side's until is too early!") {
                     REDUCER.invoke(STATE, action)
@@ -96,7 +96,7 @@ class WarTest {
 
             fun assertSides(participants: List<WarParticipant>, text: String) {
                 val war = War(WAR_ID_0, sides = sides, participants = participants)
-                val action = UpdateWar(war)
+                val action = UpdateAction(war)
 
                 assertIllegalArgument(text) { REDUCER.invoke(STATE, action) }
             }
@@ -107,7 +107,7 @@ class WarTest {
             @Test
             fun `A war with no sides is valid`() {
                 val war = War(WAR_ID_0)
-                val action = UpdateWar(war)
+                val action = UpdateAction(war)
 
                 REDUCER.invoke(STATE, action)
             }
@@ -130,7 +130,7 @@ class WarTest {
 
             fun assertSides(sides: List<WarSide>, text: String) {
                 val war = War(WAR_ID_0, sides = sides)
-                val action = UpdateWar(war)
+                val action = UpdateAction(war)
 
                 assertIllegalArgument(text) { REDUCER.invoke(STATE, action) }
             }
@@ -160,7 +160,7 @@ class WarTest {
 
             fun assertResult(result: WarResult, text: String) {
                 val war = War(WAR_ID_0, status = FinishedWar(result))
-                val action = UpdateWar(war)
+                val action = UpdateAction(war)
 
                 assertIllegalArgument(text) { REDUCER.invoke(STATE, action) }
             }
@@ -178,7 +178,7 @@ class WarTest {
                 ),
                 status = FinishedWar(TotalVictory(1)),
             )
-            val action = UpdateWar(war)
+            val action = UpdateAction(war)
 
             assertEquals(war, REDUCER.invoke(STATE, action).first.getWarStorage().get(WAR_ID_0))
         }

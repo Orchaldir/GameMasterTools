@@ -313,14 +313,13 @@ fun parseCalendarId(parameters: Parameters, param: String) = CalendarId(parseInt
 fun parseCalendar(
     state: State,
     parameters: Parameters,
-    default: Calendar,
     id: CalendarId,
 ) = Calendar(
     id,
     parseName(parameters),
     parseDays(parameters),
     parseMonths(parameters),
-    parseEras(parameters, default),
+    parseEras(parameters, state.getDefaultCalendar()),
     parseOptionalDate(parameters, state, DATE),
     parseOrigin(parameters),
     parseDateFormat(parameters),

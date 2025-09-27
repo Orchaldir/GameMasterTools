@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.reducer.culture
 
-import at.orchaldir.gm.core.action.UpdateCulture
+import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.FamilyName
@@ -12,48 +12,33 @@ import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.core.model.culture.name.isAnyGenonym
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
-    val culture = action.culture
+fun updateCulture(state: State, culture: Culture): Pair<State, List<Action>> {
     val oldCulture = state.getCultureStorage().getOrThrow(culture.id)
 
-    validateCulture(state, culture)
+    culture.validate(state)
 
-    if (requiresChangeToMononym(culture, oldCulture)) {
+    return if (requiresChangeToMononym(culture, oldCulture)) {
         logger.info { "Change names to mononym for Culture ${oldCulture.id.value}" }
-        changeNames(state, oldCulture, action) { changeToMononym(it) }
+        changeNames(state, oldCulture, culture) { changeToMononym(it) }
     } else if (requiresChangeToGenonym(culture, oldCulture)) {
         logger.info { "Change names to genonym for Culture ${oldCulture.id.value}" }
-        changeNames(state, oldCulture, action) { changeToGenonym(it) }
+        changeNames(state, oldCulture, culture) { changeToGenonym(it) }
     } else {
         noFollowUps(state.updateStorage(state.getCultureStorage().update(culture)))
     }
 }
 
-fun validateCulture(state: State, culture: Culture) {
-    state.getCalendarStorage().require(culture.calendar)
-    state.getFashionStorage()
-        .require(culture.fashion.getValues().filterNotNull())
-    state.getHolidayStorage()
-        .require(culture.holidays)
-    state.getLanguageStorage()
-        .require(culture.languages.getValidValues())
-    state.getNameListStorage()
-        .require(culture.namingConvention.getNameLists())
-    state.getDataSourceStorage().require(culture.sources)
-}
-
 private fun changeNames(
     state: State,
     oldCulture: Culture,
-    action: UpdateCulture,
+    culture: Culture,
     converter: (Character) -> Character,
-): Pair<State, List<UpdateCulture>> {
+): Pair<State, List<Action>> {
     val updatedCharacters = state.getCharacters(oldCulture.id)
         .map { converter(it) }
 
@@ -61,7 +46,7 @@ private fun changeNames(
         state.updateStorage(
             listOf(
                 state.getCharacterStorage().update(updatedCharacters),
-                state.getCultureStorage().update(action.culture),
+                state.getCultureStorage().update(culture),
             )
         )
     )

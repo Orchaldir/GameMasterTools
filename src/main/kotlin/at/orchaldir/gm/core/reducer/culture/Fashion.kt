@@ -1,45 +1,34 @@
 package at.orchaldir.gm.core.reducer.culture
 
-import at.orchaldir.gm.core.action.UpdateFashion
+import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.culture.fashion.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.util.OneOrNone
-import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
-val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
-    val fashion = action.fashion
-
+fun updateFashion(state: State, fashion: Fashion): Pair<State, List<Action>> {
     state.getFashionStorage().require(fashion.id)
 
-    validateFashion(state, fashion)
+    fashion.validate(state)
 
     val cleanClothingStyle = fashion.clothing
         .copy(equipmentRarityMap = fashion.clothing.equipmentRarityMap.filter { it.value.isNotEmpty() })
     val clean = fashion.copy(clothing = cleanClothingStyle)
 
-    noFollowUps(state.updateStorage(state.getFashionStorage().update(clean)))
+    return noFollowUps(state.updateStorage(state.getFashionStorage().update(clean)))
 }
 
-fun validateFashion(
-    state: State,
-    fashion: Fashion,
-) {
-    checkAppearanceStyle(fashion.appearance)
-    checkClothingStyle(state, fashion.clothing)
-}
-
-private fun checkAppearanceStyle(
+fun validateAppearanceFashion(
     style: AppearanceFashion,
 ) {
-    checkBeardFashion(style.beard)
-    checkHairFashion(style.hair)
+    validateBeardFashion(style.beard)
+    validateHairFashion(style.hair)
 }
 
-private fun checkBeardFashion(fashion: BeardFashion) {
+private fun validateBeardFashion(fashion: BeardFashion) {
     if (fashion.beardStyles.contains(BeardStyleType.Full)) {
         require(fashion.fullBeardStyles.isNotEmpty()) { "Available beard styles require at least 1 full beard style!" }
         require(fashion.beardLength.isNotEmpty()) { "Available beard styles require at least 1 beard length!" }
@@ -52,25 +41,25 @@ private fun checkBeardFashion(fashion: BeardFashion) {
     }
 }
 
-private fun checkHairFashion(fashion: HairFashion) {
-    checkHairStyle(fashion, HairStyle.Bun, fashion.bunStyles, "bun style")
-    checkHairStyle(fashion, HairStyle.Long, fashion.longHairStyles, "long hair style")
-    checkHairStyle(fashion, HairStyle.Ponytail, fashion.ponytailStyles, "ponytail style")
-    checkHairStyle(fashion, HairStyle.Ponytail, fashion.ponytailPositions, "ponytail position")
-    checkHairStyle(fashion, HairStyle.Short, fashion.shortHairStyles, "short hair style")
+private fun validateHairFashion(fashion: HairFashion) {
+    validateHairStyle(fashion, HairStyle.Bun, fashion.bunStyles, "bun style")
+    validateHairStyle(fashion, HairStyle.Long, fashion.longHairStyles, "long hair style")
+    validateHairStyle(fashion, HairStyle.Ponytail, fashion.ponytailStyles, "ponytail style")
+    validateHairStyle(fashion, HairStyle.Ponytail, fashion.ponytailPositions, "ponytail position")
+    validateHairStyle(fashion, HairStyle.Short, fashion.shortHairStyles, "short hair style")
 
     if (fashion.hasLongHair()) {
         require(fashion.hairLengths.isNotEmpty()) { "Available hair styles require at least 1 hair length!" }
     }
 }
 
-private fun <T> checkHairStyle(fashion: HairFashion, hairStyle: HairStyle, list: OneOrNone<T>, text: String) {
+private fun <T> validateHairStyle(fashion: HairFashion, hairStyle: HairStyle, list: OneOrNone<T>, text: String) {
     if (fashion.hairStyles.contains(hairStyle)) {
         require(list.isNotEmpty()) { "Requires at least 1 $text!" }
     }
 }
 
-private fun checkClothingStyle(
+fun validateClothingFashion(
     state: State,
     style: ClothingFashion,
 ) {
@@ -78,14 +67,14 @@ private fun checkClothingStyle(
 
     style.clothingSets.getValidValues().forEach { set ->
         set.getTypes().forEach { type ->
-            check(style, set, type)
+            validate(style, set, type)
         }
     }
 
-    checkCorrectType(style, state)
+    validateCorrectType(style, state)
 }
 
-private fun checkCorrectType(
+private fun validateCorrectType(
     style: ClothingFashion,
     state: State,
 ) {
@@ -97,6 +86,6 @@ private fun checkCorrectType(
     }
 }
 
-private fun check(style: ClothingFashion, set: ClothingSet, type: EquipmentDataType) {
+private fun validate(style: ClothingFashion, set: ClothingSet, type: EquipmentDataType) {
     require(style.getOptions(type).isNotEmpty()) { "Clothing set $set requires at least one $type!" }
 }

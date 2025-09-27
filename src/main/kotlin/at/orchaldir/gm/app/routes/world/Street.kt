@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseStreet
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteStreet
-import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.STREET_TYPE
 import at.orchaldir.gm.core.model.world.street.Street
@@ -17,10 +17,8 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.form
@@ -84,15 +82,7 @@ fun Application.configureStreetRouting() {
             }
         }
         post<StreetRoutes.Update> { update ->
-            logger.info { "Update street ${update.id.value}" }
-
-            val street = parseStreet(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateStreet(street))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseStreet)
         }
     }
 }

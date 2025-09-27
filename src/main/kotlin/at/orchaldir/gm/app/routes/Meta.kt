@@ -1,18 +1,22 @@
 package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.showDeleteResult
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.action.CreateAction
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
@@ -66,4 +70,27 @@ suspend inline fun <reified T : Any> PipelineContext<Unit, ApplicationCall>.hand
             showDeleteResult(call, STORE.getState(), e.result)
         }
     }
+}
+
+suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(
+    id: ID,
+    parse: (State, Parameters, ID) -> ELEMENT,
+) {
+    val parameters = call.receiveParameters()
+    handleUpdateElement(id, { state, id -> parse(state, parameters, id) })
+}
+
+suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(
+    id: ID,
+    parse: (State, ID) -> ELEMENT,
+    text: String = "Update",
+) {
+    logger.info { "$text ${id.print()}" }
+
+    val element = parse(STORE.getState(), id)
+    STORE.dispatch(UpdateAction(element))
+
+    call.respondRedirect(href(call, id))
+
+    STORE.getState().save()
 }

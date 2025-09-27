@@ -6,12 +6,13 @@ import at.orchaldir.gm.app.html.character.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCharacter
-import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.util.Dead
@@ -32,7 +33,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -95,47 +95,36 @@ fun Application.configureCharacterRouting() {
             }
         }
         post<CharacterRoutes.Update> { update ->
-            logger.info { "Update character ${update.id.value}" }
-
-            val state = STORE.getState()
-            val character = parseCharacter(state, call.receiveParameters(), update.id)
-
-            STORE.dispatch(UpdateCharacter(character))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseCharacter)
         }
         get<CharacterRoutes.Birthday.Generate> { generate ->
-            logger.info { "Generate the birthday of character ${generate.id.value}" }
-
-            val state = STORE.getState()
-            val generator = DateGenerator(RandomNumberGenerator(Random), state, state.getDefaultCalendarId())
-            val character = state.getCharacterStorage().getOrThrow(generate.id)
-            val birthDate = generator.generateMonthAndDay(character.birthDate)
-            val updated = character.copy(birthDate = birthDate)
-
-            STORE.dispatch(UpdateCharacter(updated))
-
-            call.respondRedirect(href(call, generate.id))
-
-            STORE.getState().save()
+            handleUpdateElement(generate.id, ::generateBirthday, "Generate the birthday of")
         }
         get<CharacterRoutes.Name.Generate> { generate ->
-            logger.info { "Generate the name of character ${generate.id.value}" }
-
-            val state = STORE.getState()
-            val generator = NameGenerator(RandomNumberGenerator(Random), state, generate.id)
-            val name = generator.generate()
-            val character = state.getCharacterStorage().getOrThrow(generate.id).copy(name = name)
-
-            STORE.dispatch(UpdateCharacter(character))
-
-            call.respondRedirect(href(call, generate.id))
-
-            STORE.getState().save()
+            handleUpdateElement(generate.id, ::generateName, "Generate the name of")
         }
     }
+}
+
+fun generateBirthday(
+    state: State,
+    id: CharacterId,
+): Character {
+    val generator = DateGenerator(RandomNumberGenerator(Random), state, state.getDefaultCalendarId())
+    val character = state.getCharacterStorage().getOrThrow(id)
+    val birthDate = generator.generateMonthAndDay(character.birthDate)
+
+    return character.copy(birthDate = birthDate)
+}
+
+fun generateName(
+    state: State,
+    id: CharacterId,
+): Character {
+    val generator = NameGenerator(RandomNumberGenerator(Random), state, id)
+    val name = generator.generate()
+
+    return state.getCharacterStorage().getOrThrow(id).copy(name = name)
 }
 
 private fun HTML.showAllCharacters(

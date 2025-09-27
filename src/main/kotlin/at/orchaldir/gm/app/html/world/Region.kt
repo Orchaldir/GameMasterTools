@@ -106,7 +106,7 @@ fun parseRegionId(parameters: Parameters, param: String) = RegionId(parseInt(par
 fun parseOptionalRegionId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { RegionId(it) }
 
-fun parseRegion(parameters: Parameters, state: State, id: RegionId) = Region(
+fun parseRegion(state: State, parameters: Parameters, id: RegionId) = Region(
     id,
     parseName(parameters),
     parseRegionData(parameters),

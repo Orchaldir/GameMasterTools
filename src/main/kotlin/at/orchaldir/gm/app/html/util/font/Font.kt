@@ -54,8 +54,8 @@ fun parseOptionalFontId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { FontId(it) }
 
 fun parseFont(
-    parameters: Parameters,
     state: State,
+    parameters: Parameters,
     id: FontId,
 ) = Font(
     id,

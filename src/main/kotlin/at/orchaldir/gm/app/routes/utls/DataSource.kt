@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.util.source.parseDataSource
 import at.orchaldir.gm.app.html.util.source.showDataSource
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteDataSource
-import at.orchaldir.gm.core.action.UpdateDataSource
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortDataSource
 import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
@@ -22,7 +22,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -97,22 +96,14 @@ fun Application.configureDataSourceRouting() {
             logger.info { "Preview source ${preview.id.value}" }
 
             val state = STORE.getState()
-            val source = parseDataSource(call.receiveParameters(), state, preview.id)
+            val source = parseDataSource(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDataSourceEditor(call, state, source)
             }
         }
         post<DataSourceRoutes.Update> { update ->
-            logger.info { "Update source ${update.id.value}" }
-
-            val source = parseDataSource(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateDataSource(source))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseDataSource)
         }
     }
 }

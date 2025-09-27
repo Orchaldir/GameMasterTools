@@ -529,7 +529,11 @@ private fun FORM.editWings(state: State, appearance: RaceAppearance) {
 
 fun parseRaceAppearanceId(parameters: Parameters, param: String) = RaceAppearanceId(parseInt(parameters, param))
 
-fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters) = RaceAppearance(
+fun parseRaceAppearance(
+    state: State,
+    parameters: Parameters,
+    id: RaceAppearanceId,
+) = RaceAppearance(
     id,
     parseName(parameters),
     parseOneOf(parameters, APPEARANCE, AppearanceType::valueOf),

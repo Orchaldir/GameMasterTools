@@ -101,7 +101,11 @@ fun parseTownId(parameters: Parameters, param: String) = TownId(parseInt(paramet
 fun parseOptionalTownId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { TownId(it) }
 
-fun parseTown(parameters: Parameters, state: State, id: TownId): Town {
+fun parseTown(
+    state: State,
+    parameters: Parameters,
+    id: TownId,
+): Town {
     val date = parseOptionalDate(parameters, state, DATE)
 
     return Town(

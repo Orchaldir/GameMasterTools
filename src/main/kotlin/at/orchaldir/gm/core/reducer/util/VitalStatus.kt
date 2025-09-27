@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.doNothing
 
-fun <ID : Id<ID>> checkVitalStatus(
+fun <ID : Id<ID>> validateVitalStatus(
     state: State,
     id: ID,
     status: VitalStatus,
@@ -21,14 +21,14 @@ fun <ID : Id<ID>> checkVitalStatus(
     require(allowedStatuses.contains(status.getType())) { "Invalid vital status ${status.getType()}!" }
 
     when (status) {
-        is Abandoned -> checkVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
+        is Abandoned -> validateVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
         Alive -> doNothing()
-        is Dead -> checkVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
-        is Destroyed -> checkVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
+        is Dead -> validateVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
+        is Destroyed -> validateVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
     }
 }
 
-private fun <ID : Id<ID>> checkVitalStatus(
+private fun <ID : Id<ID>> validateVitalStatus(
     state: State,
     id: ID,
     startDate: Date?,

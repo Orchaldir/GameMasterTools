@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteSpell
-import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
 import at.orchaldir.gm.core.model.magic.Spell
@@ -33,7 +33,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -109,24 +108,14 @@ fun Application.configureSpellRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val spell = parseSpell(formParameters, state, preview.id)
+            val spell = parseSpell(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showSpellEditor(call, state, spell)
             }
         }
         post<SpellRoutes.Update> { update ->
-            logger.info { "Update spell ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val spell = parseSpell(formParameters, state, update.id)
-
-            STORE.dispatch(UpdateSpell(spell))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseSpell)
         }
     }
 }

@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.color.showColorScheme
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteColorScheme
-import at.orchaldir.gm.core.action.UpdateColorScheme
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortColorScheme
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -103,23 +102,14 @@ fun Application.configureColorSchemeRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val scheme = parseColorScheme(formParameters, state, preview.id)
+            val scheme = parseColorScheme(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showColorSchemeEditor(call, state, scheme)
             }
         }
         post<ColorSchemeRoutes.Update> { update ->
-            logger.info { "Update color scheme ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val scheme = parseColorScheme(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateColorScheme(scheme))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseColorScheme)
         }
     }
 }

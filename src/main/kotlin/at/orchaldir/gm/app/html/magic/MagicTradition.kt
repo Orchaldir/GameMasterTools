@@ -48,7 +48,11 @@ fun parseMagicTraditionId(parameters: Parameters, param: String) = MagicTraditio
 
 fun parseMagicTraditionId(value: String) = MagicTraditionId(value.toInt())
 
-fun parseMagicTradition(parameters: Parameters, state: State, id: MagicTraditionId) = MagicTradition(
+fun parseMagicTradition(
+    state: State,
+    parameters: Parameters,
+    id: MagicTraditionId,
+) = MagicTradition(
     id,
     parseName(parameters),
     parseOptionalDate(parameters, state, DATE),

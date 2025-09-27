@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.magic
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateMagicTradition
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.SpellGroup
@@ -26,7 +26,7 @@ class MagicTraditionTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateMagicTradition(MagicTradition(UNKNOWN_MAGIC_TRADITION_ID))
+            val action = UpdateAction(MagicTradition(UNKNOWN_MAGIC_TRADITION_ID))
 
             assertIllegalArgument("Requires unknown Magic Tradition 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -34,7 +34,7 @@ class MagicTraditionTest {
         @Test
         fun `Cannot use an unknown spell`() {
             val tradition = MagicTradition(MAGIC_TRADITION_ID_0, groups = setOf(UNKNOWN_SPELL_GROUP_ID))
-            val action = UpdateMagicTradition(tradition)
+            val action = UpdateAction(tradition)
 
             assertIllegalArgument("Requires unknown Spell Group 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -42,7 +42,7 @@ class MagicTraditionTest {
         @Test
         fun `Update a domain`() {
             val domain = MagicTradition(MAGIC_TRADITION_ID_0, NAME, groups = setOf(SPELL_GROUP_ID_0))
-            val action = UpdateMagicTradition(domain)
+            val action = UpdateAction(domain)
 
             assertEquals(
                 domain,

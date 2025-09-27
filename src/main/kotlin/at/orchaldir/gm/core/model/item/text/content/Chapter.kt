@@ -24,7 +24,7 @@ data class AbstractChapter(
 data class SimpleChapter(
     val title: NotEmptyString,
     val entries: List<ContentEntry>,
-    val pages: Int = 0,
+    val pages: Int = 1,
 ) : Chapter {
     constructor(index: Int, entries: List<ContentEntry>) :
             this(NotEmptyString.init(createDefaultChapterTitle(index)), entries)

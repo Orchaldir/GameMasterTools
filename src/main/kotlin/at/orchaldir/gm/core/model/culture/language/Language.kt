@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.culture.language
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -10,6 +11,8 @@ import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.core.model.util.origin.OriginType
 import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.origin.validateOriginType
+import at.orchaldir.gm.core.reducer.util.validateDate
+import at.orchaldir.gm.core.reducer.util.validateOrigin
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -50,5 +53,14 @@ data class Language(
     override fun name() = name.text
     override fun creator() = origin.creator()
     override fun startDate() = date
+
+    override fun validate(state: State) {
+        validateDate(state, date, "Language")
+        validateOrigin(state, id, origin, date, ::LanguageId)
+
+        // no duplicate name?
+        // no circle? (time travel?)
+    }
+
 
 }

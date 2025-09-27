@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateMoon
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.OnWorld
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -26,7 +26,7 @@ class MoonTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateMoon(Moon(MOON_ID_0))
+            val action = UpdateAction(Moon(MOON_ID_0))
 
             assertIllegalArgument("Requires unknown Moon 0!") { REDUCER.invoke(State(), action) }
         }
@@ -34,7 +34,7 @@ class MoonTest {
         @Test
         fun `Update is valid`() {
             val moon = Moon(MOON_ID_0, NAME, plane = PLANE_ID_0)
-            val action = UpdateMoon(moon)
+            val action = UpdateAction(moon)
 
             assertEquals(moon, REDUCER.invoke(state, action).first.getMoonStorage().get(MOON_ID_0))
         }
@@ -42,14 +42,14 @@ class MoonTest {
         @Test
         fun `Days per quarter is too small`() {
             val moon = Moon(MOON_ID_0, NAME, daysPerQuarter = 0)
-            val action = UpdateMoon(moon)
+            val action = UpdateAction(moon)
 
             assertIllegalArgument("Days per quarter most be greater than 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use unknown plane`() {
-            val action = UpdateMoon(Moon(MOON_ID_0, plane = UNKNOWN_PLANE_ID))
+            val action = UpdateAction(Moon(MOON_ID_0, plane = UNKNOWN_PLANE_ID))
 
             assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
         }
@@ -57,7 +57,7 @@ class MoonTest {
         @Test
         fun `Cannot use an unknown element as position`() {
             val moon = Moon(MOON_ID_0, position = OnWorld(UNKNOWN_WORLD_ID))
-            val action = UpdateMoon(moon)
+            val action = UpdateAction(moon)
 
             assertIllegalArgument("Requires unknown World 99 as position!") { REDUCER.invoke(state, action) }
         }

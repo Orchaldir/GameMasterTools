@@ -39,7 +39,11 @@ fun parseSpellGroupId(parameters: Parameters, param: String) = SpellGroupId(pars
 
 fun parseSpellGroupId(value: String) = SpellGroupId(value.toInt())
 
-fun parseSpellGroup(parameters: Parameters, id: SpellGroupId) = SpellGroup(
+fun parseSpellGroup(
+    state: State,
+    parameters: Parameters,
+    id: SpellGroupId,
+) = SpellGroup(
     id,
     parseName(parameters),
     parseElements(parameters, SPELLS, ::parseSpellId),

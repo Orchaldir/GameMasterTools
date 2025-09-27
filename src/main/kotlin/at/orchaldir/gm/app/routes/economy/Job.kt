@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.economy.parseJob
 import at.orchaldir.gm.app.html.economy.showJob
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteJob
-import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
@@ -25,7 +25,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -100,22 +99,14 @@ fun Application.configureJobRouting() {
             logger.info { "Preview job ${preview.id.value}" }
 
             val state = STORE.getState()
-            val job = parseJob(preview.id, call.receiveParameters())
+            val job = parseJob(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showJobEditor(call, state, job)
             }
         }
         post<JobRoutes.Update> { update ->
-            logger.info { "Update job ${update.id.value}" }
-
-            val job = parseJob(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateJob(job))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseJob)
         }
     }
 }

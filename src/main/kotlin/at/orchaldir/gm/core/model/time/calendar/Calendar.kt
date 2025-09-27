@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.time.calendar
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -9,6 +10,11 @@ import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.core.model.util.origin.OriginType
 import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.origin.validateOriginType
+import at.orchaldir.gm.core.reducer.time.validateDays
+import at.orchaldir.gm.core.reducer.time.validateEras
+import at.orchaldir.gm.core.reducer.time.validateHolidays
+import at.orchaldir.gm.core.reducer.time.validateMonths
+import at.orchaldir.gm.core.reducer.util.validateOrigin
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.date.resolveDay
 import at.orchaldir.gm.utils.Id
@@ -51,6 +57,14 @@ data class Calendar(
     override fun id() = id
     override fun name() = name.text
     override fun startDate() = date
+
+    override fun validate(state: State) {
+        validateDays(this)
+        validateMonths(this)
+        validateEras(state, this)
+        validateOrigin(state, id, origin, null, ::CalendarId)
+        validateHolidays(state, this)
+    }
 
     // data
 

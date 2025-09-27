@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.CreateAction
-import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
@@ -68,7 +68,7 @@ class CharacterTest {
             fun `Using an unknown statistic`() {
                 val statblock = UniqueCharacterStatblock(Statblock(mapOf(UNKNOWN_STATISTIC_ID to 4)))
                 val character = Character(CHARACTER_ID_0, statblock = statblock)
-                val action = UpdateCharacter(character)
+                val action = UpdateAction(character)
 
                 assertIllegalArgument("Requires unknown Statistic 99!") { REDUCER.invoke(STATE, action) }
             }
@@ -77,7 +77,7 @@ class CharacterTest {
             fun `Using an unknown template`() {
                 val statblock = UseStatblockOfTemplate(UNKNOWN_CHARACTER_TEMPLATE_ID)
                 val character = Character(CHARACTER_ID_0, statblock = statblock)
-                val action = UpdateCharacter(character)
+                val action = UpdateAction(character)
 
                 assertIllegalArgument("Requires unknown Character Template 99!") { REDUCER.invoke(STATE, action) }
             }
@@ -108,14 +108,14 @@ class CharacterTest {
 
             private fun testValidStatus(status: VitalStatus) {
                 val character = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
-                val action = UpdateCharacter(character)
+                val action = UpdateAction(character)
 
                 REDUCER.invoke(STATE, action)
             }
 
             private fun testInvalidStatus(status: VitalStatus) {
                 val character = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
-                val action = UpdateCharacter(character)
+                val action = UpdateAction(character)
 
                 assertIllegalArgument("Invalid vital status ${status.getType()}!") { REDUCER.invoke(STATE, action) }
             }
@@ -146,7 +146,7 @@ class CharacterTest {
 
                 invalidList.forEach { sexuality ->
                     val character = Character(CHARACTER_ID_0, gender = Genderless, sexuality = sexuality)
-                    val action = UpdateCharacter(character)
+                    val action = UpdateAction(character)
 
                     assertIllegalArgument("Sexual orientation $sexuality is invalid for gender Genderless!") {
                         REDUCER.invoke(state, action)
@@ -162,7 +162,7 @@ class CharacterTest {
 
                 validList.forEach { sexuality ->
                     val character = Character(CHARACTER_ID_0, gender = gender, sexuality = sexuality)
-                    val action = UpdateCharacter(character)
+                    val action = UpdateAction(character)
 
                     val result = REDUCER.invoke(state, action).first
 
@@ -186,7 +186,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot be born in the future`() {
-                val action = UpdateCharacter(Character(CHARACTER_ID_0, birthDate = Day(1)))
+                val action = UpdateAction(Character(CHARACTER_ID_0, birthDate = Day(1)))
 
                 assertIllegalArgument("Date (Birthday) is in the future!") { REDUCER.invoke(state, action) }
             }
@@ -194,7 +194,7 @@ class CharacterTest {
             @Test
             fun `Check origin with Unknown mother`() {
                 val action =
-                    UpdateCharacter(
+                    UpdateAction(
                         Character(
                             CHARACTER_ID_0,
                             origin = BornElement(UNKNOWN_CHARACTER_ID, null)
@@ -209,14 +209,14 @@ class CharacterTest {
         @Test
         fun `Cannot believe in an unknown god`() {
             val action =
-                UpdateCharacter(Character(CHARACTER_ID_0, beliefStatus = History(WorshipOfGod(UNKNOWN_GOD_ID))))
+                UpdateAction(Character(CHARACTER_ID_0, beliefStatus = History(WorshipOfGod(UNKNOWN_GOD_ID))))
 
             assertIllegalArgument("The belief's God 99 doesn't exist!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot be the secret identity of an unknown character`() {
-            val action = UpdateCharacter(Character(CHARACTER_ID_0, authenticity = SecretIdentity(UNKNOWN_CHARACTER_ID)))
+            val action = UpdateAction(Character(CHARACTER_ID_0, authenticity = SecretIdentity(UNKNOWN_CHARACTER_ID)))
 
             assertIllegalArgument("Cannot be the secret identity of unknown Character 99!") {
                 REDUCER.invoke(
@@ -232,7 +232,7 @@ class CharacterTest {
             @Test
             fun `Cannot use unknown building as home`() {
                 val action =
-                    UpdateCharacter(Character(CHARACTER_ID_0, housingStatus = History(InHome(BUILDING_ID_0))))
+                    UpdateAction(Character(CHARACTER_ID_0, housingStatus = History(InHome(BUILDING_ID_0))))
 
                 assertIllegalArgument("Requires unknown home!") { REDUCER.invoke(STATE, action) }
             }
@@ -241,7 +241,7 @@ class CharacterTest {
         @Test
         fun `Cannot update unknown character`() {
             val state = STATE.removeStorage(CHARACTER_ID_0)
-            val action = UpdateCharacter(character0)
+            val action = UpdateAction(character0)
 
             assertIllegalArgument("Requires unknown Character 0!") { REDUCER.invoke(state, action) }
         }
@@ -249,14 +249,14 @@ class CharacterTest {
         @Test
         fun `Cannot use unknown culture`() {
             val state = STATE.removeStorage(CULTURE_ID_0)
-            val action = UpdateCharacter(Character(CHARACTER_ID_0, culture = CULTURE_ID_0))
+            val action = UpdateAction(Character(CHARACTER_ID_0, culture = CULTURE_ID_0))
 
             assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use unknown title`() {
-            val action = UpdateCharacter(Character(CHARACTER_ID_0, title = TITLE_ID_0))
+            val action = UpdateAction(Character(CHARACTER_ID_0, title = TITLE_ID_0))
 
             assertIllegalArgument("Requires unknown Title 0!") { REDUCER.invoke(STATE, action) }
         }
@@ -264,7 +264,7 @@ class CharacterTest {
         @Test
         fun `Cannot use unknown personality trait`() {
             val state = STATE.removeStorage(PERSONALITY_ID_0)
-            val action = UpdateCharacter(Character(CHARACTER_ID_0, personality = setOf(PERSONALITY_ID_0)))
+            val action = UpdateAction(Character(CHARACTER_ID_0, personality = setOf(PERSONALITY_ID_0)))
 
             assertIllegalArgument("Requires unknown Personality Trait 0!") { REDUCER.invoke(state, action) }
         }
@@ -272,7 +272,7 @@ class CharacterTest {
         @Test
         fun `Cannot use unknown race`() {
             val state = STATE.removeStorage(RACE_ID_0)
-            val action = UpdateCharacter(Character(CHARACTER_ID_0, race = RACE_ID_0))
+            val action = UpdateAction(Character(CHARACTER_ID_0, race = RACE_ID_0))
 
             assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(state, action) }
         }

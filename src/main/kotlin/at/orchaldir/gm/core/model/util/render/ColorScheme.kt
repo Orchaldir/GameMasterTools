@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.util.render
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
+import at.orchaldir.gm.core.reducer.util.color.validateColorSchemes
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -24,6 +26,8 @@ data class ColorScheme(
 
     override fun id() = id
     override fun name() = data.name()
+
+    override fun validate(state: State) = validateColorSchemes(state)
 
     fun isValid(requiredSchemaColors: Int) = data.count() >= requiredSchemaColors
 }

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateCurrencyUnit
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
@@ -29,21 +29,21 @@ class CurrencyUnitTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateCurrencyUnit(CurrencyUnit(UNKNOWN_CURRENCY_UNIT_ID))
+            val action = UpdateAction(CurrencyUnit(UNKNOWN_CURRENCY_UNIT_ID))
 
             assertIllegalArgument("Requires unknown Currency Unit 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use unknown currency`() {
-            val action = UpdateCurrencyUnit(CurrencyUnit(CURRENCY_UNIT_ID_0, currency = UNKNOWN_CURRENCY_ID))
+            val action = UpdateAction(CurrencyUnit(CURRENCY_UNIT_ID_0, currency = UNKNOWN_CURRENCY_ID))
 
             assertIllegalArgument("Requires unknown Currency 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Currency must have the denomination`() {
-            val action = UpdateCurrencyUnit(CurrencyUnit(CURRENCY_UNIT_ID_0, denomination = 2))
+            val action = UpdateAction(CurrencyUnit(CURRENCY_UNIT_ID_0, denomination = 2))
 
             assertIllegalState("Currency 0 doesn't have a denomination 2!") { REDUCER.invoke(state, action) }
         }
@@ -51,7 +51,7 @@ class CurrencyUnitTest {
         @Test
         fun `A sub denomination is valid`() {
             val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, denomination = 1)
-            val action = UpdateCurrencyUnit(unit)
+            val action = UpdateAction(unit)
 
             assertEquals(unit, REDUCER.invoke(state, action).first.getCurrencyUnitStorage().get(CURRENCY_UNIT_ID_0))
         }
@@ -59,7 +59,7 @@ class CurrencyUnitTest {
         @Test
         fun `Test Success`() {
             val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, NAME)
-            val action = UpdateCurrencyUnit(unit)
+            val action = UpdateAction(unit)
 
             assertEquals(unit, REDUCER.invoke(state, action).first.getCurrencyUnitStorage().get(CURRENCY_UNIT_ID_0))
         }

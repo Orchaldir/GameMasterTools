@@ -11,8 +11,8 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
-import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Name
@@ -31,7 +31,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -106,22 +105,14 @@ fun Application.configureArchitecturalStyleRouting() {
             logger.info { "Get preview for architectural style ${preview.id.value}" }
 
             val state = STORE.getState()
-            val style = parseArchitecturalStyle(call.receiveParameters(), state, preview.id)
+            val style = parseArchitecturalStyle(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showArchitecturalStyleEditor(call, state, style)
             }
         }
         post<ArchitecturalStyleRoutes.Update> { update ->
-            logger.info { "Update architectural style ${update.id.value}" }
-
-            val style = parseArchitecturalStyle(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateArchitecturalStyle(style))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseArchitecturalStyle)
         }
     }
 }

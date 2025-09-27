@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.economy.money.showCurrency
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCurrency
-import at.orchaldir.gm.core.action.UpdateCurrency
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_TYPE
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -24,7 +24,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -99,22 +98,14 @@ fun Application.configureCurrencyRouting() {
             logger.info { "Preview currency ${preview.id.value}" }
 
             val state = STORE.getState()
-            val currency = parseCurrency(call.receiveParameters(), state, preview.id)
+            val currency = parseCurrency(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCurrencyEditor(call, state, currency)
             }
         }
         post<CurrencyRoutes.Update> { update ->
-            logger.info { "Update currency ${update.id.value}" }
-
-            val currency = parseCurrency(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateCurrency(currency))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseCurrency)
         }
     }
 }

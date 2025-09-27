@@ -10,11 +10,11 @@ import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.app.html.world.showTownMap
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
 import at.orchaldir.gm.core.action.DeleteTownMap
-import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.town.TownMap
@@ -34,10 +34,10 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
+import kotlin.let
 
 private val logger = KotlinLogging.logger {}
 
@@ -83,24 +83,18 @@ fun Application.configureTownMapRouting() {
 
             val state = STORE.getState()
             val oldTownMap = state.getTownMapStorage().getOrThrow(preview.id)
-            val townMap = parseTownMap(call.receiveParameters(), state, oldTownMap)
+            val townMap = parseTownMap(state, call.receiveParameters(), oldTownMap)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTownMapEditor(call, state, townMap)
             }
         }
         post<TownMapRoutes.Update> { update ->
-            logger.info { "Update town map ${update.id.value}" }
+            handleUpdateElement(update.id) { state, parameters, id ->
+                val oldTownMap = state.getTownMapStorage().getOrThrow(id)
 
-            val state = STORE.getState()
-            val oldTownMap = state.getTownMapStorage().getOrThrow(update.id)
-            val townMap = parseTownMap(call.receiveParameters(), state, oldTownMap)
-
-            STORE.dispatch(UpdateTownMap(townMap))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+                parseTownMap(state, parameters, oldTownMap)
+            }
         }
     }
 }

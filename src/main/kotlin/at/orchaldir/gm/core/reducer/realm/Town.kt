@@ -1,28 +1,16 @@
 package at.orchaldir.gm.core.reducer.realm
 
-import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWNS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_TOWNS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.util.requireExists
-import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
-
-val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
-    val town = action.town
-    state.getTownStorage().require(town.id)
-
-    validateTown(state, town)
-
-    noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
-}
 
 fun validateTown(state: State, town: Town) {
-    checkDate(state, town.foundingDate, "Town")
+    validateDate(state, town.foundingDate, "Town")
     validateCreator(state, town.founder, town.id, town.foundingDate, "founder")
-    checkVitalStatus(
+    validateVitalStatus(
         state,
         town.id,
         town.status,
@@ -31,7 +19,7 @@ fun validateTown(state: State, town: Town) {
         VALID_CAUSES_FOR_TOWNS,
     )
     state.getDataSourceStorage().require(town.sources)
-    checkHistory(state, town.owner, town.foundingDate, "owner") { _, realmId, _, date ->
+    validateHistory(state, town.owner, town.foundingDate, "owner") { _, realmId, _, date ->
         if (realmId != null) {
             state.requireExists(state.getRealmStorage(), realmId, date)
         }

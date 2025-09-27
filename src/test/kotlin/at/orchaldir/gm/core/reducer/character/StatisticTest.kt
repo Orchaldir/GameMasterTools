@@ -4,7 +4,7 @@ import at.orchaldir.gm.STATISTIC_ID_0
 import at.orchaldir.gm.STATISTIC_ID_1
 import at.orchaldir.gm.UNKNOWN_STATISTIC_ID
 import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.core.action.UpdateStatistic
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.Attribute
 import at.orchaldir.gm.core.model.character.statistic.BasedOnStatistic
@@ -29,7 +29,7 @@ class StatisticTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateStatistic(Statistic(UNKNOWN_STATISTIC_ID))
+            val action = UpdateAction(Statistic(UNKNOWN_STATISTIC_ID))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -37,7 +37,7 @@ class StatisticTest {
         @Test
         fun `Cannot be based on a unknown statistic`() {
             val statistic = Statistic(STATISTIC_ID_0, data = Attribute(BasedOnStatistic(UNKNOWN_STATISTIC_ID)))
-            val action = UpdateStatistic(statistic)
+            val action = UpdateAction(statistic)
 
             assertIllegalArgument("Requires unknown Statistic 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -45,7 +45,7 @@ class StatisticTest {
         @Test
         fun `Cannot be based on itself`() {
             val statistic = Statistic(STATISTIC_ID_0, data = Attribute(BasedOnStatistic(STATISTIC_ID_0)))
-            val action = UpdateStatistic(statistic)
+            val action = UpdateAction(statistic)
 
             assertIllegalArgument("Statistic 0 cannot be based on itself!") { REDUCER.invoke(STATE, action) }
         }
@@ -53,7 +53,7 @@ class StatisticTest {
         @Test
         fun `Update with all values set`() {
             val statistic = Statistic(STATISTIC_ID_0, data = Attribute(BasedOnStatistic(STATISTIC_ID_1)))
-            val action = UpdateStatistic(statistic)
+            val action = UpdateAction(statistic)
 
             assertEquals(
                 statistic,

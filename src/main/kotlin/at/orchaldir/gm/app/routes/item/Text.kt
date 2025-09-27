@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteText
-import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
@@ -28,7 +28,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -117,23 +116,14 @@ fun Application.configureTextRouting() {
             logger.info { "Get preview for text ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val text = parseText(formParameters, STORE.getState(), preview.id)
+            val text = parseText(STORE.getState(), formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTextEditor(call, STORE.getState(), text)
             }
         }
         post<TextRoutes.Update> { update ->
-            logger.info { "Update text ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val text = parseText(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateText(text))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseText)
         }
     }
 }

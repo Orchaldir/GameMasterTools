@@ -4,7 +4,7 @@ import at.orchaldir.gm.ARTICLE_ID_0
 import at.orchaldir.gm.UNKNOWN_ARTICLE_ID
 import at.orchaldir.gm.UNKNOWN_QUOTE_ID
 import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.core.action.UpdateArticle
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.FullArticleContent
@@ -27,7 +27,7 @@ class ArticleTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateArticle(Article(UNKNOWN_ARTICLE_ID))
+            val action = UpdateAction(Article(UNKNOWN_ARTICLE_ID))
 
             assertIllegalArgument("Requires unknown Article 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -36,7 +36,7 @@ class ArticleTest {
         fun `Unknown quote`() {
             val entry = LinkedQuote(UNKNOWN_QUOTE_ID)
             val content = FullArticleContent(listOf(entry))
-            val action = UpdateArticle(Article(ARTICLE_ID_0, content = content))
+            val action = UpdateAction(Article(ARTICLE_ID_0, content = content))
 
             assertIllegalArgument("Requires unknown Quote 99!") { REDUCER.invoke(STATE, action) }
         }

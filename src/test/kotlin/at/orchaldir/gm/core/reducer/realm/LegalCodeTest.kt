@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateLegalCode
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -24,7 +24,7 @@ class LegalCodeTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateLegalCode(LegalCode(UNKNOWN_LEGAL_CODE_ID))
+            val action = UpdateAction(LegalCode(UNKNOWN_LEGAL_CODE_ID))
 
             assertIllegalArgument("Requires unknown Legal Code 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -32,7 +32,7 @@ class LegalCodeTest {
         @Test
         fun `Update a code`() {
             val code = LegalCode(LEGAL_CODE_ID_0, NAME)
-            val action = UpdateLegalCode(code)
+            val action = UpdateAction(code)
 
             assertEquals(code, REDUCER.invoke(STATE, action).first.getLegalCodeStorage().get(LEGAL_CODE_ID_0))
         }

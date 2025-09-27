@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.character.title.parseTitle
 import at.orchaldir.gm.app.html.character.title.showTitle
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteTitle
-import at.orchaldir.gm.core.action.UpdateTitle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
 import at.orchaldir.gm.core.model.character.title.Title
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -101,22 +100,14 @@ fun Application.configureTitleRouting() {
             logger.info { "Preview title ${preview.id.value}" }
 
             val state = STORE.getState()
-            val title = parseTitle(call.receiveParameters(), state, preview.id)
+            val title = parseTitle(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTitleEditor(call, state, title)
             }
         }
         post<TitleRoutes.Update> { update ->
-            logger.info { "Update title ${update.id.value}" }
-
-            val title = parseTitle(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateTitle(title))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseTitle)
         }
     }
 }

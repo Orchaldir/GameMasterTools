@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCharacterTemplate
-import at.orchaldir.gm.core.action.UpdateCharacterTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.character.CharacterTemplate
@@ -24,7 +24,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -119,17 +118,7 @@ fun Application.configureCharacterTemplateRouting() {
             }
         }
         post<CharacterTemplateRoutes.Update> { update ->
-            logger.info { "Update template ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val template = parseCharacterTemplate(state, formParameters, update.id)
-
-            STORE.dispatch(UpdateCharacterTemplate(template))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseCharacterTemplate)
         }
     }
 }

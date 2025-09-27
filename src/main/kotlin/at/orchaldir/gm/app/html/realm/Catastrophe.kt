@@ -60,7 +60,11 @@ fun parseCatastropheId(parameters: Parameters, param: String) = CatastropheId(pa
 fun parseOptionalCatastropheId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { CatastropheId(it) }
 
-fun parseCatastrophe(parameters: Parameters, state: State, id: CatastropheId) = Catastrophe(
+fun parseCatastrophe(
+    state: State,
+    parameters: Parameters,
+    id: CatastropheId,
+) = Catastrophe(
     id,
     parseName(parameters),
     parseOptionalDate(parameters, state, combine(START, DATE)),

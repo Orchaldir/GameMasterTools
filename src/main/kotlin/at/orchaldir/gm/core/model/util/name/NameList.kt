@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.util.name
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val NAME_LIST_TYPE = "Name List"
@@ -25,5 +27,6 @@ data class NameList(
 
     override fun id() = id
     override fun name() = name.text
+    override fun validate(state: State) = doNothing()
 
 }

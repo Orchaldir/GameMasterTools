@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.world.parseWorld
 import at.orchaldir.gm.app.html.world.showWorld
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteWorld
-import at.orchaldir.gm.core.action.UpdateWorld
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortWorld
 import at.orchaldir.gm.core.model.world.WORLD_TYPE
@@ -25,7 +25,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -105,22 +104,14 @@ fun Application.configureWorldRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val region = parseWorld(formParameters, state, preview.id)
+            val region = parseWorld(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showWorldEditor(call, state, region)
             }
         }
         post<WorldRoutes.Update> { update ->
-            logger.info { "Update world ${update.id.value}" }
-
-            val world = parseWorld(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateWorld(world))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseWorld)
         }
     }
 }

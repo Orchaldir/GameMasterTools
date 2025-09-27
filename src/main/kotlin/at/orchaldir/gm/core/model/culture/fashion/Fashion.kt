@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.model.culture.fashion
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.culture.validateAppearanceFashion
+import at.orchaldir.gm.core.reducer.culture.validateClothingFashion
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -27,5 +30,10 @@ data class Fashion(
 
     override fun id() = id
     override fun name() = name.text
+
+    override fun validate(state: State) {
+        validateAppearanceFashion(appearance)
+        validateClothingFashion(state, clothing)
+    }
 
 }

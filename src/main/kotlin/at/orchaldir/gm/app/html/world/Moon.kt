@@ -69,7 +69,7 @@ fun HtmlBlockTag.editMoon(
 
 fun parseMoonId(parameters: Parameters, param: String) = MoonId(parseInt(parameters, param))
 
-fun parseMoon(parameters: Parameters, state: State, id: MoonId) = Moon(
+fun parseMoon(state: State, parameters: Parameters, id: MoonId) = Moon(
     id,
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),

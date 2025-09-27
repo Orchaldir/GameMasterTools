@@ -9,7 +9,7 @@ fun checkBeliefStatusHistory(
     state: State,
     history: History<BeliefStatus>,
     startDate: Date?,
-) = checkHistory(state, history, startDate, "belief", ::checkBeliefStatus)
+) = validateHistory(state, history, startDate, "belief", ::checkBeliefStatus)
 
 fun checkBeliefStatus(
     state: State,

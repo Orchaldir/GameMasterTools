@@ -67,7 +67,11 @@ fun parsePeriodicalIssueId(value: String) = PeriodicalIssueId(value.toInt())
 
 fun parsePeriodicalIssueId(parameters: Parameters, param: String) = PeriodicalIssueId(parseInt(parameters, param))
 
-fun parsePeriodicalIssue(parameters: Parameters, state: State, id: PeriodicalIssueId): PeriodicalIssue {
+fun parsePeriodicalIssue(
+    state: State,
+    parameters: Parameters,
+    id: PeriodicalIssueId,
+): PeriodicalIssue {
     val periodicalId = parsePeriodicalId(parameters, PERIODICAL)
     val periodical = state.getPeriodicalStorage().getOrThrow(periodicalId)
     val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)

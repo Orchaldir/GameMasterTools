@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.COLOR_SCHEME_ID_0
 import at.orchaldir.gm.REALM_ID_0
-import at.orchaldir.gm.core.action.UpdateColorScheme
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.render.Color
@@ -31,7 +31,7 @@ class ColorSchemeTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateColorScheme(ColorScheme(COLOR_SCHEME_ID_0))
+            val action = UpdateAction(ColorScheme(COLOR_SCHEME_ID_0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -40,7 +40,7 @@ class ColorSchemeTest {
         @Test
         fun `Update is valid`() {
             val scheme = ColorScheme(COLOR_SCHEME_ID_0, OneColor(Color.Red))
-            val action = UpdateColorScheme(scheme)
+            val action = UpdateAction(scheme)
 
             assertEquals(scheme, REDUCER.invoke(STATE, action).first.getColorSchemeStorage().get(COLOR_SCHEME_ID_0))
         }

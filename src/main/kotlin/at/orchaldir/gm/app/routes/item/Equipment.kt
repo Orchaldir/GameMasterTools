@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.item.equipment.showEquipment
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteEquipment
-import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
@@ -34,7 +34,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -138,16 +137,7 @@ fun Application.configureEquipmentRouting() {
             }
         }
         post<EquipmentRoutes.Update> { update ->
-            logger.info { "Update equipment ${update.id.value}" }
-
-            val state = STORE.getState()
-            val equipment = parseEquipment(state, call.receiveParameters(), update.id)
-
-            STORE.dispatch(UpdateEquipment(equipment))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseEquipment)
         }
     }
 }

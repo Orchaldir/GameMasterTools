@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.religion.showGod
 import at.orchaldir.gm.app.html.util.showAuthenticity
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteGod
-import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.GOD_TYPE
 import at.orchaldir.gm.core.model.religion.God
@@ -25,7 +25,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -105,23 +104,14 @@ fun Application.configureGodRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val god = parseGod(formParameters, preview.id)
+            val god = parseGod(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showGodEditor(call, state, god)
             }
         }
         post<GodRoutes.Update> { update ->
-            logger.info { "Update god ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val god = parseGod(formParameters, update.id)
-
-            STORE.dispatch(UpdateGod(god))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseGod)
         }
     }
 }

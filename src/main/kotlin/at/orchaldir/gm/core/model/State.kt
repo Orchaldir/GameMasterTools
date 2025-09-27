@@ -91,41 +91,8 @@ import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.TOWN_MAP_TYPE
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.reducer.character.validateCharacter
-import at.orchaldir.gm.core.reducer.character.validateCharacterTemplate
-import at.orchaldir.gm.core.reducer.character.validateStatistic
-import at.orchaldir.gm.core.reducer.culture.validateCulture
-import at.orchaldir.gm.core.reducer.culture.validateFashion
-import at.orchaldir.gm.core.reducer.culture.validateLanguage
-import at.orchaldir.gm.core.reducer.economy.validateBusiness
-import at.orchaldir.gm.core.reducer.economy.validateCurrency
-import at.orchaldir.gm.core.reducer.economy.validateCurrencyUnit
-import at.orchaldir.gm.core.reducer.economy.validateJob
-import at.orchaldir.gm.core.reducer.health.validateDisease
-import at.orchaldir.gm.core.reducer.item.periodical.validateArticle
-import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodical
-import at.orchaldir.gm.core.reducer.item.periodical.validatePeriodicalIssue
-import at.orchaldir.gm.core.reducer.item.validateEquipment
-import at.orchaldir.gm.core.reducer.item.validateText
-import at.orchaldir.gm.core.reducer.item.validateUniform
-import at.orchaldir.gm.core.reducer.magic.validateMagicTradition
-import at.orchaldir.gm.core.reducer.magic.validateSpell
-import at.orchaldir.gm.core.reducer.magic.validateSpellGroup
-import at.orchaldir.gm.core.reducer.organization.validateOrganization
-import at.orchaldir.gm.core.reducer.race.validateRace
-import at.orchaldir.gm.core.reducer.race.validateRaceAppearance
-import at.orchaldir.gm.core.reducer.realm.*
-import at.orchaldir.gm.core.reducer.religion.validateDomain
-import at.orchaldir.gm.core.reducer.religion.validateGod
-import at.orchaldir.gm.core.reducer.religion.validatePantheon
-import at.orchaldir.gm.core.reducer.time.validateCalendar
-import at.orchaldir.gm.core.reducer.time.validateHoliday
 import at.orchaldir.gm.core.reducer.util.color.validateColorSchemes
-import at.orchaldir.gm.core.reducer.util.font.validateFont
-import at.orchaldir.gm.core.reducer.util.quote.validateQuote
 import at.orchaldir.gm.core.reducer.validateData
-import at.orchaldir.gm.core.reducer.world.*
-import at.orchaldir.gm.core.reducer.world.town.validateTownMap
 import at.orchaldir.gm.core.save
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
@@ -339,56 +306,26 @@ data class State(
 
         require(ELEMENTS.size == storageMap.size) { "Wrong number element storages!" }
 
-        validate(getArchitecturalStyleStorage()) { validateArchitecturalStyle(this, it) }
-        validate(getArticleStorage()) { validateArticle(this, it) }
-        validate(getBattleStorage()) { validateBattle(this, it) }
-        validate(getBuildingStorage()) { validateBuilding(this, it) }
-        validate(getBusinessStorage()) { validateBusiness(this, it) }
-        validate(getCalendarStorage()) { validateCalendar(this, it) }
-        validate(getCatastropheStorage()) { validateCatastrophe(this, it) }
-        validate(getCharacterStorage()) { validateCharacter(this, it) }
-        validate(getCharacterTemplateStorage()) { validateCharacterTemplate(this, it) }
         validateColorSchemes(this)
-        validate(getCultureStorage()) { validateCulture(this, it) }
-        validate(getCurrencyStorage()) { validateCurrency(this, it) }
-        validate(getCurrencyUnitStorage()) { validateCurrencyUnit(this, it) }
-        validate(getDiseaseStorage()) { validateDisease(this, it) }
-        validate(getDistrictStorage()) { validateDistrict(this, it) }
-        validate(getDomainStorage()) { validateDomain(this, it) }
-        validate(getEquipmentStorage()) { validateEquipment(this, it) }
-        validate(getFashionStorage()) { validateFashion(this, it) }
-        validate(getFontStorage()) { validateFont(this, it) }
-        validate(getGodStorage()) { validateGod(this, it) }
-        validate(getHolidayStorage()) { validateHoliday(this, it) }
-        validate(getJobStorage()) { validateJob(this, it) }
-        validate(getLanguageStorage()) { validateLanguage(this, it) }
-        validate(getLegalCodeStorage()) { validateLegalCode(this, it) }
-        validate(getMagicTraditionStorage()) { validateMagicTradition(this, it) }
-        validate(getMoonStorage()) { validateMoon(this, it) }
-        validate(getOrganizationStorage()) { validateOrganization(this, it) }
-        validate(getPantheonStorage()) { validatePantheon(this, it) }
-        validate(getPeriodicalStorage()) { validatePeriodical(this, it) }
-        validate(getPeriodicalIssueStorage()) { validatePeriodicalIssue(this, it) }
-        validate(getPlaneStorage()) { validatePlane(this, it) }
-        validate(getQuoteStorage()) { validateQuote(this, it) }
-        validate(getRaceStorage()) { validateRace(this, it) }
-        validate(getRaceAppearanceStorage()) { validateRaceAppearance(it) }
-        validate(getRealmStorage()) { validateRealm(this, it) }
-        validate(getRegionStorage()) { validateRegion(this, it) }
-        validate(getSpellStorage()) { validateSpell(this, it) }
-        validate(getSpellGroupStorage()) { validateSpellGroup(this, it) }
-        validate(getStatisticStorage()) { validateStatistic(this, it) }
-        // street
-        validate(getStreetTemplateStorage()) { validateStreetTemplate(this, it) }
-        validate(getTextStorage()) { validateText(this, it) }
-        validate(getTownStorage()) { validateTown(this, it) }
-        validate(getTownMapStorage()) { validateTownMap(this, it) }
-        validate(getTreatyStorage()) { validateTreaty(this, it) }
-        validate(getUniformStorage()) { validateUniform(this, it) }
-        validate(getWarStorage()) { validateWar(this, it) }
-        validate(getWorldStorage()) { validateWorld(this, it) }
+
+        storageMap.entries
+            .filter { it.key != COLOR_SCHEME_TYPE }
+            .forEach { (_, storage) -> validate(storage) }
 
         validateData(this, data)
+    }
+
+    private fun <ID : Id<ID>, ELEMENT : Element<ID>> validate(
+        storage: Storage<ID, ELEMENT>,
+    ) {
+        storage.getAll().forEach {
+            try {
+                it.validate(this)
+            } catch (e: Exception) {
+                logger.error { "${storage.getType()} ${it.id().value()} is invalid: ${e.message}" }
+                throw e
+            }
+        }
     }
 
     fun save() {
@@ -570,18 +507,4 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     WAR_TYPE -> loadStorage<WarId, War>(path, WarId(0))
     WORLD_TYPE -> loadStorage<WorldId, World>(path, WorldId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
-}
-
-private fun <ID : Id<ID>, ELEMENT : Element<ID>> validate(
-    storage: Storage<ID, ELEMENT>,
-    validate: (ELEMENT) -> Unit,
-) {
-    storage.getAll().forEach {
-        try {
-            validate(it)
-        } catch (e: Exception) {
-            logger.error { "${storage.getType()} ${it.id().value()} is invalid: ${e.message}" }
-            throw e
-        }
-    }
 }

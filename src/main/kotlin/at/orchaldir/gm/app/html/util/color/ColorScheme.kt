@@ -82,7 +82,11 @@ fun parseColorSchemeId(parameters: Parameters, param: String) = ColorSchemeId(pa
 fun parseOptionalColorSchemeId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { ColorSchemeId(it) }
 
-fun parseColorScheme(parameters: Parameters, state: State, id: ColorSchemeId) = ColorScheme(
+fun parseColorScheme(
+    state: State,
+    parameters: Parameters,
+    id: ColorSchemeId,
+) = ColorScheme(
     id,
     parseColors(parameters),
 )

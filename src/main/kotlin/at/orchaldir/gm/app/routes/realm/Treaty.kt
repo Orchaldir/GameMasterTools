@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.realm.showTreaty
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteTreaty
-import at.orchaldir.gm.core.action.UpdateTreaty
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TREATY_TYPE
 import at.orchaldir.gm.core.model.realm.Treaty
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -99,23 +98,14 @@ fun Application.configureTreatyRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val treaty = parseTreaty(formParameters, state, preview.id)
+            val treaty = parseTreaty(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTreatyEditor(call, state, treaty)
             }
         }
         post<TreatyRoutes.Update> { update ->
-            logger.info { "Update treaty ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val treaty = parseTreaty(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateTreaty(treaty))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseTreaty)
         }
     }
 }

@@ -10,8 +10,8 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteTown
-import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TOWN_TYPE
 import at.orchaldir.gm.core.model.realm.Town
@@ -28,7 +28,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -107,23 +106,14 @@ fun Application.configureTownRouting() {
             logger.info { "Preview town ${preview.id.value}" }
 
             val state = STORE.getState()
-            val town = parseTown(call.receiveParameters(), state, preview.id)
+            val town = parseTown(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTownEditor(call, state, town)
             }
         }
         post<TownRoutes.Update> { update ->
-            logger.info { "Update town ${update.id.value}" }
-
-            val state = STORE.getState()
-            val town = parseTown(call.receiveParameters(), state, update.id)
-
-            STORE.dispatch(UpdateTown(town))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseTown)
         }
     }
 }

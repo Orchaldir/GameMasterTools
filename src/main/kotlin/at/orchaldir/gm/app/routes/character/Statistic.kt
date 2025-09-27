@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.character.statistic.parseStatistic
 import at.orchaldir.gm.app.html.character.statistic.showStatistic
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteStatistic
-import at.orchaldir.gm.core.action.UpdateStatistic
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.character.statistic.Statistic
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -103,23 +102,14 @@ fun Application.configureStatisticRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val statistic = parseStatistic(formParameters, preview.id)
+            val statistic = parseStatistic(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showStatisticEditor(call, state, statistic)
             }
         }
         post<StatisticRoutes.Update> { update ->
-            logger.info { "Update statistic ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val statistic = parseStatistic(formParameters, update.id)
-
-            STORE.dispatch(UpdateStatistic(statistic))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseStatistic)
         }
     }
 }

@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 
-fun checkDate(
+fun validateDate(
     state: State,
     date: Date?,
     noun: String,

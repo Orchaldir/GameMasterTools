@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.time.parseHoliday
 import at.orchaldir.gm.app.html.time.showHoliday
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteHoliday
-import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.time.holiday.Holiday
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -91,22 +90,15 @@ fun Application.configureHolidayRouting() {
         post<HolidayRoutes.Preview> { preview ->
             logger.info { "Get preview for holiday ${preview.id.value}" }
 
-            val holiday = parseHoliday(preview.id, call.receiveParameters())
+            val state = STORE.getState()
+            val holiday = parseHoliday(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showHolidayEditor(call, STORE.getState(), holiday)
+                showHolidayEditor(call, state, holiday)
             }
         }
         post<HolidayRoutes.Update> { update ->
-            logger.info { "Update holiday ${update.id.value}" }
-
-            val holiday = parseHoliday(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateHoliday(holiday))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseHoliday)
         }
     }
 }

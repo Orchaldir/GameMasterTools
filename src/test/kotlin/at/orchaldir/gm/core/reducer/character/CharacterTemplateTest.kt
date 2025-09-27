@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateCharacterTemplate
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.Gender
@@ -41,7 +41,7 @@ class CharacterTemplateTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateCharacterTemplate(CharacterTemplate(UNKNOWN_CHARACTER_TEMPLATE_ID, race = RACE_ID_0))
+            val action = UpdateAction(CharacterTemplate(UNKNOWN_CHARACTER_TEMPLATE_ID, race = RACE_ID_0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -49,7 +49,7 @@ class CharacterTemplateTest {
         @Test
         fun `Using an unknown race`() {
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = UNKNOWN_RACE_ID)
-            val action = UpdateCharacterTemplate(template)
+            val action = UpdateAction(template)
 
             assertIllegalArgument("Requires unknown Race 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -57,7 +57,7 @@ class CharacterTemplateTest {
         @Test
         fun `Using an unknown culture`() {
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, culture = UNKNOWN_CULTURE_ID)
-            val action = UpdateCharacterTemplate(template)
+            val action = UpdateAction(template)
 
             assertIllegalArgument("Requires unknown Culture 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -66,7 +66,7 @@ class CharacterTemplateTest {
         fun `Using an unknown statistic`() {
             val statblock = Statblock(mapOf(UNKNOWN_STATISTIC_ID to 4))
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
-            val action = UpdateCharacterTemplate(template)
+            val action = UpdateAction(template)
 
             assertIllegalArgument("Requires unknown Statistic 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -78,7 +78,7 @@ class CharacterTemplateTest {
                 race = RACE_ID_0,
                 languages = mapOf(UNKNOWN_LANGUAGE_ID to Native)
             )
-            val action = UpdateCharacterTemplate(template)
+            val action = UpdateAction(template)
 
             assertIllegalArgument("Requires unknown Language 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -87,7 +87,7 @@ class CharacterTemplateTest {
         fun `Using an unknown god`() {
             val template =
                 CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, belief = WorshipOfGod(UNKNOWN_GOD_ID))
-            val action = UpdateCharacterTemplate(template)
+            val action = UpdateAction(template)
 
             assertIllegalArgument("The belief's God 99 doesn't exist!") { REDUCER.invoke(STATE, action) }
         }
@@ -95,7 +95,7 @@ class CharacterTemplateTest {
         @Test
         fun `Using an unknown uniform`() {
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, uniform = UNKNOWN_UNIFORM_ID)
-            val action = UpdateCharacterTemplate(template)
+            val action = UpdateAction(template)
 
             assertIllegalArgument("Requires unknown Uniform 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -112,7 +112,7 @@ class CharacterTemplateTest {
                 WorshipOfGod(GOD_ID_0),
                 UNIFORM_ID_0,
             )
-            val action = UpdateCharacterTemplate(template)
+            val action = UpdateAction(template)
 
             assertEquals(
                 template,

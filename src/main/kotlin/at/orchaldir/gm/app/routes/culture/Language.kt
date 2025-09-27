@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.culture.showLanguage
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteLanguage
-import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.culture.language.Language
@@ -29,7 +29,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -104,22 +103,14 @@ fun Application.configureLanguageRouting() {
             logger.info { "Preview changes to language ${preview.id.value}" }
 
             val state = STORE.getState()
-            val language = parseLanguage(call.receiveParameters(), state, preview.id)
+            val language = parseLanguage(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showLanguageEditor(call, state, language)
             }
         }
         post<LanguageRoutes.Update> { update ->
-            logger.info { "Update language ${update.id.value}" }
-
-            val language = parseLanguage(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateLanguage(language))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseLanguage)
         }
     }
 }

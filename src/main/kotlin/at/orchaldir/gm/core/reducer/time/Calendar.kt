@@ -1,39 +1,14 @@
 package at.orchaldir.gm.core.reducer.time
 
-import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
-import at.orchaldir.gm.core.reducer.util.checkOrigin
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
 
-val UPDATE_CALENDAR: Reducer<UpdateCalendar, State> = { state, action ->
-    val calendar = action.calendar
-
-    state.getCalendarStorage().require(calendar.id)
-    validateCalendar(state, calendar)
-
-    noFollowUps(state.updateStorage(state.getCalendarStorage().update(calendar)))
-}
-
-fun validateCalendar(
-    state: State,
-    calendar: Calendar,
-) {
-    checkDays(calendar)
-    checkMonths(calendar)
-    checkEras(state, calendar)
-    checkOrigin(state, calendar.id, calendar.origin, null, ::CalendarId)
-    checkHolidays(state, calendar)
-}
-
-private fun checkDays(
+fun validateDays(
     calendar: Calendar,
 ) {
     when (val days = calendar.days) {
@@ -47,7 +22,7 @@ private fun checkDays(
     }
 }
 
-private fun checkMonths(
+fun validateMonths(
     calendar: Calendar,
 ) {
     require(calendar.months.getSize() > 1) { "Requires at least 2 months" }
@@ -57,7 +32,7 @@ private fun checkMonths(
     }
 }
 
-private fun checkEras(
+fun validateEras(
     state: State,
     calendar: Calendar,
 ) {
@@ -66,9 +41,9 @@ private fun checkEras(
     }
 }
 
-private fun checkHolidays(
+fun validateHolidays(
     state: State,
     calendar: Calendar,
 ) {
-    state.getHolidays(calendar.id).forEach { checkRelativeDate(calendar, it.relativeDate) }
+    state.getHolidays(calendar.id).forEach { validateRelativeDate(calendar, it.relativeDate) }
 }

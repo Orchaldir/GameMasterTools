@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -144,7 +144,7 @@ class VitalStatusTest {
 
         private fun testDie(deathDate: Day, causeOfDeath: CauseOfDeath) {
             val character = Character(CHARACTER_ID_0, vitalStatus = Dead(deathDate, causeOfDeath))
-            val action = UpdateCharacter(character)
+            val action = UpdateAction(character)
 
             val result = REDUCER.invoke(state, action).first
 
@@ -155,7 +155,7 @@ class VitalStatusTest {
         }
 
         private fun testFailToDie(deathDate: Day, causeOfDeath: CauseOfDeath) {
-            val action = UpdateCharacter(Character(CHARACTER_ID_0, vitalStatus = Dead(deathDate, causeOfDeath)))
+            val action = UpdateAction(Character(CHARACTER_ID_0, vitalStatus = Dead(deathDate, causeOfDeath)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }

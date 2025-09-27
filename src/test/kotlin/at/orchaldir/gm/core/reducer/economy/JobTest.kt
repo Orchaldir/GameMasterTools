@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateJob
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -39,35 +39,35 @@ class JobTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateJob(Job(UNKNOWN_JOB_ID))
+            val action = UpdateAction(Job(UNKNOWN_JOB_ID))
 
             assertIllegalArgument("Requires unknown Job 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update job with unknown statistic`() {
-            val action = UpdateJob(Job(JOB_ID_0, importantStatistics = setOf(UNKNOWN_STATISTIC_ID)))
+            val action = UpdateAction(Job(JOB_ID_0, importantStatistics = setOf(UNKNOWN_STATISTIC_ID)))
 
             assertIllegalArgument("Requires unknown Statistic 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update job with unknown uniform`() {
-            val action = UpdateJob(Job(JOB_ID_0, uniforms = GenderMap(UNKNOWN_UNIFORM_ID)))
+            val action = UpdateAction(Job(JOB_ID_0, uniforms = GenderMap(UNKNOWN_UNIFORM_ID)))
 
             assertIllegalArgument("Requires unknown Uniform 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update job with unknown spell`() {
-            val action = UpdateJob(Job(JOB_ID_0, spells = SomeOf(UNKNOWN_SPELL_ID)))
+            val action = UpdateAction(Job(JOB_ID_0, spells = SomeOf(UNKNOWN_SPELL_ID)))
 
             assertIllegalArgument("Requires unknown Spell 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update job with unknown standard of living`() {
-            val action = UpdateJob(Job(JOB_ID_0, income = AffordableStandardOfLiving(UNKNOWN_STANDARD_ID)))
+            val action = UpdateAction(Job(JOB_ID_0, income = AffordableStandardOfLiving(UNKNOWN_STANDARD_ID)))
 
             assertIllegalArgument("Requires unknown Standard Of Living 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -80,7 +80,7 @@ class JobTest {
                 uniforms = GenderMap(UNIFORM_ID_0),
                 spells = SomeOf(SPELL_ID_0),
             )
-            val action = UpdateJob(job)
+            val action = UpdateAction(job)
 
             assertEquals(job, REDUCER.invoke(STATE, action).first.getJobStorage().get(JOB_ID_0))
         }

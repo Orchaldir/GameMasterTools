@@ -1,11 +1,13 @@
 package at.orchaldir.gm.core.model.character.title
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val TITLE_TYPE = "Title"
@@ -48,6 +50,8 @@ data class Title(
         TitlePosition.BeforeFamilyName -> name
         TitlePosition.BeforeFullName -> text.get(gender).text + separator + name
     }
+
+    override fun validate(state: State) = doNothing()
 
 }
 

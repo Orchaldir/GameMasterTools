@@ -1,8 +1,10 @@
 package at.orchaldir.gm.core.model.item.equipment
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.reducer.item.validateEquipment
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
@@ -31,6 +33,8 @@ data class Equipment(
 
     override fun id() = id
     override fun name() = name.text
+
+    override fun validate(state: State) = validateEquipment(state, this)
 
     fun slots() = data.slots()
 

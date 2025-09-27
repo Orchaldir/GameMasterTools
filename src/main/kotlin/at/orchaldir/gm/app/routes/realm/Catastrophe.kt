@@ -11,8 +11,8 @@ import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCatastrophe
-import at.orchaldir.gm.core.action.UpdateCatastrophe
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
@@ -27,7 +27,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -103,23 +102,14 @@ fun Application.configureCatastropheRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val catastrophe = parseCatastrophe(formParameters, state, preview.id)
+            val catastrophe = parseCatastrophe(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCatastropheEditor(call, state, catastrophe)
             }
         }
         post<CatastropheRoutes.Update> { update ->
-            logger.info { "Update catastrophe ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val catastrophe = parseCatastrophe(formParameters, STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateCatastrophe(catastrophe))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseCatastrophe)
         }
     }
 }

@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.time.showCalendar
 import at.orchaldir.gm.app.html.util.showDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCalendar
-import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -25,7 +25,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -94,23 +93,14 @@ fun Application.configureCalendarRouting() {
             logger.info { "Preview changes to calendar ${preview.id.value}" }
 
             val state = STORE.getState()
-            val calendar = parseCalendar(state, call.receiveParameters(), state.getDefaultCalendar(), preview.id)
+            val calendar = parseCalendar(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCalendarEditor(call, state, calendar)
             }
         }
         post<CalendarRoutes.Update> { update ->
-            logger.info { "Update calendar ${update.id.value}" }
-
-            val state = STORE.getState()
-            val calendar = parseCalendar(state, call.receiveParameters(), state.getDefaultCalendar(), update.id)
-
-            STORE.dispatch(UpdateCalendar(calendar))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseCalendar)
         }
     }
 }

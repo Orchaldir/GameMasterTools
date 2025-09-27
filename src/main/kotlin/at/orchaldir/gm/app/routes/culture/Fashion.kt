@@ -7,9 +7,9 @@ import at.orchaldir.gm.app.html.culture.parseFashion
 import at.orchaldir.gm.app.html.culture.showFashion
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.DeleteFashion
-import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -22,7 +22,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.h2
@@ -91,22 +90,15 @@ fun Application.configureFashionRouting() {
         post<FashionRoutes.Preview> { preview ->
             logger.info { "Get preview for fashion ${preview.id.value}" }
 
-            val fashion = parseFashion(preview.id, call.receiveParameters())
+            val state = STORE.getState()
+            val fashion = parseFashion(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showFashionEditor(call, STORE.getState(), fashion)
+                showFashionEditor(call, state, fashion)
             }
         }
         post<FashionRoutes.Update> { update ->
-            logger.info { "Update fashion ${update.id.value}" }
-
-            val fashion = parseFashion(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateFashion(fashion))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseFashion)
         }
     }
 }

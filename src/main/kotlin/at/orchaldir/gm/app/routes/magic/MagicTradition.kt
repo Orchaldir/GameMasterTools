@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteMagicTradition
-import at.orchaldir.gm.core.action.UpdateMagicTradition
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MAGIC_TRADITION_TYPE
 import at.orchaldir.gm.core.model.magic.MagicTradition
@@ -24,7 +24,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -100,24 +99,14 @@ fun Application.configureMagicTraditionRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val tradition = parseMagicTradition(formParameters, state, preview.id)
+            val tradition = parseMagicTradition(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showMagicTraditionEditor(call, state, tradition)
             }
         }
         post<MagicTraditionRoutes.Update> { update ->
-            logger.info { "Update tradition ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val tradition = parseMagicTradition(formParameters, state, update.id)
-
-            STORE.dispatch(UpdateMagicTradition(tradition))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseMagicTradition)
         }
     }
 }

@@ -111,7 +111,7 @@ fun parseOptionalTownMapId(parameters: Parameters, param: String) =
 
 fun parseTerrainType(parameters: Parameters) = parse(parameters, combine(TERRAIN, TYPE), TerrainType.Plain)
 
-fun parseTownMap(parameters: Parameters, state: State, oldTownMap: TownMap) = oldTownMap.copy(
+fun parseTownMap(state: State, parameters: Parameters, oldTownMap: TownMap) = oldTownMap.copy(
     town = parseOptionalTownId(parameters, TOWN),
     date = parseOptionalDate(parameters, state, DATE),
 )

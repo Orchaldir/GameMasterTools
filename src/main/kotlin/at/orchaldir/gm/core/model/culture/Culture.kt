@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.culture
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
@@ -50,4 +51,12 @@ data class Culture(
 
     override fun clone(cloneId: CultureId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 
+    override fun validate(state: State) {
+        state.getCalendarStorage().require(calendar)
+        state.getFashionStorage().require(fashion.getValues().filterNotNull())
+        state.getHolidayStorage().require(holidays)
+        state.getLanguageStorage().require(languages.getValidValues())
+        state.getNameListStorage().require(namingConvention.getNameLists())
+        state.getDataSourceStorage().require(sources)
+    }
 }

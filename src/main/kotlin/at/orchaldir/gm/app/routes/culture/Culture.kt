@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.culture.showCulture
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCulture
-import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -102,24 +101,16 @@ fun Application.configureCultureRouting() {
         post<CultureRoutes.Preview> { preview ->
             logger.info { "Get preview for culture ${preview.id.value}" }
 
+            val state = STORE.getState()
             val formParameters = call.receiveParameters()
-            val culture = parseCulture(formParameters, preview.id)
+            val culture = parseCulture(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showCultureEditor(call, STORE.getState(), culture)
+                showCultureEditor(call, state, culture)
             }
         }
         post<CultureRoutes.Update> { update ->
-            logger.info { "Update culture ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val culture = parseCulture(formParameters, update.id)
-
-            STORE.dispatch(UpdateCulture(culture))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseCulture)
         }
     }
 }

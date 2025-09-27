@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.statistic.CharacterStatblock
@@ -11,27 +10,6 @@ import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
-
-val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
-    val character = action.character
-    state.getCharacterStorage().require(character.id)
-
-    validateCharacterData(state, character)
-
-    noFollowUps(state.updateStorage(state.getCharacterStorage().update(character)))
-}
-
-fun validateCharacter(
-    state: State,
-    character: Character,
-) {
-    validateCharacterData(state, character)
-    validateCharacterAppearance(state, character.appearance, character.race)
-    validateCharacterEquipment(state, character.equipmentMap)
-    state.getDataSourceStorage().require(character.sources)
-}
 
 fun validateCharacterData(
     state: State,
@@ -42,7 +20,7 @@ fun validateCharacterData(
     state.getTitleStorage().requireOptional(character.title)
     checkSexualOrientation(character)
     checkOrigin(state, character)
-    checkVitalStatus(
+    validateVitalStatus(
         state,
         character.id,
         character.vitalStatus,
@@ -81,6 +59,6 @@ private fun checkOrigin(
     state: State,
     character: Character,
 ) {
-    checkDate(state, character.birthDate, "Birthday")
-    checkOrigin(state, character.id, character.origin, character.birthDate, ::CharacterId)
+    validateDate(state, character.birthDate, "Birthday")
+    validateOrigin(state, character.id, character.origin, character.birthDate, ::CharacterId)
 }

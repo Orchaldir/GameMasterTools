@@ -14,7 +14,7 @@ fun checkPositionHistory(
     history: History<Position>,
     startDate: Date,
     allowedTypes: Collection<PositionType> = PositionType.entries,
-) = checkHistory(state, history, startDate, "home") { state, param, position, date ->
+) = validateHistory(state, history, startDate, "home") { state, param, position, date ->
     checkPosition(state, param, position, date, allowedTypes)
 }
 

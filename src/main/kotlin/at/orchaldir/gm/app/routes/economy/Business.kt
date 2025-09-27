@@ -10,8 +10,8 @@ import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteBusiness
-import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -26,7 +26,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -101,22 +100,14 @@ fun Application.configureBusinessRouting() {
             logger.info { "Preview business ${preview.id.value}" }
 
             val state = STORE.getState()
-            val business = parseBusiness(call.receiveParameters(), state, preview.id)
+            val business = parseBusiness(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showBusinessEditor(call, state, business)
             }
         }
         post<BusinessRoutes.Update> { update ->
-            logger.info { "Update business ${update.id.value}" }
-
-            val business = parseBusiness(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateBusiness(business))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseBusiness)
         }
     }
 }

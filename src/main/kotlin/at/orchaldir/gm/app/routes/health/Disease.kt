@@ -10,8 +10,8 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteDisease
-import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
 import at.orchaldir.gm.core.model.health.Disease
@@ -26,7 +26,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -102,24 +101,14 @@ fun Application.configureDiseaseRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val disease = parseDisease(formParameters, state, preview.id)
+            val disease = parseDisease(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDiseaseEditor(call, state, disease)
             }
         }
         post<DiseaseRoutes.Update> { update ->
-            logger.info { "Update disease ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val disease = parseDisease(formParameters, state, update.id)
-
-            STORE.dispatch(UpdateDisease(disease))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parseDisease)
         }
     }
 }

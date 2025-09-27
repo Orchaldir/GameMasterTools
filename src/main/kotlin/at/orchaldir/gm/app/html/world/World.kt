@@ -48,7 +48,7 @@ fun HtmlBlockTag.editWorld(
 
 fun parseWorldId(parameters: Parameters, param: String) = WorldId(parseInt(parameters, param))
 
-fun parseWorld(parameters: Parameters, state: State, id: WorldId) = World(
+fun parseWorld(state: State, parameters: Parameters, id: WorldId) = World(
     id,
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),

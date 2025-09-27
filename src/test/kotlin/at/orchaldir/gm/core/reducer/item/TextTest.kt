@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateText
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.language.Language
@@ -47,14 +47,14 @@ class TextTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateText(Text(TEXT_ID_0))
+            val action = UpdateAction(Text(TEXT_ID_0))
 
             assertIllegalArgument("Requires unknown Text 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Date is in the future`() {
-            val action = UpdateText(Text(TEXT_ID_0, date = FUTURE_DAY_0))
+            val action = UpdateAction(Text(TEXT_ID_0, date = FUTURE_DAY_0))
 
             assertIllegalArgument("Date (Text) is in the future!") { REDUCER.invoke(STATE, action) }
         }
@@ -62,21 +62,21 @@ class TextTest {
         @Test
         fun `Author must exist`() {
             val origin = CreatedElement(CharacterReference(UNKNOWN_CHARACTER_ID))
-            val action = UpdateText(Text(TEXT_ID_0, origin = origin))
+            val action = UpdateAction(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Requires unknown Creator (Character 99)!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Publisher must exist`() {
-            val action = UpdateText(Text(TEXT_ID_0, publisher = UNKNOWN_BUSINESS_ID))
+            val action = UpdateAction(Text(TEXT_ID_0, publisher = UNKNOWN_BUSINESS_ID))
 
             assertIllegalArgument("Requires unknown Business 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Publisher must exist at the time of publishing`() {
-            val action = UpdateText(Text(TEXT_ID_0, publisher = BUSINESS_ID_0, date = DAY1))
+            val action = UpdateAction(Text(TEXT_ID_0, publisher = BUSINESS_ID_0, date = DAY1))
 
             assertIllegalArgument("The Business 0 doesn't exist at the required date!") {
                 REDUCER.invoke(
@@ -90,7 +90,7 @@ class TextTest {
         fun `Successfully update an original text`() {
             val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
             val text = Text(TEXT_ID_0, origin = origin)
-            val action = UpdateText(text)
+            val action = UpdateAction(text)
 
             assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(TEXT_ID_0))
         }
@@ -98,7 +98,7 @@ class TextTest {
         @Test
         fun `Translator must exist`() {
             val origin = TranslatedElement(TEXT_ID_1, CharacterReference(UNKNOWN_CHARACTER_ID))
-            val action = UpdateText(Text(TEXT_ID_0, origin = origin))
+            val action = UpdateAction(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Requires unknown Creator (Character 99)!") { REDUCER.invoke(STATE, action) }
         }
@@ -106,7 +106,7 @@ class TextTest {
         @Test
         fun `Translated text must exist`() {
             val origin = TranslatedElement(UNKNOWN_TEXT_ID, CharacterReference(CHARACTER_ID_0))
-            val action = UpdateText(Text(TEXT_ID_0, origin = origin))
+            val action = UpdateAction(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Requires unknown parent Text 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -114,7 +114,7 @@ class TextTest {
         @Test
         fun `A text cannot translate itself`() {
             val origin = TranslatedElement(TEXT_ID_0, CharacterReference(CHARACTER_ID_0))
-            val action = UpdateText(Text(TEXT_ID_0, origin = origin))
+            val action = UpdateAction(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Text 0 cannot be its own parent!") { REDUCER.invoke(STATE, action) }
         }
@@ -122,7 +122,7 @@ class TextTest {
         @Test
         fun `The translation must happen after the original was written`() {
             val origin = TranslatedElement(TEXT_ID_1, CharacterReference(CHARACTER_ID_0))
-            val action = UpdateText(Text(TEXT_ID_0, date = DAY0, origin = origin))
+            val action = UpdateAction(Text(TEXT_ID_0, date = DAY0, origin = origin))
 
             assertIllegalArgument("The parent Text 1 doesn't exist at the required date!") {
                 REDUCER.invoke(STATE, action)
@@ -133,7 +133,7 @@ class TextTest {
         fun `Successfully update a translated text`() {
             val origin = TranslatedElement(TEXT_ID_1, CharacterReference(CHARACTER_ID_0))
             val text = Text(TEXT_ID_0, origin = origin)
-            val action = UpdateText(text)
+            val action = UpdateAction(text)
 
             assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(TEXT_ID_0))
         }
@@ -142,7 +142,7 @@ class TextTest {
         inner class FormatTest {
             @Test
             fun `Too few pages`() {
-                val action = UpdateText(Text(TEXT_ID_0, format = Book(Hardcover(), 2)))
+                val action = UpdateAction(Text(TEXT_ID_0, format = Book(Hardcover(), 2)))
 
                 assertIllegalArgument("The text requires at least 10 pages!") { REDUCER.invoke(STATE, action) }
             }
@@ -151,7 +151,7 @@ class TextTest {
             fun `Too few stitches for the simple pattern`() {
                 val pattern = SimpleSewingPattern(stitches = emptyList())
                 val binding = CopticBinding(sewingPattern = pattern)
-                val action = UpdateText(Text(TEXT_ID_0, format = Book(binding, 100)))
+                val action = UpdateAction(Text(TEXT_ID_0, format = Book(binding, 100)))
 
                 assertIllegalArgument("The sewing pattern requires at least 2 stitches!") {
                     REDUCER.invoke(
@@ -165,7 +165,7 @@ class TextTest {
             fun `Too few stitches for the complex pattern`() {
                 val pattern = ComplexSewingPattern(stitches = emptyList())
                 val binding = CopticBinding(sewingPattern = pattern)
-                val action = UpdateText(Text(TEXT_ID_0, format = Book(binding, 100)))
+                val action = UpdateAction(Text(TEXT_ID_0, format = Book(binding, 100)))
 
                 assertIllegalArgument("The sewing pattern requires at least 2 stitches!") {
                     REDUCER.invoke(
@@ -178,7 +178,7 @@ class TextTest {
             @Test
             fun `Too few scroll handle segments`() {
                 val format = ScrollWithOneRod(Segments(emptyList()))
-                val action = UpdateText(Text(TEXT_ID_0, format = Scroll(format)))
+                val action = UpdateAction(Text(TEXT_ID_0, format = Scroll(format)))
 
                 assertIllegalArgument("A scroll handle needs at least 1 segment!") { REDUCER.invoke(STATE, action) }
             }
@@ -189,7 +189,7 @@ class TextTest {
             @Test
             fun `Too few pages`() {
                 val content = AbstractText(AbstractContent(0))
-                val action = UpdateText(Text(TEXT_ID_0, content = content))
+                val action = UpdateAction(Text(TEXT_ID_0, content = content))
 
                 assertIllegalArgument("The abstract text requires at least 1 pages!") { REDUCER.invoke(STATE, action) }
             }
@@ -199,7 +199,7 @@ class TextTest {
                 val quote = LinkedQuote(UNKNOWN_QUOTE_ID)
                 val chapter = SimpleChapter(0, listOf(quote))
                 val content = SimpleChapters(listOf(chapter))
-                val action = UpdateText(Text(TEXT_ID_0, content = content))
+                val action = UpdateAction(Text(TEXT_ID_0, content = content))
 
                 assertIllegalArgument("Requires unknown Quote 99!") { REDUCER.invoke(STATE, action) }
             }
@@ -245,7 +245,7 @@ class TextTest {
             }
 
             private fun testUnknownFont(content: TextContent) {
-                val action = UpdateText(Text(TEXT_ID_0, content = content))
+                val action = UpdateAction(Text(TEXT_ID_0, content = content))
 
                 assertIllegalArgument("Requires unknown Font 99!") { REDUCER.invoke(STATE, action) }
             }
@@ -253,7 +253,7 @@ class TextTest {
             @Test
             fun `Unknown spell`() {
                 val content = AbstractText(AbstractContent(100, setOf(UNKNOWN_SPELL_ID)))
-                val action = UpdateText(Text(TEXT_ID_0, content = content))
+                val action = UpdateAction(Text(TEXT_ID_0, content = content))
 
                 assertIllegalArgument("Requires unknown Spell 99!") { REDUCER.invoke(STATE, action) }
             }
@@ -262,7 +262,7 @@ class TextTest {
             fun `Unknown spell in chapter`() {
                 val chapter = AbstractChapter(0, AbstractContent(100, setOf(UNKNOWN_SPELL_ID)))
                 val content = AbstractChapters(listOf(chapter))
-                val action = UpdateText(Text(TEXT_ID_0, content = content))
+                val action = UpdateAction(Text(TEXT_ID_0, content = content))
 
                 assertIllegalArgument("Requires unknown Spell 99!") { REDUCER.invoke(STATE, action) }
             }
@@ -271,7 +271,7 @@ class TextTest {
             fun `Successful update`() {
                 val content = AbstractText(AbstractContent(100, setOf(SPELL_ID_0)))
                 val text = Text(TEXT_ID_0, content = content)
-                val action = UpdateText(text)
+                val action = UpdateAction(text)
 
                 assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(TEXT_ID_0))
             }

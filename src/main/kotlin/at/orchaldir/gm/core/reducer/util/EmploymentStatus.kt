@@ -14,7 +14,7 @@ fun checkEmploymentStatusHistory(
     state: State,
     history: History<EmploymentStatus>,
     startDate: Date,
-) = checkHistory(state, history, startDate, "employment", ::checkEmploymentStatus)
+) = validateHistory(state, history, startDate, "employment", ::checkEmploymentStatus)
 
 private fun checkEmploymentStatus(
     state: State,

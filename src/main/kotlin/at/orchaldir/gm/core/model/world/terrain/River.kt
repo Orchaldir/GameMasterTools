@@ -1,8 +1,10 @@
 package at.orchaldir.gm.core.model.world.terrain
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val RIVER_TYPE = "River"
@@ -26,5 +28,6 @@ data class River(
 
     override fun id() = id
     override fun name() = name.text
+    override fun validate(state: State) = doNothing()
 
 }

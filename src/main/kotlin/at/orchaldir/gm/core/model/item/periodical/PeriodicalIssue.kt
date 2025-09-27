@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.HasComplexStartDate
 import at.orchaldir.gm.core.selector.time.date.convertDateToDefault
 import at.orchaldir.gm.core.selector.time.date.display
+import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -55,6 +56,27 @@ data class PeriodicalIssue(
         val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
 
         return periodical.startDate()?.let { state.convertDateToDefault(calendar, it) }
+    }
+
+    override fun validate(state: State) {
+        val periodical = state.getPeriodicalStorage().getOrThrow(periodical)
+
+        require(isDateValid(state, periodical)) {
+            "The Issue ${id.value} cannot be published before the start of the periodical!"
+        }
+
+        articles.forEach { state.getArticleStorage().require(it) }
+    }
+
+    private fun isDateValid(
+        state: State,
+        periodical: Periodical,
+    ) = if (periodical.date != null) {
+        val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
+
+        calendar.getStartDay(date) >= calendar.getStartDay(periodical.date)
+    } else {
+        true
     }
 
 }

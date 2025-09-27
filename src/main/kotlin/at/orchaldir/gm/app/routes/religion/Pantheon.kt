@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.religion.parsePantheon
 import at.orchaldir.gm.app.html.religion.showPantheon
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeletePantheon
-import at.orchaldir.gm.core.action.UpdatePantheon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
 import at.orchaldir.gm.core.model.religion.Pantheon
@@ -23,7 +23,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.table
@@ -102,23 +101,14 @@ fun Application.configurePantheonRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val pantheon = parsePantheon(formParameters, preview.id)
+            val pantheon = parsePantheon(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showPantheonEditor(call, state, pantheon)
             }
         }
         post<PantheonRoutes.Update> { update ->
-            logger.info { "Update pantheon ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val pantheon = parsePantheon(formParameters, update.id)
-
-            STORE.dispatch(UpdatePantheon(pantheon))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(update.id, ::parsePantheon)
         }
     }
 }

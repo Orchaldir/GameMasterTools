@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateCulture
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
@@ -31,42 +31,42 @@ class CultureTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateCulture(Culture(CULTURE_ID_0))
+            val action = UpdateAction(Culture(CULTURE_ID_0))
 
             assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot update culture with unknown calendar`() {
-            val action = UpdateCulture(Culture(CULTURE_ID_0, calendar = CALENDAR_ID_1))
+            val action = UpdateAction(Culture(CULTURE_ID_0, calendar = CALENDAR_ID_1))
 
             assertIllegalArgument("Requires unknown Calendar 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update culture with unknown fashion`() {
-            val action = UpdateCulture(Culture(CULTURE_ID_0, fashion = GenderMap(FASHION_ID_0)))
+            val action = UpdateAction(Culture(CULTURE_ID_0, fashion = GenderMap(FASHION_ID_0)))
 
             assertIllegalArgument("Requires unknown Fashion 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update culture with unknown holiday`() {
-            val action = UpdateCulture(Culture(CULTURE_ID_0, holidays = setOf(HOLIDAY_ID_0)))
+            val action = UpdateAction(Culture(CULTURE_ID_0, holidays = setOf(HOLIDAY_ID_0)))
 
             assertIllegalArgument("Requires unknown Holiday 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update culture with unknown language`() {
-            val action = UpdateCulture(Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_0)))
+            val action = UpdateAction(Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_0)))
 
             assertIllegalArgument("Requires unknown Language 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot update culture with unknown name list`() {
-            val action = UpdateCulture(Culture(CULTURE_ID_0, namingConvention = MononymConvention(NAME_LIST_ID0)))
+            val action = UpdateAction(Culture(CULTURE_ID_0, namingConvention = MononymConvention(NAME_LIST_ID0)))
 
             assertIllegalArgument("Requires unknown Name List 0!") { REDUCER.invoke(STATE, action) }
         }
@@ -74,7 +74,7 @@ class CultureTest {
         @Test
         fun `Can update culture with known name list`() {
             val culture = Culture(CULTURE_ID_0, namingConvention = MononymConvention(NAME_LIST_ID0))
-            val action = UpdateCulture(culture)
+            val action = UpdateAction(culture)
 
             assertEquals(Storage(listOf(culture)), REDUCER.invoke(STATE_WITH_NAMES, action).first.getCultureStorage())
         }
@@ -214,7 +214,7 @@ class CultureTest {
         private fun changeConvention(
             old: NamingConvention, new: NamingConvention, oldName: CharacterName, newName: CharacterName,
         ) {
-            val action = UpdateCulture(Culture(CULTURE_ID_0, namingConvention = new))
+            val action = UpdateAction(Culture(CULTURE_ID_0, namingConvention = new))
             val character0 = Character(CHARACTER_ID_0, oldName, culture = CULTURE_ID_0)
             val character1 = Character(CHARACTER_ID_1, Mononym(NAME2), culture = CULTURE_ID_1)
             val result = Character(CHARACTER_ID_0, newName, culture = CULTURE_ID_0)

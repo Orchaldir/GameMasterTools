@@ -52,7 +52,7 @@ fun parseTitleId(parameters: Parameters, param: String) = parseOptionalTitleId(p
 fun parseOptionalTitleId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { TitleId(it) }
 
-fun parseTitle(parameters: Parameters, state: State, id: TitleId) = Title(
+fun parseTitle(state: State, parameters: Parameters, id: TitleId) = Title(
     id,
     parseName(parameters),
     parseGenderMap(WORD) { genderParam ->
