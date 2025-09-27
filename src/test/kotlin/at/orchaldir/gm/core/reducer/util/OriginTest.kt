@@ -106,7 +106,7 @@ class OriginTest {
 
         private fun test(origin: Origin) {
             assertIllegalArgument("Requires unknown parent Character 99!") {
-                checkOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
+                validateOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
             }
         }
     }
@@ -146,7 +146,7 @@ class OriginTest {
 
         private fun test(origin: Origin, noun: String = "Character 1") {
             assertIllegalArgument("The parent $noun doesn't exist at the required date!") {
-                checkOrigin(state, CHARACTER_ID_0, origin, DAY0, ::CharacterId)
+                validateOrigin(state, CHARACTER_ID_0, origin, DAY0, ::CharacterId)
             }
         }
     }
@@ -186,14 +186,14 @@ class OriginTest {
 
         private fun test(origin: Origin) {
             assertIllegalArgument("Character 0 cannot be its own parent!") {
-                checkOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
+                validateOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
             }
         }
 
     }
 
     private fun test(origin: Origin) {
-        checkOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
+        validateOrigin(state, CHARACTER_ID_0, origin, null, ::CharacterId)
     }
 
 }

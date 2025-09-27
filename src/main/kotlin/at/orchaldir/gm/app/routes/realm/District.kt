@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.routes.realm
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editDistrict
-import at.orchaldir.gm.app.html.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.realm.parseDistrict
 import at.orchaldir.gm.app.html.realm.showDistrict
 import at.orchaldir.gm.app.html.util.showOptionalDate
@@ -12,7 +11,6 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteDistrict
-import at.orchaldir.gm.core.action.UpdateDistrict
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.DISTRICT_TYPE
 import at.orchaldir.gm.core.model.realm.District
@@ -26,7 +24,6 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging

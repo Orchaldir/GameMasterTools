@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.terrain
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.Position
@@ -7,7 +8,9 @@ import at.orchaldir.gm.core.model.util.PositionType
 import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val REGION_TYPE = "Region"
@@ -42,5 +45,16 @@ data class Region(
     override fun id() = id
     override fun name() = name.text
     override fun position() = position
+
+    override fun validate(state: State) {
+        when (data) {
+            is Battlefield -> state.getBattleStorage().requireOptional(data.battle)
+            Continent, Desert, Forrest, Lake, Mountain, Sea, UndefinedRegionData -> doNothing()
+            is Wasteland -> state.getCatastropheStorage().requireOptional(data.catastrophe)
+        }
+
+        checkPosition(state, position, "position", null, data.getAllowedRegionTypes())
+        state.getMaterialStorage().require(resources)
+    }
 
 }

@@ -12,7 +12,7 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteFont
-import at.orchaldir.gm.core.action.UpdateFont
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortFont
 import at.orchaldir.gm.core.model.util.font.FONT_TYPE
@@ -158,7 +158,7 @@ fun Application.configureFontRouting() {
             val oldFont = STORE.getState().getFontStorage().getOrThrow(upload.id)
             val font = oldFont.copy(base64 = fileBytes)
 
-            STORE.dispatch(UpdateFont(font))
+            STORE.dispatch(UpdateAction(font))
 
             call.respondRedirect(href(call, upload.id))
 

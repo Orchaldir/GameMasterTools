@@ -13,15 +13,11 @@ val ECONOMY_REDUCER: Reducer<EconomyAction, State> = { state, action ->
     when (action) {
         // business
         is DeleteBusiness -> deleteElement(state, action.id, State::canDeleteBusiness)
-        is UpdateBusiness -> UPDATE_BUSINESS(state, action)
         // currency
         is DeleteCurrency -> deleteElement(state, action.id, State::canDeleteCurrency)
-        is UpdateCurrency -> UPDATE_CURRENCY(state, action)
         // currency unit
         is DeleteCurrencyUnit -> deleteElement(state, action.id, State::canDeleteCurrencyUnit)
-        is UpdateCurrencyUnit -> UPDATE_CURRENCY_UNIT(state, action)
         // job
         is DeleteJob -> deleteElement(state, action.id, State::canDeleteJob)
-        is UpdateJob -> UPDATE_JOB(state, action)
     }
 }

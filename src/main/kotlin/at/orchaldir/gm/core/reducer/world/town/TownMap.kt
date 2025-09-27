@@ -1,30 +1,12 @@
 package at.orchaldir.gm.core.reducer.world.town
 
-import at.orchaldir.gm.core.action.UpdateTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
 
-val UPDATE_TOWN_MAP: Reducer<UpdateTownMap, State> = { state, action ->
-    val townMap = action.townMap
-    state.getTownMapStorage().require(townMap.id)
-
-    validateTownMap(state, townMap)
-
-    noFollowUps(state.updateStorage(state.getTownMapStorage().update(townMap)))
-}
-
-fun validateTownMap(state: State, townMap: TownMap) {
-    state.getTownStorage().requireOptional(townMap.town)
-    require(!hasDuplicateTownAndDate(state, townMap)) { "Multiple maps have the same town & date combination!" }
-    townMap.map.tiles.forEach { validateTownTile(state, it) }
-}
-
-private fun hasDuplicateTownAndDate(state: State, townMap: TownMap) = state
+fun hasDuplicateTownAndDate(state: State, townMap: TownMap) = state
     .getTownMapStorage()
     .getAll()
     .filter { it.id != townMap.id }
@@ -36,7 +18,7 @@ private fun hasDuplicateTownAndDate(state: State, townMap: TownMap) = state
         }
     }
 
-private fun validateTownTile(state: State, tile: TownTile) {
+fun validateTownTile(state: State, tile: TownTile) {
     validateConstruction(state, tile.construction)
     validateTerrain(state, tile.terrain)
 }

@@ -20,6 +20,11 @@ import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.item.validateTextContent
+import at.orchaldir.gm.core.reducer.item.validateTextFormat
+import at.orchaldir.gm.core.reducer.item.validateTextPublisher
+import at.orchaldir.gm.core.reducer.util.validateDate
+import at.orchaldir.gm.core.reducer.util.validateOrigin
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -78,6 +83,14 @@ data class Text(
     override fun sources() = sources
     override fun startDate() = date
     override fun parts() = format.parts()
+
+    override fun validate(state: State) {
+        validateDate(state, date, "Text")
+        validateOrigin(state, id, origin, date, ::TextId)
+        validateTextPublisher(state, this)
+        validateTextFormat(format)
+        validateTextContent(state, content)
+    }
 
     fun contains(font: FontId) = format.contains(font) || content.contains(font)
     fun contains(quote: QuoteId) = content.contains(quote)

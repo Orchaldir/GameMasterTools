@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.economy.job
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.model.item.UniformId
@@ -37,5 +38,15 @@ data class Job(
 
     override fun id() = id
     override fun name() = name.text
+
+    override fun validate(state: State) {
+        if (income is AffordableStandardOfLiving) {
+            state.data.economy.requireStandardOfLiving(income.standard)
+        }
+
+        state.getSpellStorage().require(spells.getValidValues())
+        state.getStatisticStorage().require(importantStatistics)
+        state.getUniformStorage().requireOptional(uniforms.getValues())
+    }
 
 }

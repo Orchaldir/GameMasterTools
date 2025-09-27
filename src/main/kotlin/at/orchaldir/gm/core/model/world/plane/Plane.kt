@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.plane
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -7,6 +8,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.world.checkPlanePurpose
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -36,5 +38,11 @@ data class Plane(
     override fun name() = name.text
     override fun creator() = purpose.creator()
     override fun sources() = sources
+
+    override fun validate(state: State) {
+        checkPlanePurpose(state, this)
+        state.getLanguageStorage().require(languages)
+        state.getDataSourceStorage().require(sources)
+    }
 
 }

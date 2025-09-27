@@ -1,9 +1,12 @@
 package at.orchaldir.gm.core.model.economy.money
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
+import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -42,6 +45,15 @@ data class Currency(
     override fun name() = name.text
     override fun startDate() = startDate
     override fun endDate() = endDate
+
+    override fun validate(state: State) {
+        validateHasStartAndEnd(state, this)
+        val currencyUnits = state.getCurrencyUnits(id)
+        val minSubDenomination = currencyUnits.maxOfOrNull { it.denomination } ?: 0
+        require(subDenominations.size >= minSubDenomination) {
+            "Currency Units require at least $minSubDenomination sub denomination!"
+        }
+    }
 
     fun countDenominations() = subDenominations.size + 1
     fun getDenomination(index: Int): Denomination {

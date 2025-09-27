@@ -10,6 +10,6 @@ fun checkOwnership(
     state: State,
     ownership: History<Reference>,
     creationDate: Date?,
-) = checkHistory(state, ownership, creationDate, "owner") { state, reference, noun, date ->
+) = validateHistory(state, ownership, creationDate, "owner") { state, reference, noun, date ->
     validateReference(state, reference, date, noun, ALLOWED_OWNERS)
 }

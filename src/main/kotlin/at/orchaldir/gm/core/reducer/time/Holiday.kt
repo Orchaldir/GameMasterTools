@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.time
 
-import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
@@ -8,26 +7,8 @@ import at.orchaldir.gm.core.model.time.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.model.time.holiday.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
 
-val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->
-    val holiday = action.holiday
-
-    state.getHolidayStorage().require(holiday.id)
-    validateHoliday(state, holiday)
-
-    noFollowUps(state.updateStorage(state.getHolidayStorage().update(holiday)))
-}
-
-fun validateHoliday(state: State, holiday: Holiday) {
-    val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
-
-    checkPurpose(state, holiday.purpose)
-    checkRelativeDate(calendar, holiday.relativeDate)
-}
-
-fun checkPurpose(state: State, purpose: HolidayPurpose) {
+fun validateHolidayPurpose(state: State, purpose: HolidayPurpose) {
     when (purpose) {
         Anniversary, Fasting, Festival -> doNothing()
         is HolidayOfCatastrophe -> state.getCatastropheStorage().require(purpose.catastrophe)
@@ -37,7 +18,7 @@ fun checkPurpose(state: State, purpose: HolidayPurpose) {
     }
 }
 
-fun checkRelativeDate(calendar: Calendar, relativeDate: RelativeDate) {
+fun validateRelativeDate(calendar: Calendar, relativeDate: RelativeDate) {
     when (relativeDate) {
         is DayInMonth -> {
             require(relativeDate.dayIndex < calendar.getMinDaysPerMonth()) { "Holiday is outside at least one month!" }

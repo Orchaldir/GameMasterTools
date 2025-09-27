@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.periodical
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.item.text.content.LinkedQuote
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.Creation
@@ -42,5 +44,19 @@ data class Article(
     }
 
     override fun startDate() = date
+
+    override fun validate(state: State) {
+        state.getArticleStorage().requireOptional(id)
+        state.getCharacterStorage().requireOptional(author)
+
+        if (content is FullArticleContent) {
+            content.entries.forEach {
+                if (it is LinkedQuote) {
+                    state.getQuoteStorage().require(it.quote)
+                }
+            }
+        }
+    }
+
 
 }

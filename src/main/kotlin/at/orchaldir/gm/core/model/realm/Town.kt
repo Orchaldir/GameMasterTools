@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.realm
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -10,6 +11,7 @@ import at.orchaldir.gm.core.model.util.population.Population
 import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.realm.validateTown
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -45,5 +47,5 @@ data class Town(
     override fun sources() = sources
     override fun startDate() = foundingDate
     override fun vitalStatus() = status
-
+    override fun validate(state: State) = validateTown(state, this)
 }

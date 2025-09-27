@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.religion
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.util.Authenticity
@@ -11,6 +12,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.util.checkAuthenticity
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -48,5 +50,12 @@ data class God(
     override fun name() = name.text
     override fun sources() = sources
     override fun startDate() = null
+
+    override fun validate(state: State) {
+        state.getDomainStorage().require(domains)
+        state.getPersonalityTraitStorage().require(personality)
+        checkAuthenticity(state, authenticity)
+        state.getDataSourceStorage().require(sources)
+    }
 
 }

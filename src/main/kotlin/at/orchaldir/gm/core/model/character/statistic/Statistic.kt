@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.model.character.statistic
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.character.validateBaseValue
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -31,4 +33,14 @@ data class Statistic(
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
+
+    override fun validate(state: State) {
+        state.getDataSourceStorage().require(sources)
+
+        when (data) {
+            is Attribute -> validateBaseValue(state, id, data.base)
+            is DerivedAttribute -> validateBaseValue(state, id, data.base)
+            is Skill -> validateBaseValue(state, id, data.base)
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.moon
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.HasPosition
@@ -11,6 +12,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
@@ -98,6 +100,12 @@ data class Moon(
         val diff = target - day
 
         return date + diff
+    }
+
+    override fun validate(state: State) {
+        state.getPlaneStorage().requireOptional(plane)
+        checkPosition(state, position, "position", null, ALLOWED_MOON_POSITIONS)
+        require(daysPerQuarter > 0) { "Days per quarter most be greater than 0!" }
     }
 
 }

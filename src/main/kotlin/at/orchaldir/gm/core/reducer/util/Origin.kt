@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 
-fun <ID : Id<ID>> checkOrigin(
+fun <ID : Id<ID>> validateOrigin(
     state: State,
     id: ID,
     origin: Origin,
@@ -33,14 +33,14 @@ fun <ID : Id<ID>> checkOrigin(
         }
 
         is CreatedElement -> checkCreator(state, id, origin.creator, date)
-        is ModifiedElement -> checkOrigin(state, id, origin.modifier, createId(origin.parent), date)
+        is ModifiedElement -> validateOrigin(state, id, origin.modifier, createId(origin.parent), date)
         is EvolvedElement -> checkParent(state, id, createId(origin.parent), date)
-        is TranslatedElement -> checkOrigin(state, id, origin.translator, createId(origin.parent), date)
+        is TranslatedElement -> validateOrigin(state, id, origin.translator, createId(origin.parent), date)
         OriginalElement, PlanarOrigin, UndefinedOrigin -> doNothing()
     }
 }
 
-private fun <ID : Id<ID>> checkOrigin(
+private fun <ID : Id<ID>> validateOrigin(
     state: State,
     id: ID,
     creator: Reference,

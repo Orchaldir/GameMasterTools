@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.util.quote
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -7,6 +8,7 @@ import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -36,5 +38,8 @@ data class Quote(
     override fun name() = text.text
     override fun creator() = source
     override fun startDate() = date
+    override fun validate(state: State) {
+        validateCreator(state, source, id, date, "Source")
+    }
 
 }

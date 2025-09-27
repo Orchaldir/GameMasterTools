@@ -1,48 +1,36 @@
 package at.orchaldir.gm.core.reducer.realm
 
-import at.orchaldir.gm.core.action.UpdateRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALMS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALMS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.util.requireExists
-import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
-
-val UPDATE_REALM: Reducer<UpdateRealm, State> = { state, action ->
-    val realm = action.realm
-    state.getRealmStorage().require(realm.id)
-
-    validateRealm(state, realm)
-
-    noFollowUps(state.updateStorage(state.getRealmStorage().update(realm)))
-}
 
 fun validateRealm(state: State, realm: Realm) {
     validateCreator(state, realm.founder, realm.id, realm.date, "founder")
-    checkHistory(state, realm.capital, realm.date, "capital") { _, townId, _, date ->
+    validateHistory(state, realm.capital, realm.date, "capital") { _, townId, _, date ->
         if (townId != null) {
             state.requireExists(state.getTownStorage(), townId, date)
         }
     }
-    checkHistory(state, realm.currency, realm.date, "currency") { _, code, _, date ->
+    validateHistory(state, realm.currency, realm.date, "currency") { _, code, _, date ->
         if (code != null) {
             state.requireExists(state.getCurrencyStorage(), code, date)
         }
     }
-    checkHistory(state, realm.legalCode, realm.date, "legal code") { _, code, _, date ->
+    validateHistory(state, realm.legalCode, realm.date, "legal code") { _, code, _, date ->
         if (code != null) {
             state.requireExists(state.getLegalCodeStorage(), code, date)
         }
     }
-    checkHistory(state, realm.owner, realm.date, "owner") { _, realmId, _, date ->
+    validateHistory(state, realm.owner, realm.date, "owner") { _, realmId, _, date ->
         if (realmId != null) {
             state.requireExists(state.getRealmStorage(), realmId, date)
             require(realm.id != realmId) { "A realm cannot own itself!" }
         }
     }
-    checkVitalStatus(
+    validateVitalStatus(
         state,
         realm.id,
         realm.status,

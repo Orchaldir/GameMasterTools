@@ -1,7 +1,9 @@
 package at.orchaldir.gm.core.model.economy.money
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.economy.validateFormat
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -34,5 +36,12 @@ data class CurrencyUnit(
 
     override fun id() = id
     override fun name() = name.text
+
+    override fun validate(state: State) {
+        val currency = state.getCurrencyStorage().getOrThrow(currency)
+        currency.getDenomination(denomination)
+        format.getMaterials().forEach { state.getMaterialStorage().require(it) }
+        validateFormat(format)
+    }
 
 }

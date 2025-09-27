@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.model.economy.material
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
 
@@ -30,5 +32,7 @@ data class Material(
 
     override fun id() = id
     override fun name() = name.text
+
+    override fun validate(state: State) = doNothing()
 
 }

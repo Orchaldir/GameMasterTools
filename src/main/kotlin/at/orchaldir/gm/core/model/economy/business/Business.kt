@@ -1,11 +1,16 @@
 package at.orchaldir.gm.core.model.economy.business
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.util.checkOwnership
+import at.orchaldir.gm.core.reducer.util.checkPosition
+import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.reducer.util.validateDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -51,5 +56,12 @@ data class Business(
     override fun owner() = ownership
     override fun position() = position
     override fun startDate() = startDate
+
+    override fun validate(state: State) {
+        validateDate(state, startDate, "Business Founding")
+        validateCreator(state, founder, id, startDate, "Founder")
+        checkPosition(state, position, "position", startDate, ALLOWED_BUSINESS_POSITIONS)
+        checkOwnership(state, ownership, startDate)
+    }
 
 }

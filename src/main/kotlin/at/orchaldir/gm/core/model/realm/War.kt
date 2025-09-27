@@ -1,11 +1,16 @@
 package at.orchaldir.gm.core.model.realm
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.realm.validateWarParticipants
+import at.orchaldir.gm.core.reducer.realm.validateWarSides
+import at.orchaldir.gm.core.reducer.realm.validateWarStatus
+import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -39,6 +44,13 @@ data class War(
     override fun endDate() = when (status) {
         OngoingWar -> null
         is FinishedWar -> status.date ?: startDate
+    }
+
+    override fun validate(state: State) {
+        validateHasStartAndEnd(state, this)
+        validateWarParticipants(state, this)
+        validateWarSides(this)
+        validateWarStatus(state, this)
     }
 
     fun getSideName(index: Int) = sides.getOrNull(index)?.name?.text ?: "${index + 1}.Side"

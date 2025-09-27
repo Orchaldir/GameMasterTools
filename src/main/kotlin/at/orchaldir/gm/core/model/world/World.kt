@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType
@@ -7,6 +8,7 @@ import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
+import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -38,4 +40,7 @@ data class World(
     override fun name() = name.text
     override fun position() = position
 
+    override fun validate(state: State) {
+        checkPosition(state, position, "position", null, ALLOWED_WORLD_POSITIONS)
+    }
 }

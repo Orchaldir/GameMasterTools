@@ -1,33 +1,13 @@
 package at.orchaldir.gm.core.reducer.realm
 
-import at.orchaldir.gm.core.action.UpdateWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.reducer.util.checkHistory
-import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
+import at.orchaldir.gm.core.reducer.util.validateHistory
 import at.orchaldir.gm.core.reducer.util.validateReference
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
 
-val UPDATE_WAR: Reducer<UpdateWar, State> = { state, action ->
-    val war = action.war
-    state.getWarStorage().require(war.id)
-
-    validateWar(state, war)
-
-    noFollowUps(state.updateStorage(state.getWarStorage().update(war)))
-}
-
-fun validateWar(state: State, war: War) {
-    validateHasStartAndEnd(state, war)
-    validateParticipants(state, war)
-    validateSides(war)
-    validateStatus(state, war)
-}
-
-private fun validateParticipants(state: State, war: War) {
+fun validateWarParticipants(state: State, war: War) {
     val previousIds = mutableSetOf<Id<*>>()
 
     war.participants.forEach {
@@ -49,12 +29,12 @@ private fun validateWarParticipant(
         previousIds.add(id)
     }
 
-    checkHistory(state, participant.side, war.startDate, "side") { state, side, noun, date ->
+    validateHistory(state, participant.side, war.startDate, "side") { state, side, noun, date ->
         validateSide(war, side, noun)
     }
 }
 
-private fun validateSides(war: War) {
+fun validateWarSides(war: War) {
     val numberOfUniqueColors = war.sides
         .map { it.color }
         .toSet()
@@ -76,7 +56,7 @@ private fun validateSides(war: War) {
 }
 
 
-private fun validateStatus(state: State, war: War) {
+fun validateWarStatus(state: State, war: War) {
     val status = war.status
 
     if (status is FinishedWar) {

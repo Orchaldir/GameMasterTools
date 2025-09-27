@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.reducer.religion
 
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.DeleteDomain
+import at.orchaldir.gm.core.action.DeleteGod
+import at.orchaldir.gm.core.action.DeletePantheon
+import at.orchaldir.gm.core.action.ReligionAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.deleteElement
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
@@ -12,12 +15,9 @@ val RELIGION_REDUCER: Reducer<ReligionAction, State> = { state, action ->
     when (action) {
         // domain
         is DeleteDomain -> deleteElement(state, action.id, State::canDeleteDomain)
-        is UpdateDomain -> UPDATE_DOMAIN(state, action)
         // god
         is DeleteGod -> deleteElement(state, action.id, State::canDeleteGod)
-        is UpdateGod -> UPDATE_GOD(state, action)
         // god
         is DeletePantheon -> deleteElement(state, action.id, State::canDeletePantheon)
-        is UpdatePantheon -> UPDATE_PANTHEON(state, action)
     }
 }

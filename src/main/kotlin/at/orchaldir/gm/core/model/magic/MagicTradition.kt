@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.magic
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -39,5 +40,10 @@ data class MagicTradition(
     override fun creator() = founder
     override fun startDate() = date
     override fun sources() = sources
+
+    override fun validate(state: State) {
+        state.getSpellGroupStorage().require(groups)
+        state.getDataSourceStorage().require(sources)
+    }
 
 }

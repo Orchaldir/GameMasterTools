@@ -27,6 +27,9 @@ import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.character.validateCharacterAppearance
+import at.orchaldir.gm.core.reducer.character.validateCharacterData
+import at.orchaldir.gm.core.reducer.character.validateCharacterEquipment
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.getGenonymName
@@ -191,5 +194,12 @@ data class Character(
         employmentStatus.current.getBusiness()
     } else {
         null
+    }
+
+    override fun validate(state: State) {
+        validateCharacterData(state, this)
+        validateCharacterAppearance(state, appearance, race)
+        validateCharacterEquipment(state, equipmentMap)
+        state.getDataSourceStorage().require(sources)
     }
 }

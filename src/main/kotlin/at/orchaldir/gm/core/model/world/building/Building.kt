@@ -4,6 +4,13 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.util.checkOwnership
+import at.orchaldir.gm.core.reducer.util.checkPosition
+import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.reducer.util.validateDate
+import at.orchaldir.gm.core.reducer.world.checkAddress
+import at.orchaldir.gm.core.reducer.world.checkArchitecturalStyle
+import at.orchaldir.gm.core.reducer.world.validateBuildingPurpose
 import at.orchaldir.gm.core.selector.util.getBusinessesIn
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -116,6 +123,16 @@ data class Building(
             is OnMoon -> state.getElementName(position.moon)
             else -> error("Unsupported Position Type ${position.getType()} for Address")
         } + " ${address.houseNumber}"
+    }
+
+    override fun validate(state: State) {
+        validateDate(state, constructionDate, "Building")
+        checkPosition(state, position, "position", constructionDate, ALLOWED_BUILDING_POSITIONS)
+        checkAddress(state, id, position, address)
+        checkArchitecturalStyle(state, this)
+        validateCreator(state, builder, id, constructionDate, "Builder")
+        checkOwnership(state, ownership, constructionDate)
+        validateBuildingPurpose(state, this)
     }
 
 }

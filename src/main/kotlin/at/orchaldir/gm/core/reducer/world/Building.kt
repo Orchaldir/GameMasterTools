@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
-import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
@@ -12,10 +12,6 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.checkOwnership
-import at.orchaldir.gm.core.reducer.util.checkPosition
-import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.getBuildingsForPosition
@@ -66,12 +62,11 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
     }
 }
 
-val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
-    val newBuilding = action.building
+fun updateBuilding(state: State, newBuilding: Building): Pair<State, List<Action>> {
     val oldBuilding = state.getBuildingStorage().getOrThrow(newBuilding.id)
     val updatedTownMaps = mutableListOf<TownMap>()
 
-    validateBuilding(state, newBuilding)
+    newBuilding.validate(state)
 
     if (oldBuilding.position is InTownMap) {
         val oldTownMap = state.getTownMapStorage().getOrThrow(oldBuilding.position.townMap)
@@ -99,7 +94,7 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
         updatedTownMaps.add(newTownMap.updateBuilding(newBuilding.id, newBuilding.position.tileIndex, newBuilding.size))
     }
 
-    noFollowUps(
+    return noFollowUps(
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().update(newBuilding),
@@ -107,19 +102,6 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
             )
         )
     )
-}
-
-fun validateBuilding(
-    state: State,
-    building: Building,
-) {
-    checkDate(state, building.constructionDate, "Building")
-    checkPosition(state, building.position, "position", building.constructionDate, ALLOWED_BUILDING_POSITIONS)
-    checkAddress(state, building.id, building.position, building.address)
-    checkArchitecturalStyle(state, building)
-    validateCreator(state, building.builder, building.id, building.constructionDate, "Builder")
-    checkOwnership(state, building.ownership, building.constructionDate)
-    checkPurpose(state, building)
 }
 
 val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
@@ -144,15 +126,15 @@ val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
     }
 }
 
-private fun checkArchitecturalStyle(state: State, building: Building) {
+fun checkArchitecturalStyle(state: State, building: Building) {
     if (building.style != null) {
         val style = state.getArchitecturalStyleStorage().getOrThrow(building.style)
 
-        checkStartDate(state, style, building.id, building.constructionDate)
+        validateStartDate(state, style, building.id, building.constructionDate)
     }
 }
 
-private fun checkAddress(
+fun checkAddress(
     state: State,
     building: BuildingId,
     position: Position,
@@ -205,15 +187,15 @@ private fun checkIfStreetIsPartOfTown(
     }
 }
 
-private fun checkPurpose(
+fun validateBuildingPurpose(
     state: State,
-    action: Building,
+    building: Building,
 ) {
-    when (action.purpose) {
+    when (building.purpose) {
         is ApartmentHouse -> {
-            val min = state.getMinNumberOfApartment(action.id)
-            require(action.purpose.apartments >= min) {
-                "The apartment house ${action.id.value} requires at least $min apartments!"
+            val min = state.getMinNumberOfApartment(building.id)
+            require(building.purpose.apartments >= min) {
+                "The apartment house ${building.id.value} requires at least $min apartments!"
             }
         }
 
@@ -222,8 +204,8 @@ private fun checkPurpose(
         is BusinessAndHome -> doNothing()
     }
 
-    if (!action.purpose.getType().isHome()) {
-        require(state.getCharactersLivingIn(action.id).isEmpty()) {
+    if (!building.purpose.getType().isHome()) {
+        require(state.getCharactersLivingIn(building.id).isEmpty()) {
             "Cannot change the purpose, while characters are living in it!"
         }
     }

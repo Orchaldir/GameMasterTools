@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.race
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
@@ -15,6 +16,10 @@ import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.race.validateHeight
+import at.orchaldir.gm.core.reducer.race.validateLifeStages
+import at.orchaldir.gm.core.reducer.util.validateDate
+import at.orchaldir.gm.core.reducer.util.validateOrigin
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
@@ -72,5 +77,13 @@ data class Race(
     fun calculateBodyMassIndex() = weight.toKilograms() / height.center.toMeters().pow(2)
 
     override fun clone(cloneId: RaceId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
+
+    override fun validate(state: State) {
+        validateDate(state, date, "Race")
+        validateHeight(this)
+        validateLifeStages(state, lifeStages)
+        validateOrigin(state, id, origin, date, ::RaceId)
+        state.getDataSourceStorage().require(sources)
+    }
 
 }

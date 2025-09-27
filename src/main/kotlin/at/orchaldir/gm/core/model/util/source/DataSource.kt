@@ -1,8 +1,10 @@
 package at.orchaldir.gm.core.model.util.source
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val DATA_SOURCE_TYPE = "Data Source"
@@ -27,5 +29,6 @@ data class DataSource(
 
     override fun id() = id
     override fun name() = name.text
+    override fun validate(state: State) = doNothing()
 
 }

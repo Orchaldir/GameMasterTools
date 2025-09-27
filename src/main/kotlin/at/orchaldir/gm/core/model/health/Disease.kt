@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.health
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -11,6 +12,8 @@ import at.orchaldir.gm.core.model.util.origin.UndefinedOrigin
 import at.orchaldir.gm.core.model.util.origin.validateOriginType
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.util.validateDate
+import at.orchaldir.gm.core.reducer.util.validateOrigin
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -51,5 +54,12 @@ data class Disease(
     override fun creator() = origin.creator()
     override fun sources() = sources
     override fun startDate() = date
+
+    override fun validate(state: State) {
+        validateDate(state, date, "Disease")
+        validateOrigin(state, id, origin, date, ::DiseaseId)
+        state.getDataSourceStorage().require(sources)
+    }
+
 
 }

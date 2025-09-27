@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.religion
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.SomeOf
@@ -30,5 +31,10 @@ data class Domain(
 
     override fun id() = id
     override fun name() = name.text
+
+    override fun validate(state: State) {
+        jobs.forEach { state.getJobStorage().require(it) }
+        spells.getValidValues().forEach { state.getSpellStorage().require(it) }
+    }
 
 }

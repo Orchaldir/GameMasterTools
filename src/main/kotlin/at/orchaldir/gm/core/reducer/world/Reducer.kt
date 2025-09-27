@@ -11,35 +11,26 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
     when (action) {
         // architectural style
         is DeleteArchitecturalStyle -> deleteElement(state, action.id, State::canDeleteArchitecturalStyle)
-        is UpdateArchitecturalStyle -> UPDATE_ARCHITECTURAL_STYLE(state, action)
         // moon
         is DeleteMoon -> deleteElement(state, action.id, State::canDeleteMoon)
-        is UpdateMoon -> UPDATE_MOON(state, action)
         // plane
         is DeletePlane -> deleteElement(state, action.id, State::canDeletePlane)
-        is UpdatePlane -> UPDATE_PLANE(state, action)
         // region
         is DeleteRegion -> deleteElement(state, action.id, State::canDeleteRegion)
-        is UpdateRegion -> UPDATE_MOUNTAIN(state, action)
         // river
         is DeleteRiver -> deleteElement(state, action.id, State::canDeleteRiver)
-        is UpdateRiver -> UPDATE_RIVER(state, action)
         // street
         is DeleteStreet -> deleteElement(state, action.id, State::canDeleteStreet)
-        is UpdateStreet -> UPDATE_STREET(state, action)
         // street template
         is DeleteStreetTemplate -> deleteElement(state, action.id, State::canDeleteStreetTemplate)
-        is UpdateStreetTemplate -> UPDATE_STREET_TEMPLATE(state, action)
         // town
         is DeleteTownMap -> deleteElement(state, action.id, State::canDeleteTownMap)
-        is UpdateTownMap -> UPDATE_TOWN_MAP(state, action)
         // town's abstract buildings
         is AddAbstractBuilding -> ADD_ABSTRACT_BUILDING(state, action)
         is RemoveAbstractBuilding -> REMOVE_ABSTRACT_BUILDING(state, action)
         // town's buildings
         is AddBuilding -> ADD_BUILDING(state, action)
         is DeleteBuilding -> DELETE_BUILDING(state, action)
-        is UpdateBuilding -> UPDATE_BUILDING(state, action)
         is UpdateBuildingLot -> UPDATE_BUILDING_LOT(state, action)
         // town's streets
         is AddStreetTile -> ADD_STREET_TILE(state, action)
@@ -49,6 +40,5 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is SetTerrainTile -> SET_TERRAIN_TILE(state, action)
         // world
         is DeleteWorld -> deleteElement(state, action.id, State::canDeleteWorld)
-        is UpdateWorld -> UPDATE_WORLD(state, action)
     }
 }
