@@ -109,7 +109,6 @@ import at.orchaldir.gm.core.reducer.item.validateEquipment
 import at.orchaldir.gm.core.reducer.item.validateText
 import at.orchaldir.gm.core.reducer.item.validateUniform
 import at.orchaldir.gm.core.reducer.magic.validateMagicTradition
-import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.core.reducer.magic.validateSpellGroup
 import at.orchaldir.gm.core.reducer.organization.validateOrganization
 import at.orchaldir.gm.core.reducer.race.validateRace
@@ -375,7 +374,7 @@ data class State(
         validate(getRaceAppearanceStorage()) { validateRaceAppearance(it) }
         validate(getRealmStorage()) { validateRealm(this, it) }
         validate(getRegionStorage()) { validateRegion(this, it) }
-        validate(getSpellStorage()) { validateSpell(this, it) }
+        validate(getSpellStorage())
         validate(getSpellGroupStorage()) { validateSpellGroup(this, it) }
         validate(getStatisticStorage()) { validateStatistic(this, it) }
         // street
@@ -389,6 +388,19 @@ data class State(
         validate(getWorldStorage()) { validateWorld(this, it) }
 
         validateData(this, data)
+    }
+
+    private fun <ID : Id<ID>, ELEMENT : Element<ID>> validate(
+        storage: Storage<ID, ELEMENT>,
+    ) {
+        storage.getAll().forEach {
+            try {
+                it.validate(this)
+            } catch (e: Exception) {
+                logger.error { "${storage.getType()} ${it.id().value()} is invalid: ${e.message}" }
+                throw e
+            }
+        }
     }
 
     fun save() {

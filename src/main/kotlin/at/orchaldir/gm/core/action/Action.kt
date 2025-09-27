@@ -247,7 +247,6 @@ data class UpdateMagicTradition(val tradition: MagicTradition) : MagicAction()
 
 // spell
 data class DeleteSpell(val id: SpellId) : MagicAction()
-data class UpdateSpell(val spell: Spell) : MagicAction()
 
 // spell group
 data class DeleteSpellGroup(val id: SpellGroupId) : MagicAction()

@@ -15,7 +15,6 @@ val MAGIC_REDUCER: Reducer<MagicAction, State> = { state, action ->
         is UpdateMagicTradition -> UPDATE_MAGIC_TRADITION(state, action)
         // spell
         is DeleteSpell -> deleteElement(state, action.id, State::canDeleteSpell)
-        is UpdateSpell -> UPDATE_SPELL(state, action)
         // spell group
         is DeleteSpellGroup -> deleteElement(state, action.id, State::canDeleteSpellGroup)
         is UpdateSpellGroup -> UPDATE_SPELL_GROUP(state, action)
