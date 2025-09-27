@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.health
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.money.parseCurrency
 import at.orchaldir.gm.app.html.health.editDisease
 import at.orchaldir.gm.app.html.health.parseDisease
 import at.orchaldir.gm.app.html.health.showDisease
@@ -10,6 +11,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.action.UpdateDisease
 import at.orchaldir.gm.core.model.State
@@ -102,24 +104,14 @@ fun Application.configureDiseaseRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val disease = parseDisease(formParameters, state, preview.id)
+            val disease = parseDisease(state, formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDiseaseEditor(call, state, disease)
             }
         }
         post<DiseaseRoutes.Update> { update ->
-            logger.info { "Update disease ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val disease = parseDisease(formParameters, state, update.id)
-
-            STORE.dispatch(UpdateDisease(disease))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseDisease(STORE.getState(), call.receiveParameters(), update.id))
         }
     }
 }

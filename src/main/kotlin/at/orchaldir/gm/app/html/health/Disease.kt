@@ -54,7 +54,11 @@ fun parseDiseaseId(parameters: Parameters, param: String) = DiseaseId(parseInt(p
 
 fun parseDiseaseId(value: String) = DiseaseId(value.toInt())
 
-fun parseDisease(parameters: Parameters, state: State, id: DiseaseId) = Disease(
+fun parseDisease(
+    state: State,
+    parameters: Parameters,
+    id: DiseaseId,
+) = Disease(
     id,
     parseName(parameters),
     parseOptionalDate(parameters, state, DATE),

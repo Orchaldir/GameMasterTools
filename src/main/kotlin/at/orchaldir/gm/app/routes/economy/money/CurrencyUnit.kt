@@ -3,10 +3,12 @@ package at.orchaldir.gm.app.routes.economy.money
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.editCurrencyUnit
+import at.orchaldir.gm.app.html.economy.money.parseCurrency
 import at.orchaldir.gm.app.html.economy.money.parseCurrencyUnit
 import at.orchaldir.gm.app.html.economy.money.showCurrencyUnit
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCurrencyUnit
 import at.orchaldir.gm.core.action.UpdateCurrencyUnit
 import at.orchaldir.gm.core.model.State
@@ -121,15 +123,7 @@ fun Application.configureCurrencyUnitRouting() {
             }
         }
         post<CurrencyUnitRoutes.Update> { update ->
-            logger.info { "Update unit ${update.id.value}" }
-
-            val unit = parseCurrencyUnit(call.receiveParameters(), update.id)
-
-            STORE.dispatch(UpdateCurrencyUnit(unit))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseCurrencyUnit(call.receiveParameters(), update.id))
         }
     }
 }

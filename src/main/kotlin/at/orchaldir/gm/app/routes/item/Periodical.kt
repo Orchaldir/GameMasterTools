@@ -3,12 +3,14 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.periodical.editPeriodical
+import at.orchaldir.gm.app.html.item.periodical.parseArticle
 import at.orchaldir.gm.app.html.item.periodical.parsePeriodical
 import at.orchaldir.gm.app.html.item.periodical.showPeriodical
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.action.UpdatePeriodical
 import at.orchaldir.gm.core.model.State
@@ -100,22 +102,14 @@ fun Application.configurePeriodicalRouting() {
             logger.info { "Preview periodical ${preview.id.value}" }
 
             val state = STORE.getState()
-            val periodical = parsePeriodical(call.receiveParameters(), state, preview.id)
+            val periodical = parsePeriodical(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showPeriodicalEditor(call, state, periodical)
             }
         }
         post<PeriodicalRoutes.Update> { update ->
-            logger.info { "Update periodical ${update.id.value}" }
-
-            val periodical = parsePeriodical(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdatePeriodical(periodical))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parsePeriodical(STORE.getState(), call.receiveParameters(), update.id))
         }
     }
 }

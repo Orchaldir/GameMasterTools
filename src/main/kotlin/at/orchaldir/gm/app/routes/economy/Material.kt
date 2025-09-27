@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
+import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
@@ -103,15 +105,7 @@ fun Application.configureMaterialRouting() {
             }
         }
         post<MaterialRoutes.Update> { update ->
-            logger.info { "Update material ${update.id.value}" }
-
-            val material = parseMaterial(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateMaterial(material))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseMaterial(call.receiveParameters(), update.id))
         }
     }
 }

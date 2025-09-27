@@ -70,7 +70,11 @@ fun parsePeriodicalId(value: String) = PeriodicalId(value.toInt())
 
 fun parsePeriodicalId(parameters: Parameters, param: String) = PeriodicalId(parseInt(parameters, param))
 
-fun parsePeriodical(parameters: Parameters, state: State, id: PeriodicalId): Periodical {
+fun parsePeriodical(
+    state: State,
+    parameters: Parameters,
+    id: PeriodicalId,
+): Periodical {
     val startDate = parseOptionalDate(parameters, state, DATE)
     val calendarId = parseCalendarId(parameters, CALENDAR)
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)

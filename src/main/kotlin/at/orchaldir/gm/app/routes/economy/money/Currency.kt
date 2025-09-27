@@ -5,9 +5,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.editCurrency
 import at.orchaldir.gm.app.html.economy.money.parseCurrency
 import at.orchaldir.gm.app.html.economy.money.showCurrency
+import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCurrency
 import at.orchaldir.gm.core.action.UpdateCurrency
 import at.orchaldir.gm.core.model.State
@@ -99,22 +101,14 @@ fun Application.configureCurrencyRouting() {
             logger.info { "Preview currency ${preview.id.value}" }
 
             val state = STORE.getState()
-            val currency = parseCurrency(call.receiveParameters(), state, preview.id)
+            val currency = parseCurrency(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCurrencyEditor(call, state, currency)
             }
         }
         post<CurrencyRoutes.Update> { update ->
-            logger.info { "Update currency ${update.id.value}" }
-
-            val currency = parseCurrency(call.receiveParameters(), STORE.getState(), update.id)
-
-            STORE.dispatch(UpdateCurrency(currency))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseCurrency(STORE.getState(), call.receiveParameters(), update.id))
         }
     }
 }

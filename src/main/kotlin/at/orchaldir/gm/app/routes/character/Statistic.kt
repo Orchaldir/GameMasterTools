@@ -2,12 +2,14 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.statistic.displayBaseValue
 import at.orchaldir.gm.app.html.character.statistic.editStatistic
 import at.orchaldir.gm.app.html.character.statistic.parseStatistic
 import at.orchaldir.gm.app.html.character.statistic.showStatistic
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteStatistic
 import at.orchaldir.gm.core.action.UpdateStatistic
 import at.orchaldir.gm.core.model.State
@@ -110,16 +112,7 @@ fun Application.configureStatisticRouting() {
             }
         }
         post<StatisticRoutes.Update> { update ->
-            logger.info { "Update statistic ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val statistic = parseStatistic(formParameters, update.id)
-
-            STORE.dispatch(UpdateStatistic(statistic))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseStatistic(call.receiveParameters(), update.id))
         }
     }
 }

@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.parsePersonalityTrait
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
 import at.orchaldir.gm.core.model.State
@@ -85,15 +87,7 @@ fun Application.configurePersonalityRouting() {
             }
         }
         post<PersonalityTraitRoutes.Update> { update ->
-            logger.info { "Update personality trait ${update.id.value}" }
-
-            val trait = parsePersonalityTrait(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdatePersonalityTrait(trait))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parsePersonalityTrait(call.receiveParameters(), update.id))
         }
     }
 }

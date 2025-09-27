@@ -3,10 +3,12 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.editJob
+import at.orchaldir.gm.app.html.economy.parseBusiness
 import at.orchaldir.gm.app.html.economy.parseJob
 import at.orchaldir.gm.app.html.economy.showJob
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
@@ -100,22 +102,14 @@ fun Application.configureJobRouting() {
             logger.info { "Preview job ${preview.id.value}" }
 
             val state = STORE.getState()
-            val job = parseJob(preview.id, call.receiveParameters())
+            val job = parseJob(call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showJobEditor(call, state, job)
             }
         }
         post<JobRoutes.Update> { update ->
-            logger.info { "Update job ${update.id.value}" }
-
-            val job = parseJob(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateJob(job))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseJob( call.receiveParameters(), update.id))
         }
     }
 }

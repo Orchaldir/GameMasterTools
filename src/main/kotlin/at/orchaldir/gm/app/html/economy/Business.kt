@@ -68,7 +68,11 @@ fun parseBusinessId(parameters: Parameters, param: String) = parseOptionalBusine
 fun parseOptionalBusinessId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { BusinessId(it) }
 
-fun parseBusiness(parameters: Parameters, state: State, id: BusinessId): Business {
+fun parseBusiness(
+    state: State,
+    parameters: Parameters,
+    id: BusinessId,
+): Business {
     val startDate = parseOptionalDate(parameters, state, DATE)
 
     return Business(

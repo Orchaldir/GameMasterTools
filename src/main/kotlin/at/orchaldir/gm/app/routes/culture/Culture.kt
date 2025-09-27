@@ -2,12 +2,14 @@ package at.orchaldir.gm.app.routes.culture
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.culture.editCulture
 import at.orchaldir.gm.app.html.culture.parseCulture
 import at.orchaldir.gm.app.html.culture.showCulture
 import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
@@ -110,16 +112,7 @@ fun Application.configureCultureRouting() {
             }
         }
         post<CultureRoutes.Update> { update ->
-            logger.info { "Update culture ${update.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val culture = parseCulture(formParameters, update.id)
-
-            STORE.dispatch(UpdateCulture(culture))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseCulture(call.receiveParameters(), update.id))
         }
     }
 }

@@ -2,11 +2,13 @@ package at.orchaldir.gm.app.routes.culture
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.culture.editFashion
 import at.orchaldir.gm.app.html.culture.parseFashion
 import at.orchaldir.gm.app.html.culture.showFashion
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
@@ -91,22 +93,14 @@ fun Application.configureFashionRouting() {
         post<FashionRoutes.Preview> { preview ->
             logger.info { "Get preview for fashion ${preview.id.value}" }
 
-            val fashion = parseFashion(preview.id, call.receiveParameters())
+            val fashion = parseFashion(call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showFashionEditor(call, STORE.getState(), fashion)
             }
         }
         post<FashionRoutes.Update> { update ->
-            logger.info { "Update fashion ${update.id.value}" }
-
-            val fashion = parseFashion(update.id, call.receiveParameters())
-
-            STORE.dispatch(UpdateFashion(fashion))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseFashion(call.receiveParameters(), update.id))
         }
     }
 }

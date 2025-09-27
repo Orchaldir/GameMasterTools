@@ -89,7 +89,11 @@ fun parseArticleId(value: String) = ArticleId(value.toInt())
 
 fun parseArticleId(parameters: Parameters, param: String) = ArticleId(parseInt(parameters, param))
 
-fun parseArticle(parameters: Parameters, state: State, id: ArticleId) = Article(
+fun parseArticle(
+    state: State,
+    parameters: Parameters,
+    id: ArticleId,
+) = Article(
     id,
     parseName(parameters, TITLE),
     parseOptionalCharacterId(parameters, CHARACTER),

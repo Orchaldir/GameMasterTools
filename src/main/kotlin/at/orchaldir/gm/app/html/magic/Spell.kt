@@ -49,7 +49,11 @@ fun parseSpellId(parameters: Parameters, param: String) = SpellId(parseInt(param
 
 fun parseSpellId(value: String) = SpellId(value.toInt())
 
-fun parseSpell(parameters: Parameters, state: State, id: SpellId) = Spell(
+fun parseSpell(
+    state: State,
+    parameters: Parameters,
+    id: SpellId,
+) = Spell(
     id,
     parseName(parameters),
     parseOptionalDate(parameters, state, DATE),

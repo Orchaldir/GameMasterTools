@@ -48,7 +48,10 @@ fun parseMaterialId(parameters: Parameters, param: String) = MaterialId(parseInt
 fun parseOptionalMaterialId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { MaterialId(it) }
 
-fun parseMaterial(id: MaterialId, parameters: Parameters): Material {
+fun parseMaterial(
+    parameters: Parameters,
+    id: MaterialId,
+): Material {
     val density = parseWeight(parameters, DENSITY, SiPrefix.Kilo)
     return Material(
         id,

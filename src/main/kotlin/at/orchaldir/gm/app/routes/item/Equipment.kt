@@ -6,9 +6,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
+import at.orchaldir.gm.app.html.item.periodical.parseArticle
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
@@ -138,16 +140,7 @@ fun Application.configureEquipmentRouting() {
             }
         }
         post<EquipmentRoutes.Update> { update ->
-            logger.info { "Update equipment ${update.id.value}" }
-
-            val state = STORE.getState()
-            val equipment = parseEquipment(state, call.receiveParameters(), update.id)
-
-            STORE.dispatch(UpdateEquipment(equipment))
-
-            call.respondRedirect(href(call, update.id))
-
-            STORE.getState().save()
+            handleUpdateElement(parseEquipment(STORE.getState(), call.receiveParameters(), update.id))
         }
     }
 }
