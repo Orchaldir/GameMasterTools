@@ -2,10 +2,6 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.reducer.character.CHARACTER_REDUCER
 import at.orchaldir.gm.core.reducer.character.UPDATE_PERSONALITY_TRAIT
 import at.orchaldir.gm.core.reducer.character.UPDATE_TITLE
@@ -47,15 +43,9 @@ import at.orchaldir.gm.utils.redux.Reducer
 val REDUCER: Reducer<Action, State> = { state, action ->
     when (action) {
         // meta
-        is CreateAction<*> -> createElement(state, action.id)
-        is CloneAction<*> -> when (action.id) {
-            is CharacterTemplateId -> cloneElement(state, action.id)
-            is CultureId -> cloneElement(state, action.id)
-            is RaceAppearanceId -> cloneElement(state, action.id)
-            is RaceId -> cloneElement(state, action.id)
-            else -> error("Cloning is not supported!")
-        }
-        is EditAction<*,*> -> editElement(state, action.element)
+        is CreateAction<*> -> reduceCreateElement(state, action.id)
+        is CloneAction<*> -> reduceCloneElement(state, action.id)
+        is EditAction<*,*> -> reduceEditElement(state, action.element)
         is LoadData -> LOAD_DATA(state, action)
         // calendar
         is DeleteCalendar -> deleteElement(state, action.id, State::canDeleteCalendar)

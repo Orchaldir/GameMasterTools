@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.LoadData
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.reducer.magic.validateSpell
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.Reducer
@@ -17,27 +16,6 @@ val LOAD_DATA: Reducer<LoadData, State> = { _, action ->
     noFollowUps(newState)
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> createElement(
-    state: State,
-    element: ELEMENT,
-): Pair<State, List<Action>> {
-    val storage = state.getStorage<ID, ELEMENT>(element.id())
-
-    return noFollowUps(state.updateStorage(storage.add(element)))
-}
-
-fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> cloneElement(
-    state: State,
-    id: ID,
-): Pair<State, List<Action>> {
-    val storage = state.getStorage<ID, ELEMENT>(id)
-    val original = storage.getOrThrow(id)
-    val cloneId = storage.nextId
-    val clone = original.clone(cloneId) as ELEMENT
-
-    return noFollowUps(state.updateStorage(storage.add(clone)))
-}
-
 fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> deleteElement(
     state: State,
     id: ID,
@@ -49,17 +27,4 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> deleteElement(
     validation.invoke(state, id).validate()
 
     return noFollowUps(state.updateStorage(storage.remove(id)))
-}
-
-fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> editElement(
-    state: State,
-    element: ELEMENT,
-    validate: (ELEMENT) -> Unit
-): Pair<State, List<Action>> {
-    val storage = state.getStorage<ID, ELEMENT>(element.id())
-    storage.require(element.id())
-
-    validate(element)
-
-    return noFollowUps(state.updateStorage(storage.update(element)))
 }

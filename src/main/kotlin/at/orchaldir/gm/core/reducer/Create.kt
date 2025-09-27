@@ -74,9 +74,11 @@ import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.redux.noFollowUps
 
-fun createElement(
+fun reduceCreateElement(
     state: State,
     id: Id<*>,
 ): Pair<State, List<Action>> = when (id) {
@@ -141,3 +143,11 @@ fun createElement(
     else -> error("Creating is not supported!")
 }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>, Action> createElement(
+    state: State,
+    element: ELEMENT,
+): Pair<State, List<Action>> {
+    val storage = state.getStorage<ID, ELEMENT>(element.id())
+
+    return noFollowUps(state.updateStorage(storage.add(element)))
+}
