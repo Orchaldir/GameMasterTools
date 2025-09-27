@@ -14,16 +14,23 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showStatisticCost(
+fun HtmlBlockTag.fieldStatisticCost(
     cost: StatisticCost,
 ) {
-    showDetails("Cost", true) {
-        field("Type", cost.getType())
+    field("Cost") {
+        displayStatisticCost(cost)
+    }
+}
 
-        when (cost) {
-            is FixedStatisticCost -> field("Cost per Point", cost.cost)
-            GurpsSkillCost -> doNothing()
-            UndefinedStatisticCost -> doNothing()
+fun HtmlBlockTag.displayStatisticCost(
+    cost: StatisticCost,
+    showUndefined: Boolean = true,
+) {
+    when (cost) {
+        is FixedStatisticCost -> +"${cost.cost} per Point"
+        GurpsSkillCost -> +"Gurps Skill Cost"
+        UndefinedStatisticCost -> if (showUndefined) {
+            +"Undefined"
         }
     }
 }

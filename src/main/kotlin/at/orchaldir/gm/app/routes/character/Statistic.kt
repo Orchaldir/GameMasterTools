@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.statistic.displayBaseValue
+import at.orchaldir.gm.app.html.character.statistic.displayStatisticCost
 import at.orchaldir.gm.app.html.character.statistic.editStatistic
 import at.orchaldir.gm.app.html.character.statistic.parseStatistic
 import at.orchaldir.gm.app.html.character.statistic.showStatistic
@@ -132,6 +133,7 @@ private fun HTML.showAllStatistics(
                 th { +"Short" }
                 th { +"Type" }
                 th { +"Base Value" }
+                th { +"Cost" }
             }
             statistics.forEach { statistic ->
                 tr {
@@ -139,6 +141,7 @@ private fun HTML.showAllStatistics(
                     tdString(statistic.short)
                     tdEnum(statistic.data.getType())
                     td { displayBaseValue(call, state, statistic.data.baseValue()) }
+                    td { displayStatisticCost(statistic.data.cost(), false) }
                 }
             }
         }

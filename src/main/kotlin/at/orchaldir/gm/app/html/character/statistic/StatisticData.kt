@@ -23,15 +23,15 @@ fun HtmlBlockTag.showStatisticData(
     when (data) {
         is Attribute -> {
             showBaseValue(call, state, data.base)
-            showStatisticCost(data.cost)
+            fieldStatisticCost(data.cost)
         }
         is DerivedAttribute -> {
             showBaseValue(call, state, data.base)
-            showStatisticCost(data.cost)
+            fieldStatisticCost(data.cost)
         }
         is Skill -> {
             showBaseValue(call, state, data.base)
-            showStatisticCost(data.cost)
+            fieldStatisticCost(data.cost)
         }
     }
 }

@@ -25,6 +25,12 @@ sealed class StatisticData {
         is DerivedAttribute -> base
         is Skill -> base
     }
+
+    fun cost() = when (this) {
+        is Attribute -> cost
+        is DerivedAttribute -> cost
+        is Skill -> cost
+    }
 }
 
 @Serializable
