@@ -31,16 +31,19 @@ sealed class StatisticData {
 @SerialName("Attribute")
 data class Attribute(
     val base: BaseValue = FixedNumber(0),
+    val cost: StatisticCost = UndefinedStatisticCost,
 ) : StatisticData()
 
 @Serializable
 @SerialName("Derived")
 data class DerivedAttribute(
     val base: BaseValue = FixedNumber(0),
+    val cost: StatisticCost = UndefinedStatisticCost,
 ) : StatisticData()
 
 @Serializable
 @SerialName("Skill")
 data class Skill(
     val base: BaseValue = FixedNumber(0),
+    val cost: StatisticCost = UndefinedStatisticCost,
 ) : StatisticData()
