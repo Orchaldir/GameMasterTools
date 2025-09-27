@@ -508,17 +508,3 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     WORLD_TYPE -> loadStorage<WorldId, World>(path, WorldId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
-
-private fun <ID : Id<ID>, ELEMENT : Element<ID>> validate(
-    storage: Storage<ID, ELEMENT>,
-    validate: (ELEMENT) -> Unit,
-) {
-    storage.getAll().forEach {
-        try {
-            validate(it)
-        } catch (e: Exception) {
-            logger.error { "${storage.getType()} ${it.id().value()} is invalid: ${e.message}" }
-            throw e
-        }
-    }
-}

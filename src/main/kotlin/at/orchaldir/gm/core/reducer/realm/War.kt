@@ -29,7 +29,7 @@ private fun validateWarParticipant(
         previousIds.add(id)
     }
 
-    validateHistory(state, participant.side, war.startDate, "side") { state, side, noun, date ->
+    validateHistory(state, participant.side, war.startDate, "side") { _, side, noun, _ ->
         validateSide(war, side, noun)
     }
 }
