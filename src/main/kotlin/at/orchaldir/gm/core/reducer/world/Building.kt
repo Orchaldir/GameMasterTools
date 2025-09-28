@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.AddBuilding
-import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
@@ -38,14 +37,12 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     )
 }
 
-val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
-    val id = action.id
-
-    state.canDeleteBuilding(action.id).validate()
+fun deleteBuilding(state: State, id: BuildingId): Pair<State, List<Action>> {
+    state.canDeleteBuilding(id).validate()
 
     val building = state.getBuildingStorage().getOrThrow(id)
 
-    if (building.position is InTownMap) {
+    return if (building.position is InTownMap) {
         val oldTownMap = state.getTownMapStorage().getOrThrow(building.position.townMap)
         val townMap = oldTownMap.removeBuilding(building.id)
 
