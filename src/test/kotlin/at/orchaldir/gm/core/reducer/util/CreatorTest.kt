@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
@@ -56,7 +55,6 @@ class CreatorTest {
 
     @Nested
     inner class CanDeleteCreatorTest {
-        private val action = DeleteCharacter(CHARACTER_ID_0)
 
         @Test
         fun `Created a building`() {

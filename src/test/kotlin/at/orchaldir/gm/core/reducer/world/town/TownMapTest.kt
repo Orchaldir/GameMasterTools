@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.world.town
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
@@ -30,24 +29,6 @@ class TownMapTest {
             Storage(townMap),
         )
     )
-
-    @Nested
-    inner class DeleteTest {
-
-        private val action = DeleteTownMap(TOWN_MAP_ID_0)
-
-        @Test
-        fun `Can delete an existing TownMap`() {
-            val state = State(Storage(townMap))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getTownMapStorage().getSize())
-        }
-
-        @Test
-        fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
-        }
-    }
 
     @Nested
     inner class UpdateTest {
