@@ -74,7 +74,7 @@ fun Application.configureFashionRouting() {
             }
         }
         get<FashionRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DiseaseRoutes())
+            handleDeleteElement(delete.id, DiseaseRoutes.All())
         }
         get<FashionRoutes.Edit> { edit ->
             logger.info { "Get editor for fashion ${edit.id.value}" }

@@ -96,7 +96,7 @@ fun Application.configureCurrencyUnitRouting() {
             }
         }
         get<CurrencyUnitRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CurrencyUnitRoutes())
+            handleDeleteElement(delete.id, CurrencyUnitRoutes.All())
         }
         get<CurrencyUnitRoutes.Edit> { edit ->
             logger.info { "Get editor for unit ${edit.id.value}" }

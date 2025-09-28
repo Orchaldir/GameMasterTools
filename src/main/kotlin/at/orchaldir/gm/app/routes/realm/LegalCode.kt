@@ -82,7 +82,7 @@ fun Application.configureLegalCodeRouting() {
             }
         }
         get<LegalCodeRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, LegalCodeRoutes())
+            handleDeleteElement(delete.id, LegalCodeRoutes.All())
         }
         get<LegalCodeRoutes.Edit> { edit ->
             logger.info { "Get editor for legal code ${edit.id.value}" }

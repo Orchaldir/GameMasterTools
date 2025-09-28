@@ -79,7 +79,7 @@ fun Application.configurePeriodicalIssueRouting() {
             }
         }
         get<PeriodicalIssueRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, PeriodicalIssueRoutes())
+            handleDeleteElement(delete.id, PeriodicalIssueRoutes.All())
         }
         get<PeriodicalIssueRoutes.Edit> { edit ->
             logger.info { "Get editor for periodical issues ${edit.id.value}" }

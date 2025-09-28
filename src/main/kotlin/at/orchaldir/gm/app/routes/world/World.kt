@@ -86,7 +86,7 @@ fun Application.configureWorldRouting() {
             }
         }
         get<WorldRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, WorldRoutes())
+            handleDeleteElement(delete.id, WorldRoutes.All())
         }
         get<WorldRoutes.Edit> { edit ->
             logger.info { "Get editor for world ${edit.id.value}" }

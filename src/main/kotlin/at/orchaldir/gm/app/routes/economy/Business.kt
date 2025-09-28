@@ -83,7 +83,7 @@ fun Application.configureBusinessRouting() {
             }
         }
         get<BusinessRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, BusinessRoutes())
+            handleDeleteElement(delete.id, BusinessRoutes.All())
         }
         get<BusinessRoutes.Edit> { edit ->
             logger.info { "Get editor for business ${edit.id.value}" }

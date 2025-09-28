@@ -83,7 +83,7 @@ fun Application.configureDomainRouting() {
             }
         }
         get<DomainRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DomainRoutes())
+            handleDeleteElement(delete.id, DomainRoutes.All())
         }
         get<DomainRoutes.Edit> { edit ->
             logger.info { "Get editor for domain ${edit.id.value}" }

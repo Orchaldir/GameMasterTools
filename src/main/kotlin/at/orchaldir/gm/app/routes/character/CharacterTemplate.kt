@@ -93,7 +93,7 @@ fun Application.configureCharacterTemplateRouting() {
             }
         }
         get<CharacterTemplateRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CharacterTemplateRoutes())
+            handleDeleteElement(delete.id, CharacterTemplateRoutes.All())
         }
         get<CharacterTemplateRoutes.Edit> { edit ->
             logger.info { "Get editor for template ${edit.id.value}" }

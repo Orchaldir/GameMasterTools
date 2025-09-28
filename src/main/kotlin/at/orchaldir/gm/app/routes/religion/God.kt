@@ -86,7 +86,7 @@ fun Application.configureGodRouting() {
             }
         }
         get<GodRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, GodRoutes())
+            handleDeleteElement(delete.id, GodRoutes.All())
         }
         get<GodRoutes.Edit> { edit ->
             logger.info { "Get editor for god ${edit.id.value}" }

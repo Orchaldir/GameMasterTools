@@ -71,7 +71,7 @@ fun Application.configureCharacterRouting() {
             }
         }
         get<CharacterRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CharacterRoutes())
+            handleDeleteElement(delete.id, CharacterRoutes.All())
         }
         get<CharacterRoutes.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}" }

@@ -87,7 +87,7 @@ fun Application.configureMaterialRouting() {
             }
         }
         get<MaterialRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, MaterialRoutes())
+            handleDeleteElement(delete.id, MaterialRoutes.All())
         }
         get<MaterialRoutes.Edit> { edit ->
             logger.info { "Get editor for material ${edit.id.value}" }

@@ -83,7 +83,7 @@ fun Application.configureRealmRouting() {
             }
         }
         get<RealmRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, RealmRoutes())
+            handleDeleteElement(delete.id, RealmRoutes.All())
         }
         get<RealmRoutes.Edit> { edit ->
             logger.info { "Get editor for realm ${edit.id.value}" }

@@ -80,7 +80,7 @@ fun Application.configureArticleRouting() {
             }
         }
         get<ArticleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, ArticleRoutes())
+            handleDeleteElement(delete.id, ArticleRoutes.All())
         }
         get<ArticleRoutes.Edit> { edit ->
             logger.info { "Get editor for periodical ${edit.id.value}" }

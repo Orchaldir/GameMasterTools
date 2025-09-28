@@ -84,7 +84,7 @@ fun Application.configureColorSchemeRouting() {
             }
         }
         get<ColorSchemeRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, ColorSchemeRoutes())
+            handleDeleteElement(delete.id, ColorSchemeRoutes.All())
         }
         get<ColorSchemeRoutes.Edit> { edit ->
             logger.info { "Get editor for color scheme ${edit.id.value}" }

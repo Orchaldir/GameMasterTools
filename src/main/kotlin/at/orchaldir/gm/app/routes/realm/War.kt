@@ -85,7 +85,7 @@ fun Application.configureWarRouting() {
             }
         }
         get<WarRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, WarRoutes())
+            handleDeleteElement(delete.id, WarRoutes.All())
         }
         get<WarRoutes.Edit> { edit ->
             logger.info { "Get editor for war ${edit.id.value}" }

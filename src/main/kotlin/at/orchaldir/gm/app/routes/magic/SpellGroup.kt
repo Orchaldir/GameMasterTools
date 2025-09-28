@@ -82,7 +82,7 @@ fun Application.configureSpellGroupRouting() {
             }
         }
         get<SpellGroupRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, SpellGroupRoutes())
+            handleDeleteElement(delete.id, SpellGroupRoutes.All())
         }
         get<SpellGroupRoutes.Edit> { edit ->
             logger.info { "Get editor for group ${edit.id.value}" }

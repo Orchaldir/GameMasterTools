@@ -82,7 +82,7 @@ fun Application.configureBattleRouting() {
             }
         }
         get<BattleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, BattleRoutes())
+            handleDeleteElement(delete.id, BattleRoutes.All())
         }
         get<BattleRoutes.Edit> { edit ->
             logger.info { "Get editor for battle ${edit.id.value}" }

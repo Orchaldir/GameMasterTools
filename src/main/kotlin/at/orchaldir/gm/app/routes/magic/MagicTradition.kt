@@ -81,7 +81,7 @@ fun Application.configureMagicTraditionRouting() {
             }
         }
         get<MagicTraditionRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, MagicTraditionRoutes())
+            handleDeleteElement(delete.id, MagicTraditionRoutes.All())
         }
         get<MagicTraditionRoutes.Edit> { edit ->
             logger.info { "Get editor for tradition ${edit.id.value}" }

@@ -65,7 +65,7 @@ fun Application.configureTownMapRouting() {
             }
         }
         get<TownMapRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TownMapRoutes())
+            handleDeleteElement(delete.id, TownMapRoutes.All())
         }
         get<TownMapRoutes.Edit> { edit ->
             logger.info { "Get editor for town map ${edit.id.value}" }

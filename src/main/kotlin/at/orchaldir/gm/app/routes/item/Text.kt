@@ -99,7 +99,7 @@ fun Application.configureTextRouting() {
             }
         }
         get<TextRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TextRoutes())
+            handleDeleteElement(delete.id, TextRoutes.All())
         }
         get<TextRoutes.Edit> { edit ->
             logger.info { "Get editor for text ${edit.id.value}" }

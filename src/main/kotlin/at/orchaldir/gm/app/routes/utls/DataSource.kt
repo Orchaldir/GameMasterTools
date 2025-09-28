@@ -79,7 +79,7 @@ fun Application.configureDataSourceRouting() {
             }
         }
         get<DataSourceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DataSourceRoutes())
+            handleDeleteElement(delete.id, DataSourceRoutes.All())
         }
         get<DataSourceRoutes.Edit> { edit ->
             logger.info { "Get editor for source ${edit.id.value}" }

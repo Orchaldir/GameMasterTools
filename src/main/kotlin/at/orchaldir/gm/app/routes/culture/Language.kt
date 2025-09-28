@@ -86,7 +86,7 @@ fun Application.configureLanguageRouting() {
             }
         }
         get<LanguageRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, LanguageRoutes())
+            handleDeleteElement(delete.id, LanguageRoutes.All())
         }
         get<LanguageRoutes.Edit> { edit ->
             logger.info { "Get editor for language ${edit.id.value}" }

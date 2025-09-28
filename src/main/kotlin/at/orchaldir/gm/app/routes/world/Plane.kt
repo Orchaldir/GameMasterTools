@@ -80,7 +80,7 @@ fun Application.configurePlaneRouting() {
             }
         }
         get<PlaneRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, PlaneRoutes())
+            handleDeleteElement(delete.id, PlaneRoutes.All())
         }
         get<PlaneRoutes.Edit> { edit ->
             logger.info { "Get editor for plane ${edit.id.value}" }

@@ -83,7 +83,7 @@ fun Application.configureOrganizationRouting() {
             }
         }
         get<OrganizationRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, OrganizationRoutes())
+            handleDeleteElement(delete.id, OrganizationRoutes.All())
         }
         get<OrganizationRoutes.Edit> { edit ->
             logger.info { "Get editor for organization ${edit.id.value}" }

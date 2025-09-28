@@ -84,7 +84,7 @@ fun Application.configureRegionRouting() {
             }
         }
         get<RegionRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, RegionRoutes())
+            handleDeleteElement(delete.id, RegionRoutes.All())
         }
         get<RegionRoutes.Edit> { edit ->
             logger.info { "Get editor for region ${edit.id.value}" }

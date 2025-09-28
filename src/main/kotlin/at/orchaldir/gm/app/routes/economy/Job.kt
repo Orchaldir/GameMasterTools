@@ -82,7 +82,7 @@ fun Application.configureJobRouting() {
             }
         }
         get<JobRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, JobRoutes())
+            handleDeleteElement(delete.id, JobRoutes.All())
         }
         get<JobRoutes.Edit> { edit ->
             logger.info { "Get editor for job ${edit.id.value}" }

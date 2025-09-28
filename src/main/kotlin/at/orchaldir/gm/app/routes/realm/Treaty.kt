@@ -80,7 +80,7 @@ fun Application.configureTreatyRouting() {
             }
         }
         get<TreatyRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TreatyRoutes())
+            handleDeleteElement(delete.id, TreatyRoutes.All())
         }
         get<TreatyRoutes.Edit> { edit ->
             logger.info { "Get editor for treaty ${edit.id.value}" }

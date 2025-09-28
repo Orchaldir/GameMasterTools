@@ -81,7 +81,7 @@ fun Application.configureDistrictRouting() {
             }
         }
         get<DistrictRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DistrictRoutes())
+            handleDeleteElement(delete.id, DistrictRoutes.All())
         }
         get<DistrictRoutes.Edit> { edit ->
             logger.info { "Get editor for legal code ${edit.id.value}" }

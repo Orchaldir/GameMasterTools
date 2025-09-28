@@ -82,7 +82,7 @@ fun Application.configurePeriodicalRouting() {
             }
         }
         get<PeriodicalRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, PeriodicalRoutes())
+            handleDeleteElement(delete.id, PeriodicalRoutes.All())
         }
         get<PeriodicalRoutes.Edit> { edit ->
             logger.info { "Get editor for periodical ${edit.id.value}" }

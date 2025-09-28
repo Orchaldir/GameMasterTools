@@ -83,7 +83,7 @@ fun Application.configureDiseaseRouting() {
             }
         }
         get<DiseaseRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DiseaseRoutes())
+            handleDeleteElement(delete.id, DiseaseRoutes.All())
         }
         get<DiseaseRoutes.Edit> { edit ->
             logger.info { "Get editor for disease ${edit.id.value}" }

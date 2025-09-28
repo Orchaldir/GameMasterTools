@@ -100,7 +100,7 @@ fun Application.configureFontRouting() {
             }
         }
         get<FontRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, FontRoutes())
+            handleDeleteElement(delete.id, FontRoutes.All())
         }
         get<FontRoutes.Edit> { edit ->
             logger.info { "Get editor for font ${edit.id.value}" }

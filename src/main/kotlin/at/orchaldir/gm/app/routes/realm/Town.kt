@@ -89,7 +89,7 @@ fun Application.configureTownRouting() {
             }
         }
         get<TownRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TownRoutes())
+            handleDeleteElement(delete.id, TownRoutes.All())
         }
         get<TownRoutes.Edit> { edit ->
             logger.info { "Get editor for town ${edit.id.value}" }

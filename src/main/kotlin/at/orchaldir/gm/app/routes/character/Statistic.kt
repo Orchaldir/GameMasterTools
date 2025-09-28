@@ -81,7 +81,7 @@ fun Application.configureStatisticRouting() {
             }
         }
         get<StatisticRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, StatisticRoutes())
+            handleDeleteElement(delete.id, StatisticRoutes.All())
         }
         get<StatisticRoutes.Edit> { edit ->
             logger.info { "Get editor for statistic ${edit.id.value}" }

@@ -77,7 +77,7 @@ fun Application.configureRaceRouting() {
             }
         }
         get<RaceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, RaceRoutes())
+            handleDeleteElement(delete.id, RaceRoutes.All())
         }
         get<RaceRoutes.Edit> { edit ->
             logger.info { "Get editor for race ${edit.id.value}" }

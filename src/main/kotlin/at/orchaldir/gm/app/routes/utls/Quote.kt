@@ -81,7 +81,7 @@ fun Application.configureQuoteRouting() {
             }
         }
         get<QuoteRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, QuoteRoutes())
+            handleDeleteElement(delete.id, QuoteRoutes.All())
         }
         get<QuoteRoutes.Edit> { edit ->
             logger.info { "Get editor for quote ${edit.id.value}" }

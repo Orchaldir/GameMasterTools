@@ -80,7 +80,7 @@ fun Application.configureMoonRouting() {
             }
         }
         get<MoonRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, MoonRoutes())
+            handleDeleteElement(delete.id, MoonRoutes.All())
         }
         get<MoonRoutes.Edit> { edit ->
             logger.info { "Get editor for moon ${edit.id.value}" }

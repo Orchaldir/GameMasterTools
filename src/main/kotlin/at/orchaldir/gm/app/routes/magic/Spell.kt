@@ -90,7 +90,7 @@ fun Application.configureSpellRouting() {
             }
         }
         get<SpellRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, SpellRoutes())
+            handleDeleteElement(delete.id, SpellRoutes.All())
         }
         get<SpellRoutes.Edit> { edit ->
             logger.info { "Get editor for spell ${edit.id.value}" }

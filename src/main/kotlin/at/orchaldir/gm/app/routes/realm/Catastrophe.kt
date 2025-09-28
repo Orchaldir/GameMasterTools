@@ -84,7 +84,7 @@ fun Application.configureCatastropheRouting() {
             }
         }
         get<CatastropheRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CatastropheRoutes())
+            handleDeleteElement(delete.id, CatastropheRoutes.All())
         }
         get<CatastropheRoutes.Edit> { edit ->
             logger.info { "Get editor for catastrophe ${edit.id.value}" }

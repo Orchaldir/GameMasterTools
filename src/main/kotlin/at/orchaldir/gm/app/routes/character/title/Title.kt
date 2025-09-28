@@ -83,7 +83,7 @@ fun Application.configureTitleRouting() {
             }
         }
         get<TitleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TitleRoutes())
+            handleDeleteElement(delete.id, TitleRoutes.All())
         }
         get<TitleRoutes.Edit> { edit ->
             logger.info { "Get editor for title ${edit.id.value}" }

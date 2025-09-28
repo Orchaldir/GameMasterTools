@@ -100,7 +100,7 @@ fun Application.configureUniformRouting() {
             }
         }
         get<UniformRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, UniformRoutes())
+            handleDeleteElement(delete.id, UniformRoutes.All())
         }
         get<UniformRoutes.Edit> { edit ->
             logger.info { "Get editor for uniform ${edit.id.value}" }

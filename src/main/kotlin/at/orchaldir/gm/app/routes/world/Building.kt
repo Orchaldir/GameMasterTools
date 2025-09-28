@@ -125,7 +125,7 @@ fun Application.configureBuildingRouting() {
             handleUpdateElement(update.id, ::parseBuilding)
         }
         get<BuildingRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, BuildingRoutes())
+            handleDeleteElement(delete.id, BuildingRoutes.All())
         }
         get<BuildingRoutes.Lot.Edit> { edit ->
             logger.info { "Get editor for building lot ${edit.id.value}" }

@@ -83,7 +83,7 @@ fun Application.configurePantheonRouting() {
             }
         }
         get<PantheonRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, PantheonRoutes())
+            handleDeleteElement(delete.id, PantheonRoutes.All())
         }
         get<PantheonRoutes.Edit> { edit ->
             logger.info { "Get editor for pantheon ${edit.id.value}" }
