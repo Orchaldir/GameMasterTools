@@ -7,6 +7,19 @@ import kotlinx.serialization.Serializable
 data class Statblock(
     val statistics: Map<StatisticId, Int> = emptyMap(),
 ) {
+    fun calculateCost(state: State): Int {
+        val storage = state.getStatisticStorage()
+
+        return statistics
+            .map { (id, level) ->
+                storage
+                    .getOrThrow(id)
+                    .data
+                    .cost()
+                    .calculate(level)
+            }.sum()
+    }
+
     fun resolve(state: State, statistics: List<Statistic>) = statistics.mapNotNull { statistic ->
         resolve(state, statistic)?.let { Pair(statistic, it) }
     }

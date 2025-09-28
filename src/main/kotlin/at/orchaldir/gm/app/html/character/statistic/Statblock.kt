@@ -33,6 +33,7 @@ fun HtmlBlockTag.showStatblock(
         showStatistics(call, state, attributeValues, "Attributes")
         showStatistics(call, state, derivedValues, "Derived Attributes")
         showStatistics(call, state, skillValues, "Skills")
+        field("Cost", statblock.calculateCost(state))
     }
 }
 
@@ -60,42 +61,45 @@ fun HtmlBlockTag.editStatblock(
     val skills = state.sortStatistics(state.getSkills())
 
     showDetails("Stateblock", true) {
-        editStatistics(state, call, statblock, attributes, "Attribute")
-        editStatistics(state, call, statblock, derivedAttributes, "Derived Attribute")
-        editStatistics(state, call, statblock, skills, "Skills")
+        table {
+            editStatistics(state, call, statblock, attributes, "Attribute")
+            editStatistics(state, call, statblock, derivedAttributes, "Derived Attribute")
+            editStatistics(state, call, statblock, skills, "Skills")
+        }
+        field("Cost", statblock.calculateCost(state))
     }
 }
 
-private fun DETAILS.editStatistics(
+private fun TABLE.editStatistics(
     state: State,
     call: ApplicationCall,
     statblock: Statblock,
     statistics: List<Statistic>,
     label: String,
 ) {
-    table {
-        tr {
-            th { +label }
-            th { +"Offset" }
-            th { +"Result" }
-        }
-        statistics.forEach { statistic ->
-            val offset = statblock.statistics[statistic.id] ?: 0
-            val value = statblock.resolve(state, statistic)
+    tr {
+        th { +label }
+        th { +"Offset" }
+        th { +"Result" }
+        th { +"Cost" }
+    }
+    statistics.forEach { statistic ->
+        val offset = statblock.statistics[statistic.id] ?: 0
+        val value = statblock.resolve(state, statistic)
 
-            tr {
-                tdLink(call, state, statistic)
-                td {
-                    selectInt(
-                        offset,
-                        -10,
-                        +10,
-                        1,
-                        combine(STATISTIC, statistic.id.value),
-                    )
-                }
-                tdSkipZero(value)
+        tr {
+            tdLink(call, state, statistic)
+            td {
+                selectInt(
+                    offset,
+                    -10,
+                    +10,
+                    1,
+                    combine(STATISTIC, statistic.id.value),
+                )
             }
+            tdSkipZero(value)
+            tdInt(statistic.data.cost().calculate(offset))
         }
     }
 }

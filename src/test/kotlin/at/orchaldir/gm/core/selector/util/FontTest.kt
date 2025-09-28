@@ -28,7 +28,7 @@ class FontTest {
     @Nested
     inner class CanDeleteTest {
         private val font = Font(FONT_ID_0)
-        val option = SolidFont(Distance.Companion.fromCentimeters(1), font = FONT_ID_0)
+        val option = SolidFont(Distance.fromCentimeters(1), font = FONT_ID_0)
         private val state = State(
             listOf(
                 Storage(font),

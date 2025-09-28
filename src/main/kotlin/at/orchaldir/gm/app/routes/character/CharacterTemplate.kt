@@ -143,6 +143,7 @@ private fun HTML.showAllCharacterTemplates(
                 th { +"Culture" }
                 th { +"Belief" }
                 th { +"Uniform" }
+                th { +"Cost" }
             }
             templates.forEach { template ->
                 tr {
@@ -151,6 +152,7 @@ private fun HTML.showAllCharacterTemplates(
                     tdLink(call, state, template.culture)
                     td { showBeliefStatus(call, state, template.belief, false) }
                     tdLink(call, state, template.uniform)
+                    tdInt(template.statblock.calculateCost(state))
                 }
             }
         }

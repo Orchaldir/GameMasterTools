@@ -21,9 +21,20 @@ fun HtmlBlockTag.showStatisticData(
     field("Type", data.getType())
 
     when (data) {
-        is Attribute -> showBaseValue(call, state, data.base)
-        is DerivedAttribute -> showBaseValue(call, state, data.base)
-        is Skill -> showBaseValue(call, state, data.base)
+        is Attribute -> {
+            showBaseValue(call, state, data.base)
+            fieldStatisticCost(data.cost)
+        }
+
+        is DerivedAttribute -> {
+            showBaseValue(call, state, data.base)
+            fieldStatisticCost(data.cost)
+        }
+
+        is Skill -> {
+            showBaseValue(call, state, data.base)
+            fieldStatisticCost(data.cost)
+        }
     }
 }
 
@@ -42,9 +53,20 @@ fun FORM.editStatisticData(
     )
 
     when (data) {
-        is Attribute -> editBaseValue(state, statistic, data.base)
-        is DerivedAttribute -> editBaseValue(state, statistic, data.base)
-        is Skill -> editBaseValue(state, statistic, data.base)
+        is Attribute -> {
+            editBaseValue(state, statistic, data.base)
+            editStatisticCost(data.cost)
+        }
+
+        is DerivedAttribute -> {
+            editBaseValue(state, statistic, data.base)
+            editStatisticCost(data.cost)
+        }
+
+        is Skill -> {
+            editBaseValue(state, statistic, data.base)
+            editStatisticCost(data.cost)
+        }
     }
 }
 
@@ -55,13 +77,16 @@ fun parseStatisticData(
 ) = when (parse(parameters, TYPE, StatisticDataType.Attribute)) {
     StatisticDataType.Attribute -> Attribute(
         parseBaseValue(parameters),
+        parseStatisticCost(parameters),
     )
 
     StatisticDataType.DerivedAttribute -> DerivedAttribute(
         parseBaseValue(parameters),
+        parseStatisticCost(parameters),
     )
 
     StatisticDataType.Skill -> Skill(
         parseBaseValue(parameters),
+        parseStatisticCost(parameters),
     )
 }

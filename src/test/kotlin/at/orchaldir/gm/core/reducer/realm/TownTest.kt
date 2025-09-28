@@ -98,7 +98,7 @@ class TownTest {
 
         @Test
         fun `Update is valid`() {
-            val town = Town(TOWN_ID_0, Name.Companion.init("Test"))
+            val town = Town(TOWN_ID_0, Name.init("Test"))
             val action = UpdateAction(town)
 
             assertEquals(town, REDUCER.invoke(STATE, action).first.getTownStorage().get(TOWN_ID_0))

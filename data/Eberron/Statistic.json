@@ -10,6 +10,10 @@
     "base": {
      "type": "Fixed",
      "default": 10
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 10
     }
    }
   },
@@ -22,6 +26,10 @@
     "base": {
      "type": "Fixed",
      "default": 10
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 20
     }
    }
   },
@@ -34,6 +42,10 @@
     "base": {
      "type": "Fixed",
      "default": 10
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 20
     }
    }
   },
@@ -46,6 +58,10 @@
     "base": {
      "type": "Fixed",
      "default": 10
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 10
     }
    }
   },
@@ -57,6 +73,10 @@
     "base": {
      "type": "Fixed",
      "default": 10
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 5
     }
    }
   },
@@ -69,6 +89,10 @@
     "base": {
      "type": "Fixed",
      "default": 10
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 5
     }
    }
   },
@@ -81,6 +105,9 @@
      "type": "Statistic",
      "statistic": 1,
      "offset": -2
+    },
+    "cost": {
+     "type": "GurpsSkill"
     }
    }
   },
@@ -93,6 +120,9 @@
      "type": "Statistic",
      "statistic": 5,
      "offset": -2
+    },
+    "cost": {
+     "type": "GurpsSkill"
     }
    }
   },
@@ -133,6 +163,10 @@
     "base": {
      "type": "Statistic",
      "statistic": 0
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 2
     }
    }
   },
@@ -145,6 +179,10 @@
     "base": {
      "type": "Statistic",
      "statistic": 3
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 3
     }
    }
   },
@@ -165,6 +203,10 @@
        "statistic": 3
       }
      ]
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 5
     }
    }
   },
@@ -210,6 +252,10 @@
       "type": "Fixed",
       "default": 4
      }
+    },
+    "cost": {
+     "type": "Fixed",
+     "cost": 5
     }
    }
   }

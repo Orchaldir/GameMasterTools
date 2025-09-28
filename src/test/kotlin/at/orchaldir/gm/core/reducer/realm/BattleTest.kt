@@ -52,7 +52,7 @@ class BattleTest {
 
         @Test
         fun `Update is valid`() {
-            val battle = Battle(BATTLE_ID_0, Name.Companion.init("Test"))
+            val battle = Battle(BATTLE_ID_0, Name.init("Test"))
             val action = UpdateAction(battle)
 
             assertEquals(battle, REDUCER.invoke(STATE, action).first.getBattleStorage().get(BATTLE_ID_0))

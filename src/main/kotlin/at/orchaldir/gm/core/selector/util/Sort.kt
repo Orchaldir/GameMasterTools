@@ -225,6 +225,7 @@ fun State.sortCharacters(
                 SortCharacter.Name -> compareBy { it.second }
                 SortCharacter.Start -> getCharacterStartDatePairComparator()
                 SortCharacter.Age -> compareByDescending { it.first.getAge(this, currentDay).days }
+                SortCharacter.Cost -> compareByDescending { it.first.statblock.calculateCost(this) }
             })
         .map { it.first }
 }
@@ -241,6 +242,7 @@ fun State.sortCharacterTemplates(
     .sortedWith(
         when (sort) {
             SortCharacterTemplate.Name -> compareBy { it.name.text }
+            SortCharacterTemplate.Cost -> compareByDescending { it.statblock.calculateCost(this) }
         })
 
 // color scheme
