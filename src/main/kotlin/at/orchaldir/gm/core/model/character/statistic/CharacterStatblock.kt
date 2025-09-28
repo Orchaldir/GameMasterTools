@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character.statistic
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -17,6 +18,15 @@ sealed class CharacterStatblock {
         UndefinedCharacterStatblock -> CharacterStatblockType.Undefined
         is UniqueCharacterStatblock -> CharacterStatblockType.Statblock
         is UseStatblockOfTemplate -> CharacterStatblockType.Template
+    }
+
+    fun calculateCost(state: State) = when (this) {
+        UndefinedCharacterStatblock -> 0
+        is UniqueCharacterStatblock -> statblock.calculateCost(state)
+        is UseStatblockOfTemplate -> state.getCharacterTemplateStorage()
+            .getOrThrow(template)
+            .statblock
+            .calculateCost(state)
     }
 
     fun contains(statistic: StatisticId) = when (this) {

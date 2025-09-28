@@ -156,6 +156,7 @@ private fun HTML.showAllCharacters(
                 th { +"Housing Status" }
                 th { +"Employment Status" }
                 th { +"Organizations" }
+                th { +"Cost" }
             }
             characters.forEach { character ->
                 val name = character.nameForSorting(state)
@@ -186,6 +187,7 @@ private fun HTML.showAllCharacters(
                     td { showPosition(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false, false) }
                     tdSkipZero(state.getOrganizations(character.id))
+                    tdInt(character.statblock.calculateCost(state))
                 }
             }
         }

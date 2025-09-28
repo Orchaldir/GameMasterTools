@@ -38,6 +38,7 @@ enum class SortCharacter {
     Name,
     Start,
     Age,
+    Cost,
 }
 
 enum class SortCharacterTemplate {
