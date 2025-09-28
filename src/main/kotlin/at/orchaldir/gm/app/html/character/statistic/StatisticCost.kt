@@ -57,6 +57,7 @@ fun FORM.editStatisticCost(
                 1,
                 combine(COST, NUMBER),
             )
+
             GurpsSkillCost -> doNothing()
             UndefinedStatisticCost -> doNothing()
         }
@@ -71,6 +72,7 @@ fun parseStatisticCost(
     StatisticCostType.Fixed -> FixedStatisticCost(
         parseInt(parameters, combine(COST, NUMBER), 1),
     )
+
     StatisticCostType.GurpsSkill -> GurpsSkillCost
     StatisticCostType.Undefined -> UndefinedStatisticCost
 }

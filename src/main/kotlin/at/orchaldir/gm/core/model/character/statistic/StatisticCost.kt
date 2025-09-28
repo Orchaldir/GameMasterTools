@@ -29,6 +29,7 @@ sealed class StatisticCost {
         } else {
             (relativeLevel - 2) * 4
         }
+
         UndefinedStatisticCost -> 0
     }
 }

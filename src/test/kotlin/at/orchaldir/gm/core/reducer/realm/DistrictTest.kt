@@ -57,7 +57,7 @@ class DistrictTest {
 
         @Test
         fun `Update is valid`() {
-            val district = District(DISTRICT_ID_0, Name.Companion.init("Test"))
+            val district = District(DISTRICT_ID_0, Name.init("Test"))
             val action = UpdateAction(district)
 
             assertEquals(district, REDUCER.invoke(STATE, action).first.getDistrictStorage().get(DISTRICT_ID_0))

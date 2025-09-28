@@ -11,11 +11,12 @@ data class Statblock(
         val storage = state.getStatisticStorage()
 
         return statistics
-            .map { (id, level) -> storage
-                .getOrThrow(id)
-                .data
-                .cost()
-                .calculate(level)
+            .map { (id, level) ->
+                storage
+                    .getOrThrow(id)
+                    .data
+                    .cost()
+                    .calculate(level)
             }.sum()
     }
 

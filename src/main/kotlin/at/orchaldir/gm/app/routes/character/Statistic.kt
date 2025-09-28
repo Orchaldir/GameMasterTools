@@ -2,11 +2,7 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.statistic.displayBaseValue
-import at.orchaldir.gm.app.html.character.statistic.displayStatisticCost
-import at.orchaldir.gm.app.html.character.statistic.editStatistic
-import at.orchaldir.gm.app.html.character.statistic.parseStatistic
-import at.orchaldir.gm.app.html.character.statistic.showStatistic
+import at.orchaldir.gm.app.html.character.statistic.*
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement

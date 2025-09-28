@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test
 
 class NameListTest {
 
-    private val A = Name.Companion.init("A")
-    private val B = Name.Companion.init("B")
+    private val A = Name.init("A")
+    private val B = Name.init("B")
     private val result = listOf(A, B)
 
     @Test
@@ -38,6 +38,6 @@ class NameListTest {
 
     @Test
     fun `Capitalize the first letter`() {
-        Assertions.assertEquals(listOf(Name.Companion.init("Name")), parseNames(" name"))
+        Assertions.assertEquals(listOf(Name.init("Name")), parseNames(" name"))
     }
 }

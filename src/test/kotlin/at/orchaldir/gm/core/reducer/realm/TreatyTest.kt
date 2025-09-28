@@ -52,7 +52,7 @@ class TreatyTest {
 
         @Test
         fun `Update is valid`() {
-            val treaty = Treaty(TREATY_ID_0, Name.Companion.init("Test"))
+            val treaty = Treaty(TREATY_ID_0, Name.init("Test"))
             val action = UpdateAction(treaty)
 
             assertEquals(treaty, REDUCER.invoke(STATE, action).first.getTreatyStorage().get(TREATY_ID_0))
