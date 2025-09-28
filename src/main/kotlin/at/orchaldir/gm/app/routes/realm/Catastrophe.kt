@@ -12,7 +12,6 @@ import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteCatastrophe
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
@@ -85,7 +84,7 @@ fun Application.configureCatastropheRouting() {
             }
         }
         get<CatastropheRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteCatastrophe(delete.id), CatastropheRoutes())
+            handleDeleteElement(delete.id, CatastropheRoutes.All())
         }
         get<CatastropheRoutes.Edit> { edit ->
             logger.info { "Get editor for catastrophe ${edit.id.value}" }

@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -77,7 +76,7 @@ fun Application.configureCalendarRouting() {
             }
         }
         get<CalendarRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteCalendar(delete.id), CalendarRoutes())
+            handleDeleteElement(delete.id, CalendarRoutes())
         }
         get<CalendarRoutes.Edit> { edit ->
             logger.info { "Get editor for calendar ${edit.id.value}" }

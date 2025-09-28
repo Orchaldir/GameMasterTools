@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteRiver
+import at.orchaldir.gm.core.action.DeleteAction
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class DeleteTest {
-    val action = DeleteRiver(RIVER_ID_0)
+    val action = DeleteAction(RIVER_ID_0)
     val state = State(Storage(River(RIVER_ID_0)))
 
     @Test
@@ -24,7 +24,7 @@ class DeleteTest {
 
     @Test
     fun `Cannot delete unknown id`() {
-        val action = DeleteRiver(UNKNOWN_RIVER_ID)
+        val action = DeleteAction(UNKNOWN_RIVER_ID)
 
         assertIllegalArgument("Requires unknown River 99!") { REDUCER.invoke(state, action) }
     }

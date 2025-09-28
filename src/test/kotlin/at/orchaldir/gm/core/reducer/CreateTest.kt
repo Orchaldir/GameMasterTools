@@ -5,7 +5,6 @@ import at.orchaldir.gm.TEXT_ID_0
 import at.orchaldir.gm.UNKNOWN_RIVER_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.CreateAction
-import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.utils.Storage
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class CreateTest {
-    val action = DeleteRiver(RIVER_ID_0)
     val state = State(Storage(River(RIVER_ID_0)))
 
     @Test

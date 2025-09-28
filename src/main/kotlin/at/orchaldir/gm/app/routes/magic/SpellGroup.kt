@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.magic.showSpellGroup
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteSpellGroup
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_GROUP_TYPE
 import at.orchaldir.gm.core.model.magic.SpellGroup
@@ -83,7 +82,7 @@ fun Application.configureSpellGroupRouting() {
             }
         }
         get<SpellGroupRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteSpellGroup(delete.id), SpellGroupRoutes())
+            handleDeleteElement(delete.id, SpellGroupRoutes.All())
         }
         get<SpellGroupRoutes.Edit> { edit ->
             logger.info { "Get editor for group ${edit.id.value}" }

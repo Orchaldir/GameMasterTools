@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteCharacterTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.character.CharacterTemplate
@@ -94,7 +93,7 @@ fun Application.configureCharacterTemplateRouting() {
             }
         }
         get<CharacterTemplateRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteCharacterTemplate(delete.id), CharacterTemplateRoutes())
+            handleDeleteElement(delete.id, CharacterTemplateRoutes.All())
         }
         get<CharacterTemplateRoutes.Edit> { edit ->
             logger.info { "Get editor for template ${edit.id.value}" }

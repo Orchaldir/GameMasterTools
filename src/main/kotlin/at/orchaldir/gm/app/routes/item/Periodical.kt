@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeletePeriodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -83,7 +82,7 @@ fun Application.configurePeriodicalRouting() {
             }
         }
         get<PeriodicalRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeletePeriodical(delete.id), PeriodicalRoutes())
+            handleDeleteElement(delete.id, PeriodicalRoutes.All())
         }
         get<PeriodicalRoutes.Edit> { edit ->
             logger.info { "Get editor for periodical ${edit.id.value}" }

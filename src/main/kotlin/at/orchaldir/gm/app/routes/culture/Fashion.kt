@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
-import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -75,7 +74,7 @@ fun Application.configureFashionRouting() {
             }
         }
         get<FashionRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteFashion(delete.id), DiseaseRoutes())
+            handleDeleteElement(delete.id, DiseaseRoutes.All())
         }
         get<FashionRoutes.Edit> { edit ->
             logger.info { "Get editor for fashion ${edit.id.value}" }

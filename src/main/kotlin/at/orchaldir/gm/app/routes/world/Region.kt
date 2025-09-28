@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.world.showRegion
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteRegion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortRegion
 import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
@@ -85,7 +84,7 @@ fun Application.configureRegionRouting() {
             }
         }
         get<RegionRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteRegion(delete.id), RegionRoutes())
+            handleDeleteElement(delete.id, RegionRoutes.All())
         }
         get<RegionRoutes.Edit> { edit ->
             logger.info { "Get editor for region ${edit.id.value}" }

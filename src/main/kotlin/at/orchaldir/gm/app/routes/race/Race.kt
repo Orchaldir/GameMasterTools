@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.Appearance
@@ -78,7 +77,7 @@ fun Application.configureRaceRouting() {
             }
         }
         get<RaceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteRace(delete.id), RaceRoutes())
+            handleDeleteElement(delete.id, RaceRoutes.All())
         }
         get<RaceRoutes.Edit> { edit ->
             logger.info { "Get editor for race ${edit.id.value}" }

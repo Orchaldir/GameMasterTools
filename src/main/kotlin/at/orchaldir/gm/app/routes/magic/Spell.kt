@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
 import at.orchaldir.gm.core.model.magic.Spell
@@ -91,7 +90,7 @@ fun Application.configureSpellRouting() {
             }
         }
         get<SpellRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteSpell(delete.id), SpellRoutes())
+            handleDeleteElement(delete.id, SpellRoutes.All())
         }
         get<SpellRoutes.Edit> { edit ->
             logger.info { "Get editor for spell ${edit.id.value}" }

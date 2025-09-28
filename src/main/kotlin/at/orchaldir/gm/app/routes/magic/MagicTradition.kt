@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteMagicTradition
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MAGIC_TRADITION_TYPE
 import at.orchaldir.gm.core.model.magic.MagicTradition
@@ -82,7 +81,7 @@ fun Application.configureMagicTraditionRouting() {
             }
         }
         get<MagicTraditionRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteMagicTradition(delete.id), MagicTraditionRoutes())
+            handleDeleteElement(delete.id, MagicTraditionRoutes.All())
         }
         get<MagicTraditionRoutes.Edit> { edit ->
             logger.info { "Get editor for tradition ${edit.id.value}" }

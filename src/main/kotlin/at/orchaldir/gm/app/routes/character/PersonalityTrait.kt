@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.character.parsePersonalityTrait
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PERSONALITY_TRAIT_TYPE
 import at.orchaldir.gm.core.model.character.PersonalityTrait
@@ -70,7 +69,7 @@ fun Application.configurePersonalityRouting() {
             }
         }
         get<PersonalityTraitRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeletePersonalityTrait(delete.id), PersonalityTraitRoutes())
+            handleDeleteElement(delete.id, PersonalityTraitRoutes())
         }
         get<PersonalityTraitRoutes.Edit> { edit ->
             logger.info { "Get editor for personality trait ${edit.id.value}" }

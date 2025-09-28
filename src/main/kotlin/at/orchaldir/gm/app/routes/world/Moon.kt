@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.world.showMoon
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortMoon
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
@@ -81,7 +80,7 @@ fun Application.configureMoonRouting() {
             }
         }
         get<MoonRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteMoon(delete.id), MoonRoutes())
+            handleDeleteElement(delete.id, MoonRoutes.All())
         }
         get<MoonRoutes.Edit> { edit ->
             logger.info { "Get editor for moon ${edit.id.value}" }

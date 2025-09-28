@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.AddBuilding
-import at.orchaldir.gm.core.action.DeleteBuilding
+import at.orchaldir.gm.core.action.DeleteAction
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.Data
@@ -156,7 +156,7 @@ class BuildingTest {
         private val building = Building(BUILDING_ID_0, position = InTownMap(TOWN_MAP_ID_0, 0))
         private val town = TownMap(TOWN_MAP_ID_0, map = TileMap2d(BUILDING_TILE_0))
         private val state = State(listOf(Storage(building), Storage(town)))
-        private val action = DeleteBuilding(BUILDING_ID_0)
+        private val action = DeleteAction(BUILDING_ID_0)
 
         @Test
         fun `Cannot update unknown town`() {

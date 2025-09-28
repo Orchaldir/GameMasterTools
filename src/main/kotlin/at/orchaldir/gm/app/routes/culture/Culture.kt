@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
@@ -86,7 +85,7 @@ fun Application.configureCultureRouting() {
             }
         }
         get<CultureRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteCulture(delete.id), CultureRoutes())
+            handleDeleteElement(delete.id, CultureRoutes())
         }
         get<CultureRoutes.Edit> { edit ->
             logger.info { "Get editor for culture ${edit.id.value}" }

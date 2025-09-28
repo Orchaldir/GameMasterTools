@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.world.showWorld
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteWorld
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortWorld
 import at.orchaldir.gm.core.model.world.WORLD_TYPE
@@ -87,7 +86,7 @@ fun Application.configureWorldRouting() {
             }
         }
         get<WorldRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteWorld(delete.id), WorldRoutes())
+            handleDeleteElement(delete.id, WorldRoutes.All())
         }
         get<WorldRoutes.Edit> { edit ->
             logger.info { "Get editor for world ${edit.id.value}" }

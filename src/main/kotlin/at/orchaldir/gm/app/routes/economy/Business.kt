@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -84,7 +83,7 @@ fun Application.configureBusinessRouting() {
             }
         }
         get<BusinessRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteBusiness(delete.id), BusinessRoutes())
+            handleDeleteElement(delete.id, BusinessRoutes.All())
         }
         get<BusinessRoutes.Edit> { edit ->
             logger.info { "Get editor for business ${edit.id.value}" }

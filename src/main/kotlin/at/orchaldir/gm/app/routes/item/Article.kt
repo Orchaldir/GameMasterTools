@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteArticle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ARTICLE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Article
@@ -81,7 +80,7 @@ fun Application.configureArticleRouting() {
             }
         }
         get<ArticleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteArticle(delete.id), ArticleRoutes())
+            handleDeleteElement(delete.id, ArticleRoutes.All())
         }
         get<ArticleRoutes.Edit> { edit ->
             logger.info { "Get editor for periodical ${edit.id.value}" }

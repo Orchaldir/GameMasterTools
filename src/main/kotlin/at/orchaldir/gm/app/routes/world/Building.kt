@@ -13,7 +13,6 @@ import at.orchaldir.gm.app.html.world.parseBuilding
 import at.orchaldir.gm.app.html.world.showBuilding
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
@@ -126,7 +125,7 @@ fun Application.configureBuildingRouting() {
             handleUpdateElement(update.id, ::parseBuilding)
         }
         get<BuildingRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteBuilding(delete.id), BuildingRoutes())
+            handleDeleteElement(delete.id, BuildingRoutes.All())
         }
         get<BuildingRoutes.Lot.Edit> { edit ->
             logger.info { "Get editor for building lot ${edit.id.value}" }

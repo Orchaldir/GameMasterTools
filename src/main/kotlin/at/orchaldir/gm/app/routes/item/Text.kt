@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
@@ -100,7 +99,7 @@ fun Application.configureTextRouting() {
             }
         }
         get<TextRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteText(delete.id), TextRoutes())
+            handleDeleteElement(delete.id, TextRoutes.All())
         }
         get<TextRoutes.Edit> { edit ->
             logger.info { "Get editor for text ${edit.id.value}" }

@@ -12,7 +12,6 @@ import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Name
@@ -89,7 +88,7 @@ fun Application.configureArchitecturalStyleRouting() {
             }
         }
         get<ArchitecturalStyleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteArchitecturalStyle(delete.id), ArchitecturalStyleRoutes())
+            handleDeleteElement(delete.id, ArchitecturalStyleRoutes.All())
         }
         get<ArchitecturalStyleRoutes.Edit> { edit ->
             logger.info { "Get editor for architectural style ${edit.id.value}" }

@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
@@ -112,7 +111,7 @@ fun Application.configureEquipmentRouting() {
             }
         }
         get<EquipmentRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteEquipment(delete.id), EquipmentRoutes())
+            handleDeleteElement(delete.id, EquipmentRoutes())
         }
         get<EquipmentRoutes.Edit> { edit ->
             logger.info { "Get editor for equipment ${edit.id.value}" }

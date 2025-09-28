@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.parse.world.parseStreetTemplate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteStreetTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Solid
@@ -87,7 +86,7 @@ fun Application.configureStreetTemplateRouting() {
             }
         }
         get<StreetTemplateRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteStreetTemplate(delete.id), StreetTemplateRoutes())
+            handleDeleteElement(delete.id, StreetTemplateRoutes())
         }
         get<StreetTemplateRoutes.Edit> { edit ->
             logger.info { "Get editor for street template ${edit.id.value}" }

@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteRealm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.REALM_TYPE
 import at.orchaldir.gm.core.model.realm.Realm
@@ -84,7 +83,7 @@ fun Application.configureRealmRouting() {
             }
         }
         get<RealmRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteRealm(delete.id), RealmRoutes())
+            handleDeleteElement(delete.id, RealmRoutes.All())
         }
         get<RealmRoutes.Edit> { edit ->
             logger.info { "Get editor for realm ${edit.id.value}" }

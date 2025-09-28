@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TOWN_TYPE
 import at.orchaldir.gm.core.model.realm.Town
@@ -90,7 +89,7 @@ fun Application.configureTownRouting() {
             }
         }
         get<TownRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteTown(delete.id), TownRoutes())
+            handleDeleteElement(delete.id, TownRoutes.All())
         }
         get<TownRoutes.Edit> { edit ->
             logger.info { "Get editor for town ${edit.id.value}" }

@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteCurrency
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_TYPE
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -82,7 +81,7 @@ fun Application.configureCurrencyRouting() {
             }
         }
         get<CurrencyRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteCurrency(delete.id), CurrencyRoutes())
+            handleDeleteElement(delete.id, CurrencyRoutes.All())
         }
         get<CurrencyRoutes.Edit> { edit ->
             logger.info { "Get editor for currency ${edit.id.value}" }

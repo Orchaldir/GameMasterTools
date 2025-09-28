@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.character.statistic.*
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteStatistic
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.character.statistic.Statistic
@@ -82,7 +81,7 @@ fun Application.configureStatisticRouting() {
             }
         }
         get<StatisticRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteStatistic(delete.id), StatisticRoutes())
+            handleDeleteElement(delete.id, StatisticRoutes.All())
         }
         get<StatisticRoutes.Edit> { edit ->
             logger.info { "Get editor for statistic ${edit.id.value}" }

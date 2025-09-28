@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.religion.showPantheon
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeletePantheon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
 import at.orchaldir.gm.core.model.religion.Pantheon
@@ -84,7 +83,7 @@ fun Application.configurePantheonRouting() {
             }
         }
         get<PantheonRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeletePantheon(delete.id), PantheonRoutes())
+            handleDeleteElement(delete.id, PantheonRoutes.All())
         }
         get<PantheonRoutes.Edit> { edit ->
             logger.info { "Get editor for pantheon ${edit.id.value}" }

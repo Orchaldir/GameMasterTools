@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.character.title.showTitle
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteTitle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
 import at.orchaldir.gm.core.model.character.title.Title
@@ -84,7 +83,7 @@ fun Application.configureTitleRouting() {
             }
         }
         get<TitleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteTitle(delete.id), TitleRoutes())
+            handleDeleteElement(delete.id, TitleRoutes.All())
         }
         get<TitleRoutes.Edit> { edit ->
             logger.info { "Get editor for title ${edit.id.value}" }

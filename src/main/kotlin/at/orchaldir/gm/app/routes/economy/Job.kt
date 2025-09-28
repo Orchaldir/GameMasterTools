@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.economy.showJob
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
@@ -83,7 +82,7 @@ fun Application.configureJobRouting() {
             }
         }
         get<JobRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteJob(delete.id), JobRoutes())
+            handleDeleteElement(delete.id, JobRoutes.All())
         }
         get<JobRoutes.Edit> { edit ->
             logger.info { "Get editor for job ${edit.id.value}" }

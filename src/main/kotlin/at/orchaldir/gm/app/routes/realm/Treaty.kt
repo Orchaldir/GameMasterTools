@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteTreaty
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TREATY_TYPE
 import at.orchaldir.gm.core.model.realm.Treaty
@@ -81,7 +80,7 @@ fun Application.configureTreatyRouting() {
             }
         }
         get<TreatyRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteTreaty(delete.id), TreatyRoutes())
+            handleDeleteElement(delete.id, TreatyRoutes.All())
         }
         get<TreatyRoutes.Edit> { edit ->
             logger.info { "Get editor for treaty ${edit.id.value}" }
