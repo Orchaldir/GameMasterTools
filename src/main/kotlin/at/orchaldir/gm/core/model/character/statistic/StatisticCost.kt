@@ -18,7 +18,7 @@ sealed class StatisticCost {
         UndefinedStatisticCost -> StatisticCostType.Undefined
     }
 
-    fun resolveValue(relativeLevel: Int) = when (this) {
+    fun calculate(relativeLevel: Int) = when (this) {
         is FixedStatisticCost -> relativeLevel * cost
         GurpsSkillCost -> if (relativeLevel <= 0) {
             0

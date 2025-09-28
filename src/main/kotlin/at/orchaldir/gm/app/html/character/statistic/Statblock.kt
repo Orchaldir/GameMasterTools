@@ -99,7 +99,7 @@ private fun TABLE.editStatistics(
                 )
             }
             tdSkipZero(value)
-            tdInt(statistic.data.cost().resolveValue(offset))
+            tdInt(statistic.data.cost().calculate(offset))
         }
     }
 }

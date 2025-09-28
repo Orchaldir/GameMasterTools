@@ -15,7 +15,7 @@ data class Statblock(
                 .getOrThrow(id)
                 .data
                 .cost()
-                .resolveValue(level)
+                .calculate(level)
             }.sum()
     }
 
