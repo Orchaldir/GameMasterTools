@@ -33,6 +33,7 @@ fun HtmlBlockTag.showStatblock(
         showStatistics(call, state, attributeValues, "Attributes")
         showStatistics(call, state, derivedValues, "Derived Attributes")
         showStatistics(call, state, skillValues, "Skills")
+        field("Cost", statblock.calculateCost(state))
     }
 }
 
@@ -63,6 +64,7 @@ fun HtmlBlockTag.editStatblock(
         editStatistics(state, call, statblock, attributes, "Attribute")
         editStatistics(state, call, statblock, derivedAttributes, "Derived Attribute")
         editStatistics(state, call, statblock, skills, "Skills")
+        field("Cost", statblock.calculateCost(state))
     }
 }
 
