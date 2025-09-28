@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.util.color.showColorScheme
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteColorScheme
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortColorScheme
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
@@ -85,7 +84,7 @@ fun Application.configureColorSchemeRouting() {
             }
         }
         get<ColorSchemeRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteColorScheme(delete.id), ColorSchemeRoutes())
+            handleDeleteElement(delete.id, ColorSchemeRoutes())
         }
         get<ColorSchemeRoutes.Edit> { edit ->
             logger.info { "Get editor for color scheme ${edit.id.value}" }

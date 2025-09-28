@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteDistrict
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.DISTRICT_TYPE
 import at.orchaldir.gm.core.model.realm.District
@@ -82,7 +81,7 @@ fun Application.configureDistrictRouting() {
             }
         }
         get<DistrictRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteDistrict(delete.id), DistrictRoutes())
+            handleDeleteElement(delete.id, DistrictRoutes())
         }
         get<DistrictRoutes.Edit> { edit ->
             logger.info { "Get editor for legal code ${edit.id.value}" }

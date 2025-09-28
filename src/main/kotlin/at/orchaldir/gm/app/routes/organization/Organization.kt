@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
@@ -84,7 +83,7 @@ fun Application.configureOrganizationRouting() {
             }
         }
         get<OrganizationRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteOrganization(delete.id), OrganizationRoutes())
+            handleDeleteElement(delete.id, OrganizationRoutes())
         }
         get<OrganizationRoutes.Edit> { edit ->
             logger.info { "Get editor for organization ${edit.id.value}" }

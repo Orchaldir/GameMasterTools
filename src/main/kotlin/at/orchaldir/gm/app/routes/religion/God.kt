@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showAuthenticity
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.GOD_TYPE
 import at.orchaldir.gm.core.model.religion.God
@@ -87,7 +86,7 @@ fun Application.configureGodRouting() {
             }
         }
         get<GodRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteGod(delete.id), GodRoutes())
+            handleDeleteElement(delete.id, GodRoutes())
         }
         get<GodRoutes.Edit> { edit ->
             logger.info { "Get editor for god ${edit.id.value}" }

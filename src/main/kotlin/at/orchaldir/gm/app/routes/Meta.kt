@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.showDeleteResult
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.action.CreateAction
+import at.orchaldir.gm.core.action.DeleteAction
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
@@ -51,15 +52,14 @@ suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> Pipelin
     STORE.getState().save()
 }
 
-suspend inline fun <reified T : Any> PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
-    id: Id<*>,
-    action: Action,
+suspend inline fun <reified T : Any, ID : Id<ID>> PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
+    id: ID,
     routes: T,
 ) {
     logger.info { "Delete ${id.print()}" }
 
     try {
-        STORE.dispatch(action)
+        STORE.dispatch(DeleteAction(id))
 
         call.respondRedirect(call.application.href(routes))
 

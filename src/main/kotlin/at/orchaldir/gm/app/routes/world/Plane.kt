@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortPlane
 import at.orchaldir.gm.core.model.world.plane.IndependentPlane
@@ -81,7 +80,7 @@ fun Application.configurePlaneRouting() {
             }
         }
         get<PlaneRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeletePlane(delete.id), PlaneRoutes())
+            handleDeleteElement(delete.id, PlaneRoutes())
         }
         get<PlaneRoutes.Edit> { edit ->
             logger.info { "Get editor for plane ${edit.id.value}" }

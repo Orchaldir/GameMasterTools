@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.economy.money.showCurrencyUnit
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteCurrencyUnit
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_UNIT_TYPE
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
@@ -97,7 +96,7 @@ fun Application.configureCurrencyUnitRouting() {
             }
         }
         get<CurrencyUnitRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteCurrencyUnit(delete.id), CurrencyUnitRoutes())
+            handleDeleteElement(delete.id, CurrencyUnitRoutes())
         }
         get<CurrencyUnitRoutes.Edit> { edit ->
             logger.info { "Get editor for unit ${edit.id.value}" }

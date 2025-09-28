@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.culture.language.Language
@@ -87,7 +86,7 @@ fun Application.configureLanguageRouting() {
             }
         }
         get<LanguageRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteLanguage(delete.id), LanguageRoutes())
+            handleDeleteElement(delete.id, LanguageRoutes())
         }
         get<LanguageRoutes.Edit> { edit ->
             logger.info { "Get editor for language ${edit.id.value}" }

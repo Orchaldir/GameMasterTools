@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.economy.material.showMaterial
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.Material
@@ -88,7 +87,7 @@ fun Application.configureMaterialRouting() {
             }
         }
         get<MaterialRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteMaterial(delete.id), MaterialRoutes())
+            handleDeleteElement(delete.id, MaterialRoutes())
         }
         get<MaterialRoutes.Edit> { edit ->
             logger.info { "Get editor for material ${edit.id.value}" }

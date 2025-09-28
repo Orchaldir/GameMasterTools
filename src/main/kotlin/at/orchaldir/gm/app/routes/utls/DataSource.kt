@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.util.source.showDataSource
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteDataSource
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortDataSource
 import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
@@ -80,7 +79,7 @@ fun Application.configureDataSourceRouting() {
             }
         }
         get<DataSourceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteDataSource(delete.id), DataSourceRoutes())
+            handleDeleteElement(delete.id, DataSourceRoutes())
         }
         get<DataSourceRoutes.Edit> { edit ->
             logger.info { "Get editor for source ${edit.id.value}" }

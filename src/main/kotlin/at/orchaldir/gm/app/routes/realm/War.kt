@@ -12,7 +12,6 @@ import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteWar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.WAR_TYPE
 import at.orchaldir.gm.core.model.realm.War
@@ -86,7 +85,7 @@ fun Application.configureWarRouting() {
             }
         }
         get<WarRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteWar(delete.id), WarRoutes())
+            handleDeleteElement(delete.id, WarRoutes())
         }
         get<WarRoutes.Edit> { edit ->
             logger.info { "Get editor for war ${edit.id.value}" }

@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteBattle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.BATTLE_TYPE
 import at.orchaldir.gm.core.model.realm.Battle
@@ -83,7 +82,7 @@ fun Application.configureBattleRouting() {
             }
         }
         get<BattleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteBattle(delete.id), BattleRoutes())
+            handleDeleteElement(delete.id, BattleRoutes())
         }
         get<BattleRoutes.Edit> { edit ->
             logger.info { "Get editor for battle ${edit.id.value}" }

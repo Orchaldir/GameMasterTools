@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteQuote
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortQuote
 import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
@@ -82,7 +81,7 @@ fun Application.configureQuoteRouting() {
             }
         }
         get<QuoteRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteQuote(delete.id), QuoteRoutes())
+            handleDeleteElement(delete.id, QuoteRoutes())
         }
         get<QuoteRoutes.Edit> { edit ->
             logger.info { "Get editor for quote ${edit.id.value}" }

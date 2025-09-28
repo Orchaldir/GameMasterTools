@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteDisease
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
 import at.orchaldir.gm.core.model.health.Disease
@@ -84,7 +83,7 @@ fun Application.configureDiseaseRouting() {
             }
         }
         get<DiseaseRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteDisease(delete.id), DiseaseRoutes())
+            handleDeleteElement(delete.id, DiseaseRoutes())
         }
         get<DiseaseRoutes.Edit> { edit ->
             logger.info { "Get editor for disease ${edit.id.value}" }

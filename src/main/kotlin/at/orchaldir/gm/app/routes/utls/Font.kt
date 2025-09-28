@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortFont
@@ -101,7 +100,7 @@ fun Application.configureFontRouting() {
             }
         }
         get<FontRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteFont(delete.id), FontRoutes())
+            handleDeleteElement(delete.id, FontRoutes())
         }
         get<FontRoutes.Edit> { edit ->
             logger.info { "Get editor for font ${edit.id.value}" }

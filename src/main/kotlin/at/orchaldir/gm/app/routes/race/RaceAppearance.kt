@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -79,7 +78,7 @@ fun Application.configureRaceAppearanceRouting() {
             }
         }
         get<AppearanceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteRaceAppearance(delete.id), AppearanceRoutes())
+            handleDeleteElement(delete.id, AppearanceRoutes())
         }
         get<AppearanceRoutes.Edit> { edit ->
             logger.info { "Get editor for race appearance ${edit.id.value}" }

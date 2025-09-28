@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.parse.world.parseRiver
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.River
@@ -68,7 +67,7 @@ fun Application.configureRiverRouting() {
             }
         }
         get<RiverRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteRiver(delete.id), RiverRoutes())
+            handleDeleteElement(delete.id, RiverRoutes())
         }
         get<RiverRoutes.Edit> { edit ->
             logger.info { "Get editor for river ${edit.id.value}" }

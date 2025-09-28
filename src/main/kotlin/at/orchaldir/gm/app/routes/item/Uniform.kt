@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.item.showUniform
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteUniform
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -101,7 +100,7 @@ fun Application.configureUniformRouting() {
             }
         }
         get<UniformRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteUniform(delete.id), UniformRoutes())
+            handleDeleteElement(delete.id, UniformRoutes())
         }
         get<UniformRoutes.Edit> { edit ->
             logger.info { "Get editor for uniform ${edit.id.value}" }

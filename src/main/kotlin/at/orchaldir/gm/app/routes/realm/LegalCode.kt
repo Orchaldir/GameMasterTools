@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteLegalCode
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LEGAL_CODE_TYPE
 import at.orchaldir.gm.core.model.realm.LegalCode
@@ -83,7 +82,7 @@ fun Application.configureLegalCodeRouting() {
             }
         }
         get<LegalCodeRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteLegalCode(delete.id), LegalCodeRoutes())
+            handleDeleteElement(delete.id, LegalCodeRoutes())
         }
         get<LegalCodeRoutes.Edit> { edit ->
             logger.info { "Get editor for legal code ${edit.id.value}" }

@@ -14,7 +14,6 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
-import at.orchaldir.gm.core.action.DeleteTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.town.TownMap
@@ -66,7 +65,7 @@ fun Application.configureTownMapRouting() {
             }
         }
         get<TownMapRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteTownMap(delete.id), TownMapRoutes())
+            handleDeleteElement(delete.id, TownMapRoutes())
         }
         get<TownMapRoutes.Edit> { edit ->
             logger.info { "Get editor for town map ${edit.id.value}" }

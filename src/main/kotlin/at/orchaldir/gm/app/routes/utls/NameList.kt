@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.util.name.showNameList
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.util.name.NameList
@@ -68,7 +67,7 @@ fun Application.configureNameListRouting() {
             }
         }
         get<NameListRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteNameList(delete.id), NameListRoutes())
+            handleDeleteElement(delete.id, NameListRoutes())
         }
         get<NameListRoutes.Edit> { edit ->
             logger.info { "Get editor for name list ${edit.id.value}" }

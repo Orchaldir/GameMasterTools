@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.time.showHoliday
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.time.holiday.Holiday
@@ -75,7 +74,7 @@ fun Application.configureHolidayRouting() {
             }
         }
         get<HolidayRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteHoliday(delete.id), HolidayRoutes())
+            handleDeleteElement(delete.id, HolidayRoutes())
         }
         get<HolidayRoutes.Edit> { edit ->
             logger.info { "Get editor for holiday ${edit.id.value}" }

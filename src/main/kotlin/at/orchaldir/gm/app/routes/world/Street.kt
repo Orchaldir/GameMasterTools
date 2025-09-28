@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.parse.world.parseStreet
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.STREET_TYPE
 import at.orchaldir.gm.core.model.world.street.Street
@@ -69,7 +68,7 @@ fun Application.configureStreetRouting() {
             }
         }
         get<StreetRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteStreet(delete.id), StreetRoutes())
+            handleDeleteElement(delete.id, StreetRoutes())
         }
         get<StreetRoutes.Edit> { edit ->
             logger.info { "Get editor for street ${edit.id.value}" }

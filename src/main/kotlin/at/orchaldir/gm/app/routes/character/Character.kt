@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
@@ -72,7 +71,7 @@ fun Application.configureCharacterRouting() {
             }
         }
         get<CharacterRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DeleteCharacter(delete.id), CharacterRoutes())
+            handleDeleteElement(delete.id, CharacterRoutes())
         }
         get<CharacterRoutes.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}" }
