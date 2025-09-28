@@ -187,7 +187,7 @@ private fun HTML.showAllCharacters(
                     td { showPosition(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false, false) }
                     tdSkipZero(state.getOrganizations(character.id))
-                    tdInt(character.statblock.calculateCost(state))
+                    tdSkipZero(character.statblock.calculateCost(state))
                 }
             }
         }

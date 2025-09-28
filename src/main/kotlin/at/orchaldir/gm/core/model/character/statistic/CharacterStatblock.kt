@@ -21,7 +21,7 @@ sealed class CharacterStatblock {
     }
 
     fun calculateCost(state: State) = when (this) {
-        UndefinedCharacterStatblock -> 0
+        UndefinedCharacterStatblock -> null
         is UniqueCharacterStatblock -> statblock.calculateCost(state)
         is UseStatblockOfTemplate -> state.getCharacterTemplateStorage()
             .getOrThrow(template)
