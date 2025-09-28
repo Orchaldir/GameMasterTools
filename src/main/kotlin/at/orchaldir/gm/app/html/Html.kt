@@ -309,6 +309,12 @@ fun TR.tdSkipZero(value: Int?) {
     }
 }
 
+fun TR.tdInt(value: Int) {
+    td {
+        +value.toString()
+    }
+}
+
 fun TR.tdString(value: Name?) {
     tdString(value?.text)
 }

@@ -241,6 +241,7 @@ fun State.sortCharacterTemplates(
     .sortedWith(
         when (sort) {
             SortCharacterTemplate.Name -> compareBy { it.name.text }
+            SortCharacterTemplate.Cost -> compareByDescending { it.statblock.calculateCost(this) }
         })
 
 // color scheme

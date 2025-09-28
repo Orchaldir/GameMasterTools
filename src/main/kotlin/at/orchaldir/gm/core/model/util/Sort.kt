@@ -42,6 +42,7 @@ enum class SortCharacter {
 
 enum class SortCharacterTemplate {
     Name,
+    Cost,
 }
 
 enum class SortColorScheme {
