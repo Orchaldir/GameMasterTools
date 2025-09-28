@@ -65,8 +65,8 @@ fun HtmlBlockTag.editStatblock(
             editStatistics(state, call, statblock, attributes, "Attribute")
             editStatistics(state, call, statblock, derivedAttributes, "Derived Attribute")
             editStatistics(state, call, statblock, skills, "Skills")
-            field("Cost", statblock.calculateCost(state))
         }
+        field("Cost", statblock.calculateCost(state))
     }
 }
 
@@ -81,6 +81,7 @@ private fun TABLE.editStatistics(
         th { +label }
         th { +"Offset" }
         th { +"Result" }
+        th { +"Cost" }
     }
     statistics.forEach { statistic ->
         val offset = statblock.statistics[statistic.id] ?: 0
@@ -98,6 +99,7 @@ private fun TABLE.editStatistics(
                 )
             }
             tdSkipZero(value)
+            tdInt(statistic.data.cost().resolveValue(offset))
         }
     }
 }
