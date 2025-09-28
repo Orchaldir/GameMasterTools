@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.routes
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.showDeleteResult
-import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.DeleteAction
