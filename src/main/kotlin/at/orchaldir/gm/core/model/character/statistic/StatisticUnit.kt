@@ -17,9 +17,9 @@ sealed class StatisticUnit {
         UnitlessStatistic -> StatisticUnitType.Unitless
     }
 
-    fun calculate(level: Int) = when (this) {
-        is SuffixedStatisticUnit -> "$level $suffix"
-        UnitlessStatistic -> level.toString()
+    fun display(value: Int) = when (this) {
+        is SuffixedStatisticUnit -> "$value ${suffix.text}"
+        UnitlessStatistic -> value.toString()
     }
 }
 

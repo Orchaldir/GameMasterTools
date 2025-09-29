@@ -144,16 +144,12 @@
        {
         "type": "Statistic",
         "statistic": 0
-       },
-       {
-        "type": "Fixed",
-        "default": 2
        }
       ]
      },
      "divisor": {
       "type": "Fixed",
-      "default": 5
+      "default": 10
      }
     },
     "unit": {

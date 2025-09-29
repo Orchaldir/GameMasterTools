@@ -31,6 +31,11 @@ sealed class StatisticData {
         is DerivedAttribute -> cost
         is Skill -> cost
     }
+
+    fun display(value: Int) = when (this) {
+        is DerivedAttribute -> unit.display(value)
+        else -> value.toString()
+    }
 }
 
 @Serializable
