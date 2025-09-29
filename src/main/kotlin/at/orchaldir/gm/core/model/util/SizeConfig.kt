@@ -8,23 +8,23 @@ data class SizeConfig<T>(val small: T, val medium: T, val large: T) {
 
         fun withFactor(small: Float, medium: Float, large: Float) =
             SizeConfig(
-                Factor.Companion.fromNumber(small),
-                Factor.Companion.fromNumber(medium),
-                Factor.Companion.fromNumber(large)
+                Factor.fromNumber(small),
+                Factor.fromNumber(medium),
+                Factor.fromNumber(large)
             )
 
         fun fromPercentages(small: Int, medium: Int, large: Int) =
             SizeConfig(
-                Factor.Companion.fromPercentage(small),
-                Factor.Companion.fromPercentage(medium),
-                Factor.Companion.fromPercentage(large)
+                Factor.fromPercentage(small),
+                Factor.fromPercentage(medium),
+                Factor.fromPercentage(large)
             )
 
         fun fromPermilles(small: Int, medium: Int, large: Int) =
             SizeConfig(
-                Factor.Companion.fromPermille(small),
-                Factor.Companion.fromPermille(medium),
-                Factor.Companion.fromPermille(large)
+                Factor.fromPermille(small),
+                Factor.fromPermille(medium),
+                Factor.fromPermille(large)
             )
 
     }

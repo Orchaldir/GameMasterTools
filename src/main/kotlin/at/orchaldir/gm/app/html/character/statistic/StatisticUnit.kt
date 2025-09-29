@@ -2,11 +2,7 @@ package at.orchaldir.gm.app.html.character.statistic
 
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.UNIT
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parseNotEmptyString
-import at.orchaldir.gm.app.html.selectNotEmptyString
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.character.statistic.StatisticUnit
@@ -68,5 +64,6 @@ fun parseStatisticUnit(
     StatisticUnitType.Suffix -> SuffixedStatisticUnit(
         parseNotEmptyString(parameters, UNIT, "?"),
     )
+
     StatisticUnitType.Unitless -> UnitlessStatistic
 }

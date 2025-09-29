@@ -30,7 +30,6 @@ data class SuffixedStatisticUnit(
 ) : StatisticUnit()
 
 
-
 @Serializable
 @SerialName("Unitless")
 data object UnitlessStatistic : StatisticUnit()
