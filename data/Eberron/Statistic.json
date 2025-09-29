@@ -144,6 +144,10 @@
        {
         "type": "Statistic",
         "statistic": 0
+       },
+       {
+        "type": "Fixed",
+        "default": 2
        }
       ]
      },
@@ -151,6 +155,10 @@
       "type": "Fixed",
       "default": 5
      }
+    },
+    "unit": {
+     "type": "Suffix",
+     "suffix": "kg"
     }
    }
   },
