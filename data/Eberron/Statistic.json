@@ -256,6 +256,10 @@
     "cost": {
      "type": "Fixed",
      "cost": 5
+    },
+    "unit": {
+     "type": "Suffix",
+     "suffix": "m/s"
     }
    }
   }

@@ -33,7 +33,7 @@ fun HtmlBlockTag.displayStatisticUnit(
     showUnitless: Boolean = true,
 ) {
     when (unit) {
-        is SuffixedStatisticUnit -> +"Suffix '${unit.suffix}'"
+        is SuffixedStatisticUnit -> +"Suffix '${unit.suffix.text}'"
         UnitlessStatistic -> if (showUnitless) {
             +"Unitless"
         }
@@ -66,7 +66,7 @@ fun parseStatisticUnit(
     parameters: Parameters,
 ) = when (parse(parameters, combine(UNIT, TYPE), StatisticUnitType.Unitless)) {
     StatisticUnitType.Suffix -> SuffixedStatisticUnit(
-        parseNotEmptyString(parameters, UNIT),
+        parseNotEmptyString(parameters, UNIT, "?"),
     )
     StatisticUnitType.Unitless -> UnitlessStatistic
 }
