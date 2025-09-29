@@ -45,6 +45,7 @@ data class Attribute(
 data class DerivedAttribute(
     val base: BaseValue = FixedNumber(0),
     val cost: StatisticCost = UndefinedStatisticCost,
+    val unit: StatisticUnit = UnitlessStatistic,
 ) : StatisticData()
 
 @Serializable
