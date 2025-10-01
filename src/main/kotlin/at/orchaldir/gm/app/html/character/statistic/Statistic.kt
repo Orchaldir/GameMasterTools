@@ -56,7 +56,7 @@ private fun HtmlBlockTag.showUsage(
             .forEach { (id, value) ->
                 tr {
                     tdLink(call, state, id)
-                    tdSkipZero(value)
+                    tdString(statistic.data.display(value))
                 }
             }
     }

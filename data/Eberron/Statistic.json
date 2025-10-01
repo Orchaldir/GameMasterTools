@@ -149,8 +149,12 @@
      },
      "divisor": {
       "type": "Fixed",
-      "default": 5
+      "default": 10
      }
+    },
+    "unit": {
+     "type": "Suffix",
+     "suffix": "kg"
     }
    }
   },
@@ -256,6 +260,10 @@
     "cost": {
      "type": "Fixed",
      "cost": 5
+    },
+    "unit": {
+     "type": "Suffix",
+     "suffix": "m/s"
     }
    }
   }

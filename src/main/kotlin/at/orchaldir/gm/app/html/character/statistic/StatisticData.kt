@@ -29,6 +29,7 @@ fun HtmlBlockTag.showStatisticData(
         is DerivedAttribute -> {
             showBaseValue(call, state, data.base)
             fieldStatisticCost(data.cost)
+            fieldStatisticUnit(data.unit)
         }
 
         is Skill -> {
@@ -61,6 +62,7 @@ fun FORM.editStatisticData(
         is DerivedAttribute -> {
             editBaseValue(state, statistic, data.base)
             editStatisticCost(data.cost)
+            editStatisticUnit(data.unit)
         }
 
         is Skill -> {
@@ -83,6 +85,7 @@ fun parseStatisticData(
     StatisticDataType.DerivedAttribute -> DerivedAttribute(
         parseBaseValue(parameters),
         parseStatisticCost(parameters),
+        parseStatisticUnit(parameters),
     )
 
     StatisticDataType.Skill -> Skill(

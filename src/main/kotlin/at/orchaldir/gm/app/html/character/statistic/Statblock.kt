@@ -45,7 +45,8 @@ private fun DETAILS.showStatistics(
 ) {
     fieldList(label, values) { (statistic, value) ->
         link(call, state, statistic)
-        +": $value"
+        +": "
+        +statistic.data.display(value)
     }
 }
 

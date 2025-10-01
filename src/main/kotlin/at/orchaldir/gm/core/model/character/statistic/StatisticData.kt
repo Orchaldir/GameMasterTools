@@ -31,6 +31,11 @@ sealed class StatisticData {
         is DerivedAttribute -> cost
         is Skill -> cost
     }
+
+    fun display(value: Int) = when (this) {
+        is DerivedAttribute -> unit.display(value)
+        else -> value.toString()
+    }
 }
 
 @Serializable
@@ -45,6 +50,7 @@ data class Attribute(
 data class DerivedAttribute(
     val base: BaseValue = FixedNumber(0),
     val cost: StatisticCost = UndefinedStatisticCost,
+    val unit: StatisticUnit = UnitlessStatistic,
 ) : StatisticData()
 
 @Serializable

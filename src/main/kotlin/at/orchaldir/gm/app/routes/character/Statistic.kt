@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.statistic.DerivedAttribute
 import at.orchaldir.gm.core.model.character.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
@@ -129,6 +130,7 @@ private fun HTML.showAllStatistics(
                 th { +"Type" }
                 th { +"Base Value" }
                 th { +"Cost" }
+                th { +"Unit" }
             }
             statistics.forEach { statistic ->
                 tr {
@@ -137,6 +139,11 @@ private fun HTML.showAllStatistics(
                     tdEnum(statistic.data.getType())
                     td { displayBaseValue(call, state, statistic.data.baseValue()) }
                     td { displayStatisticCost(statistic.data.cost(), false) }
+                    td {
+                        if (statistic.data is DerivedAttribute) {
+                            displayStatisticUnit(statistic.data.unit, false)
+                        }
+                    }
                 }
             }
         }
