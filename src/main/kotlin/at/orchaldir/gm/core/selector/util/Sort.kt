@@ -44,6 +44,7 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.TownMap
@@ -698,7 +699,7 @@ fun State.sortRegions(
             SortRegion.Name -> compareBy { it.name.text }
         })
 
-// name list
+// river
 
 fun State.sortRivers(sort: SortRiver = SortRiver.Name) =
     sortRivers(getRiverStorage().getAll(), sort)
@@ -754,6 +755,20 @@ fun State.sortStatistics(
     .sortedWith(
         when (sort) {
             SortStatistic.Name -> compareBy { it.name.text }
+        })
+
+// street
+
+fun State.sortStreets(sort: SortStreet = SortStreet.Name) =
+    sortStreets(getStreetStorage().getAll(), sort)
+
+fun State.sortStreets(
+    rivers: Collection<Street>,
+    sort: SortStreet = SortStreet.Name,
+) = rivers
+    .sortedWith(
+        when (sort) {
+            SortStreet.Name -> compareBy { it.name.text }
         })
 
 // text

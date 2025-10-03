@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.STREET
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.world.parseStreetId
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.world.parseStreetId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId

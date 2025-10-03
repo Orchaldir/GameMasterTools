@@ -220,6 +220,10 @@ enum class SortStatistic {
     Name,
 }
 
+enum class SortStreet {
+    Name,
+}
+
 enum class SortText {
     Name,
     Date,
