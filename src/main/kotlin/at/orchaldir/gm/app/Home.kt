@@ -119,7 +119,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getPantheonStorage(), PantheonRoutes.All())
                     h3 { +"Time" }
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes.All())
-                    fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())
+                    fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes.All())
                     action(eventsLink, "Events")
                     h3 { +"World" }
                     fieldStorageLink(call, state.getArchitecturalStyleStorage(), ArchitecturalStyleRoutes.All())

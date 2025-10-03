@@ -103,6 +103,10 @@ enum class SortGod {
     Believers,
 }
 
+enum class SortHoliday {
+    Name,
+}
+
 enum class SortJob {
     Name,
     EmployerType,

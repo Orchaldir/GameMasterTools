@@ -418,11 +418,19 @@ fun State.sortGods(
 
 // holiday
 
-fun State.sortHolidays() = sortHolidays(getHolidayStorage().getAll())
+// calendar
+
+fun State.sortHolidays(sort: SortHoliday = SortHoliday.Name) =
+    sortHolidays(getHolidayStorage().getAll(), sort)
 
 fun State.sortHolidays(
     holidays: Collection<Holiday>,
-) = holidays.sortedBy { it.name.text }
+    sort: SortHoliday = SortHoliday.Name,
+) = holidays
+    .sortedWith(
+        when (sort) {
+            SortHoliday.Name -> compareBy { it.name.text }
+        })
 
 // job
 
