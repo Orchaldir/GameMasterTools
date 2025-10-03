@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.language.Language
@@ -615,6 +616,20 @@ fun State.sortPeriodicalIssues(
             SortPeriodicalIssue.Date -> getComplexStartAgeComparator()
         }
     )
+
+// plane
+
+fun State.sortPersonalityTraits(sort: SortPersonalityTrait = SortPersonalityTrait.Name) =
+    sortPersonalityTraits(getPersonalityTraitStorage().getAll(), sort)
+
+fun State.sortPersonalityTraits(
+    planes: Collection<PersonalityTrait>,
+    sort: SortPersonalityTrait = SortPersonalityTrait.Name,
+) = planes
+    .sortedWith(
+        when (sort) {
+            SortPersonalityTrait.Name -> compareBy { it.name.text }
+        })
 
 // plane
 

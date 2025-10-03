@@ -170,6 +170,10 @@ enum class SortPeriodicalIssue {
     Date,
 }
 
+enum class SortPersonalityTrait {
+    Name,
+}
+
 enum class SortPlane {
     Name,
 }

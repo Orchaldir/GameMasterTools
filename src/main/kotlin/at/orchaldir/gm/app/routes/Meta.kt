@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.back
 import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.showDeleteResult
 import at.orchaldir.gm.app.html.simpleHtmlDetails
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
 import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.DeleteAction
