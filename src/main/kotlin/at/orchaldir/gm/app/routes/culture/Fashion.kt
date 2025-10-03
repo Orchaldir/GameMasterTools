@@ -5,15 +5,18 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editFashion
 import at.orchaldir.gm.app.html.culture.parseFashion
 import at.orchaldir.gm.app.html.culture.showFashion
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
-import at.orchaldir.gm.core.selector.culture.getCultures
+import at.orchaldir.gm.core.model.util.SortFashion
+import at.orchaldir.gm.core.selector.util.sortFashions
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -23,13 +26,19 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
-import kotlinx.html.h2
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$FASHION_TYPE")
-class FashionRoutes {
+class FashionRoutes: Routes<FashionId> {
+    @Resource("all")
+    class All(
+        val sort: SortFashion = SortFashion.Name,
+        val parent: FashionRoutes = FashionRoutes(),
+    )
+    
     @Resource("details")
     class Details(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
 
@@ -47,26 +56,23 @@ class FashionRoutes {
 
     @Resource("update")
     class Update(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: FashionId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: FashionId) = call.application.href(Edit(id))
 }
 
 fun Application.configureFashionRouting() {
     routing {
-        get<FashionRoutes> {
+        get<FashionRoutes.All> { all ->
             logger.info { "Get all fashions" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllFashions(call)
+                showAllFashions(call, STORE.getState(), all.sort)
             }
         }
         get<FashionRoutes.Details> { details ->
-            logger.info { "Get details of fashion ${details.id.value}" }
-
-            val state = STORE.getState()
-            val fashion = state.getFashionStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showFashionDetails(call, state, fashion)
-            }
+            handleShowElement(details.id, FashionRoutes(), HtmlBlockTag::showFashion)
         }
         get<FashionRoutes.New> {
             handleCreateElement(STORE.getState().getFashionStorage()) { id ->
@@ -102,8 +108,12 @@ fun Application.configureFashionRouting() {
     }
 }
 
-private fun HTML.showAllFashions(call: ApplicationCall) {
-    val fashion = STORE.getState().getFashionStorage().getAll().sortedBy { it.name.text }
+private fun HTML.showAllFashions(
+    call: ApplicationCall,
+    state: State,
+    sort: SortFashion,
+) {
+    val fashion = state.sortFashions(sort)
     val createLink = call.application.href(FashionRoutes.New())
 
     simpleHtml("Fashions") {
@@ -113,25 +123,6 @@ private fun HTML.showAllFashions(call: ApplicationCall) {
         }
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showFashionDetails(
-    call: ApplicationCall,
-    state: State,
-    fashion: Fashion,
-) {
-    val backLink = call.application.href(FashionRoutes())
-    val deleteLink = call.application.href(FashionRoutes.Delete(fashion.id))
-    val editLink = call.application.href(FashionRoutes.Edit(fashion.id))
-
-    simpleHtmlDetails(fashion) {
-        showFashion(call, state, fashion)
-        h2 { +"Usage" }
-        fieldElements(call, state, state.getCultures(fashion.id))
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

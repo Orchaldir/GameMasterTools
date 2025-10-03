@@ -1,14 +1,17 @@
 package at.orchaldir.gm.app.html.culture
 
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
+import at.orchaldir.gm.core.selector.culture.getCultures
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -19,6 +22,10 @@ fun HtmlBlockTag.showFashion(
 ) {
     showAppearanceFashion(fashion.appearance)
     showClothingFashion(call, state, fashion.clothing)
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, state.getCultures(fashion.id))
 }
 
 // edit

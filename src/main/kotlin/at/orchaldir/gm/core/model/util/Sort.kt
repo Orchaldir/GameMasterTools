@@ -97,6 +97,10 @@ enum class SortEquipment {
     Name,
 }
 
+enum class SortFashion {
+    Name,
+}
+
 enum class SortFont {
     Name,
     Date,

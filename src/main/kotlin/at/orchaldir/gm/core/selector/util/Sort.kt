@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
@@ -403,6 +404,20 @@ fun State.sortEquipmentList(
     .sortedWith(
         when (sort) {
             SortEquipment.Name -> compareBy { it.name.text }
+        })
+
+// fashion
+
+fun State.sortFashions(sort: SortFashion = SortFashion.Name) =
+    sortFashions(getFashionStorage().getAll(), sort)
+
+fun State.sortFashions(
+    fashions: Collection<Fashion>,
+    sort: SortFashion = SortFashion.Name,
+) = fashions
+    .sortedWith(
+        when (sort) {
+            SortFashion.Name -> compareBy { it.name.text }
         })
 
 // font

@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.culture.editLanguage
 import at.orchaldir.gm.app.html.culture.parseLanguage
 import at.orchaldir.gm.app.html.culture.showLanguage
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
@@ -35,7 +37,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$LANGUAGE_TYPE")
-class LanguageRoutes {
+class LanguageRoutes: Routes<LanguageId> {
     @Resource("all")
     class All(
         val sort: SortLanguage = SortLanguage.Name,
@@ -59,6 +61,10 @@ class LanguageRoutes {
 
     @Resource("update")
     class Update(val id: LanguageId, val parent: LanguageRoutes = LanguageRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: LanguageId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: LanguageId) = call.application.href(Edit(id))
 }
 
 fun Application.configureLanguageRouting() {
@@ -71,14 +77,7 @@ fun Application.configureLanguageRouting() {
             }
         }
         get<LanguageRoutes.Details> { details ->
-            logger.info { "Get details of language ${details.id.value}" }
-
-            val state = STORE.getState()
-            val language = state.getLanguageStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showLanguageDetails(call, state, language)
-            }
+            handleShowElement(details.id, LanguageRoutes(), HtmlBlockTag::showLanguage)
         }
         get<LanguageRoutes.New> {
             handleCreateElement(STORE.getState().getLanguageStorage()) { id ->
@@ -155,24 +154,6 @@ private fun HTML.showAllLanguages(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showLanguageDetails(
-    call: ApplicationCall,
-    state: State,
-    language: Language,
-) {
-    val backLink = call.application.href(LanguageRoutes.All())
-    val deleteLink = call.application.href(LanguageRoutes.Delete(language.id))
-    val editLink = call.application.href(LanguageRoutes.Edit(language.id))
-
-    simpleHtmlDetails(language) {
-        showLanguage(call, state, language)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 
