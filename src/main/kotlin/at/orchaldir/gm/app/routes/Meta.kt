@@ -31,6 +31,7 @@ import kotlinx.html.HtmlBlockTag
 interface Routes<ID : Id<ID>> {
 
     fun all(call: ApplicationCall): String
+    fun clone(call: ApplicationCall, id: ID): String? = null
     fun delete(call: ApplicationCall, id: ID): String
     fun edit(call: ApplicationCall, id: ID): String
 }
@@ -109,12 +110,16 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
     showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     val backLink = routes.all(call)
+    val cloneLink = routes.clone(call, element.id())
     val deleteLink = routes.delete(call, element.id())
     val editLink = routes.edit(call, element.id())
 
     simpleHtmlDetails(state, element) {
         showDetails(call, state, element)
 
+        if (cloneLink != null) {
+            action(cloneLink, "Clone")
+        }
         action(editLink, "Edit")
         action(deleteLink, "Delete")
         back(backLink)

@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editWorld
 import at.orchaldir.gm.app.html.world.parseWorld
 import at.orchaldir.gm.app.html.world.showWorld
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortWorld
@@ -26,6 +28,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.td
 import kotlinx.html.th
@@ -35,7 +38,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$WORLD_TYPE")
-class WorldRoutes {
+class WorldRoutes: Routes<WorldId> {
     @Resource("all")
     class All(
         val sort: SortWorld = SortWorld.Name,
@@ -59,6 +62,10 @@ class WorldRoutes {
 
     @Resource("update")
     class Update(val id: WorldId, val parent: WorldRoutes = WorldRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: WorldId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: WorldId) = call.application.href(Edit(id))
 }
 
 fun Application.configureWorldRouting() {
@@ -71,14 +78,7 @@ fun Application.configureWorldRouting() {
             }
         }
         get<WorldRoutes.Details> { details ->
-            logger.info { "Get details of world ${details.id.value}" }
-
-            val state = STORE.getState()
-            val world = state.getWorldStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showWorldDetails(call, state, world)
-            }
+            handleShowElement(details.id, WorldRoutes(), HtmlBlockTag::showWorld)
         }
         get<WorldRoutes.New> {
             handleCreateElement(STORE.getState().getWorldStorage()) { id ->
@@ -148,24 +148,6 @@ private fun HTML.showAllWorlds(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showWorldDetails(
-    call: ApplicationCall,
-    state: State,
-    world: World,
-) {
-    val backLink = call.application.href(WorldRoutes.All())
-    val deleteLink = call.application.href(WorldRoutes.Delete(world.id))
-    val editLink = call.application.href(WorldRoutes.Edit(world.id))
-
-    simpleHtmlDetails(world) {
-        showWorld(call, state, world)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

@@ -6,9 +6,7 @@ import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.util.showBeliefStatus
-import at.orchaldir.gm.app.routes.handleCloneElement
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
@@ -25,6 +23,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.td
 import kotlinx.html.th
@@ -34,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CHARACTER_TEMPLATE_TYPE")
-class CharacterTemplateRoutes {
+class CharacterTemplateRoutes: Routes<CharacterTemplateId> {
     @Resource("all")
     class All(
         val sort: SortCharacterTemplate = SortCharacterTemplate.Name,
@@ -61,6 +60,11 @@ class CharacterTemplateRoutes {
 
     @Resource("update")
     class Update(val id: CharacterTemplateId, val parent: CharacterTemplateRoutes = CharacterTemplateRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun clone(call: ApplicationCall, id: CharacterTemplateId) = call.application.href(Clone(id))
+    override fun delete(call: ApplicationCall, id: CharacterTemplateId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: CharacterTemplateId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCharacterTemplateRouting() {
@@ -73,14 +77,7 @@ fun Application.configureCharacterTemplateRouting() {
             }
         }
         get<CharacterTemplateRoutes.Details> { details ->
-            logger.info { "Get details of template ${details.id.value}" }
-
-            val state = STORE.getState()
-            val template = state.getCharacterTemplateStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCharacterTemplateDetails(call, state, template)
-            }
+            handleShowElement(details.id, CharacterTemplateRoutes(), HtmlBlockTag::showCharacterTemplate)
         }
         get<CharacterTemplateRoutes.New> {
             handleCreateElement(STORE.getState().getCharacterTemplateStorage()) { id ->
@@ -158,26 +155,6 @@ private fun HTML.showAllCharacterTemplates(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showCharacterTemplateDetails(
-    call: ApplicationCall,
-    state: State,
-    template: CharacterTemplate,
-) {
-    val backLink = call.application.href(CharacterTemplateRoutes.All())
-    val cloneLink = call.application.href(CharacterTemplateRoutes.Clone(template.id))
-    val deleteLink = call.application.href(CharacterTemplateRoutes.Delete(template.id))
-    val editLink = call.application.href(CharacterTemplateRoutes.Edit(template.id))
-
-    simpleHtmlDetails(template) {
-        showCharacterTemplate(call, state, template)
-
-        action(cloneLink, "Clone")
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 
