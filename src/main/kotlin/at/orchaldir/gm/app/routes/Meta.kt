@@ -27,6 +27,13 @@ import io.ktor.util.pipeline.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 
+interface Routes<ID : Id<ID>> {
+
+    fun all(): Any
+    fun delete(id: ID): Any
+    fun edit(id: ID): Any
+}
+
 suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
     storage: Storage<ID, ELEMENT>,
     createResource: (ID) -> T,
@@ -77,8 +84,9 @@ suspend inline fun <reified T : Any, ID : Id<ID>> PipelineContext<Unit, Applicat
     }
 }
 
-suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleShowElement(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleShowElement(
     id: ID,
+    routes: Routes<ID>,
     noinline showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     logger.info { "Get details of ${id.print()}" }
@@ -88,7 +96,7 @@ suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> Pipelin
     val element = storage.getOrThrow(id)
 
     call.respondHtml(HttpStatusCode.OK) {
-        showElementDetails(call, state, element, showDetails)
+        showElementDetails(call, state, element, routes, showDetails)
     }
 }
 
@@ -96,11 +104,12 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
     call: ApplicationCall,
     state: State,
     element: ELEMENT,
+    routes: Routes<ID>,
     showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
-    val backLink = call.application.href(MagicTraditionRoutes.All())
-    val deleteLink = call.application.href(MagicTraditionRoutes.Delete(element.id))
-    val editLink = call.application.href(MagicTraditionRoutes.Edit(element.id))
+    val backLink = call.application.href(routes.all())
+    val deleteLink = call.application.href(routes.delete(element.id()))
+    val editLink = call.application.href(routes.edit(element.id()))
 
     simpleHtmlDetails(state, element) {
         showDetails(call, state, element)
