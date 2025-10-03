@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.title.Title
+import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
@@ -277,6 +278,20 @@ fun State.sortColorSchemes(
         when (sort) {
             SortColorScheme.Name -> compareBy { it.name() }
             SortColorScheme.Equipment -> compareByDescending { countEquipment(it.id) }
+        })
+
+// culture
+
+fun State.sortCultures(sort: SortCulture = SortCulture.Name) =
+    sortCultures(getCultureStorage().getAll(), sort)
+
+fun State.sortCultures(
+    cultures: Collection<Culture>,
+    sort: SortCulture = SortCulture.Name,
+) = cultures
+    .sortedWith(
+        when (sort) {
+            SortCulture.Name -> compareBy { it.name.text }
         })
 
 // currency

@@ -55,6 +55,10 @@ enum class SortColorScheme {
     Equipment,
 }
 
+enum class SortCulture {
+    Name,
+}
+
 enum class SortCurrency {
     Name,
     Date,
