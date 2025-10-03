@@ -45,6 +45,7 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countCharactersWithJob
@@ -536,7 +537,7 @@ fun State.sortMoons(
             SortMoon.Name -> compareBy { it.name.text }
         })
 
-// holiday
+// name list
 
 fun State.sortNameLists(sort: SortNameList = SortNameList.Name) =
     sortNameLists(getNameListStorage().getAll(), sort)
@@ -695,6 +696,20 @@ fun State.sortRegions(
     .sortedWith(
         when (sort) {
             SortRegion.Name -> compareBy { it.name.text }
+        })
+
+// name list
+
+fun State.sortRivers(sort: SortRiver = SortRiver.Name) =
+    sortRivers(getRiverStorage().getAll(), sort)
+
+fun State.sortRivers(
+    rivers: Collection<River>,
+    sort: SortRiver = SortRiver.Name,
+) = rivers
+    .sortedWith(
+        when (sort) {
+            SortRiver.Name -> compareBy { it.name.text }
         })
 
 // spell

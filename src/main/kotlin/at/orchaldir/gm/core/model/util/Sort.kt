@@ -202,6 +202,10 @@ enum class SortRegion {
     Name,
 }
 
+enum class SortRiver {
+    Name,
+}
+
 enum class SortSpell {
     Name,
     Date,
