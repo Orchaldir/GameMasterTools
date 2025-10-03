@@ -23,6 +23,13 @@ fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtmlDetails(
     content: HtmlBlockTag.() -> Unit,
 ) = simpleHtml(element, "", keepPositionAfterReload, content)
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.simpleHtmlDetails(
+    state: State,
+    element: ELEMENT,
+    keepPositionAfterReload: Boolean = false,
+    content: HtmlBlockTag.() -> Unit,
+) = simpleHtml(state, element, "", keepPositionAfterReload, content)
+
 fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtmlEditor(
     element: ELEMENT,
     keepPositionAfterReload: Boolean = false,
@@ -35,6 +42,15 @@ fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtml(
     keepPositionAfterReload: Boolean = false,
     content: HtmlBlockTag.() -> Unit,
 ) = simpleHtml("$prefix${element.id().type()}: ${element.name()}", keepPositionAfterReload, content)
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.simpleHtml(
+    state: State,
+    element: ELEMENT,
+    prefix: String,
+    keepPositionAfterReload: Boolean = false,
+    content: HtmlBlockTag.() -> Unit,
+) = simpleHtml("$prefix${element.id().type()}: ${element.name(state)}", keepPositionAfterReload, content)
+
 
 fun HTML.simpleHtml(
     title: String,

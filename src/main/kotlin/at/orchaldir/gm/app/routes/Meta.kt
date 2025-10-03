@@ -1,8 +1,12 @@
 package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.action
+import at.orchaldir.gm.app.html.back
 import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.showDeleteResult
+import at.orchaldir.gm.app.html.simpleHtmlDetails
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
 import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.DeleteAction
@@ -20,6 +24,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 
 suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
     storage: Storage<ID, ELEMENT>,
@@ -68,6 +74,40 @@ suspend inline fun <reified T : Any, ID : Id<ID>> PipelineContext<Unit, Applicat
         call.respondHtml(HttpStatusCode.OK) {
             showDeleteResult(call, STORE.getState(), e.result)
         }
+    }
+}
+
+suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleShowElement(
+    id: ID,
+    noinline showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+) {
+    logger.info { "Get details of ${id.print()}" }
+
+    val state = STORE.getState()
+    val storage = state.getStorage<ID, ELEMENT>(id)
+    val element = storage.getOrThrow(id)
+
+    call.respondHtml(HttpStatusCode.OK) {
+        showElementDetails(call, state, element, showDetails)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+    showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+) {
+    val backLink = call.application.href(MagicTraditionRoutes.All())
+    val deleteLink = call.application.href(MagicTraditionRoutes.Delete(element.id))
+    val editLink = call.application.href(MagicTraditionRoutes.Edit(element.id))
+
+    simpleHtmlDetails(state, element) {
+        showDetails(call, state, element)
+
+        action(editLink, "Edit")
+        action(deleteLink, "Delete")
+        back(backLink)
     }
 }
 
