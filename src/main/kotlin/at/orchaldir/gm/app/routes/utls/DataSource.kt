@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.source.editDataSource
 import at.orchaldir.gm.app.html.util.source.parseDataSource
 import at.orchaldir.gm.app.html.util.source.showDataSource
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortDataSource
@@ -28,7 +30,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DATA_SOURCE_TYPE")
-class DataSourceRoutes {
+class DataSourceRoutes: Routes<DataSourceId> {
     @Resource("all")
     class All(
         val sort: SortDataSource = SortDataSource.Name,
@@ -52,6 +54,10 @@ class DataSourceRoutes {
 
     @Resource("update")
     class Update(val id: DataSourceId, val parent: DataSourceRoutes = DataSourceRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: DataSourceId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: DataSourceId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDataSourceRouting() {
@@ -64,14 +70,7 @@ fun Application.configureDataSourceRouting() {
             }
         }
         get<DataSourceRoutes.Details> { details ->
-            logger.info { "Get details of source ${details.id.value}" }
-
-            val state = STORE.getState()
-            val source = state.getDataSourceStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDataSourceDetails(call, state, source)
-            }
+            handleShowElement(details.id, DataSourceRoutes(), HtmlBlockTag::showDataSource)
         }
         get<DataSourceRoutes.New> {
             handleCreateElement(STORE.getState().getDataSourceStorage()) { id ->
@@ -134,24 +133,6 @@ private fun HTML.showAllDataSources(
         }
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showDataSourceDetails(
-    call: ApplicationCall,
-    state: State,
-    source: DataSource,
-) {
-    val backLink = call.application.href(DataSourceRoutes.All())
-    val deleteLink = call.application.href(DataSourceRoutes.Delete(source.id))
-    val editLink = call.application.href(DataSourceRoutes.Edit(source.id))
-
-    simpleHtmlDetails(source) {
-        showDataSource(call, state, source)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

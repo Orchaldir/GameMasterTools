@@ -5,13 +5,17 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.name.editNameList
 import at.orchaldir.gm.app.html.util.name.parseNameList
 import at.orchaldir.gm.app.html.util.name.showNameList
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortNameList
 import at.orchaldir.gm.core.model.util.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.name.NameListId
+import at.orchaldir.gm.core.selector.util.sortNameLists
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -25,7 +29,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$NAME_LIST_TYPE")
-class NameListRoutes {
+class NameListRoutes: Routes<NameListId> {
+    @Resource("all")
+    class All(
+        val sort: SortNameList = SortNameList.Name,
+        val parent: NameListRoutes = NameListRoutes(),
+    )
+    
     @Resource("details")
     class Details(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
 
@@ -40,26 +50,23 @@ class NameListRoutes {
 
     @Resource("update")
     class Update(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: NameListId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: NameListId) = call.application.href(Edit(id))
 }
 
 fun Application.configureNameListRouting() {
     routing {
-        get<NameListRoutes> {
+        get<NameListRoutes.All> { all ->
             logger.info { "Get all name lists" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllNameLists(call, STORE.getState())
+                showAllNameLists(call, STORE.getState(), all.sort)
             }
         }
         get<NameListRoutes.Details> { details ->
-            logger.info { "Get details of name list ${details.id.value}" }
-
-            val state = STORE.getState()
-            val nameList = state.getNameListStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showNameListDetails(call, state, nameList)
-            }
+            handleShowElement(details.id, NameListRoutes(), HtmlBlockTag::showNameList)
         }
         get<NameListRoutes.New> {
             handleCreateElement(STORE.getState().getNameListStorage()) { id ->
@@ -88,8 +95,9 @@ fun Application.configureNameListRouting() {
 private fun HTML.showAllNameLists(
     call: ApplicationCall,
     state: State,
+    sort: SortNameList,
 ) {
-    val nameLists = state.getNameListStorage().getAll().sortedBy { it.name.text }
+    val nameLists = state.sortNameLists(sort)
     val createLink = call.application.href(NameListRoutes.New())
 
     simpleHtml("Name Lists") {
@@ -110,24 +118,6 @@ private fun HTML.showAllNameLists(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showNameListDetails(
-    call: ApplicationCall,
-    state: State,
-    nameList: NameList,
-) {
-    val backLink = call.application.href(NameListRoutes())
-    val deleteLink = call.application.href(NameListRoutes.Delete(nameList.id))
-    val editLink = call.application.href(NameListRoutes.Edit(nameList.id))
-
-    simpleHtmlDetails(nameList) {
-        showNameList(call, state, nameList)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

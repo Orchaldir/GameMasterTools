@@ -35,6 +35,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.font.Font
+import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.source.DataSource
@@ -418,8 +419,6 @@ fun State.sortGods(
 
 // holiday
 
-// calendar
-
 fun State.sortHolidays(sort: SortHoliday = SortHoliday.Name) =
     sortHolidays(getHolidayStorage().getAll(), sort)
 
@@ -535,6 +534,20 @@ fun State.sortMoons(
     .sortedWith(
         when (sort) {
             SortMoon.Name -> compareBy { it.name.text }
+        })
+
+// holiday
+
+fun State.sortNameLists(sort: SortNameList = SortNameList.Name) =
+    sortNameLists(getNameListStorage().getAll(), sort)
+
+fun State.sortNameLists(
+    lists: Collection<NameList>,
+    sort: SortNameList = SortNameList.Name,
+) = lists
+    .sortedWith(
+        when (sort) {
+            SortNameList.Name -> compareBy { it.name.text }
         })
 
 // organization

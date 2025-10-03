@@ -144,6 +144,10 @@ enum class SortMoon {
     Name,
 }
 
+enum class SortNameList {
+    Name,
+}
+
 enum class SortOrganization {
     Name,
     Date,
