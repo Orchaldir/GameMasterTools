@@ -6,17 +6,20 @@ import at.orchaldir.gm.app.html.time.editCalendar
 import at.orchaldir.gm.app.html.time.parseCalendar
 import at.orchaldir.gm.app.html.time.showCalendar
 import at.orchaldir.gm.app.html.util.showDate
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.util.SortCalendar
 import at.orchaldir.gm.core.selector.time.date.convertDate
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
-import at.orchaldir.gm.core.selector.util.sortElements
+import at.orchaldir.gm.core.selector.util.sortCalendars
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -31,7 +34,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CALENDAR_TYPE")
-class CalendarRoutes {
+class CalendarRoutes: Routes<CalendarId> {
+    @Resource("all")
+    class All(
+        val sort: SortCalendar = SortCalendar.Name,
+        val parent: CalendarRoutes = CalendarRoutes(),
+    )
+    
     @Resource("details")
     class Details(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
 
@@ -49,26 +58,23 @@ class CalendarRoutes {
 
     @Resource("update")
     class Update(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: CalendarId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: CalendarId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCalendarRouting() {
     routing {
-        get<CalendarRoutes> {
+        get<CalendarRoutes.All> { all ->
             logger.info { "Get all calendars" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCalendars(call, STORE.getState())
+                showAllCalendars(call, STORE.getState(), all.sort)
             }
         }
         get<CalendarRoutes.Details> { details ->
-            logger.info { "Get details of calendar ${details.id.value}" }
-
-            val state = STORE.getState()
-            val calendar = state.getCalendarStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCalendarDetails(call, state, calendar)
-            }
+            handleShowElement(details.id, CalendarRoutes(), HtmlBlockTag::showCalendar)
         }
         get<CalendarRoutes.New> {
             handleCreateElement(STORE.getState().getCalendarStorage()) { id ->
@@ -104,8 +110,12 @@ fun Application.configureCalendarRouting() {
     }
 }
 
-private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
-    val calendars = state.sortElements(state.getCalendarStorage().getAll())
+private fun HTML.showAllCalendars(
+    call: ApplicationCall, 
+    state: State,
+    sort: SortCalendar,
+) {
+    val calendars = state.sortCalendars(sort)
     val defaultCalendar = state.getDefaultCalendar()
     val count = calendars.size
     val createLink = call.application.href(CalendarRoutes.New())
@@ -142,24 +152,6 @@ private fun HTML.showAllCalendars(call: ApplicationCall, state: State) {
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showCalendarDetails(
-    call: ApplicationCall,
-    state: State,
-    calendar: Calendar,
-) {
-    val backLink = call.application.href(CalendarRoutes())
-    val deleteLink = call.application.href(CalendarRoutes.Delete(calendar.id))
-    val editLink = call.application.href(CalendarRoutes.Edit(calendar.id))
-
-    simpleHtmlDetails(calendar) {
-        showCalendar(call, state, calendar)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

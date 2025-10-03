@@ -30,6 +30,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
+import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.util.*
@@ -183,6 +184,20 @@ fun State.sortBusinesses(
             SortBusiness.Employees -> compareByDescending { getEmployees(it.id).size }
         }
     )
+
+// calendar
+
+fun State.sortCalendars(sort: SortCalendar = SortCalendar.Name) =
+    sortCalendars(getCalendarStorage().getAll(), sort)
+
+fun State.sortCalendars(
+    calendars: Collection<Calendar>,
+    sort: SortCalendar = SortCalendar.Name,
+) = calendars
+    .sortedWith(
+        when (sort) {
+            SortCalendar.Name -> compareBy { it.name.text }
+        })
 
 // catastrophe
 

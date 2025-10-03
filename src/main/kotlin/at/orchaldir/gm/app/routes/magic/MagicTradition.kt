@@ -57,7 +57,6 @@ class MagicTraditionRoutes: Routes<MagicTraditionId> {
     @Resource("update")
     class Update(val id: MagicTraditionId, val parent: MagicTraditionRoutes = MagicTraditionRoutes())
 
-
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun delete(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Edit(id))

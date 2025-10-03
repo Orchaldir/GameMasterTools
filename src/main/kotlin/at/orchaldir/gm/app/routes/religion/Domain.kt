@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editDomain
 import at.orchaldir.gm.app.html.religion.parseDomain
 import at.orchaldir.gm.app.html.religion.showDomain
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.DOMAIN_TYPE
@@ -24,6 +26,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.th
 import kotlinx.html.tr
@@ -32,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DOMAIN_TYPE")
-class DomainRoutes {
+class DomainRoutes: Routes<DomainId> {
     @Resource("all")
     class All(
         val sort: SortDomain = SortDomain.Name,
@@ -56,6 +59,10 @@ class DomainRoutes {
 
     @Resource("update")
     class Update(val id: DomainId, val parent: DomainRoutes = DomainRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: DomainId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: DomainId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDomainRouting() {
@@ -68,14 +75,7 @@ fun Application.configureDomainRouting() {
             }
         }
         get<DomainRoutes.Details> { details ->
-            logger.info { "Get details of domain ${details.id.value}" }
-
-            val state = STORE.getState()
-            val domain = state.getDomainStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDomainDetails(call, state, domain)
-            }
+            handleShowElement(details.id, DomainRoutes(), HtmlBlockTag::showDomain)
         }
         get<DomainRoutes.New> {
             handleCreateElement(STORE.getState().getDomainStorage()) { id ->
@@ -143,26 +143,6 @@ private fun HTML.showAllDomains(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showDomainDetails(
-    call: ApplicationCall,
-    state: State,
-    domain: Domain,
-) {
-    val backLink = call.application.href(DomainRoutes.All())
-    val deleteLink = call.application.href(DomainRoutes.Delete(domain.id))
-    val editLink = call.application.href(DomainRoutes.Edit(domain.id))
-
-    simpleHtmlDetails(domain) {
-        showDomain(call, state, domain)
-
-        fieldElements(call, state, state.getGodsWith(domain.id))
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

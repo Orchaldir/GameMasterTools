@@ -28,6 +28,10 @@ enum class SortBusiness {
     Employees,
 }
 
+enum class SortCalendar {
+    Name,
+}
+
 enum class SortCatastrophe {
     Name,
     Start,

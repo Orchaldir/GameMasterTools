@@ -7,8 +7,10 @@ import at.orchaldir.gm.app.html.realm.parseDistrict
 import at.orchaldir.gm.app.html.realm.showDistrict
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.DISTRICT_TYPE
@@ -30,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DISTRICT_TYPE")
-class DistrictRoutes {
+class DistrictRoutes: Routes<DistrictId> {
     @Resource("all")
     class All(
         val sort: SortDistrict = SortDistrict.Name,
@@ -54,6 +56,10 @@ class DistrictRoutes {
 
     @Resource("update")
     class Update(val id: DistrictId, val parent: DistrictRoutes = DistrictRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: DistrictId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: DistrictId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDistrictRouting() {
@@ -66,14 +72,7 @@ fun Application.configureDistrictRouting() {
             }
         }
         get<DistrictRoutes.Details> { details ->
-            logger.info { "Get details of legal code ${details.id.value}" }
-
-            val state = STORE.getState()
-            val code = state.getDistrictStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDistrictDetails(call, state, code)
-            }
+            handleShowElement(details.id, DistrictRoutes(), HtmlBlockTag::showDistrict)
         }
         get<DistrictRoutes.New> {
             handleCreateElement(STORE.getState().getDistrictStorage()) { id ->
@@ -145,24 +144,6 @@ private fun HTML.showAllDistricts(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showDistrictDetails(
-    call: ApplicationCall,
-    state: State,
-    code: District,
-) {
-    val backLink = call.application.href(DistrictRoutes.All())
-    val deleteLink = call.application.href(DistrictRoutes.Delete(code.id))
-    val editLink = call.application.href(DistrictRoutes.Edit(code.id))
-
-    simpleHtmlDetails(code) {
-        showDistrict(call, state, code)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.realm.editTreaty
 import at.orchaldir.gm.app.html.realm.parseTreaty
 import at.orchaldir.gm.app.html.realm.showTreaty
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TREATY_TYPE
@@ -29,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TREATY_TYPE")
-class TreatyRoutes {
+class TreatyRoutes: Routes<TreatyId> {
     @Resource("all")
     class All(
         val sort: SortTreaty = SortTreaty.Name,
@@ -53,6 +55,10 @@ class TreatyRoutes {
 
     @Resource("update")
     class Update(val id: TreatyId, val parent: TreatyRoutes = TreatyRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: TreatyId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: TreatyId) = call.application.href(Edit(id))
 }
 
 fun Application.configureTreatyRouting() {
@@ -65,14 +71,7 @@ fun Application.configureTreatyRouting() {
             }
         }
         get<TreatyRoutes.Details> { details ->
-            logger.info { "Get details of treaty ${details.id.value}" }
-
-            val state = STORE.getState()
-            val treaty = state.getTreatyStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTreatyDetails(call, state, treaty)
-            }
+            handleShowElement(details.id, TreatyRoutes(), HtmlBlockTag::showTreaty)
         }
         get<TreatyRoutes.New> {
             handleCreateElement(STORE.getState().getTreatyStorage()) { id ->
@@ -138,24 +137,6 @@ private fun HTML.showAllTreaties(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showTreatyDetails(
-    call: ApplicationCall,
-    state: State,
-    treaty: Treaty,
-) {
-    val backLink = call.application.href(TreatyRoutes.All())
-    val deleteLink = call.application.href(TreatyRoutes.Delete(treaty.id))
-    val editLink = call.application.href(TreatyRoutes.Edit(treaty.id))
-
-    simpleHtmlDetails(treaty) {
-        showTreaty(call, state, treaty)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

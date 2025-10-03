@@ -7,8 +7,10 @@ import at.orchaldir.gm.app.html.realm.parseLegalCode
 import at.orchaldir.gm.app.html.realm.showLegalCode
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LEGAL_CODE_TYPE
@@ -31,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$LEGAL_CODE_TYPE")
-class LegalCodeRoutes {
+class LegalCodeRoutes: Routes<LegalCodeId> {
     @Resource("all")
     class All(
         val sort: SortLegalCode = SortLegalCode.Name,
@@ -55,6 +57,10 @@ class LegalCodeRoutes {
 
     @Resource("update")
     class Update(val id: LegalCodeId, val parent: LegalCodeRoutes = LegalCodeRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: LegalCodeId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: LegalCodeId) = call.application.href(Edit(id))
 }
 
 fun Application.configureLegalCodeRouting() {
@@ -67,14 +73,7 @@ fun Application.configureLegalCodeRouting() {
             }
         }
         get<LegalCodeRoutes.Details> { details ->
-            logger.info { "Get details of legal code ${details.id.value}" }
-
-            val state = STORE.getState()
-            val code = state.getLegalCodeStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showLegalCodeDetails(call, state, code)
-            }
+            handleShowElement(details.id, LegalCodeRoutes(), HtmlBlockTag::showLegalCode)
         }
         get<LegalCodeRoutes.New> {
             handleCreateElement(STORE.getState().getLegalCodeStorage()) { id ->
@@ -144,24 +143,6 @@ private fun HTML.showAllLegalCodes(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showLegalCodeDetails(
-    call: ApplicationCall,
-    state: State,
-    code: LegalCode,
-) {
-    val backLink = call.application.href(LegalCodeRoutes.All())
-    val deleteLink = call.application.href(LegalCodeRoutes.Delete(code.id))
-    val editLink = call.application.href(LegalCodeRoutes.Edit(code.id))
-
-    simpleHtmlDetails(code) {
-        showLegalCode(call, state, code)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

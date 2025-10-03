@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editPantheon
 import at.orchaldir.gm.app.html.religion.parsePantheon
 import at.orchaldir.gm.app.html.religion.showPantheon
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
@@ -24,6 +26,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.th
 import kotlinx.html.tr
@@ -32,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PANTHEON_TYPE")
-class PantheonRoutes {
+class PantheonRoutes: Routes<PantheonId> {
     @Resource("all")
     class All(
         val sort: SortPantheon = SortPantheon.Name,
@@ -56,6 +59,10 @@ class PantheonRoutes {
 
     @Resource("update")
     class Update(val id: PantheonId, val parent: PantheonRoutes = PantheonRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: PantheonId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: PantheonId) = call.application.href(Edit(id))
 }
 
 fun Application.configurePantheonRouting() {
@@ -68,14 +75,7 @@ fun Application.configurePantheonRouting() {
             }
         }
         get<PantheonRoutes.Details> { details ->
-            logger.info { "Get details of pantheon ${details.id.value}" }
-
-            val state = STORE.getState()
-            val pantheon = state.getPantheonStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPantheonDetails(call, state, pantheon)
-            }
+            handleShowElement(details.id, PantheonRoutes(), HtmlBlockTag::showPantheon)
         }
         get<PantheonRoutes.New> {
             handleCreateElement(STORE.getState().getPantheonStorage()) { id ->
@@ -145,24 +145,6 @@ private fun HTML.showAllPantheons(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showPantheonDetails(
-    call: ApplicationCall,
-    state: State,
-    pantheon: Pantheon,
-) {
-    val backLink = call.application.href(PantheonRoutes.All())
-    val deleteLink = call.application.href(PantheonRoutes.Delete(pantheon.id))
-    val editLink = call.application.href(PantheonRoutes.Edit(pantheon.id))
-
-    simpleHtmlDetails(pantheon) {
-        showPantheon(call, state, pantheon)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

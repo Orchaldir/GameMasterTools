@@ -8,8 +8,10 @@ import at.orchaldir.gm.app.html.realm.showRealm
 import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.REALM_TYPE
@@ -32,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$REALM_TYPE")
-class RealmRoutes {
+class RealmRoutes: Routes<RealmId> {
     @Resource("all")
     class All(
         val sort: SortRealm = SortRealm.Name,
@@ -56,6 +58,10 @@ class RealmRoutes {
 
     @Resource("update")
     class Update(val id: RealmId, val parent: RealmRoutes = RealmRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: RealmId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: RealmId) = call.application.href(Edit(id))
 }
 
 fun Application.configureRealmRouting() {
@@ -68,14 +74,7 @@ fun Application.configureRealmRouting() {
             }
         }
         get<RealmRoutes.Details> { details ->
-            logger.info { "Get details of realm ${details.id.value}" }
-
-            val state = STORE.getState()
-            val realm = state.getRealmStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRealmDetails(call, state, realm)
-            }
+            handleShowElement(details.id, RealmRoutes(), HtmlBlockTag::showRealm)
         }
         get<RealmRoutes.New> {
             handleCreateElement(STORE.getState().getRealmStorage()) { id ->
@@ -161,24 +160,6 @@ private fun HTML.showAllRealms(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showRealmDetails(
-    call: ApplicationCall,
-    state: State,
-    realm: Realm,
-) {
-    val backLink = call.application.href(RealmRoutes.All())
-    val deleteLink = call.application.href(RealmRoutes.Delete(realm.id))
-    val editLink = call.application.href(RealmRoutes.Edit(realm.id))
-
-    simpleHtmlDetails(realm) {
-        showRealm(call, state, realm)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 
