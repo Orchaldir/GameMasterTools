@@ -19,6 +19,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.application.call
 import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
@@ -29,9 +30,9 @@ import kotlinx.html.HtmlBlockTag
 
 interface Routes<ID : Id<ID>> {
 
-    fun all(): Any
-    fun delete(id: ID): Any
-    fun edit(id: ID): Any
+    fun all(call: ApplicationCall): String
+    fun delete(call: ApplicationCall, id: ID): String
+    fun edit(call: ApplicationCall, id: ID): String
 }
 
 suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
@@ -107,9 +108,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
     routes: Routes<ID>,
     showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
-    val backLink = call.application.href(routes.all())
-    val deleteLink = call.application.href(routes.delete(element.id()))
-    val editLink = call.application.href(routes.edit(element.id()))
+    val backLink = routes.all(call)
+    val deleteLink = routes.delete(call, element.id())
+    val editLink = routes.edit(call, element.id())
 
     simpleHtmlDetails(state, element) {
         showDetails(call, state, element)
