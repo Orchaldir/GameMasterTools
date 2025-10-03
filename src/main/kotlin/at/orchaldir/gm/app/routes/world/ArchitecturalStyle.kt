@@ -1,17 +1,12 @@
 package at.orchaldir.gm.app.routes.world
 
-import at.orchaldir.gm.app.END
-import at.orchaldir.gm.app.REVIVAL
-import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.optionalField
-import at.orchaldir.gm.app.html.util.selectOptionalYear
 import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.html.world.editArchitecturalStyle
+import at.orchaldir.gm.app.html.world.parseArchitecturalStyle
+import at.orchaldir.gm.app.html.world.showArchitecturalStyle
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Name
@@ -20,9 +15,6 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.util.sortArchitecturalStyles
 import at.orchaldir.gm.core.selector.world.getBuildings
-import at.orchaldir.gm.core.selector.world.getEarliestBuilding
-import at.orchaldir.gm.core.selector.world.getPossibleStylesForRevival
-import at.orchaldir.gm.core.selector.world.getRevivedBy
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -37,7 +29,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ARCHITECTURAL_STYLE_TYPE")
-class ArchitecturalStyleRoutes {
+class ArchitecturalStyleRoutes: Routes<ArchitecturalStyleId> {
     @Resource("all")
     class All(
         val sort: SortArchitecturalStyle = Name,
@@ -61,6 +53,10 @@ class ArchitecturalStyleRoutes {
 
     @Resource("update")
     class Update(val id: ArchitecturalStyleId, val parent: ArchitecturalStyleRoutes = ArchitecturalStyleRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Edit(id))
 }
 
 fun Application.configureArchitecturalStyleRouting() {
@@ -73,14 +69,7 @@ fun Application.configureArchitecturalStyleRouting() {
             }
         }
         get<ArchitecturalStyleRoutes.Details> { details ->
-            logger.info { "Get details of architectural style ${details.id.value}" }
-
-            val state = STORE.getState()
-            val style = state.getArchitecturalStyleStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showArchitecturalStyleDetails(call, state, style)
-            }
+            handleShowElement(details.id, ArchitecturalStyleRoutes(), HtmlBlockTag::showArchitecturalStyle)
         }
         get<ArchitecturalStyleRoutes.New> {
             handleCreateElement(STORE.getState().getArchitecturalStyleStorage()) { id ->
@@ -152,30 +141,6 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
     }
 }
 
-private fun HTML.showArchitecturalStyleDetails(
-    call: ApplicationCall,
-    state: State,
-    style: ArchitecturalStyle,
-) {
-    val revivedBy = state.getRevivedBy(style.id)
-    val backLink = call.application.href(ArchitecturalStyleRoutes.All())
-    val deleteLink = call.application.href(ArchitecturalStyleRoutes.Delete(style.id))
-    val editLink = call.application.href(ArchitecturalStyleRoutes.Edit(style.id))
-
-    simpleHtmlDetails(style) {
-        optionalField(call, state, "Start", style.start)
-        optionalField(call, state, "End", style.end)
-        if (style.revival != null) {
-            fieldLink("Revival of", call, state, style.revival)
-        }
-        fieldElements(call, state, "Revived by", revivedBy)
-        fieldElements(call, state, state.getBuildings(style.id))
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
-    }
-}
-
 private fun HTML.showArchitecturalStyleEditor(
     call: ApplicationCall,
     state: State,
@@ -190,21 +155,4 @@ private fun HTML.showArchitecturalStyleEditor(
             editArchitecturalStyle(state, style)
         }
     }
-}
-
-private fun FORM.editArchitecturalStyle(
-    state: State,
-    style: ArchitecturalStyle,
-) {
-    val minDate = state.getEarliestBuilding(state.getBuildings(style.id))?.constructionDate
-    selectName(style.name)
-    selectOptionalYear(state, "Start", style.start, START, null, minDate)
-    selectOptionalYear(state, "End", style.end, END, style.start?.nextYear())
-    selectOptionalElement(
-        state,
-        "Revival Of",
-        REVIVAL,
-        state.getPossibleStylesForRevival(style),
-        style.revival,
-    )
 }

@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.parse.world.parseOptionalArchitecturalStyleId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ALLOWED_BUILDING_POSITIONS
 import at.orchaldir.gm.core.model.world.building.Building
