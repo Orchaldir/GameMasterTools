@@ -266,6 +266,30 @@
      "suffix": "m/s"
     }
    }
+  },
+  "14": {
+   "id": 14,
+   "name": "Thrusting Damage",
+   "short": "Thrust",
+   "data": {
+    "type": "Damage",
+    "base": {
+     "type": "Statistic",
+     "statistic": 0
+    }
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Swinging Damage",
+   "short": "Swing",
+   "data": {
+    "type": "Damage",
+    "base": {
+     "type": "Statistic",
+     "statistic": 0
+    }
+   }
   }
  }
 }
