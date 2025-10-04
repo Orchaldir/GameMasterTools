@@ -28,6 +28,7 @@ fun HtmlBlockTag.showStatisticData(
         is BaseDamage -> {
             showBaseValue(call, state, data.base)
             fieldStatisticCost(data.cost)
+            showBaseDamageLookup(call, state, data.lookup)
         }
 
         is DerivedAttribute -> {

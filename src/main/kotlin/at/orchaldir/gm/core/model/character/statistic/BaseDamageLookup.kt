@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character.statistic
 
+import at.orchaldir.gm.core.model.util.Lookup
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -24,7 +25,14 @@ data class BaseDamageDicePool(
 ) : BaseDamageLookup()
 
 @Serializable
+data class SimpleBaseDamageEntry(
+    val dice: Int,
+    val modifier: Int,
+)
+
+@Serializable
 @SerialName("SimpleLookup")
 data class SimpleBaseDamageLookup(
+    val lookup: Lookup<SimpleBaseDamageEntry>,
     val dieType: DieType = DieType.D6,
 ) : BaseDamageLookup()
