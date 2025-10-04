@@ -9,12 +9,12 @@ import at.orchaldir.gm.app.routes.handleCloneElement
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.race.getRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -24,6 +24,7 @@ import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
+import io.ktor.resources.Resource
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
@@ -40,6 +41,33 @@ import mu.KotlinLogging
 import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
+
+@Resource("/appearance")
+class AppearanceRoutes {
+    @Resource("gallery")
+    class Gallery(val parent: AppearanceRoutes = AppearanceRoutes())
+
+    @Resource("details")
+    class Details(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+
+    @Resource("new")
+    class New(val parent: AppearanceRoutes = AppearanceRoutes())
+
+    @Resource("clone")
+    class Clone(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+
+    @Resource("delete")
+    class Delete(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+
+    @Resource("edit")
+    class Edit(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+
+    @Resource("preview")
+    class Preview(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+
+    @Resource("update")
+    class Update(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+}
 
 fun Application.configureRaceAppearanceRouting() {
     routing {

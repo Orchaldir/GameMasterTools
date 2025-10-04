@@ -20,6 +20,7 @@ import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
 import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
+import at.orchaldir.gm.app.routes.race.AppearanceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
@@ -409,7 +410,7 @@ fun href(
     is PlaneId -> call.application.href(PlaneRoutes.Details(id))
     is QuoteId -> call.application.href(QuoteRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
-    is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
+    is RaceAppearanceId -> call.application.href(AppearanceRoutes.Details(id))
     is RealmId -> call.application.href(RealmRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is SpellId -> call.application.href(SpellRoutes.Details(id))

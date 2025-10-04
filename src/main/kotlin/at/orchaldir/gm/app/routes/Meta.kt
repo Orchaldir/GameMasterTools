@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.back
 import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.showDeleteResult
 import at.orchaldir.gm.app.html.simpleHtmlDetails
+import at.orchaldir.gm.app.html.split
 import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.DeleteAction
@@ -101,6 +102,23 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     }
 }
 
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleShowElementSplit(
+    id: ID,
+    routes: Routes<ID>,
+    noinline showLeft: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+    noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+) {
+    logger.info { "Get details of ${id.print()}" }
+
+    val state = STORE.getState()
+    val storage = state.getStorage<ID, ELEMENT>(id)
+    val element = storage.getOrThrow(id)
+
+    call.respondHtml(HttpStatusCode.OK) {
+        showElementDetailsSplit(call, state, element, routes, showLeft, showRight)
+    }
+}
+
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
     call: ApplicationCall,
     state: State,
@@ -122,6 +140,35 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
         action(editLink, "Edit")
         action(deleteLink, "Delete")
         back(backLink)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetailsSplit(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+    routes: Routes<ID>,
+    showLeft: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+    showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+) {
+    val backLink = routes.all(call)
+    val cloneLink = routes.clone(call, element.id())
+    val deleteLink = routes.delete(call, element.id())
+    val editLink = routes.edit(call, element.id())
+
+    simpleHtmlDetails(state, element) {
+        split({
+            showLeft(call, state, element)
+
+            if (cloneLink != null) {
+                action(cloneLink, "Clone")
+            }
+            action(editLink, "Edit")
+            action(deleteLink, "Delete")
+            back(backLink)
+        }, {
+            showRight(call, state, element)
+        })
     }
 }
 
