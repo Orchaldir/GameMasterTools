@@ -7,14 +7,17 @@ import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.util.SortEquipment
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
@@ -41,9 +44,18 @@ private val logger = KotlinLogging.logger {}
 private val height = fromMeters(1.0f)
 
 @Resource("/$EQUIPMENT_TYPE")
-class EquipmentRoutes {
+class EquipmentRoutes: Routes<EquipmentId> {
+    @Resource("all")
+    class All(
+        val sort: SortEquipment = SortEquipment.Name,
+        val parent: EquipmentRoutes = EquipmentRoutes(),
+    )
+    
     @Resource("gallery")
-    class Gallery(val parent: EquipmentRoutes = EquipmentRoutes())
+    class Gallery(
+        val sort: SortEquipment = SortEquipment.Name,
+        val parent: EquipmentRoutes = EquipmentRoutes(),
+    )
 
     @Resource("details")
     class Details(val id: EquipmentId, val parent: EquipmentRoutes = EquipmentRoutes())
@@ -65,43 +77,36 @@ class EquipmentRoutes {
 
     @Resource("update")
     class Update(val id: EquipmentId, val parent: EquipmentRoutes = EquipmentRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: EquipmentId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: EquipmentId) = call.application.href(Edit(id))
 }
 
 fun Application.configureEquipmentRouting() {
     routing {
-        get<EquipmentRoutes> {
+        get<EquipmentRoutes.All> { all ->
             logger.info { "Get all equipments" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllEquipment(call, STORE.getState())
+                showAllEquipment(call, STORE.getState(), all.sort)
             }
         }
-        get<EquipmentRoutes.Gallery> {
+        get<EquipmentRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState())
+                showGallery(call, STORE.getState(), gallery.sort)
             }
         }
         get<EquipmentRoutes.Details> { details ->
-            logger.info { "Get details of equipment ${details.id.value}" }
-
-            val state = STORE.getState()
-            val equipment = state.getEquipmentStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentDetails(call, state, equipment)
-            }
+            handleShowElement(details.id, EquipmentRoutes(), HtmlBlockTag::showEquipmentDetails)
         }
         post<EquipmentRoutes.Scheme> { details ->
-            logger.info { "Get details of equipment ${details.id.value} with color schema" }
-
-            val state = STORE.getState()
-            val equipment = state.getEquipmentStorage().getOrThrow(details.id)
             val parameters = call.receiveParameters()
             val colorSchemeId = parseOptionalColorSchemeId(parameters, SCHEME)
 
-            call.respondHtml(HttpStatusCode.OK) {
+            handleShowElement<EquipmentId, Equipment>(details.id, EquipmentRoutes()) { call, state, equipment ->
                 showEquipmentDetails(call, state, equipment, colorSchemeId)
             }
         }
@@ -144,8 +149,9 @@ fun Application.configureEquipmentRouting() {
 private fun HTML.showAllEquipment(
     call: ApplicationCall,
     state: State,
+    sort: SortEquipment,
 ) {
-    val equipmentList = state.sortEquipmentList()
+    val equipmentList = state.sortEquipmentList(sort)
     val galleryLink = call.application.href(EquipmentRoutes.Gallery())
     val createLink = call.application.href(EquipmentRoutes.New())
 
@@ -186,8 +192,9 @@ private fun HTML.showAllEquipment(
 private fun HTML.showGallery(
     call: ApplicationCall,
     state: State,
+    sort: SortEquipment,
 ) {
-    val equipmentList = state.sortEquipmentList()
+    val equipmentList = state.sortEquipmentList(sort)
     val backLink = call.application.href(EquipmentRoutes())
 
     simpleHtml("Equipment") {
@@ -202,7 +209,7 @@ private fun HTML.showGallery(
     }
 }
 
-private fun HTML.showEquipmentDetails(
+private fun HtmlBlockTag.showEquipmentDetails(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,
@@ -210,12 +217,8 @@ private fun HTML.showEquipmentDetails(
 ) {
     val characters = state.getEquippedBy(equipment.id)
     val fashions = state.getFashions(equipment.id)
-    val backLink = call.application.href(EquipmentRoutes())
-    val deleteLink = call.application.href(EquipmentRoutes.Delete(equipment.id))
-    val editLink = call.application.href(EquipmentRoutes.Edit(equipment.id))
     val previewLink = call.application.href(EquipmentRoutes.Scheme(equipment.id))
 
-    simpleHtmlDetails(equipment) {
         if (equipment.colorSchemes.isNotEmpty()) {
             form {
                 id = "editor"
@@ -234,11 +237,6 @@ private fun HTML.showEquipmentDetails(
 
         fieldElements(call, state, "Equipped By", characters)
         fieldElements(call, state, "Part of Fashion", fashions)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
-    }
 }
 
 private fun HTML.showEquipmentEditor(

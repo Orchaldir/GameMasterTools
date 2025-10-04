@@ -86,7 +86,7 @@ fun Application.configureRouting() {
                     h3 { +"Health" }
                     fieldStorageLink(call, state.getDiseaseStorage(), DiseaseRoutes.All())
                     h3 { +"Items" }
-                    fieldStorageLink(call, state.getEquipmentStorage(), EquipmentRoutes())
+                    fieldStorageLink(call, state.getEquipmentStorage(), EquipmentRoutes.All())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes.All())
                     fieldStorageLink(call, state.getTextStorage(), TextRoutes.All())
                     fieldStorageLink(call, state.getUniformStorage(), UniformRoutes.All())
