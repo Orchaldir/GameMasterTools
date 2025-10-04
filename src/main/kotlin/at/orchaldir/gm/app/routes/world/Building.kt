@@ -11,7 +11,9 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.html.world.editBuilding
 import at.orchaldir.gm.app.html.world.parseBuilding
 import at.orchaldir.gm.app.html.world.showBuilding
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElementSplit
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
@@ -42,7 +44,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BUILDING_TYPE")
-class BuildingRoutes {
+class BuildingRoutes: Routes<BuildingId> {
     @Resource("all")
     class All(
         val sort: SortBuilding = SortBuilding.Name,
@@ -80,6 +82,10 @@ class BuildingRoutes {
             val parent: Lot = Lot(),
         )
     }
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: BuildingId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: BuildingId) = call.application.href(Edit(id))
 }
 
 fun Application.configureBuildingRouting() {
@@ -92,13 +98,10 @@ fun Application.configureBuildingRouting() {
             }
         }
         get<BuildingRoutes.Details> { details ->
-            logger.info { "Get details of building ${details.id.value}" }
-
-            val state = STORE.getState()
-            val building = state.getBuildingStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showBuildingDetails(call, state, building)
+            handleShowElementSplit(details.id, BuildingRoutes(), HtmlBlockTag::showBuildingDetails) { _, state, building ->
+                if (building.position is InTownMap) {
+                    svg(visualizeBuildingLot(call, state, building, building.position), 90)
+                }
             }
         }
         get<BuildingRoutes.Edit> { edit ->
@@ -211,30 +214,15 @@ private fun HTML.showAllBuildings(
     }
 }
 
-private fun HTML.showBuildingDetails(
+private fun HtmlBlockTag.showBuildingDetails(
     call: ApplicationCall,
     state: State,
     building: Building,
 ) {
-    val backLink = call.application.href(BuildingRoutes.All())
-    val editLink = call.application.href(BuildingRoutes.Edit(building.id))
     val editLotLink = call.application.href(BuildingRoutes.Lot.Edit(building.id))
-    val deleteLink = call.application.href(BuildingRoutes.Delete(building.id))
 
-    simpleHtml("Building: ${building.name(state)}") {
-        split({
-            showBuilding(call, state, building)
-
-            action(editLink, "Edit")
-            action(editLotLink, "Move & Resize")
-            action(deleteLink, "Delete")
-            back(backLink)
-        }, {
-            if (building.position is InTownMap) {
-                svg(visualizeBuildingLot(call, state, building, building.position), 90)
-            }
-        })
-    }
+    showBuilding(call, state, building)
+    action(editLotLink, "Move & Resize")
 }
 
 private fun HTML.showBuildingEditor(
