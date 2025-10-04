@@ -34,8 +34,13 @@ fun HtmlBlockTag.showBaseDamageLookup(
             is SimpleBaseDamageLookup -> {
                 fieldDiceType(lookup.dieType)
                 showLookup(lookup.lookup, "Lookup") { value ->
-                    field("Dice", value.dice)
-                    field("Modifier", value.modifier)
+                    +"${value.dice}d"
+                    if (value.modifier > 0) {
+                        +"+${value.modifier}"
+                    }
+                    else if (value.modifier < 0) {
+                        +"${value.modifier}"
+                    }
                 }
             }
         }

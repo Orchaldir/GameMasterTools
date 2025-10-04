@@ -40,7 +40,7 @@ fun <T> HtmlBlockTag.selectLookup(
     selectValue: HtmlBlockTag.(String, T) -> Unit,
 ) {
     val previousOwnersParam = combine(param, HISTORY)
-    var minUntil = start + 1
+    var minUntil = start
 
     showDetails(label, true) {
         selectInt("Previously", lookup.previousEntries.size, 0, 100, 1, previousOwnersParam)
@@ -84,7 +84,7 @@ private fun <T> parseLookupEntries(
 ): List<LookupEntry<T>> {
     val historyParam = combine(param, HISTORY)
     val count = parseInt(parameters, historyParam, 0)
-    var minDate = start +1
+    var minDate = start
 
     return (0..<count)
         .map {
