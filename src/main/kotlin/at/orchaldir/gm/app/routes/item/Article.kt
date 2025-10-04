@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.item.periodical.editArticle
 import at.orchaldir.gm.app.html.item.periodical.parseArticle
 import at.orchaldir.gm.app.html.item.periodical.showArticle
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ARTICLE_TYPE
@@ -29,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ARTICLE_TYPE")
-class ArticleRoutes {
+class ArticleRoutes: Routes<ArticleId> {
     @Resource("all")
     class All(
         val sort: SortArticle = SortArticle.Title,
@@ -53,6 +55,10 @@ class ArticleRoutes {
 
     @Resource("update")
     class Update(val id: ArticleId, val parent: ArticleRoutes = ArticleRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: ArticleId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: ArticleId) = call.application.href(Edit(id))
 }
 
 fun Application.configureArticleRouting() {
@@ -65,14 +71,7 @@ fun Application.configureArticleRouting() {
             }
         }
         get<ArticleRoutes.Details> { details ->
-            logger.info { "Get details of periodical ${details.id.value}" }
-
-            val state = STORE.getState()
-            val periodical = state.getArticleStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showArticleDetails(call, state, periodical)
-            }
+            handleShowElement(details.id, ArticleRoutes(), HtmlBlockTag::showArticle)
         }
         get<ArticleRoutes.New> {
             handleCreateElement(STORE.getState().getArticleStorage()) { id ->
@@ -133,24 +132,6 @@ private fun HTML.showAllArticles(
         }
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showArticleDetails(
-    call: ApplicationCall,
-    state: State,
-    article: Article,
-) {
-    val backLink = call.application.href(ArticleRoutes.All())
-    val deleteLink = call.application.href(ArticleRoutes.Delete(article.id))
-    val editLink = call.application.href(ArticleRoutes.Edit(article.id))
-
-    simpleHtmlDetails(article) {
-        showArticle(call, state, article)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

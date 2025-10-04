@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.health
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.selectName
@@ -12,6 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.ALLOWED_DISEASE_ORIGINS
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
+import at.orchaldir.gm.core.selector.health.getDiseasesBasedOn
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -27,6 +29,9 @@ fun HtmlBlockTag.showDisease(
     optionalField(call, state, "Date", disease.date)
     fieldOrigin(call, state, disease.origin, ::DiseaseId)
     showDataSources(call, state, disease.sources)
+
+    showDestroyed(call, state, disease.id)
+    fieldElements(call, state, "Diseases based on it", state.getDiseasesBasedOn(disease.id))
 }
 
 // edit

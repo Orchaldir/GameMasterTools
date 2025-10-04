@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.editUniform
 import at.orchaldir.gm.app.html.item.parseUniform
 import at.orchaldir.gm.app.html.item.showUniform
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Body
@@ -39,7 +41,7 @@ private val logger = KotlinLogging.logger {}
 private val appearance = HumanoidBody(Body(), Head(), fromMeters(2))
 
 @Resource("/$UNIFORM_TYPE")
-class UniformRoutes {
+class UniformRoutes: Routes<UniformId> {
     @Resource("all")
     class All(
         val sort: SortUniform = SortUniform.Name,
@@ -66,6 +68,10 @@ class UniformRoutes {
 
     @Resource("update")
     class Update(val id: UniformId, val parent: UniformRoutes = UniformRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: UniformId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: UniformId) = call.application.href(Edit(id))
 }
 
 fun Application.configureUniformRouting() {
@@ -85,13 +91,11 @@ fun Application.configureUniformRouting() {
             }
         }
         get<UniformRoutes.Details> { details ->
-            logger.info { "Get details of uniform ${details.id.value}" }
-
-            val state = STORE.getState()
-            val uniform = state.getUniformStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showUniformDetails(call, state, uniform)
+            handleShowElement<UniformId, Uniform>(details.id, UniformRoutes()) { call, state, uniform ->
+                val equipped = state.getEquipment(uniform.equipmentMap)
+                val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
+                svg(svg, 20)
+                showUniform(call, state, uniform)
             }
         }
         get<UniformRoutes.New> {
@@ -173,27 +177,6 @@ private fun HTML.showGallery(
             visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
         }
 
-        back(backLink)
-    }
-}
-
-private fun HTML.showUniformDetails(
-    call: ApplicationCall,
-    state: State,
-    uniform: Uniform,
-) {
-    val backLink = call.application.href(UniformRoutes.All())
-    val deleteLink = call.application.href(UniformRoutes.Delete(uniform.id))
-    val editLink = call.application.href(UniformRoutes.Edit(uniform.id))
-    val equipped = state.getEquipment(uniform.equipmentMap)
-    val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
-
-    simpleHtml("Uniform: ${uniform.name(state)}") {
-        svg(svg, 20)
-        showUniform(call, state, uniform)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
         back(backLink)
     }
 }
