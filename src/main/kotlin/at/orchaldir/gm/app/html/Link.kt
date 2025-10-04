@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
 import at.orchaldir.gm.app.routes.character.PersonalityTraitRoutes
@@ -166,8 +167,12 @@ fun HtmlBlockTag.fieldLink(label: String, link: String, text: String) {
     }
 }
 
-inline fun <reified T : Any> HtmlBlockTag.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
-    fieldLink(storage.getPlural(), call.application.href(link), "${storage.getSize()}")
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldStorageLink(
+    call: ApplicationCall,
+    storage: Storage<ID, ELEMENT>,
+    routes: Routes<ID>,
+) {
+    fieldLink(storage.getPlural(), routes.all(call), "${storage.getSize()}")
 }
 
 // generic
