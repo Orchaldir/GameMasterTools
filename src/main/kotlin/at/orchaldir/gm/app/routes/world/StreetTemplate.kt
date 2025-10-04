@@ -2,19 +2,22 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.material.selectMaterialCost
-import at.orchaldir.gm.app.html.economy.material.showMaterialCost
-import at.orchaldir.gm.app.parse.world.parseStreetTemplate
+import at.orchaldir.gm.app.html.world.editStreetTemplate
+import at.orchaldir.gm.app.html.world.parseStreetTemplate
+import at.orchaldir.gm.app.html.world.showStreetTemplate
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElementSplit
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortStreetTemplate
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Solid
 import at.orchaldir.gm.core.model.world.street.STREET_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.util.sortStreetTemplates
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.NoBorder
@@ -32,6 +35,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.td
 import kotlinx.html.th
@@ -41,7 +45,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TEMPLATE_TYPE")
-class StreetTemplateRoutes {
+class StreetTemplateRoutes: Routes<StreetTemplateId> {
+    @Resource("all")
+    class All(
+        val sort: SortStreetTemplate = SortStreetTemplate.Name,
+        val parent: StreetTemplateRoutes = StreetTemplateRoutes(),
+    )
+    
     @Resource("details")
     class Details(val id: StreetTemplateId, val parent: StreetTemplateRoutes = StreetTemplateRoutes())
 
@@ -59,25 +69,24 @@ class StreetTemplateRoutes {
 
     @Resource("update")
     class Update(val id: StreetTemplateId, val parent: StreetTemplateRoutes = StreetTemplateRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Edit(id))
 }
 
 fun Application.configureStreetTemplateRouting() {
     routing {
-        get<StreetTemplateRoutes> {
+        get<StreetTemplateRoutes.All> { all ->
             logger.info { "Get all street templates" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllStreetTemplates(call, STORE.getState())
+                showAllStreetTemplates(call, STORE.getState(), all.sort)
             }
         }
         get<StreetTemplateRoutes.Details> { details ->
-            logger.info { "Get details of street template ${details.id.value}" }
-
-            val state = STORE.getState()
-            val street = state.getStreetTemplateStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showStreetTemplateDetails(call, state, street)
+            handleShowElementSplit(details.id, StreetTemplateRoutes(), HtmlBlockTag::showStreetTemplate) { _, _, template ->
+                svg(visualizeStreetTemplate(template), 90)
             }
         }
         get<StreetTemplateRoutes.New> {
@@ -117,8 +126,9 @@ fun Application.configureStreetTemplateRouting() {
 private fun HTML.showAllStreetTemplates(
     call: ApplicationCall,
     state: State,
+    sort: SortStreetTemplate,
 ) {
-    val templates = state.getStreetTemplateStorage().getAll().sortedBy { it.name.text }
+    val templates = state.sortStreetTemplates(sort)
     val createLink = call.application.href(StreetTemplateRoutes.New())
 
     simpleHtml("Street Templates") {
@@ -144,49 +154,22 @@ private fun HTML.showAllStreetTemplates(
     }
 }
 
-private fun HTML.showStreetTemplateDetails(
-    call: ApplicationCall,
-    state: State,
-    type: StreetTemplate,
-) {
-    val backLink = call.application.href(StreetTemplateRoutes())
-    val deleteLink = call.application.href(StreetTemplateRoutes.Delete(type.id))
-    val editLink = call.application.href(StreetTemplateRoutes.Edit(type.id))
-
-    simpleHtmlDetails(type) {
-        split({
-            fieldName(type.name)
-            fieldColor(type.color)
-            showMaterialCost(call, state, type.materialCost)
-            fieldElements(call, state, state.getTowns(type.id))
-
-            action(editLink, "Edit")
-            action(deleteLink, "Delete")
-            back(backLink)
-        }, {
-            svg(visualizeStreetTemplate(type), 90)
-        })
-    }
-}
-
 private fun HTML.showStreetTemplateEditor(
     call: ApplicationCall,
     state: State,
-    type: StreetTemplate,
+    template: StreetTemplate,
 ) {
-    val backLink = href(call, type.id)
-    val previewLink = call.application.href(StreetTemplateRoutes.Preview(type.id))
-    val updateLink = call.application.href(StreetTemplateRoutes.Update(type.id))
+    val backLink = href(call, template.id)
+    val previewLink = call.application.href(StreetTemplateRoutes.Preview(template.id))
+    val updateLink = call.application.href(StreetTemplateRoutes.Update(template.id))
 
-    simpleHtmlEditor(type) {
+    simpleHtmlEditor(template) {
         split({
             formWithPreview(previewLink, updateLink, backLink) {
-                selectName(type.name)
-                selectColor(type.color)
-                selectMaterialCost(call, state, type.materialCost)
+                editStreetTemplate(call, state, template)
             }
         }, {
-            svg(visualizeStreetTemplate(type), 90)
+            svg(visualizeStreetTemplate(template), 90)
         })
     }
 }

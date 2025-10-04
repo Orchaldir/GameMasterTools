@@ -240,6 +240,10 @@ enum class SortStreet {
     Name,
 }
 
+enum class SortStreetTemplate {
+    Name,
+}
+
 enum class SortText {
     Name,
     Date,

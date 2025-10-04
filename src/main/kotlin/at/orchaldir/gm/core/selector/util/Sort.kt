@@ -49,6 +49,7 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.street.Street
+import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.TownMap
@@ -823,12 +824,26 @@ fun State.sortStreets(sort: SortStreet = SortStreet.Name) =
     sortStreets(getStreetStorage().getAll(), sort)
 
 fun State.sortStreets(
-    rivers: Collection<Street>,
+    streets: Collection<Street>,
     sort: SortStreet = SortStreet.Name,
-) = rivers
+) = streets
     .sortedWith(
         when (sort) {
             SortStreet.Name -> compareBy { it.name.text }
+        })
+
+// street template
+
+fun State.sortStreetTemplates(sort: SortStreetTemplate = SortStreetTemplate.Name) =
+    sortStreetTemplates(getStreetTemplateStorage().getAll(), sort)
+
+fun State.sortStreetTemplates(
+    templates: Collection<StreetTemplate>,
+    sort: SortStreetTemplate = SortStreetTemplate.Name,
+) = templates
+    .sortedWith(
+        when (sort) {
+            SortStreetTemplate.Name -> compareBy { it.name.text }
         })
 
 // text
