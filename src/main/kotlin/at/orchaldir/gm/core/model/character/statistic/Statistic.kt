@@ -39,6 +39,7 @@ data class Statistic(
 
         when (data) {
             is Attribute -> validateBaseValue(state, id, data.base)
+            is BaseDamage -> validateBaseValue(state, id, data.base)
             is DerivedAttribute -> validateBaseValue(state, id, data.base)
             is Skill -> validateBaseValue(state, id, data.base)
         }
