@@ -27,6 +27,7 @@ import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 interface Routes<ID : Id<ID>> {
 
@@ -128,7 +129,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
 ) {
     simpleHtmlDetails(state, element) {
         showDetails(call, state, element)
-        showDetailsLinks(call, routes, element)
+        showDetailsActions(call, routes, element)
     }
 }
 
@@ -143,14 +144,14 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetailsSplit(
     simpleHtmlDetails(state, element) {
         split({
             showLeft(call, state, element)
-            showDetailsLinks(call, routes, element)
+            showDetailsActions(call, routes, element)
         }, {
             showRight(call, state, element)
         })
     }
 }
 
-private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showDetailsLinks(
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showDetailsActions(
     call: ApplicationCall,
     routes: Routes<ID>,
     element: ELEMENT,
@@ -159,6 +160,8 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showDetailsLinks(
     val cloneLink = routes.clone(call, element.id())
     val deleteLink = routes.delete(call, element.id())
     val editLink = routes.edit(call, element.id())
+
+    h2 { +"Actions" }
 
     if (cloneLink != null) {
         action(cloneLink, "Clone")

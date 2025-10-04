@@ -57,8 +57,6 @@ fun HtmlBlockTag.showData(
     state: State,
 ) {
     val race = state.getRaceStorage().getOrThrow(character.race)
-    val deleteLink = call.application.href(CharacterRoutes.Delete(character.id))
-    val editLink = call.application.href(CharacterRoutes.Edit(character.id))
     val generateNameLink = call.application.href(CharacterRoutes.Name.Generate(character.id))
     val generateBirthdayLink = call.application.href(CharacterRoutes.Birthday.Generate(character.id))
 
@@ -85,8 +83,6 @@ fun HtmlBlockTag.showData(
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
-    action(editLink, "Edit")
-    action(deleteLink, "Delete")
 }
 
 private fun HtmlBlockTag.showHeight(
