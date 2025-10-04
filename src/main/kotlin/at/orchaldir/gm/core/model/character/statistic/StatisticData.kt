@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 enum class StatisticDataType {
     Attribute,
+    Damage,
     DerivedAttribute,
     Skill,
 }
@@ -14,6 +15,7 @@ sealed class StatisticData {
 
     fun getType() = when (this) {
         is Attribute -> StatisticDataType.Attribute
+        is BaseDamage -> StatisticDataType.Damage
         is DerivedAttribute -> StatisticDataType.DerivedAttribute
         is Skill -> StatisticDataType.Skill
     }
@@ -22,12 +24,14 @@ sealed class StatisticData {
 
     fun baseValue() = when (this) {
         is Attribute -> base
+        is BaseDamage -> base
         is DerivedAttribute -> base
         is Skill -> base
     }
 
     fun cost() = when (this) {
         is Attribute -> cost
+        is BaseDamage -> cost
         is DerivedAttribute -> cost
         is Skill -> cost
     }
@@ -41,6 +45,13 @@ sealed class StatisticData {
 @Serializable
 @SerialName("Attribute")
 data class Attribute(
+    val base: BaseValue = FixedNumber(0),
+    val cost: StatisticCost = UndefinedStatisticCost,
+) : StatisticData()
+
+@Serializable
+@SerialName("Damage")
+data class BaseDamage(
     val base: BaseValue = FixedNumber(0),
     val cost: StatisticCost = UndefinedStatisticCost,
 ) : StatisticData()
