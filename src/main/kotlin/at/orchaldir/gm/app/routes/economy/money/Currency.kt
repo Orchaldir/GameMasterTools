@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.economy.money.editCurrency
 import at.orchaldir.gm.app.html.economy.money.parseCurrency
 import at.orchaldir.gm.app.html.economy.money.showCurrency
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_TYPE
@@ -30,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CURRENCY_TYPE")
-class CurrencyRoutes {
+class CurrencyRoutes: Routes<CurrencyId> {
     @Resource("all")
     class All(
         val sort: SortCurrency = SortCurrency.Name,
@@ -54,6 +56,10 @@ class CurrencyRoutes {
 
     @Resource("update")
     class Update(val id: CurrencyId, val parent: CurrencyRoutes = CurrencyRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: CurrencyId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: CurrencyId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCurrencyRouting() {
@@ -66,14 +72,7 @@ fun Application.configureCurrencyRouting() {
             }
         }
         get<CurrencyRoutes.Details> { details ->
-            logger.info { "Get details of currency ${details.id.value}" }
-
-            val state = STORE.getState()
-            val currency = state.getCurrencyStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCurrencyDetails(call, state, currency)
-            }
+            handleShowElement(details.id, CurrencyRoutes(), HtmlBlockTag::showCurrency)
         }
         get<CurrencyRoutes.New> {
             handleCreateElement(STORE.getState().getCurrencyStorage()) { id ->
@@ -138,24 +137,6 @@ private fun HTML.showAllCurrencies(
         }
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showCurrencyDetails(
-    call: ApplicationCall,
-    state: State,
-    currency: Currency,
-) {
-    val backLink = call.application.href(CurrencyRoutes.All())
-    val deleteLink = call.application.href(CurrencyRoutes.Delete(currency.id))
-    val editLink = call.application.href(CurrencyRoutes.Edit(currency.id))
-
-    simpleHtmlDetails(currency) {
-        showCurrency(call, state, currency)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.editJob
 import at.orchaldir.gm.app.html.economy.parseJob
 import at.orchaldir.gm.app.html.economy.showJob
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.*
@@ -31,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$JOB_TYPE")
-class JobRoutes {
+class JobRoutes: Routes<JobId> {
     @Resource("all")
     class All(
         val sort: SortJob = SortJob.Name,
@@ -55,6 +57,10 @@ class JobRoutes {
 
     @Resource("update")
     class Update(val id: JobId, val parent: JobRoutes = JobRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: JobId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: JobId) = call.application.href(Edit(id))
 }
 
 fun Application.configureJobRouting() {
@@ -67,14 +73,7 @@ fun Application.configureJobRouting() {
             }
         }
         get<JobRoutes.Details> { details ->
-            logger.info { "Get details of job ${details.id.value}" }
-
-            val state = STORE.getState()
-            val job = state.getJobStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showJobDetails(call, state, job)
-            }
+            handleShowElement(details.id, JobRoutes(), HtmlBlockTag::showJob)
         }
         get<JobRoutes.New> {
             handleCreateElement(STORE.getState().getJobStorage()) { id ->
@@ -157,24 +156,6 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showJobDetails(
-    call: ApplicationCall,
-    state: State,
-    job: Job,
-) {
-    val backLink = call.application.href(JobRoutes.All())
-    val deleteLink = call.application.href(JobRoutes.Delete(job.id))
-    val editLink = call.application.href(JobRoutes.Edit(job.id))
-
-    simpleHtmlDetails(job) {
-        showJob(call, state, job)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

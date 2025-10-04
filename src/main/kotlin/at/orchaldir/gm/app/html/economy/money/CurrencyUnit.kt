@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
+import at.orchaldir.gm.prototypes.visualization.currency.CURRENCY_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -22,6 +23,7 @@ import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.SHAPES_WITHOUT_CROSS
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.SiPrefix
+import at.orchaldir.gm.visualization.currency.visualizeCurrencyUnit
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -30,11 +32,18 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
+fun HtmlBlockTag.visualizeCurrencyUnit(state: State, unit: CurrencyUnit) {
+    val frontSvg = visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit)
+
+    svg(frontSvg, 20)
+}
+
 fun HtmlBlockTag.showCurrencyUnit(
     call: ApplicationCall,
     state: State,
     unit: CurrencyUnit,
 ) {
+    visualizeCurrencyUnit(state, unit)
     showDetails("Value", true) {
         fieldLink("Currency", call, state, unit.currency)
         field("Number", unit.number)

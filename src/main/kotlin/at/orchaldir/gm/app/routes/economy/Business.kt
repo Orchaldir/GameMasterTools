@@ -8,8 +8,10 @@ import at.orchaldir.gm.app.html.economy.showBusiness
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
@@ -32,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BUSINESS_TYPE")
-class BusinessRoutes {
+class BusinessRoutes: Routes<BusinessId> {
     @Resource("all")
     class All(
         val sort: SortBusiness = SortBusiness.Name,
@@ -56,6 +58,10 @@ class BusinessRoutes {
 
     @Resource("update")
     class Update(val id: BusinessId, val parent: BusinessRoutes = BusinessRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: BusinessId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: BusinessId) = call.application.href(Edit(id))
 }
 
 fun Application.configureBusinessRouting() {
@@ -68,14 +74,7 @@ fun Application.configureBusinessRouting() {
             }
         }
         get<BusinessRoutes.Details> { details ->
-            logger.info { "Get details of business ${details.id.value}" }
-
-            val state = STORE.getState()
-            val business = state.getBusinessStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showBusinessDetails(call, state, business)
-            }
+            handleShowElement(details.id, BusinessRoutes(), HtmlBlockTag::showBusiness)
         }
         get<BusinessRoutes.New> {
             handleCreateElement(STORE.getState().getBusinessStorage()) { id ->
@@ -146,24 +145,6 @@ private fun HTML.showAllBusinesses(
         showCreatorCount(call, state, businesses, "Founders")
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showBusinessDetails(
-    call: ApplicationCall,
-    state: State,
-    business: Business,
-) {
-    val backLink = call.application.href(BusinessRoutes.All())
-    val deleteLink = call.application.href(BusinessRoutes.Delete(business.id))
-    val editLink = call.application.href(BusinessRoutes.Edit(business.id))
-
-    simpleHtmlDetails(business) {
-        showBusiness(call, state, business)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 
