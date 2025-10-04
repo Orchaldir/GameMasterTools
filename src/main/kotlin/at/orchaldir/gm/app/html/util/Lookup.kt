@@ -8,14 +8,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.core.model.util.LookupEntry
 import io.ktor.http.*
-import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
 
 fun <T> HtmlBlockTag.showLookup(
-    call: ApplicationCall,
-    state: State,
     lookup: Lookup<T>,
     label: String,
     showValue: HtmlBlockTag.(T) -> Unit,
@@ -34,23 +31,22 @@ fun <T> HtmlBlockTag.showLookup(
 // edit
 
 fun <T> HtmlBlockTag.selectLookup(
-    state: State,
     param: String,
-    history: Lookup<T>,
+    lookup: Lookup<T>,
     label: String,
     start: Int,
     end: Int,
-    selectValue: HtmlBlockTag.(State, String, T) -> Unit,
+    selectValue: HtmlBlockTag.(String, T) -> Unit,
 ) {
     val previousOwnersParam = combine(param, HISTORY)
     var minUntil = start + 1
 
     showDetails(label, true) {
-        selectInt("Previously", history.previousEntries.size, 0, 100, 1, previousOwnersParam)
+        selectInt("Previously", lookup.previousEntries.size, 0, 100, 1, previousOwnersParam)
 
-        showListWithIndex(history.previousEntries) { index, previous ->
+        showListWithIndex(lookup.previousEntries) { index, previous ->
             val previousParam = combine(previousOwnersParam, index)
-            selectValue(state, previousParam, previous.value)
+            selectValue(previousParam, previous.value)
             selectInt(
                 "Until",
                 previous.until,
@@ -63,7 +59,7 @@ fun <T> HtmlBlockTag.selectLookup(
             minUntil = previous.until + 1
         }
 
-        selectValue(state, param, history.current)
+        selectValue(param, lookup.current)
     }
 }
 
@@ -72,20 +68,18 @@ fun <T> HtmlBlockTag.selectLookup(
 fun <T> parseLookup(
     parameters: Parameters,
     param: String,
-    state: State,
     start: Int,
-    parseValue: (Parameters, State, String) -> T,
+    parseValue: (String) -> T,
 ) = Lookup(
-    parseValue(parameters, state, param),
-    parseLookupEntries(parameters, param, state, start, parseValue),
+    parseValue(param),
+    parseLookupEntries(parameters, param, start, parseValue),
 )
 
 private fun <T> parseLookupEntries(
     parameters: Parameters,
     param: String,
-    state: State,
     start: Int,
-    parseValue: (Parameters, State, String) -> T,
+    parseValue: (String) -> T,
 ): List<LookupEntry<T>> {
     val historyParam = combine(param, HISTORY)
     val count = parseInt(parameters, historyParam, 0)
@@ -93,7 +87,7 @@ private fun <T> parseLookupEntries(
 
     return (0..<count)
         .map {
-            val previousOwner = parseLookupEntry(parameters, state, combine(historyParam, it), minDate, parseValue)
+            val previousOwner = parseLookupEntry(parameters, combine(historyParam, it), minDate, parseValue)
             minDate = previousOwner.until + 1
 
             previousOwner
@@ -102,11 +96,10 @@ private fun <T> parseLookupEntries(
 
 private fun <T> parseLookupEntry(
     parameters: Parameters,
-    state: State,
     param: String,
     minDate: Int,
-    parseValue: (Parameters, State, String) -> T,
+    parseValue: (String) -> T,
 ) = LookupEntry(
-    parseValue(parameters, state, param),
+    parseValue(param),
     parseInt(parameters, combine(param, DATE), minDate),
 )

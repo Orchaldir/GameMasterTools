@@ -6,6 +6,8 @@ import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.parseLookup
+import at.orchaldir.gm.app.html.util.selectLookup
 import at.orchaldir.gm.app.html.util.showLookup
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -22,17 +24,17 @@ import kotlinx.html.HtmlBlockTag
 // show
 
 fun HtmlBlockTag.showBaseDamageLookup(
-    call: ApplicationCall,
-    state: State,
     lookup: BaseDamageLookup,
 ) {
-    showDetails("Base Damage Lookup") {
+    showDetails("Base Damage Lookup", true) {
+        field("Type", lookup.getType())
+
         when (lookup) {
             is BaseDamageDicePool -> fieldDiceType(lookup.dieType)
             is SimpleBaseDamageLookup -> {
                 fieldDiceType(lookup.dieType)
-                showLookup(call, state, lookup.lookup, "Lookup") { value ->
-                    field("Die", value.dice)
+                showLookup(lookup.lookup, "Lookup") { value ->
+                    field("Dice", value.dice)
                     field("Modifier", value.modifier)
                 }
             }
@@ -50,7 +52,7 @@ private fun DETAILS.fieldDiceType(dieType: DieType) {
 fun FORM.editBaseDamageLookup(
     lookup: BaseDamageLookup,
 ) {
-    showDetails("Cost", true) {
+    showDetails("Base Damage Lookup", true) {
         selectValue(
             "Type",
             combine(DAMAGE, TYPE),
@@ -62,14 +64,36 @@ fun FORM.editBaseDamageLookup(
             is BaseDamageDicePool -> selectDieType(lookup.dieType)
             is SimpleBaseDamageLookup -> {
                 selectDieType(lookup.dieType)
+                selectLookup(
+                    DAMAGE,
+                    lookup.lookup,
+                    "Lookup",
+                    0,
+                    100,
+                ) { entryParam, entry ->
+                    selectInt(
+                        "Dice",
+                        entry.dice,
+                        1,
+                        100,
+                        1,
+                        combine(entryParam, DIE),
+                    )
+                    selectInt(
+                        "Modifier",
+                        entry.modifier,
+                        -10,
+                        +10,
+                        1,
+                        combine(entryParam, NUMBER),
+                    )
+                }
             }
         }
     }
 }
 
-private fun DETAILS.selectDieType(
-    dieType: DieType
-                                  ) {
+private fun DETAILS.selectDieType(dieType: DieType) {
     selectValue(
         "Die Type",
         combine(DAMAGE, DIE),
@@ -83,8 +107,16 @@ private fun DETAILS.selectDieType(
 fun parseBaseDamageLookup(
     parameters: Parameters,
 ) = when (parse(parameters, combine(DAMAGE, TYPE), BaseDamageLookupType.DicePool)) {
-    BaseDamageLookupType.DicePool -> BaseDamageDicePool()
+    BaseDamageLookupType.DicePool -> BaseDamageDicePool(
+        parse(parameters, DIE, DieType.D6),
+    )
     BaseDamageLookupType.SimpleLookup -> SimpleBaseDamageLookup(
-        Lookup(SimpleBaseDamageEntry(0, 0))
+        parseLookup(parameters, DAMAGE, 1) { entryParam ->
+            SimpleBaseDamageEntry(
+                parseInt(parameters, combine(entryParam, DIE), 1),
+                parseInt(parameters, combine(entryParam, NUMBER), 0),
+            )
+        },
+        parse(parameters, DIE, DieType.D6),
     )
 }

@@ -28,7 +28,7 @@ fun HtmlBlockTag.showStatisticData(
         is BaseDamage -> {
             showBaseValue(call, state, data.base)
             fieldStatisticCost(data.cost)
-            showBaseDamageLookup(call, state, data.lookup)
+            showBaseDamageLookup(data.lookup)
         }
 
         is DerivedAttribute -> {
@@ -66,6 +66,7 @@ fun FORM.editStatisticData(
         is BaseDamage -> {
             editBaseValue(state, statistic, data.base)
             editStatisticCost(data.cost)
+            editBaseDamageLookup(data.lookup)
         }
 
         is DerivedAttribute -> {
@@ -93,6 +94,7 @@ fun parseStatisticData(
     StatisticDataType.Damage -> BaseDamage(
         parseBaseValue(parameters),
         parseStatisticCost(parameters),
+        parseBaseDamageLookup(parameters),
     )
 
     StatisticDataType.DerivedAttribute -> DerivedAttribute(
