@@ -54,6 +54,7 @@ data class Attribute(
 data class BaseDamage(
     val base: BaseValue = FixedNumber(0),
     val cost: StatisticCost = UndefinedStatisticCost,
+    val lookup: BaseDamageLookup = BaseDamageDicePool(),
 ) : StatisticData()
 
 @Serializable
