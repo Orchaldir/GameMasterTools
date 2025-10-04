@@ -33,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CHARACTER_TEMPLATE_TYPE")
-class CharacterTemplateRoutes: Routes<CharacterTemplateId> {
+class CharacterTemplateRoutes : Routes<CharacterTemplateId> {
     @Resource("all")
     class All(
         val sort: SortCharacterTemplate = SortCharacterTemplate.Name,

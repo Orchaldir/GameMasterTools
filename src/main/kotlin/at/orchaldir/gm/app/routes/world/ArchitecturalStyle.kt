@@ -29,7 +29,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ARCHITECTURAL_STYLE_TYPE")
-class ArchitecturalStyleRoutes: Routes<ArchitecturalStyleId> {
+class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId> {
     @Resource("all")
     class All(
         val sort: SortArchitecturalStyle = Name,

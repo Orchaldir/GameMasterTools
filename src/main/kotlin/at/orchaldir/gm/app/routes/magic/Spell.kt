@@ -36,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$SPELL_TYPE")
-class SpellRoutes: Routes<SpellId> {
+class SpellRoutes : Routes<SpellId> {
     @Resource("all")
     class All(
         val sort: SortSpell = SortSpell.Name,

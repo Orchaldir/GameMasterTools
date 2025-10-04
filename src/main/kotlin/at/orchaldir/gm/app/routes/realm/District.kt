@@ -32,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DISTRICT_TYPE")
-class DistrictRoutes: Routes<DistrictId> {
+class DistrictRoutes : Routes<DistrictId> {
     @Resource("all")
     class All(
         val sort: SortDistrict = SortDistrict.Name,

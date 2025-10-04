@@ -38,7 +38,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$WORLD_TYPE")
-class WorldRoutes: Routes<WorldId> {
+class WorldRoutes : Routes<WorldId> {
     @Resource("all")
     class All(
         val sort: SortWorld = SortWorld.Name,

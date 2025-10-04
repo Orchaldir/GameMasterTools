@@ -33,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$LEGAL_CODE_TYPE")
-class LegalCodeRoutes: Routes<LegalCodeId> {
+class LegalCodeRoutes : Routes<LegalCodeId> {
     @Resource("all")
     class All(
         val sort: SortLegalCode = SortLegalCode.Name,

@@ -22,7 +22,7 @@ import at.orchaldir.gm.core.selector.world.getRegionsContaining
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 

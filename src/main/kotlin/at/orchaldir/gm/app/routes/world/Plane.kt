@@ -31,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PLANE_TYPE")
-class PlaneRoutes: Routes<PlaneId> {
+class PlaneRoutes : Routes<PlaneId> {
     @Resource("all")
     class All(
         val sort: SortPlane = SortPlane.Name,

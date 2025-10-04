@@ -36,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
-class TextRoutes: Routes<TextId> {
+class TextRoutes : Routes<TextId> {
     @Resource("all")
     class All(
         val sort: SortText = SortText.Name,

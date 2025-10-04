@@ -41,7 +41,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TOWN_TYPE")
-class TownRoutes: Routes<TownId> {
+class TownRoutes : Routes<TownId> {
     @Resource("all")
     class All(
         val sort: SortTown = SortTown.Name,

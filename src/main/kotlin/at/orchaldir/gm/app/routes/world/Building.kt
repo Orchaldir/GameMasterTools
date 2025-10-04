@@ -44,7 +44,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BUILDING_TYPE")
-class BuildingRoutes: Routes<BuildingId> {
+class BuildingRoutes : Routes<BuildingId> {
     @Resource("all")
     class All(
         val sort: SortBuilding = SortBuilding.Name,
@@ -98,7 +98,11 @@ fun Application.configureBuildingRouting() {
             }
         }
         get<BuildingRoutes.Details> { details ->
-            handleShowElementSplit(details.id, BuildingRoutes(), HtmlBlockTag::showBuildingDetails) { _, state, building ->
+            handleShowElementSplit(
+                details.id,
+                BuildingRoutes(),
+                HtmlBlockTag::showBuildingDetails
+            ) { _, state, building ->
                 if (building.position is InTownMap) {
                     svg(visualizeBuildingLot(call, state, building, building.position), 90)
                 }

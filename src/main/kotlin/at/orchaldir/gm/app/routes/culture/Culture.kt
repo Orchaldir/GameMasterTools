@@ -33,13 +33,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CULTURE_TYPE")
-class CultureRoutes: Routes<CultureId> {
+class CultureRoutes : Routes<CultureId> {
     @Resource("all")
     class All(
         val sort: SortCulture = SortCulture.Name,
         val parent: CultureRoutes = CultureRoutes(),
     )
-    
+
     @Resource("details")
     class Details(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 

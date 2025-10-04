@@ -32,13 +32,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$FASHION_TYPE")
-class FashionRoutes: Routes<FashionId> {
+class FashionRoutes : Routes<FashionId> {
     @Resource("all")
     class All(
         val sort: SortFashion = SortFashion.Name,
         val parent: FashionRoutes = FashionRoutes(),
     )
-    
+
     @Resource("details")
     class Details(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
 

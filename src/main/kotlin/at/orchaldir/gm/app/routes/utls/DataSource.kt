@@ -30,7 +30,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DATA_SOURCE_TYPE")
-class DataSourceRoutes: Routes<DataSourceId> {
+class DataSourceRoutes : Routes<DataSourceId> {
     @Resource("all")
     class All(
         val sort: SortDataSource = SortDataSource.Name,

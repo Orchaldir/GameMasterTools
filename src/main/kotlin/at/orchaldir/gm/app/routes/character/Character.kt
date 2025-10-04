@@ -234,15 +234,15 @@ private fun HtmlBlockTag.showCharacterDetails(
     val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
     val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment, false)
 
-        svg(frontSvg, 20)
-        svg(backSvg, 20)
+    svg(frontSvg, 20)
+    svg(backSvg, 20)
 
-        action(editAppearanceLink, "Edit Appearance")
+    action(editAppearanceLink, "Edit Appearance")
 
-        showData(character, call, state)
-        showSocial(call, state, character)
-        showPossession(call, state, character)
-        showCreated(call, state, character.id)
+    showData(character, call, state)
+    showSocial(call, state, character)
+    showPossession(call, state, character)
+    showCreated(call, state, character.id)
 }
 
 

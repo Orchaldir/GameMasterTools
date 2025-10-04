@@ -31,13 +31,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TYPE")
-class StreetRoutes: Routes<StreetId> {
+class StreetRoutes : Routes<StreetId> {
     @Resource("all")
     class All(
         val sort: SortStreet = SortStreet.Name,
         val parent: StreetRoutes = StreetRoutes(),
     )
-    
+
     @Resource("details")
     class Details(val id: StreetId, val parent: StreetRoutes = StreetRoutes())
 

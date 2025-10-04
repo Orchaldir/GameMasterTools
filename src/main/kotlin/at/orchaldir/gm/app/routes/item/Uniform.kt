@@ -41,7 +41,7 @@ private val logger = KotlinLogging.logger {}
 private val appearance = HumanoidBody(Body(), Head(), fromMeters(2))
 
 @Resource("/$UNIFORM_TYPE")
-class UniformRoutes: Routes<UniformId> {
+class UniformRoutes : Routes<UniformId> {
     @Resource("all")
     class All(
         val sort: SortUniform = SortUniform.Name,

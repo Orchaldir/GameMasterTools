@@ -36,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$REGION_TYPE")
-class RegionRoutes: Routes<RegionId> {
+class RegionRoutes : Routes<RegionId> {
     @Resource("all")
     class All(
         val sort: SortRegion = SortRegion.Name,

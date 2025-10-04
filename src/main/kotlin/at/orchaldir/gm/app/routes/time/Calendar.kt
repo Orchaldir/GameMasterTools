@@ -34,13 +34,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CALENDAR_TYPE")
-class CalendarRoutes: Routes<CalendarId> {
+class CalendarRoutes : Routes<CalendarId> {
     @Resource("all")
     class All(
         val sort: SortCalendar = SortCalendar.Name,
         val parent: CalendarRoutes = CalendarRoutes(),
     )
-    
+
     @Resource("details")
     class Details(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
 
@@ -111,7 +111,7 @@ fun Application.configureCalendarRouting() {
 }
 
 private fun HTML.showAllCalendars(
-    call: ApplicationCall, 
+    call: ApplicationCall,
     state: State,
     sort: SortCalendar,
 ) {

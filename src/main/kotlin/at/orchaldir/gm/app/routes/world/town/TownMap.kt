@@ -137,24 +137,24 @@ private fun HtmlBlockTag.showTownMapDetails(
     val editStreetsLink = call.application.href(TownMapRoutes.StreetRoutes.Edit(townMap.id))
     val editTerrainLink = call.application.href(TownMapRoutes.TerrainRoutes.Edit(townMap.id))
 
-            showTownMap(call, state, townMap)
+    showTownMap(call, state, townMap)
 
-            action(editAbstractBuildingsLink, "Edit Abstract Buildings")
-            action(editBuildingsLink, "Edit Buildings")
+    action(editAbstractBuildingsLink, "Edit Abstract Buildings")
+    action(editBuildingsLink, "Edit Buildings")
 
-            h2 { +"Terrain" }
+    h2 { +"Terrain" }
 
-            fieldElements(call, state, state.getRegions(townMap.id))
-            fieldElements(call, state, state.getRivers(townMap.id))
-            fieldElements(call, state, state.getStreets(townMap.id))
+    fieldElements(call, state, state.getRegions(townMap.id))
+    fieldElements(call, state, state.getRivers(townMap.id))
+    fieldElements(call, state, state.getStreets(townMap.id))
 
-            showStreetTemplateCount(call, state, townMap.id)
+    showStreetTemplateCount(call, state, townMap.id)
 
-            action(editStreetsLink, "Edit Streets")
-            action(editTerrainLink, "Edit Terrain")
+    action(editStreetsLink, "Edit Streets")
+    action(editTerrainLink, "Edit Terrain")
 
-            showLocalElements(call, state, townMap.id)
-            showCharactersOfTownMap(call, state, townMap.town, townMap.id)
+    showLocalElements(call, state, townMap.id)
+    showCharactersOfTownMap(call, state, townMap.town, townMap.id)
 
 }
 

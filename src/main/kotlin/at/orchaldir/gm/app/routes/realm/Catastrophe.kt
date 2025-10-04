@@ -35,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CATASTROPHE_TYPE")
-class CatastropheRoutes: Routes<CatastropheId> {
+class CatastropheRoutes : Routes<CatastropheId> {
     @Resource("all")
     class All(
         val sort: SortCatastrophe = SortCatastrophe.Name,

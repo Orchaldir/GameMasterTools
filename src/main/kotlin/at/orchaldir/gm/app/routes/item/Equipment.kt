@@ -44,13 +44,13 @@ private val logger = KotlinLogging.logger {}
 private val height = fromMeters(1.0f)
 
 @Resource("/$EQUIPMENT_TYPE")
-class EquipmentRoutes: Routes<EquipmentId> {
+class EquipmentRoutes : Routes<EquipmentId> {
     @Resource("all")
     class All(
         val sort: SortEquipment = SortEquipment.Name,
         val parent: EquipmentRoutes = EquipmentRoutes(),
     )
-    
+
     @Resource("gallery")
     class Gallery(
         val sort: SortEquipment = SortEquipment.Name,
@@ -219,24 +219,24 @@ private fun HtmlBlockTag.showEquipmentDetails(
     val fashions = state.getFashions(equipment.id)
     val previewLink = call.application.href(EquipmentRoutes.Scheme(equipment.id))
 
-        if (equipment.colorSchemes.isNotEmpty()) {
-            form {
-                id = "editor"
-                action = previewLink
-                method = FormMethod.post
+    if (equipment.colorSchemes.isNotEmpty()) {
+        form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
 
-                selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId, 20)
-            }
-        } else {
-            visualizeEquipment(state, equipment, UndefinedColors, 20)
+            selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId, 20)
         }
+    } else {
+        visualizeEquipment(state, equipment, UndefinedColors, 20)
+    }
 
-        showEquipment(call, state, equipment)
+    showEquipment(call, state, equipment)
 
-        h2 { +"Usage" }
+    h2 { +"Usage" }
 
-        fieldElements(call, state, "Equipped By", characters)
-        fieldElements(call, state, "Part of Fashion", fashions)
+    fieldElements(call, state, "Equipped By", characters)
+    fieldElements(call, state, "Part of Fashion", fashions)
 }
 
 private fun HTML.showEquipmentEditor(

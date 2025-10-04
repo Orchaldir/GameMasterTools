@@ -34,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MATERIAL_TYPE")
-class MaterialRoutes: Routes<MaterialId> {
+class MaterialRoutes : Routes<MaterialId> {
     @Resource("all")
     class All(
         val sort: SortMaterial = SortMaterial.Name,

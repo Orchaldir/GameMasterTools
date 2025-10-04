@@ -31,13 +31,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$RIVER_TYPE")
-class RiverRoutes: Routes<RiverId> {
+class RiverRoutes : Routes<RiverId> {
     @Resource("all")
     class All(
         val sort: SortRiver = SortRiver.Name,
         val parent: RiverRoutes = RiverRoutes(),
     )
-    
+
     @Resource("details")
     class Details(val id: RiverId, val parent: RiverRoutes = RiverRoutes())
 

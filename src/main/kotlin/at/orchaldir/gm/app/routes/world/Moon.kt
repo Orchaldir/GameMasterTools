@@ -31,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MOON_TYPE")
-class MoonRoutes: Routes<MoonId> {
+class MoonRoutes : Routes<MoonId> {
     @Resource("all")
     class All(
         val sort: SortMoon = SortMoon.Name,

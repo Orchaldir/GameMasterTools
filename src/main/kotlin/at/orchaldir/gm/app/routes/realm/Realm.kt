@@ -34,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$REALM_TYPE")
-class RealmRoutes: Routes<RealmId> {
+class RealmRoutes : Routes<RealmId> {
     @Resource("all")
     class All(
         val sort: SortRealm = SortRealm.Name,

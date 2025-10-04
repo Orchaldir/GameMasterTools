@@ -33,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$JOB_TYPE")
-class JobRoutes: Routes<JobId> {
+class JobRoutes : Routes<JobId> {
     @Resource("all")
     class All(
         val sort: SortJob = SortJob.Name,

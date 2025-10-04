@@ -33,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERSONALITY_TRAIT_TYPE")
-class PersonalityTraitRoutes: Routes<PersonalityTraitId> {
+class PersonalityTraitRoutes : Routes<PersonalityTraitId> {
     @Resource("all")
     class All(
         val sort: SortPersonalityTrait = SortPersonalityTrait.Name,
@@ -147,7 +147,7 @@ private fun HTML.showPersonalityTraitEditor(
     simpleHtmlEditor(trait) {
         form {
             editPersonalityTrait(call, state, trait)
-            
+
             button("Update", updateLink)
         }
         back(backLink)

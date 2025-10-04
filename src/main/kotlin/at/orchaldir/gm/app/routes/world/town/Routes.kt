@@ -8,11 +8,11 @@ import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.map.MapSize2d
 import io.ktor.resources.*
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.resources.href
+import io.ktor.server.application.*
+import io.ktor.server.resources.*
 
 @Resource("/$TOWN_MAP_TYPE")
-class TownMapRoutes: Routes<TownMapId> {
+class TownMapRoutes : Routes<TownMapId> {
     @Resource("all")
     class All(
         val parent: TownMapRoutes = TownMapRoutes(),

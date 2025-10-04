@@ -32,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DISEASE_TYPE")
-class DiseaseRoutes: Routes<DiseaseId> {
+class DiseaseRoutes : Routes<DiseaseId> {
     @Resource("all")
     class All(
         val sort: SortDisease = SortDisease.Name,

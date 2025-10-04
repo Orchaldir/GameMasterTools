@@ -45,13 +45,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TEMPLATE_TYPE")
-class StreetTemplateRoutes: Routes<StreetTemplateId> {
+class StreetTemplateRoutes : Routes<StreetTemplateId> {
     @Resource("all")
     class All(
         val sort: SortStreetTemplate = SortStreetTemplate.Name,
         val parent: StreetTemplateRoutes = StreetTemplateRoutes(),
     )
-    
+
     @Resource("details")
     class Details(val id: StreetTemplateId, val parent: StreetTemplateRoutes = StreetTemplateRoutes())
 
@@ -85,7 +85,11 @@ fun Application.configureStreetTemplateRouting() {
             }
         }
         get<StreetTemplateRoutes.Details> { details ->
-            handleShowElementSplit(details.id, StreetTemplateRoutes(), HtmlBlockTag::showStreetTemplate) { _, _, template ->
+            handleShowElementSplit(
+                details.id,
+                StreetTemplateRoutes(),
+                HtmlBlockTag::showStreetTemplate
+            ) { _, _, template ->
                 svg(visualizeStreetTemplate(template), 90)
             }
         }

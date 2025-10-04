@@ -35,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CURRENCY_UNIT_TYPE")
-class CurrencyUnitRoutes: Routes<CurrencyUnitId> {
+class CurrencyUnitRoutes : Routes<CurrencyUnitId> {
     @Resource("all")
     class All(
         val sort: SortCurrencyUnit = SortCurrencyUnit.Name,

@@ -35,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DOMAIN_TYPE")
-class DomainRoutes: Routes<DomainId> {
+class DomainRoutes : Routes<DomainId> {
     @Resource("all")
     class All(
         val sort: SortDomain = SortDomain.Name,

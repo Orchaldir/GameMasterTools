@@ -34,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STATISTIC_TYPE")
-class StatisticRoutes: Routes<StatisticId> {
+class StatisticRoutes : Routes<StatisticId> {
     @Resource("all")
     class All(
         val sort: SortStatistic = SortStatistic.Name,

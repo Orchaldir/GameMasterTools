@@ -32,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MAGIC_TRADITION_TYPE")
-class MagicTraditionRoutes: Routes<MagicTraditionId> {
+class MagicTraditionRoutes : Routes<MagicTraditionId> {
     @Resource("all")
     class All(
         val sort: SortMagicTradition = SortMagicTradition.Name,

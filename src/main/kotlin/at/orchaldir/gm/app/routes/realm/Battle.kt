@@ -33,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BATTLE_TYPE")
-class BattleRoutes: Routes<BattleId> {
+class BattleRoutes : Routes<BattleId> {
     @Resource("all")
     class All(
         val sort: SortBattle = SortBattle.Name,

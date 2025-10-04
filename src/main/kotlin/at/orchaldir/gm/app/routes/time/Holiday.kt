@@ -32,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$HOLIDAY_TYPE")
-class HolidayRoutes: Routes<HolidayId> {
+class HolidayRoutes : Routes<HolidayId> {
     @Resource("all")
     class All(
         val sort: SortHoliday = SortHoliday.Name,

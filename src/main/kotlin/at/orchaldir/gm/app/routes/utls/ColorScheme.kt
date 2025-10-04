@@ -36,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$COLOR_SCHEME_TYPE")
-class ColorSchemeRoutes: Routes<ColorSchemeId> {
+class ColorSchemeRoutes : Routes<ColorSchemeId> {
     @Resource("all")
     class All(
         val sort: SortColorScheme = SortColorScheme.Name,

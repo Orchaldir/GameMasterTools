@@ -35,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PANTHEON_TYPE")
-class PantheonRoutes: Routes<PantheonId> {
+class PantheonRoutes : Routes<PantheonId> {
     @Resource("all")
     class All(
         val sort: SortPantheon = SortPantheon.Name,

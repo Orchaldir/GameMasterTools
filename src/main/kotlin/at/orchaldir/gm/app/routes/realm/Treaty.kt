@@ -31,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TREATY_TYPE")
-class TreatyRoutes: Routes<TreatyId> {
+class TreatyRoutes : Routes<TreatyId> {
     @Resource("all")
     class All(
         val sort: SortTreaty = SortTreaty.Name,

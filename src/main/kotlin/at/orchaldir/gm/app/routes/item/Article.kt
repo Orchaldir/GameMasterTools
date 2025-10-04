@@ -31,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ARTICLE_TYPE")
-class ArticleRoutes: Routes<ArticleId> {
+class ArticleRoutes : Routes<ArticleId> {
     @Resource("all")
     class All(
         val sort: SortArticle = SortArticle.Title,

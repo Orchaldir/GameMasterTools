@@ -44,7 +44,7 @@ private const val example = "abcdefghijklmnopqrstuvwxyz"
 private val FONT_SIZE = fromMeters(40)
 
 @Resource("/$FONT_TYPE")
-class FontRoutes: Routes<FontId> {
+class FontRoutes : Routes<FontId> {
     @Resource("all")
     class All(
         val sort: SortFont = SortFont.Name,

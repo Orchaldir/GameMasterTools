@@ -38,7 +38,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$GOD_TYPE")
-class GodRoutes: Routes<GodId> {
+class GodRoutes : Routes<GodId> {
     @Resource("all")
     class All(
         val sort: SortGod = SortGod.Name,

@@ -37,7 +37,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$LANGUAGE_TYPE")
-class LanguageRoutes: Routes<LanguageId> {
+class LanguageRoutes : Routes<LanguageId> {
     @Resource("all")
     class All(
         val sort: SortLanguage = SortLanguage.Name,

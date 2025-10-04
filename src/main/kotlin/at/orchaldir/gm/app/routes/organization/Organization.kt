@@ -34,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ORGANIZATION_TYPE")
-class OrganizationRoutes: Routes<OrganizationId> {
+class OrganizationRoutes : Routes<OrganizationId> {
     @Resource("all")
     class All(
         val sort: SortOrganization = SortOrganization.Name,

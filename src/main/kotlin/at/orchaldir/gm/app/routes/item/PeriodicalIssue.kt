@@ -30,7 +30,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERIODICAL_ISSUE_TYPE")
-class PeriodicalIssueRoutes: Routes<PeriodicalIssueId> {
+class PeriodicalIssueRoutes : Routes<PeriodicalIssueId> {
     @Resource("all")
     class All(
         val sort: SortPeriodicalIssue = SortPeriodicalIssue.Date,

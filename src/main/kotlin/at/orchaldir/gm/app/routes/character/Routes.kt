@@ -9,7 +9,7 @@ import io.ktor.server.application.*
 import io.ktor.server.resources.*
 
 @Resource("/$CHARACTER_TYPE")
-class CharacterRoutes: Routes<CharacterId> {
+class CharacterRoutes : Routes<CharacterId> {
     @Resource("all")
     class All(
         val sort: SortCharacter = SortCharacter.Name,

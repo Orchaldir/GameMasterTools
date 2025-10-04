@@ -44,7 +44,7 @@ import kotlin.random.Random
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$RACE_APPEARANCE_TYPE")
-class RaceAppearanceRoutes: Routes<RaceAppearanceId> {
+class RaceAppearanceRoutes : Routes<RaceAppearanceId> {
     @Resource("all")
     class All(
         val sort: SortRaceAppearance = SortRaceAppearance.Name,
@@ -101,7 +101,11 @@ fun Application.configureRaceAppearanceRouting() {
             }
         }
         get<RaceAppearanceRoutes.Details> { details ->
-            handleShowElementSplit(details.id, RaceAppearanceRoutes(), HtmlBlockTag::showRaceAppearance) { _, state, appearance ->
+            handleShowElementSplit(
+                details.id,
+                RaceAppearanceRoutes(),
+                HtmlBlockTag::showRaceAppearance
+            ) { _, state, appearance ->
                 showRandomExamples(state, appearance, 20, 20)
             }
         }
