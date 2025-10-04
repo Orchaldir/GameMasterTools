@@ -288,6 +288,24 @@
     "base": {
      "type": "Statistic",
      "statistic": 0
+    },
+    "lookup": {
+     "type": "SimpleLookup",
+     "lookup": {
+      "current": {
+       "dice": 1,
+       "modifier": 0
+      },
+      "previousEntries": [
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 1
+        },
+        "until": 1
+       }
+      ]
+     }
     }
    }
   }

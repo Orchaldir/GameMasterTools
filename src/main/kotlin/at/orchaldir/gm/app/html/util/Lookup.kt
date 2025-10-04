@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.util
 
+import at.orchaldir.gm.app.CURRENT
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.HISTORY
 import at.orchaldir.gm.app.html.*
@@ -59,7 +60,7 @@ fun <T> HtmlBlockTag.selectLookup(
             minUntil = previous.until + 1
         }
 
-        selectValue(param, lookup.current)
+        selectValue(combine(param, CURRENT), lookup.current)
     }
 }
 
@@ -71,7 +72,7 @@ fun <T> parseLookup(
     start: Int,
     parseValue: (String) -> T,
 ) = Lookup(
-    parseValue(param),
+    parseValue(combine(param, CURRENT)),
     parseLookupEntries(parameters, param, start, parseValue),
 )
 
