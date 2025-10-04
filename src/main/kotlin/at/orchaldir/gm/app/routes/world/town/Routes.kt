@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.world.town
 
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.town.TOWN_MAP_TYPE
@@ -7,9 +8,11 @@ import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.map.MapSize2d
 import io.ktor.resources.*
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.resources.href
 
 @Resource("/$TOWN_MAP_TYPE")
-class TownMapRoutes {
+class TownMapRoutes: Routes<TownMapId> {
     @Resource("all")
     class All(
         val parent: TownMapRoutes = TownMapRoutes(),
@@ -32,6 +35,10 @@ class TownMapRoutes {
 
     @Resource("update")
     class Update(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: TownMapId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: TownMapId) = call.application.href(Edit(id))
 
     @Resource("/abstract")
     class AbstractBuildingRoutes(val parent: TownMapRoutes = TownMapRoutes()) {

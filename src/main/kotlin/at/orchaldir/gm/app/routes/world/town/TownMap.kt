@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.app.html.world.showTownMap
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElementSplit
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
@@ -50,13 +51,8 @@ fun Application.configureTownMapRouting() {
             }
         }
         get<TownMapRoutes.Details> { details ->
-            logger.info { "Get details of town map ${details.id.value}" }
-
-            val state = STORE.getState()
-            val town = state.getTownMapStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTownMapDetails(call, state, town)
+            handleShowElementSplit(details.id, TownMapRoutes(), HtmlBlockTag::showTownMapDetails) { _, state, townMap ->
+                svg(visualizeTownWithLinks(call, state, townMap), 90)
             }
         }
         get<TownMapRoutes.New> {
@@ -131,27 +127,20 @@ private fun HTML.showAllTownMaps(
     }
 }
 
-private fun HTML.showTownMapDetails(
+private fun HtmlBlockTag.showTownMapDetails(
     call: ApplicationCall,
     state: State,
     townMap: TownMap,
 ) {
-    val backLink = call.application.href(TownMapRoutes.All())
-    val deleteLink = call.application.href(TownMapRoutes.Delete(townMap.id))
-    val editLink = call.application.href(TownMapRoutes.Edit(townMap.id))
     val editAbstractBuildingsLink = call.application.href(AbstractBuildingRoutes.Edit(townMap.id))
     val editBuildingsLink = call.application.href(TownMapRoutes.BuildingRoutes.Edit(townMap.id))
     val editStreetsLink = call.application.href(TownMapRoutes.StreetRoutes.Edit(townMap.id))
     val editTerrainLink = call.application.href(TownMapRoutes.TerrainRoutes.Edit(townMap.id))
 
-    simpleHtml("Show Town Map ${townMap.name(state)}") {
-        split({
             showTownMap(call, state, townMap)
 
             action(editAbstractBuildingsLink, "Edit Abstract Buildings")
             action(editBuildingsLink, "Edit Buildings")
-            action(editLink, "Edit")
-            action(deleteLink, "Delete")
 
             h2 { +"Terrain" }
 
@@ -167,11 +156,6 @@ private fun HTML.showTownMapDetails(
             showLocalElements(call, state, townMap.id)
             showCharactersOfTownMap(call, state, townMap.town, townMap.id)
 
-            back(backLink)
-        }, {
-            svg(visualizeTownWithLinks(call, state, townMap), 90)
-        })
-    }
 }
 
 private fun HTML.showTownMapEditor(
