@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
@@ -709,6 +710,20 @@ fun State.sortRaces(
             SortRace.Name -> compareBy { it.name.text }
             SortRace.Population -> compareByDescending { getTotalPopulation(it.id) }
             SortRace.Characters -> compareByDescending { countCharacters(it.id) }
+        })
+
+// race appearance
+
+fun State.sortRaceAppearances(sort: SortRaceAppearance = SortRaceAppearance.Name) =
+    sortRaceAppearances(getRaceAppearanceStorage().getAll(), sort)
+
+fun State.sortRaceAppearances(
+    appearances: Collection<RaceAppearance>,
+    sort: SortRaceAppearance = SortRaceAppearance.Name,
+) = appearances
+    .sortedWith(
+        when (sort) {
+            SortRaceAppearance.Name -> compareBy { it.name.text }
         })
 
 // realm

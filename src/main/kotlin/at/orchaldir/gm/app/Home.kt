@@ -24,7 +24,7 @@ import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
-import at.orchaldir.gm.app.routes.race.AppearanceRoutes
+import at.orchaldir.gm.app.routes.race.RaceAppearanceRoutes
 import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
@@ -75,7 +75,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getCharacterTemplateStorage(), CharacterTemplateRoutes.All())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes.All())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes.All())
-                    fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
+                    fieldStorageLink(call, state.getRaceAppearanceStorage(), RaceAppearanceRoutes.All())
                     fieldStorageLink(call, state.getStatisticStorage(), StatisticRoutes.All())
                     fieldStorageLink(call, state.getTitleStorage(), TitleRoutes.All())
                     h3 { +"Cultures" }

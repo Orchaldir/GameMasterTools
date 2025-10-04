@@ -35,6 +35,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.selector.race.getRaces
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -55,12 +56,11 @@ fun HtmlBlockTag.showRaceAppearance(
     call: ApplicationCall,
     state: State,
     appearance: RaceAppearance,
-    eyeOptions: EyeOptions,
 ) {
     showRarityMap("Type", appearance.appearanceTypes)
 
     showEars(appearance)
-    showEyes(appearance, eyeOptions)
+    showEyes(appearance, appearance.eye)
     showFeet(appearance)
     showHair(appearance)
     showHorns(call, state, appearance)
@@ -68,6 +68,8 @@ fun HtmlBlockTag.showRaceAppearance(
     showSkin(call, state, appearance)
     showTails(call, state, appearance)
     showWings(call, state, appearance)
+
+    showElements(call, state, state.getRaces(appearance.id))
 }
 
 private fun HtmlBlockTag.showEars(appearance: RaceAppearance) {

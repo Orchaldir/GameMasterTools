@@ -126,20 +126,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
     routes: Routes<ID>,
     showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
-    val backLink = routes.all(call)
-    val cloneLink = routes.clone(call, element.id())
-    val deleteLink = routes.delete(call, element.id())
-    val editLink = routes.edit(call, element.id())
-
     simpleHtmlDetails(state, element) {
         showDetails(call, state, element)
-
-        if (cloneLink != null) {
-            action(cloneLink, "Clone")
-        }
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
+        showDetailsLinks(call, routes, element)
     }
 }
 
@@ -151,25 +140,32 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetailsSplit(
     showLeft: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
+    simpleHtmlDetails(state, element) {
+        split({
+            showLeft(call, state, element)
+            showDetailsLinks(call, routes, element)
+        }, {
+            showRight(call, state, element)
+        })
+    }
+}
+
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showDetailsLinks(
+    call: ApplicationCall,
+    routes: Routes<ID>,
+    element: ELEMENT,
+) {
     val backLink = routes.all(call)
     val cloneLink = routes.clone(call, element.id())
     val deleteLink = routes.delete(call, element.id())
     val editLink = routes.edit(call, element.id())
 
-    simpleHtmlDetails(state, element) {
-        split({
-            showLeft(call, state, element)
-
-            if (cloneLink != null) {
-                action(cloneLink, "Clone")
-            }
-            action(editLink, "Edit")
-            action(deleteLink, "Delete")
-            back(backLink)
-        }, {
-            showRight(call, state, element)
-        })
+    if (cloneLink != null) {
+        action(cloneLink, "Clone")
     }
+    action(editLink, "Edit")
+    action(deleteLink, "Delete")
+    back(backLink)
 }
 
 suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(

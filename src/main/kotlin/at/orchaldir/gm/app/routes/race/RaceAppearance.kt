@@ -5,17 +5,18 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.race.editRaceAppearance
 import at.orchaldir.gm.app.html.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.race.showRaceAppearance
-import at.orchaldir.gm.app.routes.handleCloneElement
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
+import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.util.SortRaceAppearance
 import at.orchaldir.gm.core.selector.race.getRaces
+import at.orchaldir.gm.core.selector.util.sortRaceAppearances
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.ZERO
@@ -24,7 +25,7 @@ import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
-import io.ktor.resources.Resource
+import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
@@ -42,73 +43,82 @@ import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/appearance")
-class AppearanceRoutes {
+@Resource("/$RACE_APPEARANCE_TYPE")
+class RaceAppearanceRoutes: Routes<RaceAppearanceId> {
+    @Resource("all")
+    class All(
+        val sort: SortRaceAppearance = SortRaceAppearance.Name,
+        val parent: RaceAppearanceRoutes = RaceAppearanceRoutes(),
+    )
+
     @Resource("gallery")
-    class Gallery(val parent: AppearanceRoutes = AppearanceRoutes())
+    class Gallery(
+        val sort: SortRaceAppearance = SortRaceAppearance.Name,
+        val parent: RaceAppearanceRoutes = RaceAppearanceRoutes(),
+    )
 
     @Resource("details")
-    class Details(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+    class Details(val id: RaceAppearanceId, val parent: RaceAppearanceRoutes = RaceAppearanceRoutes())
 
     @Resource("new")
-    class New(val parent: AppearanceRoutes = AppearanceRoutes())
+    class New(val parent: RaceAppearanceRoutes = RaceAppearanceRoutes())
 
     @Resource("clone")
-    class Clone(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+    class Clone(val id: RaceAppearanceId, val parent: RaceAppearanceRoutes = RaceAppearanceRoutes())
 
     @Resource("delete")
-    class Delete(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+    class Delete(val id: RaceAppearanceId, val parent: RaceAppearanceRoutes = RaceAppearanceRoutes())
 
     @Resource("edit")
-    class Edit(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+    class Edit(val id: RaceAppearanceId, val parent: RaceAppearanceRoutes = RaceAppearanceRoutes())
 
     @Resource("preview")
-    class Preview(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+    class Preview(val id: RaceAppearanceId, val parent: RaceAppearanceRoutes = RaceAppearanceRoutes())
 
     @Resource("update")
-    class Update(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+    class Update(val id: RaceAppearanceId, val parent: RaceAppearanceRoutes = RaceAppearanceRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun clone(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Clone(id))
+    override fun delete(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Edit(id))
 }
 
 fun Application.configureRaceAppearanceRouting() {
     routing {
-        get<AppearanceRoutes> {
-            logger.info { "Get all appearances of races" }
+        get<RaceAppearanceRoutes.All> { all ->
+            logger.info { "Get all races appearances" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAll(call, STORE.getState())
+                showAll(call, STORE.getState(), all.sort)
             }
         }
-        get<AppearanceRoutes.Gallery> { gallery ->
+        get<RaceAppearanceRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState())
+                showGallery(call, STORE.getState(), gallery.sort)
             }
         }
-        get<AppearanceRoutes.Details> { details ->
-            logger.info { "Get details of race appearance ${details.id.value}" }
-
-            val state = STORE.getState()
-            val race = state.getRaceAppearanceStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDetails(call, state, race)
+        get<RaceAppearanceRoutes.Details> { details ->
+            handleShowElementSplit(details.id, RaceAppearanceRoutes(), HtmlBlockTag::showRaceAppearance) { _, state, appearance ->
+                showRandomExamples(state, appearance, 20, 20)
             }
         }
-        get<AppearanceRoutes.New> {
+        get<RaceAppearanceRoutes.New> {
             handleCreateElement(STORE.getState().getRaceAppearanceStorage()) { id ->
-                AppearanceRoutes.Edit(id)
+                RaceAppearanceRoutes.Edit(id)
             }
         }
-        get<AppearanceRoutes.Clone> { clone ->
+        get<RaceAppearanceRoutes.Clone> { clone ->
             handleCloneElement(clone.id) { cloneId ->
-                AppearanceRoutes.Edit(cloneId)
+                RaceAppearanceRoutes.Edit(cloneId)
             }
         }
-        get<AppearanceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, AppearanceRoutes())
+        get<RaceAppearanceRoutes.Delete> { delete ->
+            handleDeleteElement(delete.id, RaceAppearanceRoutes())
         }
-        get<AppearanceRoutes.Edit> { edit ->
+        get<RaceAppearanceRoutes.Edit> { edit ->
             logger.info { "Get editor for race appearance ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -118,7 +128,7 @@ fun Application.configureRaceAppearanceRouting() {
                 showEditor(call, state, race)
             }
         }
-        post<AppearanceRoutes.Preview> { preview ->
+        post<RaceAppearanceRoutes.Preview> { preview ->
             logger.info { "Get preview for race appearance ${preview.id.value}" }
 
             val state = STORE.getState()
@@ -128,7 +138,7 @@ fun Application.configureRaceAppearanceRouting() {
                 showEditor(call, state, race)
             }
         }
-        post<AppearanceRoutes.Update> { update ->
+        post<RaceAppearanceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRaceAppearance)
         }
     }
@@ -137,12 +147,11 @@ fun Application.configureRaceAppearanceRouting() {
 private fun HTML.showAll(
     call: ApplicationCall,
     state: State,
+    sort: SortRaceAppearance,
 ) {
-    val appearances = STORE.getState().getRaceAppearanceStorage()
-        .getAll()
-        .sortedBy { it.name.text }
-    val createLink = call.application.href(AppearanceRoutes.New())
-    val galleryLink = call.application.href(AppearanceRoutes.Gallery())
+    val appearances = state.sortRaceAppearances(sort)
+    val createLink = call.application.href(RaceAppearanceRoutes.New())
+    val galleryLink = call.application.href(RaceAppearanceRoutes.Gallery())
 
     simpleHtml("Race Appearances") {
         field("Count", appearances.size)
@@ -169,51 +178,17 @@ private fun HTML.showAll(
 private fun HTML.showGallery(
     call: ApplicationCall,
     state: State,
+    sort: SortRaceAppearance,
 ) {
-    val elements = STORE.getState().getRaceAppearanceStorage()
-        .getAll()
-        .sortedBy { it.name.text }
-    val backLink = call.application.href(AppearanceRoutes())
+    val appearances = state.sortRaceAppearances(sort)
+    val backLink = call.application.href(RaceAppearanceRoutes())
 
     simpleHtml("Race Appearances") {
-        showGallery(call, state, elements) { element ->
+        showGallery(call, state, appearances) { element ->
             getSvg(state, element)
         }
 
         back(backLink)
-    }
-}
-
-private fun HTML.showDetails(
-    call: ApplicationCall,
-    state: State,
-    appearance: RaceAppearance,
-) {
-    val eyeOptions = appearance.eye
-    val backLink = call.application.href(AppearanceRoutes())
-    val cloneLink = call.application.href(AppearanceRoutes.Clone(appearance.id))
-    val deleteLink = call.application.href(AppearanceRoutes.Delete(appearance.id))
-    val editLink = call.application.href(AppearanceRoutes.Edit(appearance.id))
-
-    simpleHtmlDetails(appearance) {
-        split({
-            fieldName(appearance.name)
-            h2 { +"Options" }
-
-            showRaceAppearance(call, state, appearance, eyeOptions)
-
-            h2 { +"Races" }
-            showList(state.getRaces(appearance.id)) { race ->
-                link(call, race)
-            }
-
-            action(editLink, "Edit")
-            action(cloneLink, "Clone")
-            action(deleteLink, "Delete")
-            back(backLink)
-        }, {
-            showRandomExamples(state, appearance, 20, 20)
-        })
     }
 }
 
@@ -242,9 +217,9 @@ private fun HTML.showEditor(
     state: State,
     appearance: RaceAppearance,
 ) {
-    val backLink = call.application.href(AppearanceRoutes.Details(appearance.id))
-    val previewLink = call.application.href(AppearanceRoutes.Preview(appearance.id))
-    val updateLink = call.application.href(AppearanceRoutes.Update(appearance.id))
+    val backLink = call.application.href(RaceAppearanceRoutes.Details(appearance.id))
+    val previewLink = call.application.href(RaceAppearanceRoutes.Preview(appearance.id))
+    val updateLink = call.application.href(RaceAppearanceRoutes.Update(appearance.id))
 
     simpleHtmlEditor(appearance, true) {
         split({
