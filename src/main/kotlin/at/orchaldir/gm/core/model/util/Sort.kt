@@ -28,6 +28,10 @@ enum class SortBusiness {
     Employees,
 }
 
+enum class SortCalendar {
+    Name,
+}
+
 enum class SortCatastrophe {
     Name,
     Start,
@@ -49,6 +53,10 @@ enum class SortCharacterTemplate {
 enum class SortColorScheme {
     Name,
     Equipment,
+}
+
+enum class SortCulture {
+    Name,
 }
 
 enum class SortCurrency {
@@ -89,6 +97,10 @@ enum class SortEquipment {
     Name,
 }
 
+enum class SortFashion {
+    Name,
+}
+
 enum class SortFont {
     Name,
     Date,
@@ -97,6 +109,10 @@ enum class SortFont {
 enum class SortGod {
     Name,
     Believers,
+}
+
+enum class SortHoliday {
+    Name,
 }
 
 enum class SortJob {
@@ -136,6 +152,10 @@ enum class SortMoon {
     Name,
 }
 
+enum class SortNameList {
+    Name,
+}
+
 enum class SortOrganization {
     Name,
     Date,
@@ -158,6 +178,10 @@ enum class SortPeriodicalIssue {
     Date,
 }
 
+enum class SortPersonalityTrait {
+    Name,
+}
+
 enum class SortPlane {
     Name,
 }
@@ -177,6 +201,10 @@ enum class SortRace {
     Characters,
 }
 
+enum class SortRaceAppearance {
+    Name,
+}
+
 enum class SortRealm {
     Name,
     Start,
@@ -187,6 +215,10 @@ enum class SortRealm {
 }
 
 enum class SortRegion {
+    Name,
+}
+
+enum class SortRiver {
     Name,
 }
 
@@ -201,6 +233,14 @@ enum class SortSpellGroup {
 }
 
 enum class SortStatistic {
+    Name,
+}
+
+enum class SortStreet {
+    Name,
+}
+
+enum class SortStreetTemplate {
     Name,
 }
 

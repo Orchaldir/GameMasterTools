@@ -8,8 +8,10 @@ import at.orchaldir.gm.app.html.realm.showBattle
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.BATTLE_TYPE
@@ -31,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BATTLE_TYPE")
-class BattleRoutes {
+class BattleRoutes : Routes<BattleId> {
     @Resource("all")
     class All(
         val sort: SortBattle = SortBattle.Name,
@@ -55,6 +57,10 @@ class BattleRoutes {
 
     @Resource("update")
     class Update(val id: BattleId, val parent: BattleRoutes = BattleRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: BattleId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: BattleId) = call.application.href(Edit(id))
 }
 
 fun Application.configureBattleRouting() {
@@ -67,14 +73,7 @@ fun Application.configureBattleRouting() {
             }
         }
         get<BattleRoutes.Details> { details ->
-            logger.info { "Get details of battle ${details.id.value}" }
-
-            val state = STORE.getState()
-            val battle = state.getBattleStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showBattleDetails(call, state, battle)
-            }
+            handleShowElement(details.id, BattleRoutes(), HtmlBlockTag::showBattle)
         }
         get<BattleRoutes.New> {
             handleCreateElement(STORE.getState().getBattleStorage()) { id ->
@@ -142,24 +141,6 @@ private fun HTML.showAllBattles(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showBattleDetails(
-    call: ApplicationCall,
-    state: State,
-    battle: Battle,
-) {
-    val backLink = call.application.href(BattleRoutes.All())
-    val deleteLink = call.application.href(BattleRoutes.Delete(battle.id))
-    val editLink = call.application.href(BattleRoutes.Edit(battle.id))
-
-    simpleHtmlDetails(battle) {
-        showBattle(call, state, battle)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

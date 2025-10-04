@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.title.editTitle
 import at.orchaldir.gm.app.html.character.title.parseTitle
 import at.orchaldir.gm.app.html.character.title.showTitle
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
@@ -24,6 +26,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.th
 import kotlinx.html.tr
@@ -32,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TITLE_TYPE")
-class TitleRoutes {
+class TitleRoutes : Routes<TitleId> {
     @Resource("all")
     class All(
         val sort: SortTitle = SortTitle.Name,
@@ -56,6 +59,10 @@ class TitleRoutes {
 
     @Resource("update")
     class Update(val id: TitleId, val parent: TitleRoutes = TitleRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: TitleId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: TitleId) = call.application.href(Edit(id))
 }
 
 fun Application.configureTitleRouting() {
@@ -68,14 +75,7 @@ fun Application.configureTitleRouting() {
             }
         }
         get<TitleRoutes.Details> { details ->
-            logger.info { "Get details of title ${details.id.value}" }
-
-            val state = STORE.getState()
-            val title = state.getTitleStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTitleDetails(call, state, title)
-            }
+            handleShowElement(details.id, TitleRoutes(), HtmlBlockTag::showTitle)
         }
         get<TitleRoutes.New> {
             handleCreateElement(STORE.getState().getTitleStorage()) { id ->
@@ -144,24 +144,6 @@ private fun HTML.showAllTitles(
         }
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showTitleDetails(
-    call: ApplicationCall,
-    state: State,
-    title: Title,
-) {
-    val backLink = call.application.href(TitleRoutes.All())
-    val deleteLink = call.application.href(TitleRoutes.Delete(title.id))
-    val editLink = call.application.href(TitleRoutes.Edit(title.id))
-
-    simpleHtmlDetails(title) {
-        showTitle(call, state, title)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

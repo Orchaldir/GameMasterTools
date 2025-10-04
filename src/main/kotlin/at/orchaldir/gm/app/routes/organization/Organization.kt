@@ -8,8 +8,10 @@ import at.orchaldir.gm.app.html.organization.showOrganization
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
@@ -32,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ORGANIZATION_TYPE")
-class OrganizationRoutes {
+class OrganizationRoutes : Routes<OrganizationId> {
     @Resource("all")
     class All(
         val sort: SortOrganization = SortOrganization.Name,
@@ -56,6 +58,11 @@ class OrganizationRoutes {
 
     @Resource("update")
     class Update(val id: OrganizationId, val parent: OrganizationRoutes = OrganizationRoutes())
+
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: OrganizationId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: OrganizationId) = call.application.href(Edit(id))
 }
 
 fun Application.configureOrganizationRouting() {
@@ -68,14 +75,7 @@ fun Application.configureOrganizationRouting() {
             }
         }
         get<OrganizationRoutes.Details> { details ->
-            logger.info { "Get details of organization ${details.id.value}" }
-
-            val state = STORE.getState()
-            val organization = state.getOrganizationStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showOrganizationDetails(call, state, organization)
-            }
+            handleShowElement(details.id, OrganizationRoutes(), HtmlBlockTag::showOrganization)
         }
         get<OrganizationRoutes.New> {
             handleCreateElement(STORE.getState().getOrganizationStorage()) { id ->
@@ -151,24 +151,6 @@ private fun HTML.showAllOrganizations(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showOrganizationDetails(
-    call: ApplicationCall,
-    state: State,
-    organization: Organization,
-) {
-    val backLink = call.application.href(OrganizationRoutes.All())
-    val deleteLink = call.application.href(OrganizationRoutes.Delete(organization.id))
-    val editLink = call.application.href(OrganizationRoutes.Edit(organization.id))
-
-    simpleHtmlDetails(organization) {
-        showOrganization(call, state, organization)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

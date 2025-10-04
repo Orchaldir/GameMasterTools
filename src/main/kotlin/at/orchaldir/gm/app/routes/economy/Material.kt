@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
@@ -14,18 +16,11 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
-import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
-import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
-import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
-import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
-import at.orchaldir.gm.core.selector.world.getMoonsContaining
-import at.orchaldir.gm.core.selector.world.getRegionsContaining
-import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -39,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MATERIAL_TYPE")
-class MaterialRoutes {
+class MaterialRoutes : Routes<MaterialId> {
     @Resource("all")
     class All(
         val sort: SortMaterial = SortMaterial.Name,
@@ -60,6 +55,10 @@ class MaterialRoutes {
 
     @Resource("update")
     class Update(val id: MaterialId, val parent: MaterialRoutes = MaterialRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: MaterialId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: MaterialId) = call.application.href(Edit(id))
 }
 
 fun Application.configureMaterialRouting() {
@@ -72,14 +71,7 @@ fun Application.configureMaterialRouting() {
             }
         }
         get<MaterialRoutes.Details> { details ->
-            logger.info { "Get details of material ${details.id.value}" }
-
-            val state = STORE.getState()
-            val material = state.getMaterialStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showMaterialDetails(call, state, material)
-            }
+            handleShowElement(details.id, MaterialRoutes(), HtmlBlockTag::showMaterial)
         }
         get<MaterialRoutes.New> {
             handleCreateElement(STORE.getState().getMaterialStorage()) { id ->
@@ -146,43 +138,6 @@ private fun HTML.showAllMaterials(
         showMaterialCategoryCount(materials)
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showMaterialDetails(
-    call: ApplicationCall,
-    state: State,
-    material: Material,
-) {
-    val currencyUnits = state.getCurrencyUnits(material.id)
-    val equipmentList = state.getEquipmentMadeOf(material.id)
-    val moons = state.getMoonsContaining(material.id)
-    val regions = state.getRegionsContaining(material.id)
-    val raceAppearances = state.getRaceAppearancesMadeOf(material.id)
-    val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
-    val texts = state.getTextsMadeOf(material.id)
-    val backLink = call.application.href(MaterialRoutes.All())
-    val deleteLink = call.application.href(MaterialRoutes.Delete(material.id))
-    val editLink = call.application.href(MaterialRoutes.Edit(material.id))
-
-    simpleHtmlDetails(material) {
-        showMaterial(material)
-
-        h2 { +"Usage" }
-
-        fieldElements(call, state, currencyUnits)
-        fieldElements(call, state, equipmentList)
-        fieldElements(call, state, moons)
-        fieldElements(call, state, regions)
-        fieldElements(call, state, raceAppearances)
-        fieldElements(call, state, streetTemplates)
-        fieldList("Texts", texts) { text ->
-            link(call, text, text.getNameWithDate(state))
-        }
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

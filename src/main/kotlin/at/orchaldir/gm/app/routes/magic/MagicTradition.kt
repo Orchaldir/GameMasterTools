@@ -7,8 +7,10 @@ import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MAGIC_TRADITION_TYPE
@@ -30,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MAGIC_TRADITION_TYPE")
-class MagicTraditionRoutes {
+class MagicTraditionRoutes : Routes<MagicTraditionId> {
     @Resource("all")
     class All(
         val sort: SortMagicTradition = SortMagicTradition.Name,
@@ -54,6 +56,10 @@ class MagicTraditionRoutes {
 
     @Resource("update")
     class Update(val id: MagicTraditionId, val parent: MagicTraditionRoutes = MagicTraditionRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Edit(id))
 }
 
 fun Application.configureMagicTraditionRouting() {
@@ -66,14 +72,7 @@ fun Application.configureMagicTraditionRouting() {
             }
         }
         get<MagicTraditionRoutes.Details> { details ->
-            logger.info { "Get details of tradition ${details.id.value}" }
-
-            val state = STORE.getState()
-            val tradition = state.getMagicTraditionStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showMagicTraditionDetails(call, state, tradition)
-            }
+            handleShowElement(details.id, MagicTraditionRoutes(), HtmlBlockTag::showMagicTradition)
         }
         get<MagicTraditionRoutes.New> {
             handleCreateElement(STORE.getState().getMagicTraditionStorage()) { id ->
@@ -141,24 +140,6 @@ private fun HTML.showAllMagicTraditions(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showMagicTraditionDetails(
-    call: ApplicationCall,
-    state: State,
-    tradition: MagicTradition,
-) {
-    val backLink = call.application.href(MagicTraditionRoutes.All())
-    val deleteLink = call.application.href(MagicTraditionRoutes.Delete(tradition.id))
-    val editLink = call.application.href(MagicTraditionRoutes.Edit(tradition.id))
-
-    simpleHtmlDetails(tradition) {
-        showMagicTradition(call, state, tradition)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

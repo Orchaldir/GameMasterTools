@@ -3,8 +3,10 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.world.*
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortPlane
@@ -29,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PLANE_TYPE")
-class PlaneRoutes {
+class PlaneRoutes : Routes<PlaneId> {
     @Resource("all")
     class All(
         val sort: SortPlane = SortPlane.Name,
@@ -53,6 +55,10 @@ class PlaneRoutes {
 
     @Resource("update")
     class Update(val id: PlaneId, val parent: PlaneRoutes = PlaneRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: PlaneId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: PlaneId) = call.application.href(Edit(id))
 }
 
 fun Application.configurePlaneRouting() {
@@ -65,14 +71,7 @@ fun Application.configurePlaneRouting() {
             }
         }
         get<PlaneRoutes.Details> { details ->
-            logger.info { "Get details of plane ${details.id.value}" }
-
-            val state = STORE.getState()
-            val plane = state.getPlaneStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPlaneDetails(call, state, plane)
-            }
+            handleShowElement(details.id, PlaneRoutes(), HtmlBlockTag::showPlane)
         }
         get<PlaneRoutes.New> {
             handleCreateElement(STORE.getState().getPlaneStorage()) { id ->
@@ -149,24 +148,6 @@ private fun HTML.showAllPlanes(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showPlaneDetails(
-    call: ApplicationCall,
-    state: State,
-    plane: Plane,
-) {
-    val backLink = call.application.href(PlaneRoutes.All())
-    val deleteLink = call.application.href(PlaneRoutes.Delete(plane.id))
-    val editLink = call.application.href(PlaneRoutes.Edit(plane.id))
-
-    simpleHtmlDetails(plane) {
-        showPlane(call, state, plane)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

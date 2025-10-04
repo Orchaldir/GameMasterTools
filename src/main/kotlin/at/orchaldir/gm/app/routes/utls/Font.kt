@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.font.editFont
 import at.orchaldir.gm.app.html.util.font.parseFont
 import at.orchaldir.gm.app.html.util.font.showFont
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
@@ -43,7 +44,7 @@ private const val example = "abcdefghijklmnopqrstuvwxyz"
 private val FONT_SIZE = fromMeters(40)
 
 @Resource("/$FONT_TYPE")
-class FontRoutes {
+class FontRoutes : Routes<FontId> {
     @Resource("all")
     class All(
         val sort: SortFont = SortFont.Name,
@@ -73,6 +74,10 @@ class FontRoutes {
 
     @Resource("uploader")
     class Uploader(val id: FontId, val parent: FontRoutes = FontRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: FontId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: FontId) = call.application.href(Edit(id))
 }
 
 fun Application.configureFontRouting() {
@@ -91,7 +96,7 @@ fun Application.configureFontRouting() {
             val font = state.getFontStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showFontDetails(call, state, font)
+                showFontDetails(call, state, FontRoutes(), font)
             }
         }
         get<FontRoutes.New> {
@@ -210,11 +215,12 @@ private fun HTML.showAllFonts(
 private fun HTML.showFontDetails(
     call: ApplicationCall,
     state: State,
+    routes: FontRoutes,
     font: Font,
 ) {
-    val backLink = call.application.href(FontRoutes.All())
-    val deleteLink = call.application.href(FontRoutes.Delete(font.id))
-    val editLink = call.application.href(FontRoutes.Edit(font.id))
+    val backLink = routes.all(call)
+    val deleteLink = routes.delete(call, font.id)
+    val editLink = routes.edit(call, font.id)
     val uploaderLink = call.application.href(FontRoutes.Uploader(font.id))
 
     simpleHtmlDetails(font) {

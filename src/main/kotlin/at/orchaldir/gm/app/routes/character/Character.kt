@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.character.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
@@ -56,14 +57,7 @@ fun Application.configureCharacterRouting() {
             }
         }
         get<CharacterRoutes.Details> { details ->
-            logger.info { "Get details of character ${details.id.value}" }
-
-            val state = STORE.getState()
-            val character = state.getCharacterStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCharacterDetails(call, state, character)
-            }
+            handleShowElement(details.id, CharacterRoutes(), HtmlBlockTag::showCharacterDetails)
         }
         get<CharacterRoutes.New> {
             handleCreateElement(STORE.getState().getCharacterStorage()) { id ->
@@ -230,30 +224,25 @@ private fun HTML.showGallery(
     }
 }
 
-private fun HTML.showCharacterDetails(
+private fun HtmlBlockTag.showCharacterDetails(
     call: ApplicationCall,
     state: State,
     character: Character,
 ) {
     val equipment = state.getEquipment(character)
-    val backLink = call.application.href(CharacterRoutes.All())
     val editAppearanceLink = call.application.href(CharacterRoutes.Appearance.Edit(character.id))
     val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
     val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment, false)
 
-    simpleHtml("Character: ${character.name(state)}") {
-        svg(frontSvg, 20)
-        svg(backSvg, 20)
+    svg(frontSvg, 20)
+    svg(backSvg, 20)
 
-        action(editAppearanceLink, "Edit Appearance")
+    action(editAppearanceLink, "Edit Appearance")
 
-        showData(character, call, state)
-        showSocial(call, state, character)
-        showPossession(call, state, character)
-        showCreated(call, state, character.id)
-
-        back(backLink)
-    }
+    showData(character, call, state)
+    showSocial(call, state, character)
+    showPossession(call, state, character)
+    showCreated(call, state, character.id)
 }
 
 

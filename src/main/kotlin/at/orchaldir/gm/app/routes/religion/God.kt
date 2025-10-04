@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.religion.editGod
 import at.orchaldir.gm.app.html.religion.parseGod
 import at.orchaldir.gm.app.html.religion.showGod
 import at.orchaldir.gm.app.html.util.showAuthenticity
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.GOD_TYPE
@@ -26,6 +28,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.td
 import kotlinx.html.th
@@ -35,7 +38,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$GOD_TYPE")
-class GodRoutes {
+class GodRoutes : Routes<GodId> {
     @Resource("all")
     class All(
         val sort: SortGod = SortGod.Name,
@@ -59,6 +62,10 @@ class GodRoutes {
 
     @Resource("update")
     class Update(val id: GodId, val parent: GodRoutes = GodRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: GodId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: GodId) = call.application.href(Edit(id))
 }
 
 fun Application.configureGodRouting() {
@@ -71,14 +78,7 @@ fun Application.configureGodRouting() {
             }
         }
         get<GodRoutes.Details> { details ->
-            logger.info { "Get details of god ${details.id.value}" }
-
-            val state = STORE.getState()
-            val god = state.getGodStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showGodDetails(call, state, god)
-            }
+            handleShowElement(details.id, GodRoutes(), HtmlBlockTag::showGod)
         }
         get<GodRoutes.New> {
             handleCreateElement(STORE.getState().getGodStorage()) { id ->
@@ -168,24 +168,6 @@ private fun HTML.showAllGods(
 
         showDomainCount(call, state, state.getGodStorage().getAll())
         showPersonalityCountForGods(call, state, state.getGodStorage().getAll())
-    }
-}
-
-private fun HTML.showGodDetails(
-    call: ApplicationCall,
-    state: State,
-    god: God,
-) {
-    val backLink = call.application.href(GodRoutes.All())
-    val deleteLink = call.application.href(GodRoutes.Delete(god.id))
-    val editLink = call.application.href(GodRoutes.Edit(god.id))
-
-    simpleHtmlDetails(god) {
-        showGod(call, state, god)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

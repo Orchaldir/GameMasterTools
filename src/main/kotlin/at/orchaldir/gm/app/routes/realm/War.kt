@@ -9,8 +9,10 @@ import at.orchaldir.gm.app.html.realm.showWar
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.WAR_TYPE
@@ -34,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$WAR_TYPE")
-class WarRoutes {
+class WarRoutes : Routes<WarId> {
     @Resource("all")
     class All(
         val sort: SortWar = SortWar.Name,
@@ -58,6 +60,10 @@ class WarRoutes {
 
     @Resource("update")
     class Update(val id: WarId, val parent: WarRoutes = WarRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: WarId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: WarId) = call.application.href(Edit(id))
 }
 
 fun Application.configureWarRouting() {
@@ -70,14 +76,7 @@ fun Application.configureWarRouting() {
             }
         }
         get<WarRoutes.Details> { details ->
-            logger.info { "Get details of war ${details.id.value}" }
-
-            val state = STORE.getState()
-            val war = state.getWarStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showWarDetails(call, state, war)
-            }
+            handleShowElement(details.id, WarRoutes(), HtmlBlockTag::showWar)
         }
         get<WarRoutes.New> {
             handleCreateElement(STORE.getState().getWarStorage()) { id ->
@@ -154,24 +153,6 @@ private fun HTML.showAllWars(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showWarDetails(
-    call: ApplicationCall,
-    state: State,
-    war: War,
-) {
-    val backLink = call.application.href(WarRoutes.All())
-    val deleteLink = call.application.href(WarRoutes.Delete(war.id))
-    val editLink = call.application.href(WarRoutes.Edit(war.id))
-
-    simpleHtmlDetails(war) {
-        showWar(call, state, war)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

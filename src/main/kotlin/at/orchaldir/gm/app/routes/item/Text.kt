@@ -7,8 +7,10 @@ import at.orchaldir.gm.app.html.item.text.parseText
 import at.orchaldir.gm.app.html.item.text.showText
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
@@ -34,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
-class TextRoutes {
+class TextRoutes : Routes<TextId> {
     @Resource("all")
     class All(
         val sort: SortText = SortText.Name,
@@ -65,6 +67,10 @@ class TextRoutes {
 
     @Resource("update")
     class Update(val id: TextId, val parent: TextRoutes = TextRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: TextId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: TextId) = call.application.href(Edit(id))
 }
 
 fun Application.configureTextRouting() {
@@ -84,13 +90,9 @@ fun Application.configureTextRouting() {
             }
         }
         get<TextRoutes.Details> { details ->
-            logger.info { "Get details of text ${details.id.value}" }
-
-            val state = STORE.getState()
-            val text = state.getTextStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTextDetails(call, state, text, details.pageIndex)
+            handleShowElement<TextId, Text>(details.id, TextRoutes()) { call, state, text ->
+                visualizeFrontAndContent(call, state, text, 20, details.pageIndex, true)
+                showText(call, state, text)
             }
         }
         get<TextRoutes.New> {
@@ -195,26 +197,6 @@ private fun HTML.showGallery(
             visualizeTextFormat(state, TEXT_CONFIG, text, size)
         }
 
-        back(backLink)
-    }
-}
-
-private fun HTML.showTextDetails(
-    call: ApplicationCall,
-    state: State,
-    text: Text,
-    pageIndex: Int,
-) {
-    val backLink = call.application.href(TextRoutes.All())
-    val deleteLink = call.application.href(TextRoutes.Delete(text.id))
-    val editLink = call.application.href(TextRoutes.Edit(text.id))
-
-    simpleHtml("Text: ${text.name(state)}") {
-        visualizeFrontAndContent(call, state, text, 20, pageIndex, true)
-        showText(call, state, text)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
         back(backLink)
     }
 }

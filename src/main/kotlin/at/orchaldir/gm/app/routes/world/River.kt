@@ -2,15 +2,20 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.world.parseRiver
+import at.orchaldir.gm.app.html.world.editRiver
+import at.orchaldir.gm.app.html.world.parseRiver
+import at.orchaldir.gm.app.html.world.showRiver
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortRiver
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.util.sortRivers
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -19,13 +24,20 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.form
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$RIVER_TYPE")
-class RiverRoutes {
+class RiverRoutes : Routes<RiverId> {
+    @Resource("all")
+    class All(
+        val sort: SortRiver = SortRiver.Name,
+        val parent: RiverRoutes = RiverRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: RiverId, val parent: RiverRoutes = RiverRoutes())
 
@@ -40,26 +52,23 @@ class RiverRoutes {
 
     @Resource("update")
     class Update(val id: RiverId, val parent: RiverRoutes = RiverRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: RiverId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: RiverId) = call.application.href(Edit(id))
 }
 
 fun Application.configureRiverRouting() {
     routing {
-        get<RiverRoutes> {
+        get<RiverRoutes.All> { all ->
             logger.info { "Get all rivers" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllRivers(call)
+                showAllRivers(call, STORE.getState(), all.sort)
             }
         }
         get<RiverRoutes.Details> { details ->
-            logger.info { "Get details of river ${details.id.value}" }
-
-            val state = STORE.getState()
-            val river = state.getRiverStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRiverDetails(call, state, river)
-            }
+            handleShowElement(details.id, RiverRoutes(), HtmlBlockTag::showRiver)
         }
         get<RiverRoutes.New> {
             handleCreateElement(STORE.getState().getRiverStorage()) { id ->
@@ -76,7 +85,7 @@ fun Application.configureRiverRouting() {
             val river = state.getRiverStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRiverEditor(call, river)
+                showRiverEditor(call, state, river)
             }
         }
         post<RiverRoutes.Update> { update ->
@@ -85,8 +94,12 @@ fun Application.configureRiverRouting() {
     }
 }
 
-private fun HTML.showAllRivers(call: ApplicationCall) {
-    val rivers = STORE.getState().getRiverStorage().getAll().sortedBy { it.name.text }
+private fun HTML.showAllRivers(
+    call: ApplicationCall,
+    state: State,
+    sort: SortRiver,
+) {
+    val rivers = state.sortRivers(sort)
     val createLink = call.application.href(RiverRoutes.New())
 
     simpleHtml("Rivers") {
@@ -99,27 +112,9 @@ private fun HTML.showAllRivers(call: ApplicationCall) {
     }
 }
 
-private fun HTML.showRiverDetails(
-    call: ApplicationCall,
-    state: State,
-    river: River,
-) {
-    val backLink = call.application.href(RiverRoutes())
-    val deleteLink = call.application.href(RiverRoutes.Delete(river.id))
-    val editLink = call.application.href(RiverRoutes.Edit(river.id))
-
-    simpleHtmlDetails(river) {
-        fieldName(river.name)
-        fieldElements(call, state, state.getTowns(river.id))
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
-    }
-}
-
 private fun HTML.showRiverEditor(
     call: ApplicationCall,
+    state: State,
     river: River,
 ) {
     val backLink = href(call, river.id)
@@ -127,7 +122,7 @@ private fun HTML.showRiverEditor(
 
     simpleHtmlEditor(river) {
         form {
-            selectName(river.name)
+            editRiver(state, river)
             button("Update", updateLink)
         }
         back(backLink)

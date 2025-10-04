@@ -1,8 +1,7 @@
 package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.href
-import at.orchaldir.gm.app.html.showDeleteResult
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.DeleteAction
@@ -20,6 +19,17 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
+
+interface Routes<ID : Id<ID>> {
+
+    fun all(call: ApplicationCall): String
+    fun clone(call: ApplicationCall, id: ID): String? = null
+    fun delete(call: ApplicationCall, id: ID): String
+    fun edit(call: ApplicationCall, id: ID): String
+}
 
 suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
     storage: Storage<ID, ELEMENT>,
@@ -69,6 +79,90 @@ suspend inline fun <reified T : Any, ID : Id<ID>> PipelineContext<Unit, Applicat
             showDeleteResult(call, STORE.getState(), e.result)
         }
     }
+}
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleShowElement(
+    id: ID,
+    routes: Routes<ID>,
+    noinline showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+) {
+    logger.info { "Get details of ${id.print()}" }
+
+    val state = STORE.getState()
+    val storage = state.getStorage<ID, ELEMENT>(id)
+    val element = storage.getOrThrow(id)
+
+    call.respondHtml(HttpStatusCode.OK) {
+        showElementDetails(call, state, element, routes, showDetails)
+    }
+}
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleShowElementSplit(
+    id: ID,
+    routes: Routes<ID>,
+    noinline showLeft: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+    noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+) {
+    logger.info { "Get details of ${id.print()}" }
+
+    val state = STORE.getState()
+    val storage = state.getStorage<ID, ELEMENT>(id)
+    val element = storage.getOrThrow(id)
+
+    call.respondHtml(HttpStatusCode.OK) {
+        showElementDetailsSplit(call, state, element, routes, showLeft, showRight)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+    routes: Routes<ID>,
+    showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+) {
+    simpleHtmlDetails(state, element) {
+        showDetails(call, state, element)
+        showDetailsActions(call, routes, element)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetailsSplit(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+    routes: Routes<ID>,
+    showLeft: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+    showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+) {
+    simpleHtmlDetails(state, element) {
+        split({
+            showLeft(call, state, element)
+            showDetailsActions(call, routes, element)
+        }, {
+            showRight(call, state, element)
+        })
+    }
+}
+
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showDetailsActions(
+    call: ApplicationCall,
+    routes: Routes<ID>,
+    element: ELEMENT,
+) {
+    val backLink = routes.all(call)
+    val cloneLink = routes.clone(call, element.id())
+    val deleteLink = routes.delete(call, element.id())
+    val editLink = routes.edit(call, element.id())
+
+    h2 { +"Actions" }
+
+    if (cloneLink != null) {
+        action(cloneLink, "Clone")
+    }
+    action(editLink, "Edit")
+    action(deleteLink, "Delete")
+    back(backLink)
 }
 
 suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(

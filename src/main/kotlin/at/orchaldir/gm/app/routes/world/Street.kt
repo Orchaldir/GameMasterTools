@@ -2,16 +2,20 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.world.parseStreet
+import at.orchaldir.gm.app.html.world.editStreet
+import at.orchaldir.gm.app.html.world.parseStreet
+import at.orchaldir.gm.app.html.world.showStreet
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortStreet
 import at.orchaldir.gm.core.model.world.street.STREET_TYPE
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
-import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.util.sortStreets
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -20,13 +24,20 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.form
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TYPE")
-class StreetRoutes {
+class StreetRoutes : Routes<StreetId> {
+    @Resource("all")
+    class All(
+        val sort: SortStreet = SortStreet.Name,
+        val parent: StreetRoutes = StreetRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: StreetId, val parent: StreetRoutes = StreetRoutes())
 
@@ -41,26 +52,23 @@ class StreetRoutes {
 
     @Resource("update")
     class Update(val id: StreetId, val parent: StreetRoutes = StreetRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: StreetId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: StreetId) = call.application.href(Edit(id))
 }
 
 fun Application.configureStreetRouting() {
     routing {
-        get<StreetRoutes> {
-            logger.info { "Get all streets" }
+        get<StreetRoutes.All> { all ->
+            logger.info { "Get all traditions" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllStreets(call, STORE.getState())
+                showAllStreets(call, STORE.getState(), all.sort)
             }
         }
         get<StreetRoutes.Details> { details ->
-            logger.info { "Get details of street ${details.id.value}" }
-
-            val state = STORE.getState()
-            val street = state.getStreetStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showStreetDetails(call, state, street)
-            }
+            handleShowElement(details.id, StreetRoutes(), HtmlBlockTag::showStreet)
         }
         get<StreetRoutes.New> {
             handleCreateElement(STORE.getState().getStreetStorage()) { id ->
@@ -89,8 +97,9 @@ fun Application.configureStreetRouting() {
 private fun HTML.showAllStreets(
     call: ApplicationCall,
     state: State,
+    sort: SortStreet,
 ) {
-    val streets = STORE.getState().getStreetStorage().getAll().sortedBy { it.name(state) }
+    val streets = state.sortStreets(sort)
     val createLink = call.application.href(StreetRoutes.New())
 
     simpleHtml("Streets") {
@@ -100,30 +109,6 @@ private fun HTML.showAllStreets(
         }
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showStreetDetails(
-    call: ApplicationCall,
-    state: State,
-    street: Street,
-) {
-    val backLink = call.application.href(StreetRoutes())
-    val deleteLink = call.application.href(StreetRoutes.Delete(street.id))
-    val editLink = call.application.href(StreetRoutes.Edit(street.id))
-
-    simpleHtmlDetails(street) {
-        fieldName(street.name)
-        fieldList("Towns", state.getTowns(street.id)) { town ->
-            val buildings = state.getBuildingsIn(town.id)
-                .filter { it.address.contains(street.id) }
-
-            link(call, state, town)
-            fieldElements(call, state, buildings)
-        }
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 
@@ -137,7 +122,7 @@ private fun HTML.showStreetEditor(
 
     simpleHtmlEditor(street) {
         form {
-            selectName(street.name)
+            editStreet(state, street)
             button("Update", updateLink)
         }
         back(backLink)

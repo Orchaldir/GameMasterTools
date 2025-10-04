@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.periodical.editPeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.parsePeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.showPeriodicalIssue
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_ISSUE_TYPE
@@ -28,7 +30,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERIODICAL_ISSUE_TYPE")
-class PeriodicalIssueRoutes {
+class PeriodicalIssueRoutes : Routes<PeriodicalIssueId> {
     @Resource("all")
     class All(
         val sort: SortPeriodicalIssue = SortPeriodicalIssue.Date,
@@ -52,6 +54,10 @@ class PeriodicalIssueRoutes {
 
     @Resource("update")
     class Update(val id: PeriodicalIssueId, val parent: PeriodicalIssueRoutes = PeriodicalIssueRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Edit(id))
 }
 
 fun Application.configurePeriodicalIssueRouting() {
@@ -64,14 +70,7 @@ fun Application.configurePeriodicalIssueRouting() {
             }
         }
         get<PeriodicalIssueRoutes.Details> { details ->
-            logger.info { "Get details of periodical issues ${details.id.value}" }
-
-            val state = STORE.getState()
-            val issue = state.getPeriodicalIssueStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPeriodicalIssueDetails(call, state, issue)
-            }
+            handleShowElement(details.id, PeriodicalIssueRoutes(), HtmlBlockTag::showPeriodicalIssue)
         }
         get<PeriodicalIssueRoutes.New> {
             handleCreateElement(STORE.getState().getPeriodicalIssueStorage()) { id ->
@@ -135,24 +134,6 @@ private fun HTML.showAllPeriodicalIssues(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showPeriodicalIssueDetails(
-    call: ApplicationCall,
-    state: State,
-    periodical: PeriodicalIssue,
-) {
-    val backLink = call.application.href(PeriodicalIssueRoutes.All())
-    val deleteLink = call.application.href(PeriodicalIssueRoutes.Delete(periodical.id))
-    val editLink = call.application.href(PeriodicalIssueRoutes.Edit(periodical.id))
-
-    simpleHtml("Periodical Issue: ${periodical.name(state)}") {
-        showPeriodicalIssue(call, state, periodical)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

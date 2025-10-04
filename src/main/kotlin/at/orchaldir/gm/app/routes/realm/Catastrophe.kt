@@ -9,8 +9,10 @@ import at.orchaldir.gm.app.html.realm.showCatastrophe
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
@@ -33,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CATASTROPHE_TYPE")
-class CatastropheRoutes {
+class CatastropheRoutes : Routes<CatastropheId> {
     @Resource("all")
     class All(
         val sort: SortCatastrophe = SortCatastrophe.Name,
@@ -57,6 +59,10 @@ class CatastropheRoutes {
 
     @Resource("update")
     class Update(val id: CatastropheId, val parent: CatastropheRoutes = CatastropheRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: CatastropheId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: CatastropheId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCatastropheRouting() {
@@ -69,14 +75,7 @@ fun Application.configureCatastropheRouting() {
             }
         }
         get<CatastropheRoutes.Details> { details ->
-            logger.info { "Get details of catastrophe ${details.id.value}" }
-
-            val state = STORE.getState()
-            val catastrophe = state.getCatastropheStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCatastropheDetails(call, state, catastrophe)
-            }
+            handleShowElement(details.id, CatastropheRoutes(), HtmlBlockTag::showCatastrophe)
         }
         get<CatastropheRoutes.New> {
             handleCreateElement(STORE.getState().getCatastropheStorage()) { id ->
@@ -149,24 +148,6 @@ private fun HTML.showAllCatastrophes(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showCatastropheDetails(
-    call: ApplicationCall,
-    state: State,
-    catastrophe: Catastrophe,
-) {
-    val backLink = call.application.href(CatastropheRoutes.All())
-    val deleteLink = call.application.href(CatastropheRoutes.Delete(catastrophe.id))
-    val editLink = call.application.href(CatastropheRoutes.Edit(catastrophe.id))
-
-    simpleHtmlDetails(catastrophe) {
-        showCatastrophe(call, state, catastrophe)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

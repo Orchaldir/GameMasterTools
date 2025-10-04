@@ -1,12 +1,15 @@
 package at.orchaldir.gm.app.routes.character
 
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.SortCharacter
 import io.ktor.resources.*
+import io.ktor.server.application.*
+import io.ktor.server.resources.*
 
 @Resource("/$CHARACTER_TYPE")
-class CharacterRoutes {
+class CharacterRoutes : Routes<CharacterId> {
     @Resource("all")
     class All(
         val sort: SortCharacter = SortCharacter.Name,
@@ -33,6 +36,10 @@ class CharacterRoutes {
 
     @Resource("update")
     class Update(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: CharacterId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: CharacterId) = call.application.href(Edit(id))
 
     @Resource("/appearance")
     class Appearance(val parent: CharacterRoutes = CharacterRoutes()) {

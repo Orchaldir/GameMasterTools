@@ -7,14 +7,13 @@ import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
-import at.orchaldir.gm.app.routes.handleCloneElement
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
+import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.SortRace
@@ -29,6 +28,7 @@ import at.orchaldir.gm.visualization.character.appearance.calculatePaddedSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
 import io.ktor.http.*
+import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
@@ -39,6 +39,47 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+
+@Resource("/$RACE_TYPE")
+class RaceRoutes : Routes<RaceId> {
+    @Resource("all")
+    class All(
+        val sort: SortRace = SortRace.Name,
+        val parent: RaceRoutes = RaceRoutes(),
+    )
+
+    @Resource("gallery")
+    class Gallery(
+        val sort: SortRace = SortRace.Name,
+        val parent: RaceRoutes = RaceRoutes(),
+    )
+
+    @Resource("details")
+    class Details(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
+
+    @Resource("new")
+    class New(val parent: RaceRoutes = RaceRoutes())
+
+    @Resource("clone")
+    class Clone(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
+
+    @Resource("delete")
+    class Delete(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
+
+    @Resource("edit")
+    class Edit(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
+
+    @Resource("preview")
+    class Preview(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
+
+    @Resource("update")
+    class Update(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun clone(call: ApplicationCall, id: RaceId) = call.application.href(Clone(id))
+    override fun delete(call: ApplicationCall, id: RaceId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
+}
 
 fun Application.configureRaceRouting() {
     routing {
@@ -57,13 +98,10 @@ fun Application.configureRaceRouting() {
             }
         }
         get<RaceRoutes.Details> { details ->
-            logger.info { "Get details of race ${details.id.value}" }
-
-            val state = STORE.getState()
-            val race = state.getRaceStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRaceDetails(call, state, race)
+            handleShowElementSplit(details.id, RaceRoutes(), HtmlBlockTag::showRace) { _, state, race ->
+                race.genders.getValidValues().forEach { gender ->
+                    visualizeLifeStages(state, race, gender, 120)
+                }
             }
         }
         get<RaceRoutes.New> {
@@ -186,35 +224,6 @@ private fun HTML.showGallery(
         }
 
         back(backLink)
-    }
-}
-
-private fun HTML.showRaceDetails(
-    call: ApplicationCall,
-    state: State,
-    race: Race,
-) {
-
-    val backLink = call.application.href(RaceRoutes.All())
-    val cloneLink = call.application.href(RaceRoutes.Clone(race.id))
-    val deleteLink = call.application.href(RaceRoutes.Delete(race.id))
-    val editLink = call.application.href(RaceRoutes.Edit(race.id))
-
-    simpleHtmlDetails(race) {
-        split({
-            showRace(call, state, race)
-
-            h2 { +"Actions" }
-
-            action(editLink, "Edit")
-            action(cloneLink, "Clone")
-            action(deleteLink, "Delete")
-            back(backLink)
-        }, {
-            race.genders.getValidValues().forEach { gender ->
-                visualizeLifeStages(state, race, gender, 120)
-            }
-        })
     }
 }
 

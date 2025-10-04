@@ -5,8 +5,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.editCurrencyUnit
 import at.orchaldir.gm.app.html.economy.money.parseCurrencyUnit
 import at.orchaldir.gm.app.html.economy.money.showCurrencyUnit
+import at.orchaldir.gm.app.html.economy.money.visualizeCurrencyUnit
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_UNIT_TYPE
@@ -32,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CURRENCY_UNIT_TYPE")
-class CurrencyUnitRoutes {
+class CurrencyUnitRoutes : Routes<CurrencyUnitId> {
     @Resource("all")
     class All(
         val sort: SortCurrencyUnit = SortCurrencyUnit.Name,
@@ -62,6 +65,10 @@ class CurrencyUnitRoutes {
 
     @Resource("update")
     class Update(val id: CurrencyUnitId, val parent: CurrencyUnitRoutes = CurrencyUnitRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCurrencyUnitRouting() {
@@ -81,14 +88,7 @@ fun Application.configureCurrencyUnitRouting() {
             }
         }
         get<CurrencyUnitRoutes.Details> { details ->
-            logger.info { "Get details of unit ${details.id.value}" }
-
-            val state = STORE.getState()
-            val unit = state.getCurrencyUnitStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCurrencyUnitDetails(call, state, unit)
-            }
+            handleShowElement(details.id, CurrencyUnitRoutes(), HtmlBlockTag::showCurrencyUnit)
         }
         get<CurrencyUnitRoutes.New> {
             handleCreateElement(STORE.getState().getCurrencyUnitStorage()) { id ->
@@ -189,25 +189,6 @@ private fun HTML.showGallery(
     }
 }
 
-private fun HTML.showCurrencyUnitDetails(
-    call: ApplicationCall,
-    state: State,
-    unit: CurrencyUnit,
-) {
-    val backLink = call.application.href(CurrencyUnitRoutes.All())
-    val deleteLink = call.application.href(CurrencyUnitRoutes.Delete(unit.id))
-    val editLink = call.application.href(CurrencyUnitRoutes.Edit(unit.id))
-
-    simpleHtmlDetails(unit) {
-        visualizeUnit(state, unit)
-        showCurrencyUnit(call, state, unit)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
-    }
-}
-
 private fun HTML.showCurrencyUnitEditor(
     call: ApplicationCall,
     state: State,
@@ -218,15 +199,10 @@ private fun HTML.showCurrencyUnitEditor(
     val updateLink = call.application.href(CurrencyUnitRoutes.Update(unit.id))
 
     simpleHtmlEditor(unit) {
-        visualizeUnit(state, unit)
+        visualizeCurrencyUnit(state, unit)
         formWithPreview(previewLink, updateLink, backLink) {
             editCurrencyUnit(state, unit)
         }
     }
 }
 
-private fun HtmlBlockTag.visualizeUnit(state: State, unit: CurrencyUnit) {
-    val frontSvg = visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit)
-
-    svg(frontSvg, 20)
-}

@@ -7,8 +7,10 @@ import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.magic.showSpell
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
@@ -16,14 +18,9 @@ import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.SortSpell
 import at.orchaldir.gm.core.selector.economy.countJobs
-import at.orchaldir.gm.core.selector.economy.getJobsContaining
 import at.orchaldir.gm.core.selector.item.countTexts
-import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.magic.countSpellGroups
-import at.orchaldir.gm.core.selector.magic.getSpellGroups
-import at.orchaldir.gm.core.selector.magic.getSpellsBasedOn
 import at.orchaldir.gm.core.selector.religion.countDomains
-import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.util.sortSpells
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -39,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$SPELL_TYPE")
-class SpellRoutes {
+class SpellRoutes : Routes<SpellId> {
     @Resource("all")
     class All(
         val sort: SortSpell = SortSpell.Name,
@@ -63,6 +60,11 @@ class SpellRoutes {
 
     @Resource("update")
     class Update(val id: SpellId, val parent: SpellRoutes = SpellRoutes())
+
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: SpellId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: SpellId) = call.application.href(Edit(id))
 }
 
 fun Application.configureSpellRouting() {
@@ -75,14 +77,7 @@ fun Application.configureSpellRouting() {
             }
         }
         get<SpellRoutes.Details> { details ->
-            logger.info { "Get details of spell ${details.id.value}" }
-
-            val state = STORE.getState()
-            val spell = state.getSpellStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showSpellDetails(call, state, spell)
-            }
+            handleShowElement(details.id, SpellRoutes(), HtmlBlockTag::showSpell)
         }
         get<SpellRoutes.New> {
             handleCreateElement(STORE.getState().getSpellStorage()) { id ->
@@ -160,32 +155,6 @@ private fun HTML.showAllSpells(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showSpellDetails(
-    call: ApplicationCall,
-    state: State,
-    spell: Spell,
-) {
-    val backLink = call.application.href(SpellRoutes.All())
-    val deleteLink = call.application.href(SpellRoutes.Delete(spell.id))
-    val editLink = call.application.href(SpellRoutes.Edit(spell.id))
-
-    simpleHtmlDetails(spell) {
-        showSpell(call, state, spell)
-
-        fieldElements(call, state, "Domains containing it", state.getDomainsAssociatedWith(spell.id))
-        fieldElements(call, state, "Spell Groups containing it", state.getSpellGroups(spell.id))
-        fieldElements(call, state, "Jobs using it", state.getJobsContaining(spell.id))
-        fieldElements(call, state, "Spells based on it", state.getSpellsBasedOn(spell.id))
-        fieldList("Texts containing it", state.getTextsContaining(spell.id)) { text ->
-            link(call, text.id, text.getNameWithDate(state))
-        }
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

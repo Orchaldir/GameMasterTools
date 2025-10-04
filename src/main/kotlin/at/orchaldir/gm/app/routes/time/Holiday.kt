@@ -6,13 +6,16 @@ import at.orchaldir.gm.app.html.time.displayHolidayPurpose
 import at.orchaldir.gm.app.html.time.editHoliday
 import at.orchaldir.gm.app.html.time.parseHoliday
 import at.orchaldir.gm.app.html.time.showHoliday
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
+import at.orchaldir.gm.core.model.util.SortHoliday
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortHolidays
 import io.ktor.http.*
@@ -29,7 +32,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$HOLIDAY_TYPE")
-class HolidayRoutes {
+class HolidayRoutes : Routes<HolidayId> {
+    @Resource("all")
+    class All(
+        val sort: SortHoliday = SortHoliday.Name,
+        val parent: HolidayRoutes = HolidayRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())
 
@@ -47,26 +56,23 @@ class HolidayRoutes {
 
     @Resource("update")
     class Update(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: HolidayId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: HolidayId) = call.application.href(Edit(id))
 }
 
 fun Application.configureHolidayRouting() {
     routing {
-        get<HolidayRoutes> {
+        get<HolidayRoutes.All> { all ->
             logger.info { "Get all holidays" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllHolidays(call, STORE.getState())
+                showAllHolidays(call, STORE.getState(), all.sort)
             }
         }
         get<HolidayRoutes.Details> { details ->
-            logger.info { "Get details of holiday ${details.id.value}" }
-
-            val state = STORE.getState()
-            val holiday = state.getHolidayStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showHolidayDetails(call, state, holiday)
-            }
+            handleShowElement(details.id, HolidayRoutes(), HtmlBlockTag::showHoliday)
         }
         get<HolidayRoutes.New> {
             handleCreateElement(STORE.getState().getHolidayStorage()) { id ->
@@ -105,9 +111,10 @@ fun Application.configureHolidayRouting() {
 private fun HTML.showAllHolidays(
     call: ApplicationCall,
     state: State,
+    sort: SortHoliday,
 ) {
+    val holidays = state.sortHolidays(sort)
     val calendar = state.getDefaultCalendar()
-    val holidays = state.sortHolidays()
     val createLink = call.application.href(HolidayRoutes.New())
 
     simpleHtml("Holidays") {
@@ -132,24 +139,6 @@ private fun HTML.showAllHolidays(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showHolidayDetails(
-    call: ApplicationCall,
-    state: State,
-    holiday: Holiday,
-) {
-    val backLink = call.application.href(HolidayRoutes())
-    val deleteLink = call.application.href(HolidayRoutes.Delete(holiday.id))
-    val editLink = call.application.href(HolidayRoutes.Edit(holiday.id))
-
-    simpleHtmlDetails(holiday) {
-        showHoliday(call, state, holiday)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

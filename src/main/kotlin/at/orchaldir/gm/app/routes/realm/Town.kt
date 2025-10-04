@@ -8,8 +8,10 @@ import at.orchaldir.gm.app.html.realm.showTown
 import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TOWN_TYPE
@@ -29,6 +31,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.td
 import kotlinx.html.th
@@ -38,7 +41,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TOWN_TYPE")
-class TownRoutes {
+class TownRoutes : Routes<TownId> {
     @Resource("all")
     class All(
         val sort: SortTown = SortTown.Name,
@@ -62,6 +65,10 @@ class TownRoutes {
 
     @Resource("update")
     class Update(val id: TownId, val parent: TownRoutes = TownRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: TownId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: TownId) = call.application.href(Edit(id))
 }
 
 fun Application.configureTownRouting() {
@@ -74,14 +81,7 @@ fun Application.configureTownRouting() {
             }
         }
         get<TownRoutes.Details> { details ->
-            logger.info { "Get details of town ${details.id.value}" }
-
-            val state = STORE.getState()
-            val town = state.getTownStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTownDetails(call, state, town)
-            }
+            handleShowElement(details.id, TownRoutes(), HtmlBlockTag::showTown)
         }
         get<TownRoutes.New> {
             handleCreateElement(STORE.getState().getTownStorage()) { id ->
@@ -163,25 +163,6 @@ private fun HTML.showAllTowns(
         back("/")
     }
 }
-
-private fun HTML.showTownDetails(
-    call: ApplicationCall,
-    state: State,
-    town: Town,
-) {
-    val backLink = call.application.href(TownRoutes.All())
-    val deleteLink = call.application.href(TownRoutes.Delete(town.id))
-    val editLink = call.application.href(TownRoutes.Edit(town.id))
-
-    simpleHtmlDetails(town) {
-        showTown(call, state, town)
-
-        action(editLink, "Edit Town")
-        action(deleteLink, "Delete")
-        back(backLink)
-    }
-}
-
 
 private fun HTML.showTownEditor(
     call: ApplicationCall,

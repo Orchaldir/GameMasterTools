@@ -5,16 +5,16 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editCulture
 import at.orchaldir.gm.app.html.culture.parseCulture
 import at.orchaldir.gm.app.html.culture.showCulture
-import at.orchaldir.gm.app.routes.handleCloneElement
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.Rarity
+import at.orchaldir.gm.core.model.util.SortCulture
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.util.sortCultures
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -24,6 +24,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.th
 import kotlinx.html.tr
@@ -32,7 +33,13 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CULTURE_TYPE")
-class CultureRoutes {
+class CultureRoutes : Routes<CultureId> {
+    @Resource("all")
+    class All(
+        val sort: SortCulture = SortCulture.Name,
+        val parent: CultureRoutes = CultureRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 
@@ -53,26 +60,24 @@ class CultureRoutes {
 
     @Resource("update")
     class Update(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun clone(call: ApplicationCall, id: CultureId) = call.application.href(Clone(id))
+    override fun delete(call: ApplicationCall, id: CultureId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: CultureId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCultureRouting() {
     routing {
-        get<CultureRoutes> {
+        get<CultureRoutes.All> { all ->
             logger.info { "Get all cultures" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCultures(call, STORE.getState())
+                showAllCultures(call, STORE.getState(), all.sort)
             }
         }
         get<CultureRoutes.Details> { details ->
-            logger.info { "Get details of culture ${details.id.value}" }
-
-            val state = STORE.getState()
-            val culture = state.getCultureStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCultureDetails(call, state, culture)
-            }
+            handleShowElement(details.id, CultureRoutes(), HtmlBlockTag::showCulture)
         }
         get<CultureRoutes.New> {
             handleCreateElement(STORE.getState().getCultureStorage()) { id ->
@@ -117,8 +122,9 @@ fun Application.configureCultureRouting() {
 private fun HTML.showAllCultures(
     call: ApplicationCall,
     state: State,
+    sort: SortCulture,
 ) {
-    val cultures = STORE.getState().getCultureStorage().getAll().sortedBy { it.name.text }
+    val cultures = state.sortCultures(sort)
     val count = cultures.size
     val createLink = call.application.href(CultureRoutes.New())
 
@@ -148,26 +154,6 @@ private fun HTML.showAllCultures(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showCultureDetails(
-    call: ApplicationCall,
-    state: State,
-    culture: Culture,
-) {
-    val backLink = call.application.href(CultureRoutes())
-    val cloneLink = call.application.href(CultureRoutes.Clone(culture.id))
-    val deleteLink = call.application.href(CultureRoutes.Delete(culture.id))
-    val editLink = call.application.href(CultureRoutes.Edit(culture.id))
-
-    simpleHtmlDetails(culture) {
-        showCulture(call, state, culture)
-
-        action(editLink, "Edit")
-        action(cloneLink, "Clone")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

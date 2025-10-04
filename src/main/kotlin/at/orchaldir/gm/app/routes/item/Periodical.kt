@@ -7,8 +7,10 @@ import at.orchaldir.gm.app.html.item.periodical.parsePeriodical
 import at.orchaldir.gm.app.html.item.periodical.showPeriodical
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
@@ -31,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERIODICAL_TYPE")
-class PeriodicalRoutes {
+class PeriodicalRoutes : Routes<PeriodicalId> {
     @Resource("all")
     class All(
         val sort: SortPeriodical = SortPeriodical.Name,
@@ -55,6 +57,10 @@ class PeriodicalRoutes {
 
     @Resource("update")
     class Update(val id: PeriodicalId, val parent: PeriodicalRoutes = PeriodicalRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: PeriodicalId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: PeriodicalId) = call.application.href(Edit(id))
 }
 
 fun Application.configurePeriodicalRouting() {
@@ -67,14 +73,7 @@ fun Application.configurePeriodicalRouting() {
             }
         }
         get<PeriodicalRoutes.Details> { details ->
-            logger.info { "Get details of periodical ${details.id.value}" }
-
-            val state = STORE.getState()
-            val periodical = state.getPeriodicalStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPeriodicalDetails(call, state, periodical)
-            }
+            handleShowElement(details.id, PeriodicalRoutes(), HtmlBlockTag::showPeriodical)
         }
         get<PeriodicalRoutes.New> {
             handleCreateElement(STORE.getState().getPeriodicalStorage()) { id ->
@@ -145,24 +144,6 @@ private fun HTML.showAllPeriodicals(
         showPublicationFrequencies(periodicals)
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showPeriodicalDetails(
-    call: ApplicationCall,
-    state: State,
-    periodical: Periodical,
-) {
-    val backLink = call.application.href(PeriodicalRoutes.All())
-    val deleteLink = call.application.href(PeriodicalRoutes.Delete(periodical.id))
-    val editLink = call.application.href(PeriodicalRoutes.Edit(periodical.id))
-
-    simpleHtmlDetails(periodical) {
-        showPeriodical(call, state, periodical)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

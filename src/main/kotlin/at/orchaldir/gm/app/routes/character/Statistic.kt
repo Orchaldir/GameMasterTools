@@ -3,8 +3,10 @@ package at.orchaldir.gm.app.routes.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.statistic.*
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.DerivedAttribute
@@ -22,6 +24,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.td
 import kotlinx.html.th
@@ -31,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STATISTIC_TYPE")
-class StatisticRoutes {
+class StatisticRoutes : Routes<StatisticId> {
     @Resource("all")
     class All(
         val sort: SortStatistic = SortStatistic.Name,
@@ -55,6 +58,10 @@ class StatisticRoutes {
 
     @Resource("update")
     class Update(val id: StatisticId, val parent: StatisticRoutes = StatisticRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: StatisticId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: StatisticId) = call.application.href(Edit(id))
 }
 
 fun Application.configureStatisticRouting() {
@@ -67,14 +74,7 @@ fun Application.configureStatisticRouting() {
             }
         }
         get<StatisticRoutes.Details> { details ->
-            logger.info { "Get details of statistic ${details.id.value}" }
-
-            val state = STORE.getState()
-            val statistic = state.getStatisticStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showStatisticDetails(call, state, statistic)
-            }
+            handleShowElement(details.id, StatisticRoutes(), HtmlBlockTag::showStatistic)
         }
         get<StatisticRoutes.New> {
             handleCreateElement(STORE.getState().getStatisticStorage()) { id ->
@@ -150,24 +150,6 @@ private fun HTML.showAllStatistics(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showStatisticDetails(
-    call: ApplicationCall,
-    state: State,
-    statistic: Statistic,
-) {
-    val backLink = call.application.href(StatisticRoutes.All())
-    val deleteLink = call.application.href(StatisticRoutes.Delete(statistic.id))
-    val editLink = call.application.href(StatisticRoutes.Edit(statistic.id))
-
-    simpleHtmlDetails(statistic) {
-        showStatistic(call, state, statistic)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

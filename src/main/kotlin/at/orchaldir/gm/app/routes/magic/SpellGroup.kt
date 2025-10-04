@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editSpellGroup
 import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.magic.showSpellGroup
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_GROUP_TYPE
@@ -23,6 +25,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.th
 import kotlinx.html.tr
@@ -31,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$SPELL_GROUP_TYPE")
-class SpellGroupRoutes {
+class SpellGroupRoutes : Routes<SpellGroupId> {
     @Resource("all")
     class All(
         val sort: SortSpellGroup = SortSpellGroup.Name,
@@ -55,6 +58,11 @@ class SpellGroupRoutes {
 
     @Resource("update")
     class Update(val id: SpellGroupId, val parent: SpellGroupRoutes = SpellGroupRoutes())
+
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: SpellGroupId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: SpellGroupId) = call.application.href(Edit(id))
 }
 
 fun Application.configureSpellGroupRouting() {
@@ -67,14 +75,7 @@ fun Application.configureSpellGroupRouting() {
             }
         }
         get<SpellGroupRoutes.Details> { details ->
-            logger.info { "Get details of group ${details.id.value}" }
-
-            val state = STORE.getState()
-            val group = state.getSpellGroupStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showSpellGroupDetails(call, state, group)
-            }
+            handleShowElement(details.id, SpellGroupRoutes(), HtmlBlockTag::showSpellGroup)
         }
         get<SpellGroupRoutes.New> {
             handleCreateElement(STORE.getState().getSpellGroupStorage()) { id ->
@@ -138,24 +139,6 @@ private fun HTML.showAllSpellGroups(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showSpellGroupDetails(
-    call: ApplicationCall,
-    state: State,
-    group: SpellGroup,
-) {
-    val backLink = call.application.href(SpellGroupRoutes.All())
-    val deleteLink = call.application.href(SpellGroupRoutes.Delete(group.id))
-    val editLink = call.application.href(SpellGroupRoutes.Edit(group.id))
-
-    simpleHtmlDetails(group) {
-        showSpellGroup(call, state, group)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

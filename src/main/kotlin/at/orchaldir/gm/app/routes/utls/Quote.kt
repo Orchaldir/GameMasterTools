@@ -7,8 +7,10 @@ import at.orchaldir.gm.app.html.util.quote.parseQuote
 import at.orchaldir.gm.app.html.util.quote.showQuote
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortQuote
@@ -30,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$QUOTE_TYPE")
-class QuoteRoutes {
+class QuoteRoutes : Routes<QuoteId> {
     @Resource("all")
     class All(
         val sort: SortQuote = SortQuote.Name,
@@ -54,6 +56,10 @@ class QuoteRoutes {
 
     @Resource("update")
     class Update(val id: QuoteId, val parent: QuoteRoutes = QuoteRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: QuoteId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: QuoteId) = call.application.href(Edit(id))
 }
 
 fun Application.configureQuoteRouting() {
@@ -66,14 +72,7 @@ fun Application.configureQuoteRouting() {
             }
         }
         get<QuoteRoutes.Details> { details ->
-            logger.info { "Get details of quote ${details.id.value}" }
-
-            val state = STORE.getState()
-            val quote = state.getQuoteStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showQuoteDetails(call, state, quote)
-            }
+            handleShowElement(details.id, QuoteRoutes(), HtmlBlockTag::showQuote)
         }
         get<QuoteRoutes.New> {
             handleCreateElement(STORE.getState().getQuoteStorage()) { id ->
@@ -139,24 +138,6 @@ private fun HTML.showAllQuotes(
         showCreatorCount(call, state, qquotes, "Sources")
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showQuoteDetails(
-    call: ApplicationCall,
-    state: State,
-    quote: Quote,
-) {
-    val backLink = call.application.href(QuoteRoutes.All())
-    val deleteLink = call.application.href(QuoteRoutes.Delete(quote.id))
-    val editLink = call.application.href(QuoteRoutes.Edit(quote.id))
-
-    simpleHtmlDetails(quote) {
-        showQuote(call, state, quote)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

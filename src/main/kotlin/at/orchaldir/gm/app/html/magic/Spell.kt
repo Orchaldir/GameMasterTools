@@ -12,6 +12,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.ALLOWED_SPELL_ORIGINS
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.selector.economy.getJobsContaining
+import at.orchaldir.gm.core.selector.item.getTextsContaining
+import at.orchaldir.gm.core.selector.magic.getSpellGroups
+import at.orchaldir.gm.core.selector.magic.getSpellsBasedOn
+import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -28,6 +33,14 @@ fun HtmlBlockTag.showSpell(
     optionalFieldLink("Language", call, state, spell.language)
     fieldOrigin(call, state, spell.origin, ::SpellId)
     showDataSources(call, state, spell.sources)
+
+    fieldElements(call, state, "Domains containing it", state.getDomainsAssociatedWith(spell.id))
+    fieldElements(call, state, "Spell Groups containing it", state.getSpellGroups(spell.id))
+    fieldElements(call, state, "Jobs using it", state.getJobsContaining(spell.id))
+    fieldElements(call, state, "Spells based on it", state.getSpellsBasedOn(spell.id))
+    fieldList("Texts containing it", state.getTextsContaining(spell.id)) { text ->
+        link(call, text.id, text.getNameWithDate(state))
+    }
 }
 
 // edit

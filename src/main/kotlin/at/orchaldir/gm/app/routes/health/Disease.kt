@@ -5,18 +5,18 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.health.editDisease
 import at.orchaldir.gm.app.html.health.parseDisease
 import at.orchaldir.gm.app.html.health.showDisease
-import at.orchaldir.gm.app.html.util.showDestroyed
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.util.SortDisease
-import at.orchaldir.gm.core.selector.health.getDiseasesBasedOn
 import at.orchaldir.gm.core.selector.util.sortDiseases
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -32,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DISEASE_TYPE")
-class DiseaseRoutes {
+class DiseaseRoutes : Routes<DiseaseId> {
     @Resource("all")
     class All(
         val sort: SortDisease = SortDisease.Name,
@@ -56,6 +56,10 @@ class DiseaseRoutes {
 
     @Resource("update")
     class Update(val id: DiseaseId, val parent: DiseaseRoutes = DiseaseRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: DiseaseId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: DiseaseId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDiseaseRouting() {
@@ -68,14 +72,7 @@ fun Application.configureDiseaseRouting() {
             }
         }
         get<DiseaseRoutes.Details> { details ->
-            logger.info { "Get details of disease ${details.id.value}" }
-
-            val state = STORE.getState()
-            val disease = state.getDiseaseStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDiseaseDetails(call, state, disease)
-            }
+            handleShowElement(details.id, DiseaseRoutes(), HtmlBlockTag::showDisease)
         }
         get<DiseaseRoutes.New> {
             handleCreateElement(STORE.getState().getDiseaseStorage()) { id ->
@@ -140,27 +137,6 @@ private fun HTML.showAllDiseases(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showDiseaseDetails(
-    call: ApplicationCall,
-    state: State,
-    disease: Disease,
-) {
-    val backLink = call.application.href(DiseaseRoutes.All())
-    val deleteLink = call.application.href(DiseaseRoutes.Delete(disease.id))
-    val editLink = call.application.href(DiseaseRoutes.Edit(disease.id))
-
-    simpleHtmlDetails(disease) {
-        showDisease(call, state, disease)
-
-        showDestroyed(call, state, disease.id)
-        fieldElements(call, state, "Diseases based on it", state.getDiseasesBasedOn(disease.id))
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

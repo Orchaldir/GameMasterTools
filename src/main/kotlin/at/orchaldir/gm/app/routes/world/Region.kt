@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editRegion
 import at.orchaldir.gm.app.html.world.parseRegion
 import at.orchaldir.gm.app.html.world.showRegion
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortRegion
@@ -24,6 +26,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.td
 import kotlinx.html.th
@@ -33,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$REGION_TYPE")
-class RegionRoutes {
+class RegionRoutes : Routes<RegionId> {
     @Resource("all")
     class All(
         val sort: SortRegion = SortRegion.Name,
@@ -57,6 +60,10 @@ class RegionRoutes {
 
     @Resource("update")
     class Update(val id: RegionId, val parent: RegionRoutes = RegionRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: RegionId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: RegionId) = call.application.href(Edit(id))
 }
 
 fun Application.configureRegionRouting() {
@@ -69,14 +76,7 @@ fun Application.configureRegionRouting() {
             }
         }
         get<RegionRoutes.Details> { details ->
-            logger.info { "Get details of region ${details.id.value}" }
-
-            val state = STORE.getState()
-            val region = state.getRegionStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRegionDetails(call, state, region)
-            }
+            handleShowElement(details.id, RegionRoutes(), HtmlBlockTag::showRegion)
         }
         get<RegionRoutes.New> {
             handleCreateElement(STORE.getState().getRegionStorage()) { id ->
@@ -144,24 +144,6 @@ private fun HTML.showAllRegions(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showRegionDetails(
-    call: ApplicationCall,
-    state: State,
-    region: Region,
-) {
-    val backLink = call.application.href(RegionRoutes.All())
-    val deleteLink = call.application.href(RegionRoutes.Delete(region.id))
-    val editLink = call.application.href(RegionRoutes.Edit(region.id))
-
-    simpleHtmlDetails(region) {
-        showRegion(call, state, region)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

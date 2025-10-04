@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.DomainId
+import at.orchaldir.gm.core.selector.religion.getGodsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -26,6 +27,7 @@ fun HtmlBlockTag.showDomain(
         link(call, state, spell)
     }
     fieldIds(call, state, domain.jobs)
+    fieldElements(call, state, state.getGodsWith(domain.id))
 }
 
 // edit

@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.color.editColorScheme
 import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.color.showColorScheme
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortColorScheme
@@ -24,6 +26,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
 import kotlinx.html.td
 import kotlinx.html.th
@@ -33,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$COLOR_SCHEME_TYPE")
-class ColorSchemeRoutes {
+class ColorSchemeRoutes : Routes<ColorSchemeId> {
     @Resource("all")
     class All(
         val sort: SortColorScheme = SortColorScheme.Name,
@@ -57,6 +60,10 @@ class ColorSchemeRoutes {
 
     @Resource("update")
     class Update(val id: ColorSchemeId, val parent: ColorSchemeRoutes = ColorSchemeRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: ColorSchemeId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: ColorSchemeId) = call.application.href(Edit(id))
 }
 
 fun Application.configureColorSchemeRouting() {
@@ -69,14 +76,7 @@ fun Application.configureColorSchemeRouting() {
             }
         }
         get<ColorSchemeRoutes.Details> { details ->
-            logger.info { "Get details of color scheme ${details.id.value}" }
-
-            val state = STORE.getState()
-            val scheme = state.getColorSchemeStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showColorSchemeDetails(call, state, scheme)
-            }
+            handleShowElement(details.id, ColorSchemeRoutes(), HtmlBlockTag::showColorScheme)
         }
         get<ColorSchemeRoutes.New> {
             handleCreateElement(STORE.getState().getColorSchemeStorage()) { id ->
@@ -144,24 +144,6 @@ private fun HTML.showAllColorSchemes(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showColorSchemeDetails(
-    call: ApplicationCall,
-    state: State,
-    scheme: ColorScheme,
-) {
-    val backLink = call.application.href(ColorSchemeRoutes.All())
-    val deleteLink = call.application.href(ColorSchemeRoutes.Delete(scheme.id))
-    val editLink = call.application.href(ColorSchemeRoutes.Edit(scheme.id))
-
-    simpleHtmlDetails(scheme) {
-        showColorScheme(call, state, scheme)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 

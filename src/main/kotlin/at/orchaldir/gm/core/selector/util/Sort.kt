@@ -3,8 +3,11 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.title.Title
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
@@ -26,14 +29,17 @@ import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
+import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.font.Font
+import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.source.DataSource
@@ -42,7 +48,10 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.street.Street
+import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countCharactersWithJob
@@ -184,6 +193,20 @@ fun State.sortBusinesses(
         }
     )
 
+// calendar
+
+fun State.sortCalendars(sort: SortCalendar = SortCalendar.Name) =
+    sortCalendars(getCalendarStorage().getAll(), sort)
+
+fun State.sortCalendars(
+    calendars: Collection<Calendar>,
+    sort: SortCalendar = SortCalendar.Name,
+) = calendars
+    .sortedWith(
+        when (sort) {
+            SortCalendar.Name -> compareBy { it.name.text }
+        })
+
 // catastrophe
 
 fun State.sortCatastrophes(sort: SortCatastrophe = SortCatastrophe.Name) =
@@ -258,6 +281,20 @@ fun State.sortColorSchemes(
         when (sort) {
             SortColorScheme.Name -> compareBy { it.name() }
             SortColorScheme.Equipment -> compareByDescending { countEquipment(it.id) }
+        })
+
+// culture
+
+fun State.sortCultures(sort: SortCulture = SortCulture.Name) =
+    sortCultures(getCultureStorage().getAll(), sort)
+
+fun State.sortCultures(
+    cultures: Collection<Culture>,
+    sort: SortCulture = SortCulture.Name,
+) = cultures
+    .sortedWith(
+        when (sort) {
+            SortCulture.Name -> compareBy { it.name.text }
         })
 
 // currency
@@ -371,6 +408,20 @@ fun State.sortEquipmentList(
             SortEquipment.Name -> compareBy { it.name.text }
         })
 
+// fashion
+
+fun State.sortFashions(sort: SortFashion = SortFashion.Name) =
+    sortFashions(getFashionStorage().getAll(), sort)
+
+fun State.sortFashions(
+    fashions: Collection<Fashion>,
+    sort: SortFashion = SortFashion.Name,
+) = fashions
+    .sortedWith(
+        when (sort) {
+            SortFashion.Name -> compareBy { it.name.text }
+        })
+
 // font
 
 fun State.sortFonts(sort: SortFont = SortFont.Name) =
@@ -403,11 +454,17 @@ fun State.sortGods(
 
 // holiday
 
-fun State.sortHolidays() = sortHolidays(getHolidayStorage().getAll())
+fun State.sortHolidays(sort: SortHoliday = SortHoliday.Name) =
+    sortHolidays(getHolidayStorage().getAll(), sort)
 
 fun State.sortHolidays(
     holidays: Collection<Holiday>,
-) = holidays.sortedBy { it.name.text }
+    sort: SortHoliday = SortHoliday.Name,
+) = holidays
+    .sortedWith(
+        when (sort) {
+            SortHoliday.Name -> compareBy { it.name.text }
+        })
 
 // job
 
@@ -514,6 +571,20 @@ fun State.sortMoons(
             SortMoon.Name -> compareBy { it.name.text }
         })
 
+// name list
+
+fun State.sortNameLists(sort: SortNameList = SortNameList.Name) =
+    sortNameLists(getNameListStorage().getAll(), sort)
+
+fun State.sortNameLists(
+    lists: Collection<NameList>,
+    sort: SortNameList = SortNameList.Name,
+) = lists
+    .sortedWith(
+        when (sort) {
+            SortNameList.Name -> compareBy { it.name.text }
+        })
+
 // organization
 
 fun State.sortOrganizations(sort: SortOrganization = SortOrganization.Name) =
@@ -580,6 +651,20 @@ fun State.sortPeriodicalIssues(
 
 // plane
 
+fun State.sortPersonalityTraits(sort: SortPersonalityTrait = SortPersonalityTrait.Name) =
+    sortPersonalityTraits(getPersonalityTraitStorage().getAll(), sort)
+
+fun State.sortPersonalityTraits(
+    planes: Collection<PersonalityTrait>,
+    sort: SortPersonalityTrait = SortPersonalityTrait.Name,
+) = planes
+    .sortedWith(
+        when (sort) {
+            SortPersonalityTrait.Name -> compareBy { it.name.text }
+        })
+
+// plane
+
 fun State.sortPlanes(sort: SortPlane = SortPlane.Name) =
     sortPlanes(getPlaneStorage().getAll(), sort)
 
@@ -628,6 +713,20 @@ fun State.sortRaces(
             SortRace.Characters -> compareByDescending { countCharacters(it.id) }
         })
 
+// race appearance
+
+fun State.sortRaceAppearances(sort: SortRaceAppearance = SortRaceAppearance.Name) =
+    sortRaceAppearances(getRaceAppearanceStorage().getAll(), sort)
+
+fun State.sortRaceAppearances(
+    appearances: Collection<RaceAppearance>,
+    sort: SortRaceAppearance = SortRaceAppearance.Name,
+) = appearances
+    .sortedWith(
+        when (sort) {
+            SortRaceAppearance.Name -> compareBy { it.name.text }
+        })
+
 // realm
 
 fun State.sortRealms(sort: SortRealm = SortRealm.Name) =
@@ -659,6 +758,20 @@ fun State.sortRegions(
     .sortedWith(
         when (sort) {
             SortRegion.Name -> compareBy { it.name.text }
+        })
+
+// river
+
+fun State.sortRivers(sort: SortRiver = SortRiver.Name) =
+    sortRivers(getRiverStorage().getAll(), sort)
+
+fun State.sortRivers(
+    rivers: Collection<River>,
+    sort: SortRiver = SortRiver.Name,
+) = rivers
+    .sortedWith(
+        when (sort) {
+            SortRiver.Name -> compareBy { it.name.text }
         })
 
 // spell
@@ -703,6 +816,34 @@ fun State.sortStatistics(
     .sortedWith(
         when (sort) {
             SortStatistic.Name -> compareBy { it.name.text }
+        })
+
+// street
+
+fun State.sortStreets(sort: SortStreet = SortStreet.Name) =
+    sortStreets(getStreetStorage().getAll(), sort)
+
+fun State.sortStreets(
+    streets: Collection<Street>,
+    sort: SortStreet = SortStreet.Name,
+) = streets
+    .sortedWith(
+        when (sort) {
+            SortStreet.Name -> compareBy { it.name.text }
+        })
+
+// street template
+
+fun State.sortStreetTemplates(sort: SortStreetTemplate = SortStreetTemplate.Name) =
+    sortStreetTemplates(getStreetTemplateStorage().getAll(), sort)
+
+fun State.sortStreetTemplates(
+    templates: Collection<StreetTemplate>,
+    sort: SortStreetTemplate = SortStreetTemplate.Name,
+) = templates
+    .sortedWith(
+        when (sort) {
+            SortStreetTemplate.Name -> compareBy { it.name.text }
         })
 
 // text

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
 import at.orchaldir.gm.app.routes.character.PersonalityTraitRoutes
@@ -20,6 +21,7 @@ import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
 import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
+import at.orchaldir.gm.app.routes.race.RaceAppearanceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
@@ -165,8 +167,12 @@ fun HtmlBlockTag.fieldLink(label: String, link: String, text: String) {
     }
 }
 
-inline fun <reified T : Any> HtmlBlockTag.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
-    fieldLink(storage.getPlural(), call.application.href(link), "${storage.getSize()}")
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldStorageLink(
+    call: ApplicationCall,
+    storage: Storage<ID, ELEMENT>,
+    routes: Routes<ID>,
+) {
+    fieldLink(storage.getPlural(), routes.all(call), "${storage.getSize()}")
 }
 
 // generic
@@ -409,7 +415,7 @@ fun href(
     is PlaneId -> call.application.href(PlaneRoutes.Details(id))
     is QuoteId -> call.application.href(QuoteRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
-    is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
+    is RaceAppearanceId -> call.application.href(RaceAppearanceRoutes.Details(id))
     is RealmId -> call.application.href(RealmRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is SpellId -> call.application.href(SpellRoutes.Details(id))

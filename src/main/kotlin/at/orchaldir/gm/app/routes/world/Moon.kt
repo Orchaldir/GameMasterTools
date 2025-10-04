@@ -6,8 +6,10 @@ import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editMoon
 import at.orchaldir.gm.app.html.world.parseMoon
 import at.orchaldir.gm.app.html.world.showMoon
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortMoon
@@ -29,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MOON_TYPE")
-class MoonRoutes {
+class MoonRoutes : Routes<MoonId> {
     @Resource("all")
     class All(
         val sort: SortMoon = SortMoon.Name,
@@ -53,6 +55,10 @@ class MoonRoutes {
 
     @Resource("update")
     class Update(val id: MoonId, val parent: MoonRoutes = MoonRoutes())
+
+    override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun delete(call: ApplicationCall, id: MoonId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: MoonId) = call.application.href(Edit(id))
 }
 
 fun Application.configureMoonRouting() {
@@ -65,14 +71,7 @@ fun Application.configureMoonRouting() {
             }
         }
         get<MoonRoutes.Details> { details ->
-            logger.info { "Get details of moon ${details.id.value}" }
-
-            val state = STORE.getState()
-            val moon = state.getMoonStorage().getOrThrow(details.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showMoonDetails(call, state, moon)
-            }
+            handleShowElement(details.id, MoonRoutes(), HtmlBlockTag::showMoon)
         }
         get<MoonRoutes.New> {
             handleCreateElement(STORE.getState().getMoonStorage()) { id ->
@@ -143,24 +142,6 @@ private fun HTML.showAllMoons(
 
         action(createLink, "Add")
         back("/")
-    }
-}
-
-private fun HTML.showMoonDetails(
-    call: ApplicationCall,
-    state: State,
-    moon: Moon,
-) {
-    val backLink = call.application.href(MoonRoutes.All())
-    val deleteLink = call.application.href(MoonRoutes.Delete(moon.id))
-    val editLink = call.application.href(MoonRoutes.Edit(moon.id))
-
-    simpleHtmlDetails(moon) {
-        showMoon(call, state, moon)
-
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
     }
 }
 
