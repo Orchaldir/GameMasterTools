@@ -84,10 +84,10 @@ fun Application.configureSpellRouting() {
                     createDateColumn(call, state),
                     Pair("Language") { td { optionalLink(call, state, it.language) } },
                     createOriginColumn(call, state, ::SpellId),
-                    createSkipZeroColumn("Groups", state::countSpellGroups),
-                    createSkipZeroColumn("Domains", state::countDomains),
-                    createSkipZeroColumn("Jobs", state::countJobs),
-                    createSkipZeroColumn("Texts", state::countTexts),
+                    createSkipZeroColumnForId("Groups", state::countSpellGroups),
+                    createSkipZeroColumnForId("Domains", state::countDomains),
+                    createSkipZeroColumnForId("Jobs", state::countJobs),
+                    createSkipZeroColumnForId("Texts", state::countTexts),
                 ),
             ) {
                 showLanguageCountForSpells(call, state, it)

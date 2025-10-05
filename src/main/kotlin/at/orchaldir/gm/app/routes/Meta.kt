@@ -12,12 +12,9 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.magic.MagicTradition
-import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasOrigin
 import at.orchaldir.gm.core.model.util.HasStartDate
-import at.orchaldir.gm.core.selector.magic.countSpellGroups
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -72,6 +69,16 @@ fun <ID : Id<ID>, ELEMENT : HasOrigin> createOriginColumn(
 ): Pair<String, TR.(ELEMENT) -> Unit> = Pair("Origin") { td { showOrigin(call, state, it.origin(), createId) } }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumn(
+    label: String,
+    convert: (ELEMENT) -> Int,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { tdSkipZero(convert(it)) }
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>, T> createSkipZeroColumnFromCollection(
+    label: String,
+    convert: (ELEMENT) -> Collection<T>,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { tdSkipZero(convert(it)) }
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumnForId(
     label: String,
     convert: (ID) -> Int,
 ): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { tdSkipZero(convert(it.id())) }

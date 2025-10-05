@@ -1,22 +1,18 @@
 package at.orchaldir.gm.app.routes.magic
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.formWithPreview
+import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.magic.editSpellGroup
 import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.magic.showSpellGroup
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.html.simpleHtmlEditor
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_GROUP_TYPE
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.magic.SpellGroupId
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortSpellGroup
 import at.orchaldir.gm.core.selector.util.sortSpellGroups
 import io.ktor.http.*
@@ -29,9 +25,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -73,11 +66,16 @@ class SpellGroupRoutes : Routes<SpellGroupId,SortSpellGroup> {
 fun Application.configureSpellGroupRouting() {
     routing {
         get<SpellGroupRoutes.All> { all ->
-            logger.info { "Get all groups" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllSpellGroups(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                SpellGroupRoutes(),
+                state.sortSpellGroups(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createSkipZeroColumnFromCollection("Spells", SpellGroup::spells),
+                ),
+            )
         }
         get<SpellGroupRoutes.Details> { details ->
             handleShowElement(details.id, SpellGroupRoutes(), HtmlBlockTag::showSpellGroup)
@@ -114,36 +112,6 @@ fun Application.configureSpellGroupRouting() {
         post<SpellGroupRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseSpellGroup)
         }
-    }
-}
-
-private fun HTML.showAllSpellGroups(
-    call: ApplicationCall,
-    state: State,
-    sort: SortSpellGroup,
-) {
-    val groups = state.sortSpellGroups(sort)
-    val createLink = call.application.href(SpellGroupRoutes.New())
-
-    simpleHtml("Spell Groups") {
-        field("Count", groups.size)
-        showSortTableLinks(call, SortSpellGroup.entries, SpellGroupRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Spells" }
-            }
-            groups.forEach { group ->
-                tr {
-                    tdLink(call, state, group)
-                    tdSkipZero(group.spells)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 
