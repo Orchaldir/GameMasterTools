@@ -25,6 +25,7 @@ fun HtmlBlockTag.showStatisticData(
             showBaseValue(call, state, data.base)
             fieldStatisticCost(data.cost)
         }
+
         is BaseDamage -> {
             showBaseValue(call, state, data.base)
             fieldStatisticCost(data.cost)
@@ -63,6 +64,7 @@ fun FORM.editStatisticData(
             editBaseValue(state, statistic, data.base)
             editStatisticCost(data.cost)
         }
+
         is BaseDamage -> {
             editBaseValue(state, statistic, data.base)
             editStatisticCost(data.cost)
@@ -91,6 +93,7 @@ fun parseStatisticData(
         parseBaseValue(parameters),
         parseStatisticCost(parameters),
     )
+
     StatisticDataType.Damage -> BaseDamage(
         parseBaseValue(parameters),
         parseStatisticCost(parameters),

@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.character.statistic
 
-import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.NUMBER
@@ -8,23 +7,11 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
-import at.orchaldir.gm.app.html.util.selectLookup
-import at.orchaldir.gm.app.html.util.showLookup
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.*
-import at.orchaldir.gm.core.model.util.Lookup
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
-import kotlinx.html.DETAILS
-import kotlinx.html.FORM
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
+import kotlinx.html.*
 
 // show
 
@@ -130,6 +117,7 @@ fun parseBaseDamageLookup(
     BaseDamageLookupType.DicePool -> BaseDamageDicePool(
         parse(parameters, DIE, DieType.D6),
     )
+
     BaseDamageLookupType.SimpleLookup -> SimpleBaseDamageLookup(
         parseLookup(parameters, DAMAGE, 1) { entryParam ->
             SimpleBaseDamageEntry(

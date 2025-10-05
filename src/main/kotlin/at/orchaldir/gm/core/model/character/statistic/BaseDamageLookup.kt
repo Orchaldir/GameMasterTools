@@ -39,8 +39,7 @@ data class SimpleBaseDamageEntry(
 
         if (modifier > 0) {
             string += "+$modifier"
-        }
-        else if (modifier < 0) {
+        } else if (modifier < 0) {
             string += "$modifier"
         }
 

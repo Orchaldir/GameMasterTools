@@ -5,16 +5,10 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.HISTORY
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.core.model.util.LookupEntry
 import io.ktor.http.*
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.label
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
+import kotlinx.html.*
 
 // show
 
@@ -84,7 +78,7 @@ fun <T> HtmlBlockTag.editLookupTable(
     table {
         tr {
             th { +"Until" }
-            columns.forEach { (label,  _) ->
+            columns.forEach { (label, _) ->
                 th { +label }
             }
         }
