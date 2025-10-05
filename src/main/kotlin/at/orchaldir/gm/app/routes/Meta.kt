@@ -13,31 +13,19 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.HasBelief
-import at.orchaldir.gm.core.model.util.HasOrigin
-import at.orchaldir.gm.core.model.util.HasStartDate
-import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.application.call
 import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
-import kotlinx.html.HTML
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.TR
-import kotlinx.html.h2
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
+import kotlinx.html.*
 
 interface Routes<ID : Id<ID>, T> {
 
@@ -57,7 +45,8 @@ fun <ELEMENT : HasStartDate> createAgeColumn(
 fun <ELEMENT : HasBelief> createBeliefColumn(
     call: ApplicationCall,
     state: State,
-): Pair<String, TR.(ELEMENT) -> Unit> = Pair("Belief") { td { showBeliefStatus(call, state, it.belief().current, false) } }
+): Pair<String, TR.(ELEMENT) -> Unit> =
+    Pair("Belief") { td { showBeliefStatus(call, state, it.belief().current, false) } }
 
 fun <ELEMENT : Creation> createCreatorColumn(
     call: ApplicationCall,
@@ -69,7 +58,19 @@ fun <ELEMENT : HasStartDate> createDateColumn(
     call: ApplicationCall,
     state: State,
     label: String = "Date",
-): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { td { showOptionalDate(call, state, it.startDate()) } }
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) {
+    td {
+        title = state.getAgeInYears(it.startDate())?.let { "$it years ago" } ?: ""
+        showOptionalDate(call, state, it.startDate())
+    }
+}
+
+fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>> createIdColumn(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    convert: (ELEMENT) -> ID1,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { tdLink(call, state, convert(it)) }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createNameColumn(
     call: ApplicationCall,
@@ -91,7 +92,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumn(
     label: String,
-    convert: (ELEMENT) -> Int,
+    convert: (ELEMENT) -> Int?,
 ): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { tdSkipZero(convert(it)) }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>, T> createSkipZeroColumnFromCollection(
@@ -101,11 +102,15 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>, T> createSkipZeroColumnFromCollection(
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumnForId(
     label: String,
-    convert: (ID) -> Int,
+    convert: (ID) -> Int?,
 ): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { tdSkipZero(convert(it.id())) }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>> createStringColumn(
+    label: String,
+    convert: (ELEMENT) -> String?,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { tdString(convert(it)) }
 
-suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
     routes: Routes<ID, T>,
     elements: List<ELEMENT>,
     columns: List<Pair<String, TR.(ELEMENT) -> Unit>>,
@@ -118,14 +123,14 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> Pipe
     }
 }
 
-inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> HTML.showAllElements(
+inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showAllElements(
     call: ApplicationCall,
     routes: Routes<ID, T>,
     elements: List<ELEMENT>,
     columns: List<Pair<String, TR.(ELEMENT) -> Unit>>,
     crossinline extraContent: HtmlBlockTag.(List<ELEMENT>) -> Unit = { },
 ) {
-    simpleHtml("Magic Traditions") {
+    simpleHtml(elements.firstOrNull()?.id()?.plural() ?: "Elements") {
         field("Count", elements.size)
         showSortTableLinks(call, enumValues<T>().toList(), routes)
 

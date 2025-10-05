@@ -45,7 +45,7 @@ data class Spell(
     val language: LanguageId? = null,
     val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<SpellId>, Creation, HasDataSources, HasOrigin, HasStartDate {
+) : ElementWithSimpleName<SpellId>, HasDataSources, HasOrigin, HasStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_SPELL_ORIGINS)
