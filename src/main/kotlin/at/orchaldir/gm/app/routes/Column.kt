@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
@@ -17,6 +18,7 @@ import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
+import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
 import kotlinx.html.title
@@ -26,6 +28,10 @@ data class Column<T>(
     val converter: TR.(T) -> Unit, 
 ) {
     constructor(header: String, converter: TR.(T) -> Unit): this(listOf(header), converter)
+
+    companion object {
+        fun <T> tdColumn(header: String, converter: TD.(T) -> Unit) = Column<T>(header, { td { converter(it) }})
+    }
 }
 
 fun <ELEMENT : HasStartDate> createAgeColumn(
@@ -37,13 +43,13 @@ fun <ELEMENT : HasBelief> createBeliefColumn(
     call: ApplicationCall,
     state: State,
 ): Column<ELEMENT> =
-    Column("Belief") { td { showBeliefStatus(call, state, it.belief().current, false) } }
+    tdColumn("Belief") { showBeliefStatus(call, state, it.belief().current, false) }
 
 fun <ELEMENT : Creation> createCreatorColumn(
     call: ApplicationCall,
     state: State,
     label: String = "Creator",
-): Column<ELEMENT> = Column(label) { td { showReference(call, state, it.creator(), false) } }
+): Column<ELEMENT> = tdColumn(label) { showReference(call, state, it.creator(), false) }
 
 fun <ELEMENT : HasStartDate> createStartDateColumn(
     call: ApplicationCall,
@@ -62,12 +68,10 @@ private fun <T> createDateColumn(
     state: State,
     call: ApplicationCall,
     getDate: (T) -> Date?,
-): Column<T> = Column(label) {
-    td {
-        val date = getDate(it)
-        title = state.getAgeInYears(date)?.let { "$it years ago" } ?: ""
-        showOptionalDate(call, state, date)
-    }
+): Column<T> = tdColumn(label) {
+    val date = getDate(it)
+    title = state.getAgeInYears(date)?.let { "$it years ago" } ?: ""
+    showOptionalDate(call, state, date)
 }
 
 
@@ -95,14 +99,14 @@ fun <ID : Id<ID>, ELEMENT : HasOrigin> createOriginColumn(
     call: ApplicationCall,
     state: State,
     createId: (Int) -> ID,
-): Column<ELEMENT> = Column("Origin") { td { showOrigin(call, state, it.origin(), createId) } }
+): Column<ELEMENT> = tdColumn("Origin") { showOrigin(call, state, it.origin(), createId) }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
     call: ApplicationCall,
     state: State,
     label: String,
     get: (ELEMENT) -> Reference,
-): Column<ELEMENT> = Column(label) { td { showReference(call, state, get(it), false) } }
+): Column<ELEMENT> = tdColumn(label) { showReference(call, state, get(it), false) }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumn(
     label: String,

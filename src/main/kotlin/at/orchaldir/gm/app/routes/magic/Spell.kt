@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.showLanguageCountForSpells
 import at.orchaldir.gm.app.html.showSpellOriginCount
 import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
@@ -82,7 +83,7 @@ fun Application.configureSpellRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
-                    Column("Language") { td { optionalLink(call, state, it.language) } },
+                    tdColumn("Language") { optionalLink(call, state, it.language) },
                     createOriginColumn(call, state, ::SpellId),
                     createSkipZeroColumnForId("Groups", state::countSpellGroups),
                     createSkipZeroColumnForId("Domains", state::countDomains),

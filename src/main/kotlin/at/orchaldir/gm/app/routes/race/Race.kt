@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.race.editRace
 import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -95,7 +96,7 @@ fun Application.configureRaceRouting() {
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
                     createOriginColumn(call, state, ::RaceId),
-                    Column("Gender") { td { +it.genders.getValidValues().joinToString() } },
+                    tdColumn("Gender") { +it.genders.getValidValues().joinToString() },
                     createSkipZeroColumn("Max Age") { it.lifeStages.getMaxAge() },
                     createStringColumn("Avg Height") { it.height.center.toString() },
                     createStringColumn("Avg Weight") { it.weight.toString() },

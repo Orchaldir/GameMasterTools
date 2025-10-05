@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
 import at.orchaldir.gm.app.routes.Column
+import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.createStartDateColumn
 import at.orchaldir.gm.app.routes.createDestroyedColumns
@@ -88,7 +89,7 @@ fun Application.configureCatastropheRouting() {
                     createStartDateColumn(call, state, "Start"),
                     createEndDateColumn(call, state, "End"),
                     createSkipZeroColumn("Years") { calendar.getYears(it.getDuration(state))},
-                    Column("Cause") { td { displayCauseOfCatastrophe(call, state, it.cause, false) } }
+                    tdColumn("Cause") {displayCauseOfCatastrophe(call, state, it.cause, false) }
                 ) + createDestroyedColumns(state),
             )
         }
