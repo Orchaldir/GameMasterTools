@@ -7,6 +7,8 @@ import at.orchaldir.gm.app.html.magic.editSpell
 import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.magic.showSpell
 import at.orchaldir.gm.app.html.optionalLink
+import at.orchaldir.gm.app.html.showLanguageCountForSpells
+import at.orchaldir.gm.app.html.showSpellOriginCount
 import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
@@ -87,6 +89,10 @@ fun Application.configureSpellRouting() {
                     createSkipZeroColumn("Jobs", state::countJobs),
                     createSkipZeroColumn("Texts", state::countTexts),
                 ),
+                {
+                    showLanguageCountForSpells(call, state, it)
+                    showSpellOriginCount(it)
+                }
             )
         }
         get<SpellRoutes.Details> { details ->

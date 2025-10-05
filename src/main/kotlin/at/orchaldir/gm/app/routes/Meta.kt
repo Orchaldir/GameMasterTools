@@ -81,11 +81,12 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> Pipe
     routes: Routes<ID, T>,
     elements: List<ELEMENT>,
     columns: List<Pair<String, TR.(ELEMENT) -> Unit>>,
+    crossinline extraContent: HtmlBlockTag.(List<ELEMENT>) -> Unit = { },
 ) {
     logger.info { "Get all elements" }
 
     call.respondHtml(HttpStatusCode.OK) {
-        showAllElements(call, routes, elements, columns)
+        showAllElements(call, routes, elements, columns, extraContent)
     }
 }
 
@@ -94,6 +95,7 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> HTML.showAll
     routes: Routes<ID, T>,
     elements: List<ELEMENT>,
     columns: List<Pair<String, TR.(ELEMENT) -> Unit>>,
+    crossinline extraContent: HtmlBlockTag.(List<ELEMENT>) -> Unit = { },
 ) {
     simpleHtml("Magic Traditions") {
         field("Count", elements.size)
@@ -113,6 +115,8 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> HTML.showAll
                 }
             }
         }
+
+        extraContent(elements)
 
         action(routes.new(call), "Add")
         back("/")
