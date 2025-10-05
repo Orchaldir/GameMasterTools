@@ -10,10 +10,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_ISSUE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
@@ -30,7 +33,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERIODICAL_ISSUE_TYPE")
-class PeriodicalIssueRoutes : Routes<PeriodicalIssueId> {
+class PeriodicalIssueRoutes : Routes<PeriodicalIssueId, SortPeriodicalIssue> {
     @Resource("all")
     class All(
         val sort: SortPeriodicalIssue = SortPeriodicalIssue.Date,
@@ -56,8 +59,10 @@ class PeriodicalIssueRoutes : Routes<PeriodicalIssueId> {
     class Update(val id: PeriodicalIssueId, val parent: PeriodicalIssueRoutes = PeriodicalIssueRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortPeriodicalIssue) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configurePeriodicalIssueRouting() {
@@ -118,7 +123,7 @@ private fun HTML.showAllPeriodicalIssues(
 
     simpleHtml("Periodical Issues") {
         field("Count", periodicals.size)
-        showSortTableLinks(call, SortPeriodicalIssue.entries, PeriodicalIssueRoutes(), PeriodicalIssueRoutes::All)
+        showSortTableLinks(call, SortPeriodicalIssue.entries, PeriodicalIssueRoutes())
         table {
             tr {
                 th { +"Date" }

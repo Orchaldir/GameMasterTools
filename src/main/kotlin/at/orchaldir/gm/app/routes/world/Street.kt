@@ -10,7 +10,10 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortStreet
 import at.orchaldir.gm.core.model.world.street.STREET_TYPE
 import at.orchaldir.gm.core.model.world.street.Street
@@ -31,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TYPE")
-class StreetRoutes : Routes<StreetId> {
+class StreetRoutes : Routes<StreetId, SortStreet> {
     @Resource("all")
     class All(
         val sort: SortStreet = SortStreet.Name,
@@ -54,8 +57,10 @@ class StreetRoutes : Routes<StreetId> {
     class Update(val id: StreetId, val parent: StreetRoutes = StreetRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortStreet) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: StreetId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: StreetId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureStreetRouting() {

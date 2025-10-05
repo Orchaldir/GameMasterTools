@@ -11,11 +11,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.GOD_TYPE
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.SortGod
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
@@ -38,7 +41,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$GOD_TYPE")
-class GodRoutes : Routes<GodId> {
+class GodRoutes : Routes<GodId,SortGod> {
     @Resource("all")
     class All(
         val sort: SortGod = SortGod.Name,
@@ -64,8 +67,10 @@ class GodRoutes : Routes<GodId> {
     class Update(val id: GodId, val parent: GodRoutes = GodRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortGod) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: GodId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: GodId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureGodRouting() {
@@ -125,7 +130,7 @@ private fun HTML.showAllGods(
 
     simpleHtml("Gods") {
         field("Count", gods.size)
-        showSortTableLinks(call, SortGod.entries, GodRoutes(), GodRoutes::All)
+        showSortTableLinks(call, SortGod.entries, GodRoutes())
 
         table {
             tr {

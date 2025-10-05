@@ -32,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MAGIC_TRADITION_TYPE")
-class MagicTraditionRoutes : Routes<MagicTraditionId> {
+class MagicTraditionRoutes : Routes<MagicTraditionId, SortMagicTradition> {
     @Resource("all")
     class All(
         val sort: SortMagicTradition = SortMagicTradition.Name,
@@ -58,8 +58,10 @@ class MagicTraditionRoutes : Routes<MagicTraditionId> {
     class Update(val id: MagicTraditionId, val parent: MagicTraditionRoutes = MagicTraditionRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortMagicTradition) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureMagicTraditionRouting() {
@@ -119,7 +121,7 @@ private fun HTML.showAllMagicTraditions(
 
     simpleHtml("Magic Traditions") {
         field("Count", traditions.size)
-        showSortTableLinks(call, SortMagicTradition.entries, MagicTraditionRoutes(), MagicTraditionRoutes::All)
+        showSortTableLinks(call, SortMagicTradition.entries, MagicTraditionRoutes())
 
         table {
             tr {

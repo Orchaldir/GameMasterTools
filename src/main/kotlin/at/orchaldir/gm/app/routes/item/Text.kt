@@ -12,9 +12,12 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
@@ -36,7 +39,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
-class TextRoutes : Routes<TextId> {
+class TextRoutes : Routes<TextId, SortText> {
     @Resource("all")
     class All(
         val sort: SortText = SortText.Name,
@@ -69,8 +72,10 @@ class TextRoutes : Routes<TextId> {
     class Update(val id: TextId, val parent: TextRoutes = TextRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortText) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: TextId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TextId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureTextRouting() {
@@ -90,7 +95,7 @@ fun Application.configureTextRouting() {
             }
         }
         get<TextRoutes.Details> { details ->
-            handleShowElement<TextId, Text>(details.id, TextRoutes()) { call, state, text ->
+            handleShowElement<TextId, Text, SortText>(details.id, TextRoutes()) { call, state, text ->
                 visualizeFrontAndContent(call, state, text, 20, details.pageIndex, true)
                 showText(call, state, text)
             }
@@ -141,7 +146,7 @@ private fun HTML.showAllTexts(
     simpleHtml("Texts") {
         action(galleryLink, "Gallery")
         field("Count", texts.size)
-        showSortTableLinks(call, SortText.entries, TextRoutes(), TextRoutes::All)
+        showSortTableLinks(call, SortText.entries, TextRoutes())
         table {
             tr {
                 th { +"Name" }

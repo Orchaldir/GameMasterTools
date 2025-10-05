@@ -10,10 +10,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_GROUP_TYPE
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.magic.SpellGroupId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortSpellGroup
 import at.orchaldir.gm.core.selector.util.sortSpellGroups
 import io.ktor.http.*
@@ -34,7 +37,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$SPELL_GROUP_TYPE")
-class SpellGroupRoutes : Routes<SpellGroupId> {
+class SpellGroupRoutes : Routes<SpellGroupId,SortSpellGroup> {
     @Resource("all")
     class All(
         val sort: SortSpellGroup = SortSpellGroup.Name,
@@ -61,8 +64,10 @@ class SpellGroupRoutes : Routes<SpellGroupId> {
 
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortSpellGroup) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: SpellGroupId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: SpellGroupId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureSpellGroupRouting() {
@@ -122,7 +127,7 @@ private fun HTML.showAllSpellGroups(
 
     simpleHtml("Spell Groups") {
         field("Count", groups.size)
-        showSortTableLinks(call, SortSpellGroup.entries, SpellGroupRoutes(), SpellGroupRoutes::All)
+        showSortTableLinks(call, SortSpellGroup.entries, SpellGroupRoutes())
 
         table {
             tr {

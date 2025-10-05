@@ -8,11 +8,14 @@ import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -33,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CHARACTER_TEMPLATE_TYPE")
-class CharacterTemplateRoutes : Routes<CharacterTemplateId> {
+class CharacterTemplateRoutes : Routes<CharacterTemplateId, SortCharacterTemplate> {
     @Resource("all")
     class All(
         val sort: SortCharacterTemplate = SortCharacterTemplate.Name,
@@ -62,9 +65,11 @@ class CharacterTemplateRoutes : Routes<CharacterTemplateId> {
     class Update(val id: CharacterTemplateId, val parent: CharacterTemplateRoutes = CharacterTemplateRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCharacterTemplate) = call.application.href(All(sort))
     override fun clone(call: ApplicationCall, id: CharacterTemplateId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: CharacterTemplateId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CharacterTemplateId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCharacterTemplateRouting() {
@@ -130,7 +135,7 @@ private fun HTML.showAllCharacterTemplates(
 
     simpleHtml("Character Templates") {
         field("Count", templates.size)
-        showSortTableLinks(call, SortCharacterTemplate.entries, CharacterTemplateRoutes(), CharacterTemplateRoutes::All)
+        showSortTableLinks(call, SortCharacterTemplate.entries, CharacterTemplateRoutes())
 
         table {
             tr {

@@ -167,10 +167,10 @@ fun HtmlBlockTag.fieldLink(label: String, link: String, text: String) {
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldStorageLink(
+fun <ID : Id<ID>, ELEMENT : Element<ID>, T> HtmlBlockTag.fieldStorageLink(
     call: ApplicationCall,
     storage: Storage<ID, ELEMENT>,
-    routes: Routes<ID>,
+    routes: Routes<ID, T>,
 ) {
     fieldLink(storage.getPlural(), routes.all(call), "${storage.getSize()}")
 }

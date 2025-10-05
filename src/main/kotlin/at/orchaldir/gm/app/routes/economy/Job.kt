@@ -10,9 +10,12 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.character.countCharactersWithCurrentOrFormerJob
 import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency
@@ -33,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$JOB_TYPE")
-class JobRoutes : Routes<JobId> {
+class JobRoutes : Routes<JobId, SortJob> {
     @Resource("all")
     class All(
         val sort: SortJob = SortJob.Name,
@@ -59,8 +62,10 @@ class JobRoutes : Routes<JobId> {
     class Update(val id: JobId, val parent: JobRoutes = JobRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortJob) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: JobId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: JobId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureJobRouting() {
@@ -117,7 +122,7 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob)
     simpleHtml("Jobs") {
         field("Count", jobs.size)
         fieldLink("Currency", call, currency)
-        showSortTableLinks(call, SortJob.entries, JobRoutes(), JobRoutes::All)
+        showSortTableLinks(call, SortJob.entries, JobRoutes())
         table {
             tr {
                 th { +"Name" }

@@ -13,10 +13,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortOrganization
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortOrganizations
@@ -34,7 +37,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ORGANIZATION_TYPE")
-class OrganizationRoutes : Routes<OrganizationId> {
+class OrganizationRoutes : Routes<OrganizationId, SortOrganization> {
     @Resource("all")
     class All(
         val sort: SortOrganization = SortOrganization.Name,
@@ -61,8 +64,10 @@ class OrganizationRoutes : Routes<OrganizationId> {
 
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortOrganization) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: OrganizationId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: OrganizationId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureOrganizationRouting() {
@@ -122,7 +127,7 @@ private fun HTML.showAllOrganizations(
 
     simpleHtml("Organizations") {
         field("Count", organizations.size)
-        showSortTableLinks(call, SortOrganization.entries, OrganizationRoutes(), OrganizationRoutes::All)
+        showSortTableLinks(call, SortOrganization.entries, OrganizationRoutes())
 
         table {
             tr {

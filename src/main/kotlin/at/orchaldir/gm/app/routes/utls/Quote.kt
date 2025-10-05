@@ -12,7 +12,10 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortQuote
 import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
 import at.orchaldir.gm.core.model.util.quote.Quote
@@ -32,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$QUOTE_TYPE")
-class QuoteRoutes : Routes<QuoteId> {
+class QuoteRoutes : Routes<QuoteId,SortQuote> {
     @Resource("all")
     class All(
         val sort: SortQuote = SortQuote.Name,
@@ -58,8 +61,10 @@ class QuoteRoutes : Routes<QuoteId> {
     class Update(val id: QuoteId, val parent: QuoteRoutes = QuoteRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortQuote) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: QuoteId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: QuoteId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureQuoteRouting() {
@@ -118,7 +123,7 @@ private fun HTML.showAllQuotes(
 
     simpleHtml("Quotes") {
         field("Count", qquotes.size)
-        showSortTableLinks(call, SortQuote.entries, QuoteRoutes(), QuoteRoutes::All)
+        showSortTableLinks(call, SortQuote.entries, QuoteRoutes())
         table {
             tr {
                 th { +"Text" }

@@ -7,12 +7,15 @@ import at.orchaldir.gm.app.html.culture.parseCulture
 import at.orchaldir.gm.app.html.culture.showCulture
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.SortCulture
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.util.sortCultures
 import io.ktor.http.*
@@ -33,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CULTURE_TYPE")
-class CultureRoutes : Routes<CultureId> {
+class CultureRoutes : Routes<CultureId, SortCulture> {
     @Resource("all")
     class All(
         val sort: SortCulture = SortCulture.Name,
@@ -62,9 +65,11 @@ class CultureRoutes : Routes<CultureId> {
     class Update(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCulture) = call.application.href(All(sort))
     override fun clone(call: ApplicationCall, id: CultureId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: CultureId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CultureId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCultureRouting() {

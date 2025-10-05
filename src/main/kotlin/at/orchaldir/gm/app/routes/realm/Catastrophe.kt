@@ -14,11 +14,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import io.ktor.http.*
@@ -35,7 +38,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CATASTROPHE_TYPE")
-class CatastropheRoutes : Routes<CatastropheId> {
+class CatastropheRoutes : Routes<CatastropheId,SortCatastrophe> {
     @Resource("all")
     class All(
         val sort: SortCatastrophe = SortCatastrophe.Name,
@@ -61,8 +64,10 @@ class CatastropheRoutes : Routes<CatastropheId> {
     class Update(val id: CatastropheId, val parent: CatastropheRoutes = CatastropheRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCatastrophe) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: CatastropheId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CatastropheId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCatastropheRouting() {
@@ -123,7 +128,7 @@ private fun HTML.showAllCatastrophes(
 
     simpleHtml("Catastrophes") {
         field("Count", catastrophes.size)
-        showSortTableLinks(call, SortCatastrophe.entries, CatastropheRoutes(), CatastropheRoutes::All)
+        showSortTableLinks(call, SortCatastrophe.entries, CatastropheRoutes())
 
         table {
             tr {

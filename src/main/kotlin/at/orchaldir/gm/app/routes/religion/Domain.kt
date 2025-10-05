@@ -10,11 +10,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.DOMAIN_TYPE
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.util.SortDomain
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.util.sortDomains
 import io.ktor.http.*
@@ -35,7 +38,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DOMAIN_TYPE")
-class DomainRoutes : Routes<DomainId> {
+class DomainRoutes : Routes<DomainId,SortDomain> {
     @Resource("all")
     class All(
         val sort: SortDomain = SortDomain.Name,
@@ -61,8 +64,10 @@ class DomainRoutes : Routes<DomainId> {
     class Update(val id: DomainId, val parent: DomainRoutes = DomainRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortDomain) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: DomainId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DomainId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureDomainRouting() {
@@ -122,7 +127,7 @@ private fun HTML.showAllDomains(
 
     simpleHtml("Domains") {
         field("Count", domains.size)
-        showSortTableLinks(call, SortDomain.entries, DomainRoutes(), DomainRoutes::All)
+        showSortTableLinks(call, SortDomain.entries, DomainRoutes())
 
         table {
             tr {

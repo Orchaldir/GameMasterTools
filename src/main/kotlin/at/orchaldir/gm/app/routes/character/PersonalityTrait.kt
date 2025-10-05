@@ -10,10 +10,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PERSONALITY_TRAIT_TYPE
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPersonalityTrait
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
@@ -33,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERSONALITY_TRAIT_TYPE")
-class PersonalityTraitRoutes : Routes<PersonalityTraitId> {
+class PersonalityTraitRoutes : Routes<PersonalityTraitId, SortPersonalityTrait> {
     @Resource("all")
     class All(
         val sort: SortPersonalityTrait = SortPersonalityTrait.Name,
@@ -56,8 +59,10 @@ class PersonalityTraitRoutes : Routes<PersonalityTraitId> {
     class Update(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortPersonalityTrait) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configurePersonalityRouting() {

@@ -9,6 +9,8 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.Appearance
@@ -16,6 +18,7 @@ import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
@@ -41,7 +44,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$RACE_TYPE")
-class RaceRoutes : Routes<RaceId> {
+class RaceRoutes : Routes<RaceId,SortRace> {
     @Resource("all")
     class All(
         val sort: SortRace = SortRace.Name,
@@ -76,9 +79,11 @@ class RaceRoutes : Routes<RaceId> {
     class Update(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortRace) = call.application.href(All(sort))
     override fun clone(call: ApplicationCall, id: RaceId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: RaceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureRaceRouting() {
@@ -198,7 +203,7 @@ private inline fun <reified V : Any> HtmlBlockTag.showSortLinks(
     call: ApplicationCall,
     crossinline createLink: Function2<SortRace, RaceRoutes, V>,
 ) {
-    showSortTableLinks(call, SortRace.entries, RaceRoutes(), createLink)
+    showSortTableLinks(call, SortRace.entries, RaceRoutes())
 }
 
 private fun HTML.showGallery(

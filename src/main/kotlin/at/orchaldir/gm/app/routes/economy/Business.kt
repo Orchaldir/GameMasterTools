@@ -13,11 +13,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.SortBusiness
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.util.sortBusinesses
 import io.ktor.http.*
@@ -34,7 +37,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BUSINESS_TYPE")
-class BusinessRoutes : Routes<BusinessId> {
+class BusinessRoutes : Routes<BusinessId, SortBusiness> {
     @Resource("all")
     class All(
         val sort: SortBusiness = SortBusiness.Name,
@@ -60,8 +63,10 @@ class BusinessRoutes : Routes<BusinessId> {
     class Update(val id: BusinessId, val parent: BusinessRoutes = BusinessRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortBusiness) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: BusinessId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: BusinessId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureBusinessRouting() {
@@ -120,7 +125,7 @@ private fun HTML.showAllBusinesses(
 
     simpleHtml("Businesses") {
         field("Count", businesses.size)
-        showSortTableLinks(call, SortBusiness.entries, BusinessRoutes(), BusinessRoutes::All)
+        showSortTableLinks(call, SortBusiness.entries, BusinessRoutes())
         table {
             tr {
                 th { +"Name" }

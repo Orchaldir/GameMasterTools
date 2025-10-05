@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.APP_TITLE
+import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -193,16 +194,14 @@ fun <T> HtmlBlockTag.showRarityMap(
 
 // table
 
-inline fun <T : Enum<T>, U, reified V : Any> HtmlBlockTag.showSortTableLinks(
+fun <T : Enum<T>, ID: Id<ID>> HtmlBlockTag.showSortTableLinks(
     call: ApplicationCall,
     entries: List<T>,
-    parent: U,
-    crossinline createLink: Function2<T, U, V>,
+    routes: Routes<ID, T>,
 ) {
     field("Sort") {
         entries.forEach {
-            val r = createLink.invoke(it, parent)
-            val link = call.application.href(r)
+            val link = routes.all(call, it)
             link(link, it.name)
             +" "
         }

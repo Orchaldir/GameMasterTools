@@ -11,11 +11,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.SortHoliday
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortHolidays
 import io.ktor.http.*
@@ -32,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$HOLIDAY_TYPE")
-class HolidayRoutes : Routes<HolidayId> {
+class HolidayRoutes : Routes<HolidayId,SortHoliday> {
     @Resource("all")
     class All(
         val sort: SortHoliday = SortHoliday.Name,
@@ -58,8 +61,10 @@ class HolidayRoutes : Routes<HolidayId> {
     class Update(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortHoliday) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: HolidayId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: HolidayId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureHolidayRouting() {

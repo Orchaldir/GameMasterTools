@@ -10,7 +10,10 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortNameList
 import at.orchaldir.gm.core.model.util.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.util.name.NameList
@@ -29,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$NAME_LIST_TYPE")
-class NameListRoutes : Routes<NameListId> {
+class NameListRoutes : Routes<NameListId,SortNameList> {
     @Resource("all")
     class All(
         val sort: SortNameList = SortNameList.Name,
@@ -52,8 +55,10 @@ class NameListRoutes : Routes<NameListId> {
     class Update(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortNameList) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: NameListId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: NameListId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureNameListRouting() {

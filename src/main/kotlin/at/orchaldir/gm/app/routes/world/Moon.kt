@@ -11,7 +11,10 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortMoon
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -31,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MOON_TYPE")
-class MoonRoutes : Routes<MoonId> {
+class MoonRoutes : Routes<MoonId, SortMoon> {
     @Resource("all")
     class All(
         val sort: SortMoon = SortMoon.Name,
@@ -57,8 +60,10 @@ class MoonRoutes : Routes<MoonId> {
     class Update(val id: MoonId, val parent: MoonRoutes = MoonRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortMoon) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: MoonId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: MoonId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureMoonRouting() {

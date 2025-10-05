@@ -1,6 +1,11 @@
 package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
+import at.orchaldir.gm.core.model.util.SortMagicTradition
+import at.orchaldir.gm.core.model.util.SortTown
+import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.town.TOWN_MAP_TYPE
@@ -12,9 +17,10 @@ import io.ktor.server.application.*
 import io.ktor.server.resources.*
 
 @Resource("/$TOWN_MAP_TYPE")
-class TownMapRoutes : Routes<TownMapId> {
+class TownMapRoutes : Routes<TownMapId, SortTownMap> {
     @Resource("all")
     class All(
+        val sort: SortTownMap = SortTownMap.Name,
         val parent: TownMapRoutes = TownMapRoutes(),
     )
 
@@ -37,8 +43,10 @@ class TownMapRoutes : Routes<TownMapId> {
     class Update(val id: TownMapId, val parent: TownMapRoutes = TownMapRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortTownMap) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: TownMapId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TownMapId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 
     @Resource("/abstract")
     class AbstractBuildingRoutes(val parent: TownMapRoutes = TownMapRoutes()) {

@@ -10,6 +10,8 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -17,6 +19,7 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortUniform
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.sortUniforms
@@ -41,7 +44,7 @@ private val logger = KotlinLogging.logger {}
 private val appearance = HumanoidBody(Body(), Head(), fromMeters(2))
 
 @Resource("/$UNIFORM_TYPE")
-class UniformRoutes : Routes<UniformId> {
+class UniformRoutes : Routes<UniformId, SortUniform> {
     @Resource("all")
     class All(
         val sort: SortUniform = SortUniform.Name,
@@ -70,8 +73,10 @@ class UniformRoutes : Routes<UniformId> {
     class Update(val id: UniformId, val parent: UniformRoutes = UniformRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortUniform) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: UniformId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: UniformId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureUniformRouting() {
@@ -91,7 +96,7 @@ fun Application.configureUniformRouting() {
             }
         }
         get<UniformRoutes.Details> { details ->
-            handleShowElement<UniformId, Uniform>(details.id, UniformRoutes()) { call, state, uniform ->
+            handleShowElement<UniformId, Uniform, SortUniform>(details.id, UniformRoutes()) { call, state, uniform ->
                 val equipped = state.getEquipment(uniform.equipmentMap)
                 val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
                 svg(svg, 20)
@@ -145,7 +150,7 @@ private fun HTML.showAllUniforms(
     simpleHtml("Uniforms") {
         action(galleryLink, "Gallery")
         field("Count", uniforms.size)
-        showSortTableLinks(call, SortUniform.entries, UniformRoutes(), UniformRoutes::All)
+        showSortTableLinks(call, SortUniform.entries, UniformRoutes())
         table {
             tr {
                 th { +"Name" }

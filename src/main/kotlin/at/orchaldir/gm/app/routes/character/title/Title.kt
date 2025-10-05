@@ -10,10 +10,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortTitle
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.util.sortTitles
@@ -35,7 +38,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TITLE_TYPE")
-class TitleRoutes : Routes<TitleId> {
+class TitleRoutes : Routes<TitleId,SortTitle> {
     @Resource("all")
     class All(
         val sort: SortTitle = SortTitle.Name,
@@ -61,8 +64,10 @@ class TitleRoutes : Routes<TitleId> {
     class Update(val id: TitleId, val parent: TitleRoutes = TitleRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortTitle) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: TitleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TitleId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureTitleRouting() {
@@ -121,7 +126,7 @@ private fun HTML.showAllTitles(
 
     simpleHtml("Titles") {
         field("Count", titles.size)
-        showSortTableLinks(call, SortTitle.entries, TitleRoutes(), TitleRoutes::All)
+        showSortTableLinks(call, SortTitle.entries, TitleRoutes())
         table {
             tr {
                 th { +"Name" }

@@ -12,11 +12,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LEGAL_CODE_TYPE
 import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.util.SortLegalCode
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.util.sortLegalCodes
 import io.ktor.http.*
@@ -33,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$LEGAL_CODE_TYPE")
-class LegalCodeRoutes : Routes<LegalCodeId> {
+class LegalCodeRoutes : Routes<LegalCodeId,SortLegalCode> {
     @Resource("all")
     class All(
         val sort: SortLegalCode = SortLegalCode.Name,
@@ -59,8 +62,10 @@ class LegalCodeRoutes : Routes<LegalCodeId> {
     class Update(val id: LegalCodeId, val parent: LegalCodeRoutes = LegalCodeRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortLegalCode) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: LegalCodeId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: LegalCodeId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureLegalCodeRouting() {
@@ -120,7 +125,7 @@ private fun HTML.showAllLegalCodes(
 
     simpleHtml("Legal Codes") {
         field("Count", codes.size)
-        showSortTableLinks(call, SortLegalCode.entries, LegalCodeRoutes(), LegalCodeRoutes::All)
+        showSortTableLinks(call, SortLegalCode.entries, LegalCodeRoutes())
 
         table {
             tr {

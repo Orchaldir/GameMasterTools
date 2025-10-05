@@ -12,10 +12,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPeriodical
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicalIssues
 import at.orchaldir.gm.core.selector.util.sortPeriodicals
@@ -33,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERIODICAL_TYPE")
-class PeriodicalRoutes : Routes<PeriodicalId> {
+class PeriodicalRoutes : Routes<PeriodicalId, SortPeriodical> {
     @Resource("all")
     class All(
         val sort: SortPeriodical = SortPeriodical.Name,
@@ -59,8 +62,10 @@ class PeriodicalRoutes : Routes<PeriodicalId> {
     class Update(val id: PeriodicalId, val parent: PeriodicalRoutes = PeriodicalRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortPeriodical) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: PeriodicalId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PeriodicalId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configurePeriodicalRouting() {
@@ -119,7 +124,7 @@ private fun HTML.showAllPeriodicals(
 
     simpleHtml("Periodicals") {
         field("Count", periodicals.size)
-        showSortTableLinks(call, SortPeriodical.entries, PeriodicalRoutes(), PeriodicalRoutes::All)
+        showSortTableLinks(call, SortPeriodical.entries, PeriodicalRoutes())
         table {
             tr {
                 th { +"Name" }

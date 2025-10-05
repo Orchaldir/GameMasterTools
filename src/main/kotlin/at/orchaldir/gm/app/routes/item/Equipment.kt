@@ -12,12 +12,15 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.SortEquipment
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
@@ -44,7 +47,7 @@ private val logger = KotlinLogging.logger {}
 private val height = fromMeters(1.0f)
 
 @Resource("/$EQUIPMENT_TYPE")
-class EquipmentRoutes : Routes<EquipmentId> {
+class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
     @Resource("all")
     class All(
         val sort: SortEquipment = SortEquipment.Name,
@@ -79,8 +82,10 @@ class EquipmentRoutes : Routes<EquipmentId> {
     class Update(val id: EquipmentId, val parent: EquipmentRoutes = EquipmentRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortEquipment) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: EquipmentId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: EquipmentId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureEquipmentRouting() {
@@ -106,7 +111,7 @@ fun Application.configureEquipmentRouting() {
             val parameters = call.receiveParameters()
             val colorSchemeId = parseOptionalColorSchemeId(parameters, SCHEME)
 
-            handleShowElement<EquipmentId, Equipment>(details.id, EquipmentRoutes()) { call, state, equipment ->
+            handleShowElement<EquipmentId, Equipment, SortEquipment>(details.id, EquipmentRoutes()) { call, state, equipment ->
                 showEquipmentDetails(call, state, equipment, colorSchemeId)
             }
         }

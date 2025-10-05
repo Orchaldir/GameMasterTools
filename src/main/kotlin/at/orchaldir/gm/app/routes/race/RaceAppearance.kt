@@ -7,6 +7,8 @@ import at.orchaldir.gm.app.html.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.race.showRaceAppearance
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -14,6 +16,7 @@ import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortRaceAppearance
 import at.orchaldir.gm.core.selector.race.getRaces
 import at.orchaldir.gm.core.selector.util.sortRaceAppearances
@@ -44,7 +47,7 @@ import kotlin.random.Random
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$RACE_APPEARANCE_TYPE")
-class RaceAppearanceRoutes : Routes<RaceAppearanceId> {
+class RaceAppearanceRoutes : Routes<RaceAppearanceId, SortRaceAppearance> {
     @Resource("all")
     class All(
         val sort: SortRaceAppearance = SortRaceAppearance.Name,
@@ -79,9 +82,11 @@ class RaceAppearanceRoutes : Routes<RaceAppearanceId> {
     class Update(val id: RaceAppearanceId, val parent: RaceAppearanceRoutes = RaceAppearanceRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortRaceAppearance) = call.application.href(All(sort))
     override fun clone(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureRaceAppearanceRouting() {

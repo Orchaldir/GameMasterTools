@@ -10,8 +10,11 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortColorScheme
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
@@ -36,7 +39,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$COLOR_SCHEME_TYPE")
-class ColorSchemeRoutes : Routes<ColorSchemeId> {
+class ColorSchemeRoutes : Routes<ColorSchemeId,SortColorScheme> {
     @Resource("all")
     class All(
         val sort: SortColorScheme = SortColorScheme.Name,
@@ -62,8 +65,10 @@ class ColorSchemeRoutes : Routes<ColorSchemeId> {
     class Update(val id: ColorSchemeId, val parent: ColorSchemeRoutes = ColorSchemeRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortColorScheme) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: ColorSchemeId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: ColorSchemeId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureColorSchemeRouting() {
@@ -123,7 +128,7 @@ private fun HTML.showAllColorSchemes(
 
     simpleHtml("ColorSchemes") {
         field("Count", schemes.size)
-        showSortTableLinks(call, SortColorScheme.entries, ColorSchemeRoutes(), ColorSchemeRoutes::All)
+        showSortTableLinks(call, SortColorScheme.entries, ColorSchemeRoutes())
 
         table {
             tr {

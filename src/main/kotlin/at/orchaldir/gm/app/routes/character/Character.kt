@@ -132,7 +132,7 @@ private fun HTML.showAllCharacters(
     simpleHtml("Characters") {
         action(galleryLink, "Gallery")
         field("Count", characters.size)
-        showSortTableLinks(call, SortCharacter.entries, CharacterRoutes(), CharacterRoutes::All)
+        showSortTableLinks(call, SortCharacter.entries, CharacterRoutes())
         table {
             tr {
                 th { +"Name" }

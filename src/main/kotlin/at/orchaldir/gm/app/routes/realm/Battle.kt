@@ -13,11 +13,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.BATTLE_TYPE
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.util.SortBattle
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.util.sortBattles
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -33,7 +36,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BATTLE_TYPE")
-class BattleRoutes : Routes<BattleId> {
+class BattleRoutes : Routes<BattleId,SortBattle> {
     @Resource("all")
     class All(
         val sort: SortBattle = SortBattle.Name,
@@ -59,8 +62,10 @@ class BattleRoutes : Routes<BattleId> {
     class Update(val id: BattleId, val parent: BattleRoutes = BattleRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortBattle) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: BattleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: BattleId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureBattleRouting() {
@@ -120,7 +125,7 @@ private fun HTML.showAllBattles(
 
     simpleHtml("Battles") {
         field("Count", battles.size)
-        showSortTableLinks(call, SortBattle.entries, BattleRoutes(), BattleRoutes::All)
+        showSortTableLinks(call, SortBattle.entries, BattleRoutes())
 
         table {
             tr {

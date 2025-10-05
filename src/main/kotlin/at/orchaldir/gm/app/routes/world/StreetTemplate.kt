@@ -10,7 +10,10 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElementSplit
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortStreetTemplate
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Solid
@@ -45,7 +48,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TEMPLATE_TYPE")
-class StreetTemplateRoutes : Routes<StreetTemplateId> {
+class StreetTemplateRoutes : Routes<StreetTemplateId, SortStreetTemplate> {
     @Resource("all")
     class All(
         val sort: SortStreetTemplate = SortStreetTemplate.Name,
@@ -71,8 +74,10 @@ class StreetTemplateRoutes : Routes<StreetTemplateId> {
     class Update(val id: StreetTemplateId, val parent: StreetTemplateRoutes = StreetTemplateRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortStreetTemplate) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureStreetTemplateRouting() {

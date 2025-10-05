@@ -10,10 +10,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
@@ -34,7 +37,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MATERIAL_TYPE")
-class MaterialRoutes : Routes<MaterialId> {
+class MaterialRoutes : Routes<MaterialId, SortMaterial> {
     @Resource("all")
     class All(
         val sort: SortMaterial = SortMaterial.Name,
@@ -57,8 +60,10 @@ class MaterialRoutes : Routes<MaterialId> {
     class Update(val id: MaterialId, val parent: MaterialRoutes = MaterialRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortMaterial) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: MaterialId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: MaterialId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureMaterialRouting() {
@@ -107,7 +112,7 @@ private fun HTML.showAllMaterials(
 
     simpleHtml("Materials") {
         field("Count", materials.size)
-        showSortTableLinks(call, SortMaterial.entries, MaterialRoutes(), MaterialRoutes::All)
+        showSortTableLinks(call, SortMaterial.entries, MaterialRoutes())
 
         table {
             tr {

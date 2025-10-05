@@ -11,7 +11,10 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortWorld
 import at.orchaldir.gm.core.model.world.WORLD_TYPE
 import at.orchaldir.gm.core.model.world.World
@@ -38,7 +41,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$WORLD_TYPE")
-class WorldRoutes : Routes<WorldId> {
+class WorldRoutes : Routes<WorldId, SortWorld> {
     @Resource("all")
     class All(
         val sort: SortWorld = SortWorld.Name,
@@ -64,8 +67,10 @@ class WorldRoutes : Routes<WorldId> {
     class Update(val id: WorldId, val parent: WorldRoutes = WorldRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortWorld) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: WorldId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: WorldId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureWorldRouting() {
@@ -125,7 +130,7 @@ private fun HTML.showAllWorlds(
 
     simpleHtml("Worlds") {
         field("Count", worlds.size)
-        showSortTableLinks(call, SortWorld.entries, WorldRoutes(), WorldRoutes::All)
+        showSortTableLinks(call, SortWorld.entries, WorldRoutes())
 
         table {
             tr {

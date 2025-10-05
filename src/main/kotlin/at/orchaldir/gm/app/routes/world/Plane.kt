@@ -8,7 +8,10 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPlane
 import at.orchaldir.gm.core.model.world.plane.IndependentPlane
 import at.orchaldir.gm.core.model.world.plane.PLANE_TYPE
@@ -31,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PLANE_TYPE")
-class PlaneRoutes : Routes<PlaneId> {
+class PlaneRoutes : Routes<PlaneId, SortPlane> {
     @Resource("all")
     class All(
         val sort: SortPlane = SortPlane.Name,
@@ -57,8 +60,10 @@ class PlaneRoutes : Routes<PlaneId> {
     class Update(val id: PlaneId, val parent: PlaneRoutes = PlaneRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortPlane) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: PlaneId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PlaneId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configurePlaneRouting() {
@@ -119,7 +124,7 @@ private fun HTML.showAllPlanes(
 
     simpleHtml("Planes") {
         field("Count", planes.size)
-        showSortTableLinks(call, SortPlane.entries, PlaneRoutes(), PlaneRoutes::All)
+        showSortTableLinks(call, SortPlane.entries, PlaneRoutes())
 
         table {
             tr {

@@ -15,10 +15,13 @@ import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElementSplit
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.util.SortBuilding
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.world.building.BUILDING_TYPE
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -44,7 +47,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BUILDING_TYPE")
-class BuildingRoutes : Routes<BuildingId> {
+class BuildingRoutes : Routes<BuildingId, SortBuilding> {
     @Resource("all")
     class All(
         val sort: SortBuilding = SortBuilding.Name,
@@ -84,8 +87,10 @@ class BuildingRoutes : Routes<BuildingId> {
     }
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortBuilding) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: BuildingId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: BuildingId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureBuildingRouting() {
@@ -182,7 +187,7 @@ private fun HTML.showAllBuildings(
 
     simpleHtml("Buildings") {
         field("Count", buildings.size)
-        showSortTableLinks(call, SortBuilding.entries, BuildingRoutes(), BuildingRoutes::All)
+        showSortTableLinks(call, SortBuilding.entries, BuildingRoutes())
 
         table {
             tr {

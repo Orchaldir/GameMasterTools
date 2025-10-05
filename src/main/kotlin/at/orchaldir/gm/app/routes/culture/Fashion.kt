@@ -11,11 +11,14 @@ import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.util.SortFashion
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.util.sortFashions
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -32,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$FASHION_TYPE")
-class FashionRoutes : Routes<FashionId> {
+class FashionRoutes : Routes<FashionId, SortFashion> {
     @Resource("all")
     class All(
         val sort: SortFashion = SortFashion.Name,
@@ -58,8 +61,10 @@ class FashionRoutes : Routes<FashionId> {
     class Update(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortFashion) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: FashionId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: FashionId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureFashionRouting() {

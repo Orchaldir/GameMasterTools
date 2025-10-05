@@ -11,11 +11,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.SortLanguage
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.culture.countChildren
 import at.orchaldir.gm.core.selector.culture.countCultures
@@ -37,7 +40,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$LANGUAGE_TYPE")
-class LanguageRoutes : Routes<LanguageId> {
+class LanguageRoutes : Routes<LanguageId, SortLanguage> {
     @Resource("all")
     class All(
         val sort: SortLanguage = SortLanguage.Name,
@@ -63,8 +66,10 @@ class LanguageRoutes : Routes<LanguageId> {
     class Update(val id: LanguageId, val parent: LanguageRoutes = LanguageRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortLanguage) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: LanguageId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: LanguageId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureLanguageRouting() {
@@ -123,7 +128,7 @@ private fun HTML.showAllLanguages(
 
     simpleHtml("Languages") {
         field("Count", languages.size)
-        showSortTableLinks(call, SortLanguage.entries, LanguageRoutes(), LanguageRoutes::All)
+        showSortTableLinks(call, SortLanguage.entries, LanguageRoutes())
 
         table {
             tr {

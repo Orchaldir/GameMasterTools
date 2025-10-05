@@ -10,10 +10,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPantheon
 import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.sortPantheons
@@ -35,7 +38,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PANTHEON_TYPE")
-class PantheonRoutes : Routes<PantheonId> {
+class PantheonRoutes : Routes<PantheonId, SortPantheon> {
     @Resource("all")
     class All(
         val sort: SortPantheon = SortPantheon.Name,
@@ -61,8 +64,10 @@ class PantheonRoutes : Routes<PantheonId> {
     class Update(val id: PantheonId, val parent: PantheonRoutes = PantheonRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortPantheon) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: PantheonId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PantheonId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configurePantheonRouting() {
@@ -122,7 +127,7 @@ private fun HTML.showAllPantheons(
 
     simpleHtml("Pantheons") {
         field("Count", pantheons.size)
-        showSortTableLinks(call, SortPantheon.entries, PantheonRoutes(), PantheonRoutes::All)
+        showSortTableLinks(call, SortPantheon.entries, PantheonRoutes())
 
         table {
             tr {

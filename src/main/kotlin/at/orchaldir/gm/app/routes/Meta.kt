@@ -23,12 +23,14 @@ import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
-interface Routes<ID : Id<ID>> {
+interface Routes<ID : Id<ID>, T> {
 
     fun all(call: ApplicationCall): String
+    fun all(call: ApplicationCall, sort: T): String
     fun clone(call: ApplicationCall, id: ID): String? = null
     fun delete(call: ApplicationCall, id: ID): String
     fun edit(call: ApplicationCall, id: ID): String
+    fun new(call: ApplicationCall): String
 }
 
 suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
@@ -81,9 +83,9 @@ suspend inline fun <reified T : Any, ID : Id<ID>> PipelineContext<Unit, Applicat
     }
 }
 
-suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleShowElement(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handleShowElement(
     id: ID,
-    routes: Routes<ID>,
+    routes: Routes<ID, T>,
     noinline showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     logger.info { "Get details of ${id.print()}" }
@@ -97,9 +99,9 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     }
 }
 
-suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleShowElementSplit(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handleShowElementSplit(
     id: ID,
-    routes: Routes<ID>,
+    routes: Routes<ID, T>,
     noinline showLeft: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
@@ -114,11 +116,11 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
+fun <ID : Id<ID>, ELEMENT : Element<ID>, T> HTML.showElementDetails(
     call: ApplicationCall,
     state: State,
     element: ELEMENT,
-    routes: Routes<ID>,
+    routes: Routes<ID, T>,
     showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     simpleHtmlDetails(state, element) {
@@ -127,11 +129,11 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetails(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetailsSplit(
+fun <ID : Id<ID>, ELEMENT : Element<ID>, T> HTML.showElementDetailsSplit(
     call: ApplicationCall,
     state: State,
     element: ELEMENT,
-    routes: Routes<ID>,
+    routes: Routes<ID, T>,
     showLeft: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
@@ -145,9 +147,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HTML.showElementDetailsSplit(
     }
 }
 
-private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showDetailsActions(
+private fun <ID : Id<ID>, ELEMENT : Element<ID>, T> HtmlBlockTag.showDetailsActions(
     call: ApplicationCall,
-    routes: Routes<ID>,
+    routes: Routes<ID, T>,
     element: ELEMENT,
 ) {
     val backLink = routes.all(call)

@@ -1,15 +1,18 @@
 package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.SortCharacter
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 
 @Resource("/$CHARACTER_TYPE")
-class CharacterRoutes : Routes<CharacterId> {
+class CharacterRoutes : Routes<CharacterId, SortCharacter> {
     @Resource("all")
     class All(
         val sort: SortCharacter = SortCharacter.Name,
@@ -38,8 +41,10 @@ class CharacterRoutes : Routes<CharacterId> {
     class Update(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCharacter) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: CharacterId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CharacterId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 
     @Resource("/appearance")
     class Appearance(val parent: CharacterRoutes = CharacterRoutes()) {

@@ -11,7 +11,10 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortRegion
 import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -36,7 +39,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$REGION_TYPE")
-class RegionRoutes : Routes<RegionId> {
+class RegionRoutes : Routes<RegionId, SortRegion> {
     @Resource("all")
     class All(
         val sort: SortRegion = SortRegion.Name,
@@ -62,8 +65,10 @@ class RegionRoutes : Routes<RegionId> {
     class Update(val id: RegionId, val parent: RegionRoutes = RegionRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortRegion) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: RegionId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RegionId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureRegionRouting() {
@@ -123,7 +128,7 @@ private fun HTML.showAllRegions(
 
     simpleHtml("Regions") {
         field("Count", regions.size)
-        showSortTableLinks(call, SortRegion.entries, RegionRoutes(), RegionRoutes::All)
+        showSortTableLinks(call, SortRegion.entries, RegionRoutes())
 
         table {
             tr {

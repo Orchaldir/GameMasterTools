@@ -11,10 +11,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TREATY_TYPE
 import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortTreaty
 import at.orchaldir.gm.core.selector.util.sortTreaties
 import io.ktor.http.*
@@ -31,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TREATY_TYPE")
-class TreatyRoutes : Routes<TreatyId> {
+class TreatyRoutes : Routes<TreatyId,SortTreaty> {
     @Resource("all")
     class All(
         val sort: SortTreaty = SortTreaty.Name,
@@ -57,8 +60,10 @@ class TreatyRoutes : Routes<TreatyId> {
     class Update(val id: TreatyId, val parent: TreatyRoutes = TreatyRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortTreaty) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: TreatyId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TreatyId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureTreatyRouting() {
@@ -118,7 +123,7 @@ private fun HTML.showAllTreaties(
 
     simpleHtml("Treaties") {
         field("Count", treaties.size)
-        showSortTableLinks(call, SortTreaty.entries, TreatyRoutes(), TreatyRoutes::All)
+        showSortTableLinks(call, SortTreaty.entries, TreatyRoutes())
 
         table {
             tr {

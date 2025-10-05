@@ -8,11 +8,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.statistic.DerivedAttribute
 import at.orchaldir.gm.core.model.character.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortStatistic
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
@@ -34,7 +37,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STATISTIC_TYPE")
-class StatisticRoutes : Routes<StatisticId> {
+class StatisticRoutes : Routes<StatisticId, SortStatistic> {
     @Resource("all")
     class All(
         val sort: SortStatistic = SortStatistic.Name,
@@ -60,8 +63,10 @@ class StatisticRoutes : Routes<StatisticId> {
     class Update(val id: StatisticId, val parent: StatisticRoutes = StatisticRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortStatistic) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: StatisticId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: StatisticId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureStatisticRouting() {
@@ -121,7 +126,7 @@ private fun HTML.showAllStatistics(
 
     simpleHtml("Statistics") {
         field("Count", statistics.size)
-        showSortTableLinks(call, SortStatistic.entries, StatisticRoutes(), StatisticRoutes::All)
+        showSortTableLinks(call, SortStatistic.entries, StatisticRoutes())
 
         table {
             tr {

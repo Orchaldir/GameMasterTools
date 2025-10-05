@@ -13,10 +13,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TOWN_TYPE
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortTown
 import at.orchaldir.gm.core.selector.character.countResident
 import at.orchaldir.gm.core.selector.util.sortTowns
@@ -41,7 +44,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TOWN_TYPE")
-class TownRoutes : Routes<TownId> {
+class TownRoutes : Routes<TownId,SortTown> {
     @Resource("all")
     class All(
         val sort: SortTown = SortTown.Name,
@@ -67,8 +70,10 @@ class TownRoutes : Routes<TownId> {
     class Update(val id: TownId, val parent: TownRoutes = TownRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortTown) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: TownId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TownId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureTownRouting() {
@@ -127,7 +132,7 @@ private fun HTML.showAllTowns(
 
     simpleHtml("Towns") {
         field("Count", towns.size)
-        showSortTableLinks(call, SortTown.entries, TownRoutes(), TownRoutes::All)
+        showSortTableLinks(call, SortTown.entries, TownRoutes())
         table {
             tr {
                 th { +"Name" }

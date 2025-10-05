@@ -12,9 +12,12 @@ import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortFont
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.font.FONT_TYPE
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
@@ -44,7 +47,7 @@ private const val example = "abcdefghijklmnopqrstuvwxyz"
 private val FONT_SIZE = fromMeters(40)
 
 @Resource("/$FONT_TYPE")
-class FontRoutes : Routes<FontId> {
+class FontRoutes : Routes<FontId, SortFont> {
     @Resource("all")
     class All(
         val sort: SortFont = SortFont.Name,
@@ -76,8 +79,10 @@ class FontRoutes : Routes<FontId> {
     class Uploader(val id: FontId, val parent: FontRoutes = FontRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortFont) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: FontId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: FontId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureFontRouting() {
@@ -183,7 +188,7 @@ private fun HTML.showAllFonts(
 
     simpleHtml("Fonts") {
         field("Count", fonts.size)
-        showSortTableLinks(call, SortFont.entries, FontRoutes(), FontRoutes::All)
+        showSortTableLinks(call, SortFont.entries, FontRoutes())
 
         table {
             tr {

@@ -7,9 +7,12 @@ import at.orchaldir.gm.app.html.world.editArchitecturalStyle
 import at.orchaldir.gm.app.html.world.parseArchitecturalStyle
 import at.orchaldir.gm.app.html.world.showArchitecturalStyle
 import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Name
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.world.building.ARCHITECTURAL_STYLE_TYPE
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -29,7 +32,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ARCHITECTURAL_STYLE_TYPE")
-class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId> {
+class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId, SortArchitecturalStyle> {
     @Resource("all")
     class All(
         val sort: SortArchitecturalStyle = Name,
@@ -55,8 +58,10 @@ class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId> {
     class Update(val id: ArchitecturalStyleId, val parent: ArchitecturalStyleRoutes = ArchitecturalStyleRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortArchitecturalStyle) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureArchitecturalStyleRouting() {
@@ -114,8 +119,7 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
         showSortTableLinks(
             call,
             SortArchitecturalStyle.entries,
-            ArchitecturalStyleRoutes(),
-            ArchitecturalStyleRoutes::All
+            ArchitecturalStyleRoutes()
         )
 
         table {

@@ -11,11 +11,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_TYPE
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.util.SortCurrency
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.util.sortCurrencies
 import io.ktor.http.*
@@ -32,7 +35,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CURRENCY_TYPE")
-class CurrencyRoutes : Routes<CurrencyId> {
+class CurrencyRoutes : Routes<CurrencyId, SortCurrency> {
     @Resource("all")
     class All(
         val sort: SortCurrency = SortCurrency.Name,
@@ -58,8 +61,10 @@ class CurrencyRoutes : Routes<CurrencyId> {
     class Update(val id: CurrencyId, val parent: CurrencyRoutes = CurrencyRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCurrency) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: CurrencyId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CurrencyId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCurrencyRouting() {
@@ -118,7 +123,7 @@ private fun HTML.showAllCurrencies(
 
     simpleHtml("Currencies") {
         field("Count", currencies.size)
-        showSortTableLinks(call, SortCurrency.entries, CurrencyRoutes(), CurrencyRoutes::All)
+        showSortTableLinks(call, SortCurrency.entries, CurrencyRoutes())
         table {
             tr {
                 th { +"Name" }

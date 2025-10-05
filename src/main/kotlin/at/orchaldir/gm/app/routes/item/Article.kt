@@ -11,11 +11,14 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ARTICLE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.util.SortArticle
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.util.sortArticles
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -31,7 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ARTICLE_TYPE")
-class ArticleRoutes : Routes<ArticleId> {
+class ArticleRoutes : Routes<ArticleId, SortArticle> {
     @Resource("all")
     class All(
         val sort: SortArticle = SortArticle.Title,
@@ -57,8 +60,10 @@ class ArticleRoutes : Routes<ArticleId> {
     class Update(val id: ArticleId, val parent: ArticleRoutes = ArticleRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortArticle) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: ArticleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: ArticleId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureArticleRouting() {
@@ -117,7 +122,7 @@ private fun HTML.showAllArticles(
 
     simpleHtml("Articles") {
         field("Count", articles.size)
-        showSortTableLinks(call, SortArticle.entries, ArticleRoutes(), ArticleRoutes::All)
+        showSortTableLinks(call, SortArticle.entries, ArticleRoutes())
         table {
             tr {
                 th { +"Title" }

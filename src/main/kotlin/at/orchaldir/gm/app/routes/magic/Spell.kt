@@ -12,10 +12,13 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortSpell
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.item.countTexts
@@ -36,7 +39,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$SPELL_TYPE")
-class SpellRoutes : Routes<SpellId> {
+class SpellRoutes : Routes<SpellId,SortSpell> {
     @Resource("all")
     class All(
         val sort: SortSpell = SortSpell.Name,
@@ -63,8 +66,10 @@ class SpellRoutes : Routes<SpellId> {
 
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortSpell) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: SpellId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: SpellId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureSpellRouting() {
@@ -124,7 +129,7 @@ private fun HTML.showAllSpells(
 
     simpleHtml("Spells") {
         field("Count", spells.size)
-        showSortTableLinks(call, SortSpell.entries, SpellRoutes(), SpellRoutes::All)
+        showSortTableLinks(call, SortSpell.entries, SpellRoutes())
         table {
             tr {
                 th { +"Name" }

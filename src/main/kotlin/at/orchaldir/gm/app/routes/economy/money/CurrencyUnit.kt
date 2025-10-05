@@ -11,12 +11,15 @@ import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_UNIT_TYPE
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.money.UndefinedCurrencyFormat
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
+import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import at.orchaldir.gm.prototypes.visualization.currency.CURRENCY_CONFIG
@@ -35,7 +38,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CURRENCY_UNIT_TYPE")
-class CurrencyUnitRoutes : Routes<CurrencyUnitId> {
+class CurrencyUnitRoutes : Routes<CurrencyUnitId, SortCurrencyUnit> {
     @Resource("all")
     class All(
         val sort: SortCurrencyUnit = SortCurrencyUnit.Name,
@@ -67,8 +70,10 @@ class CurrencyUnitRoutes : Routes<CurrencyUnitId> {
     class Update(val id: CurrencyUnitId, val parent: CurrencyUnitRoutes = CurrencyUnitRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCurrencyUnit) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCurrencyUnitRouting() {
@@ -136,7 +141,7 @@ private fun HTML.showAllCurrencies(
     simpleHtml("Currency Units") {
         action(galleryLink, "Gallery")
         field("Count", units.size)
-        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes(), CurrencyUnitRoutes::All)
+        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes())
         table {
             tr {
                 th { +"Name" }
@@ -180,7 +185,7 @@ private fun HTML.showGallery(
     val backLink = call.application.href(CurrencyUnitRoutes.All())
 
     simpleHtml("Currency Units") {
-        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes(), CurrencyUnitRoutes::Gallery)
+        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes())
         showGallery(call, state, units) { unit ->
             visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit, maxSize)
         }
