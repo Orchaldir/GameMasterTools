@@ -7,8 +7,6 @@ import at.orchaldir.gm.app.html.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.race.showRaceAppearance
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -16,7 +14,6 @@ import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortRaceAppearance
 import at.orchaldir.gm.core.selector.race.getRaces
 import at.orchaldir.gm.core.selector.util.sortRaceAppearances
@@ -38,9 +35,6 @@ import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 import kotlin.random.Random
 
@@ -83,6 +77,7 @@ class RaceAppearanceRoutes : Routes<RaceAppearanceId, SortRaceAppearance> {
 
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortRaceAppearance) = call.application.href(All(sort))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun clone(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Edit(id))
@@ -92,11 +87,16 @@ class RaceAppearanceRoutes : Routes<RaceAppearanceId, SortRaceAppearance> {
 fun Application.configureRaceAppearanceRouting() {
     routing {
         get<RaceAppearanceRoutes.All> { all ->
-            logger.info { "Get all races appearances" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAll(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                RaceAppearanceRoutes(),
+                state.sortRaceAppearances(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Pair("Races") { tdInlineElements(call, state, state.getRaces(it.id)) }
+                ),
+            )
         }
         get<RaceAppearanceRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
@@ -150,37 +150,6 @@ fun Application.configureRaceAppearanceRouting() {
         post<RaceAppearanceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRaceAppearance)
         }
-    }
-}
-
-private fun HTML.showAll(
-    call: ApplicationCall,
-    state: State,
-    sort: SortRaceAppearance,
-) {
-    val appearances = state.sortRaceAppearances(sort)
-    val createLink = call.application.href(RaceAppearanceRoutes.New())
-    val galleryLink = call.application.href(RaceAppearanceRoutes.Gallery())
-
-    simpleHtml("Race Appearances") {
-        field("Count", appearances.size)
-        action(galleryLink, "Gallery")
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Races" }
-            }
-            appearances.forEach { appearance ->
-                tr {
-                    tdLink(call, state, appearance)
-                    tdInlineElements(call, state, state.getRaces(appearance.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

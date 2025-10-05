@@ -31,6 +31,7 @@ interface Routes<ID : Id<ID>, T> {
 
     fun all(call: ApplicationCall): String
     fun all(call: ApplicationCall, sort: T): String
+    fun gallery(call: ApplicationCall): String? = null
     fun clone(call: ApplicationCall, id: ID): String? = null
     fun delete(call: ApplicationCall, id: ID): String
     fun edit(call: ApplicationCall, id: ID): String
@@ -133,6 +134,7 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showAl
     simpleHtml(elements.firstOrNull()?.id()?.plural() ?: "Elements") {
         field("Count", elements.size)
         showSortTableLinks(call, enumValues<T>().toList(), routes)
+        routes.gallery(call)?.let { action(it, "Gallery") }
 
         table {
             tr {
