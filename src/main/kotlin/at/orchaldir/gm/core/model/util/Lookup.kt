@@ -17,4 +17,14 @@ data class Lookup<T>(
 
     constructor(current: T, previousEntry: LookupEntry<T>) : this(current, listOf(previousEntry))
 
+    fun get(number: Int): T {
+        previousEntries.forEach { (value, until) ->
+            if (number <= until) {
+                return value
+            }
+        }
+
+        return current
+    }
+
 }

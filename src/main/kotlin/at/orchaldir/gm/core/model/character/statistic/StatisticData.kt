@@ -37,6 +37,7 @@ sealed class StatisticData {
     }
 
     fun display(value: Int) = when (this) {
+        is BaseDamage -> lookup.display(value)
         is DerivedAttribute -> unit.display(value)
         else -> value.toString()
     }

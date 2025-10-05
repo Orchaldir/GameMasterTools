@@ -16,6 +16,11 @@ sealed class BaseDamageLookup {
         is BaseDamageDicePool -> BaseDamageLookupType.DicePool
         is SimpleBaseDamageLookup -> BaseDamageLookupType.SimpleLookup
     }
+
+    fun display(value: Int) = when (this) {
+        is BaseDamageDicePool -> "$value$dieType"
+        is SimpleBaseDamageLookup -> lookup.get(value).display(dieType.toString())
+    }
 }
 
 @Serializable
@@ -29,8 +34,8 @@ data class SimpleBaseDamageEntry(
     val dice: Int,
     val modifier: Int,
 ) {
-    fun display(): String {
-        var string = "${dice}d"
+    fun display(dieType: String = "d"): String {
+        var string = "$dice$dieType"
 
         if (modifier > 0) {
             string += "+$modifier"

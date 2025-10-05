@@ -27,7 +27,7 @@ fun HtmlBlockTag.showStatblock(
     val attributeValues = statblock.resolve(state, attributes)
     val derivedAttributes = state.sortStatistics(state.getDerivedAttributes())
     val derivedValues = statblock.resolve(state, derivedAttributes)
-    val baseDamages = state.sortStatistics(state.getDerivedAttributes())
+    val baseDamages = state.sortStatistics(state.getBaseDamageValues())
     val baseDamageValues = statblock.resolve(state, baseDamages)
     val skills = state.sortStatistics(state.getSkills())
     val skillValues = statblock.resolve(state, skills)
