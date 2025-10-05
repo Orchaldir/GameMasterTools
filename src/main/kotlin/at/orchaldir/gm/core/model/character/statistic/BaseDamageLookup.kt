@@ -28,7 +28,20 @@ data class BaseDamageDicePool(
 data class SimpleBaseDamageEntry(
     val dice: Int,
     val modifier: Int,
-)
+) {
+    fun display(): String {
+        var string = "${dice}d"
+
+        if (modifier > 0) {
+            string += "+$modifier"
+        }
+        else if (modifier < 0) {
+            string += "$modifier"
+        }
+
+        return string
+    }
+}
 
 @Serializable
 @SerialName("SimpleLookup")

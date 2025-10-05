@@ -20,6 +20,10 @@ import io.ktor.server.application.ApplicationCall
 import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
 
 // show
 
@@ -33,13 +37,21 @@ fun HtmlBlockTag.showBaseDamageLookup(
             is BaseDamageDicePool -> fieldDiceType(lookup.dieType)
             is SimpleBaseDamageLookup -> {
                 fieldDiceType(lookup.dieType)
-                showLookup(lookup.lookup, "Lookup") { value ->
-                    +"${value.dice}d"
-                    if (value.modifier > 0) {
-                        +"+${value.modifier}"
+
+                table {
+                    tr {
+                        th { +"Until" }
+                        th { +"Damage" }
                     }
-                    else if (value.modifier < 0) {
-                        +"${value.modifier}"
+                    lookup.lookup.previousEntries.forEach { entry ->
+                        tr {
+                            tdInt(entry.until)
+                            tdString(entry.value.display())
+                        }
+                    }
+                    tr {
+                        tdString(">")
+                        tdString(lookup.lookup.current.display())
                     }
                 }
             }
