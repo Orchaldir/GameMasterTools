@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.DeleteAction
@@ -9,6 +11,7 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -37,6 +40,25 @@ interface Routes<ID : Id<ID>, T> {
     fun edit(call: ApplicationCall, id: ID): String
     fun new(call: ApplicationCall): String
 }
+
+
+fun createNameColumn(
+    call: ApplicationCall,
+    state: State,
+): Pair<String, TR.(MagicTradition) -> Unit> = Pair("Name") { tdLink(call, state, it) }
+
+fun createDateColumn(
+    call: ApplicationCall,
+    state: State,
+    label: String = "Date",
+): Pair<String, TR.(MagicTradition) -> Unit> = Pair(label) { td { showOptionalDate(call, state, it.startDate()) } }
+
+fun createCreatorColumn(
+    call: ApplicationCall,
+    state: State,
+    label: String = "Creator",
+): Pair<String, TR.(MagicTradition) -> Unit> = Pair(label) { td { showReference(call, state, it.creator(), false) } }
+
 
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
     routes: Routes<ID, T>,

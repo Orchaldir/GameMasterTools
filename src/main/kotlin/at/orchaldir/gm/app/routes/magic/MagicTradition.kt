@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editMagicTradition
 import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
+import at.orchaldir.gm.app.html.tdLink
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.*
@@ -18,6 +19,7 @@ import at.orchaldir.gm.core.selector.util.sortMagicTraditions
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
+import io.ktor.server.application.call
 import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
@@ -25,6 +27,7 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.TR
 import kotlinx.html.td
 import mu.KotlinLogging
 
@@ -72,9 +75,9 @@ fun Application.configureMagicTraditionRouting() {
                 MagicTraditionRoutes(),
                 state.sortMagicTraditions(all.sort),
                 listOf(
-                    Pair("Name") { tdLink(call, state, it) },
-                    Pair("Date") { td { showOptionalDate(call, state, it.startDate()) } },
-                    Pair("Founder") { td { showReference(call, state, it.creator(), false) } },
+                    createNameColumn(call, state),
+                    createDateColumn(call, state),
+                    createCreatorColumn(call, state, "Founder"),
                     Pair("Groups") { tdSkipZero(it.groups) },
                 ),
             )
