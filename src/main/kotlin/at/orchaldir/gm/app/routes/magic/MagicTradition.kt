@@ -7,11 +7,7 @@ import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MAGIC_TRADITION_TYPE
@@ -27,7 +23,9 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.td
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -76,8 +74,8 @@ fun Application.configureMagicTraditionRouting() {
                 listOf(
                     Pair("Name") { tdLink(call, state, it) },
                     Pair("Date") { td { showOptionalDate(call, state, it.startDate()) } },
-                    Pair("Founder") {  td { showReference(call, state, it.creator(), false) } },
-                    Pair("Groups") {  tdSkipZero(it.groups) },
+                    Pair("Founder") { td { showReference(call, state, it.creator(), false) } },
+                    Pair("Groups") { tdSkipZero(it.groups) },
                 ),
             )
         }
