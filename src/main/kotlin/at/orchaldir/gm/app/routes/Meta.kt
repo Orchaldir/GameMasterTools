@@ -35,7 +35,7 @@ interface Routes<ID : Id<ID>, T> {
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
     routes: Routes<ID, T>,
     elements: List<ELEMENT>,
-    columns: List<Pair<String, TR.(ELEMENT) -> Unit>>,
+    columns: List<Column<ELEMENT>>,
     crossinline extraContent: HtmlBlockTag.(List<ELEMENT>) -> Unit = { },
 ) {
     logger.info { "Get all elements" }
@@ -49,7 +49,7 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showAl
     call: ApplicationCall,
     routes: Routes<ID, T>,
     elements: List<ELEMENT>,
-    columns: List<Pair<String, TR.(ELEMENT) -> Unit>>,
+    columns: List<Column<ELEMENT>>,
     crossinline extraContent: HtmlBlockTag.(List<ELEMENT>) -> Unit = { },
 ) {
     simpleHtml(elements.firstOrNull()?.id()?.plural() ?: "Elements") {
@@ -59,8 +59,8 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showAl
 
         table {
             tr {
-                columns.forEach { (label, _) ->
-                    th { +label }
+                columns.forEach { (header, _) ->
+                    thMultiLines(header)
                 }
             }
             elements.forEach { element ->

@@ -1,26 +1,19 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.formWithPreview
+import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.realm.editBattle
 import at.orchaldir.gm.app.html.realm.parseBattle
 import at.orchaldir.gm.app.html.realm.showBattle
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.tdDestroyed
-import at.orchaldir.gm.app.html.util.thDestroyed
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.html.simpleHtmlEditor
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.BATTLE_TYPE
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.util.SortBattle
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.util.sortBattles
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -30,7 +23,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -71,11 +65,17 @@ class BattleRoutes : Routes<BattleId,SortBattle> {
 fun Application.configureBattleRouting() {
     routing {
         get<BattleRoutes.All> { all ->
-            logger.info { "Get all battles" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllBattles(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                BattleRoutes(),
+                state.sortBattles(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createDateColumn(call, state),
+                    createSkipZeroColumnFromCollection("Participants", Battle::participants)
+                )+ createDestroyedColumns(state),
+            )
         }
         get<BattleRoutes.Details> { details ->
             handleShowElement(details.id, BattleRoutes(), HtmlBlockTag::showBattle)
@@ -112,40 +112,6 @@ fun Application.configureBattleRouting() {
         post<BattleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseBattle)
         }
-    }
-}
-
-private fun HTML.showAllBattles(
-    call: ApplicationCall,
-    state: State,
-    sort: SortBattle,
-) {
-    val battles = state.sortBattles(sort)
-    val createLink = call.application.href(BattleRoutes.New())
-
-    simpleHtml("Battles") {
-        field("Count", battles.size)
-        showSortTableLinks(call, SortBattle.entries, BattleRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Participants" }
-                thDestroyed()
-            }
-            battles.forEach { battle ->
-                tr {
-                    tdLink(call, state, battle)
-                    td { showOptionalDate(call, state, battle.date) }
-                    tdSkipZero(battle.participants)
-                    tdDestroyed(state, battle.id)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

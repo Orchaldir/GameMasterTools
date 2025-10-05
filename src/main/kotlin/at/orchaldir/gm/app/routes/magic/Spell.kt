@@ -82,7 +82,7 @@ fun Application.configureSpellRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createDateColumn(call, state),
-                    Pair("Language") { td { optionalLink(call, state, it.language) } },
+                    Column("Language") { td { optionalLink(call, state, it.language) } },
                     createOriginColumn(call, state, ::SpellId),
                     createSkipZeroColumnForId("Groups", state::countSpellGroups),
                     createSkipZeroColumnForId("Domains", state::countDomains),

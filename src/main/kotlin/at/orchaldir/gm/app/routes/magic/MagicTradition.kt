@@ -75,7 +75,7 @@ fun Application.configureMagicTraditionRouting() {
                     createNameColumn(call, state),
                     createDateColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
-                    Pair("Groups") { tdSkipZero(it.groups) },
+                    createSkipZeroColumnFromCollection("Groups", MagicTradition::groups),
                 ),
             )
         }

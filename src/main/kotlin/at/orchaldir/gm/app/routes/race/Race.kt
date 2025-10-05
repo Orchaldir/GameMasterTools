@@ -95,7 +95,7 @@ fun Application.configureRaceRouting() {
                     createNameColumn(call, state),
                     createDateColumn(call, state),
                     createOriginColumn(call, state, ::RaceId),
-                    Pair("Gender") { td { +it.genders.getValidValues().joinToString() } },
+                    Column("Gender") { td { +it.genders.getValidValues().joinToString() } },
                     createSkipZeroColumn("Max Age") { it.lifeStages.getMaxAge() },
                     createStringColumn("Avg Height") { it.height.center.toString() },
                     createStringColumn("Avg Weight") { it.weight.toString() },

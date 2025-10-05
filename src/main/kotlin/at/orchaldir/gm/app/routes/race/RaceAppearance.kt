@@ -94,7 +94,7 @@ fun Application.configureRaceAppearanceRouting() {
                 state.sortRaceAppearances(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Pair("Races") { tdInlineElements(call, state, state.getRaces(it.id)) }
+                    Column("Races") { tdInlineElements(call, state, state.getRaces(it.id)) }
                 ),
             )
         }
