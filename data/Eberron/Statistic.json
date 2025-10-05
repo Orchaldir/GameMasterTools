@@ -444,16 +444,149 @@
      "type": "SimpleLookup",
      "lookup": {
       "current": {
-       "dice": 1,
-       "modifier": 0
+       "dice": 4,
+       "modifier": -1
       },
       "previousEntries": [
        {
         "value": {
          "dice": 1,
-         "modifier": 1
+         "modifier": -5
         },
         "until": 1
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -5
+        },
+        "until": 2
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -4
+        },
+        "until": 3
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -4
+        },
+        "until": 4
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -3
+        },
+        "until": 5
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -3
+        },
+        "until": 6
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -2
+        },
+        "until": 7
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -2
+        },
+        "until": 8
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -1
+        },
+        "until": 9
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 0
+        },
+        "until": 10
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 1
+        },
+        "until": 11
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 2
+        },
+        "until": 12
+       },
+       {
+        "value": {
+         "dice": 2,
+         "modifier": -1
+        },
+        "until": 13
+       },
+       {
+        "value": {
+         "dice": 2,
+         "modifier": 0
+        },
+        "until": 14
+       },
+       {
+        "value": {
+         "dice": 2,
+         "modifier": 1
+        },
+        "until": 15
+       },
+       {
+        "value": {
+         "dice": 2,
+         "modifier": 2
+        },
+        "until": 16
+       },
+       {
+        "value": {
+         "dice": 3,
+         "modifier": -1
+        },
+        "until": 17
+       },
+       {
+        "value": {
+         "dice": 3,
+         "modifier": 0
+        },
+        "until": 18
+       },
+       {
+        "value": {
+         "dice": 3,
+         "modifier": 1
+        },
+        "until": 19
+       },
+       {
+        "value": {
+         "dice": 3,
+         "modifier": 2
+        },
+        "until": 20
        }
       ]
      }
