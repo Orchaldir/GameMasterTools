@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.action.CloneAction
 import at.orchaldir.gm.core.action.CreateAction
@@ -12,11 +13,17 @@ import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MagicTradition
+import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.util.Creation
+import at.orchaldir.gm.core.model.util.HasOrigin
+import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.selector.magic.countSpellGroups
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.application.call
 import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
@@ -41,23 +48,33 @@ interface Routes<ID : Id<ID>, T> {
     fun new(call: ApplicationCall): String
 }
 
-
-fun createNameColumn(
-    call: ApplicationCall,
-    state: State,
-): Pair<String, TR.(MagicTradition) -> Unit> = Pair("Name") { tdLink(call, state, it) }
-
-fun createDateColumn(
-    call: ApplicationCall,
-    state: State,
-    label: String = "Date",
-): Pair<String, TR.(MagicTradition) -> Unit> = Pair(label) { td { showOptionalDate(call, state, it.startDate()) } }
-
-fun createCreatorColumn(
+fun <ELEMENT : Creation> createCreatorColumn(
     call: ApplicationCall,
     state: State,
     label: String = "Creator",
-): Pair<String, TR.(MagicTradition) -> Unit> = Pair(label) { td { showReference(call, state, it.creator(), false) } }
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { td { showReference(call, state, it.creator(), false) } }
+
+fun <ELEMENT : HasStartDate> createDateColumn(
+    call: ApplicationCall,
+    state: State,
+    label: String = "Date",
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { td { showOptionalDate(call, state, it.startDate()) } }
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> createNameColumn(
+    call: ApplicationCall,
+    state: State,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair("Name") { tdLink(call, state, it) }
+
+fun <ID : Id<ID>, ELEMENT : HasOrigin> createOriginColumn(
+    call: ApplicationCall,
+    state: State,
+    createId: (Int) -> ID,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair("Origin") { td { showOrigin(call, state, it.origin(), createId) } }
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumn(
+    label: String,
+    convert: (ID) -> Int,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { tdSkipZero(convert(it.id())) }
 
 
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
