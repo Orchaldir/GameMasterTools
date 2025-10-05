@@ -10,6 +10,11 @@ import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.core.model.util.LookupEntry
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.label
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
 
 // show
 
@@ -61,6 +66,60 @@ fun <T> HtmlBlockTag.selectLookup(
         }
 
         selectValue(combine(param, CURRENT), lookup.current)
+    }
+}
+
+fun <T> HtmlBlockTag.editLookupTable(
+    param: String,
+    lookup: Lookup<T>,
+    start: Int,
+    end: Int,
+    columns: List<Pair<String, HtmlBlockTag.(String, T) -> Unit>>,
+) {
+    val previousOwnersParam = combine(param, HISTORY)
+    var minUntil = start
+
+    selectInt("Previously", lookup.previousEntries.size, 0, 100, 1, previousOwnersParam)
+
+    table {
+        tr {
+            th { +"Until" }
+            columns.forEach { (label,  _) ->
+                th { +label }
+            }
+        }
+        lookup.previousEntries.withIndex().forEach { (index, entry) ->
+            val previousParam = combine(previousOwnersParam, index)
+
+            tr {
+                td {
+                    selectInt(
+                        "Until",
+                        entry.until,
+                        minUntil,
+                        end,
+                        1,
+                        combine(previousParam, DATE),
+                    )
+                }
+                columns.forEach { (_, selectValue) ->
+                    td {
+                        selectValue(previousParam, entry.value)
+                    }
+                }
+            }
+
+            minUntil = entry.until + 1
+        }
+
+        tr {
+            tdString(">")
+            columns.forEach { (_, selectValue) ->
+                td {
+                    selectValue(combine(param, CURRENT), lookup.current)
+                }
+            }
+        }
     }
 }
 

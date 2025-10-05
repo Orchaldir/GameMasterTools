@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.selectLookup
 import at.orchaldir.gm.app.html.util.showLookup
@@ -81,30 +82,32 @@ fun FORM.editBaseDamageLookup(
             is BaseDamageDicePool -> selectDieType(lookup.dieType)
             is SimpleBaseDamageLookup -> {
                 selectDieType(lookup.dieType)
-                selectLookup(
+                editLookupTable(
                     DAMAGE,
                     lookup.lookup,
-                    "Lookup",
                     0,
                     100,
-                ) { entryParam, entry ->
-                    selectInt(
-                        "Dice",
-                        entry.dice,
-                        1,
-                        100,
-                        1,
-                        combine(entryParam, DIE),
-                    )
-                    selectInt(
-                        "Modifier",
-                        entry.modifier,
-                        -10,
-                        +10,
-                        1,
-                        combine(entryParam, NUMBER),
-                    )
-                }
+                    listOf(
+                        Pair("Dice") { entryParam, entry ->
+                            selectInt(
+                                entry.dice,
+                                1,
+                                100,
+                                1,
+                                combine(entryParam, DIE),
+                            )
+                        },
+                        Pair("Modifier") { entryParam, entry ->
+                            selectInt(
+                                entry.modifier,
+                                -10,
+                                +10,
+                                1,
+                                combine(entryParam, NUMBER),
+                            )
+                        },
+                    ),
+                )
             }
         }
     }
