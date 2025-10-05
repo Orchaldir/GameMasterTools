@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -67,11 +68,18 @@ class MagicTraditionRoutes : Routes<MagicTraditionId, SortMagicTradition> {
 fun Application.configureMagicTraditionRouting() {
     routing {
         get<MagicTraditionRoutes.All> { all ->
-            logger.info { "Get all traditions" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllMagicTraditions(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                MagicTraditionRoutes(),
+                state.sortMagicTraditions(all.sort),
+                listOf(
+                    Pair("Name") { tdLink(call, state, it) },
+                    Pair("Date") { td { showOptionalDate(call, state, it.startDate()) } },
+                    Pair("Founder") {  td { showReference(call, state, it.creator(), false) } },
+                    Pair("Groups") {  tdSkipZero(it.groups) },
+                ),
+            )
         }
         get<MagicTraditionRoutes.Details> { details ->
             handleShowElement(details.id, MagicTraditionRoutes(), HtmlBlockTag::showMagicTradition)
@@ -108,40 +116,6 @@ fun Application.configureMagicTraditionRouting() {
         post<MagicTraditionRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMagicTradition)
         }
-    }
-}
-
-private fun HTML.showAllMagicTraditions(
-    call: ApplicationCall,
-    state: State,
-    sort: SortMagicTradition,
-) {
-    val traditions = state.sortMagicTraditions(sort)
-    val createLink = call.application.href(MagicTraditionRoutes.New())
-
-    simpleHtml("Magic Traditions") {
-        field("Count", traditions.size)
-        showSortTableLinks(call, SortMagicTradition.entries, MagicTraditionRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Founder" }
-                th { +"Groups" }
-            }
-            traditions.forEach { tradition ->
-                tr {
-                    tdLink(call, state, tradition)
-                    td { showOptionalDate(call, state, tradition.startDate()) }
-                    td { showReference(call, state, tradition.founder, false) }
-                    tdSkipZero(tradition.groups)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

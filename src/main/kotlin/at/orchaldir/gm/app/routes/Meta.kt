@@ -21,7 +21,12 @@ import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.TR
 import kotlinx.html.h2
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
 
 interface Routes<ID : Id<ID>, T> {
 
@@ -31,6 +36,48 @@ interface Routes<ID : Id<ID>, T> {
     fun delete(call: ApplicationCall, id: ID): String
     fun edit(call: ApplicationCall, id: ID): String
     fun new(call: ApplicationCall): String
+}
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
+    routes: Routes<ID, T>,
+    elements: List<ELEMENT>,
+    columns: List<Pair<String, TR.(ELEMENT) -> Unit>>,
+) {
+    logger.info { "Get all elements" }
+
+    call.respondHtml(HttpStatusCode.OK) {
+        showAllElements(call, routes, elements, columns)
+    }
+}
+
+inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T: Enum<T>> HTML.showAllElements(
+    call: ApplicationCall,
+    routes: Routes<ID, T>,
+    elements: List<ELEMENT>,
+    columns: List<Pair<String, TR.(ELEMENT) -> Unit>>,
+) {
+    simpleHtml("Magic Traditions") {
+        field("Count", elements.size)
+        showSortTableLinks(call, enumValues<T>().toList(), routes)
+
+        table {
+            tr {
+                columns.forEach { (label, _) ->
+                    th { +label }
+                }
+            }
+            elements.forEach { element ->
+                tr {
+                    columns.forEach { (_, selectValue) ->
+                        selectValue(element)
+                    }
+                }
+            }
+        }
+
+        action(routes.new(call), "Add")
+        back("/")
+    }
 }
 
 suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
