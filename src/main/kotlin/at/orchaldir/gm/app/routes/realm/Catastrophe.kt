@@ -9,19 +9,23 @@ import at.orchaldir.gm.app.html.realm.showCatastrophe
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.tdDestroyed
 import at.orchaldir.gm.app.html.util.thDestroyed
+import at.orchaldir.gm.app.routes.Column
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.createStartDateColumn
+import at.orchaldir.gm.app.routes.createDestroyedColumns
+import at.orchaldir.gm.app.routes.createEndDateColumn
+import at.orchaldir.gm.app.routes.createNameColumn
+import at.orchaldir.gm.app.routes.createSkipZeroColumn
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import io.ktor.http.*
@@ -73,11 +77,20 @@ class CatastropheRoutes : Routes<CatastropheId,SortCatastrophe> {
 fun Application.configureCatastropheRouting() {
     routing {
         get<CatastropheRoutes.All> { all ->
-            logger.info { "Get all catastrophes" }
+            val state = STORE.getState()
+            val calendar = state.getDefaultCalendar()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCatastrophes(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                CatastropheRoutes(),
+                state.sortCatastrophes(all.sort),
+                listOf<Column<Catastrophe>>(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state, "Start"),
+                    createEndDateColumn(call, state, "End"),
+                    createSkipZeroColumn("Years") { calendar.getYears(it.getDuration(state))},
+                    Column("Cause") { td { displayCauseOfCatastrophe(call, state, it.cause, false) } }
+                ) + createDestroyedColumns(state),
+            )
         }
         get<CatastropheRoutes.Details> { details ->
             handleShowElement(details.id, CatastropheRoutes(), HtmlBlockTag::showCatastrophe)
@@ -114,45 +127,6 @@ fun Application.configureCatastropheRouting() {
         post<CatastropheRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCatastrophe)
         }
-    }
-}
-
-private fun HTML.showAllCatastrophes(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCatastrophe,
-) {
-    val calendar = state.getDefaultCalendar()
-    val catastrophes = state.sortCatastrophes(sort)
-    val createLink = call.application.href(CatastropheRoutes.New())
-
-    simpleHtml("Catastrophes") {
-        field("Count", catastrophes.size)
-        showSortTableLinks(call, SortCatastrophe.entries, CatastropheRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Start" }
-                th { +"End" }
-                th { +"Years" }
-                th { +"Cause" }
-                thDestroyed()
-            }
-            catastrophes.forEach { catastrophe ->
-                tr {
-                    tdLink(call, state, catastrophe)
-                    td { showOptionalDate(call, state, catastrophe.startDate) }
-                    td { showOptionalDate(call, state, catastrophe.endDate) }
-                    tdSkipZero(calendar.getYears(catastrophe.getDuration(state)))
-                    td { displayCauseOfCatastrophe(call, state, catastrophe.cause, false) }
-                    tdDestroyed(state, catastrophe.id)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

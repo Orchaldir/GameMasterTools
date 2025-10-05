@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.magic.editMagicTradition
 import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
 import at.orchaldir.gm.app.html.simpleHtmlEditor
-import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -73,7 +72,7 @@ fun Application.configureMagicTraditionRouting() {
                 state.sortMagicTraditions(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createDateColumn(call, state),
+                    createStartDateColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
                     createSkipZeroColumnFromCollection("Groups", MagicTradition::groups),
                 ),

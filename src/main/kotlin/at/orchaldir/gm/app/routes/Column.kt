@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
@@ -44,14 +45,28 @@ fun <ELEMENT : Creation> createCreatorColumn(
     label: String = "Creator",
 ): Column<ELEMENT> = Column(label) { td { showReference(call, state, it.creator(), false) } }
 
-fun <ELEMENT : HasStartDate> createDateColumn(
+fun <ELEMENT : HasStartDate> createStartDateColumn(
     call: ApplicationCall,
     state: State,
     label: String = "Date",
-): Column<ELEMENT> = Column(label) {
+) = createDateColumn<ELEMENT>(label, state, call, HasStartDate::startDate)
+
+fun <ELEMENT : HasStartAndEndDate> createEndDateColumn(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+) = createDateColumn<ELEMENT>(label, state, call, HasStartAndEndDate::endDate)
+
+private fun <T> createDateColumn(
+    label: String,
+    state: State,
+    call: ApplicationCall,
+    getDate: (T) -> Date?,
+): Column<T> = Column(label) {
     td {
-        title = state.getAgeInYears(it.startDate())?.let { "$it years ago" } ?: ""
-        showOptionalDate(call, state, it.startDate())
+        val date = getDate(it)
+        title = state.getAgeInYears(date)?.let { "$it years ago" } ?: ""
+        showOptionalDate(call, state, date)
     }
 }
 

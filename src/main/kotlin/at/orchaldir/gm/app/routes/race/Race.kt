@@ -93,7 +93,7 @@ fun Application.configureRaceRouting() {
                 state.sortRaces(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createDateColumn(call, state),
+                    createStartDateColumn(call, state),
                     createOriginColumn(call, state, ::RaceId),
                     Column("Gender") { td { +it.genders.getValidValues().joinToString() } },
                     createSkipZeroColumn("Max Age") { it.lifeStages.getMaxAge() },

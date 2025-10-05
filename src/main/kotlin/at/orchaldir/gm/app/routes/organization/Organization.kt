@@ -74,7 +74,7 @@ fun Application.configureOrganizationRouting() {
                 state.sortOrganizations(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createDateColumn(call, state),
+                    createStartDateColumn(call, state),
                     createAgeColumn(state),
                     createReferenceColumn(call, state, "Founder", Organization::founder),
                     createSkipZeroColumnFromCollection("Ranks", Organization::memberRanks),

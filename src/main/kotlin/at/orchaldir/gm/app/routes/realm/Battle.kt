@@ -72,7 +72,7 @@ fun Application.configureBattleRouting() {
                 state.sortBattles(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createDateColumn(call, state),
+                    createStartDateColumn(call, state),
                     createSkipZeroColumnFromCollection("Participants", Battle::participants)
                 )+ createDestroyedColumns(state),
             )
