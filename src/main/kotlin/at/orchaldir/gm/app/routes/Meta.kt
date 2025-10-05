@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.html.util.showReference
@@ -13,8 +14,11 @@ import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Creation
+import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.HasOrigin
 import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -45,6 +49,16 @@ interface Routes<ID : Id<ID>, T> {
     fun new(call: ApplicationCall): String
 }
 
+fun <ELEMENT : HasStartDate> createAgeColumn(
+    state: State,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair("Age") { tdSkipZero(state.getAgeInYears(it.startDate())) }
+
+
+fun <ELEMENT : HasBelief> createBeliefColumn(
+    call: ApplicationCall,
+    state: State,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair("Belief") { td { showBeliefStatus(call, state, it.belief().current, false) } }
+
 fun <ELEMENT : Creation> createCreatorColumn(
     call: ApplicationCall,
     state: State,
@@ -67,6 +81,13 @@ fun <ID : Id<ID>, ELEMENT : HasOrigin> createOriginColumn(
     state: State,
     createId: (Int) -> ID,
 ): Pair<String, TR.(ELEMENT) -> Unit> = Pair("Origin") { td { showOrigin(call, state, it.origin(), createId) } }
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    get: (ELEMENT) -> Reference,
+): Pair<String, TR.(ELEMENT) -> Unit> = Pair(label) { td { showReference(call, state, get(it), false) } }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumn(
     label: String,
