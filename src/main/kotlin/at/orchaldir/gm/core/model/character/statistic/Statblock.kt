@@ -30,6 +30,7 @@ data class Statblock(
     fun resolve(state: State, statistic: Statistic): Int? {
         return when (statistic.data) {
             is Attribute -> resolveAttribute(state, statistic.id, statistic.data.base)
+            is BaseDamage -> resolveAttribute(state, statistic.id, statistic.data.base)
             is DerivedAttribute -> resolveAttribute(state, statistic.id, statistic.data.base)
             is Skill -> resolveSkill(state, statistic.id, statistic.data.base)
         }

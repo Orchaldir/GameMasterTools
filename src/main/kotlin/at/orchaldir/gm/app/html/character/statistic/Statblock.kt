@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.statistic.Statblock
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.selector.character.getAttributes
+import at.orchaldir.gm.core.selector.character.getBaseDamageValues
 import at.orchaldir.gm.core.selector.character.getDerivedAttributes
 import at.orchaldir.gm.core.selector.character.getSkills
 import at.orchaldir.gm.core.selector.util.sortStatistics
@@ -26,12 +27,15 @@ fun HtmlBlockTag.showStatblock(
     val attributeValues = statblock.resolve(state, attributes)
     val derivedAttributes = state.sortStatistics(state.getDerivedAttributes())
     val derivedValues = statblock.resolve(state, derivedAttributes)
+    val baseDamages = state.sortStatistics(state.getBaseDamageValues())
+    val baseDamageValues = statblock.resolve(state, baseDamages)
     val skills = state.sortStatistics(state.getSkills())
     val skillValues = statblock.resolve(state, skills)
 
     showDetails("Stateblock", true) {
         showStatistics(call, state, attributeValues, "Attributes")
         showStatistics(call, state, derivedValues, "Derived Attributes")
+        showStatistics(call, state, baseDamageValues, "Base Damage Values")
         showStatistics(call, state, skillValues, "Skills")
         field("Cost", statblock.calculateCost(state))
     }
@@ -59,12 +63,14 @@ fun HtmlBlockTag.editStatblock(
 ) {
     val attributes = state.sortStatistics(state.getAttributes())
     val derivedAttributes = state.sortStatistics(state.getDerivedAttributes())
+    val damageValues = state.sortStatistics(state.getBaseDamageValues())
     val skills = state.sortStatistics(state.getSkills())
 
     showDetails("Stateblock", true) {
         table {
             editStatistics(state, call, statblock, attributes, "Attribute")
             editStatistics(state, call, statblock, derivedAttributes, "Derived Attribute")
+            editStatistics(state, call, statblock, damageValues, "Base Damage Value")
             editStatistics(state, call, statblock, skills, "Skills")
         }
         field("Cost", statblock.calculateCost(state))

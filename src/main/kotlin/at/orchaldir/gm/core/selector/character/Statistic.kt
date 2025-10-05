@@ -14,6 +14,7 @@ fun State.canDeleteStatistic(statistic: StatisticId) = DeleteResult(statistic)
 
 fun State.getAttributes() = getStatistics(StatisticDataType.Attribute)
 fun State.getDerivedAttributes() = getStatistics(StatisticDataType.DerivedAttribute)
+fun State.getBaseDamageValues() = getStatistics(StatisticDataType.Damage)
 fun State.getSkills() = getStatistics(StatisticDataType.Skill)
 
 private fun State.getStatistics(type: StatisticDataType): List<Statistic> = getStatisticStorage()
