@@ -162,9 +162,11 @@ private fun HTML.showStatisticEditor(
     val previewLink = call.application.href(StatisticRoutes.Preview(statistic.id))
     val updateLink = call.application.href(StatisticRoutes.Update(statistic.id))
 
-    simpleHtmlEditor(statistic) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editStatistic(state, statistic)
+    simpleHtmlEditor(statistic, true) {
+        mainFrame {
+            formWithPreview(previewLink, updateLink, backLink) {
+                editStatistic(state, statistic)
+            }
         }
     }
 }

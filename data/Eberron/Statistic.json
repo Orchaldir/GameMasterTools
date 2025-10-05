@@ -281,7 +281,7 @@
      "type": "SimpleLookup",
      "lookup": {
       "current": {
-       "dice": 1,
+       "dice": 2,
        "modifier": 0
       },
       "previousEntries": [
@@ -316,56 +316,56 @@
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": -4
         },
         "until": 5
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": -4
         },
         "until": 6
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": -3
         },
         "until": 7
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": -3
         },
         "until": 8
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": -2
         },
         "until": 9
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": -2
         },
         "until": 10
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": -1
         },
         "until": 11
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": -1
         },
         "until": 12
        },
@@ -386,42 +386,42 @@
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": 1
         },
         "until": 15
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": 1
         },
         "until": 16
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": 2
         },
         "until": 17
        },
        {
         "value": {
          "dice": 1,
-         "modifier": 0
+         "modifier": 2
         },
         "until": 18
        },
        {
         "value": {
-         "dice": 1,
-         "modifier": 0
+         "dice": 2,
+         "modifier": -1
         },
         "until": 19
        },
        {
         "value": {
-         "dice": 1,
-         "modifier": 0
+         "dice": 2,
+         "modifier": -1
         },
         "until": 20
        }
