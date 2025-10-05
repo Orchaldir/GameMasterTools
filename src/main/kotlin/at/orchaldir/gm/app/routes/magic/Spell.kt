@@ -89,11 +89,10 @@ fun Application.configureSpellRouting() {
                     createSkipZeroColumn("Jobs", state::countJobs),
                     createSkipZeroColumn("Texts", state::countTexts),
                 ),
-                {
-                    showLanguageCountForSpells(call, state, it)
-                    showSpellOriginCount(it)
-                }
-            )
+            ) {
+                showLanguageCountForSpells(call, state, it)
+                showSpellOriginCount(it)
+            }
         }
         get<SpellRoutes.Details> { details ->
             handleShowElement(details.id, SpellRoutes(), HtmlBlockTag::showSpell)
