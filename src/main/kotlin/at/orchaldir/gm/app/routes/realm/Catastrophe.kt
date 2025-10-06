@@ -1,33 +1,21 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.formWithPreview
+import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.realm.displayCauseOfCatastrophe
 import at.orchaldir.gm.app.html.realm.editCatastrophe
 import at.orchaldir.gm.app.html.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.realm.showCatastrophe
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.tdDestroyed
-import at.orchaldir.gm.app.html.util.thDestroyed
-import at.orchaldir.gm.app.routes.Column
+import at.orchaldir.gm.app.html.simpleHtmlEditor
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.createStartDateColumn
-import at.orchaldir.gm.app.routes.createDestroyedColumns
-import at.orchaldir.gm.app.routes.createEndDateColumn
-import at.orchaldir.gm.app.routes.createNameColumn
-import at.orchaldir.gm.app.routes.createSkipZeroColumn
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -37,7 +25,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -79,7 +68,6 @@ fun Application.configureCatastropheRouting() {
     routing {
         get<CatastropheRoutes.All> { all ->
             val state = STORE.getState()
-            val calendar = state.getDefaultCalendar()
 
             handleShowAllElements(
                 CatastropheRoutes(),
@@ -88,7 +76,7 @@ fun Application.configureCatastropheRouting() {
                     createNameColumn(call, state),
                     createStartDateColumn(call, state, "Start"),
                     createEndDateColumn(call, state, "End"),
-                    createSkipZeroColumn("Years") { calendar.getYears(it.getDuration(state))},
+                    createAgeColumn(state, "Years"),
                     tdColumn("Cause") {displayCauseOfCatastrophe(call, state, it.cause, false) }
                 ) + createDestroyedColumns(state),
             )

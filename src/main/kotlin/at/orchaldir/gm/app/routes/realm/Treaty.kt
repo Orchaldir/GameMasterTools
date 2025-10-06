@@ -1,23 +1,18 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.formWithPreview
+import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.realm.editTreaty
 import at.orchaldir.gm.app.html.realm.parseTreaty
 import at.orchaldir.gm.app.html.realm.showTreaty
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.html.simpleHtmlEditor
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TREATY_TYPE
 import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyId
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortTreaty
 import at.orchaldir.gm.core.selector.util.sortTreaties
 import io.ktor.http.*
@@ -28,7 +23,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -69,11 +65,17 @@ class TreatyRoutes : Routes<TreatyId,SortTreaty> {
 fun Application.configureTreatyRouting() {
     routing {
         get<TreatyRoutes.All> { all ->
-            logger.info { "Get all treaties" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllTreaties(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                TreatyRoutes(),
+                state.sortTreaties(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createSkipZeroColumnFromCollection("Participants", Treaty::participants)
+                ),
+            )
         }
         get<TreatyRoutes.Details> { details ->
             handleShowElement(details.id, TreatyRoutes(), HtmlBlockTag::showTreaty)
@@ -110,38 +112,6 @@ fun Application.configureTreatyRouting() {
         post<TreatyRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseTreaty)
         }
-    }
-}
-
-private fun HTML.showAllTreaties(
-    call: ApplicationCall,
-    state: State,
-    sort: SortTreaty,
-) {
-    val treaties = state.sortTreaties(sort)
-    val createLink = call.application.href(TreatyRoutes.New())
-
-    simpleHtml("Treaties") {
-        field("Count", treaties.size)
-        showSortTableLinks(call, SortTreaty.entries, TreatyRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Participants" }
-            }
-            treaties.forEach { treaty ->
-                tr {
-                    tdLink(call, state, treaty)
-                    td { showOptionalDate(call, state, treaty.date) }
-                    tdSkipZero(treaty.participants.size)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

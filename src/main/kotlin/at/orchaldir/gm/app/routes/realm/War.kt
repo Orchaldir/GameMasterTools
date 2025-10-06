@@ -1,29 +1,22 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.formWithPreview
+import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.realm.displayWarStatus
 import at.orchaldir.gm.app.html.realm.editWar
 import at.orchaldir.gm.app.html.realm.parseWar
 import at.orchaldir.gm.app.html.realm.showWar
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.tdDestroyed
-import at.orchaldir.gm.app.html.util.thDestroyed
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.html.simpleHtmlEditor
+import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.WAR_TYPE
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarId
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortWar
 import at.orchaldir.gm.core.selector.realm.countBattles
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortWars
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -33,7 +26,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -74,11 +68,21 @@ class WarRoutes : Routes<WarId,SortWar> {
 fun Application.configureWarRouting() {
     routing {
         get<WarRoutes.All> { all ->
-            logger.info { "Get all wars" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllWars(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                WarRoutes(),
+                state.sortWars(all.sort),
+                listOf<Column<War>>(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state, "Start"),
+                    createEndDateColumn(call, state, "End"),
+                    createAgeColumn(state, "Years"),
+                    tdColumn("Status") { displayWarStatus(call, state, it) },
+                    createIdColumn(call, state, "Treaty") { it.status.treaty() },
+                    createSkipZeroColumnForId("Battles", state::countBattles),
+                ) + createDestroyedColumns(state),
+            )
         }
         get<WarRoutes.Details> { details ->
             handleShowElement(details.id, WarRoutes(), HtmlBlockTag::showWar)
@@ -115,49 +119,6 @@ fun Application.configureWarRouting() {
         post<WarRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseWar)
         }
-    }
-}
-
-private fun HTML.showAllWars(
-    call: ApplicationCall,
-    state: State,
-    sort: SortWar,
-) {
-    val calendar = state.getDefaultCalendar()
-    val wars = state.sortWars(sort)
-    val createLink = call.application.href(WarRoutes.New())
-
-    simpleHtml("Wars") {
-        field("Count", wars.size)
-        showSortTableLinks(call, SortWar.entries, WarRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Start" }
-                th { +"End" }
-                th { +"Years" }
-                th { +"Status" }
-                th { +"Treaty" }
-                th { +"Battles" }
-                thDestroyed()
-            }
-            wars.forEach { war ->
-                tr {
-                    tdLink(call, state, war)
-                    td { showOptionalDate(call, state, war.startDate) }
-                    td { showOptionalDate(call, state, war.endDate()) }
-                    tdSkipZero(calendar.getYears(war.getDuration(state)))
-                    td { displayWarStatus(call, state, war) }
-                    tdLink(call, state, war.status.treaty())
-                    tdSkipZero(state.countBattles(war.id))
-                    tdDestroyed(state, war.id)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 
