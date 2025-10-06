@@ -1,16 +1,20 @@
 package at.orchaldir.gm.app.routes
 
+import at.orchaldir.gm.app.html.optionalLink
 import at.orchaldir.gm.app.html.tdLink
 import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.html.tdString
+import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.html.util.showReference
+import at.orchaldir.gm.app.html.util.showVitalStatus
 import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
@@ -30,7 +34,8 @@ data class Column<T>(
     constructor(header: String, converter: TR.(T) -> Unit): this(listOf(header), converter)
 
     companion object {
-        fun <T> tdColumn(header: String, converter: TD.(T) -> Unit) = Column<T>(header, { td { converter(it) }})
+        fun <T> tdColumn(header: String, converter: TD.(T) -> Unit) = tdColumn(listOf(header), converter)
+        fun <T> tdColumn(header: List<String>, converter: TD.(T) -> Unit) = Column<T>(header, { td { converter(it) }})
     }
 }
 
@@ -87,8 +92,8 @@ fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>> createIdColumn(
     call: ApplicationCall,
     state: State,
     label: String,
-    convert: (ELEMENT) -> ID1,
-): Column<ELEMENT> = Column(label) { tdLink(call, state, convert(it)) }
+    convert: (ELEMENT) -> ID1?,
+): Column<ELEMENT> = tdColumn(label) { optionalLink(call, state, convert(it)) }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createNameColumn(
     call: ApplicationCall,
@@ -100,6 +105,9 @@ fun <ID : Id<ID>, ELEMENT : HasOrigin> createOriginColumn(
     state: State,
     createId: (Int) -> ID,
 ): Column<ELEMENT> = tdColumn("Origin") { showOrigin(call, state, it.origin(), createId) }
+
+fun <ELEMENT : HasPopulation> createPopulationColumn(): Column<ELEMENT> =
+    Column("Population") { tdSkipZero(it.population().getTotalPopulation()) }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
     call: ApplicationCall,
@@ -132,3 +140,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createStringColumn(
     label: String,
     convert: (ELEMENT) -> String?,
 ): Column<ELEMENT> = Column(label) { tdString(convert(it)) }
+
+fun <ELEMENT : HasVitalStatus> createVitalColumn(
+    call: ApplicationCall,
+    state: State,
+): Column<ELEMENT> =
+    tdColumn("End") { displayVitalStatus(call, state, it.vitalStatus(), false) }

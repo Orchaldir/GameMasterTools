@@ -1,25 +1,20 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.formWithPreview
+import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.realm.editLegalCode
 import at.orchaldir.gm.app.html.realm.parseLegalCode
 import at.orchaldir.gm.app.html.realm.showLegalCode
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.html.showCreatorCount
+import at.orchaldir.gm.app.html.simpleHtmlEditor
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LEGAL_CODE_TYPE
 import at.orchaldir.gm.core.model.realm.LegalCode
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.util.SortLegalCode
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.util.sortLegalCodes
 import io.ktor.http.*
@@ -30,7 +25,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -71,10 +67,19 @@ class LegalCodeRoutes : Routes<LegalCodeId,SortLegalCode> {
 fun Application.configureLegalCodeRouting() {
     routing {
         get<LegalCodeRoutes.All> { all ->
-            logger.info { "Get all legal codes" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllLegalCodes(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                LegalCodeRoutes(),
+                state.sortLegalCodes(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createCreatorColumn(call, state),
+                    createSkipZeroColumnForId("Population", state::countRealmsWithLegalCodeAtAnyTime),
+                ),
+            ) {
+                showCreatorCount(call, state, it, "Creators")
             }
         }
         get<LegalCodeRoutes.Details> { details ->
@@ -112,42 +117,6 @@ fun Application.configureLegalCodeRouting() {
         post<LegalCodeRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseLegalCode)
         }
-    }
-}
-
-private fun HTML.showAllLegalCodes(
-    call: ApplicationCall,
-    state: State,
-    sort: SortLegalCode,
-) {
-    val codes = state.sortLegalCodes(sort)
-    val createLink = call.application.href(LegalCodeRoutes.New())
-
-    simpleHtml("Legal Codes") {
-        field("Count", codes.size)
-        showSortTableLinks(call, SortLegalCode.entries, LegalCodeRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Creator" }
-                th { +"Realms" }
-            }
-            codes.forEach { code ->
-                tr {
-                    tdLink(call, state, code)
-                    td { showOptionalDate(call, state, code.date) }
-                    td { showReference(call, state, code.creator, false) }
-                    tdSkipZero(state.countRealmsWithLegalCodeAtAnyTime(code.id))
-                }
-            }
-        }
-
-        showCreatorCount(call, state, codes, "Creators")
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 
