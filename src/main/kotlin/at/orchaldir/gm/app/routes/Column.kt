@@ -39,10 +39,9 @@ data class Column<T>(
     }
 }
 
-fun <ELEMENT : HasStartDate> createAgeColumn(
+fun <ELEMENT : HasStartAndEndDate> createAgeColumn(
     state: State,
-): Column<ELEMENT> = Column("Age") { tdSkipZero(state.getAgeInYears(it.startDate())) }
-
+): Column<ELEMENT> = Column("Age") { tdSkipZero(it.getAgeInYears(state)) }
 
 fun <ELEMENT : HasBelief> createBeliefColumn(
     call: ApplicationCall,
