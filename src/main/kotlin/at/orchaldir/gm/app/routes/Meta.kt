@@ -59,13 +59,13 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showAl
 
         table {
             tr {
-                columns.forEach { (header, _) ->
-                    thMultiLines(header)
+                columns.forEach { (header, width, _) ->
+                    thMultiLines(header, width)
                 }
             }
             elements.forEach { element ->
                 tr {
-                    columns.forEach { (_, selectValue) ->
+                    columns.forEach { (_, _, selectValue) ->
                         selectValue(element)
                     }
                 }

@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.server.application.*
 import kotlinx.html.*
+import kotlinx.html.style
 
 fun <T : Enum<T>, ID: Id<ID>> HtmlBlockTag.showSortTableLinks(
     call: ApplicationCall,
@@ -31,8 +32,12 @@ fun <T : Enum<T>, ID: Id<ID>> HtmlBlockTag.showSortTableLinks(
 
 // header cell
 
-fun TR.thMultiLines(lines: List<String>) {
+fun TR.thMultiLines(lines: List<String>, width: Int? = null) {
     th {
+        if (width != null) {
+            style = "width:${width}px"
+        }
+
         lines.withIndex().forEach { entry ->
             if (entry.index > 0) {
                 br { }

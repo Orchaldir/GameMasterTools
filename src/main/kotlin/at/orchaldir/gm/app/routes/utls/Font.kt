@@ -100,8 +100,9 @@ fun Application.configureFontRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
-                    tdColumn("Example") { svg(visualizeString(example, it, FONT_SIZE), 100) },
-                    Column(listOf("Currency", "Units")) { tdSkipZero(state.countCurrencyUnits(it.id)) },
+                    tdColumn("Example", 1000) { svg(visualizeString(example, it, FONT_SIZE), 100) },
+                    Column(listOf("Currency", "Units"))
+                    { tdSkipZero(state.countCurrencyUnits(it.id)) },
                     Column("Texts") { tdSkipZero(state.countTexts(it.id)) },
                 ),
             )

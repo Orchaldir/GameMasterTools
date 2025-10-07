@@ -24,13 +24,16 @@ import kotlinx.html.title
 
 data class Column<T>(
     val header: List<String>,
+    val width: Int? = null,
     val converter: TR.(T) -> Unit, 
 ) {
-    constructor(header: String, converter: TR.(T) -> Unit): this(listOf(header), converter)
+    constructor(header: String, width: Int? = null, converter: TR.(T) -> Unit): this(listOf(header), width, converter)
 
     companion object {
-        fun <T> tdColumn(header: String, converter: TD.(T) -> Unit) = tdColumn(listOf(header), converter)
-        fun <T> tdColumn(header: List<String>, converter: TD.(T) -> Unit) = Column<T>(header, { td { converter(it) }})
+        fun <T> tdColumn(header: String, width: Int? = null, converter: TD.(T) -> Unit) =
+            tdColumn(listOf(header), width, converter)
+        fun <T> tdColumn(header: List<String>, width: Int? = null, converter: TD.(T) -> Unit) =
+            Column<T>(header, width, { td { converter(it) }})
     }
 }
 
