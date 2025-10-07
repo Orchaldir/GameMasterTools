@@ -1,6 +1,11 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.createCreatorColumn
+import at.orchaldir.gm.app.html.createIdColumn
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createPopulationColumn
+import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.html.formWithPreview
 import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.realm.editDistrict
@@ -73,7 +78,7 @@ fun Application.configureDistrictRouting() {
                 state.sortDistricts(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createIdColumn(call, state,"Town", District::town),
+                    createIdColumn(call, state, "Town", District::town),
                     createStartDateColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
                     createPopulationColumn(),

@@ -5,13 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editDomain
 import at.orchaldir.gm.app.html.religion.parseDomain
 import at.orchaldir.gm.app.html.religion.showDomain
-import at.orchaldir.gm.app.routes.Column
+import at.orchaldir.gm.app.html.Column
 import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.createIdColumn
-import at.orchaldir.gm.app.routes.createNameColumn
-import at.orchaldir.gm.app.routes.createSkipZeroColumn
-import at.orchaldir.gm.app.routes.createSkipZeroColumnFromCollection
-import at.orchaldir.gm.app.routes.createStartDateColumn
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowAllElements

@@ -1,6 +1,16 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.createAgeColumn
+import at.orchaldir.gm.app.html.createCreatorColumn
+import at.orchaldir.gm.app.html.createEndDateColumn
+import at.orchaldir.gm.app.html.createIdColumn
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createPopulationColumn
+import at.orchaldir.gm.app.html.createSkipZeroColumnForId
+import at.orchaldir.gm.app.html.createStartDateColumn
+import at.orchaldir.gm.app.html.createStringColumn
+import at.orchaldir.gm.app.html.createVitalColumn
 import at.orchaldir.gm.app.html.formWithPreview
 import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.realm.editTown

@@ -6,12 +6,15 @@ import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.magic.editSpell
 import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.magic.showSpell
-import at.orchaldir.gm.app.html.optionalLink
 import at.orchaldir.gm.app.html.showLanguageCountForSpells
 import at.orchaldir.gm.app.html.showSpellOriginCount
 import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.createIdColumn
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createOriginColumn
+import at.orchaldir.gm.app.html.createSkipZeroColumnForId
+import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
@@ -33,7 +36,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.td
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.Column
 import at.orchaldir.gm.app.html.formWithPreview
 import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.realm.displayCauseOfCatastrophe
@@ -9,7 +10,12 @@ import at.orchaldir.gm.app.html.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.realm.showCatastrophe
 import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.createAgeColumn
+import at.orchaldir.gm.app.html.createDestroyedColumns
+import at.orchaldir.gm.app.html.createEndDateColumn
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE

@@ -29,7 +29,7 @@ fun <T : Enum<T>, ID: Id<ID>> HtmlBlockTag.showSortTableLinks(
     }
 }
 
-//
+// header cell
 
 fun TR.thMultiLines(lines: List<String>) {
     th {
@@ -41,6 +41,8 @@ fun TR.thMultiLines(lines: List<String>) {
         }
     }
 }
+
+// data cell
 
 fun TR.tdChar(char: Char) {
     tdString("\"$char\"")

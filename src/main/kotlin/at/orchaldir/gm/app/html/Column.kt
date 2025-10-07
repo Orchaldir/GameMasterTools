@@ -1,16 +1,11 @@
-package at.orchaldir.gm.app.routes
+package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.html.optionalLink
-import at.orchaldir.gm.app.html.tdLink
-import at.orchaldir.gm.app.html.tdSkipZero
-import at.orchaldir.gm.app.html.tdString
 import at.orchaldir.gm.app.html.util.displayVitalStatus
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.html.util.showVitalStatus
-import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*

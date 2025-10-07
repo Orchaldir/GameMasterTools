@@ -5,25 +5,19 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editPantheon
 import at.orchaldir.gm.app.html.religion.parsePantheon
 import at.orchaldir.gm.app.html.religion.showPantheon
-import at.orchaldir.gm.app.routes.Column
+import at.orchaldir.gm.app.html.Column
 import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.createNameColumn
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPantheon
-import at.orchaldir.gm.core.selector.religion.getGodsWith
-import at.orchaldir.gm.core.selector.util.getBelievers
-import at.orchaldir.gm.core.selector.util.sortDomains
 import at.orchaldir.gm.core.selector.util.sortPantheons
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -35,9 +29,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}

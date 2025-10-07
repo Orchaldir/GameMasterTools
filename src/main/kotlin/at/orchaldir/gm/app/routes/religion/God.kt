@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.religion.parseGod
 import at.orchaldir.gm.app.html.religion.showGod
 import at.orchaldir.gm.app.html.util.showAuthenticity
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.GOD_TYPE

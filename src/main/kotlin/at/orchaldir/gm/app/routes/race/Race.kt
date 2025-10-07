@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.race.editRace
 import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -36,7 +36,6 @@ import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.p
-import kotlinx.html.td
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
