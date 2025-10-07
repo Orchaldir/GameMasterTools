@@ -8,26 +8,20 @@ import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.font.editFont
 import at.orchaldir.gm.app.html.util.font.parseFont
 import at.orchaldir.gm.app.html.util.font.showFont
-import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
-import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortFont
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.font.FONT_TYPE
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.util.sortFonts
-import at.orchaldir.gm.core.selector.util.sortPantheons
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*
@@ -186,47 +180,6 @@ fun Application.configureFontRouting() {
 
             STORE.getState().save()
         }
-    }
-}
-
-private fun HTML.showAllFonts(
-    call: ApplicationCall,
-    state: State,
-    sort: SortFont,
-) {
-    val fonts = state.sortFonts(sort)
-    val createLink = call.application.href(FontRoutes.New())
-    call.application.href(FontRoutes.All(SortFont.Name))
-    call.application.href(FontRoutes.All(SortFont.Date))
-
-    simpleHtml("Fonts") {
-        field("Count", fonts.size)
-        showSortTableLinks(call, SortFont.entries, FontRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th {
-                    style = "width:1000px"
-                    +"Example"
-                }
-                th { +"Currencies" }
-                th { +"Texts" }
-            }
-            fonts.forEach { font ->
-                tr {
-                    tdLink(call, state, font)
-                    td { showOptionalDate(call, state, font.date) }
-                    td { svg(visualizeString(example, font, FONT_SIZE), 100) }
-                    tdSkipZero(state.countCurrencyUnits(font.id))
-                    tdSkipZero(state.countTexts(font.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

@@ -583,6 +583,7 @@ fun State.sortNameLists(
     .sortedWith(
         when (sort) {
             SortNameList.Name -> compareBy { it.name.text }
+            SortNameList.Size -> compareByDescending { it.names.size }
         })
 
 // organization

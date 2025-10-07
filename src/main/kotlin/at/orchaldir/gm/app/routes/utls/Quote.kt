@@ -2,20 +2,14 @@ package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.quote.editQuote
 import at.orchaldir.gm.app.html.util.quote.parseQuote
 import at.orchaldir.gm.app.html.util.quote.showQuote
-import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortQuote
 import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
 import at.orchaldir.gm.core.model.util.quote.Quote
@@ -29,7 +23,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -70,10 +65,19 @@ class QuoteRoutes : Routes<QuoteId,SortQuote> {
 fun Application.configureQuoteRouting() {
     routing {
         get<QuoteRoutes.All> { all ->
-            logger.info { "Get all quote" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllQuotes(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                QuoteRoutes(),
+                state.sortQuotes(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Type") { tdEnum(it.type) },
+                    createStartDateColumn(call, state),
+                    tdColumn("Source") { showReference(call, state, it.source, false) }
+                ),
+            ) {
+                showCreatorCount(call, state, it, "Sources")
             }
         }
         get<QuoteRoutes.Details> { details ->
@@ -110,39 +114,6 @@ fun Application.configureQuoteRouting() {
         post<QuoteRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseQuote)
         }
-    }
-}
-
-private fun HTML.showAllQuotes(
-    call: ApplicationCall,
-    state: State,
-    sort: SortQuote,
-) {
-    val qquotes = state.sortQuotes(sort)
-    val createLink = call.application.href(QuoteRoutes.New())
-
-    simpleHtml("Quotes") {
-        field("Count", qquotes.size)
-        showSortTableLinks(call, SortQuote.entries, QuoteRoutes())
-        table {
-            tr {
-                th { +"Text" }
-                th { +"Type" }
-                th { +"Start" }
-                th { +"Source" }
-            }
-            qquotes.forEach { quote ->
-                tr {
-                    tdLink(call, state, quote)
-                    tdEnum(quote.type)
-                    td { showOptionalDate(call, state, quote.startDate()) }
-                    td { showReference(call, state, quote.source, false) }
-                }
-            }
-        }
-        showCreatorCount(call, state, qquotes, "Sources")
-        action(createLink, "Add")
-        back("/")
     }
 }
 

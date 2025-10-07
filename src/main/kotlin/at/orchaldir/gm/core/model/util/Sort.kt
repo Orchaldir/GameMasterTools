@@ -154,6 +154,7 @@ enum class SortMoon {
 
 enum class SortNameList {
     Name,
+    Size,
 }
 
 enum class SortOrganization {
