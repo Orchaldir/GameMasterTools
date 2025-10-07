@@ -3,14 +3,17 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.reverseAndSort
+import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -349,3 +352,11 @@ fun TR.td(weight: Weight) {
         +weight.toString()
     }
 }
+
+fun <ID0, ID1, ELEMENT> TR.tdBelievers(
+    storage: Storage<ID0, ELEMENT>,
+    id: ID1,
+) where ID0 : Id<ID0>,
+        ID1 : Id<ID1>,
+        ELEMENT : Element<ID0>,
+        ELEMENT : HasBelief = tdSkipZero(getBelievers(storage, id))

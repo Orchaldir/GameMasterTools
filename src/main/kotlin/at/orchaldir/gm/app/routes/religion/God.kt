@@ -6,21 +6,15 @@ import at.orchaldir.gm.app.html.religion.editGod
 import at.orchaldir.gm.app.html.religion.parseGod
 import at.orchaldir.gm.app.html.religion.showGod
 import at.orchaldir.gm.app.html.util.showAuthenticity
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.Column.Companion.tdColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.GOD_TYPE
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.SortGod
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
-import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -32,10 +26,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -76,10 +66,39 @@ class GodRoutes : Routes<GodId,SortGod> {
 fun Application.configureGodRouting() {
     routing {
         get<GodRoutes.All> { all ->
-            logger.info { "Get all gods" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllGods(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                GodRoutes(),
+                state.sortGods(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Title") { tdString(it.title) },
+                    Column("Pantheons") {
+                        val pantheons = state.getPantheonsContaining(it.id)
+                            .sortedBy { it.name.text }
+                        tdLinks(call, state, pantheons)
+                     },
+                    Column("Gender") { tdEnum(it.gender) },
+                    Column("Personality") {
+                        val personality = state.getPersonalityTraitStorage()
+                            .get(it.personality)
+                            .sortedBy { it.name.text }
+                        tdLinks(call, state, personality)
+                    },
+                    Column("Domains") {
+                        val domains = state.getDomainStorage()
+                            .get(it.domains)
+                            .sortedBy { it.name.text }
+                        tdLinks(call, state, domains)
+                    },
+                    tdColumn("Believers") { showAuthenticity(call, state, it.authenticity, false) },
+                    Column("Believers") { tdBelievers(state.getCharacterStorage(), it.id) },
+                    Column("Organization") { tdBelievers(state.getOrganizationStorage(), it.id) },
+                ),
+            ) {
+                showDomainCount(call, state, it)
+                showPersonalityCountForGods(call, state, it)
             }
         }
         get<GodRoutes.Details> { details ->
@@ -117,62 +136,6 @@ fun Application.configureGodRouting() {
         post<GodRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseGod)
         }
-    }
-}
-
-private fun HTML.showAllGods(
-    call: ApplicationCall,
-    state: State,
-    sort: SortGod,
-) {
-    val gods = state.sortGods(sort)
-    val createLink = call.application.href(GodRoutes.New())
-
-    simpleHtml("Gods") {
-        field("Count", gods.size)
-        showSortTableLinks(call, SortGod.entries, GodRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Title" }
-                th { +"Pantheons" }
-                th { +"Gender" }
-                th { +"Personality" }
-                th { +"Domain" }
-                th { +"Authenticity" }
-                th { +"Believers" }
-                th { +"Organizations" }
-            }
-            gods.forEach { god ->
-                tr {
-                    val pantheons = state.getPantheonsContaining(god.id)
-                        .sortedBy { it.name.text }
-                    val personality = state.getPersonalityTraitStorage()
-                        .get(god.personality)
-                        .sortedBy { it.name.text }
-                    val domains = state.getDomainStorage()
-                        .get(god.domains)
-                        .sortedBy { it.name.text }
-
-                    tdLink(call, state, god)
-                    tdString(god.title)
-                    tdLinks(call, state, pantheons)
-                    tdEnum(god.gender)
-                    tdLinks(call, state, personality)
-                    tdLinks(call, state, domains)
-                    td { showAuthenticity(call, state, god.authenticity, false) }
-                    tdSkipZero(getBelievers(state.getCharacterStorage(), god.id))
-                    tdSkipZero(getBelievers(state.getOrganizationStorage(), god.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
-
-        showDomainCount(call, state, state.getGodStorage().getAll())
-        showPersonalityCountForGods(call, state, state.getGodStorage().getAll())
     }
 }
 
