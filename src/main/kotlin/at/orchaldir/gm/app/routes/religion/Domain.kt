@@ -5,19 +5,23 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editDomain
 import at.orchaldir.gm.app.html.religion.parseDomain
 import at.orchaldir.gm.app.html.religion.showDomain
+import at.orchaldir.gm.app.routes.Column
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.createIdColumn
+import at.orchaldir.gm.app.routes.createNameColumn
+import at.orchaldir.gm.app.routes.createSkipZeroColumn
+import at.orchaldir.gm.app.routes.createSkipZeroColumnFromCollection
+import at.orchaldir.gm.app.routes.createStartDateColumn
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.DOMAIN_TYPE
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.util.SortDomain
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.util.sortDomains
 import io.ktor.http.*
@@ -30,9 +34,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -73,11 +74,18 @@ class DomainRoutes : Routes<DomainId,SortDomain> {
 fun Application.configureDomainRouting() {
     routing {
         get<DomainRoutes.All> { all ->
-            logger.info { "Get all domains" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllDomains(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                DomainRoutes(),
+                state.sortDomains(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Spells") { tdSkipZero(it.spells.getSize()) },
+                    Column("Jobs") { tdSkipZero(it.jobs) },
+                    Column("Gods") { tdSkipZero(state.getGodsWith(it.id())) },
+                ),
+            )
         }
         get<DomainRoutes.Details> { details ->
             handleShowElement(details.id, DomainRoutes(), HtmlBlockTag::showDomain)
@@ -114,40 +122,6 @@ fun Application.configureDomainRouting() {
         post<DomainRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDomain)
         }
-    }
-}
-
-private fun HTML.showAllDomains(
-    call: ApplicationCall,
-    state: State,
-    sort: SortDomain,
-) {
-    val domains = state.sortDomains(sort)
-    val createLink = call.application.href(DomainRoutes.New())
-
-    simpleHtml("Domains") {
-        field("Count", domains.size)
-        showSortTableLinks(call, SortDomain.entries, DomainRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Spells" }
-                th { +"Jobs" }
-                th { +"Gods" }
-            }
-            domains.forEach { domain ->
-                tr {
-                    tdLink(call, state, domain)
-                    tdSkipZero(domain.spells.getSize())
-                    tdSkipZero(domain.jobs)
-                    tdSkipZero(state.getGodsWith(domain.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 
