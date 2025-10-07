@@ -4,6 +4,7 @@ package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.font.editFont
 import at.orchaldir.gm.app.html.util.font.parseFont
 import at.orchaldir.gm.app.html.util.font.showFont
@@ -11,9 +12,11 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
+import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortFont
@@ -24,6 +27,7 @@ import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.util.sortFonts
+import at.orchaldir.gm.core.selector.util.sortPantheons
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*
@@ -88,11 +92,19 @@ class FontRoutes : Routes<FontId, SortFont> {
 fun Application.configureFontRouting() {
     routing {
         get<FontRoutes.All> { all ->
-            logger.info { "Get all fonts" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllFonts(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                FontRoutes(),
+                state.sortFonts(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    tdColumn("Example") { svg(visualizeString(example, it, FONT_SIZE), 100) },
+                    Column(listOf("Currency", "Units")) { tdSkipZero(state.countCurrencyUnits(it.id)) },
+                    Column("Texts") { tdSkipZero(state.countTexts(it.id)) },
+                ),
+            )
         }
         get<FontRoutes.Details> { details ->
             logger.info { "Get details of font ${details.id.value}" }

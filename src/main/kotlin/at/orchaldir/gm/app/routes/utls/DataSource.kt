@@ -8,10 +8,12 @@ import at.orchaldir.gm.app.html.util.source.showDataSource
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
+import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortDataSource
 import at.orchaldir.gm.core.model.util.SortMagicTradition
@@ -19,6 +21,7 @@ import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.selector.util.sortDataSources
+import at.orchaldir.gm.core.selector.util.sortPantheons
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -68,11 +71,17 @@ class DataSourceRoutes : Routes<DataSourceId,SortDataSource> {
 fun Application.configureDataSourceRouting() {
     routing {
         get<DataSourceRoutes.All> { all ->
-            logger.info { "Get all source" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllDataSources(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                DataSourceRoutes(),
+                state.sortDataSources(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Year") { tdInt(it.year) },
+                    Column("Edition") { tdSkipZero(it.edition) },
+                ),
+            )
         }
         get<DataSourceRoutes.Details> { details ->
             handleShowElement(details.id, DataSourceRoutes(), HtmlBlockTag::showDataSource)
@@ -108,36 +117,6 @@ fun Application.configureDataSourceRouting() {
         post<DataSourceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDataSource)
         }
-    }
-}
-
-private fun HTML.showAllDataSources(
-    call: ApplicationCall,
-    state: State,
-    sort: SortDataSource,
-) {
-    val qsources = state.sortDataSources(sort)
-    val createLink = call.application.href(DataSourceRoutes.New())
-
-    simpleHtml("Data Sources") {
-        field("Count", qsources.size)
-        showSortTableLinks(call, SortDataSource.entries, DataSourceRoutes())
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Year" }
-                th { +"Edition" }
-            }
-            qsources.forEach { source ->
-                tr {
-                    tdLink(call, state, source)
-                    td { +source.year.toString() }
-                    td { +(source.edition?.toString() ?: "") }
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

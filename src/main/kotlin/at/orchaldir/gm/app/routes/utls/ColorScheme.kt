@@ -2,16 +2,19 @@ package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.color.editColorScheme
 import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.color.showColorScheme
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
+import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortColorScheme
 import at.orchaldir.gm.core.model.util.SortMagicTradition
@@ -20,6 +23,7 @@ import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
+import at.orchaldir.gm.core.selector.util.sortPantheons
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -74,11 +78,18 @@ class ColorSchemeRoutes : Routes<ColorSchemeId,SortColorScheme> {
 fun Application.configureColorSchemeRouting() {
     routing {
         get<ColorSchemeRoutes.All> { all ->
-            logger.info { "Get all color schemes" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllColorSchemes(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                ColorSchemeRoutes(),
+                state.sortColorSchemes(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    tdColumn("1.Color") { showOptionalColor(it.data.color0()) },
+                    tdColumn("2.Color") { showOptionalColor(it.data.color1()) },
+                    Column("Equipment") { tdSkipZero(state.countEquipment(it.id)) },
+                ),
+            )
         }
         get<ColorSchemeRoutes.Details> { details ->
             handleShowElement(details.id, ColorSchemeRoutes(), HtmlBlockTag::showColorScheme)
@@ -115,40 +126,6 @@ fun Application.configureColorSchemeRouting() {
         post<ColorSchemeRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseColorScheme)
         }
-    }
-}
-
-private fun HTML.showAllColorSchemes(
-    call: ApplicationCall,
-    state: State,
-    sort: SortColorScheme,
-) {
-    val schemes = state.sortColorSchemes(sort)
-    val createLink = call.application.href(ColorSchemeRoutes.New())
-
-    simpleHtml("ColorSchemes") {
-        field("Count", schemes.size)
-        showSortTableLinks(call, SortColorScheme.entries, ColorSchemeRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"1.Color" }
-                th { +"2.Color" }
-                th { +"Equipment" }
-            }
-            schemes.forEach { scheme ->
-                tr {
-                    tdLink(call, state, scheme)
-                    td { showOptionalColor(scheme.data.color0()) }
-                    td { showOptionalColor(scheme.data.color1()) }
-                    tdSkipZero(state.countEquipment(scheme.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 
