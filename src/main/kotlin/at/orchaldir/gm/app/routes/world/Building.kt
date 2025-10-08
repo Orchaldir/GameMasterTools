@@ -102,7 +102,7 @@ fun Application.configureBuildingRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
-                    tdColumn("Position") { showPosition(call, state, it.position) },
+                    createPositionColumn(call, state),
                     tdColumn("Address") { showAddress(call, state, it, false) },
                     Column("Purpose") { tdEnum(it.purpose.getType()) },
                     Column("Inhabitants") { tdSkipZero(state.countCharactersLivingInHouse(it.id)) },

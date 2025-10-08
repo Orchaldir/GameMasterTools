@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
@@ -17,6 +18,7 @@ import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
+import io.ktor.server.application.call
 import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
@@ -106,6 +108,12 @@ fun <ID : Id<ID>, ELEMENT : HasOrigin> createOriginColumn(
 
 fun <ELEMENT : HasPopulation> createPopulationColumn(): Column<ELEMENT> =
     Column("Population") { tdSkipZero(it.population().getTotalPopulation()) }
+
+fun <ELEMENT : HasPosition> createPositionColumn(
+    call: ApplicationCall,
+    state: State,
+    label: String = "Position",
+) = tdColumn<ELEMENT>("Position") { showPosition(call, state, it.position()) }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
     call: ApplicationCall,
