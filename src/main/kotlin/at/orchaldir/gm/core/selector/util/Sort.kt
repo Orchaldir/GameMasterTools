@@ -152,16 +152,6 @@ fun State.sortBattles(
 
 // building
 
-fun State.getBuildingAgeComparator(): Comparator<Building> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Building, b: Building -> calendar.compareToOptional(a.constructionDate, b.constructionDate) }
-}
-
-fun State.getBuildingAgePairComparator(): Comparator<Pair<Building, String>> {
-    val comparator = getBuildingAgeComparator()
-    return Comparator { a: Pair<Building, String>, b: Pair<Building, String> -> comparator.compare(a.first, b.first) }
-}
-
 fun State.sortBuildings(sort: SortBuilding = SortBuilding.Name) =
     sortBuildings(getBuildingStorage().getAll(), sort)
 
@@ -169,11 +159,10 @@ fun State.sortBuildings(
     buildings: Collection<Building>,
     sort: SortBuilding = SortBuilding.Name,
 ) = buildings
-    .map { Pair(it, it.name(this)) }
     .sortedWith(
         when (sort) {
-            SortBuilding.Name -> compareBy { it.second }
-            SortBuilding.Construction -> getBuildingAgePairComparator()
+            SortBuilding.Name -> compareBy { it.name(this) }
+            SortBuilding.Construction -> getStartDateComparator()
         })
 
 // business

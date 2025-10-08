@@ -2,13 +2,16 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.showOptionalDate
+import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.html.world.editArchitecturalStyle
 import at.orchaldir.gm.app.html.world.parseArchitecturalStyle
 import at.orchaldir.gm.app.html.world.showArchitecturalStyle
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
+import at.orchaldir.gm.app.routes.utls.QuoteRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Name
@@ -17,6 +20,7 @@ import at.orchaldir.gm.core.model.world.building.ARCHITECTURAL_STYLE_TYPE
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.util.sortArchitecturalStyles
+import at.orchaldir.gm.core.selector.util.sortQuotes
 import at.orchaldir.gm.core.selector.world.getBuildings
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -67,11 +71,19 @@ class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId, SortArchitecturalS
 fun Application.configureArchitecturalStyleRouting() {
     routing {
         get<ArchitecturalStyleRoutes.All> { all ->
-            logger.info { "Get all architectural styles" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllArchitecturalStyles(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                ArchitecturalStyleRoutes(),
+                state.sortArchitecturalStyles(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createEndDateColumn(call, state),
+                    Column("Revival of") { tdLink(call, state, it.revival) },
+                    Column("Buildings") { tdSkipZero(state.getBuildings(it.id)) },
+                ),
+            )
         }
         get<ArchitecturalStyleRoutes.Details> { details ->
             handleShowElement(details.id, ArchitecturalStyleRoutes(), HtmlBlockTag::showArchitecturalStyle)
@@ -107,41 +119,6 @@ fun Application.configureArchitecturalStyleRouting() {
         post<ArchitecturalStyleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseArchitecturalStyle)
         }
-    }
-}
-
-private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State, sort: SortArchitecturalStyle) {
-    val styles = STORE.getState().sortArchitecturalStyles(sort)
-    val createLink = call.application.href(ArchitecturalStyleRoutes.New())
-
-    simpleHtml("Architectural Styles") {
-        field("Count", styles.size)
-        showSortTableLinks(
-            call,
-            SortArchitecturalStyle.entries,
-            ArchitecturalStyleRoutes()
-        )
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Start" }
-                th { +"End" }
-                th { +"Revival Of" }
-                th { +"Buildings" }
-            }
-            styles.forEach { style ->
-                tr {
-                    tdLink(call, state, style)
-                    td { showOptionalDate(call, state, style.start) }
-                    td { showOptionalDate(call, state, style.end) }
-                    tdLink(call, state, style.revival)
-                    tdSkipZero(state.getBuildings(style.id))
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 
