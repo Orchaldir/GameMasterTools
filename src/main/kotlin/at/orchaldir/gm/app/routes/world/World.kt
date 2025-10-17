@@ -2,19 +2,12 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editWorld
 import at.orchaldir.gm.app.html.world.parseWorld
 import at.orchaldir.gm.app.html.world.showWorld
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortWorld
 import at.orchaldir.gm.core.model.world.WORLD_TYPE
 import at.orchaldir.gm.core.model.world.World
@@ -32,10 +25,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -76,11 +65,19 @@ class WorldRoutes : Routes<WorldId, SortWorld> {
 fun Application.configureWorldRouting() {
     routing {
         get<WorldRoutes.All> { all ->
-            logger.info { "Get all worlds" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllWorlds(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                WorldRoutes(),
+                state.sortWorlds(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Title") { tdString(it.title) },
+                    createPositionColumn(call, state),
+                    createSkipZeroColumnFromCollection("Moons") { state.getMoonsOf(it.id) },
+                    createSkipZeroColumnFromCollection("Regions") { state.getRegionsIn(it.id) },
+                ),
+            )
         }
         get<WorldRoutes.Details> { details ->
             handleShowElement(details.id, WorldRoutes(), HtmlBlockTag::showWorld)
@@ -117,42 +114,6 @@ fun Application.configureWorldRouting() {
         post<WorldRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseWorld)
         }
-    }
-}
-
-private fun HTML.showAllWorlds(
-    call: ApplicationCall,
-    state: State,
-    sort: SortWorld = SortWorld.Name,
-) {
-    val worlds = state.sortWorlds(sort)
-    val createLink = call.application.href(WorldRoutes.New())
-
-    simpleHtml("Worlds") {
-        field("Count", worlds.size)
-        showSortTableLinks(call, SortWorld.entries, WorldRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Title" }
-                th { +"Position" }
-                th { +"Moons" }
-                th { +"Regions" }
-            }
-            worlds.forEach { world ->
-                tr {
-                    tdLink(call, state, world)
-                    tdString(world.title)
-                    td { showPosition(call, state, world.position, false) }
-                    tdSkipZero(state.getMoonsOf(world.id))
-                    tdSkipZero(state.getRegionsIn(world.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

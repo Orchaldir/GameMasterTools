@@ -79,14 +79,14 @@ fun State.countEmployees(town: TownId) = getCharacterStorage()
     .getAll()
     .count { it.checkEmploymentStatus { it.isEmployedAt(town) } }
 
-fun State.countResident(townId: TownId): Int {
+fun State.countResidents(townId: TownId): Int {
     val townMap = getCurrentTownMap(townId)
         ?: return 0
 
-    return countResident(townMap.id)
+    return countResidents(townMap.id)
 }
 
-fun State.countResident(town: TownMapId) = getCharacterStorage()
+fun State.countResidents(town: TownMapId) = getCharacterStorage()
     .getAll()
     .count { isResident(it, town) }
 

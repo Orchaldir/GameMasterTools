@@ -25,7 +25,7 @@ import at.orchaldir.gm.core.model.realm.TOWN_TYPE
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.SortTown
-import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.character.countResidents
 import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.core.selector.world.countBuildings
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap
@@ -96,7 +96,7 @@ fun Application.configureTownRouting() {
                     createIdColumn(call, state, "Map") { state.getCurrentTownMap(it.id)?.id },
                     createSkipZeroColumnForId("Buildings", state::countBuildings),
                     createPopulationColumn(),
-                    createSkipZeroColumnForId("Residents", state::countResident),
+                    createSkipZeroColumnForId("Residents", state::countResidents),
                 ),
             ) {
                 showCreatorCount(call, state, it, "Founders")

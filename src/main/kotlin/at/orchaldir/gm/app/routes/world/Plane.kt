@@ -2,10 +2,12 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
@@ -18,6 +20,7 @@ import at.orchaldir.gm.core.model.world.plane.PLANE_TYPE
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
+import at.orchaldir.gm.core.selector.util.sortMoons
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
 import io.ktor.http.*
@@ -69,11 +72,23 @@ class PlaneRoutes : Routes<PlaneId, SortPlane> {
 fun Application.configurePlaneRouting() {
     routing {
         get<PlaneRoutes.All> { all ->
-            logger.info { "Get all planes" }
+            val state = STORE.getState()
+            val day = state.getCurrentDate()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllPlanes(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                PlaneRoutes(),
+                state.sortPlanes(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Title") { tdString(it.title) },
+                    tdColumn("Purpose") { if (it.purpose is IndependentPlane) {
+                        displayPlaneAlignmentPattern(it.purpose.pattern)
+                    } },
+                    tdColumn("Alignment") { displayPlanePurpose(call, state, it.purpose, false) },
+                    Column("Current") { tdOptionalEnum(state.getPlanarAlignment(it, day)) },
+                    Column("Languages") { tdInlineIds(call, state, it.languages) },
+                ),
+            )
         }
         get<PlaneRoutes.Details> { details ->
             handleShowElement(details.id, PlaneRoutes(), HtmlBlockTag::showPlane)
@@ -110,49 +125,6 @@ fun Application.configurePlaneRouting() {
         post<PlaneRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePlane)
         }
-    }
-}
-
-private fun HTML.showAllPlanes(
-    call: ApplicationCall,
-    state: State,
-    sort: SortPlane,
-) {
-    val day = state.getCurrentDate()
-    val planes = state.sortPlanes(sort)
-    val createLink = call.application.href(PlaneRoutes.New())
-
-    simpleHtml("Planes") {
-        field("Count", planes.size)
-        showSortTableLinks(call, SortPlane.entries, PlaneRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Title" }
-                th { +"Purpose" }
-                th { +"Alignment" }
-                th { +"Current" }
-                th { +"Languages" }
-            }
-            planes.forEach { plane ->
-                tr {
-                    tdLink(call, state, plane)
-                    tdString(plane.title)
-                    td { displayPlanePurpose(call, state, plane.purpose, false) }
-                    td {
-                        if (plane.purpose is IndependentPlane) {
-                            displayPlaneAlignmentPattern(plane.purpose.pattern)
-                        }
-                    }
-                    tdOptionalEnum(state.getPlanarAlignment(plane, day))
-                    tdInlineIds(call, state, plane.languages)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

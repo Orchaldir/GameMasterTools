@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.world.showStreet
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
@@ -18,7 +19,9 @@ import at.orchaldir.gm.core.model.util.SortStreet
 import at.orchaldir.gm.core.model.world.street.STREET_TYPE
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.util.sortRivers
 import at.orchaldir.gm.core.selector.util.sortStreets
+import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -66,11 +69,16 @@ class StreetRoutes : Routes<StreetId, SortStreet> {
 fun Application.configureStreetRouting() {
     routing {
         get<StreetRoutes.All> { all ->
-            logger.info { "Get all traditions" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllStreets(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                StreetRoutes(),
+                state.sortStreets(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Towns") { tdInlineElements(call, state, state.getTowns(it.id)) }
+                ),
+            )
         }
         get<StreetRoutes.Details> { details ->
             handleShowElement(details.id, StreetRoutes(), HtmlBlockTag::showStreet)
@@ -96,24 +104,6 @@ fun Application.configureStreetRouting() {
         post<StreetRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseStreet)
         }
-    }
-}
-
-private fun HTML.showAllStreets(
-    call: ApplicationCall,
-    state: State,
-    sort: SortStreet,
-) {
-    val streets = state.sortStreets(sort)
-    val createLink = call.application.href(StreetRoutes.New())
-
-    simpleHtml("Streets") {
-        field("Count", streets.size)
-        showList(streets) { street ->
-            link(call, state, street)
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

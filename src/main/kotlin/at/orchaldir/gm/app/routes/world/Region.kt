@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editRegion
 import at.orchaldir.gm.app.html.world.parseRegion
@@ -9,6 +10,7 @@ import at.orchaldir.gm.app.html.world.showRegion
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
@@ -19,6 +21,7 @@ import at.orchaldir.gm.core.model.util.SortRegion
 import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.RegionId
+import at.orchaldir.gm.core.selector.util.sortMoons
 import at.orchaldir.gm.core.selector.util.sortRegions
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -74,19 +77,24 @@ class RegionRoutes : Routes<RegionId, SortRegion> {
 fun Application.configureRegionRouting() {
     routing {
         get<RegionRoutes.All> { all ->
-            logger.info { "Get all regions" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllRegions(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                RegionRoutes(),
+                state.sortRegions(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Type") { tdEnum(it.data.getType()) },
+                    createPositionColumn(call, state),
+                    Column("Resources") { tdInlineIds(call, state, it.resources) },
+                ),
+            )
         }
         get<RegionRoutes.Details> { details ->
             handleShowElement(details.id, RegionRoutes(), HtmlBlockTag::showRegion)
         }
         get<RegionRoutes.New> {
-            handleCreateElement(STORE.getState().getRegionStorage()) { id ->
-                RegionRoutes.Edit(id)
-            }
+            handleCreateElement(STORE.getState().getRegionStorage(), RegionRoutes::Edit)
         }
         get<RegionRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, RegionRoutes.All())
@@ -115,40 +123,6 @@ fun Application.configureRegionRouting() {
         post<RegionRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRegion)
         }
-    }
-}
-
-private fun HTML.showAllRegions(
-    call: ApplicationCall,
-    state: State,
-    sort: SortRegion = SortRegion.Name,
-) {
-    val regions = state.sortRegions(sort)
-    val createLink = call.application.href(RegionRoutes.New())
-
-    simpleHtml("Regions") {
-        field("Count", regions.size)
-        showSortTableLinks(call, SortRegion.entries, RegionRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Type" }
-                th { +"Parent" }
-                th { +"Resources" }
-            }
-            regions.forEach { region ->
-                tr {
-                    tdLink(call, state, region)
-                    tdEnum(region.data.getType())
-                    td { showPosition(call, state, region.position) }
-                    tdInlineIds(call, state, region.resources)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

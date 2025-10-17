@@ -55,7 +55,7 @@ import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countCharactersWithJob
-import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.character.countResidents
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
@@ -884,7 +884,7 @@ fun State.sortTowns(
             SortTown.Date -> getStartDateComparator()
             SortTown.Population -> compareByDescending { it.population.getTotalPopulation() }
             SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
-            SortTown.Residents -> compareByDescending { countResident(it.id) }
+            SortTown.Residents -> compareByDescending { countResidents(it.id) }
         })
 
 // town map

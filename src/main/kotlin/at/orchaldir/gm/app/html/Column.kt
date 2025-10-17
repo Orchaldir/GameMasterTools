@@ -113,7 +113,7 @@ fun <ELEMENT : HasPosition> createPositionColumn(
     call: ApplicationCall,
     state: State,
     label: String = "Position",
-) = tdColumn<ELEMENT>("Position") { showPosition(call, state, it.position()) }
+) = tdColumn<ELEMENT>(label) { showPosition(call, state, it.position(), false) }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
     call: ApplicationCall,

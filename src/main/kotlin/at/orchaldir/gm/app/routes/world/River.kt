@@ -5,20 +5,15 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.world.editRiver
 import at.orchaldir.gm.app.html.world.parseRiver
 import at.orchaldir.gm.app.html.world.showRiver
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortRiver
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.selector.util.sortRivers
+import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -66,11 +61,16 @@ class RiverRoutes : Routes<RiverId, SortRiver> {
 fun Application.configureRiverRouting() {
     routing {
         get<RiverRoutes.All> { all ->
-            logger.info { "Get all rivers" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllRivers(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                RiverRoutes(),
+                state.sortRivers(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Towns") { tdInlineElements(call, state, state.getTowns(it.id)) }
+                ),
+            )
         }
         get<RiverRoutes.Details> { details ->
             handleShowElement(details.id, RiverRoutes(), HtmlBlockTag::showRiver)
@@ -96,24 +96,6 @@ fun Application.configureRiverRouting() {
         post<RiverRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRiver)
         }
-    }
-}
-
-private fun HTML.showAllRivers(
-    call: ApplicationCall,
-    state: State,
-    sort: SortRiver,
-) {
-    val rivers = state.sortRivers(sort)
-    val createLink = call.application.href(RiverRoutes.New())
-
-    simpleHtml("Rivers") {
-        field("Count", rivers.size)
-        showList(rivers) { nameList ->
-            link(call, nameList)
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 
