@@ -5,20 +5,15 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editFashion
 import at.orchaldir.gm.app.html.culture.parseFashion
 import at.orchaldir.gm.app.html.culture.showFashion
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.util.SortFashion
-import at.orchaldir.gm.core.model.util.SortMagicTradition
+import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.util.sortFashions
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -70,11 +65,16 @@ class FashionRoutes : Routes<FashionId, SortFashion> {
 fun Application.configureFashionRouting() {
     routing {
         get<FashionRoutes.All> { all ->
-            logger.info { "Get all fashions" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllFashions(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                FashionRoutes(),
+                state.sortFashions(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Cultures") { tdInlineElements(call, state, state.getCultures(it.id)) },
+                ),
+            )
         }
         get<FashionRoutes.Details> { details ->
             handleShowElement(details.id, FashionRoutes(), HtmlBlockTag::showFashion)
@@ -110,24 +110,6 @@ fun Application.configureFashionRouting() {
         post<FashionRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseFashion)
         }
-    }
-}
-
-private fun HTML.showAllFashions(
-    call: ApplicationCall,
-    state: State,
-    sort: SortFashion,
-) {
-    val fashion = state.sortFashions(sort)
-    val createLink = call.application.href(FashionRoutes.New())
-
-    simpleHtml("Fashions") {
-        field("Count", fashion.size)
-        showList(fashion) { fashion ->
-            link(call, fashion)
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

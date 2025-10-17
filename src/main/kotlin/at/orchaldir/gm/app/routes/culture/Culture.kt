@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.culture
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.culture.editCulture
 import at.orchaldir.gm.app.html.culture.parseCulture
 import at.orchaldir.gm.app.html.culture.showCulture
@@ -9,6 +10,7 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
+import at.orchaldir.gm.app.routes.world.MoonRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
@@ -18,6 +20,7 @@ import at.orchaldir.gm.core.model.util.SortCulture
 import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.util.sortCultures
+import at.orchaldir.gm.core.selector.util.sortMoons
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -75,11 +78,20 @@ class CultureRoutes : Routes<CultureId, SortCulture> {
 fun Application.configureCultureRouting() {
     routing {
         get<CultureRoutes.All> { all ->
-            logger.info { "Get all cultures" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCultures(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                CultureRoutes(),
+                state.sortCultures(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Calendar") { tdLink(call, state, it.calendar) },
+                    Column("Languages") { tdInlineIds(call, state, it.languages.getValuesFor(Rarity.Everyone)) },
+                    Column(listOf("Naming", "Convention")) { tdEnum(it.namingConvention.getType()) },
+                    createSkipZeroColumnFromCollection("Holidays") { it.holidays },
+                    createSkipZeroColumnFromCollection("Characters") { state.getCharacters(it.id) },
+                ),
+            )
         }
         get<CultureRoutes.Details> { details ->
             handleShowElement(details.id, CultureRoutes(), HtmlBlockTag::showCulture)
@@ -121,44 +133,6 @@ fun Application.configureCultureRouting() {
         post<CultureRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCulture)
         }
-    }
-}
-
-private fun HTML.showAllCultures(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCulture,
-) {
-    val cultures = state.sortCultures(sort)
-    val count = cultures.size
-    val createLink = call.application.href(CultureRoutes.New())
-
-    simpleHtml("Cultures") {
-        field("Count", count)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Calendar" }
-                th { +"Languages" }
-                thMultiLines(listOf("Naming", "Convention"))
-                th { +"Holidays" }
-                th { +"Characters" }
-            }
-            cultures.forEach { culture ->
-                tr {
-                    tdLink(call, state, culture.id)
-                    tdLink(call, state, culture.calendar)
-                    tdInlineIds(call, state, culture.languages.getValuesFor(Rarity.Everyone))
-                    tdEnum(culture.namingConvention.getType())
-                    tdSkipZero(culture.holidays)
-                    tdSkipZero(state.getCharacters(culture.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

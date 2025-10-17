@@ -5,20 +5,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editLanguage
 import at.orchaldir.gm.app.html.culture.parseLanguage
 import at.orchaldir.gm.app.html.culture.showLanguage
-import at.orchaldir.gm.app.html.util.showOrigin
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.SortLanguage
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.culture.countChildren
 import at.orchaldir.gm.core.selector.culture.countCultures
@@ -34,7 +27,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -75,11 +69,23 @@ class LanguageRoutes : Routes<LanguageId, SortLanguage> {
 fun Application.configureLanguageRouting() {
     routing {
         get<LanguageRoutes.All> { all ->
-            logger.info { "Get all languages" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllLanguages(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                LanguageRoutes(),
+                state.sortLanguages(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Title") { tdString(it.title) },
+                    createOriginColumn(call, state, ::LanguageId),
+                    createSkipZeroColumnForId("Characters", state::countCharacters),
+                    createSkipZeroColumnForId("Cultures", state::countCultures),
+                    createSkipZeroColumnForId("Languages", state::countChildren),
+                    createSkipZeroColumnForId("Spells", state::countSpells),
+                    createSkipZeroColumnForId("Periodicals", state::countPeriodicals),
+                    createSkipZeroColumnForId("Texts", state::countTexts),
+                ),
+            )
         }
         get<LanguageRoutes.Details> { details ->
             handleShowElement(details.id, LanguageRoutes(), HtmlBlockTag::showLanguage)
@@ -115,50 +121,6 @@ fun Application.configureLanguageRouting() {
         post<LanguageRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseLanguage)
         }
-    }
-}
-
-private fun HTML.showAllLanguages(
-    call: ApplicationCall,
-    state: State,
-    sort: SortLanguage = SortLanguage.Name,
-) {
-    val languages = state.sortLanguages(sort)
-    val createLink = call.application.href(LanguageRoutes.New())
-
-    simpleHtml("Languages") {
-        field("Count", languages.size)
-        showSortTableLinks(call, SortLanguage.entries, LanguageRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Title" }
-                th { +"Origin" }
-                th { +"Characters" }
-                th { +"Cultures" }
-                th { +"Languages" }
-                th { +"Spells" }
-                th { +"Periodicals" }
-                th { +"Texts" }
-            }
-            languages.forEach { language ->
-                tr {
-                    tdLink(call, state, language)
-                    tdString(language.title)
-                    td { showOrigin(call, state, language.origin, ::LanguageId) }
-                    tdSkipZero(state.countCharacters(language.id))
-                    tdSkipZero(state.countCultures(language.id))
-                    tdSkipZero(state.countChildren(language.id))
-                    tdSkipZero(state.countSpells(language.id))
-                    tdSkipZero(state.countPeriodicals(language.id))
-                    tdSkipZero(state.countTexts(language.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 
