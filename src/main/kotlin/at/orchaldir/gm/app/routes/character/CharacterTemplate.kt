@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.item.ArticleRoutes
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
@@ -16,6 +17,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
 import at.orchaldir.gm.core.model.util.SortMagicTradition
+import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -75,11 +77,20 @@ class CharacterTemplateRoutes : Routes<CharacterTemplateId, SortCharacterTemplat
 fun Application.configureCharacterTemplateRouting() {
     routing {
         get<CharacterTemplateRoutes.All> { all ->
-            logger.info { "Get all templates" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacterTemplates(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                CharacterTemplateRoutes(),
+                state.sortCharacterTemplates(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Race") { tdLink(call, state, it.race) },
+                    Column("Culture") { tdLink(call, state, it.culture) },
+                    createBeliefColumn(call,state),
+                    Column("Uniform") { tdLink(call, state, it.uniform) },
+                    createSkipZeroColumn("Cost") { it.statblock.calculateCost(state) },
+                ),
+            )
         }
         get<CharacterTemplateRoutes.Details> { details ->
             handleShowElement(details.id, CharacterTemplateRoutes(), HtmlBlockTag::showCharacterTemplate)
@@ -121,45 +132,6 @@ fun Application.configureCharacterTemplateRouting() {
         post<CharacterTemplateRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCharacterTemplate)
         }
-    }
-}
-
-
-private fun HTML.showAllCharacterTemplates(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCharacterTemplate,
-) {
-    val templates = state.sortCharacterTemplates(sort)
-    val createLink = call.application.href(CharacterTemplateRoutes.New())
-
-    simpleHtml("Character Templates") {
-        field("Count", templates.size)
-        showSortTableLinks(call, SortCharacterTemplate.entries, CharacterTemplateRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Race" }
-                th { +"Culture" }
-                th { +"Belief" }
-                th { +"Uniform" }
-                th { +"Cost" }
-            }
-            templates.forEach { template ->
-                tr {
-                    tdLink(call, state, template)
-                    tdLink(call, state, template.race)
-                    tdLink(call, state, template.culture)
-                    td { showBeliefStatus(call, state, template.belief, false) }
-                    tdLink(call, state, template.uniform)
-                    tdInt(template.statblock.calculateCost(state))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

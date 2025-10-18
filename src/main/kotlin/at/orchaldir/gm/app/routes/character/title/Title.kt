@@ -8,8 +8,10 @@ import at.orchaldir.gm.app.html.character.title.showTitle
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.item.ArticleRoutes
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
@@ -19,6 +21,7 @@ import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortTitle
 import at.orchaldir.gm.core.selector.character.countCharacters
+import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortTitles
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -73,11 +76,21 @@ class TitleRoutes : Routes<TitleId,SortTitle> {
 fun Application.configureTitleRouting() {
     routing {
         get<TitleRoutes.All> { all ->
-            logger.info { "Get all title" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllTitles(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                TitleRoutes(),
+                state.sortTitles(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Text") { tdInline(it.text.getValues()) { text ->
+                        text.text
+                    } },
+                    Column("Position") { tdEnum(it.position) },
+                    Column("Separator") { tdChar(it.separator) },
+                    createSkipZeroColumnForId("Characters", state::countCharacters),
+                ),
+            )
         }
         get<TitleRoutes.Details> { details ->
             handleShowElement(details.id, TitleRoutes(), HtmlBlockTag::showTitle)
@@ -113,42 +126,6 @@ fun Application.configureTitleRouting() {
         post<TitleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseTitle)
         }
-    }
-}
-
-private fun HTML.showAllTitles(
-    call: ApplicationCall,
-    state: State,
-    sort: SortTitle,
-) {
-    val titles = state.sortTitles(sort)
-    val createLink = call.application.href(TitleRoutes.New())
-
-    simpleHtml("Titles") {
-        field("Count", titles.size)
-        showSortTableLinks(call, SortTitle.entries, TitleRoutes())
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Text" }
-                th { +"Position" }
-                th { +"Separator" }
-                th { +"Characters" }
-            }
-            titles.forEach { title ->
-                tr {
-                    tdLink(call, state, title)
-                    tdInline(title.text.getValues()) { text ->
-                        text.text
-                    }
-                    tdEnum(title.position)
-                    tdChar(title.separator)
-                    tdSkipZero(state.countCharacters(title.id))
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

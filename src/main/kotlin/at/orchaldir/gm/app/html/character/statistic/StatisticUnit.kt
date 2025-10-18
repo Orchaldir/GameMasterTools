@@ -5,6 +5,8 @@ import at.orchaldir.gm.app.UNIT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.core.model.character.statistic.DerivedAttribute
+import at.orchaldir.gm.core.model.character.statistic.StatisticData
 import at.orchaldir.gm.core.model.character.statistic.StatisticUnit
 import at.orchaldir.gm.core.model.character.statistic.StatisticUnitType
 import at.orchaldir.gm.core.model.character.statistic.SuffixedStatisticUnit
@@ -21,6 +23,15 @@ fun HtmlBlockTag.fieldStatisticUnit(
 ) {
     field("Unit") {
         displayStatisticUnit(unit)
+    }
+}
+
+fun HtmlBlockTag.displayStatisticUnit(
+    data: StatisticData,
+    showUnitless: Boolean = true,
+) {
+    if (data is DerivedAttribute) {
+        displayStatisticUnit(data.unit, showUnitless)
     }
 }
 

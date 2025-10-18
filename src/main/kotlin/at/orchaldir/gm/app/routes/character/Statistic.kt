@@ -2,12 +2,15 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.character.statistic.*
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.item.ArticleRoutes
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
@@ -17,6 +20,7 @@ import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortStatistic
+import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -72,11 +76,20 @@ class StatisticRoutes : Routes<StatisticId, SortStatistic> {
 fun Application.configureStatisticRouting() {
     routing {
         get<StatisticRoutes.All> { all ->
-            logger.info { "Get all statistics" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllStatistics(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                StatisticRoutes(),
+                state.sortStatistics(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Short") { tdString(it.short) },
+                    Column("Type") { tdEnum(it.data.getType()) },
+                    tdColumn("Base Value") { displayBaseValue(call, state, it.data.baseValue()) },
+                    tdColumn("Cost") { displayStatisticCost(it.data.cost(), false) },
+                    tdColumn("Unit") { displayStatisticUnit(it.data, false) },
+                ),
+            )
         }
         get<StatisticRoutes.Details> { details ->
             handleShowElement(details.id, StatisticRoutes(), HtmlBlockTag::showStatistic)
@@ -113,48 +126,6 @@ fun Application.configureStatisticRouting() {
         post<StatisticRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseStatistic)
         }
-    }
-}
-
-private fun HTML.showAllStatistics(
-    call: ApplicationCall,
-    state: State,
-    sort: SortStatistic,
-) {
-    val statistics = state.sortStatistics(sort)
-    val createLink = call.application.href(StatisticRoutes.New())
-
-    simpleHtml("Statistics") {
-        field("Count", statistics.size)
-        showSortTableLinks(call, SortStatistic.entries, StatisticRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Short" }
-                th { +"Type" }
-                th { +"Base Value" }
-                th { +"Cost" }
-                th { +"Unit" }
-            }
-            statistics.forEach { statistic ->
-                tr {
-                    tdLink(call, state, statistic)
-                    tdString(statistic.short)
-                    tdEnum(statistic.data.getType())
-                    td { displayBaseValue(call, state, statistic.data.baseValue()) }
-                    td { displayStatisticCost(statistic.data.cost(), false) }
-                    td {
-                        if (statistic.data is DerivedAttribute) {
-                            displayStatisticUnit(statistic.data.unit, false)
-                        }
-                    }
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

@@ -8,8 +8,10 @@ import at.orchaldir.gm.app.html.character.showPersonalityTrait
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.item.ArticleRoutes
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
@@ -22,6 +24,7 @@ import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.character.getPersonalityTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
+import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortPersonalityTraits
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -68,10 +71,25 @@ class PersonalityTraitRoutes : Routes<PersonalityTraitId, SortPersonalityTrait> 
 fun Application.configurePersonalityRouting() {
     routing {
         get<PersonalityTraitRoutes.All> { all ->
-            logger.info { "Get all personality traits" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllPersonalityTraits(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                PersonalityTraitRoutes(),
+                state.sortPersonalityTraits(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createSkipZeroColumnFromCollection("Characters") { state.getCharacters(it.id) },
+                    createSkipZeroColumnFromCollection("Gods") { state.getGodsWith(it.id) },
+                ),
+            ) {
+                fieldList("By Group", state.getPersonalityTraitGroups()) { group ->
+                    state.getPersonalityTraits(group).forEach { trait ->
+                        +" "
+                        link(call, state, trait)
+                    }
+                }
+
+                fieldElements(call, state, "Without Group", it.filter { it.group == null })
             }
         }
         get<PersonalityTraitRoutes.Details> { details ->
@@ -98,46 +116,6 @@ fun Application.configurePersonalityRouting() {
         post<PersonalityTraitRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePersonalityTrait)
         }
-    }
-}
-
-private fun HTML.showAllPersonalityTraits(
-    call: ApplicationCall,
-    state: State,
-    sort: SortPersonalityTrait,
-) {
-    val personalityTraits = state.sortPersonalityTraits(sort)
-    val createLink = call.application.href(PersonalityTraitRoutes.New())
-
-    simpleHtml("Personality Traits") {
-        field("Count", personalityTraits.size)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Characters" }
-                th { +"Gods" }
-            }
-            personalityTraits.forEach { trait ->
-                tr {
-                    tdLink(call, state, trait)
-                    tdSkipZero(state.getCharacters(trait.id))
-                    tdSkipZero(state.getGodsWith(trait.id))
-                }
-            }
-        }
-
-        fieldList("By Group", state.getPersonalityTraitGroups()) { group ->
-            state.getPersonalityTraits(group).forEach { trait ->
-                +" "
-                link(call, state, trait)
-            }
-        }
-
-        fieldElements(call, state, "Without Group", personalityTraits.filter { it.group == null })
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 
