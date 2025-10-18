@@ -1,8 +1,8 @@
-package at.orchaldir.gm.core.model.rpg.statistic
+package at.orchaldir.gm.core.model.rpg
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

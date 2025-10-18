@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.rpg.Statblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
-import at.orchaldir.gm.core.model.rpg.statistic.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
 import at.orchaldir.gm.utils.Id

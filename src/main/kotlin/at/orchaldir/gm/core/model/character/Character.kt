@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.rpg.statistic.CharacterStatblock
-import at.orchaldir.gm.core.model.rpg.statistic.UndefinedCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.CharacterStatblock
+import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.character.title.AbstractTitle
 import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.character.title.TitleId
