@@ -55,6 +55,9 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
+import at.orchaldir.gm.core.model.rpg.DAMAGE_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.DamageType
+import at.orchaldir.gm.core.model.rpg.DamageTypeId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -117,6 +120,7 @@ val ELEMENTS =
         CULTURE_TYPE,
         CURRENCY_TYPE,
         CURRENCY_UNIT_TYPE,
+        DAMAGE_TYPE_TYPE,
         DATA_SOURCE_TYPE,
         DISEASE_TYPE,
         DISTRICT_TYPE,
@@ -194,6 +198,7 @@ data class State(
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
     fun getCurrencyStorage() = getStorage<CurrencyId, Currency>(CURRENCY_TYPE)
     fun getCurrencyUnitStorage() = getStorage<CurrencyUnitId, CurrencyUnit>(CURRENCY_UNIT_TYPE)
+    fun getDamageTypeStorage() = getStorage<DamageTypeId, DamageType>(DAMAGE_TYPE_TYPE)
     fun getDataSourceStorage() = getStorage<DataSourceId, DataSource>(DATA_SOURCE_TYPE)
     fun getDiseaseStorage() = getStorage<DiseaseId, Disease>(DISEASE_TYPE)
     fun getDistrictStorage() = getStorage<DistrictId, District>(DISTRICT_TYPE)
@@ -344,6 +349,7 @@ data class State(
         saveStorage(path, getCultureStorage())
         saveStorage(path, getCurrencyStorage())
         saveStorage(path, getCurrencyUnitStorage())
+        saveStorage(path, getDamageTypeStorage())
         saveStorage(path, getDataSourceStorage())
         saveStorage(path, getDiseaseStorage())
         saveStorage(path, getDistrictStorage())
@@ -403,6 +409,7 @@ fun createStorage(type: String) = when (type) {
     CULTURE_TYPE -> Storage(CultureId(0))
     CURRENCY_TYPE -> Storage(CurrencyId(0))
     CURRENCY_UNIT_TYPE -> Storage(CurrencyUnitId(0))
+    DAMAGE_TYPE_TYPE -> Storage(DamageTypeId(0))
     DATA_SOURCE_TYPE -> Storage(DataSourceId(0))
     DISEASE_TYPE -> Storage(DiseaseId(0))
     DISTRICT_TYPE -> Storage(DistrictId(0))
@@ -461,6 +468,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))
     CURRENCY_TYPE -> loadStorage<CurrencyId, Currency>(path, CurrencyId(0))
     CURRENCY_UNIT_TYPE -> loadStorage<CurrencyUnitId, CurrencyUnit>(path, CurrencyUnitId(0))
+    DAMAGE_TYPE_TYPE -> loadStorage<DamageTypeId, DamageType>(path, DamageTypeId(0))
     DATA_SOURCE_TYPE -> loadStorage<DataSourceId, DataSource>(path, DataSourceId(0))
     DISEASE_TYPE -> loadStorage<DiseaseId, Disease>(path, DiseaseId(0))
     DISTRICT_TYPE -> loadStorage<DistrictId, District>(path, DistrictId(0))

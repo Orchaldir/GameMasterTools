@@ -32,6 +32,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
+import at.orchaldir.gm.core.model.rpg.DamageType
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.util.font.Font
@@ -75,6 +76,7 @@ fun reduceUpdateElement(
     is Culture -> updateCulture(state, element)
     is Currency -> updateElement(state, element)
     is CurrencyUnit -> updateElement(state, element)
+    is DamageType -> updateElement(state, element)
     is DataSource -> updateElement(state, element)
     is Disease -> updateElement(state, element)
     is District -> updateElement(state, element)

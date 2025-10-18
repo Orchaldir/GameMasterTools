@@ -33,6 +33,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.core.model.rpg.DamageTypeId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.font.FontId
@@ -77,6 +78,7 @@ import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
+import at.orchaldir.gm.core.selector.rpg.canDeleteDamageType
 import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
@@ -103,6 +105,7 @@ fun reduceDeleteElement(
     is CultureId -> deleteElement(state, id, State::canDeleteCulture)
     is CurrencyId -> deleteElement(state, id, State::canDeleteCurrency)
     is CurrencyUnitId -> deleteElement(state, id, State::canDeleteCurrencyUnit)
+    is DamageTypeId -> deleteElement(state, id, State::canDeleteDamageType)
     is DataSourceId -> deleteElement(state, id, State::canDeleteDataSource)
     is DiseaseId -> deleteElement(state, id, State::canDeleteDisease)
     is DistrictId -> deleteElement(state, id, State::canDeleteDistrict)

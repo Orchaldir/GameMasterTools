@@ -41,6 +41,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
+import at.orchaldir.gm.core.model.rpg.DamageType
+import at.orchaldir.gm.core.model.rpg.DamageTypeId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.Holiday
@@ -98,6 +100,7 @@ fun reduceCreateElement(
     is CultureId -> createElement(state, Culture(id))
     is CurrencyId -> createElement(state, Currency(id))
     is CurrencyUnitId -> createElement(state, CurrencyUnit(id))
+    is DamageTypeId -> createElement(state, DamageType(id))
     is DataSourceId -> createElement(state, DataSource(id))
     is DiseaseId -> createElement(state, Disease(id))
     is DistrictId -> createElement(state, District(id))
