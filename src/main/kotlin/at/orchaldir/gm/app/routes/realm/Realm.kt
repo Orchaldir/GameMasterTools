@@ -81,7 +81,7 @@ fun Application.configureRealmRouting() {
                     createIdColumn(call, state, "Currency") { it.currency.current },
                     createIdColumn(call, state, "Legal Code") { it.legalCode.current },
                     createPopulationColumn(),
-                    createSkipZeroColumnForId("Towns", state::countOwnedTowns),
+                    countColumnForId("Towns", state::countOwnedTowns),
                 ),
             ) {
                 showCreatorCount(call, state, it, "Founders")

@@ -72,7 +72,7 @@ fun Application.configurePeriodicalIssueRouting() {
                 listOf(
                     tdColumn("Date") { link(call, it.id, it.dateAsName(state)) },
                     Column("Periodical") { tdLink(call, state, it.periodical) },
-                    createSkipZeroColumnFromCollection("Articles") { it.articles }
+                    countCollectionColumn("Articles") { it.articles }
                 ),
             )
         }

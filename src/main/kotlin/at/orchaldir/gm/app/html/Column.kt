@@ -77,9 +77,9 @@ private fun <T> createDateColumn(
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createDestroyedColumns(
     state: State,
 ): List<Column<ELEMENT>> = listOf(
-    createSkipZeroColumnForId(listOf("Destroyed", "Realms"), state::countDestroyedRealms),
-    createSkipZeroColumnForId(listOf("Destroyed", "Towns"), state::countDestroyedTowns),
-    createSkipZeroColumnForId(listOf("Killed", "Characters"), state::countKilledCharacters),
+    countColumnForId(listOf("Destroyed", "Realms"), state::countDestroyedRealms),
+    countColumnForId(listOf("Destroyed", "Towns"), state::countDestroyedTowns),
+    countColumnForId(listOf("Killed", "Characters"), state::countKilledCharacters),
 )
 
 fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>> createIdColumn(
@@ -121,22 +121,22 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
     get: (ELEMENT) -> Reference,
 ): Column<ELEMENT> = tdColumn(label) { showReference(call, state, get(it), false) }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumn(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> countColumn(
     label: String,
     convert: (ELEMENT) -> Int?,
 ): Column<ELEMENT> = Column(label) { tdSkipZero(convert(it)) }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>, T> createSkipZeroColumnFromCollection(
+fun <ID : Id<ID>, ELEMENT : Element<ID>, T> countCollectionColumn(
     label: String,
     convert: (ELEMENT) -> Collection<T>,
 ): Column<ELEMENT> = Column(label) { tdSkipZero(convert(it)) }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumnForId(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> countColumnForId(
     label: String,
     convert: (ID) -> Int?,
 ): Column<ELEMENT> = Column(label) { tdSkipZero(convert(it.id())) }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumnForId(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> countColumnForId(
     label: List<String>,
     convert: (ID) -> Int?,
 ): Column<ELEMENT> = Column(label) { tdSkipZero(convert(it.id())) }

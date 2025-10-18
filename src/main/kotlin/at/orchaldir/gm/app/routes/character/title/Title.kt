@@ -78,7 +78,7 @@ fun Application.configureTitleRouting() {
                     },
                     Column("Position") { tdEnum(it.position) },
                     Column("Separator") { tdChar(it.separator) },
-                    createSkipZeroColumnForId("Characters", state::countCharacters),
+                    countColumnForId("Characters", state::countCharacters),
                 ),
             )
         }

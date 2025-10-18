@@ -72,7 +72,7 @@ fun Application.configureMagicTraditionRouting() {
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
-                    createSkipZeroColumnFromCollection("Groups", MagicTradition::groups),
+                    countCollectionColumn("Groups", MagicTradition::groups),
                 ),
             )
         }

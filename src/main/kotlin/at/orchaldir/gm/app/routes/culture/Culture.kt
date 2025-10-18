@@ -79,8 +79,8 @@ fun Application.configureCultureRouting() {
                     Column("Calendar") { tdLink(call, state, it.calendar) },
                     Column("Languages") { tdInlineIds(call, state, it.languages.getValuesFor(Rarity.Everyone)) },
                     Column(listOf("Naming", "Convention")) { tdEnum(it.namingConvention.getType()) },
-                    createSkipZeroColumnFromCollection("Holidays") { it.holidays },
-                    createSkipZeroColumnFromCollection("Characters") { state.getCharacters(it.id) },
+                    countCollectionColumn("Holidays") { it.holidays },
+                    countCollectionColumn("Characters") { state.getCharacters(it.id) },
                 ),
             )
         }

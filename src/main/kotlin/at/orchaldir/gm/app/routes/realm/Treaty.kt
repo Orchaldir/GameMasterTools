@@ -71,7 +71,7 @@ fun Application.configureTreatyRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
-                    createSkipZeroColumnFromCollection("Participants", Treaty::participants)
+                    countCollectionColumn("Participants", Treaty::participants)
                 ),
             )
         }

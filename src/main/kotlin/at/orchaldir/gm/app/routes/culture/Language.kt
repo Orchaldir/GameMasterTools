@@ -78,12 +78,12 @@ fun Application.configureLanguageRouting() {
                     createNameColumn(call, state),
                     Column("Title") { tdString(it.title) },
                     createOriginColumn(call, state, ::LanguageId),
-                    createSkipZeroColumnForId("Characters", state::countCharacters),
-                    createSkipZeroColumnForId("Cultures", state::countCultures),
-                    createSkipZeroColumnForId("Languages", state::countChildren),
-                    createSkipZeroColumnForId("Spells", state::countSpells),
-                    createSkipZeroColumnForId("Periodicals", state::countPeriodicals),
-                    createSkipZeroColumnForId("Texts", state::countTexts),
+                    countColumnForId("Characters", state::countCharacters),
+                    countColumnForId("Cultures", state::countCultures),
+                    countColumnForId("Languages", state::countChildren),
+                    countColumnForId("Spells", state::countSpells),
+                    countColumnForId("Periodicals", state::countPeriodicals),
+                    countColumnForId("Texts", state::countTexts),
                 ),
             )
         }

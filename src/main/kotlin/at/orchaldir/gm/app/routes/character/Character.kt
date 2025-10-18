@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.item.getEquipment
@@ -40,7 +39,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.del
 import mu.KotlinLogging
 import kotlin.random.Random
 
@@ -55,23 +53,13 @@ fun Application.configureCharacterRouting() {
                 CharacterRoutes(),
                 state.sortCharacters(all.sort),
                 listOf(
-                    tdColumn("Name") {
-                        val name = it.nameForSorting(state)
-
-                        if (it.vitalStatus is Dead) {
-                            del {
-                                link(call, it, name)
-                            }
-                        } else {
-                            link(call, it, name)
-                        }
-                    },
+                    tdColumn("Name") { showNameWithVitalStatus(call, state, it) },
                     Column("Title") { tdLink(call, state, it.title) },
                     Column("Race") { tdLink(call, state, it.race) },
                     Column("Gender") { tdEnum(it.gender) },
-                    tdColumn("Sexuality") {
+                    Column("Sexuality") {
                         if (it.sexuality != SexualOrientation.Heterosexual) {
-                            +it.sexuality.toString()
+                            tdEnum(it.sexuality)
                         }
                     },
                     Column("Culture") { tdLink(call, state, it.culture) },
@@ -90,8 +78,8 @@ fun Application.configureCharacterRouting() {
                             false
                         )
                     },
-                    createSkipZeroColumnFromCollection("Organizations") { state.getOrganizations(it.id) },
-                    createSkipZeroColumn("Cost") { it.statblock.calculateCost(state) },
+                    countCollectionColumn("Organizations") { state.getOrganizations(it.id) },
+                    countColumn("Cost") { it.statblock.calculateCost(state) },
                 ),
             ) {
                 showCauseOfDeath(it)

@@ -54,8 +54,8 @@ fun Application.configureTownMapRouting() {
                     createNameColumn(call, state),
                     Column("Town") { tdLink(call, state, it.town) },
                     createStartDateColumn(call, state),
-                    createSkipZeroColumnForId("Buildings", state::countBuildingsIn),
-                    createSkipZeroColumnForId("Resident", state::countResidents),
+                    countColumnForId("Buildings", state::countBuildingsIn),
+                    countColumnForId("Resident", state::countResidents),
                 ),
             )
         }

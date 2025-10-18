@@ -73,7 +73,7 @@ fun Application.configureCurrencyRouting() {
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
                     createEndDateColumn(call, state),
-                    createSkipZeroColumnForId("Realms", state::countRealmsWithCurrencyAtAnyTime)
+                    countColumnForId("Realms", state::countRealmsWithCurrencyAtAnyTime)
                 ),
             )
         }

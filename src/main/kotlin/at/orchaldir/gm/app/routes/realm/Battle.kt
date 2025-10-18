@@ -71,7 +71,7 @@ fun Application.configureBattleRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
-                    createSkipZeroColumnFromCollection("Participants", Battle::participants)
+                    countCollectionColumn("Participants", Battle::participants)
                 ) + createDestroyedColumns(state),
             )
         }

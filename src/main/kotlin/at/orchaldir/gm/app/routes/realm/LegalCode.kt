@@ -73,7 +73,7 @@ fun Application.configureLegalCodeRouting() {
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
                     createCreatorColumn(call, state),
-                    createSkipZeroColumnForId("Population", state::countRealmsWithLegalCodeAtAnyTime),
+                    countColumnForId("Population", state::countRealmsWithLegalCodeAtAnyTime),
                 ),
             ) {
                 showCreatorCount(call, state, it, "Creators")

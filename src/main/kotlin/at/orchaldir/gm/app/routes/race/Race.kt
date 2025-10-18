@@ -96,12 +96,12 @@ fun Application.configureRaceRouting() {
                     createStartDateColumn(call, state),
                     createOriginColumn(call, state, ::RaceId),
                     tdColumn("Gender") { +it.genders.getValidValues().joinToString() },
-                    createSkipZeroColumn("Max Age") { it.lifeStages.getMaxAge() },
+                    countColumn("Max Age") { it.lifeStages.getMaxAge() },
                     Column("Avg Height") { td(it.height.center) },
                     Column("Avg Weight") { td(it.weight) },
                     createIdColumn(call, state, "Appearance") { it.lifeStages.getRaceAppearance() },
-                    createSkipZeroColumnForId("Population", state::getTotalPopulation),
-                    createSkipZeroColumnForId("Characters", state::countCharacters),
+                    countColumnForId("Population", state::getTotalPopulation),
+                    countColumnForId("Characters", state::countCharacters),
                 ),
             )
         }

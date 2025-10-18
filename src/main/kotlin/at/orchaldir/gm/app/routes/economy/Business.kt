@@ -75,7 +75,7 @@ fun Application.configureBusinessRouting() {
                     createCreatorColumn(call, state, "Founder"),
                     createOwnerColumn(call, state),
                     createPositionColumn(call, state),
-                    createSkipZeroColumnFromCollection("Employees") { state.getEmployees(it.id) }
+                    countCollectionColumn("Employees") { state.getEmployees(it.id) }
                 ),
             ) {
                 showBusinessOwnershipCount(call, state, it)

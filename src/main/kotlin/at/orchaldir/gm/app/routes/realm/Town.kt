@@ -81,9 +81,9 @@ fun Application.configureTownRouting() {
                     createVitalColumn(call, state),
                     createIdColumn(call, state, "Owner") { it.owner.current },
                     createIdColumn(call, state, "Map") { state.getCurrentTownMap(it.id)?.id },
-                    createSkipZeroColumnForId("Buildings", state::countBuildings),
+                    countColumnForId("Buildings", state::countBuildings),
                     createPopulationColumn(),
-                    createSkipZeroColumnForId("Residents", state::countResidents),
+                    countColumnForId("Residents", state::countResidents),
                 ),
             ) {
                 showCreatorCount(call, state, it, "Founders")

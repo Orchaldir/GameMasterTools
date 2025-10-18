@@ -75,10 +75,10 @@ fun Application.configureJobRouting() {
                 state.sortJobs(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    tdColumn(listOf("Employer", "Type")) {
+                    Column(listOf("Employer", "Type")) {
                         when (it.employerType) {
                             EmployerType.Business -> doNothing()
-                            else -> +it.employerType.name
+                            else -> tdEnum(it.employerType)
                         }
                     },
                     tdColumn(listOf("Yearly", "Income")) {
@@ -90,9 +90,9 @@ fun Application.configureJobRouting() {
                     },
                     Column("Gender") { tdOptionalEnum(it.preferredGender) },
                     Column("Uniforms") { tdInlineIds(call, state, it.uniforms.getValues().filterNotNull()) },
-                    createSkipZeroColumnForId("Characters", state::countCharactersWithCurrentOrFormerJob),
-                    createSkipZeroColumnForId("Domains", state::countDomains),
-                    createSkipZeroColumn("Spells") { it.spells.getRarityMap().size },
+                    countColumnForId("Characters", state::countCharactersWithCurrentOrFormerJob),
+                    countColumnForId("Domains", state::countDomains),
+                    countColumn("Spells") { it.spells.getRarityMap().size },
                 ),
             )
         }

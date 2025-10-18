@@ -75,7 +75,7 @@ fun Application.configurePeriodicalRouting() {
                     createOwnerColumn(call, state),
                     Column("Language") { tdLink(call, state, it.language) },
                     Column("Frequency") { tdEnum(it.frequency) },
-                    createSkipZeroColumnForId("Issues", state::countPeriodicalIssues),
+                    countColumnForId("Issues", state::countPeriodicalIssues),
                 ),
             ) {
                 showPeriodicalOwnershipCount(call, state, it)

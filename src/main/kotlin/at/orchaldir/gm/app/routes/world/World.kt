@@ -74,8 +74,8 @@ fun Application.configureWorldRouting() {
                     createNameColumn(call, state),
                     Column("Title") { tdString(it.title) },
                     createPositionColumn(call, state),
-                    createSkipZeroColumnFromCollection("Moons") { state.getMoonsOf(it.id) },
-                    createSkipZeroColumnFromCollection("Regions") { state.getRegionsIn(it.id) },
+                    countCollectionColumn("Moons") { state.getMoonsOf(it.id) },
+                    countCollectionColumn("Regions") { state.getRegionsIn(it.id) },
                 ),
             )
         }

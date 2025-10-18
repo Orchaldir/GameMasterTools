@@ -74,8 +74,8 @@ fun Application.configureOrganizationRouting() {
                     createStartDateColumn(call, state),
                     createAgeColumn(state),
                     createReferenceColumn(call, state, "Founder", Organization::founder),
-                    createSkipZeroColumnFromCollection("Ranks", Organization::memberRanks),
-                    createSkipZeroColumn("Members", Organization::countAllMembers),
+                    countCollectionColumn("Ranks", Organization::memberRanks),
+                    countColumn("Members", Organization::countAllMembers),
                     createBeliefColumn(call, state),
                 ),
             ) {

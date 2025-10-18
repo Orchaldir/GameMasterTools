@@ -71,8 +71,8 @@ fun Application.configurePersonalityRouting() {
                 state.sortPersonalityTraits(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createSkipZeroColumnFromCollection("Characters") { state.getCharacters(it.id) },
-                    createSkipZeroColumnFromCollection("Gods") { state.getGodsWith(it.id) },
+                    countCollectionColumn("Characters") { state.getCharacters(it.id) },
+                    countCollectionColumn("Gods") { state.getGodsWith(it.id) },
                 ),
             ) {
                 fieldList("By Group", state.getPersonalityTraitGroups()) { group ->

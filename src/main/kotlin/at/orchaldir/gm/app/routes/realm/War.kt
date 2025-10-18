@@ -78,7 +78,7 @@ fun Application.configureWarRouting() {
                     createAgeColumn(state, "Years"),
                     tdColumn("Status") { displayWarStatus(call, state, it) },
                     createIdColumn(call, state, "Treaty") { it.status.treaty() },
-                    createSkipZeroColumnForId("Battles", state::countBattles),
+                    countColumnForId("Battles", state::countBattles),
                 ) + createDestroyedColumns(state),
             )
         }

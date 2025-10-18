@@ -81,7 +81,7 @@ fun Application.configureUniformRouting() {
                 state.sortUniforms(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createSkipZeroColumnFromCollection("Parts") { it.equipmentMap.getAllEquipment() }
+                    countCollectionColumn("Parts") { it.equipmentMap.getAllEquipment() }
                 ),
             )
         }

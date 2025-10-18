@@ -28,6 +28,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
+import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
@@ -50,6 +51,22 @@ import kotlinx.html.*
 import kotlin.random.Random
 
 // show
+
+fun TD.showNameWithVitalStatus(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val name = character.nameForSorting(state)
+
+    if (character.vitalStatus is Dead) {
+        del {
+            link(call, character, name)
+        }
+    } else {
+        link(call, character, name)
+    }
+}
 
 fun HtmlBlockTag.showData(
     character: Character,

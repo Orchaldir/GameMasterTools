@@ -74,11 +74,11 @@ fun Application.configureMaterialRouting() {
                     Column("Category") { tdEnum(it.category) },
                     Column("Color") { tdColor(it.color) },
                     Column("Density") { td(it.density) },
-                    createSkipZeroColumnForId("Currency", state::countCurrencyUnits),
-                    createSkipZeroColumnForId("Equipment", state::countEquipment),
-                    createSkipZeroColumnForId("Race App", state::countRaceAppearancesMadeOf),
-                    createSkipZeroColumnForId("Streets", state::countStreetTemplates),
-                    createSkipZeroColumnForId("Texts", state::countTexts),
+                    countColumnForId("Currency", state::countCurrencyUnits),
+                    countColumnForId("Equipment", state::countEquipment),
+                    countColumnForId("Race App", state::countRaceAppearancesMadeOf),
+                    countColumnForId("Streets", state::countStreetTemplates),
+                    countColumnForId("Texts", state::countTexts),
                 ),
             ) {
                 showMaterialCategoryCount(it)

@@ -88,8 +88,8 @@ fun Application.configureTextRouting() {
                     Column("Language") { tdLink(call, state, it.language) },
                     Column("Format") { tdEnum(it.format.getType()) },
                     Column("Materials") { tdInlineIds(call, state, it.materials()) },
-                    createSkipZeroColumn("Pages") { it.content.pages() },
-                    createSkipZeroColumnFromCollection("Spells") { it.content.spells() },
+                    countColumn("Pages") { it.content.pages() },
+                    countCollectionColumn("Spells") { it.content.spells() },
                 ),
             ) {
                 showTextFormatCount(it)

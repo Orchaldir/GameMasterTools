@@ -78,7 +78,7 @@ fun Application.configureCharacterTemplateRouting() {
                     Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
                     Column("Uniform") { tdLink(call, state, it.uniform) },
-                    createSkipZeroColumn("Cost") { it.statblock.calculateCost(state) },
+                    countColumn("Cost") { it.statblock.calculateCost(state) },
                 ),
             )
         }

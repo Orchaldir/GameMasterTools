@@ -71,7 +71,7 @@ fun Application.configureSpellGroupRouting() {
                 state.sortSpellGroups(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createSkipZeroColumnFromCollection("Spells", SpellGroup::spells),
+                    countCollectionColumn("Spells", SpellGroup::spells),
                 ),
             )
         }
