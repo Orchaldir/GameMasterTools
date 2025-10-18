@@ -8,8 +8,10 @@ import at.orchaldir.gm.app.html.health.showDisease
 import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
@@ -20,6 +22,8 @@ import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.util.SortDisease
 import at.orchaldir.gm.core.model.util.SortMagicTradition
+import at.orchaldir.gm.core.selector.character.getEmployees
+import at.orchaldir.gm.core.selector.util.sortBusinesses
 import at.orchaldir.gm.core.selector.util.sortDiseases
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -70,11 +74,17 @@ class DiseaseRoutes : Routes<DiseaseId, SortDisease> {
 fun Application.configureDiseaseRouting() {
     routing {
         get<DiseaseRoutes.All> { all ->
-            logger.info { "Get all diseases" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllDiseases(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                DiseaseRoutes(),
+                state.sortDiseases(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createOriginColumn(call, state, ::DiseaseId),
+                ),
+            )
         }
         get<DiseaseRoutes.Details> { details ->
             handleShowElement(details.id, DiseaseRoutes(), HtmlBlockTag::showDisease)
@@ -111,37 +121,6 @@ fun Application.configureDiseaseRouting() {
         post<DiseaseRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDisease)
         }
-    }
-}
-
-private fun HTML.showAllDiseases(
-    call: ApplicationCall,
-    state: State,
-    sort: SortDisease,
-) {
-    val diseases = state.sortDiseases(sort)
-    val createLink = call.application.href(DiseaseRoutes.New())
-
-    simpleHtml("Diseases") {
-        field("Count", diseases.size)
-        showSortTableLinks(call, SortDisease.entries, DiseaseRoutes())
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Origin" }
-            }
-            diseases.forEach { disease ->
-                tr {
-                    tdLink(call, state, disease)
-                    td { showOptionalDate(call, state, disease.date) }
-                    td { showOrigin(call, state, disease.origin, ::DiseaseId) }
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

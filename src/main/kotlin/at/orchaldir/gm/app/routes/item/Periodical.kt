@@ -10,17 +10,21 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPeriodical
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicalIssues
+import at.orchaldir.gm.core.selector.util.sortDiseases
 import at.orchaldir.gm.core.selector.util.sortPeriodicals
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -71,10 +75,22 @@ class PeriodicalRoutes : Routes<PeriodicalId, SortPeriodical> {
 fun Application.configurePeriodicalRouting() {
     routing {
         get<PeriodicalRoutes.All> { all ->
-            logger.info { "Get all periodical" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllPeriodicals(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                PeriodicalRoutes(),
+                state.sortPeriodicals(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createOwnerColumn(call, state),
+                    Column("Language") { tdLink(call, state, it.language) },
+                    Column("Frequency") { tdEnum(it.frequency) },
+                    createSkipZeroColumnForId("Issues", state::countPeriodicalIssues),
+                ),
+            ) {
+                showPeriodicalOwnershipCount(call, state, it)
+                showPublicationFrequencies(it)
             }
         }
         get<PeriodicalRoutes.Details> { details ->
@@ -111,44 +127,6 @@ fun Application.configurePeriodicalRouting() {
         post<PeriodicalRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePeriodical)
         }
-    }
-}
-
-private fun HTML.showAllPeriodicals(
-    call: ApplicationCall,
-    state: State,
-    sort: SortPeriodical,
-) {
-    val periodicals = state.sortPeriodicals(sort)
-    val createLink = call.application.href(PeriodicalRoutes.New())
-
-    simpleHtml("Periodicals") {
-        field("Count", periodicals.size)
-        showSortTableLinks(call, SortPeriodical.entries, PeriodicalRoutes())
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Start" }
-                th { +"Owner" }
-                th { +"Language" }
-                th { +"Frequency" }
-                th { +"Issues" }
-            }
-            periodicals.forEach { periodical ->
-                tr {
-                    tdLink(call, state, periodical)
-                    td { showOptionalDate(call, state, periodical.calendar, periodical.startDate()) }
-                    td { showReference(call, state, periodical.ownership.current, false) }
-                    tdLink(call, state, periodical.language)
-                    tdEnum(periodical.frequency)
-                    tdSkipZero(state.countPeriodicalIssues(periodical.id))
-                }
-            }
-        }
-        showPeriodicalOwnershipCount(call, state, periodicals)
-        showPublicationFrequencies(periodicals)
-        action(createLink, "Add")
-        back("/")
     }
 }
 

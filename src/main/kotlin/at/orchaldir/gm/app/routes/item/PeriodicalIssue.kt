@@ -2,12 +2,14 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.item.periodical.editPeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.parsePeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.showPeriodicalIssue
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
@@ -18,6 +20,7 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
+import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -68,11 +71,17 @@ class PeriodicalIssueRoutes : Routes<PeriodicalIssueId, SortPeriodicalIssue> {
 fun Application.configurePeriodicalIssueRouting() {
     routing {
         get<PeriodicalIssueRoutes.All> { all ->
-            logger.info { "Get all periodical issues" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllPeriodicalIssues(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                PeriodicalIssueRoutes(),
+                state.sortPeriodicalIssues(all.sort),
+                listOf(
+                    tdColumn("Date") { link(call, it.id, it.dateAsName(state)) },
+                    Column("Periodical") { tdLink(call, state, it.periodical)},
+                    createSkipZeroColumnFromCollection("Articles") { it.articles }
+                ),
+            )
         }
         get<PeriodicalIssueRoutes.Details> { details ->
             handleShowElement(details.id, PeriodicalIssueRoutes(), HtmlBlockTag::showPeriodicalIssue)
@@ -108,37 +117,6 @@ fun Application.configurePeriodicalIssueRouting() {
         post<PeriodicalIssueRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePeriodicalIssue)
         }
-    }
-}
-
-private fun HTML.showAllPeriodicalIssues(
-    call: ApplicationCall,
-    state: State,
-    sort: SortPeriodicalIssue,
-) {
-    val periodicals = state.sortPeriodicalIssues(sort)
-    val createLink = call.application.href(PeriodicalIssueRoutes.New())
-    call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Date))
-    call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Periodical))
-
-    simpleHtml("Periodical Issues") {
-        field("Count", periodicals.size)
-        showSortTableLinks(call, SortPeriodicalIssue.entries, PeriodicalIssueRoutes())
-        table {
-            tr {
-                th { +"Date" }
-                th { +"Periodical" }
-            }
-            periodicals.forEach { issue ->
-                tr {
-                    td { link(call, issue.id, issue.dateAsName(state)) }
-                    tdLink(call, state, issue.periodical)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

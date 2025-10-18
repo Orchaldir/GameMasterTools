@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.item.showUniform
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
@@ -22,6 +23,7 @@ import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortUniform
 import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
@@ -74,6 +76,7 @@ class UniformRoutes : Routes<UniformId, SortUniform> {
 
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortUniform) = call.application.href(All(sort))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun delete(call: ApplicationCall, id: UniformId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: UniformId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
@@ -82,11 +85,16 @@ class UniformRoutes : Routes<UniformId, SortUniform> {
 fun Application.configureUniformRouting() {
     routing {
         get<UniformRoutes.All> { all ->
-            logger.info { "Get all uniforms" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllUniforms(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                UniformRoutes(),
+                state.sortUniforms(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createSkipZeroColumnFromCollection("Parts") { it.equipmentMap.getAllEquipment() }
+                ),
+            )
         }
         get<UniformRoutes.Gallery> {
             logger.info { "Show gallery" }
@@ -135,37 +143,6 @@ fun Application.configureUniformRouting() {
         post<UniformRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseUniform)
         }
-    }
-}
-
-private fun HTML.showAllUniforms(
-    call: ApplicationCall,
-    state: State,
-    sort: SortUniform,
-) {
-    val uniforms = state.sortUniforms(sort)
-    val createLink = call.application.href(UniformRoutes.New())
-    val galleryLink = call.application.href(UniformRoutes.Gallery())
-
-    simpleHtml("Uniforms") {
-        action(galleryLink, "Gallery")
-        field("Count", uniforms.size)
-        showSortTableLinks(call, SortUniform.entries, UniformRoutes())
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Parts" }
-            }
-            uniforms.forEach { uniform ->
-                tr {
-                    tdLink(call, state, uniform)
-                    tdSkipZero(uniform.equipmentMap.getAllEquipment())
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

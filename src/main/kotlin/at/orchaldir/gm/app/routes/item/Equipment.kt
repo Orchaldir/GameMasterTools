@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
@@ -27,6 +28,7 @@ import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.core.selector.util.getColors
+import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -91,11 +93,22 @@ class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
 fun Application.configureEquipmentRouting() {
     routing {
         get<EquipmentRoutes.All> { all ->
-            logger.info { "Get all equipments" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllEquipment(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                EquipmentRoutes(),
+                state.sortEquipmentList(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Type") { tdEnum(it.data.getType()) },
+                    Column("Weight") { td(it.weight) },
+                    Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
+                    Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
+                    Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
+                    Column("Characters") { tdSkipZero(state.getEquippedBy(it.id)) },
+                    Column("Characters") { tdSkipZero(state.getFashions(it.id)) },
+                ),
+            )
         }
         get<EquipmentRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
@@ -148,49 +161,6 @@ fun Application.configureEquipmentRouting() {
         post<EquipmentRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseEquipment)
         }
-    }
-}
-
-private fun HTML.showAllEquipment(
-    call: ApplicationCall,
-    state: State,
-    sort: SortEquipment,
-) {
-    val equipmentList = state.sortEquipmentList(sort)
-    val galleryLink = call.application.href(EquipmentRoutes.Gallery())
-    val createLink = call.application.href(EquipmentRoutes.New())
-
-    simpleHtml("Equipment") {
-        action(galleryLink, "Gallery")
-        field("Count", equipmentList.size)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Type" }
-                th { +"Weight" }
-                th { +"Materials" }
-                thMultiLines(listOf("Color", "Schemes"))
-                thMultiLines(listOf("Required", "Colors"))
-                th { +"Characters" }
-                th { +"Fashion" }
-            }
-            equipmentList.forEach { equipment ->
-                tr {
-                    tdLink(call, state, equipment)
-                    tdEnum(equipment.data.getType())
-                    td(equipment.weight)
-                    tdInlineIds(call, state, equipment.data.materials())
-                    tdInlineIds(call, state, equipment.colorSchemes)
-                    tdSkipZero(equipment.data.requiredSchemaColors())
-                    tdSkipZero(state.getEquippedBy(equipment.id))
-                    tdSkipZero(state.getFashions(equipment.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

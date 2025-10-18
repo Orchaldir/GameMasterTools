@@ -106,6 +106,11 @@ fun <ID : Id<ID>, ELEMENT : HasOrigin> createOriginColumn(
     createId: (Int) -> ID,
 ): Column<ELEMENT> = tdColumn("Origin") { showOrigin(call, state, it.origin(), createId) }
 
+fun <ELEMENT : HasOwner> createOwnerColumn(
+    call: ApplicationCall,
+    state: State,
+): Column<ELEMENT> = tdColumn("Owner") { showReference(call, state, it.owner().current, false) }
+
 fun <ELEMENT : HasPopulation> createPopulationColumn(): Column<ELEMENT> =
     Column("Population") { tdSkipZero(it.population().getTotalPopulation()) }
 

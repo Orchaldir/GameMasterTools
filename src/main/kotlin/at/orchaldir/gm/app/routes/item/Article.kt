@@ -9,17 +9,21 @@ import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.periodical.ARTICLE_TYPE
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.util.SortArticle
 import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.util.sortArticles
+import at.orchaldir.gm.core.selector.util.sortDiseases
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -69,11 +73,17 @@ class ArticleRoutes : Routes<ArticleId, SortArticle> {
 fun Application.configureArticleRouting() {
     routing {
         get<ArticleRoutes.All> { all ->
-            logger.info { "Get all periodical" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllArticles(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                ArticleRoutes(),
+                state.sortArticles(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    Column("Author") { tdLink(call, state, it.author) }
+                ),
+            )
         }
         get<ArticleRoutes.Details> { details ->
             handleShowElement(details.id, ArticleRoutes(), HtmlBlockTag::showArticle)
@@ -109,34 +119,6 @@ fun Application.configureArticleRouting() {
         post<ArticleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseArticle)
         }
-    }
-}
-
-private fun HTML.showAllArticles(
-    call: ApplicationCall,
-    state: State,
-    sort: SortArticle,
-) {
-    val articles = state.sortArticles(sort)
-    val createLink = call.application.href(ArticleRoutes.New())
-
-    simpleHtml("Articles") {
-        field("Count", articles.size)
-        showSortTableLinks(call, SortArticle.entries, ArticleRoutes())
-        table {
-            tr {
-                th { +"Title" }
-                th { +"Date" }
-            }
-            articles.forEach { article ->
-                tr {
-                    tdLink(call, state, article)
-                    td { showOptionalDate(call, state, article.date) }
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 
