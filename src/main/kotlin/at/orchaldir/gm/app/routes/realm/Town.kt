@@ -73,7 +73,7 @@ fun Application.configureTownRouting() {
                 state.sortTowns(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createStringColumn("Title") { it.title?.text },
+                    Column("Title") { tdString(it.title) },
                     createCreatorColumn(call, state, "Founder"),
                     createStartDateColumn(call, state, "Founding"),
                     createEndDateColumn(call, state, "End"),

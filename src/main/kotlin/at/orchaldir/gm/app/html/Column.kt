@@ -30,7 +30,7 @@ data class Column<T>(
             tdColumn(listOf(header), width, converter)
 
         fun <T> tdColumn(header: List<String>, width: Int? = null, converter: TD.(T) -> Unit) =
-            Column<T>(header, width, { td { converter(it) } })
+            Column<T>(header, width) { td { converter(it) } }
     }
 }
 
@@ -73,7 +73,6 @@ private fun <T> createDateColumn(
     title = state.getAgeInYears(date)?.let { "$it years ago" } ?: ""
     showOptionalDate(call, state, date)
 }
-
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createDestroyedColumns(
     state: State,
@@ -141,11 +140,6 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createSkipZeroColumnForId(
     label: List<String>,
     convert: (ID) -> Int?,
 ): Column<ELEMENT> = Column(label) { tdSkipZero(convert(it.id())) }
-
-fun <ID : Id<ID>, ELEMENT : Element<ID>> createStringColumn(
-    label: String,
-    convert: (ELEMENT) -> String?,
-): Column<ELEMENT> = Column(label) { tdString(convert(it)) }
 
 fun <ELEMENT : HasVitalStatus> createVitalColumn(
     call: ApplicationCall,

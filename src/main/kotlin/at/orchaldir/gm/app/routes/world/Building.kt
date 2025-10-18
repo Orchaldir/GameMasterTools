@@ -106,7 +106,7 @@ fun Application.configureBuildingRouting() {
                     Column("Purpose") { tdEnum(it.purpose.getType()) },
                     Column("Inhabitants") { tdSkipZero(state.countCharactersLivingInHouse(it.id)) },
                     Column("Style") { tdLink(call, state, it.style) },
-                    createReferenceColumn(call, state, "Owner") { it.ownership.current },
+                    createOwnerColumn(call, state),
                     createReferenceColumn(call, state, "Builder") { it.builder },
                 ),
             ) {

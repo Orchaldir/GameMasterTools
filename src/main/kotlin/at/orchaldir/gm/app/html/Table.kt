@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -170,6 +171,12 @@ fun TR.tdString(value: NotEmptyString?) {
 fun TR.tdString(text: String?) {
     td {
         text?.let { +it }
+    }
+}
+
+fun TR.td(distance: Distance) {
+    td {
+        +distance.toString()
     }
 }
 

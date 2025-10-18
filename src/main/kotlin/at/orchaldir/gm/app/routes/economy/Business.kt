@@ -73,7 +73,7 @@ fun Application.configureBusinessRouting() {
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
-                    createReferenceColumn(call, state, "Owner") { it.ownership.current },
+                    createOwnerColumn(call, state),
                     createPositionColumn(call, state),
                     createSkipZeroColumnFromCollection("Employees") { state.getEmployees(it.id) }
                 ),
