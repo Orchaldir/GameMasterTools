@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.character.statistic
+package at.orchaldir.gm.app.html.rpg.statistic
 
 import at.orchaldir.gm.app.SHORT
 import at.orchaldir.gm.app.html.*
@@ -6,10 +6,10 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.Statistic
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
-import at.orchaldir.gm.core.selector.character.getStatblocksWith
-import at.orchaldir.gm.core.selector.character.getStatisticsBasedOn
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.selector.rpg.getStatblocksWith
+import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*

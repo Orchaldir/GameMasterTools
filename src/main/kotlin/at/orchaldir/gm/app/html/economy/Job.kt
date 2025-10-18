@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.statistic.parseStatisticId
+import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.economy.money.editPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.showPrice

@@ -2,12 +2,13 @@ package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.character.statistic.CharacterStatblock
-import at.orchaldir.gm.core.model.character.statistic.UndefinedCharacterStatblock
-import at.orchaldir.gm.core.model.character.statistic.UniqueCharacterStatblock
-import at.orchaldir.gm.core.model.character.statistic.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.statistic.CharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statistic.UndefinedCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statistic.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statistic.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
 import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
+import at.orchaldir.gm.core.reducer.rpg.validateStatblock
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.utils.doNothing
 

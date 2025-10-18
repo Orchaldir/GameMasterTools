@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
@@ -77,6 +77,7 @@ import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
+import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.*

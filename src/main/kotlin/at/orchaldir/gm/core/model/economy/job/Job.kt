@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.economy.job
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.GenderMap

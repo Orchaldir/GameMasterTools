@@ -1,22 +1,34 @@
-package at.orchaldir.gm.app.html.character.statistic
+package at.orchaldir.gm.app.html.rpg
 
 import at.orchaldir.gm.app.STATISTIC
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.fieldList
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.parseSimpleOptionalInt
+import at.orchaldir.gm.app.html.selectInt
+import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.tdInt
+import at.orchaldir.gm.app.html.tdLink
+import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.Statblock
-import at.orchaldir.gm.core.model.character.statistic.Statistic
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
-import at.orchaldir.gm.core.selector.character.getAttributes
-import at.orchaldir.gm.core.selector.character.getBaseDamageValues
-import at.orchaldir.gm.core.selector.character.getDerivedAttributes
-import at.orchaldir.gm.core.selector.character.getSkills
+import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.selector.rpg.getAttributes
+import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
+import at.orchaldir.gm.core.selector.rpg.getDerivedAttributes
+import at.orchaldir.gm.core.selector.rpg.getSkills
 import at.orchaldir.gm.core.selector.util.sortStatistics
-import io.ktor.http.*
-import io.ktor.server.application.*
-import kotlinx.html.*
-
-// show
+import io.ktor.http.Parameters
+import io.ktor.server.application.ApplicationCall
+import kotlinx.html.DETAILS
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.TABLE
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
 
 fun HtmlBlockTag.showStatblock(
     call: ApplicationCall,
@@ -53,8 +65,6 @@ private fun DETAILS.showStatistics(
         +statistic.data.display(value)
     }
 }
-
-// edit
 
 fun HtmlBlockTag.editStatblock(
     call: ApplicationCall,
@@ -110,8 +120,6 @@ private fun TABLE.editStatistics(
         }
     }
 }
-
-// parse
 
 fun parseStatblock(
     state: State,

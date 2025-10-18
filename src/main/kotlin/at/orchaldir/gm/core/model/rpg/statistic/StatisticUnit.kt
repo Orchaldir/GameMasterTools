@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character.statistic
+package at.orchaldir.gm.core.model.rpg.statistic
 
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import kotlinx.serialization.SerialName

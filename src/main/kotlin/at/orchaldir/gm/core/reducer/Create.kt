@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.character.statistic.Statistic
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.Culture

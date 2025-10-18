@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.updateBeard
 import at.orchaldir.gm.core.model.character.appearance.updateHairColor
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.LanguageId

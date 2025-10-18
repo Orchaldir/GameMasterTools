@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character.statistic
+package at.orchaldir.gm.core.model.rpg.statistic
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

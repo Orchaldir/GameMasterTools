@@ -5,10 +5,11 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.character.statistic.Statblock
-import at.orchaldir.gm.core.model.character.statistic.Statistic
-import at.orchaldir.gm.core.model.character.statistic.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

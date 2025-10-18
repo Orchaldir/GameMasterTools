@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.statistic.editCharacterStatblock
-import at.orchaldir.gm.app.html.character.statistic.parseCharacterStatblock
-import at.orchaldir.gm.app.html.character.statistic.showCharacterStatblock
+import at.orchaldir.gm.app.html.rpg.statistic.editCharacterStatblock
+import at.orchaldir.gm.app.html.rpg.statistic.parseCharacterStatblock
+import at.orchaldir.gm.app.html.rpg.statistic.showCharacterStatblock
 import at.orchaldir.gm.app.html.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.html.culture.editKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseKnownLanguages
