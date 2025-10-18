@@ -42,6 +42,7 @@ class CharacterRoutes : Routes<CharacterId, SortCharacter> {
 
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortCharacter) = call.application.href(All(sort))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun delete(call: ApplicationCall, id: CharacterId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CharacterId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())

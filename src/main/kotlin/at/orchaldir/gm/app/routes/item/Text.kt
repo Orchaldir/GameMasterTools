@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
@@ -19,6 +20,7 @@ import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortText
+import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
@@ -73,6 +75,7 @@ class TextRoutes : Routes<TextId, SortText> {
 
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortText) = call.application.href(All(sort))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun delete(call: ApplicationCall, id: TextId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TextId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
@@ -81,10 +84,27 @@ class TextRoutes : Routes<TextId, SortText> {
 fun Application.configureTextRouting() {
     routing {
         get<TextRoutes.All> { all ->
-            logger.info { "Get all texts" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllTexts(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                TextRoutes(),
+                state.sortTexts(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createOriginColumn(call, state, ::TextId),
+                    Column("Publisher") { tdLink(call, state, it.publisher) },
+                    Column("Language") { tdLink(call, state, it.language) },
+                    Column("Format") { tdEnum(it.format.getType()) },
+                    Column("Materials") { tdInlineIds(call, state, it.materials()) },
+                    createSkipZeroColumn("Pages") { it.content.pages() },
+                    createSkipZeroColumnFromCollection("Spells") { it.content.spells() },
+                ),
+            ) {
+                showTextFormatCount(it)
+                showTextOriginCount(it)
+                showCreatorCount(call, state, it, "Creators")
+                showLanguageCountForTexts(call, state, it)
             }
         }
         get<TextRoutes.Gallery> {
@@ -131,56 +151,6 @@ fun Application.configureTextRouting() {
         post<TextRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseText)
         }
-    }
-}
-
-private fun HTML.showAllTexts(
-    call: ApplicationCall,
-    state: State,
-    sort: SortText,
-) {
-    val texts = state.sortTexts(sort)
-    val createLink = call.application.href(TextRoutes.New())
-    val galleryLink = call.application.href(TextRoutes.Gallery())
-
-    simpleHtml("Texts") {
-        action(galleryLink, "Gallery")
-        field("Count", texts.size)
-        showSortTableLinks(call, SortText.entries, TextRoutes())
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Origin" }
-                th { +"Publisher" }
-                th { +"Language" }
-                th { +"Format" }
-                th { +"Materials" }
-                th { +"Pages" }
-                th { +"Spells" }
-            }
-            texts.forEach { text ->
-                tr {
-                    tdLink(call, state, text)
-                    td { showOptionalDate(call, state, text.date) }
-                    td { showOrigin(call, state, text.origin, ::TextId) }
-                    tdLink(call, state, text.publisher)
-                    tdLink(call, state, text.language)
-                    tdEnum(text.format.getType())
-                    tdInlineIds(call, state, text.materials())
-                    tdSkipZero(text.content.pages())
-                    tdSkipZero(text.content.spells())
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
-
-        showTextFormatCount(texts)
-        showTextOriginCount(texts)
-        showCreatorCount(call, state, texts, "Creators")
-        showLanguageCountForTexts(call, state, texts)
     }
 }
 

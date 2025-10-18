@@ -155,5 +155,6 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createStringColumn(
 fun <ELEMENT : HasVitalStatus> createVitalColumn(
     call: ApplicationCall,
     state: State,
+    label: String = "End",
 ): Column<ELEMENT> =
-    tdColumn("End") { displayVitalStatus(call, state, it.vitalStatus(), false) }
+    tdColumn(label) { displayVitalStatus(call, state, it.vitalStatus(), false) }
