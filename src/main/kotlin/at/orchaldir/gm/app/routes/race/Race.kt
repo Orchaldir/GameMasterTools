@@ -2,11 +2,10 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.race.editRace
 import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showOrigin
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -19,7 +18,6 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
-import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.getTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -35,13 +33,15 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.p
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$RACE_TYPE")
-class RaceRoutes : Routes<RaceId> {
+class RaceRoutes : Routes<RaceId, SortRace> {
     @Resource("all")
     class All(
         val sort: SortRace = SortRace.Name,
@@ -76,19 +76,34 @@ class RaceRoutes : Routes<RaceId> {
     class Update(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortRace) = call.application.href(All(sort))
     override fun clone(call: ApplicationCall, id: RaceId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: RaceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureRaceRouting() {
     routing {
         get<RaceRoutes.All> { all ->
-            logger.info { "Get all races" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllRaces(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                RaceRoutes(),
+                state.sortRaces(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createOriginColumn(call, state, ::RaceId),
+                    tdColumn("Gender") { +it.genders.getValidValues().joinToString() },
+                    countColumn("Max Age") { it.lifeStages.getMaxAge() },
+                    Column("Avg Height") { td(it.height.center) },
+                    Column("Avg Weight") { td(it.weight) },
+                    createIdColumn(call, state, "Appearance") { it.lifeStages.getRaceAppearance() },
+                    countColumnForId("Population", state::getTotalPopulation),
+                    countColumnForId("Characters", state::countCharacters),
+                ),
+            )
         }
         get<RaceRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
@@ -143,62 +158,11 @@ fun Application.configureRaceRouting() {
     }
 }
 
-private fun HTML.showAllRaces(
-    call: ApplicationCall,
-    state: State,
-    sort: SortRace,
-) {
-    val races = state.sortRaces(sort)
-    val createLink = call.application.href(RaceRoutes.New())
-    val galleryLink = call.application.href(RaceRoutes.Gallery())
-
-    simpleHtml("Races") {
-        action(galleryLink, "Gallery")
-        field("Count", races.size)
-        showSortLinks(call, RaceRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Gender" }
-                th { +"Max Age" }
-                th { +"Avg Height" }
-                th { +"Avg Weight" }
-                th { +"Origin" }
-                th { +"Date" }
-                th { +"Appearance" }
-                th { +"Population" }
-                th { +"Characters" }
-            }
-            races.forEach { race ->
-                tr {
-                    tdLink(call, state, race)
-                    td { +race.genders.getValidValues().joinToString() }
-                    tdSkipZero(race.lifeStages.getMaxAge())
-                    td { +race.height.center.toString() }
-                    td { +race.weight.toString() }
-                    td { showOrigin(call, state, race.origin, ::RaceId) }
-                    td {
-                        title = state.getAgeInYears(race.startDate())?.let { "$it years ago" } ?: ""
-                        showOptionalDate(call, state, race.startDate())
-                    }
-                    tdLink(call, state, race.lifeStages.getRaceAppearance())
-                    tdSkipZero(state.getTotalPopulation(race.id))
-                    tdSkipZero(state.countCharacters(race.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
-    }
-}
-
 private inline fun <reified V : Any> HtmlBlockTag.showSortLinks(
     call: ApplicationCall,
     crossinline createLink: Function2<SortRace, RaceRoutes, V>,
 ) {
-    showSortTableLinks(call, SortRace.entries, RaceRoutes(), createLink)
+    showSortTableLinks(call, SortRace.entries, RaceRoutes())
 }
 
 private fun HTML.showGallery(

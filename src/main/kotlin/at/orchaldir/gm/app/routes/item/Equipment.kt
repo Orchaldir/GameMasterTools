@@ -7,10 +7,7 @@ import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
@@ -44,7 +41,7 @@ private val logger = KotlinLogging.logger {}
 private val height = fromMeters(1.0f)
 
 @Resource("/$EQUIPMENT_TYPE")
-class EquipmentRoutes : Routes<EquipmentId> {
+class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
     @Resource("all")
     class All(
         val sort: SortEquipment = SortEquipment.Name,
@@ -79,18 +76,31 @@ class EquipmentRoutes : Routes<EquipmentId> {
     class Update(val id: EquipmentId, val parent: EquipmentRoutes = EquipmentRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortEquipment) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: EquipmentId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: EquipmentId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureEquipmentRouting() {
     routing {
         get<EquipmentRoutes.All> { all ->
-            logger.info { "Get all equipments" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllEquipment(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                EquipmentRoutes(),
+                state.sortEquipmentList(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Type") { tdEnum(it.data.getType()) },
+                    Column("Weight") { td(it.weight) },
+                    Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
+                    Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
+                    Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
+                    Column("Characters") { tdSkipZero(state.getEquippedBy(it.id)) },
+                    Column("Characters") { tdSkipZero(state.getFashions(it.id)) },
+                ),
+            )
         }
         get<EquipmentRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
@@ -106,7 +116,10 @@ fun Application.configureEquipmentRouting() {
             val parameters = call.receiveParameters()
             val colorSchemeId = parseOptionalColorSchemeId(parameters, SCHEME)
 
-            handleShowElement<EquipmentId, Equipment>(details.id, EquipmentRoutes()) { call, state, equipment ->
+            handleShowElement<EquipmentId, Equipment, SortEquipment>(
+                details.id,
+                EquipmentRoutes()
+            ) { call, state, equipment ->
                 showEquipmentDetails(call, state, equipment, colorSchemeId)
             }
         }
@@ -143,49 +156,6 @@ fun Application.configureEquipmentRouting() {
         post<EquipmentRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseEquipment)
         }
-    }
-}
-
-private fun HTML.showAllEquipment(
-    call: ApplicationCall,
-    state: State,
-    sort: SortEquipment,
-) {
-    val equipmentList = state.sortEquipmentList(sort)
-    val galleryLink = call.application.href(EquipmentRoutes.Gallery())
-    val createLink = call.application.href(EquipmentRoutes.New())
-
-    simpleHtml("Equipment") {
-        action(galleryLink, "Gallery")
-        field("Count", equipmentList.size)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Type" }
-                th { +"Weight" }
-                th { +"Materials" }
-                thMultiLines(listOf("Color", "Schemes"))
-                thMultiLines(listOf("Required", "Colors"))
-                th { +"Characters" }
-                th { +"Fashion" }
-            }
-            equipmentList.forEach { equipment ->
-                tr {
-                    tdLink(call, state, equipment)
-                    tdEnum(equipment.data.getType())
-                    td(equipment.weight)
-                    tdInlineIds(call, state, equipment.data.materials())
-                    tdInlineIds(call, state, equipment.colorSchemes)
-                    tdSkipZero(equipment.data.requiredSchemaColors())
-                    tdSkipZero(state.getEquippedBy(equipment.id))
-                    tdSkipZero(state.getFashions(equipment.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

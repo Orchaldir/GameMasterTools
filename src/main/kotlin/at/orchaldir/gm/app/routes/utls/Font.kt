@@ -4,13 +4,14 @@ package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.font.editFont
 import at.orchaldir.gm.app.html.util.font.parseFont
 import at.orchaldir.gm.app.html.util.font.showFont
-import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
@@ -44,7 +45,7 @@ private const val example = "abcdefghijklmnopqrstuvwxyz"
 private val FONT_SIZE = fromMeters(40)
 
 @Resource("/$FONT_TYPE")
-class FontRoutes : Routes<FontId> {
+class FontRoutes : Routes<FontId, SortFont> {
     @Resource("all")
     class All(
         val sort: SortFont = SortFont.Name,
@@ -76,18 +77,29 @@ class FontRoutes : Routes<FontId> {
     class Uploader(val id: FontId, val parent: FontRoutes = FontRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortFont) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: FontId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: FontId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureFontRouting() {
     routing {
         get<FontRoutes.All> { all ->
-            logger.info { "Get all fonts" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllFonts(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                FontRoutes(),
+                state.sortFonts(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    tdColumn("Example", 1000) { svg(visualizeString(example, it, FONT_SIZE), 100) },
+                    Column(listOf("Currency", "Units"))
+                    { tdSkipZero(state.countCurrencyUnits(it.id)) },
+                    Column("Texts") { tdSkipZero(state.countTexts(it.id)) },
+                ),
+            )
         }
         get<FontRoutes.Details> { details ->
             logger.info { "Get details of font ${details.id.value}" }
@@ -168,47 +180,6 @@ fun Application.configureFontRouting() {
 
             STORE.getState().save()
         }
-    }
-}
-
-private fun HTML.showAllFonts(
-    call: ApplicationCall,
-    state: State,
-    sort: SortFont,
-) {
-    val fonts = state.sortFonts(sort)
-    val createLink = call.application.href(FontRoutes.New())
-    call.application.href(FontRoutes.All(SortFont.Name))
-    call.application.href(FontRoutes.All(SortFont.Date))
-
-    simpleHtml("Fonts") {
-        field("Count", fonts.size)
-        showSortTableLinks(call, SortFont.entries, FontRoutes(), FontRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th {
-                    style = "width:1000px"
-                    +"Example"
-                }
-                th { +"Currencies" }
-                th { +"Texts" }
-            }
-            fonts.forEach { font ->
-                tr {
-                    tdLink(call, state, font)
-                    td { showOptionalDate(call, state, font.date) }
-                    td { svg(visualizeString(example, font, FONT_SIZE), 100) }
-                    tdSkipZero(state.countCurrencyUnits(font.id))
-                    tdSkipZero(state.countTexts(font.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

@@ -5,10 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.world.editStreet
 import at.orchaldir.gm.app.html.world.parseStreet
 import at.orchaldir.gm.app.html.world.showStreet
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortStreet
@@ -16,6 +13,7 @@ import at.orchaldir.gm.core.model.world.street.STREET_TYPE
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.util.sortStreets
+import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -31,7 +29,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TYPE")
-class StreetRoutes : Routes<StreetId> {
+class StreetRoutes : Routes<StreetId, SortStreet> {
     @Resource("all")
     class All(
         val sort: SortStreet = SortStreet.Name,
@@ -54,18 +52,25 @@ class StreetRoutes : Routes<StreetId> {
     class Update(val id: StreetId, val parent: StreetRoutes = StreetRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortStreet) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: StreetId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: StreetId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureStreetRouting() {
     routing {
         get<StreetRoutes.All> { all ->
-            logger.info { "Get all traditions" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllStreets(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                StreetRoutes(),
+                state.sortStreets(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Towns") { tdInlineElements(call, state, state.getTowns(it.id)) }
+                ),
+            )
         }
         get<StreetRoutes.Details> { details ->
             handleShowElement(details.id, StreetRoutes(), HtmlBlockTag::showStreet)
@@ -91,24 +96,6 @@ fun Application.configureStreetRouting() {
         post<StreetRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseStreet)
         }
-    }
-}
-
-private fun HTML.showAllStreets(
-    call: ApplicationCall,
-    state: State,
-    sort: SortStreet,
-) {
-    val streets = state.sortStreets(sort)
-    val createLink = call.application.href(StreetRoutes.New())
-
-    simpleHtml("Streets") {
-        field("Count", streets.size)
-        showList(streets) { street ->
-            link(call, state, street)
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

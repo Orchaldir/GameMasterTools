@@ -5,13 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editRealm
 import at.orchaldir.gm.app.html.realm.parseRealm
 import at.orchaldir.gm.app.html.realm.showRealm
-import at.orchaldir.gm.app.html.util.displayVitalStatus
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.REALM_TYPE
@@ -28,13 +22,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$REALM_TYPE")
-class RealmRoutes : Routes<RealmId> {
+class RealmRoutes : Routes<RealmId, SortRealm> {
     @Resource("all")
     class All(
         val sort: SortRealm = SortRealm.Name,
@@ -60,17 +55,36 @@ class RealmRoutes : Routes<RealmId> {
     class Update(val id: RealmId, val parent: RealmRoutes = RealmRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortRealm) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: RealmId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RealmId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureRealmRouting() {
     routing {
         get<RealmRoutes.All> { all ->
-            logger.info { "Get all realms" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllRealms(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                RealmRoutes(),
+                state.sortRealms(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createCreatorColumn(call, state, "Founder"),
+                    createStartDateColumn(call, state, "Founding"),
+                    createEndDateColumn(call, state, "End"),
+                    createAgeColumn(state),
+                    createVitalColumn(call, state),
+                    createIdColumn(call, state, "Capital") { it.capital.current },
+                    createIdColumn(call, state, "Owner") { it.owner.current },
+                    createIdColumn(call, state, "Currency") { it.currency.current },
+                    createIdColumn(call, state, "Legal Code") { it.legalCode.current },
+                    createPopulationColumn(),
+                    countColumnForId("Towns", state::countOwnedTowns),
+                ),
+            ) {
+                showCreatorCount(call, state, it, "Founders")
             }
         }
         get<RealmRoutes.Details> { details ->
@@ -108,58 +122,6 @@ fun Application.configureRealmRouting() {
         post<RealmRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRealm)
         }
-    }
-}
-
-private fun HTML.showAllRealms(
-    call: ApplicationCall,
-    state: State,
-    sort: SortRealm,
-) {
-    val realms = state.sortRealms(sort)
-    val createLink = call.application.href(RealmRoutes.New())
-
-    simpleHtml("Realms") {
-        field("Count", realms.size)
-        showSortTableLinks(call, SortRealm.entries, RealmRoutes(), RealmRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Founder" }
-                thMultiLines(listOf("Founding", "Date"))
-                thMultiLines(listOf("End", "Date"))
-                th { +"Age" }
-                th { +"End" }
-                th { +"Capital" }
-                th { +"Owner" }
-                th { +"Currency" }
-                th { +"Legal Code" }
-                th { +"Population" }
-                th { +"Towns" }
-            }
-            realms.forEach { realm ->
-                tr {
-                    tdLink(call, state, realm)
-                    td { showReference(call, state, realm.founder, false) }
-                    td { showOptionalDate(call, state, realm.startDate()) }
-                    td { showOptionalDate(call, state, realm.endDate()) }
-                    tdSkipZero(realm.getAgeInYears(state))
-                    td { displayVitalStatus(call, state, realm.status, false) }
-                    tdLink(call, state, realm.capital.current)
-                    tdLink(call, state, realm.owner.current)
-                    tdLink(call, state, realm.currency.current)
-                    tdLink(call, state, realm.legalCode.current)
-                    tdSkipZero(realm.population.getTotalPopulation())
-                    tdSkipZero(state.countOwnedTowns(realm.id))
-                }
-            }
-        }
-
-        showCreatorCount(call, state, realms, "Founders")
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

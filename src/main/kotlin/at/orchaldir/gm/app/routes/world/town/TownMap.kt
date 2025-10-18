@@ -3,22 +3,21 @@ package at.orchaldir.gm.app.routes.world.town
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.showLocalElements
-import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.world.editTownMap
 import at.orchaldir.gm.app.html.world.parseTownMap
 import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.app.html.world.showTownMap
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElementSplit
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.character.countResidents
 import at.orchaldir.gm.core.selector.util.countBuildingsIn
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortTownMaps
@@ -35,7 +34,9 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 import mu.KotlinLogging
 import kotlin.let
 
@@ -44,11 +45,19 @@ private val logger = KotlinLogging.logger {}
 fun Application.configureTownMapRouting() {
     routing {
         get<TownMapRoutes.All> { all ->
-            logger.info { "Get all town maps" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllTownMaps(call, STORE.getState())
-            }
+            handleShowAllElements(
+                TownMapRoutes(),
+                state.sortTownMaps(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Town") { tdLink(call, state, it.town) },
+                    createStartDateColumn(call, state),
+                    countColumnForId("Buildings", state::countBuildingsIn),
+                    countColumnForId("Resident", state::countResidents),
+                ),
+            )
         }
         get<TownMapRoutes.Details> { details ->
             handleShowElementSplit(details.id, TownMapRoutes(), HtmlBlockTag::showTownMapDetails) { _, state, townMap ->
@@ -91,39 +100,6 @@ fun Application.configureTownMapRouting() {
                 parseTownMap(state, parameters, oldTownMap)
             }
         }
-    }
-}
-
-private fun HTML.showAllTownMaps(
-    call: ApplicationCall,
-    state: State,
-    sort: SortTownMap = SortTownMap.Name,
-) {
-    val townMaps = state.sortTownMaps(sort)
-    val createLink = call.application.href(TownMapRoutes.New())
-
-    simpleHtml("Town Maps") {
-        field("Count", townMaps.size)
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Town" }
-                th { +"Date" }
-                th { +"Buildings" }
-                th { +"Residents" }
-            }
-            townMaps.forEach { townMap ->
-                tr {
-                    tdLink(call, state, townMap)
-                    tdLink(call, state, townMap.town)
-                    td { showOptionalDate(call, state, townMap.date) }
-                    tdSkipZero(state.countBuildingsIn(townMap.id))
-                    tdSkipZero(state.countResident(townMap.id))
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

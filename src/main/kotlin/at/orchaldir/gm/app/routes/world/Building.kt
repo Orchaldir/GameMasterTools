@@ -4,17 +4,17 @@ import at.orchaldir.gm.app.HEIGHT
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.showAddress
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showPosition
-import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.html.world.editBuilding
 import at.orchaldir.gm.app.html.world.parseBuilding
 import at.orchaldir.gm.app.html.world.showBuilding
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElementSplit
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
@@ -44,7 +44,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BUILDING_TYPE")
-class BuildingRoutes : Routes<BuildingId> {
+class BuildingRoutes : Routes<BuildingId, SortBuilding> {
     @Resource("all")
     class All(
         val sort: SortBuilding = SortBuilding.Name,
@@ -84,17 +84,36 @@ class BuildingRoutes : Routes<BuildingId> {
     }
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortBuilding) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: BuildingId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: BuildingId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureBuildingRouting() {
     routing {
         get<BuildingRoutes.All> { all ->
-            logger.info { "Get all buildings" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllBuildings(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                BuildingRoutes(),
+                state.sortBuildings(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createPositionColumn(call, state),
+                    tdColumn("Address") { showAddress(call, state, it, false) },
+                    Column("Purpose") { tdEnum(it.purpose.getType()) },
+                    Column("Inhabitants") { tdSkipZero(state.countCharactersLivingInHouse(it.id)) },
+                    Column("Style") { tdLink(call, state, it.style) },
+                    createOwnerColumn(call, state),
+                    createReferenceColumn(call, state, "Builder") { it.builder },
+                ),
+            ) {
+                showArchitecturalStyleCount(call, state, it)
+                showCreatorCount(call, state, it, "Builder")
+                showBuildingPurposeCount(it)
+                showBuildingOwnershipCount(call, state, it)
             }
         }
         get<BuildingRoutes.Details> { details ->
@@ -167,54 +186,6 @@ fun Application.configureBuildingRouting() {
 
             STORE.getState().save()
         }
-    }
-}
-
-private fun HTML.showAllBuildings(
-    call: ApplicationCall,
-    state: State,
-    sort: SortBuilding,
-) {
-    val buildings = STORE.getState()
-        .getBuildingStorage()
-        .getAll()
-    val buildingsWithNames = state.sortBuildings(buildings, sort)
-
-    simpleHtml("Buildings") {
-        field("Count", buildings.size)
-        showSortTableLinks(call, SortBuilding.entries, BuildingRoutes(), BuildingRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Construction" }
-                th { +"Town" }
-                th { +"Address" }
-                th { +"Purpose" }
-                th { +"Inhabitants" }
-                th { +"Style" }
-                th { +"Owner" }
-                th { +"Builder" }
-            }
-            buildingsWithNames.forEach { (building, name) ->
-                tr {
-                    td { link(call, building.id, name) }
-                    td { showOptionalDate(call, state, building.constructionDate) }
-                    td { showPosition(call, state, building.position) }
-                    td { showAddress(call, state, building, false) }
-                    tdEnum(building.purpose.getType())
-                    tdSkipZero(state.countCharactersLivingInHouse(building.id))
-                    tdLink(call, state, building.style)
-                    td { showReference(call, state, building.ownership.current, false) }
-                    td { showReference(call, state, building.builder, false) }
-                }
-            }
-        }
-        showArchitecturalStyleCount(call, state, buildings)
-        showCreatorCount(call, state, buildings, "Builder")
-        showBuildingPurposeCount(buildings)
-        showBuildingOwnershipCount(call, state, buildings)
-        back("/")
     }
 }
 

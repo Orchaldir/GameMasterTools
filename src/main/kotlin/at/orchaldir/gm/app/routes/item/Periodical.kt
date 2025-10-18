@@ -5,12 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.periodical.editPeriodical
 import at.orchaldir.gm.app.html.item.periodical.parsePeriodical
 import at.orchaldir.gm.app.html.item.periodical.showPeriodical
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
@@ -27,13 +22,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERIODICAL_TYPE")
-class PeriodicalRoutes : Routes<PeriodicalId> {
+class PeriodicalRoutes : Routes<PeriodicalId, SortPeriodical> {
     @Resource("all")
     class All(
         val sort: SortPeriodical = SortPeriodical.Name,
@@ -59,17 +55,31 @@ class PeriodicalRoutes : Routes<PeriodicalId> {
     class Update(val id: PeriodicalId, val parent: PeriodicalRoutes = PeriodicalRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortPeriodical) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: PeriodicalId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PeriodicalId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configurePeriodicalRouting() {
     routing {
         get<PeriodicalRoutes.All> { all ->
-            logger.info { "Get all periodical" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllPeriodicals(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                PeriodicalRoutes(),
+                state.sortPeriodicals(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createOwnerColumn(call, state),
+                    Column("Language") { tdLink(call, state, it.language) },
+                    Column("Frequency") { tdEnum(it.frequency) },
+                    countColumnForId("Issues", state::countPeriodicalIssues),
+                ),
+            ) {
+                showPeriodicalOwnershipCount(call, state, it)
+                showPublicationFrequencies(it)
             }
         }
         get<PeriodicalRoutes.Details> { details ->
@@ -106,44 +116,6 @@ fun Application.configurePeriodicalRouting() {
         post<PeriodicalRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePeriodical)
         }
-    }
-}
-
-private fun HTML.showAllPeriodicals(
-    call: ApplicationCall,
-    state: State,
-    sort: SortPeriodical,
-) {
-    val periodicals = state.sortPeriodicals(sort)
-    val createLink = call.application.href(PeriodicalRoutes.New())
-
-    simpleHtml("Periodicals") {
-        field("Count", periodicals.size)
-        showSortTableLinks(call, SortPeriodical.entries, PeriodicalRoutes(), PeriodicalRoutes::All)
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Start" }
-                th { +"Owner" }
-                th { +"Language" }
-                th { +"Frequency" }
-                th { +"Issues" }
-            }
-            periodicals.forEach { periodical ->
-                tr {
-                    tdLink(call, state, periodical)
-                    td { showOptionalDate(call, state, periodical.calendar, periodical.startDate()) }
-                    td { showReference(call, state, periodical.ownership.current, false) }
-                    tdLink(call, state, periodical.language)
-                    tdEnum(periodical.frequency)
-                    tdSkipZero(state.countPeriodicalIssues(periodical.id))
-                }
-            }
-        }
-        showPeriodicalOwnershipCount(call, state, periodicals)
-        showPublicationFrequencies(periodicals)
-        action(createLink, "Add")
-        back("/")
     }
 }
 

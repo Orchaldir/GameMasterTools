@@ -5,12 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editLegalCode
 import at.orchaldir.gm.app.html.realm.parseLegalCode
 import at.orchaldir.gm.app.html.realm.showLegalCode
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.LEGAL_CODE_TYPE
@@ -27,13 +22,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$LEGAL_CODE_TYPE")
-class LegalCodeRoutes : Routes<LegalCodeId> {
+class LegalCodeRoutes : Routes<LegalCodeId, SortLegalCode> {
     @Resource("all")
     class All(
         val sort: SortLegalCode = SortLegalCode.Name,
@@ -59,17 +55,28 @@ class LegalCodeRoutes : Routes<LegalCodeId> {
     class Update(val id: LegalCodeId, val parent: LegalCodeRoutes = LegalCodeRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortLegalCode) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: LegalCodeId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: LegalCodeId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureLegalCodeRouting() {
     routing {
         get<LegalCodeRoutes.All> { all ->
-            logger.info { "Get all legal codes" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllLegalCodes(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                LegalCodeRoutes(),
+                state.sortLegalCodes(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createCreatorColumn(call, state),
+                    countColumnForId("Population", state::countRealmsWithLegalCodeAtAnyTime),
+                ),
+            ) {
+                showCreatorCount(call, state, it, "Creators")
             }
         }
         get<LegalCodeRoutes.Details> { details ->
@@ -107,42 +114,6 @@ fun Application.configureLegalCodeRouting() {
         post<LegalCodeRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseLegalCode)
         }
-    }
-}
-
-private fun HTML.showAllLegalCodes(
-    call: ApplicationCall,
-    state: State,
-    sort: SortLegalCode,
-) {
-    val codes = state.sortLegalCodes(sort)
-    val createLink = call.application.href(LegalCodeRoutes.New())
-
-    simpleHtml("Legal Codes") {
-        field("Count", codes.size)
-        showSortTableLinks(call, SortLegalCode.entries, LegalCodeRoutes(), LegalCodeRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Creator" }
-                th { +"Realms" }
-            }
-            codes.forEach { code ->
-                tr {
-                    tdLink(call, state, code)
-                    td { showOptionalDate(call, state, code.date) }
-                    td { showReference(call, state, code.creator, false) }
-                    tdSkipZero(state.countRealmsWithLegalCodeAtAnyTime(code.id))
-                }
-            }
-        }
-
-        showCreatorCount(call, state, codes, "Creators")
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

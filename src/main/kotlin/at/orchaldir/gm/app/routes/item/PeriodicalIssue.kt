@@ -2,13 +2,11 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.item.periodical.editPeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.parsePeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.showPeriodicalIssue
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_ISSUE_TYPE
@@ -24,13 +22,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERIODICAL_ISSUE_TYPE")
-class PeriodicalIssueRoutes : Routes<PeriodicalIssueId> {
+class PeriodicalIssueRoutes : Routes<PeriodicalIssueId, SortPeriodicalIssue> {
     @Resource("all")
     class All(
         val sort: SortPeriodicalIssue = SortPeriodicalIssue.Date,
@@ -56,18 +55,26 @@ class PeriodicalIssueRoutes : Routes<PeriodicalIssueId> {
     class Update(val id: PeriodicalIssueId, val parent: PeriodicalIssueRoutes = PeriodicalIssueRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortPeriodicalIssue) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configurePeriodicalIssueRouting() {
     routing {
         get<PeriodicalIssueRoutes.All> { all ->
-            logger.info { "Get all periodical issues" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllPeriodicalIssues(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                PeriodicalIssueRoutes(),
+                state.sortPeriodicalIssues(all.sort),
+                listOf(
+                    tdColumn("Date") { link(call, it.id, it.dateAsName(state)) },
+                    Column("Periodical") { tdLink(call, state, it.periodical) },
+                    countCollectionColumn("Articles") { it.articles }
+                ),
+            )
         }
         get<PeriodicalIssueRoutes.Details> { details ->
             handleShowElement(details.id, PeriodicalIssueRoutes(), HtmlBlockTag::showPeriodicalIssue)
@@ -103,37 +110,6 @@ fun Application.configurePeriodicalIssueRouting() {
         post<PeriodicalIssueRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePeriodicalIssue)
         }
-    }
-}
-
-private fun HTML.showAllPeriodicalIssues(
-    call: ApplicationCall,
-    state: State,
-    sort: SortPeriodicalIssue,
-) {
-    val periodicals = state.sortPeriodicalIssues(sort)
-    val createLink = call.application.href(PeriodicalIssueRoutes.New())
-    call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Date))
-    call.application.href(PeriodicalIssueRoutes.All(SortPeriodicalIssue.Periodical))
-
-    simpleHtml("Periodical Issues") {
-        field("Count", periodicals.size)
-        showSortTableLinks(call, SortPeriodicalIssue.entries, PeriodicalIssueRoutes(), PeriodicalIssueRoutes::All)
-        table {
-            tr {
-                th { +"Date" }
-                th { +"Periodical" }
-            }
-            periodicals.forEach { issue ->
-                tr {
-                    td { link(call, issue.id, issue.dateAsName(state)) }
-                    tdLink(call, state, issue.periodical)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

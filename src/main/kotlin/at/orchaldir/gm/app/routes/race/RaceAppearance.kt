@@ -35,16 +35,13 @@ import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$RACE_APPEARANCE_TYPE")
-class RaceAppearanceRoutes : Routes<RaceAppearanceId> {
+class RaceAppearanceRoutes : Routes<RaceAppearanceId, SortRaceAppearance> {
     @Resource("all")
     class All(
         val sort: SortRaceAppearance = SortRaceAppearance.Name,
@@ -79,19 +76,27 @@ class RaceAppearanceRoutes : Routes<RaceAppearanceId> {
     class Update(val id: RaceAppearanceId, val parent: RaceAppearanceRoutes = RaceAppearanceRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortRaceAppearance) = call.application.href(All(sort))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun clone(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureRaceAppearanceRouting() {
     routing {
         get<RaceAppearanceRoutes.All> { all ->
-            logger.info { "Get all races appearances" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAll(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                RaceAppearanceRoutes(),
+                state.sortRaceAppearances(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Races") { tdInlineElements(call, state, state.getRaces(it.id)) }
+                ),
+            )
         }
         get<RaceAppearanceRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
@@ -145,37 +150,6 @@ fun Application.configureRaceAppearanceRouting() {
         post<RaceAppearanceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRaceAppearance)
         }
-    }
-}
-
-private fun HTML.showAll(
-    call: ApplicationCall,
-    state: State,
-    sort: SortRaceAppearance,
-) {
-    val appearances = state.sortRaceAppearances(sort)
-    val createLink = call.application.href(RaceAppearanceRoutes.New())
-    val galleryLink = call.application.href(RaceAppearanceRoutes.Gallery())
-
-    simpleHtml("Race Appearances") {
-        field("Count", appearances.size)
-        action(galleryLink, "Gallery")
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Races" }
-            }
-            appearances.forEach { appearance ->
-                tr {
-                    tdLink(call, state, appearance)
-                    tdInlineElements(call, state, state.getRaces(appearance.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

@@ -5,20 +5,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.organization.editOrganization
 import at.orchaldir.gm.app.html.organization.parseOrganization
 import at.orchaldir.gm.app.html.organization.showOrganization
-import at.orchaldir.gm.app.html.util.showBeliefStatus
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.util.SortOrganization
-import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortOrganizations
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -28,13 +21,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ORGANIZATION_TYPE")
-class OrganizationRoutes : Routes<OrganizationId> {
+class OrganizationRoutes : Routes<OrganizationId, SortOrganization> {
     @Resource("all")
     class All(
         val sort: SortOrganization = SortOrganization.Name,
@@ -61,17 +55,31 @@ class OrganizationRoutes : Routes<OrganizationId> {
 
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortOrganization) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: OrganizationId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: OrganizationId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureOrganizationRouting() {
     routing {
         get<OrganizationRoutes.All> { all ->
-            logger.info { "Get all organizations" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllOrganizations(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                OrganizationRoutes(),
+                state.sortOrganizations(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createAgeColumn(state),
+                    createReferenceColumn(call, state, "Founder", Organization::founder),
+                    countCollectionColumn("Ranks", Organization::memberRanks),
+                    countColumn("Members", Organization::countAllMembers),
+                    createBeliefColumn(call, state),
+                ),
+            ) {
+                showCreatorCount(call, state, it, "Founders")
             }
         }
         get<OrganizationRoutes.Details> { details ->
@@ -109,48 +117,6 @@ fun Application.configureOrganizationRouting() {
         post<OrganizationRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseOrganization)
         }
-    }
-}
-
-private fun HTML.showAllOrganizations(
-    call: ApplicationCall,
-    state: State,
-    sort: SortOrganization,
-) {
-    val organizations = state.sortOrganizations(sort)
-    val createLink = call.application.href(OrganizationRoutes.New())
-
-    simpleHtml("Organizations") {
-        field("Count", organizations.size)
-        showSortTableLinks(call, SortOrganization.entries, OrganizationRoutes(), OrganizationRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Age" }
-                th { +"Founder" }
-                th { +"Ranks" }
-                th { +"Members" }
-                th { +"Belief" }
-            }
-            organizations.forEach { organization ->
-                tr {
-                    tdLink(call, state, organization)
-                    td { showOptionalDate(call, state, organization.date) }
-                    tdSkipZero(state.getAgeInYears(organization.date))
-                    td { showReference(call, state, organization.founder, false) }
-                    tdSkipZero(organization.memberRanks)
-                    tdSkipZero(organization.countAllMembers())
-                    td { showBeliefStatus(call, state, organization.beliefStatus.current, false) }
-                }
-            }
-        }
-
-        showCreatorCount(call, state, organizations, "Founders")
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

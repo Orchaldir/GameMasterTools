@@ -2,14 +2,12 @@ package at.orchaldir.gm.app.routes.economy.money
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.money.editCurrencyUnit
 import at.orchaldir.gm.app.html.economy.money.parseCurrencyUnit
 import at.orchaldir.gm.app.html.economy.money.showCurrencyUnit
 import at.orchaldir.gm.app.html.economy.money.visualizeCurrencyUnit
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_UNIT_TYPE
@@ -29,13 +27,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CURRENCY_UNIT_TYPE")
-class CurrencyUnitRoutes : Routes<CurrencyUnitId> {
+class CurrencyUnitRoutes : Routes<CurrencyUnitId, SortCurrencyUnit> {
     @Resource("all")
     class All(
         val sort: SortCurrencyUnit = SortCurrencyUnit.Name,
@@ -67,18 +66,34 @@ class CurrencyUnitRoutes : Routes<CurrencyUnitId> {
     class Update(val id: CurrencyUnitId, val parent: CurrencyUnitRoutes = CurrencyUnitRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCurrencyUnit) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCurrencyUnitRouting() {
     routing {
         get<CurrencyUnitRoutes.All> { all ->
-            logger.info { "Get all unit" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCurrencies(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                CurrencyUnitRoutes(),
+                state.sortCurrencyUnits(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Currency") { tdLink(call, state, it.currency) },
+                    tdColumn("Value") {
+                        val currency = state.getCurrencyStorage().getOrThrow(it.currency)
+                        val denomination = currency.getDenomination(it.denomination)
+                        +denomination.display(it.number)
+                    },
+                    Column("Weight") { td(state.calculateWeight(it)) },
+                    Column("Format") { tdEnum(it.format.getType()) },
+                    Column("Materials") { tdInlineIds(call, state, it.format.getMaterials()) },
+                    Column("Fonts") { tdInlineIds(call, state, it.format.getFonts()) },
+                ),
+            )
         }
         get<CurrencyUnitRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
@@ -124,49 +139,6 @@ fun Application.configureCurrencyUnitRouting() {
     }
 }
 
-private fun HTML.showAllCurrencies(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCurrencyUnit,
-) {
-    val units = state.sortCurrencyUnits(sort)
-    val createLink = call.application.href(CurrencyUnitRoutes.New())
-    val galleryLink = call.application.href(CurrencyUnitRoutes.Gallery())
-
-    simpleHtml("Currency Units") {
-        action(galleryLink, "Gallery")
-        field("Count", units.size)
-        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes(), CurrencyUnitRoutes::All)
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Currency" }
-                th { +"Value" }
-                th { +"Weight" }
-                th { +"Format" }
-                th { +"Materials" }
-                th { +"Fonts" }
-            }
-            units.forEach { unit ->
-                val currency = state.getCurrencyStorage().getOrThrow(unit.currency)
-                val denomination = currency.getDenomination(unit.denomination)
-
-                tr {
-                    tdLink(call, state, unit)
-                    tdLink(call, state, currency)
-                    td { +denomination.display(unit.number) }
-                    td(state.calculateWeight(unit))
-                    tdEnum(unit.format.getType())
-                    tdInlineIds(call, state, unit.format.getMaterials())
-                    tdInlineIds(call, state, unit.format.getFonts())
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
-    }
-}
-
 private fun HTML.showGallery(
     call: ApplicationCall,
     state: State,
@@ -180,7 +152,7 @@ private fun HTML.showGallery(
     val backLink = call.application.href(CurrencyUnitRoutes.All())
 
     simpleHtml("Currency Units") {
-        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes(), CurrencyUnitRoutes::Gallery)
+        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes())
         showGallery(call, state, units) { unit ->
             visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit, maxSize)
         }

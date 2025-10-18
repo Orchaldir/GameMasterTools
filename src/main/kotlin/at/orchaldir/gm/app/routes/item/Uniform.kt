@@ -5,10 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.editUniform
 import at.orchaldir.gm.app.html.item.parseUniform
 import at.orchaldir.gm.app.html.item.showUniform
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Body
@@ -32,16 +29,13 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 private val appearance = HumanoidBody(Body(), Head(), fromMeters(2))
 
 @Resource("/$UNIFORM_TYPE")
-class UniformRoutes : Routes<UniformId> {
+class UniformRoutes : Routes<UniformId, SortUniform> {
     @Resource("all")
     class All(
         val sort: SortUniform = SortUniform.Name,
@@ -70,18 +64,26 @@ class UniformRoutes : Routes<UniformId> {
     class Update(val id: UniformId, val parent: UniformRoutes = UniformRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortUniform) = call.application.href(All(sort))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun delete(call: ApplicationCall, id: UniformId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: UniformId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureUniformRouting() {
     routing {
         get<UniformRoutes.All> { all ->
-            logger.info { "Get all uniforms" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllUniforms(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                UniformRoutes(),
+                state.sortUniforms(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    countCollectionColumn("Parts") { it.equipmentMap.getAllEquipment() }
+                ),
+            )
         }
         get<UniformRoutes.Gallery> {
             logger.info { "Show gallery" }
@@ -91,7 +93,7 @@ fun Application.configureUniformRouting() {
             }
         }
         get<UniformRoutes.Details> { details ->
-            handleShowElement<UniformId, Uniform>(details.id, UniformRoutes()) { call, state, uniform ->
+            handleShowElement<UniformId, Uniform, SortUniform>(details.id, UniformRoutes()) { call, state, uniform ->
                 val equipped = state.getEquipment(uniform.equipmentMap)
                 val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
                 svg(svg, 20)
@@ -130,37 +132,6 @@ fun Application.configureUniformRouting() {
         post<UniformRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseUniform)
         }
-    }
-}
-
-private fun HTML.showAllUniforms(
-    call: ApplicationCall,
-    state: State,
-    sort: SortUniform,
-) {
-    val uniforms = state.sortUniforms(sort)
-    val createLink = call.application.href(UniformRoutes.New())
-    val galleryLink = call.application.href(UniformRoutes.Gallery())
-
-    simpleHtml("Uniforms") {
-        action(galleryLink, "Gallery")
-        field("Count", uniforms.size)
-        showSortTableLinks(call, SortUniform.entries, UniformRoutes(), UniformRoutes::All)
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Parts" }
-            }
-            uniforms.forEach { uniform ->
-                tr {
-                    tdLink(call, state, uniform)
-                    tdSkipZero(uniform.equipmentMap.getAllEquipment())
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

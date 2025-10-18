@@ -5,12 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editMagicTradition
 import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MAGIC_TRADITION_TYPE
@@ -26,13 +21,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MAGIC_TRADITION_TYPE")
-class MagicTraditionRoutes : Routes<MagicTraditionId> {
+class MagicTraditionRoutes : Routes<MagicTraditionId, SortMagicTradition> {
     @Resource("all")
     class All(
         val sort: SortMagicTradition = SortMagicTradition.Name,
@@ -58,18 +54,27 @@ class MagicTraditionRoutes : Routes<MagicTraditionId> {
     class Update(val id: MagicTraditionId, val parent: MagicTraditionRoutes = MagicTraditionRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortMagicTradition) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureMagicTraditionRouting() {
     routing {
         get<MagicTraditionRoutes.All> { all ->
-            logger.info { "Get all traditions" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllMagicTraditions(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                MagicTraditionRoutes(),
+                state.sortMagicTraditions(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createCreatorColumn(call, state, "Founder"),
+                    countCollectionColumn("Groups", MagicTradition::groups),
+                ),
+            )
         }
         get<MagicTraditionRoutes.Details> { details ->
             handleShowElement(details.id, MagicTraditionRoutes(), HtmlBlockTag::showMagicTradition)
@@ -106,40 +111,6 @@ fun Application.configureMagicTraditionRouting() {
         post<MagicTraditionRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMagicTradition)
         }
-    }
-}
-
-private fun HTML.showAllMagicTraditions(
-    call: ApplicationCall,
-    state: State,
-    sort: SortMagicTradition,
-) {
-    val traditions = state.sortMagicTraditions(sort)
-    val createLink = call.application.href(MagicTraditionRoutes.New())
-
-    simpleHtml("Magic Traditions") {
-        field("Count", traditions.size)
-        showSortTableLinks(call, SortMagicTradition.entries, MagicTraditionRoutes(), MagicTraditionRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Founder" }
-                th { +"Groups" }
-            }
-            traditions.forEach { tradition ->
-                tr {
-                    tdLink(call, state, tradition)
-                    td { showOptionalDate(call, state, tradition.startDate()) }
-                    td { showReference(call, state, tradition.founder, false) }
-                    tdSkipZero(tradition.groups)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

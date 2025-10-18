@@ -55,7 +55,7 @@ import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countCharactersWithJob
-import at.orchaldir.gm.core.selector.character.countResident
+import at.orchaldir.gm.core.selector.character.countResidents
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
@@ -152,16 +152,6 @@ fun State.sortBattles(
 
 // building
 
-fun State.getBuildingAgeComparator(): Comparator<Building> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Building, b: Building -> calendar.compareToOptional(a.constructionDate, b.constructionDate) }
-}
-
-fun State.getBuildingAgePairComparator(): Comparator<Pair<Building, String>> {
-    val comparator = getBuildingAgeComparator()
-    return Comparator { a: Pair<Building, String>, b: Pair<Building, String> -> comparator.compare(a.first, b.first) }
-}
-
 fun State.sortBuildings(sort: SortBuilding = SortBuilding.Name) =
     sortBuildings(getBuildingStorage().getAll(), sort)
 
@@ -169,11 +159,10 @@ fun State.sortBuildings(
     buildings: Collection<Building>,
     sort: SortBuilding = SortBuilding.Name,
 ) = buildings
-    .map { Pair(it, it.name(this)) }
     .sortedWith(
         when (sort) {
-            SortBuilding.Name -> compareBy { it.second }
-            SortBuilding.Construction -> getBuildingAgePairComparator()
+            SortBuilding.Name -> compareBy { it.name(this) }
+            SortBuilding.Construction -> getStartDateComparator()
         })
 
 // business
@@ -541,10 +530,10 @@ fun State.sortMagicTraditions(
 
 // material
 
-fun State.sortMaterial(sort: SortMaterial = SortMaterial.Name) =
-    sortMaterial(getMaterialStorage().getAll(), sort)
+fun State.sortMaterials(sort: SortMaterial = SortMaterial.Name) =
+    sortMaterials(getMaterialStorage().getAll(), sort)
 
-fun State.sortMaterial(
+fun State.sortMaterials(
     planes: Collection<Material>,
     sort: SortMaterial = SortMaterial.Name,
 ) = planes
@@ -583,6 +572,7 @@ fun State.sortNameLists(
     .sortedWith(
         when (sort) {
             SortNameList.Name -> compareBy { it.name.text }
+            SortNameList.Size -> compareByDescending { it.names.size }
         })
 
 // organization
@@ -894,7 +884,7 @@ fun State.sortTowns(
             SortTown.Date -> getStartDateComparator()
             SortTown.Population -> compareByDescending { it.population.getTotalPopulation() }
             SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
-            SortTown.Residents -> compareByDescending { countResident(it.id) }
+            SortTown.Residents -> compareByDescending { countResidents(it.id) }
         })
 
 // town map

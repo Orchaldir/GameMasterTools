@@ -5,12 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editDistrict
 import at.orchaldir.gm.app.html.realm.parseDistrict
 import at.orchaldir.gm.app.html.realm.showDistrict
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.DISTRICT_TYPE
@@ -26,13 +21,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DISTRICT_TYPE")
-class DistrictRoutes : Routes<DistrictId> {
+class DistrictRoutes : Routes<DistrictId, SortDistrict> {
     @Resource("all")
     class All(
         val sort: SortDistrict = SortDistrict.Name,
@@ -58,17 +54,29 @@ class DistrictRoutes : Routes<DistrictId> {
     class Update(val id: DistrictId, val parent: DistrictRoutes = DistrictRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortDistrict) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: DistrictId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DistrictId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureDistrictRouting() {
     routing {
         get<DistrictRoutes.All> { all ->
-            logger.info { "Get all legal codes" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllDistricts(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                DistrictRoutes(),
+                state.sortDistricts(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createIdColumn(call, state, "Town", District::town),
+                    createStartDateColumn(call, state),
+                    createCreatorColumn(call, state, "Founder"),
+                    createPopulationColumn(),
+                ),
+            ) {
+                showCreatorCount(call, state, it, "Creators")
             }
         }
         get<DistrictRoutes.Details> { details ->
@@ -106,44 +114,6 @@ fun Application.configureDistrictRouting() {
         post<DistrictRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDistrict)
         }
-    }
-}
-
-private fun HTML.showAllDistricts(
-    call: ApplicationCall,
-    state: State,
-    sort: SortDistrict,
-) {
-    val codes = state.sortDistricts(sort)
-    val createLink = call.application.href(DistrictRoutes.New())
-
-    simpleHtml("Districts") {
-        field("Count", codes.size)
-        showSortTableLinks(call, SortDistrict.entries, DistrictRoutes(), DistrictRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Town" }
-                th { +"Date" }
-                th { +"Creator" }
-                th { +"Population" }
-            }
-            codes.forEach { district ->
-                tr {
-                    tdLink(call, state, district)
-                    tdLink(call, state, district.town)
-                    td { showOptionalDate(call, state, district.foundingDate) }
-                    td { showReference(call, state, district.founder, false) }
-                    tdSkipZero(district.population.getTotalPopulation())
-                }
-            }
-        }
-
-        showCreatorCount(call, state, codes, "Creators")
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

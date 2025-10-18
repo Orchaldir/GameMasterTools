@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.showOptionalDate
 import at.orchaldir.gm.app.html.world.editArchitecturalStyle
 import at.orchaldir.gm.app.html.world.parseArchitecturalStyle
 import at.orchaldir.gm.app.html.world.showArchitecturalStyle
@@ -23,13 +22,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ARCHITECTURAL_STYLE_TYPE")
-class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId> {
+class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId, SortArchitecturalStyle> {
     @Resource("all")
     class All(
         val sort: SortArchitecturalStyle = Name,
@@ -55,18 +55,28 @@ class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId> {
     class Update(val id: ArchitecturalStyleId, val parent: ArchitecturalStyleRoutes = ArchitecturalStyleRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortArchitecturalStyle) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureArchitecturalStyleRouting() {
     routing {
         get<ArchitecturalStyleRoutes.All> { all ->
-            logger.info { "Get all architectural styles" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllArchitecturalStyles(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                ArchitecturalStyleRoutes(),
+                state.sortArchitecturalStyles(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createEndDateColumn(call, state),
+                    Column("Revival of") { tdLink(call, state, it.revival) },
+                    Column("Buildings") { tdSkipZero(state.getBuildings(it.id)) },
+                ),
+            )
         }
         get<ArchitecturalStyleRoutes.Details> { details ->
             handleShowElement(details.id, ArchitecturalStyleRoutes(), HtmlBlockTag::showArchitecturalStyle)
@@ -102,42 +112,6 @@ fun Application.configureArchitecturalStyleRouting() {
         post<ArchitecturalStyleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseArchitecturalStyle)
         }
-    }
-}
-
-private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State, sort: SortArchitecturalStyle) {
-    val styles = STORE.getState().sortArchitecturalStyles(sort)
-    val createLink = call.application.href(ArchitecturalStyleRoutes.New())
-
-    simpleHtml("Architectural Styles") {
-        field("Count", styles.size)
-        showSortTableLinks(
-            call,
-            SortArchitecturalStyle.entries,
-            ArchitecturalStyleRoutes(),
-            ArchitecturalStyleRoutes::All
-        )
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Start" }
-                th { +"End" }
-                th { +"Revival Of" }
-                th { +"Buildings" }
-            }
-            styles.forEach { style ->
-                tr {
-                    tdLink(call, state, style)
-                    td { showOptionalDate(call, state, style.start) }
-                    td { showOptionalDate(call, state, style.end) }
-                    tdLink(call, state, style.revival)
-                    tdSkipZero(state.getBuildings(style.id))
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

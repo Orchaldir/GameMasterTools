@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
-import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -24,16 +23,12 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CHARACTER_TEMPLATE_TYPE")
-class CharacterTemplateRoutes : Routes<CharacterTemplateId> {
+class CharacterTemplateRoutes : Routes<CharacterTemplateId, SortCharacterTemplate> {
     @Resource("all")
     class All(
         val sort: SortCharacterTemplate = SortCharacterTemplate.Name,
@@ -62,19 +57,30 @@ class CharacterTemplateRoutes : Routes<CharacterTemplateId> {
     class Update(val id: CharacterTemplateId, val parent: CharacterTemplateRoutes = CharacterTemplateRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCharacterTemplate) = call.application.href(All(sort))
     override fun clone(call: ApplicationCall, id: CharacterTemplateId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: CharacterTemplateId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CharacterTemplateId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCharacterTemplateRouting() {
     routing {
         get<CharacterTemplateRoutes.All> { all ->
-            logger.info { "Get all templates" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacterTemplates(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                CharacterTemplateRoutes(),
+                state.sortCharacterTemplates(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Race") { tdLink(call, state, it.race) },
+                    Column("Culture") { tdLink(call, state, it.culture) },
+                    createBeliefColumn(call, state),
+                    Column("Uniform") { tdLink(call, state, it.uniform) },
+                    countColumn("Cost") { it.statblock.calculateCost(state) },
+                ),
+            )
         }
         get<CharacterTemplateRoutes.Details> { details ->
             handleShowElement(details.id, CharacterTemplateRoutes(), HtmlBlockTag::showCharacterTemplate)
@@ -116,45 +122,6 @@ fun Application.configureCharacterTemplateRouting() {
         post<CharacterTemplateRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCharacterTemplate)
         }
-    }
-}
-
-
-private fun HTML.showAllCharacterTemplates(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCharacterTemplate,
-) {
-    val templates = state.sortCharacterTemplates(sort)
-    val createLink = call.application.href(CharacterTemplateRoutes.New())
-
-    simpleHtml("Character Templates") {
-        field("Count", templates.size)
-        showSortTableLinks(call, SortCharacterTemplate.entries, CharacterTemplateRoutes(), CharacterTemplateRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Race" }
-                th { +"Culture" }
-                th { +"Belief" }
-                th { +"Uniform" }
-                th { +"Cost" }
-            }
-            templates.forEach { template ->
-                tr {
-                    tdLink(call, state, template)
-                    tdLink(call, state, template.race)
-                    tdLink(call, state, template.culture)
-                    td { showBeliefStatus(call, state, template.belief, false) }
-                    tdLink(call, state, template.uniform)
-                    tdInt(template.statblock.calculateCost(state))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

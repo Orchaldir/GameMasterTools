@@ -2,14 +2,12 @@ package at.orchaldir.gm.app.routes.time
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.time.editCalendar
 import at.orchaldir.gm.app.html.time.parseCalendar
 import at.orchaldir.gm.app.html.time.showCalendar
 import at.orchaldir.gm.app.html.util.showDate
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
@@ -28,13 +26,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CALENDAR_TYPE")
-class CalendarRoutes : Routes<CalendarId> {
+class CalendarRoutes : Routes<CalendarId, SortCalendar> {
     @Resource("all")
     class All(
         val sort: SortCalendar = SortCalendar.Name,
@@ -60,18 +59,37 @@ class CalendarRoutes : Routes<CalendarId> {
     class Update(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCalendar) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: CalendarId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CalendarId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCalendarRouting() {
     routing {
         get<CalendarRoutes.All> { all ->
-            logger.info { "Get all calendars" }
+            val state = STORE.getState()
+            val defaultCalendar = state.getDefaultCalendar()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCalendars(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                CalendarRoutes(),
+                state.sortCalendars(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    tdColumn("Default") {
+                        if (it == defaultCalendar) {
+                            +"yes"
+                        }
+                    },
+                    Column("Days") { tdSkipZero(it.getDaysPerYear()) },
+                    Column("Months") { tdSkipZero(it.getMonthsPerYear()) },
+                    tdColumn("Start in Default") { showDate(call, state, it.getStartDateInDefaultCalendar()) },
+                    tdColumn("Today") {
+                        val today = convertDate(defaultCalendar, it, state.getCurrentDate())
+                        showDate(call, state, it, today)
+                    },
+                ),
+            )
         }
         get<CalendarRoutes.Details> { details ->
             handleShowElement(details.id, CalendarRoutes(), HtmlBlockTag::showCalendar)
@@ -107,51 +125,6 @@ fun Application.configureCalendarRouting() {
         post<CalendarRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCalendar)
         }
-    }
-}
-
-private fun HTML.showAllCalendars(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCalendar,
-) {
-    val calendars = state.sortCalendars(sort)
-    val defaultCalendar = state.getDefaultCalendar()
-    val count = calendars.size
-    val createLink = call.application.href(CalendarRoutes.New())
-
-    simpleHtml("Calendars") {
-        field("Count", count)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Default" }
-                th { +"Days" }
-                th { +"Months" }
-                th { +"Start in Default" }
-                th { +"Today" }
-            }
-            calendars.forEach { calendar ->
-                val example = convertDate(defaultCalendar, calendar, state.getCurrentDate())
-
-                tr {
-                    tdLink(call, state, calendar)
-                    td {
-                        if (calendar == defaultCalendar) {
-                            +"yes"
-                        }
-                    }
-                    tdSkipZero(calendar.getDaysPerYear())
-                    tdSkipZero(calendar.getMonthsPerYear())
-                    td { showDate(call, state, calendar.getStartDateInDefaultCalendar()) }
-                    td { showDate(call, state, calendar, example) }
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

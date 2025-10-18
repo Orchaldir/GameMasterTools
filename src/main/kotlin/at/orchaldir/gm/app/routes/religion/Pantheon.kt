@@ -5,17 +5,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editPantheon
 import at.orchaldir.gm.app.html.religion.parsePantheon
 import at.orchaldir.gm.app.html.religion.showPantheon
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.SortPantheon
-import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.core.selector.util.sortPantheons
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -27,15 +23,12 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$PANTHEON_TYPE")
-class PantheonRoutes : Routes<PantheonId> {
+class PantheonRoutes : Routes<PantheonId, SortPantheon> {
     @Resource("all")
     class All(
         val sort: SortPantheon = SortPantheon.Name,
@@ -61,18 +54,28 @@ class PantheonRoutes : Routes<PantheonId> {
     class Update(val id: PantheonId, val parent: PantheonRoutes = PantheonRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortPantheon) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: PantheonId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PantheonId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configurePantheonRouting() {
     routing {
         get<PantheonRoutes.All> { all ->
-            logger.info { "Get all pantheons" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllPantheons(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                PantheonRoutes(),
+                state.sortPantheons(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Title") { tdString(it.title) },
+                    Column("Gods") { tdSkipZero(it.gods) },
+                    Column("Believers") { tdBelievers(state.getCharacterStorage(), it.id) },
+                    Column("Organization") { tdBelievers(state.getOrganizationStorage(), it.id) },
+                ),
+            )
         }
         get<PantheonRoutes.Details> { details ->
             handleShowElement(details.id, PantheonRoutes(), HtmlBlockTag::showPantheon)
@@ -109,42 +112,6 @@ fun Application.configurePantheonRouting() {
         post<PantheonRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePantheon)
         }
-    }
-}
-
-private fun HTML.showAllPantheons(
-    call: ApplicationCall,
-    state: State,
-    sort: SortPantheon,
-) {
-    val pantheons = state.sortPantheons(sort)
-    val createLink = call.application.href(PantheonRoutes.New())
-
-    simpleHtml("Pantheons") {
-        field("Count", pantheons.size)
-        showSortTableLinks(call, SortPantheon.entries, PantheonRoutes(), PantheonRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Title" }
-                th { +"Gods" }
-                th { +"Believers" }
-                th { +"Organizations" }
-            }
-            pantheons.forEach { pantheon ->
-                tr {
-                    tdLink(call, state, pantheon)
-                    tdString(pantheon.title)
-                    tdSkipZero(pantheon.gods)
-                    tdSkipZero(getBelievers(state.getCharacterStorage(), pantheon.id))
-                    tdSkipZero(getBelievers(state.getOrganizationStorage(), pantheon.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

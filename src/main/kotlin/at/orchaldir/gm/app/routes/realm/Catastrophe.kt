@@ -2,24 +2,18 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.realm.displayCauseOfCatastrophe
 import at.orchaldir.gm.app.html.realm.editCatastrophe
 import at.orchaldir.gm.app.html.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.realm.showCatastrophe
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.tdDestroyed
-import at.orchaldir.gm.app.html.util.thDestroyed
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.util.SortCatastrophe
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCatastrophes
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -29,13 +23,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CATASTROPHE_TYPE")
-class CatastropheRoutes : Routes<CatastropheId> {
+class CatastropheRoutes : Routes<CatastropheId, SortCatastrophe> {
     @Resource("all")
     class All(
         val sort: SortCatastrophe = SortCatastrophe.Name,
@@ -61,18 +56,28 @@ class CatastropheRoutes : Routes<CatastropheId> {
     class Update(val id: CatastropheId, val parent: CatastropheRoutes = CatastropheRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCatastrophe) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: CatastropheId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CatastropheId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCatastropheRouting() {
     routing {
         get<CatastropheRoutes.All> { all ->
-            logger.info { "Get all catastrophes" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCatastrophes(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                CatastropheRoutes(),
+                state.sortCatastrophes(all.sort),
+                listOf<Column<Catastrophe>>(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state, "Start"),
+                    createEndDateColumn(call, state, "End"),
+                    createAgeColumn(state, "Years"),
+                    tdColumn("Cause") { displayCauseOfCatastrophe(call, state, it.cause, false) }
+                ) + createDestroyedColumns(state),
+            )
         }
         get<CatastropheRoutes.Details> { details ->
             handleShowElement(details.id, CatastropheRoutes(), HtmlBlockTag::showCatastrophe)
@@ -109,45 +114,6 @@ fun Application.configureCatastropheRouting() {
         post<CatastropheRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCatastrophe)
         }
-    }
-}
-
-private fun HTML.showAllCatastrophes(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCatastrophe,
-) {
-    val calendar = state.getDefaultCalendar()
-    val catastrophes = state.sortCatastrophes(sort)
-    val createLink = call.application.href(CatastropheRoutes.New())
-
-    simpleHtml("Catastrophes") {
-        field("Count", catastrophes.size)
-        showSortTableLinks(call, SortCatastrophe.entries, CatastropheRoutes(), CatastropheRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Start" }
-                th { +"End" }
-                th { +"Years" }
-                th { +"Cause" }
-                thDestroyed()
-            }
-            catastrophes.forEach { catastrophe ->
-                tr {
-                    tdLink(call, state, catastrophe)
-                    td { showOptionalDate(call, state, catastrophe.startDate) }
-                    td { showOptionalDate(call, state, catastrophe.endDate) }
-                    tdSkipZero(calendar.getYears(catastrophe.getDuration(state)))
-                    td { displayCauseOfCatastrophe(call, state, catastrophe.cause, false) }
-                    tdDestroyed(state, catastrophe.id)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

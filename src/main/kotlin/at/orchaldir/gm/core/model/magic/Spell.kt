@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.magic
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Creation
+import at.orchaldir.gm.core.model.util.HasOrigin
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -44,7 +44,7 @@ data class Spell(
     val language: LanguageId? = null,
     val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<SpellId>, Creation, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<SpellId>, HasDataSources, HasOrigin, HasStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_SPELL_ORIGINS)
@@ -53,6 +53,7 @@ data class Spell(
     override fun id() = id
     override fun name() = name.text
     override fun creator() = origin.creator()
+    override fun origin() = origin
     override fun sources() = sources
     override fun startDate() = date
 

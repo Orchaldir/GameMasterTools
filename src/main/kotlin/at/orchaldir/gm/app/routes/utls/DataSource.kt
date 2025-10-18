@@ -5,10 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.source.editDataSource
 import at.orchaldir.gm.app.html.util.source.parseDataSource
 import at.orchaldir.gm.app.html.util.source.showDataSource
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortDataSource
@@ -24,13 +21,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DATA_SOURCE_TYPE")
-class DataSourceRoutes : Routes<DataSourceId> {
+class DataSourceRoutes : Routes<DataSourceId, SortDataSource> {
     @Resource("all")
     class All(
         val sort: SortDataSource = SortDataSource.Name,
@@ -56,18 +54,26 @@ class DataSourceRoutes : Routes<DataSourceId> {
     class Update(val id: DataSourceId, val parent: DataSourceRoutes = DataSourceRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortDataSource) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: DataSourceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DataSourceId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureDataSourceRouting() {
     routing {
         get<DataSourceRoutes.All> { all ->
-            logger.info { "Get all source" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllDataSources(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                DataSourceRoutes(),
+                state.sortDataSources(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Year") { tdInt(it.year) },
+                    Column("Edition") { tdSkipZero(it.edition) },
+                ),
+            )
         }
         get<DataSourceRoutes.Details> { details ->
             handleShowElement(details.id, DataSourceRoutes(), HtmlBlockTag::showDataSource)
@@ -103,36 +109,6 @@ fun Application.configureDataSourceRouting() {
         post<DataSourceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDataSource)
         }
-    }
-}
-
-private fun HTML.showAllDataSources(
-    call: ApplicationCall,
-    state: State,
-    sort: SortDataSource,
-) {
-    val qsources = state.sortDataSources(sort)
-    val createLink = call.application.href(DataSourceRoutes.New())
-
-    simpleHtml("Data Sources") {
-        field("Count", qsources.size)
-        showSortTableLinks(call, SortDataSource.entries, DataSourceRoutes(), DataSourceRoutes::All)
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Year" }
-                th { +"Edition" }
-            }
-            qsources.forEach { source ->
-                tr {
-                    tdLink(call, state, source)
-                    td { +source.year.toString() }
-                    td { +(source.edition?.toString() ?: "") }
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

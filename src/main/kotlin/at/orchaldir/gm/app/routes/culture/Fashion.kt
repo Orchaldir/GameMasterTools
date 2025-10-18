@@ -5,10 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editFashion
 import at.orchaldir.gm.app.html.culture.parseFashion
 import at.orchaldir.gm.app.html.culture.showFashion
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.model.State
@@ -16,6 +13,7 @@ import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.util.SortFashion
+import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.util.sortFashions
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -32,7 +30,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$FASHION_TYPE")
-class FashionRoutes : Routes<FashionId> {
+class FashionRoutes : Routes<FashionId, SortFashion> {
     @Resource("all")
     class All(
         val sort: SortFashion = SortFashion.Name,
@@ -58,18 +56,25 @@ class FashionRoutes : Routes<FashionId> {
     class Update(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortFashion) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: FashionId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: FashionId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureFashionRouting() {
     routing {
         get<FashionRoutes.All> { all ->
-            logger.info { "Get all fashions" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllFashions(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                FashionRoutes(),
+                state.sortFashions(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Cultures") { tdInlineElements(call, state, state.getCultures(it.id)) },
+                ),
+            )
         }
         get<FashionRoutes.Details> { details ->
             handleShowElement(details.id, FashionRoutes(), HtmlBlockTag::showFashion)
@@ -105,24 +110,6 @@ fun Application.configureFashionRouting() {
         post<FashionRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseFashion)
         }
-    }
-}
-
-private fun HTML.showAllFashions(
-    call: ApplicationCall,
-    state: State,
-    sort: SortFashion,
-) {
-    val fashion = state.sortFashions(sort)
-    val createLink = call.application.href(FashionRoutes.New())
-
-    simpleHtml("Fashions") {
-        field("Count", fashion.size)
-        showList(fashion) { fashion ->
-            link(call, fashion)
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

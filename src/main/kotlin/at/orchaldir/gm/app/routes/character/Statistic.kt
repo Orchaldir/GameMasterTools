@@ -2,14 +2,11 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.character.statistic.*
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.DerivedAttribute
 import at.orchaldir.gm.core.model.character.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.statistic.StatisticId
@@ -25,16 +22,12 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STATISTIC_TYPE")
-class StatisticRoutes : Routes<StatisticId> {
+class StatisticRoutes : Routes<StatisticId, SortStatistic> {
     @Resource("all")
     class All(
         val sort: SortStatistic = SortStatistic.Name,
@@ -60,18 +53,29 @@ class StatisticRoutes : Routes<StatisticId> {
     class Update(val id: StatisticId, val parent: StatisticRoutes = StatisticRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortStatistic) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: StatisticId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: StatisticId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureStatisticRouting() {
     routing {
         get<StatisticRoutes.All> { all ->
-            logger.info { "Get all statistics" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllStatistics(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                StatisticRoutes(),
+                state.sortStatistics(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Short") { tdString(it.short) },
+                    Column("Type") { tdEnum(it.data.getType()) },
+                    tdColumn("Base Value") { displayBaseValue(call, state, it.data.baseValue()) },
+                    tdColumn("Cost") { displayStatisticCost(it.data.cost(), false) },
+                    tdColumn("Unit") { displayStatisticUnit(it.data, false) },
+                ),
+            )
         }
         get<StatisticRoutes.Details> { details ->
             handleShowElement(details.id, StatisticRoutes(), HtmlBlockTag::showStatistic)
@@ -108,48 +112,6 @@ fun Application.configureStatisticRouting() {
         post<StatisticRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseStatistic)
         }
-    }
-}
-
-private fun HTML.showAllStatistics(
-    call: ApplicationCall,
-    state: State,
-    sort: SortStatistic,
-) {
-    val statistics = state.sortStatistics(sort)
-    val createLink = call.application.href(StatisticRoutes.New())
-
-    simpleHtml("Statistics") {
-        field("Count", statistics.size)
-        showSortTableLinks(call, SortStatistic.entries, StatisticRoutes(), StatisticRoutes::All)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Short" }
-                th { +"Type" }
-                th { +"Base Value" }
-                th { +"Cost" }
-                th { +"Unit" }
-            }
-            statistics.forEach { statistic ->
-                tr {
-                    tdLink(call, state, statistic)
-                    tdString(statistic.short)
-                    tdEnum(statistic.data.getType())
-                    td { displayBaseValue(call, state, statistic.data.baseValue()) }
-                    td { displayStatisticCost(statistic.data.cost(), false) }
-                    td {
-                        if (statistic.data is DerivedAttribute) {
-                            displayStatisticUnit(statistic.data.unit, false)
-                        }
-                    }
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

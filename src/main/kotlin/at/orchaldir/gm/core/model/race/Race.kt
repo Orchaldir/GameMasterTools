@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Creation
+import at.orchaldir.gm.core.model.util.HasOrigin
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -62,7 +62,7 @@ data class Race(
     val date: Date? = null,
     val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<RaceId>, Creation, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<RaceId>, HasDataSources, HasOrigin, HasStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_RACE_ORIGINS)
@@ -71,6 +71,7 @@ data class Race(
     override fun id() = id
     override fun name() = name.text
     override fun creator() = origin.creator()
+    override fun origin() = origin
     override fun sources() = sources
     override fun startDate() = date
 

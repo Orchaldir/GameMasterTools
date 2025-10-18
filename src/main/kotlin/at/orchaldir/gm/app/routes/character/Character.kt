@@ -2,10 +2,14 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.character.*
-import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.showCreated
+import at.orchaldir.gm.app.html.util.showEmploymentStatus
+import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
+import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.generator.DateGenerator
@@ -15,7 +19,6 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.item.getEquipment
@@ -34,7 +37,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 import kotlin.random.Random
 
@@ -43,10 +47,45 @@ private val logger = KotlinLogging.logger {}
 fun Application.configureCharacterRouting() {
     routing {
         get<CharacterRoutes.All> { all ->
-            logger.info { "Get all characters" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacters(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                CharacterRoutes(),
+                state.sortCharacters(all.sort),
+                listOf(
+                    tdColumn("Name") { showNameWithVitalStatus(call, state, it) },
+                    Column("Title") { tdLink(call, state, it.title) },
+                    Column("Race") { tdLink(call, state, it.race) },
+                    Column("Gender") { tdEnum(it.gender) },
+                    Column("Sexuality") {
+                        if (it.sexuality != SexualOrientation.Heterosexual) {
+                            tdEnum(it.sexuality)
+                        }
+                    },
+                    Column("Culture") { tdLink(call, state, it.culture) },
+                    createBeliefColumn(call, state),
+                    createAgeColumn(state),
+                    createStartDateColumn(call, state, "Birthdate"),
+                    createEndDateColumn(call, state, "Deathdate"),
+                    createVitalColumn(call, state, "Death"),
+                    tdColumn("Housing Status") { showPosition(call, state, it.housingStatus.current, false) },
+                    tdColumn("Employment Status") {
+                        showEmploymentStatus(
+                            call,
+                            state,
+                            it.employmentStatus.current,
+                            false,
+                            false
+                        )
+                    },
+                    countCollectionColumn("Organizations") { state.getOrganizations(it.id) },
+                    countColumn("Cost") { it.statblock.calculateCost(state) },
+                ),
+            ) {
+                showCauseOfDeath(it)
+                showGenderCount(it)
+                showSexualOrientationCount(it)
+                showHousingStatusCount(it)
             }
         }
         get<CharacterRoutes.Gallery> {
@@ -118,81 +157,6 @@ fun generateName(
     val name = generator.generate()
 
     return state.getCharacterStorage().getOrThrow(id).copy(name = name)
-}
-
-private fun HTML.showAllCharacters(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCharacter,
-) {
-    val characters = state.sortCharacters(sort)
-    val createLink = call.application.href(CharacterRoutes.New())
-    val galleryLink = call.application.href(CharacterRoutes.Gallery())
-
-    simpleHtml("Characters") {
-        action(galleryLink, "Gallery")
-        field("Count", characters.size)
-        showSortTableLinks(call, SortCharacter.entries, CharacterRoutes(), CharacterRoutes::All)
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Title" }
-                th { +"Race" }
-                th { +"Gender" }
-                th { +"Sexuality" }
-                th { +"Culture" }
-                th { +"Belief" }
-                th { +"Age" }
-                th { +"Birthdate" }
-                th { +"Deathdate" }
-                th { +"Death" }
-                th { +"Housing Status" }
-                th { +"Employment Status" }
-                th { +"Organizations" }
-                th { +"Cost" }
-            }
-            characters.forEach { character ->
-                val name = character.nameForSorting(state)
-                tr {
-                    td {
-                        if (character.vitalStatus is Dead) {
-                            del {
-                                link(call, character, name)
-                            }
-                        } else {
-                            link(call, character, name)
-                        }
-                    }
-                    td { optionalLink(call, state, character.title) }
-                    tdLink(call, state, character.race)
-                    tdEnum(character.gender)
-                    td {
-                        if (character.sexuality != SexualOrientation.Heterosexual) {
-                            +character.sexuality.toString()
-                        }
-                    }
-                    tdLink(call, state, character.culture)
-                    td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
-                    tdSkipZero(character.getAgeInYears(state))
-                    td { showDate(call, state, character.birthDate) }
-                    td { showOptionalDate(call, state, character.vitalStatus.getDeathDate()) }
-                    td { displayVitalStatus(call, state, character.vitalStatus, false) }
-                    td { showPosition(call, state, character.housingStatus.current, false) }
-                    td { showEmploymentStatus(call, state, character.employmentStatus.current, false, false) }
-                    tdSkipZero(state.getOrganizations(character.id))
-                    tdSkipZero(character.statblock.calculateCost(state))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
-
-        showCauseOfDeath(characters)
-        showGenderCount(characters)
-        showSexualOrientationCount(characters)
-        showHousingStatusCount(characters)
-    }
 }
 
 private fun HTML.showGallery(

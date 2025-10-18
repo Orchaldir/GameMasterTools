@@ -25,15 +25,12 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CULTURE_TYPE")
-class CultureRoutes : Routes<CultureId> {
+class CultureRoutes : Routes<CultureId, SortCulture> {
     @Resource("all")
     class All(
         val sort: SortCulture = SortCulture.Name,
@@ -62,19 +59,30 @@ class CultureRoutes : Routes<CultureId> {
     class Update(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortCulture) = call.application.href(All(sort))
     override fun clone(call: ApplicationCall, id: CultureId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: CultureId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CultureId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureCultureRouting() {
     routing {
         get<CultureRoutes.All> { all ->
-            logger.info { "Get all cultures" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCultures(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                CultureRoutes(),
+                state.sortCultures(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Calendar") { tdLink(call, state, it.calendar) },
+                    Column("Languages") { tdInlineIds(call, state, it.languages.getValuesFor(Rarity.Everyone)) },
+                    Column(listOf("Naming", "Convention")) { tdEnum(it.namingConvention.getType()) },
+                    countCollectionColumn("Holidays") { it.holidays },
+                    countCollectionColumn("Characters") { state.getCharacters(it.id) },
+                ),
+            )
         }
         get<CultureRoutes.Details> { details ->
             handleShowElement(details.id, CultureRoutes(), HtmlBlockTag::showCulture)
@@ -116,44 +124,6 @@ fun Application.configureCultureRouting() {
         post<CultureRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCulture)
         }
-    }
-}
-
-private fun HTML.showAllCultures(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCulture,
-) {
-    val cultures = state.sortCultures(sort)
-    val count = cultures.size
-    val createLink = call.application.href(CultureRoutes.New())
-
-    simpleHtml("Cultures") {
-        field("Count", count)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Calendar" }
-                th { +"Languages" }
-                thMultiLines(listOf("Naming", "Convention"))
-                th { +"Holidays" }
-                th { +"Characters" }
-            }
-            cultures.forEach { culture ->
-                tr {
-                    tdLink(call, state, culture.id)
-                    tdLink(call, state, culture.calendar)
-                    tdInlineIds(call, state, culture.languages.getValuesFor(Rarity.Everyone))
-                    tdEnum(culture.namingConvention.getType())
-                    tdSkipZero(culture.holidays)
-                    tdSkipZero(state.getCharacters(culture.id))
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

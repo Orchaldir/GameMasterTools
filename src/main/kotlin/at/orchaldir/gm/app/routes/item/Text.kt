@@ -5,12 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.text.editText
 import at.orchaldir.gm.app.html.item.text.parseText
 import at.orchaldir.gm.app.html.item.text.showText
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showOrigin
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
@@ -30,13 +25,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
-class TextRoutes : Routes<TextId> {
+class TextRoutes : Routes<TextId, SortText> {
     @Resource("all")
     class All(
         val sort: SortText = SortText.Name,
@@ -69,17 +65,37 @@ class TextRoutes : Routes<TextId> {
     class Update(val id: TextId, val parent: TextRoutes = TextRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortText) = call.application.href(All(sort))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun delete(call: ApplicationCall, id: TextId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TextId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureTextRouting() {
     routing {
         get<TextRoutes.All> { all ->
-            logger.info { "Get all texts" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllTexts(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                TextRoutes(),
+                state.sortTexts(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createOriginColumn(call, state, ::TextId),
+                    Column("Publisher") { tdLink(call, state, it.publisher) },
+                    Column("Language") { tdLink(call, state, it.language) },
+                    Column("Format") { tdEnum(it.format.getType()) },
+                    Column("Materials") { tdInlineIds(call, state, it.materials()) },
+                    countColumn("Pages") { it.content.pages() },
+                    countCollectionColumn("Spells") { it.content.spells() },
+                ),
+            ) {
+                showTextFormatCount(it)
+                showTextOriginCount(it)
+                showCreatorCount(call, state, it, "Creators")
+                showLanguageCountForTexts(call, state, it)
             }
         }
         get<TextRoutes.Gallery> {
@@ -90,7 +106,7 @@ fun Application.configureTextRouting() {
             }
         }
         get<TextRoutes.Details> { details ->
-            handleShowElement<TextId, Text>(details.id, TextRoutes()) { call, state, text ->
+            handleShowElement<TextId, Text, SortText>(details.id, TextRoutes()) { call, state, text ->
                 visualizeFrontAndContent(call, state, text, 20, details.pageIndex, true)
                 showText(call, state, text)
             }
@@ -126,56 +142,6 @@ fun Application.configureTextRouting() {
         post<TextRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseText)
         }
-    }
-}
-
-private fun HTML.showAllTexts(
-    call: ApplicationCall,
-    state: State,
-    sort: SortText,
-) {
-    val texts = state.sortTexts(sort)
-    val createLink = call.application.href(TextRoutes.New())
-    val galleryLink = call.application.href(TextRoutes.Gallery())
-
-    simpleHtml("Texts") {
-        action(galleryLink, "Gallery")
-        field("Count", texts.size)
-        showSortTableLinks(call, SortText.entries, TextRoutes(), TextRoutes::All)
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Origin" }
-                th { +"Publisher" }
-                th { +"Language" }
-                th { +"Format" }
-                th { +"Materials" }
-                th { +"Pages" }
-                th { +"Spells" }
-            }
-            texts.forEach { text ->
-                tr {
-                    tdLink(call, state, text)
-                    td { showOptionalDate(call, state, text.date) }
-                    td { showOrigin(call, state, text.origin, ::TextId) }
-                    tdLink(call, state, text.publisher)
-                    tdLink(call, state, text.language)
-                    tdEnum(text.format.getType())
-                    tdInlineIds(call, state, text.materials())
-                    tdSkipZero(text.content.pages())
-                    tdSkipZero(text.content.spells())
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
-
-        showTextFormatCount(texts)
-        showTextOriginCount(texts)
-        showCreatorCount(call, state, texts, "Creators")
-        showLanguageCountForTexts(call, state, texts)
     }
 }
 

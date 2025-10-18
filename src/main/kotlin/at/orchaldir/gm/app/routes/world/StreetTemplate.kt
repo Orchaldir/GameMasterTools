@@ -2,13 +2,11 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.world.editStreetTemplate
 import at.orchaldir.gm.app.html.world.parseStreetTemplate
 import at.orchaldir.gm.app.html.world.showStreetTemplate
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElementSplit
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortStreetTemplate
@@ -36,16 +34,12 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TEMPLATE_TYPE")
-class StreetTemplateRoutes : Routes<StreetTemplateId> {
+class StreetTemplateRoutes : Routes<StreetTemplateId, SortStreetTemplate> {
     @Resource("all")
     class All(
         val sort: SortStreetTemplate = SortStreetTemplate.Name,
@@ -71,18 +65,26 @@ class StreetTemplateRoutes : Routes<StreetTemplateId> {
     class Update(val id: StreetTemplateId, val parent: StreetTemplateRoutes = StreetTemplateRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortStreetTemplate) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureStreetTemplateRouting() {
     routing {
         get<StreetTemplateRoutes.All> { all ->
-            logger.info { "Get all street templates" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllStreetTemplates(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                StreetTemplateRoutes(),
+                state.sortStreetTemplates(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    tdColumn("Color") { showColor(it.color) },
+                    Column("Materials") { tdInlineIds(call, state, it.materialCost.materials()) },
+                ),
+            )
         }
         get<StreetTemplateRoutes.Details> { details ->
             handleShowElementSplit(
@@ -127,36 +129,6 @@ fun Application.configureStreetTemplateRouting() {
     }
 }
 
-private fun HTML.showAllStreetTemplates(
-    call: ApplicationCall,
-    state: State,
-    sort: SortStreetTemplate,
-) {
-    val templates = state.sortStreetTemplates(sort)
-    val createLink = call.application.href(StreetTemplateRoutes.New())
-
-    simpleHtml("Street Templates") {
-        field("Count", templates.size)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Color" }
-                th { +"Materials" }
-            }
-            templates.forEach { template ->
-                tr {
-                    tdLink(call, state, template)
-                    td { showOptionalColor(template.color) }
-                    tdInlineIds(call, state, template.materialCost.materials())
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
-    }
-}
 
 private fun HTML.showStreetTemplateEditor(
     call: ApplicationCall,

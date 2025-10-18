@@ -5,11 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.periodical.editArticle
 import at.orchaldir.gm.app.html.item.periodical.parseArticle
 import at.orchaldir.gm.app.html.item.periodical.showArticle
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ARTICLE_TYPE
@@ -25,13 +21,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$ARTICLE_TYPE")
-class ArticleRoutes : Routes<ArticleId> {
+class ArticleRoutes : Routes<ArticleId, SortArticle> {
     @Resource("all")
     class All(
         val sort: SortArticle = SortArticle.Title,
@@ -57,18 +54,26 @@ class ArticleRoutes : Routes<ArticleId> {
     class Update(val id: ArticleId, val parent: ArticleRoutes = ArticleRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortArticle) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: ArticleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: ArticleId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureArticleRouting() {
     routing {
         get<ArticleRoutes.All> { all ->
-            logger.info { "Get all periodical" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllArticles(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                ArticleRoutes(),
+                state.sortArticles(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    Column("Author") { tdLink(call, state, it.author) }
+                ),
+            )
         }
         get<ArticleRoutes.Details> { details ->
             handleShowElement(details.id, ArticleRoutes(), HtmlBlockTag::showArticle)
@@ -104,34 +109,6 @@ fun Application.configureArticleRouting() {
         post<ArticleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseArticle)
         }
-    }
-}
-
-private fun HTML.showAllArticles(
-    call: ApplicationCall,
-    state: State,
-    sort: SortArticle,
-) {
-    val articles = state.sortArticles(sort)
-    val createLink = call.application.href(ArticleRoutes.New())
-
-    simpleHtml("Articles") {
-        field("Count", articles.size)
-        showSortTableLinks(call, SortArticle.entries, ArticleRoutes(), ArticleRoutes::All)
-        table {
-            tr {
-                th { +"Title" }
-                th { +"Date" }
-            }
-            articles.forEach { article ->
-                tr {
-                    tdLink(call, state, article)
-                    td { showOptionalDate(call, state, article.date) }
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

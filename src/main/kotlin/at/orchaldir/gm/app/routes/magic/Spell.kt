@@ -5,12 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editSpell
 import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.magic.showSpell
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showOrigin
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
@@ -30,13 +25,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$SPELL_TYPE")
-class SpellRoutes : Routes<SpellId> {
+class SpellRoutes : Routes<SpellId, SortSpell> {
     @Resource("all")
     class All(
         val sort: SortSpell = SortSpell.Name,
@@ -63,17 +59,33 @@ class SpellRoutes : Routes<SpellId> {
 
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortSpell) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: SpellId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: SpellId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureSpellRouting() {
     routing {
         get<SpellRoutes.All> { all ->
-            logger.info { "Get all spells" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllSpells(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                SpellRoutes(),
+                state.sortSpells(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createIdColumn(call, state, "Language", Spell::language),
+                    createOriginColumn(call, state, ::SpellId),
+                    countColumnForId("Groups", state::countSpellGroups),
+                    countColumnForId("Domains", state::countDomains),
+                    countColumnForId("Jobs", state::countJobs),
+                    countColumnForId("Texts", state::countTexts),
+                ),
+            ) {
+                showLanguageCountForSpells(call, state, it)
+                showSpellOriginCount(it)
             }
         }
         get<SpellRoutes.Details> { details ->
@@ -111,50 +123,6 @@ fun Application.configureSpellRouting() {
         post<SpellRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseSpell)
         }
-    }
-}
-
-private fun HTML.showAllSpells(
-    call: ApplicationCall,
-    state: State,
-    sort: SortSpell,
-) {
-    val spells = state.sortSpells(sort)
-    val createLink = call.application.href(SpellRoutes.New())
-
-    simpleHtml("Spells") {
-        field("Count", spells.size)
-        showSortTableLinks(call, SortSpell.entries, SpellRoutes(), SpellRoutes::All)
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Language" }
-                th { +"Origin" }
-                th { +"Groups" }
-                th { +"Domains" }
-                th { +"Jobs" }
-                th { +"Texts" }
-            }
-            spells.forEach { spell ->
-                tr {
-                    tdLink(call, state, spell)
-                    td { showOptionalDate(call, state, spell.date) }
-                    td { optionalLink(call, state, spell.language) }
-                    td { showOrigin(call, state, spell.origin, ::SpellId) }
-                    tdSkipZero(state.countSpellGroups(spell.id))
-                    tdSkipZero(state.countDomains(spell.id))
-                    tdSkipZero(state.countJobs(spell.id))
-                    tdSkipZero(state.countTexts(spell.id))
-                }
-            }
-        }
-
-        showLanguageCountForSpells(call, state, spells)
-        showSpellOriginCount(spells)
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

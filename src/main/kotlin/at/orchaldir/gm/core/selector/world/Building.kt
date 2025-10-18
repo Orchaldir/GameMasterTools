@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 import at.orchaldir.gm.core.selector.util.countBuildingsIn
-import at.orchaldir.gm.core.selector.util.getBuildingAgeComparator
+import at.orchaldir.gm.core.selector.util.getStartDateComparator
 
 fun State.canDeleteBuilding(building: BuildingId) = DeleteResult(building)
     .apply { canDeleteWithPositions(building, it) }
@@ -32,7 +32,7 @@ fun State.getMinNumberOfApartment(building: BuildingId) =
         .maxOrNull() ?: 1) + 1
 
 fun State.getEarliestBuilding(buildings: List<Building>) =
-    buildings.minWithOrNull(getBuildingAgeComparator())
+    buildings.minWithOrNull(getStartDateComparator())
 
 fun State.getApartmentHouses() = getBuildingStorage()
     .getAll()

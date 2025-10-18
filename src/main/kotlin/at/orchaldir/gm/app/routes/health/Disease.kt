@@ -5,12 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.health.editDisease
 import at.orchaldir.gm.app.html.health.parseDisease
 import at.orchaldir.gm.app.html.health.showDisease
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showOrigin
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
@@ -26,13 +21,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DISEASE_TYPE")
-class DiseaseRoutes : Routes<DiseaseId> {
+class DiseaseRoutes : Routes<DiseaseId, SortDisease> {
     @Resource("all")
     class All(
         val sort: SortDisease = SortDisease.Name,
@@ -58,18 +54,26 @@ class DiseaseRoutes : Routes<DiseaseId> {
     class Update(val id: DiseaseId, val parent: DiseaseRoutes = DiseaseRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortDisease) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: DiseaseId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DiseaseId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureDiseaseRouting() {
     routing {
         get<DiseaseRoutes.All> { all ->
-            logger.info { "Get all diseases" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllDiseases(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                DiseaseRoutes(),
+                state.sortDiseases(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createOriginColumn(call, state, ::DiseaseId),
+                ),
+            )
         }
         get<DiseaseRoutes.Details> { details ->
             handleShowElement(details.id, DiseaseRoutes(), HtmlBlockTag::showDisease)
@@ -106,37 +110,6 @@ fun Application.configureDiseaseRouting() {
         post<DiseaseRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDisease)
         }
-    }
-}
-
-private fun HTML.showAllDiseases(
-    call: ApplicationCall,
-    state: State,
-    sort: SortDisease,
-) {
-    val diseases = state.sortDiseases(sort)
-    val createLink = call.application.href(DiseaseRoutes.New())
-
-    simpleHtml("Diseases") {
-        field("Count", diseases.size)
-        showSortTableLinks(call, SortDisease.entries, DiseaseRoutes(), DiseaseRoutes::All)
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Date" }
-                th { +"Origin" }
-            }
-            diseases.forEach { disease ->
-                tr {
-                    tdLink(call, state, disease)
-                    td { showOptionalDate(call, state, disease.date) }
-                    td { showOrigin(call, state, disease.origin, ::DiseaseId) }
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 

@@ -2,14 +2,11 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.showPosition
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.world.editMoon
 import at.orchaldir.gm.app.html.world.parseMoon
 import at.orchaldir.gm.app.html.world.showMoon
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortMoon
@@ -25,13 +22,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MOON_TYPE")
-class MoonRoutes : Routes<MoonId> {
+class MoonRoutes : Routes<MoonId, SortMoon> {
     @Resource("all")
     class All(
         val sort: SortMoon = SortMoon.Name,
@@ -57,18 +55,29 @@ class MoonRoutes : Routes<MoonId> {
     class Update(val id: MoonId, val parent: MoonRoutes = MoonRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
+    override fun all(call: ApplicationCall, sort: SortMoon) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: MoonId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: MoonId) = call.application.href(Edit(id))
+    override fun new(call: ApplicationCall) = call.application.href(New())
 }
 
 fun Application.configureMoonRouting() {
     routing {
         get<MoonRoutes.All> { all ->
-            logger.info { "Get all moons" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllMoons(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                MoonRoutes(),
+                state.sortMoons(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Title") { tdString(it.title) },
+                    createPositionColumn(call, state),
+                    tdColumn("Duration") { +"${it.getCycle()} days" },
+                    tdColumn("Color") { showOptionalColor(it.color) },
+                    Column(listOf("Associated", "Plane")) { tdLink(call, state, it.plane) },
+                ),
+            )
         }
         get<MoonRoutes.Details> { details ->
             handleShowElement(details.id, MoonRoutes(), HtmlBlockTag::showMoon)
@@ -105,43 +114,6 @@ fun Application.configureMoonRouting() {
         post<MoonRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMoon)
         }
-    }
-}
-
-private fun HTML.showAllMoons(
-    call: ApplicationCall,
-    state: State,
-    sort: SortMoon = SortMoon.Name,
-) {
-    val moons = state.sortMoons(sort)
-    val createLink = call.application.href(MoonRoutes.New())
-
-    simpleHtml("Moons") {
-        field("Count", moons.size)
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Title" }
-                th { +"Position" }
-                th { +"Duration" }
-                th { +"Color" }
-                thMultiLines(listOf("Associated", "Plane"))
-            }
-            moons.forEach { moon ->
-                tr {
-                    tdLink(call, state, moon)
-                    tdString(moon.title)
-                    td { showPosition(call, state, moon.position, false) }
-                    td { +"${moon.getCycle()} days" }
-                    td { showOptionalColor(moon.color) }
-                    tdLink(call, state, moon.plane)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 
