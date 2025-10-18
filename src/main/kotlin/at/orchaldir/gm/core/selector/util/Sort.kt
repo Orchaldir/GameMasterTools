@@ -530,10 +530,10 @@ fun State.sortMagicTraditions(
 
 // material
 
-fun State.sortMaterial(sort: SortMaterial = SortMaterial.Name) =
-    sortMaterial(getMaterialStorage().getAll(), sort)
+fun State.sortMaterials(sort: SortMaterial = SortMaterial.Name) =
+    sortMaterials(getMaterialStorage().getAll(), sort)
 
-fun State.sortMaterial(
+fun State.sortMaterials(
     planes: Collection<Material>,
     sort: SortMaterial = SortMaterial.Name,
 ) = planes

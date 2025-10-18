@@ -5,24 +5,17 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
-import at.orchaldir.gm.core.selector.util.sortMaterial
+import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -31,7 +24,9 @@ import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.form
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -69,10 +64,24 @@ class MaterialRoutes : Routes<MaterialId, SortMaterial> {
 fun Application.configureMaterialRouting() {
     routing {
         get<MaterialRoutes.All> { all ->
-            logger.info { "Get all texts" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllMaterials(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                MaterialRoutes(),
+                state.sortMaterials(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    Column("Category") { tdEnum(it.category) },
+                    Column("Color") { tdColor(it.color) },
+                    Column("Density") { td(it.density) },
+                    createSkipZeroColumnForId("Currency", state::countCurrencyUnits),
+                    createSkipZeroColumnForId("Equipment", state::countEquipment),
+                    createSkipZeroColumnForId("Race App", state::countRaceAppearancesMadeOf),
+                    createSkipZeroColumnForId("Streets", state::countStreetTemplates),
+                    createSkipZeroColumnForId("Texts", state::countTexts),
+               ),
+            ) {
+                showMaterialCategoryCount(it)
             }
         }
         get<MaterialRoutes.Details> { details ->
@@ -99,50 +108,6 @@ fun Application.configureMaterialRouting() {
         post<MaterialRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMaterial)
         }
-    }
-}
-
-private fun HTML.showAllMaterials(
-    call: ApplicationCall,
-    state: State,
-    sort: SortMaterial,
-) {
-    val materials = state.sortMaterial(sort)
-    val createLink = call.application.href(MaterialRoutes.New())
-
-    simpleHtml("Materials") {
-        field("Count", materials.size)
-        showSortTableLinks(call, SortMaterial.entries, MaterialRoutes())
-
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Category" }
-                th { +"Color" }
-                th { +"Density" }
-                th { +"Currency" }
-                th { +"Equipment" }
-                th { +"Race App" }
-                th { +"Streets" }
-                th { +"Texts" }
-            }
-            materials.forEach { material ->
-                tr {
-                    tdLink(call, state, material)
-                    tdEnum(material.category)
-                    tdColor(material.color)
-                    td(material.density)
-                    tdSkipZero(state.countCurrencyUnits(material.id))
-                    tdSkipZero(state.countEquipment(material.id))
-                    tdSkipZero(state.countRaceAppearancesMadeOf(material.id))
-                    tdSkipZero(state.countStreetTemplates(material.id))
-                    tdSkipZero(state.countTexts(material.id))
-                }
-            }
-        }
-        showMaterialCategoryCount(materials)
-        action(createLink, "Add")
-        back("/")
     }
 }
 

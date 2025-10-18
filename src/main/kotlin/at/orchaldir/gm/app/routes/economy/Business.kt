@@ -5,22 +5,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.editBusiness
 import at.orchaldir.gm.app.html.economy.parseBusiness
 import at.orchaldir.gm.app.html.economy.showBusiness
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showPosition
-import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.SortBusiness
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.util.sortBusinesses
 import io.ktor.http.*
@@ -31,7 +22,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -72,10 +64,22 @@ class BusinessRoutes : Routes<BusinessId, SortBusiness> {
 fun Application.configureBusinessRouting() {
     routing {
         get<BusinessRoutes.All> { all ->
-            logger.info { "Get all business" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllBusinesses(call, STORE.getState(), all.sort)
+            handleShowAllElements(
+                BusinessRoutes(),
+                state.sortBusinesses(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createCreatorColumn(call, state, "Founder"),
+                    createReferenceColumn(call, state, "Owner") { it.ownership.current },
+                    createPositionColumn(call, state),
+                    createSkipZeroColumnFromCollection("Employees") { state.getEmployees(it.id) }
+                ),
+            ) {
+                showBusinessOwnershipCount(call, state, it)
+                showCreatorCount(call, state, it, "Founders")
             }
         }
         get<BusinessRoutes.Details> { details ->
@@ -112,44 +116,6 @@ fun Application.configureBusinessRouting() {
         post<BusinessRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseBusiness)
         }
-    }
-}
-
-private fun HTML.showAllBusinesses(
-    call: ApplicationCall,
-    state: State,
-    sort: SortBusiness,
-) {
-    val businesses = state.sortBusinesses(sort)
-    val createLink = call.application.href(BusinessRoutes.New())
-
-    simpleHtml("Businesses") {
-        field("Count", businesses.size)
-        showSortTableLinks(call, SortBusiness.entries, BusinessRoutes())
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Start" }
-                th { +"Founder" }
-                th { +"Owner" }
-                th { +"Position" }
-                th { +"Employees" }
-            }
-            businesses.forEach { business ->
-                tr {
-                    tdLink(call, state, business)
-                    td { showOptionalDate(call, state, business.startDate()) }
-                    td { showReference(call, state, business.founder, false) }
-                    td { showReference(call, state, business.ownership.current, false) }
-                    td { showPosition(call, state, business.position, false) }
-                    tdSkipZero(state.getEmployees(business.id))
-                }
-            }
-        }
-        showBusinessOwnershipCount(call, state, businesses)
-        showCreatorCount(call, state, businesses, "Founders")
-        action(createLink, "Add")
-        back("/")
     }
 }
 

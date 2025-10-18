@@ -5,20 +5,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.editCurrency
 import at.orchaldir.gm.app.html.economy.money.parseCurrency
 import at.orchaldir.gm.app.html.economy.money.showCurrency
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_TYPE
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.util.SortCurrency
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.util.sortCurrencies
 import io.ktor.http.*
@@ -29,7 +22,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -70,11 +64,18 @@ class CurrencyRoutes : Routes<CurrencyId, SortCurrency> {
 fun Application.configureCurrencyRouting() {
     routing {
         get<CurrencyRoutes.All> { all ->
-            logger.info { "Get all currency" }
+            val state = STORE.getState()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCurrencies(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                CurrencyRoutes(),
+                state.sortCurrencies(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createStartDateColumn(call, state),
+                    createEndDateColumn(call, state),
+                    createSkipZeroColumnForId("Realms", state::countRealmsWithCurrencyAtAnyTime)
+                ),
+            )
         }
         get<CurrencyRoutes.Details> { details ->
             handleShowElement(details.id, CurrencyRoutes(), HtmlBlockTag::showCurrency)
@@ -110,38 +111,6 @@ fun Application.configureCurrencyRouting() {
         post<CurrencyRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCurrency)
         }
-    }
-}
-
-private fun HTML.showAllCurrencies(
-    call: ApplicationCall,
-    state: State,
-    sort: SortCurrency,
-) {
-    val currencies = state.sortCurrencies(sort)
-    val createLink = call.application.href(CurrencyRoutes.New())
-
-    simpleHtml("Currencies") {
-        field("Count", currencies.size)
-        showSortTableLinks(call, SortCurrency.entries, CurrencyRoutes())
-        table {
-            tr {
-                th { +"Name" }
-                th { +"Start" }
-                th { +"End" }
-                th { +"Realms" }
-            }
-            currencies.forEach { currency ->
-                tr {
-                    tdLink(call, state, currency)
-                    td { showOptionalDate(call, state, currency.startDate) }
-                    td { showOptionalDate(call, state, currency.endDate) }
-                    tdSkipZero(state.countRealmsWithCurrencyAtAnyTime(currency.id))
-                }
-            }
-        }
-        action(createLink, "Add")
-        back("/")
     }
 }
 

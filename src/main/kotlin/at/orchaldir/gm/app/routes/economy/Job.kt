@@ -2,20 +2,15 @@ package at.orchaldir.gm.app.routes.economy
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.editJob
 import at.orchaldir.gm.app.html.economy.parseJob
 import at.orchaldir.gm.app.html.economy.showJob
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.character.countCharactersWithCurrentOrFormerJob
 import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency
@@ -30,7 +25,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -71,11 +67,30 @@ class JobRoutes : Routes<JobId, SortJob> {
 fun Application.configureJobRouting() {
     routing {
         get<JobRoutes.All> { all ->
-            logger.info { "Get all jobs" }
+            val state = STORE.getState()
+            val currency = state.getDefaultCurrency()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllJobs(call, STORE.getState(), all.sort)
-            }
+            handleShowAllElements(
+                JobRoutes(),
+                state.sortJobs(all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    tdColumn(listOf("Employer", "Type")) { when (it.employerType) {
+                        EmployerType.Business -> doNothing()
+                        else -> +it.employerType.name
+                    } },
+                    tdColumn(listOf("Yearly", "Income")) { when (it.income) {
+                        UndefinedIncome -> doNothing()
+                        is AffordableStandardOfLiving -> link(call, state, it.income.standard)
+                        is Salary -> +currency.display(it.income.yearlySalary)
+                    } },
+                    Column("Gender") { tdOptionalEnum(it.preferredGender) },
+                    Column("Uniforms") { tdInlineIds(call, state, it.uniforms.getValues().filterNotNull()) },
+                    createSkipZeroColumnForId("Characters", state::countCharactersWithCurrentOrFormerJob),
+                    createSkipZeroColumnForId("Domains", state::countDomains),
+                    createSkipZeroColumn("Spells") { it.spells.getRarityMap().size },
+                ),
+            )
         }
         get<JobRoutes.Details> { details ->
             handleShowElement(details.id, JobRoutes(), HtmlBlockTag::showJob)
@@ -111,56 +126,6 @@ fun Application.configureJobRouting() {
         post<JobRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseJob)
         }
-    }
-}
-
-private fun HTML.showAllJobs(call: ApplicationCall, state: State, sort: SortJob) {
-    val currency = state.getDefaultCurrency()
-    val jobs = state.sortJobs(sort)
-    val createLink = call.application.href(JobRoutes.New())
-
-    simpleHtml("Jobs") {
-        field("Count", jobs.size)
-        fieldLink("Currency", call, currency)
-        showSortTableLinks(call, SortJob.entries, JobRoutes())
-        table {
-            tr {
-                th { +"Name" }
-                thMultiLines(listOf("Employer", "Type"))
-                thMultiLines(listOf("Yearly", "Income"))
-                th { +"Gender" }
-                th { +"Uniform" }
-                th { +"Characters" }
-                th { +"Domains" }
-                th { +"Spells" }
-            }
-            jobs.forEach { job ->
-                tr {
-                    tdLink(call, state, job)
-                    td {
-                        when (job.employerType) {
-                            EmployerType.Business -> doNothing()
-                            else -> +job.employerType.name
-                        }
-                    }
-                    td {
-                        when (job.income) {
-                            UndefinedIncome -> doNothing()
-                            is AffordableStandardOfLiving -> link(call, state, job.income.standard)
-                            is Salary -> +currency.display(job.income.yearlySalary)
-                        }
-                    }
-                    tdOptionalEnum(job.preferredGender)
-                    tdInlineIds(call, state, job.uniforms.getValues().filterNotNull())
-                    tdSkipZero(state.countCharactersWithCurrentOrFormerJob(job.id))
-                    tdSkipZero(state.countDomains(job.id))
-                    tdSkipZero(job.spells.getRarityMap().size)
-                }
-            }
-        }
-
-        action(createLink, "Add")
-        back("/")
     }
 }
 
