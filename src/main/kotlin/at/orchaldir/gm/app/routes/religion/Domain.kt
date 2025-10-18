@@ -5,13 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.religion.editDomain
 import at.orchaldir.gm.app.html.religion.parseDomain
 import at.orchaldir.gm.app.html.religion.showDomain
-import at.orchaldir.gm.app.html.Column
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.DOMAIN_TYPE
@@ -35,7 +29,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$DOMAIN_TYPE")
-class DomainRoutes : Routes<DomainId,SortDomain> {
+class DomainRoutes : Routes<DomainId, SortDomain> {
     @Resource("all")
     class All(
         val sort: SortDomain = SortDomain.Name,

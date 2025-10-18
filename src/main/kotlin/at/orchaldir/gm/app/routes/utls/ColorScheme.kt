@@ -6,24 +6,15 @@ import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.color.editColorScheme
 import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.color.showColorScheme
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
-import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortColorScheme
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
-import at.orchaldir.gm.core.selector.util.sortPantheons
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -34,16 +25,12 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$COLOR_SCHEME_TYPE")
-class ColorSchemeRoutes : Routes<ColorSchemeId,SortColorScheme> {
+class ColorSchemeRoutes : Routes<ColorSchemeId, SortColorScheme> {
     @Resource("all")
     class All(
         val sort: SortColorScheme = SortColorScheme.Name,

@@ -1,14 +1,10 @@
 package at.orchaldir.gm.app.routes.magic
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.createSkipZeroColumnFromCollection
-import at.orchaldir.gm.app.html.formWithPreview
-import at.orchaldir.gm.app.html.href
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editSpellGroup
 import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.magic.showSpellGroup
-import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -32,7 +28,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$SPELL_GROUP_TYPE")
-class SpellGroupRoutes : Routes<SpellGroupId,SortSpellGroup> {
+class SpellGroupRoutes : Routes<SpellGroupId, SortSpellGroup> {
     @Resource("all")
     class All(
         val sort: SortSpellGroup = SortSpellGroup.Name,

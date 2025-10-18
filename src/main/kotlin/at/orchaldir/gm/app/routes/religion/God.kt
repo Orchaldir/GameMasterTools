@@ -2,12 +2,12 @@ package at.orchaldir.gm.app.routes.religion
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.religion.editGod
 import at.orchaldir.gm.app.html.religion.parseGod
 import at.orchaldir.gm.app.html.religion.showGod
 import at.orchaldir.gm.app.html.util.showAuthenticity
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.GOD_TYPE
@@ -31,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$GOD_TYPE")
-class GodRoutes : Routes<GodId,SortGod> {
+class GodRoutes : Routes<GodId, SortGod> {
     @Resource("all")
     class All(
         val sort: SortGod = SortGod.Name,
@@ -78,7 +78,7 @@ fun Application.configureGodRouting() {
                         val pantheons = state.getPantheonsContaining(it.id)
                             .sortedBy { it.name.text }
                         tdLinks(call, state, pantheons)
-                     },
+                    },
                     Column("Gender") { tdEnum(it.gender) },
                     Column("Personality") {
                         val personality = state.getPersonalityTraitStorage()

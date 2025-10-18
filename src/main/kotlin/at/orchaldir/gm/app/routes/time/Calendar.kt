@@ -7,11 +7,7 @@ import at.orchaldir.gm.app.html.time.editCalendar
 import at.orchaldir.gm.app.html.time.parseCalendar
 import at.orchaldir.gm.app.html.time.showCalendar
 import at.orchaldir.gm.app.html.util.showDate
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
@@ -30,13 +26,14 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CALENDAR_TYPE")
-class CalendarRoutes : Routes<CalendarId,SortCalendar> {
+class CalendarRoutes : Routes<CalendarId, SortCalendar> {
     @Resource("all")
     class All(
         val sort: SortCalendar = SortCalendar.Name,
@@ -80,7 +77,7 @@ fun Application.configureCalendarRouting() {
                 listOf(
                     createNameColumn(call, state),
                     tdColumn("Default") {
-                            if (it == defaultCalendar) {
+                        if (it == defaultCalendar) {
                             +"yes"
                         }
                     },

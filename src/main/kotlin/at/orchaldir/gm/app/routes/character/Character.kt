@@ -4,13 +4,14 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.character.*
-import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.showCreated
+import at.orchaldir.gm.app.html.util.showEmploymentStatus
+import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.routes.handleCreateElement
 import at.orchaldir.gm.app.routes.handleDeleteElement
 import at.orchaldir.gm.app.routes.handleShowAllElements
 import at.orchaldir.gm.app.routes.handleShowElement
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.item.ArticleRoutes
 import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
@@ -24,7 +25,6 @@ import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
-import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -38,7 +38,9 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.del
 import mu.KotlinLogging
 import kotlin.random.Random
 
@@ -54,29 +56,40 @@ fun Application.configureCharacterRouting() {
                 state.sortCharacters(all.sort),
                 listOf(
                     tdColumn("Name") {
-                        val name = it .nameForSorting(state)
+                        val name = it.nameForSorting(state)
 
                         if (it.vitalStatus is Dead) {
-                        del {
+                            del {
+                                link(call, it, name)
+                            }
+                        } else {
                             link(call, it, name)
                         }
-                    } else {
-                        link(call, it, name)
-                    } },
-                    Column("Title") { tdLink(call,state, it.title) },
-                    Column("Race") { tdLink(call,state, it.race) },
+                    },
+                    Column("Title") { tdLink(call, state, it.title) },
+                    Column("Race") { tdLink(call, state, it.race) },
                     Column("Gender") { tdEnum(it.gender) },
-                    tdColumn("Sexuality") { if (it.sexuality != SexualOrientation.Heterosexual) {
-                        +it.sexuality.toString()
-                    }},
-                    Column("Culture") { tdLink(call,state, it.culture) },
+                    tdColumn("Sexuality") {
+                        if (it.sexuality != SexualOrientation.Heterosexual) {
+                            +it.sexuality.toString()
+                        }
+                    },
+                    Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
                     createAgeColumn(state),
                     createStartDateColumn(call, state, "Birthdate"),
                     createEndDateColumn(call, state, "Deathdate"),
                     createVitalColumn(call, state, "Death"),
                     tdColumn("Housing Status") { showPosition(call, state, it.housingStatus.current, false) },
-                    tdColumn("Employment Status") { showEmploymentStatus(call, state, it.employmentStatus.current, false, false) },
+                    tdColumn("Employment Status") {
+                        showEmploymentStatus(
+                            call,
+                            state,
+                            it.employmentStatus.current,
+                            false,
+                            false
+                        )
+                    },
                     createSkipZeroColumnFromCollection("Organizations") { state.getOrganizations(it.id) },
                     createSkipZeroColumn("Cost") { it.statblock.calculateCost(state) },
                 ),

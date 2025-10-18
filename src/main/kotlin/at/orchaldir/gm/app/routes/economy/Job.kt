@@ -75,15 +75,19 @@ fun Application.configureJobRouting() {
                 state.sortJobs(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    tdColumn(listOf("Employer", "Type")) { when (it.employerType) {
-                        EmployerType.Business -> doNothing()
-                        else -> +it.employerType.name
-                    } },
-                    tdColumn(listOf("Yearly", "Income")) { when (it.income) {
-                        UndefinedIncome -> doNothing()
-                        is AffordableStandardOfLiving -> link(call, state, it.income.standard)
-                        is Salary -> +currency.display(it.income.yearlySalary)
-                    } },
+                    tdColumn(listOf("Employer", "Type")) {
+                        when (it.employerType) {
+                            EmployerType.Business -> doNothing()
+                            else -> +it.employerType.name
+                        }
+                    },
+                    tdColumn(listOf("Yearly", "Income")) {
+                        when (it.income) {
+                            UndefinedIncome -> doNothing()
+                            is AffordableStandardOfLiving -> link(call, state, it.income.standard)
+                            is Salary -> +currency.display(it.income.yearlySalary)
+                        }
+                    },
                     Column("Gender") { tdOptionalEnum(it.preferredGender) },
                     Column("Uniforms") { tdInlineIds(call, state, it.uniforms.getValues().filterNotNull()) },
                     createSkipZeroColumnForId("Characters", state::countCharactersWithCurrentOrFormerJob),

@@ -5,25 +5,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.health.editDisease
 import at.orchaldir.gm.app.html.health.parseDisease
 import at.orchaldir.gm.app.html.health.showDisease
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showOrigin
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.economy.BusinessRoutes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.util.SortDisease
-import at.orchaldir.gm.core.model.util.SortMagicTradition
-import at.orchaldir.gm.core.selector.character.getEmployees
-import at.orchaldir.gm.core.selector.util.sortBusinesses
 import at.orchaldir.gm.core.selector.util.sortDiseases
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -33,7 +21,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}

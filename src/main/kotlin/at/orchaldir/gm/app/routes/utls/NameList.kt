@@ -27,7 +27,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$NAME_LIST_TYPE")
-class NameListRoutes : Routes<NameListId,SortNameList> {
+class NameListRoutes : Routes<NameListId, SortNameList> {
     @Resource("all")
     class All(
         val sort: SortNameList = SortNameList.Name,

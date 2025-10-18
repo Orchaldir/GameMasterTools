@@ -2,25 +2,17 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.html.world.editArchitecturalStyle
 import at.orchaldir.gm.app.html.world.parseArchitecturalStyle
 import at.orchaldir.gm.app.html.world.showArchitecturalStyle
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
-import at.orchaldir.gm.app.routes.utls.QuoteRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Name
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.world.building.ARCHITECTURAL_STYLE_TYPE
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.util.sortArchitecturalStyles
-import at.orchaldir.gm.core.selector.util.sortQuotes
 import at.orchaldir.gm.core.selector.world.getBuildings
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -30,7 +22,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}

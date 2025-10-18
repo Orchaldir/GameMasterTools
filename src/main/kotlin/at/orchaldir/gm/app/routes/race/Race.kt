@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.race.editRace
 import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -41,7 +41,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$RACE_TYPE")
-class RaceRoutes : Routes<RaceId,SortRace> {
+class RaceRoutes : Routes<RaceId, SortRace> {
     @Resource("all")
     class All(
         val sort: SortRace = SortRace.Name,
@@ -99,7 +99,7 @@ fun Application.configureRaceRouting() {
                     createSkipZeroColumn("Max Age") { it.lifeStages.getMaxAge() },
                     createStringColumn("Avg Height") { it.height.center.toString() },
                     createStringColumn("Avg Weight") { it.weight.toString() },
-                    createIdColumn(call, state,"Appearance") { it.lifeStages.getRaceAppearance() },
+                    createIdColumn(call, state, "Appearance") { it.lifeStages.getRaceAppearance() },
                     createSkipZeroColumnForId("Population", state::getTotalPopulation),
                     createSkipZeroColumnForId("Characters", state::countCharacters),
                 ),

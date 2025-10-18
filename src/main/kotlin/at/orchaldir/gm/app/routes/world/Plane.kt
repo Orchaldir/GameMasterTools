@@ -4,23 +4,15 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.world.*
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPlane
 import at.orchaldir.gm.core.model.world.plane.IndependentPlane
 import at.orchaldir.gm.core.model.world.plane.PLANE_TYPE
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
-import at.orchaldir.gm.core.selector.util.sortMoons
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
 import io.ktor.http.*
@@ -31,7 +23,8 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -81,9 +74,11 @@ fun Application.configurePlaneRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Title") { tdString(it.title) },
-                    tdColumn("Purpose") { if (it.purpose is IndependentPlane) {
-                        displayPlaneAlignmentPattern(it.purpose.pattern)
-                    } },
+                    tdColumn("Purpose") {
+                        if (it.purpose is IndependentPlane) {
+                            displayPlaneAlignmentPattern(it.purpose.pattern)
+                        }
+                    },
                     tdColumn("Alignment") { displayPlanePurpose(call, state, it.purpose, false) },
                     Column("Current") { tdOptionalEnum(state.getPlanarAlignment(it, day)) },
                     Column("Languages") { tdInlineIds(call, state, it.languages) },

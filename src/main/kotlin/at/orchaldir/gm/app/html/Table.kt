@@ -14,9 +14,8 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.server.application.*
 import kotlinx.html.*
-import kotlinx.html.style
 
-fun <T : Enum<T>, ID: Id<ID>> HtmlBlockTag.showSortTableLinks(
+fun <T : Enum<T>, ID : Id<ID>> HtmlBlockTag.showSortTableLinks(
     call: ApplicationCall,
     entries: List<T>,
     routes: Routes<ID, T>,

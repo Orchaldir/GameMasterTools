@@ -1,16 +1,10 @@
 package at.orchaldir.gm.app.routes.magic
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.createCreatorColumn
-import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.createSkipZeroColumnFromCollection
-import at.orchaldir.gm.app.html.createStartDateColumn
-import at.orchaldir.gm.app.html.formWithPreview
-import at.orchaldir.gm.app.html.href
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.magic.editMagicTradition
 import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
-import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State

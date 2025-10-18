@@ -5,23 +5,14 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.title.editTitle
 import at.orchaldir.gm.app.html.character.title.parseTitle
 import at.orchaldir.gm.app.html.character.title.showTitle
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.item.ArticleRoutes
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortTitle
 import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortTitles
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -33,15 +24,12 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TITLE_TYPE")
-class TitleRoutes : Routes<TitleId,SortTitle> {
+class TitleRoutes : Routes<TitleId, SortTitle> {
     @Resource("all")
     class All(
         val sort: SortTitle = SortTitle.Name,
@@ -83,9 +71,11 @@ fun Application.configureTitleRouting() {
                 state.sortTitles(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Text") { tdInline(it.text.getValues()) { text ->
-                        text.text
-                    } },
+                    Column("Text") {
+                        tdInline(it.text.getValues()) { text ->
+                            text.text
+                        }
+                    },
                     Column("Position") { tdEnum(it.position) },
                     Column("Separator") { tdChar(it.separator) },
                     createSkipZeroColumnForId("Characters", state::countCharacters),

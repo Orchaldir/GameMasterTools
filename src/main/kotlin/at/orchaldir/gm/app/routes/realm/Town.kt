@@ -1,23 +1,10 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.createAgeColumn
-import at.orchaldir.gm.app.html.createCreatorColumn
-import at.orchaldir.gm.app.html.createEndDateColumn
-import at.orchaldir.gm.app.html.createIdColumn
-import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.createPopulationColumn
-import at.orchaldir.gm.app.html.createSkipZeroColumnForId
-import at.orchaldir.gm.app.html.createStartDateColumn
-import at.orchaldir.gm.app.html.createStringColumn
-import at.orchaldir.gm.app.html.createVitalColumn
-import at.orchaldir.gm.app.html.formWithPreview
-import at.orchaldir.gm.app.html.href
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editTown
 import at.orchaldir.gm.app.html.realm.parseTown
 import at.orchaldir.gm.app.html.realm.showTown
-import at.orchaldir.gm.app.html.showCreatorCount
-import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -44,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TOWN_TYPE")
-class TownRoutes : Routes<TownId,SortTown> {
+class TownRoutes : Routes<TownId, SortTown> {
     @Resource("all")
     class All(
         val sort: SortTown = SortTown.Name,

@@ -30,7 +30,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$QUOTE_TYPE")
-class QuoteRoutes : Routes<QuoteId,SortQuote> {
+class QuoteRoutes : Routes<QuoteId, SortQuote> {
     @Resource("all")
     class All(
         val sort: SortQuote = SortQuote.Name,

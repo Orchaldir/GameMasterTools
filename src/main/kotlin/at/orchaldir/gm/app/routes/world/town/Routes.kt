@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
-import at.orchaldir.gm.core.model.util.SortMagicTradition
-import at.orchaldir.gm.core.model.util.SortTown
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId

@@ -5,26 +5,17 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.editPersonalityTrait
 import at.orchaldir.gm.app.html.character.parsePersonalityTrait
 import at.orchaldir.gm.app.html.character.showPersonalityTrait
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.item.ArticleRoutes
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PERSONALITY_TRAIT_TYPE
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
-import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.model.util.SortPersonalityTrait
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.character.getPersonalityTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
-import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortPersonalityTraits
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -33,7 +24,9 @@ import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.form
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}

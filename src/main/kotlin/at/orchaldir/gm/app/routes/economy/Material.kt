@@ -79,7 +79,7 @@ fun Application.configureMaterialRouting() {
                     createSkipZeroColumnForId("Race App", state::countRaceAppearancesMadeOf),
                     createSkipZeroColumnForId("Streets", state::countStreetTemplates),
                     createSkipZeroColumnForId("Texts", state::countTexts),
-               ),
+                ),
             ) {
                 showMaterialCategoryCount(it)
             }

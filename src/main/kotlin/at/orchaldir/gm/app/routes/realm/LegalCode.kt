@@ -1,17 +1,10 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.createCreatorColumn
-import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.createSkipZeroColumnForId
-import at.orchaldir.gm.app.html.createStartDateColumn
-import at.orchaldir.gm.app.html.formWithPreview
-import at.orchaldir.gm.app.html.href
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editLegalCode
 import at.orchaldir.gm.app.html.realm.parseLegalCode
 import at.orchaldir.gm.app.html.realm.showLegalCode
-import at.orchaldir.gm.app.html.showCreatorCount
-import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -36,7 +29,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$LEGAL_CODE_TYPE")
-class LegalCodeRoutes : Routes<LegalCodeId,SortLegalCode> {
+class LegalCodeRoutes : Routes<LegalCodeId, SortLegalCode> {
     @Resource("all")
     class All(
         val sort: SortLegalCode = SortLegalCode.Name,

@@ -1,21 +1,13 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.Column
-import at.orchaldir.gm.app.html.formWithPreview
-import at.orchaldir.gm.app.html.href
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.realm.displayCauseOfCatastrophe
 import at.orchaldir.gm.app.html.realm.editCatastrophe
 import at.orchaldir.gm.app.html.realm.parseCatastrophe
 import at.orchaldir.gm.app.html.realm.showCatastrophe
-import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.createAgeColumn
-import at.orchaldir.gm.app.html.createDestroyedColumns
-import at.orchaldir.gm.app.html.createEndDateColumn
-import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.CATASTROPHE_TYPE
@@ -38,7 +30,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$CATASTROPHE_TYPE")
-class CatastropheRoutes : Routes<CatastropheId,SortCatastrophe> {
+class CatastropheRoutes : Routes<CatastropheId, SortCatastrophe> {
     @Resource("all")
     class All(
         val sort: SortCatastrophe = SortCatastrophe.Name,
@@ -83,7 +75,7 @@ fun Application.configureCatastropheRouting() {
                     createStartDateColumn(call, state, "Start"),
                     createEndDateColumn(call, state, "End"),
                     createAgeColumn(state, "Years"),
-                    tdColumn("Cause") {displayCauseOfCatastrophe(call, state, it.cause, false) }
+                    tdColumn("Cause") { displayCauseOfCatastrophe(call, state, it.cause, false) }
                 ) + createDestroyedColumns(state),
             )
         }

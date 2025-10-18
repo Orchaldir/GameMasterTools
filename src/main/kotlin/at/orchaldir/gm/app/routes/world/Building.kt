@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.showAddress
-import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.html.world.editBuilding
 import at.orchaldir.gm.app.html.world.parseBuilding
 import at.orchaldir.gm.app.html.world.showBuilding

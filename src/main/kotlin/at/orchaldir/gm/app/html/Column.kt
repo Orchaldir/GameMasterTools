@@ -1,12 +1,7 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.html.util.displayVitalStatus
-import at.orchaldir.gm.app.html.util.showBeliefStatus
-import at.orchaldir.gm.app.html.util.showOptionalDate
-import at.orchaldir.gm.app.html.util.showOrigin
-import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.util.showPosition
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
@@ -18,7 +13,6 @@ import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
-import io.ktor.server.application.call
 import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
@@ -27,15 +21,16 @@ import kotlinx.html.title
 data class Column<T>(
     val header: List<String>,
     val width: Int? = null,
-    val converter: TR.(T) -> Unit, 
+    val converter: TR.(T) -> Unit,
 ) {
-    constructor(header: String, width: Int? = null, converter: TR.(T) -> Unit): this(listOf(header), width, converter)
+    constructor(header: String, width: Int? = null, converter: TR.(T) -> Unit) : this(listOf(header), width, converter)
 
     companion object {
         fun <T> tdColumn(header: String, width: Int? = null, converter: TD.(T) -> Unit) =
             tdColumn(listOf(header), width, converter)
+
         fun <T> tdColumn(header: List<String>, width: Int? = null, converter: TD.(T) -> Unit) =
-            Column<T>(header, width, { td { converter(it) }})
+            Column<T>(header, width, { td { converter(it) } })
     }
 }
 

@@ -5,19 +5,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
-import at.orchaldir.gm.app.html.util.showBeliefStatus
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.item.ArticleRoutes
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.All
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
-import at.orchaldir.gm.core.model.util.SortMagicTradition
-import at.orchaldir.gm.core.selector.util.sortArticles
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -29,10 +23,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -86,7 +76,7 @@ fun Application.configureCharacterTemplateRouting() {
                     createNameColumn(call, state),
                     Column("Race") { tdLink(call, state, it.race) },
                     Column("Culture") { tdLink(call, state, it.culture) },
-                    createBeliefColumn(call,state),
+                    createBeliefColumn(call, state),
                     Column("Uniform") { tdLink(call, state, it.uniform) },
                     createSkipZeroColumn("Cost") { it.statblock.calculateCost(state) },
                 ),

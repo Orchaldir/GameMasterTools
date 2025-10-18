@@ -1,15 +1,10 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.createSkipZeroColumnFromCollection
-import at.orchaldir.gm.app.html.createStartDateColumn
-import at.orchaldir.gm.app.html.formWithPreview
-import at.orchaldir.gm.app.html.href
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editTreaty
 import at.orchaldir.gm.app.html.realm.parseTreaty
 import at.orchaldir.gm.app.html.realm.showTreaty
-import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -33,7 +28,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TREATY_TYPE")
-class TreatyRoutes : Routes<TreatyId,SortTreaty> {
+class TreatyRoutes : Routes<TreatyId, SortTreaty> {
     @Resource("all")
     class All(
         val sort: SortTreaty = SortTreaty.Name,

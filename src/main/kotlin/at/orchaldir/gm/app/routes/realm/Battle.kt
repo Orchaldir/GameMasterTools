@@ -1,16 +1,10 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.createDestroyedColumns
-import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.createSkipZeroColumnFromCollection
-import at.orchaldir.gm.app.html.createStartDateColumn
-import at.orchaldir.gm.app.html.formWithPreview
-import at.orchaldir.gm.app.html.href
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.editBattle
 import at.orchaldir.gm.app.html.realm.parseBattle
 import at.orchaldir.gm.app.html.realm.showBattle
-import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -34,7 +28,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$BATTLE_TYPE")
-class BattleRoutes : Routes<BattleId,SortBattle> {
+class BattleRoutes : Routes<BattleId, SortBattle> {
     @Resource("all")
     class All(
         val sort: SortBattle = SortBattle.Name,
@@ -78,7 +72,7 @@ fun Application.configureBattleRouting() {
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
                     createSkipZeroColumnFromCollection("Participants", Battle::participants)
-                )+ createDestroyedColumns(state),
+                ) + createDestroyedColumns(state),
             )
         }
         get<BattleRoutes.Details> { details ->

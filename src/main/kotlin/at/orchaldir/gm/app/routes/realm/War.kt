@@ -1,23 +1,13 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.Column
-import at.orchaldir.gm.app.html.formWithPreview
-import at.orchaldir.gm.app.html.href
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.realm.displayWarStatus
 import at.orchaldir.gm.app.html.realm.editWar
 import at.orchaldir.gm.app.html.realm.parseWar
 import at.orchaldir.gm.app.html.realm.showWar
-import at.orchaldir.gm.app.html.simpleHtmlEditor
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.createAgeColumn
-import at.orchaldir.gm.app.html.createDestroyedColumns
-import at.orchaldir.gm.app.html.createEndDateColumn
-import at.orchaldir.gm.app.html.createIdColumn
-import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.createSkipZeroColumnForId
-import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.WAR_TYPE
@@ -41,7 +31,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$WAR_TYPE")
-class WarRoutes : Routes<WarId,SortWar> {
+class WarRoutes : Routes<WarId, SortWar> {
     @Resource("all")
     class All(
         val sort: SortWar = SortWar.Name,
