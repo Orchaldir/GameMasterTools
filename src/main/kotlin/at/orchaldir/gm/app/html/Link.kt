@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
 import at.orchaldir.gm.app.routes.character.PersonalityTraitRoutes
-import at.orchaldir.gm.app.routes.character.StatisticRoutes
+import at.orchaldir.gm.app.routes.rpg.StatisticRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes

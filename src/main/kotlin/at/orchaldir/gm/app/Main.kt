@@ -24,6 +24,7 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.configureDomainRouting
 import at.orchaldir.gm.app.routes.religion.configureGodRouting
 import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
+import at.orchaldir.gm.app.routes.rpg.configureStatisticRouting
 import at.orchaldir.gm.app.routes.time.configureCalendarRouting
 import at.orchaldir.gm.app.routes.time.configureHolidayRouting
 import at.orchaldir.gm.app.routes.time.configureTimeRouting

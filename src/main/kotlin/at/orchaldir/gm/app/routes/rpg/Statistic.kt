@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.routes.character
+package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
