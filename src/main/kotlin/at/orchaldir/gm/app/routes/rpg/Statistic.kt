@@ -3,12 +3,7 @@ package at.orchaldir.gm.app.routes.rpg
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.rpg.statistic.displayBaseValue
-import at.orchaldir.gm.app.html.rpg.statistic.displayStatisticCost
-import at.orchaldir.gm.app.html.rpg.statistic.displayStatisticUnit
-import at.orchaldir.gm.app.html.rpg.statistic.editStatistic
-import at.orchaldir.gm.app.html.rpg.statistic.parseStatistic
-import at.orchaldir.gm.app.html.rpg.statistic.showStatistic
+import at.orchaldir.gm.app.html.rpg.statistic.*
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State

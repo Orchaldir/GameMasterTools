@@ -6,11 +6,7 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.rpg.statistic.FixedStatisticCost
-import at.orchaldir.gm.core.model.rpg.statistic.GurpsSkillCost
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticCost
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticCostType
-import at.orchaldir.gm.core.model.rpg.statistic.UndefinedStatisticCost
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import kotlinx.html.FORM

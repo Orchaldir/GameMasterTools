@@ -1,18 +1,7 @@
 package at.orchaldir.gm.core.model.rpg
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.statistic.Attribute
-import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
-import at.orchaldir.gm.core.model.rpg.statistic.BaseValue
-import at.orchaldir.gm.core.model.rpg.statistic.BasedOnStatistic
-import at.orchaldir.gm.core.model.rpg.statistic.DerivedAttribute
-import at.orchaldir.gm.core.model.rpg.statistic.DivisionOfValues
-import at.orchaldir.gm.core.model.rpg.statistic.FixedNumber
-import at.orchaldir.gm.core.model.rpg.statistic.ProductOfValues
-import at.orchaldir.gm.core.model.rpg.statistic.Skill
-import at.orchaldir.gm.core.model.rpg.statistic.Statistic
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.model.rpg.statistic.SumOfValues
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import kotlinx.serialization.Serializable
 
 @Serializable

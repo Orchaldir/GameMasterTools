@@ -2,15 +2,15 @@ package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.editCharacterStatblock
-import at.orchaldir.gm.app.html.rpg.parseCharacterStatblock
-import at.orchaldir.gm.app.html.rpg.showCharacterStatblock
 import at.orchaldir.gm.app.html.character.title.parseOptionalTitleId
 import at.orchaldir.gm.app.html.culture.editKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
+import at.orchaldir.gm.app.html.rpg.editCharacterStatblock
+import at.orchaldir.gm.app.html.rpg.parseCharacterStatblock
+import at.orchaldir.gm.app.html.rpg.showCharacterStatblock
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources

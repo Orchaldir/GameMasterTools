@@ -2,12 +2,12 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.economy.money.editPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.showPrice
 import at.orchaldir.gm.app.html.item.parseOptionalUniformId
 import at.orchaldir.gm.app.html.magic.parseSpellId
+import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.util.parseGenderMap
 import at.orchaldir.gm.app.html.util.selectGenderMap
 import at.orchaldir.gm.app.html.util.showGenderMap

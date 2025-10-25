@@ -4,9 +4,6 @@ import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.load
 import at.orchaldir.gm.core.loadStorage
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
-import at.orchaldir.gm.core.model.rpg.statistic.Statistic
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
@@ -58,6 +55,9 @@ import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.DAMAGE_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.DamageType
 import at.orchaldir.gm.core.model.rpg.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId

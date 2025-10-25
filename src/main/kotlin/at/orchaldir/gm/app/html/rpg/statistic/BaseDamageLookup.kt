@@ -9,12 +9,8 @@ import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageDicePool
-import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookup
-import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookupType
 import at.orchaldir.gm.core.model.rpg.DieType
-import at.orchaldir.gm.core.model.rpg.statistic.SimpleBaseDamageEntry
-import at.orchaldir.gm.core.model.rpg.statistic.SimpleBaseDamageLookup
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import io.ktor.http.*
 import kotlinx.html.*
 

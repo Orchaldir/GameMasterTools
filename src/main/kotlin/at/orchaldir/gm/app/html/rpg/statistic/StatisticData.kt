@@ -5,13 +5,7 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.statistic.Attribute
-import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
-import at.orchaldir.gm.core.model.rpg.statistic.DerivedAttribute
-import at.orchaldir.gm.core.model.rpg.statistic.Skill
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticData
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticDataType
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM

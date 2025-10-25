@@ -5,14 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.statistic.BaseValue
-import at.orchaldir.gm.core.model.rpg.statistic.BaseValueType
-import at.orchaldir.gm.core.model.rpg.statistic.BasedOnStatistic
-import at.orchaldir.gm.core.model.rpg.statistic.DivisionOfValues
-import at.orchaldir.gm.core.model.rpg.statistic.FixedNumber
-import at.orchaldir.gm.core.model.rpg.statistic.ProductOfValues
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.model.rpg.statistic.SumOfValues
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS

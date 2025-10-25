@@ -5,12 +5,7 @@ import at.orchaldir.gm.app.UNIT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.rpg.statistic.DerivedAttribute
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticData
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticUnit
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticUnitType
-import at.orchaldir.gm.core.model.rpg.statistic.SuffixedStatisticUnit
-import at.orchaldir.gm.core.model.rpg.statistic.UnitlessStatistic
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import kotlinx.html.FORM
