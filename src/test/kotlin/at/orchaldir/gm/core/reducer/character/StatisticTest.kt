@@ -6,9 +6,9 @@ import at.orchaldir.gm.UNKNOWN_STATISTIC_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.Attribute
-import at.orchaldir.gm.core.model.character.statistic.BasedOnStatistic
-import at.orchaldir.gm.core.model.character.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.Attribute
+import at.orchaldir.gm.core.model.rpg.statistic.BasedOnStatistic
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

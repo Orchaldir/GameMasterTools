@@ -2,15 +2,15 @@ package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.statistic.editStatblock
-import at.orchaldir.gm.app.html.character.statistic.parseStatblock
-import at.orchaldir.gm.app.html.character.statistic.showStatblock
 import at.orchaldir.gm.app.html.culture.editKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.item.parseOptionalUniformId
 import at.orchaldir.gm.app.html.race.parseRaceId
+import at.orchaldir.gm.app.html.rpg.editStatblock
+import at.orchaldir.gm.app.html.rpg.parseStatblock
+import at.orchaldir.gm.app.html.rpg.showStatblock
 import at.orchaldir.gm.app.html.util.fieldBeliefStatus
 import at.orchaldir.gm.app.html.util.parseBeliefStatus
 import at.orchaldir.gm.app.html.util.selectBeliefStatus

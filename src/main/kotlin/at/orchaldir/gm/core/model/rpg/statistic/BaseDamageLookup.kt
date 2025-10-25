@@ -1,5 +1,6 @@
-package at.orchaldir.gm.core.model.character.statistic
+package at.orchaldir.gm.core.model.rpg.statistic
 
+import at.orchaldir.gm.core.model.rpg.DieType
 import at.orchaldir.gm.core.model.util.Lookup
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
@@ -33,6 +32,8 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.core.model.rpg.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.font.FontId
@@ -51,7 +52,10 @@ import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.reducer.world.deleteBuilding
-import at.orchaldir.gm.core.selector.character.*
+import at.orchaldir.gm.core.selector.character.canDeleteCharacter
+import at.orchaldir.gm.core.selector.character.canDeleteCharacterTemplate
+import at.orchaldir.gm.core.selector.character.canDeletePersonalityTrait
+import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.core.selector.culture.canDeleteCulture
 import at.orchaldir.gm.core.selector.culture.canDeleteFashion
 import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
@@ -77,6 +81,8 @@ import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
+import at.orchaldir.gm.core.selector.rpg.canDeleteDamageType
+import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.*
@@ -102,6 +108,7 @@ fun reduceDeleteElement(
     is CultureId -> deleteElement(state, id, State::canDeleteCulture)
     is CurrencyId -> deleteElement(state, id, State::canDeleteCurrency)
     is CurrencyUnitId -> deleteElement(state, id, State::canDeleteCurrencyUnit)
+    is DamageTypeId -> deleteElement(state, id, State::canDeleteDamageType)
     is DataSourceId -> deleteElement(state, id, State::canDeleteDataSource)
     is DiseaseId -> deleteElement(state, id, State::canDeleteDisease)
     is DistrictId -> deleteElement(state, id, State::canDeleteDistrict)

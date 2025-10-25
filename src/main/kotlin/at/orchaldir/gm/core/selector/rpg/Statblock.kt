@@ -1,7 +1,11 @@
-package at.orchaldir.gm.core.selector.character
+package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.*
+import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 

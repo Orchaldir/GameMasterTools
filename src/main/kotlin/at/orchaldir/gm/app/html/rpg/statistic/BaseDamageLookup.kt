@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.character.statistic
+package at.orchaldir.gm.app.html.rpg.statistic
 
 import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DIE
@@ -9,7 +9,8 @@ import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.character.statistic.*
+import at.orchaldir.gm.core.model.rpg.DieType
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import io.ktor.http.*
 import kotlinx.html.*
 

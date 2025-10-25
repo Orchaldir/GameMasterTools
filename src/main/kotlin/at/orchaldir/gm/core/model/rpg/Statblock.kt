@@ -1,6 +1,7 @@
-package at.orchaldir.gm.core.model.character.statistic
+package at.orchaldir.gm.core.model.rpg
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import kotlinx.serialization.Serializable
 
 @Serializable

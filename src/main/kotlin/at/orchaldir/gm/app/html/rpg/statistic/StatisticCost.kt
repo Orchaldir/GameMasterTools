@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.character.statistic
+package at.orchaldir.gm.app.html.rpg.statistic
 
 import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.NUMBER
@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.character.statistic.*
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import kotlinx.html.FORM

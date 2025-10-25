@@ -7,9 +7,9 @@ import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.Genderless
-import at.orchaldir.gm.core.model.character.statistic.Statblock
-import at.orchaldir.gm.core.model.character.statistic.UniqueCharacterStatblock
-import at.orchaldir.gm.core.model.character.statistic.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language

@@ -3,8 +3,6 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.character.statistic.CharacterStatblock
-import at.orchaldir.gm.core.model.character.statistic.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.character.title.AbstractTitle
 import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.character.title.TitleId
@@ -15,6 +13,8 @@ import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.rpg.CharacterStatblock
+import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date

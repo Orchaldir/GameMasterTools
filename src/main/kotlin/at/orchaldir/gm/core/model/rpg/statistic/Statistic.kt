@@ -1,11 +1,11 @@
-package at.orchaldir.gm.core.model.character.statistic
+package at.orchaldir.gm.core.model.rpg.statistic
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
-import at.orchaldir.gm.core.reducer.character.validateBaseValue
+import at.orchaldir.gm.core.reducer.rpg.validateBaseValue
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

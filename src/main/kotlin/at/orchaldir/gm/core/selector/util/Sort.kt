@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.PersonalityTrait
-import at.orchaldir.gm.core.model.character.statistic.Statistic
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -34,6 +33,8 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
+import at.orchaldir.gm.core.model.rpg.DamageType
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
@@ -320,7 +321,23 @@ fun State.sortCurrencyUnits(
         }
     )
 
-// quote
+
+// damage type
+
+fun State.sortDamageTypes(sort: SortDamageType = SortDamageType.Name) =
+    sortDamageTypes(getDamageTypeStorage().getAll(), sort)
+
+fun State.sortDamageTypes(
+    types: Collection<DamageType>,
+    sort: SortDamageType = SortDamageType.Name,
+) = types
+    .sortedWith(
+        when (sort) {
+            SortDamageType.Name -> compareBy { it.name.text }
+            SortDamageType.Short -> compareBy { it.short?.text }
+        })
+
+// data source
 
 fun State.sortDataSources(sort: SortDataSource = SortDataSource.Name) =
     sortDataSources(getDataSourceStorage().getAll(), sort)

@@ -1,10 +1,12 @@
-package at.orchaldir.gm.core.selector.character
+package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.Statistic
-import at.orchaldir.gm.core.model.character.statistic.StatisticDataType
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticDataType
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.economy.getJobs
 
 fun State.canDeleteStatistic(statistic: StatisticId) = DeleteResult(statistic)

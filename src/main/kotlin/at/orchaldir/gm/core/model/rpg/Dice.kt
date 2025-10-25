@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character.statistic
+package at.orchaldir.gm.core.model.rpg
 
 enum class DieType {
     D4,

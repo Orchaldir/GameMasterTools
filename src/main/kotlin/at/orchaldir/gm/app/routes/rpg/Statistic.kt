@@ -1,15 +1,15 @@
-package at.orchaldir.gm.app.routes.character
+package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.character.statistic.*
+import at.orchaldir.gm.app.html.rpg.statistic.*
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.STATISTIC_TYPE
-import at.orchaldir.gm.core.model.character.statistic.Statistic
-import at.orchaldir.gm.core.model.character.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.util.SortStatistic
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*

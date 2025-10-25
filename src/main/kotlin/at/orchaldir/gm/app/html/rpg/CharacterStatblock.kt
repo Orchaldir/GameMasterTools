@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.character.statistic
+package at.orchaldir.gm.app.html.rpg
 
 import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.STATBLOCK
@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.character.parseCharacterTemplateId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.statistic.*
+import at.orchaldir.gm.core.model.rpg.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
