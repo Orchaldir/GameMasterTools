@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.rpg
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
@@ -23,7 +24,7 @@ value class DamageTypeId(val value: Int) : Id<DamageTypeId> {
 data class DamageType(
     val id: DamageTypeId,
     val name: Name = Name.init("$DAMAGE_TYPE_TYPE ${id.value}"),
-    val short: Name? = null,
+    val short: NotEmptyString? = null,
 ) : ElementWithSimpleName<DamageTypeId> {
 
     override fun id() = id

@@ -17,7 +17,7 @@ fun HtmlBlockTag.showDamageType(
     state: State,
     type: DamageType,
 ) {
-    optionalFieldName("Short", type.short)
+    optionalField("Short", type.short)
 }
 
 // edit
@@ -27,7 +27,7 @@ fun FORM.editDamageType(
     type: DamageType,
 ) {
     selectName(type.name)
-    selectOptionalName("Short", type.short, SHORT)
+    selectOptionalNotEmptyString("Short", type.short, SHORT)
 }
 
 // parse
@@ -42,5 +42,5 @@ fun parseDamageType(
 ) = DamageType(
     id,
     parseName(parameters),
-    parseOptionalName(parameters, SHORT),
+    parseOptionalNotEmptyString(parameters, SHORT),
 )
