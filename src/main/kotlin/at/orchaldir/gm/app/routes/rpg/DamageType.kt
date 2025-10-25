@@ -8,9 +8,9 @@ import at.orchaldir.gm.app.html.rpg.showDamageType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.DAMAGE_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.DamageType
-import at.orchaldir.gm.core.model.rpg.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.combat.DAMAGE_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.combat.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.util.SortDamageType
 import at.orchaldir.gm.core.selector.util.sortDamageTypes
 import io.ktor.http.*

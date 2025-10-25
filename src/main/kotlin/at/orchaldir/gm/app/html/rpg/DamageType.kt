@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.html.rpg
 import at.orchaldir.gm.app.SHORT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.DamageType
-import at.orchaldir.gm.core.model.rpg.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.combat.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
