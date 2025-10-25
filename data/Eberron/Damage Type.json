@@ -1,5 +1,20 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Burning",
+   "short": "Burn"
+  },
+  "2": {
+   "id": 2,
+   "name": "Corrosion",
+   "short": "Cor"
+  },
+  "3": {
+   "id": 3,
+   "name": "Crushing",
+   "short": "Cr"
+  }
  }
 }
