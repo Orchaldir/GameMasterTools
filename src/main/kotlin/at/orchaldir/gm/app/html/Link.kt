@@ -27,6 +27,7 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
+import at.orchaldir.gm.app.routes.rpg.DamageTypeRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
@@ -65,6 +66,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.core.model.rpg.DamageTypeId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
@@ -390,6 +392,7 @@ fun href(
     is CultureId -> call.application.href(CultureRoutes.Details(id))
     is CurrencyId -> call.application.href(CurrencyRoutes.Details(id))
     is CurrencyUnitId -> call.application.href(CurrencyUnitRoutes.Details(id))
+    is DamageTypeId -> call.application.href(DamageTypeRoutes.Details(id))
     is DataSourceId -> call.application.href(DataSourceRoutes.Details(id))
     is DiseaseId -> call.application.href(DiseaseRoutes.Details(id))
     is DistrictId -> call.application.href(DistrictRoutes.Details(id))

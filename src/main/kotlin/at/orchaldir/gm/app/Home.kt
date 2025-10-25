@@ -29,6 +29,7 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
+import at.orchaldir.gm.app.routes.rpg.DamageTypeRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
@@ -76,7 +77,6 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), RaceAppearanceRoutes())
-                    fieldStorageLink(call, state.getStatisticStorage(), StatisticRoutes())
                     fieldStorageLink(call, state.getTitleStorage(), TitleRoutes())
                     h3 { +"Cultures" }
                     fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
@@ -117,6 +117,9 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getDomainStorage(), DomainRoutes())
                     fieldStorageLink(call, state.getGodStorage(), GodRoutes())
                     fieldStorageLink(call, state.getPantheonStorage(), PantheonRoutes())
+                    h3 { +"Rpg" }
+                    fieldStorageLink(call, state.getDamageTypeStorage(), DamageTypeRoutes())
+                    fieldStorageLink(call, state.getStatisticStorage(), StatisticRoutes())
                     h3 { +"Time" }
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
                     fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())
