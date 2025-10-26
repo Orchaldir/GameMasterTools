@@ -55,6 +55,9 @@ import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.DAMAGE_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.combat.MELEE_WEAPON_TYPE
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponId
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -135,6 +138,7 @@ val ELEMENTS =
         LEGAL_CODE_TYPE,
         MAGIC_TRADITION_TYPE,
         MATERIAL_TYPE,
+        MELEE_WEAPON_TYPE,
         MOON_TYPE,
         NAME_LIST_TYPE,
         ORGANIZATION_TYPE,
@@ -213,6 +217,7 @@ data class State(
     fun getLegalCodeStorage() = getStorage<LegalCodeId, LegalCode>(LEGAL_CODE_TYPE)
     fun getMagicTraditionStorage() = getStorage<MagicTraditionId, MagicTradition>(MAGIC_TRADITION_TYPE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
+    fun getMeleeWeaponStorage() = getStorage<MeleeWeaponId, MeleeWeapon>(MELEE_WEAPON_TYPE)
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON_TYPE)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST_TYPE)
     fun getOrganizationStorage() = getStorage<OrganizationId, Organization>(ORGANIZATION_TYPE)
@@ -364,6 +369,7 @@ data class State(
         saveStorage(path, getLegalCodeStorage())
         saveStorage(path, getMagicTraditionStorage())
         saveStorage(path, getMaterialStorage())
+        saveStorage(path, getMeleeWeaponStorage())
         saveStorage(path, getMoonStorage())
         saveStorage(path, getNameListStorage())
         saveStorage(path, getOrganizationStorage())
@@ -424,6 +430,7 @@ fun createStorage(type: String) = when (type) {
     LEGAL_CODE_TYPE -> Storage(LegalCodeId(0))
     MAGIC_TRADITION_TYPE -> Storage(MagicTraditionId(0))
     MATERIAL_TYPE -> Storage(MaterialId(0))
+    MELEE_WEAPON_TYPE -> Storage(MeleeWeaponId(0))
     MOON_TYPE -> Storage(MoonId(0))
     NAME_LIST_TYPE -> Storage(NameListId(0))
     ORGANIZATION_TYPE -> Storage(OrganizationId(0))
@@ -483,6 +490,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     LEGAL_CODE_TYPE -> loadStorage<LegalCodeId, LegalCode>(path, LegalCodeId(0))
     MAGIC_TRADITION_TYPE -> loadStorage<MagicTraditionId, MagicTradition>(path, MagicTraditionId(0))
     MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))
+    MELEE_WEAPON_TYPE -> loadStorage<MeleeWeaponId, MeleeWeapon>(path, MeleeWeaponId(0))
     MOON_TYPE -> loadStorage<MoonId, Moon>(path, MoonId(0))
     NAME_LIST_TYPE -> loadStorage<NameListId, NameList>(path, NameListId(0))
     ORGANIZATION_TYPE -> loadStorage<OrganizationId, Organization>(path, OrganizationId(0))
