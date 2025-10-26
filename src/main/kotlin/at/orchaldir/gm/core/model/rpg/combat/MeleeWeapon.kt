@@ -23,6 +23,7 @@ value class MeleeWeaponId(val value: Int) : Id<MeleeWeaponId> {
 data class MeleeWeapon(
     val id: MeleeWeaponId,
     val name: Name = Name.init("$MELEE_WEAPON_TYPE ${id.value}"),
+    val attacks: List<MeleeAttack> = emptyList(),
 ) : ElementWithSimpleName<MeleeWeaponId> {
 
     override fun id() = id
