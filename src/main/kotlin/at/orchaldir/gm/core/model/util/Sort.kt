@@ -153,6 +153,10 @@ enum class SortMaterial {
     Equipment,
 }
 
+enum class SortMeleeWeapon {
+    Name,
+}
+
 enum class SortMoon {
     Name,
 }

@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
@@ -321,7 +322,6 @@ fun State.sortCurrencyUnits(
         }
     )
 
-
 // damage type
 
 fun State.sortDamageTypes(sort: SortDamageType = SortDamageType.Name) =
@@ -562,6 +562,20 @@ fun State.sortMaterials(
             SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }
         }
     )
+
+// melee weapons
+
+fun State.sortMeleeWeapons(sort: SortMeleeWeapon = SortMeleeWeapon.Name) =
+    sortMeleeWeapons(getMeleeWeaponStorage().getAll(), sort)
+
+fun State.sortMeleeWeapons(
+    weapons: Collection<MeleeWeapon>,
+    sort: SortMeleeWeapon = SortMeleeWeapon.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortMeleeWeapon.Name -> compareBy { it.name.text }
+        })
 
 // moon
 
