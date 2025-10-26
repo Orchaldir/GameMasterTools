@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.editDamageType
-import at.orchaldir.gm.app.html.rpg.parseDamageType
-import at.orchaldir.gm.app.html.rpg.showDamageType
+import at.orchaldir.gm.app.html.rpg.combat.editDamageType
+import at.orchaldir.gm.app.html.rpg.combat.parseDamageType
+import at.orchaldir.gm.app.html.rpg.combat.showDamageType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
