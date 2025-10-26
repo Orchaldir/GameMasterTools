@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MeleeAttack(
-    val amount: DamageAmount,
+    val effect: AttackEffect = UndefinedAttackEffect,
 )
