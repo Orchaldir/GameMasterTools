@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.REFERENCE
+import at.orchaldir.gm.app.BASE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.rpg.parseDiceModifier
@@ -21,7 +21,6 @@ import at.orchaldir.gm.core.model.rpg.combat.SimpleRandomDamage
 import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlin.math.absoluteValue
 
@@ -49,7 +48,7 @@ fun HtmlBlockTag.displayDamageAmount(
 
 // edit
 
-fun FORM.editDamageAmount(
+fun HtmlBlockTag.editDamageAmount(
     state: State,
     amount: DamageAmount,
     param: String,
@@ -67,7 +66,7 @@ fun FORM.editDamageAmount(
                 selectElement(
                     state,
                     "Base Damage",
-                    combine(param, REFERENCE),
+                    combine(param, BASE),
                     state.getBaseDamageValues(),
                     amount.base,
                 )
@@ -85,7 +84,7 @@ fun parseDamageAmount(
     param: String,
 ) = when (parse(parameters, combine(param, TYPE), DamageAmountType.SimpleRandom)) {
     DamageAmountType.ModifiedBase -> ModifiedBaseDamage(
-        parseStatisticId(parameters, REFERENCE),
+        parseStatisticId(parameters, BASE),
         parseDiceModifier(parameters, param),
     )
     DamageAmountType.SimpleRandom -> SimpleRandomDamage(
