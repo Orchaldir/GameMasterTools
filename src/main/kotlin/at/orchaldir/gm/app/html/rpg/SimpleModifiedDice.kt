@@ -14,6 +14,14 @@ import kotlinx.html.HtmlBlockTag
 
 // edit
 
+fun HtmlBlockTag.selectSimpleModifiedDice(
+    entry: SimpleModifiedDice,
+    param: String,
+) {
+    selectDiceNumber(entry, param)
+    selectDiceModifier(param, entry.modifier)
+}
+
 fun HtmlBlockTag.selectDiceNumber(
     entry: SimpleModifiedDice,
     param: String,
@@ -28,11 +36,11 @@ fun HtmlBlockTag.selectDiceNumber(
 }
 
 fun HtmlBlockTag.selectDiceModifier(
-    entry: SimpleModifiedDice,
     entryParam: String,
+    modifier: Int,
 ) {
     selectInt(
-        entry.modifier,
+        modifier,
         -10,
         +10,
         1,
@@ -47,5 +55,7 @@ fun parseSimpleModifiedDice(
     param: String,
 ) = SimpleModifiedDice(
     parseInt(parameters, combine(param, DIE), 1),
-    parseInt(parameters, combine(param, NUMBER), 0),
+    parseDiceModifier(parameters, param),
 )
+
+fun parseDiceModifier(parameters: Parameters, param: String): Int = parseInt(parameters, combine(param, NUMBER), 0)

@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.rpg.statistic
 
 import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DIE
-import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
@@ -13,7 +12,6 @@ import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.rpg.DieType
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import io.ktor.http.*
 import kotlinx.html.*
@@ -84,7 +82,7 @@ fun FORM.editBaseDamageLookup(
                             selectDiceNumber(entry, entryParam)
                         },
                         Pair("Modifier") { entryParam, entry ->
-                            selectDiceModifier(entry, entryParam)
+                            selectDiceModifier(entryParam, entry.modifier)
                         },
                     ),
                 )

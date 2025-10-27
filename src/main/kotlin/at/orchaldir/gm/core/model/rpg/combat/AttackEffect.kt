@@ -20,7 +20,7 @@ sealed class AttackEffect {
 @Serializable
 @SerialName("Damage")
 data class Damage(
-    val amount: AttackEffect,
+    val amount: DamageAmount,
     val type: DamageTypeId,
 ) : AttackEffect()
 
