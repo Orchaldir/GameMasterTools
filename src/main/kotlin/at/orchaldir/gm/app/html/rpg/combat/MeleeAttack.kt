@@ -27,7 +27,7 @@ fun HtmlBlockTag.showMeleeAttack(
 
 // edit
 
-fun FORM.editMeleeAttack(
+fun HtmlBlockTag.editMeleeAttack(
     state: State,
     attack: MeleeAttack,
     label: String,
