@@ -22,7 +22,7 @@ fun HtmlBlockTag.fieldAttackEffect(
     effect: AttackEffect,
 ) {
     field("Effect") {
-        displayAttackEffect(call, state, effect, true)
+        displayAttackEffect(call, state, effect)
     }
 }
 
@@ -30,7 +30,6 @@ fun HtmlBlockTag.displayAttackEffect(
     call: ApplicationCall,
     state: State,
     effect: AttackEffect,
-    showUndefined: Boolean = false,
 ) {
     when (effect) {
         is Damage -> {
@@ -39,9 +38,7 @@ fun HtmlBlockTag.displayAttackEffect(
             val type = state.getDamageTypeStorage().getOrThrow(effect.damageType)
             link(call, type, type.short?.text ?: type.name())
         }
-        UndefinedAttackEffect -> if (showUndefined) {
-            +"Undefined"
-        }
+        UndefinedAttackEffect -> +"Undefined"
     }
 }
 

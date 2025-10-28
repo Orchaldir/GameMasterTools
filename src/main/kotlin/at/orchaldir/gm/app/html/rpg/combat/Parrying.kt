@@ -19,21 +19,18 @@ fun HtmlBlockTag.fieldParrying(
     parrying: Parrying,
 ) {
     field("Parrying") {
-        displayParrying(parrying, true)
+        displayParrying(parrying)
     }
 }
 
 fun HtmlBlockTag.displayParrying(
     parrying: Parrying,
-    showUndefined: Boolean = false,
 ) {
     when (parrying) {
         NoParrying -> +"No"
         is NormalParrying -> +"${parrying.modifier}"
         is UnbalancedParrying -> +"${parrying.modifier}U"
-        UndefinedParrying -> if (showUndefined) {
-            +"Undefined"
-        }
+        UndefinedParrying -> +"Undefined"
     }
 }
 

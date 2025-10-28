@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.rpg.combat.displayAttackEffect
+import at.orchaldir.gm.app.html.rpg.combat.displayParrying
 import at.orchaldir.gm.app.html.rpg.combat.editMeleeWeapon
 import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeapon
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeWeapon
@@ -76,6 +77,11 @@ fun Application.configureMeleeWeaponRouting() {
                     tdColumn("Damage") {
                         showMultiLine(it.attacks) { attack ->
                             displayAttackEffect(call, state, attack.effect)
+                        }
+                    },
+                    tdColumn("Parrying") {
+                        showMultiLine(it.attacks) { attack ->
+                            displayParrying(attack.parrying)
                         }
                     },
                 ),
