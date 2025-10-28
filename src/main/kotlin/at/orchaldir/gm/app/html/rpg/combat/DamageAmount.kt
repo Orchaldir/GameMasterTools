@@ -84,7 +84,7 @@ fun parseDamageAmount(
     param: String,
 ) = when (parse(parameters, combine(param, TYPE), DamageAmountType.SimpleRandom)) {
     DamageAmountType.ModifiedBase -> ModifiedBaseDamage(
-        parseStatisticId(parameters, BASE),
+        parseStatisticId(parameters, combine(param, BASE)),
         parseDiceModifier(parameters, param),
     )
     DamageAmountType.SimpleRandom -> SimpleRandomDamage(
