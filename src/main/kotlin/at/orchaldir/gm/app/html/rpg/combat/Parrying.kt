@@ -39,9 +39,7 @@ fun HtmlBlockTag.displayParrying(
 
 // edit
 
-
-
-fun FORM.editParrying(
+fun HtmlBlockTag.editParrying(
     parrying: Parrying,
     param: String = PARRYING,
 ) {

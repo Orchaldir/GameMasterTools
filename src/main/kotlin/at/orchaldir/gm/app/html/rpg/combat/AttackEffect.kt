@@ -17,7 +17,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showAttackEffect(
+fun HtmlBlockTag.fieldAttackEffect(
     call: ApplicationCall,
     state: State,
     effect: AttackEffect,
@@ -47,7 +47,7 @@ fun HtmlBlockTag.displayAttackEffect(
 
 // edit
 
-fun FORM.editAttackEffect(
+fun HtmlBlockTag.editAttackEffect(
     state: State,
     effect: AttackEffect,
     param: String,
