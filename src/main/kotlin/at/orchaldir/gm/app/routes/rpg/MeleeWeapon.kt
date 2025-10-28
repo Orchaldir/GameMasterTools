@@ -2,9 +2,12 @@ package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.rpg.combat.displayAttackEffect
 import at.orchaldir.gm.app.html.rpg.combat.editMeleeWeapon
 import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeapon
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeWeapon
+import at.orchaldir.gm.app.html.rpg.statistic.displayBaseValue
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -70,6 +73,11 @@ fun Application.configureMeleeWeaponRouting() {
                 state.sortMeleeWeapons(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    tdColumn("Damage") {
+                        showMultiLine(it.attacks) { attack ->
+                            displayAttackEffect(call, state, attack.effect)
+                        }
+                    },
                 ),
             )
         }

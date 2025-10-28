@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.selector.util.sortDamageTypes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -37,7 +36,7 @@ fun HtmlBlockTag.displayAttackEffect(
         is Damage -> {
             displayDamageAmount(call, state, effect.amount)
             +" "
-            link(call, state, effect.type)
+            link(call, state, effect.damageType)
         }
         UndefinedAttackEffect -> if (showUndefined) {
             +"Undefined"
@@ -68,7 +67,7 @@ fun HtmlBlockTag.editAttackEffect(
                     DAMAGE_TYPE_TYPE,
                     combine(param, DAMAGE, TYPE),
                     state.sortDamageTypes(),
-                    effect.type,
+                    effect.damageType,
                 )
             }
             UndefinedAttackEffect -> doNothing()

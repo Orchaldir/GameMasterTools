@@ -12,6 +12,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.LI
+import kotlinx.html.br
 import kotlinx.html.li
 import kotlinx.html.ul
 
@@ -140,6 +141,22 @@ fun <T> HtmlBlockTag.showListWithIndex(
                 content(it.index, it.value)
             }
         }
+    }
+}
+
+fun <T> HtmlBlockTag.showMultiLine(
+    elements: Collection<T>,
+    content: HtmlBlockTag.(T) -> Unit,
+) {
+    var isFirst = true
+
+    elements.forEach { element ->
+        if (isFirst) {
+            isFirst = false
+        } else {
+            br {  }
+        }
+        content(element)
     }
 }
 
