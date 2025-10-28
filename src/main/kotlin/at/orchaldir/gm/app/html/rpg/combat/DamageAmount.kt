@@ -33,13 +33,14 @@ fun HtmlBlockTag.displayDamageAmount(
 ) {
     when (amount) {
         is ModifiedBaseDamage -> {
-            link(call, state, amount.base)
+            val base = state.getStatisticStorage().getOrThrow(amount.base)
+            link(call, base, base.short?.text ?: base.name())
 
             if (amount.modifier > 0) {
-                +" + ${amount.modifier}"
+                +"+${amount.modifier}"
             }
             else if (amount.modifier < 0) {
-                +" - ${amount.modifier.absoluteValue}"
+                +"-${amount.modifier.absoluteValue}"
             }
         }
         is SimpleRandomDamage -> +amount.amount.display()

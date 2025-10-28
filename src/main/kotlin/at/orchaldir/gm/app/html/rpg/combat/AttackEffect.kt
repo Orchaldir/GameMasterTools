@@ -36,7 +36,8 @@ fun HtmlBlockTag.displayAttackEffect(
         is Damage -> {
             displayDamageAmount(call, state, effect.amount)
             +" "
-            link(call, state, effect.damageType)
+            val type = state.getDamageTypeStorage().getOrThrow(effect.damageType)
+            link(call, type, type.short?.text ?: type.name())
         }
         UndefinedAttackEffect -> if (showUndefined) {
             +"Undefined"
