@@ -61,7 +61,7 @@ fun HtmlBlockTag.editAttackEffect(
 
         when (effect) {
             is Damage -> {
-                editDamageAmount(state, effect.amount, AMOUNT)
+                editDamageAmount(state, effect.amount, combine(param, AMOUNT))
                 selectElement(
                     state,
                     DAMAGE_TYPE_TYPE,
@@ -82,7 +82,7 @@ fun parseAttackEffect(
     param: String,
 ) = when (parse(parameters, combine(param, TYPE), AttackEffectType.Undefined)) {
     AttackEffectType.Damage -> Damage(
-        parseDamageAmount(parameters, AMOUNT),
+        parseDamageAmount(parameters, combine(param, AMOUNT)),
         parseDamageTypeId(parameters, combine(param, DAMAGE, TYPE)),
     )
     AttackEffectType.Undefined -> UndefinedAttackEffect

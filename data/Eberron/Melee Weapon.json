@@ -1,5 +1,37 @@
 {
  "version": 1,
  "elements": {
+  "1": {
+   "id": 1,
+   "attacks": [
+    {
+     "effect": {
+      "type": "Damage",
+      "amount": {
+       "type": "ModifiedBase",
+       "base": 14,
+       "modifier": -1
+      },
+      "damageType": 6
+     },
+     "parrying": {
+      "type": "Normal"
+     }
+    },
+    {
+     "effect": {
+      "type": "Damage",
+      "amount": {
+       "type": "SimpleRandom",
+       "amount": {
+        "dice": 2,
+        "modifier": 1
+       }
+      },
+      "damageType": 0
+     }
+    }
+   ]
+  }
  }
 }
