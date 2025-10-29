@@ -14,6 +14,9 @@
       },
       "damageType": 6
      },
+     "reach": {
+      "type": "Simple"
+     },
      "parrying": {
       "type": "Normal"
      }
@@ -29,6 +32,13 @@
        }
       },
       "damageType": 0
+     },
+     "reach": {
+      "type": "Range"
+     },
+     "parrying": {
+      "type": "Normal",
+      "modifier": 1
      }
     }
    ]
