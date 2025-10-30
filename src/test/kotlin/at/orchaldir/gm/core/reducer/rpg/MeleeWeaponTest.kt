@@ -34,6 +34,35 @@ class MeleeWeaponTest {
         assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
     }
 
+    @Test
+    fun `Simple reach cannot be negative`() {
+        val attack = MeleeAttack(reach = SimpleReach(-1))
+
+        assertInvalidWeapon(attack, "The simple reach reach must be >= 0!")
+    }
+
+    @Test
+    fun `The range's minimum cannot be negative`() {
+        val attack = MeleeAttack(reach = ReachRange(-1, 2))
+
+        assertInvalidWeapon(attack, "The minimum reach must be >= 0!")
+    }
+
+    @Test
+    fun `The range's minimum must be smaller than the maximum`() {
+        val attack = MeleeAttack(reach = ReachRange(2, 2))
+
+        assertInvalidWeapon(attack, "The minimum reach must be < than its maximum!")
+    }
+
+    @Test
+    fun `A valid melee weapon`() {
+        val attack = MeleeAttack(Damage(validDamageAmount, DAMAGE_TYPE_ID_0),  ReachRange(1, 2))
+        val weapon = MeleeWeapon(MELEE_WEAPON_ID_0, attacks = listOf(attack))
+
+        weapon.validate(STATE)
+    }
+
     private fun assertInvalidWeapon(attack: MeleeAttack, message: String) {
         val weapon = MeleeWeapon(MELEE_WEAPON_ID_0, attacks = listOf(attack))
 
