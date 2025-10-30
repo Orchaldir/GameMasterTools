@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.rpg.validateMeleeAttack
@@ -33,4 +34,6 @@ data class MeleeWeapon(
     override fun validate(state: State) {
         attacks.forEach { validateMeleeAttack(state, it) }
     }
+
+    fun contains(statistic: StatisticId) = attacks.any { it.contains(statistic) }
 }

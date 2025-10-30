@@ -17,6 +17,11 @@ sealed class DamageAmount {
         is SimpleRandomDamage -> DamageAmountType.SimpleRandom
         is ModifiedBaseDamage -> DamageAmountType.ModifiedBase
     }
+
+    fun contains(statistic: StatisticId) = when (this) {
+        is SimpleRandomDamage -> false
+        is ModifiedBaseDamage -> base == statistic
+    }
 }
 
 @Serializable
