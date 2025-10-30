@@ -31,6 +31,8 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
@@ -88,6 +90,8 @@ val CURRENCY_ID_0 = CurrencyId(0)
 val UNKNOWN_CURRENCY_ID = CurrencyId(99)
 val CURRENCY_UNIT_ID_0 = CurrencyUnitId(0)
 val UNKNOWN_CURRENCY_UNIT_ID = CurrencyUnitId(99)
+val DAMAGE_TYPE_ID_0 = DamageTypeId(0)
+val UNKNOWN_DAMAGE_TYPE_ID = DamageTypeId(99)
 val DISEASE_ID_0 = DiseaseId(0)
 val DISEASE_ID_1 = DiseaseId(1)
 val UNKNOWN_DISEASE_ID = DiseaseId(99)
@@ -121,6 +125,8 @@ val UNKNOWN_MAGIC_TRADITION_ID = MagicTraditionId(99)
 val MATERIAL_ID_0 = MaterialId(0)
 val MATERIAL_ID_1 = MaterialId(1)
 val UNKNOWN_MATERIAL_ID = MaterialId(99)
+val MELEE_WEAPON_ID_0 = MeleeWeaponId(0)
+val UNKNOWN_MELEE_WEAPON = MeleeWeaponId(99)
 val MOON_ID_0 = MoonId(0)
 val UNKNOWN_MOON_ID = MoonId(99)
 val NAME_LIST_ID0 = NameListId(0)

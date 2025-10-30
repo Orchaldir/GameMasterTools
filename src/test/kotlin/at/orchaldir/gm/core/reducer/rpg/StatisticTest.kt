@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.character
+package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.STATISTIC_ID_0
 import at.orchaldir.gm.STATISTIC_ID_1
