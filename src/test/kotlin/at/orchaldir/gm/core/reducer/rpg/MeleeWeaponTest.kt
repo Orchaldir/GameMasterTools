@@ -23,17 +23,21 @@ class MeleeWeaponTest {
     @Test
     fun `Cannot use an unknown damage type`() {
         val attack = MeleeAttack(Damage(validDamageAmount, UNKNOWN_DAMAGE_TYPE_ID))
-        val weapon = MeleeWeapon(MELEE_WEAPON_ID_0, attacks = listOf(attack))
 
-        assertIllegalArgument("Requires unknown Damage Type 99!") { weapon.validate(STATE) }
+        assertInvalidWeapon(attack, "Requires unknown Damage Type 99!")
     }
 
     @Test
     fun `Cannot use an unknown base damage`() {
         val attack = MeleeAttack(Damage(ModifiedBaseDamage(UNKNOWN_STATISTIC_ID), DAMAGE_TYPE_ID_0))
+
+        assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
+    }
+
+    private fun assertInvalidWeapon(attack: MeleeAttack, message: String) {
         val weapon = MeleeWeapon(MELEE_WEAPON_ID_0, attacks = listOf(attack))
 
-        assertIllegalArgument("Requires unknown Statistic 99!") { weapon.validate(STATE) }
+        assertIllegalArgument(message) { weapon.validate(STATE) }
     }
 
 }
