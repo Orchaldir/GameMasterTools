@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.rpg.validateMeleeAttack
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val MELEE_WEAPON_TYPE = "Melee Weapon"
@@ -35,5 +34,6 @@ data class MeleeWeapon(
         attacks.forEach { validateMeleeAttack(state, it) }
     }
 
+    fun contains(type: DamageTypeId) = attacks.any { it.contains(type) }
     fun contains(statistic: StatisticId) = attacks.any { it.contains(statistic) }
 }

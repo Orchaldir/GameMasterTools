@@ -9,5 +9,6 @@ data class MeleeAttack(
     val reach: Reach = UndefinedReach,
     val parrying: Parrying = UndefinedParrying,
 ) {
+    fun contains(type: DamageTypeId) = effect.contains(type)
     fun contains(statistic: StatisticId) = effect.contains(statistic)
 }

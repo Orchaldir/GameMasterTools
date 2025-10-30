@@ -34,5 +34,5 @@ data class ModifiedBaseDamage(
 @Serializable
 @SerialName("SimpleRandom")
 data class SimpleRandomDamage(
-    val amount: SimpleModifiedDice,
+    val amount: SimpleModifiedDice = SimpleModifiedDice(1, 0),
 ) : DamageAmount()

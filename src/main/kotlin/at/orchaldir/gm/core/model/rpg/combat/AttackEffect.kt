@@ -17,6 +17,11 @@ sealed class AttackEffect {
         is UndefinedAttackEffect -> AttackEffectType.Undefined
     }
 
+    fun contains(type: DamageTypeId)  = when (this) {
+        is Damage -> damageType == type
+        is UndefinedAttackEffect -> false
+    }
+
     fun contains(statistic: StatisticId)  = when (this) {
         is Damage -> amount.contains(statistic)
         is UndefinedAttackEffect -> false
