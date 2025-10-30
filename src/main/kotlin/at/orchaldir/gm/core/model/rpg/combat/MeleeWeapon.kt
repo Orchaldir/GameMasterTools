@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.rpg.combat
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.rpg.validateMeleeAttack
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
@@ -29,5 +30,7 @@ data class MeleeWeapon(
     override fun id() = id
     override fun name() = name.text
 
-    override fun validate(state: State) = doNothing()
+    override fun validate(state: State) {
+        attacks.forEach { validateMeleeAttack(state, it) }
+    }
 }
