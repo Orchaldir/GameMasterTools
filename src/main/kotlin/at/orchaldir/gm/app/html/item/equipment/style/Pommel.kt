@@ -26,7 +26,7 @@ fun HtmlBlockTag.showPommel(
     state: State,
     pommel: Pommel,
 ) {
-    showDetails("Grip") {
+    showDetails("Pommel") {
         field("Type", pommel.getType())
 
         when (pommel) {
@@ -46,7 +46,7 @@ fun HtmlBlockTag.editPommel(
     pommel: Pommel,
     param: String = POMMEL,
 ) {
-    showDetails("Grip", true) {
+    showDetails("Pommel", true) {
         selectValue("Type", param, PommelType.entries, pommel.getType())
 
         when (pommel) {

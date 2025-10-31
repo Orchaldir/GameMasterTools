@@ -270,7 +270,7 @@
   "14": {
    "id": 14,
    "name": "Thrusting Damage",
-   "short": "Thrust",
+   "short": "Thr",
    "data": {
     "type": "Damage",
     "base": {

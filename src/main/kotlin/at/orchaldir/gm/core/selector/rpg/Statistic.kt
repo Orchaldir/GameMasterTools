@@ -13,6 +13,7 @@ fun State.canDeleteStatistic(statistic: StatisticId) = DeleteResult(statistic)
     .addElements(getCharacters(statistic))
     .addElements(getCharacterTemplates(statistic))
     .addElements(getJobs(statistic))
+    .addElements(getMeleeWeapons(statistic))
 
 fun State.getAttributes() = getStatistics(StatisticDataType.Attribute)
 fun State.getDerivedAttributes() = getStatistics(StatisticDataType.DerivedAttribute)

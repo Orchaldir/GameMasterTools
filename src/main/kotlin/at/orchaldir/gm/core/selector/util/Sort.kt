@@ -33,7 +33,8 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
-import at.orchaldir.gm.core.model.rpg.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
@@ -65,6 +66,7 @@ import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
@@ -321,7 +323,6 @@ fun State.sortCurrencyUnits(
         }
     )
 
-
 // damage type
 
 fun State.sortDamageTypes(sort: SortDamageType = SortDamageType.Name) =
@@ -335,6 +336,7 @@ fun State.sortDamageTypes(
         when (sort) {
             SortDamageType.Name -> compareBy { it.name.text }
             SortDamageType.Short -> compareBy { it.short?.text }
+            SortDamageType.MeleeWeapons -> compareByDescending { getMeleeWeapons(it.id).size }
         })
 
 // data source
@@ -562,6 +564,20 @@ fun State.sortMaterials(
             SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }
         }
     )
+
+// melee weapons
+
+fun State.sortMeleeWeapons(sort: SortMeleeWeapon = SortMeleeWeapon.Name) =
+    sortMeleeWeapons(getMeleeWeaponStorage().getAll(), sort)
+
+fun State.sortMeleeWeapons(
+    weapons: Collection<MeleeWeapon>,
+    sort: SortMeleeWeapon = SortMeleeWeapon.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortMeleeWeapon.Name -> compareBy { it.name.text }
+        })
 
 // moon
 

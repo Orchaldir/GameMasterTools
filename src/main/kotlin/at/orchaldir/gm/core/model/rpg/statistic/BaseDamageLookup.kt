@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.statistic
 
 import at.orchaldir.gm.core.model.rpg.DieType
+import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
 import at.orchaldir.gm.core.model.util.Lookup
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -31,26 +32,8 @@ data class BaseDamageDicePool(
 ) : BaseDamageLookup()
 
 @Serializable
-data class SimpleBaseDamageEntry(
-    val dice: Int,
-    val modifier: Int,
-) {
-    fun display(dieType: String = "d"): String {
-        var string = "$dice$dieType"
-
-        if (modifier > 0) {
-            string += "+$modifier"
-        } else if (modifier < 0) {
-            string += "$modifier"
-        }
-
-        return string
-    }
-}
-
-@Serializable
 @SerialName("SimpleLookup")
 data class SimpleBaseDamageLookup(
-    val lookup: Lookup<SimpleBaseDamageEntry>,
+    val lookup: Lookup<SimpleModifiedDice>,
     val dieType: DieType = DieType.D6,
 ) : BaseDamageLookup()

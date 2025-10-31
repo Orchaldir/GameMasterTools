@@ -1,0 +1,132 @@
+{
+ "version": 1,
+ "elements": {
+  "1": {
+   "id": 1,
+   "name": "Axe",
+   "attacks": [
+    {
+     "effect": {
+      "type": "Damage",
+      "amount": {
+       "type": "ModifiedBase",
+       "base": 15,
+       "modifier": 2
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "type": "Simple"
+     },
+     "parrying": {
+      "type": "Unbalanced"
+     }
+    }
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Dagger",
+   "attacks": [
+    {
+     "effect": {
+      "type": "Damage",
+      "amount": {
+       "type": "ModifiedBase",
+       "base": 14,
+       "modifier": -1
+      },
+      "damageType": 6
+     },
+     "reach": {
+      "type": "Simple",
+      "distance": 0
+     },
+     "parrying": {
+      "type": "Normal",
+      "modifier": -1
+     }
+    }
+   ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Shortsword",
+   "attacks": [
+    {
+     "effect": {
+      "type": "Damage",
+      "amount": {
+       "type": "ModifiedBase",
+       "base": 15
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "type": "Simple"
+     },
+     "parrying": {
+      "type": "Normal"
+     }
+    },
+    {
+     "effect": {
+      "type": "Damage",
+      "amount": {
+       "type": "ModifiedBase",
+       "base": 14,
+       "modifier": 1
+      },
+      "damageType": 6
+     },
+     "reach": {
+      "type": "Simple"
+     },
+     "parrying": {
+      "type": "Normal"
+     }
+    }
+   ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Spear",
+   "attacks": [
+    {
+     "effect": {
+      "type": "Damage",
+      "amount": {
+       "type": "ModifiedBase",
+       "base": 14,
+       "modifier": 2
+      },
+      "damageType": 6
+     },
+     "reach": {
+      "type": "Simple"
+     },
+     "parrying": {
+      "type": "Normal"
+     }
+    },
+    {
+     "effect": {
+      "type": "Damage",
+      "amount": {
+       "type": "ModifiedBase",
+       "base": 14,
+       "modifier": 3
+      },
+      "damageType": 6
+     },
+     "reach": {
+      "type": "Range"
+     },
+     "parrying": {
+      "type": "Normal"
+     }
+    }
+   ]
+  }
+ }
+}

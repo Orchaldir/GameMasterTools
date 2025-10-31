@@ -2,16 +2,17 @@ package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.editDamageType
-import at.orchaldir.gm.app.html.rpg.parseDamageType
-import at.orchaldir.gm.app.html.rpg.showDamageType
+import at.orchaldir.gm.app.html.rpg.combat.editDamageType
+import at.orchaldir.gm.app.html.rpg.combat.parseDamageType
+import at.orchaldir.gm.app.html.rpg.combat.showDamageType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.DAMAGE_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.DamageType
-import at.orchaldir.gm.core.model.rpg.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.combat.DAMAGE_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.combat.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.util.SortDamageType
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
 import at.orchaldir.gm.core.selector.util.sortDamageTypes
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -71,6 +72,7 @@ fun Application.configureDamageTypeRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Short") { tdString(it.short) },
+                    countCollectionColumn("Melee Weapons") { state.getMeleeWeapons(it.id) },
                 ),
             )
         }

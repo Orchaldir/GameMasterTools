@@ -10,10 +10,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.LI
-import kotlinx.html.li
-import kotlinx.html.ul
+import kotlinx.html.*
 
 // show
 
@@ -140,6 +137,22 @@ fun <T> HtmlBlockTag.showListWithIndex(
                 content(it.index, it.value)
             }
         }
+    }
+}
+
+fun <T> HtmlBlockTag.showMultiLine(
+    elements: Collection<T>,
+    content: HtmlBlockTag.(T) -> Unit,
+) {
+    var isFirst = true
+
+    elements.forEach { element ->
+        if (isFirst) {
+            isFirst = false
+        } else {
+            br { }
+        }
+        content(element)
     }
 }
 

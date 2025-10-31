@@ -2,15 +2,20 @@ package at.orchaldir.gm.app.html.rpg.statistic
 
 import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DIE
-import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
+import at.orchaldir.gm.app.html.rpg.selectDiceModifier
+import at.orchaldir.gm.app.html.rpg.selectDiceNumber
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.rpg.DieType
-import at.orchaldir.gm.core.model.rpg.statistic.*
+import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageDicePool
+import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookup
+import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookupType
+import at.orchaldir.gm.core.model.rpg.statistic.SimpleBaseDamageLookup
 import io.ktor.http.*
 import kotlinx.html.*
 
@@ -77,22 +82,10 @@ fun FORM.editBaseDamageLookup(
                     100,
                     listOf(
                         Pair("Dice") { entryParam, entry ->
-                            selectInt(
-                                entry.dice,
-                                1,
-                                100,
-                                1,
-                                combine(entryParam, DIE),
-                            )
+                            selectDiceNumber(entry, entryParam)
                         },
                         Pair("Modifier") { entryParam, entry ->
-                            selectInt(
-                                entry.modifier,
-                                -10,
-                                +10,
-                                1,
-                                combine(entryParam, NUMBER),
-                            )
+                            selectDiceModifier(entryParam, entry.modifier)
                         },
                     ),
                 )
@@ -121,10 +114,7 @@ fun parseBaseDamageLookup(
 
     BaseDamageLookupType.SimpleLookup -> SimpleBaseDamageLookup(
         parseLookup(parameters, DAMAGE, 1) { entryParam ->
-            SimpleBaseDamageEntry(
-                parseInt(parameters, combine(entryParam, DIE), 1),
-                parseInt(parameters, combine(entryParam, NUMBER), 0),
-            )
+            parseSimpleModifiedDice(parameters, entryParam)
         },
         parse(parameters, DIE, DieType.D6),
     )
