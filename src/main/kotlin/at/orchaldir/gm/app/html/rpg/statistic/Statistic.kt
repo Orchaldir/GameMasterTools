@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
 import at.orchaldir.gm.core.selector.rpg.getStatblocksWith
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import io.ktor.http.*
@@ -34,16 +35,18 @@ private fun HtmlBlockTag.showUsage(
     statistic: Statistic,
 ) {
     val jobs = state.getJobs(statistic.id)
+    val meleeWeapons = state.getMeleeWeapons(statistic.id)
     val statblocks = state.getStatblocksWith(statistic.id)
     val statistics = state.getStatisticsBasedOn(statistic.id)
 
-    if (jobs.isEmpty() && statblocks.isEmpty() && statistics.isEmpty()) {
+    if (jobs.isEmpty() && meleeWeapons.isEmpty() && statblocks.isEmpty() && statistics.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, jobs)
+    fieldElements(call, state, meleeWeapons)
     fieldElements(call, state, statistics)
 
     table {
@@ -53,9 +56,9 @@ private fun HtmlBlockTag.showUsage(
         }
         statblocks
             .sortedByDescending { it.second }
-            .forEach { (id, value) ->
+            .forEach { (statblockId, value) ->
                 tr {
-                    tdLink(call, state, id)
+                    tdLink(call, state, statblockId)
                     tdString(statistic.data.display(value))
                 }
             }
