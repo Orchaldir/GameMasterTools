@@ -74,6 +74,7 @@ enum class SortCurrencyUnit {
 enum class SortDamageType {
     Name,
     Short,
+    MeleeWeapons,
 }
 
 enum class SortDataSource {

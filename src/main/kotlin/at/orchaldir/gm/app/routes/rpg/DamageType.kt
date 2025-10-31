@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.rpg.combat.DAMAGE_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.util.SortDamageType
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
 import at.orchaldir.gm.core.selector.util.sortDamageTypes
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -71,6 +72,7 @@ fun Application.configureDamageTypeRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Short") { tdString(it.short) },
+                    countCollectionColumn("Melee Weapons") { state.getMeleeWeapons(it.id) },
                 ),
             )
         }

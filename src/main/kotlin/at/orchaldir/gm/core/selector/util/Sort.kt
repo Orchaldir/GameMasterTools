@@ -66,6 +66,7 @@ import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
@@ -335,6 +336,7 @@ fun State.sortDamageTypes(
         when (sort) {
             SortDamageType.Name -> compareBy { it.name.text }
             SortDamageType.Short -> compareBy { it.short?.text }
+            SortDamageType.MeleeWeapons -> compareByDescending { getMeleeWeapons(it.id).size }
         })
 
 // data source

@@ -5,10 +5,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -18,6 +20,24 @@ fun HtmlBlockTag.showDamageType(
     type: DamageType,
 ) {
     optionalField("Short", type.short)
+
+    showUsages(call, state, type.id)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    type: DamageTypeId,
+) {
+    val meleeWeapons = state.getMeleeWeapons(type)
+
+    if (meleeWeapons.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, meleeWeapons)
 }
 
 // edit
