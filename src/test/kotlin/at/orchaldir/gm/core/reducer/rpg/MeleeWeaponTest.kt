@@ -57,7 +57,7 @@ class MeleeWeaponTest {
 
     @Test
     fun `A valid melee weapon`() {
-        val attack = MeleeAttack(Damage(validDamageAmount, DAMAGE_TYPE_ID_0),  ReachRange(1, 2))
+        val attack = MeleeAttack(Damage(validDamageAmount, DAMAGE_TYPE_ID_0), ReachRange(1, 2))
         val weapon = MeleeWeapon(MELEE_WEAPON_ID_0, attacks = listOf(attack))
 
         weapon.validate(STATE)

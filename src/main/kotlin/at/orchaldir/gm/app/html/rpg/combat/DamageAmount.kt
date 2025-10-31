@@ -38,11 +38,11 @@ fun HtmlBlockTag.displayDamageAmount(
 
             if (amount.modifier > 0) {
                 +"+${amount.modifier}"
-            }
-            else if (amount.modifier < 0) {
+            } else if (amount.modifier < 0) {
                 +"-${amount.modifier.absoluteValue}"
             }
         }
+
         is SimpleRandomDamage -> +amount.amount.display()
     }
 }
@@ -73,6 +73,7 @@ fun HtmlBlockTag.editDamageAmount(
                 )
                 selectDiceModifier(param, amount.modifier)
             }
+
             is SimpleRandomDamage -> selectSimpleModifiedDice(amount.amount, param)
         }
     }
@@ -88,6 +89,7 @@ fun parseDamageAmount(
         parseStatisticId(parameters, combine(param, BASE)),
         parseDiceModifier(parameters, param),
     )
+
     DamageAmountType.SimpleRandom -> SimpleRandomDamage(
         parseSimpleModifiedDice(parameters, param),
     )

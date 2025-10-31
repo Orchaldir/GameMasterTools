@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -80,10 +79,12 @@ fun parseParrying(
     ParryingType.Normal -> NormalParrying(
         parseModifier(parameters, param),
     )
+
     ParryingType.None -> NoParrying
     ParryingType.Unbalanced -> UnbalancedParrying(
         parseModifier(parameters, param),
     )
+
     ParryingType.Undefined -> UndefinedParrying
 }
 

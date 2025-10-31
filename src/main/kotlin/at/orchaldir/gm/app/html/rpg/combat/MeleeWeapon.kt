@@ -19,7 +19,7 @@ fun HtmlBlockTag.showMeleeWeapon(
 ) {
     showDetails("Attacks", true) {
         weapon.attacks.withIndex().forEach { (index, attack) ->
-            showMeleeAttack(call, state, attack, "${index+1}.Attack")
+            showMeleeAttack(call, state, attack, "${index + 1}.Attack")
         }
     }
 }
@@ -32,7 +32,7 @@ fun FORM.editMeleeWeapon(
 ) {
     selectName(weapon.name)
     editList("Attacks", ATTACK, weapon.attacks, 0, 2, 1) { index, param, attack ->
-        editMeleeAttack(state, attack, "${index+1}.Attack", param)
+        editMeleeAttack(state, attack, "${index + 1}.Attack", param)
     }
 }
 
@@ -48,7 +48,7 @@ fun parseMeleeWeapon(
 ) = MeleeWeapon(
     id,
     parseName(parameters),
-    parseList(parameters, ATTACK, 0) { _,param ->
+    parseList(parameters, ATTACK, 0) { _, param ->
         parseMeleeAttack(parameters, param)
     }
 )

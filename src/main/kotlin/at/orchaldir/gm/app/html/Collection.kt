@@ -10,11 +10,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.LI
-import kotlinx.html.br
-import kotlinx.html.li
-import kotlinx.html.ul
+import kotlinx.html.*
 
 // show
 
@@ -154,7 +150,7 @@ fun <T> HtmlBlockTag.showMultiLine(
         if (isFirst) {
             isFirst = false
         } else {
-            br {  }
+            br { }
         }
         content(element)
     }

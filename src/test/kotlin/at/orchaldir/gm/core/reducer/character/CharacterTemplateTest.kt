@@ -5,14 +5,14 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.rpg.Statblock
-import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel.Native
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER

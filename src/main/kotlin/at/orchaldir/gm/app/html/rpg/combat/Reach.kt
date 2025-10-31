@@ -1,17 +1,12 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.MAX
-import at.orchaldir.gm.app.MIN
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.PARRYING
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -36,6 +31,7 @@ fun HtmlBlockTag.displayReach(
                 +"*"
             }
         }
+
         UndefinedReach -> +"Undefined"
     }
 }
@@ -65,6 +61,7 @@ fun HtmlBlockTag.editReach(
                 1,
                 combine(param, NUMBER),
             )
+
             is ReachRange -> {
                 selectInt(
                     "Min",
@@ -83,6 +80,7 @@ fun HtmlBlockTag.editReach(
                     combine(param, MAX),
                 )
             }
+
             UndefinedReach -> doNothing()
         }
     }
@@ -97,9 +95,11 @@ fun parseReach(
     ReachType.Simple -> SimpleReach(
         parseInt(parameters, combine(param, NUMBER), 1),
     )
+
     ReachType.Range -> ReachRange(
         parseInt(parameters, combine(param, MIN), 1),
         parseInt(parameters, combine(param, MAX), 2),
     )
+
     ReachType.Undefined -> UndefinedReach
 }

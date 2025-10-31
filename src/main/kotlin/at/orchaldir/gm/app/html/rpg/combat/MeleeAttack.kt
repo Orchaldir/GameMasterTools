@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.EFFECT
 import at.orchaldir.gm.app.PARRYING
 import at.orchaldir.gm.app.REACH
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
@@ -35,7 +35,7 @@ fun HtmlBlockTag.editMeleeAttack(
     param: String,
 ) {
     showDetails(label, true) {
-        editAttackEffect( state, attack.effect, combine(param, EFFECT))
+        editAttackEffect(state, attack.effect, combine(param, EFFECT))
         editReach(attack.reach, combine(param, REACH))
         editParrying(attack.parrying, combine(param, PARRYING))
     }
