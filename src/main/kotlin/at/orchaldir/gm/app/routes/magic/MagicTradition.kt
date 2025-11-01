@@ -1,31 +1,26 @@
 package at.orchaldir.gm.app.routes.magic
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.createCreatorColumn
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.html.magic.editMagicTradition
 import at.orchaldir.gm.app.html.magic.parseMagicTradition
 import at.orchaldir.gm.app.html.magic.showMagicTradition
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.MAGIC_TRADITION_TYPE
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.util.SortMagicTradition
 import at.orchaldir.gm.core.selector.util.sortMagicTraditions
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$MAGIC_TRADITION_TYPE")
 class MagicTraditionRoutes : Routes<MagicTraditionId, SortMagicTradition> {
@@ -58,6 +53,8 @@ class MagicTraditionRoutes : Routes<MagicTraditionId, SortMagicTradition> {
     override fun delete(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: MagicTraditionId) = call.application.href(Edit(id))
 }
 
 fun Application.configureMagicTraditionRouting() {
@@ -88,44 +85,13 @@ fun Application.configureMagicTraditionRouting() {
             handleDeleteElement(delete.id, MagicTraditionRoutes.All())
         }
         get<MagicTraditionRoutes.Edit> { edit ->
-            logger.info { "Get editor for tradition ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val tradition = state.getMagicTraditionStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showMagicTraditionEditor(call, state, tradition)
-            }
+            handleEditElement(edit.id, MagicTraditionRoutes(), HtmlBlockTag::editMagicTradition)
         }
         post<MagicTraditionRoutes.Preview> { preview ->
-            logger.info { "Get preview for tradition ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val tradition = parseMagicTradition(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showMagicTraditionEditor(call, state, tradition)
-            }
+            handlePreviewElement(preview.id, MagicTraditionRoutes(), ::parseMagicTradition, HtmlBlockTag::editMagicTradition)
         }
         post<MagicTraditionRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMagicTradition)
-        }
-    }
-}
-
-private fun HTML.showMagicTraditionEditor(
-    call: ApplicationCall,
-    state: State,
-    tradition: MagicTradition,
-) {
-    val backLink = href(call, tradition.id)
-    val previewLink = call.application.href(MagicTraditionRoutes.Preview(tradition.id))
-    val updateLink = call.application.href(MagicTraditionRoutes.Update(tradition.id))
-
-    simpleHtmlEditor(tradition) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editMagicTradition(state, tradition)
         }
     }
 }

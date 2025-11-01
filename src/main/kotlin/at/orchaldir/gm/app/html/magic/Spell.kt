@@ -46,6 +46,7 @@ fun HtmlBlockTag.showSpell(
 // edit
 
 fun HtmlBlockTag.editSpell(
+    call: ApplicationCall,
     state: State,
     spell: Spell,
 ) {

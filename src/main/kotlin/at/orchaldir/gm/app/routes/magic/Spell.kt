@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.magic.parseSpell
 import at.orchaldir.gm.app.html.magic.showSpell
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_TYPE
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
@@ -17,19 +16,12 @@ import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.magic.countSpellGroups
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.sortSpells
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$SPELL_TYPE")
 class SpellRoutes : Routes<SpellId, SortSpell> {
@@ -63,6 +55,8 @@ class SpellRoutes : Routes<SpellId, SortSpell> {
     override fun delete(call: ApplicationCall, id: SpellId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: SpellId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: SpellId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: SpellId) = call.application.href(Edit(id))
 }
 
 fun Application.configureSpellRouting() {
@@ -100,44 +94,13 @@ fun Application.configureSpellRouting() {
             handleDeleteElement(delete.id, SpellRoutes.All())
         }
         get<SpellRoutes.Edit> { edit ->
-            logger.info { "Get editor for spell ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val spell = state.getSpellStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showSpellEditor(call, state, spell)
-            }
+            handleEditElement(edit.id, SpellRoutes(), HtmlBlockTag::editSpell)
         }
         post<SpellRoutes.Preview> { preview ->
-            logger.info { "Get preview for spell ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val spell = parseSpell(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showSpellEditor(call, state, spell)
-            }
+            handlePreviewElement(preview.id, SpellRoutes(), ::parseSpell, HtmlBlockTag::editSpell)
         }
         post<SpellRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseSpell)
-        }
-    }
-}
-
-private fun HTML.showSpellEditor(
-    call: ApplicationCall,
-    state: State,
-    spell: Spell,
-) {
-    val backLink = href(call, spell.id)
-    val previewLink = call.application.href(SpellRoutes.Preview(spell.id))
-    val updateLink = call.application.href(SpellRoutes.Update(spell.id))
-
-    simpleHtmlEditor(spell) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editSpell(state, spell)
         }
     }
 }

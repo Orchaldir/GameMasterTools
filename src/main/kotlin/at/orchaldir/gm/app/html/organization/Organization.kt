@@ -56,6 +56,7 @@ private fun HtmlBlockTag.showMembers(
 // edit
 
 fun HtmlBlockTag.editOrganization(
+    call: ApplicationCall,
     state: State,
     organization: Organization,
 ) {

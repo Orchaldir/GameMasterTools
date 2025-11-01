@@ -32,6 +32,7 @@ fun HtmlBlockTag.showMagicTradition(
 // edit
 
 fun HtmlBlockTag.editMagicTradition(
+    call: ApplicationCall,
     state: State,
     tradition: MagicTradition,
 ) {

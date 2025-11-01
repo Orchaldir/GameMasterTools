@@ -26,6 +26,7 @@ fun HtmlBlockTag.showSpellGroup(
 // edit
 
 fun HtmlBlockTag.editSpellGroup(
+    call: ApplicationCall,
     state: State,
     group: SpellGroup,
 ) {
