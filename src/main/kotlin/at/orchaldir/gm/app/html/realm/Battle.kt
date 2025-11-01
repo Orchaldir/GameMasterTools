@@ -52,7 +52,7 @@ private fun HtmlBlockTag.showBattleParticipant(
 
 // edit
 
-fun FORM.editBattle(
+fun HtmlBlockTag.editBattle(
     state: State,
     battle: Battle,
 ) {

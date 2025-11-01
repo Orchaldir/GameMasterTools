@@ -27,7 +27,7 @@ fun HtmlBlockTag.showPantheon(
 
 // edit
 
-fun FORM.editPantheon(
+fun HtmlBlockTag.editPantheon(
     state: State,
     pantheon: Pantheon,
 ) {

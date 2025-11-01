@@ -31,7 +31,7 @@ fun HtmlBlockTag.showMagicTradition(
 
 // edit
 
-fun FORM.editMagicTradition(
+fun HtmlBlockTag.editMagicTradition(
     state: State,
     tradition: MagicTradition,
 ) {

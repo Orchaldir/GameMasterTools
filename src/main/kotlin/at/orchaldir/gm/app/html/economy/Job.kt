@@ -90,7 +90,7 @@ private fun HtmlBlockTag.showJobUsage(
 
 // edit
 
-fun FORM.editJob(
+fun HtmlBlockTag.editJob(
     state: State,
     job: Job,
 ) {

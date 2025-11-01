@@ -29,7 +29,7 @@ import kotlinx.html.h2
 
 // edit
 
-fun FORM.editHead(
+fun HtmlBlockTag.editHead(
     state: State,
     raceAppearance: RaceAppearance,
     fashion: AppearanceFashion?,
@@ -42,7 +42,7 @@ fun FORM.editHead(
     editMouth(raceAppearance, fashion, head.mouth)
 }
 
-private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
+private fun HtmlBlockTag.editEars(raceAppearance: RaceAppearance, ears: Ears) {
     h2 { +"Ears" }
 
     selectFromOneOf("Type", combine(EAR, TYPE), raceAppearance.earsLayout, ears.getType())
@@ -57,7 +57,7 @@ private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
     }
 }
 
-private fun FORM.editBeard(
+private fun HtmlBlockTag.editBeard(
     raceAppearance: RaceAppearance,
     fashion: BeardFashion?,
     beard: Beard,
@@ -72,7 +72,7 @@ private fun FORM.editBeard(
     }
 }
 
-private fun FORM.editNormalBeard(
+private fun HtmlBlockTag.editNormalBeard(
     raceAppearance: RaceAppearance,
     fashion: BeardFashion?,
     beard: NormalBeard,
@@ -126,7 +126,7 @@ private fun HtmlBlockTag.selectMoustacheStyle(
     selectFromOptionalOneOf("Moustache", combine(MOUSTACHE, STYLE), fashion?.moustacheStyles, current)
 }
 
-private fun FORM.editEyes(
+private fun HtmlBlockTag.editEyes(
     raceAppearance: RaceAppearance,
     eyes: Eyes,
 ) {
@@ -148,7 +148,7 @@ private fun FORM.editEyes(
     }
 }
 
-private fun FORM.editEye(
+private fun HtmlBlockTag.editEye(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
@@ -179,7 +179,7 @@ fun HtmlBlockTag.editNormalEye(
     }
 }
 
-private fun FORM.editHair(
+private fun HtmlBlockTag.editHair(
     raceAppearance: RaceAppearance,
     fashion: AppearanceFashion?,
     hair: Hair,
@@ -194,7 +194,7 @@ private fun FORM.editHair(
     }
 }
 
-private fun FORM.editNormalHair(
+private fun HtmlBlockTag.editNormalHair(
     raceAppearance: RaceAppearance,
     fashion: HairFashion?,
     hair: NormalHair,
@@ -253,7 +253,7 @@ private fun FORM.editNormalHair(
     }
 }
 
-private fun FORM.selectHairLength(
+private fun HtmlBlockTag.selectHairLength(
     fashion: HairFashion?,
     length: HairLength,
 ) {
@@ -265,7 +265,7 @@ private fun FORM.selectHairLength(
     )
 }
 
-private fun FORM.editMouth(
+private fun HtmlBlockTag.editMouth(
     raceAppearance: RaceAppearance,
     fashion: AppearanceFashion?,
     mouth: Mouth,
@@ -301,7 +301,7 @@ private fun FORM.editMouth(
     }
 }
 
-private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
+private fun HtmlBlockTag.editSimpleMouth(size: Size, teethColor: TeethColor) {
     selectValue("Width", combine(MOUTH, WIDTH), Size.entries, size)
     selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, teethColor)
 }

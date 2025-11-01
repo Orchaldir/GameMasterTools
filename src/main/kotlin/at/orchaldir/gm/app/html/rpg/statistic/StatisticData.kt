@@ -47,7 +47,7 @@ fun HtmlBlockTag.showStatisticData(
 
 // edit
 
-fun FORM.editStatisticData(
+fun HtmlBlockTag.editStatisticData(
     state: State,
     statistic: StatisticId,
     data: StatisticData,

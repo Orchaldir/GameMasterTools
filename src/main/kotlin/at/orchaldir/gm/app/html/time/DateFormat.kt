@@ -24,7 +24,7 @@ fun HtmlBlockTag.showDateFormat(format: DateFormat) {
 
 // edit
 
-fun FORM.editDateFormat(format: DateFormat) {
+fun HtmlBlockTag.editDateFormat(format: DateFormat) {
     h2 { +"Format" }
 
     selectValue("Date Order", combine(FORMAT, ORDER), DateOrder.entries, format.order)

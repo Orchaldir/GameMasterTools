@@ -1,30 +1,22 @@
 package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.*
+import at.orchaldir.gm.app.html.showMultiLine
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.MELEE_WEAPON_TYPE
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponId
 import at.orchaldir.gm.core.model.util.SortMeleeWeapon
 import at.orchaldir.gm.core.selector.util.sortMeleeWeapons
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$MELEE_WEAPON_TYPE")
 class MeleeWeaponRoutes : Routes<MeleeWeaponId, SortMeleeWeapon> {
@@ -57,6 +49,8 @@ class MeleeWeaponRoutes : Routes<MeleeWeaponId, SortMeleeWeapon> {
     override fun delete(call: ApplicationCall, id: MeleeWeaponId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: MeleeWeaponId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: MeleeWeaponId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: MeleeWeaponId) = call.application.href(Edit(id))
 }
 
 fun Application.configureMeleeWeaponRouting() {
@@ -99,47 +93,13 @@ fun Application.configureMeleeWeaponRouting() {
             handleDeleteElement(delete.id, MeleeWeaponRoutes.All())
         }
         get<MeleeWeaponRoutes.Edit> { edit ->
-            logger.info { "Get editor for type ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val type = state.getMeleeWeaponStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showMeleeWeaponEditor(call, state, type)
-            }
+            handleEditElement(edit.id, MeleeWeaponRoutes(), HtmlBlockTag::editMeleeWeapon)
         }
         post<MeleeWeaponRoutes.Preview> { preview ->
-            logger.info { "Get preview for type ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val type = parseMeleeWeapon(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showMeleeWeaponEditor(call, state, type)
-            }
+            handlePreviewElement(preview.id, MeleeWeaponRoutes(), ::parseMeleeWeapon, HtmlBlockTag::editMeleeWeapon)
         }
         post<MeleeWeaponRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMeleeWeapon)
         }
     }
 }
-
-private fun HTML.showMeleeWeaponEditor(
-    call: ApplicationCall,
-    state: State,
-    type: MeleeWeapon,
-) {
-    val backLink = href(call, type.id)
-    val previewLink = call.application.href(MeleeWeaponRoutes.Preview(type.id))
-    val updateLink = call.application.href(MeleeWeaponRoutes.Update(type.id))
-
-    simpleHtmlEditor(type, true) {
-        mainFrame {
-            formWithPreview(previewLink, updateLink, backLink) {
-                editMeleeWeapon(state, type)
-            }
-        }
-    }
-}
-

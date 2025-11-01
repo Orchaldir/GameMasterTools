@@ -26,7 +26,7 @@ fun HtmlBlockTag.showMeleeWeapon(
 
 // edit
 
-fun FORM.editMeleeWeapon(
+fun HtmlBlockTag.editMeleeWeapon(
     state: State,
     weapon: MeleeWeapon,
 ) {

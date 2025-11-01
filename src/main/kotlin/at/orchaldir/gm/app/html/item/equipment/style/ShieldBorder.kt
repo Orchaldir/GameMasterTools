@@ -44,7 +44,7 @@ fun HtmlBlockTag.showShieldBorder(
 
 // edit
 
-fun FORM.editShieldBorder(state: State, border: ShieldBorder) {
+fun HtmlBlockTag.editShieldBorder(state: State, border: ShieldBorder) {
     showDetails("Shield Border", true) {
         selectValue("Type", BORDER, ShieldBorderType.entries, border.getType())
 

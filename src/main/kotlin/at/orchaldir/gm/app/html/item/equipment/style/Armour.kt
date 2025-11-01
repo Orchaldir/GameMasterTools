@@ -73,7 +73,7 @@ private fun DETAILS.showSegmentedArmour(
 
 // edit
 
-fun FORM.editArmour(state: State, armour: Armour) {
+fun HtmlBlockTag.editArmour(state: State, armour: Armour) {
     showDetails("Lacing", true) {
         selectValue("Type", LACING, ArmourType.entries, armour.getType())
 

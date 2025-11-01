@@ -37,7 +37,7 @@ fun HtmlBlockTag.showArchitecturalStyle(
 
 // edit
 
-fun FORM.editArchitecturalStyle(
+fun HtmlBlockTag.editArchitecturalStyle(
     state: State,
     style: ArchitecturalStyle,
 ) {

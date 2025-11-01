@@ -22,7 +22,7 @@ fun HtmlBlockTag.showPolearm(
 
 // edit
 
-fun FORM.editPolearm(
+fun HtmlBlockTag.editPolearm(
     state: State,
     polearm: Polearm,
 ) {

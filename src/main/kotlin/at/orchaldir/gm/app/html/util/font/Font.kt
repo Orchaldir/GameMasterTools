@@ -35,7 +35,7 @@ fun HtmlBlockTag.showFont(
 
 // edit
 
-fun FORM.editFont(
+fun HtmlBlockTag.editFont(
     state: State,
     font: Font,
 ) {

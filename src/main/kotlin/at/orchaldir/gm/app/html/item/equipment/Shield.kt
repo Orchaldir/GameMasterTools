@@ -40,7 +40,7 @@ fun HtmlBlockTag.showShield(
 
 // edit
 
-fun FORM.editShield(
+fun HtmlBlockTag.editShield(
     state: State,
     shield: Shield,
 ) {

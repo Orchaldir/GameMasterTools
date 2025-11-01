@@ -55,7 +55,7 @@ fun HtmlBlockTag.displayCauseOfCatastrophe(
 
 // edit
 
-fun FORM.editCauseOfCatastrophe(
+fun HtmlBlockTag.editCauseOfCatastrophe(
     state: State,
     catastrophe: Catastrophe,
 ) {

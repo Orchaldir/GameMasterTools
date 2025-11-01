@@ -43,7 +43,7 @@ fun HtmlBlockTag.showCatastrophe(
 
 // edit
 
-fun FORM.editCatastrophe(
+fun HtmlBlockTag.editCatastrophe(
     state: State,
     catastrophe: Catastrophe,
 ) {

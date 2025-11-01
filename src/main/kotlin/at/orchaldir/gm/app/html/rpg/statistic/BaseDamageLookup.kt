@@ -60,7 +60,7 @@ private fun DETAILS.fieldDiceType(dieType: DieType) {
 
 // edit
 
-fun FORM.editBaseDamageLookup(
+fun HtmlBlockTag.editBaseDamageLookup(
     lookup: BaseDamageLookup,
 ) {
     showDetails("Base Damage Lookup", true) {

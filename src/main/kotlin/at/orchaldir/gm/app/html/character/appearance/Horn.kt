@@ -27,7 +27,7 @@ import kotlinx.html.h2
 
 // edit
 
-fun FORM.editHorns(
+fun HtmlBlockTag.editHorns(
     state: State,
     raceAppearance: RaceAppearance,
     horns: Horns,
@@ -71,7 +71,7 @@ fun FORM.editHorns(
     }
 }
 
-private fun FORM.editHorn(
+private fun HtmlBlockTag.editHorn(
     state: State,
     options: HornOptions,
     horn: Horn,

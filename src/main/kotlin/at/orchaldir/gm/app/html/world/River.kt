@@ -24,7 +24,7 @@ fun HtmlBlockTag.showRiver(
 
 // edit
 
-fun FORM.editRiver(
+fun HtmlBlockTag.editRiver(
     state: State,
     river: River,
 ) {

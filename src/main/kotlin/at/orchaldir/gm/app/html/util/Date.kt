@@ -323,7 +323,7 @@ private fun HtmlBlockTag.selectDecade(
     selectDecadeIndex(param, calendar, decade, minDate, maxDate)
 }
 
-fun FORM.selectYear(
+fun HtmlBlockTag.selectYear(
     state: State,
     fieldLabel: String,
     year: Year,
@@ -334,7 +334,7 @@ fun FORM.selectYear(
     selectYear(fieldLabel, state.getDefaultCalendar(), year, param, minDate, maxDate)
 }
 
-fun FORM.selectYear(
+fun HtmlBlockTag.selectYear(
     fieldLabel: String,
     calendar: Calendar,
     year: Year,
@@ -363,7 +363,7 @@ private fun <D : DisplayDate> HtmlBlockTag.selectYear(
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
 }
 
-fun FORM.selectWeek(
+fun HtmlBlockTag.selectWeek(
     fieldLabel: String,
     calendar: Calendar,
     week: Week,
@@ -397,7 +397,7 @@ private fun HtmlBlockTag.selectWeek(
     }
 }
 
-fun FORM.selectMonth(
+fun HtmlBlockTag.selectMonth(
     fieldLabel: String,
     calendar: Calendar,
     month: Month,
@@ -427,7 +427,7 @@ private fun HtmlBlockTag.selectMonth(
     selectMonthIndex(param, calendar, displayDate, displayMinDay?.month, displayMaxDay?.month)
 }
 
-fun FORM.selectDay(
+fun HtmlBlockTag.selectDay(
     state: State,
     fieldLabel: String,
     day: Day,
@@ -436,7 +436,7 @@ fun FORM.selectDay(
     selectDay(fieldLabel, state.getDefaultCalendar(), day, param)
 }
 
-fun FORM.selectDay(
+fun HtmlBlockTag.selectDay(
     fieldLabel: String,
     calendar: Calendar,
     day: Day,

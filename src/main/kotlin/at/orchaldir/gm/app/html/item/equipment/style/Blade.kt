@@ -54,7 +54,7 @@ private fun DETAILS.showSimpleBlade(
 
 // edit
 
-fun FORM.editBlade(
+fun HtmlBlockTag.editBlade(
     state: State,
     blade: Blade,
     minLength: Factor,

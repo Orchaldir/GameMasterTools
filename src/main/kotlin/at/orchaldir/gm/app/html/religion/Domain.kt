@@ -32,7 +32,7 @@ fun HtmlBlockTag.showDomain(
 
 // edit
 
-fun FORM.editDomain(
+fun HtmlBlockTag.editDomain(
     call: ApplicationCall,
     state: State,
     domain: Domain,

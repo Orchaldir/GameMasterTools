@@ -34,7 +34,7 @@ fun HtmlBlockTag.showCharacterStatblock(
 
 // edit
 
-fun FORM.editCharacterStatblock(
+fun HtmlBlockTag.editCharacterStatblock(
     call: ApplicationCall,
     state: State,
     statblock: CharacterStatblock,

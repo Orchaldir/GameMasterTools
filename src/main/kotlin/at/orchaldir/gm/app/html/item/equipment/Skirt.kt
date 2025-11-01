@@ -29,7 +29,7 @@ fun HtmlBlockTag.showSkirt(
 
 // edit
 
-fun FORM.editSkirt(
+fun HtmlBlockTag.editSkirt(
     state: State,
     skirt: Skirt,
 ) {

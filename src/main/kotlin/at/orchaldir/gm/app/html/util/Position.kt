@@ -81,7 +81,7 @@ fun HtmlBlockTag.showPosition(
 
 // select
 
-fun FORM.selectPositionHistory(
+fun HtmlBlockTag.selectPositionHistory(
     state: State,
     history: History<Position>,
     startDate: Date,

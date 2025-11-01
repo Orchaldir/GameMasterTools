@@ -37,7 +37,7 @@ fun HtmlBlockTag.displayStatisticCost(
 
 // edit
 
-fun FORM.editStatisticCost(
+fun HtmlBlockTag.editStatisticCost(
     cost: StatisticCost,
 ) {
     showDetails("Cost", true) {

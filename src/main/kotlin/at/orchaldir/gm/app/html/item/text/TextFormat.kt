@@ -174,7 +174,7 @@ private fun HtmlBlockTag.showScrollFormat(
 
 // edit
 
-fun FORM.editTextFormat(
+fun HtmlBlockTag.editTextFormat(
     state: State,
     format: TextFormat,
     hasAuthor: Boolean,

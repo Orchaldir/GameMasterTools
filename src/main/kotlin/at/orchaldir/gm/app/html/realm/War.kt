@@ -41,7 +41,7 @@ fun HtmlBlockTag.showWar(
 
 // edit
 
-fun FORM.editWar(
+fun HtmlBlockTag.editWar(
     state: State,
     war: War,
 ) {

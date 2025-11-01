@@ -62,7 +62,7 @@ private fun DETAILS.showSpearHead(
 
 // edit
 
-fun FORM.editPolearmHead(
+fun HtmlBlockTag.editPolearmHead(
     state: State,
     head: PolearmHead,
     param: String,

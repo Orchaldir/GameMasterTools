@@ -37,7 +37,7 @@ fun HtmlBlockTag.showShaft(
 
 // edit
 
-fun FORM.editShaft(
+fun HtmlBlockTag.editShaft(
     state: State,
     shaft: Shaft,
     param: String = SHAFT,

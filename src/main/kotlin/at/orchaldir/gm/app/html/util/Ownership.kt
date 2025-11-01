@@ -72,7 +72,7 @@ fun HtmlBlockTag.showOwnership(
 
 // edit
 
-fun FORM.selectOwnership(
+fun HtmlBlockTag.selectOwnership(
     state: State,
     ownership: History<Reference>,
     startDate: Date?,

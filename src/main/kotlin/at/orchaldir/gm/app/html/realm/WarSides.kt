@@ -25,7 +25,7 @@ fun HtmlBlockTag.showWarSides(
 
 // edit
 
-fun FORM.editWarSides(
+fun HtmlBlockTag.editWarSides(
     war: War,
 ) {
     var colors = Color.entries.toList()

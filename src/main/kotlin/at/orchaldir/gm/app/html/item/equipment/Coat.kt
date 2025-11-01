@@ -34,7 +34,7 @@ fun HtmlBlockTag.showCoat(
 
 // edit
 
-fun FORM.editCoat(
+fun HtmlBlockTag.editCoat(
     state: State,
     data: Coat,
 ) {

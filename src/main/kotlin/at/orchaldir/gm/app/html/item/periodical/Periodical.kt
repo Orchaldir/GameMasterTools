@@ -48,7 +48,7 @@ fun HtmlBlockTag.showPeriodical(
 
 // edit
 
-fun FORM.editPeriodical(
+fun HtmlBlockTag.editPeriodical(
     state: State,
     periodical: Periodical,
 ) {

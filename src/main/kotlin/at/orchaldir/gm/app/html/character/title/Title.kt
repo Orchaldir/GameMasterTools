@@ -35,7 +35,7 @@ fun HtmlBlockTag.showTitle(
 
 // edit
 
-fun FORM.editTitle(
+fun HtmlBlockTag.editTitle(
     title: Title,
 ) {
     selectName(title.name)

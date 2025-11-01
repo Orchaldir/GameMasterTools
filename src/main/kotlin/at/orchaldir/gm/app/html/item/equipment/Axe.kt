@@ -32,7 +32,7 @@ fun HtmlBlockTag.showTwoHandedAxe(
 
 // edit
 
-fun FORM.editOneHandedAxe(
+fun HtmlBlockTag.editOneHandedAxe(
     state: State,
     axe: OneHandedAxe,
 ) {
@@ -40,7 +40,7 @@ fun FORM.editOneHandedAxe(
     editShaft(state, axe.shaft)
 }
 
-fun FORM.editTwoHandedAxe(
+fun HtmlBlockTag.editTwoHandedAxe(
     state: State,
     axe: TwoHandedAxe,
 ) {

@@ -34,7 +34,7 @@ fun HtmlBlockTag.showTie(
 
 // edit
 
-fun FORM.editTie(
+fun HtmlBlockTag.editTie(
     state: State,
     tie: Tie,
 ) {

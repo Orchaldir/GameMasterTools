@@ -69,7 +69,7 @@ private fun HtmlBlockTag.showBeltHoles(
 
 // edit
 
-fun FORM.editBelt(
+fun HtmlBlockTag.editBelt(
     state: State,
     belt: Belt,
 ) {
@@ -78,7 +78,7 @@ fun FORM.editBelt(
     editBeltHoles(belt.holes)
 }
 
-private fun FORM.editBuckle(
+private fun HtmlBlockTag.editBuckle(
     state: State,
     buckle: Buckle,
 ) {
@@ -96,7 +96,7 @@ private fun FORM.editBuckle(
     }
 }
 
-private fun FORM.editBeltHoles(
+private fun HtmlBlockTag.editBeltHoles(
     holes: BeltHoles,
 ) {
     showDetails("Belt Holes", true) {

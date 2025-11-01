@@ -30,6 +30,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.FORM
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 import kotlinx.html.p
 import mu.KotlinLogging
@@ -134,7 +135,7 @@ private fun HTML.showTerrainEditor(
     }
 }
 
-private fun FORM.editTerrain(
+private fun HtmlBlockTag.editTerrain(
     call: ApplicationCall,
     state: State,
     terrainType: TerrainType,
@@ -191,7 +192,7 @@ private fun FORM.editTerrain(
     selectInt("Add/Remove Rows At End", 0, getMinHeightEnd(townMap), maxDelta, 1, combine(HEIGHT, END))
 }
 
-private fun <ID : Id<ID>> FORM.selectTerrain(
+private fun <ID : Id<ID>> HtmlBlockTag.selectTerrain(
     text: String,
     options: Collection<ElementWithSimpleName<ID>>,
     id: Int,

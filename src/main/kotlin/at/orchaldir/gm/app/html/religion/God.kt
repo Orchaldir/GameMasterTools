@@ -53,7 +53,7 @@ fun HtmlBlockTag.showGod(
 }
 // edit
 
-fun FORM.editGod(
+fun HtmlBlockTag.editGod(
     call: ApplicationCall,
     state: State,
     god: God,

@@ -69,7 +69,7 @@ private fun HtmlBlockTag.showEquipmentData(
 
 // edit
 
-fun FORM.editEquipment(
+fun HtmlBlockTag.editEquipment(
     state: State,
     equipment: Equipment,
 ) {
@@ -85,7 +85,7 @@ fun FORM.editEquipment(
     editEquipmentData(state, equipment)
 }
 
-private fun FORM.selectColorSchemes(
+private fun HtmlBlockTag.selectColorSchemes(
     state: State,
     equipment: Equipment,
 ) {
@@ -105,7 +105,7 @@ private fun FORM.selectColorSchemes(
     }
 }
 
-private fun FORM.editEquipmentData(
+private fun HtmlBlockTag.editEquipmentData(
     state: State,
     equipment: Equipment,
 ) {

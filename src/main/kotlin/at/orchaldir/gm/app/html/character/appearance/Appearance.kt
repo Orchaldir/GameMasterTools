@@ -31,6 +31,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
 
@@ -38,7 +39,7 @@ val siPrefix = SiPrefix.Centi
 
 // edit
 
-fun FORM.editAppearance(
+fun HtmlBlockTag.editAppearance(
     state: State,
     raceAppearance: RaceAppearance,
     appearance: Appearance,
@@ -72,7 +73,7 @@ fun FORM.editAppearance(
     }
 }
 
-private fun FORM.editHeight(
+private fun HtmlBlockTag.editHeight(
     state: State,
     character: Character,
     maxHeight: Distance,
@@ -82,7 +83,7 @@ private fun FORM.editHeight(
     showCurrentHeight(state, character, maxHeight)
 }
 
-private fun FORM.editBody(
+private fun HtmlBlockTag.editBody(
     raceAppearance: RaceAppearance,
     character: Character,
     body: Body,
@@ -93,7 +94,7 @@ private fun FORM.editBody(
     editFoot(raceAppearance.foot, body.foot)
 }
 
-private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
+private fun HtmlBlockTag.editFoot(footOptions: FootOptions, foot: Foot) {
     h2 { +"Feet" }
 
     selectFromOneOf("Type", FOOT, footOptions.footTypes, foot.getType())
@@ -108,7 +109,7 @@ private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
     }
 }
 
-private fun FORM.editTails(
+private fun HtmlBlockTag.editTails(
     state: State,
     raceAppearance: RaceAppearance,
     tails: Tails,
@@ -131,7 +132,7 @@ private fun FORM.editTails(
     }
 }
 
-private fun FORM.editWings(
+private fun HtmlBlockTag.editWings(
     state: State,
     raceAppearance: RaceAppearance,
     wings: Wings,
@@ -157,7 +158,7 @@ private fun FORM.editWings(
     }
 }
 
-private fun FORM.editWing(
+private fun HtmlBlockTag.editWing(
     state: State,
     options: WingOptions,
     wing: Wing,
@@ -172,7 +173,7 @@ private fun FORM.editWing(
     }
 }
 
-private fun FORM.selectWingType(
+private fun HtmlBlockTag.selectWingType(
     wingOptions: WingOptions,
     currentType: WingType,
     param: String,

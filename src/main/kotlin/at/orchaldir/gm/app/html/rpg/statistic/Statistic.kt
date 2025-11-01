@@ -67,7 +67,7 @@ private fun HtmlBlockTag.showUsage(
 
 // edit
 
-fun FORM.editStatistic(
+fun HtmlBlockTag.editStatistic(
     state: State,
     statistic: Statistic,
 ) {

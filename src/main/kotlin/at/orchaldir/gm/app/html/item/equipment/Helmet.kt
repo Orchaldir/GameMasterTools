@@ -52,7 +52,7 @@ fun HtmlBlockTag.showHelmet(
 
 // edit
 
-fun FORM.editHelmet(
+fun HtmlBlockTag.editHelmet(
     state: State,
     helmet: Helmet,
 ) {

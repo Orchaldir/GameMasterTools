@@ -45,7 +45,7 @@ fun HtmlBlockTag.showText(
 
 // edit
 
-fun FORM.editText(
+fun HtmlBlockTag.editText(
     state: State,
     text: Text,
 ) {

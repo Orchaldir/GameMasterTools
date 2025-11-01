@@ -44,7 +44,7 @@ fun HtmlBlockTag.displayStatisticUnit(
 
 // edit
 
-fun FORM.editStatisticUnit(
+fun HtmlBlockTag.editStatisticUnit(
     unit: StatisticUnit,
 ) {
     showDetails("Unit", true) {

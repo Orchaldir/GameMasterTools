@@ -27,7 +27,7 @@ fun HtmlBlockTag.showData(
 
 // edit
 
-fun FORM.editData(state: State, data: Data) {
+fun HtmlBlockTag.editData(state: State, data: Data) {
     editEconomy(state, data.economy)
     editTime(state, data.time)
 }

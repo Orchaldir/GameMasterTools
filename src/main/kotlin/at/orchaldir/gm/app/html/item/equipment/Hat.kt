@@ -29,7 +29,7 @@ fun HtmlBlockTag.showHat(
 
 // edit
 
-fun FORM.editHat(
+fun HtmlBlockTag.editHat(
     state: State,
     hat: Hat,
 ) {

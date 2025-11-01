@@ -30,7 +30,7 @@ fun HtmlBlockTag.showStreet(
 
 // edit
 
-fun FORM.editStreet(
+fun HtmlBlockTag.editStreet(
     state: State,
     street: Street,
 ) {

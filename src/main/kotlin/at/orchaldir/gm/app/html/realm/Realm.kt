@@ -62,7 +62,7 @@ fun HtmlBlockTag.showRealm(
 
 // edit
 
-fun FORM.editRealm(
+fun HtmlBlockTag.editRealm(
     call: ApplicationCall,
     state: State,
     realm: Realm,

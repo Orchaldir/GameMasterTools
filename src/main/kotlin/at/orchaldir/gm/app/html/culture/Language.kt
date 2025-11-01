@@ -94,7 +94,7 @@ private fun HtmlBlockTag.showLanguageUsage(
 
 // edit
 
-fun FORM.editKnownLanguages(
+fun HtmlBlockTag.editKnownLanguages(
     state: State,
     languages: Map<LanguageId, ComprehensionLevel>,
 ) {
@@ -124,7 +124,7 @@ fun FORM.editKnownLanguages(
     }
 }
 
-fun FORM.editLanguage(
+fun HtmlBlockTag.editLanguage(
     state: State,
     language: Language,
 ) {

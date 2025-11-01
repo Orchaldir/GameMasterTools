@@ -49,7 +49,7 @@ private fun HtmlBlockTag.showContent(
 
 // edit
 
-fun FORM.editArticle(
+fun HtmlBlockTag.editArticle(
     state: State,
     article: Article,
 ) {

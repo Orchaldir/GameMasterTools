@@ -36,7 +36,7 @@ fun HtmlBlockTag.showSwordHilt(
 
 // edit
 
-fun FORM.editSwordHilt(
+fun HtmlBlockTag.editSwordHilt(
     state: State,
     hilt: SwordHilt,
 ) {

@@ -29,7 +29,7 @@ fun HtmlBlockTag.showNameList(
 
 // edit
 
-fun FORM.editNameList(nameList: NameList) {
+fun HtmlBlockTag.editNameList(nameList: NameList) {
     selectName(nameList.name)
     h2 { +"Names" }
     editTextArea(

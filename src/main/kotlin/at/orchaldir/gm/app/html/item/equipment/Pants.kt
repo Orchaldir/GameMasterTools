@@ -29,7 +29,7 @@ fun HtmlBlockTag.showPants(
 
 // edit
 
-fun FORM.editPants(
+fun HtmlBlockTag.editPants(
     state: State,
     pants: Pants,
 ) {

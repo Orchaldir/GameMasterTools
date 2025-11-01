@@ -52,7 +52,7 @@ fun HtmlBlockTag.showJewelryLine(
 
 // edit
 
-fun FORM.editJewelryLine(
+fun HtmlBlockTag.editJewelryLine(
     state: State,
     line: JewelryLine,
     label: String,

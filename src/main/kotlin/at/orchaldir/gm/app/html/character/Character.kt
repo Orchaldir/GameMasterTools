@@ -217,7 +217,7 @@ fun HtmlBlockTag.showPossession(
 
 // edit
 
-fun FORM.editCharacter(
+fun HtmlBlockTag.editCharacter(
     call: ApplicationCall,
     state: State,
     character: Character,
@@ -279,7 +279,7 @@ fun FORM.editCharacter(
     editDataSources(state, character.sources)
 }
 
-private fun FORM.selectOrigin(
+private fun HtmlBlockTag.selectOrigin(
     state: State,
     character: Character,
     race: Race,
@@ -301,7 +301,7 @@ private fun FORM.selectOrigin(
     selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE), race.startDate())
 }
 
-private fun FORM.selectCharacterName(
+private fun HtmlBlockTag.selectCharacterName(
     state: State,
     character: Character,
 ) {

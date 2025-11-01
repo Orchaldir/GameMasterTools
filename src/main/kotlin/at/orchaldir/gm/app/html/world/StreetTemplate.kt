@@ -30,7 +30,7 @@ fun HtmlBlockTag.showStreetTemplate(
 
 // edit
 
-fun FORM.editStreetTemplate(
+fun HtmlBlockTag.editStreetTemplate(
     call: ApplicationCall,
     state: State,
     template: StreetTemplate,

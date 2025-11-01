@@ -36,7 +36,7 @@ fun HtmlBlockTag.showGlasses(
 
 // edit
 
-fun FORM.editGlasses(
+fun HtmlBlockTag.editGlasses(
     state: State,
     glasses: Glasses,
 ) {

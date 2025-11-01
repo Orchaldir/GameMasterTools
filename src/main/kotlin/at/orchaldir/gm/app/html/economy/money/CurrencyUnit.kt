@@ -116,7 +116,7 @@ fun HtmlBlockTag.showCurrencyFormat(
 
 // edit
 
-fun FORM.editCurrencyUnit(
+fun HtmlBlockTag.editCurrencyUnit(
     state: State,
     unit: CurrencyUnit,
 ) {

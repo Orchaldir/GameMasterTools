@@ -55,7 +55,7 @@ private fun HtmlBlockTag.showMembers(
 
 // edit
 
-fun FORM.editOrganization(
+fun HtmlBlockTag.editOrganization(
     state: State,
     organization: Organization,
 ) {
@@ -68,7 +68,7 @@ fun FORM.editOrganization(
     editDataSources(state, organization.sources)
 }
 
-private fun FORM.editMembers(
+private fun HtmlBlockTag.editMembers(
     state: State,
     organization: Organization,
 ) {

@@ -287,7 +287,7 @@ private fun HtmlBlockTag.showWings(
 
 // edit
 
-fun FORM.editRaceAppearance(
+fun HtmlBlockTag.editRaceAppearance(
     state: State,
     appearance: RaceAppearance,
     eyeOptions: EyeOptions,
@@ -305,7 +305,7 @@ fun FORM.editRaceAppearance(
     editWings(state, appearance)
 }
 
-private fun FORM.editEars(appearance: RaceAppearance) {
+private fun HtmlBlockTag.editEars(appearance: RaceAppearance) {
     h3 { +"Ears" }
 
     selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout)
@@ -315,7 +315,7 @@ private fun FORM.editEars(appearance: RaceAppearance) {
     }
 }
 
-private fun FORM.editEyes(
+private fun HtmlBlockTag.editEyes(
     appearance: RaceAppearance,
     eyeOptions: EyeOptions,
 ) {
@@ -335,7 +335,7 @@ private fun FORM.editEyes(
     }
 }
 
-private fun FORM.editFeet(appearance: RaceAppearance) {
+private fun HtmlBlockTag.editFeet(appearance: RaceAppearance) {
     h3 { +"Feet" }
 
     selectRarityMap("Type", FOOT, appearance.foot.footTypes)
@@ -354,7 +354,7 @@ private fun FORM.editFeet(appearance: RaceAppearance) {
     }
 }
 
-private fun FORM.editHair(appearance: RaceAppearance) {
+private fun HtmlBlockTag.editHair(appearance: RaceAppearance) {
     h3 { +"Hair" }
 
     selectRarityMap("Beard", BEARD, appearance.hair.beardTypes)
@@ -365,7 +365,7 @@ private fun FORM.editHair(appearance: RaceAppearance) {
     }
 }
 
-private fun FORM.editHorns(state: State, appearance: RaceAppearance) {
+private fun HtmlBlockTag.editHorns(state: State, appearance: RaceAppearance) {
     h3 { +"Horns" }
 
     val options = appearance.horn
@@ -396,7 +396,7 @@ private fun FORM.editHorns(state: State, appearance: RaceAppearance) {
 }
 
 
-private fun FORM.editMouth(mouthOptions: MouthOptions) {
+private fun HtmlBlockTag.editMouth(mouthOptions: MouthOptions) {
     h3 { +"Mouth" }
 
     selectRarityMap("Types", combine(MOUTH, TYPE), mouthOptions.mouthTypes)
@@ -412,7 +412,7 @@ private fun FORM.editMouth(mouthOptions: MouthOptions) {
     }
 }
 
-private fun FORM.editSkin(state: State, appearance: RaceAppearance) {
+private fun HtmlBlockTag.editSkin(state: State, appearance: RaceAppearance) {
     h3 { +"Skin" }
 
     editSkinInternal(state, appearance.skin, SKIN)
@@ -455,7 +455,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 }
 
-private fun FORM.editTails(state: State, appearance: RaceAppearance) {
+private fun HtmlBlockTag.editTails(state: State, appearance: RaceAppearance) {
     h3 { +"Tails" }
 
     val options = appearance.tail
@@ -497,7 +497,7 @@ private fun HtmlBlockTag.editFeatureColor(
     }
 }
 
-private fun FORM.editWings(state: State, appearance: RaceAppearance) {
+private fun HtmlBlockTag.editWings(state: State, appearance: RaceAppearance) {
     h3 { +"Wings" }
 
     val options = appearance.wing

@@ -29,7 +29,7 @@ fun HtmlBlockTag.showSocks(
 
 // edit
 
-fun FORM.editSocks(
+fun HtmlBlockTag.editSocks(
     state: State,
     socks: Socks,
 ) {

@@ -38,7 +38,7 @@ fun HtmlBlockTag.showColorScheme(
 
 // edit
 
-fun FORM.editColorScheme(
+fun HtmlBlockTag.editColorScheme(
     state: State,
     scheme: ColorScheme,
 ) {
@@ -47,7 +47,7 @@ fun FORM.editColorScheme(
     editColors(scheme.data)
 }
 
-private fun FORM.editColors(colors: Colors) {
+private fun HtmlBlockTag.editColors(colors: Colors) {
     selectValue(
         "Type",
         TYPE,
@@ -66,7 +66,7 @@ private fun FORM.editColors(colors: Colors) {
     }
 }
 
-private fun FORM.selectColor(
+private fun HtmlBlockTag.selectColor(
     label: String,
     index: Int,
     colors: Collection<Color>,

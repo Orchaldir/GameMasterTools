@@ -32,7 +32,7 @@ fun HtmlBlockTag.showUniform(
 
 // edit
 
-fun FORM.editUniform(
+fun HtmlBlockTag.editUniform(
     state: State,
     uniform: Uniform,
 ) {

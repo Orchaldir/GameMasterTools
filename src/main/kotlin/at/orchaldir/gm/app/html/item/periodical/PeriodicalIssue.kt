@@ -32,7 +32,7 @@ fun HtmlBlockTag.showPeriodicalIssue(
 
 // edit
 
-fun FORM.editPeriodicalIssue(
+fun HtmlBlockTag.editPeriodicalIssue(
     state: State,
     issue: PeriodicalIssue,
 ) {
@@ -42,7 +42,7 @@ fun FORM.editPeriodicalIssue(
     selectElements(state, "Articles", CONTENT, possibleArticle, issue.articles)
 }
 
-private fun FORM.selectIssueNumber(
+private fun HtmlBlockTag.selectIssueNumber(
     state: State,
     issue: PeriodicalIssue,
 ) {

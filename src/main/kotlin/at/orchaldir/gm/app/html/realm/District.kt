@@ -38,7 +38,7 @@ fun HtmlBlockTag.showDistrict(
 
 // edit
 
-fun FORM.editDistrict(
+fun HtmlBlockTag.editDistrict(
     call: ApplicationCall,
     state: State,
     district: District,

@@ -77,7 +77,7 @@ private fun HtmlBlockTag.showInhabitants(
 
 // edit
 
-fun FORM.selectBuildingPurpose(state: State, building: Building) {
+fun HtmlBlockTag.selectBuildingPurpose(state: State, building: Building) {
     showDetails("Purpose", true) {
         val purpose = building.purpose
         val inhabitants = state.getCharactersLivingIn(building.id)

@@ -31,7 +31,7 @@ fun HtmlBlockTag.showFootwear(
 
 // edit
 
-fun FORM.editFootwear(
+fun HtmlBlockTag.editFootwear(
     state: State,
     footwear: Footwear,
 ) {

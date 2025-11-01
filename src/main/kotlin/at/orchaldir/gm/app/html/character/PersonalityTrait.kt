@@ -89,7 +89,7 @@ fun HtmlBlockTag.editPersonality(
     }
 }
 
-fun FORM.editPersonalityTrait(
+fun HtmlBlockTag.editPersonalityTrait(
     call: ApplicationCall,
     state: State,
     trait: PersonalityTrait,

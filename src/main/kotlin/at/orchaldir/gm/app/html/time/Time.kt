@@ -37,7 +37,7 @@ fun HtmlBlockTag.showTime(
 
 // edit
 
-fun FORM.editTime(
+fun HtmlBlockTag.editTime(
     state: State,
     time: Time,
 ) {

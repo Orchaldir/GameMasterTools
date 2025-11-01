@@ -79,7 +79,7 @@ fun HtmlBlockTag.showDropEarring(
 
 // edit
 
-fun FORM.editEarring(
+fun HtmlBlockTag.editEarring(
     state: State,
     earring: Earring,
 ) {
@@ -101,7 +101,7 @@ fun FORM.editEarring(
     }
 }
 
-fun FORM.editDangleEarring(
+fun HtmlBlockTag.editDangleEarring(
     state: State,
     style: DangleEarring,
 ) {
@@ -113,7 +113,7 @@ fun FORM.editDangleEarring(
     editColorSchemeItemPart(state, style.wire, WIRE, "Wire")
 }
 
-fun FORM.editDropEarring(
+fun HtmlBlockTag.editDropEarring(
     state: State,
     style: DropEarring,
 ) {
@@ -125,7 +125,7 @@ fun FORM.editDropEarring(
     editColorSchemeItemPart(state, style.wire, WIRE, "Wire")
 }
 
-private fun FORM.selectDropSize(label: String, size: Factor, param: String) {
+private fun HtmlBlockTag.selectDropSize(label: String, size: Factor, param: String) {
     selectFactor(label, combine(param, SIZE), size, ZERO, ONE, ONE_PERCENT)
 }
 

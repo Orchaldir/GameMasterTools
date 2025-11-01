@@ -27,7 +27,7 @@ fun HtmlBlockTag.showMaterialCost(
 }
 
 
-fun FORM.selectMaterialCost(
+fun HtmlBlockTag.selectMaterialCost(
     call: ApplicationCall,
     state: State,
     materialCost: MaterialCost,

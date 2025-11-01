@@ -34,7 +34,7 @@ fun HtmlBlockTag.showBodyArmour(
 
 // edit
 
-fun FORM.editBodyArmour(
+fun HtmlBlockTag.editBodyArmour(
     state: State,
     armour: BodyArmour,
 ) {

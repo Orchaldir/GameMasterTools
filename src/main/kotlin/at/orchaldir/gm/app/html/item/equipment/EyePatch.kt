@@ -87,7 +87,7 @@ private fun HtmlBlockTag.showFixation(
 
 // edit
 
-fun FORM.editEyePatch(
+fun HtmlBlockTag.editEyePatch(
     state: State,
     eyePatch: EyePatch,
 ) {
@@ -95,7 +95,7 @@ fun FORM.editEyePatch(
     editFixation(state, eyePatch.fixation)
 }
 
-private fun FORM.editStyle(
+private fun HtmlBlockTag.editStyle(
     state: State,
     style: EyePatchStyle,
 ) {
@@ -118,7 +118,7 @@ private fun FORM.editStyle(
     }
 }
 
-private fun FORM.editFixation(
+private fun HtmlBlockTag.editFixation(
     state: State,
     fixation: EyePatchFixation,
 ) {

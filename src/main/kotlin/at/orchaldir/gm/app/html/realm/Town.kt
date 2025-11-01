@@ -65,7 +65,7 @@ fun HtmlBlockTag.showTown(
 
 // edit
 
-fun FORM.editTown(
+fun HtmlBlockTag.editTown(
     call: ApplicationCall,
     state: State,
     town: Town,

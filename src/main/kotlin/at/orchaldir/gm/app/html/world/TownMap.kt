@@ -96,7 +96,7 @@ private fun HtmlBlockTag.showCharactersOfTownMap(
 
 // edit
 
-fun FORM.editTownMap(
+fun HtmlBlockTag.editTownMap(
     state: State,
     townMap: TownMap,
 ) {

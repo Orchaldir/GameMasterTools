@@ -35,7 +35,7 @@ fun HtmlBlockTag.showSuitJacket(
 
 // edit
 
-fun FORM.editSuitJacket(
+fun HtmlBlockTag.editSuitJacket(
     state: State,
     data: SuitJacket,
 ) {

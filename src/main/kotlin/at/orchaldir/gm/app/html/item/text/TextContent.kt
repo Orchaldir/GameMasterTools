@@ -104,7 +104,7 @@ private fun HtmlBlockTag.showAbstractContent(
 
 // edit
 
-fun FORM.editTextContent(
+fun HtmlBlockTag.editTextContent(
     state: State,
     content: TextContent,
 ) {

@@ -70,7 +70,7 @@ fun HtmlBlockTag.showAddress(
 
 // edit
 
-fun FORM.selectAddress(state: State, building: Building) {
+fun HtmlBlockTag.selectAddress(state: State, building: Building) {
     val streets = state.getStreets(building.position).toMutableList()
     showDetails("Address", true) {
 

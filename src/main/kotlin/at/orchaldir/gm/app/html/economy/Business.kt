@@ -50,7 +50,7 @@ fun HtmlBlockTag.showBusiness(
 
 // edit
 
-fun FORM.editBusiness(
+fun HtmlBlockTag.editBusiness(
     state: State,
     business: Business,
 ) {

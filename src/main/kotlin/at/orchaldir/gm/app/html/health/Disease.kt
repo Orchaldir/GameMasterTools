@@ -36,7 +36,7 @@ fun HtmlBlockTag.showDisease(
 
 // edit
 
-fun FORM.editDisease(
+fun HtmlBlockTag.editDisease(
     state: State,
     disease: Disease,
 ) {

@@ -25,7 +25,7 @@ fun HtmlBlockTag.showSpellGroup(
 
 // edit
 
-fun FORM.editSpellGroup(
+fun HtmlBlockTag.editSpellGroup(
     state: State,
     group: SpellGroup,
 ) {

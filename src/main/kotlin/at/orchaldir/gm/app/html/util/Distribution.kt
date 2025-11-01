@@ -20,7 +20,7 @@ fun <T : SiUnit<T>> HtmlBlockTag.showDistribution(
 
 // edit
 
-fun FORM.selectDistanceDistribution(
+fun HtmlBlockTag.selectDistanceDistribution(
     label: String,
     param: String,
     distribution: Distribution<Distance>,
@@ -36,7 +36,7 @@ fun FORM.selectDistanceDistribution(
     prefix,
 )
 
-fun FORM.selectDistanceDistribution(
+fun HtmlBlockTag.selectDistanceDistribution(
     label: String,
     param: String,
     distribution: Distribution<Distance>,

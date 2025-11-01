@@ -36,7 +36,7 @@ fun HtmlBlockTag.showShirt(
 
 // edit
 
-fun FORM.editShirt(
+fun HtmlBlockTag.editShirt(
     state: State,
     shirt: Shirt,
 ) {

@@ -111,7 +111,7 @@ fun HtmlBlockTag.showEmploymentStatus(
 
 // select
 
-fun FORM.selectEmploymentStatusHistory(
+fun HtmlBlockTag.selectEmploymentStatusHistory(
     state: State,
     ownership: History<EmploymentStatus>,
     startDate: Date,

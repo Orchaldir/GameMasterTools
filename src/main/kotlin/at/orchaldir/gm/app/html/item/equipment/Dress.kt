@@ -38,7 +38,7 @@ fun HtmlBlockTag.showDress(
 
 // edit
 
-fun FORM.editDress(
+fun HtmlBlockTag.editDress(
     state: State,
     dress: Dress,
 ) {

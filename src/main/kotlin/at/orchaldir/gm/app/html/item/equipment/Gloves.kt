@@ -29,7 +29,7 @@ fun HtmlBlockTag.showGloves(
 
 // edit
 
-fun FORM.editGloves(
+fun HtmlBlockTag.editGloves(
     state: State,
     data: Gloves,
 ) {

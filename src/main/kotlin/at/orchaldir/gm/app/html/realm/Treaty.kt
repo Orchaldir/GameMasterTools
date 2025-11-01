@@ -55,7 +55,7 @@ private fun HtmlBlockTag.showTreatyParticipant(
 
 // edit
 
-fun FORM.editTreaty(
+fun HtmlBlockTag.editTreaty(
     state: State,
     treaty: Treaty,
 ) {

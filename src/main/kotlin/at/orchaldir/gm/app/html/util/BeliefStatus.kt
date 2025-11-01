@@ -80,7 +80,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showCurrentAndFormerBelievers(
 
 // edit
 
-fun FORM.editBeliefStatusHistory(
+fun HtmlBlockTag.editBeliefStatusHistory(
     state: State,
     history: History<BeliefStatus>,
     startDate: Date?,

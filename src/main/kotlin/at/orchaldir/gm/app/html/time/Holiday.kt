@@ -33,7 +33,7 @@ fun HtmlBlockTag.showHoliday(
 
 // edit
 
-fun FORM.editHoliday(
+fun HtmlBlockTag.editHoliday(
     state: State,
     holiday: Holiday,
 ) {

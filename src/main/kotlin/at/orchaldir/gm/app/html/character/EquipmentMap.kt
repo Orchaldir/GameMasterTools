@@ -38,7 +38,7 @@ fun HtmlBlockTag.showEquipmentMap(
 
 // edit
 
-fun FORM.editEquipmentMap(
+fun HtmlBlockTag.editEquipmentMap(
     state: State,
     equipmentMap: EquipmentIdMap,
     param: String,
@@ -46,7 +46,7 @@ fun FORM.editEquipmentMap(
     EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }
 }
 
-private fun FORM.selectEquipment(
+private fun HtmlBlockTag.selectEquipment(
     state: State,
     equipmentMap: EquipmentIdMap,
     type: EquipmentDataType,

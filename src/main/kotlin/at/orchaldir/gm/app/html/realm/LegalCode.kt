@@ -36,7 +36,7 @@ fun HtmlBlockTag.showLegalCode(
 
 // edit
 
-fun FORM.editLegalCode(
+fun HtmlBlockTag.editLegalCode(
     state: State,
     code: LegalCode,
 ) {

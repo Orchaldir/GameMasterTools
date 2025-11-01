@@ -53,7 +53,7 @@ fun HtmlBlockTag.showNecklace(
 
 // edit
 
-fun FORM.editNecklace(
+fun HtmlBlockTag.editNecklace(
     state: State,
     necklace: Necklace,
 ) {

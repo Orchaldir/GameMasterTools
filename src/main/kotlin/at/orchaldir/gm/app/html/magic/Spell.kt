@@ -45,7 +45,7 @@ fun HtmlBlockTag.showSpell(
 
 // edit
 
-fun FORM.editSpell(
+fun HtmlBlockTag.editSpell(
     state: State,
     spell: Spell,
 ) {

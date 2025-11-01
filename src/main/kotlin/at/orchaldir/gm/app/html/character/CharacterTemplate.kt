@@ -65,7 +65,7 @@ private fun HtmlBlockTag.showUsage(
 
 // edit
 
-fun FORM.editCharacterTemplate(
+fun HtmlBlockTag.editCharacterTemplate(
     call: ApplicationCall,
     state: State,
     template: CharacterTemplate,

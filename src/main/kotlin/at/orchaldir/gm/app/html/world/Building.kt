@@ -36,7 +36,7 @@ fun HtmlBlockTag.showBuilding(
 
 // edit
 
-fun FORM.editBuilding(
+fun HtmlBlockTag.editBuilding(
     state: State,
     building: Building,
 ) {
