@@ -40,6 +40,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 import kotlinx.html.h3
 
 private fun requiresHairColor(appearance: RaceAppearance) =
@@ -288,14 +289,18 @@ private fun HtmlBlockTag.showWings(
 // edit
 
 fun HtmlBlockTag.editRaceAppearance(
+    call: ApplicationCall,
     state: State,
     appearance: RaceAppearance,
-    eyeOptions: EyeOptions,
 ) {
+    selectName(appearance.name)
+
+    h2 { +"Options" }
+
     selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes)
 
     editEars(appearance)
-    editEyes(appearance, eyeOptions)
+    editEyes(appearance, appearance.eye)
     editFeet(appearance)
     editHair(appearance)
     editHorns(state, appearance)

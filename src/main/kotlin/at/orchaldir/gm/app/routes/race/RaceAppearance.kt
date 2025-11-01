@@ -28,13 +28,11 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 import mu.KotlinLogging
 import kotlin.random.Random
 
@@ -82,6 +80,8 @@ class RaceAppearanceRoutes : Routes<RaceAppearanceId, SortRaceAppearance> {
     override fun delete(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id:RaceAppearanceId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Edit(id))
 }
 
 fun Application.configureRaceAppearanceRouting() {
@@ -128,24 +128,21 @@ fun Application.configureRaceAppearanceRouting() {
             handleDeleteElement(delete.id, RaceAppearanceRoutes())
         }
         get<RaceAppearanceRoutes.Edit> { edit ->
-            logger.info { "Get editor for race appearance ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val race = state.getRaceAppearanceStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showEditor(call, state, race)
-            }
+            handleEditElementSplit(
+                edit.id,
+                RaceAppearanceRoutes(),
+                HtmlBlockTag::editRaceAppearance,
+                HtmlBlockTag::showRaceAppearanceEditorRight,
+            )
         }
         post<RaceAppearanceRoutes.Preview> { preview ->
-            logger.info { "Get preview for race appearance ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val race = parseRaceAppearance(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showEditor(call, state, race)
-            }
+            handlePreviewElementSplit(
+                preview.id,
+                RaceAppearanceRoutes(),
+                ::parseRaceAppearance,
+                HtmlBlockTag::editRaceAppearance,
+                HtmlBlockTag::showRaceAppearanceEditorRight,
+            )
         }
         post<RaceAppearanceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRaceAppearance)
@@ -190,28 +187,12 @@ private fun HtmlBlockTag.showRandomExamples(
     }
 }
 
-private fun HTML.showEditor(
+private fun HtmlBlockTag.showRaceAppearanceEditorRight(
     call: ApplicationCall,
     state: State,
     appearance: RaceAppearance,
 ) {
-    val backLink = call.application.href(RaceAppearanceRoutes.Details(appearance.id))
-    val previewLink = call.application.href(RaceAppearanceRoutes.Preview(appearance.id))
-    val updateLink = call.application.href(RaceAppearanceRoutes.Update(appearance.id))
-
-    simpleHtmlEditor(appearance, true) {
-        split({
-            formWithPreview(previewLink, updateLink, backLink) {
-                selectName(appearance.name)
-
-                h2 { +"Options" }
-
-                editRaceAppearance(state, appearance, appearance.eye)
-            }
-        }, {
-            showRandomExamples(state, appearance, 20, 20)
-        })
-    }
+    showRandomExamples(state, appearance, 20, 20)
 }
 
 private fun getSvg(
