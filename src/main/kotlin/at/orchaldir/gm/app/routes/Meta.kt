@@ -25,11 +25,13 @@ interface Routes<ID : Id<ID>, T> {
 
     fun all(call: ApplicationCall): String
     fun all(call: ApplicationCall, sort: T): String
-    fun gallery(call: ApplicationCall): String? = null
     fun clone(call: ApplicationCall, id: ID): String? = null
     fun delete(call: ApplicationCall, id: ID): String
     fun edit(call: ApplicationCall, id: ID): String
+    fun gallery(call: ApplicationCall): String? = null
     fun new(call: ApplicationCall): String
+    fun preview(call: ApplicationCall, id: ID): String = ""
+    fun update(call: ApplicationCall, id: ID): String = ""
 }
 
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
@@ -125,6 +127,31 @@ suspend inline fun <reified T : Any, ID : Id<ID>> PipelineContext<Unit, Applicat
         logger.warn { e.message }
         call.respondHtml(HttpStatusCode.OK) {
             showDeleteResult(call, STORE.getState(), e.result)
+        }
+    }
+}
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handleEditElement(
+    id: ID,
+    routes: Routes<ID, T>,
+    noinline editDetails: HtmlBlockTag.(State, ELEMENT) -> Unit,
+) {
+    logger.info { "Edit ${id.print()}" }
+
+    val state = STORE.getState()
+    val storage = state.getStorage<ID, ELEMENT>(id)
+    val element = storage.getOrThrow(id)
+    val backLink = href(call, id)
+    val previewLink = routes.preview(call, id)
+    val updateLink = routes.update(call, id)
+
+    call.respondHtml(HttpStatusCode.OK) {
+        simpleHtml(state, element, "Edit ", true) {
+            mainFrame {
+                formWithPreview(previewLink, updateLink, backLink) {
+                    editDetails(state, element)
+                }
+            }
         }
     }
 }

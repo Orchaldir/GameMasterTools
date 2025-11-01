@@ -42,7 +42,7 @@ private fun HtmlBlockTag.showUsages(
 
 // edit
 
-fun FORM.editDamageType(
+fun HtmlBlockTag.editDamageType(
     state: State,
     type: DamageType,
 ) {

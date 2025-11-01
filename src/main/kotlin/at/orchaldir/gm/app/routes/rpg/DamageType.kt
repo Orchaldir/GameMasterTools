@@ -59,6 +59,8 @@ class DamageTypeRoutes : Routes<DamageTypeId, SortDamageType> {
     override fun delete(call: ApplicationCall, id: DamageTypeId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DamageTypeId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: DamageTypeId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: DamageTypeId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDamageTypeRouting() {
@@ -88,14 +90,7 @@ fun Application.configureDamageTypeRouting() {
             handleDeleteElement(delete.id, DamageTypeRoutes.All())
         }
         get<DamageTypeRoutes.Edit> { edit ->
-            logger.info { "Get editor for type ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val type = state.getDamageTypeStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDamageTypeEditor(call, state, type)
-            }
+            handleEditElement(edit.id, DamageTypeRoutes(), HtmlBlockTag::editDamageType)
         }
         post<DamageTypeRoutes.Preview> { preview ->
             logger.info { "Get preview for type ${preview.id.value}" }
