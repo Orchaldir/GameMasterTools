@@ -33,7 +33,6 @@ fun HtmlBlockTag.showDomain(
 // edit
 
 fun HtmlBlockTag.editDomain(
-    call: ApplicationCall,
     state: State,
     domain: Domain,
 ) {

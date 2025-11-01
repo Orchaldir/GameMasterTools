@@ -7,25 +7,16 @@ import at.orchaldir.gm.app.html.religion.parsePantheon
 import at.orchaldir.gm.app.html.religion.showPantheon
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
-import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.SortPantheon
 import at.orchaldir.gm.core.selector.util.sortPantheons
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$PANTHEON_TYPE")
 class PantheonRoutes : Routes<PantheonId, SortPantheon> {
@@ -58,6 +49,8 @@ class PantheonRoutes : Routes<PantheonId, SortPantheon> {
     override fun delete(call: ApplicationCall, id: PantheonId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PantheonId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: PantheonId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: PantheonId) = call.application.href(Edit(id))
 }
 
 fun Application.configurePantheonRouting() {
@@ -89,45 +82,13 @@ fun Application.configurePantheonRouting() {
             handleDeleteElement(delete.id, PantheonRoutes.All())
         }
         get<PantheonRoutes.Edit> { edit ->
-            logger.info { "Get editor for pantheon ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val pantheon = state.getPantheonStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPantheonEditor(call, state, pantheon)
-            }
+            handleEditElement(edit.id, PantheonRoutes(), HtmlBlockTag::editPantheon)
         }
         post<PantheonRoutes.Preview> { preview ->
-            logger.info { "Get preview for pantheon ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val pantheon = parsePantheon(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPantheonEditor(call, state, pantheon)
-            }
+            handlePreviewElement(preview.id, PantheonRoutes(), ::parsePantheon, HtmlBlockTag::editPantheon)
         }
         post<PantheonRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePantheon)
         }
     }
 }
-
-private fun HTML.showPantheonEditor(
-    call: ApplicationCall,
-    state: State,
-    pantheon: Pantheon,
-) {
-    val backLink = href(call, pantheon.id)
-    val previewLink = call.application.href(PantheonRoutes.Preview(pantheon.id))
-    val updateLink = call.application.href(PantheonRoutes.Update(pantheon.id))
-
-    simpleHtmlEditor(pantheon) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editPantheon(state, pantheon)
-        }
-    }
-}
-
